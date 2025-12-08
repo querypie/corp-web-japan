@@ -42,3 +42,19 @@ web-app/
 - 로컬 서버에서 테스트중인지 확인
 - /assets/images 파일 접근되는지 확인
 - /en, /ko, /ja 페이지 정상 노출 확인
+
+## AI 작업 지시 가이드
+
+AI에게 작업을 시킬 때는 아래 방법을 권장합니다.
+
+### 규칙
+- 수정하고 싶은 파일명을 명확하게 말하기
+- HTML 실제 문구를 그대로 입력하기
+- 페이지(ko, en, ja) 명시하기
+- 이미지 추가 시 파일 경로 제공하기
+
+### 예시 명령어
+- "ko/index.html 의 `<h1>` 내용을 '안녕하세요!' 로 변경해줘"
+- "모든 언어 페이지에 footer 를 `<footer>© 2025 QueryPie</footer>` 로 업데이트해줘"
+- "assets/images 폴더에 hero.png 추가했으니 `/assets/images/hero.png` 로 이미지를 넣어줘"
+- "en/index.html 의 nav 에 'Contact' 메뉴 추가해줘"
