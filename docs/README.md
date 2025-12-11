@@ -5,15 +5,26 @@
 ## 프로젝트 구조
 
 ```
-web-app/
-├─ index.html
-├─ en/
-├─ ko/
-├─ ja/
-└─ assets/
-   ├─ css/
-   └─ images/
+corp-web-japan/
+├─ docs/
+│  └─ README.md                # 프로젝트 문서
+└─ public/                      # 정적 사이트 루트(배포 대상)
+   ├─ index.html               # 기본 언어(루트) 페이지
+   ├─ en/
+   │  └─ index.html            # 영어 페이지
+   ├─ ko/
+   │  └─ index.html            # 한국어 페이지
+   ├─ ja/
+   │  └─ index.html            # 일본어 페이지
+   └─ assets/                  # 공용 리소스
+      ├─ css/
+      │  └─ styles.css
+      └─ images/
+         └─ sample.png
 ```
+
+- 언어별 페이지는 /en, /ko, /ja 디렉터리의 index.html로 구성됩니다.
+- 공용 CSS·이미지는 /assets 하위에서 절대 경로로 참조합니다(예: /assets/css/styles.css).
 
 ## 로컬 개발
 
