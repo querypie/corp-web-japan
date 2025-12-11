@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    # Manual execution only - automatic triggers disabled
+
+jobs:
+  rebase-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to create a branch and push changes
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebase release onto main and push
+        run: |
+          set -o errexit -o nounset -o pipefail -o xtrace
+          
+          # Fetch latest changes
+          git fetch origin main release
+          
+          # Checkout and update main branch
+          git checkout main
+          git pull origin main
+          
+          # Checkout release branch
+          git checkout release
+          git pull origin release
+          
+          # Rebase release onto main
+          git rebase main
+          
+          # Push rebased release branch
+          git push origin release --force-with-lease
+          
+          echo "✅ Successfully rebased release onto main and pushed"
