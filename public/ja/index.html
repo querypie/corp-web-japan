@@ -1,18 +1,605 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <title>日本語ページ</title>
-  <link rel="stylesheet" href="/assets/css/styles.css" />
-</head>
-<body>
-  <nav>
-    <a href="/en">English</a>
-    <a href="/ko">한국어</a>
-    <a href="/ja">日本語</a>
-  </nav>
 
-  <h1>こんにちは！</h1>
-  <p>これは静的 HTML 多言語サイトのサンプルです。</p>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="QueryPie - AX Transformation">
+  <title>QueryPie - AX Transformation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="#" class="logo">
+        <img src="/assets/images/01-header/logo.svg" alt="QueryPie AI Logo" class="logo-img">
+      </a>
+      <nav class="main-nav">
+        <a href="#" class="nav-link">ニュース</a>
+        <a href="#" class="nav-link">サービス</a>
+        <a href="#" class="nav-link">お問い合わせ</a>
+        <a href="#" class="nav-link">リソース</a>
+        <a href="#" class="nav-link">QueryPieAIについて</a>
+      </nav>
+      <a href="#" class="btn btn-primary desktop-only">無料で始める <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
+
+      <!-- Mobile Hamburger -->
+      <button class="mobile-menu-btn" aria-label="メニュー">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu">
+      <nav class="mobile-nav">
+        <a href="#" class="mobile-nav-link">ニュース</a>
+        <a href="#" class="mobile-nav-link">サービス</a>
+        <a href="#" class="mobile-nav-link">お問い合わせ</a>
+        <a href="#" class="mobile-nav-link">リソース</a>
+        <a href="#" class="mobile-nav-link">QueryPieAIについて</a>
+      </nav>
+      <a href="#" class="btn btn-primary mobile-cta">無料で始める <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+
+      <div class="hero-slider">
+        <div class="hero-slider-track">
+          <!-- Slide 1 -->
+          <div class="hero-slide active">
+            <img src="/assets/images/02-hero/hero-banner-1.png" alt="Hero Banner 1" class="hero-banner-img">
+            <div class="hero-overlay-text">
+              <h1>AIを追い風にする</h1>
+              <p>セキュアなAIエージェントを使ってライバルに差をつけるために</p>
+            </div>
+          </div>
+          <!-- Slide 2 -->
+          <div class="hero-slide" style="background: linear-gradient(0deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 100%), url('/assets/images/02-hero/hero-banner-2-bg.png') lightgray 50% / cover no-repeat;">
+          </div>
+        </div>
+        <!-- Floating Case Study Card -->
+        <a href="#" class="hero-floating-card">
+          <div class="floating-card-image">
+            <img src="/assets/images/02-hero/hero-case-study.png" alt="お客様事例">
+          </div>
+          <div class="floating-card-text">
+            <span>お客様事例：株式会社テラスカイ様</span>
+          </div>
+        </a>
+
+        <!-- Navigation Dots -->
+        <div class="hero-slider-dots">
+          <button class="slider-dot active" data-slide="0" aria-label="スライド1"></button>
+          <button class="slider-dot" data-slide="1" aria-label="スライド2"></button>
+        </div>
+        <!-- Progress Bar -->
+        <div class="hero-slider-progress">
+          <div class="progress-bar"></div>
+        </div>
+      </div>
+
+      <div class="container hero-container">
+        <div class="hero-content">
+          <h1 class="hero-title">AXは"変革を設計すること"です</h1>
+          <p class="hero-description">
+            真のAIトランスフォーメーション（AX）とは、業務の効率化を設計することではなく<strong>「AIが自律的に成果を出すプロセス」</strong>を設計することです。<br>
+            AIの活用が進めば、あなたの顧客は貴社のサービスを使う必要がなくなってしまう可能性がありますが、<br>
+            顧客が真に欲しかった「結果」をAIエージェントが即座に提供する仕組みへと業務を再設計できれば、AIは過去最大の成長をもたらす追い風へと変わります。<br>
+            貴社のサービスを「ソフトウェア」から<strong>「自律型サービス」</strong>へと進化させる、戦略的変革の設計図が今こそ必要です。
+          </p>
+          <div class="hero-video-container">
+            <div class="video-placeholder">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mid Section Image -->
+    <section class="mid-image-section">
+      <div class="container">
+        <img src="/assets/images/03-mid-section/whitepaper-banner.png" alt="Background" class="full-width-img">
+        <div class="mid-overlay-text">
+          <h2>なぜ今、日本企業が<br>AIトランスフォーメーションに取り組むべきなのか</h2>
+          <div class="mid-text-column">
+            <p>
+              このホワイトペーパーは、事業責任者を対象にAIをビジネスにどのように活用すべきなのかについて書かれています。一方でAIテクノロジーについて詳細は記載していませんし、AIテクノロジーのトレンドを知りたい方は対象ではありません。第１章では「世界で進むAI活用を前提にしたビジネス」について紹介しています。米国を中心にした先進企業は既に多くがAIを業務として導入していて実運用レベルまで進んでいますが、日本はまだ・・・
+            </p>
+            <button class="mid-section-btn">
+              無料でダウンロードできます
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section bg-gray">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Webサービスを提供している企業様へ</h2>
+          <p class="section-subtitle">SaaSベンダー、クラウドサービスベンダー、予約や検索などのサービスをWebで行なっている企業にとってAIをどう使えば良いのか？</p>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="card-icon"><img src="/assets/images/04-services/service-icon-1.png" alt="People"></div>
+            <h3 class="card-title">操作から代行へ移行</h3>
+            <p class="card-desc">従来のWebサービスはあくまでも 利用者が検索やデータ入力、
+              設定作業などの操作することを前提にしたツールでしたが、これからはユーザーの要求をAIが自律的に判断して実際に動作するサービスに進化させることができます。</p>
+          </div>
+          <div class="service-card">
+            <div class="card-icon"><img src="/assets/images/04-services/service-icon-2.png" alt="Data"></div>
+            <h3 class="card-title">独自データによるインサイトの独占</h3>
+            <p class="card-desc">
+              AIモデル自体は汎用的になり差別化は難しくなります。差別化の源泉は、社内で保有している独自データから分析示唆されるインサイトを独占的に使えることです。つまり、現有データをいかに効果的に使うかポイントになり、汎用AIには出せない貴社ならではの正解を出す仕組みが必要です。
+            </p>
+          </div>
+          <div class="service-card">
+            <div class="card-icon"><img src="/assets/images/04-services/service-icon-3.png" alt="Chart"></div>
+            <h3 class="card-title">小さく始めて大きく育てる</h3>
+            <p class="card-desc">AXに正解はありません。 まずは試してみて失敗したことを糧にAXを成功に導くことが重要なのです。
+              つまり、早く失敗することが必要なのです。そのためにも、AIが業務に与える影響を算定し、AIを前提にした業務変革を設計することから始めてください。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problems Section -->
+    <section class="problems-section">
+      <div class="container">
+        <h2 class="section-title">AI活用に絶対的に必要な2つのこと</h2>
+        <p class="section-subtitle">AIを業務に活用するためには、目的を明確にすることや、運用を定着させることが必要ですが、最も必要なことはたった2つです。</p>
+
+        <div class="problem-cards">
+          <div class="problem-card">
+            <div class="problem-img-container">
+              <img src="/assets/images/05-problems/problem-card-1.png" alt="Data Problem" class="problem-img">
+            </div>
+            <div class="problem-content">
+              <h3>データが整備されていない</h3>
+              <p>
+                社内には、構造化されたデータ、非構造的なデータなど様々な形態でデータが蓄積され、今後も様々なデータが生成されますが、これらのデータを総合的かつ統合的に保有できてるかといえば完全ではないでしょう。AIに学習させるには完全なデータが必要でしょうか？それとも不完全なデータでも大丈夫なのでしょうか？
+              </p>
+            </div>
+          </div>
+          <div class="problem-card">
+            <div class="problem-img-container2">
+              <img src="/assets/images/05-problems/problem-card-2.png" alt="Talent Problem" class="problem-img">
+            </div>
+            <div class="problem-content">
+              <h3>AIに関する人材と知識が不足</h3>
+              <p>
+                AIの進歩は凄まじいものがあり、先週の最新は今週は時代遅れになっている可能性すらあります。米国でAI人材を採用しようと思えば数千万円の年棒が必要といわれいます。AIの最新技術に追従する人材と知識を社内に保有する必要がありますが、簡単ではありません。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Security Section -->
+    <section class="security-section bg-dark">
+      <div class="container">
+        <div class="security-header">
+          <h2 class="section-title text-white">そのAI活用,<span class="text-main-color">セキュリティ</span>は大丈夫ですか？</h2>
+          <p class="section-subtitle text-gray">
+            企業内でAIを活用するならハルシネーション（生成AIが事実とは異なる情報や、存在しない内容をもっともらしく生成してしまう現象）があるようでは使い物になりません。企業内の必要なデータソースに安全にアクセスしながら、
+            AIを使って業務を効率的にこなす必要があります。
+          </p>
+        </div>
+
+        <div class="security-features">
+          <div class="sec-feature">
+            <div class="sec-icon"><img src="/assets/images/06-security/security-icon-1.svg" alt="セキュアアクセス"></div>
+            <p class="text-white">社内には機密データが多くありますが、そのようなデータに対して安心安全にアクセスできることが保証されるからこそ、社内でAIを活用できます。</p>
+          </div>
+          <div class="sec-feature">
+            <div class="sec-icon"><img src="/assets/images/06-security/security-icon-2.svg" alt="RAG活用"></div>
+            <p class="text-white">
+              社内データであっても、同じプロンプトに対していつも同じルールに従った回答でなければ業務では使えません。そのためにRAGを活用し、学習データを整備し、業務と連動させることで、正確で根拠のある情報を提供できるようになります。
+            </p>
+          </div>
+          <div class="sec-feature">
+            <div class="sec-icon"><img src="/assets/images/06-security/security-icon-3.svg" alt="アクセス権限管理"></div>
+            <p class="text-white">
+              データ漏洩の原因の過半数は、ウイルス感染不正アクセスです。つまり、アクセスしてはいけない人がアクセスすることです。社外からのアタックはもちろんのこと、社内のアクセス権限管理が不正アクセスを防ぐための有効な措置です。AIは常にアクセスできる権限を持って良いのでしょうか？
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="blog-section">
+      <div class="container">
+        <h2 class="section-title">ブログ</h2>
+        <div class="blog-grid">
+          <!-- Blog Post 1 -->
+          <article class="blog-card">
+            <div class="blog-img-container1">
+              <img src="/assets/images/07-blog/blog-card-1.png" alt="Blog 1" class="blog-thumb">
+            </div>
+            <div class="blog-meta">2026年1月20日</div>
+            <h3 class="blog-title">プロンプトを標準化して品質を安定させる</h3>
+            <p class="blog-excerpt">社内には、構造化されたデータ、非構造的なデータなど様々な形態でデータが蓄積され...</p>
+          </article>
+          <!-- Blog Post 2 -->
+          <article class="blog-card">
+            <div class="blog-img-container2">
+              <img src="/assets/images/07-blog/blog-card-2.png" alt="Blog 2" class="blog-thumb">
+            </div>
+            <div class="blog-meta">2026年1月20日</div>
+            <h3 class="blog-title">プロンプトを標準化して品質を安定させる</h3>
+            <p class="blog-excerpt">社内には、構造化されたデータ、非構造的なデータなど様々な形態でデータが蓄積され...</p>
+          </article>
+          <!-- Blog Post 3 -->
+          <article class="blog-card">
+            <div class="blog-img-container3">
+              <img src="/assets/images/07-blog/blog-card-3.png" alt="Blog 3" class="blog-thumb">
+            </div>
+            <div class="blog-meta">2026年1月20日</div>
+            <h3 class="blog-title">プロンプトを標準化して品質を安定させる</h3>
+            <p class="blog-excerpt">社内には、構造化されたデータ、非構造的なデータなど様々な形態でデータが蓄積され...</p>
+          </article>
+        </div>
+
+        <div class="pagination">
+          <button class="page-btn prev"><img src="/assets/images/07-blog/pagination-prev.svg" alt="Prev"></button>
+          <div class="page-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <button class="page-btn next"><img src="/assets/images/07-blog/pagination-next.svg" alt="Next"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+      <div class="container split-layout">
+        <div class="contact-text">
+          <h2>お問い合わせ</h2>
+          <p>お気軽にお問い合わせください。専門チームが、貴社のAX (AI Transformation) を全面的にサポートします。</p>
+        </div>
+        <div class="contact-form-wrapper">
+          <form class="contact-form">
+            <div class="form-row">
+              <div class="form-group half">
+                <label for="lastName">性 <span class="required">*</span></label>
+                <input type="text" id="lastName" name="lastName" placeholder="例：山田" required>
+              </div>
+              <div class="form-group half">
+                <label for="firstName">名 <span class="required">*</span></label>
+                <input type="text" id="firstName" name="firstName" placeholder="例：太郎" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">ビジネス用メールアドレス <span class="required">*</span></label>
+              <input type="email" id="email" name="email" placeholder="例：name@company.com" required>
+            </div>
+            <div class="form-group">
+              <label for="company">会社名 <span class="required">*</span></label>
+              <input type="text" id="company" name="company" placeholder="例：クエリパイ株式会社" required>
+            </div>
+            <div class="form-group">
+              <label for="department">部署／役職 <span class="required">*</span></label>
+              <input type="text" id="department" name="department" placeholder="例：エンタープライズAI事業部 部長" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">電話番号</label>
+              <input type="tel" id="phone" name="phone" placeholder="例：090-1234-5678">
+            </div>
+            <div class="form-group">
+              <label for="inquiryType">お問い合わせの種類 <span class="required">*</span></label>
+              <div class="select-wrapper">
+                <select id="inquiryType" name="inquiryType" required>
+                  <option value="">お問い合わせ内容を選択してください</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <span class="label-text">関心のある製品・サービス <span class="required">*</span></span>
+              <label class="checkbox-item"><input type="checkbox" name="products" value="aip"> AIプラットフォーム QueryPie AIP</label>
+              <label class="checkbox-item"><input type="checkbox" name="products" value="acp"> アクセス制御プラットフォーム QueryPie ACP</label>
+              <label class="checkbox-item"><input type="checkbox" name="products" value="fde"> AI専門家伴走 (FDE) サービス</label>
+              <label class="checkbox-item"><input type="checkbox" name="products" value="partner"> パートナーシップ</label>
+            </div>
+
+            <div class="form-group">
+              <label for="timeline">導入予定時期 <span class="required">*</span></label>
+              <div class="select-wrapper">
+                <select id="timeline" name="timeline" required>
+                  <option value="">導入予定時期を選択してください</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="message">ご質問・ご要望 <span class="required">*</span></label>
+              <textarea id="message" name="message" placeholder="具体的なご質問やご要望をお聞かせください。" required></textarea>
+            </div>
+
+            <div class="form-group checkbox-item">
+              <input type="checkbox" id="newsletter" name="newsletter">
+              <label for="newsletter">QueryPie AIのニュース、イベント、および製品情報に関する最新情報を受け取る。</label>
+            </div>
+
+            <p class="form-note">利用規約とプライバシーポリシーに同意して送信する。</p>
+            <button type="submit" class="submit-btn">送信する</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="/assets/images/08-footer/footer-logo-icon.svg" alt="Logo">
+          <img src="/assets/images/08-footer/footer-logo-text.svg" alt="Name">
+        </div>
+        <div class="social-links">
+          <a href="#"><img src="/assets/images/08-footer/social-linkedin.svg" alt="LinkedIn"></a>
+          <a href="#"><img src="/assets/images/08-footer/social-youtube.svg" alt="YouTube"></a>
+          <a href="#"><img src="/assets/images/08-footer/social-x.svg" alt="X"></a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <div class="link-column">
+          <h4>Platform</h4>
+          <ul>
+            <li><span class="badge">AIP</span> AI Platform</li>
+            <li><span class="badge">ACP</span> Data Access Controller</li>
+            <li>System Access Controller</li>
+            <li>Kubernetes Access Controller</li>
+            <li>Web Access Controller</li>
+          </ul>
+        </div>
+        <div class="link-column">
+          <h4>Resources</h4>
+          <ul>
+            <li><span class="badge">Discover</span> White Paper</li>
+            <li>Webinars</li>
+            <li>Blog</li>
+            <li>Integrations</li>
+            <li>Certifications</li>
+            <li><span class="badge">Learn</span> Documentation</li>
+            <li>Tutorial</li>
+            <li>Demo</li>
+          </ul>
+        </div>
+        <div class="link-column">
+          <h4>Community</h4>
+          <ul>
+            <li><span class="badge">Customers</span> Customers</li>
+            <li>Customer Success Cases</li>
+            <li>Schedule a Demo</li>
+            <li><span class="badge">Partners</span> Become a Partner</li>
+            <li>Partner Portal</li>
+          </ul>
+        </div>
+        <div class="link-column">
+          <h4>Company</h4>
+          <ul>
+            <li>About QueryPie</li>
+            <li>Careers</li>
+            <li>Bounty</li>
+            <li>Hall of Fame</li>
+            <li>News</li>
+            <li>Contact Us</li>
+            <li>Trust Center</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div class="legal-links">
+        <a href="#">Cookie Preference</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">EULA</a>
+      </div>
+      <div class="copyright">
+        <p>© 2017-2025 QueryPie, Inc. All rights reserved.</p>
+        <p>Headquarter : 3003 North 1st Street, Suite 221, San Jose, CA 95134...</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+      menuBtn.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll('.mobile-nav-link, .mobile-cta').forEach(link => {
+      link.addEventListener('click', () => {
+        menuBtn.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Hero Slider - Japanese Style
+    const heroSlider = {
+      slides: document.querySelectorAll('.hero-slide'),
+      dots: document.querySelectorAll('.slider-dot'),
+      prevBtn: document.querySelector('.slider-arrow-prev'),
+      nextBtn: document.querySelector('.slider-arrow-next'),
+      progressBar: document.querySelector('.progress-bar'),
+      slider: document.querySelector('.hero-slider'),
+      currentIndex: 0,
+      interval: null,
+      duration: 6000,
+      isPaused: false,
+      elapsed: 0,
+
+      init() {
+        if (!this.slides.length) return;
+
+        // Dot click events
+        this.dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => this.goToSlide(index));
+        });
+
+        // Arrow click events
+        if (this.prevBtn) {
+          this.prevBtn.addEventListener('click', () => this.prevSlide());
+        }
+        if (this.nextBtn) {
+          this.nextBtn.addEventListener('click', () => this.nextSlide());
+        }
+
+        // Pause on hover
+        if (this.slider) {
+          this.slider.addEventListener('mouseenter', () => {
+            this.isPaused = true;
+          });
+          this.slider.addEventListener('mouseleave', () => {
+            this.isPaused = false;
+          });
+        }
+
+        // Start autoplay
+        this.startAutoplay();
+      },
+
+      goToSlide(index) {
+        this.slides[this.currentIndex].classList.remove('active');
+        this.dots[this.currentIndex].classList.remove('active');
+
+        this.currentIndex = index;
+
+        this.slides[this.currentIndex].classList.add('active');
+        this.dots[this.currentIndex].classList.add('active');
+
+        this.elapsed = 0;
+        this.resetProgress();
+      },
+
+      nextSlide() {
+        const next = (this.currentIndex + 1) % this.slides.length;
+        this.goToSlide(next);
+      },
+
+      prevSlide() {
+        const prev = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+        this.goToSlide(prev);
+      },
+
+      resetProgress() {
+        if (this.progressBar) {
+          this.progressBar.style.transition = 'none';
+          this.progressBar.style.width = '0%';
+          this.progressBar.offsetHeight;
+          this.progressBar.style.transition = `width ${this.duration}ms linear`;
+          this.progressBar.style.width = '100%';
+        }
+      },
+
+      startAutoplay() {
+        this.resetProgress();
+
+        const tick = 100;
+
+        this.interval = setInterval(() => {
+          if (!this.isPaused) {
+            this.elapsed += tick;
+            if (this.elapsed >= this.duration) {
+              this.nextSlide();
+            }
+          }
+        }, tick);
+      }
+    };
+
+    heroSlider.init();
+
+    // Blog Slider
+    const blogSlider = {
+      cards: document.querySelectorAll('.blog-card'),
+      dots: document.querySelectorAll('.pagination .dot'),
+      prevBtn: document.querySelector('.pagination .page-btn.prev'),
+      nextBtn: document.querySelector('.pagination .page-btn.next'),
+      currentPage: 0,
+      cardsPerPage: 3,
+
+      init() {
+        if (!this.cards.length) return;
+
+        // Dot click events
+        this.dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => this.goToPage(index));
+        });
+
+        // Arrow click events
+        if (this.prevBtn) {
+          this.prevBtn.addEventListener('click', () => this.prevPage());
+        }
+        if (this.nextBtn) {
+          this.nextBtn.addEventListener('click', () => this.nextPage());
+        }
+
+        this.updateDisplay();
+      },
+
+      goToPage(index) {
+        this.dots[this.currentPage].classList.remove('active');
+        this.currentPage = index;
+        this.dots[this.currentPage].classList.add('active');
+        this.updateDisplay();
+      },
+
+      nextPage() {
+        const next = (this.currentPage + 1) % this.dots.length;
+        this.goToPage(next);
+      },
+
+      prevPage() {
+        const prev = (this.currentPage - 1 + this.dots.length) % this.dots.length;
+        this.goToPage(prev);
+      },
+
+      updateDisplay() {
+        // Add slide animation effect
+        const blogGrid = document.querySelector('.blog-grid');
+        if (blogGrid) {
+          blogGrid.style.opacity = '0';
+          blogGrid.style.transform = 'translateX(20px)';
+          setTimeout(() => {
+            blogGrid.style.transition = 'all 0.3s ease';
+            blogGrid.style.opacity = '1';
+            blogGrid.style.transform = 'translateX(0)';
+          }, 150);
+        }
+      }
+    };
+
+    blogSlider.init();
+  </script>
 </body>
+
 </html>
