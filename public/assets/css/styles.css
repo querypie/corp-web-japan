@@ -468,7 +468,7 @@ h6 {
   visibility: hidden;
   transition: opacity 0.8s ease, visibility 0.8s ease;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 100%),
-              url(images/mainimage.png) lightgray 50% / cover no-repeat;
+              url(/assets/images/02-hero/hero-banner-1.png) lightgray 50% / cover no-repeat;
   border-radius: var(--space-md);
 }
 
@@ -937,7 +937,7 @@ h6 {
     width: calc(100% - 48px);
     margin: 0 auto;
     padding: 40px 24px;
-    background: url(images/bn.png) lightgray 50% / cover no-repeat;
+    background: url(/assets/images/03-mid-section/whitepaper-banner.png) lightgray 50% / cover no-repeat;
     border-radius: 16px;
     min-height: 380px;
   }
