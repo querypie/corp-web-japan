@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Dashi - Style C: Dark Warm</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@200;300;400;500;600;700;900&family=Noto+Serif+JP:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0D1117;
+      --bg-secondary: #161B22;
+      --bg-card: #1C2333;
+      --bg-card-hover: #222A3A;
+      --navy: #1B2A4A;
+      --navy-deep: #0F1A33;
+      --orange: #E8822A;
+      --orange-light: #F5A623;
+      --orange-warm: #D4710A;
+      --orange-glow: rgba(232,130,42,0.15);
+      --orange-subtle: rgba(232,130,42,0.08);
+      --text-primary: #E6EDF3;
+      --text-secondary: #8B949E;
+      --text-muted: #6E7681;
+      --border: rgba(255,255,255,0.06);
+      --border-orange: rgba(232,130,42,0.25);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary); color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 100px 80px 80px;
+      background: radial-gradient(ellipse at 50% 30%, rgba(232,130,42,0.08) 0%, var(--bg-primary) 60%);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -300px; right: -200px;
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,130,42,0.06) 0%, transparent 70%);
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: -200px; left: -150px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(27,42,74,0.15) 0%, transparent 70%);
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 20px; margin-bottom: 36px;
+      background: var(--bg-card); border: 1px solid var(--border-orange);
+      border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--orange);
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--orange); display: inline-block;
+      box-shadow: 0 0 8px var(--orange);
+    }
+    .hero-title-en {
+      font-family: 'Noto Serif JP', serif; font-size: 84px; font-weight: 900;
+      color: var(--text-primary); line-height: 1.0; margin-bottom: 20px;
+      letter-spacing: -2px;
+    }
+    .hero-title-en .accent { color: var(--orange); }
+    .hero-subtitle {
+      font-family: 'Noto Serif JP', serif; font-size: 22px; font-weight: 500;
+      color: var(--text-secondary); margin-bottom: 24px; letter-spacing: 2px;
+    }
+    .hero-desc {
+      font-size: 16px; color: var(--text-muted); line-height: 1.9;
+      margin-bottom: 44px; font-weight: 300;
+    }
+    .hero-actions { display: flex; gap: 16px; justify-content: center; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 16px 40px; background: var(--orange); border-radius: 8px;
+      font-size: 15px; font-weight: 600; color: #FFFFFF; text-decoration: none;
+      box-shadow: 0 4px 20px rgba(232,130,42,0.35);
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { background: var(--orange-light); transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 16px 40px; background: transparent; border: 1.5px solid var(--text-muted);
+      border-radius: 8px; font-size: 15px; font-weight: 600; color: var(--text-secondary);
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--orange); color: var(--orange); }
+    .hero-scroll {
+      margin-top: 60px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .hero-scroll span { font-size: 11px; color: var(--text-muted); letter-spacing: 2px; }
+    .hero-scroll-line { width: 1px; height: 40px; background: linear-gradient(180deg, var(--text-muted), transparent); }
+
+    /* ===== SECTIONS COMMON ===== */
+    .section { padding: 100px 120px; }
+    .section-label {
+      font-size: 11px; font-weight: 700; color: var(--orange);
+      letter-spacing: 4px; text-transform: uppercase; margin-bottom: 12px;
+    }
+    .section-heading {
+      font-family: 'Noto Serif JP', serif; font-size: 36px; font-weight: 700;
+      color: var(--text-primary); line-height: 1.4; margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 16px; color: var(--text-secondary); line-height: 1.8; font-weight: 300;
+    }
+    .section-header { margin-bottom: 56px; text-align: center; }
+
+    /* ===== WHAT SECTION ===== */
+    .what-section { background: var(--bg-secondary); }
+    .what-quote {
+      background: linear-gradient(135deg, var(--bg-card), rgba(232,130,42,0.06));
+      border: 1px solid var(--border-orange);
+      border-radius: 16px; padding: 48px 56px; margin-bottom: 56px;
+      position: relative; overflow: hidden;
+    }
+    .what-quote p {
+      font-family: 'Noto Serif JP', serif; font-size: 21px; font-weight: 500;
+      color: var(--text-primary); line-height: 2.0; position: relative; z-index: 1;
+      text-align: center;
+    }
+    .what-quote .orange-text { color: var(--orange-light); }
+    .what-grid { display: flex; gap: 32px; }
+    .what-card {
+      flex: 1; padding: 36px; border-radius: 16px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 16px; align-items: center;
+      transition: all 0.2s;
+    }
+    .what-card:hover { border-color: var(--border-orange); background: var(--bg-card-hover); }
+    .what-card-num {
+      font-family: 'Noto Serif JP', serif; font-size: 13px; font-weight: 700;
+      color: var(--orange); letter-spacing: 2px;
+      padding-bottom: 12px; border-bottom: 2px solid var(--orange);
+      display: inline-block; width: fit-content;
+    }
+    .what-card h3 { font-size: 20px; font-weight: 700; color: var(--text-primary); text-align: center; }
+    .what-card p { font-size: 15px; color: var(--text-secondary); line-height: 1.9; font-weight: 300; text-align: center; }
+
+    /* ===== ECOSYSTEM ===== */
+    .eco-section { background: var(--bg-primary); }
+    .eco-diagram {
+      max-width: 800px; margin: 0 auto;
+      display: flex; flex-direction: column; align-items: center; gap: 0;
+    }
+    .eco-qp {
+      width: 100%; background: linear-gradient(135deg, var(--orange), var(--orange-warm));
+      border-radius: 16px; padding: 36px 40px; text-align: center;
+    }
+    .eco-qp h3 {
+      font-family: 'Noto Serif JP', serif; font-size: 24px; font-weight: 700;
+      color: #FFFFFF; margin-bottom: 6px;
+    }
+    .eco-qp > p { font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 16px; }
+    .eco-qp-tags { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .eco-qp-tag {
+      padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,0.2);
+      font-size: 12px; font-weight: 500; color: #FFFFFF;
+    }
+    .eco-flow {
+      display: flex; width: 100%; justify-content: space-around; padding: 20px 0;
+    }
+    .eco-flow-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .eco-flow-down { font-size: 12px; font-weight: 600; color: var(--orange); }
+    .eco-flow-up { font-size: 12px; font-weight: 500; color: var(--text-muted); }
+    .eco-partners { display: flex; width: 100%; gap: 16px; }
+    .eco-partner {
+      flex: 1; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px 16px; text-align: center;
+    }
+    .eco-partner-emoji { font-size: 32px; margin-bottom: 8px; display: block; }
+    .eco-partner h4 { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+    .eco-partner p { font-size: 12px; color: var(--text-muted); }
+    .eco-arrow-down { text-align: center; padding: 16px 0; font-size: 13px; color: var(--text-muted); }
+    .eco-customers { display: flex; width: 100%; gap: 16px; }
+    .eco-customer {
+      flex: 1; background: var(--orange-subtle); border: 1px solid var(--border-orange);
+      border-radius: 10px; padding: 18px 16px; text-align: center;
+    }
+    .eco-customer h4 { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+    .eco-customer p { font-size: 11px; color: var(--orange); font-weight: 500; }
+    .eco-legend { margin-top: 24px; font-size: 13px; color: var(--text-muted); text-align: center; }
+
+    /* ===== VALUES ===== */
+    .value-section { background: var(--bg-secondary); }
+    .value-grid { display: flex; gap: 24px; }
+    .value-card {
+      flex: 1; border-radius: 16px; padding: 36px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .value-card--featured {
+      background: linear-gradient(135deg, var(--orange), var(--orange-warm));
+    }
+    .value-card--featured .vc-num {
+      font-family: 'Noto Serif JP', serif; font-size: 48px; font-weight: 900;
+      color: rgba(255,255,255,0.2); line-height: 1;
+    }
+    .value-card--featured .vc-title { font-size: 19px; font-weight: 700; color: #FFFFFF; line-height: 1.5; }
+    .value-card--featured .vc-list { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.9; }
+    .value-card--normal {
+      background: var(--bg-card); border: 1px solid var(--border);
+    }
+    .value-card--normal .vc-num {
+      font-family: 'Noto Serif JP', serif; font-size: 48px; font-weight: 900;
+      color: rgba(232,130,42,0.15); line-height: 1;
+    }
+    .value-card--normal .vc-title { font-size: 19px; font-weight: 700; color: var(--text-primary); line-height: 1.5; }
+    .value-card--normal .vc-list { font-size: 14px; color: var(--text-secondary); line-height: 1.9; }
+    .value-note {
+      margin-top: 40px; padding: 28px 36px; background: var(--orange-subtle);
+      border-left: 3px solid var(--orange); border-radius: 0 12px 12px 0;
+      font-size: 15px; color: var(--text-secondary); line-height: 1.8; font-weight: 300;
+    }
+    .value-note strong { color: var(--orange-light); font-weight: 600; }
+
+    /* ===== BARRIERS ===== */
+    .barrier-section { background: var(--bg-primary); }
+    .barrier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .barrier-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 10px;
+      transition: all 0.2s;
+    }
+    .barrier-card:hover { border-color: var(--border-orange); background: var(--bg-card-hover); }
+    .barrier-card-icon {
+      width: 48px; height: 48px; border-radius: 12px; background: rgba(232,130,42,0.12);
+      color: var(--orange);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 4px;
+    }
+    .barrier-card-icon svg { width: 24px; height: 24px; }
+    .barrier-card h4 { font-size: 17px; font-weight: 700; color: var(--text-primary); }
+    .barrier-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; font-weight: 300; }
+
+    /* ===== COMPARISON ===== */
+    .compare-section { background: var(--bg-secondary); }
+    .compare-layout { display: flex; gap: 40px; align-items: flex-start; }
+    .compare-table-wrap { flex: 1.2; }
+    .compare-table {
+      width: 100%; border-collapse: collapse;
+      border-radius: 14px; overflow: hidden; border: 1px solid var(--border);
+    }
+    .compare-table thead { background: var(--orange); }
+    .compare-table th {
+      padding: 16px 20px; font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,0.7); text-align: center;
+    }
+    .compare-table th:first-child { text-align: left; }
+    .compare-table th.hl { color: #FFFFFF; font-weight: 700; }
+    .compare-table td {
+      padding: 15px 20px; font-size: 14px; text-align: center;
+      border-bottom: 1px solid var(--border); background: var(--bg-card);
+    }
+    .compare-table td:first-child { text-align: left; font-weight: 500; color: var(--text-primary); }
+    .compare-table td.dim { color: var(--text-muted); }
+    .compare-table td.hl { font-weight: 700; color: var(--orange-light); }
+    .compare-table tbody tr:hover td { background: var(--bg-card-hover); }
+    .compare-points { flex: 0.8; }
+    .compare-points h3 { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 24px; }
+    .compare-points ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .compare-points li {
+      font-size: 15px; color: var(--text-secondary); line-height: 1.6;
+      padding-left: 20px; position: relative; font-weight: 300;
+    }
+    .compare-points li::before {
+      content: ''; position: absolute; left: 0; top: 8px;
+      width: 8px; height: 8px; border-radius: 50%; background: var(--orange);
+    }
+    .compare-points li strong { color: var(--orange-light); font-weight: 700; }
+
+    /* ===== URGENCY ===== */
+    .urgency-section { padding: 0 120px 100px; background: var(--bg-secondary); }
+    .urgency-card {
+      background: linear-gradient(135deg, rgba(232,130,42,0.1), rgba(232,130,42,0.03));
+      border: 1px solid var(--border-orange);
+      border-radius: 16px; padding: 48px 56px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .urgency-card h3 {
+      font-family: 'Noto Serif JP', serif; font-size: 28px; font-weight: 700;
+      color: var(--orange-light); margin-bottom: 16px;
+    }
+    .urgency-card p { font-size: 16px; color: var(--text-secondary); line-height: 1.8; font-weight: 300; }
+
+    /* ===== PATTERNS ===== */
+    .pattern-section { background: var(--bg-primary); }
+    .pattern-overview { display: flex; gap: 24px; margin-bottom: 64px; }
+    .pattern-card {
+      flex: 1; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 32px; text-align: center; transition: all 0.2s;
+    }
+    .pattern-card:hover { border-color: var(--border-orange); }
+    .pattern-card-num {
+      width: 44px; height: 44px; border-radius: 50%; background: var(--orange);
+      color: #FFFFFF; font-weight: 700; font-size: 18px;
+      display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;
+      box-shadow: 0 4px 16px rgba(232,130,42,0.3);
+    }
+    .pattern-card h3 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+    .pattern-card .duration { font-size: 14px; color: var(--orange); font-weight: 600; }
+
+    /* Pattern Detail */
+    .pattern-detail {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; margin-bottom: 32px; overflow: hidden;
+    }
+    .pattern-detail-header {
+      display: flex; align-items: center; gap: 20px;
+      padding: 28px 36px; border-bottom: 1px solid var(--border);
+      background: var(--bg-card-hover);
+    }
+    .pattern-detail-num {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--orange); color: #FFFFFF; font-weight: 700; font-size: 16px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .pattern-detail-header h3 { font-size: 22px; font-weight: 700; color: var(--text-primary); }
+    .pattern-detail-header .sub { font-size: 14px; color: var(--text-secondary); font-weight: 300; margin-top: 2px; }
+    .pattern-duration-badge {
+      margin-left: auto; padding: 6px 16px; border-radius: 100px;
+      background: var(--orange-subtle); border: 1px solid var(--border-orange);
+      font-size: 13px; font-weight: 600; color: var(--orange); white-space: nowrap;
+    }
+    .pattern-detail-body { padding: 32px 36px; }
+    .pattern-detail-grid { display: flex; gap: 32px; margin-bottom: 32px; }
+    .pattern-detail-box { flex: 1; }
+    .pattern-detail-box h4 {
+      font-size: 14px; font-weight: 700; color: var(--orange);
+      margin-bottom: 16px; letter-spacing: 1px;
+    }
+    .pattern-detail-box ul {
+      list-style: none; display: flex; flex-direction: column; gap: 10px;
+    }
+    .pattern-detail-box li {
+      font-size: 14px; color: var(--text-secondary); line-height: 1.6;
+      padding-left: 16px; position: relative; font-weight: 300;
+    }
+    .pattern-detail-box li::before {
+      content: ''; position: absolute; left: 0; top: 8px;
+      width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted);
+    }
+    /* Process Flow */
+    .process-flow { margin-top: 8px; }
+    .process-flow h4 {
+      font-size: 14px; font-weight: 700; color: var(--orange);
+      margin-bottom: 20px; letter-spacing: 1px;
+    }
+    .process-steps {
+      display: flex; align-items: stretch; gap: 0;
+    }
+    .process-step {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+      padding: 16px 12px; background: var(--bg-card-hover); border: 1px solid var(--border);
+      border-radius: 10px; flex: 1; min-height: 72px; text-align: center;
+    }
+    .process-step.last {
+      background: var(--orange-subtle); border-color: var(--border-orange);
+    }
+    .process-step-label {
+      font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.3;
+    }
+    .process-step-period { font-size: 11px; color: var(--orange); font-weight: 500; }
+    .process-step.last .process-step-label { color: var(--orange-light); }
+    .process-arrow {
+      font-size: 16px; color: var(--text-muted); padding: 0 6px;
+      display: flex; align-items: center; flex-shrink: 0;
+    }
+
+    /* ===== DIAGNOSIS ===== */
+    .diagnosis-section { background: var(--bg-secondary); }
+    .diagnosis-table {
+      width: 100%; border-collapse: collapse;
+      border-radius: 14px; overflow: hidden; border: 1px solid var(--border);
+    }
+    .diagnosis-table thead { background: var(--bg-card-hover); }
+    .diagnosis-table th {
+      padding: 16px 20px; font-size: 13px; font-weight: 600;
+      color: var(--text-secondary); text-align: center;
+    }
+    .diagnosis-table th:first-child { text-align: left; }
+    .diagnosis-table th small { display: block; font-size: 11px; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+    .diagnosis-table td {
+      padding: 14px 20px; font-size: 14px; text-align: center;
+      border-bottom: 1px solid var(--border); background: var(--bg-card);
+    }
+    .diagnosis-table td:first-child { text-align: left; font-weight: 500; color: var(--text-primary); }
+    .mark-good { color: var(--orange-light); font-weight: 700; font-size: 18px; }
+    .mark-ok { color: var(--text-muted); font-size: 18px; }
+    .mark-bad { color: var(--text-muted); font-size: 18px; }
+
+    /* ===== CTA ===== */
+    .cta-section {
+      padding: 120px 80px; text-align: center;
+      background: linear-gradient(135deg, var(--orange), var(--orange-warm));
+      position: relative; overflow: hidden;
+    }
+    .cta-section::before {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%); width: 800px; height: 800px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+    }
+    .cta-content { position: relative; z-index: 1; }
+    .cta-section h2 {
+      font-family: 'Noto Serif JP', serif; font-size: 36px; font-weight: 700;
+      color: #FFFFFF; margin-bottom: 20px;
+    }
+    .cta-section p {
+      font-size: 17px; color: rgba(255,255,255,0.8); line-height: 1.8;
+      margin-bottom: 40px; font-weight: 300;
+    }
+    .cta-btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 18px 48px; background: var(--bg-primary); border-radius: 8px;
+      font-size: 17px; font-weight: 700; color: var(--orange-light); text-decoration: none;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+      transition: all 0.2s;
+    }
+    .cta-btn-primary:hover { background: #000; transform: translateY(-2px); }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding: 48px 120px; background: #080B10;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--border);
+    }
+    .footer-brand {
+      font-family: 'Noto Serif JP', serif; font-size: 16px; font-weight: 700; color: var(--text-primary);
+    }
+    .footer-brand span { color: var(--orange); }
+    .footer-copy { font-size: 12px; color: var(--text-muted); }
+
+    /* ===== RESPONSIVE - TABLET ===== */
+    @media (max-width: 1024px) {
+      .section { padding: 80px 40px; }
+      .hero { padding: 120px 40px 80px; }
+      .section-heading { font-size: 28px; }
+      .what-quote { padding: 36px 32px; }
+      .what-quote p { font-size: 18px; }
+      .what-grid { flex-direction: column; gap: 20px; }
+      .eco-diagram { max-width: 100%; }
+      .eco-qp, .eco-partner, .eco-customer { min-width: auto; padding: 24px 20px; }
+      .value-grid { flex-direction: column; gap: 24px; }
+      .barrier-grid { grid-template-columns: repeat(2, 1fr); }
+      .compare-layout { flex-direction: column; }
+      .compare-table-wrap { width: 100%; }
+      .compare-points { width: 100%; }
+      .pattern-overview { flex-direction: column; gap: 16px; }
+      .pattern-detail-grid { flex-direction: column; gap: 24px; }
+      .pattern-detail-header { flex-wrap: wrap; gap: 12px; padding: 20px 24px; }
+      .pattern-detail-body { padding: 24px; }
+      .process-steps { flex-wrap: wrap; gap: 8px; }
+      .process-step { flex: 0 0 calc(33.33% - 24px); min-width: 0; }
+      .process-arrow { padding: 0 4px; }
+      .cta-section { padding: 80px 40px; }
+      .footer { padding: 32px 40px; }
+    }
+
+    /* ===== RESPONSIVE - MOBILE ===== */
+    @media (max-width: 640px) {
+      .section { padding: 60px 20px; }
+      .hero { padding: 100px 20px 60px; min-height: auto; }
+      .hero-title-en { font-size: 48px; }
+      .hero-subtitle { font-size: 16px; }
+      .hero-desc { font-size: 14px; }
+      .section-heading { font-size: 24px; }
+      .section-label { font-size: 10px; letter-spacing: 3px; }
+      .section-sub { font-size: 14px; }
+      .what-quote { padding: 28px 20px; margin-bottom: 32px; }
+      .what-quote p { font-size: 16px; }
+      .what-card { padding: 28px 20px; }
+      .eco-arrow { font-size: 24px; }
+      .barrier-grid { grid-template-columns: 1fr; gap: 12px; }
+      .barrier-card { padding: 20px; }
+      .compare-table { font-size: 13px; }
+      .compare-table th, .compare-table td { padding: 10px 12px; }
+      .urgency-section { padding: 60px 20px; }
+      .pattern-card { padding: 24px 16px; }
+      .pattern-detail-header { padding: 16px 20px; }
+      .pattern-detail-header h3 { font-size: 18px; }
+      .pattern-detail-body { padding: 20px 16px; }
+      .process-steps { flex-direction: column; align-items: stretch; gap: 0; }
+      .process-step { flex: none; min-height: 56px; border-radius: 0; border-bottom: none; }
+      .process-step:first-child { border-radius: 10px 10px 0 0; }
+      .process-step:last-child, .process-step.last { border-radius: 0 0 10px 10px; border-bottom: 1px solid var(--border); }
+      .process-step.last { border-color: var(--border-orange); }
+      .process-arrow { display: none; }
+      .diagnosis-table { font-size: 12px; }
+      .diagnosis-table th, .diagnosis-table td { padding: 10px 8px; }
+      .cta-section { padding: 60px 20px; }
+      .cta-section h2 { font-size: 26px; }
+      .cta-btn-primary { padding: 14px 32px; font-size: 15px; }
+      .footer { padding: 24px 20px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title-en">AI <span class="accent">Dashi</span></h1>
+      <p class="hero-subtitle">あなたのブランドで、AIを提供する</p>
+      <p class="hero-desc">
+        最高品質の「だし」（＝AI基盤）を提供し、<br>
+        パートナー企業が独自のAIサービスを構築できる仕組みです。
+      </p>
+      <div class="hero-scroll">
+        <span>SCROLL</span>
+        <div class="hero-scroll-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What is AI Dashi -->
+  <section id="what" class="section what-section">
+    <div class="section-header">
+      <p class="section-label">WHAT IS AI DASHI?</p>
+      <h2 class="section-heading">What is AI Dashi?</h2>
+    </div>
+    <div class="what-quote">
+      <p>良い<span class="orange-text">だし</span>があれば、どんな料理人も美味しい料理を作れる。<br>良い<span class="orange-text">AI基盤</span>があれば、どんな企業も優れたAIサービスを提供できる。</p>
+    </div>
+    <div class="what-grid">
+      <div class="what-card">
+        <span class="what-card-num">01</span>
+        <h3>「AIのだし」とは</h3>
+        <p>QueryPie AIの「AI Dashi」は、日本料理の基本である「だし」から名付けました。最高品質の「だし」（＝AI基盤）を提供し、パートナー企業が独自のAIサービスを構築できるようにする仕組みです。</p>
+      </div>
+      <div class="what-card">
+        <span class="what-card-num">02</span>
+        <h3>なぜ「だし」なのか</h3>
+        <p>お客様が求めているのは、美味しい「料理」です。私たちは「だし」を作る会社です。その「だし」を使って、プロのシェフたちが美味しい料理（＝AIサービス）を作り、お客様に提供する──そんな持続可能なエコシステムを目指しています。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ecosystem -->
+  <section id="ecosystem" class="section eco-section">
+    <div class="section-header section-header--center">
+      <p class="section-label">ECOSYSTEM</p>
+      <h2 class="section-heading">AI Dashi エコシステム</h2>
+    </div>
+    <div class="eco-diagram">
+      <div class="eco-qp">
+        <h3>QueryPie AI</h3>
+        <p>AIのだし（基盤）を提供</p>
+        <div class="eco-qp-tags">
+          <span class="eco-qp-tag">AI Agent Platform</span>
+          <span class="eco-qp-tag">ACP</span>
+          <span class="eco-qp-tag">高速プロトタイピング</span>
+          <span class="eco-qp-tag">セキュアアクセス管理</span>
+          <span class="eco-qp-tag">FDE専門サポート</span>
+        </div>
+      </div>
+      <div class="eco-flow">
+        <div class="eco-flow-item"><span class="eco-flow-down">↓ だしを提供</span><span class="eco-flow-up">↑ だし代</span></div>
+        <div class="eco-flow-item"><span class="eco-flow-down">↓ だしを提供</span><span class="eco-flow-up">↑ だし代</span></div>
+        <div class="eco-flow-item"><span class="eco-flow-down">↓ だしを提供</span><span class="eco-flow-up">↑ だし代</span></div>
+      </div>
+      <div class="eco-partners">
+        <div class="eco-partner"><span class="eco-partner-emoji">🧑‍🍳</span><h4>パートナーA</h4><p>プロのシェフ</p></div>
+        <div class="eco-partner"><span class="eco-partner-emoji">🧑‍🍳</span><h4>パートナーB</h4><p>プロのシェフ</p></div>
+        <div class="eco-partner"><span class="eco-partner-emoji">🧑‍🍳</span><h4>パートナーC</h4><p>プロのシェフ</p></div>
+      </div>
+      <div class="eco-arrow-down">↓ 独自の料理（AIサービス）を提供</div>
+      <div class="eco-customers">
+        <div class="eco-customer"><h4>顧客群A</h4><p>最適なAI体験</p></div>
+        <div class="eco-customer"><h4>顧客群B</h4><p>最適なAI体験</p></div>
+        <div class="eco-customer"><h4>顧客群C</h4><p>最適なAI体験</p></div>
+      </div>
+      <p class="eco-legend">🍜 QueryPie AI = だし（出汁）｜パートナー = シェフ ｜ 顧客 = 最適なAI体験</p>
+    </div>
+  </section>
+
+  <!-- 3 Values -->
+  <section id="value" class="section value-section">
+    <div class="section-header">
+      <p class="section-label">VALUE</p>
+      <h2 class="section-heading">AI Dashiが実現する3つの価値</h2>
+    </div>
+    <div class="value-grid">
+      <div class="value-card value-card--featured">
+        <span class="vc-num">01</span>
+        <h3 class="vc-title">パートナー企業<br>（貴社）にとって</h3>
+        <p class="vc-list">• AI開発の複雑さから解放される<br>• 自社ブランドでAIサービスを提供できる<br>• 新たな収益源を迅速に構築できる<br>• 開発リソースを本業に集中できる</p>
+      </div>
+      <div class="value-card value-card--normal">
+        <span class="vc-num">02</span>
+        <h3 class="vc-title">エンドユーザー<br>（貴社のお客様）にとって</h3>
+        <p class="vc-list">• 信頼するブランドから最適なAIサービスを受けられる<br>• 自分のニーズに特化したAI体験が得られる<br>• 使い慣れたインターフェースでAIを利用できる</p>
+      </div>
+      <div class="value-card value-card--normal">
+        <span class="vc-num">03</span>
+        <h3 class="vc-title">QueryPie AI<br>にとって</h3>
+        <p class="vc-list">• 技術とノウハウの提供に集中できる<br>• エコシステムの拡大により影響力を増大<br>• 持続可能なビジネスモデルの構築</p>
+      </div>
+    </div>
+    <div class="value-note">
+      特定の企業様向けに、私たちが直接フルカスタムのAIサービスを提供するケースもありますが、本質は<strong>「最高品質のだし（AI基盤）を提供し続けること」</strong>です。
+    </div>
+  </section>
+
+  <!-- Barriers -->
+  <section class="section barrier-section">
+    <div class="section-header section-header--center">
+      <p class="section-label">CHALLENGES</p>
+      <h2 class="section-heading">なぜ、AI Dashiが必要なのか？</h2>
+      <p class="section-sub">SaaSベンダーやWebサービス企業が自社でAI化を進める際、以下のような課題に直面します。</p>
+    </div>
+    <div class="barrier-grid">
+      <div class="barrier-card"><div class="barrier-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z" clip-rule="evenodd"/><path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z"/></svg></div><h4>人材不足</h4><p>AI専門家の採用は困難かつ高コスト。プロジェクトに着手できない。</p></div>
+      <div class="barrier-card"><div class="barrier-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M11.7 2.805a.75.75 0 0 1 .6 0A60.65 60.65 0 0 1 22.83 8.72a.75.75 0 0 1-.231 1.337 49.948 49.948 0 0 0-9.902 3.912l-.003.002c-.114.06-.227.119-.34.18a.75.75 0 0 1-.707 0A50.88 50.88 0 0 0 7.5 12.173v-.224c0-.131.067-.248.172-.311a54.615 54.615 0 0 1 4.653-2.52.75.75 0 0 0-.65-1.352 56.123 56.123 0 0 0-4.78 2.589 1.858 1.858 0 0 0-.859 1.228 49.803 49.803 0 0 0-4.634-1.527.75.75 0 0 1-.231-1.337A60.653 60.653 0 0 1 11.7 2.805Z"/><path d="M13.06 15.473a48.45 48.45 0 0 1 7.666-3.282c.134 1.414.22 2.843.255 4.284a.75.75 0 0 1-.46.711 47.87 47.87 0 0 0-8.105 4.342.75.75 0 0 1-.832 0 47.87 47.87 0 0 0-8.104-4.342.75.75 0 0 1-.461-.71c.035-1.442.121-2.87.255-4.286a48.549 48.549 0 0 1 5.786 2.616 2.25 2.25 0 0 0 2.12 0 48.4 48.4 0 0 1 1.88-.919Z"/></svg></div><h4>知識不足</h4><p>最新AI技術のキャッチアップが追いつかず、間違った技術選定につながる。</p></div>
+      <div class="barrier-card"><div class="barrier-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21 6.375c0 2.692-4.03 4.875-9 4.875S3 9.067 3 6.375 7.03 1.5 12 1.5s9 2.183 9 4.875Z"/><path d="M12 12.75c2.685 0 5.19-.586 7.078-1.609a8.283 8.283 0 0 0 1.897-1.384c.016.121.025.244.025.368C21 12.817 16.97 15 12 15s-9-2.183-9-4.875c0-.124.009-.247.025-.368a8.285 8.285 0 0 0 1.897 1.384C6.809 12.164 9.315 12.75 12 12.75Z"/><path d="M12 16.5c2.685 0 5.19-.586 7.078-1.609a8.282 8.282 0 0 0 1.897-1.384c.016.121.025.244.025.368 0 2.692-4.03 4.875-9 4.875s-9-2.183-9-4.875c0-.124.009-.247.025-.368a8.284 8.284 0 0 0 1.897 1.384C6.809 15.914 9.315 16.5 12 16.5Z"/><path d="M12 20.25c2.685 0 5.19-.586 7.078-1.609a8.282 8.282 0 0 0 1.897-1.384c.016.121.025.244.025.368 0 2.692-4.03 4.875-9 4.875s-9-2.183-9-4.875c0-.124.009-.247.025-.368a8.284 8.284 0 0 0 1.897 1.384C6.809 19.664 9.315 20.25 12 20.25Z"/></svg></div><h4>データ準備</h4><p>学習データ・テストデータの整備に膨大な工数がかかり、開発期間が長期化。</p></div>
+      <div class="barrier-card"><div class="barrier-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg></div><h4>セキュリティ</h4><p>企業向けAIに必須のガバナンス・アクセス管理が導入の大きな障壁に。</p></div>
+      <div class="barrier-card"><div class="barrier-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd"/></svg></div><h4>ハルシネーション</h4><p>業務利用には致命的。信頼性を担保できなければ導入は進まない。</p></div>
+      <div class="barrier-card"><div class="barrier-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 4.889c-.02.12-.115.26-.297.348a7.493 7.493 0 0 0-.986.57c-.166.115-.334.126-.45.083L6.3 5.508a1.875 1.875 0 0 0-2.282.819l-.922 1.597a1.875 1.875 0 0 0 .432 2.385l.84.692c.095.078.17.229.154.43a7.598 7.598 0 0 0 0 1.139c.015.2-.059.352-.153.43l-.841.692a1.875 1.875 0 0 0-.432 2.385l.922 1.597a1.875 1.875 0 0 0 2.282.818l1.019-.382c.115-.043.283-.031.45.082.312.214.641.405.985.57.182.088.277.228.297.35l.178 1.071c.151.904.933 1.567 1.85 1.567h1.844c.916 0 1.699-.663 1.85-1.567l.178-1.072c.02-.12.114-.26.297-.349.344-.165.673-.356.985-.57.167-.114.335-.125.45-.082l1.02.382a1.875 1.875 0 0 0 2.28-.819l.923-1.597a1.875 1.875 0 0 0-.432-2.385l-.84-.692c-.095-.078-.17-.229-.154-.43a7.614 7.614 0 0 0 0-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 0 0-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 0 0-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 0 0-1.85-1.567h-1.843ZM12 15.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z" clip-rule="evenodd"/></svg></div><h4>運用負荷</h4><p>リリース後の保守・改善に継続的なリソースが必要で、本業が圧迫される。</p></div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section id="compare" class="section compare-section">
+    <div class="section-header">
+      <p class="section-label">COMPARISON</p>
+      <h2 class="section-heading">内製とAI Dashiの比較</h2>
+    </div>
+    <div class="compare-layout">
+      <div class="compare-table-wrap">
+        <table class="compare-table">
+          <thead><tr><th>項目</th><th>内製</th><th class="hl">Dashi活用</th></tr></thead>
+          <tbody>
+            <tr><td>開発期間</td><td class="dim">6〜12ヶ月</td><td class="hl">1〜3ヶ月</td></tr>
+            <tr><td>初期コスト</td><td class="dim">数千万円〜</td><td class="hl">数百万円〜</td></tr>
+            <tr><td>専門人材</td><td class="dim">採用必須（困難）</td><td class="hl">FDEが支援</td></tr>
+            <tr><td>セキュリティ</td><td class="dim">ゼロから構築</td><td class="hl">実証済み基盤</td></tr>
+            <tr><td>ハルシネーション対策</td><td class="dim">試行錯誤</td><td class="hl">ファクトチェック機能内蔵</td></tr>
+            <tr><td>運用保守</td><td class="dim">自社で継続対応</td><td class="hl">サポート含む</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="compare-points">
+        <h3>AI Dashiを活用するメリット</h3>
+        <ul>
+          <li>開発期間を<strong>最大1/4</strong>に短縮</li>
+          <li>初期コストは<strong>数百万円</strong>から開始可能</li>
+          <li>専門人材不要 ── <strong>FDE</strong>が支援</li>
+          <li><strong>実証済み</strong>セキュリティ基盤を提供</li>
+          <li><strong>ファクトチェック</strong>機能で信頼性向上</li>
+          <li>運用保守の<strong>サポート込み</strong>で自社負担軽減</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Urgency -->
+  <div class="urgency-section">
+    <div class="urgency-card">
+      <h3>AIは待ってくれない</h3>
+      <p>競合他社がAI化を進める中、開発に1年かけていては市場機会を逃します。<br>AI Dashiなら、スピーディーにAI化を実現し、ライバルに先行できます。</p>
+    </div>
+  </div>
+
+  <!-- 3 Patterns -->
+  <section id="pattern" class="section pattern-section">
+    <div class="section-header section-header--center">
+      <p class="section-label">ADOPTION</p>
+      <h2 class="section-heading">3つの導入パターン</h2>
+      <p class="section-sub">貴社のビジネスモデル・リソース・目的に応じて、最適な導入方法をお選びいただけます。</p>
+    </div>
+
+    <div class="pattern-overview">
+      <div class="pattern-card"><span class="pattern-card-num">1</span><h3>ホワイトラベル展開</h3><p class="duration">想定期間：2-3ヶ月</p></div>
+      <div class="pattern-card"><span class="pattern-card-num">2</span><h3>共同開発</h3><p class="duration">想定期間：3-5ヶ月</p></div>
+      <div class="pattern-card"><span class="pattern-card-num">3</span><h3>フルサポート受託</h3><p class="duration">想定期間：4-6ヶ月</p></div>
+    </div>
+
+    <!-- Pattern 1 -->
+    <div class="pattern-detail">
+      <div class="pattern-detail-header">
+        <span class="pattern-detail-num">1</span>
+        <div><h3>ホワイトラベル展開</h3><p class="sub">AI Dashiをそのまま貴社ブランドで展開</p></div>
+        <span class="pattern-duration-badge">2-3ヶ月</span>
+      </div>
+      <div class="pattern-detail-body">
+        <div class="pattern-detail-grid">
+          <div class="pattern-detail-box">
+            <h4>こんな企業様におすすめ</h4>
+            <ul><li>既存サービスにAI機能を追加したい</li><li>自社ブランドでAIサービスを提供したい</li><li>開発リソースは限定的</li><li>早期に市場投入したい</li></ul>
+          </div>
+          <div class="pattern-detail-box">
+            <h4>提供内容</h4>
+            <ul><li>QueryPie AIのAIエージェント基盤をそのまま利用</li><li>貴社ブランドでのUI/UXカスタマイズ</li><li>API連携による既存サービスとの統合</li><li>FDEによる初期セットアップ支援</li><li>運用サポート</li></ul>
+          </div>
+        </div>
+        <div class="process-flow">
+          <h4>導入フロー</h4>
+          <div class="process-steps">
+            <div class="process-step"><span class="process-step-label">ヒアリング<br>要件確認</span><span class="process-step-period">1週間</span></div>
+            <span class="process-arrow">→</span>
+            <div class="process-step"><span class="process-step-label">プロトタイプ<br>作成</span><span class="process-step-period">2-3週間</span></div>
+            <span class="process-arrow">→</span>
+            <div class="process-step"><span class="process-step-label">カスタマイズ<br>統合開発</span><span class="process-step-period">4-6週間</span></div>
+            <span class="process-arrow">→</span>
+            <div class="process-step"><span class="process-step-label">テスト<br>調整</span><span class="process-step-period">2週間</span></div>
+            <span class="process-arrow">→</span>
+            <div class="process-step last"><span class="process-step-label">本番リリース</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pattern 2 -->
+    <div class="pattern-detail">
+      <div class="pattern-detail-header">
+        <span class="pattern-detail-num">2</span>
+        <div><h3>共同開発</h3><p class="sub">FDEが貴社チームに参画し一緒に構築</p></div>
+        <span class="pattern-duration-badge">3-5ヶ月</span>
+      </div>
+      <div class="pattern-detail-body">
+        <div class="pattern-detail-grid">
+          <div class="pattern-detail-box">
+            <h4>こんな企業様におすすめ</h4>
+            <ul><li>自社の独自性を出したい</li><li>既存の開発チームがいる</li><li>AI専門知識を社内に蓄積したい</li><li>カスタマイズの自由度が欲しい</li></ul>
+          </div>
+          <div class="pattern-detail-box">
+            <h4>提供内容</h4>
+            <ul><li>AI Dashiのコア技術基盤</li><li>FDEが貴社の開発チームに参画</li><li>要件定義から一緒に設計</li><li>技術トレーニング・ナレッジ移転</li><li>継続的な技術サポート</li></ul>
+          </div>
+        </div>
+        <div class="process-flow">
+          <h4>導入フロー</h4>
+          <div class="process-steps">
+            <div class="process-step"><span class="process-step-label">キックオフ<br>要件定義</span><span class="process-step-period">2週間</span></div>
+            <span class="process-arrow">→</span>
+            <div class="process-step"><span class="process-step-label">設計<br>アーキテクチャ策定</span><span class="process-step-period">2-3週間</span></div>
+            <span class="process-arrow">→</span>
+            <div class="process-step"><span class="process-step-label">共同開発</span><span class="process-step-period">8-12週間</span></div>
+            <span class="process-arrow">→</span>
+            <div class="process-step"><span class="process-step-label">テスト<br>品質保証</span><span class="process-step-period">3-4週間</span></div>
+            <span class="process-arrow">→</span>
+            <div class="process-step last"><span class="process-step-label">本番リリース<br>運用移行</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pattern 3 -->
+    <div class="pattern-detail">
+      <div class="pattern-detail-header">
+        <span class="pattern-detail-num">3</span>
+        <div><h3>フルサポート受託</h3><p class="sub">要件定義から運用まで全工程をお任せ</p></div>
+        <span class="pattern-duration-badge">4-6ヶ月</span>
+      </div>
+      <div class="pattern-detail-body">
+        <div class="pattern-detail-grid">
+          <div class="pattern-detail-box">
+            <h4>こんな企業様におすすめ</h4>
+            <ul><li>AI開発のリソースがない</li><li>確実に成功させたい</li><li>要件定義から任せたい</li><li>運用保守まで含めて依頼したい</li></ul>
+          </div>
+          <div class="pattern-detail-box">
+            <h4>提供内容</h4>
+            <ul><li>要件定義から運用まで全工程を担当</li><li>QueryPie AIブランドまたは貴社ブランドで提供</li><li>専任FDEチームのアサイン</li><li>インフラ構築・運用保守</li><li>継続的な改善・機能追加</li></ul>
+          </div>
+        </div>
+        <div class="process-flow">
+          <h4>導入フロー</h4>
+          <div class="process-steps">
+            <div class="process-step"><span class="process-step-label">要件ヒアリング<br>提案</span><span class="process-step-period">2-3週間</span></div>
+            <span class="process-arrow">→</span>
+            <div class="process-step"><span class="process-step-label">詳細設計<br>開発計画策定</span><span class="process-step-period">2週間</span></div>
+            <span class="process-arrow">→</span>
+            <div class="process-step"><span class="process-step-label">開発・実装</span><span class="process-step-period">10-16週間</span></div>
+            <span class="process-arrow">→</span>
+            <div class="process-step"><span class="process-step-label">テスト<br>品質保証</span><span class="process-step-period">3-4週間</span></div>
+            <span class="process-arrow">→</span>
+            <div class="process-step"><span class="process-step-label">本番リリース</span></div>
+            <span class="process-arrow">→</span>
+            <div class="process-step last"><span class="process-step-label">運用フェーズ</span><span class="process-step-period">継続</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Diagnosis -->
+  <section class="section diagnosis-section">
+    <div class="section-header section-header--center">
+      <p class="section-label">DIAGNOSIS</p>
+      <h2 class="section-heading">どのパターンが最適？簡単診断</h2>
+    </div>
+    <table class="diagnosis-table">
+      <thead>
+        <tr>
+          <th>チェック項目</th>
+          <th>パターン1<small>ホワイトラベル</small></th>
+          <th>パターン2<small>共同開発</small></th>
+          <th>パターン3<small>フルサポート</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>開発リソースが少ない</td><td class="mark-good">○</td><td class="mark-ok">△</td><td class="mark-good">○</td></tr>
+        <tr><td>カスタマイズの自由度が欲しい</td><td class="mark-bad">×</td><td class="mark-good">○</td><td class="mark-good">○</td></tr>
+        <tr><td>AI知識を社内に蓄積したい</td><td class="mark-bad">×</td><td class="mark-good">○</td><td class="mark-ok">△</td></tr>
+        <tr><td>3ヶ月以内にリリースしたい</td><td class="mark-good">○</td><td class="mark-bad">×</td><td class="mark-bad">×</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>AI導入でお悩みの方へ</h2>
+      <p>AI Dashiの導入をはじめ、貴社に最適なAI活用について<br>ご相談したい方はこちらからお問い合わせください。</p>
+      <a href="#" class="cta-btn-primary">お問い合わせ →</a>
+    </div>
+  </section>
+
+
+</body>
+</html>
