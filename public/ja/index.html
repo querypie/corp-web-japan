@@ -22,7 +22,13 @@
       </a>
       <nav class="main-nav">
         <a href="#" class="nav-link">ニュース</a>
-        <a href="/services/ai-dashi/" class="nav-link">サービス</a>
+        <div class="nav-dropdown">
+          <span class="nav-link nav-dropdown-trigger">サービス <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div class="nav-dropdown-menu">
+            <a href="/services/ai-dashi/" class="nav-dropdown-item">AI Dashi 1</a>
+            <a href="/services/ai-dashi-c/" class="nav-dropdown-item">AI Dashi 2</a>
+          </div>
+        </div>
         <a href="#" class="nav-link">お問い合わせ</a>
         <a href="#" class="nav-link">リソース</a>
         <a href="#" class="nav-link">QueryPieAIについて</a>
@@ -40,7 +46,13 @@
     <div class="mobile-menu">
       <nav class="mobile-nav">
         <a href="#" class="mobile-nav-link">ニュース</a>
-        <a href="/services/ai-dashi/" class="mobile-nav-link">サービス</a>
+        <div class="mobile-nav-group">
+          <span class="mobile-nav-link mobile-nav-group-trigger">サービス <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div class="mobile-nav-sub">
+            <a href="/services/ai-dashi/" class="mobile-nav-sub-link">AI Dashi 1</a>
+            <a href="/services/ai-dashi-c/" class="mobile-nav-sub-link">AI Dashi 2</a>
+          </div>
+        </div>
         <a href="#" class="mobile-nav-link">お問い合わせ</a>
         <a href="#" class="mobile-nav-link">リソース</a>
         <a href="#" class="mobile-nav-link">QueryPieAIについて</a>
@@ -444,11 +456,18 @@
     });
 
     // Close menu when clicking a link
-    document.querySelectorAll('.mobile-nav-link, .mobile-cta').forEach(link => {
+    document.querySelectorAll('.mobile-nav-link:not(.mobile-nav-group-trigger), .mobile-cta, .mobile-nav-sub-link').forEach(link => {
       link.addEventListener('click', () => {
         menuBtn.classList.remove('active');
         mobileMenu.classList.remove('active');
         document.body.style.overflow = '';
+      });
+    });
+
+    // Mobile nav dropdown toggle
+    document.querySelectorAll('.mobile-nav-group-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        trigger.closest('.mobile-nav-group').classList.toggle('open');
       });
     });
 
