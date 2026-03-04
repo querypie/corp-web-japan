@@ -148,8 +148,8 @@ h6 {
   margin-right: auto;
   margin-bottom: var(--space-xl);
   text-align: center;
-  line-height: 2;
-  letter-spacing: 0.04em;
+  line-height: 1.9;
+  letter-spacing: 0.03em;
 }
 
 @media(max-width: 768px) {
@@ -781,8 +781,8 @@ h6 {
   font-size: 16px;
   font-style: normal;
   font-weight: 300;
-  line-height: 2;
-  letter-spacing: 0.04em;
+  line-height: 1.9;
+  letter-spacing: 0.03em;
   margin: 0 auto var(--space-lg) auto;
   padding: 0 var(--space-md);
 }
@@ -974,7 +974,7 @@ h6 {
   font-weight: 500;
   /* Bolder title */
   line-height: 1.4;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.02em;
   margin: 0;
   text-align: left;
   flex: 0 0 40%;
@@ -986,9 +986,9 @@ h6 {
   font-family: "Noto Sans JP", sans-serif;
   font-size: 16px;
   font-style: normal;
-  font-weight: 400;
-  line-height: 1.8;
-  letter-spacing: 0.02em;
+  font-weight: 300;
+  line-height: 1.9;
+  letter-spacing: 0.03em;
   margin: 0;
   text-align: left;
 }
@@ -1033,7 +1033,7 @@ h6 {
   .mid-overlay-text p {
     font-size: 13px;
     line-height: 1.8;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     max-width: none;
     opacity: 0.9;
     font-weight: 300;
@@ -1114,8 +1114,8 @@ h6 {
 .services-section .section-subtitle {
   font-size: 16px;
   font-weight: 300;
-  line-height: 2;
-  letter-spacing: 0.04em;
+  line-height: 1.9;
+  letter-spacing: 0.03em;
   max-width: 1262px;
   margin-bottom: var(--space-lg);
   margin-left: auto;
@@ -1224,15 +1224,15 @@ h6 {
   font-size: 14px;
   font-weight: 300;
   color: var(--color-text-gray);
-  line-height: 1.8;
-  letter-spacing: 0.04em;
+  line-height: 1.9;
+  letter-spacing: 0.03em;
 }
 
 @media(max-width: 768px) {
   .card-desc {
     font-size: 13px;
     line-height: 1.8;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
   }
 }
 
@@ -1256,8 +1256,8 @@ h6 {
 .problems-section .section-subtitle {
   font-size: 16px;
   font-weight: 300;
-  line-height: 2;
-  letter-spacing: 0.04em;
+  line-height: 1.9;
+  letter-spacing: 0.03em;
   max-width: 1262px;
   margin-bottom: var(--space-lg);
   text-align: center;
@@ -1373,15 +1373,15 @@ h6 {
   color: var(--color-text-gray);
   font-size: 14px;
   font-weight: 300;
-  line-height: 1.8;
-  letter-spacing: 0.04em;
+  line-height: 1.9;
+  letter-spacing: 0.03em;
 }
 
 @media(max-width: 768px) {
   .problem-content p {
     font-size: 13px;
     line-height: 1.8;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
   }
 }
 
@@ -1448,8 +1448,8 @@ h6 {
 .security-header p {
   font-size: 16px;
   font-weight: 300;
-  line-height: 26px;
-  letter-spacing: 0.3px;
+  line-height: 1.9;
+  letter-spacing: 0.03em;
   max-width: 1262px;
   margin: 0 auto var(--space-lg) auto;
   padding: 0 var(--space-md);
@@ -1486,14 +1486,15 @@ h6 {
 .sec-feature p {
   line-height: 1.9;
   font-size: 14px;
-  font-weight: 200;
+  font-weight: 300;
+  letter-spacing: 0.03em;
 }
 
 @media(max-width: 768px) {
   .sec-feature p {
     font-size: 13px;
     line-height: 1.8;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
   }
 }
 
@@ -1625,15 +1626,15 @@ h6 {
   font-size: 14px;
   font-weight: 300;
   color: var(--color-text-gray);
-  line-height: 1.8;
-  letter-spacing: 0.04em;
+  line-height: 1.9;
+  letter-spacing: 0.03em;
 }
 
 @media(max-width: 768px) {
   .blog-excerpt {
     font-size: 13px;
     line-height: 1.8;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
   }
 }
 
@@ -1724,7 +1725,7 @@ h6 {
 
 .contact-text h2 {
   font-size: 32px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.4;
   letter-spacing: 0.01em;
   margin-bottom: 16px;
@@ -1733,7 +1734,7 @@ h6 {
 
 .contact-text p {
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1.9;
   letter-spacing: 0.03em;
   color: #6b7280;
