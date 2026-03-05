@@ -276,13 +276,18 @@ main {
   letter-spacing: 0.06em;
   color: #fff;
   line-height: 1.3;
-  margin-bottom: 10px;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.dashi-hero-logo {
+  height: 56px;
+  width: auto;
+  display: block;
+  margin: 0 auto 14px;
 }
 
 /* --- Hero Sub (Tagline) --- */
 .dashi-hero-sub {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.6;
@@ -311,6 +316,11 @@ main {
 
   .dashi-hero-title {
     font-size: 30px;
+  }
+
+  .dashi-hero-logo {
+    height: 40px;
+    width: auto;
   }
 
   .dashi-hero-sub {
@@ -428,6 +438,14 @@ main {
   padding: var(--rr-section-py) 0 0;
 }
 
+/* Diagram — full width box */
+.rr-why-diagram {
+  width: 100%;
+  margin: var(--rr-section-py) 0 0;
+  display: flex;
+  justify-content: center;
+}
+
 .rr-why-heading {
   font-size: 42px;
   font-weight: 700;
@@ -455,14 +473,11 @@ main {
   font-weight: 600;
 }
 
-/* Diagram placeholder */
-.rr-why-diagram {
+.rr-why-diagram-img {
   width: 100%;
-  min-height: 377px;
-  margin: 34px 0 0;
-  border-radius: 13px;
-  background: #F9FAFB;
-  border: 1px dashed #E5E7EB;
+  max-width: 760px;
+  height: auto;
+  display: block;
 }
 
 /* ── Responsive ── */
