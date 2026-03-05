@@ -21,11 +21,42 @@
         <img src="/assets/images/01-header/logo.svg" alt="QueryPie AI Logo" class="logo-img">
       </a>
       <nav class="main-nav">
-        <a href="#" class="nav-link">ニュース</a>
-        <a href="/services/ai-dashi/" class="nav-link">サービス</a>
-        <a href="#" class="nav-link">お問い合わせ</a>
-        <a href="#" class="nav-link">リソース</a>
-        <a href="#" class="nav-link">QueryPieAIについて</a>
+        <ul class="nav-list">
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link" data-dropdown>サービス<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <a href="#" class="nav-dropdown-link"><span class="nav-dropdown-badge">AIP</span>QueryPie AIP</a>
+              <a href="#" class="nav-dropdown-link"><span class="nav-dropdown-badge">ACP</span>QueryPie ACP</a>
+              <a href="#" class="nav-dropdown-link"><span class="nav-dropdown-badge">FDE</span>QueryPie FDE</a>
+            </div>
+          </li>
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link" data-dropdown>ソリューション<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <a href="/services/ai-dashi/" class="nav-dropdown-link">AI 出汁</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">デモ</a>
+          </li>
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link" data-dropdown>リソース<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <a href="#" class="nav-dropdown-link">ホワイトペーパー</a>
+              <a href="#" class="nav-dropdown-link">ウェビナー</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">ニュース</a>
+          </li>
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link" data-dropdown>会社情報<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <a href="#" class="nav-dropdown-link">私たちについて</a>
+              <a href="#" class="nav-dropdown-link">お問い合わせ</a>
+            </div>
+          </li>
+        </ul>
       </nav>
       <a href="#" class="btn btn-primary desktop-only">無料で始める <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
 
@@ -39,11 +70,36 @@
     <!-- Mobile Menu Overlay -->
     <div class="mobile-menu">
       <nav class="mobile-nav">
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">サービス<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="#" class="mobile-nav-sublink">QueryPie AIP</a>
+            <a href="#" class="mobile-nav-sublink">QueryPie ACP</a>
+            <a href="#" class="mobile-nav-sublink">QueryPie FDE</a>
+          </div>
+        </div>
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">ソリューション<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="/services/ai-dashi/" class="mobile-nav-sublink">AI 出汁</a>
+          </div>
+        </div>
+        <a href="#" class="mobile-nav-link">デモ</a>
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">リソース<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="#" class="mobile-nav-sublink">ホワイトペーパー</a>
+            <a href="#" class="mobile-nav-sublink">ウェビナー</a>
+          </div>
+        </div>
         <a href="#" class="mobile-nav-link">ニュース</a>
-        <a href="/services/ai-dashi/" class="mobile-nav-link">サービス</a>
-        <a href="#" class="mobile-nav-link">お問い合わせ</a>
-        <a href="#" class="mobile-nav-link">リソース</a>
-        <a href="#" class="mobile-nav-link">QueryPieAIについて</a>
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">会社情報<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="#" class="mobile-nav-sublink">私たちについて</a>
+            <a href="#" class="mobile-nav-sublink">お問い合わせ</a>
+          </div>
+        </div>
       </nav>
       <a href="#" class="btn btn-primary mobile-cta">無料で始める <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
     </div>
@@ -437,11 +493,47 @@
     });
 
     // Close menu when clicking a link
-    document.querySelectorAll('.mobile-nav-link, .mobile-cta').forEach(link => {
+    document.querySelectorAll('.mobile-nav-link, .mobile-nav-sublink, .mobile-cta').forEach(link => {
       link.addEventListener('click', () => {
         menuBtn.classList.remove('active');
         mobileMenu.classList.remove('active');
         document.body.style.overflow = '';
+      });
+    });
+
+    // Desktop dropdown — hover intent
+    const navItems = document.querySelectorAll('.nav-item.has-dropdown');
+    let openTimeout, closeTimeout;
+    navItems.forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        clearTimeout(closeTimeout);
+        openTimeout = setTimeout(() => {
+          navItems.forEach(o => o.classList.remove('is-open'));
+          item.classList.add('is-open');
+        }, 100);
+      });
+      item.addEventListener('mouseleave', () => {
+        clearTimeout(openTimeout);
+        closeTimeout = setTimeout(() => {
+          item.classList.remove('is-open');
+        }, 250);
+      });
+    });
+    document.querySelectorAll('[data-dropdown]').forEach(link => {
+      link.addEventListener('click', e => { if (window.innerWidth >= 992) e.preventDefault(); });
+    });
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.nav-item.has-dropdown')) navItems.forEach(i => i.classList.remove('is-open'));
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') navItems.forEach(i => i.classList.remove('is-open'));
+    });
+
+    // Mobile accordion
+    document.querySelectorAll('.mobile-nav-group').forEach(group => {
+      group.querySelector('.mobile-nav-toggle').addEventListener('click', () => {
+        document.querySelectorAll('.mobile-nav-group').forEach(o => { if (o !== group) o.classList.remove('is-open'); });
+        group.classList.toggle('is-open');
       });
     });
 
