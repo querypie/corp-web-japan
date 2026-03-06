@@ -441,7 +441,7 @@ main {
 /* Diagram — full width box */
 .rr-why-diagram {
   width: 100%;
-  margin: var(--rr-section-py) 0 0;
+  margin: 24px 0 0;
   display: flex;
   justify-content: center;
 }
