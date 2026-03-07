@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html lang="ja" style="scroll-behavior: smooth;">
+<html lang="ja">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="AI 出汁｜あなたのブランドで、AIを提供する">
   <title>AI 出汁 - QueryPie AI</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@200;300;400;500;600;700;800&family=Noto+Sans+JP:wght@200;300;400;500;600;700&display=swap"
-    rel="stylesheet">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/woff2/PretendardJP-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/woff2/PretendardJP-Medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/pretendard-jp.css">
   <link rel="stylesheet" href="/assets/css/styles.css">
   <link rel="stylesheet" href="/services/ai-dashi/styles.css">
+  <script>document.documentElement.classList.add('no-transition');</script>
 </head>
 
 <body>
 
-  <!-- Navigation (shared with home) -->
+  <!-- Navigation -->
   <header class="site-header">
     <div class="container header-container">
       <a href="/ja/" class="logo">
@@ -28,45 +27,115 @@
           <li class="nav-item has-dropdown">
             <a href="#" class="nav-link" data-dropdown>サービス<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
             <div class="nav-dropdown">
-              <a href="#" class="nav-dropdown-link"><span class="nav-dropdown-badge">AIP</span>QueryPie AIP</a>
-              <a href="#" class="nav-dropdown-link"><span class="nav-dropdown-badge">ACP</span>QueryPie ACP</a>
-              <a href="#" class="nav-dropdown-link"><span class="nav-dropdown-badge">FDE</span>QueryPie FDE</a>
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">サービス</div>
+                  <div class="mega-sub">QueryPie AIのコアサービス</div>
+                </div>
+                <div class="mega-links">
+                  <a href="#" class="nav-dropdown-link">AI Platform (AIP)</a>
+                  <a href="#" class="nav-dropdown-link">Access Control Platform (ACP)</a>
+                  <a href="#" class="nav-dropdown-link">Forward Deployed Engineer Service (FDES)</a>
+                </div>
+              </div>
             </div>
           </li>
           <li class="nav-item has-dropdown">
-            <a href="#" class="nav-link nav-link--active" data-dropdown>ソリューション<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <a href="#" class="nav-link" data-dropdown>ソリューション<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
             <div class="nav-dropdown">
-              <a href="/services/ai-dashi/" class="nav-dropdown-link">AI 出汁</a>
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">ソリューション</div>
+                  <div class="mega-sub">課題に合わせたAIソリューション</div>
+                </div>
+                <div class="mega-links">
+                  <a href="/services/ai-dashi/" class="nav-dropdown-link">AI 出汁</a>
+                </div>
+              </div>
             </div>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">デモ</a>
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link" data-dropdown>デモ<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">デモ</div>
+                  <div class="mega-sub">QueryPie AIを体験する</div>
+                </div>
+                <div class="mega-links">
+                  <a href="#" class="nav-dropdown-link">ユースケース</a>
+                  <a href="#" class="nav-dropdown-link">AIP機能</a>
+                  <a href="#" class="nav-dropdown-link">ACP機能</a>
+                </div>
+              </div>
+            </div>
           </li>
           <li class="nav-item has-dropdown">
             <a href="#" class="nav-link" data-dropdown>リソース<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
             <div class="nav-dropdown">
-              <a href="#" class="nav-dropdown-link">ホワイトペーパー</a>
-              <a href="#" class="nav-dropdown-link">ウェビナー</a>
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">リソース</div>
+                  <div class="mega-sub">学習・活用リソース</div>
+                </div>
+                <div class="mega-links mega-links--grid">
+                  <a href="#" class="nav-dropdown-link">紹介資料</a>
+                  <a href="#" class="nav-dropdown-link">用語集</a>
+                  <a href="#" class="nav-dropdown-link">マニュアル</a>
+                  <a href="#" class="nav-dropdown-link">ホワイトペーパー</a>
+                  <a href="#" class="nav-dropdown-link">ブログ</a>
+                  <a href="#" class="nav-dropdown-link">イベント</a>
+                </div>
+              </div>
             </div>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">ニュース</a>
           </li>
           <li class="nav-item has-dropdown">
             <a href="#" class="nav-link" data-dropdown>会社情報<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
             <div class="nav-dropdown">
-              <a href="#" class="nav-dropdown-link">私たちについて</a>
-              <a href="#" class="nav-dropdown-link">お問い合わせ</a>
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">会社情報</div>
+                  <div class="mega-sub">QueryPie AIについて</div>
+                </div>
+                <div class="mega-links">
+                  <a href="#" class="nav-dropdown-link">私たちについて</a>
+                  <a href="#" class="nav-dropdown-link">認証情報</a>
+                  <a href="#" class="nav-dropdown-link">ニュース</a>
+                  <a href="#" class="nav-dropdown-link">お問い合わせ</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link" data-dropdown>プラン<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">プラン</div>
+                  <div class="mega-sub">料金プランを選択</div>
+                </div>
+                <div class="mega-links">
+                  <a href="#" class="nav-dropdown-link">AIP</a>
+                  <a href="#" class="nav-dropdown-link">ACP</a>
+                </div>
+              </div>
             </div>
           </li>
         </ul>
       </nav>
       <a href="#" class="btn btn-primary desktop-only">無料で始める <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
+
+      <!-- Mobile Hamburger -->
       <button class="mobile-menu-btn" aria-label="メニュー">
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
       </button>
     </div>
+
+    <!-- Nav Backdrop -->
+    <div class="nav-backdrop"></div>
+
+    <!-- Mobile Menu Overlay -->
     <div class="mobile-menu">
       <nav class="mobile-nav">
         <div class="mobile-nav-group">
@@ -83,22 +152,35 @@
             <a href="/services/ai-dashi/" class="mobile-nav-sublink">AI 出汁</a>
           </div>
         </div>
-        <a href="#" class="mobile-nav-link">デモ</a>
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">デモ<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="#" class="mobile-nav-sublink">ユースケース</a>
+            <a href="#" class="mobile-nav-sublink">AIP機能</a>
+            <a href="#" class="mobile-nav-sublink">ACP機能</a>
+          </div>
+        </div>
         <div class="mobile-nav-group">
           <button class="mobile-nav-toggle">リソース<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
           <div class="mobile-nav-sub">
+            <a href="#" class="mobile-nav-sublink">紹介資料</a>
+            <a href="#" class="mobile-nav-sublink">用語集</a>
+            <a href="#" class="mobile-nav-sublink">マニュアル</a>
             <a href="#" class="mobile-nav-sublink">ホワイトペーパー</a>
-            <a href="#" class="mobile-nav-sublink">ウェビナー</a>
+            <a href="#" class="mobile-nav-sublink">ブログ</a>
+            <a href="#" class="mobile-nav-sublink">イベント</a>
           </div>
         </div>
-        <a href="#" class="mobile-nav-link">ニュース</a>
         <div class="mobile-nav-group">
           <button class="mobile-nav-toggle">会社情報<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
           <div class="mobile-nav-sub">
             <a href="#" class="mobile-nav-sublink">私たちについて</a>
+            <a href="#" class="mobile-nav-sublink">認証情報</a>
+            <a href="#" class="mobile-nav-sublink">ニュース</a>
             <a href="#" class="mobile-nav-sublink">お問い合わせ</a>
           </div>
         </div>
+        <a href="#" class="mobile-nav-link">プラン</a>
       </nav>
       <a href="#" class="btn btn-primary mobile-cta">無料で始める <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
     </div>
@@ -108,7 +190,7 @@
 
     <!-- Service Hero -->
     <section class="dashi-hero">
-      <img src="/assets/images/04-services/dashi-hero-holo-v3.png" alt="AI 出汁 — 最高品質のAI基盤を、あなたのブランドで" class="dashi-hero-img">
+      <img src="/assets/images/04-services/ai-dashi-1.png" alt="AI 出汁 — 最高品質のAI基盤を、あなたのブランドで" class="dashi-hero-img">
       <div class="dashi-hero-overlay">
         <div class="container">
           <h1 class="dashi-hero-title"><img src="/assets/images/04-services/ai-dashi-logo.svg" alt="AI 出汁" class="dashi-hero-logo"></h1>
@@ -118,6 +200,7 @@
     </section>
 
     <!-- Section Nav (Sansan style) -->
+
     <nav class="rr-section-nav">
       <div class="container">
         <ul class="rr-section-nav-list">
@@ -131,42 +214,39 @@
     <!-- ① 「AI 出汁」とは？ -->
     <section id="what-dashi" class="rr-eco-section">
       <div class="container">
-
-        <!-- Philosophy + Visual Split -->
         <div class="rr-phil-split">
           <div class="rr-phil-text">
-            <h2 class="rr-phil-heading">「AI 出汁」とは？</h2>
+            <h2 class="rr-phil-heading">「<span style="font-weight:400">AI</span> 出汁」とは？</h2>
             <p class="rr-phil-lead">良い出汁があれば、どんな料理人も美味しい料理を作れる。<br>良いAI基盤があれば、どんな企業も優れたAIサービスを提供できる。</p>
             <p class="rr-phil-body">QueryPie AIの「AI 出汁」は、日本料理の基本である「出汁」から名付けました。良い出汁は、味噌汁にも、煮物にも、うどんにも、様々な料理に姿を変えて、その料理を美味しくする──それと同じように、「AI 出汁」も、あなたのビジネスに合わせて柔軟に形を変え、あなたの顧客に最高のAI体験を届けます。</p>
           </div>
           <div class="rr-phil-visual">
-            <img src="/assets/images/04-services/dashi-2.png" alt="AI 出汁のイメージ" class="rr-phil-visual-img">
+            <img src="/assets/images/04-services/ai-dashi-2.png" alt="AI 出汁のイメージ" class="rr-phil-visual-img">
           </div>
         </div>
-
-        <!-- なぜ「出汁」なのか Narrative -->
-        <div class="rr-why-block">
-          <h3 class="rr-why-heading">なぜ「出汁」なのか？</h3>
-          <div class="rr-why-body">
-            <p>私たちは、「出汁」を作る会社です。</p>
-            <p>お客様が求めているのは、美味しい「料理」です。しかし、私たちQueryPie AIがすべての料理を直接作る必要はありません。</p>
-            <p>お客様が何を好むかを一番よく知っている"プロのシェフ"（＝貴社のような、SaaSベンダー・Webサービス企業）が料理を作り、貴社の販売チャネルを通じて、お客様に届ける。</p>
-            <p>その「出汁」を使って、プロのシェフたちが美味しい料理（＝AIサービス）を作り、お客様に提供する──そんな<strong>持続可能なエコシステム</strong>を目指しています。</p>
-          </div>
-        </div>
-
-        <!-- アーキテクチャ図 -->
-        <div class="rr-why-diagram">
-          <img src="/assets/images/04-services/ai-architecture.svg" alt="高品質なAI基盤アーキテクチャ" class="rr-why-diagram-img">
-        </div>
-
       </div>
     </section>
+
+    <!-- ①-b なぜ「出汁」なのか？ -->
+    <div class="rr-why-section">
+      <div class="container">
+        <div class="rr-why-header">
+          <h3 class="rr-why-heading">なぜ「出汁」なのか？</h3>
+          <p class="rr-why-lead">私たちは、「出汁」を作る会社です。</p>
+          <p class="rr-why-sub">お客様が求めているのは、美味しい「料理」です。<br>しかし、私たちQueryPie AIがすべての料理を直接作る必要はありません。</p>
+          <p class="rr-why-sub">"プロのシェフ"（＝貴社のような、SaaSベンダー・Webサービス企業）がお客様の好みを熟知した上で料理を作り、<br>貴社の販売チャネルを通じてお客様に届ける。</p>
+          <p class="rr-why-sub">その「出汁」を使って、プロのシェフたちが美味しい料理（＝AIサービス）を作り、<br>お客様に提供する──そんな<strong>持続可能なエコシステム</strong>を目指しています。</p>
+        </div>
+        <div class="rr-why-diagram">
+          <img src="/assets/images/04-services/ai-dashi-3.svg" alt="高品質なAI基盤アーキテクチャ" class="rr-why-diagram-img">
+        </div>
+      </div>
+    </div>
 
     <!-- ② 3つの価値 Section (Style C card layout) -->
     <section class="rr-value-section">
       <div class="container">
-        <h2 class="rr-what-heading rr-what-heading--section">AI 出汁が実現する3つの価値</h2>
+        <h2 class="rr-what-heading rr-what-heading--section"><span style="font-weight:400">AI</span> 出汁が実現する<span style="font-weight:400">3</span>つの価値</h2>
 
         <div class="rr-value-cards">
           <div class="rr-value-card rr-value-card--featured">
@@ -181,7 +261,7 @@
           </div>
           <div class="rr-value-card rr-value-card--normal">
             <span class="rr-vc-num">03</span>
-            <h3 class="rr-vc-title">QueryPie AI<br>にとって</h3>
+            <h3 class="rr-vc-title"><span style="font-weight:400">QueryPie AI</span><br>にとって</h3>
             <p class="rr-vc-list">• 技術とノウハウの提供に集中できる<br>• エコシステムの拡大により影響力を増大<br>• 持続可能なビジネスモデルの構築</p>
           </div>
         </div>
@@ -195,8 +275,8 @@
     <!-- Why AI Dashi is necessary Section -->
     <section id="why-dashi" class="rr-barrier-section">
       <div class="container">
-        <h2 class="rr-what-heading rr-what-heading--section">なぜ、AI 出汁が必要なのか？：自社AI化の壁</h2>
-        <p class="rr-barrier-lead">SaaSベンダーやWebサービス企業が自社でAI化を進める際、<br>以下のような課題に直面します。</p>
+        <h2 class="rr-what-heading rr-what-heading--section">なぜ、<span style="font-weight:400">AI</span> 出汁が必要なのか？：自社<span style="font-weight:400">AI</span>化の壁</h2>
+        <p class="rr-barrier-lead">SaaSベンダーやWebサービス企業が自社でAI化を進める際、以下のような課題に直面します。</p>
 
         <!-- 6 challenges — compact 2-column list -->
         <div class="rr-barrier-list">
@@ -268,7 +348,7 @@
     <!-- Comparison Section (Style C layout) -->
     <section id="compare" class="rr-compare-section">
       <div class="container">
-        <h2 class="rr-what-heading rr-what-heading--section">内製とAI 出汁の比較</h2>
+        <h2 class="rr-what-heading rr-what-heading--section">内製と<span style="font-weight:400">AI</span> 出汁の比較</h2>
         <p class="rr-compare-lead">AI 出汁なら、開発期間・コスト・専門人材の壁をまとめて解消できます。</p>
 
         <table class="rr-compare-tbl">
@@ -326,7 +406,7 @@
     <!-- 3つの導入パターン Section -->
     <section id="patterns" class="rr-pattern-section">
       <div class="container">
-        <h2 class="rr-what-heading rr-what-heading--section">3つの導入パターン</h2>
+        <h2 class="rr-what-heading rr-what-heading--section"><span style="font-weight:400">3</span>つの導入パターン</h2>
         <p class="rr-pattern-lead">貴社のビジネスモデル・リソース・目的に応じて、最適な導入方法をお選びいただけます。</p>
 
         <div class="rr-pattern-cards">
@@ -471,7 +551,7 @@
         <h2 class="rr-closing-cta-title">まずはお気軽にご相談ください。</h2>
         <p class="rr-closing-cta-text">貴社に最適なパターンを一緒に検討しましょう。</p>
         <div class="rr-closing-cta-buttons">
-          <a href="#" class="btn dashi-cta-btn">無料で導入相談・見積もりをする</a>
+          <a href="#" class="btn-primary dashi-cta-btn">無料で導入相談・見積もりをする <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
         </div>
       </div>
     </section>
@@ -482,60 +562,65 @@
     <div class="container footer-content">
       <div class="footer-brand">
         <div class="footer-logo">
-          <img src="/assets/images/08-footer/footer-logo-icon.svg" alt="Logo">
-          <img src="/assets/images/08-footer/footer-logo-text.svg" alt="Name">
+          <img src="/assets/images/01-header/logo.svg" alt="QueryPie">
         </div>
         <div class="social-links">
-          <a href="#"><img src="/assets/images/08-footer/social-linkedin.svg" alt="LinkedIn"></a>
-          <a href="#"><img src="/assets/images/08-footer/social-youtube.svg" alt="YouTube"></a>
-          <a href="#"><img src="/assets/images/08-footer/social-x.svg" alt="X"></a>
+          <a href="https://kr.linkedin.com/company/querypie-01" target="_blank"><img src="/assets/images/08-footer/social-linkedin.svg" alt="LinkedIn"></a>
+          <a href="https://www.youtube.com/@querypie" target="_blank"><img src="/assets/images/08-footer/social-youtube.svg" alt="YouTube"></a>
+          <a href="https://x.com/querypie" target="_blank"><img src="/assets/images/08-footer/social-x.svg" alt="X"></a>
+          <a href="https://www.facebook.com/querypie" target="_blank"><img src="/assets/images/08-footer/social-facebook.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/querypie.ai/" target="_blank"><img src="/assets/images/08-footer/social-instagram.svg" alt="Instagram"></a>
         </div>
       </div>
 
       <div class="footer-links">
         <div class="link-column">
-          <h4>Platform</h4>
+          <h4>Service</h4>
           <ul>
-            <li><span class="badge">AIP</span> AI Platform</li>
-            <li><span class="badge">ACP</span> Data Access Controller</li>
-            <li>System Access Controller</li>
-            <li>Kubernetes Access Controller</li>
-            <li>Web Access Controller</li>
+            <li><a href="#">AIP</a></li>
+            <li><a href="#">ACP</a></li>
+            <li><a href="#">FDE</a></li>
+          </ul>
+        </div>
+        <div class="link-column">
+          <h4>Solution</h4>
+          <ul>
+            <li><a href="#">AI Dashi</a></li>
+          </ul>
+        </div>
+        <div class="link-column">
+          <h4>Demo</h4>
+          <ul>
+            <li><a href="#">Use Cases</a></li>
+            <li><a href="#">AIP Features</a></li>
+            <li><a href="#">ACP Features</a></li>
           </ul>
         </div>
         <div class="link-column">
           <h4>Resources</h4>
           <ul>
-            <li><span class="badge">Discover</span> White Paper</li>
-            <li>Webinars</li>
-            <li>Blog</li>
-            <li>Integrations</li>
-            <li>Certifications</li>
-            <li><span class="badge">Learn</span> Documentation</li>
-            <li>Tutorial</li>
-            <li>Demo</li>
-          </ul>
-        </div>
-        <div class="link-column">
-          <h4>Community</h4>
-          <ul>
-            <li><span class="badge">Customers</span> Customers</li>
-            <li>Customer Success Cases</li>
-            <li>Schedule a Demo</li>
-            <li><span class="badge">Partners</span> Become a Partner</li>
-            <li>Partner Portal</li>
+            <li><a href="#">Introduction Decks</a></li>
+            <li><a href="#">Glossary</a></li>
+            <li><a href="#">Manuals</a></li>
+            <li><a href="#">White Papers</a></li>
+            <li><a href="#">Blogs</a></li>
+            <li><a href="#">Event</a></li>
           </ul>
         </div>
         <div class="link-column">
           <h4>Company</h4>
           <ul>
-            <li>About QueryPie</li>
-            <li>Careers</li>
-            <li>Bounty</li>
-            <li>Hall of Fame</li>
-            <li>News</li>
-            <li>Contact Us</li>
-            <li>Trust Center</li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Certificates</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="link-column">
+          <h4>Plan</h4>
+          <ul>
+            <li><a href="#">AIP</a></li>
+            <li><a href="#">ACP</a></li>
           </ul>
         </div>
       </div>
@@ -543,18 +628,26 @@
     <div class="container footer-bottom">
       <div class="legal-links">
         <a href="#">Cookie Preference</a>
-        <a href="#">Terms of Use</a>
+        <a href="#">Terms of Service</a>
         <a href="#">Privacy Policy</a>
         <a href="#">EULA</a>
       </div>
       <div class="copyright">
         <p>© 2017-2025 QueryPie, Inc. All rights reserved.</p>
-        <p>Headquarter : 3003 North 1st Street, Suite 221, San Jose, CA 95134...</p>
+        <p>Headquarter: 3003 North 1st Street, Suite 221, San Jose, CA 95134</p>
+        <p>Seoul Magok: 7F, 26, Magokjungang 1-ro, Gangseo-gu, Seoul, Republic of Korea</p>
+        <p>Seoul Gangnam: 3F, 464, Gangnam-daero, Gangnam-gu, Seoul, Republic of Korea</p>
+        <p>Japan: 15F, 1 Chome-17-1 Toranomon, Minato City, Tokyo 105-6490</p>
       </div>
     </div>
   </footer>
 
   <script>
+    // Remove no-transition after first paint
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      document.documentElement.classList.remove('no-transition');
+    }));
+
     // Section nav: 클릭 시에만 밑줄 표시
     const navLinks = document.querySelectorAll('.rr-section-nav-list a');
     let navActiveTimer = null;
@@ -562,7 +655,6 @@
       link.addEventListener('click', () => {
         navLinks.forEach(l => l.classList.remove('rr-nav-active'));
         link.classList.add('rr-nav-active');
-
         if (navActiveTimer) clearTimeout(navActiveTimer);
         navActiveTimer = setTimeout(() => {
           navLinks.forEach(l => l.classList.remove('rr-nav-active'));
@@ -570,6 +662,7 @@
       });
     });
 
+    // Mobile menu toggle
     const menuBtn = document.querySelector('.mobile-menu-btn');
     const mobileMenu = document.querySelector('.mobile-menu');
     menuBtn.addEventListener('click', () => {
@@ -577,7 +670,7 @@
       mobileMenu.classList.toggle('active');
       document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
     });
-    document.querySelectorAll('.mobile-nav-link, .mobile-cta').forEach(link => {
+    document.querySelectorAll('.mobile-nav-link, .mobile-nav-sublink, .mobile-cta').forEach(link => {
       link.addEventListener('click', () => {
         menuBtn.classList.remove('active');
         mobileMenu.classList.remove('active');
@@ -585,32 +678,71 @@
       });
     });
 
-    // Desktop dropdown — hover intent
+    // Desktop dropdown — hover (querypie.com style)
     const navItems = document.querySelectorAll('.nav-item.has-dropdown');
-    let openTimeout, closeTimeout;
+    const navBackdrop = document.querySelector('.nav-backdrop');
+    let closeTimeout = null;
+
+    function showBackdrop() { navBackdrop.classList.add('is-active'); }
+    function hideBackdrop() { navBackdrop.classList.remove('is-active'); }
+    function closeAll() {
+      clearTimeout(closeTimeout);
+      navItems.forEach(i => i.classList.remove('is-open'));
+      hideBackdrop();
+    }
+
     navItems.forEach(item => {
       item.addEventListener('mouseenter', () => {
+        if (window.innerWidth < 992) return;
         clearTimeout(closeTimeout);
-        openTimeout = setTimeout(() => {
-          navItems.forEach(o => o.classList.remove('is-open'));
-          item.classList.add('is-open');
-        }, 100);
+        navItems.forEach(o => o.classList.remove('is-open'));
+        item.classList.add('is-open');
+        showBackdrop();
       });
       item.addEventListener('mouseleave', () => {
-        clearTimeout(openTimeout);
+        if (window.innerWidth < 992) return;
+        clearTimeout(closeTimeout);
         closeTimeout = setTimeout(() => {
           item.classList.remove('is-open');
-        }, 250);
+          if (!document.querySelector('.nav-item.has-dropdown:hover')) hideBackdrop();
+        }, 150);
       });
     });
-    document.querySelectorAll('[data-dropdown]').forEach(link => {
-      link.addEventListener('click', e => { if (window.innerWidth >= 992) e.preventDefault(); });
+
+
+    // Fix all mega menus to start at サービス (first nav item) position
+    function alignMegaMenus() {
+      if (window.innerWidth < 992) return;
+      const firstNav = document.querySelector('.nav-item.has-dropdown .nav-link');
+      if (!firstNav) return;
+      const megaOuterLeft = Math.max(0, (window.innerWidth - 1200) / 2);
+      const paddingLeft = Math.max(30, firstNav.getBoundingClientRect().left - megaOuterLeft);
+      document.querySelectorAll('.mega-inner').forEach(el => {
+        el.style.paddingLeft = `${paddingLeft}px`;
+      });
+    }
+
+    alignMegaMenus();
+    window.addEventListener('load', alignMegaMenus);
+    window.addEventListener('resize', alignMegaMenus);
+
+    // Sub-link active state
+    document.querySelectorAll('.nav-dropdown-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (link.getAttribute('href') === '#') e.preventDefault();
+        document.querySelectorAll('.nav-dropdown-link').forEach(l => l.classList.remove('is-active'));
+        link.classList.add('is-active');
+      });
     });
+
+    navBackdrop.addEventListener('mouseenter', closeAll);
+    navBackdrop.addEventListener('click', closeAll);
+
     document.addEventListener('click', e => {
-      if (!e.target.closest('.nav-item.has-dropdown')) navItems.forEach(i => i.classList.remove('is-open'));
+      if (!e.target.closest('.nav-item.has-dropdown')) closeAll();
     });
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') navItems.forEach(i => i.classList.remove('is-open'));
+      if (e.key === 'Escape') closeAll();
     });
 
     // Mobile accordion
