@@ -5,7 +5,7 @@
      Text mid     #57606A
      Text weak    #8B949E
      BG white     #FFFFFF
-     BG light     #F9FAFB
+     BG light     #F6F8FA
      Border       #E5E7EB
      Accent       #F97316
      Accent dark  #EA580C
@@ -13,36 +13,7 @@
    (No dark sections)
    =========================== */
 
-/* ── JetBrains Mono: all weights ── */
-@font-face {
-  font-family: 'JetBrains Mono';
-  src: url('/assets/fonts/jetbrains-mono.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'JetBrains Mono';
-  src: url('/assets/fonts/jetbrains-mono-medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'JetBrains Mono';
-  src: url('/assets/fonts/jetbrains-mono-semibold.woff2') format('woff2');
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'JetBrains Mono';
-  src: url('/assets/fonts/jetbrains-mono-bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-}
-
-/* ── English/Numbers: JetBrains Mono (mono sans) ── */
+/* ── Font: Pretendard JP (same as home) ── */
 .rr-eco-section,
 .rr-value-section,
 .rr-barrier-section,
@@ -58,11 +29,11 @@
 .rr-pattern-section *,
 .rr-diagnosis-section *,
 .dashi-hero * {
-  font-family: "Mona Sans", "Noto Sans JP", sans-serif !important;
+  font-family: var(--font-main);
 }
 
 :root {
-  --rr-section-py: 89px;
+  --rr-section-py: 120px;
   --rr-section-py-mobile: 55px;
   --rr-heading-gap: 34px;
   --rr-heading-lead-gap: 13px;
@@ -93,28 +64,32 @@ main {
   order: 3;
 }
 
-.rr-value-section {
+.rr-why-section {
   order: 4;
 }
 
-.rr-barrier-section {
+.rr-value-section {
   order: 5;
 }
 
-.rr-compare-section {
+.rr-barrier-section {
   order: 6;
 }
 
-.rr-pattern-section {
+.rr-compare-section {
   order: 7;
 }
 
-.rr-diagnosis-section {
+.rr-pattern-section {
   order: 8;
 }
 
-.rr-closing-cta-section {
+.rr-diagnosis-section {
   order: 9;
+}
+
+.rr-closing-cta-section {
+  order: 10;
 }
 
 /* ── Reset services-section base from styles.css ── */
@@ -178,12 +153,12 @@ main {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 20px 52px;
-  font-size: 17px;
+  padding: 21px 55px;
+  font-size: 18px;
   font-weight: 500;
   color: #57606A;
   text-decoration: none;
-  letter-spacing: 0.04em;
+  letter-spacing: -0.02em;
   transition: color 0.2s;
 }
 
@@ -202,16 +177,16 @@ main {
 
 /* Active — 클릭 시에만 텍스트 밑줄 */
 .rr-section-nav-list a.rr-nav-active {
-  color: #24292F;
+  color: #9160EF;
   font-weight: 500;
   text-decoration: underline;
   text-underline-offset: 4px;
   text-decoration-thickness: 2px;
-  text-decoration-color: #24292F;
+  text-decoration-color: #9160EF;
 }
 
 .rr-section-nav-list a.rr-nav-active::after {
-  border-color: #24292F;
+  border-color: #9160EF;
 }
 
 .rr-section-nav-list a:hover {
@@ -250,7 +225,7 @@ main {
 .dashi-hero-img {
   display: block;
   width: 100%;
-  height: 480px;
+  height: 400px;
   object-fit: cover;
   object-position: center 35%;
 }
@@ -265,33 +240,33 @@ main {
 }
 
 .dashi-hero-overlay .container {
-  padding: 0 24px;
+  padding: 20px 24px 0;
   text-align: center;
 }
 
 /* --- Hero Title --- */
 .dashi-hero-title {
   font-size: 42px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  letter-spacing: -0.02em;
   color: #fff;
-  line-height: 1.3;
+  line-height: 1.2;
 }
 
 .dashi-hero-logo {
-  height: 56px;
+  height: 48px;
   width: auto;
   display: block;
-  margin: 0 auto 14px;
+  margin: 0 auto 13px;
 }
 
 /* --- Hero Sub (Tagline) --- */
 .dashi-hero-sub {
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-  letter-spacing: 0.02em;
+  line-height: 1.625;
+  letter-spacing: 0.01em;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
 }
 
@@ -330,11 +305,11 @@ main {
 
 .rr-what-heading {
   font-size: 40px;
-  font-weight: 600;
+  font-weight: 400;
   color: #24292F;
-  letter-spacing: 0.04em;
-  line-height: 1.5;
-  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 21px;
   text-align: center;
 }
 
@@ -350,23 +325,29 @@ main {
 /* ── 「AI 出汁」とは？ Section ── */
 .rr-eco-section {
   background: #fff;
-  padding: var(--rr-section-py) 0;
+  padding: 120px 0 55px;
+}
+
+.rr-why-section {
+  background: #fff;
+  padding: 55px 0 var(--rr-section-py);
 }
 
 /* Section-level heading — global */
 .rr-what-heading--section {
-  font-size: 42px;
-  font-weight: 600;
+  font-size: 3.25rem;
+  font-weight: 400;
   color: #24292F;
   text-align: center;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
   margin: 0 0 34px;
 }
 
 /* ── Philosophy + Visual Split ── */
 .rr-phil-split {
   display: grid;
-  grid-template-columns: 48fr 52fr;
+  grid-template-columns: 50fr 50fr;
   gap: 55px;
   align-items: center;
   margin-bottom: 0;
@@ -378,106 +359,142 @@ main {
 
 .rr-what-label {
   display: inline-block;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 600;
   color: #F97316;
-  letter-spacing: 0.06em;
+  letter-spacing: -0.02em;
   margin: 0 0 8px;
 }
 
 .rr-phil-heading {
-  font-size: 42px;
-  font-weight: 700;
+  font-size: 3.25rem;
+  font-weight: 400;
   color: #24292F;
-  line-height: 1.5;
-  letter-spacing: 0.04em;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   margin: 0 0 21px;
+  text-indent: -0.5em;
 }
 
 .rr-phil-lead {
-  font-size: 18px;
-  font-weight: 500;
-  color: #57606A;
-  line-height: 1.9;
-  letter-spacing: 0.02em;
-  margin: 0 0 21px;
+  font-size: 19px;
+  font-weight: 400;
+  color: #24292F;
+  line-height: 1.625;
+  letter-spacing: 0.01em;
+  margin: 0 0 13px;
 }
 
 .rr-phil-body {
   font-size: 17px;
   font-weight: 400;
-  color: #8B949E;
-  line-height: 1.9;
+  color: #57606A;
+  line-height: 1.625;
   letter-spacing: 0.01em;
-  margin: 0;
+  margin: 0 0 13px;
+}
+
+.rr-phil-body:last-of-type {
+  margin-bottom: 0;
 }
 
 /* Visual — atmospheric photo */
 .rr-phil-visual {
   width: 100%;
   overflow: hidden;
-  border-radius: 13px;
+  border-radius: 21px;
+  margin-left: 21px;
 }
 
 .rr-phil-visual-img {
   width: 100%;
-  min-height: 480px;
+  min-height: 440px;
   display: block;
   object-fit: contain;
   object-position: center 20%;
-  border-radius: 13px;
+  border-radius: 21px;
   transform: scale(1.15);
   transform-origin: center 20%;
 }
 
-/* ── なぜ「出汁」なのか ── */
-.rr-why-block {
-  max-width: 720px;
-  margin: 0 auto;
+/* ── なぜ「出汁」なのか — G: minimal text + diagram center ── */
+.rr-why-header {
   text-align: center;
-  padding: var(--rr-section-py) 0 0;
-}
-
-/* Diagram — full width box */
-.rr-why-diagram {
-  width: 100%;
-  margin: var(--rr-section-py) 0 0;
-  display: flex;
-  justify-content: center;
+  max-width: 960px;
+  margin: 0 auto 34px;
 }
 
 .rr-why-heading {
-  font-size: 42px;
-  font-weight: 700;
+  font-size: 3.25rem;
+  font-weight: 400;
   color: #24292F;
-  line-height: 1.5;
-  letter-spacing: 0.04em;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   margin: 0 0 21px;
 }
 
-.rr-why-body p {
-  font-size: 17px;
+.rr-why-lead {
+  font-size: 19px;
   font-weight: 400;
-  color: #57606A;
-  line-height: 1.618;
+  color: #24292F;
+  line-height: 1.625;
   letter-spacing: 0.01em;
   margin: 0 0 13px;
 }
 
-.rr-why-body p:last-child {
-  margin-bottom: 0;
+.rr-why-body {
+  font-size: 17px;
+  font-weight: 400;
+  color: #57606A;
+  line-height: 1.625;
+  letter-spacing: 0.01em;
+  margin: 0;
 }
 
-.rr-why-body strong {
-  color: #EA580C;
-  font-weight: 600;
+.rr-why-sub {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.625;
+  letter-spacing: 0.01em;
+  color: #57606A;
+  text-align: center;
+  margin: 0;
+}
+
+.rr-why-diagram {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .rr-why-diagram-img {
   width: 100%;
-  max-width: 760px;
+  max-width: 680px;
   height: auto;
   display: block;
+}
+
+.rr-why-body-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 34px;
+  border-top: 1px solid #E5E7EB;
+  padding-top: 34px;
+  margin-top: 34px;
+}
+
+.rr-why-body-text {
+  font-size: 17px;
+  font-weight: 400;
+  color: #57606A;
+  line-height: 1.625;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+.rr-why-body-text strong {
+  color: #EA580C;
+  font-weight: 600;
 }
 
 /* ── Responsive ── */
@@ -508,20 +525,21 @@ main {
     font-size: 14px;
   }
 
-  .rr-why-block {
-    padding-top: 34px;
+  .rr-why-section {
+    padding: var(--rr-section-py-mobile) 0;
   }
 
   .rr-why-heading {
     font-size: 26px;
   }
+
 }
 
 /* ========================================
    3. Value Section — Style C card layout
    ======================================== */
 .rr-value-section {
-  padding: 55px 0 var(--rr-section-py);
+  padding: 34px 0 var(--rr-section-py);
   background: #fff;
 }
 
@@ -539,8 +557,8 @@ main {
 
 .rr-value-card {
   flex: 1;
-  border-radius: 13px;
-  padding: 34px 21px;
+  border-radius: 21px;
+  padding: 34px;
   display: flex;
   flex-direction: column;
   gap: 13px;
@@ -551,7 +569,7 @@ main {
 .rr-value-card--normal {
   background: #fff;
   border: 1px solid #E5E7EB;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  box-shadow: var(--shadow-sm);
 }
 
 .rr-value-card--featured {
@@ -568,15 +586,16 @@ main {
 
 .rr-value-card .rr-vc-title {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 400;
   color: #24292F;
   line-height: 1.5;
 }
 
 .rr-value-card .rr-vc-list {
-  font-size: 16px;
+  font-size: 17px;
   color: #57606A;
-  line-height: 1.9;
+  line-height: 1.625;
+  letter-spacing: 0.01em;
 }
 
 .rr-value-card--featured .rr-vc-num {
@@ -593,14 +612,15 @@ main {
 
 /* Closing note */
 .rr-value-note {
-  padding: 34px 21px;
+  padding: 34px;
   background: #FFF7ED;
   border-left: 3px solid #F97316;
-  border-radius: 0 13px 13px 0;
-  font-size: 16px;
+  border-radius: 0 21px 21px 0;
+  font-size: 17px;
   color: #57606A;
-  line-height: 1.618;
-  font-weight: 300;
+  line-height: 1.625;
+  letter-spacing: 0.01em;
+  font-weight: 400;
 }
 
 .rr-value-note strong {
@@ -621,8 +641,8 @@ main {
   }
 
   .rr-value-card {
-    padding: 28px 24px;
-    border-radius: 12px;
+    padding: 24px;
+    border-radius: 16px;
   }
 
   .rr-value-card--featured .rr-vc-num,
@@ -640,7 +660,7 @@ main {
    ======================================== */
 .rr-barrier-section {
   padding: var(--rr-section-py) 0;
-  background: #F9FAFB;
+  background: #F6F8FA;
 }
 
 .rr-barrier-section .rr-what-heading--section {
@@ -650,7 +670,8 @@ main {
 .rr-barrier-lead {
   font-size: 17px;
   font-weight: 400;
-  line-height: 1.8;
+  line-height: 1.625;
+  letter-spacing: 0.01em;
   color: #57606A;
   text-align: center;
   margin-bottom: 34px;
@@ -672,10 +693,17 @@ main {
   text-align: center;
   gap: 21px;
   background: #fff;
-  border-radius: 13px;
-  padding: 34px 21px;
+  border-radius: 21px;
+  padding: 34px;
   border: 1px solid #E5E7EB;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+  box-shadow: var(--shadow-sm);
+}
+
+.rr-barrier-list-item > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
 }
 
 .rr-barrier-list-icon {
@@ -692,7 +720,7 @@ main {
 
 .rr-barrier-list-title {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 400;
   color: #24292F;
   margin-bottom: 8px;
 }
@@ -701,14 +729,15 @@ main {
   font-size: 17px;
   font-weight: 400;
   color: #57606A;
-  line-height: 1.618;
+  line-height: 1.625;
+  letter-spacing: 0.01em;
 }
 
 .rr-barrier-list-impact {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   color: #EA580C;
-  margin-top: 8px;
+  margin-top: auto;
   line-height: 1.5;
   padding-top: 8px;
   border-top: 1px solid #E5E7EB;
@@ -744,9 +773,10 @@ main {
   font-weight: 400;
   color: #57606A;
   text-align: center;
-  line-height: 1.618;
+  line-height: 1.625;
+  letter-spacing: 0.01em;
   margin-top: 13px;
-  margin-bottom: 55px;
+  margin-bottom: 34px;
 }
 
 /* Table — full-width centered */
@@ -756,10 +786,10 @@ main {
   margin: 0 auto;
   border-collapse: separate;
   border-spacing: 0;
-  border-radius: 13px;
+  border-radius: 21px;
   overflow: hidden;
   border: 1px solid #E5E7EB;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  box-shadow: var(--shadow-sm);
 }
 
 /* -- Header -- */
@@ -772,7 +802,7 @@ main {
 }
 
 .rr-compare-tbl th:first-child {
-  background: #F9FAFB;
+  background: #F6F8FA;
   width: 190px;
   border-right: 1px solid #E5E7EB;
 }
@@ -784,7 +814,7 @@ main {
 }
 
 .rr-compare-tbl th.rr-compare-tbl-dim-h {
-  background: #F9FAFB;
+  background: #F6F8FA;
   color: #24292F;
 }
 
@@ -806,7 +836,7 @@ main {
 /* -- Body cells -- */
 .rr-compare-tbl td {
   padding: 21px 21px;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 500;
   text-align: center;
   vertical-align: middle;
@@ -820,7 +850,7 @@ main {
   font-weight: 600;
   font-size: 16px;
   color: #24292F;
-  background: #F9FAFB;
+  background: #F6F8FA;
   border-right: 1px solid #E5E7EB;
 }
 
@@ -845,13 +875,11 @@ td.rr-compare-tbl-dim {
   margin-bottom: 5px;
 }
 
-.rr-mark-good { color: #EA580C; }
-.rr-mark-ok   { color: #F97316; }
-.rr-mark-bad  { color: #8B949E; }
+/* rr-mark colors — unified below in Diagnosis section */
 
 /* -- Hover -- */
 .rr-compare-tbl tbody tr:hover td {
-  background: #F9FAFB;
+  background: #F6F8FA;
 }
 .rr-compare-tbl tbody tr:hover td.rr-compare-tbl-hl {
   background: #FFF7ED !important;
@@ -871,10 +899,10 @@ td.rr-compare-tbl-dim {
 /* Urgency block */
 .rr-compare-urgency {
   margin-top: 34px;
-  padding: 34px 34px;
+  padding: 34px;
   background: #FFF7ED;
   border: 1px solid rgba(249, 115, 22, 0.25);
-  border-radius: 13px;
+  border-radius: 21px;
   text-align: center;
   max-width: 960px;
   margin-left: auto;
@@ -885,7 +913,8 @@ td.rr-compare-tbl-dim {
   font-size: 17px;
   font-weight: 500;
   color: #24292F;
-  line-height: 1.618;
+  line-height: 1.625;
+  letter-spacing: 0.01em;
 }
 
 .rr-compare-urgency-text strong {
@@ -905,7 +934,7 @@ td.rr-compare-tbl-dim {
   }
 
   .rr-compare-tbl {
-    border-radius: 12px;
+    border-radius: 16px;
   }
 
   .rr-compare-tbl th {
@@ -931,7 +960,7 @@ td.rr-compare-tbl-dim {
   }
 
   .rr-mark {
-    font-size: 17px;
+    font-size: 18px;
     margin-bottom: 3px;
   }
 
@@ -956,7 +985,7 @@ td.rr-compare-tbl-dim {
    ======================================== */
 .rr-pattern-section {
   padding: var(--rr-section-py) 0;
-  background: #F9FAFB;
+  background: #F6F8FA;
 }
 
 .rr-pattern-section .rr-what-heading {
@@ -965,10 +994,10 @@ td.rr-compare-tbl-dim {
 
 .rr-pattern-lead {
   text-align: center;
-  font-size: 18px;
-  font-weight: 300;
-  color: var(--color-text-body);
-  line-height: 2.0;
+  font-size: 17px;
+  font-weight: 400;
+  color: #57606A;
+  line-height: 1.625;
   letter-spacing: 0.01em;
   max-width: 1000px;
   margin: 0 auto 34px;
@@ -986,18 +1015,18 @@ td.rr-compare-tbl-dim {
 /* Each card */
 .rr-pattern-card {
   background: #fff;
-  border-radius: 13px;
-  padding: 34px 21px;
+  border-radius: 21px;
+  padding: 34px;
   position: relative;
   display: flex;
   flex-direction: column;
   border: 1px solid #E5E7EB;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  box-shadow: var(--shadow-sm);
   transition: box-shadow 0.2s ease;
 }
 
 .rr-pattern-card:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: var(--shadow-hover);
 }
 
 /* Recommended card */
@@ -1019,7 +1048,7 @@ td.rr-compare-tbl-dim {
   color: #fff;
   font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: -0.02em;
   padding: 4px 16px;
   border-radius: 20px;
   white-space: nowrap;
@@ -1038,15 +1067,16 @@ td.rr-compare-tbl-dim {
   font-size: 20px;
   font-weight: 500;
   color: #24292F;
-  letter-spacing: 0.04em;
+  letter-spacing: -0.02em;
   margin-bottom: 8px;
 }
 
 .rr-pattern-card-sub {
   font-size: 17px;
-  font-weight: 300;
-  color: var(--color-text-gray);
-  line-height: 1.618;
+  font-weight: 400;
+  color: #57606A;
+  line-height: 1.625;
+  letter-spacing: 0.01em;
   margin-bottom: 13px;
 }
 
@@ -1070,8 +1100,8 @@ td.rr-compare-tbl-dim {
 .rr-pattern-card-label {
   font-size: 13px;
   font-weight: 500;
-  color: var(--color-text-gray);
-  letter-spacing: 0.04em;
+  color: #57606A;
+  letter-spacing: -0.02em;
   margin-bottom: 13px;
 }
 
@@ -1084,10 +1114,10 @@ td.rr-compare-tbl-dim {
 }
 
 .rr-pattern-card-list li {
-  font-size: 16px;
-  font-weight: 300;
-  color: var(--color-text-body);
-  line-height: 2.0;
+  font-size: 17px;
+  font-weight: 400;
+  color: #57606A;
+  line-height: 1.625;
   letter-spacing: 0.01em;
   padding-left: 20px;
   position: relative;
@@ -1122,9 +1152,9 @@ td.rr-compare-tbl-dim {
 .rr-pattern-card-flow li {
   counter-increment: flow-step;
   font-size: 15px;
-  font-weight: 300;
+  font-weight: 400;
   color: #57606A;
-  line-height: 1.6;
+  line-height: 1.625;
   letter-spacing: 0.01em;
   padding: 10px 0 10px 36px;
   position: relative;
@@ -1174,7 +1204,7 @@ td.rr-compare-tbl-dim {
   font-size: 21px;
   font-weight: 600;
   color: #24292F;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   text-align: center;
   border-top: 1px solid #E5E7EB;
   padding: 21px 0 0;
@@ -1209,8 +1239,8 @@ td.rr-compare-tbl-dim {
   }
 
   .rr-pattern-card {
-    padding: 21px 21px;
-    border-radius: 13px;
+    padding: 21px;
+    border-radius: 16px;
   }
 
   .rr-pattern-card-num {
@@ -1241,10 +1271,10 @@ td.rr-compare-tbl-dim {
   margin: 0 auto;
   border-collapse: separate;
   border-spacing: 0;
-  border-radius: 13px;
+  border-radius: 21px;
   overflow: hidden;
   border: 1px solid #E5E7EB;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  box-shadow: var(--shadow-sm);
 }
 
 .rr-diagnosis-tbl thead {
@@ -1254,7 +1284,7 @@ td.rr-compare-tbl-dim {
 
 .rr-diagnosis-tbl th {
   padding: 21px;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   color: #24292F;
   text-align: center;
@@ -1278,7 +1308,7 @@ td.rr-compare-tbl-dim {
 
 .rr-diagnosis-tbl td {
   padding: 21px;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 500;
   text-align: center;
   vertical-align: middle;
@@ -1332,7 +1362,7 @@ td.rr-compare-tbl-dim {
   .rr-mark-good,
   .rr-mark-ok,
   .rr-mark-bad {
-    font-size: 17px;
+    font-size: 18px;
   }
 
   .rr-diagnosis-section .rr-what-heading {
@@ -1345,30 +1375,15 @@ td.rr-compare-tbl-dim {
    8. CTA Button (shared)
    ======================================== */
 .dashi-cta-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  min-width: 320px;
-  padding: 18px 48px;
-  border: none;
-  border-radius: 4px;
-  background: #F97316;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  transition: background 0.2s ease;
-  text-decoration: none;
-}
-
-.dashi-cta-btn::after {
-  content: '>';
-  font-weight: 300;
+  background: linear-gradient(105deg, #A849F4 0%, #9160EF 45%, #7477ED 100%) !important;
+  padding: 14px 32px !important;
+  font-size: 1rem !important;
+  border-radius: 8px !important;
+  min-width: auto !important;
 }
 
 .dashi-cta-btn:hover {
-  background: #EA580C;
+  filter: brightness(0.88) !important;
 }
 
 @media (max-width: 768px) {
@@ -1382,26 +1397,27 @@ td.rr-compare-tbl-dim {
    9. Closing CTA Section
    ======================================== */
 .rr-closing-cta-section {
-  padding: 89px 0;
-  background: #F9FAFB;
+  padding: var(--rr-section-py) 0;
+  background: #F6F8FA;
   border-top: 1px solid #E5E7EB;
   text-align: center;
 }
 
 .rr-closing-cta-title {
-  font-size: 32px;
-  font-weight: 600;
+  font-size: 3.25rem;
+  font-weight: 400;
   color: #24292F;
-  letter-spacing: 0.04em;
-  line-height: 1.5;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
   margin-bottom: 13px;
 }
 
 .rr-closing-cta-text {
   font-size: 17px;
-  font-weight: 300;
+  font-weight: 400;
   color: #57606A;
-  line-height: 1.618;
+  line-height: 1.625;
+  letter-spacing: 0.01em;
   margin-bottom: 34px;
 }
 
@@ -1409,7 +1425,7 @@ td.rr-compare-tbl-dim {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 13px;
   flex-wrap: wrap;
 }
 
