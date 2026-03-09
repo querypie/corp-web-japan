@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ホワイトペーパー - QueryPie AI">
+  <title>ホワイトペーパー - QueryPie AI</title>
+  <link rel="preload" href="https://cdn.jsdelivr.net/fontsource/fonts/mona-sans:vf@latest/latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/woff2/PretendardJP-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/woff2/PretendardJP-Medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/pretendard-jp.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+  <script>document.documentElement.classList.add('no-transition');</script>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/ja/" class="logo">
+        <img src="/assets/images/01-header/logo.svg" alt="QueryPie AI Logo" class="logo-img">
+      </a>
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link" data-dropdown>サービス<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">サービス</div>
+                  <div class="mega-sub">QueryPie AIのコアサービス</div>
+                </div>
+                <div class="mega-links">
+                  <a href="#" class="nav-dropdown-link">AI Platform (AIP)</a>
+                  <a href="#" class="nav-dropdown-link">Access Control Platform (ACP)</a>
+                  <a href="#" class="nav-dropdown-link">Forward Deployed Engineer Service (FDES)</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link" data-dropdown>ソリューション<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">ソリューション</div>
+                  <div class="mega-sub">課題に合わせたAIソリューション</div>
+                </div>
+                <div class="mega-links">
+                  <a href="/services/ai-dashi/" class="nav-dropdown-link">AI 出汁</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link" data-dropdown>デモ<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">デモ</div>
+                  <div class="mega-sub">QueryPie AIを体験する</div>
+                </div>
+                <div class="mega-links">
+                  <a href="#" class="nav-dropdown-link">ユースケース</a>
+                  <a href="#" class="nav-dropdown-link">AIP機能</a>
+                  <a href="#" class="nav-dropdown-link">ACP機能</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item has-dropdown">
+            <a href="/whitepaper.html" class="nav-link is-active" data-dropdown>リソース<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">リソース</div>
+                  <div class="mega-sub">学習・活用リソース</div>
+                </div>
+                <div class="mega-links mega-links--grid">
+                  <a href="#" class="nav-dropdown-link">紹介資料</a>
+                  <a href="#" class="nav-dropdown-link">用語集</a>
+                  <a href="#" class="nav-dropdown-link">マニュアル</a>
+                  <a href="/whitepaper.html" class="nav-dropdown-link is-active">ホワイトペーパー</a>
+                  <a href="/blog.html" class="nav-dropdown-link">ブログ</a>
+                  <a href="/event.html" class="nav-dropdown-link">イベント</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link" data-dropdown>会社情報<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">会社情報</div>
+                  <div class="mega-sub">QueryPie AIについて</div>
+                </div>
+                <div class="mega-links">
+                  <a href="#" class="nav-dropdown-link">私たちについて</a>
+                  <a href="#" class="nav-dropdown-link">認証情報</a>
+                  <a href="#" class="nav-dropdown-link">ニュース</a>
+                  <a href="#" class="nav-dropdown-link">お問い合わせ</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">プラン</a>
+          </li>
+        </ul>
+      </nav>
+      <a href="#" class="btn btn-primary desktop-only">無料で始める <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
+      <button class="mobile-menu-btn" aria-label="メニュー">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+    <div class="nav-backdrop"></div>
+    <div class="mobile-menu">
+      <nav class="mobile-nav">
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">サービス<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="#" class="mobile-nav-sublink">QueryPie AIP</a>
+            <a href="#" class="mobile-nav-sublink">QueryPie ACP</a>
+            <a href="#" class="mobile-nav-sublink">QueryPie FDE</a>
+          </div>
+        </div>
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">ソリューション<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="/services/ai-dashi/" class="mobile-nav-sublink">AI 出汁</a>
+          </div>
+        </div>
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">デモ<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="#" class="mobile-nav-sublink">ユースケース</a>
+            <a href="#" class="mobile-nav-sublink">AIP機能</a>
+            <a href="#" class="mobile-nav-sublink">ACP機能</a>
+          </div>
+        </div>
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">リソース<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="#" class="mobile-nav-sublink">紹介資料</a>
+            <a href="#" class="mobile-nav-sublink">用語集</a>
+            <a href="#" class="mobile-nav-sublink">マニュアル</a>
+            <a href="/whitepaper.html" class="mobile-nav-sublink">ホワイトペーパー</a>
+            <a href="/blog.html" class="mobile-nav-sublink">ブログ</a>
+            <a href="/event.html" class="mobile-nav-sublink">イベント</a>
+          </div>
+        </div>
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">会社情報<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="#" class="mobile-nav-sublink">私たちについて</a>
+            <a href="#" class="mobile-nav-sublink">認証情報</a>
+            <a href="#" class="mobile-nav-sublink">ニュース</a>
+            <a href="#" class="mobile-nav-sublink">お問い合わせ</a>
+          </div>
+        </div>
+        <a href="#" class="mobile-nav-link">プラン</a>
+      </nav>
+      <a href="#" class="btn btn-primary mobile-cta">無料で始める <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="resources-hero">
+      <div class="container">
+        <h1 class="resources-hero-title">リソース</h1>
+        <p class="resources-hero-sub">包括的なガイド、技術マニュアル、業界ホワイトペーパー、専門家ブログを見ることができます。<br>基本概念から高度な実装まで、すべてのリソースを一か所で見ることができます。</p>
+      </div>
+    </section>
+
+    <section class="resources-section">
+      <div class="container resources-layout">
+
+        <aside class="resources-sidebar">
+          <p class="sidebar-label">カテゴリー</p>
+          <ul class="sidebar-nav-list">
+            <li><a href="#" class="sidebar-link" data-filter="all">全て</a></li>
+            <li><a href="#" class="sidebar-link" data-filter="deck">紹介資料</a></li>
+            <li><a href="#" class="sidebar-link" data-filter="glossary">用語集</a></li>
+            <li><a href="#" class="sidebar-link" data-filter="manual">マニュアル</a></li>
+            <li><a href="#" class="sidebar-link is-active" data-filter="whitepaper">ホワイトペーパー</a></li>
+            <li><a href="/blog.html" class="sidebar-link">ブログ</a></li>
+            <li><a href="/event.html" class="sidebar-link">イベント</a></li>
+          </ul>
+        </aside>
+
+        <div class="resources-content">
+          <ul class="blog-list">
+
+            <li class="blog-list-item" data-category="whitepaper">
+              <a href="#" class="blog-list-card">
+                <div class="blog-list-img"></div>
+                <div class="blog-list-text">
+                  <span class="blog-list-badge">ホワイトペーパー</span>
+                  <h3 class="blog-list-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
+                  <p class="blog-list-excerpt">AIエージェントが自律的に業務を遂行する時代、企業はどう統制すべきか。権限設計・承認フロー・監査ログ・Kill Switchの4要素を体系化し、CxO・実務リーダー向けに解説する2026年版ガードレール設計ガイド。</p>
+                  <p class="blog-list-date">2026年2月20日</p>
+                </div>
+              </a>
+            </li>
+
+            <li class="blog-list-item" data-category="whitepaper">
+              <a href="#" class="blog-list-card">
+                <div class="blog-list-img"></div>
+                <div class="blog-list-text">
+                  <span class="blog-list-badge">ホワイトペーパー</span>
+                  <h3 class="blog-list-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
+                  <p class="blog-list-excerpt">AIエージェントが自律的に業務を遂行する時代、企業はどう統制すべきか。権限設計・承認フロー・監査ログ・Kill Switchの4要素を体系化し、CxO・実務リーダー向けに解説する2026年版ガードレール設計ガイド。</p>
+                  <p class="blog-list-date">2026年2月20日</p>
+                </div>
+              </a>
+            </li>
+
+            <li class="blog-list-item" data-category="whitepaper">
+              <a href="#" class="blog-list-card">
+                <div class="blog-list-img"></div>
+                <div class="blog-list-text">
+                  <span class="blog-list-badge">ホワイトペーパー</span>
+                  <h3 class="blog-list-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
+                  <p class="blog-list-excerpt">AIエージェントが自律的に業務を遂行する時代、企業はどう統制すべきか。権限設計・承認フロー・監査ログ・Kill Switchの4要素を体系化し、CxO・実務リーダー向けに解説する2026年版ガードレール設計ガイド。</p>
+                  <p class="blog-list-date">2026年2月20日</p>
+                </div>
+              </a>
+            </li>
+
+            <li class="blog-list-item" data-category="whitepaper">
+              <a href="#" class="blog-list-card">
+                <div class="blog-list-img"></div>
+                <div class="blog-list-text">
+                  <span class="blog-list-badge">ホワイトペーパー</span>
+                  <h3 class="blog-list-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
+                  <p class="blog-list-excerpt">AIエージェントが自律的に業務を遂行する時代、企業はどう統制すべきか。権限設計・承認フロー・監査ログ・Kill Switchの4要素を体系化し、CxO・実務リーダー向けに解説する2026年版ガードレール設計ガイド。</p>
+                  <p class="blog-list-date">2026年2月20日</p>
+                </div>
+              </a>
+            </li>
+
+            <li class="blog-list-item" data-category="whitepaper">
+              <a href="#" class="blog-list-card">
+                <div class="blog-list-img"></div>
+                <div class="blog-list-text">
+                  <span class="blog-list-badge">ホワイトペーパー</span>
+                  <h3 class="blog-list-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
+                  <p class="blog-list-excerpt">AIエージェントが自律的に業務を遂行する時代、企業はどう統制すべきか。権限設計・承認フロー・監査ログ・Kill Switchの4要素を体系化し、CxO・実務リーダー向けに解説する2026年版ガードレール設計ガイド。</p>
+                  <p class="blog-list-date">2026年2月20日</p>
+                </div>
+              </a>
+            </li>
+
+            <li class="blog-list-item" data-category="whitepaper">
+              <a href="#" class="blog-list-card">
+                <div class="blog-list-img"></div>
+                <div class="blog-list-text">
+                  <span class="blog-list-badge">ホワイトペーパー</span>
+                  <h3 class="blog-list-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
+                  <p class="blog-list-excerpt">AIエージェントが自律的に業務を遂行する時代、企業はどう統制すべきか。権限設計・承認フロー・監査ログ・Kill Switchの4要素を体系化し、CxO・実務リーダー向けに解説する2026年版ガードレール設計ガイド。</p>
+                  <p class="blog-list-date">2026年2月20日</p>
+                </div>
+              </a>
+            </li>
+
+          </ul>
+          <p class="blog-empty">該当するコンテンツがありません。</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="company-info" class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="footer-logo"><img src="/assets/images/01-header/logo.svg" alt="QueryPie"></div>
+        <div class="social-links">
+          <a href="https://kr.linkedin.com/company/querypie-01" target="_blank"><img src="/assets/images/08-footer/social-linkedin.svg" alt="LinkedIn"></a>
+          <a href="https://www.youtube.com/@querypie" target="_blank"><img src="/assets/images/08-footer/social-youtube.svg" alt="YouTube"></a>
+          <a href="https://x.com/querypie" target="_blank"><img src="/assets/images/08-footer/social-x.svg" alt="X"></a>
+          <a href="https://www.facebook.com/querypie" target="_blank"><img src="/assets/images/08-footer/social-facebook.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/querypie.ai/" target="_blank"><img src="/assets/images/08-footer/social-instagram.svg" alt="Instagram"></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="link-column"><h4>サービス</h4><ul><li><a href="#">AIP</a></li><li><a href="#">ACP</a></li><li><a href="#">FDE</a></li></ul></div>
+        <div class="link-column"><h4>ソリューション</h4><ul><li><a href="/services/ai-dashi/">AI 出汁</a></li></ul></div>
+        <div class="link-column"><h4>デモ</h4><ul><li><a href="#">活用事例</a></li><li><a href="#">AIP 機能</a></li><li><a href="#">ACP 機能</a></li></ul></div>
+        <div class="link-column"><h4>リソース</h4><ul><li><a href="#">紹介資料</a></li><li><a href="#">用語集</a></li><li><a href="#">マニュアル</a></li><li><a href="/whitepaper.html">ホワイトペーパー</a></li><li><a href="/blog.html">ブログ</a></li><li><a href="/event.html">イベント</a></li></ul></div>
+        <div class="link-column"><h4>会社情報</h4><ul><li><a href="#">会社概要</a></li><li><a href="#">認定・認証</a></li><li><a href="#">ニュース</a></li><li><a href="#">お問い合わせ</a></li></ul></div>
+        <div class="link-column"><h4>料金プラン</h4><ul><li><a href="#">AIP</a></li><li><a href="#">ACP</a></li></ul></div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div class="legal-links">
+        <a href="#">Cookie設定</a><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">EULA</a>
+      </div>
+      <div class="copyright">
+        <p>© 2017-2025 QueryPie, Inc. All rights reserved.</p>
+        <p>本社: 3003 North 1st Street, Suite 221, San Jose, CA 95134</p>
+        <p>ソウル麻谷: ソウル特別市江西区麻谷中央1路26 7F</p>
+        <p>ソウル江南: ソウル特別市江南区江南大路464 3F</p>
+        <p>日本: 〒105-6490 東京都港区虎ノ門1丁目17-1 15F</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      document.documentElement.classList.remove('no-transition');
+    }));
+
+    const siteHeader = document.querySelector('.site-header');
+    function updateNavScroll() { siteHeader.classList.toggle('scrolled', window.scrollY > 0); }
+    updateNavScroll();
+    window.addEventListener('scroll', updateNavScroll, { passive: true });
+
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    menuBtn.addEventListener('click', () => {
+      menuBtn.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    });
+    document.querySelectorAll('.mobile-nav-link, .mobile-nav-sublink, .mobile-cta').forEach(link => {
+      link.addEventListener('click', () => { menuBtn.classList.remove('active'); mobileMenu.classList.remove('active'); document.body.style.overflow = ''; });
+    });
+
+    const navItems = document.querySelectorAll('.nav-item.has-dropdown');
+    const navBackdrop = document.querySelector('.nav-backdrop');
+    let closeTimeout = null;
+    function showBackdrop() { navBackdrop.classList.add('is-active'); }
+    function hideBackdrop() { navBackdrop.classList.remove('is-active'); }
+    function closeAll() { clearTimeout(closeTimeout); navItems.forEach(i => i.classList.remove('is-open')); hideBackdrop(); }
+    navItems.forEach(item => {
+      item.addEventListener('mouseenter', () => { if (window.innerWidth < 992) return; clearTimeout(closeTimeout); navItems.forEach(o => o.classList.remove('is-open')); item.classList.add('is-open'); document.querySelectorAll('.nav-dropdown-link').forEach(l => l.classList.remove('is-active')); showBackdrop(); });
+      item.addEventListener('mouseleave', () => { if (window.innerWidth < 992) return; clearTimeout(closeTimeout); closeTimeout = setTimeout(() => { item.classList.remove('is-open'); if (!document.querySelector('.nav-item.has-dropdown:hover')) hideBackdrop(); }, 150); });
+    });
+    function alignMegaMenus() {
+      if (window.innerWidth < 992) return;
+      const firstNav = document.querySelector('.nav-item.has-dropdown .nav-link');
+      if (!firstNav) return;
+      const megaOuterLeft = Math.max(0, (window.innerWidth - 1200) / 2);
+      const paddingLeft = Math.max(30, firstNav.getBoundingClientRect().left - megaOuterLeft);
+      document.querySelectorAll('.mega-inner').forEach(el => { el.style.paddingLeft = `${paddingLeft}px`; });
+    }
+    alignMegaMenus();
+    window.addEventListener('load', alignMegaMenus);
+    window.addEventListener('resize', alignMegaMenus);
+    document.querySelectorAll('.nav-dropdown-link').forEach(link => {
+      link.addEventListener('click', (e) => { e.preventDefault(); document.querySelectorAll('.nav-dropdown-link').forEach(l => l.classList.remove('is-active')); link.classList.add('is-active'); const href = link.getAttribute('href'); if (href && href !== '#') setTimeout(() => { window.location.href = href; }, 120); });
+    });
+    navBackdrop.addEventListener('mouseenter', closeAll);
+    navBackdrop.addEventListener('click', closeAll);
+    document.addEventListener('click', e => { if (!e.target.closest('.nav-item.has-dropdown')) closeAll(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+    document.querySelectorAll('.mobile-nav-group').forEach(group => {
+      group.querySelector('.mobile-nav-toggle').addEventListener('click', () => {
+        document.querySelectorAll('.mobile-nav-group').forEach(o => { if (o !== group) o.classList.remove('is-open'); });
+        group.classList.toggle('is-open');
+      });
+    });
+
+    const filterLinks = document.querySelectorAll('.sidebar-link[data-filter]');
+    const blogItems = document.querySelectorAll('.blog-list-item');
+    const emptyMsg = document.querySelector('.blog-empty');
+    filterLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const filter = link.dataset.filter;
+        filterLinks.forEach(l => l.classList.remove('is-active'));
+        link.classList.add('is-active');
+        let visibleCount = 0;
+        blogItems.forEach(item => {
+          const match = filter === 'all' || item.dataset.category === filter;
+          item.classList.toggle('is-hidden', !match);
+          if (match) visibleCount++;
+        });
+        emptyMsg.classList.toggle('is-visible', visibleCount === 0);
+      });
+    });
+  </script>
+
+</body>
+</html>
