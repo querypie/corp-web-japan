@@ -1856,7 +1856,7 @@ h6 { font-size: 1.25rem;  }  /* 20px @ 16px root */
 .blog-img-container2,
 .blog-img-container3 {
   width: 100%;
-  border-radius: 10px;
+  border-radius: var(--space-md);
   overflow: hidden;
   margin-bottom: var(--space-sm);
 }
@@ -1870,7 +1870,7 @@ h6 { font-size: 1.25rem;  }  /* 20px @ 16px root */
   .blog-img-container1,
   .blog-img-container2,
   .blog-img-container3 {
-    border-radius: 10px;
+    border-radius: var(--space-md);
     margin-bottom: 12px;
   }
 }
