@@ -276,7 +276,7 @@
 }
 .article-content p:has(> br:only-child),
 .article-gated-content p:has(> br:only-child) {
-  margin: 0;
+  display: none;
 }
 
 .article-content h1 {
