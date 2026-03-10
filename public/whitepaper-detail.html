@@ -390,7 +390,7 @@
         var heroSrc = (wp.image || '').replace(/^\/assets\//, '');
         img.src = heroSrc;
         img.alt = wp.title;
-        img.onerror = function() { this.onerror=null; this.src='images/07-blog/wp-thumb-29.png'; };
+        img.onerror = function() { this.onerror=null; this.src='/assets/images/07-blog/wp-thumb-29.png'; };
       }
 
       var authorEl = document.querySelector('.article-author');

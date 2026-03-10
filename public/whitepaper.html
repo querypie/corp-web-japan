@@ -254,7 +254,7 @@
   <script>
     (function() {
       if (typeof WHITEPAPER_DATA === 'undefined') return;
-      function normPath(p) { return p ? p.replace(/^\/assets\//, '') : ''; }
+      function normPath(p) { return p || ''; }
       function stripHtml(html) { var d = document.createElement('div'); d.innerHTML = html; return d.textContent || d.innerText || ''; }
       function excerpt(content, len) { var t = stripHtml(content || '').trim(); return t.length > len ? t.slice(0, len) + '...' : t; }
       var list = document.getElementById('wp-list');
@@ -282,7 +282,7 @@
         html += '<li class="blog-list-item" data-category="whitepaper">' +
           '<a href="/whitepaper-detail.html?id=' + id + '" class="blog-list-card">' +
             '<div class="blog-list-img wp-thumb-placeholder">' +
-              '<img src="' + imgSrc + '" alt="' + altText + '" onerror="this.onerror=null;this.src=\'images/07-blog/wp-thumb-29.png\'">' +
+              '<img src="' + imgSrc + '" alt="' + altText + '" onerror="this.onerror=null;this.src=\'/assets/images/07-blog/wp-thumb-29.png\'">' +
             '</div>' +
             '<div class="blog-list-text">' +
               '<span class="blog-list-badge">' + (wp.category || 'ホワイトペーパー') + '</span>' +
