@@ -131,27 +131,19 @@ def parse_frontmatter(text):
 def preprocess_jsx(body):
     """Pre-process MDX body: convert JSX components to markdown/HTML before line parsing."""
 
-    # 1. Replace <ArticleGatingForm>...</ArticleGatingForm> with a gating wall (link to querypie.com download)
-    # Also remove the ButtonLink that precedes the gating form (it's a duplicate of the gating wall button)
-    _gating_url = ""
+    # 1. Split at <ArticleGatingForm>: teaser content vs gated content
+    # Also remove the ButtonLink preceding the gating form (duplicate of gating wall CTA)
     _bl_gate_pat = re.compile(
         r'(<ButtonLink[^>]*href=["\']([^"\']+)["\'][^>]*>[\s\S]*?</ButtonLink>)([\s\S]*?<ArticleGatingForm)')
     _bl_gate_match = _bl_gate_pat.search(body)
     if _bl_gate_match:
-        _href = _bl_gate_match.group(2)
-        _gating_url = f"https://www.querypie.com/ja{_href}" if _href.startswith("/") else _href
-        # Remove the ButtonLink before the gating form (keep the rest intact)
+        # Remove the ButtonLink before the gating form
         body = body[:_bl_gate_match.start()] + _bl_gate_match.group(3) + body[_bl_gate_match.end():]
-    _gating_html = (
-        '<div class="gating-wall">'
-        '<div class="gating-fade"></div>'
-        '<div class="gating-body">'
-        '<h2 class="gating-heading">全文を読む</h2>'
-        '<p class="gating-subtext">フォームに入力後、限定コンテンツをご覧いただけます。</p>'
-        + (f'<a class="article-content-btn" href="{_gating_url}" target="_blank" rel="noopener">ホワイトペーパーを入手する →</a>' if _gating_url else '')
-        + '</div></div>'
-    )
-    body = re.sub(r'<ArticleGatingForm[^>]*>[\s\S]*?</ArticleGatingForm>', _gating_html, body)
+    # Replace <ArticleGatingForm>CONTENT</ArticleGatingForm> with split marker + CONTENT
+    body = re.sub(
+        r'<ArticleGatingForm[^>]*>([\s\S]*?)</ArticleGatingForm>',
+        r'\n\n__GATING_SPLIT__\n\n\1',
+        body)
 
     # 1b. Remove thumbnail image lines (already shown as cover image via `image` field)
     body = re.sub(r'!\[[^\]]*\]\(public/(?:white-paper|blog)/(?:wp-thumb|b-thumb)-\d+[^)]*\)\s*\n?', '', body)
@@ -247,9 +239,10 @@ def preprocess_jsx(body):
     return body
 
 
-def mdx_to_html(mdx_body):
+def mdx_to_html(mdx_body, _skip_preprocess=False):
     """Convert MDX/Markdown body to HTML string."""
-    mdx_body = preprocess_jsx(mdx_body)
+    if not _skip_preprocess:
+        mdx_body = preprocess_jsx(mdx_body)
     lines = mdx_body.split("\n")
     html_lines = []
     in_code = False
@@ -603,8 +596,19 @@ def generate_whitepaper_data(authors):
         if not meta.get("title"):
             continue
 
-        html = mdx_to_html(body)
-        toc = extract_toc(html)
+        # Run preprocess_jsx once, then split at __GATING_SPLIT__ if present
+        preprocessed = preprocess_jsx(body)
+        _SPLIT = "__GATING_SPLIT__"
+        if _SPLIT in preprocessed:
+            teaser_part, gated_part = preprocessed.split(_SPLIT, 1)
+            html = mdx_to_html(teaser_part, _skip_preprocess=True)
+            gated_html = mdx_to_html(gated_part, _skip_preprocess=True)
+            toc = extract_toc(html + gated_html)
+        else:
+            html = mdx_to_html(preprocessed, _skip_preprocess=True)
+            gated_html = None
+            toc = extract_toc(html)
+
         author_id = meta.get("author", "querypie")
         author = resolve_author(author_id, authors)
 
@@ -612,7 +616,7 @@ def generate_whitepaper_data(authors):
         og = meta.get("ogImage", "")
         cover_img = image_path(og)
 
-        entries[gh_id] = {
+        entry = {
             "github_id": gh_id,
             "title": meta.get("title", ""),
             "description": meta.get("description", ""),
@@ -624,6 +628,9 @@ def generate_whitepaper_data(authors):
             "toc": toc,
             "content": html,
         }
+        if gated_html:
+            entry["gatedContent"] = gated_html
+        entries[gh_id] = entry
         print(f"    ✓ WP {gh_id}: {meta.get('title','')[:40]}")
 
     # Sort by date descending, assign sequential IDs starting from 1
