@@ -269,6 +269,16 @@
   display: none;
 }
 
+/* Hide empty paragraphs: <p><br /></p> (MDX blank line artifacts) */
+.article-content p > br:only-child,
+.article-gated-content p > br:only-child {
+  display: none;
+}
+.article-content p:has(> br:only-child),
+.article-gated-content p:has(> br:only-child) {
+  margin: 0;
+}
+
 .article-content h1 {
   font-size: 22px;
   font-weight: 600;
