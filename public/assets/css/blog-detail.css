@@ -949,7 +949,7 @@
   font-family: inherit;
   border-radius: 6px;
   transition: opacity 0.2s;
-  margin: 16px 0;
+  margin: 4px 0 16px;
   box-sizing: border-box;
 }
 .article-content-btn:hover {
