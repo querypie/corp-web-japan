@@ -460,11 +460,7 @@
         }).join('');
       }
 
-      // ── Bottom Trial CTA (id=1 only) ────────────────
-      if (id === '1') {
-        var bottomCta = document.getElementById('article-bottom-cta');
-        if (bottomCta) bottomCta.style.display = '';
-      }
+      // ── Bottom Trial CTA: removed (button is now in article content via ButtonLink) ──
 
       // ── Download CTA ────────────────────────────────
       if (wp.pdfUrl) {

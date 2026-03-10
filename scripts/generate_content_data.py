@@ -132,13 +132,6 @@ def preprocess_jsx(body):
     """Pre-process MDX body: convert JSX components to markdown/HTML before line parsing."""
 
     # 1. Split at <ArticleGatingForm>: teaser content vs gated content
-    # Also remove the ButtonLink preceding the gating form (duplicate of gating wall CTA)
-    _bl_gate_pat = re.compile(
-        r'(<ButtonLink[^>]*href=["\']([^"\']+)["\'][^>]*>[\s\S]*?</ButtonLink>)([\s\S]*?<ArticleGatingForm)')
-    _bl_gate_match = _bl_gate_pat.search(body)
-    if _bl_gate_match:
-        # Remove the ButtonLink before the gating form
-        body = body[:_bl_gate_match.start()] + _bl_gate_match.group(3) + body[_bl_gate_match.end():]
     # Replace <ArticleGatingForm>CONTENT</ArticleGatingForm> with split marker + CONTENT
     body = re.sub(
         r'<ArticleGatingForm[^>]*>([\s\S]*?)</ArticleGatingForm>',
