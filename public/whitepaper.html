@@ -269,13 +269,14 @@
         return m ? parseInt(m[1]) : 0;
       }
       // IDs not on production site (custom content / non-published WPs)
-      var skipIds = {'2':1,'3':1,'4':1,'6':1,'16':1,'29':1};
+      // 2=AIエージェント後編, 4=コード生成後編, 17=テラサワ重複, 18=AI個人情報(非公開)
+      var skipIds = {'2':1,'4':1,'17':1,'18':1};
       Object.keys(WHITEPAPER_DATA).filter(function(id){ return !skipIds[id]; }).sort(function(a, b) {
         var da = parseJpDate(WHITEPAPER_DATA[a].date);
         var db = parseJpDate(WHITEPAPER_DATA[b].date);
         if (db - da !== 0) return db - da;
         return wpThumbNum(WHITEPAPER_DATA[b]) - wpThumbNum(WHITEPAPER_DATA[a]);
-      }).slice(0, 4).forEach(function(id) {
+      }).forEach(function(id) {
         var wp = WHITEPAPER_DATA[id];
         var imgSrc = normPath(wp.image);
         var altText = wp.title.replace(/"/g, '&quot;');
