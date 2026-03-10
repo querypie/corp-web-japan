@@ -8,8 +8,8 @@ const BLOG_DATA = {
     "author": {
       "name": "QueryPie AI編集部",
       "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。",
-      "avatar": "/assets/images/07-blog/author-querypie.png",
+      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
+      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
       "sns": []
     },
     "content": `<h2 id="結論aiの業務活用が進むほど、ai固有の攻撃面アタックサーフェスは拡大する。"><strong>結論：AIの業務活用が進むほど、AI固有の攻撃面（アタックサーフェス）は拡大する。</strong></h2>
@@ -287,8 +287,8 @@ const BLOG_DATA = {
     "author": {
       "name": "QueryPie AI編集部",
       "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。",
-      "avatar": "/assets/images/07-blog/author-querypie.png",
+      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
+      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
       "sns": []
     },
     "content": `<h1 id="シャドーaiリスクの全貌経営を脅かす「見えないai」にcxoはどう立ち向かうか">シャドーAIリスクの全貌｜経営を脅かす「見えないAI」にCxOはどう立ち向かうか</h1>
@@ -690,8 +690,8 @@ const BLOG_DATA = {
     "author": {
       "name": "QueryPie AI編集部",
       "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。",
-      "avatar": "/assets/images/07-blog/author-querypie.png",
+      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
+      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
       "sns": []
     },
     "content": `<h1 id="株式会社ペイロールとquerypieがaiセキュリティ分野で技術提携">株式会社ペイロールとQueryPieがAIセキュリティ分野で技術提携</h1>
@@ -2206,8 +2206,8 @@ aws events put-rule \\
     "author": {
       "name": "QueryPie AI編集部",
       "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。",
-      "avatar": "/assets/images/07-blog/author-querypie.png",
+      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
+      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
       "sns": []
     },
     "content": `<h1 id="テラスカイ社のmcp対応aiプラットフォーム-「mitoco-buddy」が正式ローンチ"><strong>テラスカイ社のMCP対応AIプラットフォーム 「mitoco Buddy」が正式ローンチ</strong></h1>
@@ -2323,8 +2323,8 @@ aws events put-rule \\
     "author": {
       "name": "QueryPie AI編集部",
       "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。",
-      "avatar": "/assets/images/07-blog/author-querypie.png",
+      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
+      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
       "sns": []
     },
     "content": `<h1 id="querypie-ai、株式会社テラスカイと協業しbr-aiエージェント「mitoco-buddy」を発表"><strong>QueryPie AI、株式会社テラスカイと協業し<br />AIエージェント「mitoco Buddy」を発表</strong></h1>
@@ -3448,8 +3448,8 @@ aws events put-rule \\
     "author": {
       "name": "QueryPie AI編集部",
       "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。",
-      "avatar": "/assets/images/07-blog/author-querypie.png",
+      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
+      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
       "sns": []
     },
     "content": `<p>『ハンガー・ゲーム』をご存知でしょうか？『ハンガー・ゲーム』は、生き残りをかけた極限の状況における人間の本性や誠実さを探る物語であり、人類にとって非常に重要なテーマを扱っています。生き残るための方法や考え方は多様ですが、飢えという極限状態に追い込まれると、人々は自分自身の本質に向き合い、その解決策を見つけようとします。この観点から、QueryPieは人々や市場が求める本質に対して、技術的アプローチを通じてサイバーセキュリティという広大な領域を解明し、探求しています。</p>

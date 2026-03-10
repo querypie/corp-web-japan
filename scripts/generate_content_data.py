@@ -495,8 +495,12 @@ def resolve_author(author_id, authors):
 
 def _build_author(a):
     author_id = a.get("id", "")
-    # Use local assets path for author images (downloaded to /assets/images/07-blog/)
-    avatar = f"/assets/images/07-blog/author-{author_id}.png" if author_id else ""
+    if author_id == "querypie":
+        logo = blob_url("public/querypie-company/icon/qp-logo-icon.png")
+        avatar = logo if logo else "/assets/images/07-blog/author-querypie.png"
+    else:
+        # Use local assets path for author images (downloaded to /assets/images/07-blog/)
+        avatar = f"/assets/images/07-blog/author-{author_id}.png" if author_id else ""
 
     desc = a.get("description", {})
     bio = desc.get("ja", "") if isinstance(desc, dict) else str(desc)
@@ -510,11 +514,12 @@ def _build_author(a):
 
 
 def _default_author():
+    logo = blob_url("public/querypie-company/icon/qp-logo-icon.png")
     return {
         "name": "QueryPie AI編集部",
         "title": "",
-        "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。",
-        "avatar": f"/assets/images/07-blog/author-querypie.png",
+        "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
+        "avatar": logo if logo else "/assets/images/07-blog/author-querypie.png",
         "sns": []
     }
 
