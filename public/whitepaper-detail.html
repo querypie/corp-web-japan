@@ -439,10 +439,10 @@
           if (typeof item === 'string') {
             var r = WHITEPAPER_DATA[item];
             if (!r) return null;
-            return { href: 'whitepaper-detail.html?id=' + item, img: (r.image || '').replace(/^\/assets\//, ''), title: r.title, date: r.date };
+            return { href: '/whitepaper-detail.html?id=' + item, img: r.image || '', title: r.title, date: r.date };
           }
           if (typeof item === 'object' && item.href && item.href.indexOf('blog-detail') === -1) {
-            return { href: item.href, img: (item.img || '').replace(/^\/assets\//, ''), title: item.title, date: item.date };
+            return { href: item.href, img: item.img || '', title: item.title, date: item.date };
           }
           return null;
         }).filter(Boolean);
@@ -454,7 +454,7 @@
           if (relItems.some(function(x){ return x.href.indexOf('id=' + fid) !== -1; })) continue;
           var fr = WHITEPAPER_DATA[fid];
           if (!fr) continue;
-          relItems.push({ href: 'whitepaper-detail.html?id=' + fid, img: (fr.image || '').replace(/^\/assets\//, ''), title: fr.title, date: fr.date });
+          relItems.push({ href: '/whitepaper-detail.html?id=' + fid, img: fr.image || '', title: fr.title, date: fr.date });
         }
         related.innerHTML = relItems.map(function(r) {
           return wpRelatedCard(r.href, r.img, r.title, r.date, 'related-sidebar-card');
