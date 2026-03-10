@@ -132,21 +132,23 @@ def preprocess_jsx(body):
     """Pre-process MDX body: convert JSX components to markdown/HTML before line parsing."""
 
     # 1. Replace <ArticleGatingForm>...</ArticleGatingForm> with a gating wall (link to querypie.com download)
-    # Find download URL from ButtonLink that appears before the gating form
+    # Also remove the ButtonLink that precedes the gating form (it's a duplicate of the gating wall button)
     _gating_url = ""
-    _bl_match = re.search(
-        r'<ButtonLink[^>]*href=["\']([^"\']+)["\'][^>]*>[\s\S]*?</ButtonLink>[\s\S]*?<ArticleGatingForm',
-        body)
-    if _bl_match:
-        _href = _bl_match.group(1)
+    _bl_gate_pat = re.compile(
+        r'(<ButtonLink[^>]*href=["\']([^"\']+)["\'][^>]*>[\s\S]*?</ButtonLink>)([\s\S]*?<ArticleGatingForm)')
+    _bl_gate_match = _bl_gate_pat.search(body)
+    if _bl_gate_match:
+        _href = _bl_gate_match.group(2)
         _gating_url = f"https://www.querypie.com/ja{_href}" if _href.startswith("/") else _href
+        # Remove the ButtonLink before the gating form (keep the rest intact)
+        body = body[:_bl_gate_match.start()] + _bl_gate_match.group(3) + body[_bl_gate_match.end():]
     _gating_html = (
         '<div class="gating-wall">'
         '<div class="gating-fade"></div>'
         '<div class="gating-body">'
         '<h2 class="gating-heading">全文を読む</h2>'
         '<p class="gating-subtext">フォームに入力後、限定コンテンツをご覧いただけます。</p>'
-        + (f'<div style="text-align:center"><a class="article-content-btn article-content-btn--wide" href="{_gating_url}" target="_blank" rel="noopener">ホワイトペーパーを入手する →</a></div>' if _gating_url else '')
+        + (f'<a class="article-content-btn" href="{_gating_url}" target="_blank" rel="noopener">ホワイトペーパーを入手する →</a>' if _gating_url else '')
         + '</div></div>'
     )
     body = re.sub(r'<ArticleGatingForm[^>]*>[\s\S]*?</ArticleGatingForm>', _gating_html, body)

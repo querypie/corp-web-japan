@@ -276,7 +276,7 @@
         var db = parseJpDate(WHITEPAPER_DATA[b].date);
         if (db - da !== 0) return db - da;
         return wpThumbNum(WHITEPAPER_DATA[b]) - wpThumbNum(WHITEPAPER_DATA[a]);
-      }).forEach(function(id) {
+      }).slice(0, 10).forEach(function(id) {
         var wp = WHITEPAPER_DATA[id];
         var imgSrc = normPath(wp.image);
         var altText = wp.title.replace(/"/g, '&quot;');

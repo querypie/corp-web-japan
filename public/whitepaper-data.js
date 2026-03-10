@@ -12024,8 +12024,6 @@ when {
     "toc": "<ul class=\"sidebar-toc-list\"><li><a href=\"#世界の先進企業が描く未来像\">世界の先進企業が描く未来像</a></li></ul>",
     "content": `<p><br /></p>
 <br />
-<p><a class="article-content-btn article-content-btn--wide" href="https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan/download" target="_blank" rel="noopener">ホワイトペーパーを入手する 🚀</a></p>
-<br />
 <p><br /></p>
 <br />
 <h1 id="はじめに">はじめに</h1>
@@ -12058,7 +12056,7 @@ when {
 <br />
 <p>米国や中国を中心とした先進企業は、すでにAIを単なる効率化ツールとしてではなく、経営戦略の中核に据えています。たとえばアメリカのテクノロジー大手は、生成AIを組み込んだ検索・広告・クラウドサービスを次々と市場に投入し、顧客体験そのものを変革しています。また製薬業界では、創薬プロセスにAIを導入することで研究開発のスピードを飛躍的に高めています。金融業界では、AIによるリスク分析や投資判断の高度化によって、市場優位性を強化しています。</p>
 <br />
-<div class="gating-wall"><div class="gating-fade"></div><div class="gating-body"><h2 class="gating-heading">全文を読む</h2><p class="gating-subtext">フォームに入力後、限定コンテンツをご覧いただけます。</p><div style="text-align:center"><a class="article-content-btn article-content-btn--wide" href="https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan/download" target="_blank" rel="noopener">ホワイトペーパーを入手する →</a></div></div></div>
+<div class="gating-wall"><div class="gating-fade"></div><div class="gating-body"><h2 class="gating-heading">全文を読む</h2><p class="gating-subtext">フォームに入力後、限定コンテンツをご覧いただけます。</p><a class="article-content-btn" href="https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan/download" target="_blank" rel="noopener">ホワイトペーパーを入手する →</a></div></div>
 <br />
 <br />`
   },
@@ -12082,8 +12080,6 @@ when {
     "toc": "<ul class=\"sidebar-toc-list\"><li><a href=\"#世界の先進企業が描く未来像\">世界の先進企業が描く未来像</a></li></ul>",
     "content": `<p><br /></p>
 <br />
-<p><a class="article-content-btn article-content-btn--wide" href="https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan/download" target="_blank" rel="noopener">ホワイトペーパーを入手する 🚀</a></p>
-<br />
 <p><br /></p>
 <br />
 <h1 id="はじめに">はじめに</h1>
@@ -12116,7 +12112,7 @@ when {
 <br />
 <p>米国や中国を中心とした先進企業は、すでにAIを単なる効率化ツールとしてではなく、経営戦略の中核に据えています。たとえばアメリカのテクノロジー大手は、生成AIを組み込んだ検索・広告・クラウドサービスを次々と市場に投入し、顧客体験そのものを変革しています。また製薬業界では、創薬プロセスにAIを導入することで研究開発のスピードを飛躍的に高めています。金融業界では、AIによるリスク分析や投資判断の高度化によって、市場優位性を強化しています。</p>
 <br />
-<div class="gating-wall"><div class="gating-fade"></div><div class="gating-body"><h2 class="gating-heading">全文を読む</h2><p class="gating-subtext">フォームに入力後、限定コンテンツをご覧いただけます。</p><div style="text-align:center"><a class="article-content-btn article-content-btn--wide" href="https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan/download" target="_blank" rel="noopener">ホワイトペーパーを入手する →</a></div></div></div>
+<div class="gating-wall"><div class="gating-fade"></div><div class="gating-body"><h2 class="gating-heading">全文を読む</h2><p class="gating-subtext">フォームに入力後、限定コンテンツをご覧いただけます。</p><a class="article-content-btn" href="https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan/download" target="_blank" rel="noopener">ホワイトペーパーを入手する →</a></div></div>
 <br />
 <br />`
   },

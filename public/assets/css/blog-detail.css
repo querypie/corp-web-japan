@@ -929,11 +929,12 @@
 
 /* ── Article Content CTA Button (from ButtonLink) ── */
 .article-content-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 14px 32px;
+  width: 100%;
+  padding: 16px 32px;
   background: #111827;
   color: #fff;
   text-decoration: none;
@@ -943,11 +944,7 @@
   border-radius: 6px;
   transition: opacity 0.2s;
   margin: 16px 0;
-  min-width: 280px;
-}
-.article-content-btn--wide {
-  width: 100%;
-  max-width: 440px;
+  box-sizing: border-box;
 }
 .article-content-btn:hover {
   opacity: 0.85;
