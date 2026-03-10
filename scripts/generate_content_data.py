@@ -131,8 +131,8 @@ def parse_frontmatter(text):
 def preprocess_jsx(body):
     """Pre-process MDX body: convert JSX components to markdown/HTML before line parsing."""
 
-    # 1. Remove <ArticleGatingForm>...</ArticleGatingForm> entirely (gating/paywall)
-    body = re.sub(r'<ArticleGatingForm[\s\S]*?</ArticleGatingForm>', '', body)
+    # 1. Strip <ArticleGatingForm> wrapper tags but keep inner content (we show all content without gating)
+    body = re.sub(r'<ArticleGatingForm[^>]*>([\s\S]*?)</ArticleGatingForm>', lambda m: m.group(1), body)
 
     # 1b. Remove thumbnail image lines (already shown as cover image via `image` field)
     body = re.sub(r'!\[[^\]]*\]\(public/(?:white-paper|blog)/(?:wp-thumb|b-thumb)-\d+[^)]*\)\s*\n?', '', body)
