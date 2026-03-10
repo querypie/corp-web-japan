@@ -320,9 +320,9 @@
 
       var coverImg = document.getElementById('dl-cover-img');
       if (coverImg) {
-        coverImg.src = (wp.coverImage || wp.image || '').replace(/^\/assets\//, '');
+        coverImg.src = wp.coverImage || wp.image || '';
         coverImg.alt = wp.title;
-        coverImg.onerror = function () { this.onerror = null; this.src = 'images/07-blog/wp-thumb-29.png'; };
+        coverImg.onerror = function () { this.onerror = null; this.src = '/assets/images/07-blog/wp-thumb-29.png'; };
       }
 
       var catEl = document.getElementById('dl-category');
