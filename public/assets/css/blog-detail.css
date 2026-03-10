@@ -311,7 +311,7 @@
   color: var(--color-text-body);
   line-height: 1.75;
   letter-spacing: 0.02rem;
-  margin: 16px 0 0;
+  margin: 8px 0 0;
 }
 
 .article-content ul,
