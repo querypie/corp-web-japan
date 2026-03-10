@@ -739,7 +739,8 @@
 
       const allPosts = Object.entries(BLOG_DATA)
         .map(([id, d]) => ({ id, title: d.title, date: d.date, image: d.image, category: d.category || 'ブログ' }))
-        .sort((a, b) => parseDate(b.date) - parseDate(a.date));
+        .sort((a, b) => parseDate(b.date) - parseDate(a.date))
+        .slice(0, 6);
 
       const PER_PAGE = 3;
       const totalPages = Math.ceil(allPosts.length / PER_PAGE);
