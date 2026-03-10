@@ -166,7 +166,10 @@ def preprocess_jsx(body):
         content = m.group(2).strip()
         href    = re.search(r'href=["\']([^"\']+)["\']', attrs)
         url     = href.group(1) if href else "#"
-        # Relative URLs → absolute querypie.com/ja URL
+        # white-paper /download links → scroll to inline gating form
+        if re.search(r'/white-paper/.+/download', url):
+            return f'\n<a class="article-content-btn article-content-btn--wide" href="#gating-wall" onclick="document.getElementById(\'gating-wall\').scrollIntoView({{behavior:\'smooth\',block:\'start\'}});return false;">{content}</a>\n'
+        # Other relative URLs → absolute querypie.com/ja URL
         if url.startswith("/"):
             url = f"https://www.querypie.com/ja{url}"
         return f'\n<a class="article-content-btn article-content-btn--wide" href="{url}" target="_blank" rel="noopener">{content}</a>\n'
