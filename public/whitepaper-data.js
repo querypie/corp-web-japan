@@ -328,7 +328,7 @@ const WHITEPAPER_DATA = {
       { "href": "/blog-detail.html?id=28", "img": "/assets/images/07-blog/b-thumb-28.png", "title": "AIセキュリティ脅威マップ2026｜CxOが備えるべき7つの攻撃ベクトルと実務対策フレームワーク", "date": "2026年3月3日" },
       { "href": "/blog-detail.html?id=27", "img": "/assets/images/07-blog/b-thumb-27.png", "title": "【2026年最新】シャドーAIリスクの全貌｜情報漏洩・コンプライアンス違反を防ぐCxOの5つの対策", "date": "2026年2月20日" }
     ],
-    "coverImage": "/assets/images/07-blog/wp24-download-jp.png"
+    "coverImage": "images/07-blog/wp24-download-jp.png"
   },
   "2": {
     "title": "AIエージェント時代のガードレール設計（2026年版）── 後編：実装・運用編",
@@ -986,7 +986,7 @@ const WHITEPAPER_DATA = {
     `,
     "related": ["7", "8"],
     "pdfUrl": "https://www.querypie.com/public/downloads/documents/QP_Whitepaper_AI_Transformation_JP.pdf",
-    "coverImage": "/assets/images/07-blog/wp24-download-jp.png"
+    "coverImage": "images/07-blog/wp24-download-jp.png"
   },
 
   "7": {
@@ -995,11 +995,11 @@ const WHITEPAPER_DATA = {
     "image": "/assets/images/07-blog/wp-thumb-22.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Kenny Park",
+      "title": "CISO",
+      "bio": "ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。",
+      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/kwansoonpark/"}]
     },
     "content": `
 <h2 id="wp7-001">参考文献への謝辞</h2>
@@ -1010,7 +1010,7 @@ const WHITEPAPER_DATA = {
 <blockquote>
 <p>Rakesh Gohel氏のLinkedIn: <a href="https://www.linkedin.com/in/rakeshgohel01/" target="_blank" rel="noopener noreferrer">https://www.linkedin.com/in/rakeshgohel01/</a></p>
 </blockquote>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-1-rakesh-gohel-ai-agents.png" alt="[그림 1] AI 에이전트는 실제로 무엇인가"><figcaption>[그림 1] AI 에이전트는 실제로 무엇인가</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-1-rakesh-gohel-ai-agents.png" alt="[그림 1] AI 에이전트는 실제로 무엇인가"><figcaption>[그림 1] AI 에이전트는 실제로 무엇인가</figcaption></figure>
 <h2 id="wp7-002">第1章： 役割と責任の違い</h2>
 <p>MCPサーバーとAIエージェントは、AI中心システムの核心的な構成要素です。この2つのコンポーネントは一つのフロー内で協力しますが、その目的と責任は本質的に異なります。しかし、実務ではこの2つの役割を混同するケースが頻繁に発生し、これはアーキテクチャ設計の誤り、権限の過剰付与、実行制御の失敗といった構造的なセキュリティ脆弱性につながる可能性があります［1］。このような混同は、単なる構造理解の誤りを超えて、実行権限の無秩序な拡張、ポリシーの迂回、ユーザー行動の監査不能領域の発生など、<strong>直接的なセキュリティリスク</strong>を引き起こす可能性があります。</p>
 <p>例えば、AIエージェントがユーザーのリクエストを解釈する機能を越えて、直接外部システムを呼び出すように設計されると、LLMの非決定性により予測不能な動作が発生したり、ポリシーに基づく制御なしに未承認のリソースへのアクセスが許可される可能性があります。逆に、MCPサーバーがユーザー意図の判断やポリシー決定まで担う場合、システムが意思決定を誤る構造的な不一致が生じ、責任が集中し、監査可能性（Auditability）と役割説明可能性（Explainability）が弱まります。</p>
@@ -1018,7 +1018,7 @@ const WHITEPAPER_DATA = {
 <h2 id="wp7-003">MCPサーバーとは何ですか？</h2>
 <p>MCP（Model Context Protocol）サーバーは、AIエージェントが外部リソースにアクセスし、タスクを実行できるように接続する<strong>バックエンドインターフェース層</strong>です。多様なシステム（API、DB、SaaSなど）とAIエージェントの間を接続し、標準化された方法でリソースを抽象化して提供します［2］。MCPサーバーは単一の統合ゲートウェイのように動作し、AIエージェントが個々のシステムの実装詳細を知らなくてもタスクをリクエストできるように支援します。</p>
 <p>しかし、MCPサーバーは単純なプロキシを超え、ポリシー評価、実行制御、セッション監査などの機能は限定的にしかサポートされず、システム要件に応じて一部の機能は別層で補完することが一般的です［26］。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-3-ai-agent-flow.png" alt="[그림 3] AI エージェント フロー"><figcaption>[그림 3] AI エージェント フロー</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-3-ai-agent-flow.png" alt="[그림 3] AI エージェント フロー"><figcaption>[그림 3] AI エージェント フロー</figcaption></figure>
 <p><strong>MCPサーバーの主要な責任構造</strong></p>
 <ul>
   <li><strong>ツール接続とリソースルーティング（Tool Proxying）:</strong> MCPは、多様な外部ツール（API、DB、ファイルなど）を標準化されたインターフェースで公開します。AIエージェントの要求を実際のシステム呼び出しに変換して転送するプロキシの役割を果たします。</li>
@@ -1055,7 +1055,7 @@ const WHITEPAPER_DATA = {
   <li><strong>応答生成</strong>: ユーザーに結果を自然言語で伝達したり、次の作業を誘導します。</li>
 </ul>
 <p>AIエージェントは、ユーザーの指示を解釈し計画を立てる<strong>脳の役割</strong>に集中し、実際の実行はMCPサーバーを通じて行われる必要があります。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-3-ai-agent-flow.png" alt="[図3] AIエージェントのフロー"><figcaption>[図3] AIエージェントのフロー</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-3-ai-agent-flow.png" alt="[図3] AIエージェントのフロー"><figcaption>[図3] AIエージェントのフロー</figcaption></figure>
 <h2 id="wp7-005">誤解を防止するための重要なポイントのまとめ</h2>
 <table class="wp-table">
   <thead>
@@ -1096,10 +1096,10 @@ const WHITEPAPER_DATA = {
   <li><strong>MCPサーバーは「手足」の役割</strong>として、定められた作業を安全に実行します［5］。</li>
 </ul>
 <p>この分担により、システムは<strong>知能性と制御力</strong>を同時に確保できます。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-4-summary-of-role-separation.png" alt="図：AIエージェントとMCPサーバーの役割区分"><figcaption>図：AIエージェントとMCPサーバーの役割区分</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-4-summary-of-role-separation.png" alt="図：AIエージェントとMCPサーバーの役割区分"><figcaption>図：AIエージェントとMCPサーバーの役割区分</figcaption></figure>
 <h2 id="wp7-007">AIエージェントとMCPサーバーの役割区分</h2>
 <p>以下の図は、MCPサーバーとAIエージェントの役割分担を示しています。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-5-functional-separation-between-ai-agent-and-mcp-server.png" alt="[図5] AIエージェントとMCPサーバー間の機能的分離"><figcaption>[図5] AIエージェントとMCPサーバー間の機能的分離</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-5-functional-separation-between-ai-agent-and-mcp-server.png" alt="[図5] AIエージェントとMCPサーバー間の機能的分離"><figcaption>[図5] AIエージェントとMCPサーバー間の機能的分離</figcaption></figure>
 <h3 id="wp7-008">説明:</h3>
 <p>ユーザーがリクエストを入力すると、AI エージェントはこれを解釈して計画を策定します。実行リクエストはMCPサーバー経由で送信され、実際の作業は外部システムとの通信を通じて実行されます。この構造は責任分離、ポリシーベースのフロー、持続可能な拡張性を実現します。</p>
 <p>次の章では、MCPとAIエージェントがどのように相互作用するか、および実際のインターフェースがどのような方法で実装されるかを具体的に検討します。</p>
@@ -1137,7 +1137,7 @@ const WHITEPAPER_DATA = {
 <p>要するに、AIエージェントは人とシステムを接続する知能型インターフェース層であり、その下位実行はMCPサーバーが担当します。</p>
 <h2 id="wp7-012">インターフェース方式の構造的差異</h2>
 <p>MCPサーバーとAIエージェントは、以下の通り異なる方法でインターフェースを構成します。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-6-structural-differences-in-interface-design.png" alt="【図6】インターフェース設計の構造的差異"><figcaption>【図6】インターフェース設計の構造的差異</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-6-structural-differences-in-interface-design.png" alt="【図6】インターフェース設計の構造的差異"><figcaption>【図6】インターフェース設計の構造的差異</figcaption></figure>
 <p>このような構造的な違いは、設計者にとって重要な基準となります。例えば、セキュリティ設定はMCPを中心に実施し、ユーザーインターフェースの改善はAIエージェントを中心に実施する必要があります。</p>
 <h2 id="wp7-013">第3章： 全体システムアーキテクチャ内の位置と関係</h2>
 <p>AI中心のシステムがますます複雑化するにつれ、MCPサーバーとAIエージェントが全体アーキテクチャ内でどのように配置され統合されるかを理解することは重要です。特にIT担当者や意思決定者は、システム設計時に両コンポーネントの相互作用方法とセキュリティ境界（Trust Boundary）を正確に区別する必要があります［12］。</p>
@@ -1185,7 +1185,7 @@ const WHITEPAPER_DATA = {
 <p>このように、AIエージェントは知能的な判断とフロー制御の出発点であり、実際の実行フローはMCPサーバーおよびAgent PAMを通じて管理されます。</p>
 <h2 id="wp7-016">全体システム内の相互関係</h2>
 <p>以下の構造は、一般的なMCPベースのAIシステムのアーキテクチャを要約したものです：</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-7-interactions-within-the-overall-system.png" alt="[図7] 全体のシステム内相互作用"><figcaption>[図7] 全体のシステム内相互作用</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-7-interactions-within-the-overall-system.png" alt="[図7] 全体のシステム内相互作用"><figcaption>[図7] 全体のシステム内相互作用</figcaption></figure>
 <p>この流れにおいて、AIエージェントはユーザー中心の入力を知能的に解釈し、MCPサーバーはこれを適切なバックエンドリソースに接続し、MCP Agent PAMはすべての実行パスに対してポリシー検証、行動監視、データ保護を実施します。</p>
 <p>この階層的な分離は、単なる技術的な構成の問題を超え、AIシステム設計時に意図の解釈、実行制御、行動監査の全プロセスを分離し、責任を持って設計できるように支援します。特に以下の実務上の利点を提供します：</p>
 <ul>
@@ -1212,7 +1212,7 @@ const WHITEPAPER_DATA = {
 <p>MCPサーバーは自然言語の解釈や目的の把握機能は一切持たず、定型化されたコマンドと認証された呼び出しのみに反応します。このような使用は構造的にエラーを引き起こし、セキュリティおよび実行ポリシーが完全に迂回される可能性があります。</p>
 <p><strong>正しい視点</strong></p>
 <p>ユーザーは常にAIエージェントインターフェースを通じてMCPサーバーに間接的にアクセスする必要があります。AIエージェントが自然言語を解釈し、それに応じてMCPサーバーに明確なAPI呼び出しを生成する必要があります［21］。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-8-structured-api-calls-to-the-mcp-server.png" alt="[図8] MCPサーバーに対する構造化されたAPI呼び出し"><figcaption>[図8] MCPサーバーに対する構造化されたAPI呼び出し</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-8-structured-api-calls-to-the-mcp-server.png" alt="[図8] MCPサーバーに対する構造化されたAPI呼び出し"><figcaption>[図8] MCPサーバーに対する構造化されたAPI呼び出し</figcaption></figure>
 <h2 id="wp7-019">誤解2： 「AIエージェントがセキュリティも自動的に処理してくれるだろう？」”</h2>
 <p><strong>誤った理解</strong></p>
 <p>AIエージェントが非常に高度な知能で動作するため、データベースへの直接アクセスを許可したり、実行ポリシーを自動的に判断させても問題ないという考えです。</p>
@@ -1227,7 +1227,7 @@ const WHITEPAPER_DATA = {
 <p>一つのコンポーネントにすべての役割を付与すると、責任分離が崩れ、柔軟性と保守性が急激に低下します。特にセキュリティポリシー、エラー復旧、チーム間の協業において深刻な問題を引き起こす可能性があります［24］［25］。</p>
 <p><strong>正しい視点</strong></p>
 <p>2つのコンポーネントは役割が明確に分離され、統合されたインターフェースを通じて連携を維持しつつ、独立して進化する能力を備えていなければなりません。AIエージェントはユーザーの文脈を把握し目的を確立し、MCPサーバーはその目的に従って実行可能なタスクを実行します［25］。ただし、セキュリティに関連するアクセス制御、ログ記録、DLP、UEBAは別オプションであり、主にMCP Agent PAMでその役割を果たします。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-9-clearly-separated-roles-for-each-component.png" alt="[図9] 各コンポーネントの明確な役割の分離"><figcaption>[図9] 各コンポーネントの明確な役割の分離</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-9-clearly-separated-roles-for-each-component.png" alt="[図9] 各コンポーネントの明確な役割の分離"><figcaption>[図9] 各コンポーネントの明確な役割の分離</figcaption></figure>
 <h2 id="wp7-021">要点まとめ</h2>
 <table class="wp-table">
   <thead>
@@ -1310,7 +1310,7 @@ const WHITEPAPER_DATA = {
 <h2 id="wp7-026">付録. AI エージェント：人々のイメージ vs. 実際の構成要素</h2>
 <p>AI エージェントは、これまで単純なチャットボットや自動化ツールと誤解されてきました。特に実務者は、Cursor、ChatGPT、AutoGPT などのシステムに触れる中でこれらを「エージェント」と認識していますが、これらのシステムはAI エージェントの機能の一部を実装した単一のツールレベルのインターフェースに過ぎません。つまり、自律性、行動の連続性、記憶構造、意思決定システムなどを包含していません。</p>
 <p>以下は、人々が一般的に想像するAIエージェントのイメージと実際の構成要素との間の構造的な違いを視覚的に説明したものです：</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-10-structural-gap-between-what-people-think-and-what-they-are.png" alt="[図10] 人々が考えるAIエージェントと実際の構成要素との間の構造的な違い"><figcaption>[図10] 人々が考えるAIエージェントと実際の構成要素との間の構造的な違い</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-10-structural-gap-between-what-people-think-and-what-they-are.png" alt="[図10] 人々が考えるAIエージェントと実際の構成要素との間の構造的な違い"><figcaption>[図10] 人々が考えるAIエージェントと実際の構成要素との間の構造的な違い</figcaption></figure>
 <p>例えば、ChatGPTはGPTベースのテキスト生成エンジンであり、プロンプトに応答して言語結果を返すことはできますが、自ら目標を定義したり、外部システムと統合された行動を実行したりはしません。CursorはGPTを活用したコード編集ツールで、与えられた範囲内の作業を連続的に自動化することはできますが、創造的な目標設定や計画機能は組み込まれていません。一方、AutoGPTは計画-実行ループを構成する実験的なフレームワークとして注目されましたが、実際には固定されたループと制限されたメモリ構造の中で繰り返し呼び出しを行うのみで、複雑な状況では同じ判断を繰り返したり論理矛盾を引き起こす限界を示しました［4］。</p>
 <p>このような誤解は、すぐに設計上の誤りや実行段階の失敗につながり得ます。例えば、単に「エージェントを導入する」とだけ考えてGPT APIを呼び出すレベルから始める場合、ポリシー評価、実行監査、役割分離、責任追跡性などのセキュリティ/運用要件を満たすことができません。したがって、実際のAIエージェント導入を検討する際には、以下の構成要素を必ず検討する必要があります：</p>
 <ul>
@@ -1509,11 +1509,11 @@ const WHITEPAPER_DATA = {
     "image": "/assets/images/07-blog/wp-thumb-21.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Kenny Park",
+      "title": "CISO",
+      "bio": "ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。",
+      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/kwansoonpark/"}]
     },
     "content": `
 <h1 id="1-序論-devsecopsを超えるagentsecopsの必要性">1. 序論: DevSecOpsを超えるAgentSecOpsの必要性</h1>
@@ -2200,11 +2200,11 @@ allow {
     "image": "/assets/images/07-blog/wp-thumb-20.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Brant Hwang",
+      "title": "CEO, Founder",
+      "bio": "QueryPieの創業者兼CEOであるBrantは、AIを活用した特権アクセス管理（PAM）ソリューションを提供しています。BrantはKAISTでコンピュータサイエンスの修士号を取得し、17年以上のソフトウェア分野の経験を有しています。彼は、エンタープライズソフトウェア、組み込みシステム、インターネットポータル、コマースプラットフォームなど、さまざまな分野で経験を積んできました。起業を考える前には、カカオでプラットフォーム開発に携わっていました。Brantは、ソフトウェアの核心はそれが提供する人々にあると信じており、問題をシンプルかつ効率的に解決することに注力しています。",
+      "avatar": "/assets/images/07-blog/author-brant.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/ishwang/"}]
     },
     "content": `
 <h1 id="はじめに-革新的なmcp、しかしエンタープライズには不十分">はじめに：革新的なMCP、しかしエンタープライズには不十分</h1>
@@ -2595,11 +2595,11 @@ allow {
     "image": "/assets/images/07-blog/wp-thumb-18.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Kenny Park",
+      "title": "CISO",
+      "bio": "ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。",
+      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/kwansoonpark/"}]
     },
     "content": `
 <h1 id="1-序論と目的">1. 序論と目的</h1>
@@ -3637,11 +3637,11 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
     "image": "/assets/images/07-blog/wp-thumb-19.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Kenny Park",
+      "title": "CISO",
+      "bio": "ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。",
+      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/kwansoonpark/"}]
     },
     "content": `
 <h1 id="1-序論と比較の目的">1. 序論と比較の目的</h1>
@@ -4587,11 +4587,11 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
     "image": "/assets/images/07-blog/wp-thumb-17.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Kenny Park",
+      "title": "CISO",
+      "bio": "ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。",
+      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/kwansoonpark/"}]
     },
     "content": `
 <h1 id="1-はじめに-mcp-モデル・コンテキスト・プロトコル-時代の新しいセキュリティ・パラダイム">1. はじめに：MCP（モデル・コンテキスト・プロトコル）時代の新しいセキュリティ・パラダイム</h1>
@@ -5257,11 +5257,11 @@ allow {
     "image": "/assets/images/07-blog/wp-thumb-16.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Kenny Park",
+      "title": "CISO",
+      "bio": "ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。",
+      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/kwansoonpark/"}]
     },
     "content": `
 <h1 id="1-革新の影、制御されていないai活用">1. 革新の影、制御されていないAI活用</h1>
@@ -5630,11 +5630,11 @@ when {
     "image": "/assets/images/07-blog/wp-thumb-15.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Kenny Park",
+      "title": "CISO",
+      "bio": "ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。",
+      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/kwansoonpark/"}]
     },
     "content": `
 <h1 id="aiエージェントのためのmcpベースのセキュリティガバナンスとpam統合戦略">AIエージェントのためのMCPベースのセキュリティガバナンスとPAM統合戦略</h1>
@@ -5795,10 +5795,10 @@ when {
     "image": "/assets/images/07-blog/wp-thumb-26.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
+      "name": "Edwin Park (エドウィン・パーク)",
+      "title": "Software Engineer, QueryPie, Inc.",
+      "bio": "QueryPie AI Service チーム所属のソフトウェアエンジニア。企業向けAIサービス開発を担当し、LLMベースのドメイン特化システム構築、B2C/B2B/B2B2Cクライアント向けのAIソリューション設計、および独立型AIエージェント事業モデルの研究開発に従事。",
+      "avatar": "/assets/images/07-blog/author-edwin.png",
       "sns": []
     },
     "content": `
@@ -5884,7 +5884,7 @@ when {
 <p>AI Checkは、給与担当者が自然言語（日本語）で記述した給与検査観点（CheckPoint）を、実行可能なSQLクエリへ自動変換するシステムである。このシステムは、ユーザーが複雑なSQL文法を知らなくとも、自然言語で検査条件を記述すれば、当該条件に合致する対象者をデータベースから抽出できるようにする。</p>
 <p>一般的なText-to-SQLアプローチは自然言語を直接SQLに変換するが、本システムの対象データベースは300以上のテーブルと1,350以上のカラムで構成された大規模スキーマを有する。さらにカラム名がFPPAR03、FRPAP15のような内部コード（MFID）形式となっているため、LLMが自然言語から直接正確なSQLを生成することは困難である。こうした複雑性を解決するために、システムは問題を3つの段階に分離した。</p>
 <p>すなわち、（1）自然言語をドメイン用語を含む擬似コードに変換し、（2）擬似コード内のドメイン用語をベクトル類似度検索に基づいてMFIDにマッピングした後、（3）MFIDがマッピングされた擬似コードを実行可能なSQLに変換する。</p>
-<p>システムは図1に示すとおり、3つの主要エージェントで構成された多段階パイプライン構造を採用している。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/fig1-pipeline-structure.webp" alt="図1：AI Checkパイプライン構造"><figcaption>図1：AI Checkパイプライン構造</figcaption></figure> <br/> <br/> <strong>NL to Pseudocode Agent</strong> は、自然言語で記述された給与検査条件をSQL類似の擬似コードに変換する。この段階では、LLMのコード生成（Code Generation）能力が中核的に活用される。</p>
+<p>システムは図1に示すとおり、3つの主要エージェントで構成された多段階パイプライン構造を採用している。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/fig1-pipeline-structure.webp" alt="図1：AI Checkパイプライン構造"><figcaption>図1：AI Checkパイプライン構造</figcaption></figure> <br/> <br/> <strong>NL to Pseudocode Agent</strong> は、自然言語で記述された給与検査条件をSQL類似の擬似コードに変換する。この段階では、LLMのコード生成（Code Generation）能力が中核的に活用される。</p>
 <p><strong>MFID Mapping Agent</strong> は、擬似コードに含まれるドメイン用語（例：「入社年月日」、「固定部開始日」）を実際のデータベースフィールド識別子（MFID）にマッピングする。この段階では、ベクトル検索ベースのAgentic RAG方式が使用される。</p>
 <p><strong>Query Translation Agent</strong> は、MFIDがマッピングされた擬似コードを最終的な実行可能SQLクエリに変換する。この段階は比較的ルールベースの変換が主となるため、本研究の評価対象からは除外した。</p>
 <p>本研究では、LLMの能力がシステム性能に直接的な影響を及ぼすNL to Pseudocode AgentとMFID Mapping Agentを評価対象として選定した。</p>
@@ -5892,7 +5892,7 @@ when {
 <h3 id="wp15-016">概要</h3>
 <p>NL to Pseudocode Agentは、自然言語で記述された給与検査観点をSQL類似の擬似コードに変換する役割を担う。日本の給与システムにおける複雑な業務ルール——雇用保険、健康保険、厚生年金、年末調整など——を正確にコードとして表現する必要があるため、LLMのドメイン理解力とコード生成能力が同時に求められる。</p>
 <h3 id="wp15-017">3段階逐次処理構造</h3>
-<p>このエージェントは、単一のLLM呼び出しではなく、3つのサブエージェントが逐次的に実行される構造を採用している。図2はこの3段階の処理フローを示す。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/fig2-nl-to-pseudocode-flow.webp" alt="図2：NL to Pseudocode Agent — 3段階処理フロー"><figcaption>図2：NL to Pseudocode Agent — 3段階処理フロー</figcaption></figure> <br/> <br/> 各段階は前段階の出力を入力として受け取り、段階的に変換を実行する。</p>
+<p>このエージェントは、単一のLLM呼び出しではなく、3つのサブエージェントが逐次的に実行される構造を採用している。図2はこの3段階の処理フローを示す。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/fig2-nl-to-pseudocode-flow.webp" alt="図2：NL to Pseudocode Agent — 3段階処理フロー"><figcaption>図2：NL to Pseudocode Agent — 3段階処理フロー</figcaption></figure> <br/> <br/> 各段階は前段階の出力を入力として受け取り、段階的に変換を実行する。</p>
 <p><strong>（1）Structure Analyzer（構造分析器）</strong></p>
 <ul>
   <li>自然言語入力から対象者概念の階層構造を抽出する</li>
@@ -5919,7 +5919,7 @@ when {
   <li>最終出力：可読性が高く構造化されたCTE形式の擬似コード</li>
 </ul>
 <h3 id="wp15-018">入出力例</h3>
-<p>表1は、NL to Pseudocode Agentの実際の入出力例を示す。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table1-nl-pseudocode-io-example.webp" alt="表1：NL to Pseudocode Agent 入出力例"><figcaption>表1：NL to Pseudocode Agent 入出力例</figcaption></figure> <br/> <br/> 以下は、実際のシステムで処理された入出力例である。 <br/> <br/> <strong>入力（自然言語）</strong></p>
+<p>表1は、NL to Pseudocode Agentの実際の入出力例を示す。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table1-nl-pseudocode-io-example.webp" alt="表1：NL to Pseudocode Agent 入出力例"><figcaption>表1：NL to Pseudocode Agent 入出力例</figcaption></figure> <br/> <br/> 以下は、実際のシステムで処理された入出力例である。 <br/> <br/> <strong>入力（自然言語）</strong></p>
 <blockquote>
 <p>前月Payprocessに存在せず、当月Payprocessで初めて計算対象となった人（これを「入社者」とする）。<br/></p>
 <p>入社者の中から、固定部開始日と勤怠部開始日のうちより古い日付よりも前の退職年月日が登録されている人を過去退職者として特定する。入社者から過去退職者を除外した後、次のように分類する：</p>
@@ -5998,13 +5998,13 @@ when {
 <h3 id="wp15-020">概要</h3>
 <p>MFID Mapping Agentは、擬似コードに含まれるドメイン用語を実際のデータベースのフィールド識別子（MFID, Master Field ID）にマッピングする役割を担う。給与システムのデータベースには数千のフィールドが存在し、同一の概念を指す表現（例：「入社日」、「入社年月日」）を正確なMFIDにマッピングする必要がある。</p>
 <h3 id="wp15-021">MFIDデータ構造</h3>
-<p>MFIDは、給与システムデータベースの各フィールドを一意に識別する識別子であり、以下のメタデータとともに管理される。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table2-mfid-metadata-structure.webp" alt="表2：MFIDメタデータ構造"><figcaption>表2：MFIDメタデータ構造</figcaption></figure> <br/> <br/></p>
+<p>MFIDは、給与システムデータベースの各フィールドを一意に識別する識別子であり、以下のメタデータとともに管理される。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table2-mfid-metadata-structure.webp" alt="表2：MFIDメタデータ構造"><figcaption>表2：MFIDメタデータ構造</figcaption></figure> <br/> <br/></p>
 <h3 id="wp15-022">ベクトル検索インフラ</h3>
 <p>MFIDマッピングのために、システムはベクトル類似度検索ベースのRAGアーキテクチャを採用している。</p>
 <p><strong>ベクトルデータベース</strong>：PostgreSQL + pgvector拡張を使用する。pgvectorはPostgreSQLにベクトル類似度検索機能を追加するオープンソース拡張であり、既存のリレーショナルデータベースとの統合が容易で運用の複雑性が低いという利点がある。</p>
-<p><strong>埋め込みモデル</strong>：GoogleのGemini Embeddingモデル（gemini-embedding-001、2000次元）を使用する。埋め込みモデルの選定にあたり、以下の4つのモデルを比較評価した。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/fig3-embedding-model-eval.webp" alt="図3：埋め込みモデル別評価 — Composite Score = 0.4 × MRR + 0.6 × Recall@10"><figcaption>図3：埋め込みモデル別評価 — Composite Score = 0.4 × MRR + 0.6 × Recall@10</figcaption></figure> <br/> <br/> 評価の結果、Upstage SolarがComposite Score基準で1位を記録したものの、APIがベータ版であり安定性が保証されていないため、プロダクション環境での使用には不適切であった。Recall@10で最高性能（80.4%）を示し、APIの安定性が確保されたGemini Embeddingを最終的に選定した。</p>
+<p><strong>埋め込みモデル</strong>：GoogleのGemini Embeddingモデル（gemini-embedding-001、2000次元）を使用する。埋め込みモデルの選定にあたり、以下の4つのモデルを比較評価した。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/fig3-embedding-model-eval.webp" alt="図3：埋め込みモデル別評価 — Composite Score = 0.4 × MRR + 0.6 × Recall@10"><figcaption>図3：埋め込みモデル別評価 — Composite Score = 0.4 × MRR + 0.6 × Recall@10</figcaption></figure> <br/> <br/> 評価の結果、Upstage SolarがComposite Score基準で1位を記録したものの、APIがベータ版であり安定性が保証されていないため、プロダクション環境での使用には不適切であった。Recall@10で最高性能（80.4%）を示し、APIの安定性が確保されたGemini Embeddingを最終的に選定した。</p>
 <h3 id="wp15-023">Agentic RAGの動作方式</h3>
-<p>MFID Mapping Agentは、単純な検索―生成パイプラインではなく、Agentic RAG方式で動作する。図4はこのエージェントの全体フローを示す。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/fig4-mfid-mapping-flow.webp" alt="図4：MFID Mapping Agent — Agentic RAGフロー"><figcaption>図4：MFID Mapping Agent — Agentic RAGフロー</figcaption></figure> <br/> <br/> LLMエージェントがツール（tool）を能動的に呼び出して必要な情報を検索し、検索結果を解釈して最適なマッピングを決定する。</p>
+<p>MFID Mapping Agentは、単純な検索―生成パイプラインではなく、Agentic RAG方式で動作する。図4はこのエージェントの全体フローを示す。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/fig4-mfid-mapping-flow.webp" alt="図4：MFID Mapping Agent — Agentic RAGフロー"><figcaption>図4：MFID Mapping Agent — Agentic RAGフロー</figcaption></figure> <br/> <br/> LLMエージェントがツール（tool）を能動的に呼び出して必要な情報を検索し、検索結果を解釈して最適なマッピングを決定する。</p>
 <p>この方式の中核的な特徴は以下のとおりである。</p>
 <ol>
   <li><strong>並列ツール呼び出し</strong>：複数の用語に対する検索を並列で実行し、処理時間を短縮</li>
@@ -6014,7 +6014,7 @@ when {
 <h2 id="wp15-024">評価対象および範囲</h2>
 <p>本研究では、以下の2つの理由からNL to Pseudocode AgentとMFID Mapping Agentを評価対象として選定した。</p>
 <p>第一に、<strong>LLM依存度が高い段階</strong>であるためである。両エージェントはいずれもLLMの言語理解、推論、生成能力に大きく依存している。一方、Query Translation Agentはルールベースの変換が主であり、LLM選択による性能差が比較的小さい。</p>
-<p>第二に、<strong>タスク特性が異なる</strong>ためである。NL to Pseudocode Agentはコード生成（Code Generation）タスクであり、自然言語を構造化された擬似コードに変換する能力を要求する。MFID Mapping AgentはAgentic RAGタスクであり、ツール活用と検索結果の解釈能力を要求する。この異なるタスク特性は、同一のLLMであっても異なる性能を示し得ることを示唆しており、各段階に最適化されたモデル選択の必要性を提起する。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table3-task-comparison.webp" alt="表3：評価対象タスク特性比較"><figcaption>表3：評価対象タスク特性比較</figcaption></figure> <br/> <br/></p>
+<p>第二に、<strong>タスク特性が異なる</strong>ためである。NL to Pseudocode Agentはコード生成（Code Generation）タスクであり、自然言語を構造化された擬似コードに変換する能力を要求する。MFID Mapping AgentはAgentic RAGタスクであり、ツール活用と検索結果の解釈能力を要求する。この異なるタスク特性は、同一のLLMであっても異なる性能を示し得ることを示唆しており、各段階に最適化されたモデル選択の必要性を提起する。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table3-task-comparison.webp" alt="表3：評価対象タスク特性比較"><figcaption>表3：評価対象タスク特性比較</figcaption></figure> <br/> <br/></p>
 <h2 id="wp15-025">小括</h2>
 <p>本章では、AI Checkの全体パイプライン構造と各構成要素を説明した。システムはNL to Pseudocode Agent、MFID Mapping Agent、Query Translation Agentの3段階で構成されており、本研究ではLLM依存度が高くタスク特性が異なる前者の2段階を評価対象として選定した。</p>
 <p>NL to Pseudocode Agentは、structure\\_analyzer、condition\\_analyzer、pseudocode\\_creatorの3段階逐次処理構造により、自然言語をCTEベースの擬似コードに変換する。MFID Mapping Agentは、pgvectorベースのベクトル検索とGemini Embeddingモデルを活用したAgentic RAG方式により、ドメイン用語をMFIDにマッピングする。</p>
@@ -6024,17 +6024,17 @@ when {
 <h2 id="wp15-027">評価対象モデル</h2>
 <p>本研究では、3大主要LLMプロバイダー——Anthropic、Google、OpenAI——の13のモデル構成を評価対象として選定した。各プロバイダーは基本モデルとともに、拡張された推論能力を提供するThinking/Reasoningモードをサポートしており、本研究ではこの2つのモードをいずれも評価に含めた。</p>
 <h3 id="wp15-028">Claudeファミリー（Anthropic）</h3>
-<p>AnthropicのClaude 4.5シリーズは、Haiku、Sonnet、Opusの3つのティアで構成され、それぞれ速度―コスト―品質のトレードオフを提供する。Extended Thinkingモードは、複雑な推論タスクにおいてモデルがより深く思考できるようにする機能である。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table4-claude-family.webp" alt="表4：Claudeファミリーモデル"><figcaption>表4：Claudeファミリーモデル</figcaption></figure> <br/> <br/></p>
+<p>AnthropicのClaude 4.5シリーズは、Haiku、Sonnet、Opusの3つのティアで構成され、それぞれ速度―コスト―品質のトレードオフを提供する。Extended Thinkingモードは、複雑な推論タスクにおいてモデルがより深く思考できるようにする機能である。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table4-claude-family.webp" alt="表4：Claudeファミリーモデル"><figcaption>表4：Claudeファミリーモデル</figcaption></figure> <br/> <br/></p>
 <h3 id="wp15-029">Geminiファミリー（Google）</h3>
-<p>GoogleのGeminiシリーズはFlashとProのティアに区分され、Flashは高速な応答速度を、Proは高い品質を目標とする。Thinkingモードは、推論過程を明示的に実行させる機能である。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table5-gemini-family.webp" alt="表5：Geminiファミリーモデル"><figcaption>表5：Geminiファミリーモデル</figcaption></figure> <br/> <br/></p>
+<p>GoogleのGeminiシリーズはFlashとProのティアに区分され、Flashは高速な応答速度を、Proは高い品質を目標とする。Thinkingモードは、推論過程を明示的に実行させる機能である。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table5-gemini-family.webp" alt="表5：Geminiファミリーモデル"><figcaption>表5：Geminiファミリーモデル</figcaption></figure> <br/> <br/></p>
 <h3 id="wp15-030">GPTファミリー（OpenAI）</h3>
-<p>OpenAIのGPTシリーズは5.2と5 Miniで構成される。Reasoningモード（o1系列）は、複雑な推論問題において段階的思考を実行するよう設計されている。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table6-gpt-family.webp" alt="表6：GPTファミリーモデル"><figcaption>表6：GPTファミリーモデル</figcaption></figure> <br/> <br/></p>
+<p>OpenAIのGPTシリーズは5.2と5 Miniで構成される。Reasoningモード（o1系列）は、複雑な推論問題において段階的思考を実行するよう設計されている。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table6-gpt-family.webp" alt="表6：GPTファミリーモデル"><figcaption>表6：GPTファミリーモデル</figcaption></figure> <br/> <br/></p>
 <h3 id="wp15-031">モデル構成の要約</h3>
-<p>表7は、全評価対象モデルを要約したものである。計13構成のうち、Claude 6種、Gemini 4種、GPT 3種で構成される。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table7-model-summary.webp" alt="表7：評価対象モデル要約"><figcaption>表7：評価対象モデル要約</figcaption></figure> <br/> <br/></p>
+<p>表7は、全評価対象モデルを要約したものである。計13構成のうち、Claude 6種、Gemini 4種、GPT 3種で構成される。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table7-model-summary.webp" alt="表7：評価対象モデル要約"><figcaption>表7：評価対象モデル要約</figcaption></figure> <br/> <br/></p>
 <h2 id="wp15-032">データセット構成</h2>
 <p>本研究では、2つのタスクに対してそれぞれ別個のデータセットを構成した。</p>
 <h3 id="wp15-033">コード生成データセット（CodeGen）</h3>
-<p>コード生成タスクの評価のために、実際のAI Checkシステムで使用されている給与検査観点175件を収集した。各サンプルは自然言語入力（日本語）と正解擬似コード（reference）で構成される。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table8-codegen-dataset.webp" alt="表8：コード生成データセット特性"><figcaption>表8：コード生成データセット特性</figcaption></figure> <br/> <br/> データセットは、給与システムの検査シナリオを含む。</p>
+<p>コード生成タスクの評価のために、実際のAI Checkシステムで使用されている給与検査観点175件を収集した。各サンプルは自然言語入力（日本語）と正解擬似コード（reference）で構成される。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table8-codegen-dataset.webp" alt="表8：コード生成データセット特性"><figcaption>表8：コード生成データセット特性</figcaption></figure> <br/> <br/> データセットは、給与システムの検査シナリオを含む。</p>
 <ul>
   <li>入社／退職処理（入社、退職）</li>
   <li>社会保険資格取得／喪失（資格取得、資格喪失）</li>
@@ -6042,7 +6042,7 @@ when {
   <li>年末調整関連検査（年末調整）</li>
 </ul>
 <h3 id="wp15-034">Agentic RAGデータセット（MFID Mapping）</h3>
-<p>Agentic RAGタスクの評価のために、ドメイン用語―MFIDマッピング93サンプルを構成した。各サンプルは擬似コードから抽出された用語と正解MFIDで構成される。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table9-rag-dataset.webp" alt="表9：Agentic RAGデータセット特性"><figcaption>表9：Agentic RAGデータセット特性</figcaption></figure> <br/> <br/></p>
+<p>Agentic RAGタスクの評価のために、ドメイン用語―MFIDマッピング93サンプルを構成した。各サンプルは擬似コードから抽出された用語と正解MFIDで構成される。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table9-rag-dataset.webp" alt="表9：Agentic RAGデータセット特性"><figcaption>表9：Agentic RAGデータセット特性</figcaption></figure> <br/> <br/></p>
 <h2 id="wp15-035">評価指標</h2>
 <h3 id="wp15-036">コード生成タスク評価指標</h3>
 <p>コード生成タスクに対して、伝統的テキスト類似度指標とLLM-as-a-Judgeベースの評価を併用した。</p>
@@ -6064,7 +6064,7 @@ when {
 <p>F\\_BERT = 2 × (P\\_BERT × R\\_BERT) / (P\\_BERT + R\\_BERT)</p>
 </blockquote>
 <p><strong>LLM-as-a-Judge評価</strong></p>
-<p>伝統的指標の限界を補完するために、LLM-as-a-Judge方式を適用した。GPT-4を評価者として活用し、4つの次元において各5点満点、総計20点満点で評価する。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table10-llm-judge-criteria.webp" alt="表10：LLM-as-a-Judge評価基準"><figcaption>表10：LLM-as-a-Judge評価基準</figcaption></figure> <br/> <br/></p>
+<p>伝統的指標の限界を補完するために、LLM-as-a-Judge方式を適用した。GPT-4を評価者として活用し、4つの次元において各5点満点、総計20点満点で評価する。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table10-llm-judge-criteria.webp" alt="表10：LLM-as-a-Judge評価基準"><figcaption>表10：LLM-as-a-Judge評価基準</figcaption></figure> <br/> <br/></p>
 <h3 id="wp15-037">Agentic RAGタスク評価指標</h3>
 <p>Agentic RAGタスクに対して、情報検索（Information Retrieval）分野の標準指標を適用した。</p>
 <p><strong>Recall@K</strong></p>
@@ -6087,7 +6087,7 @@ when {
 </ul>
 <h2 id="wp15-039">コストおよび性能指標</h2>
 <h3 id="wp15-040">トークン価格</h3>
-<p>各プロバイダーのAPI価格ポリシーに基づいてコストを算定した。表11は1M（100万）トークンあたりのUSD価格を示す。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table11-token-pricing.webp" alt="表11：モデル別トークン価格（USD per 1M tokens）— Think/Reasoningモードは基本モデルと同一価格を適用（thinkingトークンは出力として計算）"><figcaption>表11：モデル別トークン価格（USD per 1M tokens）</figcaption></figure> <br/> <br/></p>
+<p>各プロバイダーのAPI価格ポリシーに基づいてコストを算定した。表11は1M（100万）トークンあたりのUSD価格を示す。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table11-token-pricing.webp" alt="表11：モデル別トークン価格（USD per 1M tokens）— Think/Reasoningモードは基本モデルと同一価格を適用（thinkingトークンは出力として計算）"><figcaption>表11：モデル別トークン価格（USD per 1M tokens）</figcaption></figure> <br/> <br/></p>
 <h3 id="wp15-041">コスト効率性指標</h3>
 <p>品質とコストを同時に考慮するために、コスト効率性指標を定義した。</p>
 <blockquote>
@@ -6106,7 +6106,7 @@ when {
   <li>タイムアウト：リクエストあたり最大120秒</li>
 </ul>
 <h3 id="wp15-044">モデル設定</h3>
-<p>すべてのモデルに対して一貫した設定を適用した。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table12-model-settings.webp" alt="表12：モデル設定"><figcaption>表12：モデル設定</figcaption></figure> <br/> <br/> Think/Reasoningモードの場合、各プロバイダーの推奨設定に従った。</p>
+<p>すべてのモデルに対して一貫した設定を適用した。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table12-model-settings.webp" alt="表12：モデル設定"><figcaption>表12：モデル設定</figcaption></figure> <br/> <br/> Think/Reasoningモードの場合、各プロバイダーの推奨設定に従った。</p>
 <ul>
   <li>Claude Extended Thinking：thinking budget を適用</li>
   <li>Gemini Thinking：thinkingパラメータを有効化</li>
@@ -6202,10 +6202,10 @@ when {
     "image": "/assets/images/07-blog/wp-thumb-27.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
+      "name": "Edwin Park (エドウィン・パーク)",
+      "title": "Software Engineer, QueryPie, Inc.",
+      "bio": "QueryPie AI Service チーム所属のソフトウェアエンジニア。企業向けAIサービス開発を担当し、LLMベースのドメイン特化システム構築、B2C/B2B/B2B2Cクライアント向けのAIソリューション設計、および独立型AIエージェント事業モデルの研究開発に従事。",
+      "avatar": "/assets/images/07-blog/author-edwin.png",
       "sns": []
     },
     "content": `<h2 id="wp16-001">1. 革新の影、制御されていないAI活用</h2>
@@ -6249,7 +6249,7 @@ when {
 <h2 id="wp16-007">MCP PAMの主な構成要素</h2>
 <p><strong>QueryPie MCP PAM</strong>は、AnthropicのMCP(Model Context Protocol)仕様に基づき、<strong>AIアシスタントと外部ツール間の通信を中央化されたアクセス制御アーキテクチャの下で統合するセキュリティ設計を実装</strong>しました[13]. この構造は、単なる要求-応答の流れの制御を超え、ツールごとのプロキシ、ポリシー決定ポイント（PDP）、行為監査、統合ログ処理、行動ベースのリスク評価まで含む多層セキュリティシステムを備えています。 全体のアーキテクチャは、次の4つの主要なコンポーネントで構成されています:</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp16-1-core-mcp-components.png" alt=""></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp16-1-core-mcp-components.png" alt=""></figure>
 <p><strong>① MCPホスト(MCP Host)</strong></p>
 <p>MCPホストは、ユーザーのリクエストを受信し、AIアシスタントが実行される実行環境です。 内部には、次の 3 つのコンポーネントが含まれています:</p>
 <ul>
@@ -6307,7 +6307,7 @@ when {
 <h2 id="wp16-010">セキュリティ目標の差別化と補完性</h2>
 <p>AWS Bedrock GuardrailsとMCP PAMは、互いに異なるセキュリティ目標を持って設計されました。 <strong>Guardrails</strong>は、生成 AIの応答内容が有害または非倫理的な情報を含まないように<strong>フィルタリングすることを目標</strong>とし、これは主にAI モデルの出力端で行われる事後的統制(post-processing control)に該当します[4]。 一方、<strong>MCP</strong>はユーザーの要請自体に事前的統制(pre-processing control)を加え、「この要請をAIが処理できるのか」、あるいは「このユーザーが要請したリソースにアクセス権限があるのか」を<strong>政策的に判断</strong>します[13]。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp16-2-aws-guardrails-and-mcp.png" alt=""></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp16-2-aws-guardrails-and-mcp.png" alt=""></figure>
 <br />
 <p>このような構造的な違いは、<strong>二つの技術がセキュリティフレームワーク内で相互補完的に作動できることを意味</strong>します。 Guardrailsがコンテンツ中心(Content-centric)フィルタリングを担当する場合、MCP PAMはユーザー中心(User-centric)のコンテキストベースのアクセス制御を行うことによって、組織のセキュリティ要求事項をより立体的に具現することができます[23]。</p>
 <p>例えば、ユーザーが卑俗語や嫌悪表現を含む質問をAIに入力した場合、Guardrailsは該当プロンプトの内容を分析して直ちに遮断することができます。 しかし、もし同一ユーザーが繰り返し迂回プロンプトを通じて同じ質問を試みた場合、MCPはユーザーの行為パターンを分析し、一定基準を超えると、そのユーザーの要請自体を遮断することができます[24]。</p>
@@ -6346,7 +6346,7 @@ when {
 <p>AIシステムに対する効果的な防御システムを設計するためには、まず脅威モデル(threat model)を明確に定義することが重要です。 脅威モデルは、システムが直面する可能性のある攻撃ベクトル、脆弱性、脅威行為者の動機などを構造化して整理した分析システムです[27]。 MCP-PAM(Model Context Privileged Access Management)アーキテクチャは、このような脅威モデルに基づいて、それぞれの脅威に対応するセキュリティ機能をポリシー的に実装できるように設計されています。</p>
 <p>本節では、生成 AIシステムに現れる代表的な5つの脅威シナリオをMCPベースの制御構造により、どのように防御できるかを述べます。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp16-3-potential-threats-in-ai-systems.png" alt=""></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp16-3-potential-threats-in-ai-systems.png" alt=""></figure>
 <br />
 <h2 id="wp16-014">脅威シナリオ1: LLM乱用(LLM Abuse)</h2>
 <p>攻撃者が認証されたユーザー資格を活用してLLMに繰り返し要請を送り、これを通じて異常な量のデータ抽出、内部文書要約、社内システムスキャンなどを試みる場合です。 この脅威は、プロンプト自体は正常ですが、意図を隠した集積型攻撃という点で、探知することは困難です[28]。</p>
@@ -6508,11 +6508,11 @@ when {
     "image": "/assets/images/07-blog/wp-thumb-23.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Kenny Park",
+      "title": "CISO, QueryPie, Inc.",
+      "bio": "ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。",
+      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/kwansoonpark/"}]
     },
     "content": `
 <h2 id="wp17-001">1.はじめに：なぜRAG 2.0なのか、そして何が変わったのか？</h2>
@@ -6531,7 +6531,7 @@ when {
 <h2 id="wp17-003">1.2 内部テストによる脅威シナリオ：Kennyケース</h2>
 <p>QueryPieは、RAGパイプラインにおける構造的なセキュリティ脆弱性を検証するために内部実験を実施しました。明らかになった最も代表的な脅威シナリオは、「Kennyケース」として知られています。</p>
 <p><strong><em>実験に基づく事例：KennyとBrantの給与情報の漏洩</strong></em></p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-1-threat-scenario-kenny-case.png" alt="実験に基づく事例：KennyとBrantの給与情報の漏洩"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-1-threat-scenario-kenny-case.png" alt="実験に基づく事例：KennyとBrantの給与情報の漏洩"></figure>
 <p><strong>1. シナリオ設定</strong></p>
 <ul>
   <li>Kenny：プロジェクト会議のメモと給与の詳細を含む社内Confluenceドキュメントをアップロードしたセキュリティチームのメンバー。</li>
@@ -6696,7 +6696,7 @@ when {
 <p>ユーザーがRAGリクエストを送信すると、APIゲートウェイはまずユーザーのOAuthトークンを検証し、関連するテナントを特定した後、そのテナント専用のベクトルストアにリクエストをルーティングします。共有ベクトルストアにアクセスする場合でも、システムはメタデータフィルター（例：<code>user_id</code>、<code>tenant_id</code>、<code>access_scope</code>）を適用して、機密性の高いドキュメントがプロンプト注入から除外されるようにします。選択されたすべてのドキュメントと生成された応答はログに記録され、セキュリティ監視と監査可能性を可能にします[7]。</p>
 <p>このアーキテクチャ（APIゲートウェイ → オーケストレーター → ベクトルDB → LLM → ロギングにまたがる）は、本番RAG環境におけるランタイムポリシー強制の強力な例を示しています。</p>
 <p><strong>ダイアグラム：Microsoft RAGセキュリティフロー</strong></p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-2-microsoft-rag-security-flow.png" alt="ダイアグラム：Microsoft RAGセキュリティフロー"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-2-microsoft-rag-security-flow.png" alt="ダイアグラム：Microsoft RAGセキュリティフロー"></figure>
 <p><strong>主要制御機能</strong></p>
 <table class="wp-table">
   <thead>
@@ -6735,7 +6735,7 @@ when {
 <p>共有ベクトルストア（例：Amazon OpenSearchまたはAmazon Kendra）を使用する場合でも、アクセスは依然としてメタデータに基づいて動的にフィルタリングされます。これにより、共有インフラストラクチャ内での論理的なテナント分離が可能になります。つまり、ユーザーまたは組織は、アクセスを許可されたコンテンツのみをクエリおよび注入できます[8]。</p>
 <p>このアプローチは、物理的にインフラストラクチャを分離せずにマルチテナントセキュリティを実現するLabel-Based Access Control（LBAC）の一種と見なされます。</p>
 <p><strong>ダイアグラム：S3を使用したAWSマルチテナントRAGアーキテクチャ</strong></p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-3-aws-multi-tenant-rag-architecture-with-s3.png" alt="ダイアグラム：S3を使用したAWSマルチテナントRAGアーキテクチャ"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-3-aws-multi-tenant-rag-architecture-with-s3.png" alt="ダイアグラム：S3を使用したAWSマルチテナントRAGアーキテクチャ"></figure>
 <p><strong>主要制御機能</strong></p>
 <table class="wp-table">
   <thead>
@@ -6773,7 +6773,7 @@ when {
 <p>LlamaIndexはまた、FAISS、Weaviate、またはQdrantのようなベクトル検索エンジンと柔軟に統合し、検索結果を関連するメタデータと既に結合して返します。これにより、クリーンでコンパクトなフィルタリングロジックが可能になります。</p>
 <p>公式デモでは、同じプロンプトを発行したユーザーでも、彼らがアップロードしたドキュメントに限定された異なる応答を受け取ります。不正なコンテンツはベクトル検索フェーズ中に除外されます。このモデルはプロンプト注入前にアクセス制御を強制し、ランタイムセキュリティ強制のクリーンで最小限の実装を表しています[9]。</p>
 <p><strong>ダイアグラム：LlamaIndexにおけるメタデータに基づくフィルタリング</strong></p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-4-metadata-based-filtering-in-llamaindex.png" alt="ダイアグラム：LlamaIndexにおけるメタデータに基づくフィルタリング"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-4-metadata-based-filtering-in-llamaindex.png" alt="ダイアグラム：LlamaIndexにおけるメタデータに基づくフィルタリング"></figure>
 <p><strong>主要制御機能</strong></p>
 <table class="wp-table">
   <thead>
@@ -6815,7 +6815,7 @@ when {
 <p>Weaviateは、<code>shard</code>ベースのストレージを使用して同様のアプローチを採用しています。各テナントのデータは別々のシャードに配置され、クエリはそのシャード専用にルーティングされるように構成されています[10]。</p>
 <p>これにより、集中管理されたセキュリティ設定を必要とせずに、物理的な隔離と同等の論理的な分離が作成されます。これらのインフラストラクチャレベルの隔離モデルにより、プロバイダーは別のポリシーエンジンを必要とせずにデータの境界を強制できるため、何千もの同時テナントを抱えるSaaS環境で拡張性が高くなります。</p>
 <p><strong>ダイアグラム：PineconeとWeaviateにおけるベクトルベースマルチテナンシー</strong></p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-5-vector-based-multi-tenancy-in-pinecone-and-weaviate.png" alt="ダイアグラム：PineconeとWeaviateにおけるベクトルベースマルチテナンシー"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-5-vector-based-multi-tenancy-in-pinecone-and-weaviate.png" alt="ダイアグラム：PineconeとWeaviateにおけるベクトルベースマルチテナンシー"></figure>
 <p><strong>主要制御機能</strong></p>
 <table class="wp-table">
   <thead>
@@ -6857,7 +6857,7 @@ when {
 </ol>
 <p>このアーキテクチャは、MicrosoftとQueryPieのRAGセキュリティ設計と概念的な類似点を共有しています。特に、Metaは機密データ漏洩を防ぐためにプロンプト注入直前のランタイムポリシー評価（runtime enforcement）を強化しており、LLMが応答を生成する前にポリシーを評価します。この予防的な設計により、応答後のフィルタリングの必要がなくなり、<strong>事前制御中心の構造</strong>が実現されます[11]。</p>
 <p><strong>ダイアグラム：MetaのコンテキストベースPBACフロー</strong></p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-6-meta-context-based-pbac-flow.png" alt="ダイアグラム：MetaのコンテキストベースPBACフロー"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-6-meta-context-based-pbac-flow.png" alt="ダイアグラム：MetaのコンテキストベースPBACフロー"></figure>
 <p><strong>主要制御機能</strong></p>
 <table class="wp-table">
   <thead>
@@ -6975,7 +6975,7 @@ when {
 <p>LLM応答は、<strong>どのドキュメントに基づいているかを明示的に参照</strong>する必要があります。これは通常、出力内に<strong>ドキュメントIDまたは暗号化署名を埋め込む</strong>ことによって行われます。これにより、<strong>信頼性、透明性、および事後監査可能性</strong>が向上し、意図しない開示やポリシー違反の調査が容易になります。</p>
 <h2 id="wp17-017">3.3 実行フローセキュリティのアーキテクチャの概要</h2>
 <p>次の図は、前述の5つのコア原則に基づいて構築されたランタイムセキュリティ制御の概念アーキテクチャをまとめたものです。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-7-architectural-summary-of-execution-flow-security.png" alt="実行フローセキュリティのアーキテクチャの概要"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-7-architectural-summary-of-execution-flow-security.png" alt="実行フローセキュリティのアーキテクチャの概要"></figure>
 <h2 id="wp17-018">3.4 セキュリティアーキテクチャバイパスの実現可能性</h2>
 <p>上記の5つの原則はRAGセキュリティ設計の強固な基盤を提供しますが、現実世界のシステムは設計上の欠陥だけでなく、バイパスの試みにも積極的にさらされています。</p>
 <p>これらの脅威は単なる技術的な脆弱性ではなく、プロンプト注入アーキテクチャとポリシー評価フロー間の切断を悪用します。そのため、セキュリティ設計は「許可されていること」を宣言するだけでなく、「それらの許可が実際に強制されているかどうか」を証明することに焦点を当てる必要があります。</p>
@@ -7255,7 +7255,7 @@ when {
 </table>
 <p>QueryPieは、実行パイプライン内での強制の深さとアーキテクチャの柔軟性の最も堅牢な組み合わせを提供し、マルチエージェント、マルチバックエンド環境全体で中心的なランタイム制御レイヤーとして機能します。また、ポリシー競合検出、管理者承認注入、ガバナンス駆動型バージョン管理などの高度な機能も含まれており、組織が単一のRAGベンダーに縛られない完全に独立したポリシーを構築できます[22]。</p>
 <p><strong>実行フロー比較：Microsoft vs Meta vs QueryPie</strong></p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-8-execution-flow-comparison-microsoft-vs-meta-vs-querypie.png" alt="実行フロー比較：Microsoft vs Meta vs QueryPie"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-8-execution-flow-comparison-microsoft-vs-meta-vs-querypie.png" alt="実行フロー比較：Microsoft vs Meta vs QueryPie"></figure>
 <h2 id="wp17-033">5.5 比較概要：実行フロー制御戦略マトリックス</h2>
 <p>以下の表は、Microsoft、Meta、QueryPieがRAG実行フロー全体でセキュリティポリシーをどのように強制するかを比較したものです。主要な基準には、PBAC、CBAC、およびACL強制の配置、ポリシー決定ロジック（PDP/PEP/PIP）のアーキテクチャ上の場所、プロンプトレベルの制御の粒度、およびクロスシステム拡張性があります。</p>
 <p><strong>実行フロー制御戦略比較：Microsoft vs Meta vs QueryPie</strong></p>
@@ -7486,7 +7486,7 @@ when {
 <blockquote>
 <p><strong>誰が、いつ、どのようなコンテキストと目的で、どのドキュメントにアクセスし、AI応答で使用されたか？</strong></p>
 </blockquote>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-9-from-declaration-to-execution.png" alt=""></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-9-from-declaration-to-execution.png" alt=""></figure>
 <p>この答えは、静的な権限リストではなく、実行フローに組み込まれたポリシー評価にあります。セキュリティの焦点は、宣言的な制御からリアルタイムの強制へ、静的なアクセス管理から統合されたポリシーオーケストレーションへと移行する必要があります。この変革をリードできるアーキテクチャは、アクセス制御エンジンを超えたものである必要があります。ポリシー注入と評価から強制と追跡可能性まで、包括的な実行認識型制御を提供する必要があります。QueryPieのMCP Agent PAMは、このモデルの実用的で堅牢な実装として際立っています。このホワイトペーパーは、単なる孤立したLLMガードレールを超えて、MCP、AIエージェント、LLMにまたがる完全に統合された実行フローアーキテクチャを採用し、AIセキュリティの中心にポリシー強制を配置するという戦略的なパラダイムシフトを提案します。</p>
 <h2 id="wp17-044">付録. 実行フローベースポリシー設計のための高度な概念：PBACとCBAC</h2>
 <h2 id="wp17-045">A.1 目的ベースアクセス制御（PBAC）</h2>
@@ -7716,11 +7716,11 @@ when {
     "image": "/assets/images/07-blog/wp-thumb-12.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Noah Kim",
+      "title": "Security Engineer",
+      "bio": "ノアは、ペネトレーションテストのコンサルタントおよび社内ペネトレーションテスターとして、包括的な脆弱性評価を実施し、安定性とセキュリティを確保しています。SASTやDASTなどのソリューションをCI/CDパイプラインに統合し、会社の製品に対する脆弱性管理を行っています。 ",
+      "avatar": "/assets/images/07-blog/author-noah.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/gyeongho-kim-a41b34209/"}]
     },
     "content": `<h2 id="wp18-001">1. 序論と目的</h2>
 <h2 id="wp18-002">背景と論拠</h2>
@@ -8759,10 +8759,10 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
     "image": "/assets/images/07-blog/wp-thumb-11.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
+      "name": "Fabian Lee",
+      "title": "Software Engineer",
+      "bio": "Fabianは検索プラットフォーム、品質データパイプライン、サービス分野でほぼ10年の経験を持つ熟練のソフトウェアエンジニアです。彼はユーザーのニーズとサービスの目標に一致する意味のあるインサイトを生成するためにデータを分析し処理することに情熱を注いでいます。Fabianはユーザー体験を向上させ、ビジネス成功に貢献するデータ駆動型ソリューションを提供することに優れています。",
+      "avatar": "/assets/images/07-blog/author-fabian.png",
       "sns": []
     },
     "content": `<h2 id="wp19-001">1. 序論と比較の目的</h2>
@@ -8775,7 +8775,7 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
 <h2 id="wp19-003">Google Agentspaceアーキテクチャの概要</h2>
 <p>Google Agentspaceは、企業のデータ、システム、生産性向上ツールをAIエージェントと接続するために設計されたマルチエージェントプラットフォームであり、検索、要約、アクションの自動化などの強力なワークフローを可能にする。そのアーキテクチャは以下のように要約できる[1][2]：</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp19-1-google-agentspace-architecture.png" alt=""></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp19-1-google-agentspace-architecture.png" alt=""></figure>
 <p>この構造は、AIエージェントによって、プロンプト入力から外部システムアクションまでの完全なフローを示している。Google CloudのIAM（Identity and Access Management）、ドキュメント・レベルのACL（Access Control Lists）、コンテンツ・フィルタリング、DLP（Data Leakage Prevention）を通じて、コア・セキュリティ機能が実施される。しかし、実行時のリアルタイムポリシーインジェクションやユーザーコンテキストを意識したコントロールは、構造的に制限されたままだ。</p>
 <h2 id="wp19-004">Google Agentspaceの紹介</h2>
 <p>Google Agentspaceの全機能アーキテクチャとマルチエージェント実行フローは、公式ビデオでも紹介されている。このビデオは、Agentspaceのコアなユースケース、インターフェースのレイアウト、外部システムとの統合、実行フローがどのように構成されているかを視覚的に概観することができ、また、本稿で紹介するアーキテクチャ分析に役立つコンテキストを提供する。</p>
@@ -9527,7 +9527,7 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
 <p>Google AgentspaceとQueryPie MCP PAMはそれぞれ独立して動作することができるが、企業で両者を導入する際の鍵は、<strong>実行フローに直接セキュリティレイヤーを組み込む</strong>ことである。2つのシステムを並行して動かすということではなく、それは、Google Agentspaceが実行を決定する内容を積極的に管理する<strong>ポリシー実施と承認レイヤーとして</strong>QueryPieを挿入することである。こうすることで、AI主導の生産性は常に組織のセキュリティ基準の監視下に置かれる。</p>
 <h2 id="wp19-055">実行フローにおけるQueryPie MCP PAMの位置付け</h2>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp19-2-querypie-fits-in-the-execution-flow.png" alt=""></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp19-2-querypie-fits-in-the-execution-flow.png" alt=""></figure>
 <pre><code class="language-json">[ユーザープロンプト入力］  
         │  
         ▼  
@@ -9735,22 +9735,22 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
     "image": "/assets/images/07-blog/wp-thumb-10.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Jake Im / Ravi Kang / Noah Kim",
+      "title": "Security Team Lead",
+      "bio": "ジェイクはセキュリティ専門家で、金融および軍事環境を含む厳しい分野でセキュリティ運用を管理してきた16年以上の経験を持っています。QueryPieのセキュリティチームリーダーとして、重要な資産を保護し、進化する脅威から強固な保護を提供しています。",
+      "avatar": "/assets/images/07-blog/author-jake.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/sungbin-im-ba817b25/"}]
     },
     "content": `<h2 id="wp20-001">はじめに：革新的なMCP、しかしエンタープライズには不十分</h2>
 <p>最近、人工知能（AI）分野では、モデルコンテキストプロトコル（Model Context Protocol, MCP）が注目を集めています。[1] MCPは、AIアシストとデータが存在するシステム（コンテンツストア、ビジネスツール、開発環境など）を繋ぐ新しいオープンスタンダードであり、AIモデルがより正確で関連性の高いレスポンスを生成することを目的としています。[1] マジックなどのさまざまな周辺機器を標準化された方法で繋ぐUSB-Cポートのように、MCPはAIモデルをさまざまなデータソースやツールに繋ぐ標準化された方法を提供し、「AIのためのUSB-C」としても知られています。[4] すでにBlock、Apollo、Zapier、Cursorなど、多くの企業と開発ツールがMCPを導入して生態系を拡張しています。[1]</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp20-1-what-is-mcp-and-mcp-server.png" alt="MCPアーキテクチャの概要"><figcaption>MCPアーキテクチャの概要</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp20-1-what-is-mcp-and-mcp-server.png" alt="MCPアーキテクチャの概要"><figcaption>MCPアーキテクチャの概要</figcaption></figure>
 <p>しかし、この革新的なMCPには、エンタープライズ環境での利用には致命的な欠点があります。それはセキュリティ機能の欠如です。現在のMCPは、はじめのHTTPのように、認証、権限付与、データ暗号化、監査ログなど、企業環境で不可欠なセキュリティメカニズムをプロトコルレベルで提供していません。これは、機密性の高いデータを扱い、厳格な規制遵守が要求されるエンタープライズ環境でMCP導入を躊躇させる最も大きな障壁です。</p>
 <p>この記事では、MCPの基本的な概念と現在の状況を紹介し、エンタープライズ環境で発生するセキュリティ上の課題について深く分析します。そして、Web通信の標準であるHTTPSの発展過程を教訓として、MCPのセキュリティ強化のための仮想的なプロトコル、MCPS（Secured Model Context Protocol）の必要性と実現方法、そして予想される効果と課題について議論したいと思います。</p>
 <h2 id="wp20-002">MCP深層分析：概念、構造、現状</h2>
 <p>MCPは、AIアプリケーション（チャットボット、IDEアシスト、カスタムエージェントなど）が外部ツール、データソース、システムと相互作用する方法を標準化するために、Anthropicが提案したオープンスタンダードです。[1] 従来のフラグメント化された連携方法を単一のプロトコルに置き換えることにより、開発者は各データソースごとに別個のコネクタを維持する必要がなくなり、標準プロトコルに従って開発できるようになります。[1]</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp20-2-how-does-mcp-work.png" alt="MCPの動作方法"><figcaption>MCPの動作方法</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp20-2-how-does-mcp-work.png" alt="MCPの動作方法"><figcaption>MCPの動作方法</figcaption></figure>
 <p>MCPはクライアント-サーバーアーキテクチャに従います。[2]</p>
 <ul>
   <li><strong>ホスト:</strong> ユーザーが相互作用するアプリケーション（例：Claude Desktop、Cursor IDE、カスタムエージェント）。[2] 複数のクライアントインスタンスを管理し、セキュリティポリシー（権限、ユーザー同意）を担当します。[3]</li>
@@ -9784,7 +9784,7 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
 </ul>
 <p>これらの推奨事項にもかかわらず、エンタープライズ環境では、次のようなセキュリティ機能がプロトコルレベルで不足しています。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp20-3-mcp-without-security.png" alt="MCPのセキュリティが実装されていない場合に発生する主な脆弱性"><figcaption>MCPのセキュリティが実装されていない場合に発生する主な脆弱性</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp20-3-mcp-without-security.png" alt="MCPのセキュリティが実装されていない場合に発生する主な脆弱性"><figcaption>MCPのセキュリティが実装されていない場合に発生する主な脆弱性</figcaption></figure>
 <ul>
   <li><strong>認証（Authentication）:</strong> クライアントがサーバーに接続するか、サーバーがクライアントに接続するとき（特にネットワーク接続時）、互いの身元を確認するための強制的なメカニズムがありません。サーバーは、合法的なクライアントが接続されているか、クライアントが合法的なサーバーに接続されているか、どのように知ることができるでしょうか？</li>
   <li><strong>承認（Authorization）:</strong> ツールの実行に対するユーザーの同意は推奨されますが[13]（一部のホストで実装されています[12]）、特定のユーザー/クライアントがどのリソースにアクセスするか、どのツールをどのパラメータで使用するかについての細分化されたアクセス制御を行うための標準化されたプロトコルメカニズムがありません。</li>
@@ -9806,7 +9806,7 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
 <h2 id="wp20-004">歴史からの教訓：ウェブはいかにして自らを保護したか（HTTP → HTTPS）</h2>
 <p>World Wide Web（WWW）とHTTPは1989年から1991年の間にCERNのチームバーナースリによって発明されました。[25] 当初の目的は、研究者間の情報（ハイパーテキストドキュメント）の共有でした。[26] HTTP/0.9と同様の初期バージョンは非常に単純でした。[25]</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp20-4-http-to-https.png" alt="HTTP vs HTTPS: 転送プロトコルのセキュリティの基本"><figcaption>HTTP vs HTTPS: 転送プロトコルのセキュリティの基本（出典：https://sslinsights.com/http-vs-https/）</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp20-4-http-to-https.png" alt="HTTP vs HTTPS: 転送プロトコルのセキュリティの基本"><figcaption>HTTP vs HTTPS: 転送プロトコルのセキュリティの基本（出典：https://sslinsights.com/http-vs-https/）</figcaption></figure>
 <p>しかし、当初のHTTPは平文（plaintext）プロトコルでした。[15] Webが単純な文書共有を越えて拡張されるにつれて、これは深刻なリスクをもたらしました。</p>
 <ul>
   <li><strong>盗聴（機密性侵害）:</strong> ネットワークを監視する人は、誰でも送信されるデータ（パスワード、フォームデータ、機密情報）を読むことができました。[15]</li>
@@ -9827,7 +9827,7 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
 <h2 id="wp20-005">MCPS構想：エンタープライズAIのためのセキュアプロトコル</h2>
 <p>これで、MCPの不可欠な進化としてMCPS（Secured Model Context Protocol）を公式に提案します。MCPSは、HTTPSモデルから教訓を得て、エンタープライズセキュリティ要件を最初から組み込むように設計する必要があります。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp20-5-https-and-mcps.png" alt="MCPからMCPSへ：必然的なセキュリティの進化"><figcaption>MCPからMCPSへ：必然的なセキュリティの進化</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp20-5-https-and-mcps.png" alt="MCPからMCPSへ：必然的なセキュリティの進化"><figcaption>MCPからMCPSへ：必然的なセキュリティの進化</figcaption></figure>
 <p><strong>MCPSの目的:</strong> すべてのMCP通信に対して、機密性、完全性、強力な認証を提供し、エンタープライズ環境に適した信頼基準線を構築することです。</p>
 <p>MCPSがプロトコルレベルで不可欠なセキュリティ要素は次のとおりです。</p>
 <p><strong>1. 相互認証（クライアントとサーバー）:</strong></p>
@@ -9980,7 +9980,7 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
 <p>MCPS標準化と採用を達成するためには、AnthropicとOpenAIと同様の主要な主体が主導し、ツールビルダーと企業コンシューマーの広範囲のコミュニティの同意が必要な強力なリーダーシップと協力が必要です。MCP自体は、Anthropicによって開始され、[1] OpenAIと同様の他の企業によって受け入れられました。[7] HTTPS/TLSの歴史は、主要な産業プレイヤーと標準化機関との関連があることを示しています。[27] MCPSが標準になるためには、標準化の技術的、政治的課題を探求し、生態系への採用を主導するために、類似した協力リーダーシップが必要です。これがない場合、MCPSは隙間のソリューションになるか、競争的な「セキュアMCP」変種に繋がり、標準化の目的を破壊する可能性があります。</p>
 <h2 id="wp20-013">おわりに：AIの未来のための安全な基盤構築</h2>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp20-6-build-safety-for-AI-future.png" alt="AI時代の高度化されたセキュリティは不可欠"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp20-6-build-safety-for-AI-future.png" alt="AI時代の高度化されたセキュリティは不可欠"></figure>
 <p>MCPは、AI統合のための革新的な可能性を持っていますが、現在の状態では、エンタープライズ環境での使用には重要なセキュリティギャップが存在します。Web通信を安全にするHTTPSの歴史は、標準化されたセキュリティの重要性を明確に示しています。</p>
 <p>そこで、エンタープライズ要件を満たすために、相互認証（mTLS）、必須の暗号化（TLS）、強力な承認メカニズムの統合、包括的な監査ログを重要要素とするMCPSの必要性を提案しました。MCPSは、セキュリティ機能を追加するだけでなく、標準化されたセキュリティを通じて、信頼できるものとして、安全なAI生態系を構築するために不可欠です。</p>
 <p>もちろん、MCPSの開発、標準化、導入プロセスには、技術的複雑さ、パフォーマンスオーバーヘッド、生態系への合意の引き出し、運用上の課題など、解決する必要がある課題があります。特にmTLSのための認証書管理は、重要な運用負担になる可能性があります。</p>
@@ -10078,11 +10078,11 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
     "image": "/assets/images/07-blog/wp-thumb-9.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Jake Im / Ravi Kang / Noah Kim",
+      "title": "Security Team Lead",
+      "bio": "ジェイクはセキュリティ専門家で、金融および軍事環境を含む厳しい分野でセキュリティ運用を管理してきた16年以上の経験を持っています。QueryPieのセキュリティチームリーダーとして、重要な資産を保護し、進化する脅威から強固な保護を提供しています。",
+      "avatar": "/assets/images/07-blog/author-jake.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/sungbin-im-ba817b25/"}]
     },
     "content": `<h2 id="wp21-001">1. 序論: DevSecOpsを超えるAgentSecOpsの必要性</h2>
 <p>AIエージェントベースの自動化システムが拡大し、組織内資産やAPIへのアクセス方法が根本的に変化しています。LangChain、CrewAI、AutoGPTなどのフレームワークは、単なる自動化レベルを超えて、実行主体（エージェント）が独立して意思決定し外部システムを呼び出す構造を現実化しています。これらのシステムを包括的に運用する概念がAgentOpsです。AgentOpsはLLMベースのワークフロー最適化、ツール呼び出しスケジューリング、結果解釈およびレポート自動化など多様な機能を含みます[1]。</p>
@@ -10109,7 +10109,7 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
 <p>各呼び出し間にはコンテキスト伝達、役割委任検証、ポリシー衝突検出、実行権限チェックが必要で、各エージェントは独立してポリシー評価（PDP）、実行制御（PEP）、監査ロギングが行われる必要があります[3]。</p>
 <p>この2つの構造はAgentOpsを理解しセキュリティ制御を設計する上で非常に重要な基準となります。セキュリティポリシー挿入位置、制御主体、実行フローの予測可能性が構造ごとに異なるため、これを明確に区分しないとポリシーが無力化されたりロギングが抜け落ちるなどの問題が発生します[4][5]。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp21-1-comparison-of-agentops-execution-models.png" alt="[図 1] AgentOps 実行構造 タイプ比較"><figcaption>[図 1] AgentOps 実行構造 タイプ比較</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp21-1-comparison-of-agentops-execution-models.png" alt="[図 1] AgentOps 実行構造 タイプ比較"><figcaption>[図 1] AgentOps 実行構造 タイプ比較</figcaption></figure>
 <table class="wp-table">
   <thead>
     <tr>
@@ -10160,7 +10160,7 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
 <p>従来のDevSecOpsは、静的解析(SAST)、動的解析(DAST)、IaCセキュリティ検査、イメージスキャン、SCA(Software Composition Analysis)、秘密鍵露出検出など多様なセキュリティモジュールをCI/CDパイプラインに統合することにより、コードレベルのリスクを事前に特定し除去する体制を持っています。SCAはオープンソースライブラリおよび依存関係内のセキュリティ脆弱性、ライセンス違反、保守状態などを分析し、最近のGitHub Advanced Security、Snyk、WhiteSourceなどのツールがこれを自動化しています[2]。</p>
 <p>次のダイアグラムはGitHub中心のコード作成後、JenkinsやGitHub Actionsでイメージビルドが行われ、Harborでイメージ脆弱性を検査し、問題がない場合AWS ECRにデプロイされるフローを示しています。これ以降ArgoCDを通じてKubernetesクラスタにデプロイされ、このプロセスでVaultを通じてシークレット管理、ZAPを通じてDASTセキュリティテスト、HelmとTerraformを通じてインフラ構成検証まで含まれています。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp21-2-example-of-devsecops-pipeline.png" alt="[図 2] DevSecOps Pipeline"><figcaption>[図 2] DevSecOps Pipeline</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp21-2-example-of-devsecops-pipeline.png" alt="[図 2] DevSecOps Pipeline"><figcaption>[図 2] DevSecOps Pipeline</figcaption></figure>
 <p>このような現代的なDevSecOpsパイプラインは、様々なセキュリティ機能を統合することにより、デプロイ前後の静的および動的リスクを包括的に管理できます。コード解析、イメージ整合性検証、オープンソース依存関係脆弱性検出(SCA)、IaCポリシー違反検出、ランタイムワークロード保護、クラウド構成解析(CSPM)、権限解析(CIEM)、統合CNAPPベースの制御まで含まれています。しかし、この全体構造は人間主体がコードを作成し、明示的なリリースフローに従わない限り、制御は不可能です。</p>
 <p>AIベースAgentOpsはこれとは異なる方式で動作します。エージェントはGitHubリポジトリに直接APIを呼び出すか、Slackにメッセージを送信するか、AWS Lambdaをトリガーするか、など、事前に定義されていない実行フローを生成できます。これらの実行フローはCI/CDに統合されず、GitコミットやJenkinsログなしでも発生します。結果的に、従来のDevSecOps体制で定義されたセキュリティ制御パスを踏襲しない実行が頻繁に発生することになります[3]。</p>
 <p>このような実行フローに対しては、DevSecOpsのすべてのセキュリティ制御が適用されないか、または全く後続の対応が不可能になる可能性があります。例えば、この実行はイメージスキャンやIaC検査、承認などの事前のセキュリティ検査を回避することになります。このような構造的な空白に対応するために、AgentSecOpsが登場しました。</p>
@@ -10168,16 +10168,16 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
 <h2 id="wp21-002">2. DevSecOpsとAgentSecOpsの構造比較</h2>
 <p>DevSecOpsはソフトウェア開発パイプラインにおいてセキュリティを自動化する体制であり、コード作成段階から運用環境まで連続的にセキュリティ活動を段階的に実現することが核心です。初期段階では静的解析(SAST)と脆弱性スキャン程度に留まりましたが、最近ではオープンソースライブラリの構成および脆弱性評価(SCA)、インフラ構成コード(IaC)のポリシー違反検出、イメージ脆弱性検査、シークレット露出防止など多様な機能が統合されています。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp21-3-vulnerability-management-across-the-cloud-devsecops-pipeline.png" alt="[図 3] クラウド環境におけるDevSecOps Pipelineの脆弱性管理"><figcaption>[図 3] クラウド環境におけるDevSecOps Pipelineの脆弱性管理</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp21-3-vulnerability-management-across-the-cloud-devsecops-pipeline.png" alt="[図 3] クラウド環境におけるDevSecOps Pipelineの脆弱性管理"><figcaption>[図 3] クラウド環境におけるDevSecOps Pipelineの脆弱性管理</figcaption></figure>
 <p>クラウド環境では、CSPM(Cloud Security Posture Management)、CIEM(Cloud Infrastructure Entitlement Management)、CWPP(Cloud Workload Protection Platform)などのプラットフォームも含まれているため、DevSecOpsは1つのセキュリティ生態系と進化しています[4]。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp21-4-application-vulnerability-management.png" alt="[図 4] クラウド環境に適した脆弱性管理方法"><figcaption>[図 4] クラウド環境に適した脆弱性管理方法</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp21-4-application-vulnerability-management.png" alt="[図 4] クラウド環境に適した脆弱性管理方法"><figcaption>[図 4] クラウド環境に適した脆弱性管理方法</figcaption></figure>
 <p>DevSecOpsはコードベースで定義された資産を基準にセキュリティを実施します。GitHub、GitLabなどのソースリポジトリでコードがコミットされると、CI/CDツール(Jenkins、GitHub Actionsなど)がこれをビルドし、テストします。このプロセスでSCAツールはオープンソース脆弱性を特定し、イメージ解析ツールはコンテナセキュリティ脅威を評価し、IaCテンプレートは規定遵守の有無を検査します。配備段階ではCSPMやCWPPが構成エラーとランタイムパフォーマンスを監視します[5]。</p>
 <p>しかし、この全体構造はコードが明示的に存在し、人間が定義したパイプライン内でのみ有効です。LLMベースのエージェントは開発者が作成しないコードを実行し、スクリプトなしでAPI呼び出しを行うか、内部システムに直接アクセスします。GitコミットなしでSlackにメッセージを送信し、JenkinsログなしでAWS Lambdaをトリガーし、事前に定義されていない目的に従って実行します。このような実行はDevSecOpsで定義されたセキュリティ制御ポイントを回避することになります[6]。</p>
 <p>AgentSecOpsはこのような動的実行リクエストに介入する構造であり、実行時点でのポリシー(PDP: Policy Decision Point)を評価し、実行目的(PBAC: Purpose-Based Access Control)を基準に権限を検証し、承認フローと監査ロギングを統合します。この構造は、単一実行単位に対するリアルタイム制御を目的としており、DevSecOpsの静的解析や事前防御モデルとは全く異なる制御位置を持っています。</p>
 <p>次のダイアグラムは、時間軸を基準にしてDevSecOpsとAgentSecOpsの介入ポイントを比較したものです。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp21-5-timeline-based-comparison-of-control-flow.png" alt="[図 5] DevSecOps vs AgentSecOps Control Flow"><figcaption>[図 5] DevSecOps vs AgentSecOps Control Flow</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp21-5-timeline-based-comparison-of-control-flow.png" alt="[図 5] DevSecOps vs AgentSecOps Control Flow"><figcaption>[図 5] DevSecOps vs AgentSecOps Control Flow</figcaption></figure>
 <p>DevSecOpsは実行前のコードと資産の状態を評価し、AgentSecOpsは実行時点の行為とポリシーの衝突の有無を判断します。AgentSecOpsは次のようなセキュリティ要件を満たすために設計されています。</p>
 <ul>
   <li>実行リクエストの主体識別</li>
@@ -10313,7 +10313,7 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
 <p>実行リクエストが許可されたり拒否されたり、どちらの場合でも、すべてのポリシー評価および実行履歴はセッションベースで保存されます。これにより、管理者は個別の実行フローを復元し、特定のAIエージェントがどのようなリクエストを実行したかを視覚的に分析できます。この構造は、後のフォレンジック、セキュリティ監査、規制対応に非常に重要な役割を果たします。</p>
 <p>次はAgentSecOps構造の重要なコンポーネント関係を示すダイアグラムです。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp21-6-agentsecops-component-architecture.png" alt="[図 6] AgentSecOps Component Architecture"><figcaption>[図 6] AgentSecOps Component Architecture</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp21-6-agentsecops-component-architecture.png" alt="[図 6] AgentSecOps Component Architecture"><figcaption>[図 6] AgentSecOps Component Architecture</figcaption></figure>
 <p>この構造を通じて、AgentSecOpsは実行主体のコンテキストを理解し、リアルタイムでポリシーを適用し、実行経路を追跡可能にします。これは単なるモニタリングではなく、実行制御を行う統合セキュリティアーキテクチャとして定義できます[11]。</p>
 <h2 id="wp21-009">4. 脅威シナリオ分析: AgentSecOpsによる実行可能な脅威タイプ</h2>
 <p>AIベースのエージェントは、人間の介入なしにAPI呼び出し、文書作成、メッセージ送信、クラウド資産変更などを実行できます。このような自律的実行環境では、認証、承認、記録、責任追跡が不明確な実行が繰り返し発生することになり、これにより従来のセキュリティモデルが制御できない新しい脅威タイプが登場します。AgentSecOpsは、このような実行時点の脅威を事前に検出し、防止するための構造に設計されています[12]。</p>
@@ -10627,11 +10627,11 @@ allow {
   <li>Webhook Wrapper構造: GitHub、Slack、Jiraなどのイベントベース呼び出し前後にポリシー確認段階を挿入します。</li>
 </ul>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp21-7-architecture-with-mcp-pam.png" alt="[図 7] Architecture with MCP PAM"><figcaption>[図 6] Architecture with MCP PAM</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp21-7-architecture-with-mcp-pam.png" alt="[図 7] Architecture with MCP PAM"><figcaption>[図 6] Architecture with MCP PAM</figcaption></figure>
 <p>このようなアーキテクチャは、従来のシステムを変更することなく挿入可能であり、APIプロキシベースのポリシー挿入方式は、特にSaaSベースの呼び出しで有用です。</p>
 <p>現在、ほとんどの組織はTerraform、CloudFormation、PulumiなどのIaCツールを通じてAWSベースのインフラリソースを非常に精密に宣言的に制御しています。このような環境では、実行主体が人間の場合でも承認を伴うリリース手続きを要求し、自動化だけでなく、制御された形式で制限されます。そのため、AI Agentが直接的にAWSリソースを生成したり、操作したりする形式は現実的に不可能です。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp21-8-iac-security-flow.png" alt="[図 8] IaC Security Flow"><figcaption>[図 8] IaC Security Flow</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp21-8-iac-security-flow.png" alt="[図 8] IaC Security Flow"><figcaption>[図 8] IaC Security Flow</figcaption></figure>
 <p>しかし、最近のLLMベースのエージェントがIaCテンプレートを生成したり、GitOpsベースのワークフローを自動的にトリガーする形式になり、IaC前段の設計フローに介入する可能性が高まっています。実際に一部の開発型エージェントは、このようなフローを実験的に実装しています。このような転換が可視化される状況で、セキュリティポリシーがない状態でエージェントがIaCと連携すると、リソース生成と権限分配の責任追跡が不可能になる可能性があります。実行フロー内の制御階層が必ず先行される理由です。</p>
 <h2 id="wp21-017">5.2 ポリシー構成および監査戦略</h2>
 <p>実行リクエストは、単なる呼び出しではなく、主体、目的、時点、コンテキストをすべて含む複合条件として判断される必要があり、これに応じてポリシー構成も3段階に分ける必要があります。</p>
@@ -10765,7 +10765,7 @@ allow {
 <p>特に、AIエージェントが独立して実行する環境ではなく、Agent-to-Agent実行フローが連続して続く構造では、状況はさらに複雑になります。各AgentOpsごとに別のポリシー評価(PDP)、実行制御(PEP)、情報参照(PIP)が必要になり、この過程で発生するすべての実行評価結果は、中央実行分析システムで統合的に集計する必要があります。</p>
 <p>次は、この構造を視覚的に示したダイアグラムです。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp21-9-distributed-agent-execution-and-centralized-policy-analysis.png" alt="[図 9] Distributed Agent Execution and Centralized Policy Analysis"><figcaption>[図 9] Distributed Agent Execution and Centralized Policy Analysis</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp21-9-distributed-agent-execution-and-centralized-policy-analysis.png" alt="[図 9] Distributed Agent Execution and Centralized Policy Analysis"><figcaption>[図 9] Distributed Agent Execution and Centralized Policy Analysis</figcaption></figure>
 <p>このような構造は、各AgentOpsごとに個別に適用可能ですが、運用上は非常に複雑であり、構築および維持に費用が指数関数的に増加します。企業内で数十のエージェントフローを監視し、各フローに対してPDPポリシーを設計し、結果を統合的に分析する構造を直接運用するのは、実現不可能に近いです。</p>
 <p>そのため、AgentSecOpsは、実務上はMCP(Model Context Protocol)ベースの実行セキュリティソリューション(MCP(Model Context Protocol) Agent PAM)の形式で実現する必要があり、これは、単なる機能ではなく、運用戦略的に必要なインフラです。QueryPie MCP(Model Context Protocol) Agent PAMは、実行フローにポリシー評価を挿入し、個別の実行を拒否または承認フローに連動させ、結果を統合的に分析できる構造を提供します[19]。</p>
 <p>次のような環境では、MCP(Model Context Protocol)ベースのAgentSecOps導入が特に必要とされます：</p>
@@ -10835,11 +10835,11 @@ allow {
     "image": "/assets/images/07-blog/wp-thumb-8.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Zac Jung",
+      "title": "Frontend Engineer",
+      "bio": "ZacはQueryPieでフロントエンドファウンデーションパートリーダーとして活躍する経験豊富なフロントエンドエンジニアです。大規模なフロントエンドシステムを専門とし、ユーザー体験（UX）と開発者体験（DX）の両方を重視して、効率的で直感的なソリューションを創出します。Zacは最新技術と最高のソフトウェアエンジニアリングプラクティスを活用して堅牢なシステムを構築し、革新を推進し続ける一方で、細部にまで配慮しています。",
+      "avatar": "/assets/images/07-blog/author-zac.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/jinwoo-jung-8b11a8112/"}]
     },
     "content": `<h2 id="wp22-001">参考文献への謝辞</h2>
 <blockquote>
@@ -10849,7 +10849,7 @@ allow {
 <blockquote>
 <p>Rakesh Gohel氏のLinkedIn: <a href="https://www.linkedin.com/in/rakeshgohel01/" target="_blank" rel="noopener noreferrer">https://www.linkedin.com/in/rakeshgohel01/</a></p>
 </blockquote>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-1-rakesh-gohel-ai-agents.png" alt="[그림 1] AI 에이전트는 실제로 무엇인가"><figcaption>[그림 1] AI 에이전트는 실제로 무엇인가</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-1-rakesh-gohel-ai-agents.png" alt="[그림 1] AI 에이전트는 실제로 무엇인가"><figcaption>[그림 1] AI 에이전트는 실제로 무엇인가</figcaption></figure>
 <h2 id="wp22-002">第1章： 役割と責任の違い</h2>
 <p>MCPサーバーとAIエージェントは、AI中心システムの核心的な構成要素です。この2つのコンポーネントは一つのフロー内で協力しますが、その目的と責任は本質的に異なります。しかし、実務ではこの2つの役割を混同するケースが頻繁に発生し、これはアーキテクチャ設計の誤り、権限の過剰付与、実行制御の失敗といった構造的なセキュリティ脆弱性につながる可能性があります［1］。このような混同は、単なる構造理解の誤りを超えて、実行権限の無秩序な拡張、ポリシーの迂回、ユーザー行動の監査不能領域の発生など、<strong>直接的なセキュリティリスク</strong>を引き起こす可能性があります。</p>
 <p>例えば、AIエージェントがユーザーのリクエストを解釈する機能を越えて、直接外部システムを呼び出すように設計されると、LLMの非決定性により予測不能な動作が発生したり、ポリシーに基づく制御なしに未承認のリソースへのアクセスが許可される可能性があります。逆に、MCPサーバーがユーザー意図の判断やポリシー決定まで担う場合、システムが意思決定を誤る構造的な不一致が生じ、責任が集中し、監査可能性（Auditability）と役割説明可能性（Explainability）が弱まります。</p>
@@ -10857,7 +10857,7 @@ allow {
 <h2 id="wp22-003">MCPサーバーとは何ですか？</h2>
 <p>MCP（Model Context Protocol）サーバーは、AIエージェントが外部リソースにアクセスし、タスクを実行できるように接続する<strong>バックエンドインターフェース層</strong>です。多様なシステム（API、DB、SaaSなど）とAIエージェントの間を接続し、標準化された方法でリソースを抽象化して提供します［2］。MCPサーバーは単一の統合ゲートウェイのように動作し、AIエージェントが個々のシステムの実装詳細を知らなくてもタスクをリクエストできるように支援します。</p>
 <p>しかし、MCPサーバーは単純なプロキシを超え、ポリシー評価、実行制御、セッション監査などの機能は限定的にしかサポートされず、システム要件に応じて一部の機能は別層で補完することが一般的です［26］。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-3-ai-agent-flow.png" alt="[그림 3] AI エージェント フロー"><figcaption>[그림 3] AI エージェント フロー</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-3-ai-agent-flow.png" alt="[그림 3] AI エージェント フロー"><figcaption>[그림 3] AI エージェント フロー</figcaption></figure>
 <p><strong>MCPサーバーの主要な責任構造</strong></p>
 <ul>
   <li><strong>ツール接続とリソースルーティング（Tool Proxying）:</strong> MCPは、多様な外部ツール（API、DB、ファイルなど）を標準化されたインターフェースで公開します。AIエージェントの要求を実際のシステム呼び出しに変換して転送するプロキシの役割を果たします。</li>
@@ -10894,7 +10894,7 @@ allow {
   <li><strong>応答生成</strong>: ユーザーに結果を自然言語で伝達したり、次の作業を誘導します。</li>
 </ul>
 <p>AIエージェントは、ユーザーの指示を解釈し計画を立てる<strong>脳の役割</strong>に集中し、実際の実行はMCPサーバーを通じて行われる必要があります。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-3-ai-agent-flow.png" alt="[図3] AIエージェントのフロー"><figcaption>[図3] AIエージェントのフロー</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-3-ai-agent-flow.png" alt="[図3] AIエージェントのフロー"><figcaption>[図3] AIエージェントのフロー</figcaption></figure>
 <h2 id="wp22-005">誤解を防止するための重要なポイントのまとめ</h2>
 <table class="wp-table">
   <thead>
@@ -10935,10 +10935,10 @@ allow {
   <li><strong>MCPサーバーは「手足」の役割</strong>として、定められた作業を安全に実行します［5］。</li>
 </ul>
 <p>この分担により、システムは<strong>知能性と制御力</strong>を同時に確保できます。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-4-summary-of-role-separation.png" alt="図：AIエージェントとMCPサーバーの役割区分"><figcaption>図：AIエージェントとMCPサーバーの役割区分</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-4-summary-of-role-separation.png" alt="図：AIエージェントとMCPサーバーの役割区分"><figcaption>図：AIエージェントとMCPサーバーの役割区分</figcaption></figure>
 <h2 id="wp22-007">AIエージェントとMCPサーバーの役割区分</h2>
 <p>以下の図は、MCPサーバーとAIエージェントの役割分担を示しています。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-5-functional-separation-between-ai-agent-and-mcp-server.png" alt="[図5] AIエージェントとMCPサーバー間の機能的分離"><figcaption>[図5] AIエージェントとMCPサーバー間の機能的分離</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-5-functional-separation-between-ai-agent-and-mcp-server.png" alt="[図5] AIエージェントとMCPサーバー間の機能的分離"><figcaption>[図5] AIエージェントとMCPサーバー間の機能的分離</figcaption></figure>
 <h3 id="wp22-008">説明:</h3>
 <p>ユーザーがリクエストを入力すると、AI エージェントはこれを解釈して計画を策定します。実行リクエストはMCPサーバー経由で送信され、実際の作業は外部システムとの通信を通じて実行されます。この構造は責任分離、ポリシーベースのフロー、持続可能な拡張性を実現します。</p>
 <p>次の章では、MCPとAIエージェントがどのように相互作用するか、および実際のインターフェースがどのような方法で実装されるかを具体的に検討します。</p>
@@ -10976,7 +10976,7 @@ allow {
 <p>要するに、AIエージェントは人とシステムを接続する知能型インターフェース層であり、その下位実行はMCPサーバーが担当します。</p>
 <h2 id="wp22-012">インターフェース方式の構造的差異</h2>
 <p>MCPサーバーとAIエージェントは、以下の通り異なる方法でインターフェースを構成します。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-6-structural-differences-in-interface-design.png" alt="【図6】インターフェース設計の構造的差異"><figcaption>【図6】インターフェース設計の構造的差異</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-6-structural-differences-in-interface-design.png" alt="【図6】インターフェース設計の構造的差異"><figcaption>【図6】インターフェース設計の構造的差異</figcaption></figure>
 <p>このような構造的な違いは、設計者にとって重要な基準となります。例えば、セキュリティ設定はMCPを中心に実施し、ユーザーインターフェースの改善はAIエージェントを中心に実施する必要があります。</p>
 <h2 id="wp22-013">第3章： 全体システムアーキテクチャ内の位置と関係</h2>
 <p>AI中心のシステムがますます複雑化するにつれ、MCPサーバーとAIエージェントが全体アーキテクチャ内でどのように配置され統合されるかを理解することは重要です。特にIT担当者や意思決定者は、システム設計時に両コンポーネントの相互作用方法とセキュリティ境界（Trust Boundary）を正確に区別する必要があります［12］。</p>
@@ -11024,7 +11024,7 @@ allow {
 <p>このように、AIエージェントは知能的な判断とフロー制御の出発点であり、実際の実行フローはMCPサーバーおよびAgent PAMを通じて管理されます。</p>
 <h2 id="wp22-016">全体システム内の相互関係</h2>
 <p>以下の構造は、一般的なMCPベースのAIシステムのアーキテクチャを要約したものです：</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-7-interactions-within-the-overall-system.png" alt="[図7] 全体のシステム内相互作用"><figcaption>[図7] 全体のシステム内相互作用</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-7-interactions-within-the-overall-system.png" alt="[図7] 全体のシステム内相互作用"><figcaption>[図7] 全体のシステム内相互作用</figcaption></figure>
 <p>この流れにおいて、AIエージェントはユーザー中心の入力を知能的に解釈し、MCPサーバーはこれを適切なバックエンドリソースに接続し、MCP Agent PAMはすべての実行パスに対してポリシー検証、行動監視、データ保護を実施します。</p>
 <p>この階層的な分離は、単なる技術的な構成の問題を超え、AIシステム設計時に意図の解釈、実行制御、行動監査の全プロセスを分離し、責任を持って設計できるように支援します。特に以下の実務上の利点を提供します：</p>
 <ul>
@@ -11051,7 +11051,7 @@ allow {
 <p>MCPサーバーは自然言語の解釈や目的の把握機能は一切持たず、定型化されたコマンドと認証された呼び出しのみに反応します。このような使用は構造的にエラーを引き起こし、セキュリティおよび実行ポリシーが完全に迂回される可能性があります。</p>
 <p><strong>正しい視点</strong></p>
 <p>ユーザーは常にAIエージェントインターフェースを通じてMCPサーバーに間接的にアクセスする必要があります。AIエージェントが自然言語を解釈し、それに応じてMCPサーバーに明確なAPI呼び出しを生成する必要があります［21］。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-8-structured-api-calls-to-the-mcp-server.png" alt="[図8] MCPサーバーに対する構造化されたAPI呼び出し"><figcaption>[図8] MCPサーバーに対する構造化されたAPI呼び出し</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-8-structured-api-calls-to-the-mcp-server.png" alt="[図8] MCPサーバーに対する構造化されたAPI呼び出し"><figcaption>[図8] MCPサーバーに対する構造化されたAPI呼び出し</figcaption></figure>
 <h2 id="wp22-019">誤解2： 「AIエージェントがセキュリティも自動的に処理してくれるだろう？」”</h2>
 <p><strong>誤った理解</strong></p>
 <p>AIエージェントが非常に高度な知能で動作するため、データベースへの直接アクセスを許可したり、実行ポリシーを自動的に判断させても問題ないという考えです。</p>
@@ -11066,7 +11066,7 @@ allow {
 <p>一つのコンポーネントにすべての役割を付与すると、責任分離が崩れ、柔軟性と保守性が急激に低下します。特にセキュリティポリシー、エラー復旧、チーム間の協業において深刻な問題を引き起こす可能性があります［24］［25］。</p>
 <p><strong>正しい視点</strong></p>
 <p>2つのコンポーネントは役割が明確に分離され、統合されたインターフェースを通じて連携を維持しつつ、独立して進化する能力を備えていなければなりません。AIエージェントはユーザーの文脈を把握し目的を確立し、MCPサーバーはその目的に従って実行可能なタスクを実行します［25］。ただし、セキュリティに関連するアクセス制御、ログ記録、DLP、UEBAは別オプションであり、主にMCP Agent PAMでその役割を果たします。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-9-clearly-separated-roles-for-each-component.png" alt="[図9] 各コンポーネントの明確な役割の分離"><figcaption>[図9] 各コンポーネントの明確な役割の分離</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-9-clearly-separated-roles-for-each-component.png" alt="[図9] 各コンポーネントの明確な役割の分離"><figcaption>[図9] 各コンポーネントの明確な役割の分離</figcaption></figure>
 <h2 id="wp22-021">要点まとめ</h2>
 <table class="wp-table">
   <thead>
@@ -11149,7 +11149,7 @@ allow {
 <h2 id="wp22-026">付録. AI エージェント：人々のイメージ vs. 実際の構成要素</h2>
 <p>AI エージェントは、これまで単純なチャットボットや自動化ツールと誤解されてきました。特に実務者は、Cursor、ChatGPT、AutoGPT などのシステムに触れる中でこれらを「エージェント」と認識していますが、これらのシステムはAI エージェントの機能の一部を実装した単一のツールレベルのインターフェースに過ぎません。つまり、自律性、行動の連続性、記憶構造、意思決定システムなどを包含していません。</p>
 <p>以下は、人々が一般的に想像するAIエージェントのイメージと実際の構成要素との間の構造的な違いを視覚的に説明したものです：</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp22-10-structural-gap-between-what-people-think-and-what-they-are.png" alt="[図10] 人々が考えるAIエージェントと実際の構成要素との間の構造的な違い"><figcaption>[図10] 人々が考えるAIエージェントと実際の構成要素との間の構造的な違い</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp22-10-structural-gap-between-what-people-think-and-what-they-are.png" alt="[図10] 人々が考えるAIエージェントと実際の構成要素との間の構造的な違い"><figcaption>[図10] 人々が考えるAIエージェントと実際の構成要素との間の構造的な違い</figcaption></figure>
 <p>例えば、ChatGPTはGPTベースのテキスト生成エンジンであり、プロンプトに応答して言語結果を返すことはできますが、自ら目標を定義したり、外部システムと統合された行動を実行したりはしません。CursorはGPTを活用したコード編集ツールで、与えられた範囲内の作業を連続的に自動化することはできますが、創造的な目標設定や計画機能は組み込まれていません。一方、AutoGPTは計画-実行ループを構成する実験的なフレームワークとして注目されましたが、実際には固定されたループと制限されたメモリ構造の中で繰り返し呼び出しを行うのみで、複雑な状況では同じ判断を繰り返したり論理矛盾を引き起こす限界を示しました［4］。</p>
 <p>このような誤解は、すぐに設計上の誤りや実行段階の失敗につながり得ます。例えば、単に「エージェントを導入する」とだけ考えてGPT APIを呼び出すレベルから始める場合、ポリシー評価、実行監査、役割分離、責任追跡性などのセキュリティ/運用要件を満たすことができません。したがって、実際のAIエージェント導入を検討する際には、以下の構成要素を必ず検討する必要があります：</p>
 <ul>
@@ -11346,11 +11346,11 @@ allow {
     "image": "/assets/images/07-blog/wp-thumb-7.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Eddy Jeon",
+      "title": "Frontend Engineer",
+      "bio": "Eddy Jeonは現在、QueryPieでサービスのフロントエンドパートリーダーとして活躍している献身的なソフトウェアエンジニアです。この役割では、ユーザー体験を向上させるユーザーフレンドリーなインターフェースの開発と維持に注力しています。Eddyの卓越性へのコミットメントとフロントエンド技術に対する専門知識は、QueryPieが革新的なデータガバナンスソリューションを提供するという使命に大きく貢献しています。",
+      "avatar": "/assets/images/07-blog/author-eddy.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/eddy-jeon-a56a681a9/"}]
     },
     "content": `<h2 id="wp23-001">1.はじめに：なぜRAG 2.0なのか、そして何が変わったのか？</h2>
 <h2 id="wp23-002">1.1 RAGの台頭とその構造的な欠陥</h2>
@@ -11368,7 +11368,7 @@ allow {
 <h2 id="wp23-003">1.2 内部テストによる脅威シナリオ：Kennyケース</h2>
 <p>QueryPieは、RAGパイプラインにおける構造的なセキュリティ脆弱性を検証するために内部実験を実施しました。明らかになった最も代表的な脅威シナリオは、「Kennyケース」として知られています。</p>
 <p><strong><em>実験に基づく事例：KennyとBrantの給与情報の漏洩</strong></em></p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-1-threat-scenario-kenny-case.png" alt="実験に基づく事例：KennyとBrantの給与情報の漏洩"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-1-threat-scenario-kenny-case.png" alt="実験に基づく事例：KennyとBrantの給与情報の漏洩"></figure>
 <p><strong>1. シナリオ設定</strong></p>
 <ul>
   <li>Kenny：プロジェクト会議のメモと給与の詳細を含む社内Confluenceドキュメントをアップロードしたセキュリティチームのメンバー。</li>
@@ -11533,7 +11533,7 @@ allow {
 <p>ユーザーがRAGリクエストを送信すると、APIゲートウェイはまずユーザーのOAuthトークンを検証し、関連するテナントを特定した後、そのテナント専用のベクトルストアにリクエストをルーティングします。共有ベクトルストアにアクセスする場合でも、システムはメタデータフィルター（例：<code>user_id</code>、<code>tenant_id</code>、<code>access_scope</code>）を適用して、機密性の高いドキュメントがプロンプト注入から除外されるようにします。選択されたすべてのドキュメントと生成された応答はログに記録され、セキュリティ監視と監査可能性を可能にします[7]。</p>
 <p>このアーキテクチャ（APIゲートウェイ → オーケストレーター → ベクトルDB → LLM → ロギングにまたがる）は、本番RAG環境におけるランタイムポリシー強制の強力な例を示しています。</p>
 <p><strong>ダイアグラム：Microsoft RAGセキュリティフロー</strong></p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-2-microsoft-rag-security-flow.png" alt="ダイアグラム：Microsoft RAGセキュリティフロー"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-2-microsoft-rag-security-flow.png" alt="ダイアグラム：Microsoft RAGセキュリティフロー"></figure>
 <p><strong>主要制御機能</strong></p>
 <table class="wp-table">
   <thead>
@@ -11572,7 +11572,7 @@ allow {
 <p>共有ベクトルストア（例：Amazon OpenSearchまたはAmazon Kendra）を使用する場合でも、アクセスは依然としてメタデータに基づいて動的にフィルタリングされます。これにより、共有インフラストラクチャ内での論理的なテナント分離が可能になります。つまり、ユーザーまたは組織は、アクセスを許可されたコンテンツのみをクエリおよび注入できます[8]。</p>
 <p>このアプローチは、物理的にインフラストラクチャを分離せずにマルチテナントセキュリティを実現するLabel-Based Access Control（LBAC）の一種と見なされます。</p>
 <p><strong>ダイアグラム：S3を使用したAWSマルチテナントRAGアーキテクチャ</strong></p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-3-aws-multi-tenant-rag-architecture-with-s3.png" alt="ダイアグラム：S3を使用したAWSマルチテナントRAGアーキテクチャ"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-3-aws-multi-tenant-rag-architecture-with-s3.png" alt="ダイアグラム：S3を使用したAWSマルチテナントRAGアーキテクチャ"></figure>
 <p><strong>主要制御機能</strong></p>
 <table class="wp-table">
   <thead>
@@ -11610,7 +11610,7 @@ allow {
 <p>LlamaIndexはまた、FAISS、Weaviate、またはQdrantのようなベクトル検索エンジンと柔軟に統合し、検索結果を関連するメタデータと既に結合して返します。これにより、クリーンでコンパクトなフィルタリングロジックが可能になります。</p>
 <p>公式デモでは、同じプロンプトを発行したユーザーでも、彼らがアップロードしたドキュメントに限定された異なる応答を受け取ります。不正なコンテンツはベクトル検索フェーズ中に除外されます。このモデルはプロンプト注入前にアクセス制御を強制し、ランタイムセキュリティ強制のクリーンで最小限の実装を表しています[9]。</p>
 <p><strong>ダイアグラム：LlamaIndexにおけるメタデータに基づくフィルタリング</strong></p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-4-metadata-based-filtering-in-llamaindex.png" alt="ダイアグラム：LlamaIndexにおけるメタデータに基づくフィルタリング"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-4-metadata-based-filtering-in-llamaindex.png" alt="ダイアグラム：LlamaIndexにおけるメタデータに基づくフィルタリング"></figure>
 <p><strong>主要制御機能</strong></p>
 <table class="wp-table">
   <thead>
@@ -11652,7 +11652,7 @@ allow {
 <p>Weaviateは、<code>shard</code>ベースのストレージを使用して同様のアプローチを採用しています。各テナントのデータは別々のシャードに配置され、クエリはそのシャード専用にルーティングされるように構成されています[10]。</p>
 <p>これにより、集中管理されたセキュリティ設定を必要とせずに、物理的な隔離と同等の論理的な分離が作成されます。これらのインフラストラクチャレベルの隔離モデルにより、プロバイダーは別のポリシーエンジンを必要とせずにデータの境界を強制できるため、何千もの同時テナントを抱えるSaaS環境で拡張性が高くなります。</p>
 <p><strong>ダイアグラム：PineconeとWeaviateにおけるベクトルベースマルチテナンシー</strong></p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-5-vector-based-multi-tenancy-in-pinecone-and-weaviate.png" alt="ダイアグラム：PineconeとWeaviateにおけるベクトルベースマルチテナンシー"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-5-vector-based-multi-tenancy-in-pinecone-and-weaviate.png" alt="ダイアグラム：PineconeとWeaviateにおけるベクトルベースマルチテナンシー"></figure>
 <p><strong>主要制御機能</strong></p>
 <table class="wp-table">
   <thead>
@@ -11694,7 +11694,7 @@ allow {
 </ol>
 <p>このアーキテクチャは、MicrosoftとQueryPieのRAGセキュリティ設計と概念的な類似点を共有しています。特に、Metaは機密データ漏洩を防ぐためにプロンプト注入直前のランタイムポリシー評価（runtime enforcement）を強化しており、LLMが応答を生成する前にポリシーを評価します。この予防的な設計により、応答後のフィルタリングの必要がなくなり、<strong>事前制御中心の構造</strong>が実現されます[11]。</p>
 <p><strong>ダイアグラム：MetaのコンテキストベースPBACフロー</strong></p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-6-meta-context-based-pbac-flow.png" alt="ダイアグラム：MetaのコンテキストベースPBACフロー"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-6-meta-context-based-pbac-flow.png" alt="ダイアグラム：MetaのコンテキストベースPBACフロー"></figure>
 <p><strong>主要制御機能</strong></p>
 <table class="wp-table">
   <thead>
@@ -11812,7 +11812,7 @@ allow {
 <p>LLM応答は、<strong>どのドキュメントに基づいているかを明示的に参照</strong>する必要があります。これは通常、出力内に<strong>ドキュメントIDまたは暗号化署名を埋め込む</strong>ことによって行われます。これにより、<strong>信頼性、透明性、および事後監査可能性</strong>が向上し、意図しない開示やポリシー違反の調査が容易になります。</p>
 <h2 id="wp23-017">3.3 実行フローセキュリティのアーキテクチャの概要</h2>
 <p>次の図は、前述の5つのコア原則に基づいて構築されたランタイムセキュリティ制御の概念アーキテクチャをまとめたものです。</p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-7-architectural-summary-of-execution-flow-security.png" alt="実行フローセキュリティのアーキテクチャの概要"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-7-architectural-summary-of-execution-flow-security.png" alt="実行フローセキュリティのアーキテクチャの概要"></figure>
 <h2 id="wp23-018">3.4 セキュリティアーキテクチャバイパスの実現可能性</h2>
 <p>上記の5つの原則はRAGセキュリティ設計の強固な基盤を提供しますが、現実世界のシステムは設計上の欠陥だけでなく、バイパスの試みにも積極的にさらされています。</p>
 <p>これらの脅威は単なる技術的な脆弱性ではなく、プロンプト注入アーキテクチャとポリシー評価フロー間の切断を悪用します。そのため、セキュリティ設計は「許可されていること」を宣言するだけでなく、「それらの許可が実際に強制されているかどうか」を証明することに焦点を当てる必要があります。</p>
@@ -12092,7 +12092,7 @@ allow {
 </table>
 <p>QueryPieは、実行パイプライン内での強制の深さとアーキテクチャの柔軟性の最も堅牢な組み合わせを提供し、マルチエージェント、マルチバックエンド環境全体で中心的なランタイム制御レイヤーとして機能します。また、ポリシー競合検出、管理者承認注入、ガバナンス駆動型バージョン管理などの高度な機能も含まれており、組織が単一のRAGベンダーに縛られない完全に独立したポリシーを構築できます[22]。</p>
 <p><strong>実行フロー比較：Microsoft vs Meta vs QueryPie</strong></p>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-8-execution-flow-comparison-microsoft-vs-meta-vs-querypie.png" alt="実行フロー比較：Microsoft vs Meta vs QueryPie"></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-8-execution-flow-comparison-microsoft-vs-meta-vs-querypie.png" alt="実行フロー比較：Microsoft vs Meta vs QueryPie"></figure>
 <h2 id="wp23-033">5.5 比較概要：実行フロー制御戦略マトリックス</h2>
 <p>以下の表は、Microsoft、Meta、QueryPieがRAG実行フロー全体でセキュリティポリシーをどのように強制するかを比較したものです。主要な基準には、PBAC、CBAC、およびACL強制の配置、ポリシー決定ロジック（PDP/PEP/PIP）のアーキテクチャ上の場所、プロンプトレベルの制御の粒度、およびクロスシステム拡張性があります。</p>
 <p><strong>実行フロー制御戦略比較：Microsoft vs Meta vs QueryPie</strong></p>
@@ -12323,7 +12323,7 @@ allow {
 <blockquote>
 <p><strong>誰が、いつ、どのようなコンテキストと目的で、どのドキュメントにアクセスし、AI応答で使用されたか？</strong></p>
 </blockquote>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp23-9-from-declaration-to-execution.png" alt=""></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp23-9-from-declaration-to-execution.png" alt=""></figure>
 <p>この答えは、静的な権限リストではなく、実行フローに組み込まれたポリシー評価にあります。セキュリティの焦点は、宣言的な制御からリアルタイムの強制へ、静的なアクセス管理から統合されたポリシーオーケストレーションへと移行する必要があります。この変革をリードできるアーキテクチャは、アクセス制御エンジンを超えたものである必要があります。ポリシー注入と評価から強制と追跡可能性まで、包括的な実行認識型制御を提供する必要があります。QueryPieのMCP Agent PAMは、このモデルの実用的で堅牢な実装として際立っています。このホワイトペーパーは、単なる孤立したLLMガードレールを超えて、MCP、AIエージェント、LLMにまたがる完全に統合された実行フローアーキテクチャを採用し、AIセキュリティの中心にポリシー強制を配置するという戦略的なパラダイムシフトを提案します。</p>
 <h2 id="wp23-044">付録. 実行フローベースポリシー設計のための高度な概念：PBACとCBAC</h2>
 <h2 id="wp23-045">A.1 目的ベースアクセス制御（PBAC）</h2>
@@ -12550,10 +12550,10 @@ allow {
     "image": "/assets/images/07-blog/wp-thumb-6.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
+      "name": "David Choi",
+      "title": "Software Engineer",
+      "bio": "Davidは、ソフトウェアの複雑な仕組みを理解することに深い好奇心を持つ情熱的な開発者です。QueryPieでは、Kubernetesアクセス制御（KAC）とWebアクセス制御（WAC）ソリューションの開発において重要な役割を果たしました。技術的な専門知識とGolangへの愛情をもって、複雑な課題に取り組み、革新的なセキュリティソリューションに貢献しています。",
+      "avatar": "/assets/images/07-blog/author-david.png",
       "sns": []
     },
     "content": `<br />
@@ -12589,11 +12589,11 @@ allow {
 <h2 id="wp24-007">戦略的ビジョンの欠如</h2>
 <p>2025年現在、多くの日本企業は、AIの活用が部分的で、実証実験（PoC）の段階にとどまるケースが少なくありません。ChatGPTやGeminiなどの生成AIの活用が話題となり、一部の企業で試験的な導入が進み、社内における文書作成やプレゼンテーション作成、ビジネスプランなどを作成する際に生成AIを活用しているシーンは多くあります。 総務省は、2024年版「情報通信白書」で個人・企業の生成AIの利活用について、国内外を比較した調査結果を7月5日に発表しました。それによると企業に対する調査で、日本の生成AIを業務で利用している割合は46.8%で、中国（84.4%）、米国（84.7%）、ドイツ（72.7%）に比べて低い数値となっています。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp24-graph1.png" alt=""></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp24-graph1.png" alt=""></figure>
 <br />
 <p>また、企業の生成AI活用方針についても、日本の「積極的に活用する方針」の回答は15.7％と低く、中国（71.2％）と大きな差があります。2025年9月に発表された日経BP社の独自調査では、日本企業の従業員が「我が社の生成AI（人工知能）活用は非常に進んでいる／進んでいる」と感じる割合は14.4％で、「遅れている／非常に遅れている」と感じる割合は34.1％でした。有料版の生成AIは個人的や部門単位では活用しているとは思いますが、企業全体で活用している割合ので調査データはまだありませんが、それほど多くないのではないかと推察されます。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp24-graph2.png" alt=""></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp24-graph2.png" alt=""></figure>
 <br />
 <p>生成AIの活用がこのような状況ですので、AIを活用して、ビジネスプロセスやビジネスシステムを効率的にしたり転換することはなかなか進まない状況です。そもそも「業務で使用中」という観点はAIを「効率化」や「コスト削減」のツールという視点でしか見ていないとも言えます。AIは業務効率化を超えてビジネスを変革するものだと捉えるべきなのです。</p>
 <p>なぜ、日本企業はAIをビジネスに活用することができていないのでしょうか？ なぜAIトランスフォームが進まないのでしょうか？</p>
@@ -13051,10 +13051,10 @@ allow {
     "image": "/assets/images/07-blog/wp-thumb-5.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
+      "name": "Logan Chae",
+      "title": "Software Engineer",
+      "bio": "Loganは、20年以上の経験を持つ熟練のソフトウェア開発者で、バックエンドシステム、クラウドインフラ、および大規模なアプリケーションに専門的な知識を持っています。Java、TypeScript、Python、C#を使いこなし、Spring BootやASP.NETといったフレームワークに深い専門知識を持っています。AIサービスやブロックチェーンプラットフォームを含むプロジェクトを成功裏にリードし、革新を促進する高性能なソリューションを提供した経験があります。",
+      "avatar": "/assets/images/07-blog/author-logan.png",
       "sns": []
     },
     "content": `<br />
@@ -13090,11 +13090,11 @@ allow {
 <h2 id="wp25-007">戦略的ビジョンの欠如</h2>
 <p>2025年現在、多くの日本企業は、AIの活用が部分的で、実証実験（PoC）の段階にとどまるケースが少なくありません。ChatGPTやGeminiなどの生成AIの活用が話題となり、一部の企業で試験的な導入が進み、社内における文書作成やプレゼンテーション作成、ビジネスプランなどを作成する際に生成AIを活用しているシーンは多くあります。 総務省は、2024年版「情報通信白書」で個人・企業の生成AIの利活用について、国内外を比較した調査結果を7月5日に発表しました。それによると企業に対する調査で、日本の生成AIを業務で利用している割合は46.8%で、中国（84.4%）、米国（84.7%）、ドイツ（72.7%）に比べて低い数値となっています。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp24-graph1.png" alt=""></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp24-graph1.png" alt=""></figure>
 <br />
 <p>また、企業の生成AI活用方針についても、日本の「積極的に活用する方針」の回答は15.7％と低く、中国（71.2％）と大きな差があります。2025年9月に発表された日経BP社の独自調査では、日本企業の従業員が「我が社の生成AI（人工知能）活用は非常に進んでいる／進んでいる」と感じる割合は14.4％で、「遅れている／非常に遅れている」と感じる割合は34.1％でした。有料版の生成AIは個人的や部門単位では活用しているとは思いますが、企業全体で活用している割合ので調査データはまだありませんが、それほど多くないのではないかと推察されます。</p>
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp24-graph2.png" alt=""></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp24-graph2.png" alt=""></figure>
 <br />
 <p>生成AIの活用がこのような状況ですので、AIを活用して、ビジネスプロセスやビジネスシステムを効率的にしたり転換することはなかなか進まない状況です。そもそも「業務で使用中」という観点はAIを「効率化」や「コスト削減」のツールという視点でしか見ていないとも言えます。AIは業務効率化を超えてビジネスを変革するものだと捉えるべきなのです。</p>
 <p>なぜ、日本企業はAIをビジネスに活用することができていないのでしょうか？ なぜAIトランスフォームが進まないのでしょうか？</p>
@@ -13546,11 +13546,11 @@ allow {
     "image": "/assets/images/07-blog/wp-thumb-4.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Mason Oh",
+      "title": "Software Engineer",
+      "bio": "MasonはQueryPieでデータベースアクセス制御サーバー、プロキシ開発、SQLパーシング（.NET Core 8およびAntlr）を専門とする熟練のエンジニアです。Wireshark、dotnet-dump、APMなどのツールを使用して、TCPパケット解析、メモリリーク、CPUの最適化といった複雑な問題を解決することに優れています。AWSの専門知識を持ち、NLB関連のネットワーク問題の解決経験があり、Dockerにも精通しており、Kubernetesの知識を積極的に拡大しています。",
+      "avatar": "/assets/images/07-blog/author-mason.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/mason-oh/"}]
     },
     "content": `<p>読了時間：約20分</p>
 <blockquote>
@@ -13634,7 +13634,7 @@ allow {
 <p>AI Checkは、給与担当者が自然言語（日本語）で記述した給与検査観点（CheckPoint）を、実行可能なSQLクエリへ自動変換するシステムである。このシステムは、ユーザーが複雑なSQL文法を知らなくとも、自然言語で検査条件を記述すれば、当該条件に合致する対象者をデータベースから抽出できるようにする。</p>
 <p>一般的なText-to-SQLアプローチは自然言語を直接SQLに変換するが、本システムの対象データベースは300以上のテーブルと1,350以上のカラムで構成された大規模スキーマを有する。さらにカラム名がFPPAR03、FRPAP15のような内部コード（MFID）形式となっているため、LLMが自然言語から直接正確なSQLを生成することは困難である。こうした複雑性を解決するために、システムは問題を3つの段階に分離した。</p>
 <p>すなわち、（1）自然言語をドメイン用語を含む擬似コードに変換し、（2）擬似コード内のドメイン用語をベクトル類似度検索に基づいてMFIDにマッピングした後、（3）MFIDがマッピングされた擬似コードを実行可能なSQLに変換する。</p>
-<p>システムは図1に示すとおり、3つの主要エージェントで構成された多段階パイプライン構造を採用している。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/fig1-pipeline-structure.webp" alt="図1：AI Checkパイプライン構造"><figcaption>図1：AI Checkパイプライン構造</figcaption></figure> <br/> <br/> <strong>NL to Pseudocode Agent</strong> は、自然言語で記述された給与検査条件をSQL類似の擬似コードに変換する。この段階では、LLMのコード生成（Code Generation）能力が中核的に活用される。</p>
+<p>システムは図1に示すとおり、3つの主要エージェントで構成された多段階パイプライン構造を採用している。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/fig1-pipeline-structure.webp" alt="図1：AI Checkパイプライン構造"><figcaption>図1：AI Checkパイプライン構造</figcaption></figure> <br/> <br/> <strong>NL to Pseudocode Agent</strong> は、自然言語で記述された給与検査条件をSQL類似の擬似コードに変換する。この段階では、LLMのコード生成（Code Generation）能力が中核的に活用される。</p>
 <p><strong>MFID Mapping Agent</strong> は、擬似コードに含まれるドメイン用語（例：「入社年月日」、「固定部開始日」）を実際のデータベースフィールド識別子（MFID）にマッピングする。この段階では、ベクトル検索ベースのAgentic RAG方式が使用される。</p>
 <p><strong>Query Translation Agent</strong> は、MFIDがマッピングされた擬似コードを最終的な実行可能SQLクエリに変換する。この段階は比較的ルールベースの変換が主となるため、本研究の評価対象からは除外した。</p>
 <p>本研究では、LLMの能力がシステム性能に直接的な影響を及ぼすNL to Pseudocode AgentとMFID Mapping Agentを評価対象として選定した。</p>
@@ -13642,7 +13642,7 @@ allow {
 <h3 id="wp26-016">概要</h3>
 <p>NL to Pseudocode Agentは、自然言語で記述された給与検査観点をSQL類似の擬似コードに変換する役割を担う。日本の給与システムにおける複雑な業務ルール——雇用保険、健康保険、厚生年金、年末調整など——を正確にコードとして表現する必要があるため、LLMのドメイン理解力とコード生成能力が同時に求められる。</p>
 <h3 id="wp26-017">3段階逐次処理構造</h3>
-<p>このエージェントは、単一のLLM呼び出しではなく、3つのサブエージェントが逐次的に実行される構造を採用している。図2はこの3段階の処理フローを示す。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/fig2-nl-to-pseudocode-flow.webp" alt="図2：NL to Pseudocode Agent — 3段階処理フロー"><figcaption>図2：NL to Pseudocode Agent — 3段階処理フロー</figcaption></figure> <br/> <br/> 各段階は前段階の出力を入力として受け取り、段階的に変換を実行する。</p>
+<p>このエージェントは、単一のLLM呼び出しではなく、3つのサブエージェントが逐次的に実行される構造を採用している。図2はこの3段階の処理フローを示す。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/fig2-nl-to-pseudocode-flow.webp" alt="図2：NL to Pseudocode Agent — 3段階処理フロー"><figcaption>図2：NL to Pseudocode Agent — 3段階処理フロー</figcaption></figure> <br/> <br/> 各段階は前段階の出力を入力として受け取り、段階的に変換を実行する。</p>
 <p><strong>（1）Structure Analyzer（構造分析器）</strong></p>
 <ul>
   <li>自然言語入力から対象者概念の階層構造を抽出する</li>
@@ -13669,7 +13669,7 @@ allow {
   <li>最終出力：可読性が高く構造化されたCTE形式の擬似コード</li>
 </ul>
 <h3 id="wp26-018">入出力例</h3>
-<p>表1は、NL to Pseudocode Agentの実際の入出力例を示す。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table1-nl-pseudocode-io-example.webp" alt="表1：NL to Pseudocode Agent 入出力例"><figcaption>表1：NL to Pseudocode Agent 入出力例</figcaption></figure> <br/> <br/> 以下は、実際のシステムで処理された入出力例である。 <br/> <br/> <strong>入力（自然言語）</strong></p>
+<p>表1は、NL to Pseudocode Agentの実際の入出力例を示す。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table1-nl-pseudocode-io-example.webp" alt="表1：NL to Pseudocode Agent 入出力例"><figcaption>表1：NL to Pseudocode Agent 入出力例</figcaption></figure> <br/> <br/> 以下は、実際のシステムで処理された入出力例である。 <br/> <br/> <strong>入力（自然言語）</strong></p>
 <blockquote>
 <p>前月Payprocessに存在せず、当月Payprocessで初めて計算対象となった人（これを「入社者」とする）。<br/></p>
 <p>入社者の中から、固定部開始日と勤怠部開始日のうちより古い日付よりも前の退職年月日が登録されている人を過去退職者として特定する。入社者から過去退職者を除外した後、次のように分類する：</p>
@@ -13748,13 +13748,13 @@ allow {
 <h3 id="wp26-020">概要</h3>
 <p>MFID Mapping Agentは、擬似コードに含まれるドメイン用語を実際のデータベースのフィールド識別子（MFID, Master Field ID）にマッピングする役割を担う。給与システムのデータベースには数千のフィールドが存在し、同一の概念を指す表現（例：「入社日」、「入社年月日」）を正確なMFIDにマッピングする必要がある。</p>
 <h3 id="wp26-021">MFIDデータ構造</h3>
-<p>MFIDは、給与システムデータベースの各フィールドを一意に識別する識別子であり、以下のメタデータとともに管理される。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table2-mfid-metadata-structure.webp" alt="表2：MFIDメタデータ構造"><figcaption>表2：MFIDメタデータ構造</figcaption></figure> <br/> <br/></p>
+<p>MFIDは、給与システムデータベースの各フィールドを一意に識別する識別子であり、以下のメタデータとともに管理される。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table2-mfid-metadata-structure.webp" alt="表2：MFIDメタデータ構造"><figcaption>表2：MFIDメタデータ構造</figcaption></figure> <br/> <br/></p>
 <h3 id="wp26-022">ベクトル検索インフラ</h3>
 <p>MFIDマッピングのために、システムはベクトル類似度検索ベースのRAGアーキテクチャを採用している。</p>
 <p><strong>ベクトルデータベース</strong>：PostgreSQL + pgvector拡張を使用する。pgvectorはPostgreSQLにベクトル類似度検索機能を追加するオープンソース拡張であり、既存のリレーショナルデータベースとの統合が容易で運用の複雑性が低いという利点がある。</p>
-<p><strong>埋め込みモデル</strong>：GoogleのGemini Embeddingモデル（gemini-embedding-001、2000次元）を使用する。埋め込みモデルの選定にあたり、以下の4つのモデルを比較評価した。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/fig3-embedding-model-eval.webp" alt="図3：埋め込みモデル別評価 — Composite Score = 0.4 × MRR + 0.6 × Recall@10"><figcaption>図3：埋め込みモデル別評価 — Composite Score = 0.4 × MRR + 0.6 × Recall@10</figcaption></figure> <br/> <br/> 評価の結果、Upstage SolarがComposite Score基準で1位を記録したものの、APIがベータ版であり安定性が保証されていないため、プロダクション環境での使用には不適切であった。Recall@10で最高性能（80.4%）を示し、APIの安定性が確保されたGemini Embeddingを最終的に選定した。</p>
+<p><strong>埋め込みモデル</strong>：GoogleのGemini Embeddingモデル（gemini-embedding-001、2000次元）を使用する。埋め込みモデルの選定にあたり、以下の4つのモデルを比較評価した。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/fig3-embedding-model-eval.webp" alt="図3：埋め込みモデル別評価 — Composite Score = 0.4 × MRR + 0.6 × Recall@10"><figcaption>図3：埋め込みモデル別評価 — Composite Score = 0.4 × MRR + 0.6 × Recall@10</figcaption></figure> <br/> <br/> 評価の結果、Upstage SolarがComposite Score基準で1位を記録したものの、APIがベータ版であり安定性が保証されていないため、プロダクション環境での使用には不適切であった。Recall@10で最高性能（80.4%）を示し、APIの安定性が確保されたGemini Embeddingを最終的に選定した。</p>
 <h3 id="wp26-023">Agentic RAGの動作方式</h3>
-<p>MFID Mapping Agentは、単純な検索―生成パイプラインではなく、Agentic RAG方式で動作する。図4はこのエージェントの全体フローを示す。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/fig4-mfid-mapping-flow.webp" alt="図4：MFID Mapping Agent — Agentic RAGフロー"><figcaption>図4：MFID Mapping Agent — Agentic RAGフロー</figcaption></figure> <br/> <br/> LLMエージェントがツール（tool）を能動的に呼び出して必要な情報を検索し、検索結果を解釈して最適なマッピングを決定する。</p>
+<p>MFID Mapping Agentは、単純な検索―生成パイプラインではなく、Agentic RAG方式で動作する。図4はこのエージェントの全体フローを示す。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/fig4-mfid-mapping-flow.webp" alt="図4：MFID Mapping Agent — Agentic RAGフロー"><figcaption>図4：MFID Mapping Agent — Agentic RAGフロー</figcaption></figure> <br/> <br/> LLMエージェントがツール（tool）を能動的に呼び出して必要な情報を検索し、検索結果を解釈して最適なマッピングを決定する。</p>
 <p>この方式の中核的な特徴は以下のとおりである。</p>
 <ol>
   <li><strong>並列ツール呼び出し</strong>：複数の用語に対する検索を並列で実行し、処理時間を短縮</li>
@@ -13764,7 +13764,7 @@ allow {
 <h2 id="wp26-024">評価対象および範囲</h2>
 <p>本研究では、以下の2つの理由からNL to Pseudocode AgentとMFID Mapping Agentを評価対象として選定した。</p>
 <p>第一に、<strong>LLM依存度が高い段階</strong>であるためである。両エージェントはいずれもLLMの言語理解、推論、生成能力に大きく依存している。一方、Query Translation Agentはルールベースの変換が主であり、LLM選択による性能差が比較的小さい。</p>
-<p>第二に、<strong>タスク特性が異なる</strong>ためである。NL to Pseudocode Agentはコード生成（Code Generation）タスクであり、自然言語を構造化された擬似コードに変換する能力を要求する。MFID Mapping AgentはAgentic RAGタスクであり、ツール活用と検索結果の解釈能力を要求する。この異なるタスク特性は、同一のLLMであっても異なる性能を示し得ることを示唆しており、各段階に最適化されたモデル選択の必要性を提起する。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table3-task-comparison.webp" alt="表3：評価対象タスク特性比較"><figcaption>表3：評価対象タスク特性比較</figcaption></figure> <br/> <br/></p>
+<p>第二に、<strong>タスク特性が異なる</strong>ためである。NL to Pseudocode Agentはコード生成（Code Generation）タスクであり、自然言語を構造化された擬似コードに変換する能力を要求する。MFID Mapping AgentはAgentic RAGタスクであり、ツール活用と検索結果の解釈能力を要求する。この異なるタスク特性は、同一のLLMであっても異なる性能を示し得ることを示唆しており、各段階に最適化されたモデル選択の必要性を提起する。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table3-task-comparison.webp" alt="表3：評価対象タスク特性比較"><figcaption>表3：評価対象タスク特性比較</figcaption></figure> <br/> <br/></p>
 <h2 id="wp26-025">小括</h2>
 <p>本章では、AI Checkの全体パイプライン構造と各構成要素を説明した。システムはNL to Pseudocode Agent、MFID Mapping Agent、Query Translation Agentの3段階で構成されており、本研究ではLLM依存度が高くタスク特性が異なる前者の2段階を評価対象として選定した。</p>
 <p>NL to Pseudocode Agentは、structure\_analyzer、condition\_analyzer、pseudocode\_creatorの3段階逐次処理構造により、自然言語をCTEベースの擬似コードに変換する。MFID Mapping Agentは、pgvectorベースのベクトル検索とGemini Embeddingモデルを活用したAgentic RAG方式により、ドメイン用語をMFIDにマッピングする。</p>
@@ -13774,17 +13774,17 @@ allow {
 <h2 id="wp26-027">評価対象モデル</h2>
 <p>本研究では、3大主要LLMプロバイダー——Anthropic、Google、OpenAI——の13のモデル構成を評価対象として選定した。各プロバイダーは基本モデルとともに、拡張された推論能力を提供するThinking/Reasoningモードをサポートしており、本研究ではこの2つのモードをいずれも評価に含めた。</p>
 <h3 id="wp26-028">Claudeファミリー（Anthropic）</h3>
-<p>AnthropicのClaude 4.5シリーズは、Haiku、Sonnet、Opusの3つのティアで構成され、それぞれ速度―コスト―品質のトレードオフを提供する。Extended Thinkingモードは、複雑な推論タスクにおいてモデルがより深く思考できるようにする機能である。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table4-claude-family.webp" alt="表4：Claudeファミリーモデル"><figcaption>表4：Claudeファミリーモデル</figcaption></figure> <br/> <br/></p>
+<p>AnthropicのClaude 4.5シリーズは、Haiku、Sonnet、Opusの3つのティアで構成され、それぞれ速度―コスト―品質のトレードオフを提供する。Extended Thinkingモードは、複雑な推論タスクにおいてモデルがより深く思考できるようにする機能である。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table4-claude-family.webp" alt="表4：Claudeファミリーモデル"><figcaption>表4：Claudeファミリーモデル</figcaption></figure> <br/> <br/></p>
 <h3 id="wp26-029">Geminiファミリー（Google）</h3>
-<p>GoogleのGeminiシリーズはFlashとProのティアに区分され、Flashは高速な応答速度を、Proは高い品質を目標とする。Thinkingモードは、推論過程を明示的に実行させる機能である。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table5-gemini-family.webp" alt="表5：Geminiファミリーモデル"><figcaption>表5：Geminiファミリーモデル</figcaption></figure> <br/> <br/></p>
+<p>GoogleのGeminiシリーズはFlashとProのティアに区分され、Flashは高速な応答速度を、Proは高い品質を目標とする。Thinkingモードは、推論過程を明示的に実行させる機能である。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table5-gemini-family.webp" alt="表5：Geminiファミリーモデル"><figcaption>表5：Geminiファミリーモデル</figcaption></figure> <br/> <br/></p>
 <h3 id="wp26-030">GPTファミリー（OpenAI）</h3>
-<p>OpenAIのGPTシリーズは5.2と5 Miniで構成される。Reasoningモード（o1系列）は、複雑な推論問題において段階的思考を実行するよう設計されている。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table6-gpt-family.webp" alt="表6：GPTファミリーモデル"><figcaption>表6：GPTファミリーモデル</figcaption></figure> <br/> <br/></p>
+<p>OpenAIのGPTシリーズは5.2と5 Miniで構成される。Reasoningモード（o1系列）は、複雑な推論問題において段階的思考を実行するよう設計されている。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table6-gpt-family.webp" alt="表6：GPTファミリーモデル"><figcaption>表6：GPTファミリーモデル</figcaption></figure> <br/> <br/></p>
 <h3 id="wp26-031">モデル構成の要約</h3>
-<p>表7は、全評価対象モデルを要約したものである。計13構成のうち、Claude 6種、Gemini 4種、GPT 3種で構成される。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table7-model-summary.webp" alt="表7：評価対象モデル要約"><figcaption>表7：評価対象モデル要約</figcaption></figure> <br/> <br/></p>
+<p>表7は、全評価対象モデルを要約したものである。計13構成のうち、Claude 6種、Gemini 4種、GPT 3種で構成される。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table7-model-summary.webp" alt="表7：評価対象モデル要約"><figcaption>表7：評価対象モデル要約</figcaption></figure> <br/> <br/></p>
 <h2 id="wp26-032">データセット構成</h2>
 <p>本研究では、2つのタスクに対してそれぞれ別個のデータセットを構成した。</p>
 <h3 id="wp26-033">コード生成データセット（CodeGen）</h3>
-<p>コード生成タスクの評価のために、実際のAI Checkシステムで使用されている給与検査観点175件を収集した。各サンプルは自然言語入力（日本語）と正解擬似コード（reference）で構成される。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table8-codegen-dataset.webp" alt="表8：コード生成データセット特性"><figcaption>表8：コード生成データセット特性</figcaption></figure> <br/> <br/> データセットは、給与システムの検査シナリオを含む。</p>
+<p>コード生成タスクの評価のために、実際のAI Checkシステムで使用されている給与検査観点175件を収集した。各サンプルは自然言語入力（日本語）と正解擬似コード（reference）で構成される。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table8-codegen-dataset.webp" alt="表8：コード生成データセット特性"><figcaption>表8：コード生成データセット特性</figcaption></figure> <br/> <br/> データセットは、給与システムの検査シナリオを含む。</p>
 <ul>
   <li>入社／退職処理（入社、退職）</li>
   <li>社会保険資格取得／喪失（資格取得、資格喪失）</li>
@@ -13792,7 +13792,7 @@ allow {
   <li>年末調整関連検査（年末調整）</li>
 </ul>
 <h3 id="wp26-034">Agentic RAGデータセット（MFID Mapping）</h3>
-<p>Agentic RAGタスクの評価のために、ドメイン用語―MFIDマッピング93サンプルを構成した。各サンプルは擬似コードから抽出された用語と正解MFIDで構成される。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table9-rag-dataset.webp" alt="表9：Agentic RAGデータセット特性"><figcaption>表9：Agentic RAGデータセット特性</figcaption></figure> <br/> <br/></p>
+<p>Agentic RAGタスクの評価のために、ドメイン用語―MFIDマッピング93サンプルを構成した。各サンプルは擬似コードから抽出された用語と正解MFIDで構成される。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table9-rag-dataset.webp" alt="表9：Agentic RAGデータセット特性"><figcaption>表9：Agentic RAGデータセット特性</figcaption></figure> <br/> <br/></p>
 <h2 id="wp26-035">評価指標</h2>
 <h3 id="wp26-036">コード生成タスク評価指標</h3>
 <p>コード生成タスクに対して、伝統的テキスト類似度指標とLLM-as-a-Judgeベースの評価を併用した。</p>
@@ -13814,7 +13814,7 @@ allow {
 <p>F\_BERT = 2 × (P\_BERT × R\_BERT) / (P\_BERT + R\_BERT)</p>
 </blockquote>
 <p><strong>LLM-as-a-Judge評価</strong></p>
-<p>伝統的指標の限界を補完するために、LLM-as-a-Judge方式を適用した。GPT-4を評価者として活用し、4つの次元において各5点満点、総計20点満点で評価する。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table10-llm-judge-criteria.webp" alt="表10：LLM-as-a-Judge評価基準"><figcaption>表10：LLM-as-a-Judge評価基準</figcaption></figure> <br/> <br/></p>
+<p>伝統的指標の限界を補完するために、LLM-as-a-Judge方式を適用した。GPT-4を評価者として活用し、4つの次元において各5点満点、総計20点満点で評価する。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table10-llm-judge-criteria.webp" alt="表10：LLM-as-a-Judge評価基準"><figcaption>表10：LLM-as-a-Judge評価基準</figcaption></figure> <br/> <br/></p>
 <h3 id="wp26-037">Agentic RAGタスク評価指標</h3>
 <p>Agentic RAGタスクに対して、情報検索（Information Retrieval）分野の標準指標を適用した。</p>
 <p><strong>Recall@K</strong></p>
@@ -13837,7 +13837,7 @@ allow {
 </ul>
 <h2 id="wp26-039">コストおよび性能指標</h2>
 <h3 id="wp26-040">トークン価格</h3>
-<p>各プロバイダーのAPI価格ポリシーに基づいてコストを算定した。表11は1M（100万）トークンあたりのUSD価格を示す。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table11-token-pricing.webp" alt="表11：モデル別トークン価格（USD per 1M tokens）— Think/Reasoningモードは基本モデルと同一価格を適用（thinkingトークンは出力として計算）"><figcaption>表11：モデル別トークン価格（USD per 1M tokens）</figcaption></figure> <br/> <br/></p>
+<p>各プロバイダーのAPI価格ポリシーに基づいてコストを算定した。表11は1M（100万）トークンあたりのUSD価格を示す。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table11-token-pricing.webp" alt="表11：モデル別トークン価格（USD per 1M tokens）— Think/Reasoningモードは基本モデルと同一価格を適用（thinkingトークンは出力として計算）"><figcaption>表11：モデル別トークン価格（USD per 1M tokens）</figcaption></figure> <br/> <br/></p>
 <h3 id="wp26-041">コスト効率性指標</h3>
 <p>品質とコストを同時に考慮するために、コスト効率性指標を定義した。</p>
 <blockquote>
@@ -13856,7 +13856,7 @@ allow {
   <li>タイムアウト：リクエストあたり最大120秒</li>
 </ul>
 <h3 id="wp26-044">モデル設定</h3>
-<p>すべてのモデルに対して一貫した設定を適用した。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp26/table12-model-settings.webp" alt="表12：モデル設定"><figcaption>表12：モデル設定</figcaption></figure> <br/> <br/> Think/Reasoningモードの場合、各プロバイダーの推奨設定に従った。</p>
+<p>すべてのモデルに対して一貫した設定を適用した。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp26/table12-model-settings.webp" alt="表12：モデル設定"><figcaption>表12：モデル設定</figcaption></figure> <br/> <br/> Think/Reasoningモードの場合、各プロバイダーの推奨設定に従った。</p>
 <ul>
   <li>Claude Extended Thinking：thinking budget を適用</li>
   <li>Gemini Thinking：thinkingパラメータを有効化</li>
@@ -13949,11 +13949,11 @@ allow {
     "image": "/assets/images/07-blog/wp-thumb-3.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Evan Choi",
+      "title": "Software Engineer",
+      "bio": "Evanは複雑なシステムの開発および維持に精通した経験豊富なソフトウェアエンジニアで、QueryPieではエンタープライズクライアント向けのスケーラブルでセキュアなデータ管理ソリューションを構築しています。システムアーキテクチャに強いバックグラウンドを持ち、.NETやRustに対する情熱がイノベーションとパフォーマンスを推進し、QueryPieの最前線で重要な役割を担っています。",
+      "avatar": "/assets/images/07-blog/author-evan.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/evan-choi-b63b27147/"}]
     },
     "content": `<p>読了時間：約25分</p>
 <blockquote>
@@ -13966,13 +13966,13 @@ allow {
 <p>本章では、NL to Pseudocode Agentのコード生成タスクに対する評価結果を提示する。伝統的テキスト指標とLLM-as-a-Judge評価結果を分析し、Thinkモードの影響とモデルの安定性を検討する。</p>
 <h2 id="wp27-002">全体品質評価結果</h2>
 <h3 id="wp27-003">伝統的テキスト指標</h3>
-<p>表13は、主要モデルの伝統的テキスト指標の結果を要約したものである。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table13-codegen-text-metrics.webp" alt="表13：コード生成タスク — 伝統的テキスト指標結果（%）"><figcaption>表13：コード生成タスク — 伝統的テキスト指標結果（%）</figcaption></figure> <br/> <br/> 伝統的指標においてClaudeモデルが高い性能を記録した。ROUGE-LではClaude Opus（Think）が64.4%で最高スコアを記録し、BERT-F1においてもClaude Opus（Think）が84.9%で1位であった。GPTモデルはBLEU、ROUGE-Lでは低いスコアを示したものの、BERT-F1では他モデルと同等の水準を維持した。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/fig5-text-similarity.webp" alt="図5：テキスト類似度指標（%）— 全モデル比較"><figcaption>図5：テキスト類似度指標（%）— 全モデル比較</figcaption></figure> <br/> <br/></p>
+<p>表13は、主要モデルの伝統的テキスト指標の結果を要約したものである。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/table13-codegen-text-metrics.webp" alt="表13：コード生成タスク — 伝統的テキスト指標結果（%）"><figcaption>表13：コード生成タスク — 伝統的テキスト指標結果（%）</figcaption></figure> <br/> <br/> 伝統的指標においてClaudeモデルが高い性能を記録した。ROUGE-LではClaude Opus（Think）が64.4%で最高スコアを記録し、BERT-F1においてもClaude Opus（Think）が84.9%で1位であった。GPTモデルはBLEU、ROUGE-Lでは低いスコアを示したものの、BERT-F1では他モデルと同等の水準を維持した。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/fig5-text-similarity.webp" alt="図5：テキスト類似度指標（%）— 全モデル比較"><figcaption>図5：テキスト類似度指標（%）— 全モデル比較</figcaption></figure> <br/> <br/></p>
 <h3 id="wp27-004">LLM-as-a-Judge評価結果</h3>
-<p>表14は、LLM-as-a-Judge評価結果を整理したものである。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table14-codegen-llm-judge.webp" alt="表14：コード生成タスク — LLM-as-a-Judge評価結果（正規化%）"><figcaption>表14：コード生成タスク — LLM-as-a-Judge評価結果（正規化%）</figcaption></figure> <br/> <br/> LLM-as-a-Judge評価において、<strong>Claude Sonnet（Think）</strong> が67.3%で1位、Claude Opusが66.1%で2位を記録した。コスト効率的なモデルの中では、Gemini 3 Flashが61.7%を記録した。</p>
-<p>次元別に分析すると、すべてのモデルが構文正確性において高いスコア（53.9〜79.1%）を記録した一方、意味等価性と条件完全性では中程度の水準（40.1〜58.3%）にとどまった。これは、モデルが文法的に正しいCTE構文の生成には長けているものの、参照コードと同一の意味や条件を捉えるのには限界があることを示唆している。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/fig6-llm-judge-score.webp" alt="図6：LLM-as-a-Judgeスコア（%）— 全モデル比較"><figcaption>図6：LLM-as-a-Judgeスコア（%）— 全モデル比較</figcaption></figure> <br/> <br/></p>
+<p>表14は、LLM-as-a-Judge評価結果を整理したものである。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/table14-codegen-llm-judge.webp" alt="表14：コード生成タスク — LLM-as-a-Judge評価結果（正規化%）"><figcaption>表14：コード生成タスク — LLM-as-a-Judge評価結果（正規化%）</figcaption></figure> <br/> <br/> LLM-as-a-Judge評価において、<strong>Claude Sonnet（Think）</strong> が67.3%で1位、Claude Opusが66.1%で2位を記録した。コスト効率的なモデルの中では、Gemini 3 Flashが61.7%を記録した。</p>
+<p>次元別に分析すると、すべてのモデルが構文正確性において高いスコア（53.9〜79.1%）を記録した一方、意味等価性と条件完全性では中程度の水準（40.1〜58.3%）にとどまった。これは、モデルが文法的に正しいCTE構文の生成には長けているものの、参照コードと同一の意味や条件を捉えるのには限界があることを示唆している。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/fig6-llm-judge-score.webp" alt="図6：LLM-as-a-Judgeスコア（%）— 全モデル比較"><figcaption>図6：LLM-as-a-Judgeスコア（%）— 全モデル比較</figcaption></figure> <br/> <br/></p>
 <h2 id="wp27-005">Thinkモード効果分析</h2>
 <h3 id="wp27-006">Thinkモードのタスク別影響</h3>
-<p>表15は、各モデルにおけるThinkモード有効化に伴う性能変化を整理したものである。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table15-codegen-think-effect.webp" alt="表15：コード生成タスク — Thinkモード効果（LLM-as-a-Judge総点基準）"><figcaption>表15：コード生成タスク — Thinkモード効果（LLM-as-a-Judge総点基準）</figcaption></figure> <br/> <br/> コード生成タスクにおけるThinkモードの効果は、モデルによって異なる結果を示した。</p>
+<p>表15は、各モデルにおけるThinkモード有効化に伴う性能変化を整理したものである。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/table15-codegen-think-effect.webp" alt="表15：コード生成タスク — Thinkモード効果（LLM-as-a-Judge総点基準）"><figcaption>表15：コード生成タスク — Thinkモード効果（LLM-as-a-Judge総点基準）</figcaption></figure> <br/> <br/> コード生成タスクにおけるThinkモードの効果は、モデルによって異なる結果を示した。</p>
 <p><strong>肯定的効果</strong></p>
 <ul>
   <li>Claude SonnetはThinkモードで+1.2%pの向上を記録し、全体1位（67.3%）を達成</li>
@@ -13985,7 +13985,7 @@ allow {
 <br />
 <br />
 </ul>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp27/fig7-thinking-mode-impact.webp" alt="図7：Thinkingモード影響分析"><figcaption>図7：Thinkingモード影響分析</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp27/fig7-thinking-mode-impact.webp" alt="図7：Thinkingモード影響分析"><figcaption>図7：Thinkingモード影響分析</figcaption></figure>
 <br />
 <br />
 <h3 id="wp27-007">Thinkモード効果の解釈</h3>
@@ -13998,7 +13998,7 @@ allow {
 <h2 id="wp27-008">モデル分析</h2>
 <h3 id="wp27-009">空応答率（Empty Response Rate）</h3>
 <p>実際の運用環境においてモデルの安定性は品質に劣らず重要である。表16は安定性分析の結果を整理したものである。</p>
-<p>具体的には、httpxクライアントのタイムアウトを300秒（5分）に設定し、当該時間内に応答を完了できなかった場合を「空応答」とみなして算出した。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table16-codegen-empty-rate.webp" alt="表16：コード生成タスク — モデル別空応答率"><figcaption>表16：コード生成タスク — モデル別空応答率</figcaption></figure> <br/> <br/> 安定性分析の結果、ClaudeとGeminiモデルはいずれも0%の空応答率を記録し、完全な安定性を示した。一方、GPTモデルは深刻な安定性の問題を露呈した。</p>
+<p>具体的には、httpxクライアントのタイムアウトを300秒（5分）に設定し、当該時間内に応答を完了できなかった場合を「空応答」とみなして算出した。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/table16-codegen-empty-rate.webp" alt="表16：コード生成タスク — モデル別空応答率"><figcaption>表16：コード生成タスク — モデル別空応答率</figcaption></figure> <br/> <br/> 安定性分析の結果、ClaudeとGeminiモデルはいずれも0%の空応答率を記録し、完全な安定性を示した。一方、GPTモデルは深刻な安定性の問題を露呈した。</p>
 <ul>
   <li>GPT-5.2：2.3%（4/175）の空応答で注意が必要な水準</li>
   <li>GPT-5.2（Reasoning）：21.1%（37/175）の空応答でプロダクション使用に不適合</li>
@@ -14006,7 +14006,7 @@ allow {
 <br />
 <br />
 </ul>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp27/fig8-empty-response-rate.webp" alt="図8：コード生成安定性 — モデル別空応答率"><figcaption>図8：コード生成安定性 — モデル別空応答率</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp27/fig8-empty-response-rate.webp" alt="図8：コード生成安定性 — モデル別空応答率"><figcaption>図8：コード生成安定性 — モデル別空応答率</figcaption></figure>
 <br />
 <br />
 <h3 id="wp27-010">安定性の実質的影響</h3>
@@ -14019,7 +14019,7 @@ allow {
 <p>この分析結果から、GPT-5.2（Reasoning）とGPT-5 Miniはコード生成タスクのパイプラインでの使用を推奨しない。</p>
 <h2 id="wp27-011">コスト ― 品質分析</h2>
 <h3 id="wp27-012">モデル別コストおよびコスト効率性</h3>
-<p>表17は、各モデルの1Kリクエストあたりのコストと品質を整理したものである。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table17-codegen-cost.webp" alt="表17：コード生成タスク — コスト分析 — 効率性 = 品質（%）/ コスト（$）"><figcaption>表17：コード生成タスク — コスト分析 — 効率性 = 品質（%）/ コスト（$）</figcaption></figure> <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/fig9-codegen-cost-performance.webp" alt="図9：コスト―性能分析"><figcaption>図9：コスト―性能分析</figcaption></figure> <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/fig10-codegen-cost-summary.webp" alt="コスト―性能サマリーテーブル"><figcaption>コスト―性能サマリーテーブル</figcaption></figure> <br/> <br/></p>
+<p>表17は、各モデルの1Kリクエストあたりのコストと品質を整理したものである。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/table17-codegen-cost.webp" alt="表17：コード生成タスク — コスト分析 — 効率性 = 品質（%）/ コスト（$）"><figcaption>表17：コード生成タスク — コスト分析 — 効率性 = 品質（%）/ コスト（$）</figcaption></figure> <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/fig9-codegen-cost-performance.webp" alt="図9：コスト―性能分析"><figcaption>図9：コスト―性能分析</figcaption></figure> <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/fig10-codegen-cost-summary.webp" alt="コスト―性能サマリーテーブル"><figcaption>コスト―性能サマリーテーブル</figcaption></figure> <br/> <br/></p>
 <h3 id="wp27-013">コスト ― 品質トレードオフ</h3>
 <p>コスト ― 品質分析から、以下のパレート最適構成が導出された。</p>
 <ol>
@@ -14046,7 +14046,7 @@ allow {
 <br />
 <br />
 </ol>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table18-codegen-recommend.webp" alt="表18：コード生成タスク推奨モデル"><figcaption>表18：コード生成タスク推奨モデル</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp27/table18-codegen-recommend.webp" alt="表18：コード生成タスク推奨モデル"><figcaption>表18：コード生成タスク推奨モデル</figcaption></figure>
 <br />
 <br />
 <p>次章では、Agentic RAGタスクに対する評価結果を分析し、コード生成タスクとの相違点を比較する。 <br/> <br/> ---</p>
@@ -14054,22 +14054,22 @@ allow {
 <p>本章では、MFID Mapping AgentのAgentic RAGタスクに対する評価結果を提示する。検索精度と効率性を分析し、Thinkモードの影響およびコード生成タスクとの相違点を検討する。</p>
 <h2 id="wp27-016">全体品質評価結果</h2>
 <h3 id="wp27-017">Recall@KおよびMRR結果</h3>
-<p>表19は、主要評価指標の結果を整理したものである。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table19-rag-recall-mrr.webp" alt="表19：Agentic RAGタスク — 検索性能結果"><figcaption>表19：Agentic RAGタスク — 検索性能結果</figcaption></figure> <br/> <br/> Agentic RAGタスクにおいて、Claude OpusがMRR 78.9%、R@1 73.1%、R@10 89.2%で1位を記録した。これは2位のClaude Opus（Think）の72.3%より6.6%p高い数値である。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/fig11-agentic-rag-performance.webp" alt="図11：Agentic RAG性能評価"><figcaption>図11：Agentic RAG性能評価</figcaption></figure> <br/> <br/> コード生成タスクとは異なり、<strong>GPT-5.2（Reasoning）</strong> が66.9%で3位を記録した点が注目される。これは、GPTのReasoningモードが複雑な検索およびマッピング推論に効果的であることを示唆している。</p>
+<p>表19は、主要評価指標の結果を整理したものである。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/table19-rag-recall-mrr.webp" alt="表19：Agentic RAGタスク — 検索性能結果"><figcaption>表19：Agentic RAGタスク — 検索性能結果</figcaption></figure> <br/> <br/> Agentic RAGタスクにおいて、Claude OpusがMRR 78.9%、R@1 73.1%、R@10 89.2%で1位を記録した。これは2位のClaude Opus（Think）の72.3%より6.6%p高い数値である。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/fig11-agentic-rag-performance.webp" alt="図11：Agentic RAG性能評価"><figcaption>図11：Agentic RAG性能評価</figcaption></figure> <br/> <br/> コード生成タスクとは異なり、<strong>GPT-5.2（Reasoning）</strong> が66.9%で3位を記録した点が注目される。これは、GPTのReasoningモードが複雑な検索およびマッピング推論に効果的であることを示唆している。</p>
 <h3 id="wp27-018">ツール呼び出し効率性</h3>
-<p>表20は、各モデルのクエリあたりの平均ツール呼び出し回数を示す。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table20-rag-tool-calls.webp" alt="表20：Agentic RAGタスク — ツール呼び出し効率性"><figcaption>表20：Agentic RAGタスク — ツール呼び出し効率性</figcaption></figure> <br/> <br/> Geminiモデルが最も少ないツール呼び出し（4.3〜5.9回）で効率的な検索を実行した。一方、GPT-5.2（Reasoning）は9.2回で最も多くのツール呼び出しを実行したものの、高いMRR（66.9%）を達成した。</p>
+<p>表20は、各モデルのクエリあたりの平均ツール呼び出し回数を示す。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/table20-rag-tool-calls.webp" alt="表20：Agentic RAGタスク — ツール呼び出し効率性"><figcaption>表20：Agentic RAGタスク — ツール呼び出し効率性</figcaption></figure> <br/> <br/> Geminiモデルが最も少ないツール呼び出し（4.3〜5.9回）で効率的な検索を実行した。一方、GPT-5.2（Reasoning）は9.2回で最も多くのツール呼び出しを実行したものの、高いMRR（66.9%）を達成した。</p>
 <p>呼び出しあたりMRRの観点では、Claude Opus（11.0%）が最も効率的であり、Gemini 3 Flash（Think）（10.7%）がそれに続いた。これは、Claude Opusが適切なツール呼び出し回数（7.2回）で最高の精度を達成していることを意味する。</p>
 <h3 id="wp27-019">Agentic RAG評価サマリー</h3>
 <br />
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp27/fig12a-rag-eval-summary1.webp" alt="Agentic RAG評価サマリー1"><figcaption>Agentic RAG評価サマリー</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp27/fig12a-rag-eval-summary1.webp" alt="Agentic RAG評価サマリー1"><figcaption>Agentic RAG評価サマリー</figcaption></figure>
 <br />
 <br />
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp27/fig12b-rag-eval-summary2.webp" alt="Agentic RAG評価サマリー2"><figcaption>Agentic RAG評価サマリー（続き）</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp27/fig12b-rag-eval-summary2.webp" alt="Agentic RAG評価サマリー2"><figcaption>Agentic RAG評価サマリー（続き）</figcaption></figure>
 <br />
 <br />
 <h2 id="wp27-020">Thinkモード効果分析</h2>
 <h3 id="wp27-021">Thinkモードのタスク別影響</h3>
-<p>表21は、各モデルにおけるThinkモード有効化に伴うMRRの変化を示す。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table21-rag-think-effect.webp" alt="表21：Agentic RAGタスク — Thinkモード効果（MRR基準）"><figcaption>表21：Agentic RAGタスク — Thinkモード効果（MRR基準）</figcaption></figure> <br/> <br/> Agentic RAGタスクにおけるThinkモードの効果は、コード生成タスクと正反対のパターンを記録した。</p>
+<p>表21は、各モデルにおけるThinkモード有効化に伴うMRRの変化を示す。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/table21-rag-think-effect.webp" alt="表21：Agentic RAGタスク — Thinkモード効果（MRR基準）"><figcaption>表21：Agentic RAGタスク — Thinkモード効果（MRR基準）</figcaption></figure> <br/> <br/> Agentic RAGタスクにおけるThinkモードの効果は、コード生成タスクと正反対のパターンを記録した。</p>
 <p><strong>肯定的効果</strong></p>
 <ul>
   <li>Gemini 3 Flash：+8.1%p（最大の向上）</li>
@@ -14083,7 +14083,7 @@ allow {
   <li>Claude Sonnet：−5.6%p</li>
 </ul>
 <h3 id="wp27-022">タスク別Thinkモード効果比較</h3>
-<p>表22は、コード生成とAgentic RAGタスクにおけるThinkモード効果を比較したものである。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table22-think-comparison.webp" alt="表22：タスク別Thinkモード効果比較"><figcaption>表22：タスク別Thinkモード効果比較</figcaption></figure> <br/> <br/> 分析の結果、GPT-5.2の完全に正反対のパターンが際立っている。</p>
+<p>表22は、コード生成とAgentic RAGタスクにおけるThinkモード効果を比較したものである。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/table22-think-comparison.webp" alt="表22：タスク別Thinkモード効果比較"><figcaption>表22：タスク別Thinkモード効果比較</figcaption></figure> <br/> <br/> 分析の結果、GPT-5.2の完全に正反対のパターンが際立っている。</p>
 <ul>
   <li>コード生成：−10.6%p（顕著な低下）</li>
   <li>Agentic RAG：+7.6%p（有意な向上）</li>
@@ -14091,7 +14091,7 @@ allow {
 <p>この結果は、GPTのReasoningモードが定型化されたコード生成よりも、複雑な検索および推論タスクに適合するよう設計されていることを示唆している。</p>
 <h2 id="wp27-023">コスト ― 品質分析</h2>
 <h3 id="wp27-024">モデル別コストおよびコスト効率性</h3>
-<p>表23は、各モデルの1Kリクエストあたりのコストとコスト効率性を整理したものである。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table23-rag-cost.webp" alt="表23：Agentic RAGタスク — コスト分析 — 効率性 = MRR（%）/ コスト（$）"><figcaption>表23：Agentic RAGタスク — コスト分析 — 効率性 = MRR（%）/ コスト（$）</figcaption></figure> <br/> <br/></p>
+<p>表23は、各モデルの1Kリクエストあたりのコストとコスト効率性を整理したものである。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/table23-rag-cost.webp" alt="表23：Agentic RAGタスク — コスト分析 — 効率性 = MRR（%）/ コスト（$）"><figcaption>表23：Agentic RAGタスク — コスト分析 — 効率性 = MRR（%）/ コスト（$）</figcaption></figure> <br/> <br/></p>
 <h2 id="wp27-025">コスト ― 品質トレードオフ</h2>
 <p>コスト ― 品質分析から、以下のパレート最適構成が導出された。</p>
 <ol>
@@ -14102,7 +14102,7 @@ allow {
 <p>コード生成タスクと比較すると、Agentic RAGでは<strong>Gemini 3 Flash（Think）</strong> が基本モードより効率的であり、Claude Opus基本モードがThinkモードより優れているという点が異なる。</p>
 <h2 id="wp27-026">コード生成 vs Agentic RAG比較</h2>
 <h3 id="wp27-027">モデル順位の変化</h3>
-<p>表24は、2つのタスクにおけるモデル順位を比較したものである。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table24-task-rank-comparison.webp" alt="表24：タスク別モデル順位比較（上位5位）"><figcaption>表24：タスク別モデル順位比較（上位5位）</figcaption></figure> <br/> <br/> 主な変化：</p>
+<p>表24は、2つのタスクにおけるモデル順位を比較したものである。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/table24-task-rank-comparison.webp" alt="表24：タスク別モデル順位比較（上位5位）"><figcaption>表24：タスク別モデル順位比較（上位5位）</figcaption></figure> <br/> <br/> 主な変化：</p>
 <ul>
   <li>Claude Opus：コード生成3位 → Agentic RAG 1位</li>
   <li>GPT-5.2（Reasoning）：コード生成12位 → Agentic RAG 3位（9段階上昇）</li>
@@ -14144,7 +14144,7 @@ allow {
 <br />
 <br />
 </ol>
-<figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table25-rag-recommend.webp" alt="表25：Agentic RAGタスク推奨モデル"><figcaption>表25：Agentic RAGタスク推奨モデル</figcaption></figure>
+<figure class="wp-figure"><img src="images/white-paper/wp27/table25-rag-recommend.webp" alt="表25：Agentic RAGタスク推奨モデル"><figcaption>表25：Agentic RAGタスク推奨モデル</figcaption></figure>
 <br />
 <br />
 <p>次章では、2つのタスクの結果を総合し、パイプライン最適化戦略と最終的な推奨事項を提示する。 <br/> <br/> ---</p>
@@ -14152,7 +14152,7 @@ allow {
 <p>本章では、コード生成とAgentic RAGの2つのタスクの結果を総合し、パイプライン最適化戦略を提示する。モデル別の特性を要約し、コスト―品質トレードオフを考慮した最終的な推奨事項を導出する。</p>
 <h2 id="wp27-031">パイプライン総合分析</h2>
 <h3 id="wp27-032">段階別性能比較</h3>
-<p>表26は、各モデルの2タスクにおける性能と総合品質を整理したものである。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table26-pipeline-analysis.webp" alt="表26：パイプライン総合性能分析 — 総合品質 =（コード生成スコア × RAG MRR）/ 100、総コスト = コード生成コスト + RAGコスト（1Kリクエスト基準）、効率性 = 総合品質 / 総コスト"><figcaption>表26：パイプライン総合性能分析</figcaption></figure> <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/fig13-pipeline-comparison.webp" alt="図13：パイプライン段階別性能比較"><figcaption>図13：パイプライン段階別性能比較</figcaption></figure> <br/> <br/></p>
+<p>表26は、各モデルの2タスクにおける性能と総合品質を整理したものである。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/table26-pipeline-analysis.webp" alt="表26：パイプライン総合性能分析 — 総合品質 =（コード生成スコア × RAG MRR）/ 100、総コスト = コード生成コスト + RAGコスト（1Kリクエスト基準）、効率性 = 総合品質 / 総コスト"><figcaption>表26：パイプライン総合性能分析</figcaption></figure> <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/fig13-pipeline-comparison.webp" alt="図13：パイプライン段階別性能比較"><figcaption>図13：パイプライン段階別性能比較</figcaption></figure> <br/> <br/></p>
 <h3 id="wp27-033">効果的品質分析</h3>
 <p>総合品質の観点では、Claude Opusが52.0%で最も高く、これはコード生成（65.9%）とRAG（78.9%）の両方で優れた性能を示したためである。総コスト（$449.1）が最も高いため、効率性（0.12）は低かった。</p>
 <p>コスト効率性の観点では、<strong>Gemini 3 Flash（Think）</strong> が1.34で最も高かった。これは低コスト（$22.9）で良好な総合品質（30.7%）を達成したためである。</p>
@@ -14188,7 +14188,7 @@ allow {
 </ul>
 <h2 id="wp27-036">Thinkモード効果の総合</h2>
 <h3 id="wp27-037">タスク別Thinkモード影響</h3>
-<p>表27は、Thinkモードのタスク別効果を総合したものである。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table27-think-summary.webp" alt="表27：Thinkモード効果総合"><figcaption>表27：Thinkモード効果総合</figcaption></figure> <br/> <br/> <strong>Thinkモード戦略</strong></p>
+<p>表27は、Thinkモードのタスク別効果を総合したものである。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/table27-think-summary.webp" alt="表27：Thinkモード効果総合"><figcaption>表27：Thinkモード効果総合</figcaption></figure> <br/> <br/> <strong>Thinkモード戦略</strong></p>
 <p>Thinkモードの効果がタスクによって異なるため、異種モデルパイプライン（Heterogeneous Pipeline）戦略が効果的である。</p>
 <ol>
   <li><strong>コード生成段階</strong>：Claude Sonnet（Think）またはGemini 3 Pro（Think）</li>
@@ -14199,7 +14199,7 @@ allow {
 <h3 id="wp27-039">パイプライン組み合わせ分析</h3>
 <p>AI Checkシステムはコード生成とAgentic RAGを逐次的に実行するため、各段階に異なるモデルの適用が可能である。13モデル × 13モデル = 169の組み合わせの中からパレート最適な組み合わせを導出した。</p>
 <h3 id="wp27-040">推奨パイプライン構成</h3>
-<p>表28は、シナリオ別の推奨パイプライン構成を示す。 <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/table28-pipeline-recommend.webp" alt="表28：シナリオ別推奨パイプライン構成 — 現行構成（Claude Sonnet + Claude Sonnet）：品質 約62%、コスト 約$277"><figcaption>表28：シナリオ別推奨パイプライン構成 — 現行構成（Claude Sonnet + Claude Sonnet）：品質 約62%、コスト 約$277</figcaption></figure> <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/fig14-pipeline-optimization.webp" alt="図14：パイプライン最適化：CodeGen → Agentic RAG"><figcaption>図14：パイプライン最適化：CodeGen → Agentic RAG</figcaption></figure> <br/> <br/></p>
+<p>表28は、シナリオ別の推奨パイプライン構成を示す。 <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/table28-pipeline-recommend.webp" alt="表28：シナリオ別推奨パイプライン構成 — 現行構成（Claude Sonnet + Claude Sonnet）：品質 約62%、コスト 約$277"><figcaption>表28：シナリオ別推奨パイプライン構成 — 現行構成（Claude Sonnet + Claude Sonnet）：品質 約62%、コスト 約$277</figcaption></figure> <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/fig14-pipeline-optimization.webp" alt="図14：パイプライン最適化：CodeGen → Agentic RAG"><figcaption>図14：パイプライン最適化：CodeGen → Agentic RAG</figcaption></figure> <br/> <br/></p>
 <h3 id="wp27-041">最適化効果</h3>
 <p>現行のClaude Sonnet単一モデル使用に対する推奨構成の改善効果：</p>
 <p><strong>予算構成（Gemini 3 Flash + Gemini 3 Flash（Think））</strong></p>
@@ -14243,7 +14243,7 @@ allow {
 <p><strong>RQ4：プロダクション環境で考慮すべき要素は何か？</strong></p>
 <p>安定性が重要な要素であり、GPTモデルの高い空応答率（21〜23%）はプロダクション使用に不適合である。ClaudeとGeminiモデルは0%の空応答率で安定的である。</p>
 <h3 id="wp27-044">実務適用ガイドライン</h3>
-<p><strong>単一モデル使用時</strong> <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/fig15-single-model-guide.webp" alt="単一モデル使用時ガイドライン"><figcaption>単一モデル使用時ガイドライン</figcaption></figure> <br/> <br/> <strong>異種モデルパイプライン使用時</strong> <br/> <br/> <figure class="wp-figure"><img src="/assets/images/white-paper/wp27/fig16-hetero-pipeline-guide.webp" alt="異種モデルパイプライン使用時ガイドライン"><figcaption>異種モデルパイプライン使用時ガイドライン</figcaption></figure> <br/> <br/></p>
+<p><strong>単一モデル使用時</strong> <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/fig15-single-model-guide.webp" alt="単一モデル使用時ガイドライン"><figcaption>単一モデル使用時ガイドライン</figcaption></figure> <br/> <br/> <strong>異種モデルパイプライン使用時</strong> <br/> <br/> <figure class="wp-figure"><img src="images/white-paper/wp27/fig16-hetero-pipeline-guide.webp" alt="異種モデルパイプライン使用時ガイドライン"><figcaption>異種モデルパイプライン使用時ガイドライン</figcaption></figure> <br/> <br/></p>
 <h2 id="wp27-045">小括</h2>
 <p>本章では、コード生成とAgentic RAGの2つのタスクの結果を総合し、以下の結論を導出した。</p>
 <ol>
@@ -14396,11 +14396,11 @@ allow {
     "image": "/assets/images/07-blog/wp-thumb-2.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Ryan Chae / Kevin So",
+      "title": "Software Engineer",
+      "bio": "Ryanは、セキュアでスケーラブルなシステムの開発に豊富な経験を持つソフトウェアエンジニアです。QueryPieでの重要な貢献者として、SSHプロキシアーキテクチャによるシェルネイティブなコマンド制御の設計において重要な役割を果たし、プラットフォームのセキュリティと効率を向上させました。システムアーキテクチャの専門知識とイノベーションへのコミットメントが、進化するエンタープライズクライアントのニーズに応える堅実なソリューションの開発を推進しています。",
+      "avatar": "/assets/images/07-blog/author-ryan.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/ryan-chae-647a4126/"}]
     },
     "content": `<p>!<a href="public/white-paper/wp-thumb-28.png" target="_blank" rel="noopener noreferrer">AIエージェント時代のガードレール設計（前編：思想・設計編）</a></p>
 <h2 id="wp28-001">AIエージェント時代のガードレール設計：権限・承認・監査ログ・停止手順の実務フレーム</h2>
@@ -15194,11 +15194,11 @@ allow {
     "image": "/assets/images/07-blog/wp-thumb-1.png",
     "category": "ホワイトペーパー",
     "author": {
-      "name": "QueryPie AI編集部",
-      "title": "",
-      "bio": "QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。",
-      "avatar": "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/querypie-company/icon/qp-logo-icon-uvgSEHKTCkYrEpRIMck6lIWSjuv7bl.png",
-      "sns": []
+      "name": "Kurt Yoo",
+      "title": "AI Software Engineer",
+      "bio": "Kurtは、最先端のデータ管理ソリューションを開発および保守することに専門的な知識を持つ優れたソフトウェアエンジニアです。QueryPieでは、AIデータ発見のためのコアAIを発明し、インテリジェントなデータ分類機能を進展させる重要な役割を果たしました。スケーラブルで安全なプラットフォーム構築に関する専門知識をもとに、KurtはQueryPieのソリューションが企業クライアントの動的なニーズを満たすことを確実にし、データガバナンス技術におけるリーダーシップを強化しています。",
+      "avatar": "/assets/images/07-blog/author-kurt.png",
+      "sns": [{"type": "linkedin", "url": "https://www.linkedin.com/in/%EA%B2%BD%EB%AF%BC-%EC%9C%A0-a28b5b1a2/"}]
     },
     "content": `<p>!<a href="public/white-paper/wp-thumb-29.png" target="_blank" rel="noopener noreferrer">AIエージェント時代のガードレール設計（後編：実践・導入編）</a></p>
 <h2 id="wp29-001">AIエージェント時代のガードレール設計：ケーススタディ・チェックリスト・90日ロードマップ</h2>
