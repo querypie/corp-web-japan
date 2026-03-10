@@ -200,19 +200,12 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
               </button>
             </div>
-            <!-- Article content preview -->
-            <div class="wp-dl-content-wrap" id="dl-content-wrap" style="display:none">
-              <div class="wp-dl-content-preview article-content" id="dl-content-preview"></div>
-              <div class="wp-dl-content-fade"></div>
-            </div>
             <div class="wp-dl-cover-img-wrap">
               <img id="dl-cover-img" src="/assets/images/07-blog/wp-thumb-29.png" alt="">
             </div>
           </div>
 
           <!-- Right: Form Card -->
-          <div class="wp-dl-form-col">
-            <div class="wp-dl-form-col-fade"></div>
           <div class="wp-dl-form-card">
 
             <!-- Form -->
@@ -309,7 +302,6 @@
             </div>
 
           </div>
-          </div><!-- /.wp-dl-form-col -->
         </div>
       </div>
     </div>
@@ -331,14 +323,6 @@
         coverImg.src = wp.coverImage || wp.image || '';
         coverImg.alt = wp.title;
         coverImg.onerror = function () { this.onerror = null; this.src = '/assets/images/07-blog/wp-thumb-29.png'; };
-      }
-
-      // Content preview
-      var contentWrap = document.getElementById('dl-content-wrap');
-      var contentPreview = document.getElementById('dl-content-preview');
-      if (contentPreview && wp.content) {
-        contentPreview.innerHTML = wp.content;
-        if (contentWrap) contentWrap.style.display = 'block';
       }
 
       var catEl = document.getElementById('dl-category');
