@@ -198,7 +198,7 @@
           <ul class="blog-list">
 
             <li class="blog-list-item" data-category="event">
-              <a href="/event-detail.html?id=1" class="blog-list-card">
+              <a href="#" class="blog-list-card">
                 <div class="blog-list-img"></div>
                 <div class="blog-list-text">
                   <span class="blog-list-badge">イベント</span>
@@ -210,7 +210,7 @@
             </li>
 
             <li class="blog-list-item" data-category="event">
-              <a href="/event-detail.html?id=2" class="blog-list-card">
+              <a href="#" class="blog-list-card">
                 <div class="blog-list-img"></div>
                 <div class="blog-list-text">
                   <span class="blog-list-badge">イベント</span>
@@ -222,7 +222,7 @@
             </li>
 
             <li class="blog-list-item" data-category="event">
-              <a href="/event-detail.html?id=3" class="blog-list-card">
+              <a href="#" class="blog-list-card">
                 <div class="blog-list-img"></div>
                 <div class="blog-list-text">
                   <span class="blog-list-badge">イベント</span>
@@ -234,7 +234,7 @@
             </li>
 
             <li class="blog-list-item" data-category="event">
-              <a href="/event-detail.html?id=4" class="blog-list-card">
+              <a href="#" class="blog-list-card">
                 <div class="blog-list-img"></div>
                 <div class="blog-list-text">
                   <span class="blog-list-badge">イベント</span>
@@ -246,7 +246,7 @@
             </li>
 
             <li class="blog-list-item" data-category="event">
-              <a href="/event-detail.html?id=5" class="blog-list-card">
+              <a href="#" class="blog-list-card">
                 <div class="blog-list-img"></div>
                 <div class="blog-list-text">
                   <span class="blog-list-badge">イベント</span>
@@ -258,7 +258,7 @@
             </li>
 
             <li class="blog-list-item" data-category="event">
-              <a href="/event-detail.html?id=6" class="blog-list-card">
+              <a href="#" class="blog-list-card">
                 <div class="blog-list-img"></div>
                 <div class="blog-list-text">
                   <span class="blog-list-badge">イベント</span>
@@ -273,17 +273,6 @@
           <p class="blog-empty">該当するコンテンツがありません。</p>
         </div>
 
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="rr-closing-cta-section">
-      <div class="container">
-        <h2 class="rr-closing-cta-title">まずはお気軽にご相談ください。</h2>
-        <p class="rr-closing-cta-text">貴社に最適なパターンを一緒に検討しましょう。</p>
-        <div class="rr-closing-cta-buttons">
-          <a href="#" class="btn-primary dashi-cta-btn">無料で導入相談・見積もりをする <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
-        </div>
       </div>
     </section>
 
@@ -383,26 +372,21 @@
     const filterLinks = document.querySelectorAll('.sidebar-link[data-filter]');
     const blogItems = document.querySelectorAll('.blog-list-item');
     const emptyMsg = document.querySelector('.blog-empty');
-
-    function applyFilter(filter) {
-      filterLinks.forEach(l => l.classList.toggle('is-active', l.dataset.filter === filter));
-      let visibleCount = 0;
-      blogItems.forEach(item => {
-        const match = filter === 'all' || item.dataset.category === filter;
-        item.classList.toggle('is-hidden', !match);
-        if (match) visibleCount++;
-      });
-      emptyMsg.classList.toggle('is-visible', visibleCount === 0);
-    }
-
     filterLinks.forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        applyFilter(link.dataset.filter);
+        const filter = link.dataset.filter;
+        filterLinks.forEach(l => l.classList.remove('is-active'));
+        link.classList.add('is-active');
+        let visibleCount = 0;
+        blogItems.forEach(item => {
+          const match = filter === 'all' || item.dataset.category === filter;
+          item.classList.toggle('is-hidden', !match);
+          if (match) visibleCount++;
+        });
+        emptyMsg.classList.toggle('is-visible', visibleCount === 0);
       });
     });
-
-    applyFilter('event');
   </script>
 
 </body>
