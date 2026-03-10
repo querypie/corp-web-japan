@@ -324,6 +324,22 @@
   margin: 8px 0 0;
 }
 
+/* Inline links */
+.article-content a:not(.article-content-btn),
+.article-gated-content a:not(.article-content-btn) {
+  color: #2563EB;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+.article-content a:not(.article-content-btn):hover,
+.article-gated-content a:not(.article-content-btn):hover {
+  color: #1D4ED8;
+  text-decoration-color: #1D4ED8;
+}
+
 .article-content ul,
 .article-content ol {
   padding-left: 16px;
