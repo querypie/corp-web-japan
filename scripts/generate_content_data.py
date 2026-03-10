@@ -166,9 +166,9 @@ def preprocess_jsx(body):
         content = m.group(2).strip()
         href    = re.search(r'href=["\']([^"\']+)["\']', attrs)
         url     = href.group(1) if href else "#"
-        # white-paper /download links → scroll to inline gating form
+        # white-paper /download links → our download page (ID filled in later)
         if re.search(r'/white-paper/.+/download', url):
-            return f'\n<a class="article-content-btn article-content-btn--wide" href="#gating-wall" onclick="document.getElementById(\'gating-wall\').scrollIntoView({{behavior:\'smooth\',block:\'start\'}});return false;">{content}</a>\n'
+            return f'\n<a class="article-content-btn article-content-btn--wide" href="whitepaper-download.html?id=__WPID__">{content}</a>\n'
         # Other relative URLs → absolute querypie.com/ja URL
         if url.startswith("/"):
             url = f"https://www.querypie.com/ja{url}"
@@ -635,7 +635,13 @@ def generate_whitepaper_data(authors):
     for idx, entry in enumerate(sorted_entries, start=1):
         e = dict(entry)
         e.pop("github_id", None)
-        result[str(idx)] = e
+        # Replace __WPID__ placeholder with actual local ID (for download page links)
+        sid = str(idx)
+        if e.get("content"):
+            e["content"] = e["content"].replace("__WPID__", sid)
+        if e.get("gatedContent"):
+            e["gatedContent"] = e["gatedContent"].replace("__WPID__", sid)
+        result[sid] = e
 
     return result
 
