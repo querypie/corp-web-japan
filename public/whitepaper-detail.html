@@ -387,8 +387,7 @@
 
       var img = document.querySelector('.article-hero-img img');
       if (img) {
-        var heroSrc = (wp.image || '').replace(/^\/assets\//, '');
-        img.src = heroSrc;
+        img.src = wp.image || '';
         img.alt = wp.title;
         img.onerror = function() { this.onerror=null; this.src='/assets/images/07-blog/wp-thumb-29.png'; };
       }
