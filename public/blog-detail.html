@@ -223,24 +223,24 @@
               <p>従来のサイバーセキュリティは「ネットワーク・エンドポイント・データ」を守る三層構造でした。AI時代には、ここに<strong>「モデル・プロンプト・学習データ・出力」</strong>という第四の層が加わります。この認識転換が、CxOに求められる最初のステップです。</p>
 
               <h2 id="attack-vectors">2. AIシステムを狙う7つの攻撃ベクトル</h2>
-              <h3>2-1. プロンプトインジェクション</h3>
+              <h3 id="attack-prompt">2-1. プロンプトインジェクション</h3>
               <p>AIへの入力（プロンプト）に<strong>悪意ある指示を埋め込む</strong>攻撃です。システムプロンプトの無効化、機密情報の抽出、意図しない動作の誘発が可能になります。2025年にはGPT-4oベースの企業チャットボットで実際のインシデントが報告されています。</p>
-              <h3>2-2. 学習データ汚染（データポイズニング）</h3>
+              <h3 id="attack-poison">2-2. 学習データ汚染（データポイズニング）</h3>
               <p>AIモデルの学習データに<strong>意図的に偽・有害データを混入</strong>させる攻撃です。モデルの判断精度を低下させたり、特定の出力を誘導したりします。オープンソースのデータセットを利用する企業は特にリスクが高くなります。</p>
-              <h3>2-3. モデルサプライチェーン攻撃</h3>
+              <h3 id="attack-supply">2-3. モデルサプライチェーン攻撃</h3>
               <p>Hugging Face等の公開モデルリポジトリから取得したモデルに<strong>バックドアが仕込まれている</strong>ケースです。2024年にはHugging Hub上で悪意あるモデルが複数検出されました。</p>
-              <h3>2-4. AIエージェントの権限悪用</h3>
+              <h3 id="attack-agent">2-4. AIエージェントの権限悪用</h3>
               <p>AIエージェントに付与された<strong>システムアクセス権限を悪用</strong>する攻撃です。エージェントがAPI経由でデータベースやファイルシステムにアクセスする場合、権限の過剰付与が重大なリスクとなります。</p>
-              <h3>2-5. 出力操作（Output Manipulation）</h3>
+              <h3 id="attack-output">2-5. 出力操作（Output Manipulation）</h3>
               <p>AIの出力結果を<strong>意図的に歪める</strong>攻撃です。RAG（検索拡張生成）システムにおいて、参照先文書を改ざんすることでAIの出力を操作する手法が確認されています。</p>
-              <h3>2-6. モデル窃取・知的財産流出</h3>
+              <h3 id="attack-theft">2-6. モデル窃取・知的財産流出</h3>
               <p>APIを通じた大量クエリで<strong>モデルの挙動を再現（モデル抽出攻撃）</strong>したり、ファインチューニング済みモデルの知的財産が流出するリスクです。</p>
-              <h3>2-7. AI利用による社会工学攻撃の高度化</h3>
+              <h3 id="attack-social">2-7. AI利用による社会工学攻撃の高度化</h3>
               <p>攻撃者がAIを<strong>フィッシングメール生成やディープフェイク作成</strong>に悪用するケースです。従来の社会工学攻撃が格段に精巧になり、検知が困難になっています。</p>
 
               <h2 id="owasp">3. OWASP Top 10 for LLMに学ぶ優先対策</h2>
               <p>OWASPが公開した「<strong>Top 10 for LLM Applications 2025</strong>」は、LLMアプリケーション固有のセキュリティリスクを体系化した重要な参照基準です。</p>
-              <h3>上位3リスクと対策の要点</h3>
+              <h3 id="owasp-top3">上位3リスクと対策の要点</h3>
               <p><strong>1. プロンプトインジェクション（LLM01）</strong></p>
               <ul>
                 <li>入力検証・サニタイゼーションの実装</li>
@@ -276,31 +276,31 @@
               <p><strong>推奨アプローチ：</strong>プロンプトインジェクション対策とエージェント権限管理は<strong>最優先</strong>で取り組むべきです。この2つは攻撃の発生頻度が高く、インパクトも大きいためです。</p>
 
               <h2 id="governance">5. AIセキュリティガバナンスの構築手順</h2>
-              <h3>ステップ1：AI資産の棚卸し</h3>
+              <h3 id="gov-step1">ステップ1：AI資産の棚卸し</h3>
               <ul>
                 <li>社内で利用中のAIツール・モデル・APIを一覧化する</li>
                 <li>各AI資産の<strong>アクセス権限・データ接続先・利用部門</strong>を明確にする</li>
                 <li>シャドーAI（未承認AI利用）の実態調査を実施する</li>
               </ul>
-              <h3>ステップ2：AI固有リスクの評価</h3>
+              <h3 id="gov-step2">ステップ2：AI固有リスクの評価</h3>
               <ul>
                 <li>OWASP Top 10 for LLMを基準にリスクアセスメントを実施する</li>
                 <li>各AI資産に対して<strong>機密区分別の利用ポリシー</strong>を策定する</li>
                 <li>NIST AI RMFに基づくリスク管理フレームワークを導入する</li>
               </ul>
-              <h3>ステップ3：技術的対策の実装</h3>
+              <h3 id="gov-step3">ステップ3：技術的対策の実装</h3>
               <ul>
                 <li>プロンプトインジェクション対策（入力検証・出力フィルタ）</li>
                 <li>AIエージェントの<strong>最小権限原則</strong>と承認ゲートの設計</li>
                 <li>AI利用ログの一元管理と<strong>リアルタイム異常検知</strong></li>
               </ul>
-              <h3>ステップ4：組織的対策の展開</h3>
+              <h3 id="gov-step4">ステップ4：組織的対策の展開</h3>
               <ul>
                 <li><strong>全社員向けAIセキュリティ研修</strong>を定期実施する（年2回以上）</li>
                 <li>AI利用インシデント対応手順書の策定</li>
                 <li>四半期ごとのAIセキュリティ監査の実施</li>
               </ul>
-              <h3>ステップ5：継続的改善</h3>
+              <h3 id="gov-step5">ステップ5：継続的改善</h3>
               <ul>
                 <li>新しい攻撃手法・脆弱性情報の定期収集</li>
                 <li>Red Team演習（AIシステムへの擬似攻撃テスト）の実施</li>
@@ -308,13 +308,13 @@
               </ul>
 
               <h2 id="executive-action">6. 経営上の示唆と次のアクション</h2>
-              <h3>重要ポイント</h3>
+              <h3 id="exec-points">重要ポイント</h3>
               <ul>
                 <li>AIセキュリティは従来のサイバーセキュリティの<strong>延長ではなく追加層</strong>として設計する</li>
                 <li>プロンプトインジェクションとエージェント権限管理が<strong>最優先対策</strong></li>
                 <li>技術的対策と組織的対策（教育・監査・体制）の<strong>両輪</strong>が不可欠</li>
               </ul>
-              <h3>CxOへの具体的アクション</h3>
+              <h3 id="exec-actions">CxOへの具体的アクション</h3>
               <p><strong>今日やること：</strong></p>
               <ul>
                 <li>IT/セキュリティ部門にAI資産の棚卸し状況を確認する</li>
@@ -382,18 +382,44 @@
               <!-- Table of Contents -->
               <div class="sidebar-toc">
                 <h2 class="sidebar-toc-title">目次</h2>
-                <hr class="related-sidebar-divider">
                 <div class="sidebar-toc-scroll">
                 <ul class="sidebar-toc-list">
+                  <li><a href="#intro">結論：AIの業務活用が進むほど、攻撃面は拡大する</a></li>
+                  <li><a href="#why-ai-security">1. なぜ今「AIセキュリティ」が経営課題なのか</a></li>
                   <li>
-                    <a href="#intro">結論：AIの業務活用が進むほど、攻撃面は拡大する</a>
+                    <a href="#attack-vectors">2. AIシステムを狙う7つの攻撃ベクトル</a>
                     <ul class="sidebar-toc-sub">
-                      <li><a href="#why-ai-security">1. なぜ今「AIセキュリティ」が経営課題なのか</a></li>
-                      <li><a href="#attack-vectors">2. AIシステムを狙う7つの攻撃ベクトル</a></li>
-                      <li><a href="#owasp">3. OWASP Top 10 for LLMに学ぶ優先対策</a></li>
-                      <li><a href="#comparison">4. 攻撃ベクトル別 対策比較表</a></li>
-                      <li><a href="#governance">5. AIセキュリティガバナンスの構築手順</a></li>
-                      <li><a href="#executive-action">6. 経営上の示唆と次のアクション</a></li>
+                      <li><a href="#attack-prompt">2-1. プロンプトインジェクション</a></li>
+                      <li><a href="#attack-poison">2-2. 学習データ汚染</a></li>
+                      <li><a href="#attack-supply">2-3. モデルサプライチェーン攻撃</a></li>
+                      <li><a href="#attack-agent">2-4. AIエージェントの権限悪用</a></li>
+                      <li><a href="#attack-output">2-5. 出力操作</a></li>
+                      <li><a href="#attack-theft">2-6. モデル窃取・知的財産流出</a></li>
+                      <li><a href="#attack-social">2-7. 社会工学攻撃の高度化</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="#owasp">3. OWASP Top 10 for LLMに学ぶ優先対策</a>
+                    <ul class="sidebar-toc-sub">
+                      <li><a href="#owasp-top3">上位3リスクと対策の要点</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#comparison">4. 攻撃ベクトル別 対策比較表</a></li>
+                  <li>
+                    <a href="#governance">5. AIセキュリティガバナンスの構築手順</a>
+                    <ul class="sidebar-toc-sub">
+                      <li><a href="#gov-step1">ステップ1：AI資産の棚卸し</a></li>
+                      <li><a href="#gov-step2">ステップ2：AI固有リスクの評価</a></li>
+                      <li><a href="#gov-step3">ステップ3：技術的対策の実装</a></li>
+                      <li><a href="#gov-step4">ステップ4：組織的対策の展開</a></li>
+                      <li><a href="#gov-step5">ステップ5：継続的改善</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="#executive-action">6. 経営上の示唆と次のアクション</a>
+                    <ul class="sidebar-toc-sub">
+                      <li><a href="#exec-points">重要ポイント</a></li>
+                      <li><a href="#exec-actions">CxOへの具体的アクション</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -404,7 +430,7 @@
               <div class="sidebar-cta">
                 <h3 class="sidebar-cta-title">お問い合わせ</h3>
                 <p class="sidebar-cta-text">当社のコンサルタントと繋がってAI活用を加速しませんか？</p>
-                <a href="#" class="sidebar-cta-btn">今すぐお問い合わせ &rsaquo;</a>
+                <a href="#" class="sidebar-cta-btn">今すぐお問い合わせ <img src="/assets/images/01-header/arrow-right.svg" alt=""></a>
               </div>
 
             </div>
@@ -448,61 +474,6 @@
   </script>
 
   <script>
-    // Sticky TOC: 목차가 뷰포트 89px 지점에 닿으면 고정, 사이드바 끝까지
-    (function () {
-      var stickyGroup = document.querySelector('.sidebar-sticky-group');
-      var sidebar = document.querySelector('.article-sidebar');
-      if (!stickyGroup || !sidebar) return;
-
-      var STICKY_TOP = 108;
-      var isFixed = false;
-
-      // 초기 자연 위치 저장 (스크롤 전 페이지 좌표)
-      var naturalOffsetTop = 0;
-      function calcNaturalTop() {
-        stickyGroup.style.position = '';
-        stickyGroup.style.top = '';
-        stickyGroup.style.width = '';
-        stickyGroup.style.left = '';
-        var rect = stickyGroup.getBoundingClientRect();
-        naturalOffsetTop = rect.top + window.scrollY;
-      }
-
-      function updateSticky() {
-        var scrollY = window.scrollY;
-        var groupHeight = stickyGroup.offsetHeight;
-        var sidebarRect = sidebar.getBoundingClientRect();
-        var sidebarBottomAbs = sidebarRect.bottom + scrollY;
-        var stickyLeft = sidebar.getBoundingClientRect().left;
-        var stickyWidth = sidebar.offsetWidth;
-
-        // 목차 자연 위치가 뷰포트 89px 위로 올라가면 fixed
-        var shouldFix = scrollY + STICKY_TOP >= naturalOffsetTop;
-        // 사이드바 바닥에 닿으면 고정 해제
-        var atBottom = (scrollY + STICKY_TOP + groupHeight) >= sidebarBottomAbs;
-
-        if (shouldFix && !atBottom) {
-          stickyGroup.style.position = 'fixed';
-          stickyGroup.style.top = STICKY_TOP + 'px';
-          stickyGroup.style.left = stickyLeft + 'px';
-          stickyGroup.style.width = stickyWidth + 'px';
-        } else {
-          stickyGroup.style.position = '';
-          stickyGroup.style.top = '';
-          stickyGroup.style.left = '';
-          stickyGroup.style.width = '';
-        }
-      }
-
-      window.addEventListener('scroll', updateSticky, { passive: true });
-      window.addEventListener('resize', function () { calcNaturalTop(); updateSticky(); });
-
-      // 폰트/이미지 로딩 후 정확한 위치 계산
-      window.addEventListener('load', function () { calcNaturalTop(); updateSticky(); });
-      calcNaturalTop();
-      updateSticky();
-    })();
-
     // TOC: smooth scroll with header offset + scroll spy
     (function () {
       var OFFSET = 100; // fixed header height + buffer
@@ -527,14 +498,38 @@
         var el = document.getElementById(id);
         if (el) sections.push({ el: el, link: link });
       });
+      var tocScroll = document.querySelector('.sidebar-toc-scroll');
+
       function activate() {
-        var scrollY = window.scrollY + OFFSET + 20;
+        // Reference approach: find first heading fully in viewport
         var current = null;
-        sections.forEach(function (s) {
-          if (s.el.offsetTop <= scrollY) current = s.link;
-        });
+        for (var i = 0; i < sections.length; i++) {
+          var rect = sections[i].el.getBoundingClientRect();
+          if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+            current = sections[i].link;
+            break;
+          }
+        }
+        // Fallback: last heading scrolled past (handles tall sections)
+        if (!current) {
+          var scrollY = window.scrollY + OFFSET + 20;
+          sections.forEach(function (s) {
+            if (s.el.offsetTop <= scrollY) current = s.link;
+          });
+        }
+
         tocLinks.forEach(function (l) { l.classList.remove('is-active'); });
-        if (current) current.classList.add('is-active');
+        if (current) {
+          current.classList.add('is-active');
+          // Auto-scroll TOC container to keep active item visible (centered)
+          if (tocScroll) {
+            var linkRect = current.getBoundingClientRect();
+            var tocRect = tocScroll.getBoundingClientRect();
+            if (linkRect.top < tocRect.top || linkRect.bottom > tocRect.bottom) {
+              tocScroll.scrollTop += linkRect.top - tocRect.top - tocRect.height / 2 + linkRect.height / 2;
+            }
+          }
+        }
       }
       window.addEventListener('scroll', activate, { passive: true });
       activate();
