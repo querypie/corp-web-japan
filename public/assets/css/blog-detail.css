@@ -931,17 +931,23 @@
 .article-content-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 12px 24px;
+  padding: 14px 32px;
   background: #111827;
   color: #fff;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   font-family: inherit;
   border-radius: 6px;
   transition: opacity 0.2s;
   margin: 16px 0;
+  min-width: 280px;
+}
+.article-content-btn--wide {
+  width: 100%;
+  max-width: 440px;
 }
 .article-content-btn:hover {
   opacity: 0.85;

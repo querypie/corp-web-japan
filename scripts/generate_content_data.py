@@ -131,8 +131,25 @@ def parse_frontmatter(text):
 def preprocess_jsx(body):
     """Pre-process MDX body: convert JSX components to markdown/HTML before line parsing."""
 
-    # 1. Strip <ArticleGatingForm> wrapper tags but keep inner content (we show all content without gating)
-    body = re.sub(r'<ArticleGatingForm[^>]*>([\s\S]*?)</ArticleGatingForm>', lambda m: m.group(1), body)
+    # 1. Replace <ArticleGatingForm>...</ArticleGatingForm> with a gating wall (link to querypie.com download)
+    # Find download URL from ButtonLink that appears before the gating form
+    _gating_url = ""
+    _bl_match = re.search(
+        r'<ButtonLink[^>]*href=["\']([^"\']+)["\'][^>]*>[\s\S]*?</ButtonLink>[\s\S]*?<ArticleGatingForm',
+        body)
+    if _bl_match:
+        _href = _bl_match.group(1)
+        _gating_url = f"https://www.querypie.com/ja{_href}" if _href.startswith("/") else _href
+    _gating_html = (
+        '<div class="gating-wall">'
+        '<div class="gating-fade"></div>'
+        '<div class="gating-body">'
+        '<h2 class="gating-heading">全文を読む</h2>'
+        '<p class="gating-subtext">フォームに入力後、限定コンテンツをご覧いただけます。</p>'
+        + (f'<div style="text-align:center"><a class="article-content-btn article-content-btn--wide" href="{_gating_url}" target="_blank" rel="noopener">ホワイトペーパーを入手する →</a></div>' if _gating_url else '')
+        + '</div></div>'
+    )
+    body = re.sub(r'<ArticleGatingForm[^>]*>[\s\S]*?</ArticleGatingForm>', _gating_html, body)
 
     # 1b. Remove thumbnail image lines (already shown as cover image via `image` field)
     body = re.sub(r'!\[[^\]]*\]\(public/(?:white-paper|blog)/(?:wp-thumb|b-thumb)-\d+[^)]*\)\s*\n?', '', body)
@@ -162,7 +179,10 @@ def preprocess_jsx(body):
         content = m.group(2).strip()
         href    = re.search(r'href=["\']([^"\']+)["\']', attrs)
         url     = href.group(1) if href else "#"
-        return f'\n<a class="article-content-btn" href="{url}" target="_blank" rel="noopener">{content}</a>\n'
+        # Relative URLs → absolute querypie.com/ja URL
+        if url.startswith("/"):
+            url = f"https://www.querypie.com/ja{url}"
+        return f'\n<a class="article-content-btn article-content-btn--wide" href="{url}" target="_blank" rel="noopener">{content}</a>\n'
     body = re.sub(r'<ButtonLink([\s\S]*?)>([\s\S]*?)</ButtonLink>', convert_button_link, body)
 
     # 4. Convert <Youtube src="URL" ... /> → iframe embed
