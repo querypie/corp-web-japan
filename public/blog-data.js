@@ -1962,8 +1962,6 @@ aws events put-rule \\
 <br />
 <br />
 <br />
-<p><img src="/assets/images/07-blog/b-thumb-19.png" alt="Cost Optimization through EC2 Automation" style="max-width:100%"></p>
-<br />
 <br />
 <br />
 <p>✅ <strong>AWS コスト45%削減</strong></p>
@@ -3459,8 +3457,6 @@ aws events put-rule \\
 <h2 id="セキュリティは難しくなければならないのか-解決できない宿題に挑む人々">セキュリティは難しくなければならないのか？ 解決できない宿題に挑む人々</h2>
 <p><br /></p>
 <br />
-<br />
-<p><img src="/assets/images/07-blog/b-thumb-5.png" alt="Jobs" style="max-width:100%"></p>
 <br />
 <br />
 <p><br /></p>

@@ -146,19 +146,23 @@ def preprocess_jsx(body):
         fp  = filepath.group(1) if filepath else ""
         a   = alt.group(1) if alt else ""
         cap = caption.group(1).strip() if caption else ""
+        # Skip thumbnail images (already shown as cover image)
+        filename = fp.split("/")[-1]
+        if re.match(r'(wp-thumb|b-thumb)-\d+', filename):
+            return ""
         result = f"\n![{a}]({fp})\n"
         if cap:
             result += f"*{cap}*\n"
         return result
     body = re.sub(r'<ArticleFileImage([\s\S]*?)/>', convert_file_image, body)
 
-    # 3. Convert <ButtonLink href="URL" ...>TEXT</ButtonLink> → [TEXT](URL)
+    # 3. Convert <ButtonLink href="URL" ...>TEXT</ButtonLink> → styled button
     def convert_button_link(m):
         attrs   = m.group(1)
         content = m.group(2).strip()
         href    = re.search(r'href=["\']([^"\']+)["\']', attrs)
         url     = href.group(1) if href else "#"
-        return f"\n[{content}]({url})\n"
+        return f'\n<a class="article-content-btn" href="{url}" target="_blank" rel="noopener">{content}</a>\n'
     body = re.sub(r'<ButtonLink([\s\S]*?)>([\s\S]*?)</ButtonLink>', convert_button_link, body)
 
     # 4. Convert <Youtube src="URL" ... /> → iframe embed

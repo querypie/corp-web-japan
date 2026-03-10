@@ -927,6 +927,27 @@
   display: block;
 }
 
+/* ── Article Content CTA Button (from ButtonLink) ── */
+.article-content-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #111827;
+  color: #fff;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  border-radius: 6px;
+  transition: opacity 0.2s;
+  margin: 16px 0;
+}
+.article-content-btn:hover {
+  opacity: 0.85;
+  color: #fff;
+}
+
 /* ── Article Bottom CTA ── */
 .article-bottom-cta {
   margin-top: 48px;

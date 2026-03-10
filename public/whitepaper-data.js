@@ -1022,7 +1022,7 @@ const WHITEPAPER_DATA = {
 <p><br /></p>
 <br />
 <br />
-<p><a href="https://app.querypie.com/" target="_blank" rel="noopener noreferrer">🚀 QueryPie AIを今すぐ体験する</a></p>
+<p><a class="article-content-btn" href="https://app.querypie.com/" target="_blank" rel="noopener">🚀 QueryPie AIを今すぐ体験する</a></p>
 <br />
 <br />`
   },
@@ -2266,7 +2266,7 @@ const WHITEPAPER_DATA = {
 <p><br /></p>
 <br />
 <br />
-<p><a href="https://app.querypie.com/" target="_blank" rel="noopener noreferrer">🚀 QueryPie AIを今すぐ体験する</a></p>
+<p><a class="article-content-btn" href="https://app.querypie.com/" target="_blank" rel="noopener">🚀 QueryPie AIを今すぐ体験する</a></p>
 <br />
 <br />`
   },
@@ -2286,8 +2286,6 @@ const WHITEPAPER_DATA = {
     },
     "toc": `<ul class="sidebar-toc-list"><li><a href="#研究の背景と動機">研究の背景と動機</a><li><a href="#研究課題">研究課題</a><li><a href="#研究の貢献">研究の貢献</a><li><a href="#論文の構成">論文の構成</a><li><a href="#llm評価ベンチマーク">LLM評価ベンチマーク</a><li><a href="#llmベースのコード生成">LLMベースのコード生成</a><li><a href="#検索拡張生成rag">検索拡張生成（RAG）</a><li><a href="#llmasajudge評価方法論">LLM-as-a-Judge評価方法論</a><li><a href="#マルチエージェントシステムおよびパイプライン">マルチエージェントシステムおよびパイプライン</a><li><a href="#研究の空白と本研究の位置づけ">研究の空白と本研究の位置づけ</a><li><a href="#システム概要">システム概要</a><li><a href="#nl-to-pseudocode-agent">NL to Pseudocode Agent</a><ul class="sidebar-toc-sub"><li><a href="#概要">概要</a></li><li><a href="#3段階逐次処理構造">3段階逐次処理構造</a></li><li><a href="#入出力例">入出力例</a></li></ul></li><li><a href="#mfid-mapping-agent">MFID Mapping Agent</a><ul class="sidebar-toc-sub"><li><a href="#概要">概要</a></li><li><a href="#mfidデータ構造">MFIDデータ構造</a></li><li><a href="#ベクトル検索インフラ">ベクトル検索インフラ</a></li><li><a href="#agentic-ragの動作方式">Agentic RAGの動作方式</a></li></ul></li><li><a href="#評価対象および範囲">評価対象および範囲</a><li><a href="#小括">小括</a><li><a href="#評価対象モデル">評価対象モデル</a><ul class="sidebar-toc-sub"><li><a href="#claudeファミリーanthropic">Claudeファミリー（Anthropic）</a></li><li><a href="#geminiファミリーgoogle">Geminiファミリー（Google）</a></li><li><a href="#gptファミリーopenai">GPTファミリー（OpenAI）</a></li><li><a href="#モデル構成の要約">モデル構成の要約</a></li></ul></li><li><a href="#データセット構成">データセット構成</a><ul class="sidebar-toc-sub"><li><a href="#コード生成データセットcodegen">コード生成データセット（CodeGen）</a></li><li><a href="#agentic-ragデータセットmfid-mapping">Agentic RAGデータセット（MFID Mapping）</a></li></ul></li><li><a href="#評価指標">評価指標</a><ul class="sidebar-toc-sub"><li><a href="#コード生成タスク評価指標">コード生成タスク評価指標</a></li><li><a href="#agentic-ragタスク評価指標">Agentic RAGタスク評価指標</a></li><li><a href="#指標の正規化">指標の正規化</a></li></ul></li><li><a href="#コストおよび性能指標">コストおよび性能指標</a><ul class="sidebar-toc-sub"><li><a href="#トークン価格">トークン価格</a></li><li><a href="#コスト効率性指標">コスト効率性指標</a></li></ul></li><li><a href="#実験環境および設定">実験環境および設定</a><ul class="sidebar-toc-sub"><li><a href="#実験環境">実験環境</a></li><li><a href="#モデル設定">モデル設定</a></li></ul></li><li><a href="#小括">小括</a></li></ul>`,
     "content": `<br />
-<br />
-<p><img src="/assets/images/07-blog/wp-thumb-26.png" alt="コード生成およびAgentic RAGタスクを中心とした特定ドメインのためのLLM比較評価【前編】" style="max-width:100%"></p>
 <br />
 <br />
 <br />
@@ -2966,7 +2964,7 @@ const WHITEPAPER_DATA = {
 <p><br /></p>
 <p><br /></p>
 <br />
-<p><a href="https://app.querypie.com/" target="_blank" rel="noopener noreferrer">🚀 QueryPie AIを今すぐ体験する</a></p>
+<p><a class="article-content-btn" href="https://app.querypie.com/" target="_blank" rel="noopener">🚀 QueryPie AIを今すぐ体験する</a></p>
 <br />
 <br />`
   },
@@ -2986,8 +2984,6 @@ const WHITEPAPER_DATA = {
     },
     "toc": `<ul class="sidebar-toc-list"><li><a href="#全体品質評価結果">全体品質評価結果</a><ul class="sidebar-toc-sub"><li><a href="#伝統的テキスト指標">伝統的テキスト指標</a></li><li><a href="#llmasajudge評価結果">LLM-as-a-Judge評価結果</a></li></ul></li><li><a href="#thinkモード効果分析">Thinkモード効果分析</a><ul class="sidebar-toc-sub"><li><a href="#thinkモードのタスク別影響">Thinkモードのタスク別影響</a></li><li><a href="#thinkモード効果の解釈">Thinkモード効果の解釈</a></li></ul></li><li><a href="#モデル分析">モデル分析</a><ul class="sidebar-toc-sub"><li><a href="#空応答率empty-response-rate">空応答率（Empty Response Rate）</a></li><li><a href="#安定性の実質的影響">安定性の実質的影響</a></li></ul></li><li><a href="#コスト-品質分析">コスト ― 品質分析</a><ul class="sidebar-toc-sub"><li><a href="#モデル別コストおよびコスト効率性">モデル別コストおよびコスト効率性</a></li><li><a href="#コスト-品質トレードオフ">コスト ― 品質トレードオフ</a></li></ul></li><li><a href="#小括">小括</a><li><a href="#全体品質評価結果">全体品質評価結果</a><ul class="sidebar-toc-sub"><li><a href="#recallkおよびmrr結果">Recall@KおよびMRR結果</a></li><li><a href="#ツール呼び出し効率性">ツール呼び出し効率性</a></li><li><a href="#agentic-rag評価サマリー">Agentic RAG評価サマリー</a></li></ul></li><li><a href="#thinkモード効果分析">Thinkモード効果分析</a><ul class="sidebar-toc-sub"><li><a href="#thinkモードのタスク別影響">Thinkモードのタスク別影響</a></li><li><a href="#タスク別thinkモード効果比較">タスク別Thinkモード効果比較</a></li></ul></li><li><a href="#コスト-品質分析">コスト ― 品質分析</a><ul class="sidebar-toc-sub"><li><a href="#モデル別コストおよびコスト効率性">モデル別コストおよびコスト効率性</a></li></ul></li><li><a href="#コスト-品質トレードオフ">コスト ― 品質トレードオフ</a><li><a href="#コード生成-vs-agentic-rag比較">コード生成 vs Agentic RAG比較</a><ul class="sidebar-toc-sub"><li><a href="#モデル順位の変化">モデル順位の変化</a></li><li><a href="#タスク特性に応じたモデル適合性">タスク特性に応じたモデル適合性</a></li></ul></li><li><a href="#小括">小括</a><li><a href="#パイプライン総合分析">パイプライン総合分析</a><ul class="sidebar-toc-sub"><li><a href="#段階別性能比較">段階別性能比較</a></li><li><a href="#効果的品質分析">効果的品質分析</a></li></ul></li><li><a href="#モデル別特性の要約">モデル別特性の要約</a><ul class="sidebar-toc-sub"><li><a href="#個別モデル特性">個別モデル特性</a></li></ul></li><li><a href="#thinkモード効果の総合">Thinkモード効果の総合</a><ul class="sidebar-toc-sub"><li><a href="#タスク別thinkモード影響">タスク別Thinkモード影響</a></li></ul></li><li><a href="#パイプライン最適化戦略">パイプライン最適化戦略</a><ul class="sidebar-toc-sub"><li><a href="#パイプライン組み合わせ分析">パイプライン組み合わせ分析</a></li><li><a href="#推奨パイプライン構成">推奨パイプライン構成</a></li><li><a href="#最適化効果">最適化効果</a></li></ul></li><li><a href="#最終推奨事項">最終推奨事項</a><ul class="sidebar-toc-sub"><li><a href="#研究課題に対する回答">研究課題に対する回答</a></li><li><a href="#実務適用ガイドライン">実務適用ガイドライン</a></li></ul></li><li><a href="#小括">小括</a><li><a href="#研究の要約">研究の要約</a><li><a href="#主要な貢献">主要な貢献</a><li><a href="#実務的示唆">実務的示唆</a><li><a href="#研究の限界">研究の限界</a><li><a href="#今後の研究方向">今後の研究方向</a><li><a href="#結び">結び</a></li></ul>`,
     "content": `<br />
-<br />
-<p><img src="/assets/images/07-blog/wp-thumb-27.png" alt="コード生成およびAgentic RAGタスクを中心とした特定ドメインのためのLLM比較評価【後編】" style="max-width:100%"></p>
 <br />
 <br />
 <br />
@@ -3766,7 +3762,7 @@ const WHITEPAPER_DATA = {
 <p><br /></p>
 <br />
 <br />
-<p><a href="https://app.querypie.com/" target="_blank" rel="noopener noreferrer">🚀 QueryPie AIを今すぐ体験する</a></p>
+<p><a class="article-content-btn" href="https://app.querypie.com/" target="_blank" rel="noopener">🚀 QueryPie AIを今すぐ体験する</a></p>
 <br />
 <br />`
   },
@@ -5310,7 +5306,7 @@ allow {
 <p><br /></p>
 <br />
 <br />
-<p><a href="https://app.querypie.com" target="_blank" rel="noopener noreferrer">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
+<p><a class="article-content-btn" href="https://app.querypie.com" target="_blank" rel="noopener">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
 <br />
 <br />
 <h1 id="参考文献">参考文献</h1>
@@ -6098,7 +6094,7 @@ allow {
 <p><br /></p>
 <br />
 <br />
-<p><a href="https://app.querypie.com" target="_blank" rel="noopener noreferrer">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
+<p><a class="article-content-btn" href="https://app.querypie.com" target="_blank" rel="noopener">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
 <br />
 <br />
 <h2 id="参考文献">参考文献</h2>
@@ -7192,7 +7188,7 @@ allow {
 <p><br /></p>
 <br />
 <br />
-<p><a href="https://app.querypie.com" target="_blank" rel="noopener noreferrer">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
+<p><a class="article-content-btn" href="https://app.querypie.com" target="_blank" rel="noopener">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
 <br />
 <br />
 <h2 id="references">References</h2>
@@ -7405,7 +7401,7 @@ allow {
 <p><br /></p>
 <br />
 <br />
-<p><a href="https://app.querypie.com" target="_blank" rel="noopener noreferrer">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
+<p><a class="article-content-btn" href="https://app.querypie.com" target="_blank" rel="noopener">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
 <br />
 <br />
 <h1 id="参考文献">参考文献</h1>
@@ -7842,7 +7838,7 @@ allow {
 <p><br /></p>
 <br />
 <br />
-<p><a href="https://app.querypie.com" target="_blank" rel="noopener noreferrer">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
+<p><a class="article-content-btn" href="https://app.querypie.com" target="_blank" rel="noopener">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
 <br />
 <br />
 <h1 id="参考文献">参考文献</h1>
@@ -9249,7 +9245,7 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
 <p><br /></p>
 <br />
 <br />
-<p><a href="https://app.querypie.com" target="_blank" rel="noopener noreferrer">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
+<p><a class="article-content-btn" href="https://app.querypie.com" target="_blank" rel="noopener">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
 <br />
 <br />
 <h1 id="参考文献">参考文献</h1>
@@ -10564,7 +10560,7 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
 <p><br /></p>
 <br />
 <br />
-<p><a href="https://app.querypie.com" target="_blank" rel="noopener noreferrer">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
+<p><a class="article-content-btn" href="https://app.querypie.com" target="_blank" rel="noopener">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
 <br />
 <br />
 <h1 id="参考文献">参考文献</h1>
@@ -11337,7 +11333,7 @@ allow {
 <p><br /></p>
 <br />
 <br />
-<p><a href="https://app.querypie.com" target="_blank" rel="noopener noreferrer">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
+<p><a class="article-content-btn" href="https://app.querypie.com" target="_blank" rel="noopener">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
 <br />
 <br />
 <h1 id="参考文献">参考文献</h1>
@@ -11800,7 +11796,7 @@ when {
 <p><br /></p>
 <br />
 <br />
-<p><a href="https://app.querypie.com" target="_blank" rel="noopener noreferrer">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
+<p><a class="article-content-btn" href="https://app.querypie.com" target="_blank" rel="noopener">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
 <br />
 <br />
 <h1 id="参考文献">参考文献</h1>
@@ -12028,7 +12024,7 @@ when {
     "toc": "<ul class=\"sidebar-toc-list\"><li><a href=\"#世界の先進企業が描く未来像\">世界の先進企業が描く未来像</a></li></ul>",
     "content": `<p><br /></p>
 <br />
-<p><a href="/features/documentation/white-paper/24/ai-tranformation-japan/download" target="_blank" rel="noopener noreferrer">ホワイトペーパーを入手する 🚀</a></p>
+<p><a class="article-content-btn" href="/features/documentation/white-paper/24/ai-tranformation-japan/download" target="_blank" rel="noopener">ホワイトペーパーを入手する 🚀</a></p>
 <br />
 <p><br /></p>
 <br />
@@ -12086,7 +12082,7 @@ when {
     "toc": "<ul class=\"sidebar-toc-list\"><li><a href=\"#世界の先進企業が描く未来像\">世界の先進企業が描く未来像</a></li></ul>",
     "content": `<p><br /></p>
 <br />
-<p><a href="/features/documentation/white-paper/24/ai-tranformation-japan/download" target="_blank" rel="noopener noreferrer">ホワイトペーパーを入手する 🚀</a></p>
+<p><a class="article-content-btn" href="/features/documentation/white-paper/24/ai-tranformation-japan/download" target="_blank" rel="noopener">ホワイトペーパーを入手する 🚀</a></p>
 <br />
 <p><br /></p>
 <br />
