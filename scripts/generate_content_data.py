@@ -427,10 +427,9 @@ def mdx_to_html(mdx_body, _skip_preprocess=False):
             html_lines.append("</tbody></table></div>")
             in_table = False
 
-        # Empty line
+        # Empty line — skip (CSS margins on block elements handle spacing)
         if not raw.strip():
             close_list()
-            html_lines.append("<br />")
             i += 1
             continue
 
@@ -611,6 +610,13 @@ def generate_whitepaper_data(authors):
         # coverImage for download page (ogImage)
         og = meta.get("ogImage", "")
         cover_img = image_path(og)
+        # Check for a dedicated download cover image: wp{gh_id}-download-jp.png
+        _dl_cover_filename = f"wp{gh_id}-download-jp.png"
+        _dl_cover_path = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "public", "assets", "images", "07-blog", _dl_cover_filename
+        )
+        dl_cover_img = f"/assets/images/07-blog/{_dl_cover_filename}" if os.path.exists(_dl_cover_path) else cover_img
 
         entry = {
             "github_id": gh_id,
@@ -618,7 +624,7 @@ def generate_whitepaper_data(authors):
             "description": meta.get("description", ""),
             "date": format_date_ja(meta.get("date", "")),
             "image": cover_img,
-            "coverImage": cover_img,
+            "coverImage": dl_cover_img,
             "category": "ホワイトペーパー",
             "author": author,
             "toc": toc,
@@ -904,6 +910,12 @@ def append_new_whitepapers(authors, js_path):
         author = resolve_author(meta.get("author", "querypie"), authors)
         og = meta.get("ogImage", "")
         cover_img = image_path(og)
+        _dl_cover_filename = f"wp{gh_id}-download-jp.png"
+        _dl_cover_path = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "public", "assets", "images", "07-blog", _dl_cover_filename
+        )
+        dl_cover_img = f"/assets/images/07-blog/{_dl_cover_filename}" if os.path.exists(_dl_cover_path) else cover_img
 
         new_entries_by_id[gh_id] = {
             "github_id": gh_id,
@@ -911,7 +923,7 @@ def append_new_whitepapers(authors, js_path):
             "description": meta.get("description", ""),
             "date": format_date_ja(meta.get("date", "")),
             "image": cover_img,
-            "coverImage": cover_img,
+            "coverImage": dl_cover_img,
             "category": "ホワイトペーパー",
             "author": author,
             "toc": toc,

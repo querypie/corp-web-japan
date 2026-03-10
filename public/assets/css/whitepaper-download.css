@@ -82,6 +82,42 @@
   color: var(--color-text-main);
 }
 
+/* Content preview */
+.wp-dl-content-wrap {
+  position: relative;
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+
+.wp-dl-content-preview {
+  max-height: 380px;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--color-text-main);
+}
+
+.wp-dl-content-preview p {
+  margin: 0 0 12px;
+}
+
+.wp-dl-content-preview h2,
+.wp-dl-content-preview h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 16px 0 8px;
+}
+
+.wp-dl-content-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, transparent, #fff);
+  pointer-events: none;
+}
+
 /* Cover image */
 .wp-dl-cover-img-wrap {
   width: 100%;
@@ -121,6 +157,21 @@
 }
 
 /* ── Right: Form Card ── */
+.wp-dl-form-col {
+  position: relative;
+}
+
+.wp-dl-form-col-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: linear-gradient(to bottom, #F9FAFB, transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
 .wp-dl-form-card {
   background: #fff;
   border: 1px solid #E5E7EB;

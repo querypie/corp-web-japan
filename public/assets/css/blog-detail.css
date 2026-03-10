@@ -263,6 +263,12 @@
   display: none;
 }
 
+/* Hide stray <br> tags between block elements (MDX blank line artifacts) */
+.article-content > br,
+.article-gated-content > br {
+  display: none;
+}
+
 .article-content h1 {
   font-size: 22px;
   font-weight: 600;

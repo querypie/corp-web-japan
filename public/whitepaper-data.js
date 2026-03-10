@@ -12308,7 +12308,7 @@ when {
     "description": "本ホワイトペーパーは事業責任者向けに、技術詳細やトレンド紹介ではなく、世界と日本のAI活用の温度差と日本企業の課題を踏まえ、今すぐ経営に組み込むための実務的プロセスと全社最適の変革指針を示す内容です。",
     "date": "2025年11月17日",
     "image": "/assets/images/07-blog/wp-thumb-24-jp.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-24-jp.png",
+    "coverImage": "/assets/images/07-blog/wp24-download-jp.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "寺澤慎祐",
@@ -13018,7 +13018,7 @@ when {
     "description": "本ホワイトペーパーは事業責任者向けに、技術詳細やトレンド紹介ではなく、世界と日本のAI活用の温度差と日本企業の課題を踏まえ、今すぐ経営に組み込むための実務的プロセスと全社最適の変革指針を示す内容です。",
     "date": "2025年11月17日",
     "image": "/assets/images/07-blog/wp-thumb-24-jp.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-24-jp.png",
+    "coverImage": "/assets/images/07-blog/wp24-download-jp.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "寺澤慎祐",
