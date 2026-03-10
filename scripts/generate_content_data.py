@@ -287,9 +287,11 @@ def mdx_to_html(mdx_body, _skip_preprocess=False):
                     src = cdn if cdn else src
             return f'<img src="{src}" alt="{alt}" style="max-width:100%">'
         text = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', _fix_img_url, text)
-        # Links [text](url)
-        text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)',
-                      r'<a href="\2" target="_blank" rel="noopener noreferrer">\1</a>', text)
+        # Links [text](url) — strip whitespace from URL to handle [ ]( https://... ) patterns
+        def _make_link(m):
+            url = m.group(2).strip()
+            return f'<a href="{url}" target="_blank" rel="noopener noreferrer">{m.group(1)}</a>'
+        text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', _make_link, text)
         # Strikethrough
         text = re.sub(r"~~(.+?)~~", r"<del>\1</del>", text)
         return text

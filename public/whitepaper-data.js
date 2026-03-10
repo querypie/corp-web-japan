@@ -5343,7 +5343,7 @@ allow {
 <br />
 <p>[16] <a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy" target="_blank" rel="noopener noreferrer">Microsoft Graph Team, “Data, Privacy, and Security for Microsoft 365 Copilot,” Microsoft Learn, 2023.</a></p>
 <br />
-<p>[17] <a href=" https://aws.amazon.com/blogs/machine-learning/create-a-generative-ai-gateway-to-allow-secure-and-compliant-consumption-of-foundation-models/" target="_blank" rel="noopener noreferrer">Amazon Web Services, “Create a Generative AI Gateway to allow secure and compliant consumption of foundation models,” AWS Machine Learning Blog, 2023.</a></p>
+<p>[17] <a href="https://aws.amazon.com/blogs/machine-learning/create-a-generative-ai-gateway-to-allow-secure-and-compliant-consumption-of-foundation-models/" target="_blank" rel="noopener noreferrer">Amazon Web Services, “Create a Generative AI Gateway to allow secure and compliant consumption of foundation models,” AWS Machine Learning Blog, 2023.</a></p>
 <br />
 <p>[18] <a href="https://docs.aws.amazon.com/prescriptive-guidance/latest/saas-multitenant-api-access-authorization/pdp.html" target="_blank" rel="noopener noreferrer">AWS, “Implementing a PDP,” AWS Prescriptive Guidance, 2023.</a></p>
 <br />
