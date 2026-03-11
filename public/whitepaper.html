@@ -256,7 +256,7 @@
       if (typeof WHITEPAPER_DATA === 'undefined') return;
       function normPath(p) { return p || ''; }
       function stripHtml(html) { var d = document.createElement('div'); d.innerHTML = html; return d.textContent || d.innerText || ''; }
-      function excerpt(content, len) { var t = stripHtml(content || '').trim(); return t.length > len ? t.slice(0, len) + '...' : t; }
+      function excerpt(content, len) { var t = stripHtml(content || '').replace(/\p{Extended_Pictographic}/gu, '').replace(/\s+/g, ' ').trim(); return t.length > len ? t.slice(0, len) + '...' : t; }
       var list = document.getElementById('wp-list');
       if (!list) return;
       var html = '';
@@ -325,9 +325,10 @@
     function showBackdrop() { navBackdrop.classList.add('is-active'); }
     function hideBackdrop() { navBackdrop.classList.remove('is-active'); }
     function closeAll() { clearTimeout(closeTimeout); navItems.forEach(i => i.classList.remove('is-open')); hideBackdrop(); }
+    const currentPageActiveLink = document.querySelector('.nav-dropdown-link.is-active');
     navItems.forEach(item => {
       item.addEventListener('mouseenter', () => { if (window.innerWidth < 992) return; clearTimeout(closeTimeout); navItems.forEach(o => o.classList.remove('is-open')); item.classList.add('is-open'); document.querySelectorAll('.nav-dropdown-link').forEach(l => l.classList.remove('is-active')); showBackdrop(); });
-      item.addEventListener('mouseleave', () => { if (window.innerWidth < 992) return; clearTimeout(closeTimeout); closeTimeout = setTimeout(() => { item.classList.remove('is-open'); if (!document.querySelector('.nav-item.has-dropdown:hover')) hideBackdrop(); }, 150); });
+      item.addEventListener('mouseleave', () => { if (window.innerWidth < 992) return; clearTimeout(closeTimeout); closeTimeout = setTimeout(() => { item.classList.remove('is-open'); if (currentPageActiveLink && !document.querySelector('.nav-item.has-dropdown:hover')) currentPageActiveLink.classList.add('is-active'); if (!document.querySelector('.nav-item.has-dropdown:hover')) hideBackdrop(); }, 150); });
     });
     function alignMegaMenus() {
       if (window.innerWidth < 992) return;
