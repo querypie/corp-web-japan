@@ -6131,7 +6131,7 @@ allow {
 <br />
 <p>[16] <a href="https://hillside.net/plop/2023/papers/" target="_blank" rel="noopener noreferrer">L. Zeng, “Agent-as-a-Gateway pattern in distributed AI systems,” in Proc. 30th Pattern Languages of Programs Conf. (PLoP), Oct. 2023.</a></p>
 <br />
-<p>[17] <a href="https://www.sans.org/white-papers/40170" target="_blank" rel="noopener noreferrer">B. Ferguson, “Designing trust boundaries in enterprise architectures,” SANS Institute Whitepaper, 2022.</a></p>
+<p>[17] B. Ferguson, “Designing trust boundaries in enterprise architectures,” SANS Institute Whitepaper, 2022.</p>
 <br />
 <p>[18] A. Kumar, “Zero Trust in AI service invocation,” Cybersecurity Engineering, vol. 7, no. 1, pp. 41–50, Jan. 2024.</p>
 <br />
@@ -7406,7 +7406,7 @@ allow {
 <br />
 <h1 id="参考文献">参考文献</h1>
 <br />
-<p>[1] <a href="https://spec.modelcontextprotocol.io" target="_blank" rel="noopener noreferrer">Anthropic, "Model Context Protocol Specification (2025-03-26): Architecture.", Anthropic Documentation, 2025.</a></p>
+<p>[1] Anthropic, "Model Context Protocol Specification (2025-03-26): Architecture.", Anthropic Documentation, 2025.</p>
 <br />
 <p>[2] <a href="https://arxiv.org/abs/2503.23278" target="_blank" rel="noopener noreferrer">X. Hou, Y. Zhao, S. Wang, H. Wang, "Model Context Protocol (MCP): Landscape, Security Threats, and Future Research Directions.", arXiv preprint, 2025.</a></p>
 <br />
@@ -7430,7 +7430,7 @@ allow {
 <br />
 <p>[12] <a href="https://www.cyberark.com/what-is/privileged-access-management/" target="_blank" rel="noopener noreferrer">CyberArk, "What is Privileged Access Management (PAM)?", CyberArk Security Glossary, 2025.</a></p>
 <br />
-<p>[13] <a href="https://ftp.kron.com.tr/enhancing-cybersecurity-with-ai-powered-privileged-access-management" target="_blank" rel="noopener noreferrer">Krontech, "Enhancing Cybersecurity with AI-Powered Privileged Access Management.", Kron Blog, Mar. 20, 2024.</a></p>
+<p>[13] Krontech, "Enhancing Cybersecurity with AI-Powered Privileged Access Management.", Kron Blog, Mar. 20, 2024.</p>
 <br />
 <p>[14] <a href="https://www.ssh.com/academy/pam/leveraging-machine-learning-and-ai-in-privileged-access-management-for-predictive-security" target="_blank" rel="noopener noreferrer">SSH Communications Security, "Leveraging Machine Learning and AI in PAM for Predictive Security.", SSH.com Academy, 2024.</a></p>
 <br />
@@ -11802,7 +11802,7 @@ when {
 <h1 id="参考文献">参考文献</h1>
 <p>[1] <a href="https://www.mckinsey.com/business-functions/mckinsey-digital/our-insights/the-state-of-ai-in-2023" target="_blank" rel="noopener noreferrer">McKinsey & Company, “The state of AI in 2023: Generative AI’s breakout year,” McKinsey Global Report, Aug. 2023.</a></p>
 <br />
-<p>[2] <a href="https://gizmodo.com/samsung-employee-data-chatgpt-leak-1850340623" target="_blank" rel="noopener noreferrer">M. DeGeurin, “Oops: Samsung Employees Leaked Confidential Data to ChatGPT,” Gizmodo, Apr. 2023.</a></p>
+<p>[2] M. DeGeurin, “Oops: Samsung Employees Leaked Confidential Data to ChatGPT,” Gizmodo, Apr. 2023.</p>
 <br />
 <p>[3] <a href="https://www.reuters.com/technology/italy-data-watchdog-temporarily-bans-chatgpt-2023-03-31/" target="_blank" rel="noopener noreferrer">E. Parodi and S. Lvovsky, “Italy curbs ChatGPT, starts probe over privacy concerns,” Reuters, Mar. 2023.</a></p>
 <br />
@@ -11848,7 +11848,7 @@ when {
 <br />
 <p>[24] D. Lin, “Exploring Prompt Injection and Mitigation Techniques,” AI Security Review, vol. 5, pp. 20–35, 2024.</p>
 <br />
-<p>[25] <a href="https://www.ibm.com/downloads/cas/IBM-AI-risk" target="_blank" rel="noopener noreferrer">IBM, “AI Risk and Compliance Report,” IBM Institute for Business Value, 2023.</a></p>
+<p>[25] IBM, “AI Risk and Compliance Report,” IBM Institute for Business Value, 2023.</p>
 <br />
 <p>[26] <a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener noreferrer">NIST, “AI Risk Management Framework: Generative AI Profile (NIST AI 600-1),” National Institute of Standards and Technology, Jul. 2024.</a></p>
 <br />
@@ -11856,7 +11856,7 @@ when {
 <br />
 <p>[28] <a href="https://www.techrepublic.com/article/generative-ai-attacks" target="_blank" rel="noopener noreferrer">A. Hoblitzell, “20% of Generative AI ‘Jailbreak’ Attacks Succeed,” TechRepublic, Oct. 2024.</a></p>
 <br />
-<p>[29] <a href="https://www.ibm.com/blogs/pam-explained" target="_blank" rel="noopener noreferrer">IBM, “What is Privileged Access Management (PAM),” IBM Think Blog, Jul. 2024.</a></p>
+<p>[29] IBM, “What is Privileged Access Management (PAM),” IBM Think Blog, Jul. 2024.</p>
 <br />
 <p>[30] <a href="https://aiindex.stanford.edu/report/" target="_blank" rel="noopener noreferrer">Stanford Institute for Human-Centered AI, “AI Index Report 2023,” Stanford University, 2023.</a></p>
 <br />
@@ -12309,6 +12309,7 @@ when {
     "date": "2025年11月17日",
     "image": "/assets/images/07-blog/wp-thumb-24-jp.png",
     "coverImage": "/assets/images/07-blog/wp24-download-jp.png",
+    "pdfUrl": "https://www.querypie.com/public/downloads/documents/QP_Whitepaper_AI_Transformation_JP.pdf",
     "category": "ホワイトペーパー",
     "author": {
       "name": "寺澤慎祐",
@@ -12333,7 +12334,10 @@ when {
 <br />
 <p>第１章では「世界で進むAI活用を前提にしたビジネス」について紹介しています。米国を中心にした先進企業は既に多くがAIを業務として導入していて実運用レベルまで進んでいますが、日本はまだパイロット導入・試行導入のフェーズが中心で実運用までは進んでいません。また世界では、生成AIを活用するのではなくAIエージェントが複数部門の業務を横断したエージェント同士の協調が模索されるなどしていますが、日本では個別最適が多く、ビジネスの全体最適が難しいのです。</p>
 <br />
-<p>第２章では、企業におけるAI活用が世界と日本では温度差がある中、日本企業はどのような課題に直面しているのか？について考察しています。日本企業におけるAI活用は、世界と比べて模索段階にあり、三つの課題が表れています。第１に、戦略的ビジョンがなく、経営戦略とAI導入が結びつかず「効率化」や「コスト削減」といった短期的視点に偏り、長期的な成長や新規事業創出につながっていない点です。第２に、先進技術に長けたデジタル人材の不足とスキルギャップが深刻であり、技術者も社員もAIリテラシーが十分だとは言えない。第３に、失敗を避ける文化や前例踏襲の姿勢が根強く、AI導入による業務変革への抵抗感が大きいことが考えられます。</p>
+<br />
+<br />
+<br />`,
+    "gatedContent": `<p>第２章では、企業におけるAI活用が世界と日本では温度差がある中、日本企業はどのような課題に直面しているのか？について考察しています。日本企業におけるAI活用は、世界と比べて模索段階にあり、三つの課題が表れています。第１に、戦略的ビジョンがなく、経営戦略とAI導入が結びつかず「効率化」や「コスト削減」といった短期的視点に偏り、長期的な成長や新規事業創出につながっていない点です。第２に、先進技術に長けたデジタル人材の不足とスキルギャップが深刻であり、技術者も社員もAIリテラシーが十分だとは言えない。第３に、失敗を避ける文化や前例踏襲の姿勢が根強く、AI導入による業務変革への抵抗感が大きいことが考えられます。</p>
 <br />
 <p>第３章では、日本企業がAIを活用して業務を変革（トランスフォーメーション）するために何をすれば良いのかについて触れています。この章ではプロセス的な話になります。生成AIを含むAIの活用について、様々な方法で学ぶことはできますが、実際の業務でどのように使えば良いのかわからないという声をよく聞きます。どのようなプロセスでAIを活用して業務を変革すれば良いのかのヒントがあります。</p>
 <br />
@@ -12359,8 +12363,7 @@ when {
 <br />
 <br />
 <br />
-<br />`,
-    "gatedContent": `<br />
+<br /><br />
 <br />
 <br />
 <br />
@@ -12369,7 +12372,7 @@ when {
 <div class="wp-table-wrapper"><table class="wp-table">
 <tbody>
 <tr>
-<td>### <strong>■ テクノロジー大手</strong>                 - <strong>Microsoft</strong>                     - OpenAIへ投資もし、Office 365やGitHubなどのネットワークを活用し、AI技術を自社製品に統合                 - <strong>AWS</strong>                     - AWS上で生成AIを構築するツール「Amazon Bedrock」を提供\\nこれは、第三者企業のモデルを利用できるプラットフォームで、Stable Diffusion、Cohere、Anthropicといった企業のモデルが使用可能                 - <strong>Google</strong>                     - Googleが開発した生成AIサービスGeminiは、テキスト、画像、音声などに対応し、通常の検索においてもAI Overviewsが情報検索をシンプルにしている                     - ユーザーのナレッジを基に様々な対応をするNotebookLM、様々なAI機能が搭載されたGoogle Pixel、文章校正や写真修正、マップ精度などをあげているGoogle Workspace、企業が独自のAIモデルを開発・デプロイするための統合プラットフォームであるVertex AIなど、全てのサービス領域においてAIが活用されている                  ### <strong>■ コンサルティング会社</strong>                 - <strong>マッキンゼー</strong>                     - 独自開発したAI「Lilli」によって社内業務を効率化、コンサルタントの知識統合している                 - <strong>ボストンコンサルティング</strong>                     - 独自開発したAI「GENE」や資料作成AI「Deckster」などを展開し、すでにAI関連のサービスが収益になってきている                 - <strong>アクセンチュア</strong>                     - AI主導の事業部門「Reinvention Services」を設立し8万人の専門家を擁する                     - AIを全サービスの中心に据え、クライアントの事業変革を支援している                  ### <strong>■ 製薬業界</strong>                 - <strong>Insilico Medicine</strong>                     - 次世代のAI技術を統合し、医薬研究・創薬過程の大幅な効率化                 - <strong>Isomorphic Labs</strong>                     - AI技術により、タンパク質構造予測を用いた新たな創薬アプローチを推進                 - <strong>Recursion, Insitro, Xaira Therapeutics</strong>                     - AIを活用した創薬ベンチャー                 - <strong>Pfizer</strong>                     - 製造プロセスにAIを導入し、歩留まり10%向上・サイクルタイム25%短縮                  ### <strong>■ 金融業界</strong>                 - <strong>Mastercard</strong>                     - 生成AIを活用したチャットボットでの顧客対応や、不正検知の予測モデルに適用                 - <strong>Morgan Stanley</strong>                     - 金融アドバイザー向けに、社内の大量データをAIで要約し、相談業務の効率化と精度向上を実現                 - <strong>Goldman Sachs</strong>                     - 自然言語によるコード生成ツールやドキュメント自動化プラットフォームなど、社内ワークフローのAI化を推進                 - <strong>Bank of America</strong>                     - 顧客向けにパーソナライズされた投資戦略をAIで提案し、顧客エンゲージメントを向上</td>
+<td style="vertical-align:top"><p style="margin:8px 0 4px"><strong>■ テクノロジー大手</strong></p><ul style="margin:0 0 8px;padding-left:16px"><li><strong>Microsoft</strong></li><li>OpenAIへ投資もし、Office 365やGitHubなどのネットワークを活用し、AI技術を自社製品に統合</li><li><strong>AWS</strong></li><li>AWS上で生成AIを構築するツール「Amazon Bedrock」を提供 これは、第三者企業のモデルを利用できるプラットフォームで、Stable Diffusion、Cohere、Anthropicといった企業のモデルが使用可能</li><li><strong>Google</strong></li><li>Googleが開発した生成AIサービスGeminiは、テキスト、画像、音声などに対応し、通常の検索においてもAI Overviewsが情報検索をシンプルにしている</li><li>ユーザーのナレッジを基に様々な対応をするNotebookLM、様々なAI機能が搭載されたGoogle Pixel、文章校正や写真修正、マップ精度などをあげているGoogle Workspace、企業が独自のAIモデルを開発・デプロイするための統合プラットフォームであるVertex AIなど、全てのサービス領域においてAIが活用されている</li></ul><p style="margin:8px 0 4px"><strong>■ コンサルティング会社</strong></p><ul style="margin:0 0 8px;padding-left:16px"><li><strong>マッキンゼー</strong></li><li>独自開発したAI「Lilli」によって社内業務を効率化、コンサルタントの知識統合している</li><li><strong>ボストンコンサルティング</strong></li><li>独自開発したAI「GENE」や資料作成AI「Deckster」などを展開し、すでにAI関連のサービスが収益になってきている</li><li><strong>アクセンチュア</strong></li><li>AI主導の事業部門「Reinvention Services」を設立し8万人の専門家を擁する</li><li>AIを全サービスの中心に据え、クライアントの事業変革を支援している</li></ul><p style="margin:8px 0 4px"><strong>■ 製薬業界</strong></p><ul style="margin:0 0 8px;padding-left:16px"><li><strong>Insilico Medicine</strong></li><li>次世代のAI技術を統合し、医薬研究・創薬過程の大幅な効率化</li><li><strong>Isomorphic Labs</strong></li><li>AI技術により、タンパク質構造予測を用いた新たな創薬アプローチを推進</li><li><strong>Recursion, Insitro, Xaira Therapeutics</strong></li><li><strong>AIを活用した創薬ベンチャー</strong></li><li><strong>Pfizer</strong></li><li>製造プロセスにAIを導入し、歩留まり10%向上・サイクルタイム25%短縮</li></ul><p style="margin:8px 0 4px"><strong>■ 金融業界</strong></p><ul style="margin:0 0 8px;padding-left:16px"><li><strong>Mastercard</strong></li><li>生成AIを活用したチャットボットでの顧客対応や、不正検知の予測モデルに適用</li><li><strong>Morgan Stanley</strong></li><li>金融アドバイザー向けに、社内の大量データをAIで要約し、相談業務の効率化と精度向上を実現</li><li><strong>Goldman Sachs</strong></li><li>自然言語によるコード生成ツールやドキュメント自動化プラットフォームなど、社内ワークフローのAI化を推進</li><li><strong>Bank of America</strong></li><li>顧客向けにパーソナライズされた投資戦略をAIで提案し、顧客エンゲージメントを向上</li></ul></td>
 </tr>
 </tbody>
 </table></div>
@@ -13001,10 +13004,10 @@ when {
 <br />
 <h1 id="参考サイト">参考サイト</h1>
 <ul>
-<li>https://www.pwc.com/us/en/tech-effect/ai-analytics/ai-agent-survey.html?utm_source=chatgpt.com</li>
-<li>https://kpmg.com/us/en/articles/2025/ai-quarterly-pulse-survey.html?utm_source=chatgpt.com</li>
-<li>https://survey.stackoverflow.co/2025/ai?utm_source=chatgpt.com</li>
-<li>https://www.deloitte.com/us/en/services/consulting/blogs/ai-adoption-challenges-ai-trends.html?utm_source=chatgpt.com</li>
+<li><a href="https://www.pwc.com/us/en/tech-effect/ai-analytics/ai-agent-survey.html" target="_blank" rel="noopener noreferrer">PwC – AI Agent Survey</a></li>
+<li><a href="https://kpmg.com/us/en/articles/2025/ai-quarterly-pulse-survey.html" target="_blank" rel="noopener noreferrer">KPMG – AI Quarterly Pulse Survey 2025</a></li>
+<li><a href="https://survey.stackoverflow.co/2025/ai" target="_blank" rel="noopener noreferrer">Stack Overflow – Developer Survey 2025 (AI)</a></li>
+<li><a href="https://www.deloitte.com/us/en/services/consulting/blogs/ai-adoption-challenges-ai-trends.html" target="_blank" rel="noopener noreferrer">Deloitte – AI Adoption Challenges & Trends</a></li>
 </ul>
 <br />
 <br />
@@ -13019,6 +13022,7 @@ when {
     "date": "2025年11月17日",
     "image": "/assets/images/07-blog/wp-thumb-24-jp.png",
     "coverImage": "/assets/images/07-blog/wp24-download-jp.png",
+    "pdfUrl": "https://www.querypie.com/public/downloads/documents/QP_Whitepaper_AI_Transformation_JP.pdf",
     "category": "ホワイトペーパー",
     "author": {
       "name": "寺澤慎祐",
@@ -13043,7 +13047,10 @@ when {
 <br />
 <p>第１章では「世界で進むAI活用を前提にしたビジネス」について紹介しています。米国を中心にした先進企業は既に多くがAIを業務として導入していて実運用レベルまで進んでいますが、日本はまだパイロット導入・試行導入のフェーズが中心で実運用までは進んでいません。また世界では、生成AIを活用するのではなくAIエージェントが複数部門の業務を横断したエージェント同士の協調が模索されるなどしていますが、日本では個別最適が多く、ビジネスの全体最適が難しいのです。</p>
 <br />
-<p>第２章では、企業におけるAI活用が世界と日本では温度差がある中、日本企業はどのような課題に直面しているのか？について考察しています。日本企業におけるAI活用は、世界と比べて模索段階にあり、三つの課題が表れています。第１に、戦略的ビジョンがなく、経営戦略とAI導入が結びつかず「効率化」や「コスト削減」といった短期的視点に偏り、長期的な成長や新規事業創出につながっていない点です。第２に、先進技術に長けたデジタル人材の不足とスキルギャップが深刻であり、技術者も社員もAIリテラシーが十分だとは言えない。第３に、失敗を避ける文化や前例踏襲の姿勢が根強く、AI導入による業務変革への抵抗感が大きいことが考えられます。</p>
+<br />
+<br />
+<br />`,
+    "gatedContent": `<p>第２章では、企業におけるAI活用が世界と日本では温度差がある中、日本企業はどのような課題に直面しているのか？について考察しています。日本企業におけるAI活用は、世界と比べて模索段階にあり、三つの課題が表れています。第１に、戦略的ビジョンがなく、経営戦略とAI導入が結びつかず「効率化」や「コスト削減」といった短期的視点に偏り、長期的な成長や新規事業創出につながっていない点です。第２に、先進技術に長けたデジタル人材の不足とスキルギャップが深刻であり、技術者も社員もAIリテラシーが十分だとは言えない。第３に、失敗を避ける文化や前例踏襲の姿勢が根強く、AI導入による業務変革への抵抗感が大きいことが考えられます。</p>
 <br />
 <p>第３章では、日本企業がAIを活用して業務を変革（トランスフォーメーション）するために何をすれば良いのかについて触れています。この章ではプロセス的な話になります。生成AIを含むAIの活用について、様々な方法で学ぶことはできますが、実際の業務でどのように使えば良いのかわからないという声をよく聞きます。どのようなプロセスでAIを活用して業務を変革すれば良いのかのヒントがあります。</p>
 <br />
@@ -13069,8 +13076,7 @@ when {
 <br />
 <br />
 <br />
-<br />`,
-    "gatedContent": `<br />
+<br /><br />
 <br />
 <br />
 <br />
@@ -13079,7 +13085,7 @@ when {
 <div class="wp-table-wrapper"><table class="wp-table">
 <tbody>
 <tr>
-<td>### <strong>■ テクノロジー大手</strong>                 - <strong>Microsoft</strong>                     - OpenAIへ投資もし、Office 365やGitHubなどのネットワークを活用し、AI技術を自社製品に統合                 - <strong>AWS</strong>                     - AWS上で生成AIを構築するツール「Amazon Bedrock」を提供\\nこれは、第三者企業のモデルを利用できるプラットフォームで、Stable Diffusion、Cohere、Anthropicといった企業のモデルが使用可能                 - <strong>Google</strong>                     - Googleが開発した生成AIサービスGeminiは、テキスト、画像、音声などに対応し、通常の検索においてもAI Overviewsが情報検索をシンプルにしている                     - ユーザーのナレッジを基に様々な対応をするNotebookLM、様々なAI機能が搭載されたGoogle Pixel、文章校正や写真修正、マップ精度などをあげているGoogle Workspace、企業が独自のAIモデルを開発・デプロイするための統合プラットフォームであるVertex AIなど、全てのサービス領域においてAIが活用されている                  ### <strong>■ コンサルティング会社</strong>                 - <strong>マッキンゼー</strong>                     - 独自開発したAI「Lilli」によって社内業務を効率化、コンサルタントの知識統合している                 - <strong>ボストンコンサルティング</strong>                     - 独自開発したAI「GENE」や資料作成AI「Deckster」などを展開し、すでにAI関連のサービスが収益になってきている                 - <strong>アクセンチュア</strong>                     - AI主導の事業部門「Reinvention Services」を設立し8万人の専門家を擁する                     - AIを全サービスの中心に据え、クライアントの事業変革を支援している                  ### <strong>■ 製薬業界</strong>                 - <strong>Insilico Medicine</strong>                     - 次世代のAI技術を統合し、医薬研究・創薬過程の大幅な効率化                 - <strong>Isomorphic Labs</strong>                     - AI技術により、タンパク質構造予測を用いた新たな創薬アプローチを推進                 - <strong>Recursion, Insitro, Xaira Therapeutics</strong>                     - AIを活用した創薬ベンチャー                 - <strong>Pfizer</strong>                     - 製造プロセスにAIを導入し、歩留まり10%向上・サイクルタイム25%短縮                  ### <strong>■ 金融業界</strong>                 - <strong>Mastercard</strong>                     - 生成AIを活用したチャットボットでの顧客対応や、不正検知の予測モデルに適用                 - <strong>Morgan Stanley</strong>                     - 金融アドバイザー向けに、社内の大量データをAIで要約し、相談業務の効率化と精度向上を実現                 - <strong>Goldman Sachs</strong>                     - 自然言語によるコード生成ツールやドキュメント自動化プラットフォームなど、社内ワークフローのAI化を推進                 - <strong>Bank of America</strong>                     - 顧客向けにパーソナライズされた投資戦略をAIで提案し、顧客エンゲージメントを向上</td>
+<td style="vertical-align:top"><p style="margin:8px 0 4px"><strong>■ テクノロジー大手</strong></p><ul style="margin:0 0 8px;padding-left:16px"><li><strong>Microsoft</strong></li><li>OpenAIへ投資もし、Office 365やGitHubなどのネットワークを活用し、AI技術を自社製品に統合</li><li><strong>AWS</strong></li><li>AWS上で生成AIを構築するツール「Amazon Bedrock」を提供 これは、第三者企業のモデルを利用できるプラットフォームで、Stable Diffusion、Cohere、Anthropicといった企業のモデルが使用可能</li><li><strong>Google</strong></li><li>Googleが開発した生成AIサービスGeminiは、テキスト、画像、音声などに対応し、通常の検索においてもAI Overviewsが情報検索をシンプルにしている</li><li>ユーザーのナレッジを基に様々な対応をするNotebookLM、様々なAI機能が搭載されたGoogle Pixel、文章校正や写真修正、マップ精度などをあげているGoogle Workspace、企業が独自のAIモデルを開発・デプロイするための統合プラットフォームであるVertex AIなど、全てのサービス領域においてAIが活用されている</li></ul><p style="margin:8px 0 4px"><strong>■ コンサルティング会社</strong></p><ul style="margin:0 0 8px;padding-left:16px"><li><strong>マッキンゼー</strong></li><li>独自開発したAI「Lilli」によって社内業務を効率化、コンサルタントの知識統合している</li><li><strong>ボストンコンサルティング</strong></li><li>独自開発したAI「GENE」や資料作成AI「Deckster」などを展開し、すでにAI関連のサービスが収益になってきている</li><li><strong>アクセンチュア</strong></li><li>AI主導の事業部門「Reinvention Services」を設立し8万人の専門家を擁する</li><li>AIを全サービスの中心に据え、クライアントの事業変革を支援している</li></ul><p style="margin:8px 0 4px"><strong>■ 製薬業界</strong></p><ul style="margin:0 0 8px;padding-left:16px"><li><strong>Insilico Medicine</strong></li><li>次世代のAI技術を統合し、医薬研究・創薬過程の大幅な効率化</li><li><strong>Isomorphic Labs</strong></li><li>AI技術により、タンパク質構造予測を用いた新たな創薬アプローチを推進</li><li><strong>Recursion, Insitro, Xaira Therapeutics</strong></li><li><strong>AIを活用した創薬ベンチャー</strong></li><li><strong>Pfizer</strong></li><li>製造プロセスにAIを導入し、歩留まり10%向上・サイクルタイム25%短縮</li></ul><p style="margin:8px 0 4px"><strong>■ 金融業界</strong></p><ul style="margin:0 0 8px;padding-left:16px"><li><strong>Mastercard</strong></li><li>生成AIを活用したチャットボットでの顧客対応や、不正検知の予測モデルに適用</li><li><strong>Morgan Stanley</strong></li><li>金融アドバイザー向けに、社内の大量データをAIで要約し、相談業務の効率化と精度向上を実現</li><li><strong>Goldman Sachs</strong></li><li>自然言語によるコード生成ツールやドキュメント自動化プラットフォームなど、社内ワークフローのAI化を推進</li><li><strong>Bank of America</strong></li><li>顧客向けにパーソナライズされた投資戦略をAIで提案し、顧客エンゲージメントを向上</li></ul></td>
 </tr>
 </tbody>
 </table></div>
@@ -13717,10 +13723,10 @@ when {
 <br />
 <h1 id="参考サイト">参考サイト</h1>
 <ul>
-<li>https://www.pwc.com/us/en/tech-effect/ai-analytics/ai-agent-survey.html?utm_source=chatgpt.com</li>
-<li>https://kpmg.com/us/en/articles/2025/ai-quarterly-pulse-survey.html?utm_source=chatgpt.com</li>
-<li>https://survey.stackoverflow.co/2025/ai?utm_source=chatgpt.com</li>
-<li>https://www.deloitte.com/us/en/services/consulting/blogs/ai-adoption-challenges-ai-trends.html?utm_source=chatgpt.com</li>
+<li><a href="https://www.pwc.com/us/en/tech-effect/ai-analytics/ai-agent-survey.html" target="_blank" rel="noopener noreferrer">PwC – AI Agent Survey</a></li>
+<li><a href="https://kpmg.com/us/en/articles/2025/ai-quarterly-pulse-survey.html" target="_blank" rel="noopener noreferrer">KPMG – AI Quarterly Pulse Survey 2025</a></li>
+<li><a href="https://survey.stackoverflow.co/2025/ai" target="_blank" rel="noopener noreferrer">Stack Overflow – Developer Survey 2025 (AI)</a></li>
+<li><a href="https://www.deloitte.com/us/en/services/consulting/blogs/ai-adoption-challenges-ai-trends.html" target="_blank" rel="noopener noreferrer">Deloitte – AI Adoption Challenges & Trends</a></li>
 </ul>
 <br />
 <br />

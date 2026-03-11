@@ -429,6 +429,7 @@
       navItems.forEach(i => i.classList.remove('is-open'));
       hideBackdrop();
     }
+    const currentPageActiveLink = document.querySelector('.nav-dropdown-link.is-active');
     navItems.forEach(item => {
       item.addEventListener('mouseenter', () => {
         if (window.innerWidth < 992) return;
@@ -443,6 +444,7 @@
         clearTimeout(closeTimeout);
         closeTimeout = setTimeout(() => {
           item.classList.remove('is-open');
+          if (currentPageActiveLink && !document.querySelector('.nav-item.has-dropdown:hover')) currentPageActiveLink.classList.add('is-active');
           if (!document.querySelector('.nav-item.has-dropdown:hover')) hideBackdrop();
         }, 150);
       });
