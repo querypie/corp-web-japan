@@ -67,6 +67,7 @@
   margin-top: 8px;
 }
 
+
 .article-date {
   font-size: 14px;
   font-weight: 300;
@@ -125,7 +126,6 @@
   background: #F9FAFB;
   border-radius: 10px;
   padding: 20px 26px;
-  margin-top: 12px;
 }
 
 .article-author-avatar {
@@ -213,49 +213,9 @@
 
 /* ── Article Body ── */
 .article-body {
-  padding: 55px 0 89px;
+  padding: 0 0 89px;
 }
 
-/* ── TOC ── */
-.article-toc {
-  background: var(--bg-light);
-  border-radius: 12px;
-  padding: 28px 32px;
-  margin-bottom: 55px;
-}
-
-.article-toc-title {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--color-text-gray);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin: 0 0 16px;
-}
-
-.article-toc-list {
-  list-style: disc;
-  padding: 0 0 0 20px;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.article-toc-list li {
-  color: var(--color-text-body);
-}
-
-.article-toc-list a {
-  font-size: 14px;
-  color: var(--color-text-body);
-  text-decoration: none;
-  line-height: 1.571;
-}
-
-.article-toc-list a:hover {
-  color: var(--color-accent-blue);
-}
 
 /* ── Body typography ── */
 .article-content hr,
@@ -303,7 +263,7 @@
   color: var(--color-text-main);
   line-height: 1.4;
   letter-spacing: 0;
-  margin: 44px 0 12px;
+  margin: 32px 0 12px;
 }
 
 .article-content h4 {
@@ -321,7 +281,7 @@
   color: var(--color-text-body);
   line-height: 1.75;
   letter-spacing: 0.02rem;
-  margin: 8px 0 0;
+  margin: 16px 0 0;
 }
 
 /* Inline links */
@@ -703,25 +663,6 @@
   opacity: 0.8;
 }
 
-/* ── Related Posts ── */
-.related-section {
-  padding: 55px 0 0;
-  border-top: 1px solid #F0F0F0;
-}
-
-.related-title {
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--color-text-main);
-  margin: 0 0 34px;
-  letter-spacing: -0.01em;
-}
-
-.related-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 34px;
-}
 
 /* ── Article Gating Wall ── */
 .gating-wall {
@@ -948,7 +889,7 @@
   justify-content: center;
   gap: 8px;
   width: 100%;
-  padding: 16px 32px;
+  padding: 10px 32px;
   background: #111827;
   color: #fff;
   text-decoration: none;
@@ -957,7 +898,7 @@
   font-family: inherit;
   border-radius: 6px;
   transition: opacity 0.2s;
-  margin: 4px 0 16px;
+  margin: 0 0 28px;
   box-sizing: border-box;
 }
 .article-content-btn:hover {
@@ -968,8 +909,6 @@
 /* ── Article Bottom CTA ── */
 .article-bottom-cta {
   margin-top: 48px;
-  padding-top: 40px;
-  border-top: 1px solid var(--border-light, #e5e7eb);
 }
 
 .article-bottom-cta-btn {

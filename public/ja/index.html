@@ -10,7 +10,6 @@
   <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/woff2/PretendardJP-Medium.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/pretendard-jp.css">
   <link rel="stylesheet" href="/assets/css/styles.css">
-  <script src="/blog-data.js"></script>
   <script>document.documentElement.classList.add('no-transition');</script>
 </head>
 
@@ -240,9 +239,9 @@
             <p>
               このホワイトペーパーは、事業責任者を対象にAIをビジネスにどのように活用すべきなのかについて書かれています。一方でAIテクノロジーについて詳細は記載していませんし、AIテクノロジーのトレンドを知りたい方は対象ではありません。第１章では「世界で進むAI活用を前提にしたビジネス」について紹介しています。米国を中心にした先進企業は既に多くがAIを業務として導入していて実運用レベルまで進んでいますが、日本はまだ・・・
             </p>
-            <button class="mid-section-btn">
+            <a href="/whitepaper-detail.html?id=16" class="mid-section-btn">
               無料でダウンロードできます <img src="/assets/images/01-header/arrow-right.svg" alt="arrow">
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -347,12 +346,34 @@
     <section id="news" class="blog-section">
       <div class="container">
         <h2 class="section-title">ブログ</h2>
-        <div class="blog-grid"></div>
-
-        <div class="pagination">
-          <button class="page-btn prev"><img src="/assets/images/07-blog/pagination-prev.svg" alt="Prev"></button>
-          <div class="page-dots"></div>
-          <button class="page-btn next"><img src="/assets/images/07-blog/pagination-next.svg" alt="Next"></button>
+        <div class="blog-grid">
+          <article class="blog-card">
+            <a href="/posts/blog/b-001.html">
+              <div class="blog-img-container1">
+                <img src="/assets/images/07-blog/b-thumb-28.png" alt="AIセキュリティ脅威マップ2026" class="blog-thumb">
+              </div>
+              <span class="blog-tag">ブログ</span>
+              <h3 class="blog-title">AIセキュリティ脅威マップ2026｜CxOが備えるべき7つの攻撃ベクトルと実務対策フレームワーク</h3>
+            </a>
+          </article>
+          <article class="blog-card">
+            <a href="/posts/blog/b-002.html">
+              <div class="blog-img-container2">
+                <img src="/assets/images/07-blog/b-thumb-27.png" alt="シャドーAIリスクの全貌" class="blog-thumb">
+              </div>
+              <span class="blog-tag">ブログ</span>
+              <h3 class="blog-title">【2026年最新】シャドーAIリスクの全貌｜情報漏洩・コンプライアンス違反を防ぐCxOの5つの対策</h3>
+            </a>
+          </article>
+          <article class="blog-card">
+            <a href="/posts/blog/b-010.html">
+              <div class="blog-img-container3">
+                <img src="/assets/images/07-blog/news-21.png" alt="QueryPie AIとテラスカイ協業" class="blog-thumb">
+              </div>
+              <span class="blog-tag">ブログ</span>
+              <h3 class="blog-title">QueryPie AI、株式会社テラスカイと協業しAIエージェント「mitoco Buddy」を発表</h3>
+            </a>
+          </article>
         </div>
       </div>
     </section>
@@ -727,80 +748,6 @@
     };
 
     heroSlider.init();
-
-    // Blog Slider
-    (() => {
-      if (typeof BLOG_DATA === 'undefined') return;
-
-      function parseDate(str) {
-        const m = str.match(/(\d+)年(\d+)月(\d+)日/);
-        return m ? new Date(+m[1], +m[2] - 1, +m[3]) : new Date(0);
-      }
-
-      const allPosts = Object.entries(BLOG_DATA)
-        .map(([id, d]) => ({ id, title: d.title, date: d.date, image: d.image, category: d.category || 'ブログ' }))
-        .sort((a, b) => parseDate(b.date) - parseDate(a.date))
-        .slice(0, 6);
-
-      const PER_PAGE = 3;
-      const totalPages = Math.ceil(allPosts.length / PER_PAGE);
-      let currentPage = 0;
-
-      const grid = document.querySelector('.blog-grid');
-      const dotsContainer = document.querySelector('.page-dots');
-      const prevBtn = document.querySelector('.page-btn.prev');
-      const nextBtn = document.querySelector('.page-btn.next');
-
-      for (let i = 0; i < totalPages; i++) {
-        const dot = document.createElement('span');
-        dot.className = 'dot' + (i === 0 ? ' active' : '');
-        dot.addEventListener('click', () => goToPage(i));
-        dotsContainer.appendChild(dot);
-      }
-
-      function renderPage(page, animate) {
-        const posts = allPosts.slice(page * PER_PAGE, (page + 1) * PER_PAGE);
-        const doRender = () => {
-          grid.innerHTML = posts.map((p, i) => `
-            <article class="blog-card">
-              <a href="/blog-detail.html?id=${p.id}">
-                <div class="blog-img-container${(i % 3) + 1}">
-                  <img src="${p.image}" alt="${p.title}" class="blog-thumb">
-                </div>
-                <span class="blog-tag">${p.category}</span>
-                <h3 class="blog-title">${p.title}</h3>
-              </a>
-            </article>
-          `).join('');
-        };
-        if (animate) {
-          grid.style.transition = 'none';
-          grid.style.opacity = '0';
-          grid.style.transform = 'translateX(20px)';
-          setTimeout(() => {
-            doRender();
-            grid.style.transition = 'all 0.3s ease';
-            grid.style.opacity = '1';
-            grid.style.transform = 'translateX(0)';
-          }, 50);
-        } else {
-          doRender();
-          grid.style.opacity = '1';
-          grid.style.transform = 'translateX(0)';
-        }
-      }
-
-      function goToPage(page) {
-        dotsContainer.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === page));
-        currentPage = page;
-        renderPage(page, true);
-      }
-
-      prevBtn.addEventListener('click', () => goToPage((currentPage - 1 + totalPages) % totalPages));
-      nextBtn.addEventListener('click', () => goToPage((currentPage + 1) % totalPages));
-
-      renderPage(0, false);
-    })();
   </script>
 </body>
 
