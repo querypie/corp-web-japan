@@ -2907,11 +2907,11 @@ aws events put-rule \\
 <li><a href="https://www.aitimes.kr/news/articleView.html?idxno=29379" target="_blank" rel="noopener noreferrer">https://www.aitimes.kr/news/articleView.html?idxno=29379</a></li>
 <li><a href="https://kr.newsroom.ibm.com/announcements?item=122760" target="_blank" rel="noopener noreferrer">https://kr.newsroom.ibm.com/announcements?item=122760</a></li>
 <li><a href="https://www.securityweek.com/attacker-steals-data-2-million-vodafone-germany-customers/" target="_blank" rel="noopener noreferrer">https://www.securityweek.com/attacker-steals-data-2-million-vodafone-germany-customers/</a></li>
-<li><a href="https://privacy.naver.com/global_support?menu=global_support_eu_gdpr_understand" target="_blank" rel="noopener noreferrer">https://privacy.naver.com/global_support?menu=global_support_eu_gdpr_understand</a></li>
+<li>https://privacy.naver.com/global_support?menu=global_support_eu_gdpr_understand</li>
 <li><a href="https://www.npr.org/2021/04/09/986005820/after-data-breach-exposes-530-million-facebook-says-it-will-not-notify-users" target="_blank" rel="noopener noreferrer">https://www.npr.org/2021/04/09/986005820/after-data-breach-exposes-530-million-facebook-says-it-will-not-notify-users</a></li>
-<li><a href="https://privacy.naver.com/download/NAVER_CCPA_Guideline.pdf" target="_blank" rel="noopener noreferrer">https://privacy.naver.com/download/NAVER_CCPA_Guideline.pdf</a></li>
+<li>https://privacy.naver.com/download/NAVER_CCPA_Guideline.pdf</li>
 <li><a href="https://www.cpomagazine.com/cyber-security/data-breach-on-the-largest-japanese-messaging-app-line-leaks-440k-records/" target="_blank" rel="noopener noreferrer">https://www.cpomagazine.com/cyber-security/data-breach-on-the-largest-japanese-messaging-app-line-leaks-440k-records/</a></li>
-<li><a href="https://privacy.naver.com/download/NAVER_JP_privacyguideline.pdf" target="_blank" rel="noopener noreferrer">https://privacy.naver.com/download/NAVER_JP_privacyguideline.pdf</a></li>
+<li>https://privacy.naver.com/download/NAVER_JP_privacyguideline.pdf</li>
 </ol>
 <br />`
   },
@@ -3735,8 +3735,8 @@ aws events put-rule \\
 <br />
 <p>これらの3つの方法論は、QueryPie 独自の技術であり、コマンドの回避を防ぎ、さまざまなセキュリティ脅威からサーバーを保護します。各方法の詳細な技術内容については、QueryPie のホワイトペーパーにて確認できます。</p>
 <ul>
-<li><a href="/resources/discover/white-paper/2-shell-native-command-control" target="_blank" rel="noopener noreferrer"><em>Shell ネイティブなコマンド制御のための SSH プロキシ構造</em></a></li>
-<li><a href="/resources/discover/white-paper/5-preventing-command-bypass" target="_blank" rel="noopener noreferrer"><em>実行プロセス追跡方式を使用した SSH 回避コマンドの根本的な遮断</em></a></li>
+<li><em>Shell ネイティブなコマンド制御のための SSH プロキシ構造</em></li>
+<li><em>実行プロセス追跡方式を使用した SSH 回避コマンドの根本的な遮断</em></li>
 </ul>
 <br />
 <h1 id="querypie-の差別化された価値サーバーコマンド回避の革新的アプローチ">QueryPie の差別化された価値：サーバーコマンド回避の革新的アプローチ</h1>

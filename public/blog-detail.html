@@ -85,9 +85,9 @@
                   <a href="#" class="nav-dropdown-link">紹介資料</a>
                   <a href="#" class="nav-dropdown-link">用語集</a>
                   <a href="#" class="nav-dropdown-link">マニュアル</a>
-                  <a href="#" class="nav-dropdown-link">ホワイトペーパー</a>
+                  <a href="/whitepaper.html" class="nav-dropdown-link">ホワイトペーパー</a>
                   <a href="/blog.html" class="nav-dropdown-link is-active">ブログ</a>
-                  <a href="#" class="nav-dropdown-link">イベント</a>
+                  <a href="/event.html" class="nav-dropdown-link">イベント</a>
                 </div>
               </div>
             </div>
@@ -157,9 +157,9 @@
             <a href="#" class="mobile-nav-sublink">紹介資料</a>
             <a href="#" class="mobile-nav-sublink">用語集</a>
             <a href="#" class="mobile-nav-sublink">マニュアル</a>
-            <a href="#" class="mobile-nav-sublink">ホワイトペーパー</a>
+            <a href="/whitepaper.html" class="mobile-nav-sublink">ホワイトペーパー</a>
             <a href="/blog.html" class="mobile-nav-sublink">ブログ</a>
-            <a href="#" class="mobile-nav-sublink">イベント</a>
+            <a href="/event.html" class="mobile-nav-sublink">イベント</a>
           </div>
         </div>
         <div class="mobile-nav-group">
@@ -464,12 +464,60 @@
       if (img) { img.src = blog.image; img.alt = blog.title; }
       var content = document.querySelector('.article-content');
       if (content) content.innerHTML = blog.content;
+      // TOC: auto-generate from h2/h3 if not stored
       var toc = document.querySelector('.sidebar-toc-scroll');
-      if (toc) toc.innerHTML = blog.toc;
+      if (toc) {
+        if (blog.toc) {
+          toc.innerHTML = blog.toc;
+        } else {
+          var tmp = document.createElement('div');
+          tmp.innerHTML = blog.content;
+          var headings = tmp.querySelectorAll('h2[id], h3[id]');
+          var tocHtml = '<ul class="sidebar-toc-list">';
+          var inLi = false, inSub = false;
+          headings.forEach(function(h) {
+            var text = h.textContent.trim();
+            var href = '#' + h.id;
+            if (h.tagName === 'H2') {
+              if (inSub) { tocHtml += '</ul>'; inSub = false; }
+              if (inLi)  { tocHtml += '</li>'; inLi = false; }
+              tocHtml += '<li><a href="' + href + '">' + text + '</a>';
+              inLi = true;
+            } else {
+              if (!inLi) { tocHtml += '<li>'; inLi = true; }
+              if (!inSub) { tocHtml += '<ul class="sidebar-toc-sub">'; inSub = true; }
+              tocHtml += '<li><a href="' + href + '">' + text + '</a></li>';
+            }
+          });
+          if (inSub) tocHtml += '</ul>';
+          if (inLi)  tocHtml += '</li>';
+          tocHtml += '</ul>';
+          toc.innerHTML = tocHtml;
+        }
+      }
+
+      // Related: auto-generate from top-7 active blog list
       var related = document.querySelector('.related-sidebar-list');
-      if (related) related.innerHTML = blog.related.map(function (r) {
-        return '<a href="' + r.href + '" class="related-sidebar-card"><div class="related-sidebar-img"><img src="' + r.img + '" alt=""></div><div class="related-sidebar-text"><h3 class="related-sidebar-card-title">' + r.title + '</h3><p class="related-sidebar-date">' + r.date + '</p></div></a>';
-      }).join('');
+      if (related) {
+        var skipBlogIds = {'9': 1};
+        function parseBlogDate(str) {
+          if (!str) return 0;
+          var m = str.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+          return m ? new Date(+m[1], +m[2]-1, +m[3]).getTime() : 0;
+        }
+        var relIds = Object.keys(BLOG_DATA)
+          .filter(function(bid) { return !skipBlogIds[bid] && bid !== id; })
+          .sort(function(a, b) { return parseBlogDate(BLOG_DATA[b].date) - parseBlogDate(BLOG_DATA[a].date); })
+          .slice(0, 7)
+          .slice(0, 3);
+        related.innerHTML = relIds.map(function(rid) {
+          var r = BLOG_DATA[rid];
+          return '<a href="/blog-detail.html?id=' + rid + '" class="related-sidebar-card">' +
+            '<div class="related-sidebar-img"><img src="' + r.image + '" alt=""></div>' +
+            '<div class="related-sidebar-text"><h3 class="related-sidebar-card-title">' + r.title + '</h3>' +
+            '<p class="related-sidebar-date">' + r.date + '</p></div></a>';
+        }).join('');
+      }
     })();
   </script>
 
@@ -664,6 +712,7 @@
       hideBackdrop();
     }
 
+    const currentPageActiveLink = document.querySelector('.nav-dropdown-link.is-active');
     navItems.forEach(item => {
       item.addEventListener('mouseenter', () => {
         if (window.innerWidth < 992) return;
@@ -678,6 +727,7 @@
         clearTimeout(closeTimeout);
         closeTimeout = setTimeout(() => {
           item.classList.remove('is-open');
+          if (currentPageActiveLink && !document.querySelector('.nav-item.has-dropdown:hover')) currentPageActiveLink.classList.add('is-active');
           if (!document.querySelector('.nav-item.has-dropdown:hover')) hideBackdrop();
         }, 150);
       });
