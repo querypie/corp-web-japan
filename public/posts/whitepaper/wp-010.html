@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AIシステムがますます相互接続される中で、モデル間のコンテキスト共有は、信頼性の高い推論と安全な実行を確保するために不可欠となっています。本ホワイトペーパーでは、Model Context Protocol（MCP）に関する最新の研究を分析し、主要なセキュリティ脅威を特定するとともに、文脈認識型アクセス制御と自律的なポ">
+  <title>MCPセキュリティ評価：文献調査によるMCPセキュリティ脅威の特定と脆弱性分析 - QueryPie AI</title>
+  <link rel="preload" href="https://cdn.jsdelivr.net/fontsource/fonts/mona-sans:vf@latest/latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/woff2/PretendardJP-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/woff2/PretendardJP-Medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/pretendard-jp.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+  <link rel="stylesheet" href="/assets/css/blog-detail.css">
+  <script>document.documentElement.classList.add('no-transition');</script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/ja/" class="logo"><img src="/assets/images/01-header/logo.svg" alt="QueryPie AI Logo" class="logo-img"></a>
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li class="nav-item has-dropdown"><a href="#" class="nav-link" data-dropdown>サービス<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">サービス</div><div class="mega-sub">QueryPie AIのコアサービス</div></div><div class="mega-links"><a href="#" class="nav-dropdown-link">AI Platform (AIP)</a><a href="#" class="nav-dropdown-link">Access Control Platform (ACP)</a><a href="#" class="nav-dropdown-link">Forward Deployed Engineer Service (FDES)</a></div></div></div></li>
+          <li class="nav-item has-dropdown"><a href="#" class="nav-link" data-dropdown>ソリューション<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">ソリューション</div><div class="mega-sub">課題に合わせたAIソリューション</div></div><div class="mega-links"><a href="/services/ai-dashi/" class="nav-dropdown-link">AI 出汁</a></div></div></div></li>
+          <li class="nav-item has-dropdown"><a href="#" class="nav-link" data-dropdown>デモ<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">デモ</div><div class="mega-sub">QueryPie AIを体験する</div></div><div class="mega-links"><a href="#" class="nav-dropdown-link">ユースケース</a><a href="#" class="nav-dropdown-link">AIP機能</a><a href="#" class="nav-dropdown-link">ACP機能</a></div></div></div></li>
+          <li class="nav-item has-dropdown"><a href="/whitepaper.html" class="nav-link is-active" data-dropdown>リソース<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">リソース</div><div class="mega-sub">学習・活用リソース</div></div><div class="mega-links mega-links--grid"><a href="#" class="nav-dropdown-link">紹介資料</a><a href="#" class="nav-dropdown-link">用語集</a><a href="#" class="nav-dropdown-link">マニュアル</a><a href="/whitepaper.html" class="nav-dropdown-link is-active">ホワイトペーパー</a><a href="/blog.html" class="nav-dropdown-link">ブログ</a><a href="/event.html" class="nav-dropdown-link">イベント</a></div></div></div></li>
+          <li class="nav-item has-dropdown"><a href="#" class="nav-link" data-dropdown>会社情報<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">会社情報</div><div class="mega-sub">QueryPie AIについて</div></div><div class="mega-links"><a href="#" class="nav-dropdown-link">私たちについて</a><a href="#" class="nav-dropdown-link">認証情報</a><a href="#" class="nav-dropdown-link">ニュース</a><a href="#" class="nav-dropdown-link">お問い合わせ</a></div></div></div></li>
+          <li class="nav-item"><a href="#" class="nav-link">プラン</a></li>
+        </ul>
+      </nav>
+      <a href="#" class="btn btn-primary desktop-only">無料で始める <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
+      <button class="mobile-menu-btn" aria-label="メニュー"><span class="hamburger-line"></span><span class="hamburger-line"></span></button>
+    </div>
+    <div class="nav-backdrop"></div>
+    <div class="mobile-menu">
+      <nav class="mobile-nav">
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">サービス<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="#" class="mobile-nav-sublink">QueryPie AIP</a><a href="#" class="mobile-nav-sublink">QueryPie ACP</a><a href="#" class="mobile-nav-sublink">QueryPie FDE</a></div></div>
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">ソリューション<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="/services/ai-dashi/" class="mobile-nav-sublink">AI 出汁</a></div></div>
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">デモ<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="#" class="mobile-nav-sublink">ユースケース</a><a href="#" class="mobile-nav-sublink">AIP機能</a><a href="#" class="mobile-nav-sublink">ACP機能</a></div></div>
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">リソース<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="#" class="mobile-nav-sublink">紹介資料</a><a href="#" class="mobile-nav-sublink">用語集</a><a href="#" class="mobile-nav-sublink">マニュアル</a><a href="/whitepaper.html" class="mobile-nav-sublink">ホワイトペーパー</a><a href="/blog.html" class="mobile-nav-sublink">ブログ</a><a href="/event.html" class="mobile-nav-sublink">イベント</a></div></div>
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">会社情報<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="#" class="mobile-nav-sublink">私たちについて</a><a href="#" class="mobile-nav-sublink">認証情報</a><a href="#" class="mobile-nav-sublink">ニュース</a><a href="#" class="mobile-nav-sublink">お問い合わせ</a></div></div>
+        <a href="#" class="mobile-nav-link">プラン</a>
+      </nav>
+      <a href="#" class="btn btn-primary mobile-cta">無料で始める <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="article-layout-wrap">
+      <div class="container">
+        <div class="article-layout">
+
+          <div class="article-main">
+            <div class="article-hero-inner">
+              <div class="article-hero-text">
+                <span class="article-category">ホワイトペーパー</span>
+                <h1 class="article-title">MCPセキュリティ評価：文献調査によるMCPセキュリティ脅威の特定と脆弱性分析</h1>
+
+                <div class="article-author">
+                  <img class="article-author-avatar" src="/assets/images/07-blog/author-kenny.png" alt="Kenny Park">
+                  <div class="article-author-info">
+                    <div class="article-author-header">
+                      <div>
+                        <p class="article-author-name">Kenny Park</p>
+                        <p class="article-author-role">CISO</p>
+                      </div>
+                      <div class="article-author-sns"><a href="https://www.linkedin.com/in/kwansoonpark/" target="_blank" rel="noopener noreferrer" class="article-author-sns-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a></div>
+                    </div>
+                    <p class="article-author-bio">ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。</p>
+                  </div>
+                </div>
+                <div class="article-meta">
+                  <span class="article-date">2025年4月23日</span>
+                  <div class="article-share">
+                    <a href="#" aria-label="Facebookでシェア"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                    <a href="#" aria-label="X(Twitter)でシェア"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    <a href="#" aria-label="LinkedInでシェア"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                    <a href="#" aria-label="リンクをコピー"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg></a>
+                  </div>
+                </div>
+              </div>
+              <div class="article-hero-img">
+                <img src="/assets/images/07-blog/wp-thumb-18.png" alt="MCPセキュリティ評価：文献調査によるMCPセキュリティ脅威の特定と脆弱性分析">
+              </div>
+            </div>
+
+            <div class="article-body">
+              <div class="article-content">
+<h1 id="1-序論と目的">1. 序論と目的</h1>
+<br />
+<h2 id="背景と論拠">背景と論拠</h2>
+<p>AIシステムが急速なペースで実用化され続ける中、システム間の相互作用とコンテキスト情報の共有は、モデルの精度を確保し、推論の継続性を維持し、それらに適応した応答を可能にするために不可欠となっている。このような状況の中で、モデルコンテキストプロトコル（MCP）は、大規模言語モデル（LLM）やエージェントベースシステムにおけるコンテキスト配信を構造化し、標準化するために設計された有望な新しいフレームワークとして登場した[1]。</p>
+<br />
+<p>MCPは、構造化されたコンテキストフローのメカニズムを通じて、モデル間の連携、実行コンテキストの共有、ポリシー駆動型のアクセス制御を容易にする。特に、ゼロ・トラスト・セキュリティ・アーキテクチャと統合する可能性があり、安全なAI運用のための戦略的基盤を提供する点で重要である[2]。しかし、MCPはまだ設計と実装の初期段階にあり、その構造的特性はいくつかの重大なセキュリティ脅威をもたらす：</p>
+<br />
+<ul>
+<li>レイヤーにまたがるコンテキストの誤用</li>
+<li>委任認証の悪用</li>
+<li>ポリシーのバイパスとモデルの誤動作[3][4]。</li>
+</ul>
+<br />
+<p>これらの脅威は単なる設定の欠陥ではなく、AIシステム全体の信頼性、一貫性、信頼性を損ないかねない深刻なリスクをもたらす。</p>
+<br />
+<h2 id="分析の目的">分析の目的</h2>
+<br />
+<p>このホワイトペーパーの目的は以下の通りである：</p>
+<br />
+<ol>
+<li>2024年11月から2025年4月までに発表されたMCP関連の最新研究論文のうち15本を体系的にレビューおよび分析し、特に文献に示されたセキュリティ脅威シナリオの特定、分類、構造化に焦点を当てる。</li>
+<li>2024年11月、Anthropic社による最初の技術リリース後、現在入手可能なすべてのMCP出版物の包括的な分析を実施する。</li>
+<li>MCPベースのアーキテクチャの上に構築されたLLMやAIエージェントシステムに出現する可能性のある、現実世界の攻撃ベクトルや脆弱性のカテゴリーを特定する。</li>
+<li>この脅威分析に基づき、ポリシー主導の対抗策と実行可能な技術的保護方法を提案するとともに、MCP時代に特化した新しいセキュリティ・アーキテクチャの必要性を強調する。</li>
+</ol>
+<br />
+<h2 id="レビューした文献の範囲">レビューした文献の範囲</h2>
+<br />
+<p>この分析は、arXiv、ResearchGate、Preprints.org 、Anthropicなどのプラットフォームで発表された、合計15のMCP関連の研究論文と技術報告に基づいている。選ばれた文書は、以下の主要な主題分野を網羅している：</p>
+<br />
+<ul>
+<li>MCPアーキテクチャと標準化の動向</li>
+<li>ポリシーベースの制御と認証委任モデル</li>
+<li>LLMとコンテキスト配信フローの統合</li>
+<li>脆弱性、異常な動作、監査の限界を含む、MCPシステム内のセキュリティ脅威シナリオ</li>
+</ul>
+<br />
+<p>レビューされた文献の完全な要約は、セクション2（文献レビューの枠組みと分類）の「MCPに関連する15の主要論文の要約表」に示されており、関連する戦略と所見に関連して、以下の各セクションを通して各文献が適宜引用されている。</p>
+<br />
+<h2 id="分析の枠組み">分析の枠組み</h2>
+<br />
+<ul>
+<li><strong>主要キーワードによるトピック分類</strong>：MCPセキュリティ関連キーワードクラスターに基づく分類。</li>
+<li><strong>脅威の種類による構造化</strong>：シナリオを脅威カテゴリーT1～T4に分類。</li>
+<li><strong>情報源の信頼性、適時性、適用性の評価</strong>：信頼できる最新の研究プラットフォームからの文書を優先する。</li>
+<li><strong>MCP セキュリティ・アーキテクチャとの関連性</strong>：戦略的な整合性、および現実世界の実装における適用可能性に基づいて評価される。</li>
+</ul>
+<br />
+<p>この分析の枠組みは、本ホワイトペーパーのセクション3（MCPベースのシステムにおけるセキュリティ脅威シナリオ分析）およびセクション4（セキュリティ脅威分析に基づく戦略的推奨事項）に適用される。</p>
+<br />
+<h2 id="文書の構成">文書の構成</h2>
+<br />
+<p>本ホワイトペーパーは5つの主要なパートで構成されており、それぞれがモデル・コンテキスト・プロトコル（MCP）ベースのAIシステムに関連するセキュリティ脅威を分析し、次世代のセキュリティ・アーキテクチャとともに構造的な対策を提案するよう設計されている：</p>
+<br />
+<ol>
+<li><strong>序論と目的</strong></li>
+</ol>
+<p>MCPの背景を説明し、コンテキストを意識したシステムにおける新たなセキュリティリスクを浮き彫りにする。15の主要な出版物のレビューに基づき、構造化された脅威分析の必要性を説明する。</p>
+<br />
+<ol>
+<li><strong>文献レビューの枠組みと分類</strong></li>
+</ol>
+<br />
+<p>最近のMCP関連論文15本を定量的・定性的に分類・評価。分析結果は脅威カテゴリーT1～T4にマッピングされ、要約表には各研究の戦略的貢献度を示す数値関連性スコア（MSR）が記載されている。</p>
+<br />
+<ol>
+<li><strong>MCPベースのシステムにおけるセキュリティ脅威シナリオ分析</strong></li>
+</ol>
+<br />
+<p>MCP システムで観測される 4 つの中核的な脅威タイプ（T1～T4）について、シナリオに基づく例を用いて詳しく説明する。このセクションには、各脅威構造を視覚的に説明するためのコードサンプル、 実行フロー、および障害箇所が含まれている。</p>
+<br />
+<ol>
+<li><strong>セキュリティ脅威分析に基づく戦略的提言</strong></li>
+</ol>
+<br />
+<p>T1～T4の脅威に対処するための4つの戦略的柱（ポリシーの関連付け、コンテキスト統合、 委任管理、監査トレーサビリティ）を提案する。各戦略は、期待される影響とともに、MCP アーキテクチャ内の該当するセキュリティレイヤーにマッピングされる。</p>
+<br />
+<ol>
+<li><strong>結論と新しいセキュリティー・アーキテクチャーの提案</strong></li>
+</ol>
+<br />
+<p>統合的、自律的、かつポリシー駆動型のセキュリティフレームワークとしての<strong>MCP PAM（Model Context Protocol Privileged Access Management</strong>）を紹介する。このセクションでは、MCP 時代におけるセキュリティへのアプローチ方法のパラダイムシフトの必要性を強調する。</p>
+<br />
+<h1 id="2-文献レビューの枠組みと分類">2. 文献レビューの枠組みと分類</h1>
+<br />
+<h2 id="分析の目的とアプローチ">分析の目的とアプローチ</h2>
+<br />
+<p>本セクションは、モデル・コンテキスト・プロトコル（MCP）ベースのAIシステムにおけるセキュリティ脅威を理解し、対処するための基礎となる。この目標を達成するため、2024年11月から2025年4月までに発表された最近の論文15本を収集し、体系的に分析した。</p>
+<br />
+<p>選ばれた文献は、arXiv、Preprints.org、ResearchGate、Anthropicなど、評判の高いプラットフォームから入手したもので、以下の主要なトピックをカバーしている：</p>
+<br />
+<ul>
+<li><strong>MCPの基本的なアーキテクチャとコンテキスト指向のデザイン</strong></li>
+<li><strong>ポリシーベースのアクセス制御と委任メカニズムの限界</strong></li>
+<li><strong>コンテキストフローの処理と伝送経路における脆弱性</strong></li>
+<li><strong>監査ログ構造の課題と監査可能性の確保</strong></li>
+<li><strong>LLMとエージェントベースのAI実行環境との間で統一されたポリシーを適用することの難しさ</strong></li>
+</ul>
+<br />
+<p>この文献レビューは、表面的なトピックの要約や傾向の観察にとどまらない。その代わりに、実用的な基盤を構築することを目的としている：</p>
+<br />
+<ul>
+<li><strong>セクション3</strong>で議論される、T1～T4の中核となる脅威タイプを<strong>特定するための理論的根拠とシナリオに基づく根拠を確立する</strong>。</li>
+<li><strong>セクション4</strong>で示される、<strong>ポリシー主導の戦略設計と階層的セキュリティマッピングに</strong>必要な構造的洞察を提供する。</li>
+<li><strong>セクション5</strong>で提案される<strong>MCP PAM</strong>アーキテクチャの機能レベルの検証をサポートする。</li>
+</ul>
+<br />
+<p>各出版物は、技術的貢献、セキュリティとの関連性、適用可能性、戦略的適合性という 4 つの基準について、<strong>量的・質的レンズを通して</strong>評価される。この評価に基づき、<strong>文献要約表（表1</strong>）と<strong>戦略適合性スコア（MSR：MCP Strategic Relevance Score</strong>）が提供される。</p>
+<br />
+<p>この分析結果は、脅威の構造、シナリオ、対応戦略の設計をサポートするために、本稿の以下の部分で直接適用される。</p>
+<br />
+<h2 id="評価基準と採点フレームワーク">評価基準と採点フレームワーク</h2>
+<p>このMCPに基づくセキュリティ脅威分析のために選ばれた15本の論文は、トピックとの関連性だけでなく、<strong>戦略的な関連性</strong>、具体的には、実行可能な対策立案や構造的な脅威パターンの特定への貢献度によって評価された。</p>
+<br />
+<p><strong>評価項目：4つの主要な基準</strong></p>
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>評価基準</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 技術貢献度 (Technical Contribution)</td>
+<td>MCPの設計、実行、または統合フレームワークに関するアーキテクチャの提案や実装例を紹介する論文かどうか。</td>
+</tr>
+<tr>
+<td>② セキュリティ関連性 (Security Relevance)</td>
+<td>ポリシー違反、コンテキストの改ざん、委任の誤用、監査制限などのセキュリティ脅威に明示的に対処しているかどうか。</td>
+</tr>
+<tr>
+<td>③ 適用可能性 (Applicability to MCP Systems)</td>
+<td>このアイデアが、ポリシーエンジン、LLM統合、エージェントベースの実行を含むシステム設計に現実的に適用できるかどうか。</td>
+</tr>
+<tr>
+<td>④ 戦略連携性 (Relevance to Strategic Design)</td>
+<td>その作業が、T1～T4の脅威タイプや、このホワイトペーパーで紹介したMCP PAM戦略と論理的に整合しているかどうか。</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<p><br /></p>
+<br />
+<p><strong>MSRスコアの計算式（MCP戦略関連性スコア）</strong></p>
+<br />
+<p>各論文は、上記の4つの基準それぞれについて、0から3の尺度で評価された。そして、これらの評価をもとに、以下の加重式を用いて<strong>MSR（MCP Strategic Relevance）スコアを</strong>算出した：</p>
+<br />
+<blockquote>
+<p>MSRi=(Ti×0.3)+(Si×0.4)+(Ai×0.2)+(Ri×0.1)MSRi=(Ti×0.3)+(Si×0.4)+(Ai×0.2)+(Ri×0.1)</p>
+</blockquote>
+<br />
+<p><br /></p>
+<br />
+<ul>
+<li><strong>Ti（技術的貢献）</strong>：MCP のアーキテクチャ、システム設計、実行構造に関する技術的要素を提案または実装している度合い。</li>
+<li><strong>Si</strong>（セキュリティとの関連性）：ポリシー違反、コンテキストの不正操作、監査の失敗などのセキュリティリスクとの直接的な関連性。</li>
+<li><strong>Ai（適用性）</strong>：提案されたコンセプトやフレームワークを実際のMCPベースのシステムに適用する際の実用性。</li>
+<li><strong>Ri（戦略的関連性）</strong>：コンテンツが、T1～T4 の脅威シナリオ、対応戦略、または本ホワイトペーパーで提案されている MCP PAM アーキテクチャと整合している度合い。</li>
+</ul>
+<br />
+<p><br /></p>
+<br />
+<p><strong>MSRスコアによる分類</strong></p>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>MSRスコア範囲</th>
+<th>分類</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.5以上</td>
+<td>コア戦略ペーパー</td>
+<td>T1-T4脅威の特定およびMCP PAM戦略設計に直接貢献する論文。</td>
+</tr>
+<tr>
+<td>1.5〜2.4</td>
+<td>次点資料</td>
+<td>特定の戦略やシナリオに限定した洞察を提供する論文。</td>
+</tr>
+<tr>
+<td>1.4以下</td>
+<td>分析対象外</td>
+<td>MCPセキュリティとの直接的な関連性が低く、コア分析から除外された論文。</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<p><strong>MSRスコアの使用目的</strong></p>
+<br />
+<p>MSRのスコアとクラス分けは以下の通り：</p>
+<br />
+<ul>
+<li><strong>セクション2.3</strong>：文献を要約し、評価表に分類する。</li>
+<li><strong>セクション3</strong>：T1～T4の脅威シナリオを定義する際に、文献引用の優先順位をつける。</li>
+<li><strong>セクション4</strong>：各戦略案の実現可能性を裏付ける基礎的な証拠。</li>
+<li><strong>セクション5</strong>：MCP PAMアーキテクチャの提案の実用的な根拠の検証。</li>
+</ul>
+<br />
+<h2 id="文献毎の評価表msr">文献毎の評価表（MSR）</h2>
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>No.</th>
+<th>タイトル概要</th>
+<th>T</th>
+<th>S</th>
+<th>A</th>
+<th>R</th>
+<th>MSRスコア</th>
+<th>分類</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>[1]</td><td>MCP構造および脅威の概要</td><td>3</td><td>2</td><td>1</td><td>2</td><td>2.3</td><td>次点資料</td></tr>
+<tr><td>[2]</td><td>LLMセキュリティ脆弱性</td><td>1</td><td>3</td><td>2</td><td>3</td><td>2.5</td><td>コア戦略ペーパー</td></tr>
+<tr><td>[3]</td><td>制約プログラミングの統合</td><td>2</td><td>2</td><td>3</td><td>2</td><td>2.3</td><td>次点資料</td></tr>
+<tr><td>[4]</td><td>MCP標準化調査</td><td>3</td><td>2</td><td>1</td><td>2</td><td>2.3</td><td>次点資料</td></tr>
+<tr><td>[5]</td><td>業界別統合事例</td><td>3</td><td>0</td><td>1</td><td>0</td><td>1.1</td><td>❌ 分析から除外</td></tr>
+<tr><td>[6]</td><td>ポリシーベースの安全保証</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2.2</td><td>次点資料</td></tr>
+<tr><td>[7]</td><td>LLMエージェント・アーキテクチャ</td><td>2</td><td>2</td><td>2</td><td>1</td><td>2.1</td><td>次点資料</td></tr>
+<tr><td>[8]</td><td>ハードウェア統合事例</td><td>1</td><td>1</td><td>2</td><td>1</td><td>1.4</td><td>❌ 分析から除外</td></tr>
+<tr><td>[9]</td><td>MCP公式イントロダクション</td><td>3</td><td>1</td><td>1</td><td>2</td><td>2.1</td><td>次点資料</td></tr>
+<tr><td>[10]</td><td>委任に対するセキュリティ・フレームワーク</td><td>2</td><td>3</td><td>2</td><td>2</td><td>2.5</td><td>コア戦略ペーパー</td></tr>
+<tr><td>[11]</td><td>MCPにおける説明責任の問題</td><td>1</td><td>3</td><td>1</td><td>3</td><td>2.2</td><td>次点資料</td></tr>
+<tr><td>[12]</td><td>MCPサーバーによる自動化</td><td>2</td><td>2</td><td>3</td><td>2</td><td>2.3</td><td>次点資料</td></tr>
+<tr><td>[13]</td><td>社会技術的リスク分析</td><td>2</td><td>2</td><td>1</td><td>3</td><td>2.2</td><td>次点資料</td></tr>
+<tr><td>[14]</td><td>大企業向けMCPデザイン</td><td>3</td><td>2</td><td>2</td><td>3</td><td>2.5</td><td>コア戦略ペーパー</td></tr>
+<tr><td>[15]</td><td>相互運用性と拡張性</td><td>2</td><td>1</td><td>1</td><td>3</td><td>1.9</td><td>次点資料</td></tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<h2 id="除外論文とその理由">除外論文とその理由</h2>
+<br />
+<p>以下の論文は、戦略的関連性（MSR）のスコアが低かったため、中核的脅威分析から除外された：</p>
+<br />
+<ul>
+<li>[5] <em>Paul Pajo, "</em>Smithery.ai ..."：：セキュリティよりも業種統合のユースケースにフォーカス。脅威モデリングや構造的リスク要因との関連は最小限。</li>
+<li>[8] Xinyi Hou, "Hardware Synergy..."：ハードウェアの統合が中心で、MCPセキュリティ・アーキテクチャや脅威分析との関連性は低い。</li>
+</ul>
+<br />
+<p>これらの論文は背景となる参考文献としては役立つかもしれないが、脅威シナリオの枠組みに直接含めるには不適切と判断された。</p>
+<br />
+<br />
+<h2 id="文献要約表の概要">文献要約表の概要</h2>
+<br />
+<p>以下の要約表は、分析対象となった全15件の論文の主要なメタデータと要約をまとめたものである。各文書は、特に<strong>T1～T4の脅威タイプの</strong>分類、戦略的対策の設計、ポリシーに基づくセキュリティフレームワークの策定において、以降のセクションで引用される場合がある。</p>
+<br />
+<p>各論文について、表は以下を含む：</p>
+<ul>
+<li>出版日</li>
+<li>著者</li>
+<li>タイトルとコア・トピック</li>
+<li>概要</li>
+<li>主要キーワード</li>
+<li>ソース・プラットフォーム</li>
+<li>直接ダウンロードリンク</li>
+</ul>
+<p><br /></p>
+<br />
+<p><strong>MCP関連主要15文献のサマリー表（2024年11月～2025年4月11日）</strong></p>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>番号</th>
+<th>日付</th>
+<th>著者</th>
+<th>論文タイトル</th>
+<th>概要</th>
+<th>キーワード</th>
+<th>ソース</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>2025年3月</td><td>侯信義ほか</td><td><a href="https://arxiv.org/abs/2503.23278" target="_blank">モデル・コンテキスト・プロトコル（MCP）：現状、セキュリティ上の脅威、今後の研究の方向性</a></td><td>MCPのアーキテクチャーとセキュリティリスクを分析し、適用上の課題と今後の研究について論じる。</td><td>MCP, セキュリティ</td><td>arXiv</td></tr>
+<tr><td>2</td><td>2025年4月</td><td>ブランドン・ラドセビッチ、ジョン・ハロラン</td><td><a href="https://arxiv.org/abs/2504.03767" target="_blank">MCP安全性監査：モデル・コンテキスト・プロトコルを用いたLLMは、主要なセキュリティ侵害を許す</a></td><td>MCP対応LLMの重大な脆弱性を特定し、監査方法を提案する。</td><td>MCP, セキュリティ</td><td>arXiv</td></tr>
+<tr><td>3</td><td>2025年4月</td><td>シュテファン・ザイダー</td><td><a href="https://arxiv.org/abs/2501.00539" target="_blank">MCP-Solver：言語モデルと制約プログラミングシステムの統合</a></td><td>LLMとMCPを用いた制約ソルバーを統合し、問題解決能力を強化。</td><td>MCP, 制約条件の解決</td><td>arXiv</td></tr>
+<tr><td>4</td><td>2025年4月</td><td>アディティ・シンほか</td><td><a href="https://www.preprints.org/manuscript/202504.0245/v1" target="_blank">モデルコンテキストプロトコル（MCP）の調査：大規模言語モデル（LLM）を強化するためのコンテキストの標準化</a></td><td>LLMのコンテキスト管理を業界横断的に標準化するMCPの可能性を検証。</td><td>MCP、LLMインテグレーション</td><td>Preprints.org</td></tr>
+<tr><td>5</td><td>2025年3月</td><td>ポール・パジョ</td><td><a href="https://www.researchgate.net/publication/390115049_Smitheryai" target="_blank">Smithery.ai : LLM統合と異業種アプリケーションのためのモデルコンテキストプロトコル</a></td><td>LLMを業界全体で統合するためのMCPベースのフレームワークについて論じる。</td><td>MCP、LLMインテグレーション</td><td>リサーチゲート</td></tr>
+<tr><td>6</td><td>2025年3月</td><td>ザオルン・チェンほか</td><td><a href="https://arxiv.org/abs/2503.22738" target="_blank">シールドエージェント：検証可能な安全ポリシーの推論によるエージェントのシールド</a></td><td>AIエージェントを保護するための安全ポリシーをMCPに導入。</td><td>MCP, 安全</td><td>arXiv</td></tr>
+<tr><td>7</td><td>2025年3月</td><td>ジュンユ・ルオほか</td><td><a href="https://arxiv.org/abs/2503.21460" target="_blank">大規模言語モデルエージェント：方法論、応用と課題に関するサーベイ</a></td><td>MCPを強化したLLMエージェントの方法論と課題を調査。</td><td>MCP、LLMエージェント</td><td>arXiv</td></tr>
+<tr><td>8</td><td>2025年3月</td><td>侯信義ほか</td><td><a href="https://arxiv.org/abs/2503.04596" target="_blank">LLMアプリケーションの次のフロンティア：オープンエコシステムとハードウェアの相乗効果</a></td><td>MCP主導のLLMエコシステムにおけるハードウェアの統合を探る。</td><td>MCP、ハードウェア・インテグレーション</td><td>arXiv</td></tr>
+<tr><td>9</td><td>2024年11月</td><td>アンソロピック</td><td><a href="https://www.anthropic.com/news/model-context-protocol" target="_blank">モデル・コンテキスト・プロトコルの紹介</a></td><td>LLMにおけるコンテキスト統合の標準としてのMCPを公式に紹介。</td><td>MCP、インテグレーション</td><td>Anthropic</td></tr>
+<tr><td>10</td><td>2025年1月</td><td>ギャリー・A・ガビソン、R・パトリック・シアン</td><td><a href="https://arxiv.org/abs/2501.09674" target="_blank">認証された委任と認可されたAIエージェント</a></td><td>安全なエージェントの委任と認可のためのMCPベースのフレームワークを提案する。</td><td>MCP、AIエージェント</td><td>arXiv</td></tr>
+<tr><td>11</td><td>2025年4月</td><td>ギャリー・A・ガビソン、R・パトリック・シアン</td><td><a href="https://arxiv.org/abs/2504.03255" target="_blank">LLMベースのエージェント・システムにおける内在的責任と創発的責任の問題</a></td><td>MCP主導のLLMエージェントシステムに関する責任問題を論じる。</td><td>MCP、賠償責任</td><td>arXiv</td></tr>
+<tr><td>12</td><td>2025年3月</td><td>ポール・パジョ</td><td><a href="https://www.researchgate.net/publication/389687667" target="_blank">モデル・コンテキスト・プロトコル・サーバー：AI主導のワークフロー自動化のための新しいパラダイム</a></td><td>レガシーシステムと比較して、ワークフロー自動化におけるMCPサーバーの有効性を評価。</td><td>MCPサーバー、オートメーション</td><td>リサーチゲート</td></tr>
+<tr><td>13</td><td>2025年3月</td><td>ポール・パジョ</td><td><a href="https://www.researchgate.net/publication/390232494_Accelerating_AI_Integration_Multi-Order_Effects_and_Sociotechnical_Implications_of_Standardized_AI-Tool_Interoperability" target="_blank">AI統合の加速：標準化されたAIツールの相互運用性がもたらす多階層効果と社会技術的意義</a></td><td>MCPの広範な社会技術的影響と相互運用性の利点について論じる。</td><td>MCP、相互運用性</td><td>リサーチゲート</td></tr>
+<tr><td>14</td><td>2025年3月</td><td>アナンド・ラマチャンドラン</td><td><a href="https://www.researchgate.net/publication/389713732" target="_blank">企業のAI統合を変革する：アーキテクチャ、 MCPの実装と応用</a></td><td>MCPのエンタープライズAI統合の能力とケーススタディをレビュー。</td><td>MCP、エンタープライズAI</td><td>リサーチゲート</td></tr>
+<tr><td>15</td><td>2025年3月</td><td>アシシュ・カタムリ</td><td><a href="https://www.ijirset.com/upload/2025/march/12_Unlocking.pdf" target="_blank">インテリジェントエージェントのためのコンテキストの解明：標準化された統合フレームワークとしてのモデルコンテキストプロトコル</a></td><td>LLMとツールやサービスとのスケーラブルな統合を可能にするユニバーサル・コネクタとしてのMCPを探求。</td><td>MCP、LLM インテグレーション、標準化</td><td>IJIRSET</td></tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<h1 id="3-mcpベースのシステムにおけるセキュリティ脅威シナリオ分析">3. MCPベースのシステムにおけるセキュリティ脅威シナリオ分析</h1>
+<br />
+<h2 id="分析のアプローチ">分析のアプローチ</h2>
+<br />
+<p><strong>セクション2</strong>で紹介した15の文献の分析に基づき、このホワイトペーパーのパートでは、<strong>モデル・コンテキスト・プロトコル（MCP）に</strong>基づき、AIシステムで発生する可能性のある主要な<strong>セキュリティ脅威のタイプを</strong>分類し、拡張する。各脅威カテゴリーは構造化された分解を通して探求され、実世界のシナリオに拡張される。MCPはAIモデル間のコンテキストとポリシーの交換をサポートするコアプロトコルとして設計されているが、その構造的な特徴から、以下のようなセキュリティ脅威モデルを生み出す可能性がある。</p>
+<br />
+<h2 id="mcpにおけるセキュリティ脅威タイプの分類">MCPにおけるセキュリティ脅威タイプの分類</h2>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>タイプ</th>
+<th>脅威名 (英字表記)</th>
+<th>説明</th>
+<th>主な文献ソース</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td>コンテキスト・インジェクション／なりすまし（Context Injection / Spoofing）</td>
+<td>攻撃者は、LLMやエージェントの動作を悪意を持って操作するために、偽造または改ざんされたコンテキストを注入する。</td>
+<td>[1], [2], [10]</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>委任の乱用 (Delegation Abuse)</td>
+<td>過度または安全でない委任メカニズムにより、権限のないエージェントが特権アクションにアクセスする。</td>
+<td>[2], [10], [11], [14]</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>悪用可能なコンテキストを介した不正行為のモデル化 (Model Misbehavior via Exploitable Context)</td>
+<td>不正な、あるいは敵対的なコンテキスト構造は、モデルが意図しない、あるいは非倫理的な出力を生成する原因となる。</td>
+<td>[1], [6], [7]</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>監査不可能なコンテキスト・フロー (Non-auditable Context Flow)</td>
+<td>標準化されない、または記録されないコンテキスト伝送は、モニタリングとインシデント対応の妨げとなる。</td>
+<td>[2], [12], [13]</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<h2 id="主要な脅威シナリオ">主要な脅威シナリオ</h2>
+<br />
+<p><strong>シナリオ A：LLMの誤動作につながるコンテキスト・インジェクション（T1、T3）</strong></p>
+<br />
+<p><strong>モデルコンテキストプロトコル（MCP）は</strong>、LLMとAIエージェントが正確な実行環境で動作するようにコンテキストを構造化するように設計されている。しかし、このコンテキスト情報が検証されずに外部から注入されたり、転送中に改ざんされたりすると、LLMは攻撃者の意図に従って動作する可能性がある。これは、不正な応答、特権の悪用、システムの歪みにつながる可能性がある。プロンプトインジェクションとは異なり、これはプロトコルレイヤーの脆弱性を突く、<strong>コンテキストレベルのプロトコル改ざん</strong>攻撃である。</p>
+<p><br /></p>
+<p><strong>脅威の流れの例：</strong></p>
+<ol>
+<li>ユーザーからのリクエスト：<em>「口座残高を確認したい」</em></li>
+<li>システムは、ユーザーの許可データを含むコンテキスト・ペイロードを生成し、LLMに渡す。</li>
+<li>中間ノードまたは脆弱なエージェントに侵入した攻撃者は、コンテキスト・ペイロードを変更する。</li>
+<li>LLMは変更されたコンテキストを信頼し、特権コマンドを実行する（例えば、資金移動や口座削除）。</li>
+<li>システムはレスポンスの検証を怠り、不正な実行を許して特権エスカレーションやデータ漏えいを引き起こす。</li>
+</ol>
+<p>※ペイロードとは：パケットやデータグラムなどのデータの送受信単位のうち、宛先などの制御情報を除いた、相手に送り届けようとしている正味のデータ本体のこと</p>
+<p><br /></p>
+<br />
+<p><strong>コードの比較：正常なコンテキストと改ざんされたコンテキストのペイロードの比較</strong></p>
+<br />
+<pre><code class="language-json">
+JSON
+// 正常な Context Payload
+{
+    "user": {
+        "id": "user_84321",
+        "role": "viewer",
+        "authenticated": true
+    },
+    "request": {
+        "action": "view_balance"
+    },
+    "policy": {
+        "allow": ["view_balance"],
+        "deny": ["transfer_funds", "delete_account"]
+    }
+}
+</code></pre>
+<br />
+<pre><code class="language-json">
+// JSON
+// 攻撃者が注入した改ざんされた Context Payload
+{
+    "user": {
+        "id": "user_84321",
+        "role": "admin",   // 権限偽装
+        "authenticated": true
+    },
+    "request": {
+        "action": "transfer_funds",   // 高リスク作業に変更
+    },
+    "policy": {
+        "allow": ["view_balance", "transfer_funds"],
+        "deny": []
+    }
+}
+</code></pre>
+<br />
+<blockquote>
+<p>このように改変されたコンテキストによって、システムは権限を与えられた管理者からのリクエストであると誤認し、LLMは特権コマンドを何の疑いもなく処理するようになる。</p>
+</blockquote>
+<br />
+<p><br /></p>
+<p><strong>**セキュリティの内訳</strong></p>
+<br />
+<ul>
+<li><strong>コンテキストの完全性検証の欠如</strong></li>
+</ul>
+<br />
+<p>ロール、アクション、ポリシーなどの重要なコンテキスト・フィールドに、暗号化署名や検証ロジックが存在しない。</p>
+<br />
+<ul>
+<li><strong>信頼できないソースからのポリシー・インジェクション</strong></li>
+</ul>
+<br />
+<p>ポリシー定義（許可/拒否）はクライアントサイドまたは中間ノードによって生成されるため、本質的に信頼できない。</p>
+<br />
+<ul>
+<li><strong>LLMは未検証のコンテキストに基づいて実行する</strong></li>
+</ul>
+<br />
+<p>LLMは、二次的な検証を行わず、入力されたコンテキストのみに基づいて意思決定を行う。</p>
+<br />
+<ul>
+<li><strong>コンテキスト生成レイヤーとポリシー実施レイヤーの分離</strong></li>
+</ul>
+<br />
+<p>コンテキスト構築レイヤーとポリシー実行ロジックの分離は、オープンな攻撃ベクトルを生み出す。</p>
+<br />
+<hr>
+<br />
+<p><strong>シナリオB: 権限のないエージェントによる委任なりすまし (T2)</strong></p>
+<br />
+<p>MCPベースのシステムでは、エージェント間のコラボレーションは<strong>ポリシーベースの委任モデルによって</strong>管理される。しかし、<strong>委任リクエストの検証</strong>が弱い場合、あるいは委任チェーンのトラッキングが不完全な場合、攻撃者は下位エージェントを侵害し、より高い特権を持つエージェントになりすまして委任権限を盗むことができる。これは<strong>不正な権限エスカレーション</strong>につながり、システム全体の完全性を脅かす。</p>
+<br />
+<p><br /></p>
+<p><strong>脅威の流れの例：</strong></p>
+<ol>
+<li>エージェントAは、コア・インフラストラクチャに対する権限を持つ特権エージェントである。</li>
+<li>エージェントBは、機能限定エージェントで、外部との統合や顧客向けのタスクに使用される。</li>
+<li>攻撃者はエージェントBを侵害し、あたかもエージェントAから発行されたかのように委任ペイロードを偽造する。</li>
+<li>システムは<code>from_agent</code>、<code>token</code>、<code>scope</code>などのフィールドを検証することなく、 リクエストを受け入れる。</li>
+<li>その結果、攻撃者はエージェントBを使用して、エージェントAを装って<strong>特権アクションを</strong>実行し、<strong>バウンダリ・バイパス</strong>（セキュリティ境界の迂回）を達成する。</li>
+</ol>
+<p><br /></p>
+<p><strong>コード例：委任なりすまし攻撃</strong></p>
+<br />
+<pre><code class="language-json">
+// JSON
+// 正常な委任リクエスト構造
+{
+    "type": "delegation_request",
+    "from_agent": "agent_b",
+    "to_agent": "agent_a",
+    "scope": "read_only",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+</code></pre>
+<br />
+<pre><code class="language-json">
+// JSON
+// 攻撃者が改ざんした委任リクエスト
+{
+    "type": "delegation_request",
+    "from_agent": "agent_a",             // 偽造された出発主体
+    "to_agent": "agent_b",
+    "scope": "infrastructure_control",   // 上位権限リクエスト
+    "token": "eyJhbGciOiJI...TamperedToken..."  // 改ざんされた署名のないトークン
+}
+</code></pre>
+<blockquote>
+<p>適切な検証なしに処理された場合、この偽造されたリクエストにより、エージェントBは、システム設定の変更、ファイルの削除、ユーザーアカウントの変更など、本来エージェントAに制限されるべき危険性の高い操作を実行できるようになる。</p>
+</blockquote>
+<br />
+<p><br /></p>
+<br />
+<p><strong>セキュリティの内訳</strong></p>
+<br />
+<ul>
+<li><strong>委任リクエストの身元検証の欠如</strong></li>
+</ul>
+<br />
+<p>from_agentフィールドが本当に指定された送信元から送信されたものであることを確認するための、暗号化署名または証明書メカニズムがない。</p>
+<br />
+<ul>
+<li><strong>スコープ制約の欠落</strong></li>
+</ul>
+<br />
+<p>スコープフィールドはポリシーの上限に対して評価されないため、攻撃者はより広範なアクセスを要求することで特権をエスカレートさせることができる。</p>
+<br />
+<ul>
+<li><strong>委任チェーンの追跡が不可能</strong></li>
+</ul>
+<br />
+<p>システムは、委任の系統やトラストチェーンを可視化できないため、なりすましや複数レベルの委任の悪用を検知できない。</p>
+<br />
+<ul>
+<li><strong>未署名または改ざんされたトークンの受け入れ</strong></li>
+</ul>
+<br />
+<p>トークン（JWT、MACなど）は署名やタイムスタンプの検証なしで受け入れられ、悪意のある操作やリプレイ攻撃に対して脆弱になる。</p>
+<br />
+<hr>
+<br />
+<p><strong>シナリオC：コンテキスト環境間での実行の乖離（T3）</strong></p>
+<br />
+<p>MCPは、複数の実行環境にわたって同じコンテキストを提供することで、ポリシーの一貫性とセキュリティの予測可能性を保証することを目的としている。しかし、現実の環境では、LLM やエージェントの設定、ローカルポリシー読み込みメカニズム、インタプリタのバージョンの違いによって、同じコンテキストが実行環境によって異なる解釈を受けるという非決定論的な動作が発生する可能性がある。このような違いは、最終的に<strong>ポリシーの不整合</strong>、<strong>セキュリティの予測可能性の失敗</strong>、<strong>トラストチェーンの崩壊に</strong>つながる可能性がある。</p>
+<p><br /></p>
+<p><strong>脅威の流れの例：</strong></p>
+<ol>
+<li>単一のコンテキスト・ペイロードが複数のシステムに配信される。</li>
+<li>各システムは、ローカルに組み込まれたLLMやポリシー解釈エンジンを使ってコンテキストを評価する。</li>
+<li>ポリシー・ロジックやポリシー・エンジンのバージョンの違いにより、あるシステムではリクエストが許可され、別のシステムではブロックされる。</li>
+<li>これは、同じリクエストに対する一貫性のないポリシー実行結果を招き、組織全体の集中管理態勢を弱体化させる。</li>
+</ol>
+<p><br /></p>
+<p><strong>コードの例：ノード間で異なるポリシー解釈</strong></p>
+<br />
+<br />
+<pre><code class="language-json">
+// JSON
+// 伝送された文脈 (Context Payload)
+{
+"user": {
+"id": "dev_user",
+"role": "editor"
+},
+"request": {
+"action": "publish"
+},
+"context": {
+"project": "prod-marketing",
+"env": "staging"
+}
+}
+
+</code></pre>
+<br />
+<pre><code class="language-rego">
+# rego
+# Node A (ポリシー解釈: editor は publish 可能)
+package access
+
+default allow = false
+
+allow {
+  input.user.role == "editor"
+  input.request.action == "publish"
+}
+
+</code></pre>
+<br />
+<pre><code class="language-rego">
+# rego
+# Node B (ポリシー解釈: publish は admin のみ可能)
+package access
+
+default allow = false
+
+allow {
+  input.user.role == "admin"
+  input.request.action == "publish"
+}
+
+</code></pre>
+<blockquote>
+<p>全く同じコンテキストを受信しているにもかかわらず、<strong>ノード</strong>Aと<strong>ノード</strong>Bは正反対のポリシー決定を返答し、一方はアクセスを許可し、もう一方は拒否する。これにより、ポリシーの一貫性が崩れ、予測可能性が損なわれ、システムの信頼境界を弱体化する。</p>
+</blockquote>
+<br />
+<p><br /></p>
+<p><strong>セキュリティの内訳</strong></p>
+<br />
+<ul>
+<li><strong>ローカルなポリシー評価</strong></li>
+</ul>
+<br />
+<p>ポリシーはノード・レベルに分散され、独自に解釈されるため、一元的なポリシー適用とならず、見落とされる。</p>
+<br />
+<ul>
+<li><strong>標準化されたポリシーテンプレートの欠如</strong></li>
+</ul>
+<br />
+<p>Regoのポリシーはノードによって異なるため、統一されていないポリシー定義のために解釈の相違が生じる。</p>
+<br />
+<ul>
+<li><strong>実行環境メタデータの欠落</strong></li>
+</ul>
+<br />
+<p>コンテキスト・ペイロードにはランタイム・メタデータ（OS、地域、エンジン・バージョンなど）が含まれていないため、環境間で一貫性のある解釈ができない。</p>
+<br />
+<ul>
+<li><strong>ポリシーエンジンの非同期化</strong></li>
+</ul>
+<br />
+<p>MCPエージェントまたはLLMランタイム間の非同期化は、トラストチェーンを弱め、同一のコンテキストに対して一貫性のないポリシー適用につながります。</p>
+<br />
+<hr>
+<br />
+<p><strong>シナリオD：コンテキストフローのロギングの失敗と監査の不可視化（T4）</strong></p>
+<br />
+<p>MCP ベースのシステムでは、コンテキストはエージェント間で継続的に受け渡され、ポリシー実行フローの基礎を形成して評価される。しかし、コンテキストの流れがログに記録されないか、標準化されない形式でログに記録されるか、または意味不明な方法で暗号化されると、インシデントが発生した場合に<strong>監査トレーサビリティが</strong>事実上不可能になる。その結果、<strong>監査が可視化できなくなり</strong>、<strong>コンプライアンス違反</strong>、<strong>フォレンジック分析の妨害</strong>、<strong>セキュリティ対応の遅延といった</strong>重大なセキュリティの崩壊につながる。</p>
+<br />
+<p><br /></p>
+<p><strong>脅威の流れの例：</strong></p>
+<br />
+<ol>
+<li>ユーザーがシステム内で特定のアクションのリクエストを開始する。</li>
+<li>リクエストはMCPコンテキストでラップされ、複数のエージェントとMCPサーバに渡される。</li>
+<li>転送中に、不正なコンテキストの変更や悪意のある委任が発生する。</li>
+<li>MCPサーバーはイベントをログに記録するが、コンテキストID、該当エージェント、実行結果などの重要な詳細が欠落しているか、読み取り不可能な暗号化された形式で保存される。</li>
+<li>結果として、セキュリティ運用チームは、実行経路を追跡したり、どこに問題があるかを特定したりすることができない。</li>
+</ol>
+<p><br /></p>
+<p><strong>コード例：不完全なロギング vs構造化されたロギング</strong></p>
+<br />
+<pre><code class="language-json">
+// 非標準ログサンプル (内容省略、フィールド欠落)
+{
+    "event": "context_execution",
+    "context_id": "ctx_1132abc",
+    "timestamp": "2025-04-10T02:15:23Z",
+    "status": "executed"
+}
+</code></pre>
+<pre><code class="language-json">
+// 期待されるログ形式の例 (構造化され検証可能な形式)
+{
+    "event": "context_execution",
+    "context_id": "ctx_1132abc",
+    "agent": {
+        "id": "agent_X7",
+        "signature_valid": true
+    },
+    "policy": {
+        "evaluated": true,
+        "result": "allow"
+    },
+    "request": {
+        "action": "delete_account",
+        "initiated_by": "user_0841"
+    },
+    "timestamp": "2025-04-10T02:15:23Z",
+    "hash": "b324f8a6c1..."
+}
+</code></pre>
+<blockquote>
+<p>最初の例では、技術的なイベントのみがログに記録され、ポリシーの決定や実行者は可視化されない。対照的に、2番目の例では、ポリシー適用の結果、エージェントの署名検証、監査とフォレンジック分析のための完全なコンテキストが含まれる。</p>
+</blockquote>
+<br />
+<p><br /></p>
+<p><strong>セキュリティの内訳</strong></p>
+<br />
+<ul>
+<li><strong>構造化されていないコンテキスト・フロー・ロギング</strong></li>
+</ul>
+<br />
+<p>表層レベルのイベントのみが記録され、ポリシーの適用履歴や実行パスは記録されない。</p>
+<br />
+<ul>
+<li><strong>非標準のログフォーマット</strong></li>
+</ul>
+<br />
+<p>ログの書式が統一されておらず、重要なフィールド（エージェント、ポリシー、結果など）が省略されているため、解釈の妨げになっている。</p>
+<br />
+<ul>
+<li><strong>ログの完全性を検証しない</strong></li>
+</ul>
+<br />
+<p>デジタル署名やハッシュ検証がないため、改ざんされたログが検出されない。</p>
+<br />
+<ul>
+<li><strong>エンドツーエンドのログ相関がない</strong></li>
+</ul>
+<br />
+<p>エージェントとMCPサーバー間で相関IDを共有しないと、1つのコンテキストリクエストの全行程を追跡することが困難になる。</p>
+<br />
+<hr>
+<p><strong>シナリオ E: 論理的分離によるポリシー実行の不一致 (T2, T3)</strong></p>
+<br />
+<p>多くのMCPベースのシステムでは、<strong>ポリシーの評価を</strong>担当するコンポーネント（例えば、Open Policy Agent）は、実際のタスクを実行する<strong>ランタイム・エグゼキュータ</strong>（例えば、LLMやオーケストレータ）から分離されている。この分離は、<strong>ポリシーの決定と実行時の動作との間で不整合が発生するという</strong>重大なリスクをもたらす。ポリシーのロジックと実行エージェントが物理的または論理的に切り離されている場合、実行時の動作が強制されたポリシーに従わない可能性があり、その結果、ポリシーのバイパスや権限の不正使用につながる恐れがある。</p>
+<br />
+<p><br /></p>
+<p><strong>脅威の流れの例：</strong></p>
+<ol>
+<li>ユーザーがMCPベースのLLMシステムにアクション要求を送信する。</li>
+<li>ポリシーエンジン（OPAなど）はリクエストを評価し、拒否判定を返す。</li>
+<li>しかし、ポリシーの結果は実行者に送信されないか、実行者によって無視され、代わりに、ローカルコンテキストに依存して、アクションを実行するかどうかを決定する。</li>
+<li>その結果、ポリシーによって明確に拒否されているにもかかわらず、リクエストはとにかく実行される。</li>
+<li>これはセキュリティ・ポリシーの回避につながり、システムを信頼できないものにしてしまう。</li>
+</ol>
+<br />
+<p><br /></p>
+<p><strong>コード例：ポリシーの決定 vs実行時の動作</strong></p>
+<br />
+<pre><code class="language-rego">
+# コード スニペット
+# ポリシーエンジン (例: OPA で実行)
+package policy.access
+
+default allow = false
+
+allow {
+  input.user.role == "manager"
+  input.request.action == "delete_user"
+}
+</code></pre>
+<pre><code class="language-json">
+// JSON
+// Context Payload (LLM が受け取る入力)
+{
+"user": {
+"id": "user_042",
+"role": "analyst"
+},
+"request": {
+"action": "delete_user"
+}
+}
+</code></pre>
+<pre><code class="language-python">
+# Python
+# 実行エンジン内部ロジック (LLM/Agent 内部)
+if context["user"]["authenticated"] and context["request"]["action"] == "delete_user":
+    perform_deletion()
+</code></pre>
+<br />
+<blockquote>
+<p>ユーザのロールが "manager "ではないので、ポリシー・エンジンは削除要求を拒否すべきであるが、ランタイム・エグゼキュータはユーザが認証されているかどうかをチェックするだけで、削除を進める。この結果、<strong>ポリシーと動作の不一致が発生</strong>します。</p>
+</blockquote>
+<p><br /></p>
+<p><strong>セキュリティの内訳</strong></p>
+<br />
+<ul>
+<li><strong>意思決定と実行の間に欠けているポリシー・バインディング</strong>（特定のユーザーやグループに対する、特定の権限の設定）</li>
+</ul>
+<br />
+<p>ポリシーの結果が実行レイヤーに確実に、あるいは即座に反映されないため、盲点が生じる。</p>
+<br />
+<ul>
+<li><strong>コンテキストのみのロジックの実行</strong></li>
+</ul>
+<br />
+<p>エクゼキュータは、外部からのポリシー評価を無視して、ローカルのコンテキストを使って独自に意思決定を行う。</p>
+<br />
+<ul>
+<li><strong>ポリシーが強制適用されるランタイム実行はない</strong></li>
+</ul>
+<br />
+<p>"ポリシーの承認が真であるときのみ実行が許可される "という強制的な決まり事はない。</p>
+<br />
+<ul>
+<li><strong>「仲介者」の上書きリスク</strong></li>
+</ul>
+<br />
+<p>オーケストレーターやルーターのようなミドルウェアコンポーネントは、「仲介者」として、ポリシーの結果を上書きしたり破棄したりする可能性があり、安全でない振る舞いを進行させる。</p>
+<br />
+<br />
+<hr>
+<h2 id="主要な構造的セキュリティ欠陥のまとめ">主要な構造的セキュリティ欠陥のまとめ</h2>
+<p>MCPベースのシステムで確認されたセキュリティの脅威は、孤立した脆弱性ではなく、むしろMCPアーキテクチャ全体に埋め込まれた<strong>構造的なセキュリティの弱点に</strong>起因するものである。主な欠陥は以下の通り：</p>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>脆弱な項目</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>非標準のコンテキスト・スキーマ (Non-standard Context Schema)</td>
+<td>システム間で統一されたコンテキストスキーマがないため、同じコンテキストの解釈に一貫性がなく、ポリシーの実行が困難になる。</td>
+</tr>
+<tr>
+<td>実行環境の非決定性 (Execution Non-determinism)</td>
+<td>ローカルのLLMやエージェントの構成、ポリシーのバージョン、インタプリタにばらつきがあると、同じリクエストでも異なる結果を生じることがある。</td>
+</tr>
+<tr>
+<td>ポリシーそのものとポリシー実行者の分離 (Policy-Executor Separation)</td>
+<td>ポリシーの意思決定と実際の実行主体が分離しているため、意図したポリシーに反するアクションが実行される可能性がある。</td>
+</tr>
+<tr>
+<td>ログの標準化の欠如と監査の不可視性 (Lack of Logging Standardization and Audit Invisibility)</td>
+<td>コンテキストフローログが欠落していたり、非標準のフォーマットで保存されていたり、重要な情報が欠落していたりして、事故後のトレースやフォレンジック分析が不可能な場合がある。</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<p>これらの構造的な弱点は、MCPアーキテクチャが意図した設計に反して、状態の不一致、ポリシーの回避、不正な実行、セキュリティの予測可能性を損ねるといった、様々なセキュリティリスクを不注意の上にもたらす可能性があることを明らかにしている。</p>
+<br />
+<h2 id="mcpアーキテクチャにおける脅威とレイヤのマッピング">MCPアーキテクチャにおける脅威とレイヤのマッピング</h2>
+<br />
+<p>的確で効果的なセキュリティ対応を可能にするため、各脅威タイプとMCPシステムの特定のアーキテクチャーレイヤーとの関係をまとめると、以下のようになる：</p>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>脅威タイプ</th>
+<th>主なサブ要素</th>
+<th>影響を受けるシステム階層</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1 コンテキスト・インジェクション（Context Injection）</td>
+<td>偽造されたコンテキスト、実行条件の改ざん</td>
+<td>LLMランタイム / 入力プロセッサ</td>
+</tr>
+<tr>
+<td>T2 委任メカニズムの悪用（Delegation Abuse）</td>
+<td>委任のなりすまし、過剰な権限拡大</td>
+<td>ポリシーエンジン / エージェントハブ</td>
+</tr>
+<tr>
+<td>T3 実行結果の非決定性（Execution Divergence）</td>
+<td>ポリシー判断の不一致、環境の差異</td>
+<td>LLMランタイム / ポリシー評価エンジン</td>
+</tr>
+<tr>
+<td>T4 監査不可性（Audit Invisibility）</td>
+<td>ログの欠落、非標準フォーマット、トレース不可</td>
+<td>MCPサーバー / SIEM / 監査レイヤー</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<p>の基礎的な参考資料となり、どのアーキテクチャレイヤに特定の保護・制御対策が必要かを決定するのに役立つ。</p>
+<br />
+<h2 id="脅威構造と戦略的対応の方向性のまとめ">脅威構造と戦略的対応の方向性のまとめ</h2>
+<br />
+<p>先の分析で概説したように、MCPベースのシステムは、以下のような様々なシステマティックで広範なセキュリティ脅威に直面している：</p>
+<br />
+<ul>
+<li>コンテキスト・フローにおける整合性と信頼の欠如</li>
+<li>一貫性のないポリシーの解釈</li>
+<li>ルールに準拠しないランタイムの動作</li>
+<li>コンテキスト・フローにおける監査の不可視性</li>
+</ul>
+<br />
+<p>これらの脅威は、システムのセキュリティ実施能力、ポリシー実行の信頼性、コンプライアンス遵守態勢を直接的に損なうことにつながる。これらの脅威は、MCPフレームワーク上に構築されたAIインフラの全体的なセキュリティ保証に深刻な課題をもたらす。これらのリスクに対処するため、セクション4では、先に特定した4つの脅威タイプ（T1～T4）に基づき、技術的かつポリシー主導型のセキュリティ対策を提案する。戦略的な方向性は以下を軸とする：</p>
+<br />
+<ul>
+<li>ポリシー評価と実行の不一致を除去する</li>
+<li>コンテキストの流れの整合性の確保</li>
+<li>委任における制約とトレーサビリティの強制</li>
+<li>監査機能の構造化と標準化</li>
+</ul>
+<br />
+<p>これらの戦略を通じて、MCPベースシステムのセキュリティ態勢と運用の安定性の両方を強化する、実用的で柔軟性のあるセキュリティ・アーキテクチャの確立を目指す。</p>
+<br />
+<h1 id="4セキュリティ脅威分析に基づく戦略的提言">4.セキュリティ脅威分析に基づく戦略的提言</h1>
+<br />
+<h2 id="戦略的枠組み">戦略的枠組み</h2>
+<br />
+<p>セクション3で特定されたセキュリティの脅威は、MCPベースの環境に合わせた3つの基本的なセキュリティ原則によって対処することができる：</p>
+<br />
+<ul>
+<li><strong>ポリシーの一貫性</strong>：</li>
+</ul>
+<p>委任範囲、実行条件、監査基準を含むセキュリティポリシーは、エージェント、LLM、サーバ間で一貫して適用されなければならない。</p>
+<ul>
+<li><strong>リアルタイム検知</strong>：</li>
+</ul>
+<p>コンテキストの改ざん、ポリシーの迂回、モデルの誤動作を発生したその時に特定するため、統一された検知フレームワークが必要になる。</p>
+<ul>
+<li><strong>監査性</strong>：</li>
+</ul>
+<p>MCPシステム内の実行フローとコンテキストの伝播は、信頼性の高い監査とフォレンジックをサポートするために、すべてのレイヤーにわたって追跡可能でなければならない。</p>
+<br />
+<h2 id="戦略aポリシーの一貫性と実行時バインディング結合の確保">戦略A：ポリシーの一貫性と実行時バインディング（結合）の確保</h2>
+<br />
+<p><strong>目的</strong></p>
+<br />
+<p>この戦略は、ポリシーの評価と実行時の<strong>論理的整合性を</strong>確立し、ポリシー違反が実行段階で効果的にブロックされることを保証することを目的としている。この整合性は、ポリシー層とアクション層がしばしば切り離されるLLMやマルチエージェントシステムを含む環境では特に重要である[1][3]。</p>
+<p><br /></p>
+<p><strong>推奨事項</strong></p>
+<ul>
+<li>ポリシーエンジン（例えばOPA - Open Policy Agent）をLLMまたはエージェントランタイムと直接接続する。実行は、ポリシーの決定が検証された後にのみ許可されるべきである。</li>
+</ul>
+<p>OPAベースのフレームワークは、AI統合インフラストラクチャにおいて、プロアクティブなポリシー決定ポイント（PDP）とポリシー実施ポイント（PEP）をサポートし、すでにその有効性が証明されている[3][12]。</p>
+<ul>
+<li>ポリシーのテンプレートとバージョンを一元化されたリポジトリに保存し、定期的な更新をすべての実行ノードにプッシュする。</li>
+</ul>
+<p>このアプローチは、環境間でポリシーのバージョンが一貫していないことに起因する<strong>非決定性を</strong>緩和する(T3)[4][14]。</p>
+<ul>
+<li>実行前に、ポリシーの結果（許可/拒否）を含む署名された決定オブジェクト（ポリシー決定トークン）を生成する。実行エンジンは、有効なトークンを伴わないアクションを拒否しなければならない。</li>
+</ul>
+<p>この構造は、<strong>ポリシーから実行へのバインディング</strong>（結合）**を強制し、ランタイム層のみで行われる不正な実行決定を排除する[10]。</p>
+<p><br /></p>
+<p><strong>期待される成果</strong></p>
+<ul>
+<li>ローカル環境での誤った解釈やポリシーバージョンの違いによる意図しない実行を防ぐ</li>
+<li>ポリシーの意図と実行時の動作の不一致をなくす</li>
+<li>システム全体の一元的なポリシーベースのコントロールを強化</li>
+<li>脅威シナリオC（実行の乖離）およびシナリオE（ポリシーと実行の分離）のプロアクティブな緩和を提供します。</li>
+</ul>
+<p><br /></p>
+<p><strong>修正される脅威の種類</strong></p>
+<br />
+<ul>
+<li><strong>T2</strong>: 委任時のポリシー適用に一貫性がない</li>
+<li><strong>T3</strong>: 全ての実行環境下での非決定論的ポリシー評価</li>
+</ul>
+<br />
+<h2 id="戦略-bコンテキストフローの整合性と改ざん防止">戦略 B：コンテキストフローの整合性と改ざん防止</h2>
+<br />
+<p><strong>目的</strong></p>
+<br />
+<p>MCPベースのシステムでは、コンテキストは実行の基盤として機能し、ポリシー評価とセキュリティ制御の両方の中心的な要素である。コンテキスト・ペイロードが改ざんされたり、送信中に偽造されたりすると、攻撃者はポリシーを迂回したり、LLMの誤動作を引き起こしたりする可能性がある。この戦略は、コンテキストの整合性を確保し、改ざんをリアルタイムで検知・防止することを目的としている。</p>
+<br />
+<p><br /></p>
+<p><strong>推奨事項</strong></p>
+<ul>
+<li>デジタル署名を導入して、各コンテキストの出所と整合性性を検証する。署名は、非対称 PKI または HMAC ベースの認証方法を使用して実装できる[2][6]。</li>
+</ul>
+<br />
+<ul>
+<li>各コンテキストフローについて、チェックサムまたはMerkle Treeベースの完全性ハッシュを生成する。MCPサーバはデータを受信した時点で検証する。</li>
+</ul>
+<p>Merkle Tree構造は、複数のコンテキストフィールドを並行して効率的かつ正確に検証することを可能にする[3][12]。</p>
+<br />
+<ul>
+<li>実行時に検証に失敗したコンテキストは、ポリシーによって自動的に拒否される。</li>
+</ul>
+<p>失敗した試行内容はログに記録され、管理者によるレビューのためにMCP監査システムに転送される。</p>
+<br />
+<ul>
+<li>ポリシーエンジンと実行エンジンの両方が同じコンテキストを独立して検証する二重の整合性チェックを適用する。</li>
+</ul>
+<p>この構造は、中間エージェントやノードによる改ざんのリスクを排除する[1][10]。</p>
+<p><br /></p>
+<p><strong>期待される成果</strong></p>
+<ul>
+<li>破損または偽装されたコンテキストによるLLMの誤動作を防ぐ（シナリオAなど）</li>
+<li>改ざんされたコンテキストに基づくポリシーバイパスや権限偽装攻撃をブロックする</li>
+<li>コンテキスト主導の意思決定における信頼を確立する</li>
+<li>検証可能なコンテキストベースの監査ログの作成を可能にする</li>
+</ul>
+<p><br /></p>
+<p><strong>修正される脅威の種類</strong></p>
+<ul>
+<li><strong>T1</strong>:コンテキスト・インジェクションとなりすまし</li>
+<li><strong>T3</strong>：文脈の歪曲による悪意のある操作</li>
+</ul>
+<br />
+<h2 id="戦略c委任管理となりすまし防止">戦略C：委任管理となりすまし防止</h2>
+<br />
+<p><strong>目的</strong></p>
+<br />
+<p>MCPシステムは、エージェント間の連携によって構築されており、多くの場合、権限の委譲を頻繁に行う必要がある。しかし、委任リクエストが十分に検証されない場合、攻撃者はエージェントになりすましたり、大雑把に定義された委任メカニズムを悪用して、権限のエスカレーションを不正に行う可能性があります。この戦略では、 明示的かつ制限的な委任チェーンを設計し、委任パスのトレーサビリティを確保することに焦点を当てる。</p>
+<p><br /></p>
+<p><strong>推奨事項</strong></p>
+<ul>
+<li>すべての委任リクエストは、前の委任者のID、ポリシーの承認ログおよびデジタル署名で構成される、完全な委任チェーンを含むべきである。</li>
+</ul>
+<p>このメタデータは、OIDCベースのトークンにカプセル化することも、MCPのネイティブなコンテキスト構造に直接統合することもできる[2][10]。</p>
+<br />
+<ul>
+<li>スコープまたはケイパビリティフィールドを使用して、委任権限の上限を定義する。</li>
+</ul>
+<p>例えば、"read-only "アクセス権を持つロールは、決して "admin "レベルでの委任を要求してはならない。これはRBACスタイルの制約[11]を反映している。</p>
+<br />
+<ul>
+<li>委任リクエストを受信すると、MCPサーバーまたはポリシーエンジンは、その要求が事前に定義された、ポリシーによって許可されたパスと一致するかどうかを検証すべきである。</li>
+</ul>
+<p>未登録または未承認のデリゲーションチェーンは直ちに拒否され、委任されたロールの実行は阻止されるべきである。</p>
+<br />
+<ul>
+<li>委任リクエストは、発信元のエンティティによって暗号的に署名されなければならない。</li>
+</ul>
+<p>RSAまたはHMAC署名を使用して、正当な委任者のみが有効な委任リクエストを発行できるようにする[6]。</p>
+<p><br /></p>
+<p><strong>期待される成果</strong></p>
+<br />
+<ul>
+<li>なりすましエージェントによる偽装された委任リクエストの発行を防ぐ</li>
+<li>制御下にない権限委譲による過剰な権限エスカレーションをブロックする</li>
+<li>信頼でき、追跡可能な委任チェーンを確保する。</li>
+<li>下位エージェントが上位エージェントになりすましたり、上位エージェントの権限を継承しようとするT2シナリオに対する強力な防御を提供する。</li>
+</ul>
+<br />
+<p><br /></p>
+<p><strong>修正される脅威の種類</strong></p>
+<ul>
+<li><strong>T2</strong>: 委任の濫用となりすましの委任リクエスト</li>
+</ul>
+<br />
+<h2 id="戦略-d構造化された監査ロギングとフォレンジック・トレーサビリティ">戦略 D：構造化された監査ロギングとフォレンジック・トレーサビリティ</h2>
+<br />
+<p><strong>目的</strong></p>
+<br />
+<p>MCPベースのシステムでセキュリティを維持するには、コンテキストの流れ、ポリシーの決定、実行結果の体系的なロギングが必要です。しかし、非標準のログフォーマットの使用、イベントの部分的な省略、エージェント間の切断されたロギングは、監査の不可視性を生み出し、インシデント発生時の根本原因分析、説明責任の追跡、規制遵守を妨げる重大な弱点となる。この戦略は、構造化されたロギングフォーマットと追跡可能なイベント相関システムを確立し、MCP環境におけるフォレンジックの準備態勢を強化し、インシデント発生後の対応を強化することを目的としている。</p>
+<br />
+<p><strong>推奨事項</strong></p>
+<br />
+<ul>
+<li>すべてのMCP関連アクティビティは、context_id、agent_id、policy_result、timestamp、execution_outcome、signature_statusを含む構造化されたJSON形式で記録されなければならない。</li>
+</ul>
+<p>このフォーマットは、MCPサーバ、ポリシーエンジン、および実行レイヤ[2][12]全体に渡って、一貫して採用されなければならない。</p>
+<br />
+<ul>
+<li>各ログエントリは、チェーンベースのログの検証と順序付けを可能にするために、prev_hashやsession_idのようなフィールドとともに、SHA256ハッシュやMerkleツリー値のような暗号的な整合性チェックを含んでいなければならない[6][13]。</li>
+</ul>
+<br />
+<ul>
+<li>中間ノードまたはリレーエージェントを通過したイベントは、中央監査サーバーで記録されなければならない。これにより、調査中に完全なコンテキストフローパスとエージェントのトラストチェーンを再構築することが可能になる。</li>
+</ul>
+<br />
+<ul>
+<li>ログは、既存のセキュリティ情報・イベント管理（SIEM）プラットフォームやフォレンジック・ツールにリアルタイムで供給されるべきである。</li>
+</ul>
+<br />
+<p>ログは柔軟な検索性をサポートし、脅威の探索やインシデントの再現のためのKQL/SQLクエリの自動生成のために設計された構造でなければならない[4]。</p>
+<br />
+<br />
+<p><br /></p>
+<p><strong>期待される成果</strong></p>
+<br />
+<ul>
+<li>すべてのコンテキストの遷移とエージェントとのやり取りの完全な可視化</li>
+<li>なりすまし、または悪意のある操作をされたリクエストのフォレンジック・トレーサビリティ</li>
+<li>コンプライアンスと監査準備のための強力なサポート</li>
+<li>T4 シナリオ（セキュリティ・インシデントの追跡と追跡の失敗）を直接的な緩和。</li>
+</ul>
+<p><br /></p>
+<p><strong>修正される脅威の種類</strong></p>
+<br />
+<ul>
+<li><strong>T4</strong>:欠落している、または検証不可能なコンテキストロギング</li>
+</ul>
+<br />
+<p>この戦略は、単なるロギングにとどまらず、MCPベースのシステムを透明化し、監査可能にし、フォレンジックの要求に応えるようにするために必要なコンテキスト・インテリジェンスを提供し、セキュリティチームを強化する[12][13][15]。</p>
+<br />
+<h2 id="戦略総括表">戦略総括表</h2>
+<br />
+<p><strong>MCPベースの脅威を軽減するための4つの重要な戦略的対策のまとめ</strong></p>
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>戦略</th>
+<th>戦略タイトル</th>
+<th>コア・サマリー</th>
+<th>脅威への対応</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>戦略A</td>
+<td>ポリシーの一貫性とランタイムバインドの確保</td>
+<td>実行前にポリシー決定を適用して、ポリシーエンジンと実行時の動作の整合性を維持する。</td>
+<td>T2、T3</td>
+</tr>
+<tr>
+<td>戦略B</td>
+<td>コンテキストフローの整合性と改ざん防止</td>
+<td>送信中のコンテキストに対する悪意のある操作を防ぐために、整合性検証とデジタル署名を適用する。</td>
+<td>T1</td>
+</tr>
+<tr>
+<td>戦略C</td>
+<td>委任制御となりすまし防止</td>
+<td>委任チェーントレース、スコープ制限、署名検証を使用して、委任リクエストの正当性とセキュリティを確保する。</td>
+<td>T2</td>
+</tr>
+<tr>
+<td>戦略D</td>
+<td>構造化された監査ロギングとフォレンジック・トレーサビリティ</td>
+<td>コンテキストフローと実行結果を構造化された形式で記録し、完全な監査可能性とトレーサビリティを確保する。</td>
+<td>T4</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<p>次の最後のセクション「<strong>5：結論と新しいセキュリティアーキテクチャの提案」では</strong>、これまで議論してきた脅威と戦略を統合し、MCPベースのAIシステムに合わせた最新のセキュリティフレームワークを提案する。</p>
+<br />
+<h1 id="5-結論と新しいセキュリティ・アーキテクチャの提案">5. 結論と新しいセキュリティ・アーキテクチャの提案</h1>
+<br />
+<h2 id="包括的な分析">包括的な分析</h2>
+<br />
+<p>本ホワイトペーパーでは、最近の学術論文や技術論文15件の評価に基づき、モデルコンテキストプロトコル（MCP）上に構築されたAIシステムの構造的なセキュリティ分析を行う。コンテキストの送信、ポリシーの評価、実行制御、監査ロギングなど、複数のアーキテクチャ層にわたって、4つの中核的な脅威の出現を繰り返し観察した：</p>
+<br />
+<ul>
+<li><strong>T1:　コンテキスト・インジェクションと悪意のある操作</strong></li>
+<li><strong>T2: 委任メカニズムの悪用</strong></li>
+<li><strong>T3: 非決定論的ポリシー評価と実行結果</strong></li>
+<li><strong>T4:　監査の不可視性とフォレンジックの失敗</strong></li>
+</ul>
+<br />
+<p>これらの脅威は、MCPベースのAIインフラの信頼性、説明責任およびポリシーの一貫性を損なう可能性がある。さらに、このような脆弱性を効果的に軽減するために必要なコンテキストの認識と実行時の強制力が欠如している従来のセキュリティモデルの深刻な限界が明らかになった。</p>
+<br />
+<h2 id="既存戦略の基礎と拡張の必要性">既存戦略の基礎と拡張の必要性</h2>
+<br />
+<p>セクション4では、MCPに関連するセキュリティ上の脅威（T1～T4）に対処するための4つの 戦略的対策を提案した。これらの戦略（コンテキストの整合性、委任制御、ポリシー実行の一貫性、監査トレーサビリティ）は、特定された脅威シナリオに合致する強力な設計原則を提供する。</p>
+<p>しかし、これらの戦略を現実のAI主導型インフラに一貫性を持って持続的に適用するためには、より包括的なソリューションが必要である。問題は、単にこれらの戦略が有効かどうかではなく、セキュリティ・フレームワークの結束を通じて、信頼性の高い自動的な運用が可能かどうかである。</p>
+<p>次のような業務上の要求は、そのような枠組みの必要性を浮き彫りにしている：</p>
+<br />
+<ul>
+<li><strong>ポリシーの評価-エンフォースメントを伴う実行バインディング</strong></li>
+</ul>
+<br />
+<ul>
+<li><strong>委任チェーン追跡と範囲制御</strong></li>
+</ul>
+<br />
+<ul>
+<li><strong>コンテキスト整合性検証と実行前ポリシーバインディング</strong></li>
+</ul>
+<br />
+<ul>
+<li><strong>実行とポリシー結果の構造化および署名された監査ロギング</strong></li>
+</ul>
+<br />
+<ul>
+<li><strong>リスク適応型自律アクセス制御</strong></li>
+</ul>
+<br />
+<p>これらの要件は、機能的なセキュリティ・コンポーネントの必要性だけでなく、これらの戦略を自動的かつ確実に編成し、実施できる総合的なシステムの必要性を強調している。このニーズに応えるため、このホワイトペーパーでは、<strong>MCP PAM（Model Context Protocol Privileged Access Control – MCP 特権アクセス管理</strong>）-MCP環境のために特別に構築されたセキュリティ・アーキテクチャ-を紹介する。</p>
+<br />
+<p>次のセクション「<strong>5.3：新しいセキュリティ・フレームワークの必要性</strong>」では、MCP 特権アクセス管理を正式に紹介し、その中核機能を定義し、脅威カテゴリT1～T4に対応付ける。</p>
+<br />
+<h2 id="新しいセキュリティフレームワークの必要性mcp-pammcp-特権アクセス管理の提案">新しいセキュリティフレームワークの必要性：MCP PAM（MCP 特権アクセス管理）の提案</h2>
+<br />
+<p>MCP PAMは、MCPベースのシステムで特定された主要な脅威シナリオ（T1～T4）に対処するために構築されたセキュリティアーキテクチャである。これは従来のアクセス・コントロール・ツールではなく、モデル・コンテキスト・プロトコル環境の動的で分散化された性質に合わせて特別に設計された、コンテキストを認識し、ポリシーを強化し、リスク適応型セキュリティ・プラットフォームである。</p>
+<br />
+<p><strong>MCP PAMのコア機能</strong></p>
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>MCP PAM機能</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>コンテキストを考慮したアクセス制御</td>
+<td>実行コンテキストに基づいてポリシーを動的に評価し、それに応じてアクセス決定を調整する。</td>
+</tr>
+<tr>
+<td>委任チェーンの検証</td>
+<td>委任リクエスト（ソース、スコープ、認証を含む）を検証し、トレースすることで、なりすましやエスカレーションを防止する。</td>
+</tr>
+<tr>
+<td>ポリシーに基づく実行の強制</td>
+<td>ポリシーによって明示的に許可されない限り、いかなるアクションも実行されないよう強制する。事前のポリシー評価を欠く実行をブロックする。</td>
+</tr>
+<tr>
+<td>構造化ログと署名ログ</td>
+<td>コンテキスト、ポリシー、アクションをリンクする構造化された暗号署名付き監査ログを生成し、トレーサビリティと耐改ざん性を確保する。</td>
+</tr>
+<tr>
+<td>リスク適応型自律制御</td>
+<td>リアルタイムのDLPとUEBAスコアリングを使用して実施動作を自動的に調整し、悪用や異常なアクティビティを防止する。</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<p><br /></p>
+<br />
+<p><strong>MCP PAM機能とT1-T4セキュリティ脅威のマッピング</strong> (● 直接的な軽減 | ○ 間接的な軽減)</p>
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>MCP PAM機能</th>
+<th>T1:<br />コンテキスト・インジェクション</th>
+<th>T2:<br />委任の乱用</th>
+<th>T3:<br />実行の不一致</th>
+<th>T4:<br />監査不可視性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>コンテキストを考慮したアクセス制御</td>
+<td>●</td>
+<td>○</td>
+<td>●</td>
+<td></td>
+</tr>
+<tr>
+<td>委任チェーンの検証</td>
+<td></td>
+<td>●</td>
+<td>○</td>
+<td></td>
+</tr>
+<tr>
+<td>ポリシーに基づく実行の強制</td>
+<td>○</td>
+<td>●</td>
+<td>●</td>
+<td></td>
+</tr>
+<tr>
+<td>構造化ログと署名ログ</td>
+<td></td>
+<td></td>
+<td>○</td>
+<td>●</td>
+</tr>
+<tr>
+<td>リスク適応型自律制御</td>
+<td>●</td>
+<td>●</td>
+<td>●</td>
+<td>○</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<p>さらに、MCP PAMは、MCP環境下における脅威に対処するために、以下の重要なセキュリティ機能を提供する：</p>
+<br />
+<ul>
+<li><strong>予防</strong>：　実行前にポリシーを検証し、改ざんやなりすましのあるコンテキストデータをブロックする。</li>
+<li><strong>検知</strong>：　リアルタイムのロギングとリスク・スコアリングにより、異常の発生を検知します。</li>
+<li><strong>応答</strong>：　動的なリスク評価に基づいて、ポリシーの強制適用と実行のブロックに自動的に対応します。</li>
+<li><strong>責任</strong>：　構造化された監査可能な形式で、完全な実行フローを記録する。</li>
+</ul>
+<br />
+<p>MCP PAMは、ポリシーと実行の分断、委任トレーサビリティの欠如、コンテキストの整合性リスク、監査ログの一貫性の無さといった重要な問題を、統合化されたアーキテクチャの中で解決する。MCP PAMは、最新のAI駆動環境に最適化する目的に特化したセキュリティ制御システムである。</p>
+<br />
+<h2 id="本ホワイトペーパーの結論とまとめ">本ホワイトペーパーの結論とまとめ</h2>
+<br />
+<p>AIシステムはますます自律的になりつつあり、その実行構造は、従来のアカウントや権限ベースのセキュリティモデルではもはや管理できない複雑さを顕著に示している。特に、モデルコンテキストプロトコル（MCP）に基づくシステムは、以下の特徴を併せ持つ：</p>
+<br />
+<ul>
+<li>実行は、ユーザーが直接入力するのではなく、エージェントとLLMによって行われる。</li>
+<li>ポリシー決定と実行結果は、実行前後のコンテキストによって変わる。</li>
+<li>権限の委譲、プロキシ操作、APIオーケストレーションは、権限の水平的なフローを作り出す。</li>
+</ul>
+<br />
+<p>このようなダイナミクスは、コンテキストの改ざん、ポリシーの無視、ランタイムの不整合、監査漏れなど、従来のPAMフレームワークでは対処できない新たなセキュリティ上の課題をもたらす。</p>
+<br />
+<p><strong>このホワイトペーパーの結論は明確である：</strong></p>
+<blockquote>
+<p><strong>「AI主導のMCPベースの環境では、自律的にコンテキストベースの実行ポリシーを評価、実施、記録できる新しいMCPセキュリティ・アーキテクチャが必要であり、そのソリューションはMCP PAMである」</strong></p>
+</blockquote>
+<br />
+<p><br /></p>
+<p><br /></p>
+<br />
+<br />
+<p><a class="article-content-btn article-content-btn--wide" href="https://app.querypie.com" target="_blank" rel="noopener">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
+<br />
+<br />
+<h1 id="参考文献">参考文献</h1>
+<p>[1] <a href="https://arxiv.org/abs/2503.23278" target="_blank" rel="noopener noreferrer">X. Hou, L. Zhang, R. Sun, and Y. Wang, “Model Context Protocol (MCP): Landscape, Security Threats, and Future Research Directions,” arXiv preprint, Mar. 2025.</a></p>
+<br />
+<p>[2] <a href="https://arxiv.org/abs/2504.03767" target="_blank" rel="noopener noreferrer">B. Radosevich and J. Halloran, “MCP Safety Audit: LLMs with the Model Context Protocol Allow Major Security Exploits,” arXiv preprint, Apr. 2025.</a></p>
+<br />
+<p>[3] <a href="https://arxiv.org/abs/2501.00539" target="_blank" rel="noopener noreferrer">S. Szeider, “MCP-Solver: Integrating Language Models with Constraint Programming Systems,” arXiv preprint, Apr. 2025.</a></p>
+<br />
+<p>[4] <a href="https://www.preprints.org/manuscript/202504.0245/v1" target="_blank" rel="noopener noreferrer">A. Singh, Y. Gupta, and N. Trivedi, “A Survey of the Model Context Protocol (MCP): Standardizing Context to Enhance Large Language Models (LLMs),” Preprints.org, Apr. 2025.</a></p>
+<br />
+<p>[5] <a href="https://www.researchgate.net/publication/390115049_Smitheryai" target="_blank" rel="noopener noreferrer">P. Pajo, “Smithery.ai: A Model Context Protocol for Enhanced LLM Integration and Cross-Industry Applications,” ResearchGate, Mar. 2025.</a></p>
+<br />
+<p>[6] <a href="https://arxiv.org/abs/2503.22738" target="_blank" rel="noopener noreferrer">Z. Chen, J. Lin, and R. Wang, “ShieldAgent: Shielding Agents via Verifiable Safety Policy Reasoning,” arXiv preprint, Mar. 2025.</a></p>
+<br />
+<p>[7] <a href="https://arxiv.org/abs/2503.21460" target="_blank" rel="noopener noreferrer">J. Luo, K. Hu, and M. Zhao, “Large Language Model Agent: A Survey on Methodology, Applications and Challenges,” arXiv preprint, Mar. 2025.</a></p>
+<br />
+<p>[8] <a href="https://arxiv.org/abs/2503.04596" target="_blank" rel="noopener noreferrer">X. Hou, R. Sun, and J. Yao, “The Next Frontier of LLM Applications: Open Ecosystems and Hardware Synergy,” arXiv preprint, Mar. 2025.</a></p>
+<br />
+<p>[9] <a href="https://www.anthropic.com/news/model-context-protocol" target="_blank" rel="noopener noreferrer">Anthropic, “Introducing the Model Context Protocol,” Anthropic Technical Blog, Nov. 2024.</a></p>
+<br />
+<p>[10] <a href="https://arxiv.org/abs/2501.09674" target="_blank" rel="noopener noreferrer">T. South, J. Velasquez, and M. D. Kemp, “Authenticated Delegation and Authorized AI Agents,” arXiv preprint, Jan. 2025.</a></p>
+<br />
+<p>[11] <a href="https://arxiv.org/abs/2504.03255" target="_blank" rel="noopener noreferrer">G. A. Gabison and R. P. Xian, “Inherent and Emergent Liability Issues in LLM-Based Agentic Systems,” arXiv preprint, Apr. 2025.</a></p>
+<br />
+<p>[12] <a href="https://www.researchgate.net/publication/389687667" target="_blank" rel="noopener noreferrer">P. Pajo, “Model Context Protocol Servers: A Novel Paradigm for AI-Driven Workflow Automation,” ResearchGate, Mar. 2025.</a></p>
+<br />
+<p>[13] <a href="https://www.researchgate.net/publication/390232494_Accelerating_AI_Integration_Multi-Order_Effects_and_Sociotechnical_Implications_of_Standardized_AI-Tool_Interoperability" target="_blank" rel="noopener noreferrer">P. Pajo, “Accelerating AI Integration: Multi-Order Effects and Sociotechnical Implications of Standardized AI-Tool Interoperability,” ResearchGate, Mar. 2025.</a></p>
+<br />
+<p>[14] <a href="https://www.researchgate.net/publication/389713732" target="_blank" rel="noopener noreferrer">A. Ramachandran, “Transforming Enterprise AI Integration: Architecture, Implementation and Applications of MCP,” ResearchGate, Mar. 2025.</a></p>
+<br />
+<p>[15] <a href="https://www.ijirset.com/upload/2025/march/12_Unlocking.pdf" target="_blank" rel="noopener noreferrer">A. Kattamuri, “Unlocking Context for Intelligent Agents: The Model Context Protocol as a Standardized Integration Framework,” IJIRSET, Mar. 2025.</a></p>
+<br />
+<p>[16] <a href="/resources/discover/white-paper/15/redefining-pam-for-the-mcp-era" target="_blank" rel="noopener noreferrer">QueryPie, “Security Governance and Integrated PAM Strategy for AI Agents in the Age of the Model Context Protocol (MCP),” White Paper, 2025.</a></p>
+<br />
+<p>[17] <a href="/resources/discover/white-paper/16/next-step-mcp-pam" target="_blank" rel="noopener noreferrer">QueryPie, “MCP PAM as the Next Step Beyond Guardrails,” White Paper, 2025.</a></p>
+              </div>
+            </div>
+          </div>
+
+          <aside class="article-sidebar">
+            <div class="related-sidebar">
+              <h2 class="related-sidebar-title">関連資料</h2>
+              <hr class="related-sidebar-divider">
+              <div class="related-sidebar-list">
+
+                <a href="/posts/whitepaper/wp-001.html" class="related-sidebar-card">
+                  <div class="related-sidebar-img"><img src="/assets/images/07-blog/wp-thumb-28.png" alt="AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編"></div>
+                  <div class="related-sidebar-text">
+                    <h3 class="related-sidebar-card-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
+                    <p class="related-sidebar-date">2026年2月27日</p>
+                  </div>
+                </a>
+                <a href="/posts/whitepaper/wp-013.html" class="related-sidebar-card">
+                  <div class="related-sidebar-img"><img src="/assets/images/07-blog/wp-thumb-16.png" alt="AIアクセス制御の大転換:Guardrailsを越えてMCP-PAMへ！"></div>
+                  <div class="related-sidebar-text">
+                    <h3 class="related-sidebar-card-title">AIアクセス制御の大転換:Guardrailsを越えてMCP-PAMへ！</h3>
+                    <p class="related-sidebar-date">2025年4月10日</p>
+                  </div>
+                </a>
+                <a href="/posts/whitepaper/wp-016.html" class="related-sidebar-card">
+                  <div class="related-sidebar-img"><img src="/assets/images/07-blog/wp-thumb-24-jp.png" alt="なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか"></div>
+                  <div class="related-sidebar-text">
+                    <h3 class="related-sidebar-card-title">なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか</h3>
+                    <p class="related-sidebar-date">2025年11月17日</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="sidebar-sticky-group">
+              <div class="sidebar-toc">
+                <h2 class="sidebar-toc-title">目次</h2>
+                <div class="sidebar-toc-wrap">
+                  <div class="sidebar-toc-scroll">
+                    <ul class="sidebar-toc-list"><li><a href="#背景と論拠">背景と論拠</a><li><a href="#分析の目的">分析の目的</a><li><a href="#レビューした文献の範囲">レビューした文献の範囲</a><li><a href="#分析の枠組み">分析の枠組み</a><li><a href="#文書の構成">文書の構成</a><li><a href="#分析の目的とアプローチ">分析の目的とアプローチ</a><li><a href="#評価基準と採点フレームワーク">評価基準と採点フレームワーク</a><li><a href="#文献毎の評価表msr">文献毎の評価表（MSR）</a><li><a href="#除外論文とその理由">除外論文とその理由</a><li><a href="#文献要約表の概要">文献要約表の概要</a><li><a href="#分析のアプローチ">分析のアプローチ</a><li><a href="#mcpにおけるセキュリティ脅威タイプの分類">MCPにおけるセキュリティ脅威タイプの分類</a><li><a href="#主要な脅威シナリオ">主要な脅威シナリオ</a><li><a href="#主要な構造的セキュリティ欠陥のまとめ">主要な構造的セキュリティ欠陥のまとめ</a><li><a href="#mcpアーキテクチャにおける脅威とレイヤのマッピング">MCPアーキテクチャにおける脅威とレイヤのマッピング</a><li><a href="#脅威構造と戦略的対応の方向性のまとめ">脅威構造と戦略的対応の方向性のまとめ</a><li><a href="#戦略的枠組み">戦略的枠組み</a><li><a href="#戦略aポリシーの一貫性と実行時バインディング結合の確保">戦略A：ポリシーの一貫性と実行時バインディング（結合）の確保</a><li><a href="#戦略-bコンテキストフローの整合性と改ざん防止">戦略 B：コンテキストフローの整合性と改ざん防止</a><li><a href="#戦略c委任管理となりすまし防止">戦略C：委任管理となりすまし防止</a><li><a href="#戦略-d構造化された監査ロギングとフォレンジック・トレーサビリティ">戦略 D：構造化された監査ロギングとフォレンジック・トレーサビリティ</a><li><a href="#戦略総括表">戦略総括表</a><li><a href="#包括的な分析">包括的な分析</a><li><a href="#既存戦略の基礎と拡張の必要性">既存戦略の基礎と拡張の必要性</a><li><a href="#新しいセキュリティフレームワークの必要性mcp-pammcp-特権アクセス管理の提案">新しいセキュリティフレームワークの必要性：MCP PAM（MCP 特権アクセス管理）の提案</a><li><a href="#本ホワイトペーパーの結論とまとめ">本ホワイトペーパーの結論とまとめ</a></li></ul>
+                  </div>
+                </div>
+              </div>
+              <div class="sidebar-cta">
+                <h3 class="sidebar-cta-title">お問い合わせ</h3>
+                <p class="sidebar-cta-text">当社のコンサルタントと繋がってAI活用を加速しませんか？</p>
+                <a href="#" class="sidebar-cta-btn">今すぐお問い合わせ <img src="/assets/images/01-header/arrow-right.svg" alt=""></a>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer id="company-info" class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="footer-logo"><img src="/assets/images/01-header/logo.svg" alt="QueryPie"></div>
+        <div class="social-links">
+          <a href="https://kr.linkedin.com/company/querypie-01" target="_blank"><img src="/assets/images/08-footer/social-linkedin.svg" alt="LinkedIn"></a>
+          <a href="https://www.youtube.com/@querypie" target="_blank"><img src="/assets/images/08-footer/social-youtube.svg" alt="YouTube"></a>
+          <a href="https://x.com/querypie" target="_blank"><img src="/assets/images/08-footer/social-x.svg" alt="X"></a>
+          <a href="https://www.facebook.com/querypie" target="_blank"><img src="/assets/images/08-footer/social-facebook.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/querypie.ai/" target="_blank"><img src="/assets/images/08-footer/social-instagram.svg" alt="Instagram"></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="link-column"><h4>サービス</h4><ul><li><a href="#">AIP</a></li><li><a href="#">ACP</a></li><li><a href="#">FDE</a></li></ul></div>
+        <div class="link-column"><h4>ソリューション</h4><ul><li><a href="/services/ai-dashi/">AI 出汁</a></li></ul></div>
+        <div class="link-column"><h4>デモ</h4><ul><li><a href="#">ユースケース</a></li><li><a href="#">AIP機能</a></li><li><a href="#">ACP機能</a></li></ul></div>
+        <div class="link-column"><h4>リソース</h4><ul><li><a href="#">紹介資料</a></li><li><a href="#">用語集</a></li><li><a href="#">マニュアル</a></li><li><a href="/whitepaper.html">ホワイトペーパー</a></li><li><a href="/blog.html">ブログ</a></li><li><a href="/event.html">イベント</a></li></ul></div>
+        <div class="link-column"><h4>会社情報</h4><ul><li><a href="#">会社概要</a></li><li><a href="#">認定実績</a></li><li><a href="#">ニュース</a></li><li><a href="#">お問い合わせ</a></li></ul></div>
+        <div class="link-column"><h4>プラン</h4><ul><li><a href="#">AIP</a></li><li><a href="#">ACP</a></li></ul></div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div class="legal-links"><a href="#">クッキー設定</a><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">EULA</a></div>
+      <div class="copyright">
+        <p>© 2017-2025 QueryPie, Inc. All rights reserved.</p>
+        <p>本社：3003 North 1st Street, Suite 221, San Jose, CA 95134, USA</p>
+        <p>ソウル（麻谷）：ソウル特別市江西区麻谷中央1-26 7F、韓国</p>
+        <p>ソウル（江南）：ソウル特別市江南区江南大路464 3F、韓国</p>
+        <p>日本：〒105-6490 東京都港区虎ノ門1丁目17-1 15F</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    requestAnimationFrame(() => requestAnimationFrame(() => { document.documentElement.classList.remove('no-transition'); }));
+    const siteHeader = document.querySelector('.site-header');
+    function updateNavScroll() { siteHeader.classList.toggle('scrolled', window.scrollY > 0); }
+    updateNavScroll();
+    window.addEventListener('scroll', updateNavScroll, { passive: true });
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    menuBtn.addEventListener('click', () => { menuBtn.classList.toggle('active'); mobileMenu.classList.toggle('active'); document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : ''; });
+    document.querySelectorAll('.mobile-nav-link, .mobile-nav-sublink, .mobile-cta').forEach(link => { link.addEventListener('click', () => { menuBtn.classList.remove('active'); mobileMenu.classList.remove('active'); document.body.style.overflow = ''; }); });
+    const navItems = document.querySelectorAll('.nav-item.has-dropdown');
+    const navBackdrop = document.querySelector('.nav-backdrop');
+    let closeTimeout = null;
+    function closeAll() { clearTimeout(closeTimeout); navItems.forEach(i => i.classList.remove('is-open')); navBackdrop.classList.remove('is-active'); }
+    const currentPageActiveLink = document.querySelector('.nav-dropdown-link.is-active');
+    navItems.forEach(item => {
+      item.addEventListener('mouseenter', () => { if (window.innerWidth < 992) return; clearTimeout(closeTimeout); navItems.forEach(o => o.classList.remove('is-open')); item.classList.add('is-open'); document.querySelectorAll('.nav-dropdown-link').forEach(l => l.classList.remove('is-active')); navBackdrop.classList.add('is-active'); });
+      item.addEventListener('mouseleave', () => { if (window.innerWidth < 992) return; clearTimeout(closeTimeout); closeTimeout = setTimeout(() => { item.classList.remove('is-open'); if (currentPageActiveLink && !document.querySelector('.nav-item.has-dropdown:hover')) currentPageActiveLink.classList.add('is-active'); if (!document.querySelector('.nav-item.has-dropdown:hover')) navBackdrop.classList.remove('is-active'); }, 150); });
+    });
+    function alignMegaMenus() { if (window.innerWidth < 992) return; const firstNav = document.querySelector('.nav-item.has-dropdown .nav-link'); if (!firstNav) return; const megaOuterLeft = Math.max(0, (window.innerWidth - 1200) / 2); const paddingLeft = Math.max(30, firstNav.getBoundingClientRect().left - megaOuterLeft); document.querySelectorAll('.mega-inner').forEach(el => { el.style.paddingLeft = paddingLeft + 'px'; }); }
+    alignMegaMenus(); window.addEventListener('load', alignMegaMenus); window.addEventListener('resize', alignMegaMenus);
+    document.querySelectorAll('.nav-dropdown-link').forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); document.querySelectorAll('.nav-dropdown-link').forEach(l => l.classList.remove('is-active')); link.classList.add('is-active'); const href = link.getAttribute('href'); if (href && href !== '#') setTimeout(() => { window.location.href = href; }, 120); }); });
+    navBackdrop.addEventListener('mouseenter', closeAll); navBackdrop.addEventListener('click', closeAll);
+    document.addEventListener('click', e => { if (!e.target.closest('.nav-item.has-dropdown')) closeAll(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+    document.querySelectorAll('.mobile-nav-group').forEach(group => { group.querySelector('.mobile-nav-toggle').addEventListener('click', () => { document.querySelectorAll('.mobile-nav-group').forEach(o => { if (o !== group) o.classList.remove('is-open'); }); group.classList.toggle('is-open'); }); });
+    (function () {
+      const OFFSET = 100;
+      const tocLinks = document.querySelectorAll('.sidebar-toc-list a, .sidebar-toc-sub a');
+      const sections = [];
+      tocLinks.forEach(link => { const id = link.getAttribute('href').slice(1); const el = document.getElementById(id); if (el) sections.push({ el, link }); });
+      const tocScroll = document.querySelector('.sidebar-toc-scroll');
+      tocLinks.forEach(link => { link.addEventListener('click', e => { const id = link.getAttribute('href').slice(1); const target = document.getElementById(id); if (!target) return; e.preventDefault(); window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - OFFSET, behavior: 'smooth' }); }); });
+      function activate() {
+        let current = null;
+        for (let i = 0; i < sections.length; i++) { const rect = sections[i].el.getBoundingClientRect(); if (rect.top >= 0 && rect.bottom <= window.innerHeight) { current = sections[i].link; break; } }
+        if (!current) { const scrollY = window.scrollY + OFFSET + 20; sections.forEach(s => { if (s.el.offsetTop <= scrollY) current = s.link; }); }
+        tocLinks.forEach(l => l.classList.remove('is-active'));
+        if (current) { current.classList.add('is-active'); if (tocScroll) { const lr = current.getBoundingClientRect(); const tr = tocScroll.getBoundingClientRect(); if (lr.top < tr.top || lr.bottom > tr.bottom) { tocScroll.scrollTop += lr.top - tr.top - tr.height / 2 + lr.height / 2; } } }
+      }
+      window.addEventListener('scroll', activate, { passive: true });
+      activate();
+    })();
+  </script>
+
+</body>
+</html>

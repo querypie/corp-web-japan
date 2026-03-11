@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="この文章では、誤解を防ぐためにMCPサーバーとAIエージェントの役割を明確に区別し、それぞれの責任と限界について体系的に説明します。">
+  <title>MCPとAIエージェントが対決：あなたの設計は安全か？ - QueryPie AI</title>
+  <link rel="preload" href="https://cdn.jsdelivr.net/fontsource/fonts/mona-sans:vf@latest/latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/woff2/PretendardJP-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/woff2/PretendardJP-Medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/pretendard-jp.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+  <link rel="stylesheet" href="/assets/css/blog-detail.css">
+  <script>document.documentElement.classList.add('no-transition');</script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/ja/" class="logo"><img src="/assets/images/01-header/logo.svg" alt="QueryPie AI Logo" class="logo-img"></a>
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li class="nav-item has-dropdown"><a href="#" class="nav-link" data-dropdown>サービス<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">サービス</div><div class="mega-sub">QueryPie AIのコアサービス</div></div><div class="mega-links"><a href="#" class="nav-dropdown-link">AI Platform (AIP)</a><a href="#" class="nav-dropdown-link">Access Control Platform (ACP)</a><a href="#" class="nav-dropdown-link">Forward Deployed Engineer Service (FDES)</a></div></div></div></li>
+          <li class="nav-item has-dropdown"><a href="#" class="nav-link" data-dropdown>ソリューション<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">ソリューション</div><div class="mega-sub">課題に合わせたAIソリューション</div></div><div class="mega-links"><a href="/services/ai-dashi/" class="nav-dropdown-link">AI 出汁</a></div></div></div></li>
+          <li class="nav-item has-dropdown"><a href="#" class="nav-link" data-dropdown>デモ<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">デモ</div><div class="mega-sub">QueryPie AIを体験する</div></div><div class="mega-links"><a href="#" class="nav-dropdown-link">ユースケース</a><a href="#" class="nav-dropdown-link">AIP機能</a><a href="#" class="nav-dropdown-link">ACP機能</a></div></div></div></li>
+          <li class="nav-item has-dropdown"><a href="/whitepaper.html" class="nav-link is-active" data-dropdown>リソース<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">リソース</div><div class="mega-sub">学習・活用リソース</div></div><div class="mega-links mega-links--grid"><a href="#" class="nav-dropdown-link">紹介資料</a><a href="#" class="nav-dropdown-link">用語集</a><a href="#" class="nav-dropdown-link">マニュアル</a><a href="/whitepaper.html" class="nav-dropdown-link is-active">ホワイトペーパー</a><a href="/blog.html" class="nav-dropdown-link">ブログ</a><a href="/event.html" class="nav-dropdown-link">イベント</a></div></div></div></li>
+          <li class="nav-item has-dropdown"><a href="#" class="nav-link" data-dropdown>会社情報<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">会社情報</div><div class="mega-sub">QueryPie AIについて</div></div><div class="mega-links"><a href="#" class="nav-dropdown-link">私たちについて</a><a href="#" class="nav-dropdown-link">認証情報</a><a href="#" class="nav-dropdown-link">ニュース</a><a href="#" class="nav-dropdown-link">お問い合わせ</a></div></div></div></li>
+          <li class="nav-item"><a href="#" class="nav-link">プラン</a></li>
+        </ul>
+      </nav>
+      <a href="#" class="btn btn-primary desktop-only">無料で始める <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
+      <button class="mobile-menu-btn" aria-label="メニュー"><span class="hamburger-line"></span><span class="hamburger-line"></span></button>
+    </div>
+    <div class="nav-backdrop"></div>
+    <div class="mobile-menu">
+      <nav class="mobile-nav">
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">サービス<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="#" class="mobile-nav-sublink">QueryPie AIP</a><a href="#" class="mobile-nav-sublink">QueryPie ACP</a><a href="#" class="mobile-nav-sublink">QueryPie FDE</a></div></div>
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">ソリューション<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="/services/ai-dashi/" class="mobile-nav-sublink">AI 出汁</a></div></div>
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">デモ<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="#" class="mobile-nav-sublink">ユースケース</a><a href="#" class="mobile-nav-sublink">AIP機能</a><a href="#" class="mobile-nav-sublink">ACP機能</a></div></div>
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">リソース<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="#" class="mobile-nav-sublink">紹介資料</a><a href="#" class="mobile-nav-sublink">用語集</a><a href="#" class="mobile-nav-sublink">マニュアル</a><a href="/whitepaper.html" class="mobile-nav-sublink">ホワイトペーパー</a><a href="/blog.html" class="mobile-nav-sublink">ブログ</a><a href="/event.html" class="mobile-nav-sublink">イベント</a></div></div>
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">会社情報<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="#" class="mobile-nav-sublink">私たちについて</a><a href="#" class="mobile-nav-sublink">認証情報</a><a href="#" class="mobile-nav-sublink">ニュース</a><a href="#" class="mobile-nav-sublink">お問い合わせ</a></div></div>
+        <a href="#" class="mobile-nav-link">プラン</a>
+      </nav>
+      <a href="#" class="btn btn-primary mobile-cta">無料で始める <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="article-layout-wrap">
+      <div class="container">
+        <div class="article-layout">
+
+          <div class="article-main">
+            <div class="article-hero-inner">
+              <div class="article-hero-text">
+                <span class="article-category">ホワイトペーパー</span>
+                <h1 class="article-title">MCPとAIエージェントが対決：あなたの設計は安全か？</h1>
+
+                <div class="article-author">
+                  <img class="article-author-avatar" src="/assets/images/07-blog/author-kenny.png" alt="Kenny Park">
+                  <div class="article-author-info">
+                    <div class="article-author-header">
+                      <div>
+                        <p class="article-author-name">Kenny Park</p>
+                        <p class="article-author-role">CISO</p>
+                      </div>
+                      <div class="article-author-sns"><a href="https://www.linkedin.com/in/kwansoonpark/" target="_blank" rel="noopener noreferrer" class="article-author-sns-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a></div>
+                    </div>
+                    <p class="article-author-bio">ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。</p>
+                  </div>
+                </div>
+                <div class="article-meta">
+                  <span class="article-date">2025年5月21日</span>
+                  <div class="article-share">
+                    <a href="#" aria-label="Facebookでシェア"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                    <a href="#" aria-label="X(Twitter)でシェア"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    <a href="#" aria-label="LinkedInでシェア"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                    <a href="#" aria-label="リンクをコピー"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg></a>
+                  </div>
+                </div>
+              </div>
+              <div class="article-hero-img">
+                <img src="/assets/images/07-blog/wp-thumb-22.png" alt="MCPとAIエージェントが対決：あなたの設計は安全か？">
+              </div>
+            </div>
+
+            <div class="article-body">
+              <div class="article-content">
+<h1 id="参考文献への謝辞">参考文献への謝辞</h1>
+<blockquote>
+<p>このホワイトペーパーは、Rakesh Gohel氏がLinkedInに投稿した「What people think AI agents are vs. What AI Agents actually are」のダイアグラムから深いインスピレーションを受けて作成されました。</p>
+</blockquote>
+<p>この可視化は、AIエージェントに対する認識のギャップと技術的構造の複雑さを直感的に示しており、本ホワイトペーパーの構造と問題意識の形成において重要な出発点となりました。参照した内容は付録に要約されています。Rakesh Gohel氏に、洞察とインスピレーションを提供いただいたことに、心より感謝申し上げます。</p>
+<br />
+<blockquote>
+<p>Rakesh Gohel氏のLinkedIn: <a href="https://www.linkedin.com/in/rakeshgohel01/" target="_blank" rel="noopener noreferrer">https://www.linkedin.com/in/rakeshgohel01/</a></p>
+</blockquote>
+<br />
+<br />
+<br />
+<p>![[그림 1] AI 에이전트는 실제로 무엇인가](public/white-paper/wp22-1-rakesh-gohel-ai-agents.png)</p>
+<p><em>[그림 1] AI 에이전트는 실제로 무엇인가</em></p>
+<br />
+<br />
+<br />
+<br />
+<h1 id="第1章-役割と責任の違い">第1章： 役割と責任の違い</h1>
+<br />
+<p>MCPサーバーとAIエージェントは、AI中心システムの核心的な構成要素です。この2つのコンポーネントは一つのフロー内で協力しますが、その目的と責任は本質的に異なります。しかし、実務ではこの2つの役割を混同するケースが頻繁に発生し、これはアーキテクチャ設計の誤り、権限の過剰付与、実行制御の失敗といった構造的なセキュリティ脆弱性につながる可能性があります［1］。このような混同は、単なる構造理解の誤りを超えて、実行権限の無秩序な拡張、ポリシーの迂回、ユーザー行動の監査不能領域の発生など、<strong>直接的なセキュリティリスク</strong>を引き起こす可能性があります。</p>
+<br />
+<p>例えば、AIエージェントがユーザーのリクエストを解釈する機能を越えて、直接外部システムを呼び出すように設計されると、LLMの非決定性により予測不能な動作が発生したり、ポリシーに基づく制御なしに未承認のリソースへのアクセスが許可される可能性があります。逆に、MCPサーバーがユーザー意図の判断やポリシー決定まで担う場合、システムが意思決定を誤る構造的な不一致が生じ、責任が集中し、監査可能性（Auditability）と役割説明可能性（Explainability）が弱まります。</p>
+<br />
+<p>本章では、MCPサーバーとAIエージェントの役割を明確に区分し、誤解を防止するための責任範囲と機能限界を体系的に説明します。</p>
+<br />
+<br />
+<h2 id="mcpサーバーとは何ですか">MCPサーバーとは何ですか？</h2>
+<br />
+<p>MCP（Model Context Protocol）サーバーは、AIエージェントが外部リソースにアクセスし、タスクを実行できるように接続する<strong>バックエンドインターフェース層</strong>です。多様なシステム（API、DB、SaaSなど）とAIエージェントの間を接続し、標準化された方法でリソースを抽象化して提供します［2］。MCPサーバーは単一の統合ゲートウェイのように動作し、AIエージェントが個々のシステムの実装詳細を知らなくてもタスクをリクエストできるように支援します。</p>
+<br />
+<p>しかし、MCPサーバーは単純なプロキシを超え、ポリシー評価、実行制御、セッション監査などの機能は限定的にしかサポートされず、システム要件に応じて一部の機能は別層で補完することが一般的です［26］。</p>
+<br />
+<br />
+<br />
+<p>![[그림 3] AI エージェント フロー](public/white-paper/wp22-3-ai-agent-flow.png)</p>
+<p><em>[그림 3] AI エージェント フロー</em></p>
+<br />
+<br />
+<br />
+<p><strong>MCPサーバーの主要な責任構造</strong></p>
+<br />
+<ul>
+<li><strong>ツール接続とリソースルーティング（Tool Proxying）:</strong> MCPは、多様な外部ツール（API、DB、ファイルなど）を標準化されたインターフェースで公開します。AIエージェントの要求を実際のシステム呼び出しに変換して転送するプロキシの役割を果たします。</li>
+</ul>
+<br />
+<ul>
+<li><strong>ポリシー実行 (Policy Enforcement):</strong> MCPは認証（Authentication）および基本的な権限付与（Authorization）を提供しますが、詳細なポリシーベースの条件評価（PBAC/ABACなど）はアーキテクチャ外部で補完する必要があります［3］。</li>
+</ul>
+<br />
+<ul>
+<li><strong>コンテキストの保存と提供（Context Management）:</strong> 外部コンテキストストレージと連携し、ユーザーセッション、会話履歴、好みなどを管理でき、一貫したコンテキストの維持に貢献します。</li>
+</ul>
+<br />
+<ul>
+<li><strong>タスクの調整とフロー制御 （Task Orchestration）:</strong> 抽象化されたエージェント要求を実際のシステム呼び出しに分解・組み合わせて、複数の呼び出しを処理できます。条件分岐やユーザー承認などの高度なフローは、別々の構成要素として分離されることもあります。</li>
+</ul>
+<br />
+<ul>
+<li><strong>実行の安全性と監査保証 （Execution Control & Auditing）:</strong> 呼び出しログの記録、エラー処理、失敗対応などの機能はサポートされていますが、ポリシー違反の原因記録や承認履歴の監査などは選択的な実装要素です。</li>
+</ul>
+<br />
+<p>要約すると、MCPサーバーは実行接続とリソース抽象化に特化したプラットフォームであり、判断や制御を直接実行しません。必要に応じて、ポリシー実行や監査制御のためのセキュリティ層が組み込まれることがあります。</p>
+<br />
+<br />
+<h2 id="aiエージェントとは何ですか">AIエージェントとは何ですか？</h2>
+<br />
+<p>AIエージェントは、ユーザーと直接相互作用し、自然言語の命令を解釈し実行計画を策定する<strong>知能型インターフェース層</strong>です。主にLLM（Large Language Model）ベースの自然言語処理モデルを活用し、ユーザーのリクエストの文脈を理解し、必要なシステム呼び出しを決定します［4］。</p>
+<br />
+<p><strong>AIエージェントの主要な機能</strong></p>
+<br />
+<ul>
+<li><strong>ユーザー意図の解釈</strong>: エージェントは自然言語の質問や命令の意味を分析し、要求された目的を把握します。</li>
+</ul>
+<br />
+<ul>
+<li><strong>計画の策定</strong>: 目標を達成するための段階的な作業手順を構成します。</li>
+</ul>
+<br />
+<ul>
+<li><strong>MCPインターフェースの呼び出し</strong>: 外部のシステム連携が必要な場合、MCP APIを呼び出して該当するリソースに間接的にアクセスします［2］。</li>
+</ul>
+<br />
+<ul>
+<li><strong>短期記憶と推論の管理</strong>:  会話の流れやセッション中の一時的なコンテキストを維持し活用します。</li>
+</ul>
+<br />
+<ul>
+<li><strong>応答生成</strong>: ユーザーに結果を自然言語で伝達したり、次の作業を誘導します。</li>
+</ul>
+<br />
+<p>AIエージェントは、ユーザーの指示を解釈し計画を立てる<strong>脳の役割</strong>に集中し、実際の実行はMCPサーバーを通じて行われる必要があります。</p>
+<br />
+<br />
+<br />
+<p>![[図3] AIエージェントのフロー](public/white-paper/wp22-3-ai-agent-flow.png)</p>
+<p><em>[図3] AIエージェントのフロー</em></p>
+<br />
+<br />
+<br />
+<br />
+<h2 id="誤解を防止するための重要なポイントのまとめ">誤解を防止するための重要なポイントのまとめ</h2>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>区分</th>
+<th>MCPサーバー</th>
+<th>AIエージェント</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>役割</td>
+<td>実行ルーティングおよびツール接続</td>
+<td>ユーザー入力の解釈と目的設定</td>
+</tr>
+<tr>
+<td>主体性</td>
+<td>受動実行者（実行のみを行う）</td>
+<td>能動計画者（決定のみを行う）</td>
+</tr>
+<tr>
+<td>セキュリティ制御</td>
+<td>制限的（ポリシーの執行は外部レイヤーで拡張可能）</td>
+<td>なし（ポリシー判断機能なし）</td>
+</tr>
+<tr>
+<td>必要な補完</td>
+<td>システム要件に応じてセキュリティレイヤー（MCP PAMなど）で補完</td>
+<td>MCP ベースの実行委任を維持</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<br />
+<h2 id="役割分担の概要">役割分担の概要</h2>
+<br />
+<ul>
+<li><strong>AIエージェントは「脳」の役割</strong>として、ユーザーの目的を解釈し、計画を策定します。</li>
+</ul>
+<br />
+<ul>
+<li><strong>MCPサーバーは「手足」の役割</strong>として、定められた作業を安全に実行します［5］。</li>
+</ul>
+<br />
+<p>この分担により、システムは<strong>知能性と制御力</strong>を同時に確保できます。</p>
+<br />
+<br />
+<br />
+<p><img src="https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/white-paper/wp22-4-summary-of-role-separation-ZECj4ka8ZpG2Xd8Vk6vT5amSt1s8SH.png" alt="図：AIエージェントとMCPサーバーの役割区分" style="max-width:100%"></p>
+<p><em>図：AIエージェントとMCPサーバーの役割区分</em></p>
+<br />
+<br />
+<br />
+<br />
+<h2 id="aiエージェントとmcpサーバーの役割区分">AIエージェントとMCPサーバーの役割区分</h2>
+<br />
+<p>以下の図は、MCPサーバーとAIエージェントの役割分担を示しています。</p>
+<br />
+<br />
+<br />
+<p>![[図5] AIエージェントとMCPサーバー間の機能的分離](public/white-paper/wp22-5-functional-separation-between-ai-agent-and-mcp-server.png)</p>
+<p><em>[図5] AIエージェントとMCPサーバー間の機能的分離</em></p>
+<br />
+<br />
+<br />
+<h3 id="説明">説明:</h3>
+<br />
+<p>ユーザーがリクエストを入力すると、AI エージェントはこれを解釈して計画を策定します。実行リクエストはMCPサーバー経由で送信され、実際の作業は外部システムとの通信を通じて実行されます。この構造は責任分離、ポリシーベースのフロー、持続可能な拡張性を実現します。</p>
+<br />
+<p>次の章では、MCPとAIエージェントがどのように相互作用するか、および実際のインターフェースがどのような方法で実装されるかを具体的に検討します。</p>
+<br />
+<h1 id="第2章-使い方とインターフェース方式">第2章： 使い方とインターフェース方式</h1>
+<br />
+<p>この章では、MCPサーバーとAIエージェントがどのように使用されるか、およびどのようなインターフェースを提供するかを具体的に説明します。両コンポーネントは相互作用の対象と通信方式が根本的に異なるため、これらの違いを正確に理解することが適切なシステム統合の核心です［6］。</p>
+<br />
+<h2 id="mcpサーバーの使い方">MCPサーバーの使い方</h2>
+<br />
+<p>MCPサーバーは、一般ユーザーよりも<strong>AIエージェントまたはシステム開発者</strong>が使用するコンポーネントです。主な使用方法は以下の通りです。</p>
+<br />
+<ul>
+<li><strong>APIベースの呼び出し構造</strong>： MCPサーバーはREST APIまたはgRPCベースのインターフェースを提供し、AIエージェントはこれを通じて必要な作業（例： <code>/fetchData</code>， <code>/invokeService</code>）をリクエストします。リクエストは通常JSON形式で、認証トークンと共に送信されます［7］。</li>
+</ul>
+<br />
+<ul>
+<li><strong>ポリシーベースのリクエスト処理</strong>： MCPはリクエストを受信時、ポリシー（PBAC、ABACなど）に基づいてタスクの実行可否を判断します。これには内部ポリシーエンジン（CedarまたはOPAベース）を呼び出し、ユーザー、リソース、目的を評価します［8］。</li>
+</ul>
+<br />
+<ul>
+<li><strong>ツール/データブローカーの役割</strong>： 内部的には、MCPサーバーは企業内のシステム（API、DB、クラウドサービスなど）と接続されており、AIエージェントの代わりにこれらのシステムにリクエストを送信し、応答を受け取って返却します。</li>
+</ul>
+<br />
+<ul>
+<li><strong>セッションおよびコンテキスト維持機能</strong>： 一部の実装では、MCPがセッション識別子や会話コンテキストを管理し、一貫した状態ベースの応答を可能にします。</li>
+</ul>
+<br />
+<p>重要な点は、<strong>最終ユーザーがMCPサーバーと直接相互作用しないこと</strong>です。すべてのリクエストは<strong>AIエージェントまたはシステムコンポーネント</strong>を介してプロキシ形式で送信され、MCPサーバーは実行およびセキュリティの観点からのバックエンドコンポーネントとして機能します。</p>
+<br />
+<br />
+<h2 id="aiエージェントの使用方法">AIエージェントの使用方法</h2>
+<br />
+<p>AIエージェントは、ユーザーまたは外部システムが直接アクセスするコンポーネントであり、多様なインターフェース形態を備えています。</p>
+<br />
+<ul>
+<li><strong>対話型インターフェース（チャット/音声）</strong>： ユーザーは自然言語でリクエストを入力し、AIエージェントは入力内容を分析して応答します。この際、自然言語処理と推論ロジックはLLM（大規模言語モデル）または事前定義されたスキルセットを基盤としています［9］。</li>
+</ul>
+<br />
+<ul>
+<li><strong>アプリ/ウェブ統合機能</strong>： エージェントはアプリケーション内のボタン、ワークフロートリガー、コマンドウィンドウなどの形式で統合され、ユーザーはこれらを通じて間接的にエージェントを呼び出します。</li>
+</ul>
+<br />
+<ul>
+<li><strong>API形式のサービス</strong>： AIエージェントを単一のREST APIまたはWebhookベースのサービスとして展開する場合もあり、この場合、外部システムが直接リクエストを送信し、JSON形式などで応答を受け取ります。</li>
+</ul>
+<br />
+<ul>
+<li><strong>ビジネスロジック連携</strong>： エージェントはユーザーのリクエストを解釈した後、必要に応じてMCPサーバーを呼び出して外部システムを間接的に利用します。MCPサーバーからデータを受け取った後、その情報を基にレスポンスを構成したり、後続の作業を計画します［10］。</li>
+</ul>
+<br />
+<p>要するに、AIエージェントは人とシステムを接続する知能型インターフェース層であり、その下位実行はMCPサーバーが担当します。</p>
+<br />
+<h2 id="インターフェース方式の構造的差異">インターフェース方式の構造的差異</h2>
+<br />
+<p>MCPサーバーとAIエージェントは、以下の通り異なる方法でインターフェースを構成します。</p>
+<br />
+<br />
+<br />
+<p><img src="https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/white-paper/wp22-6-structural-differences-in-interface-design-OwaeuZLqdEPlv1wJHQvJ3ZS5E1w1FV.png" alt="【図6】インターフェース設計の構造的差異" style="max-width:100%"></p>
+<p><em>【図6】インターフェース設計の構造的差異</em></p>
+<br />
+<br />
+<br />
+<p>このような構造的な違いは、設計者にとって重要な基準となります。例えば、セキュリティ設定はMCPを中心に実施し、ユーザーインターフェースの改善はAIエージェントを中心に実施する必要があります。</p>
+<br />
+<br />
+<h1 id="第3章-全体システムアーキテクチャ内の位置と関係">第3章： 全体システムアーキテクチャ内の位置と関係</h1>
+<br />
+<p>AI中心のシステムがますます複雑化するにつれ、MCPサーバーとAIエージェントが全体アーキテクチャ内でどのように配置され統合されるかを理解することは重要です。特にIT担当者や意思決定者は、システム設計時に両コンポーネントの相互作用方法とセキュリティ境界（Trust Boundary）を正確に区別する必要があります［12］。</p>
+<br />
+<h2 id="アーキテクチャ上のmcpサーバーの位置と役割">アーキテクチャ上のMCPサーバーの位置と役割</h2>
+<br />
+<p>MCPサーバーはバックエンドミドルウェア層に位置し、以下の主要な機能を果たします：</p>
+<br />
+<ul>
+<li><strong>ツールおよびデータ接続</strong>： AIエージェントからのリクエストを受け付け、多様なAPI、DB、SaaSシステムに接続します。</li>
+</ul>
+<br />
+<ul>
+<li><strong>ポリシーベースの実行</strong>： 認証、権限付与、API呼び出しのポリシー制御は、外部セキュリティ層であるMCP Agent PAM（Privileged Access Management）を通じて補完されます。</li>
+</ul>
+<br />
+<ul>
+<li><strong>実行リクエストのルーティングと記録</strong>： リクエストの流れを制御し、基本ログを残します。</li>
+</ul>
+<br />
+<p>特に、ポリシー強化、高度な監査、ユーザー行動分析機能は、MCPサーバー自体ではなくMCP Agent PAMを通じて拡張されます。この拡張層は以下の機能を提供します：</p>
+<br />
+<ul>
+<li><strong>ACLベースのアクセス制御</strong>： リソースごとの細分化されたポリシー適用</li>
+</ul>
+<br />
+<ul>
+<li><strong>ポリシーベースのリクエストフィルタリング （PBAC）</strong>： 条件に基づく許可/拒否の評価を実施</li>
+</ul>
+<br />
+<ul>
+<li><strong>監査ログ記録とセッション追跡</strong>： APIリクエストと応答の全プロセスを構造化されたログで記録し、未承認の試行や例外発生状況を追跡します［13］。</li>
+</ul>
+<br />
+<ul>
+<li><strong>DLP（データ損失防止）</strong>： 機密データを含むかどうかを検出し、出力値をマスキングまたはブロックします［14］。</li>
+</ul>
+<br />
+<ul>
+<li><strong>UEBA（ユーザーとエンティティの行動分析）</strong>：ユーザーまたはエージェントの異常な行動を検出します。マシンラーニングに基づいてリスクを評価します［15］。</li>
+</ul>
+<br />
+<p>これらの機能は、MCPサーバーのセキュリティ/制御機能を実質的に完成させる役割を果たし、実行フローの安定性と規制対応力を同時に確保できます。</p>
+<br />
+<h2 id="アーキテクチャ上のaiエージェントの位置と役割">アーキテクチャ上のAIエージェントの位置と役割</h2>
+<br />
+<p>AIエージェントはアプリケーション層またはユーザーインターフェース層で動作します。ユーザーの要求を受信し、必要に応じてLLM API呼び出しを通じて自然言語処理を実行したり、MCPサーバーにAPI要求を送信します。</p>
+<br />
+<ul>
+<li><strong>ユーザー要求処理</strong>： 自然言語、UIクリック、メッセージなど多様な入力を受信します。</li>
+</ul>
+<br />
+<ul>
+<li><strong>実行計画の策定</strong>： 要求に基づいて必要な作業を判断します。</li>
+</ul>
+<br />
+<ul>
+<li><strong>分岐処理</strong>：</li>
+<li>自己応答可能の場合 → LLM API呼び出し</li>
+<li>外部データが必要な場合 → MCPサーバー呼び出し</li>
+</ul>
+<br />
+<p>このように、AIエージェントは知能的な判断とフロー制御の出発点であり、実際の実行フローはMCPサーバーおよびAgent PAMを通じて管理されます。</p>
+<br />
+<h2 id="全体システム内の相互関係">全体システム内の相互関係</h2>
+<br />
+<p>以下の構造は、一般的なMCPベースのAIシステムのアーキテクチャを要約したものです：</p>
+<br />
+<br />
+<br />
+<p>![[図7] 全体のシステム内相互作用](public/white-paper/wp22-7-interactions-within-the-overall-system.png)</p>
+<p><em>[図7] 全体のシステム内相互作用</em></p>
+<br />
+<br />
+<br />
+<p>この流れにおいて、AIエージェントはユーザー中心の入力を知能的に解釈し、MCPサーバーはこれを適切なバックエンドリソースに接続し、MCP Agent PAMはすべての実行パスに対してポリシー検証、行動監視、データ保護を実施します。</p>
+<br />
+<p>この階層的な分離は、単なる技術的な構成の問題を超え、AIシステム設計時に意図の解釈、実行制御、行動監査の全プロセスを分離し、責任を持って設計できるように支援します。特に以下の実務上の利点を提供します：</p>
+<br />
+<ul>
+<li><strong>ポリシー評価フローの明示的な区分</strong>： AIエージェントはユーザーの意図を解釈し判断のみを行い、実際の実行に関する責任はMCPサーバーとAgent PAMが分離して担当します。</li>
+</ul>
+<br />
+<ul>
+<li><strong>実行と応答の監査可能性の確保</strong>：MCP Agent PAMは、リクエストと応答に関するすべてのイベントをポリシーの文脈と共に構造化して記録し、これは事後分析と事故対応の核心的な基盤となります。</li>
+</ul>
+<br />
+<ul>
+<li><strong>データ保護とユーザー行動分析のリアルタイム連携</strong>：DLPとUEBA機能は、単純なセキュリティ機能を超え、実行時の機密情報へのアクセス制御と異常パターンの検出を通じて、実行フロー自体を保護します。</li>
+</ul>
+<br />
+<ul>
+<li><strong>技術的説明可能性（eXplainability）の基盤提供</strong>：エージェントの判断経路と実行結果が分離されているため、各ステップを追跡・検証可能であり、規制対応だけでなく内部監査においても重要な基盤となります［27］。</li>
+</ul>
+<br />
+<ul>
+<li><strong>役割ベースのセキュリティアーキテクチャの実現</strong>： このような設計により、システムは拡張性だけでなく、責任分離（Separation of Duties）とZero Trust実行層を満たし、安全なAI運用環境を実現できます［16］［17］［18］。</li>
+</ul>
+<br />
+<br />
+<h1 id="第4章主な誤解の事例と明確な説明">第4章：主な誤解の事例と明確な説明</h1>
+<br />
+<p>MCPサーバーとAIエージェントの構造と責任がどれだけ明確に設計されていても、実務では誤解や混同の事例が頻繁に発生します。この章では、代表的な3つの誤解を中心に、実際の事例を交えて説明し、それらをどのように区別し防止できるかを示します［19］。</p>
+<br />
+<br />
+<h2 id="誤解1-「mcpサーバーをaiエージェントのように使えないのでしょうか」">誤解1： 「MCPサーバーをAIエージェントのように使えないのでしょうか？」</h2>
+<br />
+<p><strong>誤った理解</strong></p>
+<br />
+<p>MCPサーバーに直接自然言語の命令を送ったり、AIのように賢く回答を返すことを期待する場合です。特にチャットボットなしでMCP APIに自然言語のリクエストを送る試みがよく見られます［20］。</p>
+<br />
+<p><strong>問題点</strong></p>
+<br />
+<p>MCPサーバーは自然言語の解釈や目的の把握機能は一切持たず、定型化されたコマンドと認証された呼び出しのみに反応します。このような使用は構造的にエラーを引き起こし、セキュリティおよび実行ポリシーが完全に迂回される可能性があります。</p>
+<br />
+<p><strong>正しい視点</strong></p>
+<br />
+<p>ユーザーは常にAIエージェントインターフェースを通じてMCPサーバーに間接的にアクセスする必要があります。AIエージェントが自然言語を解釈し、それに応じてMCPサーバーに明確なAPI呼び出しを生成する必要があります［21］。</p>
+<br />
+<br />
+<br />
+<p>![[図8] MCPサーバーに対する構造化されたAPI呼び出し](public/white-paper/wp22-8-structured-api-calls-to-the-mcp-server.png)</p>
+<p><em>[図8] MCPサーバーに対する構造化されたAPI呼び出し</em></p>
+<br />
+<br />
+<br />
+<br />
+<h2 id="誤解2-「aiエージェントがセキュリティも自動的に処理してくれるだろう」">誤解2： 「AIエージェントがセキュリティも自動的に処理してくれるだろう？」”</h2>
+<br />
+<p><strong>誤った理解</strong></p>
+<br />
+<p>AIエージェントが非常に高度な知能で動作するため、データベースへの直接アクセスを許可したり、実行ポリシーを自動的に判断させても問題ないという考えです。</p>
+<br />
+<p><strong>問題点</strong></p>
+<br />
+<p>AIエージェントはAIモデルの特性上、予測不能な出力を生成する可能性があり、Prompt Injectionなどの非構造化攻撃に非常に脆弱です［22］。また、AIが自らセキュリティルールを一貫して適用するのは困難であり、中央管理が不可能になります。</p>
+<br />
+<p><strong>正しい視点</strong></p>
+<br />
+<p>AIエージェントは常にMCPサーバー経由で制限された作業のみ実行し、実際の権限判断、ポリシー適用、ログ記録はMCP Agent PAMで実施する必要があります。これにより、実行に対する制御権と責任が分離されます［23］。</p>
+<br />
+<br />
+<h2 id="誤解3-「どちらか一つだけでもシステムにならないでしょうか」">誤解3： 「どちらか一つだけでもシステムにならないでしょうか？」</h2>
+<br />
+<p><strong>誤った理解</strong></p>
+<br />
+<p>MCPサーバーまたはAIエージェントのどちらか一つだけでシステムを構成できると判断しています。例えば、AIエージェントが直接DB/APIを呼び出したり、MCPに簡単なAI機能を追加してユーザークエリを処理するようにする提案です。</p>
+<br />
+<p><strong>問題点</strong></p>
+<br />
+<p>一つのコンポーネントにすべての役割を付与すると、責任分離が崩れ、柔軟性と保守性が急激に低下します。特にセキュリティポリシー、エラー復旧、チーム間の協業において深刻な問題を引き起こす可能性があります［24］［25］。</p>
+<br />
+<p><strong>正しい視点</strong></p>
+<br />
+<p>2つのコンポーネントは役割が明確に分離され、統合されたインターフェースを通じて連携を維持しつつ、独立して進化する能力を備えていなければなりません。AIエージェントはユーザーの文脈を把握し目的を確立し、MCPサーバーはその目的に従って実行可能なタスクを実行します［25］。ただし、セキュリティに関連するアクセス制御、ログ記録、DLP、UEBAは別オプションであり、主にMCP Agent PAMでその役割を果たします。</p>
+<br />
+<br />
+<br />
+<p>![[図9] 各コンポーネントの明確な役割の分離](public/white-paper/wp22-9-clearly-separated-roles-for-each-component.png)</p>
+<p><em>[図9] 各コンポーネントの明確な役割の分離</em></p>
+<br />
+<br />
+<br />
+<h2 id="要点まとめ">要点まとめ</h2>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>誤解</th>
+<th>問題点の要約</th>
+<th>修正戦略の要約</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCPサーバーをAIのように使用</td>
+<td>自然言語の解釈不可、実行失敗</td>
+<td>AIエージェント → MCPサーバーの構造を維持</td>
+</tr>
+<tr>
+<td>AIエージェントがセキュリティまで担当</td>
+<td>ポリシーの迂回リスク、予測不能な出力</td>
+<td>統合セキュリティ層はMCP Agent PAMで独立して適用</td>
+</tr>
+<tr>
+<td>どちらか一方のみ使用可能</td>
+<td>責任の過負荷、統合失敗、セキュリティ制御の不備</td>
+<td>役割分離に基づく設計、APIベースの構造で相互接続を維持</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<br />
+<h1 id="第5章-結論とまとめ">第5章： 結論とまとめ</h1>
+<br />
+<p>本ホワイトペーパーでは、MCPサーバーとAIエージェントの役割と責任を明確に区分し、その構造的な分離を通じて安全で拡張可能なAIシステムを設計する方法を提案しました。実務現場では、両コンポーネントを混同したり統合しようとする試みが多く見られますが、これにより生じるセキュリティ脆弱性、ポリシー制御の失敗、実行責任の曖昧化は、長期的にシステム運用リスクを増加させます。</p>
+<br />
+<h2 id="要約-構造的分離がもたらす効果">要約： 構造的分離がもたらす効果</h2>
+<br />
+<ul>
+<li><strong>AIエージェントは解釈と計画に集中すべきです</strong>。</li>
+</ul>
+<br />
+<p>ユーザーの目的を理解し、実行可能なタスクに分解する役割は、インテリジェントインターフェース層で実行されるべきです。</p>
+<br />
+<ul>
+<li><strong>MCPサーバーは実行と接続に集中すべきです</strong>。</li>
+</ul>
+<br />
+<p>外部リソースへの安全な呼び出し、リクエストのルーティング、ポリシーの適用の中核は、MCPサーバーに分離されるべきです。</p>
+<br />
+<ul>
+<li><strong>MCP Agent PAMは実行の制御と監視層に拡張されるべきです</strong>。</li>
+</ul>
+<br />
+<p>AIエージェントが解釈したリクエストが実行される前に、そのリクエストがポリシーに準拠しているか、機密情報が含まれているか、ユーザーが異常な行動を示しているかなどをリアルタイムで分析・制御できる必要があります［11］［19］。</p>
+<br />
+<br />
+<h2 id="実務設計時の考慮事項">実務設計時の考慮事項</h2>
+<br />
+<p><strong>1. インターフェースを分離し、フローを定義する必要があります</strong>。</p>
+<br />
+<p>エージェントとMCPはAPI呼び出しレベルで分離され、LLM APIとMCP APIは明確に分離されている必要があります。</p>
+<br />
+<p><strong>2. すべての実行リクエストはMCP経由で処理される必要があります</strong>。</p>
+<br />
+<p>データベースアクセス、外部SaaS呼び出し、システム変更などのリクエストはMCPサーバー経由で中央管理され、直接実行はブロックされる必要があります。</p>
+<br />
+<p><strong>3. MCP Agent PAMはセキュリティ制御において選択ではなく必須です</strong>。</p>
+<br />
+<p>特に以下の領域で強力な機能が求められます：</p>
+<ul>
+<li>ポリシーベースの条件評価 （PBAC、ABAC、RBAC、ReBAC）</li>
+<li>ユーザー行動分析に基づく実行制御 （UEBA）</li>
+<li>機密情報漏洩防止 （DLP）</li>
+<li>実行フローに対する全面的な監査ログ記録 （Logging/Audit）</li>
+</ul>
+<br />
+<p>MCP Agent PAMのような実行制御層なしで、AIエージェントが直接システムAPIを呼び出すように設計されると、以下のセキュリティリスクが発生する可能性があります：</p>
+<br />
+<ul>
+<li>予測不能なLLM出力が即座に実行され、ポリシー回避や権限の濫用が発生</li>
+</ul>
+<br />
+<ul>
+<li>実行フローが監査されないため、ログの欠落や事故対応が不可能</li>
+</ul>
+<br />
+<ul>
+<li>機密情報の漏洩や異常行動の検出失敗により、内部侵害事故の発生確率が増加</li>
+</ul>
+<br />
+<p>したがって、PAM層はセキュリティ機能の拡張ではなく、実行フローの安全性と監視可能性を制度化する核心インフラとして位置付ける必要があります。</p>
+<br />
+<p><strong>4. すべての層は説明可能でなければなりません。</strong></p>
+<p>: リクエスト → ポリシー評価 → 実行 → 応答 → 監査ログまでのフローが構造化されており、これは規制対応だけでなくシステム運用透明性確保のための核心基盤です ［20］。</p>
+<br />
+<br />
+<h2 id="結論">結論</h2>
+<br />
+<p>AIエージェントがますます高度化し、LLM APIがより多くの自律性を獲得するにつれ、システムは以下の構造を備える必要があります：</p>
+<br />
+<ul>
+<li>「誰が何を実行したか」をシステム的に判断できること、</li>
+</ul>
+<br />
+<ul>
+<li>「どのような条件下でそれが許可されたか」に関するポリシーに基づく説明が可能であること、</li>
+</ul>
+<br />
+<ul>
+<li>「その実行が正しいフローに従ったか」をログとセッションベースの監査で検証できること。</li>
+</ul>
+<br />
+<p>これを可能にする構造が、MCPサーバーとAIエージェントの分離、およびMCP Agent PAMの統合拡張です。AI中心のシステムを設計する際には、単なる連携レベルの統合ではなく、責任と制御に基づくアーキテクチャ構成が最も重要です。</p>
+<br />
+<h1 id="付録-ai-エージェント人々のイメージ-vs-実際の構成要素">付録. AI エージェント：人々のイメージ vs. 実際の構成要素</h1>
+<br />
+<p>AI エージェントは、これまで単純なチャットボットや自動化ツールと誤解されてきました。特に実務者は、Cursor、ChatGPT、AutoGPT などのシステムに触れる中でこれらを「エージェント」と認識していますが、これらのシステムはAI エージェントの機能の一部を実装した単一のツールレベルのインターフェースに過ぎません。つまり、自律性、行動の連続性、記憶構造、意思決定システムなどを包含していません。</p>
+<br />
+<p>以下は、人々が一般的に想像するAIエージェントのイメージと実際の構成要素との間の構造的な違いを視覚的に説明したものです：</p>
+<br />
+<br />
+<br />
+<p>![[図10] 人々が考えるAIエージェントと実際の構成要素との間の構造的な違い](public/white-paper/wp22-10-structural-gap-between-what-people-think-and-what-they-are.png)</p>
+<p><em>[図10] 人々が考えるAIエージェントと実際の構成要素との間の構造的な違い</em></p>
+<br />
+<br />
+<br />
+<p>例えば、ChatGPTはGPTベースのテキスト生成エンジンであり、プロンプトに応答して言語結果を返すことはできますが、自ら目標を定義したり、外部システムと統合された行動を実行したりはしません。CursorはGPTを活用したコード編集ツールで、与えられた範囲内の作業を連続的に自動化することはできますが、創造的な目標設定や計画機能は組み込まれていません。一方、AutoGPTは計画-実行ループを構成する実験的なフレームワークとして注目されましたが、実際には固定されたループと制限されたメモリ構造の中で繰り返し呼び出しを行うのみで、複雑な状況では同じ判断を繰り返したり論理矛盾を引き起こす限界を示しました［4］。</p>
+<br />
+<p>このような誤解は、すぐに設計上の誤りや実行段階の失敗につながり得ます。例えば、単に「エージェントを導入する」とだけ考えてGPT APIを呼び出すレベルから始める場合、ポリシー評価、実行監査、役割分離、責任追跡性などのセキュリティ/運用要件を満たすことができません。したがって、実際のAIエージェント導入を検討する際には、以下の構成要素を必ず検討する必要があります：</p>
+<br />
+<ul>
+<li>目的に基づく計画の策定</li>
+<li>外部システム連携のための標準化されたインターフェース（MCP）</li>
+<li>実行フロー内のツール選択と判断構造</li>
+<li>実行後の状態保持が可能な記憶構造</li>
+<li>必要に応じて他のエージェントとの協業（A2A）</li>
+</ul>
+<br />
+<p>これらの機能を単一システムに統合できる場合に、初めて完成形のAIエージェントと呼ぶことができます。</p>
+<br />
+<p>AIエージェントは、単純なチャットボットとは異なり、ユーザーとの相互作用を超える複合的な機能を果たす必要があります。以下は、完全なAIエージェントが必ず備えるべき6つの核心的な構成要素です。</p>
+<br />
+<h3 id="1-言語モデルベースの脳">1. 言語モデルベースの脳</h3>
+<br />
+<p>AIエージェントの核心には、GPT-4のような超大規模言語モデル（LLM）が存在します。これは自然言語を理解し、応答を生成し、ユーザー指示に基づいて推論や要約を行う機能を備えています。しかし、言語モデルだけでは実行やツールの使用、長期記憶、意思決定など、エージェントの核心的な行動を完了できません。したがって、これは「脳」に過ぎず、残りの機能は別構造で補完する必要があります。</p>
+<br />
+<h3 id="短期長期記憶エピソード記憶を含む">短期/長期記憶（エピソード記憶を含む）</h3>
+<br />
+<p>人間が過去の経験を記憶するように、AIエージェントにも記憶システムが必要です。</p>
+<br />
+<ul>
+<li><strong>短期記憶</strong>：現在の会話/作業の文脈を維持</li>
+</ul>
+<br />
+<ul>
+<li><strong>長期記憶（エピソード記憶）</strong>：過去の作業の失敗/成功、ユーザーフィードバックなどを保存し再利用</li>
+</ul>
+<br />
+<p>実際にはベクトルDBを活用し、類似度検索に基づいて過去のイベントを呼び出し、これによりユーザー体験の一貫性とエージェントの漸進的な学習を可能にします。</p>
+<br />
+<h3 id="3-計画策定および意思決定エンジン">3. 計画策定および意思決定エンジン</h3>
+<br />
+<p>エージェントが単に命令を実行するだけでなく、自ら何をすべきかを判断するためには、必ず計画エンジン（Planner）が必要です。</p>
+<br />
+<p>例えば「競合他社のマーケティング戦略調査」という命令が与えられた場合：</p>
+<br />
+<ol>
+<li>関連ウェブサイトの調査</li>
+<li>SNSトレンド分析</li>
+<li>データ要約</li>
+<li>報告書作成</li>
+</ol>
+<br />
+<p>このような段階的な実行を自動的に設計し、分岐させられることが真のエージェントと言えます。この構造はAutoGPTで試行されましたが、複雑な意思決定には依然として制限があります［4］。</p>
+<br />
+<h3 id="外部のツール統合-tool-integration">外部のツール統合 （Tool Integration）</h3>
+<br />
+<p>現実の問題はGPTだけでは解決できません。エージェントは以下のツール連携能力が必要です：</p>
+<br />
+<ul>
+<li>リアルタイム情報検索： Google、Bing API</li>
+<li>計算： 計算機またはPython実行環境</li>
+<li>データ処理： SQLデータベース、文書要約ツール、スプレッドシートインターフェースなど</li>
+</ul>
+<br />
+<p>エージェントは状況に応じてツールを選択し実行し、その結果を次のステップに反映できる必要があります。これは単純なチャットボットにはない能力であり、運用環境に展開可能な「実行型エージェント」を実現するための必須機能です。</p>
+<br />
+<h3 id="5-a2a-協業-agenttoagent">5. A2A 協業 （Agent-to-Agent）</h3>
+<br />
+<p>一つのエージェントがすべてのタスクを実行するよりも、役割が分かれた複数のエージェントが相互に協業する方式が効率的です。</p>
+<br />
+<p>例：</p>
+<br />
+<ul>
+<li>企画エージェント → ドラフト作成</li>
+<li>分析エージェント → 文法修正および評価</li>
+<li>報告エージェント → プロンプトの生成および提出</li>
+</ul>
+<br />
+<p>A2A方式は、エラー補正、創造性向上、安定性確保などに効果的であり、最近ではLangGraph、CrewAIなどのフレームワークがこれをサポートしています［9］［16］。</p>
+<br />
+<h3 id="6-mcpmodel-context-protocol">6. MCP（Model Context Protocol）</h3>
+<br />
+<p>AIエージェントが新しいツールやシステムに柔軟に接続するためには、標準化された接続構造が必要です。MCPは、AIエージェントが実行時に以下のことを可能にします：</p>
+<br />
+<ul>
+<li>利用可能なリソースの自動探索</li>
+<li>標準化されたフォーマットでのAPI呼び出し</li>
+<li>行動可能性の推論によるポリシー適用</li>
+</ul>
+<br />
+<p>例えば、あるシステムがMCPインターフェースを提供する場合、エージェントはコードの修正なしでそのシステムと相互作用できます。これは大規模なAI環境における柔軟性と再利用性を最大化する基盤となります［2］。</p>
+<br />
+<h2 id="7-実践例マーケティングリサーチエージェント">7. 実践例：マーケティングリサーチエージェント</h2>
+<br />
+<p><strong>「競合他社Aの最近のマーケティング戦略を調査し、要約してください。」</strong></p>
+<br />
+<p>このタスクを実行するエージェントは、以下の手順で動作します：</p>
+<br />
+<ol>
+<li><strong>目標解釈</strong>： 具体的な目標の定義 – ニュース収集、トレンド分析、公式資料の確認</li>
+<li><strong>計画策定</strong>： ウェブ検索 → コンテンツ収集 → 要約 → 報告書作成</li>
+<li><strong>ツール活用</strong>： Google Search API、Twitter API など</li>
+<li><strong>記憶活用</strong>： 類似リサーチ結果の呼び出しと報告書構成の最適化</li>
+<li><strong>結果生成</strong>： 概要レポートの作成とフィードバックに基づく修正</li>
+<li><strong>実行制御と協業</strong>： 文書編集エージェントとの協業、MCPベースのツールの動的接続</li>
+</ol>
+<br />
+<br />
+<h2 id="8-結論">8. 結論</h2>
+<br />
+<p>人々はしばしばChatGPTやCursorのような単一のツールを「AIエージェント」と誤解します。しかし、真のAIエージェントは、以下の複合アーキテクチャを備えた実行ベースのシステムです：</p>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>構成要素</th>
+<th>一般ツール</th>
+<th>AIエージェント</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自然言語処理エンジン</td>
+<td>はい</td>
+<td>はい</td>
+</tr>
+<tr>
+<td>メモリ機能</td>
+<td>限定的/なし</td>
+<td>必須</td>
+</tr>
+<tr>
+<td>計画および判断構造</td>
+<td>なし</td>
+<td>必須</td>
+</tr>
+<tr>
+<td>外部ツール統合</td>
+<td>なし</td>
+<td>必須</td>
+</tr>
+<tr>
+<td>他のエージェントとの協業</td>
+<td>なし</td>
+<td>選択的だが重要</td>
+</tr>
+<tr>
+<td>実行コンテキスト標準化（MCP）</td>
+<td>なし</td>
+<td>高度な機能だが重要</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<p>外観だけを見て機能を誤解するのではなく、内部アーキテクチャを明確に理解し、それに基づいた実行制御、メモリ管理、ツール連携戦略が整備されていなければ、実際に動作可能なエージェントを構築することはできません。</p>
+<br />
+<p><br /></p>
+<p><br /></p>
+<br />
+<br />
+<p><a class="article-content-btn article-content-btn--wide" href="https://app.querypie.com" target="_blank" rel="noopener">🚀 安全なMCPとAIエージェント運用を、今すぐAI Hubで先取り体験。</a></p>
+<br />
+<br />
+<h2 id="参考文献">参考文献</h2>
+<br />
+<p>[1] <a href="https://www.ibm.com/resources/guides/predict/trustworthy-ai/build-trust/" target="_blank" rel="noopener noreferrer">IBM, “Build Trust in AI,” IBM Trustworthy AI Guide, 2023.</a></p>
+<br />
+<p>[2] <a href="https://www.querypie.com/resources/discover/white-paper/18/uncovering-mcp-security" target="_blank" rel="noopener noreferrer">K. Park, “Securing AI-Driven Workflows with Model Context Protocol,” QueryPie White Paper, 2025.</a></p>
+<br />
+<p>[3] <a href="https://docs.cedarpolicy.com" target="_blank" rel="noopener noreferrer">Amazon Web Services, “Cedar Policy Language: Developer Guide,” AWS Documentation, 2024.</a></p>
+<br />
+<p>[4] <a href="https://www.ibm.com/think/topics/autogpt" target="_blank" rel="noopener noreferrer">I. Belcic, “What is AutoGPT?,” IBM Think Blog, Apr. 2024.</a></p>
+<br />
+<p>[5] <a href="https://csrc.nist.gov/publications/detail/sp/800-207/final" target="_blank" rel="noopener noreferrer">National Institute of Standards and Technology (NIST), “SP 800-207: Zero Trust Architecture,” Final Publication, Aug. 2020.</a></p>
+<br />
+<p>[6] D. R. Thomas, “Software architecture as a tool for organizational alignment,” IEEE Software, vol. 29, no. 2, pp. 58–60, Mar./Apr. 2012. doi: 10.1109/MS.2012.42</p>
+<br />
+<p>[7] G. Smith, L. Zhou, and R. Patel, “Designing secure REST APIs,” in Proc. 11th IEEE Int. Conf. Web Services (ICWS), San Francisco, CA, USA, Jun. 2018, pp. 431–439. doi: 10.1109/ICWS.2018.00061</p>
+<br />
+<p>[8] <a href="https://www.openpolicyagent.org/docs/latest/" target="_blank" rel="noopener noreferrer">T. Hinrichs and B. Bichakjian, “OPA: Policy-based control for cloud-native infrastructure,” Open Policy Agent Documentation, 2023.</a></p>
+<br />
+<p>[9] <a href="https://arxiv.org/abs/2305.14322" target="_blank" rel="noopener noreferrer">H. Chase and L. C. G. Rogers, “LangChain: A framework for developing applications with large language models,” arXiv preprint arXiv:2305.14322, May 2023.</a></p>
+<br />
+<p>[10] M. R. Anderson and S. Suri, “Orchestration of hybrid agents in cloud-native platforms,” ACM Computing Surveys, vol. 55, no. 4, pp. 1–32, 2023. doi: 10.1145/3507347</p>
+<br />
+<p>[11] J. Lee and M. Kim, “Human-in-the-loop integration for secure LLM applications,” IEEE Access, vol. 11, pp. 56102–56116, 2023. doi: 10.1109/ACCESS.2023.3278412</p>
+<br />
+<p>[12] C. Rich and A. B. Winston, “Trust boundaries in intelligent systems,” AI Magazine, vol. 33, no. 2, pp. 49–59, Summer 2022. doi: 10.1609/aimag.v33i2.2457</p>
+<br />
+<p>[13] Y. Chen and A. C. Arpaci-Dusseau, “Unifying secure proxy gateways in microservice architectures,” in Proc. IEEE Int. Conf. Cloud Engineering (IC2E), San Francisco, CA, USA, Apr. 2022, pp. 115–124. doi: 10.1109/IC2E53581.2022.00023</p>
+<br />
+<p>[14] <a href="https://cloud.google.com/vpc-service-controls" target="_blank" rel="noopener noreferrer">Google Cloud, “VPC Service Controls Overview,” Google Cloud Documentation, 2023.</a></p>
+<br />
+<p>[15] <a href="https://ieeexplore.ieee.org/document/10293079" target="_blank" rel="noopener noreferrer">M. Allix et al., “Cybersecurity of Large Language Models: A Survey,” in IEEE Access, vol. 11, pp. 116944–116971, 2023.</a></p>
+<br />
+<p>[16] <a href="https://hillside.net/plop/2023/papers/" target="_blank" rel="noopener noreferrer">L. Zeng, “Agent-as-a-Gateway pattern in distributed AI systems,” in Proc. 30th Pattern Languages of Programs Conf. (PLoP), Oct. 2023.</a></p>
+<br />
+<p>[17] B. Ferguson, “Designing trust boundaries in enterprise architectures,” SANS Institute Whitepaper, 2022.</p>
+<br />
+<p>[18] A. Kumar, “Zero Trust in AI service invocation,” Cybersecurity Engineering, vol. 7, no. 1, pp. 41–50, Jan. 2024.</p>
+<br />
+<p>[19] J. Lee and D. Han, “Common misconceptions in AI and access control,” in Proc. AI Security Conf., Seoul, Korea, Sept. 2023.</p>
+<br />
+<p>[20] K. Bae, Y. Hong, and S. Kwon, “Limitations of direct natural language interfaces to execution frameworks,” IEEE Internet Computing, vol. 27, no. 1, pp. 68–76, Jan./Feb. 2023. doi: 10.1109/MIC.2023.3244567</p>
+<br />
+<p>[21] <a href="https://www.superbcrew.com/convergence-introduces-proxy-1-0-the-ai-assistant-that-navigates-websites-like-a-human-and-gets-work-done/" target="_blank" rel="noopener noreferrer">SuperbCrew, “Convergence Introduces Proxy 1.0: The AI Assistant That Navigates Websites Like a Human and Gets Work Done,” SuperbCrew, Sep. 2023.</a></p>
+<br />
+<p>[22] <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank" rel="noopener noreferrer">OWASP Foundation, “OWASP Top 10 for Large Language Model Applications,” OWASP, 2023.</a></p>
+<br />
+<p>[23] L. Ding and B. Guo, “Agent architecture with execution firewalls,” IEEE Transactions on Dependable and Secure Computing, vol. 19, no. 5, pp. 1984–1995, Sept./Oct. 2022. doi: 10.1109/TDSC.2022.3149214</p>
+<br />
+<p>[24] A. Patil, H. Nam, and R. Shah, “Design anti-patterns in agent-platform integration,” International Journal of Software Engineering and Knowledge Engineering, vol. 31, no. 3, pp. 211–226, 2022. doi: 10.1142/S0218194022500113</p>
+<br />
+<p>[25] <a href="https://www.querypie.com/resources/discover/white-paper/19/google-agentspace-vs-querypie-mcp-pam" target="_blank" rel="noopener noreferrer">K. Park, “Google Agentspace vs. QueryPie MCP PAM: Why Security Still Matters,” QueryPie White Paper, 2025.</a></p>
+<br />
+<p>[26] <a href="https://www.querypie.com/resources/discover/white-paper/17/ai-autonomous-access-control" target="_blank" rel="noopener noreferrer">K. Park, “AI Autonomous Access Control: When Agents Make Decisions,” QueryPie White Paper, 2025.</a></p>
+<br />
+<p>[27] <a href="https://www.querypie.com/resources/discover/white-paper/16/next-step-mcp-pam" target="_blank" rel="noopener noreferrer">K. Park, “Next Step: Real-Time Execution Control with MCP PAM,” QueryPie White Paper, 2025.</a></p>
+<br />
+<p>[28] <a href="https://www.querypie.com/resources/discover/white-paper/15/redefining-pam-for-the-mcp-era" target="_blank" rel="noopener noreferrer">K. Park, “Redefining PAM for the MCP Era,” QueryPie White Paper, 2025.</a></p>
+<br />
+              </div>
+            </div>
+          </div>
+
+          <aside class="article-sidebar">
+            <div class="related-sidebar">
+              <h2 class="related-sidebar-title">関連資料</h2>
+              <hr class="related-sidebar-divider">
+              <div class="related-sidebar-list">
+
+                <a href="/posts/whitepaper/wp-001.html" class="related-sidebar-card">
+                  <div class="related-sidebar-img"><img src="/assets/images/07-blog/wp-thumb-28.png" alt="AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編"></div>
+                  <div class="related-sidebar-text">
+                    <h3 class="related-sidebar-card-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
+                    <p class="related-sidebar-date">2026年2月27日</p>
+                  </div>
+                </a>
+                <a href="/posts/whitepaper/wp-013.html" class="related-sidebar-card">
+                  <div class="related-sidebar-img"><img src="/assets/images/07-blog/wp-thumb-16.png" alt="AIアクセス制御の大転換:Guardrailsを越えてMCP-PAMへ！"></div>
+                  <div class="related-sidebar-text">
+                    <h3 class="related-sidebar-card-title">AIアクセス制御の大転換:Guardrailsを越えてMCP-PAMへ！</h3>
+                    <p class="related-sidebar-date">2025年4月10日</p>
+                  </div>
+                </a>
+                <a href="/posts/whitepaper/wp-016.html" class="related-sidebar-card">
+                  <div class="related-sidebar-img"><img src="/assets/images/07-blog/wp-thumb-24-jp.png" alt="なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか"></div>
+                  <div class="related-sidebar-text">
+                    <h3 class="related-sidebar-card-title">なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか</h3>
+                    <p class="related-sidebar-date">2025年11月17日</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="sidebar-sticky-group">
+              <div class="sidebar-toc">
+                <h2 class="sidebar-toc-title">目次</h2>
+                <div class="sidebar-toc-wrap">
+                  <div class="sidebar-toc-scroll">
+                    <ul class="sidebar-toc-list"><li><a href="#mcpサーバーとは何ですか">MCPサーバーとは何ですか？</a><li><a href="#aiエージェントとは何ですか">AIエージェントとは何ですか？</a><li><a href="#誤解を防止するための重要なポイントのまとめ">誤解を防止するための重要なポイントのまとめ</a><li><a href="#役割分担の概要">役割分担の概要</a><li><a href="#aiエージェントとmcpサーバーの役割区分">AIエージェントとMCPサーバーの役割区分</a><ul class="sidebar-toc-sub"><li><a href="#説明">説明:</a></li></ul></li><li><a href="#mcpサーバーの使い方">MCPサーバーの使い方</a><li><a href="#aiエージェントの使用方法">AIエージェントの使用方法</a><li><a href="#インターフェース方式の構造的差異">インターフェース方式の構造的差異</a><li><a href="#アーキテクチャ上のmcpサーバーの位置と役割">アーキテクチャ上のMCPサーバーの位置と役割</a><li><a href="#アーキテクチャ上のaiエージェントの位置と役割">アーキテクチャ上のAIエージェントの位置と役割</a><li><a href="#全体システム内の相互関係">全体システム内の相互関係</a><li><a href="#誤解1-「mcpサーバーをaiエージェントのように使えないのでしょうか」">誤解1： 「MCPサーバーをAIエージェントのように使えないのでしょうか？」</a><li><a href="#誤解2-「aiエージェントがセキュリティも自動的に処理してくれるだろう」">誤解2： 「AIエージェントがセキュリティも自動的に処理してくれるだろう？」”</a><li><a href="#誤解3-「どちらか一つだけでもシステムにならないでしょうか」">誤解3： 「どちらか一つだけでもシステムにならないでしょうか？」</a><li><a href="#要点まとめ">要点まとめ</a><li><a href="#要約-構造的分離がもたらす効果">要約： 構造的分離がもたらす効果</a><li><a href="#実務設計時の考慮事項">実務設計時の考慮事項</a><li><a href="#結論">結論</a><ul class="sidebar-toc-sub"><li><a href="#1-言語モデルベースの脳">1. 言語モデルベースの脳</a></li><li><a href="#短期長期記憶エピソード記憶を含む">短期/長期記憶（エピソード記憶を含む）</a></li><li><a href="#3-計画策定および意思決定エンジン">3. 計画策定および意思決定エンジン</a></li><li><a href="#外部のツール統合-tool-integration">外部のツール統合 （Tool Integration）</a></li><li><a href="#5-a2a-協業-agenttoagent">5. A2A 協業 （Agent-to-Agent）</a></li><li><a href="#6-mcpmodel-context-protocol">6. MCP（Model Context Protocol）</a></li></ul></li><li><a href="#7-実践例マーケティングリサーチエージェント">7. 実践例：マーケティングリサーチエージェント</a><li><a href="#8-結論">8. 結論</a><li><a href="#参考文献">参考文献</a></li></ul>
+                  </div>
+                </div>
+              </div>
+              <div class="sidebar-cta">
+                <h3 class="sidebar-cta-title">お問い合わせ</h3>
+                <p class="sidebar-cta-text">当社のコンサルタントと繋がってAI活用を加速しませんか？</p>
+                <a href="#" class="sidebar-cta-btn">今すぐお問い合わせ <img src="/assets/images/01-header/arrow-right.svg" alt=""></a>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer id="company-info" class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="footer-logo"><img src="/assets/images/01-header/logo.svg" alt="QueryPie"></div>
+        <div class="social-links">
+          <a href="https://kr.linkedin.com/company/querypie-01" target="_blank"><img src="/assets/images/08-footer/social-linkedin.svg" alt="LinkedIn"></a>
+          <a href="https://www.youtube.com/@querypie" target="_blank"><img src="/assets/images/08-footer/social-youtube.svg" alt="YouTube"></a>
+          <a href="https://x.com/querypie" target="_blank"><img src="/assets/images/08-footer/social-x.svg" alt="X"></a>
+          <a href="https://www.facebook.com/querypie" target="_blank"><img src="/assets/images/08-footer/social-facebook.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/querypie.ai/" target="_blank"><img src="/assets/images/08-footer/social-instagram.svg" alt="Instagram"></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="link-column"><h4>サービス</h4><ul><li><a href="#">AIP</a></li><li><a href="#">ACP</a></li><li><a href="#">FDE</a></li></ul></div>
+        <div class="link-column"><h4>ソリューション</h4><ul><li><a href="/services/ai-dashi/">AI 出汁</a></li></ul></div>
+        <div class="link-column"><h4>デモ</h4><ul><li><a href="#">ユースケース</a></li><li><a href="#">AIP機能</a></li><li><a href="#">ACP機能</a></li></ul></div>
+        <div class="link-column"><h4>リソース</h4><ul><li><a href="#">紹介資料</a></li><li><a href="#">用語集</a></li><li><a href="#">マニュアル</a></li><li><a href="/whitepaper.html">ホワイトペーパー</a></li><li><a href="/blog.html">ブログ</a></li><li><a href="/event.html">イベント</a></li></ul></div>
+        <div class="link-column"><h4>会社情報</h4><ul><li><a href="#">会社概要</a></li><li><a href="#">認定実績</a></li><li><a href="#">ニュース</a></li><li><a href="#">お問い合わせ</a></li></ul></div>
+        <div class="link-column"><h4>プラン</h4><ul><li><a href="#">AIP</a></li><li><a href="#">ACP</a></li></ul></div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div class="legal-links"><a href="#">クッキー設定</a><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">EULA</a></div>
+      <div class="copyright">
+        <p>© 2017-2025 QueryPie, Inc. All rights reserved.</p>
+        <p>本社：3003 North 1st Street, Suite 221, San Jose, CA 95134, USA</p>
+        <p>ソウル（麻谷）：ソウル特別市江西区麻谷中央1-26 7F、韓国</p>
+        <p>ソウル（江南）：ソウル特別市江南区江南大路464 3F、韓国</p>
+        <p>日本：〒105-6490 東京都港区虎ノ門1丁目17-1 15F</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    requestAnimationFrame(() => requestAnimationFrame(() => { document.documentElement.classList.remove('no-transition'); }));
+    const siteHeader = document.querySelector('.site-header');
+    function updateNavScroll() { siteHeader.classList.toggle('scrolled', window.scrollY > 0); }
+    updateNavScroll();
+    window.addEventListener('scroll', updateNavScroll, { passive: true });
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    menuBtn.addEventListener('click', () => { menuBtn.classList.toggle('active'); mobileMenu.classList.toggle('active'); document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : ''; });
+    document.querySelectorAll('.mobile-nav-link, .mobile-nav-sublink, .mobile-cta').forEach(link => { link.addEventListener('click', () => { menuBtn.classList.remove('active'); mobileMenu.classList.remove('active'); document.body.style.overflow = ''; }); });
+    const navItems = document.querySelectorAll('.nav-item.has-dropdown');
+    const navBackdrop = document.querySelector('.nav-backdrop');
+    let closeTimeout = null;
+    function closeAll() { clearTimeout(closeTimeout); navItems.forEach(i => i.classList.remove('is-open')); navBackdrop.classList.remove('is-active'); }
+    const currentPageActiveLink = document.querySelector('.nav-dropdown-link.is-active');
+    navItems.forEach(item => {
+      item.addEventListener('mouseenter', () => { if (window.innerWidth < 992) return; clearTimeout(closeTimeout); navItems.forEach(o => o.classList.remove('is-open')); item.classList.add('is-open'); document.querySelectorAll('.nav-dropdown-link').forEach(l => l.classList.remove('is-active')); navBackdrop.classList.add('is-active'); });
+      item.addEventListener('mouseleave', () => { if (window.innerWidth < 992) return; clearTimeout(closeTimeout); closeTimeout = setTimeout(() => { item.classList.remove('is-open'); if (currentPageActiveLink && !document.querySelector('.nav-item.has-dropdown:hover')) currentPageActiveLink.classList.add('is-active'); if (!document.querySelector('.nav-item.has-dropdown:hover')) navBackdrop.classList.remove('is-active'); }, 150); });
+    });
+    function alignMegaMenus() { if (window.innerWidth < 992) return; const firstNav = document.querySelector('.nav-item.has-dropdown .nav-link'); if (!firstNav) return; const megaOuterLeft = Math.max(0, (window.innerWidth - 1200) / 2); const paddingLeft = Math.max(30, firstNav.getBoundingClientRect().left - megaOuterLeft); document.querySelectorAll('.mega-inner').forEach(el => { el.style.paddingLeft = paddingLeft + 'px'; }); }
+    alignMegaMenus(); window.addEventListener('load', alignMegaMenus); window.addEventListener('resize', alignMegaMenus);
+    document.querySelectorAll('.nav-dropdown-link').forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); document.querySelectorAll('.nav-dropdown-link').forEach(l => l.classList.remove('is-active')); link.classList.add('is-active'); const href = link.getAttribute('href'); if (href && href !== '#') setTimeout(() => { window.location.href = href; }, 120); }); });
+    navBackdrop.addEventListener('mouseenter', closeAll); navBackdrop.addEventListener('click', closeAll);
+    document.addEventListener('click', e => { if (!e.target.closest('.nav-item.has-dropdown')) closeAll(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+    document.querySelectorAll('.mobile-nav-group').forEach(group => { group.querySelector('.mobile-nav-toggle').addEventListener('click', () => { document.querySelectorAll('.mobile-nav-group').forEach(o => { if (o !== group) o.classList.remove('is-open'); }); group.classList.toggle('is-open'); }); });
+    (function () {
+      const OFFSET = 100;
+      const tocLinks = document.querySelectorAll('.sidebar-toc-list a, .sidebar-toc-sub a');
+      const sections = [];
+      tocLinks.forEach(link => { const id = link.getAttribute('href').slice(1); const el = document.getElementById(id); if (el) sections.push({ el, link }); });
+      const tocScroll = document.querySelector('.sidebar-toc-scroll');
+      tocLinks.forEach(link => { link.addEventListener('click', e => { const id = link.getAttribute('href').slice(1); const target = document.getElementById(id); if (!target) return; e.preventDefault(); window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - OFFSET, behavior: 'smooth' }); }); });
+      function activate() {
+        let current = null;
+        for (let i = 0; i < sections.length; i++) { const rect = sections[i].el.getBoundingClientRect(); if (rect.top >= 0 && rect.bottom <= window.innerHeight) { current = sections[i].link; break; } }
+        if (!current) { const scrollY = window.scrollY + OFFSET + 20; sections.forEach(s => { if (s.el.offsetTop <= scrollY) current = s.link; }); }
+        tocLinks.forEach(l => l.classList.remove('is-active'));
+        if (current) { current.classList.add('is-active'); if (tocScroll) { const lr = current.getBoundingClientRect(); const tr = tocScroll.getBoundingClientRect(); if (lr.top < tr.top || lr.bottom > tr.bottom) { tocScroll.scrollTop += lr.top - tr.top - tr.height / 2 + lr.height / 2; } } }
+      }
+      window.addEventListener('scroll', activate, { passive: true });
+      activate();
+    })();
+  </script>
+
+</body>
+</html>
