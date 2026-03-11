@@ -82,19 +82,14 @@
   color: var(--color-text-main);
 }
 
-/* Cover image */
+/* Cover image — show full document like a paper preview */
 .wp-dl-cover-img-wrap {
   width: 100%;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  border-radius: 8px;
-  background: #E5E7EB;
 }
 
 .wp-dl-cover-img-wrap img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   display: block;
 }
 
@@ -143,15 +138,28 @@
   margin: 0;
 }
 
-/* Submit button: dark on download page */
+/* Submit button: gray disabled by default */
 .wp-dl-form-card .gating-form-submit {
   background: #D1D5DB;
   color: #9CA3AF;
   cursor: not-allowed;
+  opacity: 1;
 }
 
 .wp-dl-form-card .gating-form-submit:hover {
   background: #D1D5DB;
+}
+
+/* Active state: purple gradient */
+.wp-dl-form-card .gating-form-submit.is-active {
+  background: linear-gradient(105deg, #A849F4 0%, #9160EF 45%, #7477ED 100%) !important;
+  color: #fff !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+}
+
+.wp-dl-form-card .gating-form-submit.is-active:hover {
+  background: linear-gradient(105deg, #9a3de0 0%, #7d4ed8 45%, #6062cc 100%) !important;
 }
 
 /* Success state */
@@ -222,7 +230,8 @@
   }
 
   .wp-dl-cover-img-wrap {
-    aspect-ratio: 16 / 9;
+    max-width: 480px;
+    margin: 0 auto;
   }
 }
 
