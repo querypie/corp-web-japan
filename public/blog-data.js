@@ -3,7 +3,7 @@ const BLOG_DATA = {
     "title": "AIセキュリティ脅威マップ2026｜CxOが備えるべき7つの攻撃ベクトルと実務対策フレームワーク",
     "description": "AIセキュリティは従来のサイバー対策の延長ではなく「追加層」です。プロンプトインジェクション、データポイズニング、モデルサプライチェーン攻撃など7つの攻撃ベクトルと、OWASP・NIST準拠の実務対策フレームワークをCxO向けに体系解説します。",
     "date": "2026年3月3日",
-    "image": "/assets/images/07-blog/b-thumb-28.png",
+    "image": "/assets/images/blog/blog-thumb-28.png",
     "category": "ブログ",
     "author": {
       "name": "QueryPie AI編集部",
@@ -282,7 +282,7 @@ const BLOG_DATA = {
     "title": "【2026年最新】シャドーAIリスクの全貌｜情報漏洩・コンプライアンス違反を防ぐCxOの5つの対策",
     "description": "シャドーAIは経営リスクそのものである。IBM調査によるとシャドーAI起因のデータ侵害コストは平均463万ドル。情報漏洩、コンプライアンス違反、NDA違反を防ぐCxO層向けの5つの具体的対策を最新データとともに解説します。",
     "date": "2026年2月20日",
-    "image": "/assets/images/07-blog/b-thumb-27.png",
+    "image": "/assets/images/blog/blog-thumb-27.png",
     "category": "ブログ",
     "author": {
       "name": "QueryPie AI編集部",
@@ -685,7 +685,7 @@ const BLOG_DATA = {
     "title": "株式会社ペイロールとQueryPieがAIセキュリティ分野で技術提携",
     "description": `株式会社ペイロール(本社:東京都江東区、代表取締役社長:湯浅 哲哉、以下「ペイロール」)と、統合データガバナンスプラットフォームを提供するQueryPie, Inc.(本社:米国カリフォルニア州、CEO:Brant Hwang)およびその日本法人であるQueryPie Japan合同会社(本社:東京都港区、代表:有延 敬三、以下「QueryPie」)は、AIとセキュリティ分野における技術提携に合意したことをお知らせいたします。`,
     "date": "2025年8月5日",
-    "image": "/assets/images/07-blog/news-20.png",
+    "image": "/assets/images/blog/news-20.png",
     "category": "ブログ",
     "author": {
       "name": "QueryPie AI編集部",
@@ -785,13 +785,13 @@ const BLOG_DATA = {
     "title": "AIはどこまで信じていいのか？Replit事件から振り返るAIエージェントセキュリティの現実",
     "description": "Replit AIエージェントがプロダクションDBを削除した事件は、単なる技術的ミスではなく、AIエージェントを実環境に導入する際に必ず考慮すべきセキュリティ構造の重要性を示しています。本事例を通じて、AIの虚偽応答検知、最小権限設計、実行記録の確保など、セキュリティチェックリストを整理します。",
     "date": "2025年7月29日",
-    "image": "/assets/images/07-blog/b-thumb-22.png",
+    "image": "/assets/images/blog/blog-thumb-22.png",
     "category": "ブログ",
     "author": {
       "name": "Brant Hwang",
       "title": "CEO, Founder",
       "bio": `QueryPieの創業者兼CEOであるBrantは、AIを活用した特権アクセス管理（PAM）ソリューションを提供しています。BrantはKAISTでコンピュータサイエンスの修士号を取得し、17年以上のソフトウェア分野の経験を有しています。彼は、エンタープライズソフトウェア、組み込みシステム、インターネットポータル、コマースプラットフォームなど、さまざまな分野で経験を積んできました。起業を考える前には、カカオでプラットフォーム開発に携わっていました。Brantは、ソフトウェアの核心はそれが提供する人々にあると信じており、問題をシンプルかつ効率的に解決することに注力しています。`,
-      "avatar": "/assets/images/07-blog/author-brant.png",
+      "avatar": "/assets/images/authors/author-brant.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/ishwang/"
@@ -905,13 +905,13 @@ const BLOG_DATA = {
     "title": "AIが命令を聞かなかった：なぜAI Red Teamingが必要なのか",
     "description": "AIはもはや回答を生成するだけでなく、現実世界でアクションを実行します。実際の事件や事例を通じて、QueryPieが命令拒否や間接プロンプトインジェクションなど新たなAIセキュリティ脅威とAI Red Teamingの必要性を説明します。",
     "date": "2025年6月9日",
-    "image": "/assets/images/07-blog/b-thumb-21.png",
+    "image": "/assets/images/blog/blog-thumb-21.png",
     "category": "ブログ",
     "author": {
       "name": "Kenny Park",
       "title": "CISO",
       "bio": `ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。`,
-      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "avatar": "/assets/images/authors/author-kenny.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/kwansoonpark/"
@@ -1538,13 +1538,13 @@ const BLOG_DATA = {
     "title": "Next.js Server Actionとフロントエンドセキュリティ",
     "description": "Next.jsのServer Actionが提供する高レベルの抽象化により、開発者がセキュリティ上のミスを犯す可能性があります。このようなリスクを詳細に分析し、セキュリティエラーを防ぐための開発戦略を提示します。フロントエンドでサーバーサイドコードを開発する際のセキュリティ意識を高め、より安全で効率的なウェブアプリケーションを構築しましょう！",
     "date": "2025年3月20日",
-    "image": "/assets/images/07-blog/b-thumb-20.png",
+    "image": "/assets/images/blog/blog-thumb-20.png",
     "category": "ブログ",
     "author": {
       "name": "Teddy Kim",
       "title": "Software Engineer",
       "bio": "",
-      "avatar": "/assets/images/07-blog/author-teddy.png",
+      "avatar": "/assets/images/authors/author-teddy.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/kimhongyeon"
@@ -1708,13 +1708,13 @@ export default function CreateForm() {
     "title": "EC2 自動化によるコスト削減：AWS Lambda と EventBridge の活用方法",
     "description": "AWS LambdaとEventBridgeを活用してEC2コストを最適化する方法を学びましょう。このガイドでは、サーバーレスソリューションを通じてコスト削減のベストプラクティスを探ります。",
     "date": "2025年2月7日",
-    "image": "/assets/images/07-blog/b-thumb-19.png",
+    "image": "/assets/images/blog/blog-thumb-19.png",
     "category": "ブログ",
     "author": {
       "name": "Robb Lee",
       "title": "Technical Project Manager",
       "bio": "Robbはデータセキュリティ、ガバナンス、そしてクラウドベースのソリューションを専門とする熟練のテクニカルプロジェクトマネージャーです。QueryPieでは、ソリューションの開発と運用をサポートし、組織がスケーラブルで安全かつ高性能な技術でデータを効率的に管理し保護できるよう支援しています。また、クライアントがQueryPieを通じてデータを円滑かつ安全に管理できるようサポートしています。",
-      "avatar": "/assets/images/07-blog/author-robb.png",
+      "avatar": "/assets/images/authors/author-robb.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/robb-lee-285089164/"
@@ -2023,13 +2023,13 @@ aws events put-rule \\
     "title": "SSOはなぜ重要なのか？",
     "description": "SSO（シングルサインオン）がどのようにユーザー体験を向上させ、複数のプラットフォームへのアクセスを簡素化し、セキュリティを強化する方法を今すぐ確認してください！",
     "date": "2025年2月4日",
-    "image": "/assets/images/07-blog/b-thumb-18.png",
+    "image": "/assets/images/blog/blog-thumb-18.png",
     "category": "ブログ",
     "author": {
       "name": "Jk Kim",
       "title": "Techlead, Software Engineer",
       "bio": "JKは20年以上の経験を持ち、自律ロボット、推薦システム、グローバル広告プラットフォーム、企業向けソフトウェアなどのプロジェクトをリードしてきました。ソフトウェアアーキテクチャ、サーバーサイドプログラミング、UNIXプラットフォーム、機密データの保護やシステムアクセスの管理を行うセキュリティシステム（PAM、データアクセスコントローラー、システムアクセスコントローラー）などの設計に精通しています。",
-      "avatar": "/assets/images/07-blog/author-jk.png",
+      "avatar": "/assets/images/authors/author-jk.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/jk-kim-9363b5a7/"
@@ -2199,7 +2199,7 @@ aws events put-rule \\
     "title": "テラスカイ社のMCP対応AIプラットフォーム 「mitoco Buddy」が正式ローンチ",
     "description": "QueryPie AI合同会社は、株式会社テラスカイが提供する、企業向けMCP対応AIプラットフォーム「mitoco Buddy」が、このたび正式にローンチされたことをお知らせいたします。",
     "date": "2025年12月23日",
-    "image": "/assets/images/07-blog/news-21.png",
+    "image": "/assets/images/blog/news-21.png",
     "category": "ブログ",
     "author": {
       "name": "QueryPie AI編集部",
@@ -2316,7 +2316,7 @@ aws events put-rule \\
     "title": "QueryPie AI、株式会社テラスカイと協業しAIエージェント「mitoco Buddy」を発表",
     "description": `QueryPie AI合同会社（本社：東京都港区、共同代表：Brant Hwang、以下「QueryPie AI」）は、株式会社テラスカイ（本社：東京都中央区、代表取締役CEO 社長執行役員：佐藤 秀哉、以下「テラスカイ」）と、AIエージェント事業分野において協業することを発表しました。本協業により、QueryPie AIのエンタープライズ向けAIプラットフォーム「QueryPie AI Platform（AIP）」が、テラスカイの新サービス「mitoco Buddy」に採用され、企業内に乱立するクラウドサービスを統合し、情報連携およびデータ活用を促進することで、意思決定の加速化と業務自動化を支援します。`,
     "date": "2025年11月7日",
-    "image": "/assets/images/07-blog/news-21.png",
+    "image": "/assets/images/blog/news-21.png",
     "category": "ブログ",
     "author": {
       "name": "QueryPie AI編集部",
@@ -2455,13 +2455,13 @@ aws events put-rule \\
     "title": "QueryPieがAgentless哲学にこだわる理由",
     "description": "合理的で安全なシステム管理のためのエージェントレスなアプローチに対する QueryPie の取り組みを紹介します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/b-thumb-1.png",
+    "image": "/assets/images/blog/blog-thumb-01.png",
     "category": "ブログ",
     "author": {
       "name": "Brant Hwang",
       "title": "CEO, Founder",
       "bio": `QueryPieの創業者兼CEOであるBrantは、AIを活用した特権アクセス管理（PAM）ソリューションを提供しています。BrantはKAISTでコンピュータサイエンスの修士号を取得し、17年以上のソフトウェア分野の経験を有しています。彼は、エンタープライズソフトウェア、組み込みシステム、インターネットポータル、コマースプラットフォームなど、さまざまな分野で経験を積んできました。起業を考える前には、カカオでプラットフォーム開発に携わっていました。Brantは、ソフトウェアの核心はそれが提供する人々にあると信じており、問題をシンプルかつ効率的に解決することに注力しています。`,
-      "avatar": "/assets/images/07-blog/author-brant.png",
+      "avatar": "/assets/images/authors/author-brant.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/ishwang/"
@@ -2585,13 +2585,13 @@ aws events put-rule \\
     "title": "QueryPie TPM チームの一日を覗いてみよう: 顧客獲得の秘訣公開",
     "description": "お客様の信頼を勝ち取り、効果的な戦略で優れた結果を出す QueryPie TPM チームの日々の取り組みを紹介します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/b-thumb-10.png",
+    "image": "/assets/images/blog/blog-thumb-10.png",
     "category": "ブログ",
     "author": {
       "name": "Skipper Moon",
       "title": "SVP of Engineering",
       "bio": `Skipperは、コミュニティおよびゲームサービスの開発を経て、ゲームプラットフォームやKakaoTalkサーバー、KakaoGiftサービスのプロジェクトをリードしました。BankSaladの幹部として家計簿サービスを管理し、Carrot General InsuranceのCIO/CTOとしてデジタルトランスフォーメーションを推進しました。現在はQueryPieでSVP of Engineeringとして、技術的安定性、カスタマーサポート、顧客満足に焦点を当てているTPMチームを率いています。`,
-      "avatar": "/assets/images/07-blog/author-skipper.png",
+      "avatar": "/assets/images/authors/author-skipper.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/kyudong-moon-b40bb5b6/"
@@ -2669,13 +2669,13 @@ aws events put-rule \\
     "title": "QueryPie と Figma、ぴったりと合った協力の極意",
     "description": "QueryPie と Figma がどのように設計チームと開発チームのシームレスなコラボレーションを実現し、生産性を向上させているのかをご紹介します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/b-thumb-11.png",
+    "image": "/assets/images/blog/blog-thumb-11.png",
     "category": "ブログ",
     "author": {
       "name": "Vin Jeong",
       "title": "Design Team Lead",
       "bio": `VinはQueryPieのデザインチームリーダーで、ワークフローの効率化とユーザビリティの向上を目指した直感的でユーザー中心のデザイン作成に注力しています。複雑なデザイン課題を解決することに情熱を注ぎ、創造力を活かして製品のブランディングとユーザーエクスペリエンスを向上させています。柔軟で革新的なアプローチで、QueryPieのデザインビジョンを形作り、製品が機能的で視覚的にインパクトのあるものになるよう導いています。`,
-      "avatar": "/assets/images/07-blog/author-vin.png",
+      "avatar": "/assets/images/authors/author-vin.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/vin-jeong/"
@@ -2798,13 +2798,13 @@ aws events put-rule \\
     "title": "個人情報漏洩: 小さな内部違反が大惨事に発展するまで",
     "description": "小さな内部違反がどのように重大なデータ漏えいに発展しうるか、また QueryPie がどのようにリスクを効果的に軽減するのに役立つかを紹介します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/b-thumb-12.png",
+    "image": "/assets/images/blog/blog-thumb-12.png",
     "category": "ブログ",
     "author": {
       "name": "Regan Park",
       "title": "Product Manager",
       "bio": "Reganは顧客重視のプロダクトマネージャーで、セキュアで使いやすいソリューションの提供に情熱を注いでいます。優れたコミュニケーション能力と迅速な適応力を持ち、国際的な背景を活かして顧客のニーズと革新を結びつけています。データガバナンスの専門知識と新興のデータベースベンダーに対する好奇心を持ち、技術の探求に情熱を注いでいます。顧客満足のための製品開発に貢献する不可欠な存在です。",
-      "avatar": "/assets/images/07-blog/author-regan.png",
+      "avatar": "/assets/images/authors/author-regan.png",
       "sns": []
     },
     "content": `<h1 id="個人情報漏洩の深刻さと実際の影響">個人情報漏洩の深刻さと実際の影響</h1>
@@ -2919,13 +2919,13 @@ aws events put-rule \\
     "title": "最も難しいと言われるグローバル展開、QueryPieはなぜ確信しているのか？",
     "description": "QueryPie が、革新的なソリューションと戦略的な専門知識で、いかに自信を持ってグローバル市場の課題に取り組んでいるのかを紹介します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/b-thumb-2.png",
+    "image": "/assets/images/blog/blog-thumb-02.png",
     "category": "ブログ",
     "author": {
       "name": "Kris Park",
       "title": "CPO",
       "bio": "クリスは、2023年3月からQueryPieの最高戦略責任者として、クラウド技術を活用してグローバルなデータ管理とサイバーセキュリティを改善しています。彼は日本市場への拡張をリードし、より広範なグローバル成長のための基盤を築いています。戦略開発と実行における深い専門知識を基に、クリスは革新を推進し、QueryPieを先進的なSaaS企業として導く重要な役割を果たしています。",
-      "avatar": "/assets/images/07-blog/author-kris.png",
+      "avatar": "/assets/images/authors/author-kris.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/kris-kwansue-park-89a83b19/"
@@ -2995,13 +2995,13 @@ aws events put-rule \\
     "title": "成功している組織の秘訣？QueryPieのように働こう！",
     "description": "QueryPie のコラボレーションと価値観の共有を通じて、成功するチームを作る秘訣を紹介します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/b-thumb-3.png",
+    "image": "/assets/images/blog/blog-thumb-03.png",
     "category": "ブログ",
     "author": {
       "name": "Candice Hong",
       "title": "Head of HR",
       "bio": "CandiceはQueryPieの人事部門の責任者として、前向きで生産的な職場環境を創造するための人事戦略を推進しています。人材採用、従業員の育成、組織文化に注力し、QueryPieが革新的なデータガバナンステクノロジーを提供するという使命を支えるために、優れた人材を引き付け、維持することを確実にしています。彼女の専門知識と献身は、会社のリーダーシップチームにおいて重要な役割を果たしています。",
-      "avatar": "/assets/images/07-blog/author-candice.png",
+      "avatar": "/assets/images/authors/author-candice.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/candice-hong-9312bb260/"
@@ -3173,13 +3173,13 @@ aws events put-rule \\
     "title": "混沌から秩序へ: マルチクラウドKubernetesアクセス制御の革新",
     "description": "マルチクラウド Kubernetes アクセス制御を合理化し、セキュリティと運用効率を向上させる QueryPie のアプローチを紹介します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/b-thumb-4.png",
+    "image": "/assets/images/blog/blog-thumb-04.png",
     "category": "ブログ",
     "author": {
       "name": "Sam Kim",
       "title": "CTO",
       "bio": "サムは、大規模な検索クラウドシステムの豊富な専門知識を持つCTOで、企業環境向けのセキュリティアクセス制御システムを設計する製品部門をリードしています。強固な技術的基盤と革新的なビジョンを持ち、サムはスケーラブルで安全なソリューションを設計し、現代企業の要求に応えています。",
-      "avatar": "/assets/images/07-blog/author-sam.png",
+      "avatar": "/assets/images/authors/author-sam.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/sam0-kim/"
@@ -3441,7 +3441,7 @@ aws events put-rule \\
     "title": "QueryPieハンガーゲーム: 技術を知る人々が「人を幸せにする技術」で世界と通じる！",
     "description": "QueryPie がどのようにテクノロジーを人文科学と融合させ、イノベーションを推進し、長期的な持続可能性を確保するのかについて紹介します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/b-thumb-5.png",
+    "image": "/assets/images/blog/blog-thumb-05.png",
     "category": "ブログ",
     "author": {
       "name": "QueryPie AI編集部",
@@ -3499,13 +3499,13 @@ aws events put-rule \\
     "title": "QueryPieが示す新しいパラダイム、連携を超えた接続へ",
     "description": "QueryPie が新しいパラダイムを導入し、より良いコラボレーションのために単なるシステム統合以上の真の接続性を重視している取り組みを紹介します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/b-thumb-6.png",
+    "image": "/assets/images/blog/blog-thumb-06.png",
     "category": "ブログ",
     "author": {
       "name": "Ella Lee",
       "title": "PM Lead",
       "bio": "エラはIT製品マネージャーでありPMリーダーとして、顧客のニーズを理解し、製品品質と顧客満足度を向上させる機能改善を主導しています。顧客の洞察と製品開発とのギャップを埋めることに強みがあり、ビジネスの成功と顧客満足に重要な貢献をしています。",
-      "avatar": "/assets/images/07-blog/author-ella.png",
+      "avatar": "/assets/images/authors/author-ella.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/umbr-ella/"
@@ -3647,13 +3647,13 @@ aws events put-rule \\
     "title": "誰もが見過ごしていたコマンド回避、今こそ正直に話そう！",
     "description": "コマンドバイパスの問題で見過ごされているリスクと、QueryPie がそれらを回避するための高度なソリューションを提供する方法について紹介します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/b-thumb-7.png",
+    "image": "/assets/images/blog/blog-thumb-07.png",
     "category": "ブログ",
     "author": {
       "name": "Allen Kim",
       "title": "Product Manager",
       "bio": `Allenは経験豊富なセキュリティの専門家であり、現在はプロダクトマネージャーとして活躍しています。情報セキュリティとSaaSソリューションの計画において豊富な経験を持ち、システムやKubernetesのアクセス管理と監査の設計と管理に優れています。ユーザーの利便性と堅牢なセキュリティのバランスを取ることにコミットしており、Allenの専門知識と積極的なアプローチは、組織の目標に沿ったソリューションの推進に貢献しています。`,
-      "avatar": "/assets/images/07-blog/author-allen.png",
+      "avatar": "/assets/images/authors/author-allen.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/allenmjkim/"
@@ -3760,13 +3760,13 @@ aws events put-rule \\
     "title": "QueryPie PMの仕事力スキルセット、オールラウンダーとして成長する方法",
     "description": "効果的な作業戦略と部門を横断した協業を通じて、オールラウンダーとして成長する QueryPie PM の働き方を紹介します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/b-thumb-8.png",
+    "image": "/assets/images/blog/blog-thumb-08.png",
     "category": "ブログ",
     "author": {
       "name": "Keira Yoon",
       "title": "Product Manager",
       "bio": "Keiraは、AI/ML技術の商業化に特化したダイナミックなプロダクトマネージャーで、学術的背景とさまざまな職業経験を持っています。適応力があり、素早く学習することで知られ、現在はサイバーセキュリティ分野に注力し、学際的な経験を活かして革新的なソリューションを推進し、影響力のある結果を生み出しています。",
-      "avatar": "/assets/images/07-blog/author-keira.png",
+      "avatar": "/assets/images/authors/author-keira.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/yohseob-yoon-a0b522117/"
@@ -3873,13 +3873,13 @@ aws events put-rule \\
     "title": "個人情報保護・管理の新しい助っ人: データディスカバリー",
     "description": "QueryPie のデータディスカバリツールによってプライバシー管理が強化され、グローバルなデータ規制に準拠させる仕組みについて紹介します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/b-thumb-9.png",
+    "image": "/assets/images/blog/blog-thumb-09.png",
     "category": "ブログ",
     "author": {
       "name": "Brendon Choi",
       "title": "Product Manager",
       "bio": `Brendonは20年以上の経験を持つ元クラウドエンジニアで、IT、AI、Windows技術に深い知識を持ち、Microsoftソリューションに強い情熱を注いでいます。かつてチームリーダーとして活躍し、現在はQueryPieでプロダクトマネージャーとして新たな挑戦をしています。エンジニアリング、運用、人工知能の深い知識を活かし、QueryPieの技術基盤の維持と向上、革新の推進、高品質なソリューションの提供に貢献しています。`,
-      "avatar": "/assets/images/07-blog/author-brendon.png",
+      "avatar": "/assets/images/authors/author-brendon.png",
       "sns": []
     },
     "content": `<p>現代の社会において、企業と個人の両方が情報保護の重要性を認識しており、その重要性は法的規制の強化とともにさらに高まっています。このような環境下で、企業はデータベースに対するアクセス制御やデータの暗号化、照会アラートやログ記録など、さまざまなセキュリティ対策を講じて個人情報の保護を強化しています。特に、個人情報を扱うサービスを開発する際には、データベース内の特定のパスにある個人情報を適切に識別し、管理することが求められます。</p>

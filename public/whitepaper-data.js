@@ -3,8 +3,8 @@ const WHITEPAPER_DATA = {
     "title": "AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編",
     "description": "AIエージェントが自律的に業務を遂行する時代、企業はどう統制すべきか。権限設計・承認フロー・監査ログ・Kill Switchの4要素を体系化し、CxO・実務リーダー向けに解説する2026年版ガードレール設計ガイド。",
     "date": "2026年2月27日",
-    "image": "/assets/images/07-blog/wp-thumb-28.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-28.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-28.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-28.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "QueryPie AI編集部",
@@ -1030,8 +1030,8 @@ const WHITEPAPER_DATA = {
     "title": "AIエージェント時代のガードレール設計（2026年版）── 後編：実践・導入編",
     "description": "AIエージェントのガードレール設計を実務に落とし込む。PC操作エージェント・開発AI脆弱性・5G自律運用の3つのケーススタディ、保存版チェックリスト、90日導入ロードマップを提供する2026年版実践ガイド。",
     "date": "2026年2月27日",
-    "image": "/assets/images/07-blog/wp-thumb-29.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-29.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-29.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-29.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "QueryPie AI編集部",
@@ -2274,14 +2274,14 @@ const WHITEPAPER_DATA = {
     "title": "コード生成およびAgentic RAGタスクを中心とした特定ドメインのためのLLM比較評価【前編】",
     "description": "LLMのベンチマークを信じないでください。ドメインに最適化されたLLMを自ら評価・選定しましょう。日本の給与システムの実パイプラインを対象に、13のLLM構成を体系的に比較評価した研究の前編です。",
     "date": "2026年2月13日",
-    "image": "/assets/images/07-blog/wp-thumb-26.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-26.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-26.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-26.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Edwin Park (エドウィン・パーク)",
       "title": "Software Engineer, QueryPie, Inc.",
       "bio": "QueryPie AI Service チーム所属のソフトウェアエンジニア。企業向けAIサービス開発を担当し、LLMベースのドメイン特化システム構築、B2C/B2B/B2B2Cクライアント向けのAIソリューション設計、および独立型AIエージェント事業モデルの研究開発に従事。",
-      "avatar": "/assets/images/07-blog/author-edwin.png",
+      "avatar": "/assets/images/authors/author-edwin.png",
       "sns": []
     },
     "toc": `<ul class="sidebar-toc-list"><li><a href="#研究の背景と動機">研究の背景と動機</a><li><a href="#研究課題">研究課題</a><li><a href="#研究の貢献">研究の貢献</a><li><a href="#論文の構成">論文の構成</a><li><a href="#llm評価ベンチマーク">LLM評価ベンチマーク</a><li><a href="#llmベースのコード生成">LLMベースのコード生成</a><li><a href="#検索拡張生成rag">検索拡張生成（RAG）</a><li><a href="#llmasajudge評価方法論">LLM-as-a-Judge評価方法論</a><li><a href="#マルチエージェントシステムおよびパイプライン">マルチエージェントシステムおよびパイプライン</a><li><a href="#研究の空白と本研究の位置づけ">研究の空白と本研究の位置づけ</a><li><a href="#システム概要">システム概要</a><li><a href="#nl-to-pseudocode-agent">NL to Pseudocode Agent</a><ul class="sidebar-toc-sub"><li><a href="#概要">概要</a></li><li><a href="#3段階逐次処理構造">3段階逐次処理構造</a></li><li><a href="#入出力例">入出力例</a></li></ul></li><li><a href="#mfid-mapping-agent">MFID Mapping Agent</a><ul class="sidebar-toc-sub"><li><a href="#概要">概要</a></li><li><a href="#mfidデータ構造">MFIDデータ構造</a></li><li><a href="#ベクトル検索インフラ">ベクトル検索インフラ</a></li><li><a href="#agentic-ragの動作方式">Agentic RAGの動作方式</a></li></ul></li><li><a href="#評価対象および範囲">評価対象および範囲</a><li><a href="#小括">小括</a><li><a href="#評価対象モデル">評価対象モデル</a><ul class="sidebar-toc-sub"><li><a href="#claudeファミリーanthropic">Claudeファミリー（Anthropic）</a></li><li><a href="#geminiファミリーgoogle">Geminiファミリー（Google）</a></li><li><a href="#gptファミリーopenai">GPTファミリー（OpenAI）</a></li><li><a href="#モデル構成の要約">モデル構成の要約</a></li></ul></li><li><a href="#データセット構成">データセット構成</a><ul class="sidebar-toc-sub"><li><a href="#コード生成データセットcodegen">コード生成データセット（CodeGen）</a></li><li><a href="#agentic-ragデータセットmfid-mapping">Agentic RAGデータセット（MFID Mapping）</a></li></ul></li><li><a href="#評価指標">評価指標</a><ul class="sidebar-toc-sub"><li><a href="#コード生成タスク評価指標">コード生成タスク評価指標</a></li><li><a href="#agentic-ragタスク評価指標">Agentic RAGタスク評価指標</a></li><li><a href="#指標の正規化">指標の正規化</a></li></ul></li><li><a href="#コストおよび性能指標">コストおよび性能指標</a><ul class="sidebar-toc-sub"><li><a href="#トークン価格">トークン価格</a></li><li><a href="#コスト効率性指標">コスト効率性指標</a></li></ul></li><li><a href="#実験環境および設定">実験環境および設定</a><ul class="sidebar-toc-sub"><li><a href="#実験環境">実験環境</a></li><li><a href="#モデル設定">モデル設定</a></li></ul></li><li><a href="#小括">小括</a></li></ul>`,
@@ -2972,14 +2972,14 @@ const WHITEPAPER_DATA = {
     "title": "コード生成およびAgentic RAGタスクを中心とした特定ドメインのためのLLM比較評価【後編】",
     "description": "13のLLM構成による実験結果を徹底分析。Thinkingモードの意外な落とし穴、GPTの安定性問題、そして60%のコスト削減を実現する最適パイプライン構成を明らかにします。",
     "date": "2026年2月13日",
-    "image": "/assets/images/07-blog/wp-thumb-27.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-27.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-27.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-27.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Edwin Park (エドウィン・パーク)",
       "title": "Software Engineer, QueryPie, Inc.",
       "bio": "QueryPie AI Service チーム所属のソフトウェアエンジニア。企業向けAIサービス開発を担当し、LLMベースのドメイン特化システム構築、B2C/B2B/B2B2Cクライアント向けのAIソリューション設計、および独立型AIエージェント事業モデルの研究開発に従事。",
-      "avatar": "/assets/images/07-blog/author-edwin.png",
+      "avatar": "/assets/images/authors/author-edwin.png",
       "sns": []
     },
     "toc": `<ul class="sidebar-toc-list"><li><a href="#全体品質評価結果">全体品質評価結果</a><ul class="sidebar-toc-sub"><li><a href="#伝統的テキスト指標">伝統的テキスト指標</a></li><li><a href="#llmasajudge評価結果">LLM-as-a-Judge評価結果</a></li></ul></li><li><a href="#thinkモード効果分析">Thinkモード効果分析</a><ul class="sidebar-toc-sub"><li><a href="#thinkモードのタスク別影響">Thinkモードのタスク別影響</a></li><li><a href="#thinkモード効果の解釈">Thinkモード効果の解釈</a></li></ul></li><li><a href="#モデル分析">モデル分析</a><ul class="sidebar-toc-sub"><li><a href="#空応答率empty-response-rate">空応答率（Empty Response Rate）</a></li><li><a href="#安定性の実質的影響">安定性の実質的影響</a></li></ul></li><li><a href="#コスト-品質分析">コスト ― 品質分析</a><ul class="sidebar-toc-sub"><li><a href="#モデル別コストおよびコスト効率性">モデル別コストおよびコスト効率性</a></li><li><a href="#コスト-品質トレードオフ">コスト ― 品質トレードオフ</a></li></ul></li><li><a href="#小括">小括</a><li><a href="#全体品質評価結果">全体品質評価結果</a><ul class="sidebar-toc-sub"><li><a href="#recallkおよびmrr結果">Recall@KおよびMRR結果</a></li><li><a href="#ツール呼び出し効率性">ツール呼び出し効率性</a></li><li><a href="#agentic-rag評価サマリー">Agentic RAG評価サマリー</a></li></ul></li><li><a href="#thinkモード効果分析">Thinkモード効果分析</a><ul class="sidebar-toc-sub"><li><a href="#thinkモードのタスク別影響">Thinkモードのタスク別影響</a></li><li><a href="#タスク別thinkモード効果比較">タスク別Thinkモード効果比較</a></li></ul></li><li><a href="#コスト-品質分析">コスト ― 品質分析</a><ul class="sidebar-toc-sub"><li><a href="#モデル別コストおよびコスト効率性">モデル別コストおよびコスト効率性</a></li></ul></li><li><a href="#コスト-品質トレードオフ">コスト ― 品質トレードオフ</a><li><a href="#コード生成-vs-agentic-rag比較">コード生成 vs Agentic RAG比較</a><ul class="sidebar-toc-sub"><li><a href="#モデル順位の変化">モデル順位の変化</a></li><li><a href="#タスク特性に応じたモデル適合性">タスク特性に応じたモデル適合性</a></li></ul></li><li><a href="#小括">小括</a><li><a href="#パイプライン総合分析">パイプライン総合分析</a><ul class="sidebar-toc-sub"><li><a href="#段階別性能比較">段階別性能比較</a></li><li><a href="#効果的品質分析">効果的品質分析</a></li></ul></li><li><a href="#モデル別特性の要約">モデル別特性の要約</a><ul class="sidebar-toc-sub"><li><a href="#個別モデル特性">個別モデル特性</a></li></ul></li><li><a href="#thinkモード効果の総合">Thinkモード効果の総合</a><ul class="sidebar-toc-sub"><li><a href="#タスク別thinkモード影響">タスク別Thinkモード影響</a></li></ul></li><li><a href="#パイプライン最適化戦略">パイプライン最適化戦略</a><ul class="sidebar-toc-sub"><li><a href="#パイプライン組み合わせ分析">パイプライン組み合わせ分析</a></li><li><a href="#推奨パイプライン構成">推奨パイプライン構成</a></li><li><a href="#最適化効果">最適化効果</a></li></ul></li><li><a href="#最終推奨事項">最終推奨事項</a><ul class="sidebar-toc-sub"><li><a href="#研究課題に対する回答">研究課題に対する回答</a></li><li><a href="#実務適用ガイドライン">実務適用ガイドライン</a></li></ul></li><li><a href="#小括">小括</a><li><a href="#研究の要約">研究の要約</a><li><a href="#主要な貢献">主要な貢献</a><li><a href="#実務的示唆">実務的示唆</a><li><a href="#研究の限界">研究の限界</a><li><a href="#今後の研究方向">今後の研究方向</a><li><a href="#結び">結び</a></li></ul>`,
@@ -3770,14 +3770,14 @@ const WHITEPAPER_DATA = {
     "title": "RAG 2.0 セキュリティ – Microsoft・Metaの戦略、QueryPieが繋ぐ",
     "description": "本稿では、RAG 2.0の登場背景とセキュリティアーキテクチャを紹介し、さまざまな企業の事例を通じて実行フロー制御の重要性を強調します。RAG 2.0は単なるドキュメント検索を超え、リアルタイムでポリシーを適用し、機密情報が誤って不適切なユーザーに渡るのを防ぐ点で、従来のRAGとは一線を画します。",
     "date": "2025年5月28日",
-    "image": "/assets/images/07-blog/wp-thumb-23.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-23.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-23.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-23.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Kenny Park",
       "title": "CISO",
       "bio": `ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。`,
-      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "avatar": "/assets/images/authors/author-kenny.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/kwansoonpark/"
@@ -5394,14 +5394,14 @@ allow {
     "title": "MCPとAIエージェントが対決：あなたの設計は安全か？",
     "description": "この文章では、誤解を防ぐためにMCPサーバーとAIエージェントの役割を明確に区別し、それぞれの責任と限界について体系的に説明します。",
     "date": "2025年5月21日",
-    "image": "/assets/images/07-blog/wp-thumb-22.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-22.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-22.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-22.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Kenny Park",
       "title": "CISO",
       "bio": `ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。`,
-      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "avatar": "/assets/images/authors/author-kenny.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/kwansoonpark/"
@@ -6160,14 +6160,14 @@ allow {
     "title": "コードは止まり、エージェントが動く – AgentSecOpsの時代へ",
     "description": "AIエージェントベースの自動化システムが拡大し、単なる自動化レベルを超えて、実行主体（エージェント）が独立して意思決定し外部システムを呼び出すAgentOpsが登場しました。本稿ではAgentOpsとともに登場したAgentSecOpsについて考察し、従来のDevSecOps体制と比べてどのような構造と役割を担うのかを深く分析します。",
     "date": "2025年5月13日",
-    "image": "/assets/images/07-blog/wp-thumb-21.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-21.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-21.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-21.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Kenny Park",
       "title": "CISO",
       "bio": `ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。`,
-      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "avatar": "/assets/images/authors/author-kenny.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/kwansoonpark/"
@@ -7240,14 +7240,14 @@ allow {
     "title": "MCP(Model Context Protocol)時代のPAM(Privileged Access Management)を再定義する。",
     "description": "AIエージェントが企業インフラに安全にアクセスするためには、これからはMCPとPAMの結合が必須です。 このホワイトペーパーでは、QueryPieが提案するMCP-PAM統合戦略を通じて、SSH接続、ターミナル制御、AIガバナンスまで含めた新しいセキュリティアーキテクチャを紹介します。",
     "date": "2025年4月8日",
-    "image": "/assets/images/07-blog/wp-thumb-15.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-15.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-15.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-15.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Kenny Park",
       "title": "CISO",
       "bio": `ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。`,
-      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "avatar": "/assets/images/authors/author-kenny.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/kwansoonpark/"
@@ -7448,14 +7448,14 @@ allow {
     "title": "MCPを超えてMCPSへ：エンタープライズAIのためのセキュアプロトコルの必要性",
     "description": "MCP（モデルコンテキストプロトコル）は革新的な技術ですが、エンタープライズ環境での利用には致命的な欠点があります。本記事では、MCPの基本的な概念と現在の状況を紹介し、エンタープライズ環境で発生するセキュリティ上の課題について深く分析します。",
     "date": "2025年4月30日",
-    "image": "/assets/images/07-blog/wp-thumb-20.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-20.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-20.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-20.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Brant Hwang",
       "title": "CEO, Founder",
       "bio": `QueryPieの創業者兼CEOであるBrantは、AIを活用した特権アクセス管理（PAM）ソリューションを提供しています。BrantはKAISTでコンピュータサイエンスの修士号を取得し、17年以上のソフトウェア分野の経験を有しています。彼は、エンタープライズソフトウェア、組み込みシステム、インターネットポータル、コマースプラットフォームなど、さまざまな分野で経験を積んできました。起業を考える前には、カカオでプラットフォーム開発に携わっていました。Brantは、ソフトウェアの核心はそれが提供する人々にあると信じており、問題をシンプルかつ効率的に解決することに注力しています。`,
-      "avatar": "/assets/images/07-blog/author-brant.png",
+      "avatar": "/assets/images/authors/author-brant.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/ishwang/"
@@ -7973,14 +7973,14 @@ allow {
     "title": "MCPセキュリティ評価：文献調査によるMCPセキュリティ脅威の特定と脆弱性分析",
     "description": "AIシステムがますます相互接続される中で、モデル間のコンテキスト共有は、信頼性の高い推論と安全な実行を確保するために不可欠となっています。本ホワイトペーパーでは、Model Context Protocol（MCP）に関する最新の研究を分析し、主要なセキュリティ脅威を特定するとともに、文脈認識型アクセス制御と自律的なポリシー施行を実現する次世代アーキテクチャ — MCP PAM を提案します。",
     "date": "2025年4月23日",
-    "image": "/assets/images/07-blog/wp-thumb-18.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-18.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-18.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-18.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Kenny Park",
       "title": "CISO",
       "bio": `ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。`,
-      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "avatar": "/assets/images/authors/author-kenny.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/kwansoonpark/"
@@ -9287,14 +9287,14 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
     "title": "Google Agentspaceで業務を効率化 - QueryPie MCP PAMで安全を確保",
     "description": "oogle AgentspaceはAI実行プラットフォームとして注目されていますが、制御のない自動化はセキュリティリスクを伴います。この記事では、QueryPie MCP PAMがどのようにポリシーベースの実行制御を通じて、企業のAI導入を安全に実現するのかを解説します。",
     "date": "2025年4月22日",
-    "image": "/assets/images/07-blog/wp-thumb-19.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-19.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-19.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-19.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Kenny Park",
       "title": "CISO",
       "bio": `ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。`,
-      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "avatar": "/assets/images/authors/author-kenny.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/kwansoonpark/"
@@ -10586,14 +10586,14 @@ if context["user"]["authenticated"] and context["request"]["action"] == "delete_
     "title": "AIは自動運転が可能に - であれば、AIが自らを保護できないのか？自律型アクセス制御のご紹介",
     "description": "AIは今や単なる言語生成を超え、実行主体として進化しています。Model Context Protocol（MCP）は、AIエージェントが安全にAPIやSaaSツールと連携し、実世界の操作を実行できるようにする新しいインターフェースです。QueryPie MCP PAMは、従来のアクセス制御を超え、AI時代のためのリアルタイムかつポリシー駆動のセキュリティを実現します。",
     "date": "2025年4月14日",
-    "image": "/assets/images/07-blog/wp-thumb-17.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-17.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-17.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-17.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Kenny Park",
       "title": "CISO",
       "bio": `ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。`,
-      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "avatar": "/assets/images/authors/author-kenny.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/kwansoonpark/"
@@ -11432,14 +11432,14 @@ allow {
     "title": "AIアクセス制御の大転換:Guardrailsを越えてMCP-PAMへ！",
     "description": "生成 AIの拡散の中で、既存のGuardrailsだけでは実際のLLM活用のセキュリティを担保することは困難です。本文書はMCPベースのPAMを通じてプロンプト注入、敏感情報流出などの脅威に対応する脈絡認知型統制戦略を提示します。",
     "date": "2025年4月10日",
-    "image": "/assets/images/07-blog/wp-thumb-16.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-16.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-16.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-16.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Kenny Park",
       "title": "CISO",
       "bio": `ケニーは、QueryPieのCISOおよびグローバルディレクターで、情報セキュリティ、クラウドコンピューティング、グローバル運営における20年以上の経験を有しています。彼は、QueryPieのグローバル戦略をリードし、最上級のセキュリティとコンプライアンスを保証しています。ケニーは、強力なセキュリティフレームワークの構築、クラウドインフラの管理、イノベーションの促進において重要な成果を上げてきました。`,
-      "avatar": "/assets/images/07-blog/author-kenny.png",
+      "avatar": "/assets/images/authors/author-kenny.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/kwansoonpark/"
@@ -11868,14 +11868,14 @@ when {
     "title": "QueryPie gRPC DAST セキュリティ: ZAP カスタムスクリプトの例",
     "description": "QueryPieがウェブアプリケーションで高いパフォーマンスと安定性を実現するために、gRPC通信をどのように活用しているかを確認してください。",
     "date": "2025年2月6日",
-    "image": "/assets/images/07-blog/wp-thumb-12.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-12.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-12.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-12.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Noah Kim",
       "title": "Security Engineer",
       "bio": "ノアは、ペネトレーションテストのコンサルタントおよび社内ペネトレーションテスターとして、包括的な脆弱性評価を実施し、安定性とセキュリティを確保しています。SASTやDASTなどのソリューションをCI/CDパイプラインに統合し、会社の製品に対する脆弱性管理を行っています。",
-      "avatar": "/assets/images/07-blog/author-noah.png",
+      "avatar": "/assets/images/authors/author-noah.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/gyeongho-kim-a41b34209/"
@@ -12009,14 +12009,14 @@ when {
     "title": "大規模監査ログの効率的な保存と管理（OVEN）",
     "description": "セキュリティおよびコンプライアンスの要件を満たしながら、大規模な監査ログを効率的に保存および管理するガイドを公開します。",
     "date": "2025年1月23日",
-    "image": "/assets/images/07-blog/wp-thumb-11.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-11.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-11.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-11.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Fabian Lee",
       "title": "Software Engineer",
       "bio": "Fabianは検索プラットフォーム、品質データパイプライン、サービス分野でほぼ10年の経験を持つ熟練のソフトウェアエンジニアです。彼はユーザーのニーズとサービスの目標に一致する意味のあるインサイトを生成するためにデータを分析し処理することに情熱を注いでいます。Fabianはユーザー体験を向上させ、ビジネス成功に貢献するデータ駆動型ソリューションを提供することに優れています。",
-      "avatar": "/assets/images/07-blog/author-fabian.png",
+      "avatar": "/assets/images/authors/author-fabian.png",
       "sns": []
     },
     "toc": "<ul class=\"sidebar-toc-list\"><li><a href=\"#監査ログ管理に必要な機能のみを提供\">監査ログ管理に必要な機能のみを提供</a><li><a href=\"#大容量ログを効率的に保存するため、blob-ストレージと連携\">大容量ログを効率的に保存するため、BLOB ストレージと連携</a></li></ul>",
@@ -12307,15 +12307,15 @@ when {
     "title": "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか",
     "description": "本ホワイトペーパーは事業責任者向けに、技術詳細やトレンド紹介ではなく、世界と日本のAI活用の温度差と日本企業の課題を踏まえ、今すぐ経営に組み込むための実務的プロセスと全社最適の変革指針を示す内容です。",
     "date": "2025年11月17日",
-    "image": "/assets/images/07-blog/wp-thumb-24-jp.png",
-    "coverImage": "/assets/images/07-blog/wp24-download-jp.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-24-ja.png",
+    "coverImage": "/assets/images/whitepaper/wp24-download-ja.png",
     "pdfUrl": "https://www.querypie.com/public/downloads/documents/QP_Whitepaper_AI_Transformation_JP.pdf",
     "category": "ホワイトペーパー",
     "author": {
       "name": "寺澤慎祐",
       "title": "マーケティングコンサルタント",
       "bio": "IT業界でマーケティングに長く従事し、英国ウェールズ大学MBA取得後、マーケティング／人材組織開発コンサル、ビジネス傾聴協会代表、アート思考経営アカデミー主宰として活動。経営における論理と直感を統合し、「出現する未来」を創造する支援を行っている。",
-      "avatar": "/assets/images/07-blog/author-terazawa.png",
+      "avatar": "/assets/images/authors/author-terazawa.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/terazawa/"
@@ -13020,15 +13020,15 @@ when {
     "title": "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか",
     "description": "本ホワイトペーパーは事業責任者向けに、技術詳細やトレンド紹介ではなく、世界と日本のAI活用の温度差と日本企業の課題を踏まえ、今すぐ経営に組み込むための実務的プロセスと全社最適の変革指針を示す内容です。",
     "date": "2025年11月17日",
-    "image": "/assets/images/07-blog/wp-thumb-24-jp.png",
-    "coverImage": "/assets/images/07-blog/wp24-download-jp.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-24-ja.png",
+    "coverImage": "/assets/images/whitepaper/wp24-download-ja.png",
     "pdfUrl": "https://www.querypie.com/public/downloads/documents/QP_Whitepaper_AI_Transformation_JP.pdf",
     "category": "ホワイトペーパー",
     "author": {
       "name": "寺澤慎祐",
       "title": "マーケティングコンサルタント",
       "bio": "IT業界でマーケティングに長く従事し、英国ウェールズ大学MBA取得後、マーケティング／人材組織開発コンサル、ビジネス傾聴協会代表、アート思考経営アカデミー主宰として活動。経営における論理と直感を統合し、「出現する未来」を創造する支援を行っている。",
-      "avatar": "/assets/images/07-blog/author-terazawa.png",
+      "avatar": "/assets/images/authors/author-terazawa.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/terazawa/"
@@ -13739,14 +13739,14 @@ when {
     "title": "AI による個人情報の識別と分析改善",
     "description": "QueryPie の AI を活用して個人データを分析し、より優れたプライバシー管理と規制遵守を実現します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/wp-thumb-1.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-1.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-01.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-01.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Kurt Yoo",
       "title": "AI Software Engineer",
       "bio": `Kurtは、最先端のデータ管理ソリューションを開発および保守することに専門的な知識を持つ優れたソフトウェアエンジニアです。QueryPieでは、AIデータ発見のためのコアAIを発明し、インテリジェントなデータ分類機能を進展させる重要な役割を果たしました。スケーラブルで安全なプラットフォーム構築に関する専門知識をもとに、KurtはQueryPieのソリューションが企業クライアントの動的なニーズを満たすことを確実にし、データガバナンス技術におけるリーダーシップを強化しています。`,
-      "avatar": "/assets/images/07-blog/author-kurt.png",
+      "avatar": "/assets/images/authors/author-kurt.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/%EA%B2%BD%EB%AF%BC-%EC%9C%A0-a28b5b1a2/"
@@ -14272,14 +14272,14 @@ when {
     "title": "開発速度と安定性の向上が証明されたQueryPieのDevSecOpsパイプライン",
     "description": "QueryPie の DevSecOps パイプラインを使用して開発を合理化し、速度、安定性、セキュリティを強化します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/wp-thumb-10.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-10.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-10.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-10.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Jake Im / Ravi Kang / Noah Kim",
       "title": "Security Team Lead",
       "bio": "ジェイクはセキュリティ専門家で、金融および軍事環境を含む厳しい分野でセキュリティ運用を管理してきた16年以上の経験を持っています。QueryPieのセキュリティチームリーダーとして、重要な資産を保護し、進化する脅威から強固な保護を提供しています。",
-      "avatar": "/assets/images/07-blog/author-jake.png",
+      "avatar": "/assets/images/authors/author-jake.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/sungbin-im-ba817b25/"
@@ -14685,14 +14685,14 @@ class HelloController {
     "title": "SSHプロキシ構造によるシェルネイティブコマンド制御",
     "description": "高度な SSH プロキシアーキテクチャにより、QueryPie のネイティブコマンド制御でシステムセキュリティを強化します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/wp-thumb-2.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-2.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-02.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-02.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Ryan Chae / Kevin So",
       "title": "Software Engineer",
       "bio": `Ryanは、セキュアでスケーラブルなシステムの開発に豊富な経験を持つソフトウェアエンジニアです。QueryPieでの重要な貢献者として、SSHプロキシアーキテクチャによるシェルネイティブなコマンド制御の設計において重要な役割を果たし、プラットフォームのセキュリティと効率を向上させました。システムアーキテクチャの専門知識とイノベーションへのコミットメントが、進化するエンタープライズクライアントのニーズに応える堅実なソリューションの開発を推進しています。`,
-      "avatar": "/assets/images/07-blog/author-ryan.png",
+      "avatar": "/assets/images/authors/author-ryan.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/ryan-chae-647a4126/"
@@ -14757,14 +14757,14 @@ class HelloController {
     "title": "さまざまなベンダーのSQL解析のためのコア技術、QSI（Query Structural Interface）",
     "description": "QueryPie の QSI テクノロジーにより、様々なベンダーの SQL を簡単かつ互換性をもって効率的に解析することが可能です。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/wp-thumb-3.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-3.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-03.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-03.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Evan Choi",
       "title": "Software Engineer",
       "bio": "Evanは複雑なシステムの開発および維持に精通した経験豊富なソフトウェアエンジニアで、QueryPieではエンタープライズクライアント向けのスケーラブルでセキュアなデータ管理ソリューションを構築しています。システムアーキテクチャに強いバックグラウンドを持ち、.NETやRustに対する情熱がイノベーションとパフォーマンスを推進し、QueryPieの最前線で重要な役割を担っています。",
-      "avatar": "/assets/images/07-blog/author-evan.png",
+      "avatar": "/assets/images/authors/author-evan.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/evan-choi-b63b27147/"
@@ -15057,14 +15057,14 @@ SELECT * FROM actor_view
     "title": "トランザクションレス、完璧なCDC（Change Data Capture）システム構築法",
     "description": "QueryPie の CDC (Change Data Capture) システムとデータをシームレスに同期することで、トランザクションなしでコンフリクトのないアップデートを実現します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/wp-thumb-4.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-4.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-04.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-04.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Mason Oh",
       "title": "Software Engineer",
       "bio": `MasonはQueryPieでデータベースアクセス制御サーバー、プロキシ開発、SQLパーシング（.NET Core 8およびAntlr）を専門とする熟練のエンジニアです。Wireshark、dotnet-dump、APMなどのツールを使用して、TCPパケット解析、メモリリーク、CPUの最適化といった複雑な問題を解決することに優れています。AWSの専門知識を持ち、NLB関連のネットワーク問題の解決経験があり、Dockerにも精通しており、Kubernetesの知識を積極的に拡大しています。`,
-      "avatar": "/assets/images/07-blog/author-mason.png",
+      "avatar": "/assets/images/authors/author-mason.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/mason-oh/"
@@ -15338,14 +15338,14 @@ SELECT last_name FROM actor WHERE first_name='mason';
     "title": "実行プロセス追跡方式によるコマンド回避の根本的なブロック",
     "description": "QueryPie の革新的なプロセス追跡方式により、ソースでのコマンドバイパスの脅威を防止します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/wp-thumb-5.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-5.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-05.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-05.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Logan Chae",
       "title": "Software Engineer",
       "bio": `Loganは、20年以上の経験を持つ熟練のソフトウェア開発者で、バックエンドシステム、クラウドインフラ、および大規模なアプリケーションに専門的な知識を持っています。Java、TypeScript、Python、C#を使いこなし、Spring BootやASP.NETといったフレームワークに深い専門知識を持っています。AIサービスやブロックチェーンプラットフォームを含むプロジェクトを成功裏にリードし、革新を促進する高性能なソリューションを提供した経験があります。`,
-      "avatar": "/assets/images/07-blog/author-logan.png",
+      "avatar": "/assets/images/authors/author-logan.png",
       "sns": []
     },
     "toc": "",
@@ -15513,14 +15513,14 @@ $command
     "title": "Kubernetesクラスターの安全な運用のためのアクセス制御",
     "description": "QueryPie は、クラウドクラスタ管理と運用セキュリティを強化するために、安全な Kubernetes アクセス制御を保証します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/wp-thumb-6.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-6.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-06.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-06.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "David Choi",
       "title": "Software Engineer",
       "bio": "Davidは、ソフトウェアの複雑な仕組みを理解することに深い好奇心を持つ情熱的な開発者です。QueryPieでは、Kubernetesアクセス制御（KAC）とWebアクセス制御（WAC）ソリューションの開発において重要な役割を果たしました。技術的な専門知識とGolangへの愛情をもって、複雑な課題に取り組み、革新的なセキュリティソリューションに貢献しています。",
-      "avatar": "/assets/images/07-blog/author-david.png",
+      "avatar": "/assets/images/authors/author-david.png",
       "sns": []
     },
     "toc": "",
@@ -15785,14 +15785,14 @@ $command
     "title": "Policy as Code（PaC）アプローチによるセキュリティ管理の革新",
     "description": "QueryPie の Policy as Code を使用してセキュリティプロトコルを自動化および最適化し、コンプライアンスを確保し、リスクを軽減します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/wp-thumb-7.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-7.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-07.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-07.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Eddy Jeon",
       "title": "Frontend Engineer",
       "bio": `Eddy Jeonは現在、QueryPieでサービスのフロントエンドパートリーダーとして活躍している献身的なソフトウェアエンジニアです。この役割では、ユーザー体験を向上させるユーザーフレンドリーなインターフェースの開発と維持に注力しています。Eddyの卓越性へのコミットメントとフロントエンド技術に対する専門知識は、QueryPieが革新的なデータガバナンスソリューションを提供するという使命に大きく貢献しています。`,
-      "avatar": "/assets/images/07-blog/author-eddy.png",
+      "avatar": "/assets/images/authors/author-eddy.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/eddy-jeon-a56a681a9/"
@@ -16024,14 +16024,14 @@ $command
     "title": "安全なログイントークン管理、フロントエンドの必須戦略",
     "description": "QueryPieのログイントークン管理による安全なユーザー認証により、フロントエンドのセキュリティとデータ保護が強化されます。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/wp-thumb-8.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-8.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-08.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-08.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Zac Jung",
       "title": "Frontend Engineer",
       "bio": `ZacはQueryPieでフロントエンドファウンデーションパートリーダーとして活躍する経験豊富なフロントエンドエンジニアです。大規模なフロントエンドシステムを専門とし、ユーザー体験（UX）と開発者体験（DX）の両方を重視して、効率的で直感的なソリューションを創出します。Zacは最新技術と最高のソフトウェアエンジニアリングプラクティスを活用して堅牢なシステムを構築し、革新を推進し続ける一方で、細部にまで配慮しています。`,
-      "avatar": "/assets/images/07-blog/author-zac.png",
+      "avatar": "/assets/images/authors/author-zac.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/jinwoo-jung-8b11a8112/"
@@ -16321,14 +16321,14 @@ async function getProtectedResource(id) {
     "title": "QueryPieが示す新しいペネトレーションテスト基準",
     "description": "QueryPie は、脆弱性を防止し、システムを効果的に保護するために、侵入テストの新しいベンチマークを設定します。",
     "date": "2024年11月22日",
-    "image": "/assets/images/07-blog/wp-thumb-9.png",
-    "coverImage": "/assets/images/07-blog/wp-thumb-9.png",
+    "image": "/assets/images/whitepaper/thumbs/wp-thumb-09.png",
+    "coverImage": "/assets/images/whitepaper/thumbs/wp-thumb-09.png",
     "category": "ホワイトペーパー",
     "author": {
       "name": "Jake Im / Ravi Kang / Noah Kim",
       "title": "Security Team Lead",
       "bio": "ジェイクはセキュリティ専門家で、金融および軍事環境を含む厳しい分野でセキュリティ運用を管理してきた16年以上の経験を持っています。QueryPieのセキュリティチームリーダーとして、重要な資産を保護し、進化する脅威から強固な保護を提供しています。",
-      "avatar": "/assets/images/07-blog/author-jake.png",
+      "avatar": "/assets/images/authors/author-jake.png",
       "sns": [{
           "type": "linkedin",
           "url": "https://www.linkedin.com/in/sungbin-im-ba817b25/"

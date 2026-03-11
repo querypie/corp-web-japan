@@ -2,7 +2,7 @@ const EVENT_DATA = {
   "1": {
     "title": "【ウェビナー】AIエージェント導入の現場から──失敗しない進め方と組織変革のリアル",
     "date": "2026年3月18日",
-    "image": "/assets/images/07-blog/event-thumb-1.png",
+    "image": "/assets/images/events/event-thumb-01.png",
     "category": "イベント",
     "content": `<h2 id="ev1-overview"><strong>イベント概要</strong></h2>
 
@@ -66,7 +66,7 @@ const EVENT_DATA = {
   "2": {
     "title": "【オンラインセミナー】企業AIのセキュリティ設計入門──ゼロトラストとRAGの組み合わせ",
     "date": "2026年3月5日",
-    "image": "/assets/images/07-blog/event-thumb-2.png",
+    "image": "/assets/images/events/event-thumb-02.png",
     "category": "イベント",
     "content": `<h2 id="ev2-overview"><strong>イベント概要</strong></h2>
 
@@ -116,7 +116,7 @@ const EVENT_DATA = {
   "3": {
     "title": "【東京開催】QueryPie AI Summit 2026──AIガバナンスと競争優位の新地平",
     "date": "2026年2月14日",
-    "image": "/assets/images/07-blog/event-thumb-3.png",
+    "image": "/assets/images/events/event-thumb-03.png",
     "category": "イベント",
     "content": `<h2 id="ev3-overview"><strong>イベント概要</strong></h2>
 
@@ -161,7 +161,7 @@ const EVENT_DATA = {
   "4": {
     "title": "【ハンズオン】AIP×MCP実践ワークショップ──エージェントを30分で動かす",
     "date": "2026年1月22日",
-    "image": "/assets/images/07-blog/event-thumb-4.png",
+    "image": "/assets/images/events/event-thumb-04.png",
     "category": "イベント",
     "content": `<h2 id="ev4-overview"><strong>イベント概要</strong></h2>
 
@@ -219,7 +219,7 @@ const EVENT_DATA = {
   "5": {
     "title": "【ウェビナー録画】SaaSベンダー向けAI出汁活用戦略──自社プロダクトにAIを組み込む方法",
     "date": "2025年12月11日",
-    "image": "/assets/images/07-blog/event-thumb-5.png",
+    "image": "/assets/images/events/event-thumb-05.png",
     "category": "イベント",
     "content": `<h2 id="ev5-overview"><strong>イベント概要（録画配信）</strong></h2>
 
@@ -252,7 +252,7 @@ const EVENT_DATA = {
   "6": {
     "title": "【大阪開催】関西AI実践ミートアップ Vol.3──現場エンジニアが語るLLMの本音",
     "date": "2025年11月28日",
-    "image": "/assets/images/07-blog/event-thumb-6.png",
+    "image": "/assets/images/events/event-thumb-06.png",
     "category": "イベント",
     "content": `<h2 id="ev6-overview"><strong>イベント概要</strong></h2>
 
