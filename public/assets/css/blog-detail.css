@@ -239,7 +239,8 @@
   display: none;
 }
 
-.article-content h1 {
+.article-content h1,
+.article-gated-content h1 {
   font-size: 22px;
   font-weight: 600;
   color: var(--color-text-main);
@@ -248,7 +249,8 @@
   margin: 48px 0 16px;
 }
 
-.article-content h2 {
+.article-content h2,
+.article-gated-content h2 {
   font-size: 22px;
   font-weight: 400;
   color: var(--color-text-main);
@@ -257,7 +259,8 @@
   margin: 40px 0 16px;
 }
 
-.article-content h3 {
+.article-content h3,
+.article-gated-content h3 {
   font-size: 17px;
   font-weight: 500;
   color: var(--color-text-main);
@@ -266,7 +269,8 @@
   margin: 32px 0 12px;
 }
 
-.article-content h4 {
+.article-content h4,
+.article-gated-content h4 {
   font-size: 15px;
   font-weight: 500;
   color: var(--color-text-main);
@@ -275,7 +279,8 @@
   margin: 28px 0 10px;
 }
 
-.article-content p {
+.article-content p,
+.article-gated-content p {
   font-size: 16px;
   font-weight: 300;
   color: var(--color-text-body);
@@ -301,12 +306,15 @@
 }
 
 .article-content ul,
-.article-content ol {
+.article-gated-content ul,
+.article-content ol,
+.article-gated-content ol {
   padding-left: 16px;
   margin: 16px 0 0;
 }
 
-.article-content li {
+.article-content li,
+.article-gated-content li {
   font-size: 16px;
   font-weight: 300;
   color: var(--color-text-body);
@@ -315,13 +323,15 @@
   margin-bottom: 8px;
 }
 
-.article-content strong {
+.article-content strong,
+.article-gated-content strong {
   color: var(--color-text-main);
   font-weight: 500;
 }
 
 /* ── Table ── */
-.article-content table {
+.article-content table,
+.article-gated-content table {
   width: 100%;
   border-collapse: collapse;
   margin: 34px 0;
@@ -330,7 +340,8 @@
   border-bottom: 1px solid #D1D5DB;
 }
 
-.article-content th {
+.article-content th,
+.article-gated-content th {
   background: var(--bg-light);
   color: var(--color-text-main);
   font-weight: 500;
@@ -340,7 +351,8 @@
   line-height: 1.5;
 }
 
-.article-content td {
+.article-content td,
+.article-gated-content td {
   padding: 14px 20px;
   color: var(--color-text-body);
   border-bottom: 1px solid #E5E7EB;
@@ -348,45 +360,54 @@
   line-height: 1.6;
 }
 
-.article-content tr:nth-child(even) td {
+.article-content tr:nth-child(even) td,
+.article-gated-content tr:nth-child(even) td {
   background: #F6F8FA;
 }
 
-.article-content tr:last-child td {
+.article-content tr:last-child td,
+.article-gated-content tr:last-child td {
   border-bottom: none;
 }
 
-.article-content figure.wp-figure {
+.article-content figure.wp-figure,
+.article-gated-content figure.wp-figure {
   margin: 32px 0;
   text-align: center;
 }
 
-.article-content figure.wp-figure img {
+.article-content figure.wp-figure img,
+.article-gated-content figure.wp-figure img {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
   border: 1px solid var(--color-border);
 }
 
-.article-content figure.wp-figure figcaption {
+.article-content figure.wp-figure figcaption,
+.article-gated-content figure.wp-figure figcaption {
   margin-top: 10px;
   font-size: 13px;
   color: var(--color-text-gray);
   line-height: 1.5;
 }
 
-.article-content blockquote {
+.article-content blockquote,
+.article-gated-content blockquote {
   border-left: 1px solid #d1d5db;
   margin: 10px 0 20px;
   padding-left: 1.875rem;
 }
 
-.article-content blockquote > *:first-child {
+.article-content blockquote > *:first-child,
+.article-gated-content blockquote > *:first-child {
   margin-top: 0;
 }
 
 .article-content blockquote p,
-.article-content blockquote li {
+.article-content blockquote li,
+.article-gated-content blockquote p,
+.article-gated-content blockquote li {
   font-size: 14px;
   color: var(--color-text-body);
 }
