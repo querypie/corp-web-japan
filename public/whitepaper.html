@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="/assets/css/styles.css">
   <link rel="stylesheet" href="/assets/css/blog.css">
   <script>document.documentElement.classList.add('no-transition');</script>
+  <script src="/whitepaper-data.js"></script>
 </head>
 
 <body>
@@ -195,84 +196,21 @@
         </aside>
 
         <div class="resources-content">
-          <ul class="blog-list">
-
-            <li class="blog-list-item" data-category="whitepaper">
-              <a href="#" class="blog-list-card">
-                <div class="blog-list-img"></div>
-                <div class="blog-list-text">
-                  <span class="blog-list-badge">ホワイトペーパー</span>
-                  <h3 class="blog-list-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
-                  <p class="blog-list-excerpt">AIエージェントが自律的に業務を遂行する時代、企業はどう統制すべきか。権限設計・承認フロー・監査ログ・Kill Switchの4要素を体系化し、CxO・実務リーダー向けに解説する2026年版ガードレール設計ガイド。</p>
-                  <p class="blog-list-date">2026年2月20日</p>
-                </div>
-              </a>
-            </li>
-
-            <li class="blog-list-item" data-category="whitepaper">
-              <a href="#" class="blog-list-card">
-                <div class="blog-list-img"></div>
-                <div class="blog-list-text">
-                  <span class="blog-list-badge">ホワイトペーパー</span>
-                  <h3 class="blog-list-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
-                  <p class="blog-list-excerpt">AIエージェントが自律的に業務を遂行する時代、企業はどう統制すべきか。権限設計・承認フロー・監査ログ・Kill Switchの4要素を体系化し、CxO・実務リーダー向けに解説する2026年版ガードレール設計ガイド。</p>
-                  <p class="blog-list-date">2026年2月20日</p>
-                </div>
-              </a>
-            </li>
-
-            <li class="blog-list-item" data-category="whitepaper">
-              <a href="#" class="blog-list-card">
-                <div class="blog-list-img"></div>
-                <div class="blog-list-text">
-                  <span class="blog-list-badge">ホワイトペーパー</span>
-                  <h3 class="blog-list-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
-                  <p class="blog-list-excerpt">AIエージェントが自律的に業務を遂行する時代、企業はどう統制すべきか。権限設計・承認フロー・監査ログ・Kill Switchの4要素を体系化し、CxO・実務リーダー向けに解説する2026年版ガードレール設計ガイド。</p>
-                  <p class="blog-list-date">2026年2月20日</p>
-                </div>
-              </a>
-            </li>
-
-            <li class="blog-list-item" data-category="whitepaper">
-              <a href="#" class="blog-list-card">
-                <div class="blog-list-img"></div>
-                <div class="blog-list-text">
-                  <span class="blog-list-badge">ホワイトペーパー</span>
-                  <h3 class="blog-list-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
-                  <p class="blog-list-excerpt">AIエージェントが自律的に業務を遂行する時代、企業はどう統制すべきか。権限設計・承認フロー・監査ログ・Kill Switchの4要素を体系化し、CxO・実務リーダー向けに解説する2026年版ガードレール設計ガイド。</p>
-                  <p class="blog-list-date">2026年2月20日</p>
-                </div>
-              </a>
-            </li>
-
-            <li class="blog-list-item" data-category="whitepaper">
-              <a href="#" class="blog-list-card">
-                <div class="blog-list-img"></div>
-                <div class="blog-list-text">
-                  <span class="blog-list-badge">ホワイトペーパー</span>
-                  <h3 class="blog-list-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
-                  <p class="blog-list-excerpt">AIエージェントが自律的に業務を遂行する時代、企業はどう統制すべきか。権限設計・承認フロー・監査ログ・Kill Switchの4要素を体系化し、CxO・実務リーダー向けに解説する2026年版ガードレール設計ガイド。</p>
-                  <p class="blog-list-date">2026年2月20日</p>
-                </div>
-              </a>
-            </li>
-
-            <li class="blog-list-item" data-category="whitepaper">
-              <a href="#" class="blog-list-card">
-                <div class="blog-list-img"></div>
-                <div class="blog-list-text">
-                  <span class="blog-list-badge">ホワイトペーパー</span>
-                  <h3 class="blog-list-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
-                  <p class="blog-list-excerpt">AIエージェントが自律的に業務を遂行する時代、企業はどう統制すべきか。権限設計・承認フロー・監査ログ・Kill Switchの4要素を体系化し、CxO・実務リーダー向けに解説する2026年版ガードレール設計ガイド。</p>
-                  <p class="blog-list-date">2026年2月20日</p>
-                </div>
-              </a>
-            </li>
-
-          </ul>
+          <ul class="blog-list" id="wp-list"></ul>
           <p class="blog-empty">該当するコンテンツがありません。</p>
         </div>
 
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="rr-closing-cta-section">
+      <div class="container">
+        <h2 class="rr-closing-cta-title">まずはお気軽にご相談ください。</h2>
+        <p class="rr-closing-cta-text">貴社に最適なパターンを一緒に検討しましょう。</p>
+        <div class="rr-closing-cta-buttons">
+          <a href="#" class="btn-primary dashi-cta-btn">無料で導入相談・見積もりをする <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
+        </div>
       </div>
     </section>
 
@@ -312,6 +250,53 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    (function() {
+      if (typeof WHITEPAPER_DATA === 'undefined') return;
+      function normPath(p) { return p || ''; }
+      function stripHtml(html) { var d = document.createElement('div'); d.innerHTML = html; return d.textContent || d.innerText || ''; }
+      function excerpt(content, len) { var t = stripHtml(content || '').trim(); return t.length > len ? t.slice(0, len) + '...' : t; }
+      var list = document.getElementById('wp-list');
+      if (!list) return;
+      var html = '';
+      function parseJpDate(s) {
+        var m = s && s.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+        return m ? new Date(+m[1], +m[2]-1, +m[3]) : new Date(0);
+      }
+      function wpThumbNum(wp) {
+        var m = wp.image && wp.image.match(/wp-thumb-(\d+)/);
+        return m ? parseInt(m[1]) : 0;
+      }
+      // IDs not on production site (custom content / non-published WPs)
+      // 2=AIエージェント後編, 4=コード生成後編, 17=テラサワ重複, 18=AI個人情報(非公開)
+      var skipIds = {'2':1,'4':1,'17':1,'18':1};
+      Object.keys(WHITEPAPER_DATA).filter(function(id){ return !skipIds[id]; }).sort(function(a, b) {
+        var da = parseJpDate(WHITEPAPER_DATA[a].date);
+        var db = parseJpDate(WHITEPAPER_DATA[b].date);
+        if (db - da !== 0) return db - da;
+        return wpThumbNum(WHITEPAPER_DATA[b]) - wpThumbNum(WHITEPAPER_DATA[a]);
+      }).slice(0, 10).forEach(function(id) {
+        var wp = WHITEPAPER_DATA[id];
+        var imgSrc = normPath(wp.image);
+        var altText = wp.title.replace(/"/g, '&quot;');
+        html += '<li class="blog-list-item" data-category="whitepaper">' +
+          '<a href="/whitepaper-detail.html?id=' + id + '" class="blog-list-card">' +
+            '<div class="blog-list-img wp-thumb-placeholder">' +
+              '<img src="' + imgSrc + '" alt="' + altText + '" onerror="this.onerror=null;this.src=\'/assets/images/07-blog/wp-thumb-29.png\'">' +
+            '</div>' +
+            '<div class="blog-list-text">' +
+              '<span class="blog-list-badge">' + (wp.category || 'ホワイトペーパー') + '</span>' +
+              '<h3 class="blog-list-title">' + wp.title + '</h3>' +
+              '<p class="blog-list-excerpt">' + excerpt(wp.content, 120) + '</p>' +
+              '<p class="blog-list-date">' + wp.date + '</p>' +
+            '</div>' +
+          '</a>' +
+        '</li>';
+      });
+      list.innerHTML = html;
+    })();
+  </script>
 
   <script>
     requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -372,21 +357,26 @@
     const filterLinks = document.querySelectorAll('.sidebar-link[data-filter]');
     const blogItems = document.querySelectorAll('.blog-list-item');
     const emptyMsg = document.querySelector('.blog-empty');
+
+    function applyFilter(filter) {
+      filterLinks.forEach(l => l.classList.toggle('is-active', l.dataset.filter === filter));
+      let visibleCount = 0;
+      blogItems.forEach(item => {
+        const match = filter === 'all' || item.dataset.category === filter;
+        item.classList.toggle('is-hidden', !match);
+        if (match) visibleCount++;
+      });
+      emptyMsg.classList.toggle('is-visible', visibleCount === 0);
+    }
+
     filterLinks.forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        const filter = link.dataset.filter;
-        filterLinks.forEach(l => l.classList.remove('is-active'));
-        link.classList.add('is-active');
-        let visibleCount = 0;
-        blogItems.forEach(item => {
-          const match = filter === 'all' || item.dataset.category === filter;
-          item.classList.toggle('is-hidden', !match);
-          if (match) visibleCount++;
-        });
-        emptyMsg.classList.toggle('is-visible', visibleCount === 0);
+        applyFilter(link.dataset.filter);
       });
     });
+
+    applyFilter('whitepaper');
   </script>
 
 </body>

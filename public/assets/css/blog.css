@@ -154,6 +154,17 @@
   border-color: #1E3A5F;
 }
 
+.blog-list-badge.is-whitepaper {
+  color: #1D4ED8;
+  border-color: #BFDBFE;
+  background: #EFF6FF;
+}
+
+.wp-thumb-placeholder {
+  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+}
+
+
 .blog-list-title {
   font-size: 20px;
   font-weight: 500;
@@ -183,6 +194,29 @@
   letter-spacing: 0.0175rem;
   margin: 0;
 }
+
+/* Whitepaper card download button */
+.wp-card-dl-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 10px 16px;
+  border: 1px solid #3a4149;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #60A5FA;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.wp-card-dl-btn:hover {
+  background: rgba(96, 165, 250, 0.08);
+  border-color: #60A5FA;
+}
+
 
 /* Empty state */
 .blog-empty {

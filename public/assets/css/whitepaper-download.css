@@ -1,0 +1,353 @@
+/* ============================================
+   whitepaper-download.css
+   Download page layout (ArticleType2 style)
+   ============================================ */
+
+.wp-dl-wrap {
+  padding: 96px 0 120px;
+  min-height: calc(100vh - 80px);
+  background: #fff;
+}
+
+.wp-dl-wrap .container {
+  max-width: 1160px;
+}
+
+.wp-dl-layout {
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  gap: 56px;
+  align-items: flex-start;
+}
+
+/* ── Left: Document Info + Cover ── */
+.wp-dl-doc {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 108px;
+}
+
+.wp-dl-category {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-main);
+  border: 1px solid #353c45;
+  border-radius: 20px;
+  padding: 3px 12px;
+  align-self: flex-start;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  margin-bottom: 16px;
+}
+
+.wp-dl-doc-title {
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--color-text-main);
+  line-height: 1.45;
+  margin: 0 0 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #E5E7EB;
+  letter-spacing: -0.02em;
+}
+
+/* Share buttons */
+.wp-dl-share {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-bottom: 28px;
+}
+
+.wp-dl-share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #6B7280;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  text-decoration: none;
+}
+
+.wp-dl-share-btn:hover {
+  background: #F3F4F6;
+  color: var(--color-text-main);
+}
+
+/* Cover image */
+.wp-dl-cover-img-wrap {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #E5E7EB;
+}
+
+.wp-dl-cover-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Author + date below image */
+.wp-dl-doc-meta {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wp-dl-doc-author {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text-main);
+  margin: 0;
+}
+
+.wp-dl-doc-date {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-text-gray);
+  margin: 0;
+}
+
+/* ── Right: Form Card ── */
+.wp-dl-form-card {
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 36px 40px 44px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.wp-dl-form-desc {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-gray);
+  line-height: 1.7;
+  margin: 0 0 28px;
+}
+
+/* Override gating-form inside download card */
+.wp-dl-form-card .gating-form {
+  max-width: none;
+  margin: 0;
+}
+
+/* Submit button: dark on download page */
+.wp-dl-form-card .gating-form-submit {
+  background: #D1D5DB;
+  color: #9CA3AF;
+  cursor: not-allowed;
+}
+
+.wp-dl-form-card .gating-form-submit:hover {
+  background: #D1D5DB;
+}
+
+/* Success state */
+.wp-dl-success {
+  display: none;
+  text-align: center;
+  padding: 60px 0 32px;
+}
+
+.wp-dl-success.is-shown {
+  display: block;
+}
+
+.wp-dl-success-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: #22C55E;
+}
+
+.wp-dl-success-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-text-main);
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
+}
+
+.wp-dl-success-text {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-text-gray);
+  line-height: 1.8;
+  margin: 0 0 28px;
+}
+
+.wp-dl-success-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 52px;
+  padding: 0 32px;
+  background: #374151;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.wp-dl-success-btn:hover {
+  background: #1F2937;
+}
+
+/* ── Mobile ── */
+@media (max-width: 860px) {
+  .wp-dl-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .wp-dl-doc {
+    position: static;
+  }
+
+  .wp-dl-cover-img-wrap {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 768px) {
+  .wp-dl-wrap {
+    padding: 88px 0 80px;
+  }
+
+  .wp-dl-doc-title {
+    font-size: 24px;
+  }
+
+  .wp-dl-form-card {
+    padding: 28px 24px 36px;
+  }
+}
+
+/* ── Author + Related Bottom Section ── */
+.wp-dl-bottom {
+  background: #F9FAFB;
+  border-top: 1px solid #E5E7EB;
+  padding: 56px 0 72px;
+}
+
+.wp-dl-bottom .container {
+  max-width: 1160px;
+}
+
+.wp-dl-author {
+  margin-bottom: 48px;
+}
+
+/* Related articles */
+.wp-dl-related-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-main);
+  margin: 0 0 24px;
+  letter-spacing: -0.02em;
+}
+
+.wp-dl-related-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.wp-dl-related-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.wp-dl-related-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.wp-dl-related-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #E5E7EB;
+}
+
+.wp-dl-related-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s;
+}
+
+.wp-dl-related-card:hover .wp-dl-related-img img {
+  transform: scale(1.03);
+}
+
+.wp-dl-related-text {
+  padding: 16px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.wp-dl-related-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-main);
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.wp-dl-related-date {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-text-gray);
+  margin: 0;
+}
+
+@media (max-width: 860px) {
+  .wp-dl-related-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .wp-dl-bottom {
+    padding: 40px 0 56px;
+  }
+
+  .wp-dl-author {
+    margin-bottom: 36px;
+  }
+
+  .wp-dl-related-cards {
+    grid-template-columns: 1fr;
+  }
+}

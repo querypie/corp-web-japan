@@ -10,6 +10,7 @@
   <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/woff2/PretendardJP-Medium.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/pretendard-jp.css">
   <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="/blog-data.js"></script>
   <script>document.documentElement.classList.add('no-transition');</script>
 </head>
 
@@ -346,47 +347,11 @@
     <section id="news" class="blog-section">
       <div class="container">
         <h2 class="section-title">ブログ</h2>
-        <div class="blog-grid">
-          <!-- Blog Post 1 -->
-          <article class="blog-card">
-            <a href="/blog-detail.html?id=28">
-              <div class="blog-img-container1">
-                <img src="/assets/images/07-blog/b-thumb-28.png" alt="AIセキュリティ脅威マップ2026" class="blog-thumb">
-              </div>
-              <h3 class="blog-title">AIセキュリティ脅威マップ2026｜CxOが備えるべき7つの攻撃ベクトルと実務対策フレームワーク</h3>
-              <p class="blog-excerpt">AIセキュリティは従来のサイバー対策の延長ではなく「追加層」です。プロンプトインジェクション、データポイズニング、モデルサプライチェーン攻撃など7つの攻撃ベクトルをCxO向けに解説します。</p>
-            </a>
-          </article>
-          <!-- Blog Post 2 -->
-          <article class="blog-card">
-            <a href="/blog-detail.html?id=27">
-              <div class="blog-img-container2">
-                <img src="/assets/images/07-blog/b-thumb-27.png" alt="シャドーAIリスク" class="blog-thumb">
-              </div>
-              <h3 class="blog-title">【2026年最新】シャドーAIリスクの全貌｜情報漏洩・コンプライアンス違反を防ぐCxOの5つの対策</h3>
-              <p class="blog-excerpt">シャドーAIは経営リスクそのものである。IBM調査によるとシャドーAI起因のデータ侵害コストは平均463万ドル。情報漏洩・コンプライアンス違反を防ぐ5つの具体的対策を解説します。</p>
-            </a>
-          </article>
-          <!-- Blog Post 3 -->
-          <article class="blog-card">
-            <a href="/blog-detail.html?id=22">
-              <div class="blog-img-container3">
-                <img src="/assets/images/07-blog/b-thumb-22.png" alt="Replit AIエージェントセキュリティ" class="blog-thumb">
-              </div>
-              <h3 class="blog-title">AIはどこまで信じていいのか？Replit事件から振り返るAIエージェントセキュリティの現実</h3>
-              <p class="blog-excerpt">Replit AIエージェントがプロダクションDBを削除した事件は、単なる技術的ミスではなく、AIエージェントを実環境に導入する際に必ず考慮すべきセキュリティ構造の重要性を示しています。</p>
-            </a>
-          </article>
-        </div>
+        <div class="blog-grid"></div>
 
         <div class="pagination">
           <button class="page-btn prev"><img src="/assets/images/07-blog/pagination-prev.svg" alt="Prev"></button>
-          <div class="page-dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-          </div>
+          <div class="page-dots"></div>
           <button class="page-btn next"><img src="/assets/images/07-blog/pagination-next.svg" alt="Next"></button>
         </div>
       </div>
@@ -764,70 +729,78 @@
     heroSlider.init();
 
     // Blog Slider
-    const blogSlider = {
-      cards: document.querySelectorAll('.blog-card'),
-      dots: document.querySelectorAll('.pagination .dot'),
-      prevBtn: document.querySelector('.pagination .page-btn.prev'),
-      nextBtn: document.querySelector('.pagination .page-btn.next'),
-      currentPage: 0,
-      cardsPerPage: 3,
+    (() => {
+      if (typeof BLOG_DATA === 'undefined') return;
 
-      init() {
-        if (!this.cards.length) return;
-
-        // Dot click events
-        this.dots.forEach((dot, index) => {
-          dot.addEventListener('click', () => this.goToPage(index));
-        });
-
-        // Arrow click events
-        if (this.prevBtn) {
-          this.prevBtn.addEventListener('click', () => this.prevPage());
-        }
-        if (this.nextBtn) {
-          this.nextBtn.addEventListener('click', () => this.nextPage());
-        }
-
-        this.updateDisplay(true);
-      },
-
-      goToPage(index) {
-        this.dots[this.currentPage].classList.remove('active');
-        this.currentPage = index;
-        this.dots[this.currentPage].classList.add('active');
-        this.updateDisplay(false);
-      },
-
-      nextPage() {
-        const next = (this.currentPage + 1) % this.dots.length;
-        this.goToPage(next);
-      },
-
-      prevPage() {
-        const prev = (this.currentPage - 1 + this.dots.length) % this.dots.length;
-        this.goToPage(prev);
-      },
-
-      updateDisplay(isInit = false) {
-        const blogGrid = document.querySelector('.blog-grid');
-        if (!blogGrid) return;
-        if (isInit) {
-          blogGrid.style.opacity = '1';
-          blogGrid.style.transform = 'translateX(0)';
-          return;
-        }
-        blogGrid.style.transition = 'none';
-        blogGrid.style.opacity = '0';
-        blogGrid.style.transform = 'translateX(20px)';
-        setTimeout(() => {
-          blogGrid.style.transition = 'all 0.3s ease';
-          blogGrid.style.opacity = '1';
-          blogGrid.style.transform = 'translateX(0)';
-        }, 50);
+      function parseDate(str) {
+        const m = str.match(/(\d+)年(\d+)月(\d+)日/);
+        return m ? new Date(+m[1], +m[2] - 1, +m[3]) : new Date(0);
       }
-    };
 
-    blogSlider.init();
+      const allPosts = Object.entries(BLOG_DATA)
+        .map(([id, d]) => ({ id, title: d.title, date: d.date, image: d.image, category: d.category || 'ブログ' }))
+        .sort((a, b) => parseDate(b.date) - parseDate(a.date))
+        .slice(0, 6);
+
+      const PER_PAGE = 3;
+      const totalPages = Math.ceil(allPosts.length / PER_PAGE);
+      let currentPage = 0;
+
+      const grid = document.querySelector('.blog-grid');
+      const dotsContainer = document.querySelector('.page-dots');
+      const prevBtn = document.querySelector('.page-btn.prev');
+      const nextBtn = document.querySelector('.page-btn.next');
+
+      for (let i = 0; i < totalPages; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', () => goToPage(i));
+        dotsContainer.appendChild(dot);
+      }
+
+      function renderPage(page, animate) {
+        const posts = allPosts.slice(page * PER_PAGE, (page + 1) * PER_PAGE);
+        const doRender = () => {
+          grid.innerHTML = posts.map((p, i) => `
+            <article class="blog-card">
+              <a href="/blog-detail.html?id=${p.id}">
+                <div class="blog-img-container${(i % 3) + 1}">
+                  <img src="${p.image}" alt="${p.title}" class="blog-thumb">
+                </div>
+                <span class="blog-tag">${p.category}</span>
+                <h3 class="blog-title">${p.title}</h3>
+              </a>
+            </article>
+          `).join('');
+        };
+        if (animate) {
+          grid.style.transition = 'none';
+          grid.style.opacity = '0';
+          grid.style.transform = 'translateX(20px)';
+          setTimeout(() => {
+            doRender();
+            grid.style.transition = 'all 0.3s ease';
+            grid.style.opacity = '1';
+            grid.style.transform = 'translateX(0)';
+          }, 50);
+        } else {
+          doRender();
+          grid.style.opacity = '1';
+          grid.style.transform = 'translateX(0)';
+        }
+      }
+
+      function goToPage(page) {
+        dotsContainer.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === page));
+        currentPage = page;
+        renderPage(page, true);
+      }
+
+      prevBtn.addEventListener('click', () => goToPage((currentPage - 1 + totalPages) % totalPages));
+      nextBtn.addEventListener('click', () => goToPage((currentPage + 1) % totalPages));
+
+      renderPage(0, false);
+    })();
   </script>
 </body>
 
