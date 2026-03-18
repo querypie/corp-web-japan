@@ -1,8 +1,13 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+let _ai: GoogleGenAI | null = null;
+function getAI() {
+  if (!_ai) _ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+  return _ai;
+}
 
 export async function generateText(prompt: string, options?: { model?: string }) {
+  const ai = getAI();
   const response = await ai.models.generateContent({
     model: options?.model ?? "gemini-2.5-flash",
     contents: prompt,
@@ -11,6 +16,7 @@ export async function generateText(prompt: string, options?: { model?: string })
 }
 
 export async function generateTextStream(prompt: string, options?: { model?: string }) {
+  const ai = getAI();
   const response = await ai.models.generateContentStream({
     model: options?.model ?? "gemini-2.5-flash",
     contents: prompt,
@@ -25,6 +31,7 @@ export async function generateImage(
     negativePrompt?: string;
   }
 ) {
+  const ai = getAI();
   const response = await ai.models.generateImages({
     model: "imagen-3.0-generate-002",
     prompt,

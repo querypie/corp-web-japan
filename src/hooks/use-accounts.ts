@@ -11,11 +11,11 @@ import { useEffect } from "react";
 
 export function useAccounts() {
   const store = useAccountsStore();
-  const supabase = createClient();
 
   const { data: oauthAccounts, isLoading } = useQuery({
     queryKey: ["sns-accounts"],
     queryFn: async () => {
+      const supabase = createClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();
@@ -74,7 +74,6 @@ export function useAccounts() {
 
 export function useDeleteAccount() {
   const queryClient = useQueryClient();
-  const supabase = createClient();
   const removeLocalAccount = useAccountsStore((s) => s.removeAccount);
 
   return useMutation({
@@ -86,6 +85,7 @@ export function useDeleteAccount() {
       source: "demo" | "oauth";
     }) => {
       if (source === "oauth") {
+        const supabase = createClient();
         const { error } = await supabase
           .from("sns_accounts")
           .delete()

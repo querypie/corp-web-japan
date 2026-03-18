@@ -42,11 +42,11 @@ function dbToLocal(row: DbPost): ScheduledPost {
 /** Supabase + Zustand 통합 게시물 hook */
 export function usePosts(status?: PostStatus) {
   const store = usePostsStore();
-  const supabase = createClient();
 
   const { data: dbPosts, isLoading } = useQuery<DbPost[]>({
     queryKey: ["posts", status ?? "all"],
     queryFn: async () => {
+      const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return [];
 
@@ -97,7 +97,6 @@ export function usePosts(status?: PostStatus) {
 export function useCreatePost() {
   const queryClient = useQueryClient();
   const addLocalPost = usePostsStore((s) => s.addPost);
-  const supabase = createClient();
 
   return useMutation({
     mutationFn: async (payload: {
@@ -109,6 +108,7 @@ export function useCreatePost() {
       scheduled_at?: string | null;
       source_type?: string;
     }) => {
+      const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Unauthorized");
 
