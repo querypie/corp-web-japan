@@ -1,0 +1,47 @@
+name: Deploy on Production
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: scripts/deploy
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_TEAM_ID: ${{ vars.VERCEL_TEAM_ID }}
+      BRANCH: release
+      TARGET_ENV: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebase release onto main and push
+        working-directory: ${{ github.workspace }}
+        run: |
+          git fetch origin main release
+          git checkout release
+          git pull origin release
+          git rebase origin/main
+          git push origin release
+          echo "✅ Successfully rebased release onto main and pushed"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Deploy Script
+        run: npm run deploy
