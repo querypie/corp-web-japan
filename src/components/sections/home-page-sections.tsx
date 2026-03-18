@@ -16,8 +16,6 @@ import { homePageContent } from "@/content/home";
 import { FeatureShowcase } from "@/components/sections/feature-showcase";
 import { RoleSlides } from "@/components/sections/role-slides";
 
-const sectionPillClass =
-  "inline-flex rounded-full border border-black/6 bg-[#f9f9fb] px-4 py-2 text-sm font-semibold text-slate-900";
 const beforeItems = [
   Search,
   MessageSquareText,
@@ -64,7 +62,7 @@ export function HomePageSections() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
               <Link
                 href={hero.primaryCta.href}
-                className="inline-flex items-center justify-center rounded-[8px] bg-[#2f3a49] px-4 py-2.5 text-base font-semibold text-white transition hover:bg-[#25303d]"
+                className="inline-flex items-center justify-center rounded-[8px] bg-[#ED602E] px-4 py-2.5 text-base font-semibold text-white transition hover:bg-[#d45527]"
               >
                 {hero.primaryCta.label}
               </Link>

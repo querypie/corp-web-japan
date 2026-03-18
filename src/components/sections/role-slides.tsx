@@ -81,6 +81,12 @@ export function RoleSlides({ items }: RoleSlidesProps) {
                 <p className="text-[20px] leading-[1.25] tracking-[-0.03em] text-[#72808a]">
                   {item.summary}
                 </p>
+                <button
+                  type="button"
+                  className="mt-6 inline-flex items-center justify-center rounded-full bg-[#2f3a49] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#25303d]"
+                >
+                  詳しく見る
+                </button>
               </div>
             </div>
           </article>
