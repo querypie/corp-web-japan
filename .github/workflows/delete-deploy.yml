@@ -6,29 +6,11 @@ permissions:
 on:
   delete:
 
-defaults:
-  run:
-    working-directory: scripts/deploy
-
 jobs:
   delete-deploy:
     name: Delete Deploy
     runs-on: ubuntu-latest
     if: github.event.ref_type == 'branch'
-    env:
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_TEAM_ID: ${{ vars.VERCEL_TEAM_ID }}
-      BRANCH: ${{ github.event.ref }}
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run Delete Deploy Script
-        run: npm run delete-deploy
+      - name: No-op
+        run: echo "Vercel Git integration manages preview cleanup automatically."

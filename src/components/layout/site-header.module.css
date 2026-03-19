@@ -59,7 +59,7 @@
 }
 
 .navTriggerOpen {
-  color: #2f3a49;
+  color: #15181d;
   opacity: 1;
 }
 
@@ -146,7 +146,7 @@
 }
 
 .dropdownLink:hover {
-  color: #2f3a49;
+  color: #15181d;
 }
 
 .dropdownPanel {
@@ -165,7 +165,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  background: #2f3a49;
+  background: #15181d;
   padding: 9px 14px;
   color: #ffffff;
   font-size: 14px;
@@ -175,7 +175,7 @@
 }
 
 .cta:hover {
-  background: #25303d;
+  background: #0f1216;
 }
 
 @media (min-width: 992px) {

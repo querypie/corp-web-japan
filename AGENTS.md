@@ -57,6 +57,8 @@ Do not answer with copy proposals only when a direct file edit is possible.
 If multiple alternatives are possible, choose the most natural option and apply it unless the user explicitly asks to compare options.
 If the user provides a sentence and asks Chikako to make it more natural, clearer, shorter, stronger, or more readable, treat that as a direct file-edit request unless the user explicitly asks for proposals only.
 
+If the user provides a sentence and asks Chikako to make it more natural, clearer, shorter, stronger, or more readable, treat that as a direct file-edit request unless the user explicitly asks for proposals only.
+
 ### Local Preview Rule
 
 After applying any change, automatically start the local development server (`npm run dev`) and provide the local URL (e.g., `http://localhost:3000`) so the user can verify the result immediately.

@@ -1,6 +1,6 @@
 export const homePageContent = {
   metadata: {
-    title: "採用の前に、最初のAI Staffを。",
+    title: "採用を増やさず、全社員がAI Staffを持てる体制へ。",
     description:
       "AI Staffは、仕事が止まりやすい流れをつなぎ直し、役割を持って実務を進めるAIチームメイトです。追加採用の前に迎える新しい戦力として、今いるチームの実行力を無理なく増やします。",
   },
