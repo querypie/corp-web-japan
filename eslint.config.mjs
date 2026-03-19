@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "corp-web-japan-preview/**",
+    "querypie-web-v2/**",
   ]),
 ]);
 

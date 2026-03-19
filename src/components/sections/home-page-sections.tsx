@@ -16,8 +16,6 @@ import { homePageContent } from "@/content/home";
 import { FeatureShowcase } from "@/components/sections/feature-showcase";
 import { RoleSlides } from "@/components/sections/role-slides";
 
-const sectionPillClass =
-  "inline-flex rounded-full border border-black/6 bg-[#f9f9fb] px-4 py-2 text-sm font-semibold text-slate-900";
 const beforeItems = [
   Search,
   MessageSquareText,
@@ -64,7 +62,7 @@ export function HomePageSections() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
               <Link
                 href={hero.primaryCta.href}
-                className="inline-flex items-center justify-center rounded-[8px] bg-[#2f3a49] px-4 py-2.5 text-base font-semibold text-white transition hover:bg-[#25303d]"
+                className="inline-flex items-center justify-center rounded-[8px] bg-[#ED602E] px-4 py-2.5 text-base font-semibold text-white transition hover:bg-[#d45527]"
               >
                 {hero.primaryCta.label}
               </Link>
@@ -106,7 +104,7 @@ export function HomePageSections() {
               key={card.title}
               className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#2f3a49]">
+              <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
                 {index === 0 && <FolderKanban className="h-5 w-5" />}
                 {index === 1 && <Blocks className="h-5 w-5" />}
                 {index === 2 && <MessageSquareText className="h-5 w-5" />}
@@ -204,14 +202,14 @@ export function HomePageSections() {
                       </div>
                     );
                   })}
-                  <div className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#2f3a49] text-white shadow-[0_24px_55px_-30px_rgba(15,23,42,0.3)]">
+                  <div className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#15181d] text-white shadow-[0_24px_55px_-30px_rgba(15,23,42,0.3)]">
                     <Bot className="h-9 w-9" />
                   </div>
                 </div>
               </div>
             </article>
 
-            <article className="rounded-[1.8rem] border border-black/6 bg-[#2f3a49] p-6">
+            <article className="rounded-[1.8rem] border border-black/6 bg-[#15181d] p-6">
               <p className="text-center text-2xl font-semibold tracking-[-0.04em] text-white">導入後</p>
               <div className="mt-8 flex min-h-[18rem] items-center justify-center">
                 <div className="relative flex h-64 w-64 items-center justify-center">
@@ -254,7 +252,7 @@ export function HomePageSections() {
               key={card.title}
               className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]"
             >
-              <div className="inline-flex rounded-full bg-[#2f3a49] px-3 py-1 text-xs font-semibold text-white">
+              <div className="inline-flex rounded-full bg-[#15181d] px-3 py-1 text-xs font-semibold text-white">
                 {card.stat}
               </div>
               <h3 className="mt-5 text-2xl font-semibold tracking-[-0.04em] text-slate-950">{card.title}</h3>
@@ -303,7 +301,7 @@ export function HomePageSections() {
       >
         <div className="mx-auto flex max-w-[540px] flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-4">
-            <h2 className="text-4xl font-semibold leading-[1.05] tracking-[-0.06em] text-[#010d3e] sm:text-[54px] sm:leading-[60px]">
+            <h2 className="text-4xl font-semibold leading-[1.05] tracking-[-0.06em] text-[#15181d] sm:text-[54px] sm:leading-[60px]">
               {contact.title.split("\n")[0]}
               <br />
               {contact.title.split("\n")[1]}
@@ -313,7 +311,7 @@ export function HomePageSections() {
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-[17px]">
             <Link
               href={contact.primaryCta.href}
-              className="inline-flex items-center justify-center rounded-[8px] bg-[#2f3a49] px-4 py-2.5 text-base font-semibold text-white transition hover:bg-[#25303d]"
+              className="inline-flex items-center justify-center rounded-[8px] bg-[#15181d] px-4 py-2.5 text-base font-semibold text-white transition hover:bg-[#0f1216]"
             >
               {contact.primaryCta.label}
             </Link>

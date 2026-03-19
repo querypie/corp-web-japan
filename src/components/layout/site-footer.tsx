@@ -13,7 +13,7 @@ const footerColumns = [
   },
   {
     title: "ソリューション",
-    links: [{ label: "AI 出汁", href: "#" }],
+    links: [{ label: "AI 出汁", href: "/solutions/ai-dashi" }],
   },
   {
     title: "デモ",
@@ -30,7 +30,7 @@ const footerColumns = [
       { label: "用語集", href: "#" },
       { label: "マニュアル", href: "#" },
       { label: "ホワイトペーパー", href: "#" },
-      { label: "ブログ", href: "/blog.html" },
+      { label: "ブログ", href: "#" },
       { label: "イベント", href: "#" },
     ],
   },

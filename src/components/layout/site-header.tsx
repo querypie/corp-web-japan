@@ -31,7 +31,7 @@ const navItems: readonly NavItem[] = [
   {
     label: "ソリューション",
     description: "課題に合わせたAIソリューション",
-    children: [{ label: "AI 出汁", href: "#" }],
+    children: [{ label: "AI 出汁", href: "/solutions/ai-dashi" }],
   },
   {
     label: "デモ",
@@ -73,13 +73,13 @@ const navItems: readonly NavItem[] = [
 
 export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
-  const headerRef = useRef<HTMLElement>(null);
+  const shellRef = useRef<HTMLDivElement>(null);
   const navListRef = useRef<HTMLUListElement>(null);
   const [navLeft, setNavLeft] = useState(0);
 
   useEffect(() => {
     function handlePointerDown(event: MouseEvent) {
-      if (!headerRef.current?.contains(event.target as Node)) {
+      if (!shellRef.current?.contains(event.target as Node)) {
         setOpenMenu(null);
       }
     }
@@ -122,7 +122,8 @@ export function SiteHeader() {
 
   return (
     <>
-      <header ref={headerRef} className={styles.siteHeader}>
+      <div ref={shellRef}>
+      <header className={styles.siteHeader}>
         <div className={styles.headerContainer}>
           <Link href="/" className={styles.logo}>
             <Image
@@ -201,7 +202,6 @@ export function SiteHeader() {
                     key={child.label}
                     href={child.href}
                     className={styles.dropdownLink}
-                    onClick={() => setOpenMenu(null)}
                   >
                     {child.label}
                   </Link>
@@ -211,6 +211,7 @@ export function SiteHeader() {
           </div>
         </>
       ) : null}
+      </div>
 
       {openMenu ? (
         <button

@@ -34,7 +34,7 @@ export function FeatureShowcase({ items }: FeatureShowcaseProps) {
             className={cn(
               "rounded-[26px] bg-[#f9f9fb] px-8 py-3 text-[15px] font-medium text-[#24292f] hover:bg-[#f9f9fb]",
               index === activeIndex &&
-                "bg-[#2f3a49] text-[#f6f6f6] hover:bg-[#2f3a49] hover:text-[#f6f6f6]",
+                "bg-[#15181d] text-[#f6f6f6] hover:bg-[#15181d] hover:text-[#f6f6f6]",
             )}
             onClick={() => setActiveIndex(index)}
           >
@@ -45,10 +45,10 @@ export function FeatureShowcase({ items }: FeatureShowcaseProps) {
 
       <div className="mt-8 grid gap-10 lg:grid-cols-[544px_544px] lg:items-start lg:justify-between">
           <div>
-          <h3 className="max-w-[544px] text-4xl font-medium leading-[60px] tracking-[-0.96px] text-[#0d121f]">
+          <h3 className="max-w-[544px] text-4xl font-medium leading-[60px] tracking-[-0.96px] text-slate-950">
             {activeItem.heading}
           </h3>
-          <p className="mt-4 max-w-[544px] text-base leading-6 text-[#596780]">{activeItem.description}</p>
+          <p className="mt-4 max-w-[544px] text-base leading-6 text-slate-500">{activeItem.description}</p>
           </div>
 
           <div className="rounded-[1.8rem] bg-[#f9f9fb] p-6">
