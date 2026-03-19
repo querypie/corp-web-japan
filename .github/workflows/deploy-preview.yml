@@ -14,10 +14,6 @@ on:
         default: "main"
         type: "string"
 
-defaults:
-  run:
-    working-directory: scripts/deploy
-
 concurrency:
   group: preview-${{ github.event.pull_request.number || inputs.BRANCH || github.ref }}
   cancel-in-progress: true
@@ -26,11 +22,6 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    env:
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_TEAM_ID: ${{ vars.VERCEL_TEAM_ID }}
-      BRANCH: ${{ github.event_name == 'pull_request' && github.head_ref || inputs.BRANCH }}
-      TARGET_ENV: 'preview'
     steps:
       - uses: actions/checkout@v4
 
@@ -38,9 +29,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Deploy Script
-        run: npm run deploy
+      - name: Build application
+        run: npm run build
