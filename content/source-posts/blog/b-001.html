@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AIセキュリティは従来のサイバー対策の延長ではなく「追加層」です。プロンプトインジェクション、データポイズニング、モデルサプライチェーン攻撃など7つの攻撃ベクトルと、OWASP・NIST準拠の実務対策フレームワークをCxO向けに体系解説します。">
+  <title>AIセキュリティ脅威マップ2026｜CxOが備えるべき7つの攻撃ベクトルと実務対策フレームワーク - QueryPie AI</title>
+  <link rel="preload" href="https://cdn.jsdelivr.net/fontsource/fonts/mona-sans:vf@latest/latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/woff2/PretendardJP-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/woff2/PretendardJP-Medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/pretendard-jp.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+  <link rel="stylesheet" href="/assets/css/blog-detail.css">
+  <script>document.documentElement.classList.add('no-transition');</script>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/ja/" class="logo">
+        <img src="/assets/images/01-header/logo.svg" alt="QueryPie AI Logo" class="logo-img">
+      </a>
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link" data-dropdown>サービス<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">サービス</div>
+                  <div class="mega-sub">QueryPie AIのコアサービス</div>
+                </div>
+                <div class="mega-links">
+                  <a href="#" class="nav-dropdown-link">AI Platform (AIP)</a>
+                  <a href="#" class="nav-dropdown-link">Access Control Platform (ACP)</a>
+                  <a href="#" class="nav-dropdown-link">Forward Deployed Engineer Service (FDES)</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link" data-dropdown>ソリューション<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">ソリューション</div>
+                  <div class="mega-sub">課題に合わせたAIソリューション</div>
+                </div>
+                <div class="mega-links">
+                  <a href="/services/ai-dashi/" class="nav-dropdown-link">AI 出汁</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link" data-dropdown>デモ<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">デモ</div>
+                  <div class="mega-sub">QueryPie AIを体験する</div>
+                </div>
+                <div class="mega-links">
+                  <a href="#" class="nav-dropdown-link">ユースケース</a>
+                  <a href="#" class="nav-dropdown-link">AIP機能</a>
+                  <a href="#" class="nav-dropdown-link">ACP機能</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item has-dropdown">
+            <a href="/blog.html" class="nav-link is-active" data-dropdown>リソース<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">リソース</div>
+                  <div class="mega-sub">学習・活用リソース</div>
+                </div>
+                <div class="mega-links mega-links--grid">
+                  <a href="#" class="nav-dropdown-link">紹介資料</a>
+                  <a href="#" class="nav-dropdown-link">用語集</a>
+                  <a href="#" class="nav-dropdown-link">マニュアル</a>
+                  <a href="/whitepaper.html" class="nav-dropdown-link">ホワイトペーパー</a>
+                  <a href="/blog.html" class="nav-dropdown-link is-active">ブログ</a>
+                  <a href="/event.html" class="nav-dropdown-link">イベント</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link" data-dropdown>会社情報<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a>
+            <div class="nav-dropdown">
+              <div class="mega-inner">
+                <div class="mega-left">
+                  <div class="mega-heading">会社情報</div>
+                  <div class="mega-sub">QueryPie AIについて</div>
+                </div>
+                <div class="mega-links">
+                  <a href="#" class="nav-dropdown-link">私たちについて</a>
+                  <a href="#" class="nav-dropdown-link">認証情報</a>
+                  <a href="#" class="nav-dropdown-link">ニュース</a>
+                  <a href="#" class="nav-dropdown-link">お問い合わせ</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">プラン</a>
+          </li>
+        </ul>
+      </nav>
+      <a href="#" class="btn btn-primary desktop-only">お問い合わせ <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
+      <button class="mobile-menu-btn" aria-label="メニュー">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+
+    <div class="nav-backdrop"></div>
+
+    <div class="mobile-menu">
+      <nav class="mobile-nav">
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">サービス<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="#" class="mobile-nav-sublink">QueryPie AIP</a>
+            <a href="#" class="mobile-nav-sublink">QueryPie ACP</a>
+            <a href="#" class="mobile-nav-sublink">QueryPie FDE</a>
+          </div>
+        </div>
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">ソリューション<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="/services/ai-dashi/" class="mobile-nav-sublink">AI 出汁</a>
+          </div>
+        </div>
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">デモ<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="#" class="mobile-nav-sublink">ユースケース</a>
+            <a href="#" class="mobile-nav-sublink">AIP機能</a>
+            <a href="#" class="mobile-nav-sublink">ACP機能</a>
+          </div>
+        </div>
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">リソース<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="#" class="mobile-nav-sublink">紹介資料</a>
+            <a href="#" class="mobile-nav-sublink">用語集</a>
+            <a href="#" class="mobile-nav-sublink">マニュアル</a>
+            <a href="/whitepaper.html" class="mobile-nav-sublink">ホワイトペーパー</a>
+            <a href="/blog.html" class="mobile-nav-sublink">ブログ</a>
+            <a href="/event.html" class="mobile-nav-sublink">イベント</a>
+          </div>
+        </div>
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-toggle">会社情報<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button>
+          <div class="mobile-nav-sub">
+            <a href="#" class="mobile-nav-sublink">私たちについて</a>
+            <a href="#" class="mobile-nav-sublink">認証情報</a>
+            <a href="#" class="mobile-nav-sublink">ニュース</a>
+            <a href="#" class="mobile-nav-sublink">お問い合わせ</a>
+          </div>
+        </div>
+        <a href="#" class="mobile-nav-link">プラン</a>
+      </nav>
+      <a href="#" class="btn btn-primary mobile-cta">お問い合わせ <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="article-layout-wrap">
+      <div class="container">
+        <div class="article-layout">
+
+          <!-- Main Article -->
+          <div class="article-main">
+
+            <!-- Hero -->
+            <div class="article-hero-inner">
+              <div class="article-hero-text">
+                <span class="article-category">ブログ</span>
+                <h1 class="article-title">AIセキュリティ脅威マップ2026｜CxOが備えるべき7つの攻撃ベクトルと実務対策フレームワーク</h1>
+                <div class="article-meta">
+                  <span class="article-date">2026年3月3日</span>
+                  <div class="article-share">
+                    <a href="#" aria-label="Facebookでシェア">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="#" aria-label="X(Twitter)でシェア">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </a>
+                    <a href="#" aria-label="LinkedInでシェア">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    </a>
+                    <a href="#" aria-label="リンクをコピー">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="article-hero-img">
+                <img src="/assets/images/07-blog/b-thumb-28.png" alt="AIセキュリティ脅威マップ2026">
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="article-body">
+
+              <!-- Article Content -->
+              <div class="article-content">
+
+                <h2 id="intro">結論：AIの業務活用が進むほど、AI固有の攻撃面（アタックサーフェス）は拡大する。</h2>
+                <p>プロンプトインジェクション、学習データ汚染、モデルサプライチェーン攻撃は理論上のリスクではなく、2025年以降に実際のインシデントが報告されています。経営層が今構築すべきは、従来のサイバーセキュリティに「AI固有のリスク層」を追加した多層防御体制です。</p>
+
+                <h2 id="why-ai-security">1. なぜ今「AIセキュリティ」が経営課題なのか</h2>
+                <p>AI活用の拡大は、同時に<strong>新しいサイバー攻撃の標的</strong>を生み出しています。</p>
+                <ul>
+                  <li><a href="https://www.gartner.com/en/newsroom/press-releases/2025-08-05-gartner-hype-cycle-identifies-top-ai-innovations-in-2025" target="_blank" rel="noopener noreferrer"><strong>Gartner</strong></a>は2025年の戦略的テクノロジートレンドにおいて、AIセキュリティを重要課題として位置づけ、AIを活用する企業がAI固有のセキュリティインシデントに直面するリスクが急速に高まっていると警告しています。</li>
+                  <li><a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener noreferrer"><strong>NIST AI RMF 1.0</strong></a>（2023年公開）および補足文書<a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence" target="_blank" rel="noopener noreferrer"><strong>NIST AI 600-1 Generative AI Profile</strong></a>（2024年公開）は、AI固有のリスク（敵対的攻撃、データ汚染、出力操作）を従来のサイバーリスクとは別枠で管理する必要性を明記しています。</li>
+                  <li><a href="https://labs.zenity.io/p/summary-zenity-research-published-blackhat-2024" target="_blank" rel="noopener noreferrer"><strong>Zenity Research（2024年）</strong></a>は、Microsoft Copilot Studioにサーバーサイドリクエストフォージェリ（SSRF）の脆弱性を発見し、企業向けAIツール自体が攻撃経路になりうることを実証しました（<a href="https://nvd.nist.gov/vuln/detail/cve-2024-38206" target="_blank" rel="noopener noreferrer">CVE-2024-38206</a>として登録済み）。</li>
+                </ul>
+                <p>従来のサイバーセキュリティは「ネットワーク・エンドポイント・データ」を守る三層構造でした。AI時代には、ここに<strong>「モデル・プロンプト・学習データ・出力」</strong>という第四の層が加わります。この認識転換が、CxOに求められる最初のステップです。</p>
+
+                <h2 id="attack-vectors">2. AIシステムを狙う7つの攻撃ベクトル</h2>
+
+                <h3 id="attack-prompt">2-1. プロンプトインジェクション</h3>
+                <p>AIへの入力（プロンプト）に<strong>悪意ある指示を埋め込む</strong>攻撃です。システムプロンプトの無効化、機密情報の抽出、意図しない動作の誘発が可能になります。2025年にはGPT-4oベースの企業チャットボットで実際のインシデントが報告されています。</p>
+
+                <h3 id="attack-poison">2-2. 学習データ汚染（データポイズニング）</h3>
+                <p>AIモデルの学習データに<strong>意図的に偽・有害データを混入</strong>させる攻撃です。モデルの判断精度を低下させたり、特定の出力を誘導したりします。オープンソースのデータセットを利用する企業は特にリスクが高くなります。</p>
+
+                <h3 id="attack-supply">2-3. モデルサプライチェーン攻撃</h3>
+                <p>Hugging Face等の公開モデルリポジトリから取得したモデルに<strong>バックドアが仕込まれている</strong>ケースです。2024年にはHugging Hub上で悪意あるモデルが複数検出されました（<a href="https://jfrog.com/blog/data-scientists-targeted-by-malicious-hugging-face-ml-models-with-silent-backdoor/" target="_blank" rel="noopener noreferrer">JFrog Security Research報告</a>）。</p>
+
+                <h3 id="attack-agent">2-4. AIエージェントの権限悪用</h3>
+                <p>AIエージェントに付与された<strong>システムアクセス権限を悪用</strong>する攻撃です。エージェントがAPI経由でデータベースやファイルシステムにアクセスする場合、権限の過剰付与が重大なリスクとなります。</p>
+                <blockquote>
+                  <p>📖 AIエージェントの権限設計について、最小権限原則・承認フロー・監査ログを含む詳細なフレームワークは、ホワイトペーパー<a href="https://www.querypie.ai/ja/features/documentation/white-paper/28/ai-agent-guardrails-governance-2026" target="_blank" rel="noopener noreferrer">「AIエージェント時代のガードレール設計：前編 思想・設計編」</a>で解説しています。</p>
+                </blockquote>
+
+                <h3 id="attack-output">2-5. 出力操作（Output Manipulation）</h3>
+                <p>AIの出力結果を<strong>意図的に歪める</strong>攻撃です。RAG（検索拡張生成）システムにおいて、参照先文書を改ざんすることでAIの出力を操作する手法が確認されています。</p>
+
+                <h3 id="attack-theft">2-6. モデル窃取・知的財産流出</h3>
+                <p>APIを通じた大量クエリで<strong>モデルの挙動を再現（モデル抽出攻撃）</strong>したり、ファインチューニング済みモデルの知的財産が流出するリスクです。</p>
+
+                <h3 id="attack-social">2-7. AI利用による社会工学攻撃の高度化</h3>
+                <p>攻撃者がAIを<strong>フィッシングメール生成やディープフェイク作成</strong>に悪用するケースです。従来の社会工学攻撃が格段に精巧になり、検知が困難になっています。</p>
+
+                <h2 id="owasp">3. OWASP Top 10 for LLMに学ぶ優先対策</h2>
+                <p><a href="https://owasp.org/" target="_blank" rel="noopener noreferrer">OWASP</a>が公開した<strong><a href="https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/" target="_blank" rel="noopener noreferrer">「Top 10 for LLM Applications 2025」</a></strong>は、LLMアプリケーション固有のセキュリティリスクを体系化した重要な参照基準です。</p>
+
+                <h3 id="owasp-top3">上位3リスクと対策の要点</h3>
+                <p><strong>1. プロンプトインジェクション（LLM01）</strong></p>
+                <ul>
+                  <li>入力検証・サニタイゼーションの実装</li>
+                  <li>システムプロンプトと外部入力の厳格な分離</li>
+                  <li>出力フィルタリングの多段化</li>
+                </ul>
+                <p><strong>2. 機密情報漏洩（LLM02）</strong></p>
+                <ul>
+                  <li>学習データ・入力データの機密分類管理</li>
+                  <li>PII（個人情報）検出・マスキングの自動化</li>
+                  <li>データ損失防止（DLP）ツールとの連携</li>
+                </ul>
+                <p><strong>3. サプライチェーンリスク（LLM05）</strong></p>
+                <ul>
+                  <li>使用モデル・ライブラリの脆弱性スキャン</li>
+                  <li>モデルの出所・整合性の検証プロセス</li>
+                  <li>SBOM（ソフトウェア部品表）のAI版「AI-BOM」管理</li>
+                </ul>
+
+                <h2 id="comparison">4. 攻撃ベクトル別 対策比較表</h2>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>攻撃ベクトル</th>
+                      <th>リスクレベル</th>
+                      <th>主な対策</th>
+                      <th>コスト</th>
+                      <th>導入難易度</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>プロンプトインジェクション</td><td>★★★★★</td><td>入力検証・出力フィルタ・プロンプト分離</td><td>中</td><td>中</td></tr>
+                    <tr><td>学習データ汚染</td><td>★★★★☆</td><td>データ品質監査・出所検証・異常検知</td><td>高</td><td>高</td></tr>
+                    <tr><td>モデルサプライチェーン</td><td>★★★★☆</td><td>モデルスキャン・AI-BOM管理・署名検証</td><td>中</td><td>中</td></tr>
+                    <tr><td>エージェント権限悪用</td><td>★★★★★</td><td>最小権限原則・アクセスログ・承認ゲート</td><td>中</td><td>中</td></tr>
+                    <tr><td>出力操作</td><td>★★★☆☆</td><td>RAGソース検証・出力クロスチェック</td><td>低〜中</td><td>低</td></tr>
+                    <tr><td>モデル窃取</td><td>★★★☆☆</td><td>レート制限・アクセス制御・モニタリング</td><td>低</td><td>低</td></tr>
+                    <tr><td>AI悪用型社会工学</td><td>★★★★☆</td><td>従業員教育・多要素認証・検知ツール</td><td>中</td><td>中</td></tr>
+                  </tbody>
+                </table>
+                <p><strong>推奨アプローチ：</strong>プロンプトインジェクション対策とエージェント権限管理は<strong>最優先</strong>で取り組むべきです。この2つは攻撃の発生頻度が高く、インパクトも大きいためです。</p>
+
+                <h2 id="governance">5. AIセキュリティガバナンスの構築手順</h2>
+                <h3 id="gov-step1">ステップ1：AI資産の棚卸し</h3>
+                <ul>
+                  <li>社内で利用中のAIツール・モデル・APIを一覧化する</li>
+                  <li>各AI資産の<strong>アクセス権限・データ接続先・利用部門</strong>を明確にする</li>
+                  <li>シャドーAI（未承認AI利用）の実態調査を実施する</li>
+                </ul>
+                <h3 id="gov-step2">ステップ2：AI固有リスクの評価</h3>
+                <ul>
+                  <li><a href="https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/" target="_blank" rel="noopener noreferrer">OWASP Top 10 for LLM</a>を基準にリスクアセスメントを実施する</li>
+                  <li>各AI資産に対して<strong>機密区分別の利用ポリシー</strong>を策定する</li>
+                  <li><a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener noreferrer">NIST AI RMF</a>に基づくリスク管理フレームワークを導入する</li>
+                </ul>
+                <h3 id="gov-step3">ステップ3：技術的対策の実装</h3>
+                <ul>
+                  <li>プロンプトインジェクション対策（入力検証・出力フィルタ）</li>
+                  <li>AIエージェントの<strong>最小権限原則</strong>と承認ゲートの設計</li>
+                  <li>AI利用ログの一元管理と<strong>リアルタイム異常検知</strong></li>
+                </ul>
+                <blockquote>
+                  <p>📖 承認ゲート設計・監査ログの実装手順・停止手順の詳細は、ホワイトペーパー<a href="https://www.querypie.ai/ja/features/documentation/white-paper/28/ai-agent-guardrails-governance-2026" target="_blank" rel="noopener noreferrer">「AIエージェント時代のガードレール設計：前編 思想・設計編」</a>をご参照ください。ケーススタディや90日ロードマップをお探しの方は<a href="https://www.querypie.ai/ja/features/documentation/white-paper/29/ai-agent-guardrails-governance-2026-implementation" target="_blank" rel="noopener noreferrer">「後編：実践・導入編」</a>もあわせてご活用ください。</p>
+                </blockquote>
+                <h3 id="gov-step4">ステップ4：組織的対策の展開</h3>
+                <ul>
+                  <li><strong>全社員向けAIセキュリティ研修</strong>を定期実施する（年2回以上）</li>
+                  <li>AI利用インシデント対応手順書の策定</li>
+                  <li>四半期ごとのAIセキュリティ監査の実施</li>
+                </ul>
+                <h3 id="gov-step5">ステップ5：継続的改善</h3>
+                <ul>
+                  <li>新しい攻撃手法・脆弱性情報の定期収集</li>
+                  <li>Red Team演習（AIシステムへの擬似攻撃テスト）の実施</li>
+                  <li>AIセキュリティKPIの設定と経営報告</li>
+                </ul>
+
+                <h2 id="executive-action">6. 経営上の示唆と次のアクション</h2>
+                <h3 id="exec-points">重要ポイント</h3>
+                <ul>
+                  <li>AIセキュリティは従来のサイバーセキュリティの<strong>延長ではなく追加層</strong>として設計する</li>
+                  <li>プロンプトインジェクションとエージェント権限管理が<strong>最優先対策</strong></li>
+                  <li>技術的対策と組織的対策（教育・監査・体制）の<strong>両輪</strong>が不可欠</li>
+                </ul>
+                <h3 id="exec-actions">CxOへの具体的アクション</h3>
+                <p><strong>今日やること：</strong></p>
+                <ul>
+                  <li>IT/セキュリティ部門にAI資産の棚卸し状況を確認する</li>
+                  <li>自社のAI利用ポリシーが「AI固有のリスク」を対象にしているか点検する</li>
+                </ul>
+                <p><strong>今週やること：</strong></p>
+                <ul>
+                  <li><a href="https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/" target="_blank" rel="noopener noreferrer">OWASP Top 10 for LLM</a>を参照し、自社AI環境の簡易リスク評価を実施する</li>
+                  <li>AIエージェントに付与されている権限の一覧を作成する</li>
+                </ul>
+                <p><strong>今月やること：</strong></p>
+                <ul>
+                  <li>AIセキュリティ責任者（またはAIセキュリティタスクフォース）の設置を決裁する</li>
+                  <li>全社員向けAIセキュリティ研修の計画を策定する</li>
+                  <li>Red Team演習の実施計画を検討する</li>
+                </ul>
+
+                <p><strong>AIセキュリティは、AI活用の「ブレーキ」ではなく「安全装置」です。</strong>適切なセキュリティガバナンスがあれば、リスクを管理しながらAIの恩恵を最大化できます。経営層のリーダーシップで、今日から対策の第一歩を踏み出してください。</p>
+
+                <p><strong>参考資料：</strong></p>
+                <ul>
+                  <li><a href="https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/" target="_blank" rel="noopener noreferrer">OWASP「Top 10 for LLM Applications 2025」</a></li>
+                  <li><a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener noreferrer">NIST「AI Risk Management Framework 1.0」</a></li>
+                  <li><a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence" target="_blank" rel="noopener noreferrer">NIST AI 600-1「Generative AI Profile」</a></li>
+                  <li><a href="https://www.meti.go.jp/shingikai/mono_info_service/ai_shakai_jisso/index.html" target="_blank" rel="noopener noreferrer">経済産業省「AI事業者ガイドライン（第1.0版、2024年4月）」</a></li>
+                  <li><a href="https://nvd.nist.gov/vuln/detail/cve-2024-38206" target="_blank" rel="noopener noreferrer">米国National Vulnerability Database「CVE-2024-38206」</a></li>
+                  <li><a href="https://artificialintelligenceact.eu/" target="_blank" rel="noopener noreferrer">EU AI Act（2024年発効・2025年以降段階適用）</a></li>
+                  <li><a href="https://www.querypie.ai/ja/features/documentation/white-paper/28/ai-agent-guardrails-governance-2026" target="_blank" rel="noopener noreferrer">ホワイトペーパー「AIエージェント時代のガードレール設計：前編 思想・設計編」</a></li>
+                  <li><a href="https://www.querypie.ai/ja/features/documentation/white-paper/29/ai-agent-guardrails-governance-2026-implementation" target="_blank" rel="noopener noreferrer">ホワイトペーパー「AIエージェント時代のガードレール設計：後編 実践・導入編」</a></li>
+                </ul>
+
+              </div><!-- /.article-content -->
+            </div><!-- /.article-body -->
+          </div><!-- /.article-main -->
+
+          <!-- Sidebar -->
+          <aside class="article-sidebar">
+
+            <!-- Related Posts -->
+            <div class="related-sidebar">
+              <h2 class="related-sidebar-title">関連記事</h2>
+              <hr class="related-sidebar-divider">
+              <div class="related-sidebar-list">
+                <a href="/posts/blog/b-002.html" class="related-sidebar-card">
+                  <div class="related-sidebar-img"><img src="/assets/images/07-blog/b-thumb-27.png" alt="シャドーAIリスクの全貌"></div>
+                  <div class="related-sidebar-text">
+                    <h3 class="related-sidebar-card-title">【2026年最新】シャドーAIリスクの全貌｜情報漏洩・コンプライアンス違反を防ぐCxOの5つの対策</h3>
+                    <p class="related-sidebar-date">2026年2月20日</p>
+                  </div>
+                </a>
+                <a href="/posts/blog/b-004.html" class="related-sidebar-card">
+                  <div class="related-sidebar-img"><img src="/assets/images/07-blog/b-thumb-22.png" alt="AIエージェントセキュリティ"></div>
+                  <div class="related-sidebar-text">
+                    <h3 class="related-sidebar-card-title">AIはどこまで信じていいのか？Replit事件から振り返るAIエージェントセキュリティの現実</h3>
+                    <p class="related-sidebar-date">2025年7月29日</p>
+                  </div>
+                </a>
+                <a href="/posts/blog/b-005.html" class="related-sidebar-card">
+                  <div class="related-sidebar-img"><img src="/assets/images/07-blog/blog-card-1.png" alt="AI Red Teaming"></div>
+                  <div class="related-sidebar-text">
+                    <h3 class="related-sidebar-card-title">AIが命令を聞かなかった：なぜAI Red Teamingが必要なのか</h3>
+                    <p class="related-sidebar-date">2025年6月9日</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- Sticky: TOC + CTA -->
+            <div class="sidebar-sticky-group">
+              <div class="sidebar-toc">
+                <h2 class="sidebar-toc-title">目次</h2>
+                <div class="sidebar-toc-wrap">
+                  <div class="sidebar-toc-scroll">
+                    <ul class="sidebar-toc-list">
+                      <li><a href="#intro">結論：攻撃面は拡大する</a></li>
+                      <li><a href="#why-ai-security">1. なぜ今経営課題なのか</a></li>
+                      <li>
+                        <a href="#attack-vectors">2. 7つの攻撃ベクトル</a>
+                        <ul class="sidebar-toc-sub">
+                          <li><a href="#attack-prompt">2-1. プロンプトインジェクション</a></li>
+                          <li><a href="#attack-poison">2-2. 学習データ汚染</a></li>
+                          <li><a href="#attack-supply">2-3. モデルサプライチェーン攻撃</a></li>
+                          <li><a href="#attack-agent">2-4. AIエージェントの権限悪用</a></li>
+                          <li><a href="#attack-output">2-5. 出力操作</a></li>
+                          <li><a href="#attack-theft">2-6. モデル窃取・知的財産流出</a></li>
+                          <li><a href="#attack-social">2-7. 社会工学攻撃の高度化</a></li>
+                        </ul>
+                      </li>
+                      <li>
+                        <a href="#owasp">3. OWASP Top 10 for LLM</a>
+                        <ul class="sidebar-toc-sub">
+                          <li><a href="#owasp-top3">上位3リスクと対策の要点</a></li>
+                        </ul>
+                      </li>
+                      <li><a href="#comparison">4. 攻撃ベクトル別 対策比較表</a></li>
+                      <li>
+                        <a href="#governance">5. ガバナンス構築手順</a>
+                        <ul class="sidebar-toc-sub">
+                          <li><a href="#gov-step1">ステップ1：AI資産の棚卸し</a></li>
+                          <li><a href="#gov-step2">ステップ2：AI固有リスクの評価</a></li>
+                          <li><a href="#gov-step3">ステップ3：技術的対策の実装</a></li>
+                          <li><a href="#gov-step4">ステップ4：組織的対策の展開</a></li>
+                          <li><a href="#gov-step5">ステップ5：継続的改善</a></li>
+                        </ul>
+                      </li>
+                      <li>
+                        <a href="#executive-action">6. 経営上の示唆と次のアクション</a>
+                        <ul class="sidebar-toc-sub">
+                          <li><a href="#exec-points">重要ポイント</a></li>
+                          <li><a href="#exec-actions">CxOへの具体的アクション</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CTA -->
+              <div class="sidebar-cta">
+                <h3 class="sidebar-cta-title">お問い合わせ</h3>
+                <p class="sidebar-cta-text">当社のコンサルタントと繋がってAI活用を加速しませんか？</p>
+                <a href="#" class="sidebar-cta-btn">今すぐお問い合わせ <img src="/assets/images/01-header/arrow-right.svg" alt=""></a>
+              </div>
+            </div>
+
+          </aside>
+        </div><!-- /.article-layout -->
+      </div><!-- /.container -->
+    </div><!-- /.article-layout-wrap -->
+  </main>
+
+  <footer id="company-info" class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="/assets/images/01-header/logo.svg" alt="QueryPie">
+        </div>
+        <div class="social-links">
+          <a href="https://kr.linkedin.com/company/querypie-01" target="_blank"><img src="/assets/images/08-footer/social-linkedin.svg" alt="LinkedIn"></a>
+          <a href="https://www.youtube.com/@querypie" target="_blank"><img src="/assets/images/08-footer/social-youtube.svg" alt="YouTube"></a>
+          <a href="https://x.com/querypie" target="_blank"><img src="/assets/images/08-footer/social-x.svg" alt="X"></a>
+          <a href="https://www.facebook.com/querypie" target="_blank"><img src="/assets/images/08-footer/social-facebook.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/querypie.ai/" target="_blank"><img src="/assets/images/08-footer/social-instagram.svg" alt="Instagram"></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="link-column">
+          <h4>サービス</h4>
+          <ul>
+            <li><a href="#">AIP</a></li>
+            <li><a href="#">ACP</a></li>
+            <li><a href="#">FDE</a></li>
+          </ul>
+        </div>
+        <div class="link-column">
+          <h4>ソリューション</h4>
+          <ul>
+            <li><a href="/services/ai-dashi/">AI 出汁</a></li>
+          </ul>
+        </div>
+        <div class="link-column">
+          <h4>デモ</h4>
+          <ul>
+            <li><a href="#">ユースケース</a></li>
+            <li><a href="#">AIP機能</a></li>
+            <li><a href="#">ACP機能</a></li>
+          </ul>
+        </div>
+        <div class="link-column">
+          <h4>リソース</h4>
+          <ul>
+            <li><a href="#">紹介資料</a></li>
+            <li><a href="#">用語集</a></li>
+            <li><a href="#">マニュアル</a></li>
+            <li><a href="/whitepaper.html">ホワイトペーパー</a></li>
+            <li><a href="/blog.html">ブログ</a></li>
+            <li><a href="/event.html">イベント</a></li>
+          </ul>
+        </div>
+        <div class="link-column">
+          <h4>会社情報</h4>
+          <ul>
+            <li><a href="#">会社概要</a></li>
+            <li><a href="#">認定実績</a></li>
+            <li><a href="#">ニュース</a></li>
+            <li><a href="#">お問い合わせ</a></li>
+          </ul>
+        </div>
+        <div class="link-column">
+          <h4>プラン</h4>
+          <ul>
+            <li><a href="#">AIP</a></li>
+            <li><a href="#">ACP</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div class="legal-links">
+        <a href="#">クッキー設定</a>
+        <a href="#">利用規約</a>
+        <a href="#">プライバシーポリシー</a>
+        <a href="#">EULA</a>
+      </div>
+      <div class="copyright">
+        <p>© 2017-2025 QueryPie, Inc. All rights reserved.</p>
+        <p>本社：3003 North 1st Street, Suite 221, San Jose, CA 95134, USA</p>
+        <p>ソウル（麻谷）：ソウル特別市江西区麻谷中央1-26 7F、韓国</p>
+        <p>ソウル（江南）：ソウル特別市江南区江南大路464 3F、韓国</p>
+        <p>日本：〒105-6490 東京都港区虎ノ門1丁目17-1 15F</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      document.documentElement.classList.remove('no-transition');
+    }));
+
+    // Nav scroll shadow
+    const siteHeader = document.querySelector('.site-header');
+    function updateNavScroll() {
+      siteHeader.classList.toggle('scrolled', window.scrollY > 0);
+    }
+    updateNavScroll();
+    window.addEventListener('scroll', updateNavScroll, { passive: true });
+
+    // Mobile menu
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    menuBtn.addEventListener('click', () => {
+      menuBtn.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    });
+    document.querySelectorAll('.mobile-nav-link, .mobile-nav-sublink, .mobile-cta').forEach(link => {
+      link.addEventListener('click', () => {
+        menuBtn.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Desktop dropdown
+    const navItems = document.querySelectorAll('.nav-item.has-dropdown');
+    const navBackdrop = document.querySelector('.nav-backdrop');
+    let closeTimeout = null;
+    function closeAll() {
+      clearTimeout(closeTimeout);
+      navItems.forEach(i => i.classList.remove('is-open'));
+      navBackdrop.classList.remove('is-active');
+    }
+    const currentPageActiveLink = document.querySelector('.nav-dropdown-link.is-active');
+    navItems.forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        if (window.innerWidth < 992) return;
+        clearTimeout(closeTimeout);
+        navItems.forEach(o => o.classList.remove('is-open'));
+        item.classList.add('is-open');
+        document.querySelectorAll('.nav-dropdown-link').forEach(l => l.classList.remove('is-active'));
+        navBackdrop.classList.add('is-active');
+      });
+      item.addEventListener('mouseleave', () => {
+        if (window.innerWidth < 992) return;
+        clearTimeout(closeTimeout);
+        closeTimeout = setTimeout(() => {
+          item.classList.remove('is-open');
+          if (currentPageActiveLink && !document.querySelector('.nav-item.has-dropdown:hover')) currentPageActiveLink.classList.add('is-active');
+          if (!document.querySelector('.nav-item.has-dropdown:hover')) navBackdrop.classList.remove('is-active');
+        }, 150);
+      });
+    });
+    function alignMegaMenus() {
+      if (window.innerWidth < 992) return;
+      const firstNav = document.querySelector('.nav-item.has-dropdown .nav-link');
+      if (!firstNav) return;
+      const megaOuterLeft = Math.max(0, (window.innerWidth - 1200) / 2);
+      const paddingLeft = Math.max(30, firstNav.getBoundingClientRect().left - megaOuterLeft);
+      document.querySelectorAll('.mega-inner').forEach(el => { el.style.paddingLeft = `${paddingLeft}px`; });
+    }
+    alignMegaMenus();
+    window.addEventListener('load', alignMegaMenus);
+    window.addEventListener('resize', alignMegaMenus);
+    document.querySelectorAll('.nav-dropdown-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelectorAll('.nav-dropdown-link').forEach(l => l.classList.remove('is-active'));
+        link.classList.add('is-active');
+        const href = link.getAttribute('href');
+        if (href && href !== '#') setTimeout(() => { window.location.href = href; }, 120);
+      });
+    });
+    navBackdrop.addEventListener('mouseenter', closeAll);
+    navBackdrop.addEventListener('click', closeAll);
+    document.addEventListener('click', e => { if (!e.target.closest('.nav-item.has-dropdown')) closeAll(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+
+    // Mobile accordion
+    document.querySelectorAll('.mobile-nav-group').forEach(group => {
+      group.querySelector('.mobile-nav-toggle').addEventListener('click', () => {
+        document.querySelectorAll('.mobile-nav-group').forEach(o => { if (o !== group) o.classList.remove('is-open'); });
+        group.classList.toggle('is-open');
+      });
+    });
+
+    // TOC scroll spy
+    (function () {
+      const OFFSET = 100;
+      const tocLinks = document.querySelectorAll('.sidebar-toc-list a, .sidebar-toc-sub a');
+      const sections = [];
+      tocLinks.forEach(link => {
+        const id = link.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) sections.push({ el, link });
+      });
+      const tocScroll = document.querySelector('.sidebar-toc-scroll');
+
+      tocLinks.forEach(link => {
+        link.addEventListener('click', e => {
+          const id = link.getAttribute('href').slice(1);
+          const target = document.getElementById(id);
+          if (!target) return;
+          e.preventDefault();
+          window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - OFFSET, behavior: 'smooth' });
+        });
+      });
+
+      function activate() {
+        let current = null;
+        for (let i = 0; i < sections.length; i++) {
+          const rect = sections[i].el.getBoundingClientRect();
+          if (rect.top >= 0 && rect.bottom <= window.innerHeight) { current = sections[i].link; break; }
+        }
+        if (!current) {
+          const scrollY = window.scrollY + OFFSET + 20;
+          sections.forEach(s => { if (s.el.offsetTop <= scrollY) current = s.link; });
+        }
+        tocLinks.forEach(l => l.classList.remove('is-active'));
+        if (current) {
+          current.classList.add('is-active');
+          if (tocScroll) {
+            const linkRect = current.getBoundingClientRect();
+            const tocRect = tocScroll.getBoundingClientRect();
+            if (linkRect.top < tocRect.top || linkRect.bottom > tocRect.bottom) {
+              tocScroll.scrollTop += linkRect.top - tocRect.top - tocRect.height / 2 + linkRect.height / 2;
+            }
+          }
+        }
+      }
+      window.addEventListener('scroll', activate, { passive: true });
+      activate();
+    })();
+  </script>
+
+</body>
+</html>

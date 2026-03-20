@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AIエージェントのガードレール設計を実務に落とし込む。PC操作エージェント・開発AI脆弱性・5G自律運用の3つのケーススタディ、保存版チェックリスト、90日導入ロードマップを提供する2026年版実践ガイド。">
+  <title>AIエージェント時代のガードレール設計（2026年版）── 後編：実践・導入編 - QueryPie AI</title>
+  <link rel="preload" href="https://cdn.jsdelivr.net/fontsource/fonts/mona-sans:vf@latest/latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/woff2/PretendardJP-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/woff2/PretendardJP-Medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-jp/dist/web/static/pretendard-jp.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+  <link rel="stylesheet" href="/assets/css/blog-detail.css">
+  <script>document.documentElement.classList.add('no-transition');</script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/ja/" class="logo"><img src="/assets/images/01-header/logo.svg" alt="QueryPie AI Logo" class="logo-img"></a>
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li class="nav-item has-dropdown"><a href="#" class="nav-link" data-dropdown>サービス<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">サービス</div><div class="mega-sub">QueryPie AIのコアサービス</div></div><div class="mega-links"><a href="#" class="nav-dropdown-link">AI Platform (AIP)</a><a href="#" class="nav-dropdown-link">Access Control Platform (ACP)</a><a href="#" class="nav-dropdown-link">Forward Deployed Engineer Service (FDES)</a></div></div></div></li>
+          <li class="nav-item has-dropdown"><a href="#" class="nav-link" data-dropdown>ソリューション<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">ソリューション</div><div class="mega-sub">課題に合わせたAIソリューション</div></div><div class="mega-links"><a href="/services/ai-dashi/" class="nav-dropdown-link">AI 出汁</a></div></div></div></li>
+          <li class="nav-item has-dropdown"><a href="#" class="nav-link" data-dropdown>デモ<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">デモ</div><div class="mega-sub">QueryPie AIを体験する</div></div><div class="mega-links"><a href="#" class="nav-dropdown-link">ユースケース</a><a href="#" class="nav-dropdown-link">AIP機能</a><a href="#" class="nav-dropdown-link">ACP機能</a></div></div></div></li>
+          <li class="nav-item has-dropdown"><a href="/whitepaper.html" class="nav-link is-active" data-dropdown>リソース<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">リソース</div><div class="mega-sub">学習・活用リソース</div></div><div class="mega-links mega-links--grid"><a href="#" class="nav-dropdown-link">紹介資料</a><a href="#" class="nav-dropdown-link">用語集</a><a href="#" class="nav-dropdown-link">マニュアル</a><a href="/whitepaper.html" class="nav-dropdown-link is-active">ホワイトペーパー</a><a href="/blog.html" class="nav-dropdown-link">ブログ</a><a href="/event.html" class="nav-dropdown-link">イベント</a></div></div></div></li>
+          <li class="nav-item has-dropdown"><a href="#" class="nav-link" data-dropdown>会社情報<svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></a><div class="nav-dropdown"><div class="mega-inner"><div class="mega-left"><div class="mega-heading">会社情報</div><div class="mega-sub">QueryPie AIについて</div></div><div class="mega-links"><a href="#" class="nav-dropdown-link">私たちについて</a><a href="#" class="nav-dropdown-link">認証情報</a><a href="#" class="nav-dropdown-link">ニュース</a><a href="#" class="nav-dropdown-link">お問い合わせ</a></div></div></div></li>
+          <li class="nav-item"><a href="#" class="nav-link">プラン</a></li>
+        </ul>
+      </nav>
+      <a href="#" class="btn btn-primary desktop-only">お問い合わせ <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
+      <button class="mobile-menu-btn" aria-label="メニュー"><span class="hamburger-line"></span><span class="hamburger-line"></span></button>
+    </div>
+    <div class="nav-backdrop"></div>
+    <div class="mobile-menu">
+      <nav class="mobile-nav">
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">サービス<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="#" class="mobile-nav-sublink">QueryPie AIP</a><a href="#" class="mobile-nav-sublink">QueryPie ACP</a><a href="#" class="mobile-nav-sublink">QueryPie FDE</a></div></div>
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">ソリューション<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="/services/ai-dashi/" class="mobile-nav-sublink">AI 出汁</a></div></div>
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">デモ<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="#" class="mobile-nav-sublink">ユースケース</a><a href="#" class="mobile-nav-sublink">AIP機能</a><a href="#" class="mobile-nav-sublink">ACP機能</a></div></div>
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">リソース<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="#" class="mobile-nav-sublink">紹介資料</a><a href="#" class="mobile-nav-sublink">用語集</a><a href="#" class="mobile-nav-sublink">マニュアル</a><a href="/whitepaper.html" class="mobile-nav-sublink">ホワイトペーパー</a><a href="/blog.html" class="mobile-nav-sublink">ブログ</a><a href="/event.html" class="mobile-nav-sublink">イベント</a></div></div>
+        <div class="mobile-nav-group"><button class="mobile-nav-toggle">会社情報<svg class="mobile-nav-chevron" width="12" height="8" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></button><div class="mobile-nav-sub"><a href="#" class="mobile-nav-sublink">私たちについて</a><a href="#" class="mobile-nav-sublink">認証情報</a><a href="#" class="mobile-nav-sublink">ニュース</a><a href="#" class="mobile-nav-sublink">お問い合わせ</a></div></div>
+        <a href="#" class="mobile-nav-link">プラン</a>
+      </nav>
+      <a href="#" class="btn btn-primary mobile-cta">お問い合わせ <img src="/assets/images/01-header/arrow-right.svg" alt="arrow"></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="article-layout-wrap">
+      <div class="container">
+        <div class="article-layout">
+
+          <div class="article-main">
+            <div class="article-hero-inner">
+              <div class="article-hero-text">
+                <span class="article-category">ホワイトペーパー</span>
+                <h1 class="article-title">AIエージェント時代のガードレール設計（2026年版）── 後編：実践・導入編</h1>
+
+                <div class="article-author">
+                  <img class="article-author-avatar is-logo" src="/assets/images/whitepaper-inline/wp-001.png" alt="QueryPie AI編集部">
+                  <div class="article-author-info">
+                    <div class="article-author-header">
+                      <div>
+                        <p class="article-author-name">QueryPie AI編集部</p>
+                        
+                      </div>
+                      
+                    </div>
+                    <p class="article-author-bio">QueryPie AI編集部は、企業のAI活用とデータ統制の最前線を追うコンテンツチームです。AIエージェント・アクセス管理・コンプライアンスなど、CxOと実務担当者が「今、判断に必要な情報」を、最新の調査データと業界事例をもとにお届けします。</p>
+                  </div>
+                </div>
+                <div class="article-meta">
+                  <span class="article-date">2026年2月27日</span>
+                  <div class="article-share">
+                    <a href="#" aria-label="Facebookでシェア"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                    <a href="#" aria-label="X(Twitter)でシェア"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    <a href="#" aria-label="LinkedInでシェア"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                    <a href="#" aria-label="リンクをコピー"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg></a>
+                  </div>
+                </div>
+              </div>
+              <div class="article-hero-img">
+                <img src="/assets/images/07-blog/wp-thumb-29.png" alt="AIエージェント時代のガードレール設計（2026年版）── 後編：実践・導入編">
+              </div>
+            </div>
+
+            <div class="article-body">
+              <div class="article-content">
+<h1 id="aiエージェント時代のガードレール設計ケーススタディ・チェックリスト・90日ロードマップ">AIエージェント時代のガードレール設計：ケーススタディ・チェックリスト・90日ロードマップ</h1>
+<br />
+<p>📖 読了時間：約15分</p>
+<br />
+<hr>
+<br />
+<h2 id="この記事の結論1分で読めます">この記事の結論（1分で読めます）</h2>
+<br />
+<p><a href="/features/documentation/white-paper/28/ai-agent-guardrails-governance-2026" target="_blank" rel="noopener noreferrer">前編（思想・設計編）</a>では、AIエージェントのガードレール設計を「権限・承認・監査ログ・停止」の4要素フレームワークとして体系化しました。</p>
+<br />
+<p>後編では、<strong>「知っている」を「できている」に変える</strong>ための実践ツールを提供します。</p>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>後編の構成</th>
+<th>あなたが得られるもの</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>第4章：ケーススタディ 3本</strong></td>
+<td>PC操作エージェント・開発AIの脆弱性・5G自律運用の実例から、4要素がどう機能するかを具体的に理解できる</td>
+</tr>
+<tr>
+<td><strong>第5章：チェックリスト（保存版）</strong></td>
+<td>明日の会議に持ち込める1枚の点検シート</td>
+</tr>
+<tr>
+<td><strong>第6章：90日ロードマップ</strong></td>
+<td>PoC → 限定運用 → 拡大の具体的なタイムラインと各ステップのゴール</td>
+</tr>
+<tr>
+<td><strong>付録：用語集</strong></td>
+<td>非技術者の経営層でも議論に参加できる共通言語</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<p>MIT Sloan Management Reviewの調査（2025年）によると、<strong>GenAIパイロットの95%がP&L（損益）へのインパクトを実証できていません</strong>。S&P Globalも、2025年にAIイニシアチブの42%が中止されたと報告しています（前年比25ポイント増）。</p>
+<br />
+<p>失敗の主因は、技術力ではなくガバナンスの不備です。後編が提供する3つのツール（ケーススタディ・チェックリスト・ロードマップ）は、この失敗パターンを回避するための実務的な武器です。</p>
+<br />
+<hr>
+<br />
+<h1 id="第4章-ケーススタディ4要素は現場でどう機能するか">第4章　ケーススタディ──4要素は現場でどう機能するか</h1>
+<br />
+<p>前編で解説したガードレール4要素（権限・承認・監査ログ・停止）は、抽象的なフレームワークのままでは現場に根付きません。本章では、2025年末〜2026年初頭に実際に発生した3つの事例を取り上げ、 <strong>「4要素があればどう防げたか」「4要素をどう適用すべきか」</strong> を具体的に分析します。</p>
+<br />
+<br />
+<h3 id="case-1pc操作エージェントの権限逸脱claude-desktop-extensionsdxtの教訓">Case 1：PC操作エージェントの権限逸脱──Claude Desktop Extensions（DXT）の教訓</h3>
+<br />
+<h4 id="何が起きたか">何が起きたか</h4>
+<br />
+<p>2026年2月、セキュリティ企業LayerXが、Anthropic社のClaude Desktop Extensions（DXT）に重大な設計上の脆弱性を報告しました。DXTは、Claude AIがユーザーのPC上でアプリケーションを直接操作できるようにする拡張機能です。</p>
+<br />
+<p>問題の核心は、<strong>DXTがサンドボックスなしのフルシステム権限で動作する</strong>設計にありました（出典:<a href="https://www.csoonline.com/article/4129820/anthropics-dxt-poses-critical-rce-vulnerability-by-running-with-full-system-privileges.html" target="_blank" rel="noopener noreferrer">CSO Online, 2026</a>）。</p>
+<br />
+<p>具体的なリスクシナリオは以下の通りです。</p>
+<br />
+<ul>
+<li>Claudeが、低リスクの接続先（Googleカレンダーなど）と高リスクのローカル実行機能を<strong>ユーザーの認識なく自律的に連鎖させる</strong>ことが可能</li>
+<li>悪意あるプロンプト（たとえば、カレンダーイベントに仕込まれた指示文）が、<strong>任意のコード実行を引き起こし、システム全体を侵害する</strong></li>
+<li>10,000人以上のアクティブユーザーと50以上のDXT拡張機能が影響範囲に含まれる</li>
+</ul>
+<br />
+<p>あるセキュリティ研究者は「これはバグではなく、アーキテクチャの問題だ」と指摘しています。外部データアクセスとローカル実行機能を同時に持つAIエージェントは、<strong>構造的に権限昇格のリスクを内包している</strong>のです。</p>
+<br />
+<h4 id="4要素で分析する">4要素で分析する</h4>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>要素</th>
+<th>この事例での欠落</th>
+<th>あるべき設計</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① 権限</strong></td>
+<td>フルシステム権限で動作。スコープ・上限の制限なし</td>
+<td>アクション単位の最小権限。「カレンダー読み取り可、ローカルファイル書き込み不可」等をDXT単位で定義</td>
+</tr>
+<tr>
+<td><strong>② 承認</strong></td>
+<td>低リスク→高リスクの連鎖が自動実行。人間の承認なし</td>
+<td>リスクレベルが変わる操作の連鎖には都度承認を挟む。「カレンダー→ファイル操作」は事前承認必須</td>
+</tr>
+<tr>
+<td><strong>③ 監査ログ</strong></td>
+<td>AIがどの拡張をどの順序で呼び出したか、判断根拠が不透明</td>
+<td>拡張呼び出しチェーン全体をログに記録。各ステップの判断根拠（rationale）を説明ログとして保存</td>
+</tr>
+<tr>
+<td><strong>④ 停止</strong></td>
+<td>異常な連鎖操作を検知・停止する仕組みなし</td>
+<td>操作チェーンの深さ・影響範囲に閾値を設定。超過時に自動一時停止＋人間への通知</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<h4 id="経営への示唆">経営への示唆</h4>
+<br />
+<p>この事例が示す教訓は明確です。<strong>AIエージェントにPC操作権限を付与する場合、「何ができるか」だけでなく「何と何を組み合わせられるか」まで権限設計の対象に含める必要がある</strong>ということです。</p>
+<br />
+<p>個々の操作は低リスクでも、それらが連鎖した場合のリスクは乗算的に高まります。「カレンダーを読む」と「ファイルを書き込む」は単独では無害ですが、連鎖すると「外部から注入された指示でローカルファイルを改ざんする」攻撃経路になります。</p>
+<br />
+<br />
+<blockquote>
+<p>🎯 <strong>アクションポイント：</strong> 自社でPC操作型のAIエージェント（Computer Use、DXT、RPA連携等）を導入している場合、以下を即座に確認してください。</p>
+<ul>
+<li>AIエージェントが実行できる操作の連鎖パターンを棚卸ししているか</li>
+<li>異なるリスクレベルの操作間に承認ゲートが設けられているか</li>
+<li>操作チェーン全体がログとして記録されているか</li>
+</blockquote>
+</ul>
+<br />
+<br />
+<hr>
+<br />
+<h3 id="case-2開発aiのサプライチェーンリスクclaude-codeの脆弱性が示したもの">Case 2：開発AIのサプライチェーンリスク──Claude Codeの脆弱性が示したもの</h3>
+<br />
+<h4 id="何が起きたか">何が起きたか</h4>
+<br />
+<p>2026年2月25日、Check Point Researchが、Anthropic社のAIコーディングツール「Claude Code」に存在する複数の重大な脆弱性を公開しました（出典:<a href="https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/" target="_blank" rel="noopener noreferrer">Check Point Research, 2026</a>）。</p>
+<br />
+<p>発見された脆弱性は3件。いずれも <strong>「プロジェクトをクローンして開くだけ」で攻撃が成立する</strong>という深刻なものでした。</p>
+<br />
+<p><strong>脆弱性の概要：</strong></p>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>CVE</th>
+<th>脅威の内容</th>
+<th>攻撃条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CVE-2025-59536</strong></td>
+<td>Hooks・MCP設定を悪用し、リポジトリ内の設定ファイルから任意のシェルコマンドを実行（RCE）</td>
+<td>悪意あるリポジトリをクローンし、Claude Codeで開くだけ</td>
+</tr>
+<tr>
+<td><strong>CVE-2026-21852</strong></td>
+<td>環境変数の操作により、Claude CodeのAPI通信を攻撃者のサーバーにリダイレクト。APIキーを窃取</td>
+<td>同上。ユーザーの信頼確認ダイアログが表示される前に通信が発生</td>
+</tr>
+<tr>
+<td><strong>GHSA-ph6w</strong></td>
+<td>Hooks機能を悪用した隠しシェルコマンドの実行</td>
+<td>同上</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<p>特に危険なのは CVE-2026-21852 です。Anthropic社のAPIには「Workspaces」機能があり、<strong>1つのAPIキーがチーム全体の共有ファイルへのアクセス権を持ちます</strong>。つまり、1人の開発者のキーが盗まれるだけで、以下の被害が連鎖的に拡大します。</p>
+<br />
+<ul>
+<li>チームの共有プロジェクトファイルへの不正アクセス</li>
+<li>クラウド上の共有データの改ざん・削除</li>
+<li>悪意あるコンテンツのアップロード</li>
+<li>想定外のAPIコスト発生</li>
+</ul>
+<br />
+<p>Check Point Researchは、これを <strong>「AIツールにおける新たなサプライチェーンリスク」</strong> と位置づけています（出典:<a href="https://www.darkreading.com/application-security/flaws-claude-code-developer-machines-risk" target="_blank" rel="noopener noreferrer">Dark Reading, 2026</a>）。設定ファイルという開発者が「受動的な設定」として信頼する対象が、<strong>能動的な実行パスに変わっていた</strong>のです。</p>
+<br />
+<p>なお、Anthropic社はCheck Point Researchとの協力のもと、公開前にすべての脆弱性を修正済みです。</p>
+<br />
+<h4 id="4要素で分析する">4要素で分析する</h4>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>要素</th>
+<th>この事例での欠落</th>
+<th>あるべき設計</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① 権限</strong></td>
+<td>設定ファイルにシェル実行権限が暗黙的に付与されていた</td>
+<td>設定ファイルと実行コードの権限を厳格に分離。設定ファイルからの外部通信・コマンド実行はデフォルト禁止</td>
+</tr>
+<tr>
+<td><strong>② 承認</strong></td>
+<td>信頼確認ダイアログの表示前にAPI通信が開始されていた</td>
+<td>外部通信を伴う操作は、すべてユーザー承認後に実行。「承認前は一切のネットワーク活動をブロック」をデフォルトに</td>
+</tr>
+<tr>
+<td><strong>③ 監査ログ</strong></td>
+<td>どの設定ファイルがどのコマンドをトリガーしたかの追跡が困難</td>
+<td>リポジトリ内の設定ファイル読み込み → 実行されたコマンドの全チェーンをログ記録。API通信先の変更も検知・記録対象に</td>
+</tr>
+<tr>
+<td><strong>④ 停止</strong></td>
+<td>異常なAPI通信先への切り替えを自動検知・遮断する仕組みがなかった</td>
+<td>API通信先のホワイトリスト化。未登録の宛先への通信は自動ブロック＋管理者アラート</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<h4 id="経営への示唆">経営への示唆</h4>
+<br />
+<p>この事例は、<strong>AIツールの脆弱性が個人の問題ではなく、組織全体のサプライチェーンリスクになる</strong>ことを明確に示しています。</p>
+<br />
+<p>同時期（2026年2月）に発覚したClineの脆弱性（通称「Clinejection」）も、同様のパターンでした。AIコーディングツールのイシュートリアージボットが悪用され、<strong>未承認のnpmパッケージが約8時間にわたり公開された</strong>事例です（出典:<a href="https://snyk.io/blog/cline-supply-chain-attack-prompt-injection-github-actions/" target="_blank" rel="noopener noreferrer">Snyk, 2026</a>）。5百万以上のインストールベースを持つツールで、自動アップデートにより悪意あるコードがすべての開発者のIDEに配信される可能性がありました。</p>
+<br />
+<p>開発者が個人的に導入したAIツールが、組織のソースコード、APIキー、SSHキーへの攻撃経路になる。これは前編で解説した<strong>シャドーAI問題の典型的な帰結</strong>です。</p>
+<br />
+<br />
+<blockquote>
+<p>🎯 <strong>アクションポイント：</strong> 自社の開発チームでAIコーディングツールを使用している場合、以下を即座に確認してください。</p>
+<ul>
+<li>使用を許可するAIコーディングツールのホワイトリストが存在するか</li>
+<li>APIキーの管理ポリシー（ローテーション頻度、共有範囲、監視体制）が定められているか</li>
+<li>外部リポジトリのクローン時に、設定ファイルの安全性を検証するプロセスがあるか</li>
+<li>AIツールの通信先を監視し、異常な接続先を検知するネットワーク統制があるか</li>
+</blockquote>
+</ul>
+<br />
+<br />
+<hr>
+<br />
+<h3 id="case-3重要インフラの自律運用nokiaawsのアジェンティックaiネットワークスライシング">Case 3：重要インフラの自律運用──Nokia×AWSのアジェンティックAIネットワークスライシング</h3>
+<br />
+<h4 id="何が起きたか">何が起きたか</h4>
+<br />
+<p>2026年2月、NokiaとAWSは、<strong>業界初のアジェンティックAI搭載5G-Advancedネットワークスライシング</strong>のライブネットワーク実証を発表しました。UAE の通信事業者 du とフランスの Orange が初期パイロットパートナーとして参加し、MWC 2026（バルセロナ）でデモが実施されています（出典:<a href="https://www.sdxcentral.com/news/nokia-and-aws-let-agentic-ai-take-the-wheel-for-5g-network-slicing/" target="_blank" rel="noopener noreferrer">SDxCentral, 2026</a>）。</p>
+<br />
+<p><strong>従来のAIとの違い：</strong></p>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th></th>
+<th>従来のAIによるネットワーク管理</th>
+<th>アジェンティックAIによるネットワークスライシング</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AIの役割</strong></td>
+<td>モニタリングと推奨の提示</td>
+<td>自律的な判断と実行</td>
+</tr>
+<tr>
+<td><strong>人間の関与</strong></td>
+<td>AIの推奨を人間が確認・実行</td>
+<td>AIが自律的にRANポリシーを調整</td>
+</tr>
+<tr>
+<td><strong>対応速度</strong></td>
+<td>人間の判断を待つため遅延あり</td>
+<td>リアルタイムで動的に対応</td>
+</tr>
+<tr>
+<td><strong>データ活用</strong></td>
+<td>ネットワークKPIのみ</td>
+<td>KPI＋位置情報・イベント・交通・天気・災害情報を統合</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<p>このシステムの構成は、Nokia の 5G AirScale 基地局、MantaRay SMO（Service Management & Orchestration）、アジェンティックAIモジュールに、AWSのAmazon Bedrock（Agentcore）を統合したものです。</p>
+<br />
+<p>AIエージェントが遅延やトラフィック混雑などのKPIを監視し、現実世界のコンテキストデータを分析したうえで、<strong>SLA（サービスレベル合意）を満たすようRANポリシーを自律的に調整</strong>します。緊急時の初動対応、大規模イベント、IoT、スマートシティなど、動的にトラフィックが変化するシナリオに対応するものです。</p>
+<br />
+<h4 id="なぜこの事例が重要か「成功事例」の中にある統制設計のヒント">なぜこの事例が重要か──「成功事例」の中にある統制設計のヒント</h4>
+<br />
+<p>Case 1とCase 2は「失敗から学ぶ」事例でしたが、Case 3は <strong>「慎重に進めている成功事例」から学ぶ</strong>ものです。</p>
+<br />
+<p>AWSのグローバルディレクター Amir Rao 氏は、メディアブリーフィングで明確にこう述べています。</p>
+<br />
+<blockquote>
+<p>「このソリューションは純粋にパイロット段階であり、まだプロダクション（本番運用）の準備はできていない」</p>
+</blockquote>
+<br />
+<p>通信ネットワークという社会的重要インフラにAIエージェントを導入するにあたり、Nokia と AWS は<strong>段階的な自律度拡大</strong>のアプローチを採っています。これは前編で解説した「Phase 0 → Phase 1 → Phase 2 → Phase 3」の段階的合意形成モデルの実例です。</p>
+<br />
+<h4 id="4要素の適用分析">4要素の適用分析</h4>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>要素</th>
+<th>Nokia×AWS での適用</th>
+<th>他の企業が学ぶべきポイント</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① 権限</strong></td>
+<td>AIエージェントの操作範囲をRANポリシー調整に限定。コアネットワークの変更権限は付与していない</td>
+<td>「AIが何を変更できるか」の境界を物理的・論理的に明確化する</td>
+</tr>
+<tr>
+<td><strong>② 承認</strong></td>
+<td>パイロット段階では人間のオペレーターが最終承認。段階的に自律度を拡大する計画</td>
+<td>「最初から完全自律」ではなく、信頼を積み上げてから権限を段階的に拡大する</td>
+</tr>
+<tr>
+<td><strong>③ 監査ログ</strong></td>
+<td>KPIデータ、コンテキストデータ、AIの判断根拠、実行されたポリシー変更の全チェーンを記録</td>
+<td>AIの判断に使われた入力データと出力結果の両方を追跡可能にする</td>
+</tr>
+<tr>
+<td><strong>④ 停止</strong></td>
+<td>サンドボックス環境での検証を経てからライブネットワークに適用。異常時の手動オーバーライドを確保</td>
+<td>本番環境に出す前に、隔離された環境での十分な検証を行う</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<h4 id="経営への示唆">経営への示唆</h4>
+<br />
+<p>Nokia×AWSの事例は、 <strong>「ガードレール設計は制約ではなく、信頼構築の手段である」</strong> ことを実証しています。</p>
+<br />
+<p>通信事業者の du と Orange がパイロットに参加した背景には、「AIが暴走しても止められる」「判断の根拠が追跡できる」「段階的に自律度を上げられる」という3つの安心感があります。この安心感こそが、新技術のパイロット参加を可能にした要因です。</p>
+<br />
+<p>TM Forum の調査によると、<strong>通信事業者の81%が2030年までに完全自律ネットワークの運用を計画しています</strong>。しかし、そこに至るまでの道のりは「一足飛び」ではなく、<strong>段階的な自律度拡大＋各段階でのガードレール検証</strong>の繰り返しです。</p>
+<br />
+<p>これは通信業界に限った話ではありません。金融、製造、物流、医療、あらゆる業界でAIエージェントの自律度を高めていくプロセスは、 <strong>「信頼を積み上げるための統制設計」</strong> なしには成立しません。</p>
+<br />
+<br />
+<blockquote>
+<p>🎯 <strong>アクションポイント：</strong> 自社でAIエージェントの自律度を段階的に拡大する計画がある場合、以下を確認してください。</p>
+<ul>
+<li>各段階（PoC → 限定運用 → 拡大 → 全社展開）で、AIの権限範囲がどう拡大するか、事前に定義されているか</li>
+<li>段階を進める判断基準（KPI閾値、インシデント発生率、ユーザー満足度等）が明文化されているか</li>
+<li>各段階でのフォールバック（前段階への巻き戻し）手順が設計されているか</li>
+</blockquote>
+</ul>
+<br />
+<br />
+<br />
+<h2 id="3つのケーススタディのまとめ">3つのケーススタディのまとめ</h2>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>Case</th>
+<th>事例</th>
+<th>最も欠落していた要素</th>
+<th>核心の教訓</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Case 1</strong></td>
+<td>Claude DXT 権限逸脱</td>
+<td>① 権限（操作連鎖の制御）</td>
+<td>個々の操作が低リスクでも、連鎖は高リスクになる</td>
+</tr>
+<tr>
+<td><strong>Case 2</strong></td>
+<td>Claude Code 脆弱性</td>
+<td>② 承認（承認前の通信開始）</td>
+<td>設定ファイルは「受動的」ではない。実行パスとして統制する</td>
+</tr>
+<tr>
+<td><strong>Case 3</strong></td>
+<td>Nokia×AWS 5G自律運用</td>
+<td>（欠落ではなく成功パターン）</td>
+<td>段階的な自律度拡大＋各段階でのガードレール検証が信頼を生む</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<br />
+<blockquote>
+<p>📎 <strong>関連記事：</strong> AIエージェントのセキュリティリスクをさらに深掘りするために</p>
+<ul>
+<li><a href="/features/documentation/white-paper/21/welcome-to-the-age-of-agentsecops" target="_blank" rel="noopener noreferrer">AgentSecOpsの時代へようこそ</a></li>
+<li><a href="/features/documentation/white-paper/22/your-architect-vs-ai-agents" target="_blank" rel="noopener noreferrer">あなたの設計者 vs AIエージェント</a></li>
+</blockquote>
+</ul>
+<br />
+<br />
+<hr>
+<br />
+<h1 id="第5章-ガードレール設計チェックリスト保存版">第5章　ガードレール設計チェックリスト（保存版）</h1>
+<br />
+<p>このチェックリストは、<strong>明日のミーティングにそのまま持ち込める実務ツール</strong>です。前編で解説した4要素フレームワークに基づき、「自社の現在地」と「次に取るべきアクション」を一目で把握できるよう設計しています。</p>
+<br />
+<p>各項目を「対応済み ✅ / 部分対応 🔶 / 未着手 ❌」で評価し、組織のガードレール設計の成熟度を可視化してください。</p>
+<br />
+<br />
+<h3 id="チェックリスト①-権限permission">チェックリスト① 権限（Permission）</h3>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>#</th>
+<th>チェック項目</th>
+<th>評価</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1-1</td>
+<td>AIエージェントごとに固有のID（アカウント）が発行されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>1-2</td>
+<td>各エージェントのアクセス可能なデータの種類・粒度が定義されているか（データスコープ）</td>
+<td></td>
+</tr>
+<tr>
+<td>1-3</td>
+<td>各エージェントが操作可能なシステムの範囲が定義されているか（システムスコープ）</td>
+<td></td>
+</tr>
+<tr>
+<td>1-4</td>
+<td>各エージェントが実行可能な操作の種類（読取/書込/削除/送信等）が定義されているか（アクションスコープ）</td>
+<td></td>
+</tr>
+<tr>
+<td>1-5</td>
+<td>権限に有効期限が設定されているか（無期限の権限が存在しないか）</td>
+<td></td>
+</tr>
+<tr>
+<td>1-6</td>
+<td>1回の処理で影響を与えられる件数・金額・範囲に上限が設定されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>1-7</td>
+<td>異なるリスクレベルの操作を連鎖させる場合の制御ルールが存在するか</td>
+<td></td>
+</tr>
+<tr>
+<td>1-8</td>
+<td>共有APIキーではなく、エージェント固有の認証情報で管理されているか</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<br />
+<h3 id="チェックリスト②-承認approval">チェックリスト② 承認（Approval）</h3>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>#</th>
+<th>チェック項目</th>
+<th>評価</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2-1</td>
+<td>AIエージェントが関与するすべての業務プロセスにRACIが定義されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>2-2</td>
+<td>すべてのプロセスに最終責任者（Accountable）が明示されているか（「A」の空欄がゼロか）</td>
+<td></td>
+</tr>
+<tr>
+<td>2-3</td>
+<td>業務リスクに応じた承認粒度（事後確認/事後レビュー/事前承認/多段階承認）が設計されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>2-4</td>
+<td>AIの判断を業務上の意思決定に適用する際の承認フローが文書化されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>2-5</td>
+<td>AIの出力を人間がレビューせずに外部（顧客・取引先等）に送信するケースがゼロか</td>
+<td></td>
+</tr>
+<tr>
+<td>2-6</td>
+<td>権限設定の変更に経営層またはCISOの承認が必要とされているか</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<br />
+<h3 id="チェックリスト③-監査ログaudit-trail">チェックリスト③ 監査ログ（Audit Trail）</h3>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>#</th>
+<th>チェック項目</th>
+<th>評価</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3-1</td>
+<td>AIエージェントの全操作について、5W1H（Who/What/When/Where/Why/How）が記録されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>3-2</td>
+<td>「何をしたか」（行動ログ）と「なぜそうしたか」（説明ログ）が分離して記録されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>3-3</td>
+<td>ログの改ざん防止措置（ハッシュチェーン等）が適用されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>3-4</td>
+<td>ログの保存期間・保存形式・アクセス権限が定義されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>3-5</td>
+<td>ログに含まれる個人情報のハッシュ化・匿名化が実施されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>3-6</td>
+<td>インシデント発生時に、24時間以内にAIの判断根拠を説明できる体制があるか</td>
+<td></td>
+</tr>
+<tr>
+<td>3-7</td>
+<td>ログデータを定期的に分析し、権限設定・承認フローの改善に活用しているか</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<br />
+<h3 id="チェックリスト④-停止kill-switch">チェックリスト④ 停止（Kill Switch）</h3>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>#</th>
+<th>チェック項目</th>
+<th>評価</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4-1</td>
+<td>AIエージェントの停止手順書が存在するか</td>
+<td></td>
+</tr>
+<tr>
+<td>4-2</td>
+<td>停止が3段階（一時停止/機能停止/全面遮断）で設計されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>4-3</td>
+<td>各段階のトリガー条件（閾値・異常パターン）が定義されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>4-4</td>
+<td>各段階の対応者と連絡先が明確に指定されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>4-5</td>
+<td>各段階の復帰条件（誰が・何を確認して・誰の承認で再開するか）が定義されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>4-6</td>
+<td>停止時のログ保全手順が停止手順書に組み込まれているか</td>
+<td></td>
+</tr>
+<tr>
+<td>4-7</td>
+<td>手動オーバーライド（人間が即座に停止できる手段）が常時確保されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>4-8</td>
+<td>停止手順の訓練・演習を定期的（四半期に1回以上）に実施しているか</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<br />
+<h3 id="チェックリスト⑤-組織体制・ガバナンス">チェックリスト⑤ 組織体制・ガバナンス</h3>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>#</th>
+<th>チェック項目</th>
+<th>評価</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5-1</td>
+<td>AIエージェントの統括責任者（CAIO等）が任命されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>5-2</td>
+<td>技術チームと経営層の間で「翻訳レイヤー」（リスクダッシュボード・ブリッジミーティング等）が機能しているか</td>
+<td></td>
+</tr>
+<tr>
+<td>5-3</td>
+<td>社内で使用を許可するAIツールのホワイトリストが存在し、定期的に更新されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>5-4</td>
+<td>シャドーAI（未承認AIツール）の実態調査を実施したことがあるか</td>
+<td></td>
+</tr>
+<tr>
+<td>5-5</td>
+<td>AIエージェント利用に関する全社ポリシーが文書化・周知されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>5-6</td>
+<td>AIエージェントのインシデント対応手順が、既存のインシデント対応フレームワークに統合されているか</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<br />
+<h3 id="スコアリングガイド">スコアリングガイド</h3>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>評価結果</th>
+<th>目安</th>
+<th>推奨アクション</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>✅ 25項目以上</strong></td>
+<td>レベル2相当（体系化済み）</td>
+<td>継続的改善。後編の90日ロードマップPhase 3へ</td>
+</tr>
+<tr>
+<td><strong>✅ 15〜24項目</strong></td>
+<td>レベル1相当（部分対応）</td>
+<td>不足領域を特定し、90日ロードマップPhase 1〜2で集中対応</td>
+</tr>
+<tr>
+<td><strong>✅ 14項目以下</strong></td>
+<td>レベル0相当（未着手〜初期段階）</td>
+<td>90日ロードマップPhase 0から開始。まずは棚卸しと方針策定</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<br />
+<blockquote>
+<p>💡 <strong>活用のヒント：</strong> このチェックリストは「100%を目指す完璧主義のツール」ではありません。<strong>現在地を正確に把握し、次の一手を決める羅針盤</strong>です。全項目が✅になることよりも、❌の項目に対して「いつまでに・誰が・どう対応するか」を決めることが重要です。</p>
+</blockquote>
+<br />
+<br />
+<hr>
+<br />
+<h1 id="第6章-90日導入ロードマップpoc-限定運用-拡大">第6章　90日導入ロードマップ──PoC → 限定運用 → 拡大</h1>
+<br />
+<p>ガードレール設計の導入は、「全社一括で完璧に」ではなく、 <strong>「小さく始めて、実績を積み、段階的に広げる」</strong> が成功の鉄則です。本章では、Day 0 から Day 90 までの具体的なタイムラインを提示します。</p>
+<br />
+<br />
+<h2 id="全体像4つのフェーズ">全体像：4つのフェーズ</h2>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>フェーズ</th>
+<th>期間</th>
+<th>目標</th>
+<th>完了条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Phase 0：棚卸し・方針策定</strong></td>
+<td>Day 1〜14</td>
+<td>現状の可視化と設計方針の確定</td>
+<td>チェックリストの全項目評価完了＋方針書の承認</td>
+</tr>
+<tr>
+<td><strong>Phase 1：PoC（概念実証）</strong></td>
+<td>Day 15〜45</td>
+<td>1部門・低リスク業務でガードレール4要素を実地検証</td>
+<td>4要素が意図どおりに機能することの実証</td>
+</tr>
+<tr>
+<td><strong>Phase 2：限定運用</strong></td>
+<td>Day 46〜75</td>
+<td>2〜3部門・中リスク業務に拡大。本番データで運用検証</td>
+<td>インシデントゼロまたは全件適切に対応完了</td>
+</tr>
+<tr>
+<td><strong>Phase 3：拡大準備</strong></td>
+<td>Day 76〜90</td>
+<td>全社展開のためのポリシー化・教育・監査体制の整備</td>
+<td>全社ポリシー文書＋教育プログラム＋監査計画の完成</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<br />
+<h3 id="phase-0棚卸し・方針策定day-1〜14">Phase 0：棚卸し・方針策定（Day 1〜14）</h3>
+<br />
+<p><strong>目的：</strong> 現在地を正確に把握し、ガードレール設計の方針を経営層と合意する。</p>
+<br />
+<p><strong>Week 1（Day 1〜7）：現状の棚卸し</strong></p>
+<br />
+<ul>
+<li>社内で稼働中のAIエージェント・AIツールの全数リストを作成する</li>
+<li>各ツールのアクセス権限・利用部署・用途・管理者を一覧化する</li>
+<li>シャドーAI（未承認ツール）の実態を調査する（ネットワークログ分析、アンケート等）</li>
+<li>前章のチェックリストを用いて、各項目の現状を評価する</li>
+</ul>
+<br />
+<p><strong>Week 2（Day 8〜14）：方針策定と合意</strong></p>
+<br />
+<ul>
+<li>チェックリストの評価結果を「リスクダッシュボード」として可視化する</li>
+<li>ガードレール設計の4要素に対する優先順位と対応方針を文書化する</li>
+<li>PoC対象の部門・業務・AIエージェントを選定する</li>
+<li>経営層（またはAI推進責任者）の方針承認を取得する</li>
+</ul>
+<br />
+<p><strong>Phase 0の成果物：</strong></p>
+<br />
+<ul>
+<li>AIエージェント棚卸しリスト</li>
+<li>チェックリスト評価結果（スコア）</li>
+<li>ガードレール設計方針書（優先順位・対応スケジュール付き）</li>
+<li>PoC実施計画書（対象部門・業務・期間・成功指標）</li>
+</ul>
+<br />
+<br />
+<blockquote>
+<p>⚠️ <strong>注意：</strong> Phase 0で最も重要なのは「完璧な調査」ではなく、 <strong>「動き出すのに十分な現状把握」</strong> です。棚卸しの完全性にこだわって2週間を超過することは避けてください。未発見のシャドーAIは、Phase 1以降の運用の中で追加発見されます。</p>
+</blockquote>
+<br />
+<br />
+<hr>
+<br />
+<h3 id="phase-1poc概念実証day-15〜45">Phase 1：PoC（概念実証）（Day 15〜45）</h3>
+<br />
+<p><strong>目的：</strong> ガードレール4要素を実際の業務で検証し、「止められる・追える・直せる」状態を組織内に実演する。</p>
+<br />
+<p><strong>PoC対象の選定基準：</strong></p>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>基準</th>
+<th>推奨条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>業務リスク</td>
+<td>低〜中リスク（社内業務、非個人情報、非決済）</td>
+</tr>
+<tr>
+<td>AI利用の成熟度</td>
+<td>すでにAIツールを利用中で、現場の協力が得やすい部門</td>
+</tr>
+<tr>
+<td>データの可用性</td>
+<td>ログ取得に必要なインフラが整っている</td>
+</tr>
+<tr>
+<td>管理者の関与度</td>
+<td>部門長がPoCに積極的に関与できる</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<p><strong>Week 3〜4（Day 15〜28）：4要素の実装</strong></p>
+<br />
+<ul>
+<li><strong>権限：</strong> PoC対象のAIエージェントに対し、スコープ・期限・上限の3軸で権限を定義・適用する</li>
+<li><strong>承認：</strong> 対象業務のRACIマトリクスを作成し、承認フローを実装する</li>
+<li><strong>監査ログ：</strong> 行動ログと説明ログの取得を開始する。ログフォーマットと保存先を確定する</li>
+<li><strong>停止：</strong> 3段階の停止手順書を作成し、トリガー条件と復帰条件を定義する</li>
+</ul>
+<br />
+<p><strong>Week 5〜6（Day 29〜45）：運用検証と改善</strong></p>
+<br />
+<ul>
+<li>定義した権限・承認フローのもとで、実業務を2〜3週間運用する</li>
+<li>監査ログを日次でレビューし、想定外の動作・権限不足・過剰権限を特定する</li>
+<li>停止手順の机上訓練を1回以上実施する</li>
+<li>PoC結果を定量データ（ログ件数、エラー率、承認所要時間等）で整理する</li>
+</ul>
+<br />
+<p><strong>Phase 1の成果物：</strong></p>
+<br />
+<ul>
+<li>権限定義書（PoC対象エージェント分）</li>
+<li>RACIマトリクス（PoC対象業務分）</li>
+<li>監査ログサンプル（2〜3週間分）</li>
+<li>停止手順書＋訓練実施記録</li>
+<li>PoC結果レポート（定量データ＋改善提案）</li>
+</ul>
+<br />
+<blockquote>
+<p>🎯 <strong>経営への報告ポイント：</strong> Phase 1の成果は、「AIの性能が良かった」ではなく、 <strong>「AIが問題を起こした時に止められた・追えた・直せた」</strong> を示すことに価値があります。この実証が、Phase 2以降の合意形成を加速させます。</p>
+</blockquote>
+<br />
+<hr>
+<br />
+<h3 id="phase-2限定運用day-46〜75">Phase 2：限定運用（Day 46〜75）</h3>
+<br />
+<p><strong>目的：</strong> Phase 1の実績を踏まえて対象を拡大し、本番データ・中リスク業務での運用を検証する。</p>
+<br />
+<p><strong>Week 7〜8（Day 46〜60）：対象拡大と本番適用</strong></p>
+<br />
+<ul>
+<li>2〜3部門に対象を拡大する。Phase 1の結果レポートを各部門に共有し、合意を形成する</li>
+<li>中リスク業務（顧客データの参照、レポート自動生成、社内チャットボット等）への適用を開始する</li>
+<li>承認フローを実運用に組み込む（RACI に基づく承認ワークフローをシステム化）</li>
+<li>監査ログの自動分析（異常検知アラート）を導入する</li>
+</ul>
+<br />
+<p><strong>Week 9〜10（Day 61〜75）：インシデント対応力の検証</strong></p>
+<br />
+<ul>
+<li>停止手順の実地訓練を実施する（机上訓練ではなく、テスト環境での実動訓練）</li>
+<li>意図的に異常シナリオを発生させ、検知 → 一時停止 → 原因分析 → 復帰の全プロセスを検証する</li>
+<li>インシデント対応の所要時間・精度を計測し、目標値との差分を分析する</li>
+<li>Phase 1からの改善点が本番データ環境で有効かどうかを確認する</li>
+</ul>
+<br />
+<p><strong>Phase 2の成果物：</strong></p>
+<br />
+<ul>
+<li>拡大版権限定義書（2〜3部門分）</li>
+<li>承認ワークフロー運用実績（承認件数、所要時間、差し戻し率）</li>
+<li>異常検知アラートの精度レポート</li>
+<li>インシデント対応訓練報告書（対応時間、課題、改善計画）</li>
+</ul>
+<br />
+<hr>
+<br />
+<h3 id="phase-3拡大準備day-76〜90">Phase 3：拡大準備（Day 76〜90）</h3>
+<br />
+<p><strong>目的：</strong> Phase 1〜2の実績をもとに、全社展開のための制度・教育・監査体制を整備する。</p>
+<br />
+<p><strong>Week 11〜12（Day 76〜90）：制度化と教育</strong></p>
+<br />
+<ul>
+<li>Phase 1〜2の成果を統合し、全社AIエージェントガバナンスポリシーを策定する</li>
+<li>ポリシーに含めるべき最低要件は以下の通り</li>
+</ul>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>ポリシー項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対象範囲</td>
+<td>ポリシーが適用されるAIエージェント・ツール・業務の定義</td>
+</tr>
+<tr>
+<td>権限管理基準</td>
+<td>スコープ・期限・上限の設定ルールと更新プロセス</td>
+</tr>
+<tr>
+<td>承認フロー基準</td>
+<td>リスクレベル別の承認粒度と責任者の定義</td>
+</tr>
+<tr>
+<td>監査ログ基準</td>
+<td>記録項目・保存期間・アクセス権限・改ざん防止の要件</td>
+</tr>
+<tr>
+<td>停止手順基準</td>
+<td>3段階エスカレーション・復帰条件・訓練頻度</td>
+</tr>
+<tr>
+<td>違反時の対応</td>
+<td>シャドーAI発見時の対処プロセス・是正措置</td>
+</tr>
+<tr>
+<td>見直しサイクル</td>
+<td>ポリシーの定期見直し頻度（四半期に1回を推奨）</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<ul>
+<li>全社教育プログラムを設計する（対象：経営層、管理職、現場担当者、IT/セキュリティ部門の4層）</li>
+<li>監査計画を策定する（内部監査でのAIガバナンス項目の追加）</li>
+<li>Phase 3の成果を経営会議に上程し、全社展開の承認を取得する</li>
+</ul>
+<br />
+<p><strong>Phase 3の成果物：</strong></p>
+<br />
+<ul>
+<li>全社AIエージェントガバナンスポリシー（初版）</li>
+<li>教育プログラム設計書（4層別の研修内容・スケジュール）</li>
+<li>監査計画書（AIガバナンス項目の追加版）</li>
+<li>全社展開の経営承認</li>
+</ul>
+<br />
+<br />
+<hr>
+<br />
+<h2 id="90日ロードマップのまとめ">90日ロードマップのまとめ</h2>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>Phase</th>
+<th>期間</th>
+<th>キーワード</th>
+<th>最も重要な成果物</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0</strong></td>
+<td>Day 1〜14</td>
+<td>棚卸し・方針合意</td>
+<td>ガードレール設計方針書</td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td>Day 15〜45</td>
+<td>PoC・実証</td>
+<td>「止められた・追えた・直せた」の実績</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Day 46〜75</td>
+<td>限定運用・本番検証</td>
+<td>インシデント対応訓練の完了</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Day 76〜90</td>
+<td>制度化・教育</td>
+<td>全社ポリシー＋経営承認</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<br />
+<blockquote>
+<p>💡 <strong>最後に：</strong> この90日は「完成」ではなく「始まり」です。Day 91以降は、監査ログのフィードバックに基づいて権限・承認・停止手順を継続的に改善していく運用フェーズに入ります。ガードレール設計は、一度作って終わりではなく、<strong>AIエージェントとともに進化し続ける統制システム</strong>です。</p>
+</blockquote>
+<br />
+<br />
+<hr>
+<br />
+<h1 id="付録aiエージェント・ガードレール設計-用語集">付録：AIエージェント・ガードレール設計 用語集</h1>
+<br />
+<p>本ホワイトペーパーで使用した専門用語を、<strong>非技術者の経営層でも議論に参加できる</strong>よう、平易な日本語で解説します。社内の共通言語として活用してください。</p>
+<br />
+<br />
+<h3 id="aiエージェント関連">AIエージェント関連</h3>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>用語</th>
+<th>読み方</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AIエージェント</strong></td>
+<td>エーアイ エージェント</td>
+<td>人間の指示に基づき、自律的に判断・実行するAIシステム。対話型AIと異なり、外部システムの操作やデータの書き込みを自ら行う</td>
+</tr>
+<tr>
+<td><strong>エージェンティックAI</strong></td>
+<td>エージェンティック エーアイ</td>
+<td>自律的に目標を設定し、計画を立て、行動を実行するAIの総称。従来の「指示されたことに答えるAI」から「自ら動くAI」への進化を示す</td>
+</tr>
+<tr>
+<td><strong>MCP（Model Context Protocol）</strong></td>
+<td>エムシーピー</td>
+<td>Anthropic社が策定した、AIモデルが外部ツールやデータソースに接続するための標準プロトコル。AIエージェントの「手足」を増やすための仕組み</td>
+</tr>
+<tr>
+<td><strong>Computer Use</strong></td>
+<td>コンピュータ ユース</td>
+<td>AIがマウス操作やキーボード入力を通じて、人間と同じようにPCのアプリケーションを操作する機能</td>
+</tr>
+<tr>
+<td><strong>シャドーAI</strong></td>
+<td>シャドー エーアイ</td>
+<td>IT部門や経営層の承認を得ずに、従業員が個人レベルで業務に使用しているAIツール。ガバナンスの外側で稼働するため、情報漏洩や権限逸脱のリスクが高い</td>
+</tr>
+<tr>
+<td><strong>ハルシネーション</strong></td>
+<td>ハルシネーション</td>
+<td>AIが事実に基づかない情報を、あたかも正しいかのように生成する現象。「AIの幻覚」とも訳される</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<br />
+<h3 id="ガードレール設計関連">ガードレール設計関連</h3>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>用語</th>
+<th>読み方</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ガードレール</strong></td>
+<td>ガードレール</td>
+<td>AIエージェントの行動範囲と統制ルールを定める安全装置の総称。道路のガードレールが車両の逸脱を防ぐように、AIの暴走を防ぐ仕組み</td>
+</tr>
+<tr>
+<td><strong>最小権限の原則</strong></td>
+<td>サイショウ ケンゲン ノ ゲンソク</td>
+<td>業務遂行に必要な最低限の権限だけを付与するセキュリティの基本原則。不要な権限は与えない</td>
+</tr>
+<tr>
+<td><strong>RACI</strong></td>
+<td>レイシー</td>
+<td>Responsible（実行責任）、Accountable（最終責任）、Consulted（相談）、Informed（報告）の4つの役割で責任分担を明確化するフレームワーク</td>
+</tr>
+<tr>
+<td><strong>Kill Switch</strong></td>
+<td>キルスイッチ</td>
+<td>異常発生時にAIエージェントを即座に停止するための緊急停止機構。段階的に設計することが推奨される</td>
+</tr>
+<tr>
+<td><strong>フェイルセーフ</strong></td>
+<td>フェイルセーフ</td>
+<td>障害が発生した際に、安全側に自動的に移行する設計思想。「壊れたら止まる」が基本</td>
+</tr>
+<tr>
+<td><strong>RCA（Root Cause Analysis）</strong></td>
+<td>アールシーエー</td>
+<td>根本原因分析。インシデント発生時に、表面的な症状ではなく構造的な原因を特定する分析手法</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<br />
+<h3 id="セキュリティ・コンプライアンス関連">セキュリティ・コンプライアンス関連</h3>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>用語</th>
+<th>読み方</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>サプライチェーンリスク</strong></td>
+<td>サプライチェーン リスク</td>
+<td>自社が直接管理していない外部のソフトウェア・ライブラリ・ツール経由でセキュリティリスクが持ち込まれること</td>
+</tr>
+<tr>
+<td><strong>RCE（Remote Code Execution）</strong></td>
+<td>アールシーイー</td>
+<td>遠隔コード実行。攻撃者がネットワーク越しに対象システム上で任意のプログラムを実行できる脆弱性</td>
+</tr>
+<tr>
+<td><strong>APIキー</strong></td>
+<td>エーピーアイ キー</td>
+<td>外部サービスにアクセスするための認証情報。パスワードに相当するもので、漏洩すると不正利用の原因になる</td>
+</tr>
+<tr>
+<td><strong>サンドボックス</strong></td>
+<td>サンドボックス</td>
+<td>プログラムを隔離された安全な環境で実行する仕組み。万が一の問題が本番環境に波及しないようにする</td>
+</tr>
+<tr>
+<td><strong>CAIO（Chief AI Officer）</strong></td>
+<td>シーエーアイオー</td>
+<td>全社横断でAIの導入・運用・ガバナンスを統括する最高責任者。日本AIセーフティ・インスティテュート（AISI）が設置を推奨</td>
+</tr>
+<tr>
+<td><strong>NIST AI RMF</strong></td>
+<td>ニスト エーアイ アールエムエフ</td>
+<td>米国立標準技術研究所が策定したAIリスク管理フレームワーク。Govern・Map・Measure・Manageの4機能で構成される</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<hr>
+<br />
+<h1 id="後編のおわりに設計から実装へ、実装から文化へ">後編のおわりに──設計から実装へ、実装から文化へ</h1>
+<br />
+<p>前編・後編を通じて、AIエージェント時代のガードレール設計を体系的に解説してきました。</p>
+<br />
+<p><strong>前編（思想・設計編）</strong> では、なぜガードレールが必要か、どう設計するか、組織がどこでつまずくかを整理しました。</p>
+<br />
+<p><strong>後編（実践・導入編）</strong> では、3つのケーススタディから具体的な教訓を引き出し、チェックリストと90日ロードマップで「明日からできること」を提示しました。</p>
+<br />
+<p>ここで最も伝えたいことは、ガードレール設計は <strong>「AIにブレーキをかける仕組み」ではない</strong>ということです。</p>
+<br />
+<p>ガードレール設計の本質は、 <strong>「AIの可能性を安心して広げるための土台」</strong> です。</p>
+<br />
+<p>止められるから、任せられる。追えるから、信頼できる。直せるから、挑戦できる。</p>
+<br />
+<p>この循環が組織に根付いたとき、ガードレール設計は「ルール」から <strong>「文化」</strong> に変わります。</p>
+<br />
+<br />
+<h3 id="経営層の皆さまへ次の一歩">経営層の皆さまへ──次の一歩</h3>
+<br />
+<br />
+<div class="wp-table-wrapper"><table class="wp-table">
+<thead>
+<tr>
+<th>今日できること</th>
+<th>明日できること</th>
+<th>90日後に到達する場所</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>前編・後編を経営会議の議題に上げる</td>
+<td>チェックリストで自社の現在地を可視化する</td>
+<td>「止められる・追える・直せる」AIガバナンス体制の第一版が稼働している</td>
+</tr>
+<tr>
+<td>社内のAIツール利用状況を棚卸しする</td>
+<td>PoC対象の部門・業務を選定する</td>
+<td>実績データに基づく全社展開の判断材料が揃っている</td>
+</tr>
+<tr>
+<td>CAIO（AI統括責任者）の任命を検討する</td>
+<td>技術・法務・経営のブリッジミーティングを制度化する</td>
+<td>信頼のギャップが構造的に解消され、組織が「AIと共存する感覚」を持っている</td>
+</tr>
+</tbody>
+</table></div>
+<br />
+<br />
+<br />
+<blockquote>
+<p>🔗 <strong>前編を読む →</strong> <a href="/features/documentation/white-paper/28/ai-agent-guardrails-governance-2026" target="_blank" rel="noopener noreferrer">AIエージェント時代のガードレール設計──前編：思想・設計編</a></p>
+</blockquote>
+<br />
+<blockquote>
+<p>🔗 <strong>最新インサイトを継続的にキャッチアップ →</strong> <a href="/features/documentation" target="_blank" rel="noopener noreferrer">QueryPie AIドキュメント</a></p>
+</blockquote>
+<br />
+<blockquote>
+<p>🔗 <strong>QueryPie AIのデモを見る →</strong> <a href="/features/demo?category=use-cases" target="_blank" rel="noopener noreferrer">QueryPie AIP活用事例</a></p>
+</blockquote>
+<br />
+<p><em>本ホワイトペーパーは2026年2月時点の情報に基づいています。引用データ・法令・ガイドラインの最新版は、各発行元の公式情報をご確認ください。</em></p>
+<br />
+<p><br /></p>
+<p><br /></p>
+<br />
+<br />
+<p><a class="article-content-btn article-content-btn--wide" href="https://app.querypie.com/" target="_blank" rel="noopener">🚀 QueryPie AIを今すぐ体験する</a></p>
+<br />
+<br />
+              </div>
+            </div>
+          </div>
+
+          <aside class="article-sidebar">
+            <div class="related-sidebar">
+              <h2 class="related-sidebar-title">関連資料</h2>
+              <hr class="related-sidebar-divider">
+              <div class="related-sidebar-list">
+
+                <a href="/posts/whitepaper/wp-001.html" class="related-sidebar-card">
+                  <div class="related-sidebar-img"><img src="/assets/images/07-blog/wp-thumb-28.png" alt="AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編"></div>
+                  <div class="related-sidebar-text">
+                    <h3 class="related-sidebar-card-title">AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編</h3>
+                    <p class="related-sidebar-date">2026年2月27日</p>
+                  </div>
+                </a>
+                <a href="/posts/whitepaper/wp-013.html" class="related-sidebar-card">
+                  <div class="related-sidebar-img"><img src="/assets/images/07-blog/wp-thumb-16.png" alt="AIアクセス制御の大転換:Guardrailsを越えてMCP-PAMへ！"></div>
+                  <div class="related-sidebar-text">
+                    <h3 class="related-sidebar-card-title">AIアクセス制御の大転換:Guardrailsを越えてMCP-PAMへ！</h3>
+                    <p class="related-sidebar-date">2025年4月10日</p>
+                  </div>
+                </a>
+                <a href="/posts/whitepaper/wp-016.html" class="related-sidebar-card">
+                  <div class="related-sidebar-img"><img src="/assets/images/07-blog/wp-thumb-24-jp.png" alt="なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか"></div>
+                  <div class="related-sidebar-text">
+                    <h3 class="related-sidebar-card-title">なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか</h3>
+                    <p class="related-sidebar-date">2025年11月17日</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="sidebar-sticky-group">
+              <div class="sidebar-toc">
+                <h2 class="sidebar-toc-title">目次</h2>
+                <div class="sidebar-toc-wrap">
+                  <div class="sidebar-toc-scroll">
+                    <ul class="sidebar-toc-list"><li><a href="#この記事の結論1分で読めます">この記事の結論（1分で読めます）</a><ul class="sidebar-toc-sub"><li><a href="#case-1pc操作エージェントの権限逸脱claude-desktop-extensionsdxtの教訓">Case 1：PC操作エージェントの権限逸脱──Claude Desktop Extensions（DXT）の教訓</a></li><li><a href="#case-2開発aiのサプライチェーンリスクclaude-codeの脆弱性が示したもの">Case 2：開発AIのサプライチェーンリスク──Claude Codeの脆弱性が示したもの</a></li><li><a href="#case-3重要インフラの自律運用nokiaawsのアジェンティックaiネットワークスライシング">Case 3：重要インフラの自律運用──Nokia×AWSのアジェンティックAIネットワークスライシング</a></li></ul></li><li><a href="#3つのケーススタディのまとめ">3つのケーススタディのまとめ</a><ul class="sidebar-toc-sub"><li><a href="#チェックリスト①-権限permission">チェックリスト① 権限（Permission）</a></li><li><a href="#チェックリスト②-承認approval">チェックリスト② 承認（Approval）</a></li><li><a href="#チェックリスト③-監査ログaudit-trail">チェックリスト③ 監査ログ（Audit Trail）</a></li><li><a href="#チェックリスト④-停止kill-switch">チェックリスト④ 停止（Kill Switch）</a></li><li><a href="#チェックリスト⑤-組織体制・ガバナンス">チェックリスト⑤ 組織体制・ガバナンス</a></li><li><a href="#スコアリングガイド">スコアリングガイド</a></li></ul></li><li><a href="#全体像4つのフェーズ">全体像：4つのフェーズ</a><ul class="sidebar-toc-sub"><li><a href="#phase-0棚卸し・方針策定day-1〜14">Phase 0：棚卸し・方針策定（Day 1〜14）</a></li><li><a href="#phase-1poc概念実証day-15〜45">Phase 1：PoC（概念実証）（Day 15〜45）</a></li><li><a href="#phase-2限定運用day-46〜75">Phase 2：限定運用（Day 46〜75）</a></li><li><a href="#phase-3拡大準備day-76〜90">Phase 3：拡大準備（Day 76〜90）</a></li></ul></li><li><a href="#90日ロードマップのまとめ">90日ロードマップのまとめ</a><ul class="sidebar-toc-sub"><li><a href="#aiエージェント関連">AIエージェント関連</a></li><li><a href="#ガードレール設計関連">ガードレール設計関連</a></li><li><a href="#セキュリティ・コンプライアンス関連">セキュリティ・コンプライアンス関連</a></li><li><a href="#経営層の皆さまへ次の一歩">経営層の皆さまへ──次の一歩</a></li></ul></li></ul>
+                  </div>
+                </div>
+              </div>
+              <div class="sidebar-cta">
+                <h3 class="sidebar-cta-title">お問い合わせ</h3>
+                <p class="sidebar-cta-text">当社のコンサルタントと繋がってAI活用を加速しませんか？</p>
+                <a href="#" class="sidebar-cta-btn">今すぐお問い合わせ <img src="/assets/images/01-header/arrow-right.svg" alt=""></a>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer id="company-info" class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="footer-logo"><img src="/assets/images/01-header/logo.svg" alt="QueryPie"></div>
+        <div class="social-links">
+          <a href="https://kr.linkedin.com/company/querypie-01" target="_blank"><img src="/assets/images/08-footer/social-linkedin.svg" alt="LinkedIn"></a>
+          <a href="https://www.youtube.com/@querypie" target="_blank"><img src="/assets/images/08-footer/social-youtube.svg" alt="YouTube"></a>
+          <a href="https://x.com/querypie" target="_blank"><img src="/assets/images/08-footer/social-x.svg" alt="X"></a>
+          <a href="https://www.facebook.com/querypie" target="_blank"><img src="/assets/images/08-footer/social-facebook.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/querypie.ai/" target="_blank"><img src="/assets/images/08-footer/social-instagram.svg" alt="Instagram"></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="link-column"><h4>サービス</h4><ul><li><a href="#">AIP</a></li><li><a href="#">ACP</a></li><li><a href="#">FDE</a></li></ul></div>
+        <div class="link-column"><h4>ソリューション</h4><ul><li><a href="/services/ai-dashi/">AI 出汁</a></li></ul></div>
+        <div class="link-column"><h4>デモ</h4><ul><li><a href="#">ユースケース</a></li><li><a href="#">AIP機能</a></li><li><a href="#">ACP機能</a></li></ul></div>
+        <div class="link-column"><h4>リソース</h4><ul><li><a href="#">紹介資料</a></li><li><a href="#">用語集</a></li><li><a href="#">マニュアル</a></li><li><a href="/whitepaper.html">ホワイトペーパー</a></li><li><a href="/blog.html">ブログ</a></li><li><a href="/event.html">イベント</a></li></ul></div>
+        <div class="link-column"><h4>会社情報</h4><ul><li><a href="#">会社概要</a></li><li><a href="#">認定実績</a></li><li><a href="#">ニュース</a></li><li><a href="#">お問い合わせ</a></li></ul></div>
+        <div class="link-column"><h4>プラン</h4><ul><li><a href="#">AIP</a></li><li><a href="#">ACP</a></li></ul></div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div class="legal-links"><a href="#">クッキー設定</a><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">EULA</a></div>
+      <div class="copyright">
+        <p>© 2017-2025 QueryPie, Inc. All rights reserved.</p>
+        <p>本社：3003 North 1st Street, Suite 221, San Jose, CA 95134, USA</p>
+        <p>ソウル（麻谷）：ソウル特別市江西区麻谷中央1-26 7F、韓国</p>
+        <p>ソウル（江南）：ソウル特別市江南区江南大路464 3F、韓国</p>
+        <p>日本：〒105-6490 東京都港区虎ノ門1丁目17-1 15F</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    requestAnimationFrame(() => requestAnimationFrame(() => { document.documentElement.classList.remove('no-transition'); }));
+    const siteHeader = document.querySelector('.site-header');
+    function updateNavScroll() { siteHeader.classList.toggle('scrolled', window.scrollY > 0); }
+    updateNavScroll();
+    window.addEventListener('scroll', updateNavScroll, { passive: true });
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    menuBtn.addEventListener('click', () => { menuBtn.classList.toggle('active'); mobileMenu.classList.toggle('active'); document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : ''; });
+    document.querySelectorAll('.mobile-nav-link, .mobile-nav-sublink, .mobile-cta').forEach(link => { link.addEventListener('click', () => { menuBtn.classList.remove('active'); mobileMenu.classList.remove('active'); document.body.style.overflow = ''; }); });
+    const navItems = document.querySelectorAll('.nav-item.has-dropdown');
+    const navBackdrop = document.querySelector('.nav-backdrop');
+    let closeTimeout = null;
+    function closeAll() { clearTimeout(closeTimeout); navItems.forEach(i => i.classList.remove('is-open')); navBackdrop.classList.remove('is-active'); }
+    const currentPageActiveLink = document.querySelector('.nav-dropdown-link.is-active');
+    navItems.forEach(item => {
+      item.addEventListener('mouseenter', () => { if (window.innerWidth < 992) return; clearTimeout(closeTimeout); navItems.forEach(o => o.classList.remove('is-open')); item.classList.add('is-open'); document.querySelectorAll('.nav-dropdown-link').forEach(l => l.classList.remove('is-active')); navBackdrop.classList.add('is-active'); });
+      item.addEventListener('mouseleave', () => { if (window.innerWidth < 992) return; clearTimeout(closeTimeout); closeTimeout = setTimeout(() => { item.classList.remove('is-open'); if (currentPageActiveLink && !document.querySelector('.nav-item.has-dropdown:hover')) currentPageActiveLink.classList.add('is-active'); if (!document.querySelector('.nav-item.has-dropdown:hover')) navBackdrop.classList.remove('is-active'); }, 150); });
+    });
+    function alignMegaMenus() { if (window.innerWidth < 992) return; const firstNav = document.querySelector('.nav-item.has-dropdown .nav-link'); if (!firstNav) return; const megaOuterLeft = Math.max(0, (window.innerWidth - 1200) / 2); const paddingLeft = Math.max(30, firstNav.getBoundingClientRect().left - megaOuterLeft); document.querySelectorAll('.mega-inner').forEach(el => { el.style.paddingLeft = paddingLeft + 'px'; }); }
+    alignMegaMenus(); window.addEventListener('load', alignMegaMenus); window.addEventListener('resize', alignMegaMenus);
+    document.querySelectorAll('.nav-dropdown-link').forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); document.querySelectorAll('.nav-dropdown-link').forEach(l => l.classList.remove('is-active')); link.classList.add('is-active'); const href = link.getAttribute('href'); if (href && href !== '#') setTimeout(() => { window.location.href = href; }, 120); }); });
+    navBackdrop.addEventListener('mouseenter', closeAll); navBackdrop.addEventListener('click', closeAll);
+    document.addEventListener('click', e => { if (!e.target.closest('.nav-item.has-dropdown')) closeAll(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+    document.querySelectorAll('.mobile-nav-group').forEach(group => { group.querySelector('.mobile-nav-toggle').addEventListener('click', () => { document.querySelectorAll('.mobile-nav-group').forEach(o => { if (o !== group) o.classList.remove('is-open'); }); group.classList.toggle('is-open'); }); });
+    (function () {
+      const OFFSET = 100;
+      const tocLinks = document.querySelectorAll('.sidebar-toc-list a, .sidebar-toc-sub a');
+      const sections = [];
+      tocLinks.forEach(link => { const id = link.getAttribute('href').slice(1); const el = document.getElementById(id); if (el) sections.push({ el, link }); });
+      const tocScroll = document.querySelector('.sidebar-toc-scroll');
+      tocLinks.forEach(link => { link.addEventListener('click', e => { const id = link.getAttribute('href').slice(1); const target = document.getElementById(id); if (!target) return; e.preventDefault(); window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - OFFSET, behavior: 'smooth' }); }); });
+      function activate() {
+        let current = null;
+        for (let i = 0; i < sections.length; i++) { const rect = sections[i].el.getBoundingClientRect(); if (rect.top >= 0 && rect.bottom <= window.innerHeight) { current = sections[i].link; break; } }
+        if (!current) { const scrollY = window.scrollY + OFFSET + 20; sections.forEach(s => { if (s.el.offsetTop <= scrollY) current = s.link; }); }
+        tocLinks.forEach(l => l.classList.remove('is-active'));
+        if (current) { current.classList.add('is-active'); if (tocScroll) { const lr = current.getBoundingClientRect(); const tr = tocScroll.getBoundingClientRect(); if (lr.top < tr.top || lr.bottom > tr.bottom) { tocScroll.scrollTop += lr.top - tr.top - tr.height / 2 + lr.height / 2; } } }
+      }
+      window.addEventListener('scroll', activate, { passive: true });
+      activate();
+    })();
+  </script>
+
+</body>
+</html>
