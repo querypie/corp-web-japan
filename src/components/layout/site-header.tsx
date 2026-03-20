@@ -50,9 +50,9 @@ const navItems: readonly NavItem[] = [
       { label: "紹介資料", href: "#" },
       { label: "用語集", href: "#" },
       { label: "マニュアル", href: "#" },
-      { label: "ホワイトペーパー", href: "#" },
-      { label: "ブログ", href: "#" },
-      { label: "イベント", href: "#" },
+      { label: "ホワイトペーパー", href: "/whitepaper" },
+      { label: "ブログ", href: "/blog" },
+      { label: "イベント", href: "/events" },
     ],
   },
   {

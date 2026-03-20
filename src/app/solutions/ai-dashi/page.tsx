@@ -54,12 +54,12 @@ const releaseFlow = [
 const comparisonRows = [
   {
     label: "開発期間",
-    left: ["◎", "1〜3ヶ月"],
+    left: ["◎", "開発不要"],
     right: ["×", "3〜6ヶ月"],
   },
   {
     label: "初期コスト",
-    left: ["◎", "数百万円〜"],
+    left: ["◎", "初期費用0円"],
     right: ["×", "数千万円〜"],
   },
   {
@@ -137,33 +137,35 @@ export default function AIDashiPage() {
           </div>
         </div>
 
-        <div className="relative mx-auto flex max-w-[1200px] flex-col items-center justify-center gap-4 text-center">
-          <h1 className="max-w-[820px] text-[32px] font-semibold leading-[1.16] tracking-[-0.04em] text-white md:text-[40px] lg:text-[46px] lg:leading-[56px] lg:tracking-[-0.92px]">
-            最高品質のAI基盤を
-            <br />
-            あなたのブランドで
-          </h1>
-          <Image
-            src="/solutions/ai-dashi/hero-submark.svg"
-            alt="AI Dashi 出汁"
-            width={145}
-            height={24}
-            className="h-4 w-auto lg:h-5"
-          />
+        <div className="relative mx-auto flex max-w-[1200px] items-center justify-center text-center">
+          <div className="flex w-full max-w-[860px] flex-col items-center gap-4 md:w-fit">
+            <h1 className="text-[34px] font-semibold leading-[1.12] tracking-[-0.04em] text-white md:text-[42px] md:leading-[1.1] lg:text-[52px] lg:leading-[58px] lg:tracking-[-1.04px]">
+              最高品質のAI基盤を
+              <br />
+              あなたのブランドで
+            </h1>
+            <Image
+              src="/solutions/ai-dashi/hero-submark.svg"
+              alt="AI Dashi 出汁"
+              width={145}
+              height={24}
+              className="h-4 w-auto lg:h-5"
+            />
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1920px] bg-white px-6 py-5 lg:px-10">
+      <section className="mx-auto max-w-[1920px] border-y border-black/6 bg-white px-6 py-3 lg:px-10">
         <div className="mx-auto max-w-[1200px] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <nav className="flex min-w-max items-center justify-center gap-2">
+          <nav className="flex min-w-max items-center justify-center gap-1">
             {sectionNavItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="inline-flex items-center justify-center gap-1.5 px-4 py-3 text-sm font-semibold leading-5 text-[#808080] transition hover:text-[#15181d]"
+                className="inline-flex items-center justify-center gap-1 px-3 py-2 text-[14px] font-medium leading-5 text-slate-500 transition hover:text-[#15181d] focus:outline-none"
               >
                 {item.label}
-                {item.chevron ? <ChevronDown className="h-4 w-4" /> : null}
+                {item.chevron ? <ChevronDown className="h-3 w-3" /> : null}
               </a>
             ))}
           </nav>
