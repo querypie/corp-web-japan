@@ -46,8 +46,8 @@ const footerColumns = [
   {
     title: "料金プラン",
     links: [
-      { label: "AIP", href: "#" },
-      { label: "ACP", href: "#" },
+      { label: "コストシミュレーター", href: "/pricing/calculator" },
+      { label: "お問い合わせ", href: "/#contact" },
     ],
   },
 ] as const;

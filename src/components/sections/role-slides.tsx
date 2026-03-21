@@ -30,52 +30,52 @@ type RoleSlidesProps = {
 
 const departmentThemeMap: Record<string, { shell: string; badge: string; portraitBg: string }> = {
   "セールス・事業開発部門": {
-    shell: "border-[#d7e4f7] bg-[linear-gradient(180deg,#f7fbff_0%,#ffffff_100%)]",
-    badge: "bg-[#ecf4ff] text-[#24579b]",
-    portraitBg: "#EEF5FF",
+    shell: "border-[#e4e7ec] bg-[linear-gradient(180deg,#fbfcfe_0%,#ffffff_100%)]",
+    badge: "bg-[#f2f4f7] text-[#475467]",
+    portraitBg: "#F8FAFC",
   },
   "コーポレート・バックオフィス部門": {
-    shell: "border-[#eadffd] bg-[linear-gradient(180deg,#fbf9ff_0%,#ffffff_100%)]",
-    badge: "bg-[#f1eafe] text-[#6d3db8]",
-    portraitBg: "#F3EDFF",
+    shell: "border-[#e4e7ec] bg-[linear-gradient(180deg,#fbfcfe_0%,#ffffff_100%)]",
+    badge: "bg-[#f2f4f7] text-[#475467]",
+    portraitBg: "#F8FAFC",
   },
   "開発・プロダクト部門": {
-    shell: "border-[#d9eadf] bg-[linear-gradient(180deg,#f8fcf9_0%,#ffffff_100%)]",
-    badge: "bg-[#e4f7ee] text-[#28785e]",
-    portraitBg: "#EAF8F2",
+    shell: "border-[#e4e7ec] bg-[linear-gradient(180deg,#fbfcfe_0%,#ffffff_100%)]",
+    badge: "bg-[#f2f4f7] text-[#475467]",
+    portraitBg: "#F8FAFC",
   },
   "マーケティング・カスタマーサクセス部門": {
-    shell: "border-[#f4d8df] bg-[linear-gradient(180deg,#fff8fa_0%,#ffffff_100%)]",
-    badge: "bg-[#ffe7ee] text-[#a84b68]",
-    portraitBg: "#FFF0F5",
+    shell: "border-[#e4e7ec] bg-[linear-gradient(180deg,#fbfcfe_0%,#ffffff_100%)]",
+    badge: "bg-[#f2f4f7] text-[#475467]",
+    portraitBg: "#F8FAFC",
   },
   "クリエイティブ・広報部門": {
-    shell: "border-[#f3e2c6] bg-[linear-gradient(180deg,#fffaf2_0%,#ffffff_100%)]",
-    badge: "bg-[#fff0d3] text-[#9d671f]",
-    portraitBg: "#FFF4E4",
+    shell: "border-[#e4e7ec] bg-[linear-gradient(180deg,#fbfcfe_0%,#ffffff_100%)]",
+    badge: "bg-[#f2f4f7] text-[#475467]",
+    portraitBg: "#F8FAFC",
   },
 } as const;
 
 const categoryChipMap: Record<string, { active: string; idle: string }> = {
   "セールス・事業開発部門": {
-    active: "border-[#bfd5f6] bg-[#ecf4ff] text-[#24579b]",
-    idle: "border-[#d7e4f7] bg-white/92 text-[#24579b] hover:bg-[#f5f9ff]",
+    active: "border-[#2f3a49] bg-[#2f3a49] text-white",
+    idle: "border-[#d0d5dd] bg-white text-[#667085] hover:bg-[#f8fafc]",
   },
   "コーポレート・バックオフィス部門": {
-    active: "border-[#d8c9f7] bg-[#f3edff] text-[#6d3db8]",
-    idle: "border-[#eadffd] bg-white/92 text-[#6d3db8] hover:bg-[#faf7ff]",
+    active: "border-[#2f3a49] bg-[#2f3a49] text-white",
+    idle: "border-[#d0d5dd] bg-white text-[#667085] hover:bg-[#f8fafc]",
   },
   "開発・プロダクト部門": {
-    active: "border-[#bfe5d1] bg-[#eaf8f2] text-[#28785e]",
-    idle: "border-[#d9eadf] bg-white/92 text-[#28785e] hover:bg-[#f5fbf7]",
+    active: "border-[#2f3a49] bg-[#2f3a49] text-white",
+    idle: "border-[#d0d5dd] bg-white text-[#667085] hover:bg-[#f8fafc]",
   },
   "マーケティング・カスタマーサクセス部門": {
-    active: "border-[#f2bfd0] bg-[#fff0f5] text-[#a84b68]",
-    idle: "border-[#f4d8df] bg-white/92 text-[#a84b68] hover:bg-[#fff8fa]",
+    active: "border-[#2f3a49] bg-[#2f3a49] text-white",
+    idle: "border-[#d0d5dd] bg-white text-[#667085] hover:bg-[#f8fafc]",
   },
   "クリエイティブ・広報部門": {
-    active: "border-[#f3d59b] bg-[#fff4e4] text-[#9d671f]",
-    idle: "border-[#f3e2c6] bg-white/92 text-[#9d671f] hover:bg-[#fffaf2]",
+    active: "border-[#2f3a49] bg-[#2f3a49] text-white",
+    idle: "border-[#d0d5dd] bg-white text-[#667085] hover:bg-[#f8fafc]",
   },
 };
 
@@ -197,11 +197,11 @@ export function RoleSlides({ items, note, customCta }: RoleSlidesProps) {
 
   return (
     <div className="relative mx-auto max-w-[1232px]">
-      <div className="mx-auto mb-8 flex max-w-[980px] flex-wrap items-center justify-center gap-x-3 gap-y-3 px-4 md:px-6">
+      <div className="mx-auto mb-8 flex max-w-[1240px] flex-nowrap items-center justify-center gap-2 overflow-x-auto px-4 md:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <button
           type="button"
           onClick={() => setSelectedCategory("all")}
-          className={`inline-flex min-h-11 items-center justify-center rounded-full border px-4 py-2.5 text-sm font-semibold shadow-[0_12px_32px_-24px_rgba(15,23,42,0.18)] transition ${
+          className={`inline-flex min-h-10 shrink-0 items-center justify-center rounded-full border px-3.5 py-2 text-[13px] font-semibold shadow-[0_12px_32px_-24px_rgba(15,23,42,0.18)] transition ${
             selectedCategory === "all"
               ? "border-[#2f3a49] bg-[#2f3a49] text-white"
               : "border-[#d7dde7] bg-white/92 text-[#475467] hover:bg-[#f8fafc]"
@@ -220,7 +220,7 @@ export function RoleSlides({ items, note, customCta }: RoleSlidesProps) {
               key={category}
               type="button"
               onClick={() => setSelectedCategory(category)}
-              className={`inline-flex min-h-11 items-center justify-center rounded-full border px-4 py-2.5 text-sm font-semibold shadow-[0_12px_32px_-24px_rgba(15,23,42,0.18)] transition ${
+              className={`inline-flex min-h-10 shrink-0 items-center justify-center rounded-full border px-3.5 py-2 text-[13px] font-semibold shadow-[0_12px_32px_-24px_rgba(15,23,42,0.18)] transition ${
                 selectedCategory === category ? styles.active : styles.idle
               }`}
             >

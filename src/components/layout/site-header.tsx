@@ -67,7 +67,7 @@ const navItems: readonly NavItem[] = [
   },
   {
     label: "プラン",
-    href: "#",
+    href: "/pricing/calculator",
   },
 ];
 

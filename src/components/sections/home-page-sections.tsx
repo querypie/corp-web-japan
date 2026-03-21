@@ -2,14 +2,24 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
+  Brain,
+  BriefcaseBusiness,
   Blocks,
+  Cable,
+  CalendarDays,
   FileSearch,
   FolderKanban,
   Layers3,
+  MessageSquare,
   MessageSquareText,
+  Quote,
+  ScanSearch,
+  Shield,
   Play,
+  Settings2,
   Search,
   ShieldCheck,
+  Wallet,
   ChartColumnIncreasing,
 } from "lucide-react";
 import { homePageContent } from "@/content/home";
@@ -33,16 +43,16 @@ const beforeItems = [
 
 const problemCardStyles = [
   {
-    card: "border-[#d9e8f7] bg-[#f8fbff]",
-    icon: "bg-[#e8f3ff] text-[#245b8f]",
+    card: "border-[#e5e7eb] bg-[#fbfcfd]",
+    icon: "bg-[#f2f4f7] text-[#344054]",
   },
   {
-    card: "border-[#f3dec9] bg-[#fff9f5]",
-    icon: "bg-[#ffe9d6] text-[#a6561a]",
+    card: "border-[#e5e7eb] bg-[#fbfcfd]",
+    icon: "bg-[#f2f4f7] text-[#344054]",
   },
   {
-    card: "border-[#e3e9d0] bg-[#fafbf6]",
-    icon: "bg-[#eef3dc] text-[#5f6f2d]",
+    card: "border-[#e5e7eb] bg-[#fbfcfd]",
+    icon: "bg-[#f2f4f7] text-[#344054]",
   },
 ] as const;
 
@@ -155,23 +165,23 @@ export function HomePageSections() {
         </div>
       </section>
 
-      <section id="why" className="mx-auto max-w-[1920px] px-6 py-20 lg:px-10 lg:py-28">
+      <section id="why" className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-20 lg:px-10 lg:py-28">
         <div className="text-center">
-          <h2 className="mt-5 font-sans text-[42px] font-bold leading-[1.22] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[58px] sm:tracking-[-0.96px]">
+          <h2 className="mt-5 font-sans text-[42px] font-bold leading-[1.22] tracking-[-0.03em] text-slate-900 sm:text-[48px] sm:leading-[58px] sm:tracking-[-0.96px]">
             {problem.title.split("\n")[0]}
             <br />
             {renderHighlightedKeyword(problem.title.split("\n")[1] ?? "", "右腕")}
           </h2>
-          <p className="mx-auto mt-5 max-w-[820px] whitespace-pre-line text-left text-base leading-7 text-slate-500">
+          <p className="mx-auto mt-5 w-full max-w-[820px] whitespace-pre-line text-left text-base leading-7 text-slate-600 lg:pl-[54px]">
             {problem.body}
           </p>
         </div>
 
-        <div className="mx-auto mt-12 max-w-[1160px] grid gap-5 lg:grid-cols-3">
+        <div className="mx-auto mt-12 max-w-[1200px] grid gap-4 lg:grid-cols-3">
           {problem.cards.map((card, index) => (
             <article
               key={card.title}
-              className={`relative flex h-full flex-col overflow-hidden rounded-[1.8rem] border p-7 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.14)] lg:p-8 ${problemCardStyles[index]?.card ?? "border-black/6 bg-white/95"}`}
+              className={`relative flex h-full flex-col overflow-hidden rounded-[1.8rem] border p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.14)] lg:p-7 ${problemCardStyles[index]?.card ?? "border-black/6 bg-white/95"}`}
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-white/0 via-white/70 to-white/0" />
               <div
@@ -181,7 +191,7 @@ export function HomePageSections() {
                 {index === 1 && <Blocks className="h-5 w-5" />}
                 {index === 2 && <MessageSquareText className="h-5 w-5" />}
               </div>
-              <h3 className="mt-6 text-[24px] font-bold leading-[1.35] tracking-[-0.03em] text-slate-950">
+              <h3 className="mt-6 text-pretty text-[19px] font-medium leading-[1.55] tracking-[-0.015em] text-slate-800 sm:text-[20px]">
                 {card.title}
               </h3>
               <p className="mt-5 text-[15px] leading-[2.05] text-slate-600">{renderEmphasizedText(card.body)}</p>
@@ -202,7 +212,7 @@ export function HomePageSections() {
         <FeatureShowcase items={featureTabs} />
       </section>
 
-      <section id="roles" className="mx-auto max-w-[1920px] px-6 py-20 lg:px-10">
+      <section id="roles" className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-20 lg:px-10">
         <div className="mx-auto max-w-[1120px] text-center">
           <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
             {roles.title.split("\n")[0]}
@@ -298,7 +308,7 @@ export function HomePageSections() {
               </div>
               <div className="mt-8 flex min-h-[18rem] items-center justify-center">
                 <div className="relative h-[356px] w-full max-w-[33rem]">
-                  {[...beforeItems.slice(1), ...beforeItems.slice(0, 3)].map((Icon, index) => {
+                  {[...beforeItems.slice(1), ...beforeItems, ...beforeItems.slice(0, 5)].map((Icon, index) => {
                     const chaosPositions = [
                       "left-[78px] top-[8px]",
                       "right-[74px] top-[20px]",
@@ -312,6 +322,23 @@ export function HomePageSections() {
                       "left-[38px] bottom-[44px]",
                       "right-[44px] bottom-[46px]",
                       "left-[120px] top-[26px]",
+                      "left-[18px] top-[172px]",
+                      "right-[22px] top-[176px]",
+                      "left-[122px] bottom-[78px]",
+                      "right-[120px] bottom-[80px]",
+                      "left-[154px] top-[8px]",
+                      "right-[150px] top-[14px]",
+                      "left-[12px] top-[252px]",
+                      "right-[14px] top-[252px]",
+                      "left-[174px] bottom-[8px]",
+                      "right-[176px] bottom-[10px]",
+                      "left-[218px] top-[6px]",
+                      "right-[214px] top-[8px]",
+                      "left-[210px] bottom-[2px]",
+                      "right-[208px] bottom-[4px]",
+                      "left-[54px] top-[214px]",
+                      "right-[58px] top-[216px]",
+                      "left-[102px] top-[152px]",
                     ];
 
                     return (
@@ -393,63 +420,140 @@ export function HomePageSections() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1920px] px-6 py-20 lg:px-10">
+      <section className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-20 lg:px-10">
         <div className="mx-auto max-w-[1120px] text-center">
           <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
             {roi.title.split("\n")[0]}
             <br />
-            {roi.title.split("\n")[1]}
+            {renderHighlightedKeyword(roi.title.split("\n")[1] ?? "", "QueryPie AIP")}
           </h2>
-          <p className="mx-auto mt-5 max-w-[561px] text-base leading-6 text-slate-500">
+          <p className="mx-auto mt-5 w-full max-w-[860px] whitespace-pre-line text-left text-base leading-7 text-slate-500 lg:pl-[72px]">
             {roi.body}
           </p>
         </div>
 
-        <div className="mx-auto mt-12 max-w-[1120px] grid gap-4 lg:grid-cols-3">
-          {roi.cards.map((card) => (
+        <div className="mx-auto mt-12 max-w-[1280px] grid gap-4 lg:grid-cols-2 xl:grid-cols-4">
+          {roi.cards.map((card, index) => {
+            const icons = [Brain, Cable, ScanSearch, Shield] as const;
+            const Icon = icons[index] ?? ShieldCheck;
+            const [headline, subheadline = ""] = card.title.split("\n");
+            const [headlineJa, headlineEn] = headline.split(" / ");
+
+            return (
             <article
               key={card.title}
               className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]"
             >
-              <div className="inline-flex rounded-full bg-[#2f3a49] px-3 py-1 text-xs font-semibold text-white">
+              <div className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-[#eef2f7] text-[#2f3a49]">
+                <Icon className="h-5 w-5" />
+              </div>
+              <h3 className="mt-5 flex items-end gap-2 tracking-[-0.04em] text-slate-950">
+                <span className="text-[26px] font-semibold">{headlineJa}</span>
+                {headlineEn ? <span className="pb-0.5 text-[15px] font-medium tracking-[-0.02em] text-slate-400">{headlineEn}</span> : null}
+              </h3>
+              <p className="mt-2 text-[17px] font-medium leading-[1.45] tracking-[-0.02em] text-slate-700">
+                {subheadline}
+              </p>
+              <div className="mt-4 inline-flex rounded-full bg-[#2f3a49] px-3 py-1 text-xs font-semibold text-white">
                 {card.stat}
               </div>
-              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.04em] text-slate-950">{card.title}</h3>
               <p className="mt-4 text-sm leading-7 text-slate-600">{card.body}</p>
             </article>
-          ))}
+          )})}
         </div>
       </section>
 
       <section className="mx-auto max-w-[1920px] px-6 py-20 lg:px-10">
         <div className="mx-auto max-w-[1120px] text-center">
           <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
-            {testimonials.title.split("\n")[0]}
+            {renderHighlightedKeyword(testimonials.title.split("\n")[0], "スピード")}
             <br />
-            {testimonials.title.split("\n")[1]}
+            {renderHighlightedKeyword(testimonials.title.split("\n")[1] ?? "", "投資対効果")}
           </h2>
+          <p className="mx-auto mt-5 max-w-[820px] text-left text-[15px] leading-7 text-slate-500">
+            {testimonials.body}
+          </p>
         </div>
 
         <div className="mx-auto mt-12 max-w-[1440px] overflow-x-auto px-1 py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex min-w-max gap-4 xl:min-w-0 xl:justify-center">
-            {testimonials.items.map((item) => (
+            {testimonials.items.map((item, index) => {
+              const icons = [BriefcaseBusiness, MessageSquare, ChartColumnIncreasing, Cable, Wallet] as const;
+              const Icon = icons[index] ?? BriefcaseBusiness;
+
+              return (
               <article
                 key={item.name}
-                className="flex min-h-[300px] w-[320px] flex-col justify-between rounded-[1.8rem] border border-black/8 bg-white px-7 py-8 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]"
+                className="relative flex min-h-[286px] w-[316px] flex-col justify-between overflow-hidden rounded-[1.8rem] border border-black/8 bg-white px-7 py-8 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]"
               >
-                <p className="text-base leading-8 tracking-[-0.01em] text-slate-700">“{item.quote}”</p>
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-white/0 via-[#e8edf5] to-white/0" />
+                <div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-[12px] bg-[#eef2f7] text-[#2f3a49]">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <Quote className="h-5 w-5 text-slate-300" />
+                  </div>
+
+                  <p className="mt-5 text-[15px] leading-7 tracking-[-0.01em] text-slate-700">“{item.quote}”</p>
+                </div>
 
                 <div className="mt-8 flex items-center gap-3">
-                  <div className="flex h-[42px] w-[42px] items-center justify-center rounded-full bg-[#f9f9fb] text-xs font-semibold text-slate-700">
+                  <div className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-[#f9f9fb] text-[11px] font-semibold text-slate-700">
                     {item.brand.slice(0, 2)}
                   </div>
                   <div className="text-left">
-                    <p className="text-base font-medium tracking-[-0.02em] text-slate-900">{item.name}</p>
-                    <p className="text-sm leading-6 tracking-[-0.01em] text-slate-600">{item.company}</p>
+                    <p className="whitespace-nowrap text-[15px] font-medium tracking-[-0.02em] text-slate-900">{item.name}</p>
+                    <p className="whitespace-nowrap text-[12px] leading-5 tracking-[-0.01em] text-slate-500">{item.company}</p>
                   </div>
                 </div>
               </article>
+            )})}
+          </div>
+        </div>
+
+        <div className="mx-auto mt-16 max-w-[1120px] rounded-[2rem] border border-black/6 bg-[#f9fafb] p-8 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
+          <div className="max-w-[980px]">
+            <div className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-[#eef2f7] text-[#2f3a49]">
+              <Wallet className="h-5 w-5" />
+            </div>
+            <h3 className="mt-5 text-[30px] font-semibold leading-[1.35] tracking-[-0.03em] text-slate-950">
+              {testimonials.pricing.title}
+            </h3>
+            <p className="mt-5 max-w-[960px] whitespace-pre-line text-base leading-7 text-slate-600">
+              {testimonials.pricing.body}
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {testimonials.pricing.bullets.map((item) => (
+              <article key={item.title} className="rounded-[1.5rem] border border-black/6 bg-white p-6">
+                <h4 className="text-[20px] font-semibold tracking-[-0.03em] text-slate-950">{item.title}</h4>
+                <p className="mt-3 text-sm leading-7 text-slate-600">{item.body}</p>
+              </article>
             ))}
+          </div>
+        </div>
+
+        <div className="mx-auto mt-10 max-w-[1120px] rounded-[2rem] bg-[#2f3a49] px-8 py-10 text-white shadow-[0_28px_90px_-50px_rgba(15,23,42,0.24)]">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-[700px]">
+              <div className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-white/10 text-white">
+                <ArrowRight className="h-5 w-5" />
+              </div>
+              <p className="mt-5 text-[30px] font-semibold leading-[1.35] tracking-[-0.03em]">
+                {testimonials.calculatorCta.title}
+              </p>
+              <p className="mt-4 max-w-[700px] text-sm leading-7 text-white/78">
+                {testimonials.calculatorCta.body}
+              </p>
+            </div>
+            <Link
+              href={testimonials.calculatorCta.href}
+              className="inline-flex items-center justify-center rounded-[12px] bg-white px-5 py-3 text-sm font-semibold text-[#2f3a49] transition hover:bg-[#f4f6f8]"
+            >
+              {testimonials.calculatorCta.label}
+            </Link>
           </div>
         </div>
       </section>
@@ -458,29 +562,60 @@ export function HomePageSections() {
         id="contact"
         className="w-full bg-[#f9f9fb] px-6 py-16 text-center lg:px-10 lg:py-20"
       >
-        <div className="mx-auto flex max-w-[540px] flex-col items-center gap-8">
-          <div className="flex flex-col items-center gap-4">
-            <h2 className="text-4xl font-semibold leading-[1.05] tracking-[-0.06em] text-[#010d3e] sm:text-[54px] sm:leading-[60px]">
-              {contact.title.split("\n")[0]}
-              <br />
-              {contact.title.split("\n")[1]}
-            </h2>
+        <div className="mx-auto max-w-[1120px] space-y-6">
+          <div className="rounded-[2rem] bg-white px-8 py-10 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
+            <div className="mx-auto flex max-w-[720px] flex-col items-center gap-6">
+              <div className="flex w-full flex-col items-center gap-4">
+                <h2 className="text-center text-4xl font-semibold leading-[1.08] tracking-[-0.05em] text-[#101828] sm:text-[52px] sm:leading-[58px]">
+                  {contact.title.split("\n")[0]}
+                  <br />
+                  {renderHighlightedKeyword(contact.title.split("\n")[1] ?? "", "AI Crew")}
+                </h2>
+                <p className="w-full text-left text-base leading-7 text-slate-500">{contact.body}</p>
+              </div>
+
+              <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-[17px]">
+                <Link
+                  href={contact.primaryCta.href}
+                  className="inline-flex items-center justify-center gap-2 rounded-[10px] bg-[#2f3a49] px-5 py-3 text-base font-semibold text-white transition hover:bg-[#25303d]"
+                >
+                  <CalendarDays className="h-4 w-4" />
+                  {contact.primaryCta.label}
+                </Link>
+                <Link
+                  href={contact.secondaryCta.href}
+                  className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-[#d0d5dd] bg-white px-5 py-3 text-base font-medium text-[#101828] transition hover:bg-slate-50"
+                >
+                  <Play className="h-4 w-4" />
+                  {contact.secondaryCta.label}
+                </Link>
+              </div>
+            </div>
           </div>
 
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-[17px]">
-            <Link
-              href={contact.primaryCta.href}
-              className="inline-flex items-center justify-center rounded-[8px] bg-[#2f3a49] px-4 py-2.5 text-base font-semibold text-white transition hover:bg-[#25303d]"
-            >
-              {contact.primaryCta.label}
-            </Link>
-            <Link
-              href={contact.secondaryCta.href}
-              className="inline-flex items-center justify-center gap-1 rounded-[10px] px-1 py-[10px] text-base font-medium text-black transition hover:text-slate-700"
-            >
-              {contact.secondaryCta.label}
-              <ArrowRight className="h-5 w-5" />
-            </Link>
+          <div className="rounded-[2rem] border border-black/6 bg-[#2f3a49] px-8 py-8 text-left text-white shadow-[0_28px_90px_-50px_rgba(15,23,42,0.24)]">
+            <div className="max-w-[980px]">
+              <div className="inline-flex rounded-full border border-white/12 bg-white/8 px-3 py-1 text-xs font-semibold tracking-[0.12em] text-white/82">
+                {contact.partnerBadge}
+              </div>
+              <div className="mt-5 flex h-12 w-12 items-center justify-center rounded-[14px] bg-white/10 text-white">
+                <Settings2 className="h-5 w-5" />
+              </div>
+              <h3 className="mt-5 text-[30px] font-semibold leading-[1.35] tracking-[-0.03em] text-white">
+                {contact.partnerTitle}
+              </h3>
+              <p className="mt-4 max-w-[980px] text-left text-sm leading-7 text-white/78">
+                {contact.partnerBody}
+              </p>
+              <Link
+                href={contact.partnerCta.href}
+                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-white/80"
+              >
+                <Settings2 className="h-4 w-4" />
+                {contact.partnerCta.label}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
