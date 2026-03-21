@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap");
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -52,9 +53,10 @@
 :root {
   --radius: 0.625rem;
   --font-app-sans:
-    "Pretendard",
-    "Pretendard JP",
     "Noto Sans JP",
+    "Hiragino Sans",
+    "Yu Gothic",
+    "Meiryo",
     "Avenir Next",
     "Segoe UI",
     "Helvetica Neue",
