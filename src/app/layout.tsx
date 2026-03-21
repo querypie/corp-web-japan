@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import { Toaster } from "sonner";
-import { QueryProvider } from "@/components/shared/query-provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Querypie - AI 기반 SNS 콘텐츠 제작 플랫폼",
-  description:
-    "AI로 콘텐츠를 기획하고, 카드뉴스를 만들고, SNS에 예약 발행하세요.",
+  title: "AI Staff Japan Website",
+  description: "AI Staffの日本向けランディングサイトです。",
 };
 
 export default function RootLayout({
@@ -16,12 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className="font-sans antialiased">
-        <QueryProvider>
-          {children}
-          <Toaster position="bottom-right" richColors />
-        </QueryProvider>
-      </body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }
