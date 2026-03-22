@@ -7,7 +7,7 @@ export const homePageContent = {
   hero: {
     title: "ツールを増やすのはやめて、\n優秀なAI社員を迎えよう。",
     body:
-      "今いる仲間を減らす必要はありません。\nあなたのチームのボトルネックに合わせて、どんな業務も自律的にこなすAI社員を自由に配属できます。\n圧倒的な処理能力で既存の社員を助け、チームを拡張する。それが新しい時代の同僚、QueryPie AI Crew です。",
+      "今いる仲間を減らす必要はありません。圧倒的な処理能力で実務をこなし、チームを拡張するAI社員を配属するだけです。\nエンタープライズ向けのセキュアなAI基盤で稼働する「QueryPie AI Crew」は、単なるツールではなく、営業や人事など\nの専門業務を自律的に遂行するAIエージェントです。そんな新しい時代の同僚を、今日から迎え入れませんか。",
     primaryCta: { label: "AI社員の採用面接に進む", href: "#contact" },
     secondaryCta: { label: "チームに必要なAI社員を探す", href: "#roles" },
   },
@@ -91,9 +91,9 @@ export const homePageContent = {
         stat: "マルチLLM / データ保護",
       },
       {
-        title: "連携 / Connect\n社内SaaSと安全に繋がり、文脈を理解する",
+        title: "連携 / Connect\nゼロトラスト基準で社内システムと繋がり、文脈を理解する",
         body:
-          "Notion、Salesforce、Google Drive などと深く連携し、過去の文脈を正確に読み取ります。同時に、人と同じ権限ルールに従うため、不要な機密情報へアクセスすることはできません。",
+          "Notion、Salesforce、Google Drive などと深く連携し、過去の文脈を正確に読み取ります。QueryPieが誇る厳格なアクセス制御により、不要な機密情報へのアクセスを完全に遮断します。",
         stat: "社内連携 / アクセス制御",
       },
       {
@@ -103,9 +103,9 @@ export const homePageContent = {
         stat: "業務再現 / 事実参照",
       },
       {
-        title: "統制 / Governance\nすべての行動を可視化し、人が承認する",
+        title: "統制 / Governance\nすべての行動を監査ログに残し、シャドーAIを根絶する",
         body:
-          "AI Crewがいつ・どのデータにアクセスし、どんな処理を行ったかをすべて記録・可視化します。外部送信や更新などの重要アクションには必ず人の承認を挟み、暴走やシャドーAIを防ぎます。",
+          "AI Crewがいつ・どのデータにアクセスし、どんな処理を行ったかをすべて記録・可視化します。エンタープライズ水準の監査ログを保持し、シャドーAIや情報漏洩のリスクを根絶します。",
         stat: "監査ログ / 人の承認",
       },
     ],
@@ -143,7 +143,7 @@ export const homePageContent = {
     customCta: { label: "カスタム育成について相談する", href: "#contact" },
     cards: [
       {
-        department: "セールス・事業開発部門",
+        department: "営業・事業開発",
         firstName: "Anne",
         displayName: "アン",
         titleEn: "Inside Sales",
@@ -158,7 +158,7 @@ export const homePageContent = {
         accent: "orange",
       },
       {
-        department: "セールス・事業開発部門",
+        department: "営業・事業開発",
         firstName: "Liam",
         displayName: "リアム",
         titleEn: "Field Sales",
@@ -173,7 +173,7 @@ export const homePageContent = {
         accent: "blue",
       },
       {
-        department: "セールス・事業開発部門",
+        department: "営業・事業開発",
         firstName: "Ken",
         displayName: "ケン",
         titleEn: "Pre-Sales",
@@ -188,7 +188,7 @@ export const homePageContent = {
         accent: "emerald",
       },
       {
-        department: "セールス・事業開発部門",
+        department: "営業・事業開発",
         firstName: "Victor",
         displayName: "ビクター",
         titleEn: "Business Development",
@@ -203,7 +203,7 @@ export const homePageContent = {
         accent: "blue",
       },
       {
-        department: "コーポレート・バックオフィス部門",
+        department: "コーポレート・管理",
         firstName: "Emma",
         displayName: "エマ",
         titleEn: "HR Manager",
@@ -218,7 +218,7 @@ export const homePageContent = {
         accent: "rose",
       },
       {
-        department: "コーポレート・バックオフィス部門",
+        department: "コーポレート・管理",
         firstName: "Oliver",
         displayName: "オリバー",
         titleEn: "Financial Controller",
@@ -233,7 +233,7 @@ export const homePageContent = {
         accent: "blue",
       },
       {
-        department: "コーポレート・バックオフィス部門",
+        department: "コーポレート・管理",
         firstName: "Sophia",
         displayName: "ソフィア",
         titleEn: "Legal Counsel",
@@ -248,7 +248,7 @@ export const homePageContent = {
         accent: "violet",
       },
       {
-        department: "コーポレート・バックオフィス部門",
+        department: "コーポレート・管理",
         firstName: "Daniel",
         displayName: "ダニエル",
         titleEn: "Procurement Manager",
@@ -263,7 +263,7 @@ export const homePageContent = {
         accent: "amber",
       },
       {
-        department: "コーポレート・バックオフィス部門",
+        department: "コーポレート・管理",
         firstName: "Grace",
         displayName: "グレース",
         titleEn: "Executive Assistant",
@@ -278,7 +278,7 @@ export const homePageContent = {
         accent: "rose",
       },
       {
-        department: "コーポレート・バックオフィス部門",
+        department: "コーポレート・管理",
         firstName: "Hanna",
         displayName: "ハンナ",
         titleEn: "Labor Relations",
@@ -293,7 +293,7 @@ export const homePageContent = {
         accent: "violet",
       },
       {
-        department: "コーポレート・バックオフィス部門",
+        department: "コーポレート・管理",
         firstName: "Teo",
         displayName: "テオ",
         titleEn: "Facilities",
@@ -308,7 +308,7 @@ export const homePageContent = {
         accent: "emerald",
       },
       {
-        department: "開発・プロダクト部門",
+        department: "開発・プロダクト",
         firstName: "Jay",
         displayName: "ジェイ",
         titleEn: "Developer",
@@ -323,7 +323,7 @@ export const homePageContent = {
         accent: "emerald",
       },
       {
-        department: "開発・プロダクト部門",
+        department: "開発・プロダクト",
         firstName: "Zoe",
         displayName: "ゾーイ",
         titleEn: "QA Engineer",
@@ -338,7 +338,7 @@ export const homePageContent = {
         accent: "amber",
       },
       {
-        department: "マーケティング・カスタマーサクセス部門",
+        department: "マーケティング・CS",
         firstName: "Clara",
         displayName: "クララ",
         titleEn: "Marketer",
@@ -353,7 +353,7 @@ export const homePageContent = {
         accent: "orange",
       },
       {
-        department: "マーケティング・カスタマーサクセス部門",
+        department: "マーケティング・CS",
         firstName: "Noah",
         displayName: "ノア",
         titleEn: "Data Analyst",
@@ -368,7 +368,7 @@ export const homePageContent = {
         accent: "blue",
       },
       {
-        department: "マーケティング・カスタマーサクセス部門",
+        department: "マーケティング・CS",
         firstName: "Mio",
         displayName: "ミオ",
         titleEn: "Customer Support",
@@ -383,7 +383,7 @@ export const homePageContent = {
         accent: "violet",
       },
       {
-        department: "クリエイティブ・広報部門",
+        department: "広報・デザイン",
         firstName: "Ian",
         displayName: "イアン",
         titleEn: "Writer & PR",
@@ -398,7 +398,7 @@ export const homePageContent = {
         accent: "rose",
       },
       {
-        department: "クリエイティブ・広報部門",
+        department: "広報・デザイン",
         firstName: "Ruby",
         displayName: "ルビー",
         titleEn: "Designer",
@@ -534,12 +534,12 @@ export const homePageContent = {
     title: "あなたのチームにも、\nAI Crewを迎え入れませんか？",
     body:
       "どんな業務から任せるべきか、まだ明確でなくても構いません。私たちQueryPie AIの専門チームが、貴社に最適なAI Crewのオンボーディングをサポートします。",
-    primaryCta: { label: "無料で相談する", href: "/login" },
+    primaryCta: { label: "AI Crewの採用について相談する", href: "/login" },
     secondaryCta: { label: "実際の働き方（デモ）を見る", href: "#roles" },
     partnerBadge: "SaaSベンダー・Webサービス企業様へ",
     partnerTitle: "貴社のプロダクトに、最高品質のAI基盤を\n組み込みませんか？",
     partnerBody:
       "自社プロダクトのAI化を、ゼロから数千万円かけて開発する必要はありません。QueryPie AIの強固なAI基盤を、貴社のブランドとUIのまま組み込める\nAIソリューション「AI Dashi」を提供しています。専門エンジニア（FDE）が伴走し、最短1ヶ月で貴社の顧客に新しいAI体験を届けることが可能です。",
-    partnerCta: { label: "プロダクト組み込みAIソリューション「AI Dashi」の詳細を見る", href: "/solutions/ai-dashi" },
+    partnerCta: { label: "組み込み型AIソリューション「AI Dashi」の詳細を見る", href: "/solutions/ai-dashi" },
   },
 } as const;

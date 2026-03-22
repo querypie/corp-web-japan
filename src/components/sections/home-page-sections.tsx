@@ -116,18 +116,18 @@ export function HomePageSections() {
               ))}
             </h1>
 
-            <div className="mx-auto mt-4 max-w-[800px] space-y-1.5 text-left text-[15px] leading-7 tracking-[-0.01em] text-slate-500 sm:text-base">
+            <div className="mx-auto mt-4 w-full max-w-[980px] space-y-1.5 text-left text-[15px] leading-7 tracking-[-0.01em] text-slate-500 sm:text-base lg:pl-[28px]">
               {hero.body.split("\n").map((line, index) => {
                 const emphasizedText = "QueryPie AI Crew";
 
                 if (!line.includes(emphasizedText)) {
-                  return <p key={`${line}-${index}`}>{line}</p>;
+                  return <p key={`${line}-${index}`} className="lg:whitespace-nowrap">{line}</p>;
                 }
 
                 const [before, after] = line.split(emphasizedText);
 
                 return (
-                  <p key={`${line}-${index}`}>
+                  <p key={`${line}-${index}`} className="lg:whitespace-nowrap">
                     {before}
                     <strong className="font-semibold tracking-[-0.01em] text-[#2f3a49]">
                       {emphasizedText}
@@ -174,7 +174,7 @@ export function HomePageSections() {
             <br />
             {renderHighlightedKeyword(problem.title.split("\n")[1] ?? "", "右腕")}
           </h2>
-          <p className="mx-auto mt-5 w-full max-w-[820px] whitespace-pre-line text-left text-base leading-7 text-slate-600 lg:pl-[54px]">
+          <p className="mx-auto mt-5 w-full max-w-[820px] whitespace-pre-line text-left text-base leading-7 text-slate-600 lg:pl-[40px]">
             {problem.body}
           </p>
         </div>
@@ -486,7 +486,7 @@ export function HomePageSections() {
               return (
               <article
                 key={item.name}
-                className="relative flex min-h-[286px] w-[316px] flex-col justify-between overflow-hidden rounded-[1.8rem] border border-black/8 bg-white px-7 py-8 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]"
+                className="relative flex min-h-[272px] w-[316px] flex-col justify-between overflow-hidden rounded-[1.8rem] border border-black/8 bg-white px-7 py-7 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]"
               >
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-white/0 via-[#e8edf5] to-white/0" />
                 <div>
@@ -497,16 +497,16 @@ export function HomePageSections() {
                     <Quote className="h-5 w-5 text-slate-300" />
                   </div>
 
-                  <p className="mt-5 text-[15px] leading-7 tracking-[-0.01em] text-slate-700">“{item.quote}”</p>
+                  <p className="mt-4 text-[14px] leading-7 tracking-[-0.01em] text-slate-700">“{item.quote}”</p>
                 </div>
 
-                <div className="mt-8 flex items-center gap-3">
+                <div className="mt-6 flex items-center gap-3">
                   <div className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-[#f9f9fb] text-[11px] font-semibold text-slate-700">
                     {item.brand.slice(0, 2)}
                   </div>
                   <div className="text-left">
-                    <p className="whitespace-nowrap text-[15px] font-medium tracking-[-0.02em] text-slate-900">{item.name}</p>
-                    <p className="whitespace-nowrap text-[12px] leading-5 tracking-[-0.01em] text-slate-500">{item.company}</p>
+                    <p className="whitespace-nowrap text-[14px] font-medium tracking-[-0.02em] text-slate-900">{item.name}</p>
+                    <p className="whitespace-nowrap text-[11px] leading-5 tracking-[-0.01em] text-slate-500">{item.company}</p>
                   </div>
                 </div>
               </article>

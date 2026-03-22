@@ -29,27 +29,27 @@ type RoleSlidesProps = {
 };
 
 const departmentThemeMap: Record<string, { shell: string; badge: string; portraitBg: string }> = {
-  "セールス・事業開発部門": {
+  "営業・事業開発": {
     shell: "border-[#e4e7ec] bg-[linear-gradient(180deg,#fbfcfe_0%,#ffffff_100%)]",
     badge: "bg-[#f2f4f7] text-[#475467]",
     portraitBg: "#F8FAFC",
   },
-  "コーポレート・バックオフィス部門": {
+  "コーポレート・管理": {
     shell: "border-[#e4e7ec] bg-[linear-gradient(180deg,#fbfcfe_0%,#ffffff_100%)]",
     badge: "bg-[#f2f4f7] text-[#475467]",
     portraitBg: "#F8FAFC",
   },
-  "開発・プロダクト部門": {
+  "開発・プロダクト": {
     shell: "border-[#e4e7ec] bg-[linear-gradient(180deg,#fbfcfe_0%,#ffffff_100%)]",
     badge: "bg-[#f2f4f7] text-[#475467]",
     portraitBg: "#F8FAFC",
   },
-  "マーケティング・カスタマーサクセス部門": {
+  "マーケティング・CS": {
     shell: "border-[#e4e7ec] bg-[linear-gradient(180deg,#fbfcfe_0%,#ffffff_100%)]",
     badge: "bg-[#f2f4f7] text-[#475467]",
     portraitBg: "#F8FAFC",
   },
-  "クリエイティブ・広報部門": {
+  "広報・デザイン": {
     shell: "border-[#e4e7ec] bg-[linear-gradient(180deg,#fbfcfe_0%,#ffffff_100%)]",
     badge: "bg-[#f2f4f7] text-[#475467]",
     portraitBg: "#F8FAFC",
@@ -57,23 +57,23 @@ const departmentThemeMap: Record<string, { shell: string; badge: string; portrai
 } as const;
 
 const categoryChipMap: Record<string, { active: string; idle: string }> = {
-  "セールス・事業開発部門": {
+  "営業・事業開発": {
     active: "border-[#2f3a49] bg-[#2f3a49] text-white",
     idle: "border-[#d0d5dd] bg-white text-[#667085] hover:bg-[#f8fafc]",
   },
-  "コーポレート・バックオフィス部門": {
+  "コーポレート・管理": {
     active: "border-[#2f3a49] bg-[#2f3a49] text-white",
     idle: "border-[#d0d5dd] bg-white text-[#667085] hover:bg-[#f8fafc]",
   },
-  "開発・プロダクト部門": {
+  "開発・プロダクト": {
     active: "border-[#2f3a49] bg-[#2f3a49] text-white",
     idle: "border-[#d0d5dd] bg-white text-[#667085] hover:bg-[#f8fafc]",
   },
-  "マーケティング・カスタマーサクセス部門": {
+  "マーケティング・CS": {
     active: "border-[#2f3a49] bg-[#2f3a49] text-white",
     idle: "border-[#d0d5dd] bg-white text-[#667085] hover:bg-[#f8fafc]",
   },
-  "クリエイティブ・広報部門": {
+  "広報・デザイン": {
     active: "border-[#2f3a49] bg-[#2f3a49] text-white",
     idle: "border-[#d0d5dd] bg-white text-[#667085] hover:bg-[#f8fafc]",
   },
@@ -236,7 +236,7 @@ export function RoleSlides({ items, note, customCta }: RoleSlidesProps) {
         className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {filteredItems.map((item) => {
-          const theme = departmentThemeMap[item.department] ?? departmentThemeMap["セールス・事業開発部門"];
+          const theme = departmentThemeMap[item.department] ?? departmentThemeMap["営業・事業開発"];
           const Icon = crewIconByName[item.firstName as keyof typeof crewIconByName] ?? BriefcaseBusiness;
           const portrait = portraitImageByName[item.firstName as keyof typeof portraitImageByName];
           const adjustment = portraitAdjustments[item.firstName as keyof typeof portraitImageByName] ?? {
