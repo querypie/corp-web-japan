@@ -9,7 +9,9 @@ import {
   CalendarDays,
   FileSearch,
   FolderKanban,
+  Headset,
   Layers3,
+  Megaphone,
   MessageSquare,
   MessageSquareText,
   Quote,
@@ -191,7 +193,7 @@ export function HomePageSections() {
                 {index === 1 && <Blocks className="h-5 w-5" />}
                 {index === 2 && <MessageSquareText className="h-5 w-5" />}
               </div>
-              <h3 className="mt-6 text-pretty text-[19px] font-medium leading-[1.55] tracking-[-0.015em] text-slate-800 sm:text-[20px]">
+              <h3 className="mt-6 text-pretty text-[19px] font-semibold leading-[1.55] tracking-[-0.015em] text-slate-800 sm:text-[20px]">
                 {card.title}
               </h3>
               <p className="mt-5 text-[15px] leading-[2.05] text-slate-600">{renderEmphasizedText(card.body)}</p>
@@ -447,11 +449,11 @@ export function HomePageSections() {
               <div className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-[#eef2f7] text-[#2f3a49]">
                 <Icon className="h-5 w-5" />
               </div>
-              <h3 className="mt-5 flex items-end gap-2 tracking-[-0.04em] text-slate-950">
-                <span className="text-[26px] font-semibold">{headlineJa}</span>
-                {headlineEn ? <span className="pb-0.5 text-[15px] font-medium tracking-[-0.02em] text-slate-400">{headlineEn}</span> : null}
+              <h3 className="mt-5 flex items-end gap-1.5 tracking-[-0.03em] text-slate-900">
+                <span className="text-[22px] font-semibold">{headlineJa}</span>
+                {headlineEn ? <span className="pb-0.5 text-[13px] font-medium tracking-[-0.01em] text-slate-400">{headlineEn}</span> : null}
               </h3>
-              <p className="mt-2 text-[17px] font-medium leading-[1.45] tracking-[-0.02em] text-slate-700">
+              <p className="mt-2 text-[15px] font-medium leading-[1.5] tracking-[-0.015em] text-slate-700">
                 {subheadline}
               </p>
               <div className="mt-4 inline-flex rounded-full bg-[#2f3a49] px-3 py-1 text-xs font-semibold text-white">
@@ -478,7 +480,7 @@ export function HomePageSections() {
         <div className="mx-auto mt-12 max-w-[1440px] overflow-x-auto px-1 py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex min-w-max gap-4 xl:min-w-0 xl:justify-center">
             {testimonials.items.map((item, index) => {
-              const icons = [BriefcaseBusiness, MessageSquare, ChartColumnIncreasing, Cable, Wallet] as const;
+              const icons = [Megaphone, Headset, ChartColumnIncreasing, FolderKanban, BriefcaseBusiness] as const;
               const Icon = icons[index] ?? BriefcaseBusiness;
 
               return (
@@ -593,28 +595,60 @@ export function HomePageSections() {
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-black/6 bg-[#2f3a49] px-8 py-8 text-left text-white shadow-[0_28px_90px_-50px_rgba(15,23,42,0.24)]">
-            <div className="max-w-[980px]">
-              <div className="inline-flex rounded-full border border-white/12 bg-white/8 px-3 py-1 text-xs font-semibold tracking-[0.12em] text-white/82">
-                {contact.partnerBadge}
-              </div>
-              <div className="mt-5 flex h-12 w-12 items-center justify-center rounded-[14px] bg-white/10 text-white">
-                <Settings2 className="h-5 w-5" />
-              </div>
-              <h3 className="mt-5 text-[30px] font-semibold leading-[1.35] tracking-[-0.03em] text-white">
-                {contact.partnerTitle}
+          <div className="relative overflow-hidden rounded-[2rem] border border-[#d7dee7] bg-[linear-gradient(135deg,#f8fafc_0%,#eef4fb_48%,#e8eef7_100%)] px-8 py-8 text-left shadow-[0_28px_90px_-50px_rgba(15,23,42,0.18)]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(47,58,73,0.10),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(71,84,103,0.10),transparent_30%)]" />
+            <div className="absolute right-[-40px] top-[-40px] h-56 w-56 rounded-full border border-white/60 bg-white/25 blur-[2px]" />
+            <div className="absolute bottom-[-70px] right-[18%] h-44 w-44 rounded-full border border-white/40 bg-white/20" />
+            <div className="absolute inset-y-0 right-0 hidden w-[42%] bg-[linear-gradient(180deg,rgba(255,255,255,0.16)_0%,rgba(255,255,255,0.04)_100%)] lg:block" />
+
+            <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center">
+              <div className="max-w-[980px]">
+                <div className="inline-flex rounded-full border border-[#d0d5dd] bg-white/80 px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[#475467]">
+                  {contact.partnerBadge}
+                </div>
+                <div className="mt-5 flex h-12 w-12 items-center justify-center rounded-[14px] bg-[#2f3a49] text-white shadow-[0_16px_32px_-20px_rgba(15,23,42,0.45)]">
+                  <Settings2 className="h-5 w-5" />
+                </div>
+              <h3 className="mt-5 text-[30px] font-semibold leading-[1.35] tracking-[-0.03em] text-[#101828]">
+                {renderHighlightedKeyword(contact.partnerTitle.split("\n")[0], "最高品質のAI基盤")}
+                <br />
+                {contact.partnerTitle.split("\n")[1]}
               </h3>
-              <p className="mt-4 max-w-[980px] text-left text-sm leading-7 text-white/78">
-                {contact.partnerBody}
-              </p>
-              <Link
-                href={contact.partnerCta.href}
-                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-white/80"
-              >
-                <Settings2 className="h-4 w-4" />
-                {contact.partnerCta.label}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+                <p className="mt-4 max-w-[980px] text-left text-sm leading-7 text-[#475467]">
+                  {contact.partnerBody}
+                </p>
+                <Link
+                  href={contact.partnerCta.href}
+                  className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#d0d5dd] bg-white/90 px-4 py-2.5 text-sm font-semibold text-[#2f3a49] shadow-[0_16px_32px_-24px_rgba(15,23,42,0.25)] transition hover:bg-white"
+                >
+                  <Settings2 className="h-4 w-4" />
+                  {contact.partnerCta.label}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+
+              <div className="relative hidden h-[240px] lg:block">
+                <div className="absolute right-0 top-0 w-[260px] rounded-[1.6rem] border border-white/70 bg-white/72 p-5 shadow-[0_24px_70px_-40px_rgba(15,23,42,0.18)] backdrop-blur-sm">
+                  <div className="flex items-center justify-between">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#98a2b3]">AI Dashi</p>
+                    <div className="h-2.5 w-2.5 rounded-full bg-[#ED602E]" />
+                  </div>
+                  <div className="mt-4 grid gap-3">
+                    <div className="rounded-[14px] bg-[#f5f7fb] px-4 py-3 text-[13px] font-medium text-[#344054]">
+                      Your Product UI
+                    </div>
+                    <div className="rounded-[14px] border border-dashed border-[#cbd5e1] px-4 py-3 text-[12px] font-medium text-[#667085]">
+                      AI Layer · QueryPie AIP
+                    </div>
+                    <div className="rounded-[14px] bg-[#2f3a49] px-4 py-3 text-[13px] font-semibold text-white">
+                      FDE Guided Launch
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute bottom-[10px] left-[8px] flex h-[72px] w-[72px] items-center justify-center rounded-[20px] border border-white/70 bg-white/72 text-[#2f3a49] shadow-[0_20px_40px_-24px_rgba(15,23,42,0.18)] backdrop-blur-sm">
+                  <Settings2 className="h-8 w-8" />
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -51,9 +51,9 @@ const featureVisualDrafts: Record<string, FeatureVisualDraft> = {
     title: "募集ポジションを定義",
     note: "どのAI Crewを迎えるべきかを、役割・成果物・評価軸で整理する設計イメージです。",
     leftTitle: "募集要件",
-    leftItems: ["職種: AI Marketing Staff", "担当業務: 調査 / 企画整理 / 草案作成", "成果物: 配信用ドラフト"],
+    leftItems: ["職種: Marketing", "担当業務: 調査 / 企画整理 / 草案作成", "成果物: 配信用ドラフト初稿"],
     rightTitle: "評価基準",
-    rightItems: ["期待成果: 初稿24h以内", "承認者: Marketing Lead", "連携範囲: Notion / Slack"],
+    rightItems: ["期待成果: 初稿を24時間以内に提出", "承認者: Marketing Leader", "連携範囲: Notion / Slack"],
     footerStats: ["担当業務", "成果物", "承認範囲"],
   },
   オンボーディング: {
@@ -92,7 +92,7 @@ const featureVisualDrafts: Record<string, FeatureVisualDraft> = {
     leftTitle: "権限ルール",
     leftItems: ["閲覧可能データを制限", "外部送信は承認必須", "役割別に操作範囲を分離"],
     rightTitle: "レビュー導線",
-    rightItems: ["草案作成", "人間レビュー", "承認後に実行"],
+    rightItems: ["草案作成", "人レビュー", "承認後に実行"],
     footerStats: ["権限制御", "レビュー必須", "実行ログ"],
   },
   成果評価: {

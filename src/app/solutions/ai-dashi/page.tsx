@@ -17,7 +17,7 @@ import { AIDashiFaq } from "@/components/sections/ai-dashi-faq";
 
 export const metadata: Metadata = {
   title: "AI Dashi | AI Staff",
-  description: "最高品質のAI基盤を、あなたのブランドで展開するための AI Dashi ソリューションページです。",
+  description: "最高品質のAI基盤を、あなたのプロダクトに、あなたのブランドで組み込むための AI Dashi ソリューションページです。",
 };
 
 const releaseFlow = [
@@ -114,7 +114,7 @@ const sectionNavItems = [
 
 export default function AIDashiPage() {
   return (
-    <main className="relative overflow-x-hidden bg-white pt-[64px] text-slate-950">
+    <main className="relative overflow-x-hidden bg-[#eceff3] pt-[64px] text-slate-950">
       <SiteHeader />
 
       <Link
@@ -124,43 +124,42 @@ export default function AIDashiPage() {
         導入相談
       </Link>
 
-      <section className="w-full bg-white">
-        <div className="w-full">
-          <div className="relative overflow-hidden bg-[#eceff3]">
-            <div className="absolute inset-0">
-              <div className="relative h-full w-full">
-                <Image
-                  src="/solutions/ai-dashi/hero-ai.png"
-                  alt="AI Dashi hero visual"
-                fill
-                priority
-                className="object-cover object-[50%_18%]"
-              />
-            </div>
+      <section className="relative mx-auto max-w-[1920px] overflow-hidden bg-[#eceff3] px-6 py-14 lg:px-10 lg:py-[84px]">
+        <div className="absolute inset-0">
+          <div className="relative h-full w-full">
+            <Image
+              src="/solutions/ai-dashi/hero-ai.png"
+              alt="AI Dashi hero visual"
+              fill
+              priority
+              className="object-cover object-[50%_18%]"
+            />
           </div>
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,18,34,0.22)_0%,rgba(10,18,34,0.12)_34%,rgba(10,18,34,0.04)_62%,rgba(10,18,34,0.0)_100%)]" />
+        </div>
 
-            <div className="relative flex items-center justify-center py-12 text-center lg:py-[72px]">
-              <div className="flex w-full max-w-[860px] flex-col items-center gap-4 md:w-fit">
-                <h1 className="text-[34px] font-semibold leading-[1.12] tracking-[-0.04em] text-white md:text-[42px] md:leading-[1.1] lg:text-[52px] lg:leading-[58px] lg:tracking-[-1.04px]">
-                  最高品質のAI基盤を
-                  <br />
-                  あなたのブランドで
-                </h1>
-                <Image
-                  src="/solutions/ai-dashi/hero-submark.svg"
-                  alt="AI Dashi 出汁"
-                  width={145}
-                  height={24}
-                  className="h-4 w-auto lg:h-5"
-                />
-              </div>
-            </div>
+        <div className="relative mx-auto flex max-w-[1200px] items-center justify-start px-3 text-left lg:px-14">
+          <div className="flex w-full max-w-[720px] flex-col items-start gap-4 md:max-w-[740px] lg:ml-3 lg:gap-4">
+            <h1 className="max-w-[584px] text-[34px] font-semibold leading-[1.08] tracking-[-0.04em] text-white md:text-[41px] md:leading-[1.08] lg:text-[54px] lg:leading-[60px] lg:tracking-[-1.08px]">
+              最高品質のAI基盤を
+              <br />
+              あなたのプロダクトに、
+              <br />
+              あなたのブランドで。
+            </h1>
+            <Image
+              src="/solutions/ai-dashi/hero-submark.svg"
+              alt="AI Dashi 出汁"
+              width={172}
+              height={30}
+              className="ml-4 h-[19px] w-auto md:ml-5 md:h-[21px] lg:ml-6 lg:h-[24px]"
+            />
           </div>
         </div>
       </section>
 
-      <section className="w-full border-y border-black/6 bg-white">
-        <div className="mx-auto max-w-[1200px] overflow-x-auto px-[30px] py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <section className="mx-auto max-w-[1920px] border-y border-black/6 bg-white px-6 py-3 lg:px-10">
+        <div className="mx-auto max-w-[1200px] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <nav className="flex min-w-max items-center justify-center gap-1">
             {sectionNavItems.map((item) => (
               <a
