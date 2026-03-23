@@ -5,7 +5,7 @@ export const homePageContent = {
       "AI Staffは、仕事が止まりやすい流れをつなぎ直し、役割を持って実務を進めるAIチームメイトです。追加採用の前に迎える新しい戦力として、今いるチームの実行力を無理なく増やします。",
   },
   hero: {
-    title: "採用の前に、\n最初のAI Staffを。",
+    title: "【テスト用変更】採用の前に、\n最初のAI Staffを。",
     body:
       "AI Staffは、止まりやすい仕事の流れをつなぎ直し、既存チームが仕事を前へ進められるよう支える役割型のAIスタッフです。",
     primaryCta: { label: "お問い合わせ", href: "#contact" },
