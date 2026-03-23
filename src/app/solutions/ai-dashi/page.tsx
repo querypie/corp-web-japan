@@ -114,7 +114,7 @@ const sectionNavItems = [
 
 export default function AIDashiPage() {
   return (
-    <main className="relative overflow-x-hidden bg-[#eceff3] pt-[64px] text-slate-950">
+    <main className="relative overflow-x-hidden bg-white pt-[64px] text-slate-950">
       <SiteHeader />
 
       <Link
@@ -124,39 +124,43 @@ export default function AIDashiPage() {
         導入相談
       </Link>
 
-      <section className="relative mx-auto max-w-[1920px] overflow-hidden bg-[#eceff3] px-6 py-14 lg:px-10 lg:py-[84px]">
-        <div className="absolute inset-0">
-          <div className="relative h-full w-full">
-            <Image
-              src="/solutions/ai-dashi/hero-ai.png"
-              alt="AI Dashi hero visual"
-              fill
-              priority
-              className="object-cover object-[50%_18%]"
-            />
+      <section className="w-full bg-white">
+        <div className="w-full">
+          <div className="relative overflow-hidden bg-[#eceff3]">
+            <div className="absolute inset-0">
+              <div className="relative h-full w-full">
+                <Image
+                  src="/solutions/ai-dashi/hero-ai.png"
+                  alt="AI Dashi hero visual"
+                fill
+                priority
+                className="object-cover object-[50%_18%]"
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="relative mx-auto flex max-w-[1200px] items-center justify-center text-center">
-          <div className="flex w-full max-w-[860px] flex-col items-center gap-4 md:w-fit">
-            <h1 className="text-[34px] font-semibold leading-[1.12] tracking-[-0.04em] text-white md:text-[42px] md:leading-[1.1] lg:text-[52px] lg:leading-[58px] lg:tracking-[-1.04px]">
-              最高品質のAI基盤を
-              <br />
-              あなたのブランドで
-            </h1>
-            <Image
-              src="/solutions/ai-dashi/hero-submark.svg"
-              alt="AI Dashi 出汁"
-              width={145}
-              height={24}
-              className="h-4 w-auto lg:h-5"
-            />
+            <div className="relative flex items-center justify-center py-12 text-center lg:py-[72px]">
+              <div className="flex w-full max-w-[860px] flex-col items-center gap-4 md:w-fit">
+                <h1 className="text-[34px] font-semibold leading-[1.12] tracking-[-0.04em] text-white md:text-[42px] md:leading-[1.1] lg:text-[52px] lg:leading-[58px] lg:tracking-[-1.04px]">
+                  最高品質のAI基盤を
+                  <br />
+                  あなたのブランドで
+                </h1>
+                <Image
+                  src="/solutions/ai-dashi/hero-submark.svg"
+                  alt="AI Dashi 出汁"
+                  width={145}
+                  height={24}
+                  className="h-4 w-auto lg:h-5"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1920px] border-y border-black/6 bg-white px-6 py-3 lg:px-10">
-        <div className="mx-auto max-w-[1200px] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <section className="w-full border-y border-black/6 bg-white">
+        <div className="mx-auto max-w-[1200px] overflow-x-auto px-[30px] py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <nav className="flex min-w-max items-center justify-center gap-1">
             {sectionNavItems.map((item) => (
               <a
@@ -173,8 +177,8 @@ export default function AIDashiPage() {
       </section>
 
       <section id="about-ai-dashi" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1120px]">
-          <div className="grid items-center gap-8 lg:grid-cols-[544px_544px] lg:justify-between lg:gap-8">
+        <div className="mx-auto max-w-[1200px]">
+          <div className="grid items-center gap-8 lg:grid-cols-[1fr_1fr] lg:justify-between lg:gap-8">
             <div className="flex flex-col">
               <div className="flex flex-col gap-5">
                 <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
@@ -200,13 +204,21 @@ export default function AIDashiPage() {
               </div>
             </div>
 
-            <div className="h-[320px] w-full rounded-[20px] bg-[#eceff3] lg:h-[450px] lg:w-[544px]" />
+            <div className="h-[320px] w-full overflow-hidden rounded-[20px] bg-[#eceff3] lg:h-[450px] lg:w-[544px]">
+              <Image
+                src="/solutions/ai-dashi/about-visual.png"
+                alt="AI Dashi visual"
+                width={1088}
+                height={900}
+                className="h-full w-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
 
       <section id="ai-dashi-values" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1120px]">
+        <div className="mx-auto max-w-[1200px]">
           <div className="flex flex-col items-center gap-12">
             <div className="w-full text-center">
               <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
@@ -214,44 +226,56 @@ export default function AIDashiPage() {
               </h2>
             </div>
 
-            <div className="h-[280px] w-full rounded-[20px] bg-[#eceff3] lg:h-[400px]" />
-
-            <div className="grid w-full gap-4 lg:grid-cols-3">
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="inline-flex rounded-full bg-[#15181d] px-3 py-1 text-xs font-semibold text-white">
-                  01
+            <div className="grid w-full items-start gap-8 lg:grid-cols-[minmax(0,1.18fr)_minmax(0,0.82fr)] lg:justify-between lg:gap-8">
+              <div className="overflow-hidden rounded-[20px] bg-white lg:w-[660px]">
+                <div className="h-[420px] w-full lg:h-[680px] lg:w-[660px]">
+                  <Image
+                  src="/solutions/ai-dashi/value-diagram.svg"
+                  alt="AI Dashi value diagram"
+                  width={1088}
+                  height={900}
+                    className="h-full w-full object-contain object-right"
+                  />
                 </div>
-                <h3 className="mt-5 text-2xl font-semibold leading-8 tracking-[-0.04em] text-slate-950">
-                  自社ブランドによるAIサービスの展開
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-slate-600">
-                  AIを「他社のツール」として導入するのではなく、貴社の既存システムやプロダクトに組み込み、「自社のオリジナル機能」として顧客に提供できます。これにより、自社サービスの競争力と顧客ロイヤルティを直接高めることが可能です。
-                </p>
-              </article>
+              </div>
 
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="inline-flex rounded-full bg-[#15181d] px-3 py-1 text-xs font-semibold text-white">
-                  02
-                </div>
-                <h3 className="mt-5 text-2xl font-semibold leading-8 tracking-[-0.04em] text-slate-950">
-                  開発の複雑さから解放され、本業へ集中
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-slate-600">
-                  専門的なAI技術のキャッチアップや、複雑なインフラ構築はすべて「AI Dashi」が担います。ゼロからAIを開発する膨大なコストと手間を削減し、貴重なエンジニアリソースを自社のコアビジネス（本業）の進化に集中させることができます。
-                </p>
-              </article>
+              <div className="flex flex-col gap-4">
+                <article className="h-full rounded-[1.8rem] border border-black/6 bg-white p-7 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
+                  <div className="inline-flex rounded-full bg-[#15181d] px-3 py-1 text-xs font-semibold text-white">
+                    01
+                  </div>
+                  <h3 className="mt-5 text-2xl font-semibold leading-8 tracking-[-0.04em] text-slate-950">
+                    自社ブランドによるAIサービスの展開
+                  </h3>
+                  <p className="mt-4 text-sm leading-7 text-slate-600">
+                    AIを「他社のツール」として導入するのではなく、貴社の既存システムやプロダクトに組み込み、「自社のオリジナル機能」として顧客に提供できます。これにより、自社サービスの競争力と顧客ロイヤルティを直接高めることが可能です。
+                  </p>
+                </article>
 
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="inline-flex rounded-full bg-[#15181d] px-3 py-1 text-xs font-semibold text-white">
-                  03
-                </div>
-                <h3 className="mt-5 text-2xl font-semibold leading-8 tracking-[-0.04em] text-slate-950">
-                  新たな収益源の最速立ち上げ
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-slate-600">
-                  AI基盤を自前で構築すれば年単位の時間がかかりますが、「AI Dashi」を活用すれば圧倒的なスピードで市場投入（タイムトゥマーケット）が可能です。競合に先んじてAI機能をリリースし、迅速に新たな収益源を構築できます。
-                </p>
-              </article>
+                <article className="h-full rounded-[1.8rem] border border-black/6 bg-white p-7 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
+                  <div className="inline-flex rounded-full bg-[#15181d] px-3 py-1 text-xs font-semibold text-white">
+                    02
+                  </div>
+                  <h3 className="mt-5 text-2xl font-semibold leading-8 tracking-[-0.04em] text-slate-950">
+                    開発の複雑さから解放され、本業へ集中
+                  </h3>
+                  <p className="mt-4 text-sm leading-7 text-slate-600">
+                    専門的なAI技術のキャッチアップや、複雑なインフラ構築はすべて「AI Dashi」が担います。ゼロからAIを開発する膨大なコストと手間を削減し、貴重なエンジニアリソースを自社のコアビジネス（本業）の進化に集中させることができます。
+                  </p>
+                </article>
+
+                <article className="h-full rounded-[1.8rem] border border-black/6 bg-white p-7 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
+                  <div className="inline-flex rounded-full bg-[#15181d] px-3 py-1 text-xs font-semibold text-white">
+                    03
+                  </div>
+                  <h3 className="mt-5 text-2xl font-semibold leading-8 tracking-[-0.04em] text-slate-950">
+                    新たな収益源の最速立ち上げ
+                  </h3>
+                  <p className="mt-4 text-sm leading-7 text-slate-600">
+                    AI基盤を自前で構築すれば年単位の時間がかかりますが、「AI Dashi」を活用すれば圧倒的なスピードで市場投入（タイムトゥマーケット）が可能です。競合に先んじてAI機能をリリースし、迅速に新たな収益源を構築できます。
+                  </p>
+                </article>
+              </div>
             </div>
           </div>
         </div>
@@ -452,7 +476,7 @@ export default function AIDashiPage() {
 
       <section id="ai-dashi-support" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-[1200px]">
-          <div className="mx-auto max-w-[1120px]">
+          <div className="mx-auto max-w-[1200px]">
             <div className="text-center">
               <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
                 AI Dashiの包括的サポート体制
@@ -462,7 +486,7 @@ export default function AIDashiPage() {
               </p>
             </div>
 
-            <div className="mx-auto mt-12 grid max-w-[1120px] gap-4 lg:grid-cols-3">
+            <div className="mx-auto mt-12 grid max-w-[1200px] gap-4 lg:grid-cols-3">
               {supportItems.map((item, index) => (
                 <article
                   key={item.number}
@@ -488,7 +512,7 @@ export default function AIDashiPage() {
 
       <section id="ai-dashi-flow" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-[1200px]">
-          <div className="mx-auto flex max-w-[1120px] flex-col gap-8 lg:flex-row lg:items-start lg:gap-8">
+          <div className="mx-auto flex max-w-[1200px] flex-col gap-8 lg:flex-row lg:items-start lg:gap-8">
             <div className="w-full lg:max-w-[520px]">
               <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
                 リリースまでの導入フロー
