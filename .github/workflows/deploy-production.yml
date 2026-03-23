@@ -6,11 +6,20 @@ permissions:
 on:
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: scripts/deploy
+
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_TEAM_ID: ${{ vars.VERCEL_TEAM_ID }}
+      BRANCH: release
+      TARGET_ENV: production
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,5 +44,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build application
-        run: npm run build
+      - name: Run Deploy Script
+        run: npm run deploy
