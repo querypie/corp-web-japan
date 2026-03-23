@@ -2,14 +2,18 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
+  ArrowDown,
   AlertTriangle,
   Blocks,
   BookOpen,
+  Check,
   ChevronDown,
   Database,
   Settings,
   ShieldCheck,
   Users,
+  X,
+  type LucideIcon,
 } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -54,33 +58,33 @@ const releaseFlow = [
 const comparisonRows = [
   {
     label: "開発期間",
-    left: ["◎", "開発不要"],
-    right: ["×", "3〜6ヶ月"],
+    left: ["最短1ヶ月（API組み込みのみ）", "すぐに市場投入が可能"],
+    right: ["半年〜1年以上（試行錯誤の連続）", "競合に先を越され市場機会を逃す"],
   },
   {
-    label: "初期コスト",
-    left: ["◎", "初期費用0円"],
-    right: ["×", "数千万円〜"],
+    label: "初期インフラ投資",
+    left: ["初期投資ゼロ（インフラ不要）", "使った分だけの従量課金でスモールスタートが可能"],
+    right: ["数千万円規模の先行投資", "サーバー代や検証費用など、回収不能なサンクコストが発生"],
   },
   {
-    label: "専門人材",
-    left: ["◎", "フォワードデプロイエンジニア（FDE）が支援"],
-    right: ["△", "採用必須（困難）"],
+    label: "専門エンジニア確保",
+    left: ["QueryPie AIのFDE（専門エンジニア）が伴走", "AIに関する専門知識不要"],
+    right: ["AI人材の採用が必須（極めて困難）", "人件費の高騰で採用が進まないリスク"],
   },
   {
     label: "セキュリティ",
-    left: ["◎", "実証済み基盤", "セキュリティ認証（SOC2、ISO27001等）取得"],
-    right: ["△", "ゼロから構築"],
+    left: ["エンタープライズ品質の基盤（SOC2/ISO27001）", "厳格な権限管理（RBAC）が標準装備"],
+    right: ["ゼロトラストアーキテクチャを一から構築", "情報漏洩の致命的リスクと認証取得の果てしない工数"],
   },
   {
     label: "ハルシネーション対策",
-    left: ["◎", "RAGアーキテクチャやマルチLLM対応", "ガードレール機能などのファクトチェック内蔵"],
-    right: ["×", "試行錯誤"],
+    left: ["エンタープライズRAGによる事実のみの回答", "内蔵されたガードレール機能でB2Bでの業務利用も安心"],
+    right: ["精度が上がらず本番リリース不可", "自社データとLLMの連携（チャンキング等）で泥沼化"],
   },
   {
     label: "運用保守",
-    left: ["◎", "24時間365日サポート体制"],
-    right: ["×", "自社で継続対応"],
+    left: ["24時間365日のインフラ監視と継続アップデート", "LLMの進化や運用はすべてオフロード、本業に集中"],
+    right: ["自社エンジニアが運用保守に追われる", "プロンプト調整やインフラ管理でコア事業の進化が停止"],
   },
 ] as const;
 
@@ -99,6 +103,50 @@ const supportItems = [
     number: "03",
     title: "24時間365日のインフラ・運用保守（ハウジング）",
     body: "リリース後も安心。インフラ管理を完全にオフロード",
+  },
+] as const;
+
+const aiWallCards: ReadonlyArray<{
+  icon: LucideIcon;
+  title: string;
+  body: string;
+  consequence: string;
+}> = [
+  {
+    icon: Users,
+    title: "AIエンジニアの採用難と高騰する人件費",
+    body: "LLMや機械学習の実装に精通した専門人材の採用は、極めて困難かつ高コストです。",
+    consequence: "企画から半年経っても、AIプロジェクトの要件定義にすら着手できない",
+  },
+  {
+    icon: BookOpen,
+    title: "日進月歩のAIアーキテクチャへの追従限界",
+    body: "毎週のように新しいモデルや技術トレンドが登場し、自社の開発チームだけではキャッチアップが追いつきません。",
+    consequence: "誤ったアーキテクチャ選定により、開発した機能が数ヶ月で技術的負債化する",
+  },
+  {
+    icon: Database,
+    title: "RAG構築とデータ整備の果てしない泥沼",
+    body: "自社データベースやドキュメントをAIに正確に読み込ませるためのデータ整備には、想像以上の工数がかかります。",
+    consequence: "AIの精度が実用レベルに達せず、リリース時期が無限に延期される",
+  },
+  {
+    icon: ShieldCheck,
+    title: "B2B基準の権限管理とガバナンスの欠如",
+    body: "エンタープライズ顧客にAIを提供する際、ユーザーごとの厳格なアクセス権限管理をゼロから自作するのは至難の業です。",
+    consequence: "情報漏洩の致命的なリスクを抱え、エンタープライズ顧客への導入審査に落ちる",
+  },
+  {
+    icon: AlertTriangle,
+    title: "業務利用で絶対に許されないAIの嘘｜ハルシネーション",
+    body: "B2Bプロダクトにおいて、AIが不確かな情報で回答を作るハルシネーションは、顧客の信頼失墜に直結します。",
+    consequence: "事実だけに基づくガードレールを実装できず、本番リリースを断念する",
+  },
+  {
+    icon: Settings,
+    title: "リリース後に肥大化する保守工数と本業の圧迫",
+    body: "AI機能は作って終わりではありません。モデル更新、プロンプト調整、インフラ監視など、運用負荷が継続的に発生します。",
+    consequence: "自社エンジニアの時間が食いつぶされ、本来のコア事業の進化が止まる",
   },
 ] as const;
 
@@ -139,20 +187,23 @@ export default function AIDashiPage() {
         </div>
 
         <div className="relative mx-auto flex max-w-[1200px] items-center justify-start px-3 text-left lg:px-14">
-          <div className="flex w-full max-w-[720px] flex-col items-start gap-4 md:max-w-[740px] lg:ml-3 lg:gap-4">
-            <h1 className="max-w-[584px] text-[34px] font-semibold leading-[1.08] tracking-[-0.04em] text-white md:text-[41px] md:leading-[1.08] lg:text-[54px] lg:leading-[60px] lg:tracking-[-1.08px]">
+          <div className="flex w-full max-w-[880px] flex-col items-start gap-5 md:max-w-[900px] lg:ml-3 lg:gap-5">
+            <h1 className="max-w-[584px] text-[34px] font-semibold leading-[1.08] tracking-[-0.04em] text-white md:text-[40px] md:leading-[1.08] lg:text-[52px] lg:leading-[58px] lg:tracking-[-1.02px]">
               最高品質のAI基盤を
               <br />
               あなたのプロダクトに、
               <br />
               あなたのブランドで。
             </h1>
+            <h2 className="ml-2 max-w-[860px] text-[15px] font-medium leading-7 tracking-[-0.01em] text-white/84 md:ml-3 md:text-[16px] lg:ml-4 lg:whitespace-nowrap lg:text-[17px]">
+              自社プロダクトに最速でAI機能を実装する組み込みAI基盤 ｜ Embedded AI
+            </h2>
             <Image
               src="/solutions/ai-dashi/hero-submark.svg"
               alt="AI Dashi 出汁"
               width={172}
               height={30}
-              className="ml-4 h-[19px] w-auto md:ml-5 md:h-[21px] lg:ml-6 lg:h-[24px]"
+              className="ml-5 h-[20px] w-auto md:ml-6 md:h-[22px] lg:ml-7 lg:h-[25px]"
             />
           </div>
         </div>
@@ -176,34 +227,45 @@ export default function AIDashiPage() {
       </section>
 
       <section id="about-ai-dashi" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="grid items-center gap-8 lg:grid-cols-[1fr_1fr] lg:justify-between lg:gap-8">
+        <div className="mx-auto max-w-[1120px]">
+          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:justify-between lg:gap-10">
             <div className="flex flex-col">
               <div className="flex flex-col gap-5">
                 <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
-                  「AI Dashi」とは？
+                  <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
+                    AI Dashi
+                  </span>
+                  とは？
                 </h2>
 
-                <div className="max-w-[498px] space-y-4 text-base leading-6 text-slate-500">
+                <div className="max-w-[640px] space-y-4 text-[15px] leading-7 text-slate-500">
                   <p>
-                    良い「出汁」があれば、料理人はもっと美味しい料理を作れる。
-                    <br />
-                    良い「AI基盤」があれば、貴社はもっと優れたAIサービスを顧客に提供できる。
+                    「AI Dashi」は、SaaSベンダーやWebサービス企業が、自社プロダクトの裏側に最高品質のAI機能を最速で実装できる
+                    <strong className="font-semibold text-slate-700"> 組み込みAI基盤（Embedded AI）</strong>
+                    です。
                   </p>
-                  <p>「AI Dashi」は、貴社のブランドとデザインで、そのまま提供できるAI基盤です。</p>
                   <p>
-                    チャットボット、文書要約、データ分析、社内ナレッジ検索──QueryPie AIが培ったAIエージェント技術を、自社プロダクトの拡充機能としてスピーディに展開できます。AIの専門知識も、大規模な開発チームも不要です。
+                    チャットボット、文書要約、データ分析、社内ナレッジ検索（RAG）など、QueryPie AIがエンタープライズ環境で磨いてきた高度なAIエージェント技術を、API経由で貴社システムへシームレスに統合できます。ゼロからAIを開発するための専門知識や膨大なインフラ投資は必要ありません。
+                  </p>
+                  <p>
+                    貴社のUIやブランドの世界観を一切壊すことなく、プロダクトのコアバリューを裏側から引き上げ、新たな収益源の立ち上げとタイム・トゥ・マーケットを加速させます。
                   </p>
                   <p>
                     「AI Dashi」は、日本料理の基本である「出汁」から名付けました。
+                  </p>
+                  <p>
+                    良い出汁があれば、料理人はもっと美味しい料理を作れる。
                     <br />
+                    良いAI基盤があれば、貴社はもっと優れたAIサービスを顧客に提供できる。
+                  </p>
+                  <p>
                     味噌汁にも、煮物にも、うどんにも姿を変えて料理を美味しくする出汁のように、「AI Dashi」も貴社のビジネスに合わせて柔軟に形を変え、顧客に最高のAI体験を届けます。
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="h-[320px] w-full overflow-hidden rounded-[20px] bg-[#eceff3] lg:h-[450px] lg:w-[544px]">
+            <div className="h-[320px] w-full overflow-hidden rounded-[20px] bg-[#eceff3] lg:h-[430px] lg:w-full">
               <Image
                 src="/solutions/ai-dashi/about-visual.png"
                 alt="AI Dashi visual"
@@ -229,10 +291,10 @@ export default function AIDashiPage() {
               <div className="overflow-hidden rounded-[20px] bg-white lg:w-[660px]">
                 <div className="h-[420px] w-full lg:h-[680px] lg:w-[660px]">
                   <Image
-                  src="/solutions/ai-dashi/value-diagram.svg"
-                  alt="AI Dashi value diagram"
-                  width={1088}
-                  height={900}
+                    src="/solutions/ai-dashi/value-diagram.svg"
+                    alt="AI Dashi value diagram"
+                    width={1088}
+                    height={900}
                     className="h-full w-full object-contain object-right"
                   />
                 </div>
@@ -243,11 +305,11 @@ export default function AIDashiPage() {
                   <div className="inline-flex rounded-full bg-[#15181d] px-3 py-1 text-xs font-semibold text-white">
                     01
                   </div>
-                  <h3 className="mt-5 text-2xl font-semibold leading-8 tracking-[-0.04em] text-slate-950">
-                    自社ブランドによるAIサービスの展開
+                  <h3 className="mt-5 text-[21px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">
+                    自社の「オリジナル機能」としてシームレスに展開
                   </h3>
                   <p className="mt-4 text-sm leading-7 text-slate-600">
-                    AIを「他社のツール」として導入するのではなく、貴社の既存システムやプロダクトに組み込み、「自社のオリジナル機能」として顧客に提供できます。これにより、自社サービスの競争力と顧客ロイヤルティを直接高めることが可能です。
+                    他社のAIツールを外付けするのではなく、貴社プロダクトの裏側に深く組み込み、<strong className="font-semibold text-slate-800">自社のオリジナル機能</strong>として顧客へ提供できます。UIやブランド体験を損なわず、競争力と顧客ロイヤルティを直接高めます。
                   </p>
                 </article>
 
@@ -255,11 +317,11 @@ export default function AIDashiPage() {
                   <div className="inline-flex rounded-full bg-[#15181d] px-3 py-1 text-xs font-semibold text-white">
                     02
                   </div>
-                  <h3 className="mt-5 text-2xl font-semibold leading-8 tracking-[-0.04em] text-slate-950">
-                    開発の複雑さから解放され、本業へ集中
+                  <h3 className="mt-5 text-[21px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">
+                    AI開発の「技術的負債」を回避し、コアビジネスに集中
                   </h3>
                   <p className="mt-4 text-sm leading-7 text-slate-600">
-                    専門的なAI技術のキャッチアップや、複雑なインフラ構築はすべて「AI Dashi」が担います。ゼロからAIを開発する膨大なコストと手間を削減し、貴重なエンジニアリソースを自社のコアビジネス（本業）の進化に集中させることができます。
+                    変化の速いLLMの追従や複雑なAIインフラの構築・保守は、AI Dashiが担います。ゼロから内製するコストと<strong className="font-semibold text-slate-800">技術的負債</strong>のリスクを抑え、貴重な開発リソースをコアビジネスに集中させられます。
                   </p>
                 </article>
 
@@ -267,11 +329,11 @@ export default function AIDashiPage() {
                   <div className="inline-flex rounded-full bg-[#15181d] px-3 py-1 text-xs font-semibold text-white">
                     03
                   </div>
-                  <h3 className="mt-5 text-2xl font-semibold leading-8 tracking-[-0.04em] text-slate-950">
-                    新たな収益源の最速立ち上げ
+                  <h3 className="mt-5 text-[20px] font-semibold leading-7 tracking-[-0.045em] text-slate-950">
+                    タイム・トゥ・マーケットを最速化し、新たな収益源を創出
                   </h3>
                   <p className="mt-4 text-sm leading-7 text-slate-600">
-                    AI基盤を自前で構築すれば年単位の時間がかかりますが、「AI Dashi」を活用すれば圧倒的なスピードで市場投入（タイムトゥマーケット）が可能です。競合に先んじてAI機能をリリースし、迅速に新たな収益源を構築できます。
+                    セキュアなAI基盤を自前で構築すれば長い開発期間が必要です。AI DashiのAPIなら<strong className="font-semibold text-slate-800">最短1ヶ月</strong>で市場投入でき、競合に先んじたAI機能の提供や、単価向上・アップセルにつながる新たな収益源の立ち上げを加速できます。
                   </p>
                 </article>
               </div>
@@ -285,103 +347,42 @@ export default function AIDashiPage() {
           <div className="flex flex-col items-center gap-12">
             <div className="w-full text-center">
               <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
-                なぜ、AIDashiが必要なのか？：自社AI化の壁
+                なぜAI Dashiが必要なのか？
+                <br />
+                自社AI化6つの壁
               </h2>
-              <p className="mx-auto mt-5 max-w-[914px] text-base leading-6 text-slate-500">
-                SaaSベンダーやWebサービス企業が自社でAI化を進める際、以下のような課題に直面します。
+              <p className="mx-auto mt-5 max-w-[860px] text-left text-base leading-7 text-slate-500 lg:pl-[44px]">
+                SaaSベンダーやWebサービス企業が、ゼロから自社でAI化を進めようとすると、以下のような「致命的な壁」に直面します。多くのプロジェクトが頓挫するか、膨大な技術的負債を抱えることになる理由です。
               </p>
             </div>
 
             <div className="grid w-full gap-4 lg:grid-cols-3 lg:gap-4">
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
-                  <Users className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">人材不足</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  AI専門家の採用は困難かつ高コスト
-                </p>
-                <div className="mt-5 border-t border-black/6 pt-4">
-                  <p className="text-[20px] font-semibold leading-7 tracking-[-0.02em] text-slate-950">
-                    → プロジェクトに着手できない
-                  </p>
-                </div>
-              </article>
+              {aiWallCards.map((item) => {
+                const Icon = item.icon;
 
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
-                  <BookOpen className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">知識不足</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  最新AI技術のキャッチアップが追いつかない
-                </p>
-                <div className="mt-5 border-t border-black/6 pt-4">
-                  <p className="text-[20px] font-semibold leading-7 tracking-[-0.02em] text-slate-950">
-                    → 間違った技術選定
-                  </p>
-                </div>
-              </article>
-
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
-                  <Database className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">データ準備</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  学習・テストデータの整備に膨大な工数
-                </p>
-                <div className="mt-5 border-t border-black/6 pt-4">
-                  <p className="text-[20px] font-semibold leading-7 tracking-[-0.02em] text-slate-950">
-                    → 開発期間の長期化
-                  </p>
-                </div>
-              </article>
-
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
-                  <ShieldCheck className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">セキュリティ</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  企業向けAIに必須のガバナンス・アクセス管理
-                </p>
-                <div className="mt-5 border-t border-black/6 pt-4">
-                  <p className="text-[20px] font-semibold leading-7 tracking-[-0.02em] text-slate-950">
-                    → 導入のハードルが高い
-                  </p>
-                </div>
-              </article>
-
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
-                  <AlertTriangle className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">ハルシネーション</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  業務利用には致命的
-                </p>
-                <div className="mt-5 border-t border-black/6 pt-4">
-                  <p className="text-[20px] font-semibold leading-7 tracking-[-0.02em] text-slate-950">
-                    → 信頼性が担保できない
-                  </p>
-                </div>
-              </article>
-
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
-                  <Settings className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">運用負荷</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  リリース後の保守・改善に継続的なリソースが必要
-                </p>
-                <div className="mt-5 border-t border-black/6 pt-4">
-                  <p className="text-[20px] font-semibold leading-7 tracking-[-0.02em] text-slate-950">
-                    → 本業が圧迫される
-                  </p>
-                </div>
-              </article>
+                return (
+                  <article key={item.title} className="flex h-full flex-col rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="mt-5 text-[22px] font-semibold leading-8 tracking-[-0.03em] text-slate-950">
+                      {item.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">{item.body}</p>
+                    <div className="mt-auto pt-5">
+                      <div className="mb-3 flex items-center gap-2 text-[#c75b5b]">
+                        <ArrowDown className="h-4 w-4" />
+                        <span className="text-xs font-semibold tracking-[0.12em]">致命的な壁</span>
+                      </div>
+                      <div className="rounded-[1.2rem] border border-[#f1c7c7] bg-[#fff4f4] px-4 py-4">
+                        <p className="text-[15px] font-semibold leading-7 tracking-[-0.02em] text-[#a33a3a]">
+                          {item.consequence}
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -399,24 +400,26 @@ export default function AIDashiPage() {
               </p>
             </div>
 
-            <div className="mx-auto mt-12 max-w-[980px] overflow-hidden rounded-[1.8rem] border border-black/6 bg-white shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-              <div className="grid w-full grid-cols-[120px_minmax(0,1fr)_120px] border-b border-black/6 bg-[#fafbfc] md:grid-cols-[180px_minmax(0,1fr)_180px] lg:grid-cols-[220px_minmax(0,1fr)_220px]">
+            <div className="mx-auto mt-12 max-w-[1000px] overflow-hidden rounded-[1.8rem] border border-black/6 bg-white shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
+              <div className="grid w-full grid-cols-[118px_1fr_1fr] border-b border-black/6 bg-[#fafbfc] md:grid-cols-[150px_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[180px_minmax(0,1.02fr)_minmax(0,0.98fr)]">
                 <div className="border-r border-black/6 bg-[#fafbfc] px-4 py-6" />
-                <div className="flex items-center justify-center border-r border-black/6 px-4 py-6 text-center">
-                  <div className="flex max-w-fit flex-col items-center justify-center text-center">
-                    <p className="text-[28px] font-semibold leading-8 tracking-[-0.04em] text-slate-950">AI Dashi活用</p>
-                    <Image
-                      src="/header-assets/stage-logo.svg"
-                      alt="QueryPie AI"
-                      width={148}
-                      height={28}
-                      className="mt-1.5 h-4.5 w-auto"
-                    />
+                <div className="flex items-center justify-center border-x-2 border-t-2 border-[#f2b8a4] border-b border-b-black/6 bg-[#fff8f4] px-4 py-6 text-center shadow-[inset_0_0_0_1px_rgba(237,96,46,0.05)]">
+                  <div className="flex items-start justify-center gap-3">
+                    <div className="mt-0.5 inline-flex h-fit rounded-full bg-[#ED602E] px-3 py-1 text-[11px] font-semibold tracking-[0.14em] text-white">
+                      おすすめ
+                    </div>
+                    <div className="flex max-w-fit flex-col items-center justify-center text-center">
+                      <p className="text-[28px] font-bold leading-8 tracking-[-0.04em] text-slate-950">AI Dashi活用</p>
+                      <p className="mt-1 text-[13px] font-medium leading-5 text-slate-600">組み込みAI基盤</p>
+                    </div>
+                    <div className="invisible inline-flex h-fit rounded-full px-3 py-1 text-[11px] font-semibold tracking-[0.14em]">
+                      おすすめ
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-center px-4 py-6 text-center">
+                <div className="flex items-center justify-center bg-[#f8fafc] px-4 py-6 text-center">
                   <div className="flex max-w-fit flex-col items-center justify-center text-center">
-                    <p className="text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">自社開発</p>
+                    <p className="text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-700">自社開発</p>
                     <p className="mt-1 text-[13px] font-medium leading-5 text-slate-500">フルスクラッチ</p>
                   </div>
                 </div>
@@ -425,32 +428,37 @@ export default function AIDashiPage() {
               {comparisonRows.map((row, index) => (
                 <div
                   key={row.label}
-                  className={`grid w-full grid-cols-[120px_minmax(0,1fr)_120px] md:grid-cols-[180px_minmax(0,1fr)_180px] lg:grid-cols-[220px_minmax(0,1fr)_220px] ${
+                  className={`grid w-full grid-cols-[118px_1fr_1fr] md:grid-cols-[150px_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[180px_minmax(0,1.02fr)_minmax(0,0.98fr)] ${
                     index < comparisonRows.length - 1 ? "border-b border-black/6" : ""
                   }`}
                 >
-                  <div className="flex items-center border-r border-black/6 bg-[#fafbfc] px-4 py-5 text-sm font-semibold leading-6 tracking-[-0.01em] text-slate-950 md:px-5 md:text-base lg:px-6">
+                  <div className="flex items-center whitespace-nowrap border-r border-black/6 bg-[#fafbfc] px-3 py-5 text-[12px] font-semibold leading-5 tracking-[-0.01em] text-slate-800 md:px-4 md:text-[13px] lg:px-5 lg:text-[14px]">
                     {row.label}
                   </div>
 
-                  <div className="flex min-h-[104px] items-center justify-center border-r border-black/6 px-4 py-5 text-center md:px-5 lg:px-6">
-                    <div className="flex max-w-fit flex-col items-center justify-center gap-1 text-center">
-                      <p className="text-[18px] font-semibold leading-6 text-slate-950">{row.left[0]}</p>
-                      <p className="text-[15px] font-semibold leading-6 text-slate-950 md:text-base">
+                  <div className={`flex min-h-[118px] items-center justify-center border-x-2 border-[#f2b8a4] bg-[#fff8f4] px-4 py-5 text-center md:px-5 lg:px-6 ${index === comparisonRows.length - 1 ? "border-b-2" : ""}`}>
+                    <div className="flex max-w-fit flex-col items-center justify-center gap-2 text-center">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#ED602E] shadow-[0_10px_24px_-18px_rgba(15,23,42,0.28)]">
+                        <Check className="h-4 w-4 stroke-[2.5]" />
+                      </div>
+                    <p className="text-[15px] font-bold leading-6 text-slate-950 md:text-base">
+                        {row.left[0]}
+                      </p>
+                      <p className="mx-auto max-w-[380px] text-[11px] font-medium leading-5 text-slate-700 md:text-[12px]">
                         {row.left[1]}
                       </p>
-                    {row.left[2] ? (
-                        <p className="mx-auto max-w-[380px] text-[12px] font-semibold leading-5 text-slate-950 md:text-[13px]">
-                          {row.left[2]}
-                        </p>
-                    ) : null}
                     </div>
                   </div>
 
-                  <div className="flex min-h-[104px] items-center justify-center px-4 py-5 text-center md:px-5 lg:px-6">
-                    <div className="flex max-w-fit flex-col items-center justify-center gap-1 text-center">
-                      <p className="text-[18px] font-semibold leading-6 text-slate-500">{row.right[0]}</p>
-                      <p className="text-base font-medium leading-6 text-slate-600">{row.right[1]}</p>
+                  <div className="flex min-h-[118px] items-center justify-center bg-[#f8fafc] px-4 py-5 text-center md:px-5 lg:px-6">
+                    <div className="flex max-w-fit flex-col items-center justify-center gap-2 text-center">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#fff4e8] text-[#b54708] shadow-[0_10px_24px_-18px_rgba(15,23,42,0.18)]">
+                        <X className="h-4 w-4 stroke-[2.5]" />
+                      </div>
+                      <p className="text-[15px] font-semibold leading-6 text-slate-700 md:text-base">{row.right[0]}</p>
+                      <p className="max-w-[340px] text-[11px] font-medium leading-5 text-slate-500 md:text-[12px]">
+                        {row.right[1]}
+                      </p>
                     </div>
                   </div>
                 </div>
