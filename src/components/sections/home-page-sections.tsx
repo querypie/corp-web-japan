@@ -12,7 +12,6 @@ import {
   Headset,
   Layers3,
   Megaphone,
-  MessageSquare,
   MessageSquareText,
   Quote,
   ScanSearch,
@@ -26,7 +25,6 @@ import {
 } from "lucide-react";
 import { homePageContent } from "@/content/home";
 import { FeatureShowcase } from "@/components/sections/feature-showcase";
-import { RoleSlides } from "@/components/sections/role-slides";
 
 const beforeItems = [
   Search,
@@ -56,6 +54,24 @@ const problemCardStyles = [
     card: "border-[#e5e7eb] bg-[#fbfcfd]",
     icon: "bg-[#f2f4f7] text-[#344054]",
   },
+] as const;
+
+const useCaseIcons = [
+  Search,
+  Wallet,
+  ChartColumnIncreasing,
+  Blocks,
+  FileSearch,
+  Brain,
+  Layers3,
+] as const;
+
+const processStepIcons = [
+  FolderKanban,
+  Search,
+  BriefcaseBusiness,
+  Settings2,
+  Cable,
 ] as const;
 
 function renderEmphasizedText(text: string) {
@@ -99,6 +115,7 @@ export function HomePageSections() {
     roi,
     problem,
     roles,
+    process,
     testimonials,
     contact,
   } = homePageContent;
@@ -111,12 +128,12 @@ export function HomePageSections() {
             <h1 className="mx-auto max-w-[960px] text-[40px] font-bold leading-[1.02] tracking-[-0.04em] text-slate-950 sm:text-[48px] lg:text-[60px] lg:leading-[68px] lg:tracking-[-1.2px]">
               {hero.title.split("\n").map((line, index) => (
                 <span key={`${line}-${index}`} className="block text-slate-950 lg:whitespace-nowrap">
-                  {renderHighlightedKeyword(line, "AI社員")}
+                  {renderHighlightedKeyword(line, "AI Crew")}
                 </span>
               ))}
             </h1>
 
-            <div className="mx-auto mt-4 w-full max-w-[980px] space-y-1.5 text-left text-[15px] leading-7 tracking-[-0.01em] text-slate-500 sm:text-base lg:pl-[28px]">
+            <div className="mx-auto mt-4 w-full max-w-[960px] space-y-1.5 text-left text-[15px] leading-7 tracking-[-0.01em] text-slate-500 sm:text-base lg:pl-[12px]">
               {hero.body.split("\n").map((line, index) => {
                 const emphasizedText = "QueryPie AI Crew";
 
@@ -172,9 +189,9 @@ export function HomePageSections() {
           <h2 className="mt-5 font-sans text-[42px] font-bold leading-[1.22] tracking-[-0.03em] text-slate-900 sm:text-[48px] sm:leading-[58px] sm:tracking-[-0.96px]">
             {problem.title.split("\n")[0]}
             <br />
-            {renderHighlightedKeyword(problem.title.split("\n")[1] ?? "", "右腕")}
+            {problem.title.split("\n")[1] ?? ""}
           </h2>
-          <p className="mx-auto mt-5 w-full max-w-[820px] whitespace-pre-line text-left text-base leading-7 text-slate-600 lg:pl-[40px]">
+          <p className="mx-auto mt-5 w-full max-w-[860px] whitespace-pre-line text-left text-base leading-7 text-slate-600 lg:pl-[16px]">
             {problem.body}
           </p>
         </div>
@@ -200,6 +217,10 @@ export function HomePageSections() {
             </article>
           ))}
         </div>
+
+        <div className="mx-auto mt-10 max-w-[1120px] text-center">
+          <p className="text-[15px] leading-7 text-slate-600">{problem.note}</p>
+        </div>
       </section>
 
       <section id="about" className="mx-auto max-w-[1920px] px-6 py-20 lg:px-10">
@@ -219,15 +240,119 @@ export function HomePageSections() {
           <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
             {roles.title.split("\n")[0]}
             <br />
-            {renderHighlightedKeyword(roles.title.split("\n")[1] ?? "", "AI Crew")}
+            {roles.title.split("\n")[1] ?? ""}
           </h2>
-          <p className="mx-auto mt-5 w-full max-w-[860px] whitespace-pre-line text-left text-base leading-7 text-slate-500 lg:pl-[68px]">
+          <p className="mx-auto mt-5 w-full max-w-[860px] whitespace-pre-line text-left text-base leading-7 text-slate-500 lg:pl-[42px]">
             {roles.body}
           </p>
         </div>
 
-        <div className="mt-12">
-          <RoleSlides items={roles.cards} note={roles.note} customCta={roles.customCta} />
+        <div className="mx-auto mt-12 grid max-w-[1120px] gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {roles.cards.map((card, index) => {
+            const Icon = useCaseIcons[index % useCaseIcons.length];
+
+            return (
+              <article
+                key={card.title}
+                className={`relative flex h-full flex-col overflow-hidden rounded-[1.8rem] border p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.14)] lg:p-7 ${problemCardStyles[index % problemCardStyles.length]?.card ?? "border-black/6 bg-white/95"}`}
+              >
+                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-white/0 via-white/70 to-white/0" />
+                <div
+                  className={`flex h-12 w-12 items-center justify-center rounded-[12px] ${problemCardStyles[index % problemCardStyles.length]?.icon ?? "bg-[#eef1f4] text-[#2f3a49]"}`}
+                >
+                  <Icon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-6 text-pretty text-[20px] font-semibold leading-[1.5] tracking-[-0.02em] text-slate-800">
+                  {card.title}
+                </h3>
+                <p className="mt-4 text-[15px] leading-[1.95] text-slate-600">{card.body}</p>
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="mx-auto mt-10 max-w-[1120px] text-center">
+          <p className="mx-auto max-w-[860px] text-[15px] leading-7 text-slate-600">{roles.note}</p>
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Link
+              href={roles.primaryCta.href}
+              className="inline-flex items-center justify-center rounded-[8px] bg-[#ED602E] px-4 py-2.5 text-base font-semibold text-white transition hover:bg-[#d45527]"
+            >
+              {roles.primaryCta.label}
+            </Link>
+            <Link
+              href={roles.secondaryCta.href}
+              className="inline-flex items-center justify-center gap-2 rounded-[8px] border border-[#f1f1f3] bg-white px-4 py-2.5 text-base font-medium text-[#262626] transition hover:bg-slate-50"
+            >
+              {roles.secondaryCta.label}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section id="process" className="mx-auto max-w-[1920px] px-6 py-20 lg:px-10">
+        <div className="mx-auto max-w-[1120px] text-center">
+          <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
+            {process.title}
+          </h2>
+          <p className="mx-auto mt-5 w-full max-w-[900px] whitespace-pre-line text-left text-base leading-7 text-slate-500 lg:pl-[30px]">
+            {process.body}
+          </p>
+        </div>
+
+        <div className="mx-auto mt-12 max-w-[1120px]">
+          <div className="relative">
+            <div className="pointer-events-none absolute left-[10%] right-[10%] top-11 hidden h-px bg-[#e4e7ec] xl:block" />
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+              {process.steps.map((step, index) => {
+                const Icon = processStepIcons[index % processStepIcons.length];
+
+                return (
+                  <article
+                    key={step.step}
+                    className="relative overflow-hidden rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.14)] lg:p-7"
+                  >
+                    <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-white/0 via-white/70 to-white/0" />
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="inline-flex items-center rounded-full bg-[#2f3a49] px-3 py-1.5 text-[12px] font-semibold tracking-[0.08em] text-white">
+                        {step.step}
+                      </span>
+                      <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#f2f4f7] text-[#344054]">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                    </div>
+
+                    <h3 className="mt-6 text-[20px] font-semibold leading-[1.45] tracking-[-0.02em] text-slate-800">
+                      {step.title}
+                    </h3>
+                    <p className="mt-4 text-[15px] leading-[1.95] text-slate-600">{step.body}</p>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <div className="mx-auto mt-10 max-w-[1120px] text-center">
+          <p className="mx-auto max-w-[860px] text-[15px] leading-7 text-slate-600">{process.note}</p>
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Link
+              href={process.primaryCta.href}
+              className="inline-flex items-center justify-center rounded-[8px] bg-[#ED602E] px-4 py-2.5 text-base font-semibold text-white transition hover:bg-[#d45527]"
+            >
+              {process.primaryCta.label}
+            </Link>
+            <Link
+              href={process.secondaryCta.href}
+              className="inline-flex items-center justify-center gap-2 rounded-[8px] border border-[#f1f1f3] bg-white px-4 py-2.5 text-base font-medium text-[#262626] transition hover:bg-slate-50"
+            >
+              {process.secondaryCta.label}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
