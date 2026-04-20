@@ -147,3 +147,119 @@
     color: #0f172a;
   }
 }
+
+@keyframes crewCue {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  10%,
+  78% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes crewFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes heroHeadlineRise {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes heroAccentGlow {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.12);
+  }
+}
+
+@keyframes heroHighlightSweep {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.hero-title-fragment {
+  display: inline-block;
+  opacity: 0;
+  animation: heroHeadlineRise 760ms ease-out forwards;
+}
+
+.hero-title-fragment-delay {
+  animation-delay: 120ms;
+}
+
+.hero-copy-enter {
+  opacity: 0;
+  animation: heroHeadlineRise 760ms ease-out forwards;
+}
+
+.hero-copy-enter-1 {
+  animation-delay: 160ms;
+}
+
+.hero-copy-enter-2 {
+  animation-delay: 260ms;
+}
+
+.hero-copy-enter-3 {
+  animation-delay: 360ms;
+}
+
+.heading-highlight-accent {
+  background-image: linear-gradient(90deg, #4254a5 0%, #4f5db2 48%, #6d7bd6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation:
+    heroHeadlineRise 760ms ease-out forwards,
+    heroAccentGlow 3.2s ease-in-out 1s infinite;
+}
+
+.hero-highlight-sweep {
+  background-size: 200% 200%;
+  animation:
+    heroHeadlineRise 760ms ease-out forwards,
+    heroHighlightSweep 6s ease-in-out 1s infinite,
+    heroAccentGlow 3.8s ease-in-out 1.2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title-fragment,
+  .hero-copy-enter,
+  .heading-highlight-accent,
+  .hero-highlight-sweep {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}

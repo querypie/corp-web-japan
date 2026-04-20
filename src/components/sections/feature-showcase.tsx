@@ -1,93 +1,91 @@
-import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
-
-type FeatureItem = {
-  label: string;
-  heading: string;
-  description: string;
-  cta: string;
-  tags: readonly string[];
-  panelTitle: string;
-  panelSubtitle: string;
-  cards: readonly string[];
-};
+import Image from "next/image";
+import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 
 type FeatureShowcaseProps = {
-  items: readonly FeatureItem[];
+  intro: {
+    title: string;
+    body: string;
+    imageSrc?: string;
+    imageAlt?: string;
+  };
 };
 
-export function FeatureShowcase({ items }: FeatureShowcaseProps) {
+function renderEmphasizedText(text: string) {
+  return text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return (
+        <strong key={`${part}-${index}`} className="font-semibold text-[#163A7A]">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+
+    return <span key={`${part}-${index}`}>{part}</span>;
+  });
+}
+
+function renderHighlightedKeyword(line: string, keyword: string) {
+  if (!line.includes(keyword)) {
+    return line;
+  }
+
+  const [before, after] = line.split(keyword);
+
+  return (
+    <>
+      {before}
+      <span className="bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_52%,#2563EB_100%)] bg-clip-text text-transparent">
+        {keyword}
+      </span>
+      {after}
+    </>
+  );
+}
+
+export function FeatureShowcase({ intro }: FeatureShowcaseProps) {
   return (
     <div className="mx-auto mt-8 max-w-[1120px]">
-      <article className="overflow-hidden rounded-[2rem] border border-black/6 bg-white shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-        <div className="border-b border-black/6 bg-[linear-gradient(180deg,#fbfcfe_0%,#ffffff_100%)] px-6 py-6 sm:px-8 sm:py-8">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#e4e7ec] bg-white px-3 py-1.5 text-[12px] font-medium text-[#475467]">
-            <Sparkles className="h-4 w-4 text-[#ED602E]" />
-            AI Staff Workflow
-          </div>
-          <h3 className="mt-2 text-[26px] font-medium leading-[1.14] tracking-[-0.04em] text-[#101828] sm:text-[30px] lg:text-[32px]">
-            職務定義から成果評価まで、
-            <br />
-            AI Staffが働く流れを1枚で見える化しました。
-          </h3>
-          <p className="mt-4 max-w-[760px] text-[15px] leading-7 text-[#667085]">
-            「職務定義｜オンボーディング｜実務巻き取り｜権限管理｜成果評価」の5ステップを、タブ遷移なしで流れごと把握できる構成にしています。
-          </p>
-        </div>
-
-        <div className="px-6 py-6 sm:px-8 sm:py-8">
-          <div className="relative">
-            <div className="pointer-events-none absolute left-[8%] right-[8%] top-7 hidden h-px bg-[#e4e7ec] xl:block" />
-
-            <ol className="relative grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-              {items.map((item, index) => (
-                <li
-                  key={item.label}
-                  className="relative rounded-[1.5rem] border border-black/6 bg-[#fbfcfd] p-5 shadow-[0_18px_40px_-36px_rgba(15,23,42,0.2)]"
+      <article className="overflow-visible">
+        <div className="grid gap-8 px-6 py-6 sm:px-8 sm:py-8 lg:grid-cols-[minmax(0,1.08fr)_380px] lg:items-center lg:gap-12">
+          <div className="max-w-[650px]">
+            <RevealOnScroll>
+              <h2 className="max-w-none text-[30px] font-semibold leading-[1.2] tracking-[-0.04em] text-[#101828] sm:text-[42px] sm:leading-[1.2] sm:whitespace-nowrap">
+              {intro.title.split("\n").map((line, index) => (
+                <span
+                  key={`${line}-${index}`}
+                  className={
+                    index === 1
+                      ? "block bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_52%,#2563EB_100%)] bg-clip-text text-transparent"
+                      : "block"
+                  }
                 >
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="inline-flex h-10 min-w-10 items-center justify-center rounded-full bg-[#2f3a49] px-3 text-[13px] font-semibold text-white">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    {index < items.length - 1 && (
-                      <ArrowRight className="hidden h-4 w-4 text-[#98a2b3] xl:block" />
-                    )}
-                  </div>
-
-                  <p className="mt-4 text-[12px] font-semibold uppercase tracking-[0.12em] text-[#98a2b3]">
-                    {item.label}
-                  </p>
-                  <h4 className="mt-2 text-[19px] font-semibold leading-[1.45] tracking-[-0.02em] text-[#101828]">
-                    {item.heading.split("\n").map((line, lineIndex) => (
-                      <span key={`${line}-${lineIndex}`} className="block">
-                        {line}
-                      </span>
-                    ))}
-                  </h4>
-                  <p className="mt-3 text-[14px] leading-6 text-[#667085]">{item.description}</p>
-
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {item.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full border border-black/6 bg-white px-2.5 py-1 text-[11px] font-medium text-[#667085]"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="mt-4 space-y-2.5 border-t border-[#eaecf0] pt-4">
-                    {item.cards.map((card) => (
-                      <div key={card} className="flex items-start gap-2.5">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#ED602E]" />
-                        <p className="text-[13px] leading-5 text-[#475467]">{card}</p>
-                      </div>
-                    ))}
-                  </div>
-                </li>
+                  {renderHighlightedKeyword(line, "AI Crew")}
+                </span>
               ))}
-            </ol>
+              </h2>
+            </RevealOnScroll>
+            <RevealOnScroll delayMs={90}>
+              <div className="mt-5 space-y-5 text-[15px] leading-8 text-[#667085]">
+                {intro.body.split("\n\n").map((paragraph, index) => (
+                  <p key={`${paragraph}-${index}`}>{renderEmphasizedText(paragraph)}</p>
+                ))}
+              </div>
+            </RevealOnScroll>
           </div>
+
+          <RevealOnScroll variant="scale" delayMs={120}>
+            <figure className="overflow-hidden rounded-[1.8rem] bg-white shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_28px_90px_-52px_rgba(15,23,42,0.2)] lg:ml-auto lg:w-full lg:max-w-[380px] lg:translate-x-10">
+            <div className="relative aspect-[5/4] bg-[#eef2f6]">
+              <Image
+                src={intro.imageSrc ?? "/images/ai-staff-team.jpg"}
+                alt={intro.imageAlt ?? "AI Crewが既存チームの業務を支えるイメージ"}
+                fill
+                className="object-cover object-[94%_center]"
+                sizes="(min-width: 1024px) 380px, 100vw"
+              />
+            </div>
+            </figure>
+          </RevealOnScroll>
         </div>
       </article>
     </div>
