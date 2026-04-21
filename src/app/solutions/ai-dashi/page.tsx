@@ -15,7 +15,6 @@ import {
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
-import { AIDashiFaq } from "@/components/sections/ai-dashi-faq";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { ZoomableFigure } from "@/components/sections/zoomable-figure";
 
@@ -674,22 +673,6 @@ export default function AIDashiPage() {
                   </div>
                 </article>
               ))}
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
-
-      <section id="ai-dashi-faq" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="flex flex-col items-center gap-12">
-            <RevealOnScroll variant="up" className="w-full max-w-[920px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
-                よくある質問
-              </h2>
-            </RevealOnScroll>
-
-            <RevealOnScroll variant="up" delayMs={120}>
-              <AIDashiFaq />
             </RevealOnScroll>
           </div>
         </div>
