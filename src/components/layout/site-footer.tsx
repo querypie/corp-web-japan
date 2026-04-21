@@ -6,14 +6,17 @@ const footerColumns = [
   {
     title: "サービス",
     links: [
-      { label: "AIP", href: "#" },
-      { label: "ACP", href: "#" },
-      { label: "FDE", href: "#" },
+      { label: "AIプラットフォーム｜AIP", href: "#" },
+      { label: "アクセス制御プラットフォーム｜ACP", href: "#" },
+      { label: "AI専門家伴走支援｜FDE", href: "#" },
     ],
   },
   {
     title: "ソリューション",
-    links: [{ label: "AI 出汁", href: "/solutions/ai-dashi" }],
+    links: [
+      { label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew" },
+      { label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi" },
+    ],
   },
   {
     title: "デモ",
@@ -41,13 +44,6 @@ const footerColumns = [
       { label: "認定・認証", href: "#" },
       { label: "ニュース", href: "#" },
       { label: "お問い合わせ", href: "#" },
-    ],
-  },
-  {
-    title: "料金プラン",
-    links: [
-      { label: "AIP", href: "#" },
-      { label: "ACP", href: "#" },
     ],
   },
 ] as const;

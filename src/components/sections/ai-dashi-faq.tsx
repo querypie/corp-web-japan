@@ -11,11 +11,6 @@ const faqItems = [
       "お預かりしたデータの所有権は、常にお客様に帰属します。AI Dashi はお客様のブランドと運用方針に合わせて提供され、学習データや利用データの取り扱いについても、導入時に要件に応じた運用設計をご案内します。",
   },
   {
-    question: "「無料版と有料版の違いは？」",
-    answer:
-      "無料版では基本的な検証やユースケース確認が可能で、有料版ではブランド適用、モデル選択、既存システム連携、運用サポートなど本番導入に必要な機能をご利用いただけます。ご要件に応じて最適なプランをご案内します。",
-  },
-  {
     question: "「LLMのモデルは選べるか？」",
     answer:
       "はい。ご要件や運用方針に合わせて、利用モデルや構成方針をご相談いただけます。精度・コスト・応答速度のバランスを踏まえて、最適な選択肢をご提案します。",
@@ -38,7 +33,7 @@ const faqItems = [
 ] as const;
 
 export function AIDashiFaq() {
-  const [openIndex, setOpenIndex] = useState<number>(1);
+  const [openIndex, setOpenIndex] = useState<number>(-1);
 
   return (
     <div className="w-full max-w-[1120px] space-y-4">

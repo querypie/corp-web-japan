@@ -2,22 +2,38 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  AlertTriangle,
+  ArrowRight,
   Blocks,
-  BookOpen,
-  ChevronDown,
+  Check,
   Database,
   Settings,
   ShieldCheck,
   Users,
+  X,
+  type LucideIcon,
 } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { AIDashiFaq } from "@/components/sections/ai-dashi-faq";
+import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
+import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
+import { ZoomableFigure } from "@/components/sections/zoomable-figure";
 
 export const metadata: Metadata = {
-  title: "AI Dashi | AI Staff",
-  description: "最高品質のAI基盤を、あなたのブランドで展開するための AI Dashi ソリューションページです。",
+  title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
+  description:
+    "QueryPie AI Dashiは、自社SaaSやWebサービスにエンタープライズ品質のAI基盤を組み込むためのソリューションです。ブランド体験はそのままに、最短でAI搭載サービスへ進化させます。",
+  openGraph: {
+    title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
+    description:
+      "QueryPie AI Dashiは、自社SaaSやWebサービスにエンタープライズ品質のAI基盤を組み込むためのソリューションです。",
+    type: "website",
+  },
+  twitter: {
+    title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
+    description:
+      "QueryPie AI Dashiは、自社SaaSやWebサービスにエンタープライズ品質のAI基盤を組み込むためのソリューションです。",
+    card: "summary_large_image",
+  },
 };
 
 const releaseFlow = [
@@ -54,33 +70,33 @@ const releaseFlow = [
 const comparisonRows = [
   {
     label: "開発期間",
-    left: ["◎", "開発不要"],
-    right: ["×", "3〜6ヶ月"],
+    left: ["最短1ヶ月（API組み込みのみ）", "すぐに市場投入が可能"],
+    right: ["半年〜1年以上（試行錯誤の連続）", "競合に先を越され市場機会を逃す"],
   },
   {
-    label: "初期コスト",
-    left: ["◎", "初期費用0円"],
-    right: ["×", "数千万円〜"],
+    label: "初期インフラ投資",
+    left: ["初期投資ゼロ（インフラ不要）", "使った分だけの従量課金でスモールスタートが可能"],
+    right: ["数千万円規模の先行投資", "サーバー代や検証費用など、回収不能なサンクコストが発生"],
   },
   {
-    label: "専門人材",
-    left: ["◎", "フォワードデプロイエンジニア（FDE）が支援"],
-    right: ["△", "採用必須（困難）"],
+    label: "専門エンジニア確保",
+    left: ["QueryPie AIのFDE（専門エンジニア）が伴走", "AIに関する専門知識不要"],
+    right: ["AI人材の採用が必須（極めて困難）", "人件費の高騰で採用が進まないリスク"],
   },
   {
     label: "セキュリティ",
-    left: ["◎", "実証済み基盤", "セキュリティ認証（SOC2、ISO27001等）取得"],
-    right: ["△", "ゼロから構築"],
+    left: ["エンタープライズ品質の基盤（SOC2/ISO27001）", "厳格な権限管理（RBAC）が標準装備"],
+    right: ["ゼロトラストアーキテクチャを一から構築", "情報漏洩の致命的リスクと認証取得の果てしない工数"],
   },
   {
     label: "ハルシネーション対策",
-    left: ["◎", "RAGアーキテクチャやマルチLLM対応", "ガードレール機能などのファクトチェック内蔵"],
-    right: ["×", "試行錯誤"],
+    left: ["エンタープライズRAGによる事実のみの回答", "内蔵されたガードレール機能でB2Bでの業務利用も安心"],
+    right: ["精度が上がらず本番リリース不可", "自社データとLLMの連携（チャンキング等）で泥沼化"],
   },
   {
     label: "運用保守",
-    left: ["◎", "24時間365日サポート体制"],
-    right: ["×", "自社で継続対応"],
+    left: ["24時間365日のインフラ監視と継続アップデート", "LLMの進化や運用はすべてオフロード、本業に集中"],
+    right: ["自社エンジニアが運用保守に追われる", "プロンプト調整やインフラ管理でコア事業の進化が停止"],
   },
 ] as const;
 
@@ -88,336 +104,400 @@ const supportItems = [
   {
     number: "01",
     title: "カスタマイズ自在なAI基盤の提供",
-    body: "最速での市場投入を実現するコアシステム",
+    intro: "最速での市場投入を実現するコアシステム",
+    points: [
+      "貴社のブランドデザインに合わせたUI/UXのフルカスタマイズ",
+      "QueryPie AIが誇る高性能AIエージェント基盤の提供",
+      "既存の自社サービスやデータベースとシームレスに繋がるAPI連携",
+      "最短1〜3ヶ月でのスピーディな立ち上げを可能にする開発環境",
+    ],
   },
   {
     number: "02",
-    title: "専門エンジニア（FDE）による開発支援",
-    body: "貴社チームに伴走し、最適なAIを共に創り上げる",
+    title: "専門エンジニアによる開発支援",
+    intro: "貴社チームに伴走し、最適なAIを共に創り上げる",
+    points: [
+      "現場導入支援エンジニア（FDE）がプロジェクトの要件定義から参画",
+      "貴社のドメイン知識と私たちのAI知見を掛け合わせた最適なアーキテクチャ設計",
+      "初期セットアップから、貴社開発チームへの技術トレーニング・ナレッジ移転",
+      "リリースに向けた継続的かつ専門的な技術サポート",
+    ],
   },
   {
     number: "03",
-    title: "24時間365日のインフラ・運用保守（ハウジング）",
-    body: "リリース後も安心。インフラ管理を完全にオフロード",
+    title: "24時間365日のインフラ・運用保守",
+    intro: "リリース後も安心。インフラ管理を完全にオフロード",
+    points: [
+      "セキュアで高可用性を誇るAIインフラの構築と運用",
+      "24時間365日体制でのシステム監視・障害対応（ハウジングサポート）",
+      "最新のAIモデルへのアップデートや、継続的な機能改善の適用",
+      "インフラ運用のリソースを気にすることなく、ビジネス成長に集中できる環境",
+    ],
   },
 ] as const;
 
-const sectionNavItems = [
-  { label: "AI Dashiとは？", href: "#about-ai-dashi", chevron: true },
-  { label: "AI Dashi 3つの価値", href: "#ai-dashi-values", chevron: true },
-  { label: "なぜAI Dashiが必要か", href: "#why-ai-dashi", chevron: true },
-  { label: "自社開発との比較", href: "#ai-dashi-comparison", chevron: true },
-  { label: "サポート体制", href: "#ai-dashi-support", chevron: true },
-  { label: "導入フロー", href: "#ai-dashi-flow", chevron: true },
-  { label: "FAQ", href: "#ai-dashi-faq", chevron: true },
+const aiWallCards: ReadonlyArray<{
+  icon: LucideIcon;
+  title: string;
+  body: string;
+}> = [
+  {
+    icon: Users,
+    title: "人材と技術の枯渇",
+    body: "AI専門エンジニアの採用難に加え、日進月歩で変わる最新アーキテクチャへの追従に開発リソースが食いつぶされ、本来のコア事業の進化が止まります。",
+  },
+  {
+    icon: Database,
+    title: "データ整備の泥沼",
+    body: "自社データベースを正確にAIに読み込ませる（RAG構築）には膨大な工数がかかり、実用レベルの精度が出ないままリリースが無限に延期されます。",
+  },
+  {
+    icon: Settings,
+    title: "肥大化するインフラ保守",
+    body: "リリース後も、モデルの更新やプロンプトの調整、インフラ監視など、想定外の保守運用コストが継続的に発生し利益を圧迫します。",
+  },
+] as const;
+
+const lostSection = {
+  title: {
+    line1: "明日、AIを搭載した競合が現れたら。",
+    line2: "貴社のサービスは選ばれ続けますか？",
+  },
+  paragraphs: [
+    "LLM（大規模言語モデル）の進化により、ソフトウェアの価値基準が根底から変わろうとしています。ユーザーの期待値は、手動で画面を操作する従来のSaaSから、AIが自律的に作業を完結させるSaaSへと急速に移行しています。",
+    "自社の長年の強みに固執している間に、AIエージェントを組み込んだ後発のサービスが、圧倒的な自動化体験を武器に突然シェアを奪いに来る時代です。",
+    "AI実装の遅れは、単なる機能不足ではありません。サービスの陳腐化と致命的な解約（チャーン）に直結する、経営レベルの危機なのです。",
+  ],
+} as const;
+
+const enterpriseReadyItems = [
+  {
+    icon: ShieldCheck,
+    title: "B2B基準の権限管理（RBAC）",
+    body:
+      "組織階層やユーザーごとの緻密なアクセス制御をAPIで実装。情報漏洩の致命的リスクを防ぎます。",
+  },
+  {
+    icon: Database,
+    title: "ハルシネーションを防ぐガードレール",
+    body:
+      "自社データのみに基づく事実回答を徹底し、B2Bの業務利用で絶対に許されない「AIの嘘」を防止します。",
+  },
+  {
+    icon: Check,
+    title: "監査ログとコンプライアンス対応",
+    body:
+      "SOC2 / ISO27001水準のセキュリティ基盤により、エンタープライズ顧客の厳しいセキュリティシート（導入審査）をパスできます。",
+  },
 ] as const;
 
 export default function AIDashiPage() {
   return (
-    <main className="relative overflow-x-hidden bg-white pt-[64px] text-slate-950">
+    <main className="relative overflow-x-hidden bg-[#eceff3] pt-[64px] text-slate-950">
       <SiteHeader />
+      <FloatingConversionCta href="#ai-dashi-cta" />
 
-      <Link
-        href="#ai-dashi-cta"
-        className="fixed bottom-5 right-5 z-[1100] inline-flex items-center justify-center rounded-full border border-[#cf5f31] bg-[#ED602E] px-4 py-2.5 text-[14px] font-semibold leading-5 text-white shadow-[0_12px_30px_-20px_rgba(0,0,0,0.35)] transition hover:bg-[#d45527] md:bottom-8 md:right-8"
-      >
-        導入相談
-      </Link>
-
-      <section className="w-full bg-white">
-        <div className="w-full">
-          <div className="relative overflow-hidden bg-[#eceff3]">
-            <div className="absolute inset-0">
-              <div className="relative h-full w-full">
-                <Image
-                  src="/solutions/ai-dashi/hero-ai.png"
-                  alt="AI Dashi hero visual"
-                fill
-                priority
-                className="object-cover object-[50%_18%]"
-              />
-            </div>
+      <section className="relative mx-auto max-w-[1920px] overflow-hidden bg-[#eceff3] px-6 py-14 lg:px-10 lg:py-[84px]">
+        <div className="absolute inset-0">
+          <div className="relative h-full w-full">
+            <Image
+              src="/solutions/ai-dashi/hero-ai.png"
+              alt="AI Dashi hero visual"
+              fill
+              priority
+              className="object-cover object-[50%_18%]"
+            />
           </div>
-
-            <div className="relative flex items-center justify-center py-12 text-center lg:py-[72px]">
-              <div className="flex w-full max-w-[860px] flex-col items-center gap-4 md:w-fit">
-                <h1 className="text-[34px] font-semibold leading-[1.12] tracking-[-0.04em] text-white md:text-[42px] md:leading-[1.1] lg:text-[52px] lg:leading-[58px] lg:tracking-[-1.04px]">
-                  最高品質のAI基盤を
-                  <br />
-                  あなたのブランドで
-                </h1>
-                <Image
-                  src="/solutions/ai-dashi/hero-submark.svg"
-                  alt="AI Dashi 出汁"
-                  width={145}
-                  height={24}
-                  className="h-4 w-auto lg:h-5"
-                />
-              </div>
-            </div>
-          </div>
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,18,34,0.4)_0%,rgba(10,18,34,0.22)_30%,rgba(10,18,34,0.08)_58%,rgba(10,18,34,0.0)_100%)]" />
+          <div className="absolute left-[8%] top-[12%] h-[280px] w-[280px] rounded-full bg-[radial-gradient(circle,rgba(237,96,46,0.18)_0%,rgba(237,96,46,0.06)_38%,rgba(237,96,46,0)_72%)] blur-2xl" />
+          <div className="absolute left-[22%] top-[24%] h-[320px] w-[320px] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.16)_0%,rgba(255,255,255,0.06)_34%,rgba(255,255,255,0)_72%)] blur-3xl" />
         </div>
-      </section>
 
-      <section className="w-full border-y border-black/6 bg-white">
-        <div className="mx-auto max-w-[1200px] overflow-x-auto px-[30px] py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <nav className="flex min-w-max items-center justify-center gap-1">
-            {sectionNavItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="inline-flex items-center justify-center gap-1 px-3 py-2 text-[14px] font-medium leading-5 text-slate-500 transition hover:text-[#15181d] focus:outline-none"
+        <div className="relative mx-auto flex max-w-[1260px] items-center justify-start px-[30px] text-left">
+          <div className="flex w-full max-w-[790px] flex-col items-start gap-5 rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(10,18,34,0.12)_0%,rgba(10,18,34,0.28)_100%)] px-6 py-7 shadow-[0_28px_72px_-46px_rgba(15,23,42,0.65)] backdrop-blur-[10px] sm:px-8 sm:py-8 lg:gap-5 lg:px-9 lg:py-10">
+            <p className="hero-copy-enter inline-flex rounded-full border border-white/18 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/78 backdrop-blur">
+              組み込み型AI基盤・ホワイトラベル対応
+            </p>
+            <h1 className="max-w-[760px] text-[34px] font-semibold leading-[1.12] tracking-[-0.04em] text-white md:text-[40px] md:leading-[1.12] lg:text-[54px] lg:leading-[1.16] lg:tracking-[-1.02px]">
+              <span className="hero-title-fragment block">自社サービスを</span>
+              <span
+                className="hero-title-fragment hero-highlight-sweep block bg-gradient-to-r from-[#ffffff] via-[#edf3ff] to-[#b8c9ff] bg-clip-text text-transparent drop-shadow-[0_12px_28px_rgba(159,182,255,0.22)]"
+                style={{ animationDelay: "110ms" }}
               >
-                {item.label}
-                {item.chevron ? <ChevronDown className="h-3 w-3" /> : null}
-              </a>
-            ))}
-          </nav>
+                AI搭載SaaS
+                <span className="text-white">へ</span>
+              </span>
+              <span className="hero-title-fragment block" style={{ animationDelay: "220ms" }}>
+                最短で進化させる
+              </span>
+            </h1>
+            <p className="hero-copy-enter hero-copy-enter-1 max-w-[540px] text-[15px] leading-8 text-white/84 md:max-w-[620px] md:text-[16px] lg:max-w-[660px]">
+              ブランド体験はそのままに、エンタープライズ品質のAI基盤をシームレスに統合。ゼロからの開発リスクを排除し、新たな収益源の創出とタイム・トゥ・マーケットを最速化します。
+            </p>
+            <div className="hero-copy-enter hero-copy-enter-2 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Link
+                href="#ai-dashi-cta"
+                className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] border border-white bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_36px_-24px_rgba(15,23,42,0.42)] transition hover:bg-slate-100"
+              >
+                無料で導入相談・お見積り
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/whitepaper"
+                className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] border border-white/24 bg-white/6 px-5 py-3 text-sm font-semibold text-white/92 backdrop-blur transition hover:bg-white/10"
+              >
+                資料をダウンロード
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section id="about-ai-dashi" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="grid items-center gap-8 lg:grid-cols-[1fr_1fr] lg:justify-between lg:gap-8">
-            <div className="flex flex-col">
-              <div className="flex flex-col gap-5">
-                <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
-                  「AI Dashi」とは？
+      <section className="mx-auto max-w-[1920px] bg-white px-6 py-16 lg:px-10 lg:py-20">
+        <div className="mx-auto max-w-[1120px]">
+          <RevealOnScroll variant="up">
+            <div className="mx-auto max-w-[980px] rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.95)_100%)] px-6 py-8 shadow-[0_22px_60px_-46px_rgba(15,23,42,0.16)] sm:px-8 lg:px-10 lg:py-10">
+              <div className="max-w-[860px] border-l-4 border-[#ED602E] pl-5">
+                <p className="text-[14px] font-semibold leading-7 tracking-[0.02em] text-[#8c4a2f] sm:text-[15px]">
+                  {lostSection.title.line1}
+                </p>
+                <h2 className="mt-2 text-[28px] font-bold leading-[1.18] tracking-[-0.04em] text-slate-950 sm:text-[34px] lg:text-[38px] lg:whitespace-nowrap">
+                  {lostSection.title.line2}
                 </h2>
-
-                <div className="max-w-[498px] space-y-4 text-base leading-6 text-slate-500">
+                <div className="mt-6 space-y-5 text-[15px] leading-8 text-slate-600">
+                  <p>{lostSection.paragraphs[0]}</p>
+                  <p>{lostSection.paragraphs[1]}</p>
                   <p>
-                    良い「出汁」があれば、料理人はもっと美味しい料理を作れる。
-                    <br />
-                    良い「AI基盤」があれば、貴社はもっと優れたAIサービスを顧客に提供できる。
-                  </p>
-                  <p>「AI Dashi」は、貴社のブランドとデザインで、そのまま提供できるAI基盤です。</p>
-                  <p>
-                    チャットボット、文書要約、データ分析、社内ナレッジ検索──QueryPie AIが培ったAIエージェント技術を、自社プロダクトの拡充機能としてスピーディに展開できます。AIの専門知識も、大規模な開発チームも不要です。
-                  </p>
-                  <p>
-                    「AI Dashi」は、日本料理の基本である「出汁」から名付けました。
-                    <br />
-                    味噌汁にも、煮物にも、うどんにも姿を変えて料理を美味しくする出汁のように、「AI Dashi」も貴社のビジネスに合わせて柔軟に形を変え、顧客に最高のAI体験を届けます。
+                    AI実装の遅れは、単なる機能不足ではありません。サービスの陳腐化と
+                    <span className="font-semibold text-slate-800"> 致命的な解約（チャーン）</span>
+                    に直結する、経営レベルの危機なのです。
                   </p>
                 </div>
               </div>
             </div>
+          </RevealOnScroll>
+        </div>
+      </section>
 
-            <div className="h-[320px] w-full overflow-hidden rounded-[20px] bg-[#eceff3] lg:h-[450px] lg:w-[544px]">
+      <section id="about-ai-dashi" className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-[1120px]">
+          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:justify-between lg:gap-10">
+            <RevealOnScroll variant="up" className="flex flex-col">
+              <div className="flex flex-col gap-5">
+                <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+                  なぜ
+                  <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
+                    AI Dashi
+                  </span>
+                  なのか？
+                </h2>
+
+                <div className="max-w-[640px] space-y-5 text-[15px] leading-8 text-slate-500">
+                  <p>良い「出汁」は、主役の食材を邪魔せず、料理全体の旨味を底上げします。</p>
+                  <p>SaaSやWebサービスにおけるAIも同じです。AIそのものが主役になるのではなく、貴社がこれまで築き上げてきた「プロダクトのコア価値」を裏側から圧倒的に引き上げる存在でなければなりません。</p>
+                  <p>QueryPie AIが提供するAIプラットフォーム（AIP）は、貴社のUIやブランドの世界観に完全に溶け込み、ユーザーに「このサービス、すごく便利になった！」という最高の体験（旨味）を提供するための、最高品質のAI基盤（AI Dashi）です。</p>
+                </div>
+              </div>
+            </RevealOnScroll>
+
+            <RevealOnScroll variant="right" delayMs={160} className="relative h-[320px] w-full overflow-hidden rounded-[20px] bg-[#eceff3] shadow-[0_24px_70px_-50px_rgba(15,23,42,0.22)] lg:h-[430px] lg:w-full">
               <Image
-                src="/solutions/ai-dashi/about-visual.png"
-                alt="AI Dashi visual"
-                width={1088}
-                height={900}
-                className="h-full w-full object-cover"
+                src="/solutions/ai-dashi/about-visual.webp"
+                alt="AI Dashi のコンセプトを表現するビジュアル"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 40vw, 100vw"
               />
-            </div>
+            </RevealOnScroll>
           </div>
         </div>
       </section>
 
       <section id="ai-dashi-values" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
+        <div className="mx-auto max-w-[1120px]">
           <div className="flex flex-col items-center gap-12">
-            <div className="w-full text-center">
-              <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
-                AI Dashiが提供する3つの価値
+            <RevealOnScroll variant="up" className="w-full max-w-[920px] text-center">
+              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+                QueryPie AIPが提供する3つの価値
               </h2>
-            </div>
+            </RevealOnScroll>
 
-            <div className="grid w-full items-start gap-8 lg:grid-cols-[minmax(0,1.18fr)_minmax(0,0.82fr)] lg:justify-between lg:gap-8">
-              <div className="overflow-hidden rounded-[20px] bg-white lg:w-[660px]">
-                <div className="h-[420px] w-full lg:h-[680px] lg:w-[660px]">
-                  <Image
-                  src="/solutions/ai-dashi/value-diagram.svg"
-                  alt="AI Dashi value diagram"
-                  width={1088}
-                  height={900}
-                    className="h-full w-full object-contain object-right"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4">
-                <article className="h-full rounded-[1.8rem] border border-black/6 bg-white p-7 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                  <div className="inline-flex rounded-full bg-[#15181d] px-3 py-1 text-xs font-semibold text-white">
+            <RevealOnScroll className="grid w-full gap-4 lg:grid-cols-3" variant="up" delayMs={120}>
+              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-md shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md">
+                <div className="flex items-center gap-3">
+                  <div className="text-[32px] font-semibold tracking-[-0.06em] text-slate-300">
                     01
                   </div>
-                  <h3 className="mt-5 text-2xl font-semibold leading-8 tracking-[-0.04em] text-slate-950">
-                    自社ブランドによるAIサービスの展開
-                  </h3>
-                  <p className="mt-4 text-sm leading-7 text-slate-600">
-                    AIを「他社のツール」として導入するのではなく、貴社の既存システムやプロダクトに組み込み、「自社のオリジナル機能」として顧客に提供できます。これにより、自社サービスの競争力と顧客ロイヤルティを直接高めることが可能です。
-                  </p>
-                </article>
+                  <div className="inline-flex rounded-full bg-[#eef2f7] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-[#2f3a49]">
+                    競合優位性の確立
+                  </div>
+                </div>
+                <h3 className="mt-5 text-[21px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">
+                  自社の<span className="text-[#ED602E]">オリジナル機能</span>としてシームレスに展開
+                </h3>
+                <p className="mt-4 text-sm leading-7 text-slate-600">
+                  他社の汎用AIツールを外付けするのではなく、貴社プロダクトの裏側に深く組み込みます。ブランド体験を損なわず、直接的な競争力と顧客ロイヤルティを高めます。
+                </p>
+              </article>
 
-                <article className="h-full rounded-[1.8rem] border border-black/6 bg-white p-7 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                  <div className="inline-flex rounded-full bg-[#15181d] px-3 py-1 text-xs font-semibold text-white">
+              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-md shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md">
+                <div className="flex items-center gap-3">
+                  <div className="text-[32px] font-semibold tracking-[-0.06em] text-slate-300">
                     02
                   </div>
-                  <h3 className="mt-5 text-2xl font-semibold leading-8 tracking-[-0.04em] text-slate-950">
-                    開発の複雑さから解放され、本業へ集中
-                  </h3>
-                  <p className="mt-4 text-sm leading-7 text-slate-600">
-                    専門的なAI技術のキャッチアップや、複雑なインフラ構築はすべて「AI Dashi」が担います。ゼロからAIを開発する膨大なコストと手間を削減し、貴重なエンジニアリソースを自社のコアビジネス（本業）の進化に集中させることができます。
-                  </p>
-                </article>
+                  <div className="inline-flex rounded-full bg-[#eef2f7] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-[#2f3a49]">
+                    開発リソースの最適化
+                  </div>
+                </div>
+                <h3 className="mt-5 text-[21px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">
+                  AI開発の<span className="text-[#ED602E]">技術的負債を回避</span>し、コアビジネスに集中
+                </h3>
+                <p className="mt-4 text-sm leading-7 text-slate-600">
+                  変化の速いLLMの追従や複雑なインフラ保守はすべてQueryPie AIPが担います。ゼロから内製するコストとリスクを抑え、エンジニアの貴重な時間を本来のプロダクト開発に集中させられます。
+                </p>
+              </article>
 
-                <article className="h-full rounded-[1.8rem] border border-black/6 bg-white p-7 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                  <div className="inline-flex rounded-full bg-[#15181d] px-3 py-1 text-xs font-semibold text-white">
+              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-md shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md">
+                <div className="flex items-center gap-3">
+                  <div className="text-[32px] font-semibold tracking-[-0.06em] text-slate-300">
                     03
                   </div>
-                  <h3 className="mt-5 text-2xl font-semibold leading-8 tracking-[-0.04em] text-slate-950">
-                    新たな収益源の最速立ち上げ
-                  </h3>
-                  <p className="mt-4 text-sm leading-7 text-slate-600">
-                    AI基盤を自前で構築すれば年単位の時間がかかりますが、「AI Dashi」を活用すれば圧倒的なスピードで市場投入（タイムトゥマーケット）が可能です。競合に先んじてAI機能をリリースし、迅速に新たな収益源を構築できます。
-                  </p>
-                </article>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="why-ai-dashi" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="flex flex-col items-center gap-12">
-            <div className="w-full text-center">
-              <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
-                なぜ、AIDashiが必要なのか？：自社AI化の壁
-              </h2>
-              <p className="mx-auto mt-5 max-w-[914px] text-base leading-6 text-slate-500">
-                SaaSベンダーやWebサービス企業が自社でAI化を進める際、以下のような課題に直面します。
-              </p>
-            </div>
-
-            <div className="grid w-full gap-4 lg:grid-cols-3 lg:gap-4">
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
-                  <Users className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">人材不足</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  AI専門家の採用は困難かつ高コスト
-                </p>
-                <div className="mt-5 border-t border-black/6 pt-4">
-                  <p className="text-[20px] font-semibold leading-7 tracking-[-0.02em] text-slate-950">
-                    → プロジェクトに着手できない
-                  </p>
-                </div>
-              </article>
-
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
-                  <BookOpen className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">知識不足</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  最新AI技術のキャッチアップが追いつかない
-                </p>
-                <div className="mt-5 border-t border-black/6 pt-4">
-                  <p className="text-[20px] font-semibold leading-7 tracking-[-0.02em] text-slate-950">
-                    → 間違った技術選定
-                  </p>
-                </div>
-              </article>
-
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
-                  <Database className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">データ準備</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  学習・テストデータの整備に膨大な工数
-                </p>
-                <div className="mt-5 border-t border-black/6 pt-4">
-                  <p className="text-[20px] font-semibold leading-7 tracking-[-0.02em] text-slate-950">
-                    → 開発期間の長期化
-                  </p>
-                </div>
-              </article>
-
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
-                  <ShieldCheck className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">セキュリティ</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  企業向けAIに必須のガバナンス・アクセス管理
-                </p>
-                <div className="mt-5 border-t border-black/6 pt-4">
-                  <p className="text-[20px] font-semibold leading-7 tracking-[-0.02em] text-slate-950">
-                    → 導入のハードルが高い
-                  </p>
-                </div>
-              </article>
-
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
-                  <AlertTriangle className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">ハルシネーション</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  業務利用には致命的
-                </p>
-                <div className="mt-5 border-t border-black/6 pt-4">
-                  <p className="text-[20px] font-semibold leading-7 tracking-[-0.02em] text-slate-950">
-                    → 信頼性が担保できない
-                  </p>
-                </div>
-              </article>
-
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
-                  <Settings className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">運用負荷</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  リリース後の保守・改善に継続的なリソースが必要
-                </p>
-                <div className="mt-5 border-t border-black/6 pt-4">
-                  <p className="text-[20px] font-semibold leading-7 tracking-[-0.02em] text-slate-950">
-                    → 本業が圧迫される
-                  </p>
-                </div>
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="ai-dashi-comparison" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="w-full">
-            <div className="text-center">
-              <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
-                AI Dashiと自社開発の比較
-              </h2>
-              <p className="mx-auto mt-5 max-w-[760px] text-base leading-6 text-slate-500">
-                AI Dashiなら、開発期間・コスト・専門人材の壁をまとめて解消できます。
-              </p>
-            </div>
-
-            <div className="mx-auto mt-12 max-w-[980px] overflow-hidden rounded-[1.8rem] border border-black/6 bg-white shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
-              <div className="grid w-full grid-cols-[120px_minmax(0,1fr)_120px] border-b border-black/6 bg-[#fafbfc] md:grid-cols-[180px_minmax(0,1fr)_180px] lg:grid-cols-[220px_minmax(0,1fr)_220px]">
-                <div className="border-r border-black/6 bg-[#fafbfc] px-4 py-6" />
-                <div className="flex items-center justify-center border-r border-black/6 px-4 py-6 text-center">
-                  <div className="flex max-w-fit flex-col items-center justify-center text-center">
-                    <p className="text-[28px] font-semibold leading-8 tracking-[-0.04em] text-slate-950">AI Dashi活用</p>
-                    <Image
-                      src="/header-assets/stage-logo.svg"
-                      alt="QueryPie AI"
-                      width={148}
-                      height={28}
-                      className="mt-1.5 h-4.5 w-auto"
-                    />
+                  <div className="inline-flex rounded-full bg-[#eef2f7] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-[#2f3a49]">
+                    事業成長の加速
                   </div>
                 </div>
-                <div className="flex items-center justify-center px-4 py-6 text-center">
+                <h3 className="mt-5 text-[20px] font-semibold leading-7 tracking-[-0.045em] text-slate-950">
+                  <span className="text-[#ED602E]">タイム・トゥ・マーケット</span>を最速化し、新たな収益源へ
+                </h3>
+                <p className="mt-4 text-sm leading-7 text-slate-600">
+                  フルスクラッチなら1年以上かかるエンタープライズ水準のセキュアなAI基盤を、最短1ヶ月で市場投入。単価向上（アップセル）や新プランの立ち上げを加速します。
+                </p>
+              </article>
+            </RevealOnScroll>
+
+            <RevealOnScroll className="w-full max-w-[820px]" variant="up" delayMs={220}>
+              <ZoomableFigure
+                src="/solutions/ai-dashi/value-diagram.svg"
+                alt="AI Dashi の3つの価値を示す図解"
+                caption=""
+                sizes="(min-width: 1024px) 680px, 100vw"
+              />
+            </RevealOnScroll>
+
+          </div>
+        </div>
+      </section>
+
+      <section id="why-ai-dashi" className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-[1200px]">
+          <div className="flex flex-col items-center gap-12">
+            <RevealOnScroll variant="up" className="w-full max-w-[920px] text-center">
+              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+                ゼロからの自社AI化を阻む、3つの致命的リスク
+              </h2>
+              <p className="mx-auto mt-5 max-w-[710px] text-left text-base leading-7 text-slate-500">
+                LLMのAPIを叩くだけなら簡単ですが、それを「商用レベルのSaaS」として実装しようとすると、多くのプロジェクトが以下の壁に直面し頓挫します。
+              </p>
+            </RevealOnScroll>
+
+            <RevealOnScroll className="grid w-full gap-4 lg:grid-cols-3 lg:gap-4" variant="up" delayMs={120}>
+              {aiWallCards.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <article key={item.title} className="flex h-full flex-col rounded-[1.8rem] border border-black/6 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-md shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="mt-5 text-[22px] font-semibold leading-8 tracking-[-0.03em] text-slate-950">
+                      {item.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">{item.body}</p>
+                  </article>
+                );
+              })}
+            </RevealOnScroll>
+          </div>
+        </div>
+      </section>
+
+      <section id="enterprise-ready" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-[1200px]">
+          <div className="flex flex-col items-center gap-12">
+            <RevealOnScroll variant="up" className="w-full max-w-[900px] text-center">
+              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+                LLMを繋ぐだけでは、
+                <br />
+                エンタープライズ顧客には売れない
+              </h2>
+              <p className="mx-auto mt-5 max-w-[780px] text-left text-base leading-7 text-slate-500">
+                AI機能を実装できても、大企業が求める厳しいセキュリティ要件を満たさなければ、導入審査で弾かれます。
+                QueryPie AIPは、これらの要件をあらかじめクリアしたAI基盤です。
+              </p>
+            </RevealOnScroll>
+
+            <RevealOnScroll className="grid w-full gap-4 lg:grid-cols-3" variant="up" delayMs={120}>
+              {enterpriseReadyItems.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <article
+                    key={item.title}
+                    className="flex h-full flex-col rounded-[1.8rem] border border-slate-200/80 bg-white p-6 shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md"
+                  >
+                    <div className="flex h-14 w-14 items-center justify-center rounded-[16px] border border-slate-200 bg-[#f6f8fb] text-[#2f3a49] shadow-[0_16px_34px_-24px_rgba(15,23,42,0.18)]">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <h3 className="mt-5 text-[22px] font-semibold leading-8 tracking-[-0.03em] text-slate-950">
+                      {item.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">{item.body}</p>
+                  </article>
+                );
+              })}
+            </RevealOnScroll>
+          </div>
+        </div>
+      </section>
+
+      <section id="ai-dashi-comparison" className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-[1200px]">
+          <div className="w-full">
+            <RevealOnScroll variant="up" className="mx-auto max-w-[920px] text-center">
+              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+                QueryPie AIPと自社開発の比較
+              </h2>
+              <p className="mx-auto mt-5 max-w-[760px] text-left text-base leading-7 text-slate-500">
+                ゼロから要件を満たす基盤を構築するフルスクラッチ（自社開発）とQueryPie AIPの比較です。AIPを活用すれば、開発期間・初期コスト・運用リスクのすべてを圧倒的に圧縮し、最短で市場へ展開できます。
+              </p>
+            </RevealOnScroll>
+
+            <RevealOnScroll className="mx-auto mt-12 max-w-[1000px] overflow-hidden rounded-[1.8rem] border border-black/6 bg-white shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)]" variant="up" delayMs={120}>
+            <div className="overflow-hidden rounded-[1.8rem] bg-white">
+              <div className="grid w-full grid-cols-[118px_1fr_1fr] bg-white md:grid-cols-[150px_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[180px_minmax(0,1.02fr)_minmax(0,0.98fr)]">
+                <div className="border-r border-b border-black/5 bg-white px-4 py-6" />
+                <div className="relative flex items-center justify-center overflow-hidden bg-[#f8fafc] px-4 py-7 text-center shadow-[inset_0_0_0_1px_rgba(237,96,46,0.05)]">
+                  <span className="pointer-events-none absolute inset-y-0 left-0 w-[3px] bg-[linear-gradient(180deg,#E45A2A_0%,#ED602E_45%,#F08A3C_100%)]" />
+                  <span className="pointer-events-none absolute inset-y-0 right-0 w-[3px] bg-[linear-gradient(180deg,#E45A2A_0%,#ED602E_45%,#F08A3C_100%)]" />
+                  <span className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-[linear-gradient(90deg,#E45A2A_0%,#ED602E_45%,#F08A3C_100%)]" />
+                  <span className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-black/5" />
+                  <div className="relative z-[1] flex items-start justify-center gap-3">
+                    <div className="mt-0.5 inline-flex h-fit rounded-full bg-[#ED602E] px-3 py-1 text-[11px] font-semibold tracking-[0.14em] text-white">
+                      おすすめ
+                    </div>
+                    <div className="flex max-w-fit flex-col items-center justify-center text-center">
+                      <p className="text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">QueryPie AIP導入</p>
+                      <p className="mt-1 text-[13px] font-medium leading-5 text-slate-600">組み込みAI基盤</p>
+                    </div>
+                    <div className="invisible inline-flex h-fit rounded-full px-3 py-1 text-[11px] font-semibold tracking-[0.14em]">
+                      おすすめ
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center border-b border-black/5 bg-white px-4 py-7 text-center">
                   <div className="flex max-w-fit flex-col items-center justify-center text-center">
-                    <p className="text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">自社開発</p>
+                    <p className="text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-700">自社開発</p>
                     <p className="mt-1 text-[13px] font-medium leading-5 text-slate-500">フルスクラッチ</p>
                   </div>
                 </div>
@@ -426,160 +506,276 @@ export default function AIDashiPage() {
               {comparisonRows.map((row, index) => (
                 <div
                   key={row.label}
-                  className={`grid w-full grid-cols-[120px_minmax(0,1fr)_120px] md:grid-cols-[180px_minmax(0,1fr)_180px] lg:grid-cols-[220px_minmax(0,1fr)_220px] ${
-                    index < comparisonRows.length - 1 ? "border-b border-black/6" : ""
-                  }`}
+                  className="grid w-full grid-cols-[118px_1fr_1fr] md:grid-cols-[150px_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[180px_minmax(0,1.02fr)_minmax(0,0.98fr)]"
                 >
-                  <div className="flex items-center border-r border-black/6 bg-[#fafbfc] px-4 py-5 text-sm font-semibold leading-6 tracking-[-0.01em] text-slate-950 md:px-5 md:text-base lg:px-6">
+                  <div className={`flex items-center whitespace-nowrap border-r border-black/5 bg-white px-3 py-5 text-[12px] font-semibold leading-5 tracking-[-0.01em] text-slate-700 md:px-4 md:text-[12px] lg:px-5 lg:text-[14px] ${index < comparisonRows.length - 1 ? "border-b" : ""}`}>
                     {row.label}
                   </div>
 
-                  <div className="flex min-h-[104px] items-center justify-center border-r border-black/6 px-4 py-5 text-center md:px-5 lg:px-6">
-                    <div className="flex max-w-fit flex-col items-center justify-center gap-1 text-center">
-                      <p className="text-[18px] font-semibold leading-6 text-slate-950">{row.left[0]}</p>
-                      <p className="text-[15px] font-semibold leading-6 text-slate-950 md:text-base">
+                  <div className={`relative flex min-h-[118px] items-center justify-center overflow-hidden bg-[#f8fafc] px-4 py-5 text-center md:px-5 lg:px-6`}>
+                    <span className="pointer-events-none absolute inset-y-0 left-0 w-[3px] bg-[linear-gradient(180deg,#E45A2A_0%,#ED602E_45%,#F08A3C_100%)]" />
+                    <span className="pointer-events-none absolute inset-y-0 right-0 w-[3px] bg-[linear-gradient(180deg,#E45A2A_0%,#ED602E_45%,#F08A3C_100%)]" />
+                    {index === comparisonRows.length - 1 ? (
+                      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] bg-[linear-gradient(90deg,#E45A2A_0%,#ED602E_45%,#F08A3C_100%)]" />
+                    ) : (
+                      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-black/5" />
+                    )}
+                    <div className="relative z-[1] flex max-w-fit flex-col items-center justify-center gap-2 text-center">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#ED602E] shadow-[0_10px_24px_-18px_rgba(15,23,42,0.28)]">
+                        <Check className="h-4 w-4 stroke-[2.5]" />
+                      </div>
+                    <p className="text-[15px] font-bold leading-6 text-slate-950 md:text-base">
+                        {row.left[0]}
+                      </p>
+                      <p className="mx-auto max-w-[380px] text-[11px] font-medium leading-5 text-slate-700 md:text-[12px]">
                         {row.left[1]}
                       </p>
-                    {row.left[2] ? (
-                        <p className="mx-auto max-w-[380px] text-[12px] font-semibold leading-5 text-slate-950 md:text-[13px]">
-                          {row.left[2]}
-                        </p>
-                    ) : null}
                     </div>
                   </div>
 
-                  <div className="flex min-h-[104px] items-center justify-center px-4 py-5 text-center md:px-5 lg:px-6">
-                    <div className="flex max-w-fit flex-col items-center justify-center gap-1 text-center">
-                      <p className="text-[18px] font-semibold leading-6 text-slate-500">{row.right[0]}</p>
-                      <p className="text-base font-medium leading-6 text-slate-600">{row.right[1]}</p>
+                  <div className={`flex min-h-[118px] items-center justify-center bg-white px-4 py-5 text-center md:px-5 lg:px-6 ${index < comparisonRows.length - 1 ? "border-b border-black/5" : ""}`}>
+                    <div className="flex max-w-fit flex-col items-center justify-center gap-2 text-center">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-[0_10px_24px_-18px_rgba(15,23,42,0.12)]">
+                        <X className="h-4 w-4 stroke-[2.5]" />
+                      </div>
+                      <p className="text-[15px] font-semibold leading-6 text-slate-700 md:text-base">{row.right[0]}</p>
+                      <p className="max-w-[340px] text-[11px] font-medium leading-5 text-slate-500 md:text-[12px]">
+                        {row.right[1]}
+                      </p>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
+            </RevealOnScroll>
 
+            <RevealOnScroll variant="up" delayMs={220}>
             <p className="mt-4 text-center text-xs leading-5 text-slate-500">
               ※記載の期間・費用は標準的な導入ケースの目安です。要件により変動します。
             </p>
+            </RevealOnScroll>
 
-            <div className="mx-auto mt-6 max-w-[980px] rounded-[1.2rem] border border-black/6 bg-[#f9f9fb] px-6 py-5 text-center">
+            <RevealOnScroll className="mx-auto mt-6 max-w-[980px] border-t border-slate-200 px-2 pt-5 text-center" variant="up" delayMs={280}>
+            <div className="mx-auto max-w-[820px] text-center">
               <p className="text-base leading-6 text-slate-600">
                 競合他社がAI化を進める中、開発に半年以上かけていては市場機会を逃します。
               </p>
               <p className="mt-2 text-[18px] font-semibold leading-7 text-slate-950">
-                AI Dashiを活用すれば、最短1ヶ月で独自のAIサービスをリリースできます。
+                QueryPie AIPを活用すれば、
+                <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
+                  最短1ヶ月で
+                </span>
+                独自のAIサービスをリリースできます。
               </p>
             </div>
+            </RevealOnScroll>
           </div>
         </div>
       </section>
 
-      <section id="ai-dashi-support" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
+      <section
+        id="ai-dashi-support"
+        className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24"
+      >
         <div className="mx-auto max-w-[1200px]">
-          <div className="mx-auto max-w-[1200px]">
-            <div className="text-center">
-              <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
-                AI Dashiの包括的サポート体制
+          <div className="mx-auto max-w-[1120px]">
+            <RevealOnScroll variant="up" className="mx-auto max-w-[920px] text-center">
+              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+                QueryPie AIの包括的サポート体制
               </h2>
-              <p className="mx-auto mt-5 max-w-[760px] text-base leading-6 text-slate-500">
-                AI Dashiは、単なるツールの提供ではありません。貴社が自社ブランドのAIサービスを確実かつ迅速にリリースし、安定して運用し続けるために必要なすべての要素を、QueryPie AIがワンストップで提供します。
+              <p className="mx-auto mt-5 max-w-[740px] text-left text-base leading-7 text-slate-500">
+                単なるツールの提供ではありません。貴社が自社ブランドのAIサービスを確実かつ迅速にリリースし、安定して運用し続けるために必要なすべての要素を、QueryPie AIがワンストップで提供します。
               </p>
-            </div>
+            </RevealOnScroll>
 
-            <div className="mx-auto mt-12 grid max-w-[1200px] gap-4 lg:grid-cols-3">
+            <RevealOnScroll className="mx-auto mt-10 flex max-w-[1120px] flex-col gap-3" variant="up" delayMs={120}>
               {supportItems.map((item, index) => (
                 <article
                   key={item.number}
-                  className="flex min-h-[256px] flex-col rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]"
+                  className="rounded-[1.45rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.94)_100%)] px-4 py-3.5 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.14)] ring-1 ring-white/80 transition duration-300 hover:-translate-y-1 hover:shadow-md md:px-5 md:py-4"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
-                    {index === 0 && <Blocks className="h-5 w-5" />}
-                    {index === 1 && <Users className="h-5 w-5" />}
-                    {index === 2 && <ShieldCheck className="h-5 w-5" />}
-                  </div>
-                  <h3 className="mt-4 text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950 md:text-2xl md:leading-8 md:tracking-[-0.04em]">
-                    {item.title}
-                  </h3>
-                  <div className="mt-4 border-t border-black/6 pt-4">
-                    <p className="text-sm leading-7 text-slate-600">{item.body}</p>
+                  <div className="flex flex-col gap-3 md:grid md:grid-cols-[minmax(0,500px)_minmax(0,1fr)] md:items-start md:gap-4">
+                    <div className="flex items-start gap-3.5">
+                      <div className="flex h-10 w-10 flex-none items-center justify-center rounded-[12px] bg-[linear-gradient(180deg,#f3f6fa_0%,#e9eef5_100%)] text-[#15181d] md:h-11 md:w-11">
+                        {index === 0 && <Blocks className="h-5 w-5" />}
+                        {index === 1 && <Users className="h-5 w-5" />}
+                        {index === 2 && <ShieldCheck className="h-5 w-5" />}
+                      </div>
+                      <div className="min-w-0 flex-1 pt-0.5">
+                        <h3 className="text-[19px] font-semibold leading-7 tracking-[-0.03em] text-slate-950 md:text-[21px] md:leading-7 md:tracking-[-0.04em] lg:whitespace-nowrap">
+                          {item.title}
+                        </h3>
+                        <p className="mt-1.5 text-[13px] font-medium leading-5 text-slate-700 lg:whitespace-nowrap">
+                          {item.intro}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="border-t border-slate-200/80 pt-3 md:border-t-0 md:border-l md:pl-4 md:pt-0">
+                      <p className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] text-slate-500">
+                        提供内容
+                      </p>
+                      <ul className="mt-2 grid gap-1.5 text-sm text-slate-600">
+                        {item.points.map((point) => (
+                          <li
+                            key={point}
+                            className="flex items-start gap-2 rounded-[0.95rem] bg-slate-50/90 px-3 py-2 leading-5.5"
+                          >
+                            <span className="mt-[0.45rem] h-1.5 w-1.5 flex-none rounded-full bg-[#ED602E]/70" />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </article>
               ))}
-            </div>
+            </RevealOnScroll>
           </div>
         </div>
       </section>
 
-      <section id="ai-dashi-flow" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
+      <section id="ai-dashi-flow" className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-[1200px]">
-          <div className="mx-auto flex max-w-[1200px] flex-col gap-8 lg:flex-row lg:items-start lg:gap-8">
-            <div className="w-full lg:max-w-[520px]">
-              <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
-                リリースまでの導入フロー
+          <div className="mx-auto flex max-w-[1120px] flex-col items-center gap-10">
+            <RevealOnScroll variant="up" className="w-full max-w-[920px] text-center">
+              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+                最速で市場へ
+                <br />
+                市場機会を逃さない、
+                <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
+                  圧倒的な導入スピード
+                </span>
               </h2>
-              <p className="mt-5 max-w-[520px] text-base leading-6 text-slate-500">
-                ヒアリングから本番リリースまで、専門エンジニア（FDE）が貴社と伴走し、最短1〜3ヶ月でのスピーディな立ち上げを実現します。
+              <p className="mx-auto mt-5 max-w-[760px] text-left text-base leading-7 text-slate-500">
+                ゼロからAIを自社開発し、試行錯誤で時間を浪費する必要はありません。当社の専門エンジニア（FDE）が要件定義から本番公開まで一気通貫で伴走し、競合に先んじたスピーディな立ち上げを実現します。
               </p>
-            </div>
+            </RevealOnScroll>
 
-            <div className="w-full space-y-4 lg:max-w-[568px]">
+            <RevealOnScroll className="grid w-full gap-4 lg:grid-cols-2" variant="up" delayMs={120}>
               {releaseFlow.map((item) => (
                 <article
                   key={item.step}
-                  className="rounded-[1.8rem] border border-black/6 bg-white p-6 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]"
+                  className="flex h-full flex-col rounded-[1.6rem] border border-black/6 bg-white p-5 shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md lg:p-6"
                 >
-                  <div className="inline-flex rounded-full bg-[#15181d] px-3 py-1 text-xs font-semibold text-white">
-                    {item.step}
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="inline-flex rounded-full border border-[#2f3a49]/20 bg-[#2f3a49] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-white shadow-[0_12px_24px_-18px_rgba(15,23,42,0.38)]">
+                      {item.step}
+                    </div>
+                    <div className="inline-flex rounded-full bg-[#fff4ee] px-3 py-1 text-[12px] font-semibold text-[#b85733]">
+                      {item.period}
+                    </div>
                   </div>
-                  <p className="mt-4 text-sm font-semibold leading-6 text-slate-500">{item.period}</p>
-                  <h3 className="mt-3 text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950 md:text-2xl md:leading-8 md:tracking-[-0.04em]">
+                  <h3 className="mt-5 text-[21px] font-semibold leading-7 tracking-[-0.03em] text-slate-950 md:text-[22px] md:leading-8 md:tracking-[-0.04em]">
                     {item.title}
                   </h3>
-                  <div className="mt-5 border-t border-black/6 pt-5">
+                  <div className="mt-4 flex-1 border-t border-black/6 pt-4">
                     <p className="text-sm leading-7 text-slate-600">{item.body}</p>
                   </div>
                 </article>
               ))}
+            </RevealOnScroll>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-[1120px]">
+          <div className="rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(248,250,252,0.98)_0%,rgba(255,255,255,0.98)_100%)] px-6 py-8 shadow-[0_24px_70px_-56px_rgba(15,23,42,0.14)] lg:px-8 lg:py-10">
+            <div className="flex flex-col items-center gap-10">
+              <RevealOnScroll variant="up" className="w-full max-w-[860px] text-center">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748b]">White Paper</p>
+                <h2 className="mt-2 text-[24px] font-semibold leading-[1.3] tracking-[-0.03em] text-slate-950 sm:text-[30px]">
+                  SaaS事業責任者向けホワイトペーパー
+                </h2>
+                <p className="mx-auto mt-4 max-w-[760px] text-left text-base leading-7 text-slate-500">
+                  AIエージェント時代に、SaaS企業が取るべき戦略をまとめた資料を無料でダウンロードいただけます。
+                </p>
+              </RevealOnScroll>
+
+              <RevealOnScroll
+                variant="up"
+                delayMs={120}
+                className="w-full max-w-[980px]"
+              >
+                <Link
+                  href="https://www.querypie.ai/ja/features/documentation/white-paper/30/saas-end-or-evolution"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group grid overflow-hidden rounded-[1.8rem] border border-black/6 bg-white shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md md:grid-cols-[280px_minmax(0,1fr)]"
+                >
+                  <div className="relative min-h-[260px] bg-[#f5f7fb] p-6 md:min-h-full">
+                    <Image
+                      src="/white-paper/wp-thumb-30-jp.png"
+                      alt="SaaSの終焉か、進化か ホワイトペーパー表紙"
+                      fill
+                      className="object-contain p-6"
+                      sizes="(min-width: 768px) 280px, 100vw"
+                    />
+                  </div>
+
+                  <div className="flex flex-col justify-between gap-5 px-6 py-6 md:px-8 md:py-8">
+                    <div>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="inline-flex rounded-full bg-[#eef2f7] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-[#2f3a49]">
+                          プロダクト責任者向け
+                        </span>
+                        <span className="inline-flex rounded-full bg-[#eef2f7] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-[#2f3a49]">
+                          SaaS戦略
+                        </span>
+                        <span className="inline-flex rounded-full bg-[#eef2f7] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-[#2f3a49]">
+                          組み込みAI
+                        </span>
+                      </div>
+
+                      <h3 className="mt-5 text-[24px] font-semibold leading-[1.4] tracking-[-0.03em] text-slate-950">
+                        SaaSの終焉か、進化か 〜AIエージェント時代にSaaS企業が取るべき戦略〜
+                      </h3>
+                      <p className="mt-4 text-[15px] leading-7 text-slate-600">
+                        本ホワイトペーパーは、AIエージェントがSaaSビジネスに与える影響を分析し、SaaS企業が取るべき戦略と、QueryPie AI自身のSaaSベンダーからAI Native企業への変革の実録をお伝えします。
+                      </p>
+                    </div>
+
+                    <div className="inline-flex items-center gap-2 text-sm font-semibold text-[#ED602E] transition group-hover:gap-2.5">
+                      無料ダウンロード
+                      <ArrowRight className="h-4 w-4" />
+                    </div>
+                  </div>
+                </Link>
+              </RevealOnScroll>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="ai-dashi-faq" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="flex flex-col items-center gap-12">
-            <div className="w-full text-center">
-              <h2 className="text-4xl font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
-                よくある質問
-              </h2>
-            </div>
-
-            <AIDashiFaq />
-          </div>
-        </div>
-      </section>
-
-      <section id="ai-dashi-cta" className="w-full bg-[#f9f9fb] px-6 py-16 text-center lg:px-10 lg:py-20">
-        <div className="mx-auto flex max-w-[760px] flex-col items-center gap-8">
-          <div className="flex flex-col items-center gap-4">
-            <h2 className="text-4xl font-semibold leading-[1.05] tracking-[-0.06em] text-[#15181d] sm:text-[54px] sm:leading-[60px]">
-              自社プロダクトの「AI化」を、
+      <section id="ai-dashi-cta" className="w-full bg-[#f9f9fb] px-6 py-16 lg:px-10 lg:py-20">
+        <div className="mx-auto flex max-w-[920px] flex-col items-center gap-8">
+          <RevealOnScroll variant="up" className="flex flex-col items-center gap-4 text-center">
+            <h2 className="text-[36px] font-semibold leading-[1.14] tracking-[-0.05em] text-[#15181d] sm:text-[46px] sm:leading-[58px]">
+              <span className="inline-block whitespace-nowrap">
+                自社サービスの
+                <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
+                  AI化
+                </span>
+                を、
+              </span>
               <br />
               一緒にデザインしませんか？
             </h2>
-            <p className="max-w-[700px] text-base leading-6 text-slate-500">
-              複雑な手動操作をAIに任せたい。顧客の要望に応えるAI機能をスピーディに実装したい。AI Dashiを活用した具体的な連携アイデアからお見積もりまで、まずはお気軽にご相談ください。
+            <p className="max-w-[780px] text-base leading-7 text-slate-500">
+              複雑な手動操作をAIに任せたい。顧客の要望に応えるAI機能をスピーディに実装したい。
+              <br />
+              QueryPie AIPを活用した具体的な連携アイデアからお見積もりまで、まずはお気軽にご相談ください。
             </p>
-          </div>
+          </RevealOnScroll>
 
-          <div className="flex flex-col items-center gap-4">
+          <RevealOnScroll variant="up" delayMs={120} className="flex flex-col items-center gap-4">
             <Link
               href="/#contact"
               className="inline-flex max-w-full items-center justify-center rounded-[8px] bg-[#15181d] px-4 py-2.5 text-center text-sm font-semibold leading-5 text-white transition hover:bg-[#0f1216] sm:whitespace-nowrap sm:text-base"
             >
               無料で導入相談・お見積もりをする
             </Link>
-          </div>
+          </RevealOnScroll>
         </div>
       </section>
 
