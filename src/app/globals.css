@@ -140,7 +140,19 @@
   }
   body {
     @apply bg-background text-foreground;
+    cursor: default;
     text-rendering: optimizeLegibility;
+  }
+  a[href],
+  button:not(:disabled),
+  summary,
+  [role="button"] {
+    cursor: pointer;
+  }
+  input,
+  textarea,
+  [contenteditable="true"] {
+    cursor: text;
   }
   ::selection {
     background: rgba(190, 242, 100, 0.85);
