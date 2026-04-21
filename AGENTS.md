@@ -65,6 +65,8 @@ At the start of every user turn in this repository:
 - Keep pages thin: route files should compose content and shared sections, while reusable logic stays in `src/lib/` or `src/components/`.
 - Use the existing stack and conventions already present in the repo.
 - Notify the user before any non-text change if the request did not explicitly include it.
+- Apply cursor semantics consistently in UX work: interactive controls such as buttons, clickable cards, disclosure triggers, and menu toggles should show `cursor-pointer`, while static text, headings, and other non-interactive copy should keep the default arrow cursor unless editing or text selection is intentional.
+- When a UI surface mixes controls and text, verify the cursor in the browser so hover behavior matches the interaction model (pointer for controls, arrow for titles and body copy).
 
 ## Verification
 

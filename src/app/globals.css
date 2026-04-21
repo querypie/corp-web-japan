@@ -142,6 +142,9 @@
     @apply bg-background text-foreground;
     text-rendering: optimizeLegibility;
   }
+  main section:first-of-type h1 {
+    cursor: default;
+  }
   ::selection {
     background: rgba(190, 242, 100, 0.85);
     color: #0f172a;

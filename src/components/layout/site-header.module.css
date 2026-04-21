@@ -74,6 +74,14 @@
   transition: opacity 0.2s, color 0.2s;
 }
 
+.navTrigger {
+  cursor: pointer;
+}
+
+.navStandalone {
+  cursor: pointer;
+}
+
 .navTrigger:hover,
 .navStandalone:hover {
   opacity: 0.6;
@@ -84,6 +92,7 @@
   inset: calc(var(--gnb-height) + var(--gnb-panel-height)) 0 0;
   background: rgba(0, 0, 0, 0.4);
   z-index: 999;
+  cursor: pointer;
 }
 
 .navDropdown {
