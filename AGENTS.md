@@ -12,9 +12,11 @@
 - `npm run build` — create the production build.
 - `npm run start` — serve the built app locally.
 - `npm run lint` — run ESLint.
-- `npx tsc --noEmit` — run strict TypeScript checks.
+- `npm run typecheck` — run strict TypeScript checks.
+- `npm run test` — run Node-based repository tests.
+- `npm run test:ci` — run lint, typecheck, and tests for CI/PR verification.
 
-Run `npm run lint && npx tsc --noEmit` before opening a PR when applicable.
+Run `npm run test:ci` before opening a PR when applicable.
 
 ## Coding Style & Naming Conventions
 - Use TypeScript, React, and Tailwind conventions already present in the repo.
@@ -69,7 +71,7 @@ If the user says they want to open a PR, perform the full Git workflow automatic
 
 1. create a new branch
 2. make the requested changes
-3. run the relevant checks (`npm run lint && npx tsc --noEmit`)
+3. run the relevant checks (`npm run test:ci`)
 4. create a commit
 5. push the branch
 6. open a pull request
