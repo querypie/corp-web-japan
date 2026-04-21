@@ -1,0 +1,8 @@
+.next
+node_modules
+.git
+.omx
+.tmp-play
+test-results
+playwright-report
+*.log

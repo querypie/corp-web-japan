@@ -23,7 +23,6 @@
 # misc
 .DS_Store
 *.pem
-.omx
 .playwright-cli
 output
 querypie-web-v2
@@ -49,3 +48,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.omx/
+.tmp/

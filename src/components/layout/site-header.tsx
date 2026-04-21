@@ -23,15 +23,18 @@ const navItems: readonly NavItem[] = [
     label: "サービス",
     description: "QueryPie AIのコアサービス",
     children: [
-      { label: "AI Platform (AIP)", href: "#" },
-      { label: "Access Control Platform (ACP)", href: "#" },
-      { label: "Forward Deployed Engineer Service (FDES)", href: "#" },
+      { label: "AIプラットフォーム｜AIP", href: "#" },
+      { label: "アクセス制御プラットフォーム｜ACP", href: "#" },
+      { label: "AI専門家伴走支援｜FDE", href: "#" },
     ],
   },
   {
     label: "ソリューション",
     description: "課題に合わせたAIソリューション",
-    children: [{ label: "AI 出汁", href: "/solutions/ai-dashi" }],
+    children: [
+      { label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew" },
+      { label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi" },
+    ],
   },
   {
     label: "デモ",
@@ -64,10 +67,6 @@ const navItems: readonly NavItem[] = [
       { label: "ニュース", href: "#" },
       { label: "お問い合わせ", href: "#contact" },
     ],
-  },
-  {
-    label: "プラン",
-    href: "#",
   },
 ];
 

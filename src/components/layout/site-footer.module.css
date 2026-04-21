@@ -96,6 +96,7 @@
   font-size: 14px;
   font-weight: 400;
   transition: color 0.15s ease;
+  white-space: nowrap;
 }
 
 .linkColumn a:hover {
@@ -144,6 +145,6 @@
 
 @media (min-width: 992px) {
   .footerLinks {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: minmax(220px, 1.35fr) minmax(210px, 1.25fr) minmax(90px, 0.7fr) minmax(130px, 0.9fr) minmax(120px, 0.8fr);
   }
 }

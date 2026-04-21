@@ -1,112 +1,93 @@
-"use client";
-
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-
-type FeatureItem = {
-  label: string;
-  heading: string;
-  description: string;
-  cta: string;
-  tags: readonly string[];
-  panelTitle: string;
-  panelSubtitle: string;
-  cards: readonly string[];
-};
+import Image from "next/image";
+import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 
 type FeatureShowcaseProps = {
-  items: readonly FeatureItem[];
+  intro: {
+    title: string;
+    body: string;
+    imageSrc?: string;
+    imageAlt?: string;
+  };
 };
 
-export function FeatureShowcase({ items }: FeatureShowcaseProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const activeItem = items[activeIndex];
+function renderEmphasizedText(text: string) {
+  return text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return (
+        <strong key={`${part}-${index}`} className="font-semibold text-[#163A7A]">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+
+    return <span key={`${part}-${index}`}>{part}</span>;
+  });
+}
+
+function renderHighlightedKeyword(line: string, keyword: string) {
+  if (!line.includes(keyword)) {
+    return line;
+  }
+
+  const [before, after] = line.split(keyword);
 
   return (
+    <>
+      {before}
+      <span className="bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_52%,#2563EB_100%)] bg-clip-text text-transparent">
+        {keyword}
+      </span>
+      {after}
+    </>
+  );
+}
+
+export function FeatureShowcase({ intro }: FeatureShowcaseProps) {
+  return (
     <div className="mx-auto mt-8 max-w-[1120px]">
-      <div className="flex flex-wrap items-center justify-center gap-[10px]">
-        {items.map((item, index) => (
-          <Button
-            key={item.label}
-            type="button"
-            variant="ghost"
-            className={cn(
-              "rounded-[26px] bg-[#f9f9fb] px-8 py-3 text-[15px] font-medium text-[#24292f] hover:bg-[#f9f9fb]",
-              index === activeIndex &&
-                "bg-[#15181d] text-[#f6f6f6] hover:bg-[#15181d] hover:text-[#f6f6f6]",
-            )}
-            onClick={() => setActiveIndex(index)}
-          >
-            {item.label}
-          </Button>
-        ))}
-      </div>
-
-      <div className="mt-8 grid gap-10 lg:grid-cols-[544px_544px] lg:items-start lg:justify-between">
-          <div>
-          <h3 className="max-w-[544px] text-4xl font-medium leading-[60px] tracking-[-0.96px] text-slate-950">
-            {activeItem.heading}
-          </h3>
-          <p className="mt-4 max-w-[544px] text-base leading-6 text-slate-500">{activeItem.description}</p>
-          </div>
-
-          <div className="rounded-[1.8rem] bg-[#f9f9fb] p-6">
-            <div className="overflow-hidden rounded-[1.8rem] border border-black/8 bg-white p-5">
-              <div className="flex items-center justify-between">
-                <div className="h-5 w-32 rounded bg-slate-100" />
-                <div className="h-9 w-20 rounded-full bg-slate-100" />
-              </div>
-
-              <div className="mt-6 flex flex-wrap gap-2">
-                {activeItem.tags.map((tag) => (
-                  <div key={tag} className="h-8 w-20 rounded-full bg-slate-100" />
+      <article className="overflow-visible">
+        <div className="grid gap-8 px-6 py-6 sm:px-8 sm:py-8 lg:grid-cols-[minmax(0,1.08fr)_380px] lg:items-center lg:gap-12">
+          <div className="max-w-[650px]">
+            <RevealOnScroll>
+              <h2 className="max-w-none text-[30px] font-semibold leading-[1.2] tracking-[-0.04em] text-[#101828] sm:text-[42px] sm:leading-[1.2] sm:whitespace-nowrap">
+              {intro.title.split("\n").map((line, index) => (
+                <span
+                  key={`${line}-${index}`}
+                  className={
+                    index === 1
+                      ? "block bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_52%,#2563EB_100%)] bg-clip-text text-transparent"
+                      : "block"
+                  }
+                >
+                  {renderHighlightedKeyword(line, "AI Crew")}
+                </span>
+              ))}
+              </h2>
+            </RevealOnScroll>
+            <RevealOnScroll delayMs={90}>
+              <div className="mt-5 space-y-5 text-[15px] leading-8 text-[#667085]">
+                {intro.body.split("\n\n").map((paragraph, index) => (
+                  <p key={`${paragraph}-${index}`}>{renderEmphasizedText(paragraph)}</p>
                 ))}
               </div>
-
-              <div className="mt-6 grid gap-4 md:grid-cols-[1.15fr_0.85fr]">
-                <div className="rounded-[1.25rem] bg-[#f9f9fb] p-4">
-                  <div className="h-4 w-28 rounded bg-slate-200" />
-                  <div className="mt-5 space-y-4">
-                    {activeItem.cards.map((card, index) => (
-                      <div key={card} className="flex items-center gap-3">
-                        <div className="h-8 w-8 rounded-full bg-slate-200" />
-                        <div className="flex-1">
-                          <div className="h-4 w-[72%] rounded bg-slate-200" />
-                          <div className="mt-2 h-2 rounded-full bg-white">
-                            <div
-                              className="h-2 rounded-full bg-slate-300"
-                              style={{ width: `${68 - index * 12}%` }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="rounded-[1.25rem] bg-[#f9f9fb] p-4">
-                  <div className="h-4 w-24 rounded bg-slate-200" />
-                  <div className="mt-5 rounded-[1rem] bg-white p-4">
-                    <div className="h-3 w-20 rounded bg-slate-100" />
-                    <div className="mt-4 h-10 w-24 rounded bg-slate-100" />
-                    <div className="mt-4 h-2 rounded-full bg-slate-100" />
-                    <div className="mt-6 grid grid-cols-2 gap-3">
-                      <div className="rounded-[1rem] bg-[#f9f9fb] p-3">
-                        <div className="h-3 w-12 rounded bg-slate-100" />
-                        <div className="mt-2 h-5 w-10 rounded bg-slate-100" />
-                      </div>
-                      <div className="rounded-[1rem] bg-[#f9f9fb] p-3">
-                        <div className="h-3 w-12 rounded bg-slate-100" />
-                        <div className="mt-2 h-5 w-10 rounded bg-slate-100" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </RevealOnScroll>
           </div>
-      </div>
+
+          <RevealOnScroll variant="scale" delayMs={120}>
+            <figure className="overflow-hidden rounded-[1.8rem] bg-white shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_28px_90px_-52px_rgba(15,23,42,0.2)] lg:ml-auto lg:w-full lg:max-w-[380px] lg:translate-x-10">
+            <div className="relative aspect-[5/4] bg-[#eef2f6]">
+              <Image
+                src={intro.imageSrc ?? "/images/ai-staff-team.jpg"}
+                alt={intro.imageAlt ?? "AI Crewが既存チームの業務を支えるイメージ"}
+                fill
+                className="object-cover object-[94%_center]"
+                sizes="(min-width: 1024px) 380px, 100vw"
+              />
+            </div>
+            </figure>
+          </RevealOnScroll>
+        </div>
+      </article>
     </div>
   );
 }

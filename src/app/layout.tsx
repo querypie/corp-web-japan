@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AI Staff Japan Website",
-  description:
-    "AI Staffの日本向けランディングサイトです。",
+  title: "QueryPie AI Japan Website",
+  description: "QueryPie AIの日本向けエンタープライズAIソリューションサイトです。",
 };
 
 export default function RootLayout({
@@ -13,8 +12,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className="antialiased">{children}</body>
+    <html lang="ja">
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }
