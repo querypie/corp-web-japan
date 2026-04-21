@@ -1,8 +1,8 @@
 export const topPageContent = {
   metadata: {
-    title: "信頼できるAIが、現場を動かす。｜QueryPie AI",
+    title: "信頼できるAIが、現場を動かす｜QueryPie AI",
     description:
-      "AIは、単にツールを導入することではなく、変革を設計することです。QueryPieは、安全性と運用性を前提にしたAI活用の立ち上がりを支援します。",
+      "QueryPie AIは、社内業務効率化と自社サービスAI化を支援するエンタープライズAI基盤です。安全性と運用性を前提に、AI活用をスモールスタートから実運用・定着まで前に進めます。",
   },
   header: {
     navItems: [

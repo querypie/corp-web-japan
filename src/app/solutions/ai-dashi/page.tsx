@@ -20,8 +20,21 @@ import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { ZoomableFigure } from "@/components/sections/zoomable-figure";
 
 export const metadata: Metadata = {
-  title: "AI Dashi | AI Staff",
-  description: "最高品質のAI基盤を、あなたのプロダクトに、あなたのブランドで組み込むための AI Dashi ソリューションページです。",
+  title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
+  description:
+    "QueryPie AI Dashiは、自社SaaSやWebサービスにエンタープライズ品質のAI基盤を組み込むためのソリューションです。ブランド体験はそのままに、最短でAI搭載サービスへ進化させます。",
+  openGraph: {
+    title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
+    description:
+      "QueryPie AI Dashiは、自社SaaSやWebサービスにエンタープライズ品質のAI基盤を組み込むためのソリューションです。",
+    type: "website",
+  },
+  twitter: {
+    title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
+    description:
+      "QueryPie AI Dashiは、自社SaaSやWebサービスにエンタープライズ品質のAI基盤を組み込むためのソリューションです。",
+    card: "summary_large_image",
+  },
 };
 
 const releaseFlow = [
