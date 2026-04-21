@@ -1,46 +1,112 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
-- `src/app/` contains routes and API endpoints.
-- `src/components/` contains reusable layout, section, and UI components.
-- `src/content/` should be preferred for structured copy changes instead of inline strings.
-- `src/lib/` contains shared logic and helpers.
-- `tests/` contains verification scripts and tests.
+This file is the working guide for AI agents such as Codex, Claude Code, and similar tools.
+Humans can read it too, but it exists to support agent execution, safety, and consistency.
 
-## Build, Test, and Development Commands
-- `npm run dev` — start the local Next.js development server.
-- `npm run build` — create the production build.
-- `npm run start` — serve the built app locally.
-- `npm run lint` — run ESLint.
-- `npm run typecheck` — run strict TypeScript checks.
-- `npm run test` — run Node-based repository tests.
-- `npm run test:ci` — run lint, typecheck, and tests for CI/PR verification.
+## Shared principles
 
-Run `npm run test:ci` before opening a PR when applicable.
+These principles apply to both humans and AI agents.
 
-## Coding Style & Naming Conventions
-- Use TypeScript, React, and Tailwind conventions already present in the repo.
-- Follow the surrounding file style and existing component patterns.
-- Use `PascalCase` for React components, `camelCase` for helpers/constants, and kebab-case for route folders.
+- Keep changes small, focused, and easy to review.
+- Prefer structured content in `src/content/` over inline copy when possible.
+- Keep docs, implementation, and tests aligned.
+- Verify changes with the lightest command that proves correctness.
+- If something is ambiguous, choose the smallest change that satisfies the request.
+
+## Before you work
+
+1. Read `README.md` for project context.
+2. Identify whether the task is copy, layout, UI, or implementation work.
+3. Check whether a relevant Skill applies, and load it before doing the work.
+4. Confirm the active branch and worktree before editing.
+5. Prefer a new worktree for branch-isolated work.
+
+## Skill discovery
+
+At the start of every user turn in this repository:
+
+1. Discover available skills from these sources, in order:
+   - Session-provided skill list, if present
+   - `skills/` directory in this repository (`skills/<name>/SKILL.md`)
+   - `$CODEX_HOME/skills/.system/` for built-in system skills
+2. Build a short in-memory registry with:
+   - `name`
+   - `description`
+   - `path to SKILL.md`
+3. Match the user task against that registry.
+4. Load only the minimum `SKILL.md` and linked files needed.
+
+## Trigger rules
+
+- If the user names a skill explicitly, use that skill.
+- If the task clearly matches a skill description, use that skill even without an explicit name.
+- If multiple skills match, use the minimum set and state the execution order briefly.
+- Do not carry skill activation across turns unless re-triggered.
+
+## Work rules
+
+- Use a worktree for branch-isolated work.
+- Make the smallest change that satisfies the request.
+- Keep docs and implementation aligned.
+- Prefer source content files over inline strings for copy changes.
+- Do not make unrelated edits or opportunistic refactors.
+- Verify the result before finishing.
+
+## Copy / content tasks
+
+- For copy updates, edit the actual file by default.
+- Prefer `src/content/` instead of hardcoding strings in components when possible.
+- Do not change design, layout, or implementation unless the user explicitly asks.
+- If a requested copy change would require a code or design change, stop and ask for confirmation.
+
+## UI / implementation tasks
+
+- Follow surrounding file style and existing component patterns.
 - Keep pages thin: route files should compose content and shared sections, while reusable logic stays in `src/lib/` or `src/components/`.
+- Use the existing stack and conventions already present in the repo.
+- Notify the user before any non-text change if the request did not explicitly include it.
 
-## Chikako Mode
+## Verification
 
-If the user says `"Chikako"` or identifies themselves as Chikako (e.g., "I'm Chikako", "나 Chikako야"), enter Chikako mode immediately.
+- Run the relevant checks before considering the work complete.
+- Use `npm run test:ci` for PR-style verification when applicable.
+- Run `npm run build` when the change affects production rendering or deployment candidates.
+- Check the real browser when layout, spacing, or visual hierarchy changes.
+
+## Pull request workflow
+
+If the user wants a PR, perform the full workflow automatically:
+
+1. create a new branch
+2. make the requested changes
+3. run the relevant checks (`npm run test:ci`)
+4. create a commit
+5. push the branch
+6. open a pull request
+
+Branch names, commit messages, and PR title/body must be written in English.
+Do not ask for step-by-step confirmation unless credentials, permissions, or repository access are missing.
+
+## Local preview
+
+After applying any change, start the local development server with `npm run dev` and share the local URL so the user can verify the result immediately.
+
+## Chikako mode
+
+If the user says `"Chikako"` or identifies themselves as Chikako, enter Chikako mode immediately.
 
 ### Purpose
 
-Chikako mode is for copywriting, content updates, and website modifications.
+Chikako mode is for copywriting and content updates.
 Interpret Chikako requests as execution requests by default, not brainstorming requests.
 Chikako requests must be handled as implementation tasks unless the user explicitly asks for proposals only.
 
-### Default Rule
+### Default rule
 
 Copy and text content changes are the default scope.
-Code, layout, styling, components, and design changes are also allowed when requested.
+Code, layout, styling, components, and design changes are allowed when requested.
 
-**If a request involves changes beyond text/copy (e.g., code, layout, styling, components, design), explicitly notify the user what non-text changes will be made before proceeding.**
-
+If a request involves changes beyond text/copy, explicitly notify the user what non-text changes will be made before proceeding.
 Do not make unrelated edits.
 Do not refactor implementation.
 Do not make opportunistic improvements outside the requested scope.
@@ -50,7 +116,7 @@ Suggestion-only responses are not allowed unless the user explicitly asks for su
 After applying the change, do not add unsolicited alternative copy suggestions.
 Report the completed edit directly and concisely.
 
-### Copy Editing Rule
+### Copy editing rule
 
 Prefer updating source content files over inline strings whenever possible.
 Apply the selected or most natural copy directly to the relevant files.
@@ -59,28 +125,7 @@ Do not answer with copy proposals only when a direct file edit is possible.
 If multiple alternatives are possible, choose the most natural option and apply it unless the user explicitly asks to compare options.
 If the user provides a sentence and asks Chikako to make it more natural, clearer, shorter, stronger, or more readable, treat that as a direct file-edit request unless the user explicitly asks for proposals only.
 
-If the user provides a sentence and asks Chikako to make it more natural, clearer, shorter, stronger, or more readable, treat that as a direct file-edit request unless the user explicitly asks for proposals only.
-
-### Local Preview Rule
-
-After applying any change, automatically start the local development server (`npm run dev`) and provide the local URL (e.g., `http://localhost:3000`) so the user can verify the result immediately.
-
-### Pull Request Rule
-
-If the user says they want to open a PR, perform the full Git workflow automatically in this repository:
-
-1. create a new branch
-2. make the requested changes
-3. run the relevant checks (`npm run test:ci`)
-4. create a commit
-5. push the branch
-6. open a pull request
-
-**Branch names, commit messages, and PR title/body must be written in English.**
-
-Do not ask for step-by-step confirmation unless credentials, permissions, or repository access are missing.
-
-### Safety Rule
+### Safety rule
 
 When a request is ambiguous, choose the smallest change that fulfills the request.
 If non-text changes are needed, always notify the user before applying them.
