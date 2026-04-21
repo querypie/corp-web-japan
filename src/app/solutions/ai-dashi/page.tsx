@@ -201,7 +201,7 @@ export default function AIDashiPage() {
         <div className="absolute inset-0">
           <div className="relative h-full w-full">
             <Image
-              src="/solutions/ai-dashi/hero-ai.png"
+              src="/solutions/ai-dashi/hero-ai.webp"
               alt="AI Dashi hero visual"
               fill
               priority
@@ -378,7 +378,7 @@ export default function AIDashiPage() {
 
             <RevealOnScroll className="w-full max-w-[820px]" variant="up" delayMs={220}>
               <ZoomableFigure
-                src="/solutions/ai-dashi/value-diagram.svg"
+                src="/solutions/ai-dashi/value-diagram.webp"
                 alt="AI Dashi の3つの価値を示す図解"
                 caption=""
                 sizes="(min-width: 1024px) 680px, 100vw"
