@@ -27,6 +27,12 @@
 .playwright-cli
 output
 querypie-web-v2
+.idea/
+scripts/deploy/node_modules/
+
+# local worktrees
+.worktrees/*
+!.worktrees/.gitkeep
 
 # debug
 npm-debug.log*
