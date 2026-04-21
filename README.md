@@ -165,23 +165,41 @@ npm run dev          # local development server
 npm run build        # production build
 npm run start        # serve production build locally
 npm run lint         # ESLint
-npx tsc --noEmit     # TypeScript check
-node --test tests/*.test.mjs
+npm run typecheck    # TypeScript check
+npm run test         # Node-based repository tests
+npm run test:ci      # lint, typecheck, and tests
 ```
 
 Recommended verification before committing:
 
 ```bash
-npm run lint
-npx tsc --noEmit
-node --test tests/*.test.mjs
+npm run test:ci
 ```
 
 Recommended verification before deployment:
 
 ```bash
+npm run test:ci
 npm run build
 ```
+
+GitHub Actions uses the same sequence in the `CI` workflow:
+
+```bash
+npm ci
+npm run test:ci
+npm run build
+```
+
+### 6.1 Verification Command Roles
+
+The CI verification command is grouped as `npm run test:ci`, but it still runs three checks because they catch different classes of problems:
+
+- `npm run lint` checks ESLint rules, framework conventions, and code quality issues.
+- `npm run typecheck` runs TypeScript without emitting files, catching type and Next.js type integration errors.
+- `npm run test` runs Node-based repository tests for project-specific structure or behavior assertions.
+
+Keep the individual commands available when debugging a specific failure. Use `npm run test:ci` for PR and CI-style verification so local and automated checks stay consistent.
 
 ---
 
@@ -200,7 +218,7 @@ Prefer editing `src/content/` instead of hardcoding strings directly inside comp
 
 ### 7.3 Validation
 
-- run lint and typecheck after changes
+- run `npm run test:ci` after changes
 - run tests when changing structure or logic
 - check the real browser when changing layout, spacing, or visual hierarchy
 
@@ -275,9 +293,7 @@ When a request is ambiguous, choose the smallest copy-only change.
 5. run:
 
 ```bash
-npm run lint
-npx tsc --noEmit
-node --test tests/*.test.mjs
+npm run test:ci
 ```
 
 6. verify visually in the browser when UI changed
