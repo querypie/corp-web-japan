@@ -27,7 +27,7 @@ export const topPageContent = {
     body:
       "QueryPie AIは、強固なセキュリティとガバナンスを前提としたエンタープライズAI基盤を提供します。経営層が求める「信頼」と、現場が求める「使いやすさ」を両立し、AI活用をスモールスタートから実運用・定着まで前に進めます。",
     image: {
-      src: "/top-hero.png",
+      src: "/top-hero.webp",
       alt: "QueryPie AIの導入イメージを想起させる、オフィスでAIダッシュボードを活用するチーム",
     },
     proofPills: [
@@ -269,7 +269,7 @@ export const topPageContent = {
         label: "ガバナンス＆セキュリティの壁に対応",
         title: "権限制御と監査ログによる、強固なガバナンス統制",
         image: {
-          src: "/top-assets/platform-requirements/governance.png",
+          src: "/top-assets/platform-requirements/governance.webp",
           alt: "権限制御と監査ログによるガバナンス統制のイメージ",
         },
         body:

@@ -14,7 +14,7 @@ export const homePageContent = {
       "調査、データ整理、下書きなど、時間のかかる「下準備」をAIに任せて効率化。人員を増やすことなく、企業の生産性・利益率の向上を実現します。",
     primaryCta: { label: "業務に合うAI活用を相談する", href: "#contact" },
     secondaryCta: { label: "活用事例を見る", href: "#roles" },
-    imageSrc: "/solutions/ai-crew/hero-visual.png",
+    imageSrc: "/solutions/ai-crew/hero-visual.webp",
     imageAlt: "オフィスでAIアシスタント画面を活用しながら業務を進めるチームのイメージ",
   },
   lostSection: {
