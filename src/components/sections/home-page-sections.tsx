@@ -125,7 +125,7 @@ export function HomePageSections() {
               </RevealOnScroll>
 
               <RevealOnScroll delayMs={40}>
-                <h1 className="mt-5 text-left text-[44px] font-[800] leading-[1.12] tracking-[-0.045em] text-slate-950 sm:text-[54px] lg:text-[70px] lg:leading-[82px]">
+                <h1 className="mt-5 text-left text-[47px] font-[800] leading-[1.14] tracking-[-0.04em] text-slate-950 sm:text-[57px] lg:text-[73px] lg:leading-[86px]">
                   {hero.title.split("\n").map((line, index, lines) => (
                     <span
                       key={`${line}-${index}`}
@@ -149,7 +149,7 @@ export function HomePageSections() {
               </RevealOnScroll>
 
               <RevealOnScroll delayMs={90}>
-                <div className="mt-5 max-w-[35rem] text-left text-[15px] leading-[1.95] tracking-[-0.01em] text-slate-600 sm:text-base">
+                <div className="mt-5 max-w-[35rem] text-left text-[16px] leading-[1.95] tracking-[-0.01em] text-slate-600 sm:text-base">
                   <p>{hero.body}</p>
                 </div>
               </RevealOnScroll>
@@ -205,10 +205,10 @@ export function HomePageSections() {
           <RevealOnScroll variant="up">
             <div className="mx-auto max-w-[980px] rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.95)_100%)] px-6 py-8 shadow-[0_22px_60px_-46px_rgba(15,23,42,0.16)] sm:px-8 lg:px-10 lg:py-10">
               <div className="max-w-[880px] border-l-4 border-[#2563EB] pl-5">
-                <h2 className="text-[28px] font-bold leading-[1.18] tracking-[-0.04em] text-slate-950 sm:text-[34px] lg:text-[38px]">
+                <h2 className="text-[31px] font-bold leading-[1.2] tracking-[-0.04em] text-slate-950 sm:text-[37px] lg:text-[41px]">
                   {lostSection.title}
                 </h2>
-                <div className="mt-6 space-y-5 text-[15px] leading-8 text-slate-600">
+                <div className="mt-6 space-y-5 text-[16px] leading-8 text-slate-600">
                   <p>{lostSection.paragraphs[0]}</p>
                   <p>{lostSection.paragraphs[1]}</p>
                   <p>{lostSection.paragraphs[2]}</p>
@@ -262,7 +262,7 @@ export function HomePageSections() {
       <section id="why" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-28">
         <div className="mx-auto max-w-[1120px] text-center">
           <RevealOnScroll>
-            <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+            <h2 className="text-[37px] font-semibold leading-[1.26] tracking-[-0.03em] text-slate-950 sm:text-[45px] sm:leading-[58px] sm:tracking-[-0.04em]">
               {renderHighlightedKeyword(comparison.title, "判断と創造")}
             </h2>
           </RevealOnScroll>
@@ -409,7 +409,7 @@ export function HomePageSections() {
       <section id="design-elements" className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-20 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-[1120px]">
           <RevealOnScroll>
-            <h2 className="mx-auto max-w-[800px] text-center text-[30px] font-semibold leading-[1.2] tracking-[-0.04em] text-[#101828] sm:text-[42px] sm:leading-[1.2]">
+            <h2 className="mx-auto max-w-[800px] text-center text-[33px] font-semibold leading-[1.22] tracking-[-0.04em] text-[#101828] sm:text-[45px] sm:leading-[1.2]">
               {renderHighlightedKeyword(featureIntro.subtitle, "実務を担う")}
             </h2>
           </RevealOnScroll>
@@ -442,7 +442,7 @@ export function HomePageSections() {
       <section id="process" className="mx-auto max-w-[1920px] px-6 py-20 lg:px-10">
         <div className="mx-auto max-w-[1120px] text-center">
           <RevealOnScroll>
-            <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+            <h2 className="text-[37px] font-semibold leading-[1.26] tracking-[-0.03em] text-slate-950 sm:text-[45px] sm:leading-[58px] sm:tracking-[-0.04em]">
               {renderHighlightedKeyword(process.title, "小さく始める")}
             </h2>
           </RevealOnScroll>
@@ -455,7 +455,7 @@ export function HomePageSections() {
 
         <div className="mx-auto mt-12 max-w-[1120px]">
           {process.note ? (
-            <p className="mx-auto mb-6 max-w-[860px] text-center text-[15px] leading-7 text-slate-600">{process.note}</p>
+            <p className="mx-auto mb-6 max-w-[860px] text-center text-[16px] leading-7 text-slate-600">{process.note}</p>
           ) : null}
 
           <div className="grid gap-4 md:auto-rows-fr md:grid-cols-2 lg:grid-cols-3">
@@ -482,7 +482,7 @@ export function HomePageSections() {
                       <h3 className="mt-6 text-[20px] font-semibold leading-[1.45] tracking-[-0.02em] text-slate-800">
                         {step.title}
                       </h3>
-                      <p className="mt-4 text-[15px] leading-[1.95] text-slate-600">{step.body}</p>
+                      <p className="mt-4 text-[16px] leading-[1.95] text-slate-600">{step.body}</p>
                     </article>
                   </RevealOnScroll>
                 );
@@ -522,7 +522,7 @@ export function HomePageSections() {
       <section id="platform" className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-20 lg:px-10">
         <div className="mx-auto max-w-[1120px] text-center">
           <RevealOnScroll>
-            <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+            <h2 className="text-[37px] font-semibold leading-[1.26] tracking-[-0.03em] text-slate-950 sm:text-[45px] sm:leading-[58px] sm:tracking-[-0.04em]">
               {roi.title.split("\n")[0]}
               <br />
               {renderHighlightedKeyword(roi.title.split("\n")[1] ?? "", "QueryPie AIP")}
@@ -606,7 +606,7 @@ export function HomePageSections() {
       <section id="roles" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10">
         <div className="mx-auto max-w-[1120px] text-center">
           <RevealOnScroll>
-            <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+            <h2 className="text-[37px] font-semibold leading-[1.26] tracking-[-0.03em] text-slate-950 sm:text-[45px] sm:leading-[58px] sm:tracking-[-0.04em]">
               {roles.title}
             </h2>
           </RevealOnScroll>
@@ -628,12 +628,12 @@ export function HomePageSections() {
       <section id="results" className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-20 lg:px-10">
         <div className="mx-auto max-w-[1280px] text-center">
           <RevealOnScroll>
-            <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em] xl:whitespace-nowrap">
+            <h2 className="text-[37px] font-semibold leading-[1.26] tracking-[-0.03em] text-slate-950 sm:text-[45px] sm:leading-[58px] sm:tracking-[-0.04em] xl:whitespace-nowrap">
               {renderHighlightedKeywords(testimonials.title, ["スピード", "投資対効果"])}
             </h2>
           </RevealOnScroll>
           <RevealOnScroll delayMs={80}>
-            <p className="mx-auto mt-5 max-w-[1280px] text-center text-[15px] leading-7 text-slate-500 xl:whitespace-nowrap">
+            <p className="mx-auto mt-5 max-w-[1280px] text-center text-[16px] leading-7 text-slate-500 xl:whitespace-nowrap">
               {testimonials.body}
             </p>
           </RevealOnScroll>
@@ -705,7 +705,7 @@ export function HomePageSections() {
           <RevealOnScroll className="rounded-[2rem] bg-[#f9f9fb] px-8 py-10 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]">
             <div className="mx-auto flex max-w-[720px] flex-col items-center gap-6">
               <div className="flex w-full flex-col items-center gap-4">
-                <h2 className="text-center text-[34px] font-semibold leading-[1.16] tracking-[-0.04em] text-[#101828] sm:text-[42px] sm:leading-[50px]">
+                <h2 className="text-center text-[37px] font-semibold leading-[1.18] tracking-[-0.04em] text-[#101828] sm:text-[45px] sm:leading-[54px]">
                   {contact.title.split("\n")[0]}
                   <br />
                   {renderHighlightedKeyword(contact.title.split("\n")[1] ?? "", "AI Crew")}

@@ -106,7 +106,7 @@ export function TopPageSections() {
                 <p className="hero-copy-enter text-[11px] font-semibold uppercase tracking-[0.18em] text-white/58">
                   {hero.tagline}
                 </p>
-                <h1 className="mt-2 max-w-[13ch] text-balance text-[44px] font-[800] leading-[1.12] tracking-[-0.045em] sm:max-w-[14ch] sm:text-[60px] lg:max-w-[15ch] lg:text-[76px]">
+                <h1 className="mt-2 max-w-[13ch] text-balance text-[47px] font-[800] leading-[1.14] tracking-[-0.04em] sm:max-w-[14ch] sm:text-[63px] lg:max-w-[15ch] lg:text-[79px]">
                   <span className="hero-title-fragment">{heroTitleFirst}</span>
                   {heroTitleRest ? <span className="hero-title-fragment hero-title-fragment-delay">{heroTitleRest}</span> : null}
                 </h1>
@@ -155,7 +155,7 @@ export function TopPageSections() {
                 </h2>
               </RevealOnScroll>
               <RevealOnScroll variant="up" delayMs={120}>
-                <div className="mx-auto mt-6 max-w-[790px] space-y-4 text-left text-[15px] leading-[1.9] text-slate-600">
+                <div className="mx-auto mt-6 max-w-[790px] space-y-4 text-left text-[16px] leading-[1.95] text-slate-600">
                   <p>{solutionBranch.lead.line1}</p>
                   <p>
                     {solutionBranch.lead.line2.map((part, index) =>
@@ -204,7 +204,7 @@ export function TopPageSections() {
                     </p>
                   </div>
 
-                  <p className="mt-5 flex-1 text-[15px] leading-7 text-slate-600">{card.body}</p>
+                  <p className="mt-5 flex-1 text-[16px] leading-7 text-slate-600">{card.body}</p>
 
                   <span
                     className={`mt-8 inline-flex items-center gap-2 text-sm font-semibold transition ${theme.linkClass}`}
@@ -223,7 +223,7 @@ export function TopPageSections() {
           <div className="mx-auto w-full max-w-[1120px]">
             <div className="mx-auto max-w-[900px] text-center">
               <RevealOnScroll variant="up">
-                <h2 className="text-[30px] font-semibold leading-[1.2] tracking-[-0.04em] text-slate-950 sm:text-[42px]">
+                <h2 className="text-[33px] font-semibold leading-[1.22] tracking-[-0.04em] text-slate-950 sm:text-[45px]">
                   {coreValue.title.before}
                   <span className="heading-highlight-accent">
                     {coreValue.title.highlight}
@@ -232,7 +232,7 @@ export function TopPageSections() {
                 </h2>
               </RevealOnScroll>
               <RevealOnScroll variant="up" delayMs={120}>
-                <p className="mx-auto mt-5 max-w-[760px] text-center text-[15px] leading-7 text-slate-600">
+                <p className="mx-auto mt-5 max-w-[760px] text-center text-[16px] leading-7 text-slate-600">
                   {coreValue.body}
                 </p>
               </RevealOnScroll>
@@ -262,7 +262,7 @@ export function TopPageSections() {
                       </h3>
                     </div>
 
-                    <ul className="mt-4 flex-1 space-y-2.5 text-[15px] leading-7 text-slate-600">
+                    <ul className="mt-4 flex-1 space-y-2.5 text-[16px] leading-7 text-slate-600">
                       {card.bullets.map((bullet) => (
                         <li key={bullet} className="flex gap-2">
                           <span className="mt-[0.55rem] h-1.5 w-1.5 flex-none rounded-full bg-[#2f3a49]/75" />
@@ -281,7 +281,7 @@ export function TopPageSections() {
           <div className="mx-auto w-full max-w-[1120px]">
             <div className="mx-auto max-w-[860px] text-center">
               <RevealOnScroll variant="up">
-                <h2 className="text-[30px] font-semibold leading-[1.2] tracking-[-0.04em] text-slate-950 sm:text-[42px]">
+                <h2 className="text-[33px] font-semibold leading-[1.22] tracking-[-0.04em] text-slate-950 sm:text-[45px]">
                   {roadmap.title.line1}
                   <br />
                   {roadmap.title.before}
@@ -292,7 +292,7 @@ export function TopPageSections() {
               </h2>
               </RevealOnScroll>
               <RevealOnScroll variant="up" delayMs={120}>
-              <p className="ml-auto mr-auto mt-5 max-w-[860px] pl-3 text-left text-[15px] leading-7 text-slate-600 lg:pl-5 lg:text-balance">
+              <p className="ml-auto mr-auto mt-5 max-w-[860px] pl-3 text-left text-[16px] leading-7 text-slate-600 lg:pl-5 lg:text-balance">
                 {roadmap.body}
               </p>
               </RevealOnScroll>
@@ -509,7 +509,7 @@ export function TopPageSections() {
                 </h2>
               </RevealOnScroll>
               <RevealOnScroll variant="up" delayMs={120}>
-                <p className="mx-auto mt-5 max-w-[758px] text-left text-[15px] leading-[1.85] text-slate-600">
+                <p className="mx-auto mt-5 max-w-[758px] text-left text-[16px] leading-[1.9] text-slate-600">
                   {platformRequirements.body}
                 </p>
               </RevealOnScroll>
@@ -532,7 +532,7 @@ export function TopPageSections() {
                         <h3 className="mt-4 text-[26px] font-semibold leading-[1.28] tracking-[-0.04em] text-slate-950">
                           {block.title}
                         </h3>
-                        <p className="mt-4 text-[15px] leading-7 text-slate-600">{block.body}</p>
+                        <p className="mt-4 text-[16px] leading-7 text-slate-600">{block.body}</p>
                       </div>
 
                       <div className="relative min-h-[220px] lg:min-h-0 lg:basis-1/3">
@@ -572,12 +572,12 @@ export function TopPageSections() {
             <div className="mx-auto max-w-[900px] text-center">
               <RevealOnScroll variant="up">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748b]">Security & Compliance</p>
-                <h2 className="mt-2 text-[26px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[32px]">
+                <h2 className="mt-2 text-[29px] font-semibold leading-[1.26] tracking-[-0.03em] text-slate-950 sm:text-[35px]">
                   国際基準のセキュリティ認証
                 </h2>
               </RevealOnScroll>
               <RevealOnScroll variant="up" delayMs={120}>
-                <p className="mx-auto mt-4 max-w-[840px] text-left text-[15px] leading-7 text-slate-600">{security.body}</p>
+                <p className="mx-auto mt-4 max-w-[840px] text-left text-[16px] leading-7 text-slate-600">{security.body}</p>
               </RevealOnScroll>
             </div>
 
@@ -622,12 +622,12 @@ export function TopPageSections() {
               <div className="mx-auto max-w-[900px] text-center">
                 <RevealOnScroll variant="up">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748b]">Download</p>
-                  <h2 className="mt-2 text-[24px] font-semibold leading-[1.3] tracking-[-0.03em] text-slate-950 sm:text-[30px]">
+                  <h2 className="mt-2 text-[27px] font-semibold leading-[1.32] tracking-[-0.03em] text-slate-950 sm:text-[33px]">
                     経営層・事業責任者向け ホワイトペーパー
                   </h2>
                 </RevealOnScroll>
                 <RevealOnScroll variant="up" delayMs={120}>
-                  <p className="mx-auto mt-4 max-w-[820px] text-left text-[15px] leading-7 text-slate-600">
+                  <p className="mx-auto mt-4 max-w-[820px] text-left text-[16px] leading-7 text-slate-600">
                     {whitepapers.body}
                   </p>
                 </RevealOnScroll>
@@ -705,7 +705,7 @@ export function TopPageSections() {
             <div className="rounded-[2rem] border border-white/12 bg-white/5 px-6 py-8 shadow-[0_28px_100px_-60px_rgba(15,23,42,0.55)] backdrop-blur xl:px-10 xl:py-10">
               <div className="mx-auto max-w-[880px] text-center">
                 <RevealOnScroll variant="up">
-                  <h2 className="text-[34px] font-semibold leading-[1.15] tracking-[-0.04em] sm:text-[46px]">
+                  <h2 className="text-[37px] font-semibold leading-[1.18] tracking-[-0.04em] sm:text-[49px]">
                     {finalCta.title}
                   </h2>
                 </RevealOnScroll>

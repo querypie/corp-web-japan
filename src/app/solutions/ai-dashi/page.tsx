@@ -218,7 +218,7 @@ export default function AIDashiPage() {
             <p className="hero-copy-enter inline-flex rounded-full border border-white/18 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/78 backdrop-blur">
               組み込み型AI基盤・ホワイトラベル対応
             </p>
-            <h1 className="max-w-[780px] text-[36px] font-[800] leading-[1.16] tracking-[-0.035em] text-white md:text-[42px] md:leading-[1.16] lg:text-[58px] lg:leading-[1.2] lg:tracking-[-0.9px]">
+            <h1 className="max-w-[780px] text-[39px] font-[800] leading-[1.2] tracking-[-0.03em] text-white md:text-[45px] md:leading-[1.2] lg:text-[61px] lg:leading-[1.24] lg:tracking-[-0.9px]">
               <span className="hero-title-fragment block">自社サービスを</span>
               <span
                 className="hero-title-fragment hero-highlight-sweep block bg-gradient-to-r from-[#ffffff] via-[#edf3ff] to-[#b8c9ff] bg-clip-text text-transparent drop-shadow-[0_12px_28px_rgba(159,182,255,0.22)]"
@@ -231,7 +231,7 @@ export default function AIDashiPage() {
                 最短で進化させる
               </span>
             </h1>
-            <p className="hero-copy-enter hero-copy-enter-1 max-w-[540px] text-[15px] leading-8 text-white/84 md:max-w-[620px] md:text-[16px] lg:max-w-[660px]">
+            <p className="hero-copy-enter hero-copy-enter-1 max-w-[540px] text-[16px] leading-8 text-white/84 md:max-w-[620px] md:text-[16px] lg:max-w-[660px]">
               ブランド体験はそのままに、エンタープライズ品質のAI基盤をシームレスに統合。ゼロからの開発リスクを排除し、新たな収益源の創出とタイム・トゥ・マーケットを最速化します。
             </p>
             <div className="hero-copy-enter hero-copy-enter-2 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -265,7 +265,7 @@ export default function AIDashiPage() {
                 <h2 className="mt-2 text-[28px] font-bold leading-[1.18] tracking-[-0.04em] text-slate-950 sm:text-[34px] lg:text-[38px] lg:whitespace-nowrap">
                   {lostSection.title.line2}
                 </h2>
-                <div className="mt-6 space-y-5 text-[15px] leading-8 text-slate-600">
+                <div className="mt-6 space-y-5 text-[16px] leading-8 text-slate-600">
                   <p>{lostSection.paragraphs[0]}</p>
                   <p>{lostSection.paragraphs[1]}</p>
                   <p>
@@ -285,7 +285,7 @@ export default function AIDashiPage() {
           <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:justify-between lg:gap-10">
             <RevealOnScroll variant="up" className="flex flex-col">
               <div className="flex flex-col gap-5">
-                <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+                <h2 className="text-[37px] font-semibold leading-[1.26] tracking-[-0.03em] text-slate-950 sm:text-[45px] sm:leading-[58px] sm:tracking-[-0.04em]">
                   なぜ
                   <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
                     AI Dashi
@@ -293,7 +293,7 @@ export default function AIDashiPage() {
                   なのか？
                 </h2>
 
-                <div className="max-w-[640px] space-y-5 text-[15px] leading-8 text-slate-500">
+                <div className="max-w-[640px] space-y-5 text-[16px] leading-8 text-slate-500">
                   <p>良い「出汁」は、主役の食材を邪魔せず、料理全体の旨味を底上げします。</p>
                   <p>SaaSやWebサービスにおけるAIも同じです。AIそのものが主役になるのではなく、貴社がこれまで築き上げてきた「プロダクトのコア価値」を裏側から圧倒的に引き上げる存在でなければなりません。</p>
                   <p>QueryPie AIが提供するAIプラットフォーム（AIP）は、貴社のUIやブランドの世界観に完全に溶け込み、ユーザーに「このサービス、すごく便利になった！」という最高の体験（旨味）を提供するための、最高品質のAI基盤（AI Dashi）です。</p>
@@ -318,7 +318,7 @@ export default function AIDashiPage() {
         <div className="mx-auto max-w-[1120px]">
           <div className="flex flex-col items-center gap-12">
             <RevealOnScroll variant="up" className="w-full max-w-[920px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+              <h2 className="text-[37px] font-semibold leading-[1.26] tracking-[-0.03em] text-slate-950 sm:text-[45px] sm:leading-[58px] sm:tracking-[-0.04em]">
                 QueryPie AIPが提供する3つの価値
               </h2>
             </RevealOnScroll>
@@ -393,10 +393,10 @@ export default function AIDashiPage() {
         <div className="mx-auto max-w-[1200px]">
           <div className="flex flex-col items-center gap-12">
             <RevealOnScroll variant="up" className="w-full max-w-[920px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+              <h2 className="text-[37px] font-semibold leading-[1.26] tracking-[-0.03em] text-slate-950 sm:text-[45px] sm:leading-[58px] sm:tracking-[-0.04em]">
                 ゼロからの自社AI化を阻む、3つの致命的リスク
               </h2>
-              <p className="mx-auto mt-5 max-w-[710px] text-left text-base leading-7 text-slate-500">
+              <p className="mx-auto mt-5 max-w-[710px] text-left text-[17px] leading-8 text-slate-500">
                 LLMのAPIを叩くだけなら簡単ですが、それを「商用レベルのSaaS」として実装しようとすると、多くのプロジェクトが以下の壁に直面し頓挫します。
               </p>
             </RevealOnScroll>
@@ -426,12 +426,12 @@ export default function AIDashiPage() {
         <div className="mx-auto max-w-[1200px]">
           <div className="flex flex-col items-center gap-12">
             <RevealOnScroll variant="up" className="w-full max-w-[900px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+              <h2 className="text-[37px] font-semibold leading-[1.26] tracking-[-0.03em] text-slate-950 sm:text-[45px] sm:leading-[58px] sm:tracking-[-0.04em]">
                 LLMを繋ぐだけでは、
                 <br />
                 エンタープライズ顧客には売れない
               </h2>
-              <p className="mx-auto mt-5 max-w-[780px] text-left text-base leading-7 text-slate-500">
+              <p className="mx-auto mt-5 max-w-[780px] text-left text-[17px] leading-8 text-slate-500">
                 AI機能を実装できても、大企業が求める厳しいセキュリティ要件を満たさなければ、導入審査で弾かれます。
                 QueryPie AIPは、これらの要件をあらかじめクリアしたAI基盤です。
               </p>
@@ -465,10 +465,10 @@ export default function AIDashiPage() {
         <div className="mx-auto max-w-[1200px]">
           <div className="w-full">
             <RevealOnScroll variant="up" className="mx-auto max-w-[920px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+              <h2 className="text-[37px] font-semibold leading-[1.26] tracking-[-0.03em] text-slate-950 sm:text-[45px] sm:leading-[58px] sm:tracking-[-0.04em]">
                 QueryPie AIPと自社開発の比較
               </h2>
-              <p className="mx-auto mt-5 max-w-[760px] text-left text-base leading-7 text-slate-500">
+              <p className="mx-auto mt-5 max-w-[760px] text-left text-[17px] leading-8 text-slate-500">
                 ゼロから要件を満たす基盤を構築するフルスクラッチ（自社開発）とQueryPie AIPの比較です。AIPを活用すれば、開発期間・初期コスト・運用リスクのすべてを圧倒的に圧縮し、最短で市場へ展開できます。
               </p>
             </RevealOnScroll>
@@ -580,10 +580,10 @@ export default function AIDashiPage() {
         <div className="mx-auto max-w-[1200px]">
           <div className="mx-auto max-w-[1120px]">
             <RevealOnScroll variant="up" className="mx-auto max-w-[920px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+              <h2 className="text-[37px] font-semibold leading-[1.26] tracking-[-0.03em] text-slate-950 sm:text-[45px] sm:leading-[58px] sm:tracking-[-0.04em]">
                 QueryPie AIの包括的サポート体制
               </h2>
-              <p className="mx-auto mt-5 max-w-[740px] text-left text-base leading-7 text-slate-500">
+              <p className="mx-auto mt-5 max-w-[740px] text-left text-[17px] leading-8 text-slate-500">
                 単なるツールの提供ではありません。貴社が自社ブランドのAIサービスを確実かつ迅速にリリースし、安定して運用し続けるために必要なすべての要素を、QueryPie AIがワンストップで提供します。
               </p>
             </RevealOnScroll>
@@ -638,7 +638,7 @@ export default function AIDashiPage() {
         <div className="mx-auto max-w-[1200px]">
           <div className="mx-auto flex max-w-[1120px] flex-col items-center gap-10">
             <RevealOnScroll variant="up" className="w-full max-w-[920px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+              <h2 className="text-[37px] font-semibold leading-[1.26] tracking-[-0.03em] text-slate-950 sm:text-[45px] sm:leading-[58px] sm:tracking-[-0.04em]">
                 最速で市場へ
                 <br />
                 市場機会を逃さない、
@@ -646,7 +646,7 @@ export default function AIDashiPage() {
                   圧倒的な導入スピード
                 </span>
               </h2>
-              <p className="mx-auto mt-5 max-w-[760px] text-left text-base leading-7 text-slate-500">
+              <p className="mx-auto mt-5 max-w-[760px] text-left text-[17px] leading-8 text-slate-500">
                 ゼロからAIを自社開発し、試行錯誤で時間を浪費する必要はありません。当社の専門エンジニア（FDE）が要件定義から本番公開まで一気通貫で伴走し、競合に先んじたスピーディな立ち上げを実現します。
               </p>
             </RevealOnScroll>
@@ -687,7 +687,7 @@ export default function AIDashiPage() {
                 <h2 className="mt-2 text-[24px] font-semibold leading-[1.3] tracking-[-0.03em] text-slate-950 sm:text-[30px]">
                   SaaS事業責任者向けホワイトペーパー
                 </h2>
-                <p className="mx-auto mt-4 max-w-[760px] text-left text-base leading-7 text-slate-500">
+                <p className="mx-auto mt-4 max-w-[760px] text-left text-[17px] leading-8 text-slate-500">
                   AIエージェント時代に、SaaS企業が取るべき戦略をまとめた資料を無料でダウンロードいただけます。
                 </p>
               </RevealOnScroll>
@@ -730,7 +730,7 @@ export default function AIDashiPage() {
                       <h3 className="mt-5 text-[24px] font-semibold leading-[1.4] tracking-[-0.03em] text-slate-950">
                         SaaSの終焉か、進化か 〜AIエージェント時代にSaaS企業が取るべき戦略〜
                       </h3>
-                      <p className="mt-4 text-[15px] leading-7 text-slate-600">
+                      <p className="mt-4 text-[16px] leading-7 text-slate-600">
                         本ホワイトペーパーは、AIエージェントがSaaSビジネスに与える影響を分析し、SaaS企業が取るべき戦略と、QueryPie AI自身のSaaSベンダーからAI Native企業への変革の実録をお伝えします。
                       </p>
                     </div>
@@ -750,7 +750,7 @@ export default function AIDashiPage() {
       <section id="ai-dashi-cta" className="w-full bg-[#f9f9fb] px-6 py-16 lg:px-10 lg:py-20">
         <div className="mx-auto flex max-w-[920px] flex-col items-center gap-8">
           <RevealOnScroll variant="up" className="flex flex-col items-center gap-4 text-center">
-            <h2 className="text-[36px] font-semibold leading-[1.14] tracking-[-0.05em] text-[#15181d] sm:text-[46px] sm:leading-[58px]">
+            <h2 className="text-[39px] font-semibold leading-[1.18] tracking-[-0.045em] text-[#15181d] sm:text-[49px] sm:leading-[62px]">
               <span className="inline-block whitespace-nowrap">
                 自社サービスの
                 <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
@@ -761,7 +761,7 @@ export default function AIDashiPage() {
               <br />
               一緒にデザインしませんか？
             </h2>
-            <p className="max-w-[780px] text-base leading-7 text-slate-500">
+            <p className="max-w-[780px] text-[17px] leading-8 text-slate-500">
               複雑な手動操作をAIに任せたい。顧客の要望に応えるAI機能をスピーディに実装したい。
               <br />
               QueryPie AIPを活用した具体的な連携アイデアからお見積もりまで、まずはお気軽にご相談ください。
