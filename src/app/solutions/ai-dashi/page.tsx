@@ -218,7 +218,7 @@ export default function AIDashiPage() {
             <p className="hero-copy-enter inline-flex rounded-full border border-white/18 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/78 backdrop-blur">
               組み込み型AI基盤・ホワイトラベル対応
             </p>
-            <h1 className="max-w-[760px] text-[34px] font-semibold leading-[1.12] tracking-[-0.04em] text-white md:text-[40px] md:leading-[1.12] lg:text-[54px] lg:leading-[1.16] lg:tracking-[-1.02px]">
+            <h1 className="max-w-[780px] text-[36px] font-[800] leading-[1.16] tracking-[-0.035em] text-white md:text-[42px] md:leading-[1.16] lg:text-[58px] lg:leading-[1.2] lg:tracking-[-0.9px]">
               <span className="hero-title-fragment block">自社サービスを</span>
               <span
                 className="hero-title-fragment hero-highlight-sweep block bg-gradient-to-r from-[#ffffff] via-[#edf3ff] to-[#b8c9ff] bg-clip-text text-transparent drop-shadow-[0_12px_28px_rgba(159,182,255,0.22)]"

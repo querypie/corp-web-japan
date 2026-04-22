@@ -106,7 +106,7 @@ export function TopPageSections() {
                 <p className="hero-copy-enter text-[11px] font-semibold uppercase tracking-[0.18em] text-white/58">
                   {hero.tagline}
                 </p>
-                <h1 className="mt-2 max-w-[13ch] text-balance text-[42px] font-semibold leading-[1.07] tracking-[-0.065em] sm:max-w-[14ch] sm:text-[58px] lg:max-w-[15ch] lg:text-[72px]">
+                <h1 className="mt-2 max-w-[13ch] text-balance text-[44px] font-[800] leading-[1.12] tracking-[-0.045em] sm:max-w-[14ch] sm:text-[60px] lg:max-w-[15ch] lg:text-[76px]">
                   <span className="hero-title-fragment">{heroTitleFirst}</span>
                   {heroTitleRest ? <span className="hero-title-fragment hero-title-fragment-delay">{heroTitleRest}</span> : null}
                 </h1>

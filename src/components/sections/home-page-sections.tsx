@@ -125,7 +125,7 @@ export function HomePageSections() {
               </RevealOnScroll>
 
               <RevealOnScroll delayMs={40}>
-                <h1 className="mt-5 text-left text-[42px] font-bold leading-[1.08] tracking-[-0.05em] text-slate-950 sm:text-[52px] lg:text-[66px] lg:leading-[74px]">
+                <h1 className="mt-5 text-left text-[44px] font-[800] leading-[1.12] tracking-[-0.045em] text-slate-950 sm:text-[54px] lg:text-[70px] lg:leading-[82px]">
                   {hero.title.split("\n").map((line, index, lines) => (
                     <span
                       key={`${line}-${index}`}
