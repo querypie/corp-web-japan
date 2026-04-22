@@ -34,6 +34,7 @@ export function ZoomableFigure({
                 src={src}
                 alt={alt}
                 fill
+                unoptimized={src.endsWith(".svg")}
                 className="object-contain p-2 transition duration-500 group-hover:scale-[1.01] lg:p-3"
                 sizes={sizes}
               />
@@ -73,6 +74,7 @@ export function ZoomableFigure({
                   src={src}
                   alt={alt}
                   fill
+                  unoptimized={src.endsWith(".svg")}
                   className="object-contain p-6 lg:p-8"
                   sizes="90vw"
                 />
