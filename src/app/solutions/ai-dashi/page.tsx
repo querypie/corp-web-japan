@@ -22,6 +22,9 @@ export const metadata: Metadata = {
   title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
   description:
     "QueryPie AI Dashiは、自社SaaSやWebサービスにエンタープライズ品質のAI基盤を組み込むためのソリューションです。ブランド体験はそのままに、最短でAI搭載サービスへ進化させます。",
+  alternates: {
+    canonical: "/solutions/ai-dashi",
+  },
   openGraph: {
     title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
     description:

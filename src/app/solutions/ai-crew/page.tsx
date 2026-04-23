@@ -8,6 +8,9 @@ import { HomePageSections } from "@/components/sections/home-page-sections";
 export const metadata: Metadata = {
   title: "作業を減らし、成果を増やす。| AI Crew | QueryPie AI",
   description: homePageContent.metadata.description,
+  alternates: {
+    canonical: "/solutions/ai-crew",
+  },
   openGraph: {
     title: "作業を減らし、成果を増やす。| AI Crew | QueryPie AI",
     description: homePageContent.metadata.description,

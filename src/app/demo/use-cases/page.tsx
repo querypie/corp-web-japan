@@ -7,6 +7,9 @@ import { UseCaseShowcase } from "@/components/sections/use-case-showcase";
 export const metadata: Metadata = {
   title: "活用事例 | QueryPie AI",
   description: "QueryPie AI Crew の代表的なユースケースを紹介するページです。",
+  alternates: {
+    canonical: "/demo/use-cases",
+  },
 };
 
 export default function UseCasesPage() {

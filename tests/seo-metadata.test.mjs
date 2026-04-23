@@ -1,0 +1,39 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+
+const read = (relativePath) => readFileSync(new URL(`../${relativePath}`, import.meta.url), "utf8");
+
+test("SEO baseline files define production metadata and canonical paths", () => {
+  const layout = read("src/app/layout.tsx");
+  const robots = read("src/app/robots.ts");
+  const sitemap = read("src/app/sitemap.ts");
+  const homePage = read("src/app/page.tsx");
+  const blogPage = read("src/app/blog/page.tsx");
+  const whitepapersPage = read("src/app/whitepapers/page.tsx");
+  const useCasesPage = read("src/app/demo/use-cases/page.tsx");
+  const aiCrewPage = read("src/app/solutions/ai-crew/page.tsx");
+  const aiDashiPage = read("src/app/solutions/ai-dashi/page.tsx");
+  const postPage = read("src/app/posts/[category]/[slug]/page.tsx");
+  const eventsPage = read("src/app/events/page.tsx");
+
+  assert.match(layout, /metadataBase:\s*siteUrl/);
+
+  assert.match(robots, /sitemap:\s*`\$\{siteUrl\.toString\(\)\}sitemap\.xml`/);
+  assert.match(robots, /host:\s*siteUrl\.toString\(\)/);
+
+  assert.match(homePage, /canonical:\s*"\/"/);
+  assert.match(blogPage, /canonical:\s*"\/blog"/);
+  assert.match(whitepapersPage, /canonical:\s*"\/whitepapers"/);
+  assert.match(useCasesPage, /canonical:\s*"\/demo\/use-cases"/);
+  assert.match(aiCrewPage, /canonical:\s*"\/solutions\/ai-crew"/);
+  assert.match(aiDashiPage, /canonical:\s*"\/solutions\/ai-dashi"/);
+  assert.match(postPage, /canonical:/);
+
+  assert.match(sitemap, /absoluteUrl\("\/whitepapers"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/whitepaper"\)/);
+
+  if (/notFound\(\)/.test(eventsPage)) {
+    assert.doesNotMatch(sitemap, /absoluteUrl\("\/events"\)/);
+  }
+});
