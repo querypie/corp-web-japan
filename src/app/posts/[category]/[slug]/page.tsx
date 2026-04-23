@@ -7,7 +7,7 @@ import { ResourcePostPage } from "@/components/sections/resource-post-page";
 import {
   getResourceDownloadPost,
   getResourcePost,
-  isResourcePostCategory,
+  isStaticResourcePostCategory,
   listResourcePostParams,
 } from "@/lib/resource-posts";
 
@@ -25,7 +25,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: ResourcePostRouteProps): Promise<Metadata> {
   const { category, slug } = await params;
 
-  if (!isResourcePostCategory(category)) {
+  if (!isStaticResourcePostCategory(category)) {
     return {};
   }
 
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: ResourcePostRouteProps): Prom
 export default async function ResourcePostRoute({ params }: ResourcePostRouteProps) {
   const { category, slug } = await params;
 
-  if (!isResourcePostCategory(category)) {
+  if (!isStaticResourcePostCategory(category)) {
     notFound();
   }
 

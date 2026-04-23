@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { blogItems, eventItems, whitepaperItems } from "@/content/resources";
+import { blogItems, eventItems } from "@/content/resources";
+import { whitepaperItems } from "@/content/whitepapers";
 
 export type ResourcePostCategory = "blog" | "whitepaper" | "event";
 
@@ -45,6 +46,7 @@ export type ResourceDownloadPost = {
 
 const POSTS_ROOT = path.join(process.cwd(), "content/source-posts");
 const VALID_CATEGORIES = new Set<ResourcePostCategory>(["blog", "whitepaper", "event"]);
+const STATIC_ROUTE_CATEGORIES: readonly ResourcePostCategory[] = ["blog", "event"];
 const RESOURCE_IMAGE_BY_HREF: Map<string, string> = new Map(
   [...blogItems, ...whitepaperItems, ...eventItems].map((item) => [item.href, item.imageSrc]),
 );
@@ -169,8 +171,12 @@ export function isResourcePostCategory(value: string): value is ResourcePostCate
   return VALID_CATEGORIES.has(value as ResourcePostCategory);
 }
 
+export function isStaticResourcePostCategory(value: string): value is ResourcePostCategory {
+  return STATIC_ROUTE_CATEGORIES.includes(value as ResourcePostCategory);
+}
+
 export function listResourcePostParams() {
-  return Array.from(VALID_CATEGORIES).flatMap((category) => {
+  return STATIC_ROUTE_CATEGORIES.flatMap((category) => {
     const categoryDir = path.join(POSTS_ROOT, category);
 
     if (!fs.existsSync(categoryDir)) return [];

@@ -243,7 +243,7 @@ export default function AIDashiPage() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/whitepaper"
+                href="/whitepapers"
                 className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] border border-white/24 bg-white/6 px-5 py-3 text-sm font-semibold text-white/92 backdrop-blur transition hover:bg-white/10"
               >
                 資料をダウンロード
@@ -705,7 +705,7 @@ export default function AIDashiPage() {
                 >
                   <div className="relative min-h-[260px] bg-[#f5f7fb] p-6 md:min-h-full">
                     <Image
-                      src="/white-paper/wp-thumb-30-jp.png"
+                      src="/solutions/ai-dashi/the-end-of-saas-or-its-evolution.png"
                       alt="SaaSの終焉か、進化か ホワイトペーパー表紙"
                       fill
                       className="object-contain p-6"

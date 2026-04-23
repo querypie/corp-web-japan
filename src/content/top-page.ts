@@ -412,7 +412,7 @@ export const topPageContent = {
         ctaLabel: "無料ダウンロード",
         href: "https://www.querypie.ai/ja/features/documentation/white-paper/24/ai-tranformation-japan",
         image: {
-          src: "/assets/images/07-blog/wp-thumb-24-jp.png",
+          src: "/assets/image/whitepapers/24/thumbnail.png",
           alt: "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか ホワイトペーパー表紙",
         },
       },
@@ -434,7 +434,7 @@ export const topPageContent = {
         ctaLabel: "無料ダウンロード",
         href: "https://www.querypie.ai/ja/features/documentation/white-paper/30/saas-end-or-evolution",
         image: {
-          src: "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/white-paper/wp-thumb-30-jp-SiLvW0Z48GJTxabK8UWUYrpzqinztJ.png",
+          src: "/solutions/ai-dashi/the-end-of-saas-or-its-evolution.png",
           alt: "SaaSの終焉か、進化か ホワイトペーパー表紙",
         },
       },

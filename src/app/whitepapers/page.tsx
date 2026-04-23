@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourcePage } from "@/components/sections/resource-page";
-import { whitepaperItems } from "@/content/resources";
+import { whitepaperItems } from "@/content/whitepapers";
 
 export const metadata: Metadata = {
   title: "ホワイトペーパー | AI Staff",
