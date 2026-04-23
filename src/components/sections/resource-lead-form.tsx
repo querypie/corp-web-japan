@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 
 type LeadFormState = {
@@ -174,13 +175,19 @@ export function ResourceLeadForm({
       </label>
 
       <p className="mt-1 text-center text-sm leading-6 text-slate-500">
-        <a href="#" className="underline underline-offset-4">
+        <Link
+          href="https://www.querypie.com/ja/terms-of-service"
+          className="underline underline-offset-4"
+        >
           利用規約
-        </a>
+        </Link>
         と
-        <a href="#" className="underline underline-offset-4">
+        <Link
+          href="https://www.querypie.com/ja/privacy-policy"
+          className="underline underline-offset-4"
+        >
           プライバシーポリシー
-        </a>
+        </Link>
         に同意して送信する。
       </p>
 
