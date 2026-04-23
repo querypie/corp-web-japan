@@ -1,5 +1,11 @@
 # AI Staff Japan Website
 
+## Environment URLs
+
+- Production URL: [https://querypie.ai](https://querypie.ai)
+- Redirect domains: at minimum [https://www.querypie.ai](https://www.querypie.ai) -> [https://querypie.ai](https://querypie.ai)
+- Staging URL: [https://stage.querypie.ai](https://stage.querypie.ai)
+
 This repository contains the Japan-facing AI Staff website.
 
 README.md is the human-facing guide for understanding the project and getting started.
@@ -16,6 +22,9 @@ These principles apply to both humans and AI agents.
 - If something is ambiguous, choose the smallest change that satisfies the request.
 
 ## Project overview
+
+This project is built with Next.js, React, TypeScript, and Tailwind CSS.
+It uses the App Router and npm-based workflows.
 
 Core directories:
 
@@ -121,9 +130,3 @@ Both humans and agents should remember:
 - `npm run test:ci` is the standard verification step before a PR.
 - Visual changes should be checked in a real browser.
 - Working rules and execution details belong in `AGENTS.md`.
-
-## Environment URLs
-
-- Production URL: [https://querypie.ai](https://querypie.ai)
-- Redirect domains: at minimum [https://www.querypie.ai](https://www.querypie.ai) -> [https://querypie.ai](https://querypie.ai)
-- Staging URL: [https://stage.querypie.ai](https://stage.querypie.ai)
