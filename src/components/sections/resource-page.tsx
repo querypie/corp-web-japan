@@ -28,7 +28,7 @@ const sidebarLinks = [
   { label: "紹介資料", href: "#" },
   { label: "用語集", href: "#" },
   { label: "マニュアル", href: "#" },
-  { label: "ホワイトペーパー", href: "/whitepaper", key: "whitepaper" },
+  { label: "ホワイトペーパー", href: "/whitepapers", key: "whitepaper" },
   { label: "ブログ", href: "/blog", key: "blog" },
   { label: "イベント", href: "/events", key: "events" },
 ] as const;

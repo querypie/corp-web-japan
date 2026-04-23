@@ -243,7 +243,7 @@ export default function AIDashiPage() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/whitepaper"
+                href="/whitepapers"
                 className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] border border-white/24 bg-white/6 px-5 py-3 text-sm font-semibold text-white/92 backdrop-blur transition hover:bg-white/10"
               >
                 資料をダウンロード
