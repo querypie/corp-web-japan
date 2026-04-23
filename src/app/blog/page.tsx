@@ -5,7 +5,7 @@ import { ResourcePage } from "@/components/sections/resource-page";
 import { blogItems } from "@/content/resources";
 
 export const metadata: Metadata = {
-  title: "ブログ | AI Staff",
+  title: "ブログ | QueryPie AI",
   description: "AI Staff に関する最新情報やインサイトをまとめたブログページです。",
 };
 

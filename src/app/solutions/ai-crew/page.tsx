@@ -6,15 +6,15 @@ import { FloatingConversionCta } from "@/components/layout/floating-conversion-c
 import { HomePageSections } from "@/components/sections/home-page-sections";
 
 export const metadata: Metadata = {
-  title: `${homePageContent.metadata.title} | AI Crew | QueryPie AI`,
+  title: "作業を減らし、成果を増やす。| AI Crew | QueryPie AI",
   description: homePageContent.metadata.description,
   openGraph: {
-    title: `${homePageContent.metadata.title} | AI Crew | QueryPie AI`,
+    title: "作業を減らし、成果を増やす。| AI Crew | QueryPie AI",
     description: homePageContent.metadata.description,
     type: "website",
   },
   twitter: {
-    title: `${homePageContent.metadata.title} | AI Crew | QueryPie AI`,
+    title: "作業を減らし、成果を増やす。| AI Crew | QueryPie AI",
     description: homePageContent.metadata.description,
     card: "summary_large_image",
   },

@@ -5,7 +5,7 @@ import { ResourcePage } from "@/components/sections/resource-page";
 import { whitepaperItems } from "@/content/whitepapers";
 
 export const metadata: Metadata = {
-  title: "ホワイトペーパー | AI Staff",
+  title: "ホワイトペーパー | QueryPie AI",
   description: "AI Staff に関する資料や導入検討向けホワイトペーパーをまとめたページです。",
 };
 
