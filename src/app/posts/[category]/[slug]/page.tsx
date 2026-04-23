@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourcePostDownloadPage } from "@/components/sections/resource-post-download-page";
 import { ResourcePostPage } from "@/components/sections/resource-post-page";
+import { getExternalBlogUrl } from "@/content/resources";
 import {
   getResourceDownloadPost,
   getResourcePost,
@@ -27,6 +28,19 @@ export async function generateMetadata({ params }: ResourcePostRouteProps): Prom
 
   if (!isStaticResourcePostCategory(category)) {
     return {};
+  }
+
+  if (category === "blog") {
+    const externalBlogUrl = getExternalBlogUrl(slug);
+    if (!externalBlogUrl) {
+      return {};
+    }
+
+    return {
+      alternates: {
+        canonical: externalBlogUrl,
+      },
+    };
   }
 
   const downloadPost = getResourceDownloadPost(category, slug);
@@ -54,6 +68,15 @@ export default async function ResourcePostRoute({ params }: ResourcePostRoutePro
 
   if (!isStaticResourcePostCategory(category)) {
     notFound();
+  }
+
+  if (category === "blog") {
+    const externalBlogUrl = getExternalBlogUrl(slug);
+    if (!externalBlogUrl) {
+      notFound();
+    }
+
+    redirect(externalBlogUrl);
   }
 
   const downloadPost = getResourceDownloadPost(category, slug);
