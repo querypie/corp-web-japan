@@ -29,10 +29,6 @@ export async function generateMetadata({ params }: ResourcePostRouteProps): Prom
     return {};
   }
 
-  if (category === "blog") {
-    return {};
-  }
-
   const downloadPost = getResourceDownloadPost(category, slug);
   if (downloadPost) {
     return {
@@ -57,10 +53,6 @@ export default async function ResourcePostRoute({ params }: ResourcePostRoutePro
   const { category, slug } = await params;
 
   if (!isStaticResourcePostCategory(category)) {
-    notFound();
-  }
-
-  if (category === "blog") {
     notFound();
   }
 
