@@ -22,16 +22,16 @@ const footerColumns = [
     title: "デモ",
     links: [
       { label: "活用事例", href: "/demo/use-cases" },
-      { label: "AIP 機能", href: "https://www.querypie.com/ja/solutions/aip" },
-      { label: "ACP 機能", href: "https://www.querypie.com/ja/solutions/acp" },
+      { label: "AIP 機能", href: "https://www.querypie.com/ja/features/demo?category=aip-features" },
+      { label: "ACP 機能", href: "https://www.querypie.com/ja/features/demo?category=acp-features" },
     ],
   },
   {
     title: "リソース",
     links: [
-      { label: "紹介資料", href: "https://www.querypie.com/ja/features/documentation/aip-introduction-download" },
+      { label: "紹介資料", href: "https://www.querypie.com/features/ja/documentation?category=introduction-deck" },
       { label: "用語集", href: "https://www.querypie.com/ja/features/documentation/glossary-items" },
-      { label: "マニュアル", href: "https://www.querypie.com/ja/features/documentation/querypie-install-guide" },
+      { label: "マニュアル", href: "https://www.querypie.com/ja/features/documentation?category=manual" },
       { label: "ホワイトペーパー", href: "/whitepapers" },
       { label: "ブログ", href: "/blog" },
       { label: "イベント", href: "/events" },
