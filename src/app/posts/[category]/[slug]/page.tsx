@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: ResourcePostRouteProps): Prom
   const downloadPost = getResourceDownloadPost(category, slug);
   if (downloadPost) {
     return {
-      title: `${downloadPost.title} | AI Staff`,
+      title: `${downloadPost.title} | QueryPie AI`,
       description: downloadPost.title,
       alternates: {
         canonical: absoluteUrl(canonicalPath),
@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: ResourcePostRouteProps): Prom
   }
 
   return {
-    title: `${post.title} | AI Staff`,
+    title: `${post.title} | QueryPie AI`,
     description: post.description,
     alternates: {
       canonical: absoluteUrl(canonicalPath),

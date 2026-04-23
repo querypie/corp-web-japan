@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { CheckCircle2, Copy, Facebook, Linkedin, Twitter } from "lucide-react";
 import type { ResourceDownloadPost } from "@/lib/resource-posts";
 import { ResourceLeadForm } from "@/components/sections/resource-lead-form";
@@ -113,12 +112,13 @@ export function ResourcePostDownloadPage({
                   className="mx-auto mb-4 max-w-[300px] text-sm leading-6 text-slate-500"
                   dangerouslySetInnerHTML={{ __html: post.successTextHtml }}
                 />
-                <Link
-                  href="#"
-                  className="inline-flex h-11 items-center gap-2 rounded-[8px] bg-[#374151] px-6 text-[14px] font-medium text-white transition hover:bg-[#1F2937]"
+                <button
+                  type="button"
+                  disabled
+                  className="inline-flex h-11 items-center gap-2 rounded-[8px] bg-[#374151] px-6 text-[14px] font-medium text-white opacity-60"
                 >
                   PDFをダウンロード
-                </Link>
+                </button>
               </div>
             )}
           </div>
