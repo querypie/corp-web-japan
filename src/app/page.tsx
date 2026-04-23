@@ -8,6 +8,9 @@ import { topPageContent } from "@/content/top-page";
 export const metadata: Metadata = {
   title: topPageContent.metadata.title,
   description: topPageContent.metadata.description,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: topPageContent.metadata.title,
     description: topPageContent.metadata.description,

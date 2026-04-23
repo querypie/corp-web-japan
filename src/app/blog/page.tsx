@@ -7,6 +7,9 @@ import { blogItems } from "@/content/resources";
 export const metadata: Metadata = {
   title: "ブログ | QueryPie AI",
   description: "AI Staff に関する最新情報やインサイトをまとめたブログページです。",
+  alternates: {
+    canonical: "/blog",
+  },
 };
 
 export default function BlogPage() {

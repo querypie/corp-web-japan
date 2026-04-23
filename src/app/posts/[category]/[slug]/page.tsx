@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourcePostDownloadPage } from "@/components/sections/resource-post-download-page";
 import { ResourcePostPage } from "@/components/sections/resource-post-page";
+import { absoluteUrl } from "@/lib/site-url";
 import {
   getResourceDownloadPost,
   getResourcePost,
@@ -24,6 +25,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: ResourcePostRouteProps): Promise<Metadata> {
   const { category, slug } = await params;
+  const canonicalPath = `/posts/${category}/${slug.replace(/\.html$/i, "")}`;
 
   if (!isStaticResourcePostCategory(category)) {
     return {};
@@ -34,6 +36,9 @@ export async function generateMetadata({ params }: ResourcePostRouteProps): Prom
     return {
       title: `${downloadPost.title} | AI Staff`,
       description: downloadPost.title,
+      alternates: {
+        canonical: absoluteUrl(canonicalPath),
+      },
     };
   }
 
@@ -46,6 +51,9 @@ export async function generateMetadata({ params }: ResourcePostRouteProps): Prom
   return {
     title: `${post.title} | AI Staff`,
     description: post.description,
+    alternates: {
+      canonical: absoluteUrl(canonicalPath),
+    },
   };
 }
 

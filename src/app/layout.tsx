@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { siteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
+  metadataBase: siteUrl,
   title: "QueryPie AI Japan Website",
   description: "QueryPie AIの日本向けエンタープライズAIソリューションサイトです。",
 };
