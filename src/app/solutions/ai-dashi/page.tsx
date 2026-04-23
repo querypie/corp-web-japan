@@ -378,7 +378,7 @@ export default function AIDashiPage() {
 
             <RevealOnScroll className="w-full max-w-[820px]" variant="up" delayMs={220}>
               <ZoomableFigure
-                src="/solutions/ai-dashi/value-diagram.webp"
+                src="/solutions/ai-dashi/value-diagram.png"
                 alt="AI Dashi の3つの価値を示す図解"
                 caption=""
                 sizes="(min-width: 1024px) 680px, 100vw"
