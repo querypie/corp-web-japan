@@ -69,6 +69,56 @@ At the start of every user turn in this repository:
 - Prefer enforcing the cursor affordance contract in global CSS for standard semantics (`a[href]`, `button:not(:disabled)`, `summary`, `[role="button"]`, form text inputs, and editable text) so `.tsx` markup stays minimal and the browser behavior stays consistent.
 - When a UI surface mixes controls and text, verify the cursor in the browser so hover behavior matches the interaction model (pointer for controls, arrow for titles and body copy).
 
+## URI path conventions
+
+- Prefer a site-wide URI architecture, not one-off route naming decisions.
+- Keep top-level marketing and solution pages on concise, human-readable paths.
+- Keep collection pages clearly distinct from individual postings/articles.
+- Favor natural user-facing nouns first, then choose singular vs. plural based on whether the path represents a collection page or an individual item.
+- Avoid mixing singular and plural forms for the same collection at the same hierarchy level.
+- Avoid introducing legacy-style catch-all content buckets when a clearer content-specific path is available.
+
+### Site-wide content URI architecture
+
+- Use `/` for the top page.
+- Use `/solutions/{solution-name}` for solution landing pages.
+- Use `/demo/{section-name}` for demo and showcase surfaces.
+- Keep resource index pages at the top level when they act as user-facing content hubs.
+- Prefer content-type-specific top-level indexes over generic content hubs.
+- Deprecate unused or misleading local routes rather than keeping placeholder paths alive.
+
+### Recommended final URI scheme
+
+- Top page:
+  - Home: `/`
+- Solutions:
+  - AI Crew: `/solutions/ai-crew`
+  - AI Dashi: `/solutions/ai-dashi`
+- Demo:
+  - Use cases: `/demo/use-cases`
+- Resource indexes:
+  - Blog index: `/blog`
+  - Whitepaper index: `/whitepapers`
+  - Events index: `/events`
+
+### Resource-specific rules
+
+- For resource index/list pages, prefer collection-style paths.
+- Use `/blog` for the blog index. Treat `blog` as a collection noun; prefer `/blog` over `/blogs`.
+- Use plural paths for resource collections whose singular form reads like an individual document or item.
+- Prefer `/whitepapers` over `/whitepaper` for the whitepaper index.
+- Prefer `/events` over `/event` for the events index.
+- Keep index/list pages local when they serve as curated hubs for this website.
+- If an index page remains local, keep the local index URI stable and update only the card/link destinations according to the chosen content model.
+
+### Posting and article policy
+
+- Do not keep local posting/article detail routes for blog or whitepaper content in this website.
+- Do not introduce or preserve `/posts/...` routes for blog or whitepaper articles in `corp-web-japan`.
+- The default rule for individual blog posts and whitepapers is to link users to the corresponding `querypie.com/ja` page.
+- Event content is allowed to follow either model: link to `querypie.com/ja`, create a local posting in this website, or support both when the content strategy calls for it.
+- When removing a local posting/article route, keep the surrounding index/list experience coherent so users still navigate through the intended local hub.
+
 ## Verification
 
 - Run the relevant checks before considering the work complete.
