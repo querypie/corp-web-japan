@@ -3,7 +3,7 @@ import type { ResourceItem } from "../resources";
 export const eventItems: readonly ResourceItem[] = [
   {
     href: "/posts/event/ev-001",
-    imageSrc: "/assets/images/07-blog/event-thumb-1.png",
+    imageSrc: "/assets/image/events/1/thumbnail.png",
     badge: "イベント",
     title: "【ウェビナー】AIエージェント導入の現場から──失敗しない進め方と組織変革のリアル",
     description:
@@ -12,7 +12,7 @@ export const eventItems: readonly ResourceItem[] = [
   },
   {
     href: "/posts/event/ev-002",
-    imageSrc: "/assets/images/07-blog/event-thumb-2.png",
+    imageSrc: "/assets/image/events/2/thumbnail.png",
     badge: "イベント",
     title: "【オンラインセミナー】企業AIのセキュリティ設計入門──ゼロトラストとRAGの組み合わせ",
     description:
@@ -21,7 +21,7 @@ export const eventItems: readonly ResourceItem[] = [
   },
   {
     href: "/posts/event/ev-003",
-    imageSrc: "/assets/images/07-blog/event-thumb-3.png",
+    imageSrc: "/assets/image/events/3/thumbnail.png",
     badge: "イベント",
     title: "【東京開催】QueryPie AI Summit 2026──AIガバナンスと競争優位の新地平",
     description:
@@ -30,7 +30,7 @@ export const eventItems: readonly ResourceItem[] = [
   },
   {
     href: "/posts/event/ev-004",
-    imageSrc: "/assets/images/07-blog/event-thumb-4.png",
+    imageSrc: "/assets/image/events/4/thumbnail.png",
     badge: "イベント",
     title: "【ハンズオン】AIP×MCP実践ワークショップ──エージェントを30分で動かす",
     description:
@@ -39,7 +39,7 @@ export const eventItems: readonly ResourceItem[] = [
   },
   {
     href: "/posts/event/ev-005",
-    imageSrc: "/assets/images/07-blog/event-thumb-5.png",
+    imageSrc: "/assets/image/events/5/thumbnail.png",
     badge: "イベント",
     title: "【ウェビナー録画】SaaSベンダー向けAI出汁活用戦略──自社プロダクトにAIを組み込む方法",
     description:
@@ -48,7 +48,7 @@ export const eventItems: readonly ResourceItem[] = [
   },
   {
     href: "/posts/event/ev-006",
-    imageSrc: "/assets/images/07-blog/event-thumb-6.png",
+    imageSrc: "/assets/image/events/6/thumbnail.png",
     badge: "イベント",
     title: "【大阪開催】関西AI実践ミートアップ Vol.3──現場エンジニアが語るLLMの本音",
     description:
