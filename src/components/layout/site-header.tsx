@@ -23,9 +23,9 @@ const navItems: readonly NavItem[] = [
     label: "サービス",
     description: "QueryPie AIのコアサービス",
     children: [
-      { label: "AIプラットフォーム｜AIP", href: "#" },
-      { label: "アクセス制御プラットフォーム｜ACP", href: "#" },
-      { label: "AI専門家伴走支援｜FDE", href: "#" },
+      { label: "AIプラットフォーム｜AIP", href: "https://www.querypie.com/ja/solutions/aip" },
+      { label: "アクセス制御プラットフォーム｜ACP", href: "https://www.querypie.com/ja/solutions/acp" },
+      { label: "AI専門家伴走支援｜FDE", href: "https://www.querypie.com/ja/solutions/aip/fde-services" },
     ],
   },
   {
@@ -40,9 +40,9 @@ const navItems: readonly NavItem[] = [
     label: "デモ",
     description: "QueryPie AIを体験する",
     children: [
-      { label: "ユースケース", href: "#" },
-      { label: "AIP機能", href: "#" },
-      { label: "ACP機能", href: "#" },
+      { label: "ユースケース", href: "/demo/use-cases" },
+      { label: "AIP機能", href: "https://www.querypie.com/ja/solutions/aip" },
+      { label: "ACP機能", href: "https://www.querypie.com/ja/solutions/acp" },
     ],
   },
   {
@@ -50,9 +50,9 @@ const navItems: readonly NavItem[] = [
     description: "学習・活用リソース",
     grid: true,
     children: [
-      { label: "紹介資料", href: "#" },
-      { label: "用語集", href: "#" },
-      { label: "マニュアル", href: "#" },
+      { label: "紹介資料", href: "https://www.querypie.com/ja/features/documentation/aip-introduction-download" },
+      { label: "用語集", href: "https://www.querypie.com/ja/features/documentation/glossary-items" },
+      { label: "マニュアル", href: "https://www.querypie.com/ja/features/documentation/querypie-install-guide" },
       { label: "ホワイトペーパー", href: "/whitepapers" },
       { label: "ブログ", href: "/blog" },
       { label: "イベント", href: "/events" },
@@ -62,10 +62,10 @@ const navItems: readonly NavItem[] = [
     label: "会社情報",
     description: "QueryPie AIについて",
     children: [
-      { label: "私たちについて", href: "#" },
-      { label: "認証情報", href: "#" },
-      { label: "ニュース", href: "#" },
-      { label: "お問い合わせ", href: "#contact" },
+      { label: "私たちについて", href: "https://www.querypie.com/ja/company/about-us" },
+      { label: "認証情報", href: "https://www.querypie.com/ja/company/certifications" },
+      { label: "ニュース", href: "https://www.querypie.com/ja/company/news" },
+      { label: "お問い合わせ", href: "https://www.querypie.com/ja/company/contact-us" },
     ],
   },
 ];
@@ -168,7 +168,7 @@ export function SiteHeader() {
           </nav>
 
           <div>
-            <Link href="#contact" className={styles.cta}>
+            <Link href="https://www.querypie.com/ja/company/contact-us" className={styles.cta}>
               お問い合わせ
             </Link>
           </div>
