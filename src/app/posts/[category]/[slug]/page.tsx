@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourcePostDownloadPage } from "@/components/sections/resource-post-download-page";
@@ -7,6 +7,7 @@ import { ResourcePostPage } from "@/components/sections/resource-post-page";
 import {
   getResourceDownloadPost,
   getResourcePost,
+  getWhitepaperExternalUrl,
   isResourcePostCategory,
   listResourcePostParams,
 } from "@/lib/resource-posts";
@@ -27,6 +28,15 @@ export async function generateMetadata({ params }: ResourcePostRouteProps): Prom
 
   if (!isResourcePostCategory(category)) {
     return {};
+  }
+
+  const whitepaperExternalUrl =
+    category === "whitepaper" ? getWhitepaperExternalUrl(slug) : null;
+  if (whitepaperExternalUrl) {
+    return {
+      title: "Redirecting to QueryPie | AI Staff",
+      description: "This whitepaper is available on querypie.com/ja.",
+    };
   }
 
   const downloadPost = getResourceDownloadPost(category, slug);
@@ -54,6 +64,12 @@ export default async function ResourcePostRoute({ params }: ResourcePostRoutePro
 
   if (!isResourcePostCategory(category)) {
     notFound();
+  }
+
+  const whitepaperExternalUrl =
+    category === "whitepaper" ? getWhitepaperExternalUrl(slug) : null;
+  if (whitepaperExternalUrl) {
+    permanentRedirect(whitepaperExternalUrl);
   }
 
   const downloadPost = getResourceDownloadPost(category, slug);

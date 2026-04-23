@@ -45,6 +45,16 @@ export type ResourceDownloadPost = {
 
 const POSTS_ROOT = path.join(process.cwd(), "content/source-posts");
 const VALID_CATEGORIES = new Set<ResourcePostCategory>(["blog", "whitepaper", "event"]);
+const WHITEPAPER_EXTERNAL_URL_BY_SLUG: Map<string, string> = new Map(
+  [
+    ["wp-001", "https://www.querypie.com/ja/features/documentation/white-paper/28/ai-agent-guardrails-governance-2026"],
+    ["wp-003", "https://www.querypie.com/ja/features/documentation/white-paper/26/llm-evaluation-agentic-rag-part1"],
+    ["wp-016", "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan"],
+    ["wp-005", "https://www.querypie.com/ja/features/documentation/white-paper/23/rag-security-querypie-builds-the-bridge"],
+    ["wp-006", "https://www.querypie.com/ja/features/documentation/white-paper/22/your-architect-vs-ai-agents"],
+    ["wp-007", "https://www.querypie.com/ja/features/documentation/white-paper/21/welcome-to-the-age-of-agentsecops"],
+  ] as const,
+);
 const RESOURCE_IMAGE_BY_HREF: Map<string, string> = new Map(
   [...blogItems, ...whitepaperItems, ...eventItems].map((item) => [item.href, item.imageSrc]),
 );
@@ -217,6 +227,10 @@ export function getResourcePost(category: ResourcePostCategory, slug: string): R
     relatedItems: parseRelatedItems(html),
     tocHtml: extractElement(html, '<ul class="sidebar-toc-list">', "ul"),
   };
+}
+
+export function getWhitepaperExternalUrl(slug: string) {
+  return WHITEPAPER_EXTERNAL_URL_BY_SLUG.get(normalizeSlug(slug)) ?? null;
 }
 
 export function getResourceDownloadPost(

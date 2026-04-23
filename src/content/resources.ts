@@ -68,7 +68,7 @@ export const blogItems = [
 
 export const whitepaperItems = [
   {
-    href: "/posts/whitepaper/wp-001",
+    href: "https://www.querypie.com/ja/features/documentation/white-paper/28/ai-agent-guardrails-governance-2026",
     imageSrc: "/assets/images/07-blog/wp-thumb-28.png",
     badge: "ホワイトペーパー",
     title: "AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編",
@@ -77,7 +77,7 @@ export const whitepaperItems = [
     date: "2026年2月27日",
   },
   {
-    href: "/posts/whitepaper/wp-003",
+    href: "https://www.querypie.com/ja/features/documentation/white-paper/26/llm-evaluation-agentic-rag-part1",
     imageSrc: "/assets/images/07-blog/wp-thumb-26.png",
     badge: "ホワイトペーパー",
     title: "コード生成およびAgentic RAGタスクを中心とした特定ドメインのためのLLM比較評価【前編】",
@@ -86,7 +86,7 @@ export const whitepaperItems = [
     date: "2026年2月13日",
   },
   {
-    href: "/posts/whitepaper/wp-016",
+    href: "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan",
     imageSrc: "/assets/images/07-blog/wp-thumb-24-jp.png",
     badge: "ホワイトペーパー",
     title: "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか",
@@ -95,7 +95,7 @@ export const whitepaperItems = [
     date: "2025年11月17日",
   },
   {
-    href: "/posts/whitepaper/wp-005",
+    href: "https://www.querypie.com/ja/features/documentation/white-paper/23/rag-security-querypie-builds-the-bridge",
     imageSrc: "/assets/images/07-blog/wp-thumb-23.png",
     badge: "ホワイトペーパー",
     title: "RAG 2.0 セキュリティ – Microsoft・Metaの戦略、QueryPieが繋ぐ",
@@ -104,7 +104,7 @@ export const whitepaperItems = [
     date: "2025年5月28日",
   },
   {
-    href: "/posts/whitepaper/wp-006",
+    href: "https://www.querypie.com/ja/features/documentation/white-paper/22/your-architect-vs-ai-agents",
     imageSrc: "/assets/images/07-blog/wp-thumb-22.png",
     badge: "ホワイトペーパー",
     title: "MCPとAIエージェントが対決：あなたの設計は安全か？",
@@ -113,7 +113,7 @@ export const whitepaperItems = [
     date: "2025年5月21日",
   },
   {
-    href: "/posts/whitepaper/wp-007",
+    href: "https://www.querypie.com/ja/features/documentation/white-paper/21/welcome-to-the-age-of-agentsecops",
     imageSrc: "/assets/images/07-blog/wp-thumb-21.png",
     badge: "ホワイトペーパー",
     title: "コードは止まり、エージェントが動く – AgentSecOpsの時代へ",
