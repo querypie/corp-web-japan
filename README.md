@@ -129,3 +129,9 @@ Both humans and agents should remember:
 - `npm run test:ci` is the standard verification step before a PR.
 - Visual changes should be checked in a real browser.
 - Working rules and execution details belong in `AGENTS.md`.
+
+## Environment URLs
+
+- Production URL: [https://querypie.ai](https://querypie.ai)
+- Redirect domains: at minimum [https://www.querypie.ai](https://www.querypie.ai) -> [https://querypie.ai](https://querypie.ai)
+- Staging URL: [https://stage.querypie.ai](https://stage.querypie.ai)
