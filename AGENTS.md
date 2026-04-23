@@ -13,6 +13,14 @@ These principles apply to both humans and AI agents.
 - Verify changes with the lightest command that proves correctness.
 - If something is ambiguous, choose the smallest change that satisfies the request.
 
+## Project stack
+
+- Next.js 16 with the App Router
+- React 19
+- TypeScript
+- Tailwind CSS v4
+- npm
+
 ## Before you work
 
 1. Read `README.md` for project context.

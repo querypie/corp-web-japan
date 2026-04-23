@@ -17,14 +17,6 @@ These principles apply to both humans and AI agents.
 
 ## Project overview
 
-Current stack:
-
-- Next.js 16 with the App Router
-- React 19
-- TypeScript
-- Tailwind CSS v4
-- npm
-
 Core directories:
 
 - `src/app/` — routes and API endpoints
