@@ -40,7 +40,7 @@ const navItems: readonly NavItem[] = [
     label: "デモ",
     description: "QueryPie AIを体験する",
     children: [
-      { label: "ユースケース", href: "/demo/use-cases" },
+      { label: "ユースケース", href: "https://www.querypie.com/ja/features/demo?category=use-cases" },
       { label: "AIP機能", href: "https://www.querypie.com/ja/features/demo?category=aip-features" },
       { label: "ACP機能", href: "https://www.querypie.com/ja/features/demo?category=acp-features" },
     ],
@@ -55,7 +55,6 @@ const navItems: readonly NavItem[] = [
       { label: "マニュアル", href: "https://www.querypie.com/ja/features/documentation?category=manual" },
       { label: "ホワイトペーパー", href: "/whitepapers" },
       { label: "ブログ", href: "/blog" },
-      { label: "イベント", href: "/events" },
     ],
   },
   {

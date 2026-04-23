@@ -21,7 +21,7 @@ const footerColumns = [
   {
     title: "デモ",
     links: [
-      { label: "活用事例", href: "/demo/use-cases" },
+      { label: "活用事例", href: "https://www.querypie.com/ja/features/demo?category=use-cases" },
       { label: "AIP 機能", href: "https://www.querypie.com/ja/features/demo?category=aip-features" },
       { label: "ACP 機能", href: "https://www.querypie.com/ja/features/demo?category=acp-features" },
     ],
@@ -34,7 +34,6 @@ const footerColumns = [
       { label: "マニュアル", href: "https://www.querypie.com/ja/features/documentation?category=manual" },
       { label: "ホワイトペーパー", href: "/whitepapers" },
       { label: "ブログ", href: "/blog" },
-      { label: "イベント", href: "/events" },
     ],
   },
   {

@@ -25,12 +25,11 @@ type ResourcePageProps = {
 
 const sidebarLinks = [
   { label: "全て", href: "#" },
-  { label: "紹介資料", href: "#" },
-  { label: "用語集", href: "#" },
-  { label: "マニュアル", href: "#" },
+  { label: "紹介資料", href: "https://www.querypie.com/features/ja/documentation?category=introduction-deck" },
+  { label: "用語集", href: "https://www.querypie.com/ja/features/documentation/glossary-items" },
+  { label: "マニュアル", href: "https://www.querypie.com/ja/features/documentation?category=manual" },
   { label: "ホワイトペーパー", href: "/whitepapers", key: "whitepaper" },
   { label: "ブログ", href: "/blog", key: "blog" },
-  { label: "イベント", href: "/events", key: "events" },
 ] as const;
 
 export function ResourcePage({
