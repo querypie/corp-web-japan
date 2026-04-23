@@ -133,6 +133,8 @@ At the start of every user turn in this repository:
 - Use `npm run test:ci` for PR-style verification when applicable.
 - Run `npm run build` when the change affects production rendering or deployment candidates.
 - Check the real browser when layout, spacing, or visual hierarchy changes.
+- When adding a new public page, removing a public page, or changing a public page URI, update the corresponding entry in `src/app/sitemap.ts` in the same change.
+- When a page change affects the canonical public URL, keep the page metadata and `src/app/sitemap.ts` aligned.
 
 ## Pull request workflow
 
