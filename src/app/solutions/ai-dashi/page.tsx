@@ -705,7 +705,7 @@ export default function AIDashiPage() {
                 >
                   <div className="relative min-h-[260px] bg-[#f5f7fb] p-6 md:min-h-full">
                     <Image
-                      src="/white-paper/wp-thumb-30-jp.png"
+                      src="/assets/image/whitepapers/30/thumbnail.png"
                       alt="SaaSの終焉か、進化か ホワイトペーパー表紙"
                       fill
                       className="object-contain p-6"

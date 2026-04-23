@@ -3,7 +3,7 @@ import type { ResourceItem } from "@/content/resources";
 export const whitepaperItems: readonly ResourceItem[] = [
   {
     href: "https://www.querypie.com/ja/features/documentation/white-paper/28/ai-agent-guardrails-governance-2026",
-    imageSrc: "/assets/images/07-blog/wp-thumb-28.png",
+    imageSrc: "/assets/image/whitepapers/28/thumbnail.png",
     badge: "ホワイトペーパー",
     title: "AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編",
     description:
@@ -12,7 +12,7 @@ export const whitepaperItems: readonly ResourceItem[] = [
   },
   {
     href: "https://www.querypie.com/ja/features/documentation/white-paper/26/llm-evaluation-agentic-rag-part1",
-    imageSrc: "/assets/images/07-blog/wp-thumb-26.png",
+    imageSrc: "/assets/image/whitepapers/26/thumbnail.png",
     badge: "ホワイトペーパー",
     title: "コード生成およびAgentic RAGタスクを中心とした特定ドメインのためのLLM比較評価【前編】",
     description:
@@ -21,7 +21,7 @@ export const whitepaperItems: readonly ResourceItem[] = [
   },
   {
     href: "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan",
-    imageSrc: "/assets/images/07-blog/wp-thumb-24-jp.png",
+    imageSrc: "/assets/image/whitepapers/24/thumbnail.png",
     badge: "ホワイトペーパー",
     title: "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか",
     description:
@@ -30,7 +30,7 @@ export const whitepaperItems: readonly ResourceItem[] = [
   },
   {
     href: "https://www.querypie.com/ja/features/documentation/white-paper/23/rag-security-querypie-builds-the-bridge",
-    imageSrc: "/assets/images/07-blog/wp-thumb-23.png",
+    imageSrc: "/assets/image/whitepapers/23/thumbnail.png",
     badge: "ホワイトペーパー",
     title: "RAG 2.0 セキュリティ – Microsoft・Metaの戦略、QueryPieが繋ぐ",
     description:
@@ -39,7 +39,7 @@ export const whitepaperItems: readonly ResourceItem[] = [
   },
   {
     href: "https://www.querypie.com/ja/features/documentation/white-paper/22/your-architect-vs-ai-agents",
-    imageSrc: "/assets/images/07-blog/wp-thumb-22.png",
+    imageSrc: "/assets/image/whitepapers/22/thumbnail.png",
     badge: "ホワイトペーパー",
     title: "MCPとAIエージェントが対決：あなたの設計は安全か？",
     description:
@@ -48,7 +48,7 @@ export const whitepaperItems: readonly ResourceItem[] = [
   },
   {
     href: "https://www.querypie.com/ja/features/documentation/white-paper/21/welcome-to-the-age-of-agentsecops",
-    imageSrc: "/assets/images/07-blog/wp-thumb-21.png",
+    imageSrc: "/assets/image/whitepapers/21/thumbnail.png",
     badge: "ホワイトペーパー",
     title: "コードは止まり、エージェントが動く – AgentSecOpsの時代へ",
     description:
