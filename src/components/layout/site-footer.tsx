@@ -6,9 +6,9 @@ const footerColumns = [
   {
     title: "サービス",
     links: [
-      { label: "AIプラットフォーム｜AIP", href: "#" },
-      { label: "アクセス制御プラットフォーム｜ACP", href: "#" },
-      { label: "AI専門家伴走支援｜FDE", href: "#" },
+      { label: "AIプラットフォーム｜AIP", href: "https://www.querypie.com/ja/solutions/aip" },
+      { label: "アクセス制御プラットフォーム｜ACP", href: "https://www.querypie.com/ja/solutions/acp" },
+      { label: "AI専門家伴走支援｜FDE", href: "https://www.querypie.com/ja/solutions/aip/fde-services" },
     ],
   },
   {
@@ -21,17 +21,17 @@ const footerColumns = [
   {
     title: "デモ",
     links: [
-      { label: "活用事例", href: "#" },
-      { label: "AIP 機能", href: "#" },
-      { label: "ACP 機能", href: "#" },
+      { label: "活用事例", href: "/demo/use-cases" },
+      { label: "AIP 機能", href: "https://www.querypie.com/ja/solutions/aip" },
+      { label: "ACP 機能", href: "https://www.querypie.com/ja/solutions/acp" },
     ],
   },
   {
     title: "リソース",
     links: [
-      { label: "紹介資料", href: "#" },
-      { label: "用語集", href: "#" },
-      { label: "マニュアル", href: "#" },
+      { label: "紹介資料", href: "https://www.querypie.com/ja/features/documentation/aip-introduction-download" },
+      { label: "用語集", href: "https://www.querypie.com/ja/features/documentation/glossary-items" },
+      { label: "マニュアル", href: "https://www.querypie.com/ja/features/documentation/querypie-install-guide" },
       { label: "ホワイトペーパー", href: "/whitepapers" },
       { label: "ブログ", href: "/blog" },
       { label: "イベント", href: "/events" },
@@ -40,10 +40,10 @@ const footerColumns = [
   {
     title: "会社情報",
     links: [
-      { label: "会社概要", href: "#" },
-      { label: "認定・認証", href: "#" },
-      { label: "ニュース", href: "#" },
-      { label: "お問い合わせ", href: "#" },
+      { label: "会社概要", href: "https://www.querypie.com/ja/company/about-us" },
+      { label: "認定・認証", href: "https://www.querypie.com/ja/company/certifications" },
+      { label: "ニュース", href: "https://www.querypie.com/ja/company/news" },
+      { label: "お問い合わせ", href: "https://www.querypie.com/ja/company/contact-us" },
     ],
   },
 ] as const;
@@ -77,10 +77,10 @@ const socialLinks = [
 ] as const;
 
 const legalLinks = [
-  { label: "Cookie設定", href: "#" },
-  { label: "利用規約", href: "#" },
-  { label: "プライバシーポリシー", href: "#" },
-  { label: "EULA", href: "#" },
+  { label: "Cookie設定", href: "https://www.querypie.com/ja/cookie-preference" },
+  { label: "利用規約", href: "https://www.querypie.com/ja/terms-of-service" },
+  { label: "プライバシーポリシー", href: "https://www.querypie.com/ja/privacy-policy" },
+  { label: "EULA", href: "https://www.querypie.com/ja/eula" },
 ] as const;
 
 const addresses = [
