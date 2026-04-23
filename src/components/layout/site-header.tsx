@@ -40,9 +40,9 @@ const navItems: readonly NavItem[] = [
     label: "デモ",
     description: "QueryPie AIを体験する",
     children: [
-      { label: "ユースケース", href: "/demo/use-cases" },
-      { label: "AIP機能", href: "https://www.querypie.com/ja/solutions/aip" },
-      { label: "ACP機能", href: "https://www.querypie.com/ja/solutions/acp" },
+      { label: "ユースケース", href: "https://www.querypie.com/ja/features/demo?category=use-cases" },
+      { label: "AIP機能", href: "https://www.querypie.com/ja/features/demo?category=aip-features" },
+      { label: "ACP機能", href: "https://www.querypie.com/ja/features/demo?category=acp-features" },
     ],
   },
   {
@@ -50,12 +50,11 @@ const navItems: readonly NavItem[] = [
     description: "学習・活用リソース",
     grid: true,
     children: [
-      { label: "紹介資料", href: "https://www.querypie.com/ja/features/documentation/aip-introduction-download" },
-      { label: "用語集", href: "https://www.querypie.com/ja/features/documentation/glossary-items" },
-      { label: "マニュアル", href: "https://www.querypie.com/ja/features/documentation/querypie-install-guide" },
+      { label: "紹介資料", href: "https://www.querypie.com/features/ja/documentation?category=introduction-deck" },
+      { label: "用語集", href: "https://www.querypie.com/ja/features/documentation?category=glossary" },
+      { label: "マニュアル", href: "https://www.querypie.com/ja/features/documentation?category=manual" },
       { label: "ホワイトペーパー", href: "/whitepapers" },
       { label: "ブログ", href: "/blog" },
-      { label: "イベント", href: "/events" },
     ],
   },
   {
