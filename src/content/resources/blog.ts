@@ -1,24 +1,9 @@
 import type { ResourceItem } from "../resources";
 
-export const externalBlogUrlBySlug = {
-  "b-001": "https://www.querypie.com/ja/features/documentation/blog/28/ai-security-threat-map-2026-cxo",
-  "b-002": "https://www.querypie.com/ja/features/documentation/blog/27/shadow-ai-risk-cxo-countermeasures",
-  "b-003": "https://www.querypie.com/ja/features/documentation/blog/23/querypie-payroll-partnership",
-  "b-004": "https://www.querypie.com/ja/features/documentation/blog/22/ai-agent-security-replit-case",
-  "b-005": "https://www.querypie.com/ja/features/documentation/blog/21/why-we-need-ai-red-teaming",
-  "b-009": "https://www.querypie.com/ja/features/documentation/blog/26/mitoco-buddy-release",
-  "b-010": "https://www.querypie.com/ja/features/documentation/blog/25/terrasky-mitoco-buddy",
-} as const;
-
-export function getExternalBlogUrl(slug: string) {
-  const normalizedSlug = slug.replace(/\.html$/i, "");
-  return externalBlogUrlBySlug[normalizedSlug as keyof typeof externalBlogUrlBySlug] ?? null;
-}
-
 export const blogItems: readonly ResourceItem[] = [
   {
-    href: externalBlogUrlBySlug["b-001"],
-    imageSrc: "/assets/images/07-blog/b-thumb-28.png",
+    href: "https://www.querypie.com/ja/features/documentation/blog/28/ai-security-threat-map-2026-cxo",
+    imageSrc: "/assets/image/blog/28/thumbnail.png",
     badge: "ブログ",
     title: "AIセキュリティ脅威マップ2026｜CxOが備えるべき7つの攻撃ベクトルと実務対策フレームワーク",
     description:
@@ -26,8 +11,8 @@ export const blogItems: readonly ResourceItem[] = [
     date: "2026年3月3日",
   },
   {
-    href: externalBlogUrlBySlug["b-002"],
-    imageSrc: "/assets/images/07-blog/b-thumb-27.png",
+    href: "https://www.querypie.com/ja/features/documentation/blog/27/shadow-ai-risk-cxo-countermeasures",
+    imageSrc: "/assets/image/blog/27/thumbnail.png",
     badge: "ブログ",
     title: "【2026年最新】シャドーAIリスクの全貌｜情報漏洩・コンプライアンス違反を防ぐCxOの5つの対策",
     description:
@@ -35,8 +20,8 @@ export const blogItems: readonly ResourceItem[] = [
     date: "2026年2月20日",
   },
   {
-    href: externalBlogUrlBySlug["b-010"],
-    imageSrc: "/assets/images/07-blog/news-21.png",
+    href: "https://www.querypie.com/ja/features/documentation/blog/25/terrasky-mitoco-buddy",
+    imageSrc: "/assets/image/blog/25/thumbnail.png",
     badge: "ブログ",
     title: "QueryPie AI、株式会社テラスカイと協業しAIエージェント「mitoco Buddy」を発表",
     description:
@@ -44,8 +29,8 @@ export const blogItems: readonly ResourceItem[] = [
     date: "2025年11月7日",
   },
   {
-    href: externalBlogUrlBySlug["b-003"],
-    imageSrc: "/assets/images/07-blog/news-20.png",
+    href: "https://www.querypie.com/ja/features/documentation/blog/23/querypie-payroll-partnership",
+    imageSrc: "/assets/image/blog/23/thumbnail.png",
     badge: "ブログ",
     title: "株式会社ペイロールとQueryPieがAIセキュリティ分野で技術提携",
     description:
@@ -53,8 +38,8 @@ export const blogItems: readonly ResourceItem[] = [
     date: "2025年8月5日",
   },
   {
-    href: externalBlogUrlBySlug["b-004"],
-    imageSrc: "/assets/images/07-blog/b-thumb-22.png",
+    href: "https://www.querypie.com/ja/features/documentation/blog/22/ai-agent-security-replit-case",
+    imageSrc: "/assets/image/blog/22/thumbnail.png",
     badge: "ブログ",
     title: "AIはどこまで信じていいのか？Replit事件から振り返るAIエージェントセキュリティの現実",
     description:
@@ -62,8 +47,8 @@ export const blogItems: readonly ResourceItem[] = [
     date: "2025年7月29日",
   },
   {
-    href: externalBlogUrlBySlug["b-005"],
-    imageSrc: "/assets/images/07-blog/b-thumb-21.png",
+    href: "https://www.querypie.com/ja/features/documentation/blog/21/why-we-need-ai-red-teaming",
+    imageSrc: "/assets/image/blog/21/thumbnail.png",
     badge: "ブログ",
     title: "AIが命令を聞かなかった：なぜAI Red Teamingが必要なのか",
     description:
