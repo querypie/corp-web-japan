@@ -10,12 +10,23 @@ export const metadata: Metadata = {
   description: "AI Staff に関するセミナーやイベント情報をまとめたページです。",
 };
 
-export default function EventsPage() {
+type EventsPageProps = {
+  searchParams?: Promise<{
+    unblock?: string | string[];
+  }>;
+};
+
+export default async function EventsPage({ searchParams }: EventsPageProps) {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const unblockParam = resolvedSearchParams?.unblock;
+  const hasUnblockQuery = Array.isArray(unblockParam)
+    ? unblockParam.length > 0
+    : typeof unblockParam === "string";
   const isEventContentReady = false;
 
-  if (!isEventContentReady) {
+  if (!isEventContentReady && !hasUnblockQuery) {
     // TODO: When the real externally publishable event content is ready,
-    // set `isEventContentReady` to `true` and start exposing `/events`.
+    // set `isEventContentReady` to `true` and remove the temporary `unblock` query override.
     return notFound();
   }
 
