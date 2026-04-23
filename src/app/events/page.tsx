@@ -5,7 +5,7 @@ import { ResourcePage } from "@/components/sections/resource-page";
 import { eventItems } from "@/content/resources/events";
 
 export const metadata: Metadata = {
-  title: "イベント | AI Staff",
+  title: "イベント | QueryPie AI",
   description: "AI Staff に関するセミナーやイベント情報をまとめたページです。",
 };
 
