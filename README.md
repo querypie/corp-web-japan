@@ -5,6 +5,12 @@ This repository contains the Japan-facing AI Staff website.
 README.md is the human-facing guide for understanding the project and getting started.
 AI agents should read this file first for context, then follow `AGENTS.md` for working rules.
 
+## Environment URLs
+
+- Production URL: [https://querypie.ai](https://querypie.ai)
+- Redirect domains: at minimum [https://www.querypie.ai](https://www.querypie.ai) -> [https://querypie.ai](https://querypie.ai)
+- Staging URL: [https://stage.querypie.ai](https://stage.querypie.ai)
+
 ## Shared principles
 
 These principles apply to both humans and AI agents.
@@ -17,13 +23,8 @@ These principles apply to both humans and AI agents.
 
 ## Project overview
 
-Current stack:
-
-- Next.js 16 with the App Router
-- React 19
-- TypeScript
-- Tailwind CSS v4
-- npm
+This project is built with Next.js, React, TypeScript, and Tailwind CSS.
+It uses the App Router and npm-based workflows.
 
 Core directories:
 
