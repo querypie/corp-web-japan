@@ -47,7 +47,7 @@ export type ResourceDownloadPost = {
 
 const POSTS_ROOT = path.join(process.cwd(), "content/source-posts");
 const VALID_CATEGORIES = new Set<ResourcePostCategory>(["blog", "whitepaper", "event"]);
-const STATIC_ROUTE_CATEGORIES: readonly ResourcePostCategory[] = ["blog", "event"];
+const STATIC_ROUTE_CATEGORIES: readonly ResourcePostCategory[] = ["event"];
 const RESOURCE_IMAGE_BY_HREF: Map<string, string> = new Map(
   [...blogItems, ...whitepaperItems, ...eventItems].map((item) => [item.href, item.imageSrc]),
 );
