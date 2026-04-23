@@ -170,6 +170,10 @@ export function isResourcePostCategory(value: string): value is ResourcePostCate
   return VALID_CATEGORIES.has(value as ResourcePostCategory);
 }
 
+export function isStaticResourcePostCategory(value: string): value is ResourcePostCategory {
+  return STATIC_ROUTE_CATEGORIES.includes(value as ResourcePostCategory);
+}
+
 export function listResourcePostParams() {
   return STATIC_ROUTE_CATEGORIES.flatMap((category) => {
     const categoryDir = path.join(POSTS_ROOT, category);
