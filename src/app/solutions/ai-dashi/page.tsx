@@ -705,7 +705,7 @@ export default function AIDashiPage() {
                 >
                   <div className="relative min-h-[260px] bg-[#f5f7fb] p-6 md:min-h-full">
                     <Image
-                      src="/assets/image/whitepapers/30/thumbnail.png"
+                      src="/solutions/ai-dashi/the-end-of-saas-or-its-evolution.png"
                       alt="SaaSの終焉か、進化か ホワイトペーパー表紙"
                       fill
                       className="object-contain p-6"
