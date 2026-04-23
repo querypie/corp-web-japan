@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourcePage } from "@/components/sections/resource-page";
-import { eventItems } from "@/content/resources";
+import { eventItems } from "@/content/resources/events";
 
 export const metadata: Metadata = {
   title: "イベント | AI Staff",

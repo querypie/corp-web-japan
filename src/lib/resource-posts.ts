@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { blogItems, eventItems } from "@/content/resources";
+import { eventItems } from "@/content/resources/events";
+import { blogItems } from "@/content/resources";
 import { whitepaperItems } from "@/content/whitepapers";
 
 export type ResourcePostCategory = "blog" | "whitepaper" | "event";
