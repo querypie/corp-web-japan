@@ -19,14 +19,13 @@ type EventsPageProps = {
 export default async function EventsPage({ searchParams }: EventsPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const unblockParam = resolvedSearchParams?.unblock;
-  const hasUnblockQuery = Array.isArray(unblockParam)
+  const isEventContentReady = Array.isArray(unblockParam)
     ? unblockParam.length > 0
     : typeof unblockParam === "string";
-  const isEventContentReady = false;
 
-  if (!isEventContentReady && !hasUnblockQuery) {
+  if (!isEventContentReady) {
     // TODO: When the real externally publishable event content is ready,
-    // set `isEventContentReady` to `true` and remove the temporary `unblock` query override.
+    // replace this temporary `unblock` query-based readiness check with the final launch condition.
     return notFound();
   }
 
