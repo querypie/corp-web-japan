@@ -29,7 +29,7 @@ const footerColumns = [
   {
     title: "リソース",
     links: [
-      { label: "紹介資料", href: "https://www.querypie.com/features/ja/documentation?category=introduction-deck" },
+      { label: "紹介資料", href: "https://www.querypie.com/ja/features/documentation?category=introduction-deck" },
       { label: "用語集", href: "https://www.querypie.com/ja/features/documentation?category=glossary" },
       { label: "マニュアル", href: "https://www.querypie.com/ja/features/documentation?category=manual" },
       { label: "ホワイトペーパー", href: "/whitepapers" },
