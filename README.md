@@ -1,15 +1,15 @@
 # AI Staff Japan Website
 
+This repository contains the Japan-facing AI Staff website.
+
+README.md is the human-facing guide for understanding the project and getting started.
+AI agents should read this file first for context, then follow `AGENTS.md` for working rules.
+
 ## Environment URLs
 
 - Production URL: [https://querypie.ai](https://querypie.ai)
 - Redirect domains: at minimum [https://www.querypie.ai](https://www.querypie.ai) -> [https://querypie.ai](https://querypie.ai)
 - Staging URL: [https://stage.querypie.ai](https://stage.querypie.ai)
-
-This repository contains the Japan-facing AI Staff website.
-
-README.md is the human-facing guide for understanding the project and getting started.
-AI agents should read this file first for context, then follow `AGENTS.md` for working rules.
 
 ## Shared principles
 
