@@ -30,6 +30,7 @@ const sidebarLinks = [
   { label: "マニュアル", href: "https://www.querypie.com/ja/features/documentation?category=manual" },
   { label: "ホワイトペーパー", href: "/whitepapers", key: "whitepaper" },
   { label: "ブログ", href: "/blog", key: "blog" },
+  { label: "イベント", href: "/events", key: "events" },
 ] as const;
 
 export function ResourcePage({
