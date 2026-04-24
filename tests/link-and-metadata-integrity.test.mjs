@@ -3,28 +3,32 @@ import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
 const headerExpectedLinks = [
-  'label: "AIプラットフォーム｜AIP", href: "https://www.querypie.com/ja/solutions/aip"',
-  'label: "アクセス制御プラットフォーム｜ACP", href: "https://www.querypie.com/ja/solutions/acp"',
-  'label: "AI専門家伴走支援｜FDE", href: "https://www.querypie.com/ja/solutions/aip/fde-services"',
+  'label: "AIプラットフォーム｜AIP", href: "/services/aip"',
+  'label: "アクセス制御プラットフォーム｜ACP", href: "/services/acp"',
+  'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
   'label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew"',
   'label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi"',
-  'label: "ユースケース", href: "https://www.querypie.com/ja/features/demo?category=use-cases"',
+  'label: "ユースケース", href: "/demo/use-cases"',
+  'label: "全てのリソース", href: "/resources"',
   'label: "ホワイトペーパー", href: "/whitepapers"',
   'label: "ブログ", href: "/blog"',
-  'label: "お問い合わせ", href: "https://www.querypie.com/ja/company/contact-us"',
+  'label: "イベント", href: "/events"',
+  'label: "お問い合わせ", href: "/contact-us"',
 ];
 
 const footerExpectedLinks = [
-  'label: "AIプラットフォーム｜AIP", href: "https://www.querypie.com/ja/solutions/aip"',
-  'label: "アクセス制御プラットフォーム｜ACP", href: "https://www.querypie.com/ja/solutions/acp"',
-  'label: "AI専門家伴走支援｜FDE", href: "https://www.querypie.com/ja/solutions/aip/fde-services"',
+  'label: "AIプラットフォーム｜AIP", href: "/services/aip"',
+  'label: "アクセス制御プラットフォーム｜ACP", href: "/services/acp"',
+  'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
   'label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew"',
   'label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi"',
-  'label: "活用事例", href: "https://www.querypie.com/ja/features/demo?category=use-cases"',
+  'label: "活用事例", href: "/demo/use-cases"',
+  'label: "全てのリソース", href: "/resources"',
   'label: "ホワイトペーパー", href: "/whitepapers"',
   'label: "ブログ", href: "/blog"',
-  'label: "会社概要", href: "https://www.querypie.com/ja/company/about-us"',
-  'label: "お問い合わせ", href: "https://www.querypie.com/ja/company/contact-us"',
+  'label: "イベント", href: "/events"',
+  'label: "会社概要", href: "/about-us"',
+  'label: "お問い合わせ", href: "/contact-us"',
 ];
 
 test("header and footer navigation links match the current implemented destinations", () => {

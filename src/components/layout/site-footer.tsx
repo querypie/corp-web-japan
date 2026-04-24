@@ -6,9 +6,9 @@ const footerColumns = [
   {
     title: "サービス",
     links: [
-      { label: "AIプラットフォーム｜AIP", href: "https://www.querypie.com/ja/solutions/aip" },
-      { label: "アクセス制御プラットフォーム｜ACP", href: "https://www.querypie.com/ja/solutions/acp" },
-      { label: "AI専門家伴走支援｜FDE", href: "https://www.querypie.com/ja/solutions/aip/fde-services" },
+      { label: "AIプラットフォーム｜AIP", href: "/services/aip" },
+      { label: "アクセス制御プラットフォーム｜ACP", href: "/services/acp" },
+      { label: "AI専門家伴走支援｜FDE", href: "/services/fde" },
     ],
   },
   {
@@ -21,28 +21,30 @@ const footerColumns = [
   {
     title: "デモ",
     links: [
-      { label: "活用事例", href: "https://www.querypie.com/ja/features/demo?category=use-cases" },
-      { label: "AIP 機能", href: "https://www.querypie.com/ja/features/demo?category=aip-features" },
-      { label: "ACP 機能", href: "https://www.querypie.com/ja/features/demo?category=acp-features" },
+      { label: "活用事例", href: "/demo/use-cases" },
+      { label: "AIP 機能", href: "/demo/aip" },
+      { label: "ACP 機能", href: "/demo/acp" },
     ],
   },
   {
     title: "リソース",
     links: [
+      { label: "全てのリソース", href: "/resources" },
       { label: "紹介資料", href: "https://www.querypie.com/ja/features/documentation?category=introduction-deck" },
-      { label: "用語集", href: "https://www.querypie.com/ja/features/documentation?category=glossary" },
-      { label: "マニュアル", href: "https://www.querypie.com/ja/features/documentation?category=manual" },
+      { label: "用語集", href: "/glossary" },
+      { label: "マニュアル", href: "/manuals" },
       { label: "ホワイトペーパー", href: "/whitepapers" },
       { label: "ブログ", href: "/blog" },
+      { label: "イベント", href: "/events" },
     ],
   },
   {
     title: "会社情報",
     links: [
-      { label: "会社概要", href: "https://www.querypie.com/ja/company/about-us" },
-      { label: "認定・認証", href: "https://www.querypie.com/ja/company/certifications" },
-      { label: "ニュース", href: "https://www.querypie.com/ja/company/news" },
-      { label: "お問い合わせ", href: "https://www.querypie.com/ja/company/contact-us" },
+      { label: "会社概要", href: "/about-us" },
+      { label: "認定・認証", href: "/certifications" },
+      { label: "ニュース", href: "/news" },
+      { label: "お問い合わせ", href: "/contact-us" },
     ],
   },
 ] as const;

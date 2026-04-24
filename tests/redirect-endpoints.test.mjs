@@ -19,10 +19,55 @@ const expectedRedirectRules = [
     file: "src/app/services/fde/route.ts",
     destination: "https://www.querypie.com/ja/solutions/aip/fde-services",
   },
+  {
+    requestPath: "/demo/aip",
+    file: "src/app/demo/aip/route.ts",
+    destination: "https://www.querypie.com/ja/features/demo?category=aip-features",
+  },
+  {
+    requestPath: "/demo/acp",
+    file: "src/app/demo/acp/route.ts",
+    destination: "https://www.querypie.com/ja/features/demo?category=acp-features",
+  },
+  {
+    requestPath: "/about-us",
+    file: "src/app/about-us/route.ts",
+    destination: "https://www.querypie.com/ja/company/about-us",
+  },
+  {
+    requestPath: "/certifications",
+    file: "src/app/certifications/route.ts",
+    destination: "https://www.querypie.com/ja/company/certifications",
+  },
+  {
+    requestPath: "/news",
+    file: "src/app/news/route.ts",
+    destination: "https://www.querypie.com/ja/company/news",
+  },
+  {
+    requestPath: "/contact-us",
+    file: "src/app/contact-us/route.ts",
+    destination: "https://www.querypie.com/ja/company/contact-us",
+  },
+  {
+    requestPath: "/resources",
+    file: "src/app/resources/route.ts",
+    destination: "https://www.querypie.com/ja/features/documentation?category=all",
+  },
+  {
+    requestPath: "/manuals",
+    file: "src/app/manuals/route.ts",
+    destination: "https://www.querypie.com/ja/features/documentation?category=manual",
+  },
+  {
+    requestPath: "/glossary",
+    file: "src/app/glossary/route.ts",
+    destination: "https://www.querypie.com/ja/features/documentation?category=glossary",
+  },
 ];
 
 test("redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 3);
+  assert.equal(expectedRedirectRules.length, 12);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
