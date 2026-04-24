@@ -106,9 +106,11 @@ export function TopPageSections() {
                 <p className="hero-copy-enter text-[11px] font-semibold uppercase tracking-[0.18em] text-white/58">
                   {hero.tagline}
                 </p>
-                <h1 className="mt-2 max-w-[13ch] text-balance text-[42px] font-semibold leading-[1.07] tracking-[-0.065em] sm:max-w-[14ch] sm:text-[58px] lg:max-w-[15ch] lg:text-[72px]">
-                  <span className="hero-title-fragment">{heroTitleFirst}</span>
-                  {heroTitleRest ? <span className="hero-title-fragment hero-title-fragment-delay">{heroTitleRest}</span> : null}
+                <h1 className="mt-2 text-[42px] font-semibold leading-[1.07] tracking-[-0.065em] sm:max-w-[14ch] sm:text-[58px] lg:max-w-[15ch] lg:text-[72px]">
+                  <span className="hero-title-fragment block">{heroTitleFirst}</span>
+                  {heroTitleRest ? (
+                    <span className="hero-title-fragment hero-title-fragment-delay block">{heroTitleRest}</span>
+                  ) : null}
                 </h1>
                 <p className="hero-copy-enter hero-copy-enter-1 mt-4 text-[18px] font-semibold leading-[1.5] tracking-[0.12em] text-transparent drop-shadow-[0_10px_30px_rgba(15,23,42,0.32)] bg-gradient-to-r from-[#dce6ff] via-[#bfd0ff] to-[#9fb6ff] bg-clip-text sm:text-[22px] sm:tracking-[0.14em] lg:text-[24px]">
                   {hero.subcopy}

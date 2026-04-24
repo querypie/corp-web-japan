@@ -27,6 +27,7 @@
   margin: 0 auto;
   height: var(--gnb-height);
   padding: 0 var(--gnb-side-padding);
+  column-gap: 14px;
   align-items: center;
   position: relative;
 }
@@ -176,6 +177,26 @@
 
 .cta:hover {
   background: #0f1216;
+}
+
+@media (max-width: 991px) {
+  :root {
+    --gnb-side-padding: 16px;
+  }
+
+  .headerContainer {
+    column-gap: 16px;
+  }
+
+  .logoImg {
+    height: 22px;
+  }
+
+  .cta {
+    padding: 8px 12px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
 }
 
 @media (min-width: 992px) {

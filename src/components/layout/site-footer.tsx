@@ -84,11 +84,10 @@ const legalLinks = [
 ] as const;
 
 const addresses = [
-  "© 2017-2025 QueryPie, Inc. All rights reserved.",
-  "本社: 3003 North 1st Street, Suite 221, San Jose, CA 95134",
-  "ソウル麻谷: ソウル特別市江西区麻谷中央1路26 7F",
-  "ソウル江南: ソウル特別市江南区江南大路464 3F",
-  "日本: 〒105-6490 東京都港区虎ノ門1丁目17-1 15F",
+  "© 2026 QueryPie AI All rights reserved.",
+  "本社: 2525 West 8th Street, Suite 300, Los Angeles, CA 90057",
+  "R&D : ソウル特別市江西区麻谷中央1路26 7F",
+  "日本: 〒105-6490 東京都港区虎ノ門1丁目17-1 虎ノ門ヒルズ ビジネスタワー15F",
 ] as const;
 
 export function SiteFooter() {
