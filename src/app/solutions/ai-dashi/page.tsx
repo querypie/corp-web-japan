@@ -12,6 +12,7 @@ import {
   X,
   type LucideIcon,
 } from "lucide-react";
+import { aiDashiConsultUrl, aiDashiFloatingUrl, aiDashiWhitepaperUrl } from "@/content/ai-dashi-links";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
@@ -194,10 +195,6 @@ const enterpriseReadyItems = [
   },
 ] as const;
 
-const aiDashiFloatingUrl = "/contact-us?product=ai-dashi";
-const aiDashiConsultUrl = "/contact-us?inquiry=ai-consulting&product=ai-dashi";
-const aiDashiWhitepaperUrl =
-  "https://www.querypie.com/ja/features/documentation/white-paper/30/saas-end-or-evolution";
 
 export default function AIDashiPage() {
   return (

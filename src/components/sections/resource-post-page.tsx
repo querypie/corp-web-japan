@@ -4,6 +4,8 @@ import { Copy, Facebook, Linkedin, Link2, Twitter } from "lucide-react";
 import type { ResourcePost } from "@/lib/resource-posts";
 import { ResourcePostGated } from "@/components/sections/resource-post-gated";
 
+const resourcePostContactUrl = "/contact-us";
+
 type ResourcePostPageProps = {
   post: ResourcePost;
 };
@@ -211,7 +213,7 @@ export function ResourcePostPage({ post }: ResourcePostPageProps) {
                   当社のコンサルタントと繋がってAI活用を加速しませんか？
                 </p>
                 <Link
-                  href="/contact-us"
+                  href={resourcePostContactUrl}
                   className="inline-flex w-full items-center justify-center gap-[6px] rounded-[6px] bg-[#24292F] px-[18px] py-[12px] text-[14px] font-medium leading-none text-white transition hover:opacity-80"
                 >
                   今すぐお問い合わせ

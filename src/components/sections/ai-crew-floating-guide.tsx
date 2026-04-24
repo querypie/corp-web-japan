@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { aiCrewConsultUrl, demoUseCasesUrl } from "@/content/home";
 import { AICrewAvatar } from "@/components/sections/ai-crew-avatar";
 
 type GuideItem = {
@@ -20,7 +21,7 @@ const guideItems: readonly GuideItem[] = [
     role: "案内 Crew",
     message: "貴社に合う進め方をご案内します。",
     ctaLabel: "活用事例を見る",
-    ctaHref: "/demo/use-cases",
+    ctaHref: demoUseCasesUrl,
     progressItems: [
       "業務課題を整理中",
       "必要なデータを確認中",
@@ -34,14 +35,14 @@ const guideItems: readonly GuideItem[] = [
     role: "業務案内 Crew",
     message: "実際の動きは動画で確認できます。",
     ctaLabel: "すべてのデモを見る",
-    ctaHref: "/demo/use-cases",
+    ctaHref: demoUseCasesUrl,
   },
   {
     sectionId: "process",
     role: "導入支援 Crew",
     message: "PoCから小さく始められます。",
     ctaLabel: "進め方を相談する",
-    ctaHref: "/contact-us?inquiry=ai-consulting&product=ai-crew",
+    ctaHref: aiCrewConsultUrl,
   },
 ] as const;
 
