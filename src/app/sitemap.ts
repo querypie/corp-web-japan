@@ -33,11 +33,6 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
     changeFrequency: "weekly",
     priority: 0.8,
   },
-  {
-    url: absoluteUrl("/events"),
-    changeFrequency: "weekly",
-    priority: 0.8,
-  },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

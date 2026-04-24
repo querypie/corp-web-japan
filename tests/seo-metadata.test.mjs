@@ -33,7 +33,7 @@ test("SEO baseline files define production metadata and canonical paths", () => 
 
   assert.match(sitemap, /absoluteUrl\("\/whitepapers"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/whitepaper"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/events"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/events"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/resources"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/manuals"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/glossary"\)/);
