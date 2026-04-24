@@ -7,17 +7,17 @@ const expectedRedirectRules = [
   {
     requestPath: "/services/aip",
     file: "src/app/services/aip/route.ts",
-    destination: "https://www.querypie.ai/solutions/aip",
+    destination: "https://www.querypie.com/ja/solutions/aip",
   },
   {
     requestPath: "/services/acp",
     file: "src/app/services/acp/route.ts",
-    destination: "https://www.querypie.ai/solutions/acp",
+    destination: "https://www.querypie.com/ja/solutions/acp",
   },
   {
     requestPath: "/services/fde",
     file: "src/app/services/fde/route.ts",
-    destination: "https://www.querypie.ai/solutions/aip/fde-services",
+    destination: "https://www.querypie.com/ja/solutions/aip/fde-services",
   },
 ];
 

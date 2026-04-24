@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const destination = "https://www.querypie.ai/solutions/aip";
+const destination = "https://www.querypie.com/ja/solutions/aip";
 
 export function GET() {
   return NextResponse.redirect(destination, 307);
