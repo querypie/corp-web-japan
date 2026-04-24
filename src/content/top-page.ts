@@ -35,8 +35,8 @@ export const topPageContent = {
       "テスト導入から全社展開へ",
       "組織・役割に応じた権限管理",
     ],
-    primaryCta: { label: "お問い合わせ", href: "#contact" },
-    secondaryCta: { label: "資料をダウンロード", href: "#download" },
+    primaryCta: { label: "お問い合わせ", href: "#final-cta" },
+    secondaryCta: { label: "資料をダウンロード", href: "#final-cta" },
   },
   solutionBranch: {
     title: {
@@ -308,7 +308,7 @@ export const topPageContent = {
     title: "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか",
     body:
       "採用難、生産性向上、既存サービスの付加価値強化など、AIを前提にした仕事設計が競争力の差を生み始めています。まずは、自社に合う導入余地を整理することから始めましょう。",
-    cta: { label: "無料でダウンロードする", href: "#contact" },
+    cta: { label: "無料でダウンロードする", href: "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan" },
   },
   serviceFit: {
     title: "Webサービスを提供している企業様へ",
@@ -410,7 +410,7 @@ export const topPageContent = {
           "参考サイト",
         ],
         ctaLabel: "無料ダウンロード",
-        href: "https://www.querypie.ai/ja/features/documentation/white-paper/24/ai-tranformation-japan",
+        href: "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan",
         image: {
           src: "/assets/image/whitepapers/24/thumbnail.png",
           alt: "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか ホワイトペーパー表紙",
@@ -432,7 +432,7 @@ export const topPageContent = {
           "まとめ",
         ],
         ctaLabel: "無料ダウンロード",
-        href: "https://www.querypie.ai/ja/features/documentation/white-paper/30/saas-end-or-evolution",
+        href: "https://www.querypie.com/ja/features/documentation/white-paper/30/saas-end-or-evolution",
         image: {
           src: "/solutions/ai-dashi/the-end-of-saas-or-its-evolution.png",
           alt: "SaaSの終焉か、進化か ホワイトペーパー表紙",
@@ -448,9 +448,9 @@ export const topPageContent = {
         "どこからAI活用を始めるべきか、何を優先して整えるべきかなど、まずはお気軽にご相談ください。",
     },
     actions: [
-      { label: "デモを依頼", href: "#contact" },
-      { label: "資料をダウンロード", href: "#download" },
-      { label: "導入について相談する", href: "#contact" },
+      { label: "デモを依頼", href: "/contact-us?inquiry=demo-request" },
+      { label: "資料をダウンロード", href: "https://www.querypie.com/ja/features/documentation/aip-introduction-download" },
+      { label: "導入について相談する", href: "/contact-us?inquiry=ai-consulting" },
     ],
   },
   contact: {

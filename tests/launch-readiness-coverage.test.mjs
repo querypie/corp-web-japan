@@ -6,6 +6,8 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   const homeContent = readSource("src/content/home.ts");
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
   const topPage = readSource("src/app/page.tsx");
+  const topPageContent = readSource("src/content/top-page.ts");
+  const topPageSections = readSource("src/components/sections/top-page-sections.tsx");
   const aiCrewFloatingGuide = readSource("src/components/sections/ai-crew-floating-guide.tsx");
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
   const resourcePostPage = readSource("src/components/sections/resource-post-page.tsx");
@@ -17,7 +19,15 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(homeContent, /partnerCta: \{ label: "自社サービスAI化の進め方を見る", href: "\/solutions\/ai-dashi" \}/);
   assert.match(homeContent, /primaryCta: \{ label: "すべての活用事例を見る", href: demoUseCasesUrl \}/);
 
-  assert.match(topPage, /<FloatingConversionCta href="#contact" \/>/);
+  assert.match(topPage, /<FloatingConversionCta href="#final-cta" \/>/);
+  assert.match(topPageContent, /primaryCta: \{ label: "お問い合わせ", href: "#final-cta" \}/);
+  assert.match(topPageContent, /secondaryCta: \{ label: "資料をダウンロード", href: "#final-cta" \}/);
+  assert.match(topPageSections, /id="final-cta"/);
+  assert.match(topPageSections, /bg-\[#0f172a\] text-white/);
+  assert.match(topPageSections, /id="download"/);
+  assert.match(topPageContent, /\{ label: "デモを依頼", href: "\/contact-us\?inquiry=demo-request" \}/);
+  assert.match(topPageContent, /\{ label: "資料をダウンロード", href: "https:\/\/www\.querypie\.com\/ja\/features\/documentation\/aip-introduction-download" \}/);
+  assert.match(topPageContent, /\{ label: "導入について相談する", href: "\/contact-us\?inquiry=ai-consulting" \}/);
   assert.match(aiCrewPage, /<FloatingConversionCta href="#contact" \/>/);
   assert.match(aiCrewFloatingGuide, /ctaHref: "#contact"/);
   assert.match(aiDashiFaq, /href="\/#contact"/);
