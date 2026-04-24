@@ -213,7 +213,7 @@ export function ResourcePostPage({ post }: ResourcePostPageProps) {
                   当社のコンサルタントと繋がってAI活用を加速しませんか？
                 </p>
                 <Link
-                  href="/#contact"
+                  href="#contact"
                   className="inline-flex w-full items-center justify-center gap-[6px] rounded-[6px] bg-[#24292F] px-[18px] py-[12px] text-[14px] font-medium leading-none text-white transition hover:opacity-80"
                 >
                   今すぐお問い合わせ
