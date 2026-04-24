@@ -449,7 +449,7 @@ export const topPageContent = {
     },
     actions: [
       { label: "デモを依頼", href: "/contact-us?inquiry=demo-request" },
-      { label: "資料をダウンロード", href: "#download" },
+      { label: "資料をダウンロード", href: "https://www.querypie.com/ja/features/documentation/aip-introduction-download" },
       { label: "導入について相談する", href: "/contact-us?inquiry=ai-consulting" },
     ],
   },
