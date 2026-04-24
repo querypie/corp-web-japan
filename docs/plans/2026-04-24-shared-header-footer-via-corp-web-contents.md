@@ -1,38 +1,69 @@
-# One-time Header/Footer Link Alignment
+# JSON-only Header/Footer Link Alignment Plan
 
-Goal: align the header and footer links in `corp-web-contents` to match the current querypie.ai site once, without building any ongoing synchronization between repositories.
+Goal: derive the smallest implementation that aligns the old `corp-web-app` / `corp-web-contents` Japan header and footer links with the current querypie.ai site, without building any live synchronization.
 
-Architecture: use `corp-web-japan` as the reference, then manually copy the desired link destinations into `corp-web-contents/layout/ja/header.json` and `corp-web-contents/layout/ja/footer.json`. Do not change `corp-web-japan` runtime loading. Do not add adapters, fetchers, or shared live data plumbing.
+Architecture: leave `corp-web-japan` unchanged, and update only `corp-web-contents/layout/ja/header.json` and `corp-web-contents/layout/ja/footer.json`. Use querypie.ai as the reference source. Where the old site does not have equivalent local routes, use absolute `https://querypie.ai/...` URLs directly in the JSON.
 
-Tech Stack: JSON layout files already used by `corp-web-app`, existing schema validation in `corp-web-contents`.
-
----
-
-## Conclusion
-
-Given the updated requirement, the simplest approach is:
-
-1. leave `corp-web-japan` unchanged
-2. treat `corp-web-japan` header/footer links as the source reference
-3. update only `corp-web-contents` JSON once so its links match the querypie.ai information architecture as closely as needed
-
-This is the best fit because:
-
-- `corp-web-japan` header/footer are currently hardcoded in:
-  - `src/components/layout/site-header.tsx`
-  - `src/components/layout/site-footer.tsx`
-- `corp-web-japan` does not read `corp-web-contents` today
-- therefore, editing only `corp-web-contents` JSON cannot make querypie.ai change at runtime
-- but it can make the old `corp-web-app` / `corp-web-contents` site links match querypie.ai in a one-time cleanup
-- this avoids adding synchronization for repositories that are expected to be deprecated soon
+Tech Stack: existing `HeaderType` / `FooterType` JSON, `corp-web-app` header/footer components, and `corp-web-contents` JSON schema validation.
 
 ---
 
-## What the repo inspection showed
+## 1. Re-analysis result
 
-### querypie.ai (`corp-web-japan`) current link set
+### What `corp-web-japan` currently owns
 
-Header/footer currently point to querypie.ai-local paths such as:
+querypie.ai still hardcodes its header/footer links in:
+
+- `corp-web-japan/src/components/layout/site-header.tsx`
+- `corp-web-japan/src/components/layout/site-footer.tsx`
+
+So:
+- changing `corp-web-contents` JSON will not change querypie.ai itself
+- changing `corp-web-contents` JSON can still make the old `corp-web-app` site point to the same destinations as querypie.ai
+
+That matches the updated requirement: one-time alignment only.
+
+### What `corp-web-app` already supports through JSON
+
+`corp-web-app` already reads these files:
+
+- `corp-web-contents/layout/ja/header.json`
+- `corp-web-contents/layout/ja/footer.json`
+
+and renders them through:
+
+- `src/app/layout.tsx`
+- `src/components/layout/header/ui/header.component.tsx`
+- `src/components/layout/footer/ui/footer.component.tsx`
+
+Important capability confirmed from the code:
+
+1. Header JSON is flexible enough for the querypie.ai IA
+   - arbitrary top-level `menus`
+   - per-menu `description`
+   - optional `relatedArticle` and `button`
+   - `rightButton`
+   - `mobileBottomButtons`
+
+2. Footer JSON is flexible enough for the querypie.ai footer
+   - arbitrary menu columns
+   - arbitrary social links
+   - legal links through `anotherMenus`
+   - address/copyright lines
+
+3. Absolute URLs are already supported
+   - `useUpdatedHref` leaves cross-origin URLs unchanged
+   - `Link` only opens a new tab when `external: true`
+
+This means JSON-only alignment is technically viable.
+
+---
+
+## 2. Key finding: use absolute querypie.ai URLs, not old local routes
+
+A careful route comparison shows that many querypie.ai header/footer destinations do not exist as local `corp-web-app` routes.
+
+Examples that do not exist locally in `corp-web-contents/pages`:
 
 - `/services/aip`
 - `/services/acp`
@@ -41,130 +72,210 @@ Header/footer currently point to querypie.ai-local paths such as:
 - `/solutions/ai-dashi`
 - `/demo/use-cases`
 - `/demo/aip`
-- `/demo/acp`
-- `/resources`
 - `/introduction-deck`
-- `/glossary`
 - `/manuals`
 - `/whitepapers`
-- `/blog`
 - `/about-us`
 - `/certifications`
 - `/news`
 - `/contact-us`
 
-Footer also includes legal/social links such as:
+Some old-site routes do have local equivalents or redirects, but they do not faithfully match querypie.ai’s current IA.
+
+Therefore the best implementation is:
+
+- for navigation items that are querypie.ai-specific, use absolute `https://querypie.ai/...` URLs directly in the JSON
+- do not try to force-fit everything into old local `corp-web-app` routes like `/features/demo` or `/company/about-us`
+
+This gives the cleanest one-time alignment and avoids misleading users with outdated local destinations.
+
+---
+
+## 3. Recommended JSON behavior
+
+### Use same-tab absolute URLs
+
+For querypie.ai links, prefer:
+
+- `"href": "https://querypie.ai/..."`
+- omit `external`, or keep `external: false`
+
+Reason:
+- same-tab navigation matches normal site-header behavior better
+- setting `external: true` would open a new tab and show external-link affordances in the old header UI
+- that would not match the current querypie.ai UX
+
+### Keep legal links local
+
+For these links, keep the existing local paths in `corp-web-contents`:
 
 - `/cookie-preference`
 - `/terms-of-service`
 - `/privacy-policy`
 - `/eula`
-- LinkedIn / YouTube / X / Facebook / Instagram
-
-### `corp-web-contents` current Japan JSON link set
-
-Current `layout/ja/header.json` and `layout/ja/footer.json` still point to the old corporate-site structure, for example:
-
-- `/solutions/aip`
-- `/solutions/acp`
-- `/features/demo`
-- `/features/documentation`
-- `/company/about-us`
-- `/company/certifications`
-- `/company/news`
-- `/company/contact-us`
-- `/plans`
-- `/plans?aip`
-- `/plans?acp`
-- `https://app.querypie.com`
-- `https://docs.querypie.com/ja`
-- `https://aip-docs.app.querypie.com/ja`
-
-So there is a clear mismatch.
-
----
-
-## Important constraint
-
-If the goal is strictly “make both sites use one shared source at runtime”, JSON-only changes are not enough.
 
 Reason:
-- `corp-web-japan` does not consume `corp-web-contents`
-- its header/footer links are compiled from local arrays in React components
+- these routes already exist or redirect correctly in the old site
+- querypie.ai also uses the same user-facing path family
+- there is no benefit in forcing these to absolute querypie.ai URLs for a temporary site
 
-Therefore:
-- JSON-only change can align the old site to the new site
-- JSON-only change cannot create live commonization
+### Keep social links identical
 
-Under the new requirement, that is acceptable and preferred.
+These can simply use the same external social URLs already used by querypie.ai:
+
+- LinkedIn
+- YouTube
+- X
+- Facebook
+- Instagram
 
 ---
 
-## Recommended action
+## 4. Recommended implementation shape
 
-Make a one-time content update in `corp-web-contents` only.
+## Header
 
-Files to edit:
+Replace the current `layout/ja/header.json` navigation structure with the querypie.ai structure.
+
+Recommended top-level groups:
+
+1. `サービス`
+   - `https://querypie.ai/services/aip`
+   - `https://querypie.ai/services/acp`
+   - `https://querypie.ai/services/fde`
+
+2. `ソリューション`
+   - `https://querypie.ai/solutions/ai-crew`
+   - `https://querypie.ai/solutions/ai-dashi`
+
+3. `デモ`
+   - `https://querypie.ai/demo/use-cases`
+   - `https://querypie.ai/demo/aip`
+   - `https://querypie.ai/demo/acp`
+
+4. `リソース`
+   - `https://querypie.ai/resources`
+   - `https://querypie.ai/introduction-deck`
+   - `https://querypie.ai/glossary`
+   - `https://querypie.ai/manuals`
+   - `https://querypie.ai/whitepapers`
+   - `https://querypie.ai/blog`
+
+5. `会社情報`
+   - `https://querypie.ai/about-us`
+   - `https://querypie.ai/certifications`
+   - `https://querypie.ai/news`
+   - `https://querypie.ai/contact-us`
+
+Recommended additional header changes:
+- remove the current `プラン` top-level item
+- change `rightButton` to `お問い合わせ -> https://querypie.ai/contact-us`
+- change `mobileBottomButtons` to a single `お問い合わせ` button pointing to `https://querypie.ai/contact-us`
+- remove stale `relatedArticle` cards instead of trying to maintain old corp-site article promos
+
+Why removing `relatedArticle` is recommended:
+- querypie.ai’s current header does not use those old corp-site promo cards
+- leaving them in place would preserve stale destinations unrelated to the new navigation goal
+
+## Footer
+
+Replace the current footer columns with the querypie.ai footer grouping.
+
+Recommended columns:
+
+1. `サービス`
+   - `https://querypie.ai/services/aip`
+   - `https://querypie.ai/services/acp`
+   - `https://querypie.ai/services/fde`
+
+2. `ソリューション`
+   - `https://querypie.ai/solutions/ai-crew`
+   - `https://querypie.ai/solutions/ai-dashi`
+
+3. `デモ`
+   - `https://querypie.ai/demo/use-cases`
+   - `https://querypie.ai/demo/aip`
+   - `https://querypie.ai/demo/acp`
+
+4. `リソース`
+   - `https://querypie.ai/resources`
+   - `https://querypie.ai/introduction-deck`
+   - `https://querypie.ai/glossary`
+   - `https://querypie.ai/manuals`
+   - `https://querypie.ai/whitepapers`
+   - `https://querypie.ai/blog`
+
+5. `会社情報`
+   - `https://querypie.ai/about-us`
+   - `https://querypie.ai/certifications`
+   - `https://querypie.ai/news`
+   - `https://querypie.ai/contact-us`
+
+Recommended footer non-column changes:
+- update `socials` to the exact querypie.ai social URLs
+- keep `anotherMenus` local for legal links
+- update `copyright` and `addresses` only if the one-time alignment should include footer text as well
+
+If the request is truly “links only”, then:
+- change menu links
+- change social links if needed
+- leave copyright/address text untouched
+
+---
+
+## 5. Why this is better than the earlier alternatives
+
+### Better than live synchronization
+
+Because:
+- `corp-web-app` and `corp-web-contents` are temporary ahead of `corp-web-v2`
+- no loader, adapter, or cross-repo fetch logic is needed
+- the change stays reviewable and reversible
+
+### Better than mapping everything to old local corp-web-app pages
+
+Because:
+- many querypie.ai destinations have no faithful local equivalent
+- forcing them into old local paths would preserve outdated IA
+- absolute querypie.ai URLs are a more honest alignment of actual destinations
+
+### Better than creating a new JSON namespace
+
+Because:
+- the request is one-time link alignment, not long-term dual-site content architecture
+- editing the existing `layout/ja/header.json` and `footer.json` is the smallest implementation
+
+---
+
+## 6. Smallest implementation PR
+
+If proceeding with implementation, the smallest correct PR is in `corp-web-contents` only.
+
+Files:
 - `layout/ja/header.json`
 - `layout/ja/footer.json`
 
-Reference source:
-- `corp-web-japan/src/components/layout/site-header.tsx`
-- `corp-web-japan/src/components/layout/site-footer.tsx`
-
-Implementation rule:
-- copy only the link destinations and labels needed for one-time alignment
-- do not introduce new runtime integration between repos
-- do not add new JSON namespaces
-- do not add fetch logic to `corp-web-japan`
-- do not refactor `corp-web-app` schema unless a required link cannot be represented in the existing JSON shape
-
----
-
-## Practical caveat
-
-This should be treated as “link parity”, not “full visual/IA parity”.
-
-Why:
-- `corp-web-contents` header/footer schema is shaped for the old site navigation model
-- `corp-web-japan` has a different IA and different menu grouping
-- some querypie.ai concepts, such as the exact service/solution grouping, may need approximation when mapped into the old JSON structure
-
-So the recommended goal is:
-- align the actual destinations as much as possible
-- accept small grouping differences if the old schema/UI requires them
-
----
-
-## Smallest next implementation PR
-
-If proceeding with implementation, the smallest PR should do only this:
-
-### Task 1: edit header JSON
-- update `corp-web-contents/layout/ja/header.json`
-- replace old corporate-site destinations with the querypie.ai-aligned destinations where appropriate
-
-### Task 2: edit footer JSON
-- update `corp-web-contents/layout/ja/footer.json`
-- replace old footer destinations with the querypie.ai-aligned destinations where appropriate
-- keep legal links/socials aligned with the current querypie.ai footer when the same destination exists
-
-### Task 3: validate
-Run in `corp-web-contents`:
+Verification:
 
 ```bash
 npm run validateJson
 ```
 
-Optionally also verify the affected old-site header/footer rendering in preview.
+Optional follow-up verification:
+- preview the old Japan site once and click the updated header/footer links
+- confirm they go to querypie.ai destinations in the same tab
 
 ---
 
-## Decision
+## 7. Final recommendation
 
-Recommended decision now:
+Recommended implementation:
 
-- abandon the live shared-source plan
-- use a one-time JSON-only update in `corp-web-contents`
-- treat `corp-web-japan` as the reference implementation
-- keep the change as small as possible because `corp-web-app` / `corp-web-contents` are temporary ahead of `corp-web-v2`
+1. do not touch `corp-web-japan`
+2. edit only `corp-web-contents/layout/ja/header.json`
+3. edit only `corp-web-contents/layout/ja/footer.json`
+4. use absolute `https://querypie.ai/...` URLs for the querypie.ai navigation destinations
+5. keep legal links local
+6. remove stale `relatedArticle` references from the header JSON
+
+This is the smallest approach that is both technically correct and aligned with the deprecation context.
