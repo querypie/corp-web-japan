@@ -308,7 +308,7 @@ export const topPageContent = {
     title: "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか",
     body:
       "採用難、生産性向上、既存サービスの付加価値強化など、AIを前提にした仕事設計が競争力の差を生み始めています。まずは、自社に合う導入余地を整理することから始めましょう。",
-    cta: { label: "無料でダウンロードする", href: "#contact" },
+    cta: { label: "無料でダウンロードする", href: "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan" },
   },
   serviceFit: {
     title: "Webサービスを提供している企業様へ",
