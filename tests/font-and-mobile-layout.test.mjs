@@ -2,18 +2,17 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
-test("app layout uses preloaded local brand fonts instead of raw @font-face declarations", () => {
+test("app layout keeps the PR 48 self-hosted brand font setup", () => {
   const layout = readSource("src/app/layout.tsx");
   const globals = readSource("src/app/globals.css");
 
-  assert.match(layout, /import localFont from "next\/font\/local"/);
-  assert.match(layout, /const querypieSans = localFont\(/);
-  assert.match(layout, /Mona-Sans\.woff2/);
-  assert.match(layout, /PretendardJPVariable\.woff2/);
-  assert.match(layout, /querypieSans\.variable/);
-
-  assert.doesNotMatch(globals, /@font-face/);
-  assert.match(globals, /var\(--font-querypie-sans\)/);
+  assert.doesNotMatch(layout, /next\/font\/local/);
+  assert.doesNotMatch(layout, /querypieSans\.variable/);
+  assert.match(globals, /@font-face/);
+  assert.match(globals, /Mona-Sans\.woff2/);
+  assert.match(globals, /PretendardJPVariable\.woff2/);
+  assert.match(globals, /font-family: "QueryPie Sans"/);
+  assert.match(globals, /"QueryPie Sans"/);
 });
 
 test("mobile-only fallback layout exists for the AI Crew after diagram", () => {
