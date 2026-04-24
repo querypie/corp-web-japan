@@ -25,11 +25,13 @@ test("site footer legal links point to local legal redirect endpoints", () => {
   assert.doesNotMatch(siteFooter, /label: "EULA", href: "#"/);
 });
 
-test("resource lead form still links directly to the same QueryPie Japan legal documents", () => {
+test("resource lead form legal links also point to local legal redirect endpoints", () => {
   const resourceLeadForm = readFileSync(resourceLeadFormPath, "utf8");
 
-  assert.match(resourceLeadForm, /href="https:\/\/www\.querypie\.com\/ja\/terms-of-service"/);
-  assert.match(resourceLeadForm, /href="https:\/\/www\.querypie\.com\/ja\/privacy-policy"/);
+  assert.match(resourceLeadForm, /href="\/terms-of-service"/);
+  assert.match(resourceLeadForm, /href="\/privacy-policy"/);
+  assert.doesNotMatch(resourceLeadForm, /href="https:\/\/www\.querypie\.com\/ja\/terms-of-service"/);
+  assert.doesNotMatch(resourceLeadForm, /href="https:\/\/www\.querypie\.com\/ja\/privacy-policy"/);
   assert.doesNotMatch(resourceLeadForm, /<a href="#" className="underline underline-offset-4">\s*利用規約/);
   assert.doesNotMatch(resourceLeadForm, /<a href="#" className="underline underline-offset-4">\s*プライバシーポリシー/);
 });
