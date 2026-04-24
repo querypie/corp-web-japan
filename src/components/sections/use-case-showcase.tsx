@@ -184,8 +184,6 @@ export function UseCaseShowcase({ note, primaryCta, secondaryCta, cards }: UseCa
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <a
             href={primaryCta.href}
-            target="_blank"
-            rel="noreferrer"
             className={aiCrewPrimaryButtonClass}
           >
             {primaryCta.label}
