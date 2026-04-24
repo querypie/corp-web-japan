@@ -185,11 +185,21 @@
   }
 
   .headerContainer {
+    grid-template-columns: auto auto;
     column-gap: 16px;
+    justify-content: space-between;
   }
 
   .logoImg {
     height: 22px;
+  }
+
+  .logo {
+    justify-self: start;
+  }
+
+  .headerContainer > div:last-child {
+    justify-self: end;
   }
 
   .cta {
