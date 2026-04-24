@@ -29,7 +29,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.doesNotMatch(resourcePostPage, /href="#"/);
 });
 
-test("events launch-readiness gate remains explicit and excluded from sitemap until ready", () => {
+test("events launch-readiness gate remains explicit and redirect-only resource aliases stay out of the sitemap", () => {
   const eventsPage = readSource("src/app/events/page.tsx");
   const sitemap = readSource("src/app/sitemap.ts");
 
@@ -37,6 +37,9 @@ test("events launch-readiness gate remains explicit and excluded from sitemap un
   assert.match(eventsPage, /return notFound\(\);/);
   assert.match(eventsPage, /temporary `unblock` query-based readiness check/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/events"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/resources"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/manuals"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/glossary"\)/);
 });
 
 test("robots and sitemap metadata files exist and cover the core public routes", () => {
@@ -49,7 +52,6 @@ test("robots and sitemap metadata files exist and cover the core public routes",
   assert.match(sitemap, /absoluteUrl\("\/"\)/);
   assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-crew"\)/);
   assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-dashi"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
   assert.match(sitemap, /absoluteUrl\("\/blog"\)/);
   assert.match(sitemap, /absoluteUrl\("\/whitepapers"\)/);
   assert.match(sitemap, /listResourcePostParams\(\)/);

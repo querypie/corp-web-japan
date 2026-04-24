@@ -11,7 +11,7 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   const homePage = read("src/app/page.tsx");
   const blogPage = read("src/app/blog/page.tsx");
   const whitepapersPage = read("src/app/whitepapers/page.tsx");
-  const useCasesPage = read("src/app/demo/use-cases/page.tsx");
+  const useCasesRoute = read("src/app/demo/use-cases/route.ts");
   const aiCrewPage = read("src/app/solutions/ai-crew/page.tsx");
   const aiDashiPage = read("src/app/solutions/ai-dashi/page.tsx");
   const postPage = read("src/app/posts/[category]/[slug]/page.tsx");
@@ -25,15 +25,18 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.match(homePage, /canonical:\s*"\/"/);
   assert.match(blogPage, /canonical:\s*"\/blog"/);
   assert.match(whitepapersPage, /canonical:\s*"\/whitepapers"/);
-  assert.match(useCasesPage, /canonical:\s*"\/demo\/use-cases"/);
+  assert.match(useCasesRoute, /https:\/\/www\.querypie\.com\/ja\/features\/demo\?category=use-cases/);
   assert.match(aiCrewPage, /canonical:\s*"\/solutions\/ai-crew"/);
   assert.match(aiDashiPage, /canonical:\s*"\/solutions\/ai-dashi"/);
   assert.match(postPage, /canonical:/);
+  assert.match(eventsPage, /title: "イベント \| QueryPie AI"/);
+  assert.doesNotMatch(eventsPage, /canonical:\s*"\/events"/);
 
   assert.match(sitemap, /absoluteUrl\("\/whitepapers"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/whitepaper"\)/);
-
-  if (/notFound\(\)/.test(eventsPage)) {
-    assert.doesNotMatch(sitemap, /absoluteUrl\("\/events"\)/);
-  }
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/events"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/resources"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/manuals"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/glossary"\)/);
 });
