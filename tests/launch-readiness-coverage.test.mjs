@@ -29,7 +29,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(topPageContent, /\{ label: "デモを依頼", href: "\/contact-us\?inquiry=demo-request" \}/);
   assert.match(topPageContent, /\{ label: "資料をダウンロード", href: "https:\/\/www\.querypie\.com\/ja\/features\/documentation\/aip-introduction-download" \}/);
   assert.match(topPageContent, /\{ label: "導入について相談する", href: "\/contact-us\?inquiry=ai-consulting" \}/);
-  assert.match(aiCrewPage, /<FloatingConversionCta href="\/contact-us\?inquiry=ai-consulting&product=ai-crew" \/>/);
+  assert.match(aiCrewPage, /<FloatingConversionCta href="#contact" \/>/);
   assert.match(aiCrewFloatingGuide, /ctaHref: "#use-cases"/);
   assert.match(aiDashiFaq, /href="\/#contact"/);
   assert.match(resourcePostPage, /href="\/#contact"/);
