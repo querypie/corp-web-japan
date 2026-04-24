@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "QueryPie Sans";
+  src: url("../assets/fonts/Mona-Sans.woff2") format("woff2-variations");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 100 900;
+}
+
+@font-face {
+  font-family: "QueryPie Sans";
+  src: url("../assets/fonts/PretendardJPVariable.woff2") format("woff2-variations");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 45 920;
+}
+
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -51,7 +67,7 @@
 :root {
   --radius: 0.625rem;
   --font-app-sans:
-    var(--font-querypie-sans),
+    "QueryPie Sans",
     "Hiragino Sans",
     "Yu Gothic",
     "Meiryo",

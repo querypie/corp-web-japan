@@ -1,24 +1,6 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import { siteUrl } from "@/lib/site-url";
-
-const querypieSans = localFont({
-  src: [
-    {
-      path: "../assets/fonts/Mona-Sans.woff2",
-      style: "normal",
-      weight: "100 900",
-    },
-    {
-      path: "../assets/fonts/PretendardJPVariable.woff2",
-      style: "normal",
-      weight: "45 920",
-    },
-  ],
-  display: "swap",
-  variable: "--font-querypie-sans",
-});
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
@@ -33,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${querypieSans.variable} font-sans antialiased`}>{children}</body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }
