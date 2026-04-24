@@ -20,7 +20,7 @@ const guideItems: readonly GuideItem[] = [
     role: "案内 Crew",
     message: "貴社に合う進め方をご案内します。",
     ctaLabel: "活用事例を見る",
-    ctaHref: "/solutions/ai-crew#roles",
+    ctaHref: "/demo/use-cases",
     progressItems: [
       "業務課題を整理中",
       "必要なデータを確認中",
@@ -34,15 +34,14 @@ const guideItems: readonly GuideItem[] = [
     role: "業務案内 Crew",
     message: "実際の動きは動画で確認できます。",
     ctaLabel: "すべてのデモを見る",
-    ctaHref: "https://www.querypie.com/ja/features/demo?category=use-cases",
-    external: true,
+    ctaHref: "/demo/use-cases",
   },
   {
     sectionId: "process",
     role: "導入支援 Crew",
     message: "PoCから小さく始められます。",
     ctaLabel: "進め方を相談する",
-    ctaHref: "/contact-us",
+    ctaHref: "/contact-us?inquiry=ai-consulting&product=ai-crew",
   },
 ] as const;
 

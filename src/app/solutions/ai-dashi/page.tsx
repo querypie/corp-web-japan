@@ -194,7 +194,8 @@ const enterpriseReadyItems = [
   },
 ] as const;
 
-const aiDashiConsultUrl = "/contact-us";
+const aiDashiFloatingUrl = "/contact-us?product=ai-dashi";
+const aiDashiConsultUrl = "/contact-us?inquiry=ai-consulting&product=ai-dashi";
 const aiDashiWhitepaperUrl =
   "https://www.querypie.com/ja/features/documentation/white-paper/30/saas-end-or-evolution";
 
@@ -202,7 +203,7 @@ export default function AIDashiPage() {
   return (
     <main className="relative overflow-x-hidden bg-[#eceff3] pt-[64px] text-slate-950">
       <SiteHeader />
-      <FloatingConversionCta href={aiDashiConsultUrl} />
+      <FloatingConversionCta href={aiDashiFloatingUrl} />
 
       <section className="relative mx-auto max-w-[1920px] overflow-hidden bg-[#eceff3] px-6 py-14 lg:px-10 lg:py-[84px]">
         <div className="absolute inset-0">

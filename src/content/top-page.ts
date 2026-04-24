@@ -35,8 +35,11 @@ export const topPageContent = {
       "テスト導入から全社展開へ",
       "組織・役割に応じた権限管理",
     ],
-    primaryCta: { label: "お問い合わせ", href: "#contact" },
-    secondaryCta: { label: "資料をダウンロード", href: "#contact" },
+    primaryCta: { label: "お問い合わせ", href: "/contact-us?inquiry=ai-consulting" },
+    secondaryCta: {
+      label: "資料をダウンロード",
+      href: "https://www.querypie.com/ja/features/documentation/aip-introduction-download",
+    },
   },
   solutionBranch: {
     title: {
