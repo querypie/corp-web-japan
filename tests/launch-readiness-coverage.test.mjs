@@ -31,6 +31,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(topPageContent, /\{ label: "導入について相談する", href: "\/contact-us\?inquiry=ai-consulting" \}/);
   assert.match(aiCrewPage, /<FloatingConversionCta href="#contact" \/>/);
   assert.match(aiCrewFloatingGuide, /ctaHref: "#contact"/);
+  assert.match(aiCrewFloatingGuide, /ctaHref: "\/demo\/use-cases"/);
   assert.match(aiDashiFaq, /href="\/#contact"/);
   assert.match(resourcePostPage, /href="\/#contact"/);
 

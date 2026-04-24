@@ -34,8 +34,7 @@ const guideItems: readonly GuideItem[] = [
     role: "業務案内 Crew",
     message: "実際の動きは動画で確認できます。",
     ctaLabel: "すべてのデモを見る",
-    ctaHref: "https://www.querypie.ai/ja/features/demo?category=use-cases",
-    external: true,
+    ctaHref: "/demo/use-cases",
   },
   {
     sectionId: "process",
