@@ -31,6 +31,8 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(topPageContent, /\{ label: "デモを依頼", href: topPageFinalDemoUrl \}/);
   assert.match(topPageContent, /\{ label: "資料をダウンロード", href: topPageDownloadUrl \}/);
   assert.match(topPageContent, /\{ label: "導入について相談する", href: topPageFinalConsultUrl \}/);
+  assert.match(topPageContent, /href: "https:\/\/trust\.querypie\.com\/"/);
+  assert.match(topPageSections, /href=\{security\.link\.href\}[\s\S]*target="_blank"[\s\S]*rel="noopener noreferrer"/);
   assert.match(aiCrewPage, /<FloatingConversionCta href={aiCrewFloatingCtaUrl} \/>/);
   assert.match(aiCrewFloatingGuide, /ctaHref: aiCrewConsultUrl/);
   assert.match(aiCrewFloatingGuide, /ctaHref: demoUseCasesUrl/);
