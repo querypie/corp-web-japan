@@ -228,7 +228,7 @@ export function HomePageSections() {
               />
               <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
                 <div className="max-w-[630px]">
-                  <div className="inline-flex rounded-full border border-[#C9D8F5] bg-white/90 px-4 py-2 text-[12px] font-semibold tracking-[0.12em] text-[#163A7A] shadow-[0_14px_36px_-24px_rgba(15,42,95,0.28)] backdrop-blur-sm">
+                  <div className="inline-flex rounded-full border border-[#C9D8F5] bg-white/90 px-4 py-2 text-[12px] font-semibold tracking-[0.12em] text-[#163A7A] shadow-[0_14px_36px_-24px_rgba(15,42,95,0.28)]">
                     {whitepaperCta.label}
                   </div>
                   <h3 className="mt-4 text-[24px] font-semibold leading-[1.35] tracking-[-0.03em] text-white sm:text-[28px]">
