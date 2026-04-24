@@ -42,7 +42,7 @@ const guideItems: readonly GuideItem[] = [
     role: "導入支援 Crew",
     message: "PoCから小さく始められます。",
     ctaLabel: "進め方を相談する",
-    ctaHref: "/contact-us?inquiry=ai-consulting&product=ai-crew",
+    ctaHref: "#contact",
   },
 ] as const;
 
