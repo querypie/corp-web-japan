@@ -603,7 +603,7 @@ export function HomePageSections() {
         </RevealOnScroll>
       </section>
 
-      <section id="roles" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10">
+      <section id="use-cases" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10">
         <div className="mx-auto max-w-[1120px] text-center">
           <RevealOnScroll>
             <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">

@@ -20,7 +20,7 @@ const guideItems: readonly GuideItem[] = [
     role: "案内 Crew",
     message: "貴社に合う進め方をご案内します。",
     ctaLabel: "ユースケースを見る",
-    ctaHref: "#roles",
+    ctaHref: "#use-cases",
     progressItems: [
       "業務課題を整理中",
       "必要なデータを確認中",
