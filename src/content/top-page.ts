@@ -35,8 +35,8 @@ export const topPageContent = {
       "テスト導入から全社展開へ",
       "組織・役割に応じた権限管理",
     ],
-    primaryCta: { label: "お問い合わせ", href: "#final-cta" },
-    secondaryCta: { label: "資料をダウンロード", href: "#final-cta" },
+    primaryCta: { label: "お問い合わせ", href: "#contact" },
+    secondaryCta: { label: "資料をダウンロード", href: "#contact" },
   },
   solutionBranch: {
     title: {
