@@ -194,6 +194,8 @@ const enterpriseReadyItems = [
   },
 ] as const;
 
+const aiDashiConsultUrl = "/contact-us?inquiry=ai-consulting&product=ai-dashi";
+
 export default function AIDashiPage() {
   return (
     <main className="relative overflow-x-hidden bg-[#eceff3] pt-[64px] text-slate-950">
@@ -771,7 +773,7 @@ export default function AIDashiPage() {
 
           <RevealOnScroll variant="up" delayMs={120} className="flex flex-col items-center gap-4">
             <Link
-              href="#contact"
+              href={aiDashiConsultUrl}
               className="inline-flex max-w-full items-center justify-center rounded-[8px] bg-[#15181d] px-4 py-2.5 text-center text-sm font-semibold leading-5 text-white transition hover:bg-[#0f1216] sm:whitespace-nowrap sm:text-base"
             >
               無料で導入相談・お見積もりをする

@@ -33,9 +33,10 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(aiCrewPage, /<FloatingConversionCta href="#contact" \/>/);
   assert.match(aiCrewFloatingGuide, /ctaHref: "#contact"/);
   assert.match(aiCrewFloatingGuide, /ctaHref: "\/demo\/use-cases"/);
+  assert.match(aiDashiPage, /const aiDashiConsultUrl = "\/contact-us\?inquiry=ai-consulting&product=ai-dashi"/);
   assert.match(aiDashiPage, /<FloatingConversionCta href="#contact" \/>/);
   assert.match(aiDashiPage, /<section id="contact" className="w-full bg-\[#f9f9fb\] px-6 py-16 lg:px-10 lg:py-20">/);
-  assert.match(aiDashiPage, /href="#contact"/);
+  assert.match(aiDashiPage, /href={aiDashiConsultUrl}/);
   assert.match(aiDashiFaq, /href="#contact"/);
   assert.match(contactUsRoute, /const contactUsUrl = new URL\("https:\/\/www\.querypie\.com\/ja\/company\/contact-us"\)/);
   assert.match(contactUsRoute, /redirectedUrl\.search = request\.nextUrl\.search;/);
