@@ -88,12 +88,13 @@ test("new canonical endpoints that do not have local content are implemented as 
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/glossary"\)/);
 });
 
-test("events remains a local canonical page but stays out of the sitemap until launch", () => {
+test("events remains gated and stays out of the sitemap until launch", () => {
   const eventsPage = readSource("src/app/events/page.tsx");
   const sitemap = readSource("src/app/sitemap.ts");
 
   assert.match(eventsPage, /title: "イベント \| QueryPie AI"/);
-  assert.match(eventsPage, /canonical: "\/events"/);
-  assert.doesNotMatch(eventsPage, /return notFound\(/);
+  assert.match(eventsPage, /unblock\?: string \| string\[];/);
+  assert.match(eventsPage, /return notFound\(\);/);
+  assert.doesNotMatch(eventsPage, /canonical: "\/events"/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/events"\)/);
 });

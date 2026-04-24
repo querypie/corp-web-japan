@@ -28,8 +28,9 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.match(useCasesPage, /canonical:\s*"\/demo\/use-cases"/);
   assert.match(aiCrewPage, /canonical:\s*"\/solutions\/ai-crew"/);
   assert.match(aiDashiPage, /canonical:\s*"\/solutions\/ai-dashi"/);
-  assert.match(eventsPage, /canonical:\s*"\/events"/);
   assert.match(postPage, /canonical:/);
+  assert.match(eventsPage, /title: "イベント \| QueryPie AI"/);
+  assert.doesNotMatch(eventsPage, /canonical:\s*"\/events"/);
 
   assert.match(sitemap, /absoluteUrl\("\/whitepapers"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/whitepaper"\)/);

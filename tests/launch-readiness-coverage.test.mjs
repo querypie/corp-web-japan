@@ -29,12 +29,13 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.doesNotMatch(resourcePostPage, /href="#"/);
 });
 
-test("events stays out of the sitemap until launch and redirect-only resource aliases stay out too", () => {
+test("events launch-readiness gate remains explicit and redirect-only resource aliases stay out of the sitemap", () => {
   const eventsPage = readSource("src/app/events/page.tsx");
   const sitemap = readSource("src/app/sitemap.ts");
 
-  assert.match(eventsPage, /canonical: "\/events"/);
-  assert.doesNotMatch(eventsPage, /return notFound\(\);/);
+  assert.match(eventsPage, /unblock\?: string \| string\[];/);
+  assert.match(eventsPage, /return notFound\(\);/);
+  assert.match(eventsPage, /temporary `unblock` query-based readiness check/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/events"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/resources"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/manuals"\)/);
