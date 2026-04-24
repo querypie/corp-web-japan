@@ -87,5 +87,11 @@ test("redirect endpoints are defined in a single test-case table with temporary 
     assert.match(source, /export function GET\(/);
     assert.match(source, /307/);
     assert.match(source, new RegExp(rule.destination.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+
+    if (rule.requestPath === "/contact-us") {
+      assert.match(source, /export function GET\(request: NextRequest\)/);
+      assert.match(source, /export const HEAD = GET;/);
+      assert.match(source, /redirectedUrl\.search = request\.nextUrl\.search;/);
+    }
   }
 });
