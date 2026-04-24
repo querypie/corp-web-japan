@@ -351,7 +351,7 @@ export const homePageContent = {
     body:
       "まだ対象業務が明確でなくても問題ありません。\nQueryPie AIの専門チームが、貴社のボトルネック整理からPoCの進め方までご一緒します。",
     primaryCta: { label: "業務に合うAI活用を相談する", href: aiCrewConsultUrl },
-    secondaryCta: { label: "活用事例を見る", href: demoUseCasesUrl },
+    secondaryCta: { label: "活用事例を見る", href: "#use-cases" },
     partnerBadge: "SaaSやWebサービスのAI化を進めたい企業様へ",
     partnerTitle: "貴社のサービスを、最短でAI化しませんか？",
     partnerBody:
