@@ -169,7 +169,7 @@ export const homePageContent = {
         body:
           "サイト分析、改善ポイント整理、ダッシュボード化までを短時間で支援。SEOの現状把握と次の打ち手を見えやすくします。",
         videoHref: "https://youtu.be/K-ld_s4Che0",
-        detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/29/seo-analyst",
+        detailHref: "https://www.querypie.com/ja/features/demo/use-cases/29/seo-analyst",
       },
       {
         category: "見積・営業",
@@ -182,14 +182,14 @@ export const homePageContent = {
             body:
               "ローカルファイルやパスワード付きPDFをアップロードせずに分析し、確認や比較の手間を減らします。",
             videoHref: "https://youtu.be/qwvyVcTaDsA",
-            detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/28/quotation-analyze-ai-agent",
+            detailHref: "https://www.querypie.com/ja/features/demo/use-cases/28/quotation-analyze-ai-agent",
           },
           {
             label: "見積書作成",
             body:
               "複雑な価格表や条件をスキル化し、指定フォーマットで正確な見積書を出力します。",
             videoHref: "https://youtu.be/mKZrCQti0Rc",
-            detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/27/quotation-ai-agent",
+            detailHref: "https://www.querypie.com/ja/features/demo/use-cases/27/quotation-ai-agent",
           },
         ],
       },
@@ -199,7 +199,7 @@ export const homePageContent = {
         body:
           "Git、PR、チケット、CI/CD、インシデントを横断し、開発状況とリスクを会話型で可視化。開発チームの意思決定を支援します。",
         videoHref: "https://youtu.be/cWC5lzN1JnE",
-        detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/16/dev-insight-ai-agent",
+        detailHref: "https://www.querypie.com/ja/features/demo/use-cases/16/dev-insight-ai-agent",
       },
       {
         category: "分析・経営",
@@ -207,7 +207,7 @@ export const homePageContent = {
         body:
           "自然言語での質問から、データ抽出、可視化、インサイト整理までを支援。アドホックな分析依頼やレポート作成の負荷を下げます。",
         videoHref: "https://youtu.be/f_yM6dinVU4",
-        detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/7/data-analytics-agent",
+        detailHref: "https://www.querypie.com/ja/features/demo/use-cases/7/data-analytics-agent",
       },
     ],
   },
