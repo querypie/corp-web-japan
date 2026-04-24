@@ -1,6 +1,8 @@
 import { CONTACT_INQUIRY_URL } from "@/lib/contact";
 
-const demoUseCasesUrl = "https://www.querypie.ai/ja/features/demo?category=use-cases";
+const demoUseCasesUrl = "https://www.querypie.com/ja/features/demo?category=use-cases";
+const aiCrewWhitepaperUrl =
+  "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan";
 
 export const homePageContent = {
   metadata: {
@@ -15,7 +17,7 @@ export const homePageContent = {
     body:
       "調査、データ整理、下書きなど、時間のかかる「下準備」をAIに任せて効率化。人員を増やすことなく、企業の生産性・利益率の向上を実現します。",
     primaryCta: { label: "業務に合うAI活用を相談する", href: CONTACT_INQUIRY_URL },
-    secondaryCta: { label: "活用事例を見る", href: "#roles" },
+    secondaryCta: { label: "活用事例を見る", href: demoUseCasesUrl },
     imageSrc: "/solutions/ai-crew/hero-visual.webp",
     imageAlt: "オフィスでAIアシスタント画面を活用しながら業務を進めるチームのイメージ",
   },
@@ -33,7 +35,7 @@ export const homePageContent = {
     body:
       "AI活用を単なる業務改善で終わらせず、事業変革につなげるための視点をまとめました。",
     cta: "ホワイトペーパーを読む",
-    href: "https://www.querypie.ai/ja/features/documentation/white-paper/24/ai-tranformation-japan",
+    href: aiCrewWhitepaperUrl,
   },
   floatingCta: { label: "業務に合うAI活用を相談する", href: CONTACT_INQUIRY_URL },
   featureIntro: {
