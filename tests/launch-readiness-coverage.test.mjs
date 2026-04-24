@@ -34,7 +34,8 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(aiCrewFloatingGuide, /ctaHref: "#contact"/);
   assert.match(aiCrewFloatingGuide, /ctaHref: "\/demo\/use-cases"/);
   assert.match(aiDashiPage, /const aiDashiConsultUrl = "\/contact-us\?inquiry=ai-consulting&product=ai-dashi"/);
-  assert.match(aiDashiPage, /<FloatingConversionCta href=\{aiDashiConsultUrl\} \/>/);
+  assert.match(aiDashiPage, /<FloatingConversionCta href="#contact" \/>/);
+  assert.match(aiDashiPage, /<section id="contact" className="w-full bg-\[#f9f9fb\] px-6 py-16 lg:px-10 lg:py-20">/);
   assert.match(aiDashiPage, /href=\{aiDashiConsultUrl\}/);
   assert.match(aiDashiFaq, /const aiDashiConsultUrl = "\/contact-us\?inquiry=ai-consulting&product=ai-dashi"/);
   assert.match(aiDashiFaq, /href=\{aiDashiConsultUrl\}/);

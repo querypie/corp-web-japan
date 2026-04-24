@@ -200,7 +200,7 @@ export default function AIDashiPage() {
   return (
     <main className="relative overflow-x-hidden bg-[#eceff3] pt-[64px] text-slate-950">
       <SiteHeader />
-      <FloatingConversionCta href={aiDashiConsultUrl} />
+      <FloatingConversionCta href="#contact" />
 
       <section className="relative mx-auto max-w-[1920px] overflow-hidden bg-[#eceff3] px-6 py-14 lg:px-10 lg:py-[84px]">
         <div className="absolute inset-0">
@@ -750,7 +750,7 @@ export default function AIDashiPage() {
         </div>
       </section>
 
-      <section id="ai-dashi-cta" className="w-full bg-[#f9f9fb] px-6 py-16 lg:px-10 lg:py-20">
+      <section id="contact" className="w-full bg-[#f9f9fb] px-6 py-16 lg:px-10 lg:py-20">
         <div className="mx-auto flex max-w-[920px] flex-col items-center gap-8">
           <RevealOnScroll variant="up" className="flex flex-col items-center gap-4 text-center">
             <h2 className="text-[36px] font-semibold leading-[1.14] tracking-[-0.05em] text-[#15181d] sm:text-[46px] sm:leading-[58px]">
