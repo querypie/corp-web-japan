@@ -19,6 +19,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(homeContent, /floatingCta: \{ label: "業務に合うAI活用を相談する", href: "#contact" \}/);
   assert.match(homeContent, /secondaryCta: \{ label: "業務に合うAI活用を相談する", href: "#contact" \}/);
   assert.match(homeContent, /primaryCta: \{ label: "進め方を相談する", href: "#contact" \}/);
+  assert.match(homeContent, /title: "どの業務から始めるべきか、\\nまずは一緒に整理しませんか？",[\s\S]*primaryCta: \{ label: "業務に合うAI活用を相談する", href: "\/contact-us\?inquiry=ai-consulting&product=ai-crew" \}[\s\S]*secondaryCta: \{ label: "活用事例を見る", href: "\/demo\/use-cases" \}/);
   assert.match(homeContent, /partnerCta: \{ label: "自社サービスAI化の進め方を見る", href: "\/solutions\/ai-dashi" \}/);
   assert.match(homeContent, /secondaryCta: \{ label: "活用事例を見る", href: "#use-cases" \}/);
 

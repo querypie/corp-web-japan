@@ -349,8 +349,8 @@ export const homePageContent = {
     title: "どの業務から始めるべきか、\nまずは一緒に整理しませんか？",
     body:
       "まだ対象業務が明確でなくても問題ありません。\nQueryPie AIの専門チームが、貴社のボトルネック整理からPoCの進め方までご一緒します。",
-    primaryCta: { label: "業務に合うAI活用を相談する", href: "#contact" },
-    secondaryCta: { label: "活用事例を見る", href: "#use-cases" },
+    primaryCta: { label: "業務に合うAI活用を相談する", href: "/contact-us?inquiry=ai-consulting&product=ai-crew" },
+    secondaryCta: { label: "活用事例を見る", href: "/demo/use-cases" },
     partnerBadge: "SaaSやWebサービスのAI化を進めたい企業様へ",
     partnerTitle: "貴社のサービスを、最短でAI化しませんか？",
     partnerBody:
