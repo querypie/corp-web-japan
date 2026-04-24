@@ -148,7 +148,7 @@ export function TopPageSections() {
           <div className="mx-auto w-full max-w-[1120px]">
             <div className="mx-auto max-w-[900px] text-center">
               <RevealOnScroll variant="up">
-                <h2 className="mx-auto max-w-[760px] text-balance text-[31px] font-semibold leading-[1.22] tracking-[-0.045em] text-slate-950 sm:text-[40px] lg:text-[43px]">
+                <h2 className="mx-auto max-w-[730px] text-balance text-[31px] font-semibold leading-[1.22] tracking-[-0.045em] text-slate-950 sm:text-[40px] lg:text-[43px]">
                   {solutionBranch.title.line1}
                   <span className="heading-highlight-accent">
                     {solutionBranch.title.highlight}
