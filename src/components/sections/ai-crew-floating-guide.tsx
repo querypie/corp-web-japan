@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { aiCrewConsultUrl, demoUseCasesUrl } from "@/content/home";
 import { AICrewAvatar } from "@/components/sections/ai-crew-avatar";
 
 type GuideItem = {
@@ -19,8 +20,8 @@ const guideItems: readonly GuideItem[] = [
     sectionId: "hero",
     role: "案内 Crew",
     message: "貴社に合う進め方をご案内します。",
-    ctaLabel: "ユースケースを見る",
-    ctaHref: "#use-cases",
+    ctaLabel: "活用事例を見る",
+    ctaHref: demoUseCasesUrl,
     progressItems: [
       "業務課題を整理中",
       "必要なデータを確認中",
@@ -34,14 +35,14 @@ const guideItems: readonly GuideItem[] = [
     role: "業務案内 Crew",
     message: "実際の動きは動画で確認できます。",
     ctaLabel: "すべてのデモを見る",
-    ctaHref: "/demo/use-cases",
+    ctaHref: demoUseCasesUrl,
   },
   {
     sectionId: "process",
     role: "導入支援 Crew",
     message: "PoCから小さく始められます。",
     ctaLabel: "進め方を相談する",
-    ctaHref: "#contact",
+    ctaHref: aiCrewConsultUrl,
   },
 ] as const;
 
@@ -138,25 +139,13 @@ export function AICrewFloatingGuide() {
         </div>
       ) : null}
       {currentGuide.ctaLabel && currentGuide.ctaHref ? (
-        currentGuide.external ? (
-          <a
-            href={currentGuide.ctaHref}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#2563EB] hover:text-[#163A7A]"
-          >
-            {currentGuide.ctaLabel}
-            <ArrowRight className="h-3.5 w-3.5" />
-          </a>
-        ) : (
-          <a
-            href={currentGuide.ctaHref}
-            className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#2563EB] hover:text-[#163A7A]"
-          >
-            {currentGuide.ctaLabel}
-            <ArrowRight className="h-3.5 w-3.5" />
-          </a>
-        )
+        <a
+          href={currentGuide.ctaHref}
+          className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#2563EB] hover:text-[#163A7A]"
+        >
+          {currentGuide.ctaLabel}
+          <ArrowRight className="h-3.5 w-3.5" />
+        </a>
       ) : null}
     </div>
   );

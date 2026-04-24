@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { homePageContent } from "@/content/home";
+import { aiCrewFloatingCtaUrl, homePageContent } from "@/content/home";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
@@ -27,7 +27,7 @@ export default function AICrewPage() {
   return (
     <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
       <SiteHeader />
-      <FloatingConversionCta href="#contact" />
+      <FloatingConversionCta href={aiCrewFloatingCtaUrl} />
       <HomePageSections />
       <SiteFooter />
     </main>

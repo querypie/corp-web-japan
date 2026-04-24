@@ -1,3 +1,10 @@
+export const topPageFloatingCtaUrl = "/contact-us";
+export const topPageHeroContactUrl = "/contact-us?inquiry=ai-consulting";
+export const topPageDownloadUrl =
+  "https://www.querypie.com/ja/features/documentation/aip-introduction-download";
+export const topPageFinalDemoUrl = "/contact-us?inquiry=demo-request";
+export const topPageFinalConsultUrl = "/contact-us?inquiry=ai-consulting";
+
 export const topPageContent = {
   metadata: {
     title: "信頼できるAIが、現場を動かす｜QueryPie AI",
@@ -35,8 +42,11 @@ export const topPageContent = {
       "テスト導入から全社展開へ",
       "組織・役割に応じた権限管理",
     ],
-    primaryCta: { label: "お問い合わせ", href: "#contact" },
-    secondaryCta: { label: "資料をダウンロード", href: "#contact" },
+    primaryCta: { label: "お問い合わせ", href: topPageHeroContactUrl },
+    secondaryCta: {
+      label: "資料をダウンロード",
+      href: topPageDownloadUrl,
+    },
   },
   solutionBranch: {
     title: {
@@ -448,9 +458,9 @@ export const topPageContent = {
         "どこからAI活用を始めるべきか、何を優先して整えるべきかなど、まずはお気軽にご相談ください。",
     },
     actions: [
-      { label: "デモを依頼", href: "/contact-us?inquiry=demo-request" },
-      { label: "資料をダウンロード", href: "https://www.querypie.com/ja/features/documentation/aip-introduction-download" },
-      { label: "導入について相談する", href: "/contact-us?inquiry=ai-consulting" },
+      { label: "デモを依頼", href: topPageFinalDemoUrl },
+      { label: "資料をダウンロード", href: topPageDownloadUrl },
+      { label: "導入について相談する", href: topPageFinalConsultUrl },
     ],
   },
   contact: {

@@ -162,8 +162,6 @@ export function HomePageSections() {
                   {isExternalHref(hero.secondaryCta.href) ? (
                     <a
                       href={hero.secondaryCta.href}
-                      target="_blank"
-                      rel="noreferrer"
                       className={aiCrewSecondaryButtonClass}
                     >
                       {hero.secondaryCta.label}
