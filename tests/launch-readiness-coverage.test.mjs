@@ -11,6 +11,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   const aiCrewFloatingGuide = readSource("src/components/sections/ai-crew-floating-guide.tsx");
   const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
+  const resourcePostPage = readSource("src/components/sections/resource-post-page.tsx");
   const contactUsRoute = readSource("src/app/contact-us/route.ts");
 
   assert.match(homeContent, /primaryCta: \{ label: "業務に合うAI活用を相談する", href: "#contact" \}/);
@@ -38,6 +39,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(aiDashiPage, /<section id="contact" className="w-full bg-\[#f9f9fb\] px-6 py-16 lg:px-10 lg:py-20">/);
   assert.match(aiDashiPage, /href={aiDashiConsultUrl}/);
   assert.match(aiDashiFaq, /href="#contact"/);
+  assert.match(resourcePostPage, /href="#contact"/);
   assert.match(contactUsRoute, /const contactUsUrl = new URL\("https:\/\/www\.querypie\.com\/ja\/company\/contact-us"\)/);
   assert.match(contactUsRoute, /redirectedUrl\.search = request\.nextUrl\.search;/);
   assert.match(contactUsRoute, /NextResponse\.redirect\(redirectedUrl, 307\)/);
