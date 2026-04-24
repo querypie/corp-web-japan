@@ -1,12 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-const destination = new URL("https://www.querypie.com/ja/company/contact-us");
+const contactUsUrl = new URL("https://www.querypie.com/ja/company/contact-us");
 
 export function GET(request: NextRequest) {
-  const redirectedUrl = new URL(destination);
-
+  const redirectedUrl = new URL(contactUsUrl);
   redirectedUrl.search = request.nextUrl.search;
-
   return NextResponse.redirect(redirectedUrl, 307);
 }
 

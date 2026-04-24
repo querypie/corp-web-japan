@@ -9,8 +9,9 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   const topPageContent = readSource("src/content/top-page.ts");
   const topPageSections = readSource("src/components/sections/top-page-sections.tsx");
   const aiCrewFloatingGuide = readSource("src/components/sections/ai-crew-floating-guide.tsx");
+  const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
-  const resourcePostPage = readSource("src/components/sections/resource-post-page.tsx");
+  const contactUsRoute = readSource("src/app/contact-us/route.ts");
 
   assert.match(homeContent, /primaryCta: \{ label: "業務に合うAI活用を相談する", href: "#contact" \}/);
   assert.match(homeContent, /secondaryCta: \{ label: "活用事例を見る", href: "#use-cases" \}/);
@@ -32,13 +33,17 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(aiCrewPage, /<FloatingConversionCta href="#contact" \/>/);
   assert.match(aiCrewFloatingGuide, /ctaHref: "#contact"/);
   assert.match(aiCrewFloatingGuide, /ctaHref: "\/demo\/use-cases"/);
-  assert.match(aiDashiFaq, /href="\/#contact"/);
-  assert.match(resourcePostPage, /href="\/#contact"/);
+  assert.match(aiDashiPage, /const aiDashiConsultUrl = "\/contact-us\?inquiry=ai-consulting&product=ai-dashi"/);
+  assert.match(aiDashiPage, /<FloatingConversionCta href="#contact" \/>/);
+  assert.match(aiDashiPage, /<section id="contact" className="w-full bg-\[#f9f9fb\] px-6 py-16 lg:px-10 lg:py-20">/);
+  assert.match(aiDashiPage, /href={aiDashiConsultUrl}/);
+  assert.match(aiDashiFaq, /href="#contact"/);
+  assert.match(contactUsRoute, /const contactUsUrl = new URL\("https:\/\/www\.querypie\.com\/ja\/company\/contact-us"\)/);
+  assert.match(contactUsRoute, /redirectedUrl\.search = request\.nextUrl\.search;/);
+  assert.match(contactUsRoute, /NextResponse\.redirect\(redirectedUrl, 307\)/);
 
   assert.doesNotMatch(homeContent, /href: "#"/);
   assert.doesNotMatch(aiCrewFloatingGuide, /ctaHref: "#"/);
-  assert.doesNotMatch(aiDashiFaq, /href="#"/);
-  assert.doesNotMatch(resourcePostPage, /href="#"/);
 });
 
 test("events launch-readiness gate remains explicit and redirect-only resource aliases stay out of the sitemap", () => {
