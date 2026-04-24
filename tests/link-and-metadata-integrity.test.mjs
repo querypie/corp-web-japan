@@ -12,7 +12,6 @@ const headerExpectedLinks = [
   'label: "全てのリソース", href: "/resources"',
   'label: "ホワイトペーパー", href: "/whitepapers"',
   'label: "ブログ", href: "/blog"',
-  'label: "イベント", href: "/events"',
   'label: "お問い合わせ", href: "/contact-us"',
 ];
 
@@ -26,7 +25,6 @@ const footerExpectedLinks = [
   'label: "全てのリソース", href: "/resources"',
   'label: "ホワイトペーパー", href: "/whitepapers"',
   'label: "ブログ", href: "/blog"',
-  'label: "イベント", href: "/events"',
   'label: "会社概要", href: "/about-us"',
   'label: "お問い合わせ", href: "/contact-us"',
 ];

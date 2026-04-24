@@ -13,7 +13,6 @@ const expectedHeaderLinks = [
   'label: "全てのリソース", href: "/resources"',
   'label: "用語集", href: "/glossary"',
   'label: "マニュアル", href: "/manuals"',
-  'label: "イベント", href: "/events"',
   'label: "私たちについて", href: "/about-us"',
   'label: "認証情報", href: "/certifications"',
   'label: "ニュース", href: "/news"',
@@ -30,7 +29,6 @@ const expectedFooterLinks = [
   'label: "全てのリソース", href: "/resources"',
   'label: "用語集", href: "/glossary"',
   'label: "マニュアル", href: "/manuals"',
-  'label: "イベント", href: "/events"',
   'label: "会社概要", href: "/about-us"',
   'label: "認定・認証", href: "/certifications"',
   'label: "ニュース", href: "/news"',
@@ -38,12 +36,11 @@ const expectedFooterLinks = [
 ];
 
 const expectedSidebarLinks = [
-  'label: "全てのリソース", href: "/resources", key: "resources"',
+  'label: "全て", href: "/resources", key: "resources"',
   'label: "用語集", href: "/glossary", key: "glossary"',
   'label: "マニュアル", href: "/manuals", key: "manuals"',
   'label: "ホワイトペーパー", href: "/whitepapers", key: "whitepaper"',
   'label: "ブログ", href: "/blog", key: "blog"',
-  'label: "イベント", href: "/events", key: "events"',
 ];
 
 const expectedRedirectFiles = [

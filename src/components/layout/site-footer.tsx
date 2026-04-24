@@ -35,7 +35,6 @@ const footerColumns = [
       { label: "マニュアル", href: "/manuals" },
       { label: "ホワイトペーパー", href: "/whitepapers" },
       { label: "ブログ", href: "/blog" },
-      { label: "イベント", href: "/events" },
     ],
   },
   {
