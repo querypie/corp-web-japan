@@ -20,6 +20,11 @@ const expectedRedirectRules = [
     destination: "https://www.querypie.com/ja/solutions/aip/fde-services",
   },
   {
+    requestPath: "/demo/use-cases",
+    file: "src/app/demo/use-cases/route.ts",
+    destination: "https://www.querypie.com/ja/features/demo?category=use-cases",
+  },
+  {
     requestPath: "/demo/aip",
     file: "src/app/demo/aip/route.ts",
     destination: "https://www.querypie.com/ja/features/demo?category=aip-features",
@@ -67,7 +72,7 @@ const expectedRedirectRules = [
 ];
 
 test("redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 12);
+  assert.equal(expectedRedirectRules.length, 13);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);

@@ -19,11 +19,6 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
     priority: 0.9,
   },
   {
-    url: absoluteUrl("/demo/use-cases"),
-    changeFrequency: "weekly",
-    priority: 0.8,
-  },
-  {
     url: absoluteUrl("/blog"),
     changeFrequency: "weekly",
     priority: 0.8,

@@ -47,6 +47,7 @@ const expectedRedirectFiles = [
   "src/app/resources/route.ts",
   "src/app/manuals/route.ts",
   "src/app/glossary/route.ts",
+  "src/app/demo/use-cases/route.ts",
   "src/app/demo/aip/route.ts",
   "src/app/demo/acp/route.ts",
   "src/app/about-us/route.ts",
@@ -73,13 +74,14 @@ test("navigation surfaces point to the canonical local and redirect endpoints", 
   }
 });
 
-test("new canonical endpoints that do not have local content are implemented as redirect routes", () => {
+test("new non-local endpoints are implemented as redirect routes", () => {
   const sitemap = readSource("src/app/sitemap.ts");
 
   for (const relativePath of expectedRedirectFiles) {
     assert.equal(existsSync(new URL(`../${relativePath}`, import.meta.url)), true, `${relativePath} should exist`);
   }
 
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/resources"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/manuals"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/glossary"\)/);

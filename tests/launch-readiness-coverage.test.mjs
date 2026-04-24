@@ -52,7 +52,6 @@ test("robots and sitemap metadata files exist and cover the core public routes",
   assert.match(sitemap, /absoluteUrl\("\/"\)/);
   assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-crew"\)/);
   assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-dashi"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
   assert.match(sitemap, /absoluteUrl\("\/blog"\)/);
   assert.match(sitemap, /absoluteUrl\("\/whitepapers"\)/);
   assert.match(sitemap, /listResourcePostParams\(\)/);

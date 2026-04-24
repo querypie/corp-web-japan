@@ -65,14 +65,12 @@ test("public route metadata titles use the final QueryPie AI branding", () => {
   const eventsPage = readSource("src/app/events/page.tsx");
   const blogPage = readSource("src/app/blog/page.tsx");
   const whitepapersPage = readSource("src/app/whitepapers/page.tsx");
-  const useCasesPage = readSource("src/app/demo/use-cases/page.tsx");
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
   const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
   const resourcePostRoute = readSource("src/app/posts/[category]/[slug]/page.tsx");
 
   assert.match(blogPage, /title: "ブログ \| QueryPie AI"/);
   assert.match(whitepapersPage, /title: "ホワイトペーパー \| QueryPie AI"/);
-  assert.match(useCasesPage, /title: "活用事例 \| QueryPie AI"/);
   assert.match(aiCrewPage, /title: "作業を減らし、成果を増やす。\| AI Crew \| QueryPie AI"/);
   assert.match(aiDashiPage, /title: "自社サービスをAI搭載SaaSへ最短で進化させる \| AI Dashi \| QueryPie AI"/);
   assert.match(eventsPage, /title: "イベント \| QueryPie AI"/);
@@ -88,12 +86,11 @@ test("public route files expose metadata or generateMetadata for user-facing pag
   const blogPage = readSource("src/app/blog/page.tsx");
   const whitepapersPage = readSource("src/app/whitepapers/page.tsx");
   const eventsPage = readSource("src/app/events/page.tsx");
-  const useCasesPage = readSource("src/app/demo/use-cases/page.tsx");
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
   const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
   const resourcePostRoute = readSource("src/app/posts/[category]/[slug]/page.tsx");
 
-  for (const source of [homePage, blogPage, whitepapersPage, eventsPage, useCasesPage, aiCrewPage, aiDashiPage]) {
+  for (const source of [homePage, blogPage, whitepapersPage, eventsPage, aiCrewPage, aiDashiPage]) {
     assert.match(source, /export const metadata: Metadata = \{/);
     assert.match(source, /title:/);
     assert.match(source, /description:/);
