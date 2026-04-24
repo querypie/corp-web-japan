@@ -606,8 +606,6 @@ export function TopPageSections() {
               <Link
                 href={security.link.href}
                 className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-xl bg-[#15181d] px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_42px_-26px_rgba(15,23,42,0.45)] transition hover:-translate-y-0.5 hover:bg-[#0f1216] hover:shadow-md"
-                target="_blank"
-                rel="noreferrer"
               >
                 {security.link.label}
                 <ArrowRight className="h-4 w-4" />
@@ -684,8 +682,6 @@ export function TopPageSections() {
                         ) : null}
                         <Link
                           href={item.href}
-                          target="_blank"
-                          rel="noreferrer"
                           className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-slate-900 transition hover:text-[#2f3a49]"
                         >
                           {item.ctaLabel}

@@ -108,7 +108,7 @@ export function SiteFooter() {
 
           <div className={styles.socialLinks}>
             {socialLinks.map((social) => (
-              <Link key={social.label} href={social.href} target="_blank" rel="noreferrer">
+              <Link key={social.label} href={social.href}>
                 <Image src={social.icon} alt={social.label} width={16} height={16} />
               </Link>
             ))}

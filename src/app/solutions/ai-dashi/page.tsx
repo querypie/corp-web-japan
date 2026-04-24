@@ -252,8 +252,6 @@ export default function AIDashiPage() {
               </Link>
               <Link
                 href={aiDashiWhitepaperUrl}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] border border-white/24 bg-white/6 px-5 py-3 text-sm font-semibold text-white/92 backdrop-blur transition hover:bg-white/10"
               >
                 資料をダウンロード
@@ -709,8 +707,6 @@ export default function AIDashiPage() {
               >
                 <Link
                   href={aiDashiWhitepaperUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="group grid overflow-hidden rounded-[1.8rem] border border-black/6 bg-white shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md md:grid-cols-[280px_minmax(0,1fr)]"
                 >
                   <div className="relative min-h-[260px] bg-[#f5f7fb] p-6 md:min-h-full">

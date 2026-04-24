@@ -52,8 +52,6 @@ export function ResourcePostPage({ post }: ResourcePostPageProps) {
                         {post.author.profileUrl ? (
                           <Link
                             href={post.author.profileUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
                             className="inline-flex h-7 w-7 items-center justify-center text-[#6B7280] transition hover:text-slate-950"
                             aria-label={`${post.author.name} profile`}
                           >

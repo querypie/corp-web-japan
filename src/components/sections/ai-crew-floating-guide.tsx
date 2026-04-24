@@ -138,25 +138,13 @@ export function AICrewFloatingGuide() {
         </div>
       ) : null}
       {currentGuide.ctaLabel && currentGuide.ctaHref ? (
-        currentGuide.external ? (
-          <a
-            href={currentGuide.ctaHref}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#2563EB] hover:text-[#163A7A]"
-          >
-            {currentGuide.ctaLabel}
-            <ArrowRight className="h-3.5 w-3.5" />
-          </a>
-        ) : (
-          <a
-            href={currentGuide.ctaHref}
-            className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#2563EB] hover:text-[#163A7A]"
-          >
-            {currentGuide.ctaLabel}
-            <ArrowRight className="h-3.5 w-3.5" />
-          </a>
-        )
+        <a
+          href={currentGuide.ctaHref}
+          className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#2563EB] hover:text-[#163A7A]"
+        >
+          {currentGuide.ctaLabel}
+          <ArrowRight className="h-3.5 w-3.5" />
+        </a>
       ) : null}
     </div>
   );
