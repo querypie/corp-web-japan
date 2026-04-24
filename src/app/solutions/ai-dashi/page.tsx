@@ -701,7 +701,7 @@ export default function AIDashiPage() {
                 className="w-full max-w-[980px]"
               >
                 <Link
-                  href="https://www.querypie.ai/ja/features/documentation/white-paper/30/saas-end-or-evolution"
+                  href="https://www.querypie.com/ja/features/documentation/white-paper/30/saas-end-or-evolution"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group grid overflow-hidden rounded-[1.8rem] border border-black/6 bg-white shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md md:grid-cols-[280px_minmax(0,1fr)]"

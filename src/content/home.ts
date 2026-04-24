@@ -31,7 +31,7 @@ export const homePageContent = {
     body:
       "AI活用を単なる業務改善で終わらせず、事業変革につなげるための視点をまとめました。",
     cta: "ホワイトペーパーを読む",
-    href: "https://www.querypie.ai/ja/features/documentation/white-paper/24/ai-tranformation-japan",
+    href: "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan",
   },
   floatingCta: { label: "業務に合うAI活用を相談する", href: "#contact" },
   featureIntro: {

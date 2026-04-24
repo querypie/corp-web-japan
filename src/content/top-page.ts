@@ -35,8 +35,8 @@ export const topPageContent = {
       "テスト導入から全社展開へ",
       "組織・役割に応じた権限管理",
     ],
-    primaryCta: { label: "お問い合わせ", href: "#contact" },
-    secondaryCta: { label: "資料をダウンロード", href: "#download" },
+    primaryCta: { label: "お問い合わせ", href: "#final-cta" },
+    secondaryCta: { label: "資料をダウンロード", href: "#final-cta" },
   },
   solutionBranch: {
     title: {
@@ -410,7 +410,7 @@ export const topPageContent = {
           "参考サイト",
         ],
         ctaLabel: "無料ダウンロード",
-        href: "https://www.querypie.ai/ja/features/documentation/white-paper/24/ai-tranformation-japan",
+        href: "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan",
         image: {
           src: "/assets/image/whitepapers/24/thumbnail.png",
           alt: "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか ホワイトペーパー表紙",
@@ -432,7 +432,7 @@ export const topPageContent = {
           "まとめ",
         ],
         ctaLabel: "無料ダウンロード",
-        href: "https://www.querypie.ai/ja/features/documentation/white-paper/30/saas-end-or-evolution",
+        href: "https://www.querypie.com/ja/features/documentation/white-paper/30/saas-end-or-evolution",
         image: {
           src: "/solutions/ai-dashi/the-end-of-saas-or-its-evolution.png",
           alt: "SaaSの終焉か、進化か ホワイトペーパー表紙",
