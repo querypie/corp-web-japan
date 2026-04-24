@@ -160,7 +160,7 @@ export const homePageContent = {
       "改善インパクトの大きい業務を起点に、業務フローや運用ルールに合わせて設計します。まずは、効果が見えやすい領域から小さく始められます。以下は、実際にご相談の多い業務例です。",
     note:
       "他にも、データ分析、開発、製造、審査、見積、SEO分析など、貴社の業務に合わせた活用例をご覧いただけます。",
-    primaryCta: { label: "すべての活用事例を見る", href: demoUseCasesUrl },
+    primaryCta: { label: "すべての活用事例を見る", href: "/demo/use-cases" },
     secondaryCta: { label: "業務に合うAI活用を相談する", href: "#contact" },
     cards: [
       {
