@@ -6,13 +6,13 @@ const siteFooterPath = new URL("../src/components/layout/site-footer.tsx", impor
 const resourceLeadFormPath = new URL("../src/components/sections/resource-lead-form.tsx", import.meta.url);
 
 const expectedLinks = [
-  { label: "Cookie設定", href: "https://www.querypie.com/ja/cookie-preference" },
-  { label: "利用規約", href: "https://www.querypie.com/ja/terms-of-service" },
-  { label: "プライバシーポリシー", href: "https://www.querypie.com/ja/privacy-policy" },
-  { label: "EULA", href: "https://www.querypie.com/ja/eula" },
+  { label: "Cookie設定", href: "/cookie-preference" },
+  { label: "利用規約", href: "/terms-of-service" },
+  { label: "プライバシーポリシー", href: "/privacy-policy" },
+  { label: "EULA", href: "/eula" },
 ];
 
-test("site footer legal links point to real QueryPie Japan legal destinations", () => {
+test("site footer legal links point to local legal redirect endpoints", () => {
   const siteFooter = readFileSync(siteFooterPath, "utf8");
 
   for (const { label, href } of expectedLinks) {
@@ -25,7 +25,7 @@ test("site footer legal links point to real QueryPie Japan legal destinations", 
   assert.doesNotMatch(siteFooter, /label: "EULA", href: "#"/);
 });
 
-test("resource lead form links to the same QueryPie Japan legal documents", () => {
+test("resource lead form still links directly to the same QueryPie Japan legal documents", () => {
   const resourceLeadForm = readFileSync(resourceLeadFormPath, "utf8");
 
   assert.match(resourceLeadForm, /href="https:\/\/www\.querypie\.com\/ja\/terms-of-service"/);

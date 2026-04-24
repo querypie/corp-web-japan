@@ -77,10 +77,10 @@ const socialLinks = [
 ] as const;
 
 const legalLinks = [
-  { label: "Cookie設定", href: "https://www.querypie.com/ja/cookie-preference" },
-  { label: "利用規約", href: "https://www.querypie.com/ja/terms-of-service" },
-  { label: "プライバシーポリシー", href: "https://www.querypie.com/ja/privacy-policy" },
-  { label: "EULA", href: "https://www.querypie.com/ja/eula" },
+  { label: "Cookie設定", href: "/cookie-preference" },
+  { label: "利用規約", href: "/terms-of-service" },
+  { label: "プライバシーポリシー", href: "/privacy-policy" },
+  { label: "EULA", href: "/eula" },
 ] as const;
 
 const addresses = [
