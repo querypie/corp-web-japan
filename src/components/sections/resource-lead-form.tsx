@@ -175,17 +175,11 @@ export function ResourceLeadForm({
       </label>
 
       <p className="mt-1 text-center text-sm leading-6 text-slate-500">
-        <Link
-          href="https://www.querypie.com/ja/terms-of-service"
-          className="underline underline-offset-4"
-        >
+        <Link href="/terms-of-service" className="underline underline-offset-4">
           利用規約
         </Link>
         と
-        <Link
-          href="https://www.querypie.com/ja/privacy-policy"
-          className="underline underline-offset-4"
-        >
+        <Link href="/privacy-policy" className="underline underline-offset-4">
           プライバシーポリシー
         </Link>
         に同意して送信する。
