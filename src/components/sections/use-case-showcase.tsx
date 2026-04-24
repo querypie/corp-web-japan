@@ -163,8 +163,6 @@ export function UseCaseShowcase({ note, primaryCta, secondaryCta, cards }: UseCa
                 <div className="mt-5 flex items-center justify-end gap-3">
                   <a
                     href={card.activeDetailHref}
-                    target="_blank"
-                    rel="noreferrer"
                     onClick={(event) => event.stopPropagation()}
                     className="inline-flex items-center gap-2 text-sm font-medium text-[#475467] transition hover:text-[#101828]"
                   >
