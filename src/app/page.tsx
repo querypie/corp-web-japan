@@ -27,7 +27,7 @@ export default function HomePage() {
   return (
     <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
       <SiteHeader />
-      <FloatingConversionCta href="#contact" />
+      <FloatingConversionCta href="/contact-us" />
       <TopPageSections />
       <SiteFooter />
     </main>

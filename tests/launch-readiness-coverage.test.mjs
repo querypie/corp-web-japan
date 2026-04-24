@@ -14,16 +14,15 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   const resourcePostPage = readSource("src/components/sections/resource-post-page.tsx");
   const contactUsRoute = readSource("src/app/contact-us/route.ts");
 
-  assert.match(homeContent, /primaryCta: \{ label: "業務に合うAI活用を相談する", href: "#contact" \}/);
-  assert.match(homeContent, /secondaryCta: \{ label: "活用事例を見る", href: "#use-cases" \}/);
-  assert.match(homeContent, /floatingCta: \{ label: "業務に合うAI活用を相談する", href: "#contact" \}/);
-  assert.match(homeContent, /secondaryCta: \{ label: "業務に合うAI活用を相談する", href: "#contact" \}/);
-  assert.match(homeContent, /primaryCta: \{ label: "進め方を相談する", href: "#contact" \}/);
-  assert.match(homeContent, /title: "どの業務から始めるべきか、\\nまずは一緒に整理しませんか？",[\s\S]*primaryCta: \{ label: "業務に合うAI活用を相談する", href: "\/contact-us\?inquiry=ai-consulting&product=ai-crew" \}[\s\S]*secondaryCta: \{ label: "活用事例を見る", href: "\/demo\/use-cases" \}/);
+  assert.match(homeContent, /primaryCta: \{ label: "業務に合うAI活用を相談する", href: "\/contact-us" \}/);
+  assert.match(homeContent, /secondaryCta: \{ label: "活用事例を見る", href: demoUseCasesUrl \}/);
+  assert.match(homeContent, /floatingCta: \{ label: "業務に合うAI活用を相談する", href: "\/contact-us" \}/);
+  assert.match(homeContent, /secondaryCta: \{ label: "業務に合うAI活用を相談する", href: "\/contact-us" \}/);
+  assert.match(homeContent, /primaryCta: \{ label: "進め方を相談する", href: "\/contact-us" \}/);
   assert.match(homeContent, /partnerCta: \{ label: "自社サービスAI化の進め方を見る", href: "\/solutions\/ai-dashi" \}/);
-  assert.match(homeContent, /secondaryCta: \{ label: "活用事例を見る", href: "#use-cases" \}/);
+  assert.match(homeContent, /href: aiCrewWhitepaperUrl/);
 
-  assert.match(topPage, /<FloatingConversionCta href="#contact" \/>/);
+  assert.match(topPage, /<FloatingConversionCta href="\/contact-us" \/>/);
   assert.match(topPageContent, /primaryCta: \{ label: "お問い合わせ", href: "#contact" \}/);
   assert.match(topPageContent, /secondaryCta: \{ label: "資料をダウンロード", href: "#contact" \}/);
   assert.match(topPageSections, /id="contact"/);
@@ -32,15 +31,15 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(topPageContent, /\{ label: "デモを依頼", href: "\/contact-us\?inquiry=demo-request" \}/);
   assert.match(topPageContent, /\{ label: "資料をダウンロード", href: "https:\/\/www\.querypie\.com\/ja\/features\/documentation\/aip-introduction-download" \}/);
   assert.match(topPageContent, /\{ label: "導入について相談する", href: "\/contact-us\?inquiry=ai-consulting" \}/);
-  assert.match(aiCrewPage, /<FloatingConversionCta href="#contact" \/>/);
-  assert.match(aiCrewFloatingGuide, /ctaHref: "#contact"/);
-  assert.match(aiCrewFloatingGuide, /ctaHref: "\/demo\/use-cases"/);
-  assert.match(aiDashiPage, /const aiDashiConsultUrl = "\/contact-us\?inquiry=ai-consulting&product=ai-dashi"/);
-  assert.match(aiDashiPage, /<FloatingConversionCta href="#contact" \/>/);
-  assert.match(aiDashiPage, /<section id="contact" className="w-full bg-\[#f9f9fb\] px-6 py-16 lg:px-10 lg:py-20">/);
+  assert.match(aiCrewPage, /<FloatingConversionCta href="\/contact-us" \/>/);
+  assert.match(aiCrewFloatingGuide, /ctaHref: "\/contact-us"/);
+  assert.match(aiCrewFloatingGuide, /ctaHref: "https:\/\/www\.querypie\.com\/ja\/features\/demo\?category=use-cases"/);
+  assert.match(aiDashiPage, /const aiDashiConsultUrl = "\/contact-us"/);
+  assert.match(aiDashiPage, /<FloatingConversionCta href={aiDashiConsultUrl} \/>/);
+  assert.match(aiDashiPage, /const aiDashiWhitepaperUrl =/);
   assert.match(aiDashiPage, /href={aiDashiConsultUrl}/);
-  assert.match(aiDashiFaq, /href="#contact"/);
-  assert.match(resourcePostPage, /href="#contact"/);
+  assert.match(aiDashiFaq, /href="\/contact-us"/);
+  assert.match(resourcePostPage, /href="\/contact-us"/);
   assert.match(contactUsRoute, /const contactUsUrl = new URL\("https:\/\/www\.querypie\.com\/ja\/company\/contact-us"\)/);
   assert.match(contactUsRoute, /redirectedUrl\.search = request\.nextUrl\.search;/);
   assert.match(contactUsRoute, /NextResponse\.redirect\(redirectedUrl, 307\)/);

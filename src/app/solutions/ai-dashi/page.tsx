@@ -194,13 +194,15 @@ const enterpriseReadyItems = [
   },
 ] as const;
 
-const aiDashiConsultUrl = "/contact-us?inquiry=ai-consulting&product=ai-dashi";
+const aiDashiConsultUrl = "/contact-us";
+const aiDashiWhitepaperUrl =
+  "https://www.querypie.com/ja/features/documentation/white-paper/30/saas-end-or-evolution";
 
 export default function AIDashiPage() {
   return (
     <main className="relative overflow-x-hidden bg-[#eceff3] pt-[64px] text-slate-950">
       <SiteHeader />
-      <FloatingConversionCta href="#contact" />
+      <FloatingConversionCta href={aiDashiConsultUrl} />
 
       <section className="relative mx-auto max-w-[1920px] overflow-hidden bg-[#eceff3] px-6 py-14 lg:px-10 lg:py-[84px]">
         <div className="absolute inset-0">
@@ -241,14 +243,16 @@ export default function AIDashiPage() {
             </p>
             <div className="hero-copy-enter hero-copy-enter-2 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
-                href="#contact"
+                href={aiDashiConsultUrl}
                 className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] border border-white bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_36px_-24px_rgba(15,23,42,0.42)] transition hover:bg-slate-100"
               >
                 無料で導入相談・お見積り
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/whitepapers"
+                href={aiDashiWhitepaperUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] border border-white/24 bg-white/6 px-5 py-3 text-sm font-semibold text-white/92 backdrop-blur transition hover:bg-white/10"
               >
                 資料をダウンロード
@@ -703,12 +707,14 @@ export default function AIDashiPage() {
                 className="w-full max-w-[980px]"
               >
                 <Link
-                  href="https://www.querypie.com/ja/features/documentation/white-paper/30/saas-end-or-evolution"
+                  href={aiDashiWhitepaperUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group grid overflow-hidden rounded-[1.8rem] border border-black/6 bg-white shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md md:grid-cols-[280px_minmax(0,1fr)]"
                 >
                   <div className="relative min-h-[260px] bg-[#f5f7fb] p-6 md:min-h-full">
                     <Image
-                      src="/solutions/ai-dashi/the-end-of-saas-or-its-evolution.png"
+                      src="/white-paper/wp-thumb-30-jp.png"
                       alt="SaaSの終焉か、進化か ホワイトペーパー表紙"
                       fill
                       className="object-contain p-6"
