@@ -25,7 +25,7 @@ type ResourcePageProps = {
 
 const sidebarLinks = [
   { label: "全て", href: "/resources", key: "resources" },
-  { label: "紹介資料", href: "https://www.querypie.com/ja/features/documentation?category=introduction-deck" },
+  { label: "紹介資料", href: "/introduction-deck" },
   { label: "用語集", href: "/glossary", key: "glossary" },
   { label: "マニュアル", href: "/manuals", key: "manuals" },
   { label: "ホワイトペーパー", href: "/whitepapers", key: "whitepaper" },

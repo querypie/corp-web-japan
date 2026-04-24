@@ -51,7 +51,7 @@ const navItems: readonly NavItem[] = [
     grid: true,
     children: [
       { label: "全て", href: "/resources" },
-      { label: "紹介資料", href: "https://www.querypie.com/ja/features/documentation?category=introduction-deck" },
+      { label: "紹介資料", href: "/introduction-deck" },
       { label: "用語集", href: "/glossary" },
       { label: "マニュアル", href: "/manuals" },
       { label: "ホワイトペーパー", href: "/whitepapers" },
