@@ -607,6 +607,8 @@ export function TopPageSections() {
             <RevealOnScroll className="mt-8 flex justify-center" variant="up" delayMs={320}>
               <Link
                 href={security.link.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-xl bg-[#15181d] px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_42px_-26px_rgba(15,23,42,0.45)] transition hover:-translate-y-0.5 hover:bg-[#0f1216] hover:shadow-md"
               >
                 {security.link.label}
