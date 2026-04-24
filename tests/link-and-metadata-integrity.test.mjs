@@ -8,7 +8,7 @@ const headerExpectedLinks = [
   'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
   'label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew"',
   'label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi"',
-  'label: "ユースケース", href: "/demo/use-cases"',
+  'label: "活用事例", href: "/demo/use-cases"',
   'label: "全て", href: "/resources"',
   'label: "ホワイトペーパー", href: "/whitepapers"',
   'label: "ブログ", href: "/blog"',
