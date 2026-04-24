@@ -448,9 +448,9 @@ export const topPageContent = {
         "どこからAI活用を始めるべきか、何を優先して整えるべきかなど、まずはお気軽にご相談ください。",
     },
     actions: [
-      { label: "デモを依頼", href: "#contact" },
+      { label: "デモを依頼", href: "/contact-us?inquiry=demo-request" },
       { label: "資料をダウンロード", href: "#download" },
-      { label: "導入について相談する", href: "#contact" },
+      { label: "導入について相談する", href: "/contact-us?inquiry=ai-consulting" },
     ],
   },
   contact: {
