@@ -245,7 +245,7 @@ export const homePageContent = {
     ],
     note: "",
     primaryCta: { label: "進め方を相談する", href: "#contact" },
-    secondaryCta: { label: "活用事例を見る", href: demoUseCasesUrl },
+    secondaryCta: { label: "活用事例を見る", href: "#use-cases" },
   },
   testimonials: {
     eyebrow: "Impact & Cost",
