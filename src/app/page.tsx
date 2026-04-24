@@ -4,6 +4,7 @@ import { FloatingConversionCta } from "@/components/layout/floating-conversion-c
 import { SiteHeader } from "@/components/layout/site-header";
 import { TopPageSections } from "@/components/sections/top-page-sections";
 import { topPageContent } from "@/content/top-page";
+import { CONTACT_INQUIRY_URL } from "@/lib/contact";
 
 export const metadata: Metadata = {
   title: topPageContent.metadata.title,
@@ -24,7 +25,7 @@ export default function HomePage() {
   return (
     <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
       <SiteHeader />
-      <FloatingConversionCta href="#contact" />
+      <FloatingConversionCta href={CONTACT_INQUIRY_URL} />
       <TopPageSections />
       <SiteFooter />
     </main>

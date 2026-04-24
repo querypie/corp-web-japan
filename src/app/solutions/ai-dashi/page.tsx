@@ -15,6 +15,7 @@ import {
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
+import { CONTACT_INQUIRY_URL } from "@/lib/contact";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { ZoomableFigure } from "@/components/sections/zoomable-figure";
 
@@ -195,7 +196,7 @@ export default function AIDashiPage() {
   return (
     <main className="relative overflow-x-hidden bg-[#eceff3] pt-[64px] text-slate-950">
       <SiteHeader />
-      <FloatingConversionCta href="#ai-dashi-cta" />
+      <FloatingConversionCta href={CONTACT_INQUIRY_URL} />
 
       <section className="relative mx-auto max-w-[1920px] overflow-hidden bg-[#eceff3] px-6 py-14 lg:px-10 lg:py-[84px]">
         <div className="absolute inset-0">
@@ -770,7 +771,7 @@ export default function AIDashiPage() {
 
           <RevealOnScroll variant="up" delayMs={120} className="flex flex-col items-center gap-4">
             <Link
-              href="/#contact"
+              href={CONTACT_INQUIRY_URL}
               className="inline-flex max-w-full items-center justify-center rounded-[8px] bg-[#15181d] px-4 py-2.5 text-center text-sm font-semibold leading-5 text-white transition hover:bg-[#0f1216] sm:whitespace-nowrap sm:text-base"
             >
               無料で導入相談・お見積もりをする

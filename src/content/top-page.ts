@@ -1,3 +1,5 @@
+import { CONTACT_INQUIRY_URL } from "@/lib/contact";
+
 export const topPageContent = {
   metadata: {
     title: "信頼できるAIが、現場を動かす｜QueryPie AI",
@@ -18,7 +20,7 @@ export const topPageContent = {
       { label: "サポート", href: "#security" },
       { label: "QueryPie AIについて", href: "#about" },
     ],
-    cta: { label: "Free Flow", href: "#contact" },
+    cta: { label: "Free Flow", href: CONTACT_INQUIRY_URL },
   },
   hero: {
     tagline: "Secure Enterprise AI",
@@ -35,7 +37,7 @@ export const topPageContent = {
       "テスト導入から全社展開へ",
       "組織・役割に応じた権限管理",
     ],
-    primaryCta: { label: "お問い合わせ", href: "#contact" },
+    primaryCta: { label: "お問い合わせ", href: CONTACT_INQUIRY_URL },
     secondaryCta: { label: "資料をダウンロード", href: "#download" },
   },
   solutionBranch: {
@@ -308,7 +310,7 @@ export const topPageContent = {
     title: "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか",
     body:
       "採用難、生産性向上、既存サービスの付加価値強化など、AIを前提にした仕事設計が競争力の差を生み始めています。まずは、自社に合う導入余地を整理することから始めましょう。",
-    cta: { label: "無料でダウンロードする", href: "#contact" },
+    cta: { label: "無料でダウンロードする", href: CONTACT_INQUIRY_URL },
   },
   serviceFit: {
     title: "Webサービスを提供している企業様へ",
@@ -448,9 +450,9 @@ export const topPageContent = {
         "どこからAI活用を始めるべきか、何を優先して整えるべきかなど、まずはお気軽にご相談ください。",
     },
     actions: [
-      { label: "デモを依頼", href: "#contact" },
+      { label: "デモを依頼", href: CONTACT_INQUIRY_URL },
       { label: "資料をダウンロード", href: "#download" },
-      { label: "導入について相談する", href: "#contact" },
+      { label: "導入について相談する", href: CONTACT_INQUIRY_URL },
     ],
   },
   contact: {

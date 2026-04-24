@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { AICrewAvatar } from "@/components/sections/ai-crew-avatar";
+import { CONTACT_INQUIRY_URL } from "@/lib/contact";
 
 type GuideItem = {
   sectionId: string;
@@ -42,7 +43,7 @@ const guideItems: readonly GuideItem[] = [
     role: "導入支援 Crew",
     message: "PoCから小さく始められます。",
     ctaLabel: "進め方を相談する",
-    ctaHref: "#contact",
+    ctaHref: CONTACT_INQUIRY_URL,
   },
 ] as const;
 

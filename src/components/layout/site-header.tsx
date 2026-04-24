@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import styles from "./site-header.module.css";
+import { CONTACT_INQUIRY_URL } from "@/lib/contact";
 
 type NavChild = {
   label: string;
@@ -65,7 +66,7 @@ const navItems: readonly NavItem[] = [
       { label: "私たちについて", href: "#" },
       { label: "認証情報", href: "#" },
       { label: "ニュース", href: "#" },
-      { label: "お問い合わせ", href: "#contact" },
+      { label: "お問い合わせ", href: CONTACT_INQUIRY_URL },
     ],
   },
 ];
@@ -168,7 +169,7 @@ export function SiteHeader() {
           </nav>
 
           <div>
-            <Link href="#contact" className={styles.cta}>
+            <Link href={CONTACT_INQUIRY_URL} className={styles.cta}>
               お問い合わせ
             </Link>
           </div>

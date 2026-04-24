@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
+import { CONTACT_INQUIRY_URL } from "@/lib/contact";
 
 const faqItems = [
   {
@@ -64,7 +65,7 @@ export function AIDashiFaq() {
                 <p className="mt-2 text-sm leading-7 text-slate-600">{item.answer}</p>
                 <div className="mt-5">
                   <Link
-                    href="/#contact"
+                    href={CONTACT_INQUIRY_URL}
                     className="inline-flex items-center justify-center rounded-[8px] bg-[#15181d] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#0f1216]"
                   >
                     お問い合わせ

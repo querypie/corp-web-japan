@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./site-footer.module.css";
+import { CONTACT_INQUIRY_URL } from "@/lib/contact";
 
 const footerColumns = [
   {
@@ -43,7 +44,7 @@ const footerColumns = [
       { label: "会社概要", href: "#" },
       { label: "認定・認証", href: "#" },
       { label: "ニュース", href: "#" },
-      { label: "お問い合わせ", href: "#" },
+      { label: "お問い合わせ", href: CONTACT_INQUIRY_URL },
     ],
   },
 ] as const;
