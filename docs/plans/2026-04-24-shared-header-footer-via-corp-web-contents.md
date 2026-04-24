@@ -1,370 +1,170 @@
-# Shared Header/Footer via corp-web-contents
+# One-time Header/Footer Link Alignment
 
-> For Hermes: this PR documents the recommended migration path before implementation. The goal is to move querypie.ai header/GNB/footer data into `corp-web-contents` without breaking the existing `corp-web-app` Japan site.
+Goal: align the header and footer links in `corp-web-contents` to match the current querypie.ai site once, without building any ongoing synchronization between repositories.
 
-Goal: make `corp-web-contents` the source of truth for the querypie.ai Japan header, GNB, and footer content while keeping `corp-web-japan` responsible for its own visual implementation.
+Architecture: use `corp-web-japan` as the reference, then manually copy the desired link destinations into `corp-web-contents/layout/ja/header.json` and `corp-web-contents/layout/ja/footer.json`. Do not change `corp-web-japan` runtime loading. Do not add adapters, fetchers, or shared live data plumbing.
 
-Architecture: keep presentation in `corp-web-japan`, move navigational/footer data into `corp-web-contents`, and load that data from `corp-web-japan` through a typed adapter. Do not overwrite the existing `layout/ja/header.json` and `layout/ja/footer.json` used by `corp-web-app`; instead, add a site-scoped variant under `layout/querypie-ai/ja/`.
-
-Tech Stack: Next.js App Router, TypeScript, JSON content files, existing `corp-web-contents` JSON schema validation, optional server-side `fetch` caching in `corp-web-japan`.
+Tech Stack: JSON layout files already used by `corp-web-app`, existing schema validation in `corp-web-contents`.
 
 ---
 
-## 1. What is true today
+## Conclusion
 
-### corp-web-japan
+Given the updated requirement, the simplest approach is:
 
-Current querypie.ai navigation/footer content is hardcoded inside the UI components:
+1. leave `corp-web-japan` unchanged
+2. treat `corp-web-japan` header/footer links as the source reference
+3. update only `corp-web-contents` JSON once so its links match the querypie.ai information architecture as closely as needed
 
-- `src/components/layout/site-header.tsx`
-  - owns the top-level GNB labels, descriptions, and child links in the local `navItems` array
-  - also owns the contact CTA label and href inline
-- `src/components/layout/site-footer.tsx`
-  - owns footer columns, legal links, social URLs, and address/copyright lines inline
+This is the best fit because:
 
-This means querypie.ai header/footer updates currently require component edits.
+- `corp-web-japan` header/footer are currently hardcoded in:
+  - `src/components/layout/site-header.tsx`
+  - `src/components/layout/site-footer.tsx`
+- `corp-web-japan` does not read `corp-web-contents` today
+- therefore, editing only `corp-web-contents` JSON cannot make querypie.ai change at runtime
+- but it can make the old `corp-web-app` / `corp-web-contents` site links match querypie.ai in a one-time cleanup
+- this avoids adding synchronization for repositories that are expected to be deprecated soon
 
-### corp-web-contents / corp-web-app
+---
 
-`corp-web-contents` already manages structured layout JSON for the Japan website used by `corp-web-app`:
+## What the repo inspection showed
 
+### querypie.ai (`corp-web-japan`) current link set
+
+Header/footer currently point to querypie.ai-local paths such as:
+
+- `/services/aip`
+- `/services/acp`
+- `/services/fde`
+- `/solutions/ai-crew`
+- `/solutions/ai-dashi`
+- `/demo/use-cases`
+- `/demo/aip`
+- `/demo/acp`
+- `/resources`
+- `/introduction-deck`
+- `/glossary`
+- `/manuals`
+- `/whitepapers`
+- `/blog`
+- `/about-us`
+- `/certifications`
+- `/news`
+- `/contact-us`
+
+Footer also includes legal/social links such as:
+
+- `/cookie-preference`
+- `/terms-of-service`
+- `/privacy-policy`
+- `/eula`
+- LinkedIn / YouTube / X / Facebook / Instagram
+
+### `corp-web-contents` current Japan JSON link set
+
+Current `layout/ja/header.json` and `layout/ja/footer.json` still point to the old corporate-site structure, for example:
+
+- `/solutions/aip`
+- `/solutions/acp`
+- `/features/demo`
+- `/features/documentation`
+- `/company/about-us`
+- `/company/certifications`
+- `/company/news`
+- `/company/contact-us`
+- `/plans`
+- `/plans?aip`
+- `/plans?acp`
+- `https://app.querypie.com`
+- `https://docs.querypie.com/ja`
+- `https://aip-docs.app.querypie.com/ja`
+
+So there is a clear mismatch.
+
+---
+
+## Important constraint
+
+If the goal is strictly “make both sites use one shared source at runtime”, JSON-only changes are not enough.
+
+Reason:
+- `corp-web-japan` does not consume `corp-web-contents`
+- its header/footer links are compiled from local arrays in React components
+
+Therefore:
+- JSON-only change can align the old site to the new site
+- JSON-only change cannot create live commonization
+
+Under the new requirement, that is acceptable and preferred.
+
+---
+
+## Recommended action
+
+Make a one-time content update in `corp-web-contents` only.
+
+Files to edit:
 - `layout/ja/header.json`
 - `layout/ja/footer.json`
 
-`corp-web-app` already consumes those files centrally:
+Reference source:
+- `corp-web-japan/src/components/layout/site-header.tsx`
+- `corp-web-japan/src/components/layout/site-footer.tsx`
 
-- `src/app/layout.tsx`
-- `src/utils/file/file-query.ts`
-- `src/components/layout/header/ui/header.component.tsx`
-- `src/components/layout/footer/ui/footer.component.tsx`
-
-Important constraint: the existing `layout/ja/header.json` and `layout/ja/footer.json` are already the live source for `querypie.com/ja`. Replacing them with querypie.ai data would break the current Japan corporate site.
-
----
-
-## 2. Recommended method
-
-## Summary
-
-Use `corp-web-contents` as the shared content repository, but introduce a querypie.ai-specific layout namespace that lives alongside the existing layout files.
-
-Recommended new source-of-truth files:
-
-- `corp-web-contents/layout/querypie-ai/ja/header.json`
-- `corp-web-contents/layout/querypie-ai/ja/footer.json`
-
-Then update `corp-web-japan` to:
-
-1. fetch those JSON files on the server
-2. map them into local UI props
-3. keep the current `SiteHeader` / `SiteFooter` visual design intact
-
-This is the safest migration because it centralizes the content without forcing immediate design convergence between `corp-web-app` and `corp-web-japan`.
+Implementation rule:
+- copy only the link destinations and labels needed for one-time alignment
+- do not introduce new runtime integration between repos
+- do not add new JSON namespaces
+- do not add fetch logic to `corp-web-japan`
+- do not refactor `corp-web-app` schema unless a required link cannot be represented in the existing JSON shape
 
 ---
 
-## 3. Why this is the safest path
+## Practical caveat
 
-### Why not overwrite `layout/ja/header.json` and `layout/ja/footer.json`?
+This should be treated as “link parity”, not “full visual/IA parity”.
 
-Because those files are already consumed by `corp-web-app` for `querypie.com/ja`. The IA and presentation requirements are different enough that replacing them would be a risky cross-site change.
+Why:
+- `corp-web-contents` header/footer schema is shaped for the old site navigation model
+- `corp-web-japan` has a different IA and different menu grouping
+- some querypie.ai concepts, such as the exact service/solution grouping, may need approximation when mapped into the old JSON structure
 
-### Why not import `corp-web-contents` as a git submodule/subtree/package?
-
-That would couple the repos too tightly and add maintenance cost without solving the runtime ownership problem.
-
-### Why keep presentation in `corp-web-japan`?
-
-Because querypie.ai currently has a custom header/footer implementation:
-
-- bespoke dropdown behavior in `site-header.tsx`
-- bespoke footer layout in `site-footer.tsx`
-- local logo/icon assets
-
-The request is to share content ownership, not to force both sites onto the same React component tree right away.
-
-### Why place the new files under `layout/querypie-ai/ja/`?
-
-Because:
-
-- they stay inside the existing `layout/` tree
-- `corp-web-contents/scripts/upload-files.js` already uploads the entire `layout/` directory recursively
-- `corp-web-contents/scripts/validate-json.js` already validates any `header.json` and `footer.json` file anywhere in the repo against the existing schemas
-- `corp-web-app` will ignore them because it only reads `layout/{locale}/{file}`
-
-This keeps the migration additive instead of disruptive.
+So the recommended goal is:
+- align the actual destinations as much as possible
+- accept small grouping differences if the old schema/UI requires them
 
 ---
 
-## 4. Data contract recommendation
+## Smallest next implementation PR
 
-Use the existing `HeaderType` / `FooterType` shapes as much as possible.
+If proceeding with implementation, the smallest PR should do only this:
 
-Existing validated fields already cover most of querypie.ai needs:
+### Task 1: edit header JSON
+- update `corp-web-contents/layout/ja/header.json`
+- replace old corporate-site destinations with the querypie.ai-aligned destinations where appropriate
 
-### Header (`HeaderType`)
+### Task 2: edit footer JSON
+- update `corp-web-contents/layout/ja/footer.json`
+- replace old footer destinations with the querypie.ai-aligned destinations where appropriate
+- keep legal links/socials aligned with the current querypie.ai footer when the same destination exists
 
-Already available:
-
-- `menus`
-- `rightButton`
-- `mobileBottomButtons`
-- `promotionBanner`
-
-This is enough to represent:
-
-- top-level GNB groups
-- dropdown descriptions
-- child navigation items
-- right-side CTA
-- mobile footer CTA buttons
-
-### Footer (`FooterType`)
-
-Already available:
-
-- `menus`
-- `socials`
-- `copyright`
-- `addresses`
-- `anotherMenus`
-
-This is enough to represent the current querypie.ai footer columns and legal area.
-
-### Known gap: querypie.ai-specific presentation hints
-
-The current querypie.ai header has one UI-specific hint that does not exist in `HeaderType` today:
-
-- the `リソース` menu is rendered as a grid in `corp-web-japan`
-
-Recommendation for phase 1:
-
-- do not expand the shared schema yet
-- keep this as local presentation logic in `corp-web-japan`
-- derive the grid treatment from the adapted view model, for example by local mapping for the resource menu
-
-That keeps the shared JSON focused on content first.
-
-If more view-specific hints accumulate later, add them intentionally through a schema update in `corp-web-app` and `corp-web-contents` together.
-
----
-
-## 5. Loading strategy in corp-web-japan
-
-Recommended implementation: server-side loader + local adapter.
-
-### Add a loader in `corp-web-japan`
-
-Suggested new file:
-
-- `src/lib/corp-web-contents-layout.ts`
-
-Responsibilities:
-
-- fetch `header.json` and `footer.json` from `corp-web-contents`
-- validate the response shape at runtime as defensively as practical
-- expose typed data for the app
-- cache with `fetch(..., { next: { revalidate: ... } })`
-
-### Add a local adapter layer
-
-Suggested new file:
-
-- `src/lib/corp-web-contents-layout-adapter.ts`
-
-Responsibilities:
-
-- map shared `HeaderType` data into the `NavItem[]` shape currently used by `site-header.tsx`
-- map shared `FooterType` data into the column/link structures currently used by `site-footer.tsx`
-- keep local asset concerns in `corp-web-japan` (logo, icon paths, any CSS-only behavior)
-
-### Minimal component edits
-
-Modify:
-
-- `src/components/layout/site-header.tsx`
-- `src/components/layout/site-footer.tsx`
-
-Change them from “hardcoded content + UI” to “UI + adapted content props”.
-
-Do not redesign the components in the first migration.
-
----
-
-## 6. Source URL recommendation
-
-There are two viable transport choices.
-
-### Option A — raw GitHub fetch (recommended first)
-
-Read directly from the `corp-web-contents` repository at a configurable ref.
-
-Example shape:
-
-- `https://raw.githubusercontent.com/querypie/corp-web-contents/<ref>/layout/querypie-ai/ja/header.json`
-- `https://raw.githubusercontent.com/querypie/corp-web-contents/<ref>/layout/querypie-ai/ja/footer.json`
-
-Pros:
-
-- no new secret required in `corp-web-japan`
-- very small implementation surface
-- easy to review and debug
-- supports preview/staging by changing `<ref>`
-
-Suggested env var:
-
-- `CORP_WEB_CONTENTS_REF`
-  - production default: `main`
-  - preview override: matching content branch when needed
-
-### Option B — Vercel Blob fetch (good phase-2 upgrade)
-
-Read the same files from the existing Blob upload pipeline used by `corp-web-app`.
-
-Pros:
-
-- closer to the existing `corp-web-app` content runtime model
-- better alignment with already-published content artifacts
-
-Cons:
-
-- requires either a small listing/fetch client in `corp-web-japan` or new operational setup
-- more moving parts than raw GitHub for the initial migration
-
-Recommendation:
-
-- phase 1: raw GitHub fetch
-- phase 2: switch transport to Blob only if operationally needed
-
-The data path should stay the same either way:
-
-- `layout/querypie-ai/ja/header.json`
-- `layout/querypie-ai/ja/footer.json`
-
----
-
-## 7. Concrete implementation plan
-
-### Task 1: Add querypie.ai layout files to corp-web-contents
-
-Objective: create the new source-of-truth JSON without touching the existing Japan site layout files.
-
-Files:
-- Create: `corp-web-contents/layout/querypie-ai/ja/header.json`
-- Create: `corp-web-contents/layout/querypie-ai/ja/footer.json`
-
-Rules:
-- keep to the existing `HeaderType` / `FooterType` schema
-- copy the current querypie.ai labels, hrefs, descriptions, socials, legal links, and addresses
-- do not modify `layout/ja/header.json`
-- do not modify `layout/ja/footer.json`
-
-### Task 2: Add typed loader in corp-web-japan
-
-Objective: load shared layout JSON from `corp-web-contents`.
-
-Files:
-- Create: `src/lib/corp-web-contents-layout.ts`
-
-Responsibilities:
-- build URL from `CORP_WEB_CONTENTS_REF`
-- fetch both files server-side
-- handle network failure cleanly
-- return a fallback or fail fast in a predictable way
-
-### Task 3: Add adapter from shared schema to local UI props
-
-Objective: preserve current querypie.ai UI while removing hardcoded content.
-
-Files:
-- Create: `src/lib/corp-web-contents-layout-adapter.ts`
-
-Responsibilities:
-- map `HeaderType` -> local `NavItem[]`
-- map `FooterType` -> local footer column/link structures
-- keep any querypie.ai-only rendering hints local
-
-### Task 4: Thread data into pages/layout
-
-Objective: fetch once on the server and pass data into header/footer.
-
-Likely files:
-- Modify: `src/app/page.tsx`
-- Modify: `src/app/solutions/ai-crew/page.tsx`
-- Modify: `src/app/solutions/ai-dashi/page.tsx`
-- Modify: `src/app/blog/page.tsx`
-- Modify: `src/app/whitepapers/page.tsx`
-- Modify: `src/app/events/page.tsx`
-- Modify: `src/app/posts/[category]/[slug]/page.tsx`
-- and any other route currently rendering `<SiteHeader />` / `<SiteFooter />`
-
-Preferred cleanup if desired:
-- optionally introduce a shared page shell so routes stop repeating header/footer wiring
-
-### Task 5: Convert components to prop-driven rendering
-
-Files:
-- Modify: `src/components/layout/site-header.tsx`
-- Modify: `src/components/layout/site-footer.tsx`
-
-Rules:
-- keep markup/CSS behavior intact unless strictly needed
-- remove inline arrays once shared props are wired
-- keep local asset imports local
-
-### Task 6: Verify with existing repo checks
-
-Run in `corp-web-japan`:
-
-```bash
-npm run test:ci
-npm run build
-```
-
-Relevant existing tests likely touched by this migration:
-- `tests/footer-addresses.test.mjs`
-- `tests/footer-legal-links.test.mjs`
-- `tests/home-structure.test.mjs`
-- `tests/link-and-metadata-integrity.test.mjs`
-
-Also validate `corp-web-contents`:
+### Task 3: validate
+Run in `corp-web-contents`:
 
 ```bash
 npm run validateJson
 ```
 
----
-
-## 8. Non-goals for the first PR
-
-Do not do these in the initial migration PR unless explicitly requested:
-
-- redesign the querypie.ai header/footer visuals
-- force `corp-web-japan` to reuse `corp-web-app` React components
-- merge querypie.ai navigation IA into the existing `querypie.com/ja` header/footer files
-- introduce a new schema unless the current shapes prove insufficient
-- move logo/icon binary assets into `corp-web-contents`
+Optionally also verify the affected old-site header/footer rendering in preview.
 
 ---
 
-## 9. Expected end state
+## Decision
 
-After implementation:
+Recommended decision now:
 
-- content editors update querypie.ai header/footer data in `corp-web-contents`
-- `corp-web-japan` stops hardcoding navigation/footer copy and links
-- `corp-web-japan` keeps its own design system and interaction behavior
-- `corp-web-app` keeps using its existing Japan header/footer source untouched
-- future convergence remains possible because both sites now depend on structured layout JSON instead of inline arrays
-
----
-
-## 10. Decision
-
-Recommended decision: proceed with an additive, site-scoped migration.
-
-- Shared content source: `corp-web-contents`
-- New path: `layout/querypie-ai/ja/header.json` and `layout/querypie-ai/ja/footer.json`
-- `corp-web-japan` role: renderer + adapter
-- Initial transport: raw GitHub fetch with cache
-- Future optional upgrade: switch transport to Blob without changing the file contract
+- abandon the live shared-source plan
+- use a one-time JSON-only update in `corp-web-contents`
+- treat `corp-web-japan` as the reference implementation
+- keep the change as small as possible because `corp-web-app` / `corp-web-contents` are temporary ahead of `corp-web-v2`
