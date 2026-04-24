@@ -525,11 +525,11 @@ export default function AIDashiPage() {
                     ) : (
                       <span className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-black/5" />
                     )}
-                    <div className="relative z-[1] flex max-w-fit flex-col items-center justify-center gap-2 text-center">
+                    <div className="relative z-[1] flex w-full max-w-[380px] flex-col items-center justify-center gap-2 text-center">
                       <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#ED602E] shadow-[0_10px_24px_-18px_rgba(15,23,42,0.28)]">
                         <Check className="h-4 w-4 stroke-[2.5]" />
                       </div>
-                    <p className="text-[15px] font-bold leading-6 text-slate-950 md:text-base">
+                    <p className="max-w-full text-[15px] font-bold leading-6 text-slate-950 md:text-base">
                         {row.left[0]}
                       </p>
                       <p className="mx-auto max-w-[380px] text-[11px] font-medium leading-5 text-slate-700 md:text-[12px]">
@@ -539,11 +539,11 @@ export default function AIDashiPage() {
                   </div>
 
                   <div className={`flex min-h-[118px] items-center justify-center bg-white px-4 py-5 text-center md:px-5 lg:px-6 ${index < comparisonRows.length - 1 ? "border-b border-black/5" : ""}`}>
-                    <div className="flex max-w-fit flex-col items-center justify-center gap-2 text-center">
+                    <div className="flex w-full max-w-[340px] flex-col items-center justify-center gap-2 text-center">
                       <div className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-[0_10px_24px_-18px_rgba(15,23,42,0.12)]">
                         <X className="h-4 w-4 stroke-[2.5]" />
                       </div>
-                      <p className="text-[15px] font-semibold leading-6 text-slate-700 md:text-base">{row.right[0]}</p>
+                      <p className="max-w-full text-[15px] font-semibold leading-6 text-slate-700 md:text-base">{row.right[0]}</p>
                       <p className="max-w-[340px] text-[11px] font-medium leading-5 text-slate-500 md:text-[12px]">
                         {row.right[1]}
                       </p>
