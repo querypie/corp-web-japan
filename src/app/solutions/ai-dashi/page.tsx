@@ -241,7 +241,7 @@ export default function AIDashiPage() {
             </p>
             <div className="hero-copy-enter hero-copy-enter-2 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
-                href={aiDashiConsultUrl}
+                href="#contact"
                 className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] border border-white bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_36px_-24px_rgba(15,23,42,0.42)] transition hover:bg-slate-100"
               >
                 無料で導入相談・お見積り
