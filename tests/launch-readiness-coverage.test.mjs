@@ -19,10 +19,10 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(homeContent, /partnerCta: \{ label: "自社サービスAI化の進め方を見る", href: "\/solutions\/ai-dashi" \}/);
   assert.match(homeContent, /primaryCta: \{ label: "すべての活用事例を見る", href: demoUseCasesUrl \}/);
 
-  assert.match(topPage, /<FloatingConversionCta href="#final-cta" \/>/);
-  assert.match(topPageContent, /primaryCta: \{ label: "お問い合わせ", href: "#final-cta" \}/);
-  assert.match(topPageContent, /secondaryCta: \{ label: "資料をダウンロード", href: "#final-cta" \}/);
-  assert.match(topPageSections, /id="final-cta"/);
+  assert.match(topPage, /<FloatingConversionCta href="#contact" \/>/);
+  assert.match(topPageContent, /primaryCta: \{ label: "お問い合わせ", href: "#contact" \}/);
+  assert.match(topPageContent, /secondaryCta: \{ label: "資料をダウンロード", href: "#contact" \}/);
+  assert.match(topPageSections, /id="contact"/);
   assert.match(topPageSections, /bg-\[#0f172a\] text-white/);
   assert.match(topPageSections, /id="download"/);
   assert.match(topPageContent, /\{ label: "デモを依頼", href: "\/contact-us\?inquiry=demo-request" \}/);
