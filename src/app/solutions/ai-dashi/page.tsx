@@ -19,6 +19,9 @@ import { CONTACT_INQUIRY_URL } from "@/lib/contact";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { ZoomableFigure } from "@/components/sections/zoomable-figure";
 
+const AI_DASHI_WHITEPAPER_URL =
+  "https://www.querypie.com/ja/features/documentation/white-paper/30/saas-end-or-evolution";
+
 export const metadata: Metadata = {
   title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
   description:
@@ -237,14 +240,16 @@ export default function AIDashiPage() {
             </p>
             <div className="hero-copy-enter hero-copy-enter-2 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
-                href="#ai-dashi-cta"
+                href={CONTACT_INQUIRY_URL}
                 className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] border border-white bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_36px_-24px_rgba(15,23,42,0.42)] transition hover:bg-slate-100"
               >
                 無料で導入相談・お見積り
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/whitepaper"
+                href={AI_DASHI_WHITEPAPER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] border border-white/24 bg-white/6 px-5 py-3 text-sm font-semibold text-white/92 backdrop-blur transition hover:bg-white/10"
               >
                 資料をダウンロード
@@ -699,7 +704,7 @@ export default function AIDashiPage() {
                 className="w-full max-w-[980px]"
               >
                 <Link
-                  href="https://www.querypie.ai/ja/features/documentation/white-paper/30/saas-end-or-evolution"
+                  href={AI_DASHI_WHITEPAPER_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group grid overflow-hidden rounded-[1.8rem] border border-black/6 bg-white shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md md:grid-cols-[280px_minmax(0,1fr)]"
