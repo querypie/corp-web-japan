@@ -12,10 +12,10 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
   const resourcePostPage = readSource("src/components/sections/resource-post-page.tsx");
 
-  assert.match(homeContent, /primaryCta: \{ label: "業務に合うAI活用を相談する", href: "#contact" \}/);
-  assert.match(homeContent, /floatingCta: \{ label: "業務に合うAI活用を相談する", href: "#contact" \}/);
-  assert.match(homeContent, /secondaryCta: \{ label: "業務に合うAI活用を相談する", href: "#contact" \}/);
-  assert.match(homeContent, /primaryCta: \{ label: "進め方を相談する", href: "#contact" \}/);
+  assert.match(homeContent, /primaryCta: \{ label: "業務に合うAI活用を相談する", href: aiCrewConsultUrl \}/);
+  assert.match(homeContent, /floatingCta: \{ label: "業務に合うAI活用を相談する", href: aiCrewConsultUrl \}/);
+  assert.match(homeContent, /secondaryCta: \{ label: "業務に合うAI活用を相談する", href: aiCrewConsultUrl \}/);
+  assert.match(homeContent, /primaryCta: \{ label: "進め方を相談する", href: aiCrewConsultUrl \}/);
   assert.match(homeContent, /partnerCta: \{ label: "自社サービスAI化の進め方を見る", href: "\/solutions\/ai-dashi" \}/);
   assert.match(homeContent, /primaryCta: \{ label: "すべての活用事例を見る", href: demoUseCasesUrl \}/);
 
@@ -28,8 +28,8 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(topPageContent, /\{ label: "デモを依頼", href: "\/contact-us\?inquiry=demo-request" \}/);
   assert.match(topPageContent, /\{ label: "資料をダウンロード", href: "https:\/\/www\.querypie\.com\/ja\/features\/documentation\/aip-introduction-download" \}/);
   assert.match(topPageContent, /\{ label: "導入について相談する", href: "\/contact-us\?inquiry=ai-consulting" \}/);
-  assert.match(aiCrewPage, /<FloatingConversionCta href="#contact" \/>/);
-  assert.match(aiCrewFloatingGuide, /ctaHref: "#contact"/);
+  assert.match(aiCrewPage, /<FloatingConversionCta href="\/contact-us\?inquiry=ai-consulting&product=ai-crew" \/>/);
+  assert.match(aiCrewFloatingGuide, /ctaHref: "\/contact-us\?inquiry=ai-consulting&product=ai-crew"/);
   assert.match(aiDashiFaq, /href="\/#contact"/);
   assert.match(resourcePostPage, /href="\/#contact"/);
 
