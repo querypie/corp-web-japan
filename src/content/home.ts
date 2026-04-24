@@ -13,7 +13,7 @@ export const homePageContent = {
     body:
       "調査、データ整理、下書きなど、時間のかかる「下準備」をAIに任せて効率化。人員を増やすことなく、企業の生産性・利益率の向上を実現します。",
     primaryCta: { label: "業務に合うAI活用を相談する", href: "#contact" },
-    secondaryCta: { label: "活用事例を見る", href: "#roles" },
+    secondaryCta: { label: "活用事例を見る", href: "#use-cases" },
     imageSrc: "/solutions/ai-crew/hero-visual.webp",
     imageAlt: "オフィスでAIアシスタント画面を活用しながら業務を進めるチームのイメージ",
   },
@@ -160,7 +160,7 @@ export const homePageContent = {
       "改善インパクトの大きい業務を起点に、業務フローや運用ルールに合わせて設計します。まずは、効果が見えやすい領域から小さく始められます。以下は、実際にご相談の多い業務例です。",
     note:
       "他にも、データ分析、開発、製造、審査、見積、SEO分析など、貴社の業務に合わせた活用例をご覧いただけます。",
-    primaryCta: { label: "すべての活用事例を見る", href: demoUseCasesUrl },
+    primaryCta: { label: "すべての活用事例を見る", href: "/demo/use-cases" },
     secondaryCta: { label: "業務に合うAI活用を相談する", href: "#contact" },
     cards: [
       {
@@ -169,7 +169,7 @@ export const homePageContent = {
         body:
           "サイト分析、改善ポイント整理、ダッシュボード化までを短時間で支援。SEOの現状把握と次の打ち手を見えやすくします。",
         videoHref: "https://youtu.be/K-ld_s4Che0",
-        detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/29/seo-analyst",
+        detailHref: "https://www.querypie.com/ja/features/demo/use-cases/29/seo-analyst",
       },
       {
         category: "見積・営業",
@@ -182,14 +182,14 @@ export const homePageContent = {
             body:
               "ローカルファイルやパスワード付きPDFをアップロードせずに分析し、確認や比較の手間を減らします。",
             videoHref: "https://youtu.be/qwvyVcTaDsA",
-            detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/28/quotation-analyze-ai-agent",
+            detailHref: "https://www.querypie.com/ja/features/demo/use-cases/28/quotation-analyze-ai-agent",
           },
           {
             label: "見積書作成",
             body:
               "複雑な価格表や条件をスキル化し、指定フォーマットで正確な見積書を出力します。",
             videoHref: "https://youtu.be/mKZrCQti0Rc",
-            detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/27/quotation-ai-agent",
+            detailHref: "https://www.querypie.com/ja/features/demo/use-cases/27/quotation-ai-agent",
           },
         ],
       },
@@ -199,7 +199,7 @@ export const homePageContent = {
         body:
           "Git、PR、チケット、CI/CD、インシデントを横断し、開発状況とリスクを会話型で可視化。開発チームの意思決定を支援します。",
         videoHref: "https://youtu.be/cWC5lzN1JnE",
-        detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/16/dev-insight-ai-agent",
+        detailHref: "https://www.querypie.com/ja/features/demo/use-cases/16/dev-insight-ai-agent",
       },
       {
         category: "分析・経営",
@@ -207,7 +207,7 @@ export const homePageContent = {
         body:
           "自然言語での質問から、データ抽出、可視化、インサイト整理までを支援。アドホックな分析依頼やレポート作成の負荷を下げます。",
         videoHref: "https://youtu.be/f_yM6dinVU4",
-        detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/7/data-analytics-agent",
+        detailHref: "https://www.querypie.com/ja/features/demo/use-cases/7/data-analytics-agent",
       },
     ],
   },
@@ -245,7 +245,7 @@ export const homePageContent = {
     ],
     note: "",
     primaryCta: { label: "進め方を相談する", href: "#contact" },
-    secondaryCta: { label: "活用事例を見る", href: demoUseCasesUrl },
+    secondaryCta: { label: "活用事例を見る", href: "#use-cases" },
   },
   testimonials: {
     eyebrow: "Impact & Cost",
@@ -350,7 +350,7 @@ export const homePageContent = {
     body:
       "まだ対象業務が明確でなくても問題ありません。\nQueryPie AIの専門チームが、貴社のボトルネック整理からPoCの進め方までご一緒します。",
     primaryCta: { label: "業務に合うAI活用を相談する", href: "#contact" },
-    secondaryCta: { label: "活用事例を見る", href: demoUseCasesUrl },
+    secondaryCta: { label: "活用事例を見る", href: "#use-cases" },
     partnerBadge: "SaaSやWebサービスのAI化を進めたい企業様へ",
     partnerTitle: "貴社のサービスを、最短でAI化しませんか？",
     partnerBody:

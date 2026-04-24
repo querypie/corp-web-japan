@@ -13,11 +13,12 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   const resourcePostPage = readSource("src/components/sections/resource-post-page.tsx");
 
   assert.match(homeContent, /primaryCta: \{ label: "業務に合うAI活用を相談する", href: "#contact" \}/);
+  assert.match(homeContent, /secondaryCta: \{ label: "活用事例を見る", href: "#use-cases" \}/);
   assert.match(homeContent, /floatingCta: \{ label: "業務に合うAI活用を相談する", href: "#contact" \}/);
   assert.match(homeContent, /secondaryCta: \{ label: "業務に合うAI活用を相談する", href: "#contact" \}/);
   assert.match(homeContent, /primaryCta: \{ label: "進め方を相談する", href: "#contact" \}/);
   assert.match(homeContent, /partnerCta: \{ label: "自社サービスAI化の進め方を見る", href: "\/solutions\/ai-dashi" \}/);
-  assert.match(homeContent, /primaryCta: \{ label: "すべての活用事例を見る", href: demoUseCasesUrl \}/);
+  assert.match(homeContent, /secondaryCta: \{ label: "活用事例を見る", href: "#use-cases" \}/);
 
   assert.match(topPage, /<FloatingConversionCta href="#contact" \/>/);
   assert.match(topPageContent, /primaryCta: \{ label: "お問い合わせ", href: "#contact" \}/);
@@ -30,6 +31,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(topPageContent, /\{ label: "導入について相談する", href: "\/contact-us\?inquiry=ai-consulting" \}/);
   assert.match(aiCrewPage, /<FloatingConversionCta href="#contact" \/>/);
   assert.match(aiCrewFloatingGuide, /ctaHref: "#contact"/);
+  assert.match(aiCrewFloatingGuide, /ctaHref: "\/demo\/use-cases"/);
   assert.match(aiDashiFaq, /href="\/#contact"/);
   assert.match(resourcePostPage, /href="\/#contact"/);
 
