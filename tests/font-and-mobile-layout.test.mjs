@@ -32,3 +32,11 @@ test("AI Dashi comparison cells allow long copy to wrap on narrow screens", () =
   assert.match(source, /max-w-full text-\[15px\] font-semibold/);
   assert.doesNotMatch(source, /flex max-w-fit flex-col items-center justify-center gap-2 text-center/);
 });
+
+test("Trust Center CTA opens in a new tab", () => {
+  const source = readSource("src/components/sections/top-page-sections.tsx");
+
+  assert.match(source, /href=\{security\.link\.href\}/);
+  assert.match(source, /target="_blank"/);
+  assert.match(source, /rel="noopener noreferrer"/);
+});
