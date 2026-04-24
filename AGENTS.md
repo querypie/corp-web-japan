@@ -127,6 +127,91 @@ At the start of every user turn in this repository:
 - Event content is allowed to follow either model: link to `querypie.com/ja`, create a local posting in this website, or support both when the content strategy calls for it.
 - When removing a local posting/article route, keep the surrounding index/list experience coherent so users still navigate through the intended local hub.
 
+## Contact-us redirect query-prefill contract
+
+Use this contract when wiring any CTA, button, banner, or in-page action through `https://querypie.ai/contact-us` or a local `/contact-us` endpoint that redirects to `https://www.querypie.com/ja/company/contact-us`.
+
+### Purpose
+
+- Keep CTA URLs locale-independent and stable.
+- Let the redirect preserve prefill intent into the upstream Japan contact form.
+- Follow the stable query-string API introduced in `querypie/corp-web-app` PR #612:
+  - https://github.com/querypie/corp-web-app/pull/612
+
+### Redirect behavior
+
+- The redirect target is `https://www.querypie.com/ja/company/contact-us`.
+- The redirect must preserve the incoming query string exactly.
+- Do not translate, rename, or drop supported prefill params during the redirect.
+- Unknown params may pass through unchanged, but only the documented prefill params below are part of the supported contract.
+
+### Supported query params
+
+- `inquiry=<stable-key>`
+  - single-value param for the visible inquiry / objective select
+- `product=<stable-key>`
+  - repeatable param for the visible product multi-select
+  - example: `?product=ai-dashi&product=aip`
+
+Do not use Salesforce field names such as `Objective__c` or localized Japanese labels as the public query API.
+
+### Supported `inquiry` keys
+
+Use only these stable keys:
+
+- `ai-consulting`
+- `download`
+- `demo-request`
+- `quote-request`
+- `technical-question`
+- `partnership`
+- `other`
+
+Expected mapping on the Japan contact form:
+
+- `ai-consulting` -> `AI導入・活用について相談`
+- `download` -> `資料ダウンロード`
+- `demo-request` -> `デモを依頼`
+- `quote-request` -> `お見積もり依頼`
+- `technical-question` -> `技術的な質問`
+- `partnership` -> `パートナーシップ`
+- `other` -> `その他`
+
+### Supported `product` keys
+
+Use only these stable keys:
+
+- `ai-crew`
+- `ai-dashi`
+- `aip`
+- `acp`
+- `fde`
+- `partnership`
+
+Expected mapping on the Japan contact form:
+
+- `ai-crew` -> `社内業務効率化｜AI Crew`
+- `ai-dashi` -> `自社サービスAI化｜AI Dashi`
+- `aip` -> `AIプラットフォーム QueryPie AIP`
+- `acp` -> `アクセス制御プラットフォーム QueryPie ACP`
+- `fde` -> `AI専門家伴走 (FDE) サービス`
+- `partnership` -> `パートナーシップ`
+
+### Public URL examples
+
+- `https://querypie.ai/contact-us?inquiry=demo-request`
+- `https://querypie.ai/contact-us?inquiry=ai-consulting&product=ai-dashi`
+- `https://querypie.ai/contact-us?inquiry=download&product=aip`
+- `https://querypie.ai/contact-us?inquiry=demo-request&product=ai-crew&product=aip`
+
+### CTA authoring rules
+
+- Prefer the stable keys above for all new CTA links.
+- Keep user-facing labels in Japanese, but keep query params in stable English keys.
+- Use repeated `product` params when multiple products should be preselected.
+- Ignore unsupported or unknown keys rather than guessing a fallback mapping.
+- If the CTA intent is a true direct file download rather than a contact-form prefill, link to the real download destination instead of forcing `/contact-us`.
+
 ## Verification
 
 - Run the relevant checks before considering the work complete.
