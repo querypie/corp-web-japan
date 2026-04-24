@@ -7,7 +7,7 @@ const expectedHeaderLinks = [
   'label: "AIプラットフォーム｜AIP", href: "/services/aip"',
   'label: "アクセス制御プラットフォーム｜ACP", href: "/services/acp"',
   'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
-  'label: "ユースケース", href: "/demo/use-cases"',
+  'label: "活用事例", href: "/demo/use-cases"',
   'label: "AIP機能", href: "/demo/aip"',
   'label: "ACP機能", href: "/demo/acp"',
   'label: "全て", href: "/resources"',
