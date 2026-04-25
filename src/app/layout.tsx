@@ -1,6 +1,21 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
 import { siteUrl } from "@/lib/site-url";
+
+const monaSansFont = localFont({
+  src: "../assets/fonts/Mona-Sans.woff2",
+  display: "swap",
+  variable: "--font-mona-sans",
+  weight: "100 900",
+});
+
+const pretendardJPFont = localFont({
+  src: "../assets/fonts/PretendardJPVariable.woff2",
+  display: "swap",
+  variable: "--font-pretendard-jp",
+  weight: "45 920",
+});
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
@@ -15,7 +30,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className="font-sans antialiased">{children}</body>
+      <body className={`${monaSansFont.variable} ${pretendardJPFont.variable} font-sans antialiased`}>
+        {children}
+      </body>
     </html>
   );
 }
