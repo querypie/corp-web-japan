@@ -13,6 +13,8 @@ test("app layout uses separated local Mona Sans and Pretendard JP font variables
   assert.match(layout, /PretendardJPVariable\.woff2/);
   assert.match(layout, /monaSansFont\.variable/);
   assert.match(layout, /pretendardJPFont\.variable/);
+  assert.match(layout, /fontFamily:/);
+  assert.match(layout, /var\(--font-mona-sans\), var\(--font-pretendard-jp\)/);
 
   assert.doesNotMatch(globals, /@font-face/);
   assert.match(globals, /var\(--font-mona-sans\)/);
