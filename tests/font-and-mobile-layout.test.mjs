@@ -2,17 +2,21 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
-test("app layout keeps the PR 48 self-hosted brand font setup", () => {
+test("app layout uses separated local Mona Sans and Pretendard JP font variables", () => {
   const layout = readSource("src/app/layout.tsx");
   const globals = readSource("src/app/globals.css");
 
-  assert.doesNotMatch(layout, /next\/font\/local/);
-  assert.doesNotMatch(layout, /querypieSans\.variable/);
-  assert.match(globals, /@font-face/);
-  assert.match(globals, /Mona-Sans\.woff2/);
-  assert.match(globals, /PretendardJPVariable\.woff2/);
-  assert.match(globals, /font-family: "QueryPie Sans"/);
-  assert.match(globals, /"QueryPie Sans"/);
+  assert.match(layout, /import localFont from "next\/font\/local"/);
+  assert.match(layout, /const monaSansFont = localFont\(/);
+  assert.match(layout, /const pretendardJPFont = localFont\(/);
+  assert.match(layout, /Mona-Sans\.woff2/);
+  assert.match(layout, /PretendardJPVariable\.woff2/);
+  assert.match(layout, /monaSansFont\.variable/);
+  assert.match(layout, /pretendardJPFont\.variable/);
+
+  assert.doesNotMatch(globals, /@font-face/);
+  assert.match(globals, /var\(--font-mona-sans\)/);
+  assert.match(globals, /var\(--font-pretendard-jp\)/);
 });
 
 test("mobile-only fallback layout exists for the AI Crew after diagram", () => {
