@@ -74,10 +74,15 @@ const expectedRedirectRules = [
     file: "src/app/glossary/route.ts",
     destination: "https://www.querypie.com/ja/features/documentation?category=glossary",
   },
+  {
+    requestPath: "/ja",
+    file: "src/app/ja/[[...path]]/route.ts",
+    destination: "/",
+  },
 ];
 
 test("redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 14);
+  assert.equal(expectedRedirectRules.length, 15);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
@@ -91,6 +96,15 @@ test("redirect endpoints are defined in a single test-case table with temporary 
     if (rule.requestPath === "/contact-us") {
       assert.match(source, /export function GET\(request: NextRequest\)/);
       assert.match(source, /export const HEAD = GET;/);
+      assert.match(source, /redirectedUrl\.search = request\.nextUrl\.search;/);
+    }
+
+    if (rule.requestPath === "/ja") {
+      assert.match(source, /export function GET\(request: NextRequest\)/);
+      assert.match(source, /export const HEAD = GET;/);
+      assert.match(source, /request\.nextUrl\.pathname\.replace\(\/\^\\\/ja\(\?=\\\/\|\$\)\//);
+      assert.match(source, /const strippedPath = .* \|\| "\/";/);
+      assert.match(source, /new URL\(strippedPath, request\.url\)/);
       assert.match(source, /redirectedUrl\.search = request\.nextUrl\.search;/);
     }
   }
