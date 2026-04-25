@@ -29,7 +29,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
+    <html
+      lang="ja"
+      style={{
+        fontFamily:
+          "var(--font-mona-sans), var(--font-pretendard-jp), 'Hiragino Sans', 'Yu Gothic', 'Meiryo', 'Avenir Next', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+      }}
+    >
       <body className={`${monaSansFont.variable} ${pretendardJPFont.variable} font-sans antialiased`}>
         {children}
       </body>
