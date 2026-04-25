@@ -37,12 +37,12 @@ test("missing route redirects sitemap-matching namespaces to querypie.com before
   assert.match(source, /notFound\(\);/);
 });
 
-test("ja locale catch-all redirects sitemap-backed querypie paths to querypie.com before stripping the locale", () => {
+test("querypie locale catch-all sends non-local ja paths to querypie.com after checking local content first", () => {
   const file = "src/app/ja/[[...path]]/route.ts";
   const source = readSource(file);
 
-  assert.match(source, /buildQueryPieContentRedirectUrl/);
-  assert.match(source, /if \(querypieContentRedirectUrl\)/);
-  assert.match(source, /NextResponse\.redirect\(querypieContentRedirectUrl, 307\)/);
-  assert.match(source, /const strippedPath = request\.nextUrl\.pathname\.replace/);
+  assert.match(source, /isCorpWebJapanInternalContentPath/);
+  assert.match(source, /if \(isCorpWebJapanInternalContentPath\(strippedPath\)\)/);
+  assert.match(source, /new URL\(request\.nextUrl\.pathname, querypieOrigin\)/);
+  assert.match(source, /NextResponse\.redirect\(querypieRedirectedUrl, 307\)/);
 });

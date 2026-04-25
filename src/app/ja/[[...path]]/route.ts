@@ -1,23 +1,25 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { buildQueryPieContentRedirectUrl } from "@/lib/querypie-content-redirect";
+import { isCorpWebJapanInternalContentPath } from "@/lib/corp-web-japan-internal-content-path";
+
+const querypieOrigin = "https://www.querypie.com";
 
 export function GET(request: NextRequest) {
-  const querypieContentRedirectUrl = buildQueryPieContentRedirectUrl(
-    request.nextUrl.pathname,
-    request.nextUrl.search,
-  );
+  const strippedPath = request.nextUrl.pathname.replace(/^\/ja(?=\/|$)/, "") || "/";
 
-  if (querypieContentRedirectUrl) {
-    return NextResponse.redirect(querypieContentRedirectUrl, 307);
+  if (isCorpWebJapanInternalContentPath(strippedPath)) {
+    const redirectedUrl = new URL(strippedPath, request.url);
+
+    redirectedUrl.search = request.nextUrl.search;
+
+    return NextResponse.redirect(redirectedUrl, 307);
   }
 
-  const strippedPath = request.nextUrl.pathname.replace(/^\/ja(?=\/|$)/, "") || "/";
-  const redirectedUrl = new URL(strippedPath, request.url);
+  const querypieRedirectedUrl = new URL(request.nextUrl.pathname, querypieOrigin);
 
-  redirectedUrl.search = request.nextUrl.search;
+  querypieRedirectedUrl.search = request.nextUrl.search;
 
-  return NextResponse.redirect(redirectedUrl, 307);
+  return NextResponse.redirect(querypieRedirectedUrl, 307);
 }
 
 export const HEAD = GET;
