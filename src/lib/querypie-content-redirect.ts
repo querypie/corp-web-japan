@@ -22,11 +22,17 @@ const querypieContentFilePaths = [
   "/rss-ko-webinar.xml",
 ] as const;
 
+const querypieExactRedirectPaths = [
+  "/api/og/ja",
+  "/privacy-policy-ko",
+] as const;
+
 const querypieLocales = ["en", "ja", "ko"] as const;
 
 const querypieOrigin = "https://www.querypie.com";
 
 type QueryPieContentRootSegment = (typeof querypieContentRootSegments)[number];
+type QueryPieExactRedirectPath = (typeof querypieExactRedirectPaths)[number];
 type QueryPieLocale = (typeof querypieLocales)[number];
 
 function normalizePathname(pathname: string) {
@@ -43,6 +49,10 @@ function splitPathSegments(pathname: string) {
 
 function isQueryPieContentFilePath(pathname: string): boolean {
   return querypieContentFilePaths.includes(pathname as (typeof querypieContentFilePaths)[number]);
+}
+
+function isQueryPieExactRedirectPath(pathname: string): pathname is QueryPieExactRedirectPath {
+  return querypieExactRedirectPaths.includes(pathname as QueryPieExactRedirectPath);
 }
 
 function isQueryPieContentRootSegment(value: string | undefined): value is QueryPieContentRootSegment {
@@ -74,14 +84,19 @@ function matchesLocalizedQueryPieContentPath(pathname: string): boolean {
 }
 
 /**
- * querypie.com redirect 대상은 아래 두 패턴만 허용한다.
- * 1) sitemap에 직접 노출되는 file-like path (`/rss.xml` 등)
- * 2) sitemap의 주요 content namespace 경로
+ * querypie.com redirect 대상은 아래 세 패턴만 허용한다.
+ * 1) runtime log에서 확인된 exact path 중 querypie.com에서 200이 검증된 경로
+ * 2) sitemap에 직접 노출되는 file-like path (`/rss.xml` 등)
+ * 3) sitemap의 주요 content namespace 경로
  *    - direct: `/{contentRoot}/...`
  *    - localized: `/{lang}/{contentRoot}/...`
  */
 export function getQueryPieContentRedirectPath(pathname: string) {
   const normalizedPathname = normalizePathname(pathname);
+
+  if (isQueryPieExactRedirectPath(normalizedPathname)) {
+    return normalizedPathname;
+  }
 
   if (isQueryPieContentFilePath(normalizedPathname)) {
     return normalizedPathname;

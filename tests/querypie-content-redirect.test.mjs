@@ -1,15 +1,19 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 
-test("querypie content redirect helper covers sitemap-derived top-level and locale-aware namespaces", () => {
+test("querypie content redirect helper covers runtime-validated exact paths, sitemap-derived top-level, and locale-aware namespaces", () => {
   const file = "src/lib/querypie-content-redirect.ts";
 
   assert.equal(existsSync(new URL(`../${file}`, import.meta.url)), true, `${file} should exist`);
 
   const source = readSource(file);
 
+  assert.match(source, /"\/api\/og\/ja"/);
+  assert.match(source, /"\/privacy-policy-ko"/);
+  assert.match(source, /isQueryPieExactRedirectPath/);
   assert.match(source, /"company"/);
   assert.match(source, /"features"/);
   assert.match(source, /"solutions"/);
@@ -24,6 +28,31 @@ test("querypie content redirect helper covers sitemap-derived top-level and loca
   assert.match(source, /"\/rss\.xml"/);
   assert.match(source, /"\/rss-ja-blog\.xml"/);
   assert.match(source, /new URL\(redirectPath, querypieOrigin\)/);
+});
+
+test("querypie content redirect helper returns runtime-validated exact redirect paths", () => {
+  const expression = [
+    "import('./src/lib/querypie-content-redirect.ts').then(({ getQueryPieContentRedirectPath }) => {",
+    "  console.log(JSON.stringify({",
+    "    apiOgJa: getQueryPieContentRedirectPath('/api/og/ja'),",
+    "    privacyPolicyKo: getQueryPieContentRedirectPath('/privacy-policy-ko'),",
+    "    missingPages: getQueryPieContentRedirectPath('/missing-pages'),",
+    "  }));",
+    "})",
+  ].join(' ');
+
+  const result = spawnSync(process.execPath, ["--experimental-strip-types", "--input-type=module", "-e", expression], {
+    cwd: new URL("..", import.meta.url),
+    encoding: "utf8",
+  });
+
+  assert.equal(result.status, 0, result.stderr);
+
+  const payload = JSON.parse(result.stdout.trim());
+
+  assert.equal(payload.apiOgJa, "/api/og/ja");
+  assert.equal(payload.privacyPolicyKo, "/privacy-policy-ko");
+  assert.equal(payload.missingPages, null);
 });
 
 test("missing route redirects sitemap-matching namespaces to querypie.com before falling back to 404", () => {
