@@ -1,5 +1,5 @@
-import { whitepaperItems } from "@/content/whitepapers";
-import { blogItems } from "./resources/blog";
+import { whitepaperItems } from "@/content/publications/whitepapers";
+import { blogItems } from "@/content/publications/blog";
 import { eventItems } from "./resources/events";
 
 export type ResourceCategory = "blog" | "whitepaper" | "events";
@@ -13,9 +13,9 @@ export type ResourceItem = {
   date?: string;
 };
 
-export { blogItems } from "./resources/blog";
+export { blogItems } from "@/content/publications/blog";
 export { eventItems } from "./resources/events";
-export { whitepaperItems } from "@/content/whitepapers";
+export { whitepaperItems } from "@/content/publications/whitepapers";
 
 export function getResourceItems(category: ResourceCategory) {
   if (category === "blog") return blogItems;

@@ -1,18 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Copy, Facebook, Linkedin, Link2, Twitter } from "lucide-react";
-import type { ResourcePost } from "@/lib/resource-posts";
+import { AuthorBox } from "@/components/AuthorBox";
 import { ResourcePostGated } from "@/components/sections/resource-post-gated";
+import { ResourcePostToc } from "@/components/sections/resource-post-toc";
+import type { PublicationPost } from "@/lib/publications/types";
 
-const resourcePostContactUrl = "/contact-us";
+const publicationPostContactUrl = "/contact-us";
 
-type ResourcePostPageProps = {
-  post: ResourcePost;
+type PublicationPostPageProps = {
+  post: PublicationPost;
 };
 
 const shareIcons = [Facebook, Twitter, Linkedin, Link2] as const;
 
-export function ResourcePostPage({ post }: ResourcePostPageProps) {
+export function PublicationPostPage({ post }: PublicationPostPageProps) {
   return (
     <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[120px] pt-[112px] lg:px-[30px] lg:pb-[160px] lg:pt-[144px]">
       <div className="mx-auto max-w-[1200px]">
@@ -26,51 +28,9 @@ export function ResourcePostPage({ post }: ResourcePostPageProps) {
                 <h1 className="text-[34px] font-normal leading-[1.2] text-slate-950 lg:text-[40px]">
                   {post.title}
                 </h1>
-                {post.author ? (
-                  <div className="flex items-start gap-[14px] rounded-[10px] bg-[#F9FAFB] px-[26px] py-5">
-                    <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border border-[#E5E7EB] bg-white">
-                      <Image
-                        src={post.author.avatarSrc}
-                        alt={post.author.avatarAlt || post.author.name}
-                        width={96}
-                        height={96}
-                        className={`h-full w-full ${
-                          post.author.avatarSrc === "/assets/images/wp28/qp-logo-icon.png"
-                            ? "object-contain p-2"
-                            : "object-cover"
-                        }`}
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="mb-[6px] flex items-start justify-between gap-2">
-                        <div>
-                          <p className="text-[15px] font-medium leading-[1.4] text-slate-950">
-                            {post.author.name}
-                          </p>
-                          <p className="mt-1 text-sm leading-6 text-slate-500">
-                            {post.author.role}
-                          </p>
-                        </div>
-                        {post.author.profileUrl ? (
-                          <Link
-                            href={post.author.profileUrl}
-                            className="inline-flex h-7 w-7 items-center justify-center text-[#6B7280] transition hover:text-slate-950"
-                            aria-label={`${post.author.name} profile`}
-                          >
-                            <Linkedin className="h-[15px] w-[15px]" />
-                          </Link>
-                        ) : null}
-                      </div>
-                      <p className="text-sm leading-6 text-slate-500">
-                        {post.author.bio}
-                      </p>
-                    </div>
-                  </div>
-                ) : null}
+                {post.author ? <AuthorBox author={post.author} /> : null}
                 <div className="mt-2 flex flex-col gap-4 border-t border-[#d1d5db] pt-[18px] sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-sm leading-6 text-slate-400">
-                    {post.date}
-                  </p>
+                  <p className="text-sm leading-6 text-slate-400">{post.date}</p>
                   <div className="flex items-center gap-2.5">
                     {shareIcons.map((Icon, index) => (
                       <button
@@ -105,38 +65,74 @@ export function ResourcePostPage({ post }: ResourcePostPageProps) {
             </div>
 
             <div className="pb-[89px]">
-              <div
-                className={[
-                  "text-base leading-6 text-slate-500",
-                  "[&_a]:text-[#2563EB] [&_a]:underline [&_a]:decoration-[1px] [&_a]:underline-offset-[3px] hover:[&_a]:text-[#1D4ED8]",
-                  "[&_h1]:mt-12 [&_h1]:text-[22px] [&_h1]:font-semibold [&_h1]:leading-[1.4] [&_h1]:tracking-[-0.01em] [&_h1]:text-slate-950",
-                  "[&_h2]:mt-10 [&_h2]:text-[22px] [&_h2]:font-normal [&_h2]:leading-[1.455] [&_h2]:text-slate-950",
-                  "[&_h3]:mt-8 [&_h3]:text-[17px] [&_h3]:font-medium [&_h3]:leading-[1.4] [&_h3]:text-slate-950",
-                  "[&_h4]:mt-7 [&_h4]:text-[15px] [&_h4]:font-medium [&_h4]:leading-[1.5] [&_h4]:text-slate-950",
-                  "[&_p]:mt-4 [&_p]:text-base [&_p]:leading-6 [&_p]:text-slate-500",
-                  "[&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pl-4",
-                  "[&_ol]:mt-4 [&_ol]:list-decimal [&_ol]:pl-4",
-                  "[&_li]:mb-2 [&_li]:text-base [&_li]:leading-6 [&_li]:text-slate-500",
-                  "[&_strong]:font-medium [&_strong]:text-slate-950",
-                  "[&_figure.wp-figure]:my-8 [&_figure.wp-figure]:text-center",
-                  "[&_figure.wp-figure_img]:max-w-full",
-                  "[&_figure.wp-figure_img]:rounded-[8px]",
-                  "[&_figure.wp-figure_img]:border [&_figure.wp-figure_img]:border-[#e5e7eb]",
-                  "[&_figure.wp-figure_figcaption]:mt-[10px] [&_figure.wp-figure_figcaption]:text-sm [&_figure.wp-figure_figcaption]:leading-6 [&_figure.wp-figure_figcaption]:text-slate-400",
-                  "[&_blockquote]:my-[20px] [&_blockquote]:border-l [&_blockquote]:border-[#d1d5db] [&_blockquote]:pl-[30px]",
-                  "[&_blockquote_p]:mt-0 [&_blockquote_p]:text-base [&_blockquote_p]:leading-6 [&_blockquote_p]:text-slate-500",
-                  "[&_blockquote_li]:text-base [&_blockquote_li]:leading-6 [&_blockquote_li]:text-slate-500",
-                  "[&_table]:my-[34px] [&_table]:w-full [&_table]:border-collapse [&_table]:border-t [&_table]:border-b [&_table]:border-[#d1d5db] [&_table]:text-sm",
-                  "[&_th]:border-b [&_th]:border-[#d1d5db] [&_th]:bg-[#f9f9fb] [&_th]:px-5 [&_th]:py-[14px] [&_th]:text-left [&_th]:font-medium [&_th]:leading-[1.5] [&_th]:text-slate-950",
-                  "[&_td]:border-b [&_td]:border-[#e5e7eb] [&_td]:px-5 [&_td]:py-[14px] [&_td]:align-top [&_td]:leading-6 [&_td]:text-slate-500",
-                  "[&_tr:nth-child(even)_td]:bg-[#f6f8fa]",
-                  "[&_tr:last-child_td]:border-b-0",
-                  "[&_.article-content-btn]:mb-7 [&_.article-content-btn]:flex [&_.article-content-btn]:w-full [&_.article-content-btn]:items-center [&_.article-content-btn]:justify-center [&_.article-content-btn]:gap-2 [&_.article-content-btn]:rounded-[6px] [&_.article-content-btn]:bg-[#111827] [&_.article-content-btn]:px-8 [&_.article-content-btn]:py-[10px] [&_.article-content-btn]:text-base [&_.article-content-btn]:font-medium [&_.article-content-btn]:text-white [&_.article-content-btn]:no-underline hover:[&_.article-content-btn]:opacity-85 hover:[&_.article-content-btn]:text-white",
-                  "[&_hr]:hidden",
-                  "[&>br]:hidden",
-                ].join(" ")}
-                dangerouslySetInnerHTML={{ __html: post.bodyHtml }}
-              />
+              {post.bodyMdx ? (
+                <div
+                  className={[
+                    "text-base leading-6 text-slate-500",
+                    "[&_a]:text-[#2563EB] [&_a]:underline [&_a]:decoration-[1px] [&_a]:underline-offset-[3px] hover:[&_a]:text-[#1D4ED8]",
+                    "[&_h1]:mt-12 [&_h1]:text-[22px] [&_h1]:font-semibold [&_h1]:leading-[1.4] [&_h1]:tracking-[-0.01em] [&_h1]:text-slate-950",
+                    "[&_h2]:mt-10 [&_h2]:text-[22px] [&_h2]:font-normal [&_h2]:leading-[1.455] [&_h2]:text-slate-950",
+                    "[&_h3]:mt-8 [&_h3]:text-[17px] [&_h3]:font-medium [&_h3]:leading-[1.4] [&_h3]:text-slate-950",
+                    "[&_h4]:mt-7 [&_h4]:text-[15px] [&_h4]:font-medium [&_h4]:leading-[1.5] [&_h4]:text-slate-950",
+                    "[&_p]:mt-4 [&_p]:text-base [&_p]:leading-6 [&_p]:text-slate-500",
+                    "[&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pl-4",
+                    "[&_ol]:mt-4 [&_ol]:list-decimal [&_ol]:pl-4",
+                    "[&_li]:mb-2 [&_li]:text-base [&_li]:leading-6 [&_li]:text-slate-500",
+                    "[&_strong]:font-medium [&_strong]:text-slate-950",
+                    "[&_figure.wp-figure]:my-8 [&_figure.wp-figure]:text-center",
+                    "[&_figure.wp-figure_img]:max-w-full",
+                    "[&_figure.wp-figure_img]:rounded-[8px]",
+                    "[&_figure.wp-figure_img]:border [&_figure.wp-figure_img]:border-[#e5e7eb]",
+                    "[&_figure.wp-figure_figcaption]:mt-[10px] [&_figure.wp-figure_figcaption]:text-sm [&_figure.wp-figure_figcaption]:leading-6 [&_figure.wp-figure_figcaption]:text-slate-400",
+                    "[&_blockquote]:my-[20px] [&_blockquote]:border-l [&_blockquote]:border-[#d1d5db] [&_blockquote]:pl-[30px]",
+                    "[&_blockquote_p]:mt-0 [&_blockquote_p]:text-base [&_blockquote_p]:leading-6 [&_blockquote_p]:text-slate-500",
+                    "[&_blockquote_li]:text-base [&_blockquote_li]:leading-6 [&_blockquote_li]:text-slate-500",
+                    "[&_table]:my-[34px] [&_table]:w-full [&_table]:border-collapse [&_table]:border-t [&_table]:border-b [&_table]:border-[#d1d5db] [&_table]:text-sm",
+                    "[&_th]:border-b [&_th]:border-[#d1d5db] [&_th]:bg-[#f9f9fb] [&_th]:px-5 [&_th]:py-[14px] [&_th]:text-left [&_th]:font-medium [&_th]:leading-[1.5] [&_th]:text-slate-950",
+                    "[&_td]:border-b [&_td]:border-[#e5e7eb] [&_td]:px-5 [&_td]:py-[14px] [&_td]:align-top [&_td]:leading-6 [&_td]:text-slate-500",
+                    "[&_tr:nth-child(even)_td]:bg-[#f6f8fa]",
+                    "[&_tr:last-child_td]:border-b-0",
+                    "[&_.article-content-btn]:mb-7 [&_.article-content-btn]:flex [&_.article-content-btn]:w-full [&_.article-content-btn]:items-center [&_.article-content-btn]:justify-center [&_.article-content-btn]:gap-2 [&_.article-content-btn]:rounded-[6px] [&_.article-content-btn]:bg-[#111827] [&_.article-content-btn]:px-8 [&_.article-content-btn]:py-[10px] [&_.article-content-btn]:text-base [&_.article-content-btn]:font-medium [&_.article-content-btn]:text-white [&_.article-content-btn]:no-underline hover:[&_.article-content-btn]:opacity-85 hover:[&_.article-content-btn]:text-white",
+                    "[&_hr]:hidden",
+                    "[&>br]:hidden",
+                  ].join(" ")}
+                >
+                  {post.bodyMdx}
+                </div>
+              ) : post.bodyHtml ? (
+                <div
+                  className={[
+                    "text-base leading-6 text-slate-500",
+                    "[&_a]:text-[#2563EB] [&_a]:underline [&_a]:decoration-[1px] [&_a]:underline-offset-[3px] hover:[&_a]:text-[#1D4ED8]",
+                    "[&_h1]:mt-12 [&_h1]:text-[22px] [&_h1]:font-semibold [&_h1]:leading-[1.4] [&_h1]:tracking-[-0.01em] [&_h1]:text-slate-950",
+                    "[&_h2]:mt-10 [&_h2]:text-[22px] [&_h2]:font-normal [&_h2]:leading-[1.455] [&_h2]:text-slate-950",
+                    "[&_h3]:mt-8 [&_h3]:text-[17px] [&_h3]:font-medium [&_h3]:leading-[1.4] [&_h3]:text-slate-950",
+                    "[&_h4]:mt-7 [&_h4]:text-[15px] [&_h4]:font-medium [&_h4]:leading-[1.5] [&_h4]:text-slate-950",
+                    "[&_p]:mt-4 [&_p]:text-base [&_p]:leading-6 [&_p]:text-slate-500",
+                    "[&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pl-4",
+                    "[&_ol]:mt-4 [&_ol]:list-decimal [&_ol]:pl-4",
+                    "[&_li]:mb-2 [&_li]:text-base [&_li]:leading-6 [&_li]:text-slate-500",
+                    "[&_strong]:font-medium [&_strong]:text-slate-950",
+                    "[&_figure.wp-figure]:my-8 [&_figure.wp-figure]:text-center",
+                    "[&_figure.wp-figure_img]:max-w-full",
+                    "[&_figure.wp-figure_img]:rounded-[8px]",
+                    "[&_figure.wp-figure_img]:border [&_figure.wp-figure_img]:border-[#e5e7eb]",
+                    "[&_figure.wp-figure_figcaption]:mt-[10px] [&_figure.wp-figure_figcaption]:text-sm [&_figure.wp-figure_figcaption]:leading-6 [&_figure.wp-figure_figcaption]:text-slate-400",
+                    "[&_blockquote]:my-[20px] [&_blockquote]:border-l [&_blockquote]:border-[#d1d5db] [&_blockquote]:pl-[30px]",
+                    "[&_blockquote_p]:mt-0 [&_blockquote_p]:text-base [&_blockquote_p]:leading-6 [&_blockquote_p]:text-slate-500",
+                    "[&_blockquote_li]:text-base [&_blockquote_li]:leading-6 [&_blockquote_li]:text-slate-500",
+                    "[&_table]:my-[34px] [&_table]:w-full [&_table]:border-collapse [&_table]:border-t [&_table]:border-b [&_table]:border-[#d1d5db] [&_table]:text-sm",
+                    "[&_th]:border-b [&_th]:border-[#d1d5db] [&_th]:bg-[#f9f9fb] [&_th]:px-5 [&_th]:py-[14px] [&_th]:text-left [&_th]:font-medium [&_th]:leading-[1.5] [&_th]:text-slate-950",
+                    "[&_td]:border-b [&_td]:border-[#e5e7eb] [&_td]:px-5 [&_td]:py-[14px] [&_td]:align-top [&_td]:leading-6 [&_td]:text-slate-500",
+                    "[&_tr:nth-child(even)_td]:bg-[#f6f8fa]",
+                    "[&_tr:last-child_td]:border-b-0",
+                    "[&_.article-content-btn]:mb-7 [&_.article-content-btn]:flex [&_.article-content-btn]:w-full [&_.article-content-btn]:items-center [&_.article-content-btn]:justify-center [&_.article-content-btn]:gap-2 [&_.article-content-btn]:rounded-[6px] [&_.article-content-btn]:bg-[#111827] [&_.article-content-btn]:px-8 [&_.article-content-btn]:py-[10px] [&_.article-content-btn]:text-base [&_.article-content-btn]:font-medium [&_.article-content-btn]:text-white [&_.article-content-btn]:no-underline hover:[&_.article-content-btn]:opacity-85 hover:[&_.article-content-btn]:text-white",
+                    "[&_hr]:hidden",
+                    "[&>br]:hidden",
+                  ].join(" ")}
+                  dangerouslySetInnerHTML={{ __html: post.bodyHtml }}
+                />
+              ) : null}
               {post.gatingHtml && post.gatedContentHtml ? (
                 <ResourcePostGated
                   gatingHtml={post.gatingHtml}
@@ -174,6 +170,13 @@ export function ResourcePostPage({ post }: ResourcePostPageProps) {
 
           <aside className="w-full lg:w-[280px] lg:flex-shrink-0">
             <div className="space-y-[60px]">
+              {post.toc.length > 0 ? (
+                <div>
+                  <h2 className="mb-[13px] text-[15px] font-medium leading-[1.467] text-slate-950">目次</h2>
+                  <hr className="mb-[21px] border-0 border-t border-[#e5e7eb]" />
+                  <ResourcePostToc items={post.toc} />
+                </div>
+              ) : null}
               <div>
                 <h2 className="mb-[13px] text-[15px] font-medium leading-[1.467] text-slate-950">
                   {post.relatedTitle}
@@ -199,9 +202,7 @@ export function ResourcePostPage({ post }: ResourcePostPageProps) {
                         <h3 className="line-clamp-3 text-[14px] font-normal leading-[1.571] tracking-[0.0175rem] text-slate-950">
                           {item.title}
                         </h3>
-                        <p className="text-sm leading-6 text-slate-400">
-                          {item.date}
-                        </p>
+                        <p className="text-sm leading-6 text-slate-400">{item.date}</p>
                       </div>
                     </Link>
                   ))}
@@ -213,7 +214,7 @@ export function ResourcePostPage({ post }: ResourcePostPageProps) {
                   当社のコンサルタントと繋がってAI活用を加速しませんか？
                 </p>
                 <Link
-                  href={resourcePostContactUrl}
+                  href={publicationPostContactUrl}
                   className="inline-flex w-full items-center justify-center gap-[6px] rounded-[6px] bg-[#24292F] px-[18px] py-[12px] text-[14px] font-medium leading-none text-white transition hover:opacity-80"
                 >
                   今すぐお問い合わせ

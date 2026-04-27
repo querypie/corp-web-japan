@@ -1,14 +1,37 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef } from "react";
+import type { PublicationTocItem } from "@/lib/publications/types";
 
 type ResourcePostTocProps = {
-  tocHtml: string;
+  items: PublicationTocItem[];
 };
 
 const OFFSET = 100;
 
-export function ResourcePostToc({ tocHtml }: ResourcePostTocProps) {
+function TocList({ items, depth = 0 }: { items: PublicationTocItem[]; depth?: number }) {
+  const isRoot = depth === 0;
+
+  return (
+    <ul className={isRoot ? "sidebar-toc-list" : "sidebar-toc-sub"}>
+      {items.map((item) => {
+        const href = `#${item.targetId}`;
+
+        return (
+          <li key={href} className={isRoot ? undefined : "sidebar-toc-sub_li"}>
+            <Link href={href} className={isRoot ? undefined : "sidebar-toc-sub_a"}>
+              {item.text}
+            </Link>
+            {item.items?.length ? <TocList items={item.items} depth={depth + 1} /> : null}
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+export function ResourcePostToc({ items }: ResourcePostTocProps) {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const tickingRef = useRef(false);
@@ -17,9 +40,7 @@ export function ResourcePostToc({ tocHtml }: ResourcePostTocProps) {
     const wrap = wrapRef.current;
     if (!wrap) return;
 
-    const links = Array.from(
-      wrap.querySelectorAll<HTMLAnchorElement>('a[href^="#"]'),
-    );
+    const links = Array.from(wrap.querySelectorAll<HTMLAnchorElement>('a[href^="#"]'));
 
     const sections = links
       .map((link) => {
@@ -65,15 +86,9 @@ export function ResourcePostToc({ tocHtml }: ResourcePostTocProps) {
           const linkRect = current.getBoundingClientRect();
           const containerRect = container.getBoundingClientRect();
 
-          if (
-            linkRect.top < containerRect.top ||
-            linkRect.bottom > containerRect.bottom
-          ) {
+          if (linkRect.top < containerRect.top || linkRect.bottom > containerRect.bottom) {
             container.scrollTop +=
-              linkRect.top -
-              containerRect.top -
-              containerRect.height / 2 +
-              linkRect.height / 2;
+              linkRect.top - containerRect.top - containerRect.height / 2 + linkRect.height / 2;
           }
         }
       }
@@ -96,13 +111,10 @@ export function ResourcePostToc({ tocHtml }: ResourcePostTocProps) {
       links.forEach((link) => link.removeEventListener("click", onClick));
       window.removeEventListener("scroll", onScroll);
     };
-  }, [tocHtml]);
+  }, [items]);
 
   return (
-    <div
-      ref={scrollRef}
-      className="max-h-[220px] overflow-y-auto pr-1 lg:max-h-[320px]"
-    >
+    <div ref={scrollRef} className="max-h-[220px] overflow-y-auto pr-1 lg:max-h-[320px]">
       <div
         ref={wrapRef}
         className={[
@@ -122,8 +134,9 @@ export function ResourcePostToc({ tocHtml }: ResourcePostTocProps) {
           "[&_ul.sidebar-toc-sub_a:hover]:text-[#2563EB] [&_ul.sidebar-toc-sub_a:hover]:underline",
           "[&_ul.sidebar-toc-sub_a.is-active]:text-[#2563EB] [&_ul.sidebar-toc-sub_a.is-active]:underline",
         ].join(" ")}
-        dangerouslySetInnerHTML={{ __html: tocHtml }}
-      />
+      >
+        <TocList items={items} />
+      </div>
     </div>
   );
 }

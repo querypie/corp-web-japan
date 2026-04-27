@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { ResourceItem } from "@/content/resources";
 
 type ResourceCategoryLink = {
   label: string;
@@ -7,16 +8,7 @@ type ResourceCategoryLink = {
   active?: boolean;
 };
 
-type ResourceItem = {
-  href: string;
-  imageSrc: string;
-  badge: string;
-  title: string;
-  description: string;
-  date?: string;
-};
-
-type ResourcePageProps = {
+type ResourceListPageProps = {
   title: string;
   description: string;
   activeCategory: string;
@@ -32,12 +24,12 @@ const sidebarLinks = [
   { label: "ブログ", href: "/blog", key: "blog" },
 ] as const;
 
-export function ResourcePage({
+export function ResourceListPage({
   title,
   description,
   activeCategory,
   items,
-}: ResourcePageProps) {
+}: ResourceListPageProps) {
   const categoryLinks: ResourceCategoryLink[] = sidebarLinks.map((link) => ({
     label: link.label,
     href: link.href,
@@ -106,9 +98,7 @@ export function ResourcePage({
                         {item.description}
                       </p>
                       {item.date ? (
-                        <p className="text-sm leading-6 text-slate-400">
-                          {item.date}
-                        </p>
+                        <p className="text-sm leading-6 text-slate-400">{item.date}</p>
                       ) : null}
                     </div>
                   </Link>

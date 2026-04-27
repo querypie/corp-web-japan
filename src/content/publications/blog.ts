@@ -1,8 +1,8 @@
-import type { ResourceItem } from "../resources";
+import type { ResourceItem } from "@/content/resources";
 
 export const blogItems: readonly ResourceItem[] = [
   {
-    href: "https://www.querypie.com/ja/features/documentation/blog/28/ai-security-threat-map-2026-cxo",
+    href: "/blog/28/ai-security-threat-map-2026-cxo",
     imageSrc: "/assets/image/blog/28/thumbnail.png",
     badge: "ブログ",
     title: "AIセキュリティ脅威マップ2026｜CxOが備えるべき7つの攻撃ベクトルと実務対策フレームワーク",
@@ -11,7 +11,7 @@ export const blogItems: readonly ResourceItem[] = [
     date: "2026年3月3日",
   },
   {
-    href: "https://www.querypie.com/ja/features/documentation/blog/27/shadow-ai-risk-cxo-countermeasures",
+    href: "/blog/27/shadow-ai-risk-cxo-countermeasures",
     imageSrc: "/assets/image/blog/27/thumbnail.png",
     badge: "ブログ",
     title: "【2026年最新】シャドーAIリスクの全貌｜情報漏洩・コンプライアンス違反を防ぐCxOの5つの対策",
@@ -20,7 +20,7 @@ export const blogItems: readonly ResourceItem[] = [
     date: "2026年2月20日",
   },
   {
-    href: "https://www.querypie.com/ja/features/documentation/blog/25/terrasky-mitoco-buddy",
+    href: "/blog/25/terrasky-mitoco-buddy",
     imageSrc: "/assets/image/blog/25/thumbnail.png",
     badge: "ブログ",
     title: "QueryPie AI、株式会社テラスカイと協業しAIエージェント「mitoco Buddy」を発表",
@@ -29,7 +29,7 @@ export const blogItems: readonly ResourceItem[] = [
     date: "2025年11月7日",
   },
   {
-    href: "https://www.querypie.com/ja/features/documentation/blog/23/querypie-payroll-partnership",
+    href: "/blog/23/querypie-payroll-partnership",
     imageSrc: "/assets/image/blog/23/thumbnail.png",
     badge: "ブログ",
     title: "株式会社ペイロールとQueryPieがAIセキュリティ分野で技術提携",
@@ -38,7 +38,7 @@ export const blogItems: readonly ResourceItem[] = [
     date: "2025年8月5日",
   },
   {
-    href: "https://www.querypie.com/ja/features/documentation/blog/22/ai-agent-security-replit-case",
+    href: "/blog/22/ai-agent-security-replit-case",
     imageSrc: "/assets/image/blog/22/thumbnail.png",
     badge: "ブログ",
     title: "AIはどこまで信じていいのか？Replit事件から振り返るAIエージェントセキュリティの現実",
@@ -47,7 +47,7 @@ export const blogItems: readonly ResourceItem[] = [
     date: "2025年7月29日",
   },
   {
-    href: "https://www.querypie.com/ja/features/documentation/blog/21/why-we-need-ai-red-teaming",
+    href: "/blog/21/why-we-need-ai-red-teaming",
     imageSrc: "/assets/image/blog/21/thumbnail.png",
     badge: "ブログ",
     title: "AIが命令を聞かなかった：なぜAI Red Teamingが必要なのか",
