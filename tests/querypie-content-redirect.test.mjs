@@ -12,6 +12,7 @@ test("querypie content redirect helper covers runtime-validated exact paths, sit
   const source = readSource(file);
 
   assert.match(source, /"\/api\/og\/ja"/);
+  assert.match(source, /"\/privacy-policy-en\/26-01-15"/);
   assert.match(source, /"\/privacy-policy-ko"/);
   assert.match(source, /isQueryPieExactRedirectPath/);
   assert.match(source, /"company"/);
@@ -35,6 +36,7 @@ test("querypie content redirect helper returns runtime-validated exact redirect 
     "import('./src/lib/querypie-content-redirect.ts').then(({ getQueryPieContentRedirectPath }) => {",
     "  console.log(JSON.stringify({",
     "    apiOgJa: getQueryPieContentRedirectPath('/api/og/ja'),",
+    "    privacyPolicyEn260115: getQueryPieContentRedirectPath('/privacy-policy-en/26-01-15'),",
     "    privacyPolicyKo: getQueryPieContentRedirectPath('/privacy-policy-ko'),",
     "    missingPages: getQueryPieContentRedirectPath('/missing-pages'),",
     "  }));",
@@ -51,6 +53,7 @@ test("querypie content redirect helper returns runtime-validated exact redirect 
   const payload = JSON.parse(result.stdout.trim());
 
   assert.equal(payload.apiOgJa, "/api/og/ja");
+  assert.equal(payload.privacyPolicyEn260115, "/privacy-policy-en/26-01-15");
   assert.equal(payload.privacyPolicyKo, "/privacy-policy-ko");
   assert.equal(payload.missingPages, null);
 });

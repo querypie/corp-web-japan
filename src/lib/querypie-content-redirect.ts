@@ -24,6 +24,7 @@ const querypieContentFilePaths = [
 
 const querypieExactRedirectPaths = [
   "/api/og/ja",
+  "/privacy-policy-en/26-01-15",
   "/privacy-policy-ko",
 ] as const;
 
