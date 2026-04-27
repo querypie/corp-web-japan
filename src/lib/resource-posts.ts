@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import fs from "node:fs";
 import path from "node:path";
-import { eventItems, eventPostRecords, getEventPostHref } from "@/content/resources/events";
+import { eventItems } from "@/content/resources/events";
 import { blogItems } from "@/content/publications/blog";
 import { whitepaperItems } from "@/content/publications/whitepapers";
 import type { PublicationTocItem } from "@/lib/publications/types";
@@ -50,6 +50,7 @@ export type ResourceDownloadPost = {
 
 const POSTS_ROOT = path.join(process.cwd(), "content/source-posts");
 const VALID_CATEGORIES = new Set<ResourcePostCategory>(["blog", "whitepaper", "event"]);
+const STATIC_ROUTE_CATEGORIES: readonly ResourcePostCategory[] = ["event"];
 const RESOURCE_IMAGE_BY_HREF: Map<string, string> = new Map(
   [...blogItems, ...whitepaperItems, ...eventItems].map((item) => [item.href, item.imageSrc]),
 );
@@ -174,25 +175,31 @@ export function isResourcePostCategory(value: string): value is ResourcePostCate
   return VALID_CATEGORIES.has(value as ResourcePostCategory);
 }
 
-export function listEventPostParams() {
-  return eventPostRecords.map(({ id, slug }) => ({ id, slug }));
+export function isStaticResourcePostCategory(value: string): value is ResourcePostCategory {
+  return STATIC_ROUTE_CATEGORIES.includes(value as ResourcePostCategory);
 }
 
-export function getEventPostRecord(id: string) {
-  return eventPostRecords.find((record) => record.id === id) ?? null;
-}
+export function listResourcePostParams() {
+  return STATIC_ROUTE_CATEGORIES.flatMap((category) => {
+    const categoryDir = path.join(POSTS_ROOT, category);
 
-export function getEventPost(id: string, slug: string): ResourcePost | null {
-  const record = getEventPostRecord(id);
-  if (!record || record.slug !== slug) {
-    return null;
-  }
+    if (!fs.existsSync(categoryDir)) return [];
 
-  return getResourcePost("event", id);
-}
-
-export function getEventPostCanonicalHref(id: string, slug: string) {
-  return getEventPostHref(id, slug);
+    return fs
+      .readdirSync(categoryDir)
+      .filter(
+        (file) =>
+          file.endsWith(".html") &&
+          !file.includes("template") &&
+          !file.includes("basic") &&
+          !file.includes("gated") &&
+          !file.includes("download"),
+      )
+      .map((file) => ({
+        category,
+        slug: file,
+      }));
+  });
 }
 
 export function getResourcePost(category: ResourcePostCategory, slug: string): ResourcePost | null {

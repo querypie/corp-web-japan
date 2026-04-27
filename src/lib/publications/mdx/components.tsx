@@ -1,4 +1,4 @@
-import { Children, isValidElement } from "react";
+import { isValidElement } from "react";
 import type { ReactNode } from "react";
 import type { MDXComponents } from "mdx/types";
 import { slugifyHeadingText } from "@/lib/publications/mdx/headings";
