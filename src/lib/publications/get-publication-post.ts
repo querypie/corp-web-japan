@@ -21,7 +21,6 @@ type BlogPostFrontmatter = {
 
 type BlogPostRecord = BlogPostFrontmatter & {
   sourcePath: string;
-  bodyMdxPath: string;
 };
 
 const BLOG_POSTS_ROOT = path.join(process.cwd(), "src/content/blog");
@@ -70,14 +69,12 @@ function loadBlogPostRecords(): BlogPostRecord[] {
     .filter((file) => file.endsWith(".mdx"))
     .map((file) => {
       const sourcePath = path.join(BLOG_POSTS_ROOT, file);
-      const bodyMdxPath = `blog/${file}`;
       const source = fs.readFileSync(sourcePath, "utf8");
       const frontmatter = parseBlogPostFrontmatter(source, sourcePath);
 
       return {
         ...frontmatter,
         sourcePath,
-        bodyMdxPath,
       };
     })
     .sort((left, right) => Number(right.id) - Number(left.id));
@@ -88,11 +85,6 @@ const blogPostById = new Map<string, BlogPostRecord>(blogPostRecords.map((post) 
 
 function readBlogPostBodySource(post: BlogPostRecord) {
   return fs.readFileSync(post.sourcePath, "utf8");
-}
-
-async function renderBlogPostBody(source: string) {
-  const { content } = await renderPublicationMdx<BlogPostFrontmatter>(source);
-  return content;
 }
 
 export function listBlogPublicationParams() {
@@ -110,7 +102,7 @@ export async function getBlogPublicationPost(id: string, slug: string): Promise<
   }
 
   const bodySource = readBlogPostBodySource(post);
-  const { frontmatter } = await renderPublicationMdx<BlogPostFrontmatter>(bodySource);
+  const { content, frontmatter } = await renderPublicationMdx<BlogPostFrontmatter>(bodySource);
   const resolvedAuthors = getDisplayableArticleAuthors(resolveArticleAuthors(frontmatter.author));
   const primaryAuthor = resolvedAuthors.find((author) => author.isRegistered) ?? null;
 
@@ -132,7 +124,7 @@ export async function getBlogPublicationPost(id: string, slug: string): Promise<
         }
       : null,
     bodyHtml: null,
-    bodyMdx: await renderBlogPostBody(bodySource),
+    bodyMdx: content,
     gatingHtml: null,
     gatedContentHtml: null,
     relatedTitle: "関連記事",
