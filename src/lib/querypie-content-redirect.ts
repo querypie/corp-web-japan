@@ -85,10 +85,10 @@ function matchesLocalizedQueryPieContentPath(pathname: string): boolean {
 }
 
 /**
- * querypie.com redirect 대상은 아래 세 패턴만 허용한다.
- * 1) runtime log에서 확인된 exact path 중 querypie.com에서 200이 검증된 경로
- * 2) sitemap에 직접 노출되는 file-like path (`/rss.xml` 등)
- * 3) sitemap의 주요 content namespace 경로
+ * Only allow querypie.com redirects for these three patterns:
+ * 1) exact paths that were validated from runtime logs and confirmed to return 200 on querypie.com
+ * 2) file-like paths exposed directly in the sitemap (such as `/rss.xml`)
+ * 3) major content namespace paths from the sitemap
  *    - direct: `/{contentRoot}/...`
  *    - localized: `/{lang}/{contentRoot}/...`
  */
