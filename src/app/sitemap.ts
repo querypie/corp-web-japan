@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { listBlogPostParams } from "@/lib/blog-posts";
 import { listResourcePostParams } from "@/lib/resource-posts";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -30,12 +31,18 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
   },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const postRoutes: MetadataRoute.Sitemap = listResourcePostParams().map(({ category, slug }) => ({
     url: absoluteUrl(`/posts/${category}/${slug.replace(/\.html$/i, "")}`),
     changeFrequency: "monthly",
     priority: category === "event" ? 0.7 : 0.6,
   }));
 
-  return [...staticRoutes, ...postRoutes];
+  const blogRoutes: MetadataRoute.Sitemap = (await listBlogPostParams()).map(({ id, slug }) => ({
+    url: absoluteUrl(`/blog/${id}/${slug}`),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...postRoutes, ...blogRoutes];
 }
