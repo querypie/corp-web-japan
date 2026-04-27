@@ -1,15 +1,15 @@
-# /assets/images/07-blog 유지 자산 메모
+# Asset retention note for /assets/images/07-blog
 
-이 디렉터리의 `event-thumb-5.png`는 현재 웹사이트 내부 코드에서 직접 참조하지 않더라도 유지해야 하는 외부 호환 자산입니다.
+`event-thumb-5.png` in this directory is a compatibility asset that must remain available even if it is no longer referenced by the current website codebase directly.
 
-추가 이유:
-- Vercel runtime log에서 `/assets/images/07-blog/event-thumb-5.png` 요청이 반복적으로 확인되었습니다.
-- 이 요청은 현재 사이트 내부 라우트가 아니라, 이미 외부에 배포된 콘텐츠/HTML에서 참조하는 정적 경로입니다.
-- 따라서 단순 redirect 대상로 두기보다, 기존 경로에 실제 파일을 복구해 404를 없애는 편이 맞습니다.
+Why this file was added:
+- Repeated requests for `/assets/images/07-blog/event-thumb-5.png` were observed in the Vercel runtime logs.
+- Those requests come from already-deployed external content/HTML, not from an internal route in the current site.
+- Because of that, restoring the real file at the original public path is the correct fix, rather than treating it as a redirect-only case.
 
-출처:
-- 저장소 과거 커밋 `d6b34b07beda66d7a6558370b77407ca44725b92`에 있던 원본 PNG를 같은 공개 경로로 복구했습니다.
+Source:
+- The original PNG was restored from the repository history at commit `d6b34b07beda66d7a6558370b77407ca44725b92` and placed back at the same public path.
 
-운영 원칙:
-- 이 파일은 내부 UI 리팩터링 여부와 무관하게, 외부에 이미 노출된 정적 URL 호환성을 위해 유지합니다.
-- 추후 외부 배포 콘텐츠가 모두 정리되기 전까지는 이 경로를 임의 삭제하거나 이름을 바꾸지 않습니다.
+Operational rule:
+- Keep this file for backward compatibility with externally published static URLs, regardless of internal UI refactors.
+- Do not rename or remove this path until the externally deployed content that references it has been fully cleaned up.
