@@ -74,6 +74,6 @@ test("robots and sitemap metadata files exist and cover the core public routes",
   assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-dashi"\)/);
   assert.match(sitemap, /absoluteUrl\("\/blog"\)/);
   assert.match(sitemap, /absoluteUrl\("\/whitepapers"\)/);
-  assert.doesNotMatch(sitemap, /eventPostRecords/);
-  assert.doesNotMatch(sitemap, /getEventPostHref/);
+  assert.match(sitemap, /eventPostRecords/);
+  assert.match(sitemap, /getEventPostHref/);
 });

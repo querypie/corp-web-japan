@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { eventPostRecords, getEventPostHref } from "@/content/resources/events";
 import { absoluteUrl } from "@/lib/site-url";
 
 const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
@@ -30,5 +31,11 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return staticRoutes;
+  const eventDetailRoutes: MetadataRoute.Sitemap = eventPostRecords.map(({ id, slug }) => ({
+    url: absoluteUrl(getEventPostHref(id, slug)),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...eventDetailRoutes];
 }

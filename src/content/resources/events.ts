@@ -1,8 +1,23 @@
 import type { ResourceItem } from "../resources";
 
-export const eventItems: readonly ResourceItem[] = [
+export type EventPostRecord = {
+  id: string;
+  slug: string;
+  imageSrc: string;
+  badge: string;
+  title: string;
+  description: string;
+  date: string;
+};
+
+export function getEventPostHref(id: string, slug: string) {
+  return `/events/${id}/${slug}`;
+}
+
+export const eventPostRecords: readonly EventPostRecord[] = [
   {
-    href: "/posts/event/1",
+    id: "1",
+    slug: "ai-agent-adoption-webinar",
     imageSrc: "/assets/image/events/1/thumbnail.png",
     badge: "イベント",
     title: "【ウェビナー】AIエージェント導入の現場から──失敗しない進め方と組織変革のリアル",
@@ -11,7 +26,8 @@ export const eventItems: readonly ResourceItem[] = [
     date: "2026年3月18日",
   },
   {
-    href: "/posts/event/2",
+    id: "2",
+    slug: "enterprise-ai-security-design-seminar",
     imageSrc: "/assets/image/events/2/thumbnail.png",
     badge: "イベント",
     title: "【オンラインセミナー】企業AIのセキュリティ設計入門──ゼロトラストとRAGの組み合わせ",
@@ -20,7 +36,8 @@ export const eventItems: readonly ResourceItem[] = [
     date: "2026年3月5日",
   },
   {
-    href: "/posts/event/3",
+    id: "3",
+    slug: "querypie-ai-summit-2026",
     imageSrc: "/assets/image/events/3/thumbnail.png",
     badge: "イベント",
     title: "【東京開催】QueryPie AI Summit 2026──AIガバナンスと競争優位の新地平",
@@ -29,7 +46,8 @@ export const eventItems: readonly ResourceItem[] = [
     date: "2026年2月14日",
   },
   {
-    href: "/posts/event/4",
+    id: "4",
+    slug: "aip-mcp-hands-on-workshop",
     imageSrc: "/assets/image/events/4/thumbnail.png",
     badge: "イベント",
     title: "【ハンズオン】AIP×MCP実践ワークショップ──エージェントを30分で動かす",
@@ -38,7 +56,8 @@ export const eventItems: readonly ResourceItem[] = [
     date: "2026年1月22日",
   },
   {
-    href: "/posts/event/5",
+    id: "5",
+    slug: "ai-dashi-saas-webinar-recording",
     imageSrc: "/assets/image/events/5/thumbnail.png",
     badge: "イベント",
     title: "【ウェビナー録画】SaaSベンダー向けAI出汁活用戦略──自社プロダクトにAIを組み込む方法",
@@ -47,7 +66,8 @@ export const eventItems: readonly ResourceItem[] = [
     date: "2025年12月11日",
   },
   {
-    href: "/posts/event/6",
+    id: "6",
+    slug: "kansai-ai-meetup-vol-3",
     imageSrc: "/assets/image/events/6/thumbnail.png",
     badge: "イベント",
     title: "【大阪開催】関西AI実践ミートアップ Vol.3──現場エンジニアが語るLLMの本音",
@@ -56,3 +76,12 @@ export const eventItems: readonly ResourceItem[] = [
     date: "2025年11月28日",
   },
 ] as const;
+
+export const eventItems: readonly ResourceItem[] = eventPostRecords.map((item) => ({
+  href: getEventPostHref(item.id, item.slug),
+  imageSrc: item.imageSrc,
+  badge: item.badge,
+  title: item.title,
+  description: item.description,
+  date: item.date,
+}));
