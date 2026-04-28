@@ -9,8 +9,13 @@ test("publication post body uses production-style inline link defaults", () => {
   assert.match(source, /\[&_a\]:text-slate-950/);
   assert.match(source, /\[&_a\]:no-underline/);
   assert.match(source, /hover:\[&_a\]:text-slate-950/);
+  assert.match(source, /hover:\[&_a\]:underline/);
+  assert.match(source, /hover:\[&_a\]:decoration-\[1px\]/);
+  assert.match(source, /hover:\[&_a\]:underline-offset-\[3px\]/);
+  assert.match(source, /focus-visible:\[&_a\]:underline/);
+  assert.match(source, /focus-visible:\[&_a\]:decoration-\[1px\]/);
+  assert.match(source, /focus-visible:\[&_a\]:underline-offset-\[3px\]/);
   assert.doesNotMatch(source, /\[&_a\]:text-\[#2563EB\]/);
-  assert.doesNotMatch(source, /\[&_a\]:underline/);
 });
 
 test("publication post body keeps link-wrapped strong text from overriding link color", () => {
