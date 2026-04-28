@@ -14,7 +14,7 @@ test("blog publication list source is generated from local MDX content instead o
   const legacySource = readSource("src/content/publications/blog.ts");
 
   assert.match(source, /export function listBlogPublicationItems\(/);
-  assert.match(source, /blogPostRecords\.map/);
+  assert.match(source, /getBlogPublicationCache\(\)\.listItems/);
   assert.match(source, /getPublicationHref\("blog"/);
   assert.doesNotMatch(legacySource, /export const blogItems:\s*readonly ResourceItem\[]\s*=\s*\[/);
 });

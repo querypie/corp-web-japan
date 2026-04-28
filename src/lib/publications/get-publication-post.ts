@@ -13,8 +13,18 @@ export {
   listBlogPublicationParams,
 } from "@/lib/publications/blog-publication-records";
 
+const blogPostBodySourceCache = new Map<string, string>();
+
 function readBlogPostBodySource(post: BlogPostRecord) {
-  return fs.readFileSync(post.sourcePath, "utf8");
+  const cachedSource = blogPostBodySourceCache.get(post.sourcePath);
+
+  if (cachedSource) {
+    return cachedSource;
+  }
+
+  const source = fs.readFileSync(post.sourcePath, "utf8");
+  blogPostBodySourceCache.set(post.sourcePath, source);
+  return source;
 }
 
 export async function getBlogPublicationPost(id: string): Promise<PublicationPost | null> {

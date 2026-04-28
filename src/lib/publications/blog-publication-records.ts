@@ -27,7 +27,14 @@ export type BlogPublicationListItem = {
   date?: string;
 };
 
+type BlogPublicationCache = {
+  records: readonly BlogPostRecord[];
+  recordsById: ReadonlyMap<string, BlogPostRecord>;
+  listItems: readonly BlogPublicationListItem[];
+};
+
 const BLOG_POSTS_ROOT = path.join(process.cwd(), "src/content/blog");
+let blogPublicationCache: Readonly<BlogPublicationCache> | null = null;
 
 function normalizeBlogPostFrontmatter(value: unknown, sourcePath: string): BlogPostFrontmatter {
   if (!value || typeof value !== "object") {
@@ -84,28 +91,52 @@ function loadBlogPostRecords(): BlogPostRecord[] {
     .sort((left, right) => Number(right.id) - Number(left.id));
 }
 
-export const blogPostRecords = loadBlogPostRecords();
-const blogPostById = new Map<string, BlogPostRecord>(blogPostRecords.map((post) => [post.id, post]));
+function createBlogPublicationCache(): Readonly<BlogPublicationCache> {
+  const records = Object.freeze(loadBlogPostRecords().map((record) => Object.freeze({ ...record })));
+  const recordsById = new Map<string, BlogPostRecord>(records.map((post) => [post.id, post]));
+  const listItems = Object.freeze(
+    records.map((record) =>
+      Object.freeze({
+        href: getPublicationHref("blog", record.id, record.slug),
+        imageSrc: record.heroImageSrc,
+        badge: "ブログ",
+        title: record.title,
+        description: record.description,
+        date: record.date,
+      }),
+    ),
+  );
+
+  return Object.freeze({
+    records,
+    recordsById,
+    listItems,
+  });
+}
+
+function getBlogPublicationCache(): Readonly<BlogPublicationCache> {
+  if (blogPublicationCache) {
+    return blogPublicationCache;
+  }
+
+  blogPublicationCache = Object.freeze(createBlogPublicationCache());
+  return blogPublicationCache;
+}
+
+export const blogPostRecords = getBlogPublicationCache().records;
 
 export function listBlogPublicationItems(): readonly BlogPublicationListItem[] {
-  return blogPostRecords.map((record) => ({
-    href: getPublicationHref("blog", record.id, record.slug),
-    imageSrc: record.heroImageSrc,
-    badge: "ブログ",
-    title: record.title,
-    description: record.description,
-    date: record.date,
-  }));
+  return getBlogPublicationCache().listItems;
 }
 
 export function listBlogPublicationParams() {
-  return blogPostRecords.map(({ id, slug }) => ({ id, slug }));
+  return getBlogPublicationCache().records.map(({ id, slug }) => ({ id, slug }));
 }
 
 export function listBlogPublicationIds() {
-  return blogPostRecords.map(({ id }) => ({ id }));
+  return getBlogPublicationCache().records.map(({ id }) => ({ id }));
 }
 
 export function getBlogPublicationRecord(id: string) {
-  return blogPostById.get(id) ?? null;
+  return getBlogPublicationCache().recordsById.get(id) ?? null;
 }
