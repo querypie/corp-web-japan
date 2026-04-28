@@ -20,9 +20,15 @@ function TocList({ items, depth = 0 }: { items: PublicationTocItem[]; depth?: nu
 
         return (
           <li key={href} className={isRoot ? undefined : "sidebar-toc-sub_li"}>
-            <Link href={href} className={isRoot ? undefined : "sidebar-toc-sub_a"}>
-              {item.text}
-            </Link>
+            {isRoot ? (
+              <Link href={href}>{item.text}</Link>
+            ) : (
+              <div className="sidebar-toc-sub_row">
+                <Link href={href} className="sidebar-toc-sub_a">
+                  {item.text}
+                </Link>
+              </div>
+            )}
             {item.items?.length ? <TocList items={item.items} depth={depth + 1} /> : null}
           </li>
         );
@@ -127,10 +133,11 @@ export function ResourcePostToc({ items }: ResourcePostTocProps) {
           "[&_ul.sidebar-toc-list>li>a::before]:content-['•'] [&_ul.sidebar-toc-list>li>a::before]:text-[13px]",
           "[&_ul.sidebar-toc-list>li>a:hover]:text-[#2563EB]",
           "[&_ul.sidebar-toc-list>li>a.is-active]:text-[#2563EB]",
-          "[&_ul.sidebar-toc-sub]:mt-[6px] [&_ul.sidebar-toc-sub]:space-y-[6px]",
-          "[&_ul.sidebar-toc-sub_li]:flex [&_ul.sidebar-toc-sub_li]:items-center [&_ul.sidebar-toc-sub_li]:gap-[5px]",
-          "[&_ul.sidebar-toc-sub_li::before]:content-['○'] [&_ul.sidebar-toc-sub_li::before]:text-[10px] [&_ul.sidebar-toc-sub_li::before]:text-slate-400",
-          "[&_ul.sidebar-toc-sub_a]:text-[12px] [&_ul.sidebar-toc-sub_a]:leading-[1.4] [&_ul.sidebar-toc-sub_a]:text-[#4B5563] [&_ul.sidebar-toc-sub_a]:transition-colors",
+          "[&_ul.sidebar-toc-sub]:mt-[6px] [&_ul.sidebar-toc-sub]:w-full [&_ul.sidebar-toc-sub]:space-y-[6px]",
+          "[&_ul.sidebar-toc-sub_li]:w-full",
+          "[&_ul.sidebar-toc-sub_row]:flex [&_ul.sidebar-toc-sub_row]:w-full [&_ul.sidebar-toc-sub_row]:items-start [&_ul.sidebar-toc-sub_row]:gap-[5px]",
+          "[&_ul.sidebar-toc-sub_row::before]:shrink-0 [&_ul.sidebar-toc-sub_row::before]:content-['○'] [&_ul.sidebar-toc-sub_row::before]:text-[10px] [&_ul.sidebar-toc-sub_row::before]:text-slate-400",
+          "[&_ul.sidebar-toc-sub_a]:block [&_ul.sidebar-toc-sub_a]:min-w-0 [&_ul.sidebar-toc-sub_a]:flex-1 [&_ul.sidebar-toc-sub_a]:text-[12px] [&_ul.sidebar-toc-sub_a]:leading-[1.4] [&_ul.sidebar-toc-sub_a]:text-[#4B5563] [&_ul.sidebar-toc-sub_a]:transition-colors",
           "[&_ul.sidebar-toc-sub_a:hover]:text-[#2563EB] [&_ul.sidebar-toc-sub_a:hover]:underline",
           "[&_ul.sidebar-toc-sub_a.is-active]:text-[#2563EB] [&_ul.sidebar-toc-sub_a.is-active]:underline",
         ].join(" ")}
