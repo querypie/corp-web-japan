@@ -55,7 +55,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     redirect(getBlogPublicationHref(id, record.slug));
   }
 
-  const post = await getBlogPublicationPost(id, slug);
+  const post = await getBlogPublicationPost(id);
 
   if (!post) {
     notFound();
