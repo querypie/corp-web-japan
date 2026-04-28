@@ -56,7 +56,13 @@ function normalizeProfileImageSrc(profileImage?: string): string | undefined {
   if (!profileImage) return undefined;
 
   const normalized = profileImage.replace(/^public\//, "").replace(/^\/+/, "");
-  return normalized ? `/${normalized}` : undefined;
+  if (!normalized) return undefined;
+  if (normalized.startsWith("crew/authors/")) return `/${normalized}`;
+  if (normalized.startsWith("crew/")) {
+    return `/crew/authors/${normalized.slice("crew/".length)}`;
+  }
+
+  return `/${normalized}`;
 }
 
 export function resolveArticleAuthors(author: string | string[] | undefined): ResolvedArticleAuthor[] {
