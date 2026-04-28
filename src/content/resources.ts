@@ -1,5 +1,5 @@
-import { whitepaperItems } from "@/content/publications/whitepapers";
 import { blogItems } from "@/content/publications/blog";
+import { whitepaperItems } from "@/content/publications/whitepapers";
 import { eventItems } from "./resources/events";
 
 export type ResourceCategory = "blog" | "whitepaper" | "events";

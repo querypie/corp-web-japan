@@ -1,58 +1,114 @@
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { parse as parseYaml } from "yaml";
 import type { ResourceItem } from "@/content/resources";
+import { getPublicationHref } from "@/lib/publications/get-publication-href";
 
-export const whitepaperItems: readonly ResourceItem[] = [
-  {
-    href: "https://www.querypie.com/ja/features/documentation/white-paper/28/ai-agent-guardrails-governance-2026",
-    imageSrc: "/assets/image/whitepapers/28/thumbnail.png",
-    badge: "ホワイトペーパー",
-    title: "AIエージェント時代のガードレール設計（2026年版）── 前編：思想・設計編",
-    description:
-      "AIエージェントが「実行するAI」に変わりつつある今、企業が最優先で整備すべき権限・承認・監査ログ・停止手順の実務フレームを体系的に解説します。",
-    date: "2026年2月27日",
-  },
-  {
-    href: "https://www.querypie.com/ja/features/documentation/white-paper/26/llm-evaluation-agentic-rag-part1",
-    imageSrc: "/assets/image/whitepapers/26/thumbnail.png",
-    badge: "ホワイトペーパー",
-    title: "コード生成およびAgentic RAGタスクを中心とした特定ドメインのためのLLM比較評価【前編】",
-    description:
-      "コード生成・Agentic RAGタスクに特化したLLM比較評価。研究背景・システムアーキテクチャ・実験設計を前編で詳解します。",
-    date: "2026年2月13日",
-  },
-  {
-    href: "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan",
-    imageSrc: "/assets/image/whitepapers/24/thumbnail.png",
-    badge: "ホワイトペーパー",
-    title: "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか",
-    description:
-      "事業責任者向けに、世界の先進事例・日本の課題・10ステップの導入プロセスとAI導入準備度チェックリストを体系的に解説します。",
-    date: "2025年11月17日",
-  },
-  {
-    href: "https://www.querypie.com/ja/features/documentation/white-paper/23/rag-security-querypie-builds-the-bridge",
-    imageSrc: "/assets/image/whitepapers/23/thumbnail.png",
-    badge: "ホワイトペーパー",
-    title: "RAG 2.0 セキュリティ – Microsoft・Metaの戦略、QueryPieが繋ぐ",
-    description:
-      "RAGアーキテクチャの構造的欠陥を分析し、Microsoft・Metaのセキュリティ戦略とQueryPieが提供するソリューションを詳説します。",
-    date: "2025年5月28日",
-  },
-  {
-    href: "https://www.querypie.com/ja/features/documentation/white-paper/22/your-architect-vs-ai-agents",
-    imageSrc: "/assets/image/whitepapers/22/thumbnail.png",
-    badge: "ホワイトペーパー",
-    title: "MCPとAIエージェントが対決：あなたの設計は安全か？",
-    description:
-      "MCP・AIエージェントアーキテクチャの設計上の安全性を徹底解剖。役割分離・インターフェース設計の違いを実例で解説します。",
-    date: "2025年5月21日",
-  },
-  {
-    href: "https://www.querypie.com/ja/features/documentation/white-paper/21/welcome-to-the-age-of-agentsecops",
-    imageSrc: "/assets/image/whitepapers/21/thumbnail.png",
-    badge: "ホワイトペーパー",
-    title: "コードは止まり、エージェントが動く – AgentSecOpsの時代へ",
-    description:
-      "DevSecOpsを超えるAgentSecOpsの必要性。AIエージェント時代のセキュリティ設計とパイプライン防御を体系的に解説します。",
-    date: "2025年5月13日",
-  },
-];
+type WhitepaperPublicationFrontmatter = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  listDescription?: string;
+  date: string;
+  heroImageSrc: string;
+  author?: string | string[];
+  relatedIds: readonly string[];
+};
+
+export type WhitepaperPublicationRecord = WhitepaperPublicationFrontmatter & {
+  sourcePath: string;
+};
+
+const WHITEPAPER_POSTS_ROOT = path.join(process.cwd(), "src/content/whitepapers");
+
+function normalizeWhitepaperPublicationFrontmatter(
+  value: unknown,
+  sourcePath: string,
+): WhitepaperPublicationFrontmatter {
+  if (!value || typeof value !== "object") {
+    throw new Error(`Missing whitepaper frontmatter in ${sourcePath}`);
+  }
+
+  const frontmatter = value as Record<string, unknown>;
+  const relatedIdsValue = frontmatter.relatedIds;
+  const relatedIds = Array.isArray(relatedIdsValue)
+    ? relatedIdsValue.map((item) => String(item))
+    : [];
+  const authorValue = frontmatter.author;
+
+  return {
+    id: String(frontmatter.id ?? ""),
+    slug: String(frontmatter.slug ?? ""),
+    title: String(frontmatter.title ?? ""),
+    description: String(frontmatter.description ?? ""),
+    listDescription:
+      typeof frontmatter.listDescription === "string"
+        ? frontmatter.listDescription
+        : undefined,
+    date: String(frontmatter.date ?? ""),
+    heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
+    author:
+      typeof authorValue === "string"
+        ? authorValue
+        : Array.isArray(authorValue)
+          ? authorValue.map((item) => String(item))
+          : undefined,
+    relatedIds,
+  };
+}
+
+function parseWhitepaperPublicationFrontmatter(
+  source: string,
+  sourcePath: string,
+): WhitepaperPublicationFrontmatter {
+  const match = source.match(/^---\n([\s\S]*?)\n---\n?/);
+  if (!match) {
+    throw new Error(`Missing frontmatter block in ${sourcePath}`);
+  }
+
+  return normalizeWhitepaperPublicationFrontmatter(parseYaml(match[1]), sourcePath);
+}
+
+function loadWhitepaperPublicationRecords(): WhitepaperPublicationRecord[] {
+  return fs
+    .readdirSync(WHITEPAPER_POSTS_ROOT)
+    .filter((file) => file.endsWith(".mdx"))
+    .map((file) => {
+      const sourcePath = path.join(WHITEPAPER_POSTS_ROOT, file);
+      const source = fs.readFileSync(sourcePath, "utf8");
+      const frontmatter = parseWhitepaperPublicationFrontmatter(source, sourcePath);
+
+      return {
+        ...frontmatter,
+        sourcePath,
+      };
+    })
+    .sort((left, right) => Number(right.id) - Number(left.id));
+}
+
+export const whitepaperPublicationRecords = loadWhitepaperPublicationRecords();
+const whitepaperPublicationRecordById = new Map<string, WhitepaperPublicationRecord>(
+  whitepaperPublicationRecords.map((record) => [record.id, record]),
+);
+
+export const whitepaperItems: readonly ResourceItem[] = whitepaperPublicationRecords.map((record) => ({
+  href: getPublicationHref("whitepaper", record.id, record.slug),
+  imageSrc: record.heroImageSrc,
+  badge: "ホワイトペーパー",
+  title: record.title,
+  description: record.listDescription ?? record.description,
+  date: record.date,
+}));
+
+export function listWhitepaperPublicationParams() {
+  return whitepaperPublicationRecords.map(({ id, slug }) => ({ id, slug }));
+}
+
+export function listWhitepaperPublicationIds() {
+  return whitepaperPublicationRecords.map(({ id }) => ({ id }));
+}
+
+export function getWhitepaperPublicationRecord(id: string) {
+  return whitepaperPublicationRecordById.get(id) ?? null;
+}
