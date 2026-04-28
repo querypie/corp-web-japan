@@ -12,6 +12,7 @@ These principles apply to both humans and AI agents.
 - Keep docs, implementation, and tests aligned.
 - Verify changes with the lightest command that proves correctness.
 - If something is ambiguous, choose the smallest change that satisfies the request.
+- Write repository-internal documentation, guidance, comments, PR titles, and PR descriptions in English so they are readable for collaborators who work in English or Japanese.
 
 ## Project stack
 
