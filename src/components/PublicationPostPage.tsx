@@ -16,7 +16,7 @@ const shareIcons = [Facebook, Twitter, Linkedin, Link2] as const;
 
 const publicationBodyClassName = [
   "text-base leading-6 text-slate-500",
-  "[&_a]:text-[#2563EB] [&_a]:underline [&_a]:decoration-[1px] [&_a]:underline-offset-[3px] hover:[&_a]:text-[#1D4ED8]",
+  "[&_a]:font-inherit [&_a]:text-slate-950 [&_a]:no-underline [&_a:hover]:text-slate-950 [&_a:hover]:underline [&_a:hover]:decoration-[1px] [&_a:hover]:underline-offset-[3px] [&_a:focus-visible]:underline [&_a:focus-visible]:decoration-[1px] [&_a:focus-visible]:underline-offset-[3px]",
   "[&_h1]:mt-12 [&_h1]:text-[22px] [&_h1]:font-semibold [&_h1]:leading-[1.4] [&_h1]:tracking-[-0.01em] [&_h1]:text-slate-950",
   "[&_h2]:mt-10 [&_h2]:text-[22px] [&_h2]:font-normal [&_h2]:leading-[1.455] [&_h2]:text-slate-950",
   "[&_h3]:mt-8 [&_h3]:text-[17px] [&_h3]:font-medium [&_h3]:leading-[1.4] [&_h3]:text-slate-950",
@@ -25,7 +25,7 @@ const publicationBodyClassName = [
   "[&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pl-4",
   "[&_ol]:mt-4 [&_ol]:list-decimal [&_ol]:pl-4",
   "[&_li]:mb-2 [&_li]:text-base [&_li]:leading-6 [&_li]:text-slate-500",
-  "[&_strong]:font-medium [&_strong]:text-slate-950",
+  "[&_strong]:font-medium [&_strong]:text-slate-950 [&_a_strong]:font-inherit [&_a_strong]:text-inherit",
   "[&_figure.wp-figure]:my-8 [&_figure.wp-figure]:text-center",
   "[&_figure.wp-figure_img]:max-w-full",
   "[&_figure.wp-figure_img]:rounded-[8px]",
