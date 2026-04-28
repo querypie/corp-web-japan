@@ -120,7 +120,7 @@ export function ResourcePostToc({ items }: ResourcePostTocProps) {
   }, [items]);
 
   return (
-    <div ref={scrollRef} className="max-h-[220px] overflow-y-auto pr-1 lg:max-h-[320px]">
+    <div ref={scrollRef} className="pr-1">
       <div
         ref={wrapRef}
         className={[
