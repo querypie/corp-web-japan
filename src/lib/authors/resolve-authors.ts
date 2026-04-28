@@ -57,9 +57,11 @@ function normalizeProfileImageSrc(profileImage?: string): string | undefined {
 
   const normalized = profileImage.replace(/^public\//, "").replace(/^\/+/, "");
   if (!normalized) return undefined;
-  if (normalized.startsWith("crew/authors/")) return `/${normalized}`;
+  if (normalized.startsWith("crew/authors/")) {
+    return `/crew/${normalized.slice("crew/authors/".length)}`;
+  }
   if (normalized.startsWith("crew/")) {
-    return `/crew/authors/${normalized.slice("crew/".length)}`;
+    return `/${normalized}`;
   }
 
   return `/${normalized}`;
