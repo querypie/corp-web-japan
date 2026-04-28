@@ -8,8 +8,7 @@ import { absoluteUrl } from "@/lib/site-url";
 import {
   getResourceDownloadPost,
   getResourcePost,
-  isStaticResourcePostCategory,
-  listResourcePostParams,
+  listEventPostParams,
 } from "@/lib/resource-posts";
 
 type ResourcePostRouteProps = {
@@ -19,15 +18,22 @@ type ResourcePostRouteProps = {
   }>;
 };
 
+function isLegacyEventCategory(value: string): value is "event" {
+  return value === "event";
+}
+
 export function generateStaticParams() {
-  return listResourcePostParams();
+  return listEventPostParams().map(({ id }) => ({
+    category: "event",
+    slug: id,
+  }));
 }
 
 export async function generateMetadata({ params }: ResourcePostRouteProps): Promise<Metadata> {
   const { category, slug } = await params;
   const canonicalPath = `/posts/${category}/${slug.replace(/\.html$/i, "")}`;
 
-  if (!isStaticResourcePostCategory(category)) {
+  if (!isLegacyEventCategory(category)) {
     return {};
   }
 
@@ -60,7 +66,7 @@ export async function generateMetadata({ params }: ResourcePostRouteProps): Prom
 export default async function ResourcePostRoute({ params }: ResourcePostRouteProps) {
   const { category, slug } = await params;
 
-  if (!isStaticResourcePostCategory(category)) {
+  if (!isLegacyEventCategory(category)) {
     notFound();
   }
 
