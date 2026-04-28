@@ -72,7 +72,7 @@ export function ResourcePostToc({ items }: ResourcePostTocProps) {
 
     const activate = () => {
       const marker = window.scrollY + OFFSET + 32;
-      let current: HTMLAnchorElement | null = sections[0]?.link ?? null;
+      let current: HTMLAnchorElement | null = null;
 
       for (const section of sections) {
         if (section.el.offsetTop <= marker) {
