@@ -46,7 +46,9 @@ test("blog publication metadata lives in MDX frontmatter instead of blog-posts.t
   const mdx27 = readSource("src/content/blog/27.mdx");
   const mdx28 = readSource("src/content/blog/28.mdx");
 
-  assert.match(renderer, /parseFrontmatter:\s*true/);
+  assert.match(renderer, /parseFrontmatter\?:\s*boolean/);
+  assert.match(renderer, /\{\s*parseFrontmatter\s*=\s*true\s*\}/);
+  assert.match(renderer, /parseFrontmatter,/);
   assert.doesNotMatch(publicationLoader, /content\/publications\/blog-posts/);
   assert.match(publicationLoader, /frontmatter/);
 
