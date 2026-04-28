@@ -28,7 +28,7 @@ export function AICrewAvatar({
       />
       <div className="absolute inset-0 overflow-hidden">
         <Image
-          src={tone === "gray" ? "/crew/ai-crew-gray.png" : "/crew/ai-crew-white.png"}
+          src={tone === "gray" ? "/crew/role/ai-crew-gray.png" : "/crew/role/ai-crew-white.png"}
           alt=""
           fill
           aria-hidden="true"
