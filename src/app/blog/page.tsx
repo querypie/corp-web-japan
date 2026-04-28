@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourceListPage } from "@/components/ResourceListPage";
-import { blogItems } from "@/content/publications/blog";
+import { listBlogPublicationItems } from "@/lib/publications/get-publication-post";
 
 export const metadata: Metadata = {
   title: "ブログ | QueryPie AI",
@@ -12,7 +12,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const blogItems = await listBlogPublicationItems();
+
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />

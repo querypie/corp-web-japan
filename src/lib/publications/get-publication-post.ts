@@ -7,6 +7,7 @@ import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
 import type { PublicationPost } from "@/lib/publications/types";
+import type { ResourceItem } from "@/content/resources";
 
 type BlogPostFrontmatter = {
   id: string;
@@ -85,6 +86,17 @@ const blogPostById = new Map<string, BlogPostRecord>(blogPostRecords.map((post) 
 
 function readBlogPostBodySource(post: BlogPostRecord) {
   return fs.readFileSync(post.sourcePath, "utf8");
+}
+
+export function listBlogPublicationItems(): readonly ResourceItem[] {
+  return blogPostRecords.map((record) => ({
+    href: getPublicationHref("blog", record.id, record.slug),
+    imageSrc: record.heroImageSrc,
+    badge: "ブログ",
+    title: record.title,
+    description: record.description,
+    date: record.date,
+  }));
 }
 
 export function listBlogPublicationParams() {
