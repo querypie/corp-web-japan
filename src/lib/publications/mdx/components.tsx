@@ -32,6 +32,11 @@ type ArticleFileImageProps = {
   caption?: string;
 };
 
+type InfoNoteProps = {
+  hideIcon?: boolean;
+  children?: ReactNode;
+};
+
 function childrenToText(children: ReactNode): string {
   if (typeof children === "string") return children;
   if (typeof children === "number") return String(children);
@@ -117,6 +122,17 @@ function ArticleFileImage({ filepath, alt = "", caption }: ArticleFileImageProps
   );
 }
 
+function InfoNote({ hideIcon = false, children }: InfoNoteProps) {
+  return (
+    <div className="my-4 rounded-[8px] border border-[#e5e7eb] bg-[#f9f9fb] px-5 py-4 text-sm leading-6 text-slate-600">
+      <div className="flex gap-3">
+        {hideIcon ? null : <span aria-hidden="true">ℹ️</span>}
+        <div className="min-w-0 flex-1">{children}</div>
+      </div>
+    </div>
+  );
+}
+
 function ArticleGatingForm({ children }: { children?: ReactNode }) {
   return <>{children}</>;
 }
@@ -131,6 +147,7 @@ export function buildPublicationMdxComponents(): MDXComponents {
     Box,
     ButtonLink,
     ArticleFileImage,
+    InfoNote,
     ArticleGatingForm,
   };
 }
