@@ -29,8 +29,8 @@ const expectedFooterLinks = [
   'label: "全て", href: "/resources"',
   'label: "用語集", href: "/glossary"',
   'label: "マニュアル", href: "/manuals"',
-  'label: "会社概要", href: "/about-us"',
-  'label: "認定・認証", href: "/certifications"',
+  'label: "私たちについて", href: "/about-us"',
+  'label: "認証情報", href: "/certifications"',
   'label: "ニュース", href: "/news"',
   'label: "お問い合わせ", href: "/contact-us"',
 ];

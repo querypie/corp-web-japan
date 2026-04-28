@@ -9,6 +9,7 @@ type ZoomableFigureProps = {
   alt: string;
   caption?: string;
   sizes?: string;
+  modalScale?: number;
 };
 
 export function ZoomableFigure({
@@ -16,8 +17,11 @@ export function ZoomableFigure({
   alt,
   caption = "クリックで拡大表示",
   sizes = "(min-width: 1024px) 720px, 100vw",
+  modalScale = 1,
 }: ZoomableFigureProps) {
   const [open, setOpen] = useState(false);
+  const modalMaxWidth = Math.round(1120 * modalScale);
+  const modalMaxHeight = Math.round(840 * modalScale);
 
   return (
     <>
@@ -28,13 +32,13 @@ export function ZoomableFigure({
           className="group block w-full text-left"
           aria-label={`${alt} を拡大表示`}
         >
-          <div className="rounded-[1.8rem] bg-[#f7f9fc] p-4 transition duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_20px_50px_-40px_rgba(15,23,42,0.12)] sm:p-5 lg:p-6">
-            <div className="relative mx-auto aspect-square w-full max-w-[720px] overflow-hidden rounded-[1.4rem] bg-transparent">
+          <div className="rounded-[1.5rem] bg-[#f8fafc] p-1.5 transition duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_20px_50px_-40px_rgba(15,23,42,0.12)] sm:p-2 lg:p-2.5">
+            <div className="relative mx-auto aspect-square w-full max-w-[720px] overflow-hidden rounded-[1.05rem] bg-transparent">
               <Image
                 src={src}
                 alt={alt}
                 fill
-                className="object-contain p-2 transition duration-500 group-hover:scale-[1.01] lg:p-3"
+                className="object-contain p-0 transition duration-500 group-hover:scale-[1.01] sm:p-0.5 lg:p-1"
                 sizes={sizes}
               />
               <div className="pointer-events-none absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/92 text-[#2f3a49] shadow-[0_10px_24px_-18px_rgba(15,23,42,0.22)]">
@@ -55,26 +59,33 @@ export function ZoomableFigure({
           className="fixed inset-0 z-[1300] bg-[radial-gradient(circle_at_top,rgba(15,23,42,0.28),rgba(2,6,23,0.88))] px-4 py-8 backdrop-blur-md"
           onClick={() => setOpen(false)}
         >
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/80 text-white transition hover:bg-slate-950"
+            aria-label="拡大表示を閉じる"
+          >
+            <X className="h-5 w-5" />
+          </button>
           <div
-            className="mx-auto flex h-full max-w-[1120px] items-center justify-center"
+            className="mx-auto flex h-full w-full max-w-[1280px] items-center justify-center"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="relative w-full overflow-hidden rounded-[1.8rem] bg-white shadow-[0_32px_90px_-40px_rgba(0,0,0,0.65)]">
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/80 text-white transition hover:bg-slate-950"
-                aria-label="拡大表示を閉じる"
-              >
-                <X className="h-5 w-5" />
-              </button>
-              <div className="relative aspect-[4/3] w-full bg-[#f8fafc]">
-                <Image
+            <div
+              className="flex h-full w-full items-center justify-center"
+              style={{
+                minHeight: "100%",
+              }}
+            >
+              <div className="flex h-full w-full items-center justify-center">
+                <img
                   src={src}
                   alt={alt}
-                  fill
-                  className="object-contain p-6 lg:p-8"
-                  sizes="90vw"
+                  className="block h-auto w-auto max-w-full max-h-full"
+                  style={{
+                    maxWidth: `min(94vw, ${modalMaxWidth}px)`,
+                    maxHeight: `min(88vh, ${modalMaxHeight}px)`,
+                  }}
                 />
               </div>
             </div>

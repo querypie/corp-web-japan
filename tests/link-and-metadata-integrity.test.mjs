@@ -25,7 +25,7 @@ const footerExpectedLinks = [
   'label: "全て", href: "/resources"',
   'label: "ホワイトペーパー", href: "/whitepapers"',
   'label: "ブログ", href: "/blog"',
-  'label: "会社概要", href: "/about-us"',
+  'label: "私たちについて", href: "/about-us"',
   'label: "お問い合わせ", href: "/contact-us"',
 ];
 
