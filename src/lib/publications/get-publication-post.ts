@@ -119,7 +119,7 @@ export async function getBlogPublicationPost(id: string): Promise<PublicationPos
     heroImageSrc: frontmatter.heroImageSrc,
     author: primaryAuthor
       ? {
-          avatarSrc: primaryAuthor.profileImageSrc ?? "/crew/brant.png",
+          avatarSrc: primaryAuthor.profileImageSrc ?? "/crew/authors/brant.png",
           avatarAlt: primaryAuthor.name,
           name: primaryAuthor.name,
           role: primaryAuthor.position ?? "",
@@ -129,8 +129,8 @@ export async function getBlogPublicationPost(id: string): Promise<PublicationPos
       : null,
     bodyHtml: null,
     bodyMdx: content,
-    gatingHtml: null,
-    gatedContentHtml: null,
+    gatedBodyMdx: null,
+    gating: null,
     relatedTitle: "関連記事",
     relatedItems: buildRelatedPublications(frontmatter),
     toc: extractHeadingsFromMdx(bodySource),

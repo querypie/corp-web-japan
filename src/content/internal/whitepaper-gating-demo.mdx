@@ -1,0 +1,31 @@
+---
+title: "Internal Whitepaper Gating Demo"
+description: "Whitepaper-style gating behavior for internal verification."
+date: "2026年4月28日"
+heroImageSrc: "/assets/image/whitepapers/24/thumbnail.png"
+gated: true
+---
+
+# Gating form demo
+
+このページは whitepaper MDX 用 gating form の動作確認用です。ここまでは送信前でも表示されます。
+
+- `gated: true` frontmatter
+- `<GatingCut />` marker
+- same-page unlock
+- cookie persistence
+
+<GatingCut />
+
+## Hidden section
+
+この見出し以降はフォーム送信後に表示されます。
+
+### Cookie behavior
+
+- Production では 48 時間
+- Non-production では 5 分
+
+### Dummy backend route
+
+このデモは `/api/gating-form/unlock` に POST し、保存処理はせず cookie だけ発行します。

@@ -1,9 +1,10 @@
 "use client";
 
+import type { Dispatch, FormEvent, SetStateAction } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 
-type LeadFormState = {
+export type ResourceLeadFormState = {
   lastName: string;
   firstName: string;
   email: string;
@@ -17,12 +18,14 @@ type LeadFormState = {
 };
 
 type ResourceLeadFormProps = {
-  form: LeadFormState;
-  setForm: React.Dispatch<React.SetStateAction<LeadFormState>>;
+  form: ResourceLeadFormState;
+  setForm: Dispatch<SetStateAction<ResourceLeadFormState>>;
   submitLabel: string;
   submitEnabled: boolean;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  submitting?: boolean;
+  errorMessage?: string | null;
   variant?: "download" | "gated";
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 };
 
 const productOptions = [
@@ -54,8 +57,9 @@ export function ResourceLeadForm({
   setForm,
   submitLabel,
   submitEnabled,
+  submitting = false,
+  errorMessage = null,
   onSubmit,
-  variant = "download",
 }: ResourceLeadFormProps) {
   const selectClass =
     "h-11 w-full appearance-none rounded-[6px] border border-[#D1D5DB] bg-white pl-3 pr-12 text-sm";
@@ -72,14 +76,12 @@ export function ResourceLeadForm({
       ].map(([key, label, placeholder]) => (
         <label key={key} className="flex flex-col gap-[6px]">
           <span className="text-[13px] font-medium leading-[1.4] text-slate-950">
-            {["phone"].includes(key) ? null : (
-              <span className="mr-[2px] text-[#EF4444]">*</span>
-            )}
+            {key === "phone" ? null : <span className="mr-[2px] text-[#EF4444]">*</span>}
             {label}
           </span>
           <input
             type={key === "email" ? "email" : key === "phone" ? "tel" : "text"}
-            value={form[key as keyof LeadFormState] as string}
+            value={form[key as keyof ResourceLeadFormState] as string}
             onChange={(event) =>
               setForm((prev) => ({ ...prev, [key]: event.target.value }))
             }
@@ -185,17 +187,18 @@ export function ResourceLeadForm({
         に同意して送信する。
       </p>
 
+      {errorMessage ? <p className="text-center text-sm text-[#EF4444]">{errorMessage}</p> : null}
+
       <button
         type="submit"
+        disabled={!submitEnabled || submitting}
         className={`mt-2 inline-flex w-full items-center justify-center rounded-[6px] px-8 py-3 text-base font-medium transition ${
-          submitEnabled
-            ? "bg-[#111827] text-white hover:opacity-85"
-            : variant === "download"
-              ? "cursor-not-allowed bg-[#D1D5DB] text-[#9CA3AF]"
-              : "bg-[#111827] text-white hover:opacity-85"
+          !submitEnabled || submitting
+            ? "cursor-not-allowed bg-[#D1D5DB] text-[#9CA3AF]"
+            : "bg-[#111827] text-white hover:opacity-85"
         }`}
       >
-        {submitLabel}
+        {submitting ? "送信中..." : submitLabel}
       </button>
     </form>
   );

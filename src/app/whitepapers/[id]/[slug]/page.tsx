@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -9,6 +10,7 @@ import {
   getWhitepaperPublicationRecord,
   listWhitepaperPublicationParams,
 } from "@/lib/publications/get-whitepaper-publication-post";
+import { buildGatingCookieName } from "@/lib/publications/gating";
 import { absoluteUrl } from "@/lib/site-url";
 
 type WhitepaperDetailPageProps = {
@@ -59,6 +61,11 @@ export default async function WhitepaperDetailPage({ params }: WhitepaperDetailP
 
   if (!post) {
     notFound();
+  }
+
+  const cookieStore = await cookies();
+  if (post.gating) {
+    post.gating.initiallyUnlocked = cookieStore.has(buildGatingCookieName(post.gating.contentKey));
   }
 
   return (

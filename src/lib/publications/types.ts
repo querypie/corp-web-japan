@@ -24,6 +24,11 @@ export type PublicationTocItem = {
   items?: PublicationTocItem[];
 };
 
+export type PublicationPostGating = {
+  contentKey: string;
+  initiallyUnlocked: boolean;
+};
+
 export type PublicationPost = {
   category: PublicationCategory;
   categoryLabel: string;
@@ -34,8 +39,8 @@ export type PublicationPost = {
   author: PublicationPostAuthor | null;
   bodyHtml: string | null;
   bodyMdx: ReactNode | null;
-  gatingHtml: string | null;
-  gatedContentHtml: string | null;
+  gatedBodyMdx: ReactNode | null;
+  gating: PublicationPostGating | null;
   relatedTitle: string;
   relatedItems: PublicationPostSummary[];
   toc: PublicationTocItem[];

@@ -133,6 +133,10 @@ function InfoNote({ hideIcon = false, children }: InfoNoteProps) {
   );
 }
 
+function GatingCut() {
+  return null;
+}
+
 function ArticleGatingForm({ children }: { children?: ReactNode }) {
   return <>{children}</>;
 }
@@ -148,6 +152,7 @@ export function buildPublicationMdxComponents(): MDXComponents {
     ButtonLink,
     ArticleFileImage,
     InfoNote,
+    GatingCut,
     ArticleGatingForm,
   };
 }

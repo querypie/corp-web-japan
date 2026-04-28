@@ -6,6 +6,7 @@ import {
   listWhitepaperPublicationParams,
   whitepaperPublicationRecords,
 } from "@/content/publications/whitepapers";
+import { buildGatingContentKey, splitMdxSourceAtGatingCut, stripFrontmatterBlock } from "@/lib/publications/gating";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
@@ -41,14 +42,39 @@ export async function getWhitepaperPublicationPost(id: string): Promise<Publicat
   }
 
   const bodySource = readWhitepaperPublicationBodySource(record.sourcePath);
-  const { content, frontmatter } = await renderPublicationMdx<{
+  const splitSource = splitMdxSourceAtGatingCut(bodySource);
+  const previewEvaluation = await renderPublicationMdx<{
     author?: string | string[];
     relatedIds?: readonly string[];
     title: string;
     description: string;
     date: string;
     heroImageSrc: string;
-  }>(bodySource);
+    gated?: boolean;
+  }>(splitSource.previewSource);
+  const frontmatter = previewEvaluation.frontmatter;
+  const isGated = Boolean(frontmatter.gated);
+
+  const fullEvaluation = !isGated && splitSource.gatedSource
+    ? await renderPublicationMdx<{
+        author?: string | string[];
+        relatedIds?: readonly string[];
+        title: string;
+        description: string;
+        date: string;
+        heroImageSrc: string;
+        gated?: boolean;
+      }>(bodySource)
+    : null;
+
+  const gatedEvaluation = isGated && splitSource.gatedSource
+    ? await renderPublicationMdx(stripFrontmatterBlock(splitSource.gatedSource), { parseFrontmatter: false })
+    : null;
+
+  if (isGated && !splitSource.gatedSource) {
+    throw new Error(`Whitepaper ${id} is gated but missing <GatingCut /> in ${record.sourcePath}`);
+  }
+
   const resolvedAuthors = getDisplayableArticleAuthors(resolveArticleAuthors(frontmatter.author));
   const primaryAuthor = resolvedAuthors.find((author) => author.isRegistered) ?? null;
 
@@ -70,12 +96,17 @@ export async function getWhitepaperPublicationPost(id: string): Promise<Publicat
         }
       : null,
     bodyHtml: null,
-    bodyMdx: content,
-    gatingHtml: null,
-    gatedContentHtml: null,
+    bodyMdx: fullEvaluation?.content ?? previewEvaluation.content,
+    gatedBodyMdx: gatedEvaluation?.content ?? null,
+    gating: isGated
+      ? {
+          contentKey: buildGatingContentKey("whitepaper", id),
+          initiallyUnlocked: false,
+        }
+      : null,
     relatedTitle: "関連記事",
     relatedItems: buildRelatedItems(id, frontmatter.relatedIds ?? record.relatedIds),
-    toc: extractHeadingsFromMdx(bodySource),
+    toc: extractHeadingsFromMdx(isGated ? splitSource.previewSource : bodySource),
   };
 }
 
