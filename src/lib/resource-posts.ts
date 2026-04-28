@@ -32,8 +32,8 @@ export type ResourcePost = {
   } | null;
   bodyHtml: string | null;
   bodyMdx: ReactNode | null;
-  gatingHtml: string | null;
-  gatedContentHtml: string | null;
+  gatedBodyMdx: ReactNode | null;
+  gating: null;
   relatedTitle: string;
   relatedItems: ResourcePostSummary[];
   toc: PublicationTocItem[];
@@ -213,10 +213,8 @@ export function getResourcePost(category: ResourcePostCategory, slug: string): R
     author: parseAuthor(html),
     bodyHtml: extractInnerHtml(html, '<div class="article-content">', "div"),
     bodyMdx: null,
-    gatingHtml:
-      normalizeGatingHtml(extractElement(html, '<div class="gating-wall"', "div")) || null,
-    gatedContentHtml:
-      extractInnerHtml(html, '<div class="article-gated-content"', "div") || null,
+    gatedBodyMdx: null,
+    gating: null,
     relatedTitle: stripHtml(matchFirst(html, /<h2 class="related-sidebar-title">([\s\S]*?)<\/h2>/)),
     relatedItems: parseRelatedItems(html),
     toc: [],

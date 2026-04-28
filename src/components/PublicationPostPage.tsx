@@ -14,7 +14,7 @@ type PublicationPostPageProps = {
 
 const shareIcons = [Facebook, Twitter, Linkedin, Link2] as const;
 
-const publicationBodyClassName = [
+export const publicationBodyClassName = [
   "text-base leading-6 text-slate-500",
   "[&_a]:font-inherit [&_a]:text-slate-950 [&_a]:no-underline [&_a:hover]:text-slate-950 [&_a:hover]:underline [&_a:hover]:decoration-[1px] [&_a:hover]:underline-offset-[3px] [&_a:focus-visible]:underline [&_a:focus-visible]:decoration-[1px] [&_a:focus-visible]:underline-offset-[3px]",
   "[&_h1]:mt-12 [&_h1]:text-[22px] [&_h1]:font-semibold [&_h1]:leading-[1.4] [&_h1]:tracking-[-0.01em] [&_h1]:text-slate-950",
@@ -96,43 +96,20 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
 
             <div className="pb-[89px]">
               {post.bodyMdx ? (
-                <div className={publicationBodyClassName}>{post.bodyMdx}</div>
+                <div className={publicationBodyClassName}>
+                  {post.bodyMdx}
+                  {post.gating ? (
+                    <ResourcePostGated
+                      contentKey={post.gating.contentKey}
+                      initiallyUnlocked={post.gating.initiallyUnlocked}
+                      gatedContent={post.gatedBodyMdx}
+                    />
+                  ) : null}
+                </div>
               ) : post.bodyHtml ? (
                 <div
                   className={publicationBodyClassName}
                   dangerouslySetInnerHTML={{ __html: post.bodyHtml }}
-                />
-              ) : null}
-              {post.gatingHtml && post.gatedContentHtml ? (
-                <ResourcePostGated
-                  gatingHtml={post.gatingHtml}
-                  gatedContentHtml={post.gatedContentHtml}
-                />
-              ) : post.gatingHtml ? (
-                <div
-                  className={[
-                    "relative -mt-[100px] pt-[100px]",
-                    "[&_.gating-fade]:pointer-events-none [&_.gating-fade]:absolute [&_.gating-fade]:left-0 [&_.gating-fade]:right-0 [&_.gating-fade]:top-0 [&_.gating-fade]:h-[120px] [&_.gating-fade]:bg-gradient-to-b [&_.gating-fade]:from-transparent [&_.gating-fade]:to-white",
-                    "[&_.gating-body]:relative [&_.gating-body]:z-[2] [&_.gating-body]:pt-12",
-                    "[&_.gating-heading]:mb-[14px] [&_.gating-heading]:text-center [&_.gating-heading]:text-[34px] [&_.gating-heading]:font-medium [&_.gating-heading]:tracking-[-0.02em] [&_.gating-heading]:text-slate-950",
-                    "[&_.gating-subtext]:mx-auto [&_.gating-subtext]:mb-9 [&_.gating-subtext]:max-w-[520px] [&_.gating-subtext]:text-center [&_.gating-subtext]:text-base [&_.gating-subtext]:font-light [&_.gating-subtext]:leading-[1.6] [&_.gating-subtext]:text-slate-400",
-                    "[&_.gating-form]:mx-auto [&_.gating-form]:flex [&_.gating-form]:max-w-[440px] [&_.gating-form]:flex-col [&_.gating-form]:gap-4",
-                    "[&_.gating-form-field]:flex [&_.gating-form-field]:flex-col [&_.gating-form-field]:gap-[6px]",
-                    "[&_.gating-form-label]:text-[13px] [&_.gating-form-label]:font-medium [&_.gating-form-label]:leading-[1.4] [&_.gating-form-label]:text-slate-950",
-                    "[&_.gating-form-label_.required]:ml-[2px] [&_.gating-form-label_.required]:text-[#EF4444]",
-                    "[&_.gating-form-input]:h-11 [&_.gating-form-input]:rounded-[6px] [&_.gating-form-input]:border [&_.gating-form-input]:border-[#D1D5DB] [&_.gating-form-input]:px-3 [&_.gating-form-input]:text-sm",
-                    "[&_.gating-form-select]:h-11 [&_.gating-form-select]:rounded-[6px] [&_.gating-form-select]:border [&_.gating-form-select]:border-[#D1D5DB] [&_.gating-form-select]:px-3 [&_.gating-form-select]:text-sm",
-                    "[&_.gating-checkbox-group]:grid [&_.gating-checkbox-group]:gap-2 [&_.gating-checkbox-group]:rounded-[6px] [&_.gating-checkbox-group]:border [&_.gating-checkbox-group]:border-[#E5E7EB] [&_.gating-checkbox-group]:bg-[#F9FAFB] [&_.gating-checkbox-group]:p-4",
-                    "[&_.gating-checkbox-item]:text-sm [&_.gating-checkbox-item]:font-light [&_.gating-checkbox-item]:leading-6 [&_.gating-checkbox-item]:text-slate-700",
-                    "[&_.gating-checkbox-item_input]:mr-2",
-                    "[&_.gating-form-consent]:text-sm [&_.gating-form-consent]:font-light [&_.gating-form-consent]:leading-6 [&_.gating-form-consent]:text-slate-700",
-                    "[&_.gating-form-consent_input]:mr-2",
-                    "[&_.gating-terms]:mt-1 [&_.gating-terms]:text-center [&_.gating-terms]:text-[12px] [&_.gating-terms]:font-light [&_.gating-terms]:leading-5 [&_.gating-terms]:text-slate-400",
-                    "[&_.gating-terms_a]:underline [&_.gating-terms_a]:underline-offset-4",
-                    "[&_.gating-form-error]:text-center [&_.gating-form-error]:text-sm [&_.gating-form-error]:text-[#EF4444]",
-                    "[&_.gating-form-submit]:mt-2 [&_.gating-form-submit]:inline-flex [&_.gating-form-submit]:w-full [&_.gating-form-submit]:items-center [&_.gating-form-submit]:justify-center [&_.gating-form-submit]:rounded-[6px] [&_.gating-form-submit]:bg-[#111827] [&_.gating-form-submit]:px-8 [&_.gating-form-submit]:py-3 [&_.gating-form-submit]:text-base [&_.gating-form-submit]:font-medium [&_.gating-form-submit]:text-white [&_.gating-form-submit]:transition hover:[&_.gating-form-submit]:opacity-85",
-                  ].join(" ")}
-                  dangerouslySetInnerHTML={{ __html: post.gatingHtml }}
                 />
               ) : null}
             </div>
