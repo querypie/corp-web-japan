@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
-test("app layout uses separated local Mona Sans and Pretendard JP font variables", () => {
+test("app layout scopes Mona Sans and Pretendard JP font variables on html", () => {
   const layout = readSource("src/app/layout.tsx");
   const globals = readSource("src/app/globals.css");
 
@@ -11,12 +11,12 @@ test("app layout uses separated local Mona Sans and Pretendard JP font variables
   assert.match(layout, /const pretendardJPFont = localFont\(/);
   assert.match(layout, /Mona-Sans\.woff2/);
   assert.match(layout, /PretendardJPVariable\.woff2/);
-  assert.match(layout, /monaSansFont\.variable/);
-  assert.match(layout, /pretendardJPFont\.variable/);
-  assert.match(layout, /fontFamily:/);
-  assert.match(layout, /var\(--font-mona-sans\), var\(--font-pretendard-jp\)/);
+  assert.match(layout, /<html[\s\S]*className=\{`\$\{monaSansFont\.variable\} \$\{pretendardJPFont\.variable\}`\}/);
+  assert.match(layout, /<body className="font-sans antialiased">\{children\}<\/body>/);
+  assert.doesNotMatch(layout, /fontFamily:/);
 
   assert.doesNotMatch(globals, /@font-face/);
+  assert.match(globals, /--font-app-sans:/);
   assert.match(globals, /var\(--font-mona-sans\)/);
   assert.match(globals, /var\(--font-pretendard-jp\)/);
 });

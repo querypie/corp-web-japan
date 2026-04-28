@@ -31,14 +31,9 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
-      style={{
-        fontFamily:
-          "var(--font-mona-sans), var(--font-pretendard-jp), 'Hiragino Sans', 'Yu Gothic', 'Meiryo', 'Avenir Next', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
-      }}
+      className={`${monaSansFont.variable} ${pretendardJPFont.variable}`}
     >
-      <body className={`${monaSansFont.variable} ${pretendardJPFont.variable} font-sans antialiased`}>
-        {children}
-      </body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }
