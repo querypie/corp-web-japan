@@ -119,7 +119,7 @@ export async function getBlogPublicationPost(id: string): Promise<PublicationPos
     heroImageSrc: frontmatter.heroImageSrc,
     author: primaryAuthor
       ? {
-          avatarSrc: primaryAuthor.profileImageSrc ?? "/crew/authors/brant.png",
+          avatarSrc: primaryAuthor.profileImageSrc ?? "/crew/brant.png",
           avatarAlt: primaryAuthor.name,
           name: primaryAuthor.name,
           role: primaryAuthor.position ?? "",
