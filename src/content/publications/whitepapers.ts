@@ -20,7 +20,7 @@ export type WhitepaperPublicationRecord = WhitepaperPublicationFrontmatter & {
   sourcePath: string;
 };
 
-const WHITEPAPER_POSTS_ROOT = path.join(process.cwd(), "src/content/whitepaper");
+const WHITEPAPER_POSTS_ROOT = path.join(process.cwd(), "src/content/whitepapers");
 
 function normalizeWhitepaperPublicationFrontmatter(
   value: unknown,

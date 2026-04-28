@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourceListPage } from "@/components/ResourceListPage";
-import { whitepaperItems } from "@/content/publications/whitepaper";
+import { whitepaperItems } from "@/content/publications/whitepapers";
 
 export const metadata: Metadata = {
   title: "ホワイトペーパー | QueryPie AI",

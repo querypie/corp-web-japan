@@ -5,7 +5,7 @@ import {
   listWhitepaperPublicationIds,
   listWhitepaperPublicationParams,
   whitepaperPublicationRecords,
-} from "@/content/publications/whitepaper";
+} from "@/content/publications/whitepapers";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
