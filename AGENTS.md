@@ -36,14 +36,16 @@ At the start of every user turn in this repository:
 
 1. Discover available skills from these sources, in order:
    - Session-provided skill list, if present
-   - `skills/` directory in this repository (`skills/<name>/SKILL.md`)
-   - `$CODEX_HOME/skills/.system/` for built-in system skills
+   - Any repo-local `skills/` directory, if this repository adds one later
+   - Your built-in/system skill directories for the active agent runtime
 2. Build a short in-memory registry with:
    - `name`
    - `description`
    - `path to SKILL.md`
 3. Match the user task against that registry.
 4. Load only the minimum `SKILL.md` and linked files needed.
+
+Current note: this repository does not currently keep its own checked-in `skills/` directory, so agents will usually rely on the session-provided or system skill sets.
 
 ## Trigger rules
 
@@ -103,12 +105,17 @@ At the start of every user turn in this repository:
 - Solutions:
   - AI Crew: `/solutions/ai-crew`
   - AI Dashi: `/solutions/ai-dashi`
-- Demo:
-  - Use cases: `/demo/use-cases`
+- Demo / redirect surfaces:
+  - Use cases redirect: `/demo/use-cases`
 - Resource indexes:
   - Blog index: `/blog`
   - Whitepaper index: `/whitepapers`
-  - Events index: `/events`
+- Resource detail routes:
+  - Blog detail: `/blog/:id/:slug`
+  - Whitepaper detail: `/whitepapers/:id/:slug`
+- Event surfaces:
+  - Event detail: `/events/:id/:slug`
+  - Event index: `/events` only when the page is intentionally unblocked for launch
 
 ### Resource-specific rules
 
@@ -122,11 +129,12 @@ At the start of every user turn in this repository:
 
 ### Posting and article policy
 
-- Do not keep local posting/article detail routes for blog or whitepaper content in this website.
-- Do not introduce or preserve `/posts/...` routes for blog or whitepaper articles in `corp-web-japan`.
-- The default rule for individual blog posts and whitepapers is to link users to the corresponding `querypie.com/ja` page.
-- Event content is allowed to follow either model: link to `querypie.com/ja`, create a local posting in this website, or support both when the content strategy calls for it.
-- When removing a local posting/article route, keep the surrounding index/list experience coherent so users still navigate through the intended local hub.
+- Blog detail pages are currently local canonical routes under `/blog/:id/:slug`.
+- Whitepaper detail pages are currently local canonical routes under `/whitepapers/:id/:slug`.
+- For every public detail route with an `id`, keep the `id` as the lookup key and redirect `/section/:id` or mismatched slugs to the canonical `/section/:id/:slug` route.
+- Do not introduce or preserve generic `/posts/...` routes for blog or whitepaper content in `corp-web-japan`.
+- The only remaining `/posts/...` usage should be explicit legacy event compatibility unless the user requests a broader cleanup.
+- Event content may continue to use local detail routes, upstream links, or both depending on launch readiness.
 
 ### ID-based detail route canonicalization
 
@@ -137,6 +145,27 @@ At the start of every user turn in this repository:
 - If the request includes a slug but it does not match the record's canonical slug, redirect to the canonical `/section/:id/:slug` URL.
 - Support both `/section/:id` and `/section/:id/` as valid entry URLs when the canonical detail route is `/section/:id/:slug`.
 - Only return `notFound()` when the `id` itself does not resolve to a record.
+
+## Missing-path redirect and 404 handling
+
+- Treat `src/app/[...missing]/page.tsx` plus `src/lib/querypie-content-redirect.ts` as the source of truth for unmatched-path behavior.
+- Only redirect missing paths that match the maintained QueryPie allowlist categories: exact validated paths, sitemap-backed file-like paths, or approved content namespaces.
+- Preserve the incoming query string when building an allowed redirect target.
+- Do not add speculative broad redirects for unmatched paths that have not been explicitly validated.
+- If a path is not on the allowlist, keep the local not-found flow and runtime logging intact.
+
+## Publication MDX content rules
+
+Use these rules when editing local blog or whitepaper content.
+
+- Blog source lives under `src/content/blog/*.mdx`.
+- Whitepaper source lives under `src/content/whitepapers/*.mdx`.
+- Keep required frontmatter aligned with the current loaders: `id`, `slug`, `title`, `description`, `date`, `heroImageSrc`, and `relatedIds`.
+- Blog list items are derived from MDX frontmatter through `src/lib/publications/blog-publication-records.ts`.
+- Whitepaper list items are derived from MDX frontmatter through `src/content/publications/whitepapers.ts`.
+- Whitepaper gating uses frontmatter `gated: true` plus the `<GatingCut />` marker instead of wrapper-style gated components.
+- Shared gating helpers live in `src/lib/publications/gating.ts`, and the current internal reference route is `/internal/whitepaper-gating-demo`.
+- Blog and whitepaper detail metadata currently set `robots.index = false` and `robots.follow = false`; keep doc changes aligned with that implementation unless the user explicitly changes the indexing policy.
 
 ## Contact-us redirect query-prefill contract
 
@@ -227,9 +256,11 @@ Expected mapping on the Japan contact form:
 
 - Run the relevant checks before considering the work complete.
 - Use `npm run test:ci` for PR-style verification when applicable.
-- Run `npm run build` when the change affects production rendering or deployment candidates.
+- Run `npm run build` when the change affects production rendering, metadata, routing, or deployment candidates.
 - Check the real browser when layout, spacing, or visual hierarchy changes.
-- When adding a new public page, removing a public page, or changing a public page URI, update the corresponding entry in `src/app/sitemap.ts` in the same change.
+- Prefer CI or hosted preview validation over starting a new local dev server.
+- Do not start `npm run dev` unless the user explicitly requests a local preview or no other practical verification path exists.
+- When adding a new public page, removing a public page, or changing a public page URI, update the corresponding entry in `src/app/sitemap.ts` in the same change unless the route is intentionally non-indexed or launch-gated.
 - When a page change affects the canonical public URL, keep the page metadata and `src/app/sitemap.ts` aligned.
 
 ## Pull request workflow
@@ -248,7 +279,11 @@ Do not ask for step-by-step confirmation unless credentials, permissions, or rep
 
 ## Local preview
 
-After applying any change, start the local development server with `npm run dev` and share the local URL so the user can verify the result immediately.
+Local preview is optional in this repository.
+
+- Do not start `npm run dev` by default.
+- Use CI, preview deployments, static inspection, and targeted checks first.
+- Start a local development server only when the user explicitly asks for it or when a visual/browser-only issue cannot be verified another way.
 
 ## Chikako mode
 
