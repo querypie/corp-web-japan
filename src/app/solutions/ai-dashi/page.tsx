@@ -15,7 +15,7 @@ import {
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
-import { CONTACT_INQUIRY_URL } from "@/lib/contact";
+import { CONTACT_AI_DASHI_PRODUCT_URL, CONTACT_AI_DASHI_URL } from "@/lib/contact";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { ZoomableFigure } from "@/components/sections/zoomable-figure";
 
@@ -199,7 +199,7 @@ export default function AIDashiPage() {
   return (
     <main className="relative overflow-x-hidden bg-[#eceff3] pt-[64px] text-slate-950">
       <SiteHeader />
-      <FloatingConversionCta href={CONTACT_INQUIRY_URL} />
+      <FloatingConversionCta href={CONTACT_AI_DASHI_PRODUCT_URL} />
 
       <section className="relative mx-auto max-w-[1920px] overflow-hidden bg-[#eceff3] px-6 py-14 lg:px-10 lg:py-[84px]">
         <div className="absolute inset-0">
@@ -240,7 +240,7 @@ export default function AIDashiPage() {
             </p>
             <div className="hero-copy-enter hero-copy-enter-2 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
-                href={CONTACT_INQUIRY_URL}
+                href={CONTACT_AI_DASHI_URL}
                 className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] border border-white bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_36px_-24px_rgba(15,23,42,0.42)] transition hover:bg-slate-100"
               >
                 無料で導入相談・お見積り
@@ -388,6 +388,7 @@ export default function AIDashiPage() {
                 alt="AI Dashi の3つの価値を示す図解"
                 caption=""
                 sizes="(min-width: 1024px) 680px, 100vw"
+                modalScale={1.25}
               />
             </RevealOnScroll>
 
@@ -711,7 +712,7 @@ export default function AIDashiPage() {
                 >
                   <div className="relative min-h-[260px] bg-[#f5f7fb] p-6 md:min-h-full">
                     <Image
-                      src="/white-paper/wp-thumb-30-jp.png"
+                    src="/solutions/ai-dashi/the-end-of-saas-or-its-evolution.png"
                       alt="SaaSの終焉か、進化か ホワイトペーパー表紙"
                       fill
                       className="object-contain p-6"
@@ -776,7 +777,7 @@ export default function AIDashiPage() {
 
           <RevealOnScroll variant="up" delayMs={120} className="flex flex-col items-center gap-4">
             <Link
-              href={CONTACT_INQUIRY_URL}
+              href={CONTACT_AI_DASHI_URL}
               className="inline-flex max-w-full items-center justify-center rounded-[8px] bg-[#15181d] px-4 py-2.5 text-center text-sm font-semibold leading-5 text-white transition hover:bg-[#0f1216] sm:whitespace-nowrap sm:text-base"
             >
               無料で導入相談・お見積もりをする

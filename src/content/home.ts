@@ -1,6 +1,6 @@
-import { CONTACT_INQUIRY_URL } from "@/lib/contact";
+import { CONTACT_AI_CREW_URL, DEMO_USE_CASES_URL } from "@/lib/contact";
 
-const demoUseCasesUrl = "https://www.querypie.com/ja/features/demo?category=use-cases";
+const demoUseCasesUrl = DEMO_USE_CASES_URL;
 const aiCrewWhitepaperUrl =
   "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan";
 
@@ -16,7 +16,7 @@ export const homePageContent = {
     subcopy: "利益を生み出す実務特化型AIエージェント",
     body:
       "調査、データ整理、下書きなど、時間のかかる「下準備」をAIに任せて効率化。人員を増やすことなく、企業の生産性・利益率の向上を実現します。",
-    primaryCta: { label: "業務に合うAI活用を相談する", href: CONTACT_INQUIRY_URL },
+    primaryCta: { label: "業務に合うAI活用を相談する", href: CONTACT_AI_CREW_URL },
     secondaryCta: { label: "活用事例を見る", href: demoUseCasesUrl },
     imageSrc: "/solutions/ai-crew/hero-visual.webp",
     imageAlt: "オフィスでAIアシスタント画面を活用しながら業務を進めるチームのイメージ",
@@ -37,7 +37,7 @@ export const homePageContent = {
     cta: "ホワイトペーパーを読む",
     href: aiCrewWhitepaperUrl,
   },
-  floatingCta: { label: "業務に合うAI活用を相談する", href: CONTACT_INQUIRY_URL },
+  floatingCta: { label: "業務に合うAI活用を相談する", href: CONTACT_AI_CREW_URL },
   featureIntro: {
     eyebrow: "AI Crewの考え方",
     title: "AI Agentではなく、AI Crew",
@@ -165,7 +165,7 @@ export const homePageContent = {
     note:
       "他にも、データ分析、開発、製造、審査、見積、SEO分析など、貴社の業務に合わせた活用例をご覧いただけます。",
     primaryCta: { label: "すべての活用事例を見る", href: demoUseCasesUrl },
-    secondaryCta: { label: "業務に合うAI活用を相談する", href: CONTACT_INQUIRY_URL },
+    secondaryCta: { label: "業務に合うAI活用を相談する", href: CONTACT_AI_CREW_URL },
     cards: [
       {
         category: "マーケティング",
@@ -173,7 +173,7 @@ export const homePageContent = {
         body:
           "サイト分析、改善ポイント整理、ダッシュボード化までを短時間で支援。SEOの現状把握と次の打ち手を見えやすくします。",
         videoHref: "https://youtu.be/K-ld_s4Che0",
-        detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/29/seo-analyst",
+        detailHref: "https://www.querypie.com/ja/features/demo/use-cases/29/seo-analyst",
       },
       {
         category: "見積・営業",
@@ -186,14 +186,14 @@ export const homePageContent = {
             body:
               "ローカルファイルやパスワード付きPDFをアップロードせずに分析し、確認や比較の手間を減らします。",
             videoHref: "https://youtu.be/qwvyVcTaDsA",
-            detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/28/quotation-analyze-ai-agent",
+            detailHref: "https://www.querypie.com/ja/features/demo/use-cases/28/quotation-analyze-ai-agent",
           },
           {
             label: "見積書作成",
             body:
               "複雑な価格表や条件をスキル化し、指定フォーマットで正確な見積書を出力します。",
             videoHref: "https://youtu.be/mKZrCQti0Rc",
-            detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/27/quotation-ai-agent",
+            detailHref: "https://www.querypie.com/ja/features/demo/use-cases/27/quotation-ai-agent",
           },
         ],
       },
@@ -203,7 +203,7 @@ export const homePageContent = {
         body:
           "Git、PR、チケット、CI/CD、インシデントを横断し、開発状況とリスクを会話型で可視化。開発チームの意思決定を支援します。",
         videoHref: "https://youtu.be/cWC5lzN1JnE",
-        detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/16/dev-insight-ai-agent",
+        detailHref: "https://www.querypie.com/ja/features/demo/use-cases/16/dev-insight-ai-agent",
       },
       {
         category: "分析・経営",
@@ -211,7 +211,7 @@ export const homePageContent = {
         body:
           "自然言語での質問から、データ抽出、可視化、インサイト整理までを支援。アドホックな分析依頼やレポート作成の負荷を下げます。",
         videoHref: "https://youtu.be/f_yM6dinVU4",
-        detailHref: "https://www.querypie.ai/ja/features/demo/use-cases/7/data-analytics-agent",
+        detailHref: "https://www.querypie.com/ja/features/demo/use-cases/7/data-analytics-agent",
       },
     ],
   },
@@ -248,7 +248,7 @@ export const homePageContent = {
       },
     ],
     note: "",
-    primaryCta: { label: "進め方を相談する", href: CONTACT_INQUIRY_URL },
+    primaryCta: { label: "進め方を相談する", href: CONTACT_AI_CREW_URL },
     secondaryCta: { label: "活用事例を見る", href: demoUseCasesUrl },
   },
   testimonials: {
@@ -324,7 +324,7 @@ export const homePageContent = {
         title: "AI Crew",
         links: [
           { label: "AI Crewとは", href: "#about" },
-          { label: "ユースケース", href: demoUseCasesUrl },
+          { label: "活用事例", href: demoUseCasesUrl },
           { label: "導入効果", href: "#impact" },
         ],
       },
@@ -332,14 +332,14 @@ export const homePageContent = {
         title: "導入検討",
         links: [
           { label: "活用できるユースケースを見る", href: demoUseCasesUrl },
-          { label: "進め方を相談する", href: CONTACT_INQUIRY_URL },
+          { label: "進め方を相談する", href: CONTACT_AI_CREW_URL },
         ],
       },
       {
         title: "参考情報",
         links: [
           { label: "なぜ今なのか", href: "#why" },
-          { label: "お問い合わせ", href: CONTACT_INQUIRY_URL },
+          { label: "お問い合わせ", href: CONTACT_AI_CREW_URL },
         ],
       },
     ],
@@ -353,7 +353,7 @@ export const homePageContent = {
     title: "どの業務から始めるべきか、\nまずは一緒に整理しませんか？",
     body:
       "まだ対象業務が明確でなくても問題ありません。\nQueryPie AIの専門チームが、貴社のボトルネック整理からPoCの進め方までご一緒します。",
-    primaryCta: { label: "業務に合うAI活用を相談する", href: CONTACT_INQUIRY_URL },
+    primaryCta: { label: "業務に合うAI活用を相談する", href: CONTACT_AI_CREW_URL },
     secondaryCta: { label: "活用事例を見る", href: demoUseCasesUrl },
     partnerBadge: "SaaSやWebサービスのAI化を進めたい企業様へ",
     partnerTitle: "貴社のサービスを、最短でAI化しませんか？",

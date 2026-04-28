@@ -321,7 +321,63 @@ export function HomePageSections() {
                 <p className="text-2xl font-semibold tracking-[-0.04em] text-white">After</p>
                 <p className="mt-1 text-sm font-medium tracking-[-0.02em] text-white/65">役割分担が整理され、本来の業務に集中</p>
               </div>
-              <div className="mt-8 flex min-h-[18rem] items-center justify-center">
+              <div className="mt-8 lg:hidden">
+                <div className="rounded-[1.5rem] border border-white/10 bg-white/6 p-4 shadow-[0_20px_44px_-30px_rgba(15,23,42,0.28)]">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="flex h-[120px] w-[120px] flex-col items-center justify-center rounded-full bg-white text-[#2f3a49] shadow-[0_24px_55px_-28px_rgba(15,23,42,0.18)]">
+                      <div className="relative h-[54px] w-[54px] overflow-hidden">
+                        <Image src="/images/icon_main.png" alt="Human decision maker" fill className="object-contain" sizes="54px" />
+                      </div>
+                      <span className="mt-2 text-center text-[11px] font-semibold leading-4 tracking-[-0.01em] text-slate-600">
+                        人による最終判断
+                      </span>
+                    </div>
+
+                    <div className="mt-5 flex max-w-[18rem] flex-wrap justify-center gap-2">
+                      {[
+                        { icon: Search, label: "調査" },
+                        { icon: Layers3, label: "整理" },
+                        { icon: FileSearch, label: "一次ドラフト" },
+                        { icon: ChartColumnIncreasing, label: "分析準備" },
+                        { icon: ShieldCheck, label: "リスク検知" },
+                      ].map(({ icon: Icon, label }) => (
+                        <div
+                          key={label}
+                          className="inline-flex items-center gap-1.5 rounded-full border border-white/14 bg-[#1E293B] px-3 py-2 text-[11px] font-medium text-white shadow-[0_12px_26px_-18px_rgba(15,23,42,0.38)]"
+                        >
+                          <Icon className="h-3.5 w-3.5 shrink-0 text-white/88" />
+                          <span className="whitespace-nowrap">{label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                    <div className="rounded-[1rem] bg-white/12 px-3.5 py-4 shadow-[0_16px_32px_-24px_rgba(15,23,42,0.28)] backdrop-blur-sm">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-white/55">人</p>
+                      <div className="mt-3 grid gap-2">
+                        {["最終判断", "顧客対応", "提案", "企画", "改善"].map((item) => (
+                          <div key={item} className="rounded-[0.9rem] bg-white/10 px-3 py-2 text-[12px] font-medium text-white">
+                            {item}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="rounded-[1rem] bg-white/12 px-3.5 py-4 shadow-[0_16px_32px_-24px_rgba(15,23,42,0.28)] backdrop-blur-sm">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-white/55">AI</p>
+                      <div className="mt-3 grid gap-2">
+                        {["調査", "整理", "一次ドラフト", "分析準備", "リスク検知"].map((item) => (
+                          <div key={item} className="rounded-[0.9rem] bg-white/10 px-3 py-2 text-[12px] font-medium text-white">
+                            {item}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-8 hidden min-h-[18rem] items-center justify-center lg:flex">
                 <div className="relative h-[356px] w-full max-w-[33rem]">
                   {[
                     "left-[62px] top-[30px]",

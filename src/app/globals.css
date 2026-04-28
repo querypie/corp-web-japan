@@ -1,5 +1,5 @@
 @font-face {
-  font-family: "QueryPie Sans";
+  font-family: "QueryPie Mona Sans";
   src: url("../assets/fonts/Mona-Sans.woff2") format("woff2-variations");
   font-display: swap;
   font-style: normal;
@@ -7,7 +7,7 @@
 }
 
 @font-face {
-  font-family: "QueryPie Sans";
+  font-family: "QueryPie Pretendard JP";
   src: url("../assets/fonts/PretendardJPVariable.woff2") format("woff2-variations");
   font-display: swap;
   font-style: normal;
@@ -67,7 +67,8 @@
 :root {
   --radius: 0.625rem;
   --font-app-sans:
-    "QueryPie Sans",
+    "QueryPie Mona Sans",
+    "QueryPie Pretendard JP",
     "Hiragino Sans",
     "Yu Gothic",
     "Meiryo",

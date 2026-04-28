@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { AICrewAvatar } from "@/components/sections/ai-crew-avatar";
-import { CONTACT_INQUIRY_URL } from "@/lib/contact";
+import { CONTACT_AI_CREW_URL, DEMO_USE_CASES_URL } from "@/lib/contact";
 
 type GuideItem = {
   sectionId: string;
@@ -35,14 +35,14 @@ const guideItems: readonly GuideItem[] = [
     role: "業務案内 Crew",
     message: "実際の動きは動画で確認できます。",
     ctaLabel: "すべてのデモを見る",
-    ctaHref: "/demo/use-cases",
+    ctaHref: DEMO_USE_CASES_URL,
   },
   {
     sectionId: "process",
     role: "導入支援 Crew",
     message: "PoCから小さく始められます。",
     ctaLabel: "進め方を相談する",
-    ctaHref: CONTACT_INQUIRY_URL,
+    ctaHref: CONTACT_AI_CREW_URL,
   },
 ] as const;
 

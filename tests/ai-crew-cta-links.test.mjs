@@ -14,7 +14,7 @@ test("AI Crew CTA links match the CTA inventory targets", () => {
 
   assert.match(
     homeContent,
-    /const demoUseCasesUrl = "https:\/\/www\.querypie\.com\/ja\/features\/demo\?category=use-cases"/,
+    /const demoUseCasesUrl = DEMO_USE_CASES_URL;/,
   );
   assert.match(
     homeContent,
@@ -32,5 +32,5 @@ test("AI Crew CTA links match the CTA inventory targets", () => {
 
   assert.match(floatingGuide, /ctaLabel: "活用事例を見る"/);
   assert.match(floatingGuide, /ctaHref: "\/solutions\/ai-crew#roles"/);
-  assert.match(floatingGuide, /ctaHref: "\/demo\/use-cases"/);
+  assert.match(floatingGuide, /ctaHref: DEMO_USE_CASES_URL/);
 });

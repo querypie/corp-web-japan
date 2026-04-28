@@ -1,4 +1,9 @@
-import { CONTACT_INQUIRY_URL } from "@/lib/contact";
+import {
+  AIP_INTRODUCTION_DOWNLOAD_URL,
+  CONTACT_AI_CONSULTING_URL,
+  CONTACT_DEMO_REQUEST_URL,
+  CONTACT_INQUIRY_URL,
+} from "@/lib/contact";
 
 export const topPageContent = {
   metadata: {
@@ -29,7 +34,7 @@ export const topPageContent = {
     body:
       "QueryPie AIは、強固なセキュリティとガバナンスを前提としたエンタープライズAI基盤を提供します。経営層が求める「信頼」と、現場が求める「使いやすさ」を両立し、AI活用をスモールスタートから実運用・定着まで前に進めます。",
     image: {
-      src: "/top-hero.webp",
+      src: "/top-hero.png",
       alt: "QueryPie AIの導入イメージを想起させる、オフィスでAIダッシュボードを活用するチーム",
     },
     proofPills: [
@@ -37,8 +42,8 @@ export const topPageContent = {
       "テスト導入から全社展開へ",
       "組織・役割に応じた権限管理",
     ],
-    primaryCta: { label: "お問い合わせ", href: CONTACT_INQUIRY_URL },
-    secondaryCta: { label: "資料をダウンロード", href: "#download" },
+    primaryCta: { label: "お問い合わせ", href: CONTACT_AI_CONSULTING_URL },
+    secondaryCta: { label: "資料をダウンロード", href: AIP_INTRODUCTION_DOWNLOAD_URL },
   },
   solutionBranch: {
     title: {
@@ -412,9 +417,9 @@ export const topPageContent = {
           "参考サイト",
         ],
         ctaLabel: "無料ダウンロード",
-        href: "https://www.querypie.ai/ja/features/documentation/white-paper/24/ai-tranformation-japan",
+        href: "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan",
         image: {
-          src: "/assets/images/07-blog/wp-thumb-24-jp.png",
+          src: "/assets/image/whitepapers/24/thumbnail.png",
           alt: "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか ホワイトペーパー表紙",
         },
       },
@@ -434,9 +439,9 @@ export const topPageContent = {
           "まとめ",
         ],
         ctaLabel: "無料ダウンロード",
-        href: "https://www.querypie.ai/ja/features/documentation/white-paper/30/saas-end-or-evolution",
+        href: "https://www.querypie.com/ja/features/documentation/white-paper/30/saas-end-or-evolution",
         image: {
-          src: "https://jbxeeb6ybylgemuz.public.blob.vercel-storage.com/main/public/white-paper/wp-thumb-30-jp-SiLvW0Z48GJTxabK8UWUYrpzqinztJ.png",
+          src: "/solutions/ai-dashi/the-end-of-saas-or-its-evolution.png",
           alt: "SaaSの終焉か、進化か ホワイトペーパー表紙",
         },
       },
@@ -450,9 +455,9 @@ export const topPageContent = {
         "どこからAI活用を始めるべきか、何を優先して整えるべきかなど、まずはお気軽にご相談ください。",
     },
     actions: [
-      { label: "デモを依頼", href: CONTACT_INQUIRY_URL },
-      { label: "資料をダウンロード", href: "#download" },
-      { label: "導入について相談する", href: CONTACT_INQUIRY_URL },
+      { label: "デモを依頼", href: CONTACT_DEMO_REQUEST_URL },
+      { label: "資料をダウンロード", href: AIP_INTRODUCTION_DOWNLOAD_URL },
+      { label: "導入について相談する", href: CONTACT_AI_CONSULTING_URL },
     ],
   },
   contact: {

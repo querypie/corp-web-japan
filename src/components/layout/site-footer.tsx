@@ -7,9 +7,9 @@ const footerColumns = [
   {
     title: "サービス",
     links: [
-      { label: "AIプラットフォーム｜AIP", href: "#" },
-      { label: "アクセス制御プラットフォーム｜ACP", href: "#" },
-      { label: "AI専門家伴走支援｜FDE", href: "#" },
+      { label: "AIプラットフォーム｜AIP", href: "/services/aip" },
+      { label: "アクセス制御プラットフォーム｜ACP", href: "/services/acp" },
+      { label: "AI専門家伴走支援｜FDE", href: "/services/fde" },
     ],
   },
   {
@@ -22,28 +22,28 @@ const footerColumns = [
   {
     title: "デモ",
     links: [
-      { label: "活用事例", href: "#" },
-      { label: "AIP 機能", href: "#" },
-      { label: "ACP 機能", href: "#" },
+      { label: "活用事例", href: "/demo/use-cases" },
+      { label: "AIP 機能", href: "/demo/aip" },
+      { label: "ACP 機能", href: "/demo/acp" },
     ],
   },
   {
     title: "リソース",
     links: [
-      { label: "紹介資料", href: "#" },
-      { label: "用語集", href: "#" },
-      { label: "マニュアル", href: "#" },
-      { label: "ホワイトペーパー", href: "/whitepaper" },
+      { label: "全て", href: "/resources" },
+      { label: "紹介資料", href: "/introduction-deck" },
+      { label: "用語集", href: "/glossary" },
+      { label: "マニュアル", href: "/manuals" },
+      { label: "ホワイトペーパー", href: "/whitepapers" },
       { label: "ブログ", href: "/blog" },
-      { label: "イベント", href: "/events" },
     ],
   },
   {
     title: "会社情報",
     links: [
-      { label: "会社概要", href: "#" },
-      { label: "認定・認証", href: "#" },
-      { label: "ニュース", href: "#" },
+      { label: "私たちについて", href: "/about-us" },
+      { label: "認証情報", href: "/certifications" },
+      { label: "ニュース", href: "/news" },
       { label: "お問い合わせ", href: CONTACT_INQUIRY_URL },
     ],
   },
@@ -78,18 +78,17 @@ const socialLinks = [
 ] as const;
 
 const legalLinks = [
-  { label: "Cookie設定", href: "#" },
-  { label: "利用規約", href: "#" },
-  { label: "プライバシーポリシー", href: "#" },
-  { label: "EULA", href: "#" },
+  { label: "Cookie設定", href: "/cookie-preference" },
+  { label: "利用規約", href: "/terms-of-service" },
+  { label: "プライバシーポリシー", href: "/privacy-policy" },
+  { label: "EULA", href: "/eula" },
 ] as const;
 
 const addresses = [
-  "© 2017-2025 QueryPie, Inc. All rights reserved.",
-  "本社: 3003 North 1st Street, Suite 221, San Jose, CA 95134",
-  "ソウル麻谷: ソウル特別市江西区麻谷中央1路26 7F",
-  "ソウル江南: ソウル特別市江南区江南大路464 3F",
-  "日本: 〒105-6490 東京都港区虎ノ門1丁目17-1 15F",
+  "© 2026 QueryPie AI All rights reserved.",
+  "本社: 2525 West 8th Street, Suite 300, Los Angeles, CA 90057",
+  "R&D: ソウル特別市江西区麻谷中央1路26 7F",
+  "日本: 〒105-6490 東京都港区虎ノ門1丁目17-1 虎ノ門ヒルズ ビジネスタワー15F",
 ] as const;
 
 export function SiteFooter() {

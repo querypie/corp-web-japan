@@ -34,10 +34,11 @@ test("the shared inquiry URL points to the official QueryPie contact form", () =
   );
 });
 
-test("the local /contact-us route permanently redirects to the official QueryPie contact form", () => {
-  const source = readFileSync(new URL("../src/app/contact-us/page.tsx", import.meta.url), "utf8");
+test("the local /contact-us route redirects to the official QueryPie contact form while preserving search params", () => {
+  const source = readFileSync(new URL("../src/app/contact-us/route.ts", import.meta.url), "utf8");
 
-  assert.match(source, /permanentRedirect/);
+  assert.match(source, /NextResponse\.redirect/);
   assert.match(source, /CONTACT_REDIRECT_TARGET/);
-  assert.match(source, /ContactUsPage/);
+  assert.match(source, /request\.nextUrl\.search/);
+  assert.match(source, /307/);
 });

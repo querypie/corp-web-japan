@@ -18,6 +18,7 @@ test("AI Dashi CTA links match the CTA inventory targets", () => {
     source,
     /https:\/\/www\.querypie\.ai\/ja\/features\/documentation\/white-paper\/30\/saas-end-or-evolution/,
   );
-  assert.match(source, /href=\{CONTACT_INQUIRY_URL\}/);
+  assert.match(source, /href=\{CONTACT_AI_DASHI_URL\}/);
+  assert.match(source, /FloatingConversionCta href=\{CONTACT_AI_DASHI_PRODUCT_URL\}/);
   assert.match(source, /href=\{AI_DASHI_WHITEPAPER_URL\}/);
 });
