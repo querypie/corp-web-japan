@@ -1,102 +1,30 @@
 import * as fs from "node:fs";
-import * as path from "node:path";
-import { parse as parseYaml } from "yaml";
 import { getDisplayableArticleAuthors, resolveArticleAuthors } from "@/lib/authors/resolve-authors";
 import { buildRelatedPublications } from "@/lib/publications/build-related-publications";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
 import type { PublicationPost } from "@/lib/publications/types";
+import type { BlogPostFrontmatter, BlogPostRecord } from "@/lib/publications/blog-publication-records";
+import { getBlogPublicationRecord } from "@/lib/publications/blog-publication-records";
+export {
+  getBlogPublicationRecord,
+  listBlogPublicationIds,
+  listBlogPublicationParams,
+} from "@/lib/publications/blog-publication-records";
 
-type BlogPostFrontmatter = {
-  id: string;
-  slug: string;
-  title: string;
-  description: string;
-  date: string;
-  heroImageSrc: string;
-  author?: string | string[];
-  relatedIds: readonly string[];
-};
-
-type BlogPostRecord = BlogPostFrontmatter & {
-  sourcePath: string;
-};
-
-const BLOG_POSTS_ROOT = path.join(process.cwd(), "src/content/blog");
-
-function normalizeBlogPostFrontmatter(value: unknown, sourcePath: string): BlogPostFrontmatter {
-  if (!value || typeof value !== "object") {
-    throw new Error(`Missing blog post frontmatter in ${sourcePath}`);
-  }
-
-  const frontmatter = value as Record<string, unknown>;
-  const relatedIdsValue = frontmatter.relatedIds;
-  const relatedIds = Array.isArray(relatedIdsValue)
-    ? relatedIdsValue.map((item) => String(item))
-    : [];
-  const authorValue = frontmatter.author;
-
-  return {
-    id: String(frontmatter.id ?? ""),
-    slug: String(frontmatter.slug ?? ""),
-    title: String(frontmatter.title ?? ""),
-    description: String(frontmatter.description ?? ""),
-    date: String(frontmatter.date ?? ""),
-    heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
-    author:
-      typeof authorValue === "string"
-        ? authorValue
-        : Array.isArray(authorValue)
-          ? authorValue.map((item) => String(item))
-          : undefined,
-    relatedIds,
-  };
-}
-
-function parseBlogPostFrontmatter(source: string, sourcePath: string): BlogPostFrontmatter {
-  const match = source.match(/^---\n([\s\S]*?)\n---\n?/);
-  if (!match) {
-    throw new Error(`Missing frontmatter block in ${sourcePath}`);
-  }
-
-  return normalizeBlogPostFrontmatter(parseYaml(match[1]), sourcePath);
-}
-
-function loadBlogPostRecords(): BlogPostRecord[] {
-  return fs
-    .readdirSync(BLOG_POSTS_ROOT)
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => {
-      const sourcePath = path.join(BLOG_POSTS_ROOT, file);
-      const source = fs.readFileSync(sourcePath, "utf8");
-      const frontmatter = parseBlogPostFrontmatter(source, sourcePath);
-
-      return {
-        ...frontmatter,
-        sourcePath,
-      };
-    })
-    .sort((left, right) => Number(right.id) - Number(left.id));
-}
-
-const blogPostRecords = loadBlogPostRecords();
-const blogPostById = new Map<string, BlogPostRecord>(blogPostRecords.map((post) => [post.id, post]));
+const blogPostBodySourceCache = new Map<string, string>();
 
 function readBlogPostBodySource(post: BlogPostRecord) {
-  return fs.readFileSync(post.sourcePath, "utf8");
-}
+  const cachedSource = blogPostBodySourceCache.get(post.sourcePath);
 
-export function listBlogPublicationParams() {
-  return blogPostRecords.map(({ id, slug }) => ({ id, slug }));
-}
+  if (cachedSource) {
+    return cachedSource;
+  }
 
-export function listBlogPublicationIds() {
-  return blogPostRecords.map(({ id }) => ({ id }));
-}
-
-export function getBlogPublicationRecord(id: string) {
-  return blogPostById.get(id) ?? null;
+  const source = fs.readFileSync(post.sourcePath, "utf8");
+  blogPostBodySourceCache.set(post.sourcePath, source);
+  return source;
 }
 
 export async function getBlogPublicationPost(id: string): Promise<PublicationPost | null> {
