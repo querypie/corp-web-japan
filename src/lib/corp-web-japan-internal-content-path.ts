@@ -9,6 +9,9 @@ const localContentPaths = new Set([
 ]);
 
 const localEventPaths = new Set(eventItems.map((item) => item.href));
+const blogDetailPathPattern = /^\/blog\/\d+\/[^/]+$/;
+const eventDetailPathPattern = /^\/events\/\d+\/[^/]+$/;
+const legacyBlogDetailPathPattern = /^\/features\/documentation\/blog\/\d+\/[^/]+$/;
 
 function normalizePathname(pathname: string) {
   if (!pathname.startsWith("/")) {
@@ -26,6 +29,18 @@ export function isCorpWebJapanInternalContentPath(pathname: string) {
   }
 
   if (localEventPaths.has(normalizedPathname)) {
+    return true;
+  }
+
+  if (blogDetailPathPattern.test(normalizedPathname)) {
+    return true;
+  }
+
+  if (eventDetailPathPattern.test(normalizedPathname)) {
+    return true;
+  }
+
+  if (legacyBlogDetailPathPattern.test(normalizedPathname)) {
     return true;
   }
 

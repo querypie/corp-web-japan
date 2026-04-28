@@ -11,7 +11,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   const aiCrewFloatingGuide = readSource("src/components/sections/ai-crew-floating-guide.tsx");
   const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
-  const resourcePostPage = readSource("src/components/sections/resource-post-page.tsx");
+  const resourcePostPage = readSource("src/components/PublicationPostPage.tsx");
   const contactUsRoute = readSource("src/app/contact-us/route.ts");
 
   assert.match(homeContent, /export const aiCrewConsultUrl = "\/contact-us\?inquiry=ai-consulting&product=ai-crew"/);
@@ -40,7 +40,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(aiDashiPage, /<FloatingConversionCta href={aiDashiFloatingUrl} \/>/);
   assert.match(aiDashiPage, /href={aiDashiConsultUrl}/);
   assert.match(aiDashiFaq, /href={aiDashiConsultUrl}/);
-  assert.match(resourcePostPage, /href={resourcePostContactUrl}/);
+  assert.match(resourcePostPage, /href={publicationPostContactUrl}/);
   assert.match(contactUsRoute, /const contactUsUrl = new URL\("https:\/\/www\.querypie\.com\/ja\/company\/contact-us"\)/);
   assert.match(contactUsRoute, /redirectedUrl\.search = request\.nextUrl\.search;/);
   assert.match(contactUsRoute, /NextResponse\.redirect\(redirectedUrl, 307\)/);
@@ -74,5 +74,6 @@ test("robots and sitemap metadata files exist and cover the core public routes",
   assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-dashi"\)/);
   assert.match(sitemap, /absoluteUrl\("\/blog"\)/);
   assert.match(sitemap, /absoluteUrl\("\/whitepapers"\)/);
-  assert.match(sitemap, /listResourcePostParams\(\)/);
+  assert.match(sitemap, /eventPostRecords/);
+  assert.match(sitemap, /getEventPostHref/);
 });
