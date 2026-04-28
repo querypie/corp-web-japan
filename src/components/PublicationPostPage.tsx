@@ -16,7 +16,7 @@ const shareIcons = [Facebook, Twitter, Linkedin, Link2] as const;
 
 const publicationBodyClassName = [
   "text-base leading-6 text-slate-500",
-  "[&_a]:font-inherit [&_a]:text-slate-950 [&_a]:no-underline hover:[&_a]:text-slate-950 hover:[&_a]:underline hover:[&_a]:decoration-[1px] hover:[&_a]:underline-offset-[3px] focus-visible:[&_a]:underline focus-visible:[&_a]:decoration-[1px] focus-visible:[&_a]:underline-offset-[3px]",
+  "[&_a]:font-inherit [&_a]:text-slate-950 [&_a]:no-underline [&_a:hover]:text-slate-950 [&_a:hover]:underline [&_a:hover]:decoration-[1px] [&_a:hover]:underline-offset-[3px] [&_a:focus-visible]:underline [&_a:focus-visible]:decoration-[1px] [&_a:focus-visible]:underline-offset-[3px]",
   "[&_h1]:mt-12 [&_h1]:text-[22px] [&_h1]:font-semibold [&_h1]:leading-[1.4] [&_h1]:tracking-[-0.01em] [&_h1]:text-slate-950",
   "[&_h2]:mt-10 [&_h2]:text-[22px] [&_h2]:font-normal [&_h2]:leading-[1.455] [&_h2]:text-slate-950",
   "[&_h3]:mt-8 [&_h3]:text-[17px] [&_h3]:font-medium [&_h3]:leading-[1.4] [&_h3]:text-slate-950",

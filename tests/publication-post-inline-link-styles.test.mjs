@@ -8,13 +8,15 @@ test("publication post body uses production-style inline link defaults", () => {
   assert.match(source, /\[&_a\]:font-inherit/);
   assert.match(source, /\[&_a\]:text-slate-950/);
   assert.match(source, /\[&_a\]:no-underline/);
-  assert.match(source, /hover:\[&_a\]:text-slate-950/);
-  assert.match(source, /hover:\[&_a\]:underline/);
-  assert.match(source, /hover:\[&_a\]:decoration-\[1px\]/);
-  assert.match(source, /hover:\[&_a\]:underline-offset-\[3px\]/);
-  assert.match(source, /focus-visible:\[&_a\]:underline/);
-  assert.match(source, /focus-visible:\[&_a\]:decoration-\[1px\]/);
-  assert.match(source, /focus-visible:\[&_a\]:underline-offset-\[3px\]/);
+  assert.match(source, /\[&_a:hover\]:text-slate-950/);
+  assert.match(source, /\[&_a:hover\]:underline/);
+  assert.match(source, /\[&_a:hover\]:decoration-\[1px\]/);
+  assert.match(source, /\[&_a:hover\]:underline-offset-\[3px\]/);
+  assert.match(source, /\[&_a:focus-visible\]:underline/);
+  assert.match(source, /\[&_a:focus-visible\]:decoration-\[1px\]/);
+  assert.match(source, /\[&_a:focus-visible\]:underline-offset-\[3px\]/);
+  assert.doesNotMatch(source, /hover:\[&_a\]:underline/);
+  assert.doesNotMatch(source, /focus-visible:\[&_a\]:underline/);
   assert.doesNotMatch(source, /\[&_a\]:text-\[#2563EB\]/);
 });
 
