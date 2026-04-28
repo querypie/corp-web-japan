@@ -5,9 +5,9 @@ import { ContactUsForm } from "@/components/sections/contact-us-form";
 import { getPrefilledContactUsFormState } from "@/lib/contact-us";
 
 export const metadata: Metadata = {
-  title: "Contact Us | QueryPie AI Japan",
+  title: "お問い合わせ | QueryPie AI",
   description:
-    "Local contact-us form route for QueryPie AI Japan, currently served under /t/contact-us while the public /contact-us endpoint remains a redirect.",
+    "QueryPie AI の製品導入相談、デモ依頼、資料ダウンロード、技術的なご質問を受け付けるお問い合わせフォームです。",
   robots: {
     index: false,
     follow: false,

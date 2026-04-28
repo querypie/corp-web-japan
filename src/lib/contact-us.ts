@@ -17,6 +17,8 @@ export type ContactUsFormState = {
   marketing: boolean;
 };
 
+export type ContactUsFormErrors = Partial<Record<keyof ContactUsFormState, string>>;
+
 export const inquiryOptions: ContactUsOption[] = [
   { key: "ai-consulting", label: "AI導入・活用について相談" },
   { key: "download", label: "資料ダウンロード" },
@@ -55,6 +57,66 @@ export const defaultContactUsFormState: ContactUsFormState = {
   timeline: "",
   message: "",
   marketing: false,
+};
+
+const freeEmailDomains = new Set([
+  "gmail.com",
+  "gmail.co.jp",
+  "gmail.co.kr",
+  "googlemail.com",
+  "yahoo.com",
+  "yahoo.co.jp",
+  "yahoo.co.kr",
+  "hotmail.com",
+  "hotmail.co.jp",
+  "hotmail.co.kr",
+  "outlook.com",
+  "outlook.jp",
+  "live.com",
+  "msn.com",
+  "icloud.com",
+  "me.com",
+  "mac.com",
+  "aol.com",
+  "proton.me",
+  "protonmail.com",
+  "pm.me",
+  "zoho.com",
+  "gmx.com",
+  "mail.com",
+  "naver.com",
+  "daum.net",
+  "kakao.com",
+  "nate.com",
+  "qq.com",
+  "163.com",
+  "126.com",
+]);
+
+const blockedDomainsRegex = /^(sample\..*|example\..*)$/i;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const isEducationalDomain = (domain: string) =>
+  domain.endsWith(".edu") || /\.edu\.[a-z]{2,}$/i.test(domain) || /\.ac\.[a-z]{2,}$/i.test(domain);
+
+export const isBusinessEmail = (email: string) => {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  if (!emailRegex.test(normalizedEmail)) {
+    return false;
+  }
+
+  const [, domain = ""] = normalizedEmail.split("@");
+
+  if (!domain) {
+    return false;
+  }
+
+  if (isEducationalDomain(domain)) {
+    return true;
+  }
+
+  return !freeEmailDomains.has(domain) && !blockedDomainsRegex.test(domain);
 };
 
 export const getPrefilledContactUsFormState = (
@@ -117,24 +179,51 @@ export const buildContactUsSalesforceBody = (
   };
 };
 
-export const isContactUsFormValid = (form: ContactUsFormState) => {
-  const requiredTextFields = [
-    form.lastName,
-    form.firstName,
-    form.email,
-    form.company,
-    form.title,
-    form.message,
-  ];
+export const getContactUsFormErrors = (form: ContactUsFormState): ContactUsFormErrors => {
+  const errors: ContactUsFormErrors = {};
 
-  const hasRequiredTextFields = requiredTextFields.every((value) => value.trim().length > 0);
-  const hasValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim());
+  if (!form.lastName.trim()) {
+    errors.lastName = "姓を入力してください。";
+  }
 
-  return (
-    hasRequiredTextFields &&
-    hasValidEmail &&
-    form.inquiry.length > 0 &&
-    form.products.length > 0 &&
-    form.timeline.length > 0
-  );
+  if (!form.firstName.trim()) {
+    errors.firstName = "名を入力してください。";
+  }
+
+  if (!form.email.trim()) {
+    errors.email = "ビジネス用メールアドレスを入力してください。";
+  } else if (!emailRegex.test(form.email.trim())) {
+    errors.email = "有効なメールアドレスを入力してください。";
+  } else if (!isBusinessEmail(form.email)) {
+    errors.email = "会社または教育機関のメールアドレスを入力してください。";
+  }
+
+  if (!form.company.trim()) {
+    errors.company = "会社名を入力してください。";
+  }
+
+  if (!form.title.trim()) {
+    errors.title = "部署／役職を入力してください。";
+  }
+
+  if (!form.inquiry) {
+    errors.inquiry = "お問い合わせの種類を選択してください。";
+  }
+
+  if (form.products.length === 0) {
+    errors.products = "関心のある製品・サービスを1つ以上選択してください。";
+  }
+
+  if (!form.timeline) {
+    errors.timeline = "導入予定時期を選択してください。";
+  }
+
+  if (!form.message.trim()) {
+    errors.message = "ご相談内容を入力してください。";
+  }
+
+  return errors;
 };
+
+export const isContactUsFormValid = (form: ContactUsFormState) =>
+  Object.keys(getContactUsFormErrors(form)).length === 0;

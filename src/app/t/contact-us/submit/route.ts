@@ -19,18 +19,18 @@ export async function POST(request: Request) {
   try {
     payload = (await request.json()) as SubmitPayload;
   } catch {
-    return errorResponse("Invalid request body.", 400);
+    return errorResponse("リクエストデータを読み取れませんでした。", 400);
   }
 
   if (!payload?.form || !isContactUsFormValid(payload.form)) {
-    return errorResponse("Required fields are missing or invalid.", 400);
+    return errorResponse("入力内容に不足または誤りがあります。", 400);
   }
 
   const endpoint = process.env.SALESFORCE_ENDPOINT;
 
   if (!endpoint) {
     return errorResponse(
-      "The contact-us submission endpoint is not configured in the current environment yet.",
+      "現在この環境ではお問い合わせ送信が有効化されていません。設定完了後にご利用いただけます。",
       503,
     );
   }
@@ -55,11 +55,11 @@ export async function POST(request: Request) {
       | null;
 
     if (!response.ok || !json?.recordUUID) {
-      return errorResponse("Failed to submit the contact-us form to the upstream endpoint.", 502);
+      return errorResponse("お問い合わせの送信に失敗しました。しばらくしてから再度お試しください。", 502);
     }
 
     return NextResponse.json({ success: true });
   } catch {
-    return errorResponse("Unexpected error occurred while submitting the contact-us form.", 502);
+    return errorResponse("送信中にエラーが発生しました。しばらくしてから再度お試しください。", 502);
   }
 }
