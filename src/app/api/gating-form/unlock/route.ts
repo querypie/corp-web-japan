@@ -12,8 +12,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, error: "Missing contentKey" }, { status: 400 });
   }
 
-  const hostname =
-    request.headers.get("x-forwarded-host") ?? request.headers.get("host") ?? request.headers.get("origin") ?? "";
   const response = NextResponse.json({ success: true, mode: "dummy" });
 
   response.cookies.set({
@@ -23,7 +21,7 @@ export async function POST(request: Request) {
     sameSite: "lax",
     secure: request.url.startsWith("https://"),
     path: "/",
-    maxAge: getGatingCookieMaxAgeSeconds(hostname),
+    maxAge: getGatingCookieMaxAgeSeconds(),
   });
 
   return response;

@@ -17,12 +17,16 @@ test("whitepaper publication loader carries a dedicated gated MDX contract", () 
   const loader = readSource("src/lib/publications/get-whitepaper-publication-post.ts");
   const publicationTypes = readSource("src/lib/publications/types.ts");
   const publicationPage = readSource("src/components/PublicationPostPage.tsx");
+  const gatingHelper = readSource("src/lib/publications/gating.ts");
 
   assert.match(loader, /gatedBodyMdx/);
   assert.match(loader, /contentKey/);
   assert.match(publicationTypes, /gatedBodyMdx: ReactNode \| null;/);
   assert.match(publicationTypes, /gating: PublicationPostGating \| null;/);
   assert.match(publicationPage, /post\.gating \? \(/);
+  assert.match(gatingHelper, /import isProduction from "@\/lib\/is-production"/);
+  assert.match(gatingHelper, /PRODUCTION_GATING_MAX_AGE_SECONDS/);
+  assert.match(gatingHelper, /NON_PRODUCTION_GATING_MAX_AGE_SECONDS/);
 });
 
 test("internal gating demo page exists as an MDX-backed route under \/internal", () => {

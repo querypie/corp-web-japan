@@ -1,6 +1,8 @@
+import isProduction from "@/lib/is-production";
+
 export const GATING_CUT_MARKER = "<GatingCut />";
-const STAGE_GATING_MAX_AGE_SECONDS = 60 * 5;
-const DEFAULT_GATING_MAX_AGE_SECONDS = 60 * 60 * 48;
+const NON_PRODUCTION_GATING_MAX_AGE_SECONDS = 60 * 5;
+const PRODUCTION_GATING_MAX_AGE_SECONDS = 60 * 60 * 48;
 
 function normalizeCookieSegment(value: string) {
   return value
@@ -18,10 +20,10 @@ export function buildGatingCookieName(contentKey: string) {
   return `qp-gated-${normalizeCookieSegment(contentKey)}`;
 }
 
-export function getGatingCookieMaxAgeSeconds(hostname: string) {
-  return hostname.startsWith("stage.")
-    ? STAGE_GATING_MAX_AGE_SECONDS
-    : DEFAULT_GATING_MAX_AGE_SECONDS;
+export function getGatingCookieMaxAgeSeconds() {
+  return isProduction()
+    ? PRODUCTION_GATING_MAX_AGE_SECONDS
+    : NON_PRODUCTION_GATING_MAX_AGE_SECONDS;
 }
 
 export function splitMdxSourceAtGatingCut(source: string) {
