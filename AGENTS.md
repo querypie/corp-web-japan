@@ -12,6 +12,7 @@ These principles apply to both humans and AI agents.
 - Keep docs, implementation, and tests aligned.
 - Verify changes with the lightest command that proves correctness.
 - If something is ambiguous, choose the smallest change that satisfies the request.
+- Write repository-internal documentation, guidance, comments, PR titles, and PR descriptions in English so they are readable for collaborators who work in English or Japanese.
 
 ## Project stack
 
@@ -126,6 +127,16 @@ At the start of every user turn in this repository:
 - The default rule for individual blog posts and whitepapers is to link users to the corresponding `querypie.com/ja` page.
 - Event content is allowed to follow either model: link to `querypie.com/ja`, create a local posting in this website, or support both when the content strategy calls for it.
 - When removing a local posting/article route, keep the surrounding index/list experience coherent so users still navigate through the intended local hub.
+
+### ID-based detail route canonicalization
+
+- Apply this rule to every public detail route that includes an `id` path segment.
+- Use the `id` as the lookup key for the content record. Do not require the trailing slug to match in order to load the document.
+- Treat the trailing slug as a canonical display segment, not as part of the primary lookup key.
+- If the request is missing the slug and the route shape allows `/section/:id`, redirect to the canonical `/section/:id/:slug` URL.
+- If the request includes a slug but it does not match the record's canonical slug, redirect to the canonical `/section/:id/:slug` URL.
+- Support both `/section/:id` and `/section/:id/` as valid entry URLs when the canonical detail route is `/section/:id/:slug`.
+- Only return `notFound()` when the `id` itself does not resolve to a record.
 
 ## Contact-us redirect query-prefill contract
 

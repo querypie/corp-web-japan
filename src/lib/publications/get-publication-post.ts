@@ -91,13 +91,17 @@ export function listBlogPublicationParams() {
   return blogPostRecords.map(({ id, slug }) => ({ id, slug }));
 }
 
+export function listBlogPublicationIds() {
+  return blogPostRecords.map(({ id }) => ({ id }));
+}
+
 export function getBlogPublicationRecord(id: string) {
   return blogPostById.get(id) ?? null;
 }
 
-export async function getBlogPublicationPost(id: string, slug: string): Promise<PublicationPost | null> {
+export async function getBlogPublicationPost(id: string): Promise<PublicationPost | null> {
   const post = getBlogPublicationRecord(id);
-  if (!post || post.slug !== slug) {
+  if (!post) {
     return null;
   }
 
