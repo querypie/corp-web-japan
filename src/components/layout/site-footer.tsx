@@ -40,8 +40,8 @@ const footerColumns = [
   {
     title: "会社情報",
     links: [
-      { label: "会社概要", href: "/about-us" },
-      { label: "認定・認証", href: "/certifications" },
+      { label: "私たちについて", href: "/about-us" },
+      { label: "認証情報", href: "/certifications" },
       { label: "ニュース", href: "/news" },
       { label: "お問い合わせ", href: "/contact-us" },
     ],
@@ -86,7 +86,7 @@ const legalLinks = [
 const addresses = [
   "© 2026 QueryPie AI All rights reserved.",
   "本社: 2525 West 8th Street, Suite 300, Los Angeles, CA 90057",
-  "R&D : ソウル特別市江西区麻谷中央1路26 7F",
+  "R&D: ソウル特別市江西区麻谷中央1路26 7F",
   "日本: 〒105-6490 東京都港区虎ノ門1丁目17-1 虎ノ門ヒルズ ビジネスタワー15F",
 ] as const;
 
