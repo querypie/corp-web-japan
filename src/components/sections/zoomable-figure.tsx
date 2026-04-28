@@ -10,6 +10,9 @@ type ZoomableFigureProps = {
   caption?: string;
   sizes?: string;
   modalScale?: number;
+  modalSrc?: string;
+  modalImageWidth?: number;
+  modalImageHeight?: number;
 };
 
 export function ZoomableFigure({
@@ -18,6 +21,9 @@ export function ZoomableFigure({
   caption = "クリックで拡大表示",
   sizes = "(min-width: 1024px) 720px, 100vw",
   modalScale = 1,
+  modalSrc,
+  modalImageWidth = 1600,
+  modalImageHeight = 1200,
 }: ZoomableFigureProps) {
   const [open, setOpen] = useState(false);
   const modalMaxWidth = Math.round(1120 * modalScale);
@@ -78,10 +84,12 @@ export function ZoomableFigure({
               }}
             >
               <div className="flex h-full w-full items-center justify-center">
-                <img
-                  src={src}
+                <Image
+                  src={modalSrc ?? src}
                   alt={alt}
-                  className="block h-auto w-auto max-w-full max-h-full"
+                  width={modalImageWidth}
+                  height={modalImageHeight}
+                  className="block h-auto w-auto max-w-full max-h-full object-contain"
                   style={{
                     maxWidth: `min(94vw, ${modalMaxWidth}px)`,
                     maxHeight: `min(88vh, ${modalMaxHeight}px)`,
