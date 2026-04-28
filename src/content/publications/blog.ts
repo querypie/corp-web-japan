@@ -1,3 +1,3 @@
-import { listBlogPublicationItems } from "@/lib/publications/get-publication-post";
+import { listBlogPublicationItems } from "@/lib/publications/blog-publication-records";
 
 export const blogItems = listBlogPublicationItems();

@@ -1,22 +1,21 @@
-import { blogItems } from "@/content/publications/blog";
+import { listBlogPublicationItems } from "@/lib/publications/blog-publication-records";
 import type { PublicationPostSummary } from "@/lib/publications/types";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
-
-type BlogCardItem = (typeof blogItems)[number];
 
 type RelatedPublicationSource = {
   id: string;
   relatedIds: readonly string[];
 };
 
-const blogItemById = new Map<string, BlogCardItem>();
+const blogItems = listBlogPublicationItems();
+const blogItemById = new Map<string, (typeof blogItems)[number]>();
 for (const item of blogItems) {
   const match = item.href.match(/\/blog\/(\d+)\/([^/]+)$/);
   if (!match) continue;
   blogItemById.set(match[1], item);
 }
 
-function getBlogCardRoute(item: BlogCardItem) {
+function getBlogCardRoute(item: (typeof blogItems)[number]) {
   const match = item.href.match(/\/blog\/(\d+)\/([^/]+)$/);
   if (!match) return item.href;
   return getPublicationHref("blog", match[1], match[2]);
@@ -42,10 +41,7 @@ export function buildRelatedPublications(post: RelatedPublicationSource): Public
   }
 
   return blogItems
-    .filter((item) => {
-      const match = item.href.match(/\/blog\/(\d+)\/([^/]+)$/);
-      return match?.[1] !== post.id;
-    })
+    .filter((item) => post.id !== item.href.match(/\/blog\/(\d+)\/([^/]+)$/)?.[1])
     .slice(0, 3)
     .map((item) => ({
       href: getBlogCardRoute(item),

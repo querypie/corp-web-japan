@@ -10,7 +10,7 @@ test("blog index page reads blog list items from a server loader instead of a st
 });
 
 test("blog publication list source is generated from local MDX content instead of a handwritten array", () => {
-  const source = readSource("src/lib/publications/get-publication-post.ts");
+  const source = readSource("src/lib/publications/blog-publication-records.ts");
   const legacySource = readSource("src/content/publications/blog.ts");
 
   assert.match(source, /export function listBlogPublicationItems\(/);

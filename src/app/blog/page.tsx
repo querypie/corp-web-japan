@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourceListPage } from "@/components/ResourceListPage";
-import { listBlogPublicationItems } from "@/lib/publications/get-publication-post";
+import { listBlogPublicationItems } from "@/lib/publications/blog-publication-records";
 
 export const metadata: Metadata = {
   title: "ブログ | QueryPie AI",
