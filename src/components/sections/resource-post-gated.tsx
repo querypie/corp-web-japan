@@ -6,18 +6,67 @@ import {
   ResourceLeadForm,
   type ResourceLeadFormState,
 } from "@/components/sections/resource-lead-form";
+import {
+  defaultGatingFormState,
+  isGatingFormValid,
+} from "@/lib/gating-form";
 
-const initialFormState: ResourceLeadFormState = {
-  lastName: "",
-  firstName: "",
-  email: "",
-  company: "",
-  jobTitle: "",
-  phone: "",
-  inquiry: "",
-  timeline: "",
-  products: [],
-  marketing: false,
+const UTM_ATTRIBUTION_COOKIE_KEY = "utm-attribution";
+
+type UtmTouch = {
+  source?: string;
+  medium?: string;
+  campaign?: string;
+  term?: string;
+  content?: string;
+  landing: string;
+  ts: string;
+};
+
+type UtmAttribution = {
+  first: UtmTouch;
+  recent: UtmTouch[];
+};
+
+const buildUtmAttribution = (): string | undefined => {
+  if (typeof window === "undefined") {
+    return undefined;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const hasUtm = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"].some(
+    (key) => params.get(key),
+  );
+
+  if (hasUtm) {
+    const touch: UtmTouch = {
+      landing: `${window.location.pathname}${window.location.search}`,
+      ts: new Date().toISOString(),
+    };
+
+    const source = params.get("utm_source");
+    const medium = params.get("utm_medium");
+    const campaign = params.get("utm_campaign");
+    const term = params.get("utm_term");
+    const content = params.get("utm_content");
+
+    if (source) touch.source = source;
+    if (medium) touch.medium = medium;
+    if (campaign) touch.campaign = campaign;
+    if (term) touch.term = term;
+    if (content) touch.content = content;
+
+    return encodeURIComponent(JSON.stringify({ first: touch, recent: [touch] } satisfies UtmAttribution));
+  }
+
+  const encodedCookie = document.cookie
+    .split("; ")
+    .find((entry) => entry.startsWith(`${UTM_ATTRIBUTION_COOKIE_KEY}=`))
+    ?.split("=")
+    .slice(1)
+    .join("=");
+
+  return encodedCookie || undefined;
 };
 
 type ResourcePostGatedProps = {
@@ -34,18 +83,9 @@ export function ResourcePostGated({
   const [unlocked, setUnlocked] = useState(initiallyUnlocked);
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [form, setForm] = useState<ResourceLeadFormState>(initialFormState);
+  const [form, setForm] = useState<ResourceLeadFormState>(defaultGatingFormState);
 
-  const hasRequiredFields = Boolean(
-    form.lastName.trim() &&
-      form.firstName.trim() &&
-      form.email.trim() &&
-      form.company.trim() &&
-      form.jobTitle.trim() &&
-      form.inquiry &&
-      form.timeline &&
-      form.products.length > 0,
-  );
+  const hasRequiredFields = isGatingFormValid(form);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -66,16 +106,20 @@ export function ResourcePostGated({
         body: JSON.stringify({
           contentKey,
           form,
+          referrerUrl: window.location.href,
+          utmAttribution: buildUtmAttribution(),
         }),
       });
 
-      if (!response.ok) {
-        throw new Error(`Request failed: ${response.status}`);
-      }
+      const result = (await response.json().catch(() => null)) as
+        | { success?: boolean; message?: string }
+        | null;
 
-      const result = (await response.json().catch(() => null)) as { success?: boolean } | null;
-      if (!result?.success) {
-        throw new Error("Unlock failed");
+      if (!response.ok || !result?.success) {
+        setErrorMessage(
+          result?.message ?? "送信に失敗しました。時間をおいて再度お試しください。",
+        );
+        return;
       }
 
       setUnlocked(true);

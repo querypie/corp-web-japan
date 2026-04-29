@@ -13,11 +13,12 @@ test("whitepaper gating uses gated frontmatter and a GatingCut component instead
   assert.match(mdxComponents, /function GatingCut\(/);
 });
 
-test("whitepaper publication loader carries a dedicated gated MDX contract", () => {
+test("whitepaper publication loader carries a dedicated gated MDX contract and backend entrypoint", () => {
   const loader = readSource("src/lib/publications/get-whitepaper-publication-post.ts");
   const publicationTypes = readSource("src/lib/publications/types.ts");
   const publicationPage = readSource("src/components/PublicationPostPage.tsx");
   const gatingHelper = readSource("src/lib/publications/gating.ts");
+  const gatingRoute = readSource("src/app/api/gating-form/unlock/route.ts");
 
   assert.match(loader, /gatedBodyMdx/);
   assert.match(loader, /contentKey/);
@@ -27,6 +28,8 @@ test("whitepaper publication loader carries a dedicated gated MDX contract", () 
   assert.match(gatingHelper, /import isProduction from "@\/lib\/is-production"/);
   assert.match(gatingHelper, /PRODUCTION_GATING_MAX_AGE_SECONDS/);
   assert.match(gatingHelper, /NON_PRODUCTION_GATING_MAX_AGE_SECONDS/);
+  assert.match(gatingRoute, /submitGatingForm/);
+  assert.match(gatingRoute, /response\.cookies\.set/);
 });
 
 test("internal gating demo page exists as an MDX-backed route under \/internal", () => {
