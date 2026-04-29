@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
-import { Blocks, ShieldCheck, Users, Zap } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Blocks, ShieldCheck, Users, Zap } from "lucide-react";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
   MarketingIconFrame,
+  MarketingPill,
   MarketingSectionIntro,
   MarketingSurface,
 } from "@/components/sections/marketing-section-primitives";
