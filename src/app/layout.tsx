@@ -10,13 +10,6 @@ const monaSansFont = localFont({
   weight: "100 900",
 });
 
-const pretendardJPFont = localFont({
-  src: "../assets/fonts/PretendardJPVariable.woff2",
-  display: "swap",
-  variable: "--font-pretendard-jp",
-  weight: "45 920",
-});
-
 export const metadata: Metadata = {
   metadataBase: siteUrl,
   title: "QueryPie AI Japan Website",
@@ -29,10 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ja"
-      className={`${monaSansFont.variable} ${pretendardJPFont.variable}`}
-    >
+    <html lang="ja" className={monaSansFont.variable}>
       <body className="font-sans antialiased">{children}</body>
     </html>
   );

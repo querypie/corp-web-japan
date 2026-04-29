@@ -2,21 +2,36 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
-test("app layout scopes Mona Sans and Pretendard JP font variables on html", () => {
+test("app font setup keeps Mona Sans on html while preloading only the representative JP semibold weight", () => {
+  const head = readSource("src/app/head.tsx");
   const layout = readSource("src/app/layout.tsx");
   const globals = readSource("src/app/globals.css");
 
   assert.match(layout, /import localFont from "next\/font\/local"/);
   assert.match(layout, /const monaSansFont = localFont\(/);
-  assert.match(layout, /const pretendardJPFont = localFont\(/);
   assert.match(layout, /Mona-Sans\.woff2/);
-  assert.match(layout, /PretendardJPVariable\.woff2/);
-  assert.match(layout, /<html[\s\S]*className=\{`\$\{monaSansFont\.variable\} \$\{pretendardJPFont\.variable\}`\}/);
+  assert.doesNotMatch(layout, /const pretendardJPFont = localFont\(/);
+  assert.doesNotMatch(layout, /PretendardJPVariable\.woff2/);
+  assert.match(layout, /<html lang="ja" className=\{monaSansFont\.variable\}>/);
   assert.match(layout, /<body className="font-sans antialiased">\{children\}<\/body>/);
   assert.doesNotMatch(layout, /fontFamily:/);
 
-  assert.doesNotMatch(globals, /@font-face/);
-  assert.match(globals, /--font-app-sans:/);
+  assert.match(head, /href="\/fonts\/PretendardJPSubset-600\.woff2"/);
+  assert.doesNotMatch(head, /PretendardJPSubset-400\.woff2/);
+  assert.doesNotMatch(head, /PretendardJPSubset-500\.woff2/);
+  assert.doesNotMatch(head, /PretendardJPSubset-700\.woff2/);
+
+  assert.match(globals, /@font-face/);
+  assert.match(globals, /font-family: "Pretendard JP Subset"/);
+  assert.match(globals, /PretendardJPSubset-400\.woff2/);
+  assert.match(globals, /PretendardJPSubset-500\.woff2/);
+  assert.match(globals, /PretendardJPSubset-600\.woff2/);
+  assert.match(globals, /PretendardJPSubset-700\.woff2/);
+  assert.match(globals, /font-weight: 400/);
+  assert.match(globals, /font-weight: 500/);
+  assert.match(globals, /font-weight: 600/);
+  assert.match(globals, /font-weight: 700/);
+  assert.match(globals, /--font-pretendard-jp: "Pretendard JP Subset"/);
   assert.match(globals, /var\(--font-mona-sans\)/);
   assert.match(globals, /var\(--font-pretendard-jp\)/);
 });
