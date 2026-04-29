@@ -53,7 +53,6 @@ const expectedRedirectFiles = [
   "src/app/about-us/route.ts",
   "src/app/certifications/route.ts",
   "src/app/news/route.ts",
-  "src/app/t/contact-us/route.ts",
 ];
 
 test("navigation surfaces point to the canonical local and redirect endpoints", () => {

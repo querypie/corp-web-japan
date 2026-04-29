@@ -14,7 +14,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
   const resourcePostPage = readSource("src/components/PublicationPostPage.tsx");
   const contactUsPage = readSource("src/app/contact-us/page.tsx");
-  const previewContactUsRoute = readSource("src/app/t/contact-us/route.ts");
+
 
   assert.match(aiCrewDataSource, /const aiCrewConsultUrl =|export const aiCrewConsultUrl =/);
   assert.match(aiCrewDataSource, /const demoUseCasesUrl =|export const demoUseCasesUrl =/);
@@ -45,10 +45,6 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(resourcePostPage, /href={publicationPostContactUrl}/);
   assert.match(contactUsPage, /canonical:\s*"\/contact-us"/);
   assert.match(contactUsPage, /getPrefilledContactUsFormState\(urlSearchParams\)/);
-  assert.match(previewContactUsRoute, /new URL\("\/contact-us", request\.url\)/);
-  assert.match(previewContactUsRoute, /redirectedUrl\.search = request\.nextUrl\.search;/);
-  assert.match(previewContactUsRoute, /NextResponse\.redirect\(redirectedUrl, 307\)/);
-
   assert.doesNotMatch(aiCrewDataSource, /href: "#"/);
   assert.doesNotMatch(aiCrewFloatingGuide, /ctaHref: "#"/);
 });
