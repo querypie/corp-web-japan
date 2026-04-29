@@ -3,22 +3,22 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
 import { SiteHeader } from "@/components/layout/site-header";
 import { TopPageSections } from "@/components/sections/top-page-sections";
-import { topPageContent, topPageFloatingCtaUrl } from "@/content/top-page";
+import { topPageFloatingCtaUrl, topPageMetadata } from "@/content/top-page";
 
 export const metadata: Metadata = {
-  title: topPageContent.metadata.title,
-  description: topPageContent.metadata.description,
+  title: topPageMetadata.title,
+  description: topPageMetadata.description,
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: topPageContent.metadata.title,
-    description: topPageContent.metadata.description,
+    title: topPageMetadata.title,
+    description: topPageMetadata.description,
     type: "website",
   },
   twitter: {
-    title: topPageContent.metadata.title,
-    description: topPageContent.metadata.description,
+    title: topPageMetadata.title,
+    description: topPageMetadata.description,
     card: "summary_large_image",
   },
 };
