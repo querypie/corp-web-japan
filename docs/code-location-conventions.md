@@ -1,11 +1,6 @@
 # Code Location Conventions
 
-This document records the current agreed code-location conventions for the contact-us rollout and related implementation work.
-
-## Current contact-us rollout locations
-
-- Feature-flag page: `/t/contact-us`
-- Submit endpoint: `/contact-us/submit`
+This document records the current agreed code-location conventions for implementation work across the website.
 
 ## Route and implementation rules
 
@@ -21,6 +16,6 @@ This document records the current agreed code-location conventions for the conta
 
 ## Practical guidance
 
-- When adding contact-us rollout behavior, keep route handlers and page files focused on request/response wiring and composition.
+- Keep route handlers and page files focused on request/response wiring and composition.
 - Move shared submit handling, validation helpers, API integration code, and similar non-UI logic into `src/lib/**`.
 - Keep reusable presentational primitives in `src/components/ui/**`, and assemble page-specific sections from those primitives in `src/components/sections/**`.
