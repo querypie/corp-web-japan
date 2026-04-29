@@ -49,45 +49,26 @@ export const topPageHero = {
     },
   } as const;
 export const topPageSolutionBranch = {
-    title: {
-      line1: "AI活用は、単なる業務効率化にとどまらない",
-      highlight: "経営課題",
-      after: "への対策",
-    },
-    lead: {
-      line1:
-        "AI活用の真の目的は、日々の作業を減らすことではなく、企業全体の生産性と利益率を向上させることにあります。",
-      line2: [
-        { text: "QueryPie AIは、", strong: false },
-        { text: "社内業務の劇的な効率化がもたらすコスト削減", strong: true },
-        { text: "と、", strong: false },
-        { text: "自社サービスの価値向上を通じた売上拡大", strong: true },
-        { text: "という2つのアプローチで、貴社の経営課題の解決を支援します。", strong: false },
-      ],
-    },
-    cards: [
-      {
-        label: "AI Crew",
-        title: "AIで社内業務を大幅に効率化したい",
-        subtitle: "専用AIエージェントの設計・実運用支援",
-        body:
-          "業務に合わせた専用AIエージェントを設計し、導入から運用、改善までを伴走支援します。テスト導入で終わらず、現場で使われるAI活用へつなげます。",
-        ctaLabel: "社内業務効率化の進め方を見る",
-        href: "/solutions/ai-crew",
-      },
-      {
-        label: "AI Dashi",
-        title: "SaaSやWebサービスのAI化を進めたい",
-        subtitle: "組み込み型AI基盤・ホワイトラベル対応",
-        body:
-          "自社SaaSやWebサービスに組み込める、エンタープライズ向けAI基盤です。安全性、拡張性、運用性を備えたAI機能を、自社ブランドで既存のサービスに展開できます。",
-        ctaLabel: "自社サービスAI化の進め方を見る",
-        href: "/solutions/ai-dashi",
-      },
+  title: {
+    line1: "AI活用は、単なる業務効率化にとどまらない",
+    highlight: "経営課題",
+    after: "への対策",
+  },
+  lead: {
+    line1:
+      "AI活用の真の目的は、日々の作業を減らすことではなく、企業全体の生産性と利益率を向上させることにあります。",
+    line2: [
+      { text: "QueryPie AIは、", strong: false },
+      { text: "社内業務の劇的な効率化がもたらすコスト削減", strong: true },
+      { text: "と、", strong: false },
+      { text: "自社サービスの価値向上を通じた売上拡大", strong: true },
+      { text: "という2つのアプローチで、貴社の経営課題の解決を支援します。", strong: false },
     ],
-  } as const;
+  },
+} as const;
+
 export const topPageCoreValue = {
-    title: {
+  title: {
       before: "AI導入の壁は、技術ではなく",
       highlight: "信頼と定着",
       after: "",
