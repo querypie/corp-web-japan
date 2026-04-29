@@ -4,6 +4,7 @@ import {
   isContactUsFormValid,
   type ContactUsFormState,
 } from "@/lib/contact-us";
+import isProduction from "@/lib/is-production";
 
 export type ContactUsSubmitPayload = {
   form: ContactUsFormState;
@@ -114,7 +115,7 @@ async function postToSlack(requestBody: Record<string, unknown>) {
     throw new Error("Slack environment variables not configured");
   }
 
-  const environmentTag = process.env.VERCEL_TARGET_ENV === "production" ? "" : "[TEST] ";
+  const environmentTag = isProduction() ? "" : "[TEST] ";
   const visibleEntries = Object.entries(requestBody)
     .filter(([key]) => !key.startsWith("Has") && !key.startsWith("Referrer") && !key.startsWith("pi__"))
     .map(([key, value]) => `• *${key}*: ${String(value || "-")}`)
