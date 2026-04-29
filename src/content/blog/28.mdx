@@ -4,11 +4,12 @@ slug: "ai-security-threat-map-2026-cxo"
 title: "AIセキュリティ脅威マップ2026｜CxOが備えるべき7つの攻撃ベクトルと実務対策フレームワーク"
 description: "AIセキュリティは従来のサイバー対策の延長ではなく「追加層」です。プロンプトインジェクション、データポイズニング、モデルサプライチェーン攻撃など7つの攻撃ベクトルと、OWASP・NIST準拠の実務対策フレームワークをCxO向けに体系解説します。"
 date: "2026年3月3日"
-heroImageSrc: "/assets/image/blog/28/thumbnail.png"
+heroImageSrc: "/blog/28/thumbnail.png"
 relatedIds:
   - "27"
   - "21"
 ---
+
 ## **結論：AIの業務活用が進むほど、AI固有の攻撃面（アタックサーフェス）は拡大する。** 
 
 プロンプトインジェクション、学習データ汚染、モデルサプライチェーン攻撃——これらはもはや理論上のリスクではなく、2025年以降に実際のインシデントが報告されています。経営層が今構築すべきは、従来のサイバーセキュリティに「AI固有のリスク層」を追加した多層防御体制です。
@@ -48,7 +49,7 @@ Hugging Face等の公開モデルリポジトリから取得したモデルに**
 
 AIエージェントに付与された**システムアクセス権限を悪用**する攻撃です。エージェントがAPI経由でデータベースやファイルシステムにアクセスする場合、権限の過剰付与が重大なリスクとなります。
 
-> 📖 AIエージェントの権限設計について、最小権限原則・承認フロー・監査ログを含む詳細なフレームワークは、ホワイトペーパー[「AIエージェント時代のガードレール設計：前編 思想・設計編」](https://www.querypie.ai/ja/features/documentation/white-paper/28/ai-agent-guardrails-governance-2026)で解説しています。
+> 📖 AIエージェントの権限設計について、最小権限原則・承認フロー・監査ログを含む詳細なフレームワークは、ホワイトペーパー[「AIエージェント時代のガードレール設計：前編 思想・設計編」](/whitepapers/28/ai-agent-guardrails-governance-2026)で解説しています。
 
 ### 2-5. 出力操作（Output Manipulation）
 
@@ -182,7 +183,7 @@ APIを通じた大量クエリで**モデルの挙動を再現（モデル抽出
 - AIエージェントの**最小権限原則**と承認ゲートの設計
 - AI利用ログの一元管理と**リアルタイム異常検知**
 
-> 📖 承認ゲート設計・監査ログの実装手順・停止手順の詳細は、ホワイトペーパー[「AIエージェント時代のガードレール設計：前編 思想・設計編」](https://www.querypie.ai/ja/features/documentation/white-paper/28/ai-agent-guardrails-governance-2026)をご参照ください。ケーススタディや90日ロードマップをお探しの方は[後編：実践・導入編](https://www.querypie.ai/ja/features/documentation/white-paper/29/ai-agent-guardrails-governance-2026-implementation)もあわせてご活用ください。
+> 📖 承認ゲート設計・監査ログの実装手順・停止手順の詳細は、ホワイトペーパー[「AIエージェント時代のガードレール設計：前編 思想・設計編」](/whitepapers/28/ai-agent-guardrails-governance-2026)をご参照ください。ケーススタディや90日ロードマップをお探しの方は[後編：実践・導入編](https://www.querypie.com/ja/features/documentation/white-paper/29/ai-agent-guardrails-governance-2026-implementation)もあわせてご活用ください。
 
 ### ステップ4：組織的対策の展開
 
@@ -231,8 +232,8 @@ APIを通じた大量クエリで**モデルの挙動を再現（モデル抽出
 - <a href="https://www.meti.go.jp/shingikai/mono_info_service/ai_shakai_jisso/index.html" target="_blank" rel="noopener noreferrer">経済産業省「AI事業者ガイドライン（第1.0版、2024年4月）」</a>
 - <a href="https://nvd.nist.gov/vuln/detail/cve-2024-38206" target="_blank" rel="noopener noreferrer">米国National Vulnerability Database「CVE-2024-38206」</a>
 - <a href="https://artificialintelligenceact.eu/" target="_blank" rel="noopener noreferrer">EU AI Act（2024年発効・2025年以降段階適用）</a>
-- [ホワイトペーパー「AIエージェント時代のガードレール設計：前編 思想・設計編」](https://www.querypie.ai/ja/features/documentation/white-paper/28/ai-agent-guardrails-governance-2026)
-- [ホワイトペーパー「AIエージェント時代のガードレール設計：後編 実践・導入編」](https://www.querypie.ai/ja/features/documentation/white-paper/29/ai-agent-guardrails-governance-2026-implementation)
+- [ホワイトペーパー「AIエージェント時代のガードレール設計：前編 思想・設計編」](/whitepapers/28/ai-agent-guardrails-governance-2026)
+- [ホワイトペーパー「AIエージェント時代のガードレール設計：後編 実践・導入編」](https://www.querypie.com/ja/features/documentation/white-paper/29/ai-agent-guardrails-governance-2026-implementation)
 
 <br />
 <br />
