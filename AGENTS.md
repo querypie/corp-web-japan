@@ -46,11 +46,13 @@ At the start of every user turn in this repository:
 4. Load only the minimum `SKILL.md` and linked files needed.
 
 Current rule: when this repository contains checked-in agent skills, treat `.agents/skills/` as the canonical repo-local skill root.
+Use `.agents/skills/README.md` as the first local index, then load the specific skill directory you need.
 
 ## Trigger rules
 
 - If the user names a skill explicitly, use that skill.
 - If the task clearly matches a skill description, use that skill even without an explicit name.
+- If the task is adding or updating publication content, check `.agents/skills/README.md` and load `blog-posting` or `whitepaper-posting` before editing the content.
 - If multiple skills match, use the minimum set and state the execution order briefly.
 - Do not carry skill activation across turns unless re-triggered.
 
@@ -161,11 +163,13 @@ Use these rules when editing local blog or whitepaper content.
 - Blog source lives under `src/content/blog/*.mdx`.
 - Whitepaper source lives under `src/content/whitepapers/*.mdx`.
 - Keep required frontmatter aligned with the current loaders: `id`, `slug`, `title`, `description`, `date`, `heroImageSrc`, and `relatedIds`.
+- Whitepapers may additionally use `listDescription` and `gated: true` when the current whitepaper flow requires them.
 - Blog list items are derived from MDX frontmatter through `src/lib/publications/blog-publication-records.ts`.
 - Whitepaper list items are derived from MDX frontmatter through `src/content/publications/whitepapers.ts`.
 - Whitepaper gating uses frontmatter `gated: true` plus the `<GatingCut />` marker instead of wrapper-style gated components.
 - Shared gating helpers live in `src/lib/publications/gating.ts`, and the current internal reference route is `/internal/whitepaper-gating-demo`.
 - Blog and whitepaper detail metadata currently set `robots.index = false` and `robots.follow = false`; keep doc changes aligned with that implementation unless the user explicitly changes the indexing policy.
+- For AI-agent execution, use `.agents/skills/blog-posting/SKILL.md` for blog work and `.agents/skills/whitepaper-posting/SKILL.md` for whitepaper work.
 
 ## Contact-us redirect query-prefill contract
 
