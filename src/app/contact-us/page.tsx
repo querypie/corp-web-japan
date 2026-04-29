@@ -37,7 +37,7 @@ export default async function ContactUsPage({
   const initialPrefills = getPrefilledContactUsFormState(urlSearchParams);
 
   return (
-    <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
+    <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <ContactUsForm initialPrefills={initialPrefills} />
       <SiteFooter />
