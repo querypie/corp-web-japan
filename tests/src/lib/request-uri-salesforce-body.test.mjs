@@ -27,7 +27,7 @@ test("contact-us Salesforce body keeps the referrer field and shows the request 
     result.requestBody.Referrer_URL__c,
     "https://stage.querypie.ai/contact-us?inquiry=demo-request&product=aip",
   );
-  assert.match(result.requestBody.Description, /Request URI: https:\/\/stage\.querypie\.ai\/contact-us\?inquiry=demo-request&product=aip/);
+  assert.match(result.requestBody.Description, /RequestURI: https:\/\/stage\.querypie\.ai\/contact-us\?inquiry=demo-request&product=aip/);
 });
 
 test("gating Salesforce body keeps the referrer field and shows the request URI explicitly in the description", () => {
@@ -52,5 +52,5 @@ test("gating Salesforce body keeps the referrer field and shows the request URI 
   );
 
   assert.equal(result.requestBody.Referrer_URL__c, "https://stage.querypie.ai/whitepapers/24/slug");
-  assert.match(result.requestBody.Description, /Request URI: https:\/\/stage\.querypie\.ai\/whitepapers\/24\/slug/);
+  assert.match(result.requestBody.Description, /RequestURI: https:\/\/stage\.querypie\.ai\/whitepapers\/24\/slug/);
 });

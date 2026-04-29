@@ -153,7 +153,7 @@ export const buildContactUsSalesforceBody = (
   referrerUrl: string,
 ) => {
   const descriptionParts = [
-    `Request URI: ${referrerUrl}`,
+    `RequestURI: ${referrerUrl}`,
     `Product: ${form.products.map(toOptionLabel).join(", ")}`,
     `PlannedImplementationDate: ${form.timeline}`,
   ];

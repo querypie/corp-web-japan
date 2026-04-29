@@ -47,7 +47,7 @@ export async function postSlackNotification({
     .filter(([key]) => !key.startsWith("Has") && !key.startsWith("pi__"))
     .map(([key, value]) => {
       if (key === "Referrer_URL__c") {
-        return `• *Request URI*: ${String(value || "-")}`;
+        return `• *RequestURI*: ${String(value || "-")}`;
       }
       return `• *${key}*: ${String(value || "-")}`;
     })

@@ -32,7 +32,7 @@ test("Slack helper includes request URI in the visible Slack message body", asyn
     });
 
     const body = JSON.parse(fetchCalls[0].options.body);
-    assert.match(body.blocks[0].text.text, /Request URI/);
+    assert.match(body.blocks[0].text.text, /RequestURI/);
     assert.match(body.blocks[0].text.text, /https:\/\/stage\.querypie\.ai\/contact-us\?inquiry=demo-request/);
   } finally {
     global.fetch = originalFetch;

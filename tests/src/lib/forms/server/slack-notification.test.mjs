@@ -64,7 +64,7 @@ test("Slack helper logs warn for skips, info for success, and error for failures
     assert.match(body.text, /^\[TEST\] Custom Title$/);
     assert.match(body.blocks[0].text.text, /\[TEST\] \*Custom Title\*/);
     assert.doesNotMatch(body.blocks[0].text.text, /HasOptedInMarketing__c/);
-    assert.match(body.blocks[0].text.text, /\*Request URI\*: https:\/\/example\.com/);
+    assert.match(body.blocks[0].text.text, /\*RequestURI\*: https:\/\/example\.com/);
     assert.equal(infoLogs.length, 1);
     assert.match(infoLogs[0], /"service":"slack"/);
     assert.match(infoLogs[0], /"endpointName":"gating-form"/);
