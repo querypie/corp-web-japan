@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
 
-test("blog content directory contains all migrated local blog MDX posts including ko/en fallback entries", () => {
+test("blog content directory contains all migrated local blog MDX posts", () => {
   const blogDir = join(process.cwd(), "src/content/blog");
   const files = readdirSync(blogDir).filter((file) => file.endsWith(".mdx")).sort();
 

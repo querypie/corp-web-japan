@@ -45,7 +45,7 @@ function listTargetPosts() {
     .sort((left, right) => Number(left.id) - Number(right.id));
 }
 
-test("all corp-web-contents blog posts are migrated locally with stable id/slug coverage, while ja-sourced metadata stays source-aligned and fallback-sourced posts may be translated locally", () => {
+test("all corp-web-contents blog posts are migrated locally with stable id/slug coverage and JA metadata parity", () => {
   const sourcePosts = listExpectedSourceParity();
   const targetPosts = listTargetPosts();
   const targetById = new Map(targetPosts.map((post) => [post.id, post]));

@@ -1,8 +1,8 @@
 ---
 id: "13"
 slug: "what-businesses-can-learn-from-sentiment-analysis"
-title: "What businesses can learn from Sentiment Analysis"
-description: "Learn how sentiment analysis can boost your business by understanding customer emotions, refining strategies, and enhancing satisfaction. Explore its power today!"
+title: "センチメント分析から企業が学べること"
+description: "顧客感情を理解し、戦略を磨き、満足度を高めることで、センチメント分析がどのようにビジネスを後押しするのかを学びましょう。その力を今すぐ確認してください。"
 date: "2022年4月26日"
 heroImageSrc: "/blog/13/thumbnail.png"
 relatedIds:
@@ -10,65 +10,66 @@ relatedIds:
   - "7"
   - "4"
 ---
-Let's say a woman is walking on the street, coming back from work, thinking about a client deal that fell through at the last moment; suddenly, a kid comes up and gives her a bouquet. The woman smiles and says, "That's just what I needed today!". Imagine a scenario where the same woman is coming back from work, thinking about her unsuccessful client deal, suddenly she hits a pole and hurts herself. She shouts, "That's just what I needed today!". In both scenarios, she says the same sentence but the sentiment changes with the context - the additional information in the second case signals that the tone is sarcastic. Studying these changes in sentimental contexts in text parsed from social media reviews and comments to determine business and brand insights. The ability to detect users' hidden, underlying thoughts and emotions is a potential gold mine for consumer brands. Let's dive deeper into sentiment analysis to see how it works and how it is helping businesses
 
-# What is Sentiment Analysis?
+仕事帰りの女性が、土壇場で破談になった顧客との契約のことを考えながら通りを歩いているとします。そこへ突然、子どもが近づいてきて花束を渡します。女性は微笑みながら「今日の私にちょうど必要だったのはこれね！」と言います。では、同じ女性が仕事帰りにその失敗した契約のことを考えている最中、突然ポールにぶつかってけがをしてしまった場面を想像してみてください。彼女は「今日の私にちょうど必要だったのはこれよ！」と叫びます。どちらの場面でも同じ文を口にしていますが、文脈によってセンチメントは変わります。2つ目のケースでは、追加情報によってその口調が皮肉であることが示されています。こうした感情的文脈の変化を、ソーシャルメディアのレビューやコメントから解析したテキストで調べることで、企業やブランドに関する洞察を導き出すのがセンチメント分析です。ユーザーの隠れた本音や感情を見抜く力は、消費者向けブランドにとって大きな金鉱になり得ます。では、センチメント分析がどのように機能し、どのように企業を支援しているのかを、さらに深く見ていきましょう。
 
-We're living in the era of Web 2.0, which works on the bedrock of data. Each tweet, comment, reaction, or post is a dataset. Sentiment analysis [1] - a subfield of text mining, analyzes texts with natural language processing algorithms and machine learning to determine social sentiments and emotions - whether positive, negative, or neutral. It allows businesses to monitor their brand or business strategy proactively, especially in case of negative sentiment.
+# センチメント分析とは？
 
-Sentiment analysis considers the many different ways consumers interact with a brand. Either by polarity (positive, negative, neutral), emotions (happy, sad, angry, etc.), intentions (interested, not interested), and aspect-based analysis (an aspect-based classifier is added to determine the reviews about a specific part of a product). Some of the common sentiment analysis questions can be:
+私たちは、データを土台として機能する Web 2.0 の時代に生きています。あらゆるツイート、コメント、リアクション、投稿がデータセットです。センチメント分析[1]はテキストマイニングの一分野であり、自然言語処理アルゴリズムと機械学習を用いてテキストを分析し、社会的な感情や情緒がポジティブ・ネガティブ・ニュートラルのいずれに当たるかを判断します。特にネガティブなセンチメントが見られる場合に、企業がブランドや事業戦略を先回りして監視することを可能にします。
 
-- Is this review positive or negative?
-- In this email response, is the customer satisfied or dissatisfied?
-- How are people responding to this ad campaign release based on the tweets and comments?
-- How have a particular community's attitudes about the mayor changed since the election?
+センチメント分析では、消費者がブランドと関わる多様な方法を考慮します。たとえば、極性（ポジティブ、ネガティブ、ニュートラル）、感情（うれしい、悲しい、怒っている、など）、意図（興味がある、興味がない）、そしてアスペクトベース分析（製品の特定部分に関するレビューかどうかを判断するための分類器を追加する分析）です。代表的なセンチメント分析の問いとしては、次のようなものがあります。
 
-However, humans are complex beings, and we express our opinions in complex ways. Even words that generally convey anger, such as 'bad' or 'kill' (example: your app is so bad, it's killing my battery), can also convey positive sentiments (example: the app's concept is badass, you guys are killing it). These examples pose a challenge when it comes to detecting user opinions accurately. Sometimes, even humans are at loggerheads about the tonality of a particular expression; however, its technology is developing rapidly. Let's see the machine learning models that are used in sentiment analysis.
+- このレビューはポジティブですか、それともネガティブですか？
+- このメール返信から見て、顧客は満足していますか、それとも不満を感じていますか？
+- この広告キャンペーンの公開に対して、人々はツイートやコメントでどのように反応していますか？
+- あるコミュニティの市長に対する態度は、選挙以来どのように変化しましたか？
 
-# The tech behind Sentiment Analysis
-## Rule-based Analysis:
-The rule-based analysis uses human-created rules to identify subjectivity or polarity. The rules can range from "Categorize the opinions based on positive vs. negative words such as ‘good,’ ‘best,’ ‘beautiful’ vs. ‘bad,’ ‘worst,’ ‘ugly,’ etc. However, this method often fails to consider the complex connotations humans use.
+しかし、人間は複雑な存在であり、意見の表し方も複雑です。通常は怒りを伝える「bad」や「kill」のような言葉でさえ（例: your app is so bad, it's killing my battery）、ポジティブな感情を表すこともあります（例: the app's concept is badass, you guys are killing it）。このような例は、ユーザーの意見を正確に検出するうえで課題となります。時には、人間同士でさえ特定の表現のトーンについて意見が分かれることがあります。それでも、この技術は急速に発展しています。では、センチメント分析で使われる機械学習モデルを見てみましょう。
 
-## Automatic Analysis:
-The automatic analysis relies on machine learning algorithms to classify sentiments. Below is a breakdown of MonkeyLearn's sentiment analysis model [2].
+# センチメント分析を支える技術
+## ルールベース分析:
+ルールベース分析では、人間が作成したルールを使って主観性や極性を識別します。ルールは、「good」「best」「beautiful」といった肯定的な語と、「bad」「worst」「ugly」といった否定的な語に基づいて意見を分類する、といったものまでさまざまです。しかしこの方法では、人間が使う複雑な含意を考慮できないことが少なくありません。
+
+## 自動分析:
+自動分析は、センチメントを分類するために機械学習アルゴリズムに依存します。以下は MonkeyLearn のセンチメント分析モデル[2]の概要です。
 
 <br />
 <Box center>
     <ArticleFileImage
         filepath="public/blog/13/blog13-image-1.png"
         alt="QueryPie x Figma"
-        caption="Which One is the Final Version? Let’s Leave it to Chance."
+        caption="どれが最終版？ 運に任せてみましょう。"
     />
 </Box>
 
-Initially, the model is trained to associate a particular text to the corresponding output. Then, the input text is transformed into a feature vector based on the bag-of-words [3] or bag-of-n-grams [4] approach. The feature vector pairs are then fed into the ML algorithm to generate a model. Once the data is fed into the system, it is classified based on various algorithms such as Naïve Bayes [5], Linear Regression [6], Support Vector Machines [7], J48 [8], BFTree [9], OneR [10], or RandomForest [11] classifier. (There are other advanced models [12] that can be used.)
+まず、モデルは特定のテキストを対応する出力に結び付けられるよう訓練されます。次に、入力テキストは bag-of-words[3] または bag-of-n-grams[4] のアプローチに基づく特徴ベクトルへと変換されます。その特徴ベクトルの組が ML アルゴリズムに入力され、モデルが生成されます。データがシステムに投入されると、Naïve Bayes[5]、Linear Regression[6]、Support Vector Machines[7]、J48[8]、BFTree[9]、OneR[10]、RandomForest[11] といったさまざまなアルゴリズムに基づいて分類されます。（利用できる高度なモデル[12]は他にもあります。）
 
-# Sentiment Analysis Use Cases
+# センチメント分析のユースケース
 <br />
 <Box center>
     <ArticleFileImage
         filepath="public/blog/13/blog13-image-2.png"
         alt="QueryPie x Figma"
-        caption="Which One is the Final Version? Let’s Leave it to Chance."
+        caption="どれが最終版？ 運に任せてみましょう。"
     />
 </Box>
-## Social Media and Brand Sentiment Analysis
-Sentiment analysis helps consumer brands track brand perception, find patterns and trends, monitor influencers to help them gain insights based on sentiments from different platforms, manage, and anticipate perception. KFC used sentiment analysis to change its marketing strategy and include pop-culture references and memes to improve sales.
+## ソーシャルメディアとブランドセンチメント分析
+センチメント分析は、消費者向けブランドがブランド認知を追跡し、パターンやトレンドを見つけ、インフルエンサーを監視し、さまざまなプラットフォームのセンチメントに基づく洞察を得て、認知を管理し予測するのに役立ちます。KFC はセンチメント分析を活用してマーケティング戦略を変更し、ポップカルチャーの引用やミームを取り入れることで売上を向上させました。
 
-## Competitor Analysis
-Brands gather information on their competitors through news articles, influencer strategy, user-generated content, and general perception to obtain real-time results and fill gaps in their business intelligence. Apple used competitor analysis to identify customer pain points such as design and privacy issues and improve their existing product lines.
+## 競合分析
+ブランドは、ニュース記事、インフルエンサー戦略、ユーザー生成コンテンツ、全体的な認知を通じて競合他社に関する情報を収集し、リアルタイムの結果を得て、自社のビジネスインテリジェンスの空白を埋めています。Apple は競合分析を活用して、デザインやプライバシーの問題といった顧客のペインポイントを特定し、既存の製品ラインを改善しました。
 
-## Product Analysis
-Companies use sentiment analysis in product analysis to shape their minimum viable product by following brand keywords, customer needs, and segmented audience feedback to improve how the audience perceives the brand. Google Chrome uses sentiment analysis to gain insights about specific aspects of the product (UI, security, extensions, themes) and recommendations.
+## 製品分析
+企業は製品分析にセンチメント分析を活用し、ブランドキーワード、顧客ニーズ、セグメント化されたオーディエンスのフィードバックを追うことで、最小実用製品を形作り、オーディエンスがブランドをどう認識するかを改善します。Google Chrome はセンチメント分析を使って、製品の特定の側面（UI、セキュリティ、拡張機能、テーマ）や推奨事項に関する洞察を得ています。
 
-## Voice of Customer Analysis
-Sentiment analysis captures the voice of the customer by exploring targeted audience sections, their wants, and expectations, along with direct and indirect customer feedback. TripAdvisor uses an aspect-based approach to extract valuable observations regarding user needs and what they can do to improve their services.
+## 顧客の声分析
+センチメント分析は、ターゲットオーディエンスのセグメント、その要望や期待、さらに直接的・間接的な顧客フィードバックを調べることで、顧客の声を捉えます。TripAdvisor はアスペクトベースのアプローチを用いて、ユーザーのニーズやサービス改善のために何ができるかについて価値ある知見を抽出しています。
 
-## Customer Support Feedback Analysis
-Customer support feedback analysis is obtained by understanding the general reaction to the service regarding its response time, effectiveness, or quality of interaction. This helps brands manage their workflow, prioritize tickets, and handle queries.
+## カスタマーサポートのフィードバック分析
+カスタマーサポートのフィードバック分析は、応答時間、効果、やり取りの質といった観点から、サービスに対する全体的な反応を理解することで得られます。これにより、ブランドはワークフローを管理し、チケットの優先順位を付け、問い合わせに対応しやすくなります。
 
-# Final Thoughts
-While sentiment analysis is still growing, researchers have already started looking at more advanced forms of sentiment analysis in Intent analysis and Contextual semantic search (CSS). The intent analysis also analyzes the audience's intent along with the sentiment, while CSS focuses on the contextual meaning of the text and not just the specific keyword. As tech advances, businesses must also ensure that the usage is ethical and not indulge in nefarious activities [13]. We can continue to marvel at how our sentiments and intentions can shape brand strategies.
+# まとめ
+センチメント分析はまだ成長の途上にありますが、研究者たちはすでに、意図分析や文脈的セマンティック検索（CSS）といった、より高度な形態のセンチメント分析に目を向け始めています。意図分析はセンチメントとあわせてオーディエンスの意図も分析し、CSS は特定のキーワードだけでなくテキストの文脈的な意味に焦点を当てます。技術が進歩するにつれて、企業はその活用が倫理的であることを確保し、悪意ある活動[13]に手を染めないようにしなければなりません。私たちの感情や意図がブランド戦略を形作る様子に、今後も驚かされ続けることでしょう。
 
 # References
 
