@@ -2,6 +2,38 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@font-face {
+  font-family: "Pretendard JP Subset";
+  src: url("/fonts/PretendardJPSubset-400.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Pretendard JP Subset";
+  src: url("/fonts/PretendardJPSubset-500.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Pretendard JP Subset";
+  src: url("/fonts/PretendardJPSubset-600.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Pretendard JP Subset";
+  src: url("/fonts/PretendardJPSubset-700.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -50,6 +82,7 @@
 
 :root {
   --radius: 0.625rem;
+  --font-pretendard-jp: "Pretendard JP Subset";
   --font-app-sans:
     var(--font-mona-sans),
     var(--font-pretendard-jp),
