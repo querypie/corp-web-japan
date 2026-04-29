@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Blocks, ShieldCheck, Users, Zap } from "lucide-react";
+import { ArrowRight, ShieldCheck, Users, Zap } from "lucide-react";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -116,7 +116,7 @@ export default function HomePage() {
 
             <RevealOnScroll className="mt-10 grid items-stretch gap-5 lg:grid-cols-2" variant="up" delayMs={220}>
               <SolutionChoiceCard href="/solutions/ai-crew" tone="crew">
-                <SolutionChoiceHeader icon={Users}>
+                <SolutionChoiceHeader>
                   <SolutionChoiceBadge>AI Crew</SolutionChoiceBadge>
                 </SolutionChoiceHeader>
                 <div className="mt-5">
@@ -130,7 +130,7 @@ export default function HomePage() {
               </SolutionChoiceCard>
 
               <SolutionChoiceCard href="/solutions/ai-dashi" tone="dashi">
-                <SolutionChoiceHeader icon={Blocks}>
+                <SolutionChoiceHeader>
                   <SolutionChoiceBadge>AI Dashi</SolutionChoiceBadge>
                 </SolutionChoiceHeader>
                 <div className="mt-5">
