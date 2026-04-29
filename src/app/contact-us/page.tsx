@@ -8,12 +8,8 @@ export const metadata: Metadata = {
   title: "お問い合わせ | QueryPie AI",
   description:
     "QueryPie AI の製品導入相談、デモ依頼、資料ダウンロード、技術的なご質問を受け付けるお問い合わせフォームです。",
-  robots: {
-    index: false,
-    follow: false,
-  },
   alternates: {
-    canonical: "/t/contact-us",
+    canonical: "/contact-us",
   },
 };
 

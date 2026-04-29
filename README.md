@@ -24,7 +24,7 @@ The current public structure is:
 - `/whitepapers` — local whitepaper index
 - `/whitepapers/:id/:slug` — local MDX-backed whitepaper detail, with `/whitepapers/:id` redirecting to the canonical slug route
 - `/events/:id/:slug` — local event detail route
-- `/contact-us` — first-party redirect endpoint that preserves query-string prefills into `https://www.querypie.com/ja/company/contact-us`
+- `/contact-us` — local contact form page with stable query-string prefills and a local submit flow
 
 Additional notes:
 
@@ -67,7 +67,7 @@ Representative files:
 - `src/app/blog/[id]/[slug]/page.tsx`
 - `src/app/whitepapers/page.tsx`
 - `src/app/whitepapers/[id]/[slug]/page.tsx`
-- `src/app/contact-us/route.ts`
+- `src/app/contact-us/page.tsx`
 - `src/app/sitemap.ts`
 
 ## Publication content model

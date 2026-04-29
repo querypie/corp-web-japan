@@ -1,20 +1,18 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
-import path from "node:path";
+import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
-const repoRoot = process.cwd();
-const readSource = (relativePath) =>
-  readFileSync(path.join(repoRoot, relativePath), "utf8");
-
-test("/t/contact-us page stays isolated, non-indexed, and keeps production-ready form wiring", () => {
-  const page = readSource("src/app/t/contact-us/page.tsx");
+test("/contact-us is the public form page and keeps production-ready form wiring", () => {
+  const page = readSource("src/app/contact-us/page.tsx");
   const formComponent = readSource("src/components/sections/contact-us-form.tsx");
   const contactUsLib = readSource("src/lib/contact-us.ts");
 
+  assert.equal(sourceExists("src/app/contact-us/page.tsx"), true);
+  assert.equal(sourceExists("src/app/contact-us/route.ts"), false);
+
   assert.match(page, /title:\s*"お問い合わせ \| QueryPie AI"/);
-  assert.match(page, /robots:\s*\{[\s\S]*index:\s*false,[\s\S]*follow:\s*false,[\s\S]*\}/);
-  assert.match(page, /canonical:\s*"\/t\/contact-us"/);
+  assert.match(page, /canonical:\s*"\/contact-us"/);
+  assert.doesNotMatch(page, /robots:\s*\{/);
   assert.match(page, /getPrefilledContactUsFormState\(urlSearchParams\)/);
   assert.match(page, /<ContactUsForm[^>]*\/>/);
 

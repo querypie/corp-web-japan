@@ -50,9 +50,9 @@ const expectedRedirectRules = [
     destination: "https://www.querypie.com/ja/company/news",
   },
   {
-    requestPath: "/contact-us",
-    file: "src/app/contact-us/route.ts",
-    destination: "https://www.querypie.com/ja/company/contact-us",
+    requestPath: "/t/contact-us",
+    file: "src/app/t/contact-us/route.ts",
+    destination: "/contact-us",
   },
   {
     requestPath: "/introduction-deck",
@@ -93,7 +93,7 @@ test("redirect endpoints are defined in a single test-case table with temporary 
     assert.match(source, /307/);
     assert.match(source, new RegExp(rule.destination.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 
-    if (rule.requestPath === "/contact-us") {
+    if (rule.requestPath === "/t/contact-us") {
       assert.match(source, /export function GET\(request: NextRequest\)/);
       assert.match(source, /export const HEAD = GET;/);
       assert.match(source, /redirectedUrl\.search = request\.nextUrl\.search;/);
