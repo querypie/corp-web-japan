@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readdirSync } from "node:fs";
 import path from "node:path";
 import { readSource } from "./helpers/source-readers.mjs";
+import { getTopPageDataSource } from "./helpers/static-marketing-page-sources.mjs";
 
 const whitepapersDir = path.join(process.cwd(), "src/content/whitepapers");
 
@@ -17,13 +18,13 @@ test("whitepaper hero thumbnails use route-aligned /whitepapers/{id}/thumbnail.p
     const source = readSource(`src/content/whitepapers/${file}`);
     const id = path.basename(file, ".mdx");
 
-    assert.match(source, new RegExp(`\\nheroImageSrc: "/whitepapers/${id}/thumbnail\\.png"\\n`));
+    assert.match(source, new RegExp(`\nheroImageSrc: "/whitepapers/${id}/thumbnail\.png"\n`));
     assert.doesNotMatch(source, /\/assets\/image\/whitepapers\//);
   }
 });
 
 test("whitepaper supporting surfaces do not reference the legacy /assets/image/whitepapers path", () => {
-  const topPage = readSource("src/content/top-page.ts");
+  const topPage = getTopPageDataSource();
   const gatingDemo = readSource("src/content/internal/whitepaper-gating-demo.mdx");
 
   assert.match(topPage, /src: "\/whitepapers\/24\/thumbnail\.png"/);

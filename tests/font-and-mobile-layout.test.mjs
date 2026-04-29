@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
+import { getAiCrewStructureSource, getTopPageStructureSource } from "./helpers/static-marketing-page-sources.mjs";
 
 test("app font setup keeps Mona Sans on html while preloading only the representative JP semibold weight", () => {
   const head = readSource("src/app/head.tsx");
@@ -37,7 +38,7 @@ test("app font setup keeps Mona Sans on html while preloading only the represent
 });
 
 test("mobile-only fallback layout exists for the AI Crew after diagram", () => {
-  const source = readSource("src/components/sections/home-page-sections.tsx");
+  const source = getAiCrewStructureSource();
 
   assert.match(source, /mt-8 lg:hidden/);
   assert.match(source, /hidden min-h-\[18rem\] items-center justify-center lg:flex/);
@@ -54,7 +55,7 @@ test("AI Dashi comparison cells allow long copy to wrap on narrow screens", () =
 });
 
 test("Trust Center CTA opens in a new tab", () => {
-  const source = readSource("src/components/sections/top-page-sections.tsx");
+  const source = getTopPageStructureSource();
 
   assert.match(source, /href=\{security\.link\.href\}/);
   assert.match(source, /target="_blank"/);

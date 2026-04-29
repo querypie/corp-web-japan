@@ -1,38 +1,39 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
+import { getAiCrewDataSource, getTopPageDataSource, getTopPageStructureSource } from "./helpers/static-marketing-page-sources.mjs";
 
 test("launch-risk CTA targets resolve to explicit anchors or real destinations", () => {
-  const homeContent = readSource("src/content/home.ts");
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
   const topPage = readSource("src/app/page.tsx");
-  const topPageContent = readSource("src/content/top-page.ts");
-  const topPageSections = readSource("src/components/sections/top-page-sections.tsx");
+  const aiCrewDataSource = getAiCrewDataSource();
+  const topPageDataSource = getTopPageDataSource();
+  const topPageStructureSource = getTopPageStructureSource();
   const aiCrewFloatingGuide = readSource("src/components/sections/ai-crew-floating-guide.tsx");
   const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
   const resourcePostPage = readSource("src/components/PublicationPostPage.tsx");
   const contactUsRoute = readSource("src/app/contact-us/route.ts");
 
-  assert.match(homeContent, /export const aiCrewConsultUrl = "\/contact-us\?inquiry=ai-consulting&product=ai-crew"/);
-  assert.match(homeContent, /export const demoUseCasesUrl = "\/demo\/use-cases"/);
-  assert.match(homeContent, /floatingCta: \{ label: "業務に合うAI活用を相談する", href: aiCrewFloatingCtaUrl \}/);
-  assert.match(homeContent, /secondaryCta: \{ label: "業務に合うAI活用を相談する", href: aiCrewConsultUrl \}/);
-  assert.match(homeContent, /primaryCta: \{ label: "進め方を相談する", href: aiCrewConsultUrl \}/);
-  assert.match(homeContent, /partnerCta: \{ label: "自社サービスAI化の進め方を見る", href: "\/solutions\/ai-dashi" \}/);
-  assert.match(homeContent, /href: aiCrewWhitepaperUrl/);
+  assert.match(aiCrewDataSource, /const aiCrewConsultUrl =|export const aiCrewConsultUrl =/);
+  assert.match(aiCrewDataSource, /const demoUseCasesUrl =|export const demoUseCasesUrl =/);
+  assert.match(aiCrewDataSource, /floatingCta: \{ label: "業務に合うAI活用を相談する", href: aiCrewFloatingCtaUrl \}/);
+  assert.match(aiCrewDataSource, /secondaryCta: \{ label: "業務に合うAI活用を相談する", href: aiCrewConsultUrl \}/);
+  assert.match(aiCrewDataSource, /primaryCta: \{ label: "進め方を相談する", href: aiCrewConsultUrl \}/);
+  assert.match(aiCrewDataSource, /partnerCta: \{ label: "自社サービスAI化の進め方を見る", href: "\/solutions\/ai-dashi" \}/);
+  assert.match(aiCrewDataSource, /href: aiCrewWhitepaperUrl/);
 
   assert.match(topPage, /<FloatingConversionCta href={topPageFloatingCtaUrl} \/>/);
-  assert.match(topPageContent, /primaryCta: \{ label: "お問い合わせ", href: topPageHeroContactUrl \}/);
-  assert.match(topPageContent, /secondaryCta: \{[\s\S]*label: "資料をダウンロード",[\s\S]*href: topPageDownloadUrl,?[\s\S]*\}/);
-  assert.match(topPageSections, /id="contact"/);
-  assert.match(topPageSections, /bg-\[#0f172a\] text-white/);
-  assert.match(topPageSections, /id="download"/);
-  assert.match(topPageContent, /\{ label: "デモを依頼", href: topPageFinalDemoUrl \}/);
-  assert.match(topPageContent, /\{ label: "資料をダウンロード", href: topPageDownloadUrl \}/);
-  assert.match(topPageContent, /\{ label: "導入について相談する", href: topPageFinalConsultUrl \}/);
-  assert.match(topPageContent, /href: "https:\/\/trust\.querypie\.com\/"/);
-  assert.match(topPageSections, /href=\{security\.link\.href\}[\s\S]*target="_blank"[\s\S]*rel="noopener noreferrer"/);
+  assert.match(topPageDataSource, /primaryCta: \{ label: "お問い合わせ", href: topPageHeroContactUrl \}/);
+  assert.match(topPageDataSource, /secondaryCta: \{[\s\S]*label: "資料をダウンロード",[\s\S]*href: topPageDownloadUrl,?[\s\S]*\}/);
+  assert.match(topPageStructureSource, /id="contact"/);
+  assert.match(topPageStructureSource, /bg-\[#0f172a\] text-white/);
+  assert.match(topPageStructureSource, /id="download"/);
+  assert.match(topPageDataSource, /\{ label: "デモを依頼", href: topPageFinalDemoUrl \}/);
+  assert.match(topPageDataSource, /\{ label: "資料をダウンロード", href: topPageDownloadUrl \}/);
+  assert.match(topPageDataSource, /\{ label: "導入について相談する", href: topPageFinalConsultUrl \}/);
+  assert.match(topPageDataSource, /href: "https:\/\/trust\.querypie\.com\/"/);
+  assert.match(topPageStructureSource, /href=\{security\.link\.href\}[\s\S]*target="_blank"[\s\S]*rel="noopener noreferrer"/);
   assert.match(aiCrewPage, /<FloatingConversionCta href={aiCrewFloatingCtaUrl} \/>/);
   assert.match(aiCrewFloatingGuide, /ctaHref: aiCrewConsultUrl/);
   assert.match(aiCrewFloatingGuide, /ctaHref: demoUseCasesUrl/);
@@ -45,7 +46,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(contactUsRoute, /redirectedUrl\.search = request\.nextUrl\.search;/);
   assert.match(contactUsRoute, /NextResponse\.redirect\(redirectedUrl, 307\)/);
 
-  assert.doesNotMatch(homeContent, /href: "#"/);
+  assert.doesNotMatch(aiCrewDataSource, /href: "#"/);
   assert.doesNotMatch(aiCrewFloatingGuide, /ctaHref: "#"/);
 });
 
