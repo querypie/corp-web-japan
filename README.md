@@ -75,6 +75,7 @@ Representative files:
 Blog and whitepaper lists are driven from local content source files.
 
 - Blog frontmatter is read from `src/content/blog/*.mdx`.
+- Blog frontmatter may additionally use `hidden: true` to keep a post out of the `/blog` list while preserving its local detail route, and `redirectUrl` to redirect local blog detail requests to another URL.
 - Whitepaper frontmatter is read from `src/content/whitepapers/*.mdx`.
 - Blog list items resolve to local canonical detail routes.
 - Whitepaper list items currently keep upstream `querypie.com/ja` hrefs for card destinations while the local detail routes exist for the new MDX-backed rendering flow.

@@ -73,6 +73,8 @@ Notes:
 - `author` is optional in the loader, but use it when a matching author exists in `src/content/authors/ja.yaml`.
 - `relatedIds` should list existing local blog IDs as strings.
 - `heroImageSrc` must point at the route-aligned thumbnail path for that post.
+- Optional: `hidden: true` removes the post from the `/blog` list without breaking the local detail route.
+- Optional: `redirectUrl: "https://..."` makes `/blog/:id` and `/blog/:id/:slug` redirect to that URL instead of rendering the local MDX page.
 
 ## Recommended workflow
 

@@ -23,5 +23,9 @@ export default async function BlogDetailCanonicalRedirectPage({ params }: BlogDe
     notFound();
   }
 
+  if (record.redirectUrl) {
+    redirect(record.redirectUrl);
+  }
+
   redirect(getBlogPublicationHref(id, record.slug));
 }
