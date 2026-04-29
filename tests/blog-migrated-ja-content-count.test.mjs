@@ -3,16 +3,21 @@ import assert from "node:assert/strict";
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
 
-test("blog content directory contains all migrated Japanese blog MDX posts", () => {
+test("blog content directory contains all migrated local blog MDX posts", () => {
   const blogDir = join(process.cwd(), "src/content/blog");
   const files = readdirSync(blogDir).filter((file) => file.endsWith(".mdx")).sort();
 
-  assert.equal(files.length, 23);
+  assert.equal(files.length, 29);
   assert.deepEqual(files, [
     "1.mdx",
     "10.mdx",
     "11.mdx",
     "12.mdx",
+    "13.mdx",
+    "14.mdx",
+    "15.mdx",
+    "16.mdx",
+    "17.mdx",
     "18.mdx",
     "19.mdx",
     "2.mdx",
@@ -20,6 +25,7 @@ test("blog content directory contains all migrated Japanese blog MDX posts", () 
     "21.mdx",
     "22.mdx",
     "23.mdx",
+    "24.mdx",
     "25.mdx",
     "26.mdx",
     "27.mdx",

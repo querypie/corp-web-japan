@@ -1,0 +1,234 @@
+[
+  {
+    "id": "1",
+    "slug": "agentless-philosophy",
+    "title": "QueryPieがAgentless哲学にこだわる理由",
+    "description": "合理的で安全なシステム管理のためのエージェントレスなアプローチに対する QueryPie の取り組みを紹介します。",
+    "author": "brant",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "2",
+    "slug": "querypie-cracking-global-markets",
+    "title": "最も難しいと言われるグローバル展開、QueryPieはなぜ確信しているのか？",
+    "description": "QueryPie が、革新的なソリューションと戦略的な専門知識で、いかに自信を持ってグローバル市場の課題に取り組んでいるのかを紹介します。",
+    "author": "kris",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "3",
+    "slug": "querypie-team-success-secrets",
+    "title": "成功している組織の秘訣？QueryPieのように働こう！",
+    "description": "QueryPie のコラボレーションと価値観の共有を通じて、成功するチームを作る秘訣を紹介します。",
+    "author": "candice",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "4",
+    "slug": "multi-cloud-kubernetes-access-control",
+    "title": "混沌から秩序へ: マルチクラウドKubernetesアクセス制御の革新",
+    "description": "マルチクラウド Kubernetes アクセス制御を合理化し、セキュリティと運用効率を向上させる QueryPie のアプローチを紹介します。",
+    "author": "sam",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "5",
+    "slug": "technology-humanity-convergence",
+    "title": "QueryPieハンガーゲーム: 技術を知る人々が「人を幸せにする技術」で世界と通じる！",
+    "description": "QueryPie がどのようにテクノロジーを人文科学と融合させ、イノベーションを推進し、長期的な持続可能性を確保するのかについて紹介します。",
+    "author": "Jessica Kim",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "6",
+    "slug": "integration-connection-paradigm",
+    "title": "QueryPieが示す新しいパラダイム、連携を超えた接続へ",
+    "description": "QueryPie が新しいパラダイムを導入し、より良いコラボレーションのために単なるシステム統合以上の真の接続性を重視している取り組みを紹介します。",
+    "author": "ella",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "7",
+    "slug": "command-bypass-prevention-control",
+    "title": "誰もが見過ごしていたコマンド回避、今こそ正直に話そう！",
+    "description": "コマンドバイパスの問題で見過ごされているリスクと、QueryPie がそれらを回避するための高度なソリューションを提供する方法について紹介します。",
+    "author": "allen",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "8",
+    "slug": "querypie-product-managers",
+    "title": "QueryPie PMの仕事力スキルセット、オールラウンダーとして成長する方法",
+    "description": "効果的な作業戦略と部門を横断した協業を通じて、オールラウンダーとして成長する QueryPie PM の働き方を紹介します。",
+    "author": "keira",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "9",
+    "slug": "data-discovery-privacy-management",
+    "title": "個人情報保護・管理の新しい助っ人: データディスカバリー",
+    "description": "QueryPie のデータディスカバリツールによってプライバシー管理が強化され、グローバルなデータ規制に準拠させる仕組みについて紹介します。",
+    "author": "brendon",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "10",
+    "slug": "customer-centric-tpm-life",
+    "title": "QueryPie TPM チームの一日を覗いてみよう: 顧客獲得の秘訣公開",
+    "description": "お客様の信頼を勝ち取り、効果的な戦略で優れた結果を出す QueryPie TPM チームの日々の取り組みを紹介します。",
+    "author": "skipper",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "11",
+    "slug": "seamless-figma-querypie-collaboration",
+    "title": "QueryPie と Figma、ぴったりと合った協力の極意",
+    "description": "QueryPie と Figma がどのように設計チームと開発チームのシームレスなコラボレーションを実現し、生産性を向上させているのかをご紹介します。",
+    "author": "vin",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "12",
+    "slug": "internal-data-leaks",
+    "title": "個人情報漏洩: 小さな内部違反が大惨事に発展するまで",
+    "description": "小さな内部違反がどのように重大なデータ漏えいに発展しうるか、また QueryPie がどのようにリスクを効果的に軽減するのに役立つかを紹介します。",
+    "author": "regan",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "13",
+    "slug": "what-businesses-can-learn-from-sentiment-analysis",
+    "title": "センチメント分析から企業が学べること",
+    "description": "顧客感情を理解し、戦略を磨き、満足度を高めることで、センチメント分析がどのようにビジネスを後押しするのかを学びましょう。その力を今すぐ確認してください。",
+    "author": null,
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "14",
+    "slug": "data-observability",
+    "title": "データオブザーバビリティを極める: インサイト、手法、ベストプラクティス",
+    "description": "合理的で安全なシステム管理を実現するための、エージェントレスアプローチに対する QueryPie の取り組みを理解しましょう。",
+    "author": "brant",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "15",
+    "slug": "zero-trust-security",
+    "title": "ゼロトラストセキュリティ: ハイパーコネクテッド時代におけるサイバーセキュリティの再定義",
+    "description": "ゼロトラストセキュリティが、ユーザー・デバイス・ネットワークを継続的に検証することで、どのようにビジネスを保護し、より強固な脅威対策を実現するのかを解説します。今すぐご覧ください。",
+    "author": null,
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "16",
+    "slug": "healthcare-data-security",
+    "title": "医療データセキュリティ：患者プライバシーを保護し、コンプライアンスを確保する方法",
+    "description": "高度なセキュリティ対策で医療データを保護し、患者プライバシー、コンプライアンス、データ侵害対策を実現する方法をご紹介します。今すぐ詳しくご覧ください。",
+    "author": null,
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "17",
+    "slug": "privileged-access-management-pam",
+    "title": "特権アクセス管理（PAM）をわかりやすく解説: インサイト、比較、実践的な活用法",
+    "description": "PAM が特権アクセスを管理・監視することで、重要データへのリスクをどのように低減し、セキュリティを強化するのかを解説します。",
+    "author": null,
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "18",
+    "slug": "why-is-sso-important",
+    "title": "SSOはなぜ重要なのか？",
+    "description": "SSO（シングルサインオン）がどのようにユーザー体験を向上させ、複数のプラットフォームへのアクセスを簡素化し、セキュリティを強化する方法を今すぐ確認してください！",
+    "author": "jk",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "19",
+    "slug": "optimize-ec2-costs",
+    "title": "EC2 自動化によるコスト削減：AWS Lambda と EventBridge の活用方法",
+    "description": "AWS LambdaとEventBridgeを活用してEC2コストを最適化する方法を学びましょう。このガイドでは、サーバーレスソリューションを通じてコスト削減のベストプラクティスを探ります。",
+    "author": "robb",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "20",
+    "slug": "nextjs-server-action-security",
+    "title": "Next.js Server Actionとフロントエンドセキュリティ",
+    "description": "Next.jsのServer Actionが提供する高レベルの抽象化により、開発者がセキュリティ上のミスを犯す可能性があります。このようなリスクを詳細に分析し、セキュリティエラーを防ぐための開発戦略を提示します。フロントエンドでサーバーサイドコードを開発する際のセキュリティ意識を高め、より安全で効率的なウェブアプリケーションを構築しましょう！",
+    "author": "teddy",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "21",
+    "slug": "why-we-need-ai-red-teaming",
+    "title": "AIが命令を聞かなかった：なぜAI Red Teamingが必要なのか",
+    "description": "AIはもはや回答を生成するだけでなく、現実世界でアクションを実行します。実際の事件や事例を通じて、QueryPieが命令拒否や間接プロンプトインジェクションなど新たなAIセキュリティ脅威とAI Red Teamingの必要性を説明します。",
+    "author": "kenny",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "22",
+    "slug": "ai-agent-security-replit-case",
+    "title": "AIはどこまで信じていいのか？Replit事件から振り返るAIエージェントセキュリティの現実",
+    "description": "Replit AIエージェントがプロダクションDBを削除した事件は、単なる技術的ミスではなく、AIエージェントを実環境に導入する際に必ず考慮すべきセキュリティ構造の重要性を示しています。本事例を通じて、AIの虚偽応答検知、最小権限設計、実行記録の確保など、セキュリティチェックリストを整理します。",
+    "author": "brant",
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "23",
+    "slug": "querypie-payroll-partnership",
+    "title": "株式会社ペイロールとQueryPieがAIセキュリティ分野で技術提携",
+    "description": "株式会社ペイロール(本社:東京都江東区、代表取締役社長:湯浅 哲哉、以下「ペイロール」)と、統合データガバナンスプラットフォームを提供するQueryPie, Inc.(本社:米国カリフォルニア州、CEO:Brant Hwang)およびその日本法人であるQueryPie Japan合同会社(本社:東京都港区、代表:有延 敬三、以下「QueryPie」)は、AIとセキュリティ分野における技術提携に合意したことをお知らせいたします。",
+    "author": null,
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "24",
+    "slug": "top-pam-solutions",
+    "title": "知っておきたい特権アクセス管理（PAM）ソリューション Top 10",
+    "description": "現代の企業セキュリティに欠かせない特権アクセス管理（PAM）ソリューションのトップ10をご紹介します。高度な認証情報管理、ゼロトラスト型アクセス制御、自動化されたセキュリティ機能を備えた主要プラットフォームを通じて、急速に進化するデジタル環境において組織の重要なITインフラを保護できます。",
+    "author": null,
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "25",
+    "slug": "terrasky-mitoco-buddy",
+    "title": "QueryPie AI、株式会社テラスカイと協業しAIエージェント「mitoco Buddy」を発表",
+    "description": "QueryPie AI合同会社（本社：東京都港区、共同代表：Brant Hwang、以下「QueryPie AI」）は、株式会社テラスカイ（本社：東京都中央区、代表取締役CEO 社長執行役員：佐藤 秀哉、以下「テラスカイ」）と、AIエージェント事業分野において協業することを発表しました。本協業により、QueryPie AIのエンタープライズ向けAIプラットフォーム「QueryPie AI Platform（AIP）」が、テラスカイの新サービス「mitoco Buddy」に採用され、企業内に乱立するクラウドサービスを統合し、情報連携およびデータ活用を促進することで、意思決定の加速化と業務自動化を支援します。",
+    "author": null,
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "26",
+    "slug": "mitoco-buddy-release",
+    "title": "テラスカイ社のMCP対応AIプラットフォーム 「mitoco Buddy」が正式ローンチ",
+    "description": "QueryPie AI合同会社は、株式会社テラスカイが提供する、企業向けMCP対応AIプラットフォーム「mitoco Buddy」が、このたび正式にローンチされたことをお知らせいたします。",
+    "author": null,
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "27",
+    "slug": "shadow-ai-risk-cxo-countermeasures",
+    "title": "【2026年最新】シャドーAIリスクの全貌｜情報漏洩・コンプライアンス違反を防ぐCxOの5つの対策",
+    "description": "シャドーAIは経営リスクそのものである。IBM調査によるとシャドーAI起因のデータ侵害コストは平均463万ドル。情報漏洩、コンプライアンス違反、NDA違反を防ぐCxO層向けの5つの具体的対策を最新データとともに解説します。",
+    "author": null,
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "28",
+    "slug": "ai-security-threat-map-2026-cxo",
+    "title": "AIセキュリティ脅威マップ2026｜CxOが備えるべき7つの攻撃ベクトルと実務対策フレームワーク",
+    "description": "AIセキュリティは従来のサイバー対策の延長ではなく「追加層」です。プロンプトインジェクション、データポイズニング、モデルサプライチェーン攻撃など7つの攻撃ベクトルと、OWASP・NIST準拠の実務対策フレームワークをCxO向けに体系解説します。",
+    "author": null,
+    "sourceLocale": "ja"
+  },
+  {
+    "id": "29",
+    "slug": "ai-attack-tool-firewall-breach-data-protection",
+    "title": "AI攻撃ツールが55カ国のファイアウォール600台を突破──ファイアウォールの先にある\"データ\"をどう守るか",
+    "description": "AI攻撃ツールCyberStrikeAIが55カ国のファイアウォール600台を突破。技術的に未熟な攻撃者がAIで大規模攻撃を実行した事件を分析し、ファイアウォールの先にあるデータを守る多層防御フレームワークをCxO向けに解説します。",
+    "author": null,
+    "sourceLocale": "ja"
+  }
+]
