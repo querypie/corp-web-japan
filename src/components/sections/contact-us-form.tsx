@@ -13,6 +13,8 @@ import {
   type ContactUsFormState,
 } from "@/lib/contact-us";
 
+const UTM_ATTRIBUTION_COOKIE_KEY = "utm-attribution";
+
 type SubmitState =
   | { status: "idle" }
   | { status: "submitting" }
@@ -60,6 +62,62 @@ const textFields: Array<{
   },
 ];
 
+type UtmTouch = {
+  source?: string;
+  medium?: string;
+  campaign?: string;
+  term?: string;
+  content?: string;
+  landing: string;
+  ts: string;
+};
+
+type UtmAttribution = {
+  first: UtmTouch;
+  recent: UtmTouch[];
+};
+
+const buildUtmAttribution = (): string | undefined => {
+  if (typeof window === "undefined") {
+    return undefined;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const hasUtm = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"].some(
+    (key) => params.get(key),
+  );
+
+  if (hasUtm) {
+    const touch: UtmTouch = {
+      landing: `${window.location.pathname}${window.location.search}`,
+      ts: new Date().toISOString(),
+    };
+
+    const source = params.get("utm_source");
+    const medium = params.get("utm_medium");
+    const campaign = params.get("utm_campaign");
+    const term = params.get("utm_term");
+    const content = params.get("utm_content");
+
+    if (source) touch.source = source;
+    if (medium) touch.medium = medium;
+    if (campaign) touch.campaign = campaign;
+    if (term) touch.term = term;
+    if (content) touch.content = content;
+
+    return encodeURIComponent(JSON.stringify({ first: touch, recent: [touch] } satisfies UtmAttribution));
+  }
+
+  const encodedCookie = document.cookie
+    .split("; ")
+    .find((entry) => entry.startsWith(`${UTM_ATTRIBUTION_COOKIE_KEY}=`))
+    ?.split("=")
+    .slice(1)
+    .join("=");
+
+  return encodedCookie || undefined;
+};
+
 export function ContactUsForm({ initialPrefills = {} }: ContactUsFormProps) {
   const [form, setForm] = useState<ContactUsFormState>({
     ...defaultContactUsFormState,
@@ -98,7 +156,7 @@ export function ContactUsForm({ initialPrefills = {} }: ContactUsFormProps) {
     setSubmitState({ status: "submitting" });
 
     try {
-      const response = await fetch("/t/contact-us/submit", {
+      const response = await fetch("/contact-us/submit", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -106,6 +164,7 @@ export function ContactUsForm({ initialPrefills = {} }: ContactUsFormProps) {
         body: JSON.stringify({
           form,
           referrerUrl: window.location.href,
+          utmAttribution: buildUtmAttribution(),
         }),
       });
 
