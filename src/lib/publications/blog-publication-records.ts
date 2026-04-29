@@ -11,6 +11,8 @@ export type BlogPostFrontmatter = {
   date: string;
   heroImageSrc: string;
   author?: string | string[];
+  hidden?: boolean;
+  redirectUrl?: string;
   relatedIds: readonly string[];
 };
 
@@ -47,6 +49,7 @@ function normalizeBlogPostFrontmatter(value: unknown, sourcePath: string): BlogP
     ? relatedIdsValue.map((item) => String(item))
     : [];
   const authorValue = frontmatter.author;
+  const redirectUrlValue = frontmatter.redirectUrl;
 
   return {
     id: String(frontmatter.id ?? ""),
@@ -61,6 +64,8 @@ function normalizeBlogPostFrontmatter(value: unknown, sourcePath: string): BlogP
         : Array.isArray(authorValue)
           ? authorValue.map((item) => String(item))
           : undefined,
+    hidden: frontmatter.hidden === true,
+    redirectUrl: typeof redirectUrlValue === "string" ? redirectUrlValue : undefined,
     relatedIds,
   };
 }
@@ -94,8 +99,9 @@ function loadBlogPostRecords(): BlogPostRecord[] {
 function createBlogPublicationCache(): Readonly<BlogPublicationCache> {
   const records = Object.freeze(loadBlogPostRecords().map((record) => Object.freeze({ ...record })));
   const recordsById = new Map<string, BlogPostRecord>(records.map((post) => [post.id, post]));
+  const visibleRecords = records.filter((record) => !record.hidden);
   const listItems = Object.freeze(
-    records.map((record) =>
+    visibleRecords.map((record) =>
       Object.freeze({
         href: getPublicationHref("blog", record.id, record.slug),
         imageSrc: record.heroImageSrc,
