@@ -15,7 +15,22 @@ import {
   Zap,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { topPageContent } from "@/content/top-page";
+import {
+  topPageCoreValue,
+  topPageFinalCta,
+  topPageHero,
+  topPagePlatformRequirements,
+  topPageRoadmap,
+  topPageSecurity,
+  topPageSolutionBranch,
+  topPageWhitepapers,
+} from "@/content/top-page";
+import {
+  MarketingIconFrame,
+  MarketingPill,
+  MarketingSectionIntro,
+  MarketingSurface,
+} from "@/components/sections/marketing-section-primitives";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 
 const coreValueIcons = [ShieldCheck, Zap, Users] as const;
@@ -45,17 +60,14 @@ const solutionBranchThemes = [
 ] as const;
 
 export function TopPageSections() {
-  const {
-    hero,
-    solutionBranch,
-    coreValue,
-    roadmap,
-    platformRequirements,
-    security,
-    whitepapers,
-    finalCta,
-  } =
-    topPageContent;
+  const hero = topPageHero;
+  const solutionBranch = topPageSolutionBranch;
+  const coreValue = topPageCoreValue;
+  const roadmap = topPageRoadmap;
+  const platformRequirements = topPagePlatformRequirements;
+  const security = topPageSecurity;
+  const whitepapers = topPageWhitepapers;
+  const finalCta = topPageFinalCta;
   const router = useRouter();
   const [activeRoadmapTab, setActiveRoadmapTab] = useState<"crew" | "dashi">((roadmap.tabs[0]?.key as "crew" | "dashi") ?? "crew");
   const activeRoadmap = roadmap.tabs.find((tab) => tab.key === activeRoadmapTab) ?? roadmap.tabs[0];
@@ -94,9 +106,12 @@ export function TopPageSections() {
             <div className="flex justify-start">
               <div className="hidden flex-wrap items-center gap-1.5 lg:flex">
                 {hero.proofPills.map((item) => (
-                  <div key={item} className="rounded-full border border-white/20 bg-white/10 px-2.5 py-1.5 text-xs font-medium text-white/88 backdrop-blur">
+                  <MarketingPill
+                    key={item}
+                    className="border border-white/20 bg-white/10 px-2.5 py-1.5 text-xs font-medium text-white/88 backdrop-blur"
+                  >
                     {item}
-                  </div>
+                  </MarketingPill>
                 ))}
               </div>
             </div>
@@ -148,32 +163,37 @@ export function TopPageSections() {
           <div className="mx-auto w-full max-w-[1120px]">
             <div className="mx-auto max-w-[900px] text-center">
               <RevealOnScroll variant="up">
-                <h2 className="mx-auto max-w-[730px] text-balance text-[31px] font-semibold leading-[1.22] tracking-[-0.045em] text-slate-950 sm:text-[40px] lg:text-[43px]">
-                  {solutionBranch.title.line1}
-                  <span className="heading-highlight-accent">
-                    {solutionBranch.title.highlight}
-                  </span>
-                  {solutionBranch.title.after}
-                </h2>
-              </RevealOnScroll>
-              <RevealOnScroll variant="up" delayMs={120}>
-                <div className="mx-auto mt-6 max-w-[790px] space-y-4 text-left text-[15px] leading-[1.9] text-slate-600">
-                  <p>{solutionBranch.lead.line1}</p>
-                  <p>
-                    {solutionBranch.lead.line2.map((part, index) =>
-                      part.strong ? (
-                        <strong
-                          key={`${part.text}-${index}`}
-                          className={`font-bold ${index === 1 ? "text-[#174EA6]" : "text-[#B85733]"}`}
-                        >
-                          {part.text}
-                        </strong>
-                      ) : (
-                        <span key={`${part.text}-${index}`}>{part.text}</span>
-                      ),
-                    )}
-                  </p>
-                </div>
+                <MarketingSectionIntro
+                  className="max-w-[900px]"
+                  titleClassName="mx-auto max-w-[730px] text-balance text-[31px] leading-[1.22] tracking-[-0.045em] sm:text-[40px] lg:text-[43px]"
+                  bodyClassName="mt-6 max-w-[790px] space-y-4 text-left leading-[1.9]"
+                  title={
+                    <>
+                      {solutionBranch.title.line1}
+                      <span className="heading-highlight-accent">{solutionBranch.title.highlight}</span>
+                      {solutionBranch.title.after}
+                    </>
+                  }
+                  body={
+                    <>
+                      <p>{solutionBranch.lead.line1}</p>
+                      <p>
+                        {solutionBranch.lead.line2.map((part, index) =>
+                          part.strong ? (
+                            <strong
+                              key={`${part.text}-${index}`}
+                              className={`font-bold ${index === 1 ? "text-[#174EA6]" : "text-[#B85733]"}`}
+                            >
+                              {part.text}
+                            </strong>
+                          ) : (
+                            <span key={`${part.text}-${index}`}>{part.text}</span>
+                          ),
+                        )}
+                      </p>
+                    </>
+                  }
+                />
               </RevealOnScroll>
             </div>
 
@@ -183,18 +203,19 @@ export function TopPageSections() {
                 const theme = solutionBranchThemes[index];
 
                 return (
-                <Link
+                <MarketingSurface
+                  as={Link}
                   key={card.title}
                   href={card.href}
-                  className={`flex h-full flex-col rounded-[2rem] border p-7 shadow-[0_22px_60px_-48px_rgba(15,23,42,0.18)] transition duration-300 hover:-translate-y-1 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#2f3a49]/15 sm:p-8 ${theme.cardClass}`}
+                  className={`flex h-full flex-col rounded-[2rem] p-7 shadow-[0_22px_60px_-48px_rgba(15,23,42,0.18)] focus:outline-none focus:ring-2 focus:ring-[#2f3a49]/15 sm:p-8 ${theme.cardClass}`}
                 >
                   <div className="flex items-start justify-between gap-4">
-                    <div className={`inline-flex w-fit rounded-full px-3 py-1 text-[11px] font-semibold tracking-[0.12em] ${theme.badgeClass}`}>
+                    <MarketingPill className={`w-fit px-3 py-1 tracking-[0.12em] ${theme.badgeClass}`}>
                       {theme.badge}
-                    </div>
-                    <div className={`flex h-11 w-11 flex-none items-center justify-center rounded-[14px] shadow-[0_16px_34px_-24px_rgba(15,23,42,0.35)] ${theme.iconWrapClass}`}>
+                    </MarketingPill>
+                    <MarketingIconFrame className={`flex-none shadow-[0_16px_34px_-24px_rgba(15,23,42,0.35)] ${theme.iconWrapClass}`}>
                       <Icon className="h-5 w-5" />
-                    </div>
+                    </MarketingIconFrame>
                   </div>
 
                   <div className="mt-5">
@@ -214,7 +235,7 @@ export function TopPageSections() {
                     {card.ctaLabel}
                     <ArrowRight className="h-4 w-4" />
                   </span>
-                </Link>
+                </MarketingSurface>
                 );
               })}
             </RevealOnScroll>
@@ -225,18 +246,17 @@ export function TopPageSections() {
           <div className="mx-auto w-full max-w-[1120px]">
             <div className="mx-auto max-w-[900px] text-center">
               <RevealOnScroll variant="up">
-                <h2 className="text-[30px] font-semibold leading-[1.2] tracking-[-0.04em] text-slate-950 sm:text-[42px]">
-                  {coreValue.title.before}
-                  <span className="heading-highlight-accent">
-                    {coreValue.title.highlight}
-                  </span>
-                  {coreValue.title.after}
-                </h2>
-              </RevealOnScroll>
-              <RevealOnScroll variant="up" delayMs={120}>
-                <p className="mx-auto mt-5 max-w-[760px] text-center text-[15px] leading-7 text-slate-600">
-                  {coreValue.body}
-                </p>
+                <MarketingSectionIntro
+                  title={
+                    <>
+                      {coreValue.title.before}
+                      <span className="heading-highlight-accent">{coreValue.title.highlight}</span>
+                      {coreValue.title.after}
+                    </>
+                  }
+                  body={<p>{coreValue.body}</p>}
+                  bodyClassName="max-w-[760px] text-center leading-7"
+                />
               </RevealOnScroll>
             </div>
 
@@ -245,17 +265,18 @@ export function TopPageSections() {
                 const Icon = coreValueIcons[index];
 
                 return (
-                  <article
+                  <MarketingSurface
+                    as="article"
                     key={card.title}
-                    className="flex h-full flex-col rounded-[1.8rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.95)_100%)] px-5 py-6 shadow-[0_20px_54px_-44px_rgba(15,23,42,0.18)] transition duration-300 hover:-translate-y-1 hover:shadow-md sm:px-6"
+                    className="flex h-full flex-col rounded-[1.8rem] bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.95)_100%)] px-5 py-6 shadow-[0_20px_54px_-44px_rgba(15,23,42,0.18)] sm:px-6"
                   >
                     <div className="flex items-start justify-between gap-4">
-                      <div className="inline-flex rounded-full bg-[#2f3a49] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-white shadow-[0_12px_24px_-18px_rgba(15,23,42,0.42)]">
+                      <MarketingPill className="bg-[#2f3a49] px-3 py-1 tracking-[0.08em] text-white shadow-[0_12px_24px_-18px_rgba(15,23,42,0.42)]">
                         {card.number} {card.title}
-                      </div>
-                      <div className="flex h-11 w-11 items-center justify-center rounded-[14px] bg-[#eef2f7] text-[#2f3a49] shadow-[0_16px_34px_-24px_rgba(15,23,42,0.18)]">
+                      </MarketingPill>
+                      <MarketingIconFrame className="bg-[#eef2f7] text-[#2f3a49]">
                         <Icon className="h-5 w-5" />
-                      </div>
+                      </MarketingIconFrame>
                     </div>
 
                     <div className="mt-5">
@@ -272,7 +293,7 @@ export function TopPageSections() {
                         </li>
                       ))}
                     </ul>
-                  </article>
+                  </MarketingSurface>
                 );
               })}
             </RevealOnScroll>
@@ -331,7 +352,10 @@ export function TopPageSections() {
               <div className="hidden items-stretch gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr_auto_1fr] lg:items-center">
                 {activeRoadmap.steps.map((step, index) => (
                   <Fragment key={step.number}>
-                    <article className="flex h-full flex-col rounded-[1.5rem] border border-slate-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-md">
+                    <MarketingSurface
+                      as="article"
+                      className="flex h-full flex-col rounded-[1.5rem] bg-white p-6"
+                    >
                       {(() => {
                         const Icon = roadmapIcons[index];
                         return (
@@ -364,7 +388,7 @@ export function TopPageSections() {
                           ),
                         )}
                       </p>
-                    </article>
+                    </MarketingSurface>
 
                     {index < activeRoadmap.steps.length - 1 ? (
                       <div className="hidden lg:flex lg:justify-center">
@@ -378,7 +402,10 @@ export function TopPageSections() {
               <div className="space-y-3 lg:hidden">
                 {activeRoadmap.steps.map((step, index) => (
                   <Fragment key={step.number}>
-                    <article className="flex flex-col rounded-[1.5rem] border border-slate-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-md">
+                    <MarketingSurface
+                      as="article"
+                      className="flex flex-col rounded-[1.5rem] bg-white p-6"
+                    >
                       {(() => {
                         const Icon = roadmapIcons[index];
                         return (
@@ -411,7 +438,7 @@ export function TopPageSections() {
                           ),
                         )}
                       </p>
-                    </article>
+                    </MarketingSurface>
 
                     {index < activeRoadmap.steps.length - 1 ? (
                       <div className="flex items-center justify-center py-1">
@@ -502,18 +529,19 @@ export function TopPageSections() {
           <div className="mx-auto w-full max-w-[1120px]">
             <div className="mx-auto max-w-[1280px] text-center">
               <RevealOnScroll variant="up">
-                <h2 className="mx-auto max-w-[38ch] text-balance text-[30px] font-semibold leading-[1.2] tracking-[-0.04em] text-slate-950 sm:max-w-[40ch] sm:text-[42px]">
-                  {platformRequirements.title.before}
-                  <span className="heading-highlight-accent">
-                    {platformRequirements.title.highlight}
-                  </span>
-                  {platformRequirements.title.after}
-                </h2>
-              </RevealOnScroll>
-              <RevealOnScroll variant="up" delayMs={120}>
-                <p className="mx-auto mt-5 max-w-[758px] text-left text-[15px] leading-[1.85] text-slate-600">
-                  {platformRequirements.body}
-                </p>
+                <MarketingSectionIntro
+                  className="max-w-[1280px]"
+                  titleClassName="mx-auto max-w-[38ch] text-balance"
+                  bodyClassName="max-w-[758px] text-left leading-[1.85]"
+                  title={
+                    <>
+                      {platformRequirements.title.before}
+                      <span className="heading-highlight-accent">{platformRequirements.title.highlight}</span>
+                      {platformRequirements.title.after}
+                    </>
+                  }
+                  body={<p>{platformRequirements.body}</p>}
+                />
               </RevealOnScroll>
             </div>
 
@@ -522,15 +550,16 @@ export function TopPageSections() {
                 const isReversed = block.align === "right";
 
                 return (
-                  <article
+                  <MarketingSurface
+                    as="article"
                     key={block.title}
-                    className="overflow-hidden rounded-[1.6rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.95)_100%)] shadow-[0_20px_54px_-44px_rgba(15,23,42,0.16)] transition duration-300 hover:-translate-y-1 hover:shadow-md"
+                    className="overflow-hidden rounded-[1.6rem] bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.95)_100%)] shadow-[0_20px_54px_-44px_rgba(15,23,42,0.16)]"
                   >
                     <div className={`flex flex-col lg:flex-row ${isReversed ? "lg:flex-row-reverse" : ""}`}>
                       <div className="p-6 lg:basis-2/3 lg:p-7">
-                        <div className="inline-flex rounded-full bg-[#eef2f7] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-[#2f3a49]">
+                        <MarketingPill className="bg-[#eef2f7] px-3 py-1 tracking-[0.08em] text-[#2f3a49]">
                           {block.label}
-                        </div>
+                        </MarketingPill>
                         <h3 className="mt-4 text-[26px] font-semibold leading-[1.28] tracking-[-0.04em] text-slate-950">
                           {block.title}
                         </h3>
@@ -549,7 +578,7 @@ export function TopPageSections() {
                         </div>
                       </div>
                     </div>
-                  </article>
+                  </MarketingSurface>
                 );
               })}
             </RevealOnScroll>
@@ -573,21 +602,22 @@ export function TopPageSections() {
           <div className="mx-auto w-full max-w-[1120px]">
             <div className="mx-auto max-w-[900px] text-center">
               <RevealOnScroll variant="up">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748b]">Security & Compliance</p>
-                <h2 className="mt-2 text-[26px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[32px]">
-                  国際基準のセキュリティ認証
-                </h2>
-              </RevealOnScroll>
-              <RevealOnScroll variant="up" delayMs={120}>
-                <p className="mx-auto mt-4 max-w-[840px] text-left text-[15px] leading-7 text-slate-600">{security.body}</p>
+                <MarketingSectionIntro
+                  eyebrow="Security & Compliance"
+                  titleClassName="mt-2 text-[26px] leading-[1.24] tracking-[-0.03em] sm:text-[32px]"
+                  bodyClassName="mt-4 max-w-[840px] text-left leading-7"
+                  title={security.title}
+                  body={<p>{security.body}</p>}
+                />
               </RevealOnScroll>
             </div>
 
             <RevealOnScroll className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4" variant="up" delayMs={220}>
               {security.certifications.map((item) => (
-                <article
+                <MarketingSurface
+                  as="article"
                   key={item.title}
-                  className="flex min-h-[150px] flex-col items-center justify-center rounded-[1.5rem] border border-slate-200/80 bg-white px-5 py-5 text-center shadow-[0_18px_44px_-42px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md"
+                  className="flex min-h-[150px] flex-col items-center justify-center rounded-[1.5rem] bg-white px-5 py-5 text-center shadow-[0_18px_44px_-42px_rgba(15,23,42,0.14)]"
                 >
                   <div className="relative flex h-14 w-full items-center justify-center">
                     <Image
@@ -600,7 +630,7 @@ export function TopPageSections() {
                     />
                   </div>
                   <p className="mt-4 text-[13px] font-semibold tracking-[0.01em] text-[#2f3a49]">{item.title}</p>
-                </article>
+                </MarketingSurface>
               ))}
             </RevealOnScroll>
 
@@ -620,26 +650,25 @@ export function TopPageSections() {
 
         <section className="mx-auto max-w-[1920px] bg-white px-6 py-16 lg:px-10 lg:py-20">
           <div className="mx-auto w-full max-w-[1120px]">
-            <div className="rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(248,250,252,0.98)_0%,rgba(255,255,255,0.98)_100%)] px-6 py-8 shadow-[0_24px_70px_-56px_rgba(15,23,42,0.14)] lg:px-8 lg:py-10">
+            <MarketingSurface className="rounded-[2rem] bg-[linear-gradient(180deg,rgba(248,250,252,0.98)_0%,rgba(255,255,255,0.98)_100%)] px-6 py-8 shadow-[0_24px_70px_-56px_rgba(15,23,42,0.14)] lg:px-8 lg:py-10">
               <div className="mx-auto max-w-[900px] text-center">
                 <RevealOnScroll variant="up">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748b]">Download</p>
-                  <h2 className="mt-2 text-[24px] font-semibold leading-[1.3] tracking-[-0.03em] text-slate-950 sm:text-[30px]">
-                    経営層・事業責任者向け ホワイトペーパー
-                  </h2>
-                </RevealOnScroll>
-                <RevealOnScroll variant="up" delayMs={120}>
-                  <p className="mx-auto mt-4 max-w-[820px] text-left text-[15px] leading-7 text-slate-600">
-                    {whitepapers.body}
-                  </p>
+                  <MarketingSectionIntro
+                    eyebrow="Download"
+                    titleClassName="mt-2 text-[24px] leading-[1.3] tracking-[-0.03em] sm:text-[30px]"
+                    bodyClassName="mt-4 max-w-[820px] text-left leading-7"
+                    title={whitepapers.title}
+                    body={<p>{whitepapers.body}</p>}
+                  />
                 </RevealOnScroll>
               </div>
 
               <RevealOnScroll className="mt-8 grid gap-5 lg:grid-cols-2" variant="up" delayMs={220}>
                 {whitepapers.items.map((item) => (
-                  <article
+                  <MarketingSurface
+                    as="article"
                     key={item.title}
-                    className="overflow-hidden rounded-[1.8rem] border border-slate-200/80 bg-white shadow-[0_20px_54px_-44px_rgba(15,23,42,0.16)] transition duration-300 hover:-translate-y-1 hover:shadow-md"
+                    className="overflow-hidden rounded-[1.8rem] bg-white shadow-[0_20px_54px_-44px_rgba(15,23,42,0.16)]"
                   >
                     <div className="flex flex-col">
                       <div className="relative min-h-[320px] bg-[#f5f7fb]">
@@ -658,12 +687,12 @@ export function TopPageSections() {
                         </h3>
                         <div className="mt-4 flex flex-wrap gap-2">
                           {item.tags.map((tag) => (
-                            <span
+                            <MarketingPill
                               key={tag}
-                              className="inline-flex rounded-full bg-[#eef2f7] px-3 py-1 text-[11px] font-semibold tracking-[0.04em] text-[#2f3a49]"
+                              className="bg-[#eef2f7] px-3 py-1 tracking-[0.04em] text-[#2f3a49]"
                             >
                               {tag}
-                            </span>
+                            </MarketingPill>
                           ))}
                         </div>
                         {item.description ? (
@@ -693,10 +722,10 @@ export function TopPageSections() {
                         </Link>
                       </div>
                     </div>
-                  </article>
+                  </MarketingSurface>
                 ))}
               </RevealOnScroll>
-            </div>
+            </MarketingSurface>
           </div>
         </section>
 

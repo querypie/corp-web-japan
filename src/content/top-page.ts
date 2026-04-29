@@ -5,13 +5,13 @@ export const topPageDownloadUrl =
 export const topPageFinalDemoUrl = "/contact-us?inquiry=demo-request";
 export const topPageFinalConsultUrl = "/contact-us?inquiry=ai-consulting";
 
-export const topPageContent = {
-  metadata: {
+export const topPageMetadata = {
     title: "信頼できるAIが、現場を動かす｜QueryPie AI",
     description:
       "QueryPie AIは、社内業務効率化と自社サービスAI化を支援するエンタープライズAI基盤です。安全性と運用性を前提に、AI活用をスモールスタートから実運用・定着まで前に進めます。",
-  },
-  header: {
+  } as const;
+
+export const topPageHeader = {
     navItems: [
       { label: "ニュース", href: "#news" },
       {
@@ -26,8 +26,8 @@ export const topPageContent = {
       { label: "QueryPie AIについて", href: "#about" },
     ],
     cta: { label: "Free Flow", href: "#contact" },
-  },
-  hero: {
+  } as const;
+export const topPageHero = {
     tagline: "Secure Enterprise AI",
     title: "信頼できるAIが、現場を動かす",
     subcopy: "誰もが安全かつ迅速に業務で使えるAI",
@@ -47,8 +47,8 @@ export const topPageContent = {
       label: "資料をダウンロード",
       href: topPageDownloadUrl,
     },
-  },
-  solutionBranch: {
+  } as const;
+export const topPageSolutionBranch = {
     title: {
       line1: "AI活用は、単なる業務効率化にとどまらない",
       highlight: "経営課題",
@@ -85,8 +85,8 @@ export const topPageContent = {
         href: "/solutions/ai-dashi",
       },
     ],
-  },
-  coreValue: {
+  } as const;
+export const topPageCoreValue = {
     title: {
       before: "AI導入の壁は、技術ではなく",
       highlight: "信頼と定着",
@@ -126,8 +126,8 @@ export const topPageContent = {
         ],
       },
     ],
-  },
-  roadmap: {
+  } as const;
+export const topPageRoadmap = {
     sectionName: "Roadmap",
     title: {
       line1: "小さく始めて、確実に広げる",
@@ -263,8 +263,8 @@ export const topPageContent = {
         },
       },
     ],
-  },
-  platformRequirements: {
+  } as const;
+export const topPagePlatformRequirements = {
     title: {
       before: "企業がAIを",
       highlight: "安全に使いこなす",
@@ -308,66 +308,8 @@ export const topPageContent = {
           "採用が極めて困難なAI専門エンジニアを自社で抱える必要はありません。当社のFDE（フォワード・デプロイド・エンジニア）がお客様の現場と対話しながら要件を定義し、素早く試作品（プロトタイプ）を構築。導入から運用、現場への定着までを伴走し、最速で事業のAI化を実現します。",
       },
     ],
-  },
-  intro: {
-    title: "AXは“変革を設計すること”です",
-    body:
-      "導入しただけでは、AIは現場で機能しません。必要なのは、どの業務に適用し、誰が使い、どのデータに接続し、どのルールで運用するかを設計することです。QueryPieは、企業がAI導入を小さく始めて、実運用へ広げるための支援を行います。",
-  },
-  campaign: {
-    title: "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか",
-    body:
-      "採用難、生産性向上、既存サービスの付加価値強化など、AIを前提にした仕事設計が競争力の差を生み始めています。まずは、自社に合う導入余地を整理することから始めましょう。",
-    cta: { label: "無料でダウンロードする", href: "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan" },
-  },
-  serviceFit: {
-    title: "Webサービスを提供している企業様へ",
-    body:
-      "QueryPieは、AI導入のハードルを下げながら、現場で使われる形まで設計します。企業が次の一歩を踏み出しやすい3つの視点をまとめました。",
-    cards: [
-      {
-        title: "操作から代行へ移行",
-        body:
-          "単なるチャット利用ではなく、反復業務や定型作業をAIが前処理できるように設計し、担当者が判断に集中できる状態をつくります。",
-      },
-      {
-        title: "検索データによるインサイトの抽出",
-        body:
-          "社内データやドキュメントを横断して必要な情報へすばやく到達できるようにし、意思決定に必要な気づきを得やすくします。",
-      },
-      {
-        title: "運用データによるインサイトの抽出",
-        body:
-          "利用ログや業務データをもとに、現場のボトルネックや改善余地を見える化し、AI活用の投資対効果を説明しやすくします。",
-      },
-    ],
-  },
-  essentials: {
-    title: "AI活用に絶対的に必要な2つのこと",
-    body:
-      "AI活用を現場に定着させるには、データと運用体制の両方を整える必要があります。どちらか一方だけでは、AIは事業の力になりません。",
-    cards: [
-      {
-        title: "データが整備されていない",
-        body:
-          "必要な情報がバラバラのままでは、AIは安定した出力を返せません。まずは接続対象と参照ルールを整理する必要があります。",
-        image: {
-          src: "/top-assets/card-image-1.svg",
-          alt: "AI基盤とデータ連携のイメージ",
-        },
-      },
-      {
-        title: "AIに関する人材と知識が不足",
-        body:
-          "AI導入は、ツール選定だけでなく、業務設計・運用設計・改善サイクルまで含めた支援が必要です。伴走できる体制づくりが成功を左右します。",
-        image: {
-          src: "/top-assets/card-image-2.svg",
-          alt: "AI導入を検討するチームのイメージ",
-        },
-      },
-    ],
-  },
-  security: {
+  } as const;
+export const topPageSecurity = {
     sectionName: "国際基準のセキュリティ認証",
     title: "国際基準のセキュリティ認証",
     body:
@@ -398,8 +340,8 @@ export const topPageContent = {
       label: "セキュリティ・コンプライアンス（Trust Center）の詳細を見る",
       href: "https://trust.querypie.com/",
     },
-  },
-  whitepapers: {
+  } as const;
+export const topPageWhitepapers = {
     title: "経営層・事業責任者向け ホワイトペーパー",
     body:
       "AI活用の戦略策定や、自社サービスのAI化に向けたインサイトをまとめた資料を無料でダウンロードいただけます。",
@@ -449,8 +391,8 @@ export const topPageContent = {
         },
       },
     ],
-  },
-  finalCta: {
+  } as const;
+export const topPageFinalCta = {
     title: "信頼できるAI活用を、ここから前へ。",
     body: {
       line1: "大切なのは、安心して始められ、現場で使われ、定着し、広げられること。",
@@ -462,31 +404,4 @@ export const topPageContent = {
       { label: "資料をダウンロード", href: topPageDownloadUrl },
       { label: "導入について相談する", href: topPageFinalConsultUrl },
     ],
-  },
-  contact: {
-    title: "お問い合わせ",
-    body:
-      "どこからAI活用を始めるべきか、何を優先して整えるべきかなど、まずはお気軽にご相談ください。資料送付やデモのご案内も可能です。",
-    submitLabel: "送信する",
-  },
-  footer: {
-    columns: [
-      {
-        title: "Solutions",
-        links: ["AI Dashi", "AI Crew", "AI Platform"],
-      },
-      {
-        title: "Features",
-        links: ["Demo", "Security", "Download Center"],
-      },
-      {
-        title: "Company",
-        links: ["About Us", "Trust Center", "Contact Us"],
-      },
-      {
-        title: "Policy",
-        links: ["Terms of Use", "Privacy Policy", "EULA"],
-      },
-    ],
-  },
-} as const;
+  } as const;
