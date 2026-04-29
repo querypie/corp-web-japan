@@ -76,6 +76,7 @@ Use `.agents/skills/README.md` as the first local index, then load the specific 
 
 - Follow surrounding file style and existing component patterns.
 - Keep pages thin: route files should compose content and shared sections, while reusable logic stays in `src/lib/` or `src/components/`.
+- For the current general code-location conventions, see `docs/code-location-conventions.md`.
 - Use the existing stack and conventions already present in the repo.
 - Notify the user before any non-text change if the request did not explicitly include it.
 - Apply cursor semantics consistently in UX work: interactive controls such as buttons, clickable cards, disclosure triggers, and menu toggles should show `cursor-pointer`, while static text, headings, and other non-interactive copy should keep the default arrow cursor unless editing or text selection is intentional.
