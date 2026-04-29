@@ -32,32 +32,19 @@ import {
   MarketingSurface,
 } from "@/components/sections/marketing-section-primitives";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
+import {
+  SolutionChoiceAction,
+  SolutionChoiceBadge,
+  SolutionChoiceCard,
+  SolutionChoiceDescription,
+  SolutionChoiceHeader,
+  SolutionChoiceSubtitle,
+  SolutionChoiceTitle,
+} from "@/components/sections/top-page-solution-choice-card";
 
 const coreValueIcons = [ShieldCheck, Zap, Users] as const;
 const roadmapIcons = [Compass, Settings2, Building2] as const;
 const solutionBranchIcons = [Users, Blocks] as const;
-const solutionBranchThemes = [
-  {
-    badge: "AI Crew",
-    badgeClass: "bg-[#174EA6] text-white shadow-[0_12px_26px_-18px_rgba(23,78,166,0.45)]",
-    cardClass:
-      "border-[#C9D8F5] bg-[linear-gradient(180deg,rgba(239,244,255,0.98)_0%,rgba(248,251,255,0.97)_100%)]",
-    headingClass: "text-[#163A7A]",
-    iconWrapClass: "border border-[#C9D8F5] bg-[#EEF4FF] text-[#174EA6] shadow-[0_12px_28px_-24px_rgba(23,78,166,0.28)]",
-    labelClass: "text-[#163A7A]",
-    linkClass: "text-[#163A7A] hover:text-[#2563EB]",
-  },
-  {
-    badge: "AI Dashi",
-    badgeClass: "bg-[#ED602E] text-white shadow-[0_12px_26px_-18px_rgba(237,96,46,0.45)]",
-    cardClass:
-      "border-[#F3D2C1] bg-[linear-gradient(180deg,rgba(255,245,239,0.98)_0%,rgba(255,250,247,0.97)_100%)]",
-    headingClass: "text-[#B85733]",
-    iconWrapClass: "border border-[#F0C8B7] bg-[#FFE6DA] text-[#B85733] shadow-[0_14px_30px_-22px_rgba(184,87,51,0.35)]",
-    labelClass: "text-[#8c4a2f]",
-    linkClass: "text-[#8c4a2f] hover:text-[#ED602E]",
-  },
-] as const;
 
 export function TopPageSections() {
   const hero = topPageHero;
@@ -200,42 +187,22 @@ export function TopPageSections() {
             <RevealOnScroll className="mt-10 grid items-stretch gap-5 lg:grid-cols-2" variant="up" delayMs={220}>
               {solutionBranch.cards.map((card, index) => {
                 const Icon = solutionBranchIcons[index];
-                const theme = solutionBranchThemes[index];
+                const tone = index === 0 ? "crew" : "dashi";
 
                 return (
-                <MarketingSurface
-                  as={Link}
-                  key={card.title}
-                  href={card.href}
-                  className={`flex h-full flex-col rounded-[2rem] p-7 shadow-[0_22px_60px_-48px_rgba(15,23,42,0.18)] focus:outline-none focus:ring-2 focus:ring-[#2f3a49]/15 sm:p-8 ${theme.cardClass}`}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <MarketingPill className={`w-fit px-3 py-1 tracking-[0.12em] ${theme.badgeClass}`}>
-                      {theme.badge}
-                    </MarketingPill>
-                    <MarketingIconFrame className={`flex-none shadow-[0_16px_34px_-24px_rgba(15,23,42,0.35)] ${theme.iconWrapClass}`}>
-                      <Icon className="h-5 w-5" />
-                    </MarketingIconFrame>
-                  </div>
+                  <SolutionChoiceCard key={card.title} href={card.href} tone={tone}>
+                    <SolutionChoiceHeader icon={Icon}>
+                      <SolutionChoiceBadge>{card.label}</SolutionChoiceBadge>
+                    </SolutionChoiceHeader>
 
-                  <div className="mt-5">
-                    <h3 className={`text-[24px] font-semibold leading-[1.35] tracking-[-0.04em] sm:text-[28px] ${theme.headingClass}`}>
-                      {card.title}
-                    </h3>
-                    <p className="mt-2 text-[12px] font-semibold tracking-[0.12em] text-slate-500 sm:text-[13px]">
-                      {card.subtitle}
-                    </p>
-                  </div>
+                    <div className="mt-5">
+                      <SolutionChoiceTitle>{card.title}</SolutionChoiceTitle>
+                      <SolutionChoiceSubtitle>{card.subtitle}</SolutionChoiceSubtitle>
+                    </div>
 
-                  <p className="mt-5 flex-1 text-[15px] leading-7 text-slate-600">{card.body}</p>
-
-                  <span
-                    className={`mt-8 inline-flex items-center gap-2 text-sm font-semibold transition ${theme.linkClass}`}
-                  >
-                    {card.ctaLabel}
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
-                </MarketingSurface>
+                    <SolutionChoiceDescription>{card.body}</SolutionChoiceDescription>
+                    <SolutionChoiceAction>{card.ctaLabel}</SolutionChoiceAction>
+                  </SolutionChoiceCard>
                 );
               })}
             </RevealOnScroll>
