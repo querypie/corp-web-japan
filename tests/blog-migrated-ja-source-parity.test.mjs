@@ -45,13 +45,33 @@ function listTargetPosts() {
     .sort((left, right) => Number(left.id) - Number(right.id));
 }
 
-test("all corp-web-contents blog posts are migrated locally with matching id/slug/title/description/author parity using ja->ko->en source fallback", () => {
+test("all corp-web-contents blog posts are migrated locally with stable id/slug coverage, while ja-sourced metadata stays source-aligned and fallback-sourced posts may be translated locally", () => {
   const sourcePosts = listExpectedSourceParity();
   const targetPosts = listTargetPosts();
+  const targetById = new Map(targetPosts.map((post) => [post.id, post]));
 
   assert.equal(targetPosts.length, sourcePosts.length);
   assert.deepEqual(
-    targetPosts.map(({ id, slug, title, description, author }) => ({ id, slug, title, description, author })),
-    sourcePosts.map(({ id, slug, title, description, author }) => ({ id, slug, title, description, author })),
+    targetPosts.map(({ id, slug, author }) => ({ id, slug, author })),
+    sourcePosts.map(({ id, slug, author }) => ({ id, slug, author })),
   );
+
+  for (const sourcePost of sourcePosts) {
+    if (sourcePost.sourceLocale !== "ja") {
+      continue;
+    }
+
+    const targetPost = targetById.get(sourcePost.id);
+    assert.ok(targetPost, `Missing local blog post for id=${sourcePost.id}`);
+    assert.deepEqual(
+      {
+        title: targetPost.title,
+        description: targetPost.description,
+      },
+      {
+        title: sourcePost.title,
+        description: sourcePost.description,
+      },
+    );
+  }
 });
