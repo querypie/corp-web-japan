@@ -48,6 +48,21 @@ For static marketing pages, the preferred implementation style is stronger than 
 - Reusable UX primitives and clearly reusable visual helpers may still be called from `src/components/ui/**` or other shared component locations.
 - Avoid pushing most of the static page's content and structure into separate `src/content/**` data files or large page-specific section wrappers when that makes the route harder to understand in one place.
 
+### Recommended implementation pattern for representative static pages
+
+Use top page, AI Crew, and AI Dashi as the representative content family for this rule.
+For pages of this type, prefer the following implementation shape so the page can be built quickly, reviewed easily, and kept structurally consistent across routes.
+
+- Keep the primary page implementation in `src/app/<route>/page.tsx`.
+- Write the main Japanese copy, section order, and page-specific JSX directly in that `page.tsx` file.
+- Allow shared calls only for clearly reusable UI primitives or small visual helpers.
+- Keep route-specific constants close to the page when they mainly exist to support that one page.
+- Do not move the bulk of a static page into `src/content/**` data objects just to avoid a long `page.tsx` file.
+- Do not hide most of the page structure behind a single page-specific wrapper component if that makes the route harder to inspect.
+- If a helper is reused across multiple static pages, promote only that helper; keep the rest route-local.
+
+A good outcome is that a reviewer can open one `page.tsx` file and understand the page's content model, major sections, and CTA structure without chasing several content registries or page-specific wrapper layers.
+
 Current examples against this static page convention:
 
 - Largely aligned:
