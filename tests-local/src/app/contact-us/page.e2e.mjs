@@ -6,8 +6,8 @@ const sampleMessage =
   process.env.CONTACT_US_E2E_MESSAGE ??
   'Stage E2E verification from Hermes. Please ignore this test submission.';
 
-test('contact-us preview page renders core form fields on stage', async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/t/contact-us`, { waitUntil: 'networkidle' });
+test('contact-us page renders core form fields on stage', async ({ page, baseURL }) => {
+  await page.goto(`${baseURL}/contact-us`, { waitUntil: 'networkidle' });
 
   await expect(page).toHaveTitle('お問い合わせ | QueryPie AI');
   await expect(page.getByRole('heading', { name: 'お問い合わせ' })).toBeVisible();
@@ -17,9 +17,9 @@ test('contact-us preview page renders core form fields on stage', async ({ page,
   await expect(page.getByRole('button', { name: '送信する' })).toBeDisabled();
 });
 
-test('contact-us preview page applies stable query prefills on stage', async ({ page, baseURL }) => {
+test('contact-us page applies stable query prefills on stage', async ({ page, baseURL }) => {
   await page.goto(
-    `${baseURL}/t/contact-us?inquiry=demo-request&product=aip&product=ai-dashi`,
+    `${baseURL}/contact-us?inquiry=demo-request&product=aip&product=ai-dashi`,
     { waitUntil: 'networkidle' },
   );
 
@@ -28,8 +28,8 @@ test('contact-us preview page applies stable query prefills on stage', async ({ 
   await expect(page.locator('#contact-us-product-ai-dashi')).toBeChecked();
 });
 
-test('contact-us preview page submit flow matches the current expected stage outcome', async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/t/contact-us`, { waitUntil: 'networkidle' });
+test('contact-us page submit flow matches the current expected stage outcome', async ({ page, baseURL }) => {
+  await page.goto(`${baseURL}/contact-us`, { waitUntil: 'networkidle' });
 
   await page.getByRole('textbox', { name: '*姓' }).fill('테스트');
   await page.getByRole('textbox', { name: '*名' }).fill('허메스');

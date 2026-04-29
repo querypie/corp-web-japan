@@ -13,7 +13,8 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
   const resourcePostPage = readSource("src/components/PublicationPostPage.tsx");
-  const contactUsRoute = readSource("src/app/contact-us/route.ts");
+  const contactUsPage = readSource("src/app/contact-us/page.tsx");
+
 
   assert.match(aiCrewDataSource, /const aiCrewConsultUrl =|export const aiCrewConsultUrl =/);
   assert.match(aiCrewDataSource, /const demoUseCasesUrl =|export const demoUseCasesUrl =/);
@@ -42,10 +43,8 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(aiDashiPage, /href={aiDashiConsultUrl}/);
   assert.match(aiDashiFaq, /href={aiDashiConsultUrl}/);
   assert.match(resourcePostPage, /href={publicationPostContactUrl}/);
-  assert.match(contactUsRoute, /const contactUsUrl = new URL\("https:\/\/www\.querypie\.com\/ja\/company\/contact-us"\)/);
-  assert.match(contactUsRoute, /redirectedUrl\.search = request\.nextUrl\.search;/);
-  assert.match(contactUsRoute, /NextResponse\.redirect\(redirectedUrl, 307\)/);
-
+  assert.match(contactUsPage, /canonical:\s*"\/contact-us"/);
+  assert.match(contactUsPage, /getPrefilledContactUsFormState\(urlSearchParams\)/);
   assert.doesNotMatch(aiCrewDataSource, /href: "#"/);
   assert.doesNotMatch(aiCrewFloatingGuide, /ctaHref: "#"/);
 });
@@ -75,6 +74,7 @@ test("robots and sitemap metadata files exist and cover the core public routes",
   assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-dashi"\)/);
   assert.match(sitemap, /absoluteUrl\("\/blog"\)/);
   assert.match(sitemap, /absoluteUrl\("\/whitepapers"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
   assert.match(sitemap, /eventPostRecords/);
   assert.match(sitemap, /getEventPostHref/);
 });

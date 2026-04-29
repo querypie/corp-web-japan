@@ -17,5 +17,7 @@ test("contact-us submit caller composes reusable shared form server modules", ()
   assert.match(helper, /postSlackNotification/);
   assert.match(helper, /deliverSalesforcePayload/);
   assert.match(helper, /buildContactUsSalesforceBody/);
+  assert.match(helper, /endpointName:\s*"contact-us"/);
+  assert.match(helper, /requestPath:\s*"\/contact-us\/submit"/);
   assert.match(contactUsLib, /processType:\s*"LEAD_MS"/);
 });
