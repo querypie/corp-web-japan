@@ -44,8 +44,13 @@ export async function postSlackNotification({
 
   const environmentTag = getSlackEnvironmentTag();
   const visibleEntries = Object.entries(requestBody)
-    .filter(([key]) => !key.startsWith("Has") && !key.startsWith("Referrer") && !key.startsWith("pi__"))
-    .map(([key, value]) => `• *${key}*: ${String(value || "-")}`)
+    .filter(([key]) => !key.startsWith("Has") && !key.startsWith("pi__"))
+    .map(([key, value]) => {
+      if (key === "Referrer_URL__c") {
+        return `• *Request URI*: ${String(value || "-")}`;
+      }
+      return `• *${key}*: ${String(value || "-")}`;
+    })
     .join("\n");
 
   const text = `${environmentTag}*${title}*\n\n${visibleEntries}`;
