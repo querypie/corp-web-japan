@@ -163,13 +163,6 @@ function parseAuthor(html: string) {
   };
 }
 
-function normalizeGatingHtml(html: string) {
-  return html.replace(
-    /<\/select>/g,
-    '</select><span class="gating-select-icon" aria-hidden="true">⌄</span>',
-  );
-}
-
 export function isResourcePostCategory(value: string): value is ResourcePostCategory {
   return VALID_CATEGORIES.has(value as ResourcePostCategory);
 }
