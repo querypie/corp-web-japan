@@ -54,6 +54,27 @@ This section covers feature-oriented implementation such as Contact Us, blog, wh
 - Reusable UX primitive components should primarily live under `src/components/ui/**`.
 - Page- or domain-specific composed UI should primarily live under `src/components/sections/**`.
 
+### Shared UI text rule
+
+Shared UI component code should keep only Japanese text that is functionally necessary to describe or operate the UI.
+
+Allowed examples include:
+- field labels
+- button labels
+- validation and error messages
+- status text
+- short functional helper text
+
+Shared UI component code should not contain:
+- product explanations
+- marketing copy
+- sales messaging
+- page-specific descriptive content
+
+In short:
+- keep functional language in `src/components/ui/**`
+- keep content language out of `src/components/ui/**`
+
 ### Practical guidance
 
 - Keep route handlers and page files focused on request/response wiring and composition.
