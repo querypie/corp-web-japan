@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const expectedSubmitOutcome = process.env.CONTACT_US_EXPECTED_SUBMIT_OUTCOME ?? 'server-error';
+const expectedSubmitOutcome = process.env.CONTACT_US_EXPECTED_SUBMIT_OUTCOME ?? 'success';
 const sampleEmail = process.env.CONTACT_US_E2E_EMAIL ?? 'stage-e2e@querypie.ai';
 const sampleMessage =
   process.env.CONTACT_US_E2E_MESSAGE ??
