@@ -78,14 +78,17 @@ export function ZoomableFigure({
               }}
             >
               <div className="flex h-full w-full items-center justify-center">
-                <img
+                <Image
                   src={src}
                   alt={alt}
-                  className="block h-auto w-auto max-w-full max-h-full"
+                  width={modalMaxWidth}
+                  height={modalMaxHeight}
+                  className="block h-auto w-auto max-w-full max-h-full object-contain"
                   style={{
                     maxWidth: `min(94vw, ${modalMaxWidth}px)`,
                     maxHeight: `min(88vh, ${modalMaxHeight}px)`,
                   }}
+                  sizes={`min(94vw, ${modalMaxWidth}px)`}
                 />
               </div>
             </div>
