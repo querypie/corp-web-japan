@@ -4,6 +4,10 @@ import {
   type ContactUsFormState,
 } from "@/lib/contact-us";
 import { hasValidMxRecord } from "@/lib/forms/server/email-deliverability";
+import {
+  normalizeEnvironmentValue,
+  shouldTreatSlackAsRequired,
+} from "@/lib/forms/server/environment";
 import { sanitizeRecordStrings, sanitizeText } from "@/lib/forms/server/sanitize";
 import { deliverSalesforcePayload } from "@/lib/forms/server/salesforce-delivery";
 import { postSlackNotification } from "@/lib/forms/server/slack-notification";
@@ -45,16 +49,22 @@ export async function submitContactUsForm(
     };
   }
 
-  const slackToken = process.env.SLACK_BOT_OAUTH_TOKEN;
-  const slackChannel = process.env.SLACK_CHANNEL_ALERT_WEBSITE_BUSINESS_INQUIRIES;
+  const slackToken = normalizeEnvironmentValue(process.env.SLACK_BOT_OAUTH_TOKEN);
+  const slackChannel = normalizeEnvironmentValue(
+    process.env.SLACK_CHANNEL_ALERT_WEBSITE_BUSINESS_INQUIRIES,
+  );
+  const slackRequired = shouldTreatSlackAsRequired();
 
   if (!slackToken || !slackChannel) {
     console.error("[contact-us] Slack environment variables not configured");
-    return {
-      success: false,
-      status: 500,
-      message: "現在サーバー設定に問題があります。しばらくしてから再度お試しください。",
-    };
+
+    if (slackRequired) {
+      return {
+        success: false,
+        status: 500,
+        message: "現在サーバー設定に問題があります。しばらくしてから再度お試しください。",
+      };
+    }
   }
 
   if (!(await hasValidMxRecord(payload.form.email))) {
@@ -72,26 +82,31 @@ export async function submitContactUsForm(
   );
 
   await deliverSalesforcePayload({
-    endpoint: process.env.SALESFORCE_ENDPOINT,
+    endpoint: normalizeEnvironmentValue(process.env.SALESFORCE_ENDPOINT),
     payload: requestPayload as Record<string, unknown>,
     successIdField: "recordUUID",
     logPrefix: "[contact-us] salesforce",
   });
 
-  try {
-    await postSlackNotification({
-      requestBody: requestPayload.requestBody as Record<string, unknown>,
-      token: slackToken,
-      channel: slackChannel,
-      title: "New Contact Sales Received",
-    });
-  } catch (error) {
-    console.error("[contact-us] slack: failed", error);
-    return {
-      success: false,
-      status: 502,
-      message: "お問い合わせの送信に失敗しました。しばらくしてから再度お試しください。",
-    };
+  if (slackToken && slackChannel) {
+    try {
+      await postSlackNotification({
+        requestBody: requestPayload.requestBody as Record<string, unknown>,
+        token: slackToken,
+        channel: slackChannel,
+        title: "New Contact Sales Received",
+      });
+    } catch (error) {
+      console.error("[contact-us] slack: failed", error);
+
+      if (slackRequired) {
+        return {
+          success: false,
+          status: 502,
+          message: "お問い合わせの送信に失敗しました。しばらくしてから再度お試しください。",
+        };
+      }
+    }
   }
 
   return {

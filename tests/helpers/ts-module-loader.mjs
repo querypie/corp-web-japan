@@ -1,43 +1,33 @@
-import path from "node:path";
-import vm from "node:vm";
-import { readFileSync } from "node:fs";
-import ts from "typescript";
+import path from 'node:path';
+import vm from 'node:vm';
+import { readFileSync } from 'node:fs';
+import ts from 'typescript';
 
 const repoRoot = process.cwd();
-const srcRoot = path.join(repoRoot, "src");
+const srcRoot = path.join(repoRoot, 'src');
 
 export function createTsModuleLoader(mocks = {}) {
   const cache = new Map();
 
   function resolveModulePath(request, parentPath) {
-    if (request.startsWith("@/")) {
+    if (request.startsWith('@/')) {
       return path.join(srcRoot, `${request.slice(2)}.ts`);
     }
-
-    if (request.startsWith("./") || request.startsWith("../")) {
+    if (request.startsWith('./') || request.startsWith('../')) {
       const candidate = path.resolve(path.dirname(parentPath), request);
-      if (candidate.endsWith(".ts") || candidate.endsWith(".js")) {
-        return candidate;
-      }
+      if (candidate.endsWith('.ts') || candidate.endsWith('.js')) return candidate;
       return `${candidate}.ts`;
     }
-
     return null;
   }
 
   function loadModule(modulePath) {
     const normalized = path.resolve(modulePath);
-    if (cache.has(normalized)) {
-      return cache.get(normalized).exports;
-    }
+    if (cache.has(normalized)) return cache.get(normalized).exports;
 
-    const source = readFileSync(normalized, "utf8");
+    const source = readFileSync(normalized, 'utf8');
     const transpiled = ts.transpileModule(source, {
-      compilerOptions: {
-        module: ts.ModuleKind.CommonJS,
-        target: ts.ScriptTarget.ES2022,
-        esModuleInterop: true,
-      },
+      compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true },
       fileName: normalized,
     }).outputText;
 
@@ -45,19 +35,13 @@ export function createTsModuleLoader(mocks = {}) {
     cache.set(normalized, cjsModule);
 
     const localRequire = (request) => {
-      if (request in mocks) {
-        return mocks[request];
-      }
-
+      if (request in mocks) return mocks[request];
       const resolved = resolveModulePath(request, normalized);
-      if (resolved) {
-        return loadModule(resolved);
-      }
-
+      if (resolved) return loadModule(resolved);
       throw new Error(`Unsupported import in test loader: ${request}`);
     };
 
-    const context = {
+    vm.runInNewContext(transpiled, {
       module: cjsModule,
       exports: cjsModule.exports,
       require: localRequire,
@@ -69,17 +53,12 @@ export function createTsModuleLoader(mocks = {}) {
       Buffer,
       setTimeout,
       clearTimeout,
-    };
+    }, { filename: normalized });
 
-    vm.runInNewContext(transpiled, context, { filename: normalized });
     return cjsModule.exports;
   }
 
-  return {
-    importModule(relativePath) {
-      return loadModule(path.join(repoRoot, relativePath));
-    },
-  };
+  return { importModule: (relativePath) => loadModule(path.join(repoRoot, relativePath)) };
 }
 
 export function toPlainJson(value) {
