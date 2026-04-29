@@ -422,7 +422,7 @@ export const topPageContent = {
         ctaLabel: "無料ダウンロード",
         href: "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan",
         image: {
-          src: "/assets/image/whitepapers/24/thumbnail.png",
+          src: "/whitepapers/24/thumbnail.png",
           alt: "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか ホワイトペーパー表紙",
         },
       },
