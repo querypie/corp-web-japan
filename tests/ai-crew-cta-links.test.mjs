@@ -1,12 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFirstExistingSource, readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "./helpers/source-readers.mjs";
+import { getAiCrewDataSource } from "./helpers/static-marketing-page-sources.mjs";
 
 test("AI Crew CTA links match the intended targets", () => {
-  const aiCrewDataSource = readFirstExistingSource([
-    "src/content/home.ts",
-    "src/app/solutions/ai-crew/page.tsx",
-  ]);
+  const aiCrewDataSource = getAiCrewDataSource();
   const floatingGuide = readSource("src/components/sections/ai-crew-floating-guide.tsx");
 
   assert.match(

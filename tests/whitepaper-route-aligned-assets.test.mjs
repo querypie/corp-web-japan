@@ -2,7 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readdirSync } from "node:fs";
 import path from "node:path";
-import { readFirstExistingSource, readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "./helpers/source-readers.mjs";
+import { getTopPageDataSource } from "./helpers/static-marketing-page-sources.mjs";
 
 const whitepapersDir = path.join(process.cwd(), "src/content/whitepapers");
 
@@ -23,10 +24,7 @@ test("whitepaper hero thumbnails use route-aligned /whitepapers/{id}/thumbnail.p
 });
 
 test("whitepaper supporting surfaces do not reference the legacy /assets/image/whitepapers path", () => {
-  const topPage = readFirstExistingSource([
-    "src/content/top-page.ts",
-    "src/app/page.tsx",
-  ]);
+  const topPage = getTopPageDataSource();
   const gatingDemo = readSource("src/content/internal/whitepaper-gating-demo.mdx");
 
   assert.match(topPage, /src: "\/whitepapers\/24\/thumbnail\.png"/);

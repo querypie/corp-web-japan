@@ -1,22 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFirstExistingSource, readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "./helpers/source-readers.mjs";
+import { getAiCrewDataSource, getTopPageDataSource, getTopPageStructureSource } from "./helpers/static-marketing-page-sources.mjs";
 
 test("launch-risk CTA targets resolve to explicit anchors or real destinations", () => {
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
   const topPage = readSource("src/app/page.tsx");
-  const aiCrewDataSource = readFirstExistingSource([
-    "src/content/home.ts",
-    "src/app/solutions/ai-crew/page.tsx",
-  ]);
-  const topPageDataSource = readFirstExistingSource([
-    "src/content/top-page.ts",
-    "src/app/page.tsx",
-  ]);
-  const topPageStructureSource = readFirstExistingSource([
-    "src/components/sections/top-page-sections.tsx",
-    "src/app/page.tsx",
-  ]);
+  const aiCrewDataSource = getAiCrewDataSource();
+  const topPageDataSource = getTopPageDataSource();
+  const topPageStructureSource = getTopPageStructureSource();
   const aiCrewFloatingGuide = readSource("src/components/sections/ai-crew-floating-guide.tsx");
   const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
