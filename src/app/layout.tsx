@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { preload } from "react-dom";
 import "./globals.css";
 import { siteUrl } from "@/lib/site-url";
 
@@ -21,6 +22,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  preload("/fonts/PretendardJPSubset-600.woff2", {
+    as: "font",
+    type: "font/woff2",
+    crossOrigin: "anonymous",
+  });
+
   return (
     <html lang="ja" className={monaSansFont.variable}>
       <body className="font-sans antialiased">{children}</body>
