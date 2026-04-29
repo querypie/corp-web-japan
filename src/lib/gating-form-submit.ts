@@ -54,15 +54,6 @@ export async function submitGatingForm(
   const slackToken = process.env.SLACK_BOT_OAUTH_TOKEN;
   const slackChannel = process.env.SLACK_CHANNEL_ALERT_WEBSITE_BUSINESS_INQUIRIES;
 
-  if (!slackToken || !slackChannel) {
-    console.error("[gating-form] Slack environment variables not configured");
-    return {
-      success: false,
-      status: 500,
-      message: "現在サーバー設定に問題があります。しばらくしてから再度お試しください。",
-    };
-  }
-
   if (!(await hasValidMxRecord(payload.form.email))) {
     return {
       success: false,
@@ -80,23 +71,24 @@ export async function submitGatingForm(
 
   await deliverSalesforcePayload({
     endpoint: process.env.SALESFORCE_ENDPOINT,
+    endpointName: "gating-form",
+    requestPath: "/api/gating-form/unlock",
     payload: requestPayload as Record<string, unknown>,
     successIdField: "recordUUID",
-    logPrefix: "[gating-form] salesforce",
   });
 
-  try {
-    await postSlackNotification({
-      requestBody: requestPayload.requestBody as Record<string, unknown>,
-      token: slackToken,
-      channel: slackChannel,
-      title: "New Gated Document Unlock Received",
-    });
-  } catch (error) {
-    console.error("[gating-form] slack: failed", error);
+  const slackResult = await postSlackNotification({
+    endpointName: "gating-form",
+    requestPath: "/api/gating-form/unlock",
+    requestBody: requestPayload.requestBody as Record<string, unknown>,
+    token: slackToken,
+    channel: slackChannel,
+    title: "New Gated Document Unlock Received",
+  });
+  if (!slackResult.ok) {
     return {
       success: false,
-      status: 502,
+      status: slackResult.reason === "missing_credentials" ? 500 : 502,
       message: "限定コンテンツの送信処理に失敗しました。しばらくしてから再度お試しください。",
     };
   }

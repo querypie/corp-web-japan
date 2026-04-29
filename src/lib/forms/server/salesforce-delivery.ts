@@ -1,22 +1,36 @@
+import {
+  logExternalApiError,
+  logExternalApiInfo,
+  logExternalApiWarn,
+} from "@/lib/forms/server/external-api-log";
+
 export type SalesforceDeliveryResult =
   | { ok: true; recordUUID?: string }
   | { ok: false; reason: string };
 
 export async function deliverSalesforcePayload(options: {
   endpoint?: string;
+  endpointName?: string;
+  requestPath?: string;
   payload: Record<string, unknown>;
   successIdField?: string;
-  logPrefix?: string;
 }): Promise<SalesforceDeliveryResult> {
   const {
     endpoint,
+    endpointName = "unknown",
+    requestPath,
     payload,
     successIdField = "recordUUID",
-    logPrefix = "[form-submit] salesforce",
   } = options;
 
   if (!endpoint) {
-    console.warn(`${logPrefix}: skipped (env not set)`);
+    logExternalApiWarn({
+      service: "salesforce",
+      endpointName,
+      requestPath,
+      outcome: "skipped",
+      reason: "missing_endpoint",
+    });
     return { ok: false, reason: "missing_endpoint" };
   }
 
@@ -32,21 +46,50 @@ export async function deliverSalesforcePayload(options: {
     const json = (await response.json().catch(() => null)) as Record<string, unknown> | null;
 
     if (!response.ok) {
-      console.error(`${logPrefix}: HTTP ${response.status}`);
+      logExternalApiError({
+        service: "salesforce",
+        endpointName,
+        requestPath,
+        outcome: "failed",
+        reason: `http_${response.status}`,
+        statusCode: response.status,
+        remoteUrl: endpoint,
+      });
       return { ok: false, reason: `http_${response.status}` };
     }
 
     const recordUUID = typeof json?.[successIdField] === "string" ? (json[successIdField] as string) : undefined;
 
     if (!recordUUID) {
-      console.error(`${logPrefix}: no ${successIdField} in response`);
+      logExternalApiError({
+        service: "salesforce",
+        endpointName,
+        requestPath,
+        outcome: "failed",
+        reason: `missing_${successIdField}`,
+        remoteUrl: endpoint,
+      });
       return { ok: false, reason: `missing_${successIdField}` };
     }
 
-    console.info(`${logPrefix}: success ${successIdField}=${recordUUID}`);
+    logExternalApiInfo({
+      service: "salesforce",
+      endpointName,
+      requestPath,
+      outcome: "success",
+      recordUUID,
+      remoteUrl: endpoint,
+    });
     return { ok: true, recordUUID };
-  } catch (error) {
-    console.error(`${logPrefix}: request error`, error);
+  } catch {
+    logExternalApiError({
+      service: "salesforce",
+      endpointName,
+      requestPath,
+      outcome: "failed",
+      reason: "request_error",
+      remoteUrl: endpoint,
+    });
     return { ok: false, reason: "request_error" };
   }
 }

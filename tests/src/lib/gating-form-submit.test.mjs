@@ -17,6 +17,8 @@ test("gating submit caller reuses the shared form server modules and LEAD_MS req
   assert.match(helper, /postSlackNotification/);
   assert.match(helper, /deliverSalesforcePayload/);
   assert.match(helper, /buildGatingSalesforceBody/);
+  assert.match(helper, /endpointName:\s*"gating-form"/);
+  assert.match(helper, /requestPath:\s*"\/api\/gating-form\/unlock"/);
   assert.match(gatingLib, /buildContactUsSalesforceBody/);
   assert.match(gatingLib, /message:\s*""/);
   assert.match(gatingLib, /GatedContentKey:/);

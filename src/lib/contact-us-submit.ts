@@ -48,15 +48,6 @@ export async function submitContactUsForm(
   const slackToken = process.env.SLACK_BOT_OAUTH_TOKEN;
   const slackChannel = process.env.SLACK_CHANNEL_ALERT_WEBSITE_BUSINESS_INQUIRIES;
 
-  if (!slackToken || !slackChannel) {
-    console.error("[contact-us] Slack environment variables not configured");
-    return {
-      success: false,
-      status: 500,
-      message: "現在サーバー設定に問題があります。しばらくしてから再度お試しください。",
-    };
-  }
-
   if (!(await hasValidMxRecord(payload.form.email))) {
     return {
       success: false,
@@ -73,23 +64,24 @@ export async function submitContactUsForm(
 
   await deliverSalesforcePayload({
     endpoint: process.env.SALESFORCE_ENDPOINT,
+    endpointName: "contact-us",
+    requestPath: "/contact-us/submit",
     payload: requestPayload as Record<string, unknown>,
     successIdField: "recordUUID",
-    logPrefix: "[contact-us] salesforce",
   });
 
-  try {
-    await postSlackNotification({
-      requestBody: requestPayload.requestBody as Record<string, unknown>,
-      token: slackToken,
-      channel: slackChannel,
-      title: "New Contact Sales Received",
-    });
-  } catch (error) {
-    console.error("[contact-us] slack: failed", error);
+  const slackResult = await postSlackNotification({
+    endpointName: "contact-us",
+    requestPath: "/contact-us/submit",
+    requestBody: requestPayload.requestBody as Record<string, unknown>,
+    token: slackToken,
+    channel: slackChannel,
+    title: "New Contact Sales Received",
+  });
+  if (!slackResult.ok) {
     return {
       success: false,
-      status: 502,
+      status: slackResult.reason === "missing_credentials" ? 500 : 502,
       message: "お問い合わせの送信に失敗しました。しばらくしてから再度お試しください。",
     };
   }
