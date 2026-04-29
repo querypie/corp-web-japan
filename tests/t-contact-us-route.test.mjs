@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 const repoRoot = process.cwd();
@@ -17,13 +17,14 @@ test("/t/contact-us page stays isolated and non-indexed", () => {
   assert.match(page, /<ContactUsForm[^>]*\/>/);
 });
 
-test("contact-us form uses production-ready copy and validation with stable query prefills", () => {
+test("contact-us form keeps preview page routing but submits through the production-ready endpoint", () => {
   const formComponent = readSource("src/components/sections/contact-us-form.tsx");
   const contactUsLib = readSource("src/lib/contact-us.ts");
   const page = readSource("src/app/t/contact-us/page.tsx");
 
   assert.match(page, /getPrefilledContactUsFormState\(urlSearchParams\)/);
-  assert.match(formComponent, /fetch\("\/t\/contact-us\/submit"/);
+  assert.match(formComponent, /fetch\("\/contact-us\/submit"/);
+  assert.doesNotMatch(formComponent, /fetch\("\/t\/contact-us\/submit"/);
   assert.match(formComponent, /お問い合わせ/);
   assert.match(formComponent, /1〜2営業日以内にご連絡いたします/);
   assert.match(formComponent, /aria-invalid/);
@@ -44,11 +45,27 @@ test("contact-us form uses production-ready copy and validation with stable quer
   assert.match(contactUsLib, /"fde"/);
 });
 
-test("/t/contact-us submit route degrades safely when the upstream endpoint is not configured", () => {
-  const submitRoute = readSource("src/app/t/contact-us/submit/route.ts");
+test("contact-us submit route lives at /contact-us/submit and includes production-ready integration hooks", () => {
+  const newRoutePath = path.join(repoRoot, "src/app/contact-us/submit/route.ts");
+  const oldRoutePath = path.join(repoRoot, "src/app/t/contact-us/submit/route.ts");
+  const helperPath = path.join(repoRoot, "src/lib/contact-us-submit.ts");
 
-  assert.match(submitRoute, /process\.env\.SALESFORCE_ENDPOINT/);
-  assert.match(submitRoute, /現在この環境ではお問い合わせ送信が有効化されていません/);
-  assert.match(submitRoute, /buildContactUsSalesforceBody/);
-  assert.match(submitRoute, /recordUUID/);
+  assert.equal(existsSync(newRoutePath), true, "expected src/app/contact-us/submit/route.ts to exist");
+  assert.equal(existsSync(oldRoutePath), false, "expected src/app/t/contact-us/submit/route.ts to be removed");
+  assert.equal(existsSync(helperPath), true, "expected src/lib/contact-us-submit.ts to exist");
+
+  const submitRoute = readSource("src/app/contact-us/submit/route.ts");
+  const helper = readSource("src/lib/contact-us-submit.ts");
+
+  assert.match(submitRoute, /submitContactUsForm/);
+  assert.match(helper, /SLACK_BOT_OAUTH_TOKEN/);
+  assert.match(helper, /SLACK_CHANNEL_ALERT_WEBSITE_BUSINESS_INQUIRIES/);
+  assert.match(helper, /resolveMx/);
+  assert.match(helper, /sanitizeText/);
+  assert.match(helper, /SALESFORCE_ENDPOINT/);
+  assert.match(helper, /toSalesforceFields/);
+  assert.match(helper, /buildContactUsSalesforceBody/);
+  assert.match(readSource("src/lib/contact-us.ts"), /processType:\s*"LEAD_MS"/);
+  assert.match(helper, /salesforce: skipped/);
+  assert.match(helper, /postToSlack/);
 });
