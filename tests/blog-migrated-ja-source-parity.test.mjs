@@ -45,7 +45,7 @@ function listTargetPosts() {
     .sort((left, right) => Number(left.id) - Number(right.id));
 }
 
-test("all Japanese corp-web-contents blog posts are migrated locally with matching id/slug/title/description/author parity", () => {
+test("all corp-web-contents blog posts are migrated locally with matching id/slug/title/description/author parity using ja->ko->en source fallback", () => {
   const sourcePosts = listExpectedSourceParity();
   const targetPosts = listTargetPosts();
 
