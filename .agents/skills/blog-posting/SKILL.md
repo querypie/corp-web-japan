@@ -29,22 +29,22 @@ Each new blog file must be an MDX file in `src/content/blog/` with frontmatter s
 
 ```mdx
 ---
-id: "29"
+id: "30"
 slug: "example-slug"
 title: "記事タイトル"
 description: "一覧とメタデータに使う説明文"
 date: "2026年4月29日"
-heroImageSrc: "/assets/image/blog/29/thumbnail.png"
+heroImageSrc: "/assets/image/blog/30/thumbnail.png"
 author: "brant"
 relatedIds:
+  - "29"
   - "28"
-  - "27"
 ---
 ```
 
 Notes:
 - `id` must be a string and must be unique.
-- Use the next available numeric filename and `id`, for example `src/content/blog/29.mdx`.
+- Use the next available numeric filename and `id`, for example `src/content/blog/30.mdx`.
 - `slug` becomes the canonical route suffix.
 - `author` is optional in the loader, but use it when a matching author exists in `src/content/authors/ja.yaml`.
 - `relatedIds` should list existing local blog IDs as strings.
@@ -59,8 +59,8 @@ Check the existing files under `src/content/blog/` and pick the next numeric id.
 ### 2. Inspect nearby examples
 
 Read at least one or two recent blog MDX files such as:
-- `src/content/blog/27.mdx`
 - `src/content/blog/28.mdx`
+- `src/content/blog/29.mdx`
 
 Match the current frontmatter and body style.
 
