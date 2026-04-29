@@ -1,3 +1,5 @@
+"use client";
+
 import type { ComponentType, ReactNode } from "react";
 import { createContext, useContext } from "react";
 import Link from "next/link";
