@@ -21,7 +21,7 @@ export function ResourcePostDownloadPage({
     firstName: "",
     email: "",
     company: "",
-    jobTitle: "",
+    title: "",
     phone: "",
     inquiry: "",
     timeline: "",
@@ -34,7 +34,7 @@ export function ResourcePostDownloadPage({
       form.firstName.trim() &&
       form.email.trim() &&
       form.company.trim() &&
-      form.jobTitle.trim() &&
+      form.title.trim() &&
       form.inquiry &&
       form.timeline &&
       form.products.length > 0,

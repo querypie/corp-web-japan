@@ -3,19 +3,14 @@
 import type { Dispatch, FormEvent, SetStateAction } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
+import {
+  inquiryOptions,
+  productOptions,
+  timelineOptions,
+  type GatingFormState,
+} from "@/lib/gating-form";
 
-export type ResourceLeadFormState = {
-  lastName: string;
-  firstName: string;
-  email: string;
-  company: string;
-  jobTitle: string;
-  phone: string;
-  inquiry: string;
-  timeline: string;
-  products: string[];
-  marketing: boolean;
-};
+export type ResourceLeadFormState = GatingFormState;
 
 type ResourceLeadFormProps = {
   form: ResourceLeadFormState;
@@ -27,30 +22,6 @@ type ResourceLeadFormProps = {
   variant?: "download" | "gated";
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 };
-
-const productOptions = [
-  ["aip", "AI Platform (AIP)"],
-  ["acp", "Access Control Platform (ACP)"],
-  ["fdes", "Forward Deployed Engineer Service"],
-  ["ai-dashi", "AI 出汁"],
-] as const;
-
-const inquiryOptions = [
-  ["", "選択してください"],
-  ["demo", "デモリクエスト"],
-  ["info", "資料請求"],
-  ["partner", "パートナーシップ"],
-  ["other", "その他"],
-] as const;
-
-const timelineOptions = [
-  ["", "選択してください"],
-  ["asap", "すぐに導入したい"],
-  ["3mo", "3ヶ月以内"],
-  ["6mo", "6ヶ月以内"],
-  ["1yr", "1年以内"],
-  ["exploring", "検討中"],
-] as const;
 
 export function ResourceLeadForm({
   form,
@@ -71,7 +42,7 @@ export function ResourceLeadForm({
         ["firstName", "名", "例：太郎"],
         ["email", "ビジネス用メールアドレス", "例：name@company.com"],
         ["company", "会社名", "例：クエリパイ株式会社"],
-        ["jobTitle", "部署／役職", "例：エンタープライズAI事業部 部長"],
+        ["title", "部署／役職", "例：エンタープライズAI事業部 部長"],
         ["phone", "電話番号", "例：090-1234-5678"],
       ].map(([key, label, placeholder]) => (
         <label key={key} className="flex flex-col gap-[6px]">
@@ -104,9 +75,10 @@ export function ResourceLeadForm({
             }
             className={selectClass}
           >
-            {inquiryOptions.map(([value, label]) => (
-              <option key={value || "empty"} value={value}>
-                {label}
+            <option value="">お問い合わせ内容を選択してください</option>
+            {inquiryOptions.map((option) => (
+              <option key={option.key} value={option.key}>
+                {option.label}
               </option>
             ))}
           </select>
@@ -120,22 +92,22 @@ export function ResourceLeadForm({
           関心のある製品・サービス
         </span>
         <div className="grid gap-2 rounded-[6px] border border-[#E5E7EB] bg-[#F9FAFB] p-4">
-          {productOptions.map(([value, label]) => (
-            <label key={value} className="text-sm leading-6 text-slate-500">
+          {productOptions.map((option) => (
+            <label key={option.key} className="text-sm leading-6 text-slate-500">
               <input
                 type="checkbox"
                 className="mr-2"
-                checked={form.products.includes(value)}
+                checked={form.products.includes(option.key)}
                 onChange={(event) =>
                   setForm((prev) => ({
                     ...prev,
                     products: event.target.checked
-                      ? [...prev.products, value]
-                      : prev.products.filter((item) => item !== value),
+                      ? [...prev.products, option.key]
+                      : prev.products.filter((item) => item !== option.key),
                   }))
                 }
               />
-              <span>{label}</span>
+              <span>{option.label}</span>
             </label>
           ))}
         </div>
@@ -154,9 +126,10 @@ export function ResourceLeadForm({
             }
             className={selectClass}
           >
-            {timelineOptions.map(([value, label]) => (
-              <option key={value || "empty"} value={value}>
-                {label}
+            <option value="">導入予定時期を選択してください</option>
+            {timelineOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
               </option>
             ))}
           </select>
