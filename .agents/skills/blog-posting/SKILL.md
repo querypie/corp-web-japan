@@ -1,7 +1,7 @@
 ---
 name: blog-posting
 description: Add a new local blog posting to corp-web-japan from the current MDX-backed publication system.
-version: 1.0.0
+version: 1.1.0
 author: Hermes Agent
 license: MIT
 metadata:
@@ -21,7 +21,31 @@ Use this skill when the task is to add a new blog article to the local MDX-backe
 - `/blog/:id` must redirect to the canonical slug route.
 - The detail loader is `src/lib/publications/get-publication-post.ts`.
 - Author metadata is resolved from `src/content/authors/ja.yaml` via `src/lib/authors/resolve-authors.ts`.
-- Hero/list thumbnails normally live at `/assets/image/blog/<id>/thumbnail.png` under `public/assets/image/blog/<id>/thumbnail.png`.
+- Blog hero/list thumbnails now live at `/blog/<id>/thumbnail.png` under `public/blog/<id>/thumbnail.png`.
+- In-body blog figures, videos, downloadable files, and any other blog-specific referenced assets should also live under `public/blog/<id>/...`.
+
+## Asset placement rule
+
+This rule is mandatory for new blog work:
+
+- Put every blog-specific referenced file under `public/blog/<id>/...`.
+- This includes:
+  - thumbnail / hero images
+  - in-body figures
+  - charts / diagrams
+  - videos or poster images
+  - PDF or downloadable attachments that belong only to that blog post
+  - any other referenced static file used only by that blog post
+- Do not put new blog-specific assets under `public/assets/...`.
+- Keep the public URL route-aligned with the detail route family:
+  - thumbnail: `/blog/<id>/thumbnail.png`
+  - other public URLs: `/blog/<id>/<filename>`
+  - MDX component filepaths: `public/blog/<id>/<filename>`
+
+Why:
+- current implementation already uses `public/blog/<id>/...` as the canonical blog asset root
+- route-aligned assets are easier to audit, move, diff, and deduplicate
+- mixing `public/assets/...` and `public/blog/...` for the same blog post creates drift and makes later cleanup harder
 
 ## Required frontmatter
 
@@ -34,7 +58,7 @@ slug: "example-slug"
 title: "記事タイトル"
 description: "一覧とメタデータに使う説明文"
 date: "2026年4月29日"
-heroImageSrc: "/assets/image/blog/30/thumbnail.png"
+heroImageSrc: "/blog/30/thumbnail.png"
 author: "brant"
 relatedIds:
   - "29"
@@ -48,7 +72,7 @@ Notes:
 - `slug` becomes the canonical route suffix.
 - `author` is optional in the loader, but use it when a matching author exists in `src/content/authors/ja.yaml`.
 - `relatedIds` should list existing local blog IDs as strings.
-- `heroImageSrc` should point at the public thumbnail path for that post.
+- `heroImageSrc` must point at the route-aligned thumbnail path for that post.
 
 ## Recommended workflow
 
@@ -64,13 +88,20 @@ Read at least one or two recent blog MDX files such as:
 
 Match the current frontmatter and body style.
 
-### 3. Add the thumbnail asset
+### 3. Add the thumbnail and any referenced assets
 
 Create or copy the thumbnail to:
-- `public/assets/image/blog/<id>/thumbnail.png`
+- `public/blog/<id>/thumbnail.png`
 
-Keep the public URL aligned with frontmatter:
-- `/assets/image/blog/<id>/thumbnail.png`
+If the article body needs additional assets, keep all blog-specific referenced files together under:
+- `public/blog/<id>/...`
+
+Examples:
+- `public/blog/<id>/figure-1.png`
+- `public/blog/<id>/demo.mp4`
+- `public/blog/<id>/appendix.pdf`
+
+Keep public URLs and MDX filepaths aligned with file placement.
 
 ### 4. Add the MDX file
 
@@ -82,6 +113,11 @@ Requirements:
 - write normal MDX body content
 - prefer existing publication components/patterns already used in current blog posts
 - keep inline links and markup compatible with the current MDX renderer in `src/lib/publications/mdx/renderer.ts`
+
+When referencing static files in MDX:
+- for normal markdown images, use route-aligned URLs like `/blog/<id>/figure-1.png`
+- for `ArticleFileImage`, use `filepath="public/blog/<id>/figure-1.png"`
+- keep all referenced files inside the same `public/blog/<id>/` asset root
 
 ### 5. Author handling
 
@@ -105,6 +141,7 @@ The current system auto-derives:
 However, always verify that:
 - the new file is discoverable by the directory scan
 - the new route shape remains `/blog/<id>/<slug>`
+- the new thumbnail and all other referenced files stay under `public/blog/<id>/`
 
 ## Verification checklist
 
@@ -142,14 +179,17 @@ npm run build
 - Adding a thumbnail file but mismatching the `heroImageSrc` path
 - Using an author id that does not exist in `src/content/authors/ja.yaml`
 - Introducing old-style manual blog arrays instead of relying on the current directory-scanned loader
+- Placing new blog-specific files under `public/assets/...` instead of `public/blog/<id>/...`
+- Scattering one blog post's images, video files, and attachments across multiple public roots
 - Changing route patterns away from `/blog/:id/:slug`
 
 ## Minimal task summary
 
 When asked to add a blog posting:
 1. choose the next blog id
-2. add `public/assets/image/blog/<id>/thumbnail.png`
-3. add `src/content/blog/<id>.mdx`
-4. update `src/content/authors/ja.yaml` only if a new author is needed
-5. run the targeted blog tests
-6. run broader verification only if the scope warrants it
+2. add `public/blog/<id>/thumbnail.png`
+3. place all blog-specific referenced files under `public/blog/<id>/...`
+4. add `src/content/blog/<id>.mdx`
+5. update `src/content/authors/ja.yaml` only if a new author is needed
+6. run the targeted blog tests
+7. run broader verification only if the scope warrants it

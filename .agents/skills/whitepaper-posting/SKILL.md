@@ -1,7 +1,7 @@
 ---
 name: whitepaper-posting
 description: Add a new local whitepaper posting to corp-web-japan from the current MDX-backed publication system.
-version: 1.0.0
+version: 1.1.0
 author: Hermes Agent
 license: MIT
 metadata:
@@ -22,8 +22,31 @@ Use this skill when the task is to add a new whitepaper article to the local MDX
 - The whitepaper list source is derived from `src/content/publications/whitepapers.ts`.
 - Whitepaper list items currently keep upstream `querypie.com/ja` hrefs for list-card destinations while local detail routes exist for the MDX-backed rendering flow.
 - Author metadata is resolved from `src/content/authors/ja.yaml` via `src/lib/authors/resolve-authors.ts`.
-- Thumbnail/list images normally live at `/assets/image/whitepapers/<id>/thumbnail.png` under `public/assets/image/whitepapers/<id>/thumbnail.png`.
-- In-body whitepaper figures commonly live under `public/whitepapers/<id>/...` and are referenced with `/whitepapers/<id>/...` URLs.
+- Whitepaper hero/list thumbnails now live at `/whitepapers/<id>/thumbnail.png` under `public/whitepapers/<id>/thumbnail.png`.
+- In-body whitepaper figures, videos, downloadable files, and any other whitepaper-specific referenced assets should also live under `public/whitepapers/<id>/...`.
+
+## Asset placement rule
+
+This rule is mandatory for new whitepaper work:
+
+- Put every whitepaper-specific referenced file under `public/whitepapers/<id>/...`.
+- This includes:
+  - thumbnail / hero images
+  - in-body figures
+  - charts / diagrams
+  - videos or poster images
+  - PDF or downloadable attachments that belong only to that whitepaper
+  - any other referenced static file used only by that whitepaper
+- Do not put new whitepaper-specific assets under `public/assets/...`.
+- Keep the public URL route-aligned with the detail route family:
+  - thumbnail: `/whitepapers/<id>/thumbnail.png`
+  - other public URLs: `/whitepapers/<id>/<filename>`
+  - MDX component filepaths: `public/whitepapers/<id>/<filename>`
+
+Why:
+- current implementation already uses `public/whitepapers/<id>/...` as the canonical whitepaper asset root
+- route-aligned assets are easier to audit, move, diff, and deduplicate
+- mixing `public/assets/...` and `public/whitepapers/...` for the same whitepaper causes duplicate-file drift
 
 ## Required frontmatter
 
@@ -37,7 +60,7 @@ title: "ホワイトペーパータイトル"
 description: "詳細ページのメタデータと導入部で使う説明文"
 listDescription: "一覧カード向けの短い説明文"
 date: "2026年4月29日"
-heroImageSrc: "/assets/image/whitepapers/29/thumbnail.png"
+heroImageSrc: "/whitepapers/29/thumbnail.png"
 author: "kenny"
 relatedIds:
   - "28"
@@ -53,7 +76,7 @@ Notes:
 - `listDescription` is strongly recommended because the whitepaper list uses `listDescription ?? description`.
 - `author` is optional in the loader, but use it when a matching author exists in `src/content/authors/ja.yaml`.
 - `relatedIds` should list existing local whitepaper IDs as strings.
-- `heroImageSrc` should point at the public thumbnail path for that whitepaper.
+- `heroImageSrc` must point at the route-aligned thumbnail path for that whitepaper.
 - `gated: true` is optional and should only be used when the post must hide part of its body behind the current whitepaper gating flow.
 
 ## Recommended workflow
@@ -74,15 +97,20 @@ If gating is needed, also inspect:
 - `src/content/whitepapers/24.mdx`
 - `src/content/internal/whitepaper-gating-demo.mdx`
 
-### 3. Add the thumbnail and any in-body assets
+### 3. Add the thumbnail and any referenced assets
 
 Create or copy the thumbnail to:
-- `public/assets/image/whitepapers/<id>/thumbnail.png`
+- `public/whitepapers/<id>/thumbnail.png`
 
-If the article body needs additional figures, place them under:
+If the article body needs additional assets, keep all whitepaper-specific referenced files together under:
 - `public/whitepapers/<id>/...`
 
-Keep public URLs aligned with file placement.
+Examples:
+- `public/whitepapers/<id>/figure-1.png`
+- `public/whitepapers/<id>/demo.mp4`
+- `public/whitepapers/<id>/appendix.pdf`
+
+Keep public URLs and MDX filepaths aligned with file placement.
 
 ### 4. Add the MDX file
 
@@ -94,6 +122,11 @@ Requirements:
 - write normal MDX body content
 - prefer existing publication components/patterns already used in current whitepapers
 - keep inline links and markup compatible with the current MDX renderer in `src/lib/publications/mdx/renderer.ts`
+
+When referencing static files in MDX:
+- for normal markdown images, use route-aligned URLs like `/whitepapers/<id>/figure-1.png`
+- for `ArticleFileImage`, use `filepath="public/whitepapers/<id>/figure-1.png"`
+- keep all referenced files inside the same `public/whitepapers/<id>/` asset root
 
 ### 5. Gating behavior
 
@@ -146,6 +179,7 @@ However, always verify that:
 - the new file is discoverable by the directory scan
 - the new route shape remains `/whitepapers/<id>/<slug>`
 - the new list card description works as intended through `listDescription` or `description`
+- the new thumbnail and all other referenced files stay under `public/whitepapers/<id>/`
 
 ## Verification checklist
 
@@ -154,6 +188,7 @@ Run the lightest relevant checks first:
 ```bash
 npm run test -- tests/whitepaper-canonical-slug-routing.test.mjs
 npm run test -- tests/whitepaper-gating-source.test.mjs
+npm run test -- tests/whitepaper-route-aligned-assets.test.mjs
 ```
 
 If author data or profile images changed, also run:
@@ -183,14 +218,16 @@ npm run build
 - Using an author id that does not exist in `src/content/authors/ja.yaml`
 - Setting `gated: true` without adding `<GatingCut />`
 - Using legacy gated wrapper patterns instead of the current `gated: true` + `<GatingCut />` contract
+- Placing new whitepaper-specific files under `public/assets/...` instead of `public/whitepapers/<id>/...`
+- Scattering one whitepaper's images, video files, and attachments across multiple public roots
 - Changing route patterns away from `/whitepapers/:id/:slug`
 
 ## Minimal task summary
 
 When asked to add a whitepaper posting:
 1. choose the intended next whitepaper id
-2. add `public/assets/image/whitepapers/<id>/thumbnail.png`
-3. add `public/whitepapers/<id>/...` for any in-body figures if needed
+2. add `public/whitepapers/<id>/thumbnail.png`
+3. place all whitepaper-specific referenced files under `public/whitepapers/<id>/...`
 4. add `src/content/whitepapers/<id>.mdx`
 5. add `<GatingCut />` only if gated content is required
 6. update `src/content/authors/ja.yaml` only if a new author is needed
