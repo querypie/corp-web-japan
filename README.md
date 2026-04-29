@@ -2,14 +2,38 @@
 
 This repository contains the Japan-facing AI Staff website.
 
-README.md is the human-facing guide for understanding the project and getting started.
-AI agents should read this file first for context, then follow `AGENTS.md` for working rules.
+README.md is the human-facing project guide. AI agents should read this file first for context, then follow `AGENTS.md` for execution rules.
 
 ## Environment URLs
 
 - Production URL: [https://querypie.ai](https://querypie.ai)
-- Redirect domains: at minimum [https://www.querypie.ai](https://www.querypie.ai) -> [https://querypie.ai](https://querypie.ai)
+- Redirect domains: [https://www.querypie.ai](https://www.querypie.ai) -> [https://querypie.ai](https://querypie.ai)
 - Staging URL: [https://stage.querypie.ai](https://stage.querypie.ai)
+
+## Project overview
+
+This project is built with Next.js 16, React 19, TypeScript, Tailwind CSS v4, and npm.
+
+The current public structure is:
+
+- `/` — top page
+- `/solutions/ai-crew`
+- `/solutions/ai-dashi`
+- `/blog` — local blog index
+- `/blog/:id/:slug` — local MDX-backed blog detail, with `/blog/:id` redirecting to the canonical slug route
+- `/whitepapers` — local whitepaper index
+- `/whitepapers/:id/:slug` — local MDX-backed whitepaper detail, with `/whitepapers/:id` redirecting to the canonical slug route
+- `/events/:id/:slug` — local event detail route
+- `/contact-us` — first-party redirect endpoint that preserves query-string prefills into `https://www.querypie.com/ja/company/contact-us`
+
+Additional notes:
+
+- Blog and whitepaper detail pages are rendered from local MDX under `src/content/blog/` and `src/content/whitepapers/`.
+- Whitepaper detail pages can use the current MDX gating contract.
+- The `/events` list page is not publicly launched yet. It remains query-gated and is intentionally excluded from the top-level sitemap entry set.
+- The legacy `/posts/:category/:slug` surface remains only for event compatibility and should not be reused for blog or whitepaper content.
+- Some top-level paths such as `/demo/use-cases`, `/resources`, `/manuals`, `/glossary`, `/about-us`, and legal endpoints are implemented as redirect routes to upstream QueryPie destinations.
+- The catch-all missing-route flow only redirects paths that match the maintained QueryPie allowlist; other unmatched paths are logged and resolve to the local not-found flow.
 
 ## Shared principles
 
@@ -21,32 +45,51 @@ These principles apply to both humans and AI agents.
 - Verify changes with the lightest command that proves correctness.
 - If something is ambiguous, choose the smallest change that satisfies the request.
 
-## Project overview
-
-This project is built with Next.js, React, TypeScript, and Tailwind CSS.
-It uses the App Router and npm-based workflows.
+## Repository layout
 
 Core directories:
 
-- `src/app/` — routes and API endpoints
-- `src/components/` — shared UI, layout, and section components
-- `src/content/` — structured copy and CTA source content
-- `src/lib/` — shared utilities, integrations, and helper logic
-- `src/stores/` — client-side state
+- `src/app/` — App Router pages and redirect/API routes
+- `src/components/` — shared UI, layout, and page sections
+- `src/content/` — structured copy plus MDX source content
+- `src/content/blog/` — local blog MDX source
+- `src/content/whitepapers/` — local whitepaper MDX source
+- `src/content/publications/` — publication-list loaders and list-item derivation
+- `src/lib/` — shared helpers, publication loaders, and route utilities
 - `public/` — static assets
-- `tests/` — Node-based verification scripts
+- `tests/` — Node-based repo verification tests
+- `scripts/deploy/` — Vercel deployment scripts used by GitHub Actions
 
 Representative files:
 
 - `src/app/page.tsx`
-- `src/components/sections/home-page-sections.tsx`
-- `src/components/layout/site-header.tsx`
-- `src/components/layout/site-footer.tsx`
+- `src/app/blog/page.tsx`
+- `src/app/blog/[id]/[slug]/page.tsx`
+- `src/app/whitepapers/page.tsx`
+- `src/app/whitepapers/[id]/[slug]/page.tsx`
+- `src/app/contact-us/route.ts`
+- `src/app/sitemap.ts`
+
+## Publication content model
+
+Blog and whitepaper lists are driven from local content source files.
+
+- Blog frontmatter is read from `src/content/blog/*.mdx`.
+- Whitepaper frontmatter is read from `src/content/whitepapers/*.mdx`.
+- Blog list items resolve to local canonical detail routes.
+- Whitepaper list items currently keep upstream `querypie.com/ja` hrefs for card destinations while the local detail routes exist for the new MDX-backed rendering flow.
+
+Whitepaper gating contract:
+
+- Use frontmatter `gated: true` on gated whitepaper MDX files.
+- Use the `<GatingCut />` marker to split preview content from gated content.
+- The shared gating helpers live in `src/lib/publications/gating.ts`.
+- The internal reference route for the current pattern is `/internal/whitepaper-gating-demo`.
 
 ## Human quick start
 
 1. Read this README for project context.
-2. Check `AGENTS.md` if you are an AI agent or if you need repository work rules.
+2. Check `AGENTS.md` if you are an AI agent or need repository work rules.
 3. Use the structured content under `src/content/` first when updating copy.
 4. Run the relevant verification commands before considering a change done.
 
@@ -68,65 +111,31 @@ Recommended verification before committing:
 npm run test:ci
 ```
 
-Recommended verification before deployment candidates:
+Recommended verification before deployment-sensitive changes:
 
 ```bash
 npm run test:ci
 npm run build
 ```
 
-## AI agent setup guide
+## CI and deployment
 
-If you are a Codex, Claude Code, or similar AI agent, use this section to get oriented.
+GitHub Actions currently provide:
 
-### 1. Install and login
+- `ci.yml` — runs `npm run test:ci` and `npm run build` on pull requests and pushes to `main`
+- `deploy-preview.yml` — preview deployment workflow
+- `deploy-staging.yml` — staging deployment workflow
+- `deploy-production.yml` — production deployment workflow
+- `delete-deploy.yml` — preview deployment cleanup workflow
 
-```bash
-npm install -g @openai/codex
-codex --login
-```
-
-### 2. Set up the agent workflow
-
-This repository assumes local skill-based workflows are available.
-
-Recommended commands:
-
-```bash
-omx setup --force --verbose --scope user
-omx doctor
-```
-
-For project-local setup:
-
-```bash
-omx setup --force --verbose --scope project
-omx doctor
-```
-
-### 3. Confirm the expected files and paths
-
-- `AGENTS.md` exists
-- `~/.codex` or `./.codex` is configured
-- `~/.agents/skills` or `./.agents/skills` is available
-- `.omx/` state directories can be used
-
-### 4. Skill paths
-
-- Codex skills: `~/.codex/skills`
-- OMX / agent skills: `~/.agents/skills`
-- Project-local skills: `./.agents/skills`
-
-### 5. If you need more detail
-
-- Repository work rules live in `AGENTS.md`
-- The Korean guide remains available in `README_ko.md`
+The repository relies on CI and hosted preview environments for normal verification. Do not assume local preview is required for every change.
 
 ## Common reference
 
 Both humans and agents should remember:
 
 - `src/content/` is preferred for structured copy changes.
-- `npm run test:ci` is the standard verification step before a PR.
-- Visual changes should be checked in a real browser.
-- Working rules and execution details belong in `AGENTS.md`.
+- Repo-local AI agent skills belong under `.agents/skills/`.
+- `npm run test:ci` is the standard baseline verification step.
+- `npm run build` is required for deployment-sensitive changes.
+- Working rules and execution details live in `AGENTS.md`.
