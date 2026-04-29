@@ -36,7 +36,7 @@ At the start of every user turn in this repository:
 
 1. Discover available skills from these sources, in order:
    - Session-provided skill list, if present
-   - Any repo-local `skills/` directory, if this repository adds one later
+   - Repo-local skills under `.agents/skills/<name>/SKILL.md`
    - Your built-in/system skill directories for the active agent runtime
 2. Build a short in-memory registry with:
    - `name`
@@ -45,7 +45,7 @@ At the start of every user turn in this repository:
 3. Match the user task against that registry.
 4. Load only the minimum `SKILL.md` and linked files needed.
 
-Current note: this repository does not currently keep its own checked-in `skills/` directory, so agents will usually rely on the session-provided or system skill sets.
+Current rule: when this repository contains checked-in agent skills, treat `.agents/skills/` as the canonical repo-local skill root.
 
 ## Trigger rules
 

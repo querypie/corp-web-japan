@@ -135,6 +135,7 @@ The repository relies on CI and hosted preview environments for normal verificat
 Both humans and agents should remember:
 
 - `src/content/` is preferred for structured copy changes.
+- Repo-local AI agent skills belong under `.agents/skills/`.
 - `npm run test:ci` is the standard baseline verification step.
 - `npm run build` is required for deployment-sensitive changes.
 - Working rules and execution details live in `AGENTS.md`.
