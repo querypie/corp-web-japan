@@ -1,26 +1,28 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 import { getAiCrewStructureSource, getTopPageStructureSource } from "./helpers/static-marketing-page-sources.mjs";
 
-test("app font setup keeps Mona Sans on html while preloading only the representative JP semibold weight", () => {
-  const head = readSource("src/app/head.tsx");
+test("app font setup keeps Mona Sans on html while preloading the representative JP semibold weight from layout", () => {
   const layout = readSource("src/app/layout.tsx");
   const globals = readSource("src/app/globals.css");
 
   assert.match(layout, /import localFont from "next\/font\/local"/);
+  assert.match(layout, /import \{ preload \} from "react-dom"/);
   assert.match(layout, /const monaSansFont = localFont\(/);
   assert.match(layout, /Mona-Sans\.woff2/);
   assert.doesNotMatch(layout, /const pretendardJPFont = localFont\(/);
   assert.doesNotMatch(layout, /PretendardJPVariable\.woff2/);
+  assert.match(layout, /preload\(\s*"\/fonts\/PretendardJPSubset-600\.woff2"/);
+  assert.match(layout, /as:\s*"font"/);
+  assert.match(layout, /type:\s*"font\/woff2"/);
+  assert.match(layout, /crossOrigin:\s*"anonymous"/);
   assert.match(layout, /<html lang="ja" className=\{monaSansFont\.variable\}>/);
   assert.match(layout, /<body className="font-sans antialiased">\{children\}<\/body>/);
   assert.doesNotMatch(layout, /fontFamily:/);
 
-  assert.match(head, /href="\/fonts\/PretendardJPSubset-600\.woff2"/);
-  assert.doesNotMatch(head, /PretendardJPSubset-400\.woff2/);
-  assert.doesNotMatch(head, /PretendardJPSubset-500\.woff2/);
-  assert.doesNotMatch(head, /PretendardJPSubset-700\.woff2/);
+  assert.equal(existsSync(new URL("../src/app/head.tsx", import.meta.url)), false);
 
   assert.match(globals, /@font-face/);
   assert.match(globals, /font-family: "Pretendard JP Subset"/);
