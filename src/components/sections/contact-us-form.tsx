@@ -198,7 +198,7 @@ export function ContactUsForm({ initialPrefills = {} }: ContactUsFormProps) {
 
   return (
     <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-20 pt-[112px] lg:pb-[120px] lg:pt-[144px]">
-      <div className="mx-auto grid max-w-[1200px] gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-14">
+      <div className="mx-auto grid max-w-[1200px] gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-14">
         <div>
           <h1 className="mb-6 text-[34px] font-medium leading-[1.25] tracking-[-0.03em] text-slate-950 lg:text-[44px]">
             お問い合わせ
