@@ -2,6 +2,20 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
 import { SiteHeader } from "@/components/layout/site-header";
+import {
+  HeroActionGroup,
+  HeroBody,
+  HeroEyebrow,
+  HeroPanel,
+  HeroPrimaryAction,
+  HeroProofPill,
+  HeroProofPillGroup,
+  HeroSecondaryAction,
+  HeroSection,
+  HeroSubcopy,
+  HeroTitle,
+  HeroTitleLine,
+} from "@/components/sections/top-page-hero-section";
 import { TopPageSections } from "@/components/sections/top-page-sections";
 import {
   SolutionChoiceContent,
@@ -22,7 +36,12 @@ import {
   SolutionChoiceSubtitle,
   SolutionChoiceTitle,
 } from "@/components/sections/top-page-solution-choice-card";
-import { topPageFloatingCtaUrl, topPageMetadata } from "@/content/top-page";
+import {
+  topPageDownloadUrl,
+  topPageFloatingCtaUrl,
+  topPageHeroContactUrl,
+  topPageMetadata,
+} from "@/content/top-page";
 
 export const metadata: Metadata = {
   title: topPageMetadata.title,
@@ -47,6 +66,32 @@ export default function HomePage() {
     <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
       <SiteHeader />
       <FloatingConversionCta href={topPageFloatingCtaUrl} />
+      <HeroSection
+        imageSrc="/top-hero.png"
+        imageAlt="QueryPie AIの導入イメージを想起させる、オフィスでAIダッシュボードを活用するチーム"
+      >
+        <HeroProofPillGroup>
+          <HeroProofPill>国際基準のセキュリティ</HeroProofPill>
+          <HeroProofPill>テスト導入から全社展開へ</HeroProofPill>
+          <HeroProofPill>組織・役割に応じた権限管理</HeroProofPill>
+        </HeroProofPillGroup>
+
+        <HeroPanel>
+          <HeroEyebrow>Secure Enterprise AI</HeroEyebrow>
+          <HeroTitle>
+            <HeroTitleLine>信頼できるAIが、</HeroTitleLine>
+            <HeroTitleLine delayed>現場を動かす</HeroTitleLine>
+          </HeroTitle>
+          <HeroSubcopy>誰もが安全かつ迅速に業務で使えるAI</HeroSubcopy>
+          <HeroBody>
+            QueryPie AIは、強固なセキュリティとガバナンスを前提としたエンタープライズAI基盤を提供します。経営層が求める「信頼」と、現場が求める「使いやすさ」を両立し、AI活用をスモールスタートから実運用・定着まで前に進めます。
+          </HeroBody>
+          <HeroActionGroup>
+            <HeroPrimaryAction href={topPageHeroContactUrl}>お問い合わせ</HeroPrimaryAction>
+            <HeroSecondaryAction href={topPageDownloadUrl}>資料をダウンロード</HeroSecondaryAction>
+          </HeroActionGroup>
+        </HeroPanel>
+      </HeroSection>
       <TopPageSections>
         <SolutionOverviewSection>
           <SolutionOverviewIntro>

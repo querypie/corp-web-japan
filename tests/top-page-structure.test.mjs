@@ -15,7 +15,7 @@ test("top page remains readable whether static marketing content is externalized
 
   assert.match(topPage, /SiteHeader/);
   assert.match(topPage, /TopPageRoadmapSection|TopPageSections/);
-  assert.match(topPageDataSource, /topPageContent|primaryCta: \{ label: "お問い合わせ", href: topPageHeroContactUrl \}/);
+  assert.match(`${topPageDataSource}\n${topPage}`, /topPageContent|primaryCta: \{ label: "お問い合わせ", href: topPageHeroContactUrl \}|<HeroPrimaryAction href=\{topPageHeroContactUrl\}>お問い合わせ<\/HeroPrimaryAction>/);
   assert.match(topPageDataSource, /solutionBranch|\{ label: "導入について相談する", href: topPageFinalConsultUrl \}/);
   assert.match(topPageStructureSource, /RevealOnScroll/);
 

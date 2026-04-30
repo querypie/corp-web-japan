@@ -25,8 +25,8 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(aiCrewDataSource, /href: aiCrewWhitepaperUrl/);
 
   assert.match(topPage, /<FloatingConversionCta href={topPageFloatingCtaUrl} \/>/);
-  assert.match(topPageDataSource, /primaryCta: \{ label: "お問い合わせ", href: topPageHeroContactUrl \}/);
-  assert.match(topPageDataSource, /secondaryCta: \{[\s\S]*label: "資料をダウンロード",[\s\S]*href: topPageDownloadUrl,?[\s\S]*\}/);
+  assert.match(`${topPageDataSource}\n${topPage}`, /primaryCta: \{ label: "お問い合わせ", href: topPageHeroContactUrl \}|<HeroPrimaryAction href=\{topPageHeroContactUrl\}>お問い合わせ<\/HeroPrimaryAction>/);
+  assert.match(`${topPageDataSource}\n${topPage}`, /secondaryCta: \{[\s\S]*label: "資料をダウンロード",[\s\S]*href: topPageDownloadUrl,?[\s\S]*\}|<HeroSecondaryAction href=\{topPageDownloadUrl\}>資料をダウンロード<\/HeroSecondaryAction>/);
   assert.match(topPageStructureSource, /id="contact"/);
   assert.match(topPageStructureSource, /bg-\[#0f172a\] text-white/);
   assert.match(topPageStructureSource, /id="download"/);
