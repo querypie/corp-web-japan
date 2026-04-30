@@ -58,8 +58,10 @@ import {
   PlatformRequirementsBlockLabel,
   PlatformRequirementsBlockList,
   PlatformRequirementsBlockTitle,
+  PlatformRequirementsBody,
   PlatformRequirementsIntro,
   PlatformRequirementsSection,
+  PlatformRequirementsTitle,
   PlatformRequirementsVideo,
 } from "@/components/sections/top-page-platform-requirements-section";
 import {
@@ -316,16 +318,15 @@ export default function HomePage() {
         </RoadmapSection>
 
         <PlatformRequirementsSection>
-          <PlatformRequirementsIntro
-            title={
-              <>
-                企業がAIを
-                <span className="heading-highlight-accent">安全に使いこなす</span>
-                ための、3つの基盤要件
-              </>
-            }
-          >
-            AI導入を阻む壁を乗り越え、現場での定着と全社レベルのガバナンスを両立するために。QueryPie AIは、エンタープライズ企業が求める3つのシステム要件と支援体制を提供します。
+          <PlatformRequirementsIntro>
+            <PlatformRequirementsTitle>
+              企業がAIを
+              <span className="heading-highlight-accent">安全に使いこなす</span>
+              ための、3つの基盤要件
+            </PlatformRequirementsTitle>
+            <PlatformRequirementsBody>
+              AI導入を阻む壁を乗り越え、現場での定着と全社レベルのガバナンスを両立するために。QueryPie AIは、エンタープライズ企業が求める3つのシステム要件と支援体制を提供します。
+            </PlatformRequirementsBody>
           </PlatformRequirementsIntro>
 
           <PlatformRequirementsBlockList>

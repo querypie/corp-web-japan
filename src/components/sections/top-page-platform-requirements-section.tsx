@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { MarketingPill, MarketingSectionIntro, MarketingSurface } from "@/components/sections/marketing-section-primitives";
+import { MarketingPill, MarketingSurface } from "@/components/sections/marketing-section-primitives";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 
 export function PlatformRequirementsSection({ children }: { children: ReactNode }) {
@@ -11,14 +11,26 @@ export function PlatformRequirementsSection({ children }: { children: ReactNode 
   );
 }
 
-export function PlatformRequirementsIntro({ title, children }: { title: ReactNode; children: ReactNode }) {
+export function PlatformRequirementsIntro({ children }: { children: ReactNode }) {
   return (
     <div className="mx-auto max-w-[1280px] text-center">
-      <RevealOnScroll variant="up">
-        <MarketingSectionIntro className="max-w-[1280px]" titleClassName="mx-auto max-w-[38ch] text-balance" bodyClassName="max-w-[758px] text-left leading-[1.85]" title={title} body={<p>{children}</p>} />
+      <RevealOnScroll className="mx-auto max-w-[1280px]" variant="up">
+        {children}
       </RevealOnScroll>
     </div>
   );
+}
+
+export function PlatformRequirementsTitle({ children }: { children: ReactNode }) {
+  return (
+    <h2 className="mx-auto max-w-[38ch] text-balance text-[30px] font-semibold leading-[1.2] tracking-[-0.04em] text-slate-950 sm:text-[42px]">
+      {children}
+    </h2>
+  );
+}
+
+export function PlatformRequirementsBody({ children }: { children: ReactNode }) {
+  return <p className="mx-auto mt-5 max-w-[758px] text-left text-[15px] leading-[1.85] text-slate-600">{children}</p>;
 }
 
 export function PlatformRequirementsBlockList({ children }: { children: ReactNode }) {
