@@ -169,6 +169,7 @@ Use these rules when editing local blog or whitepaper content.
 - Whitepaper list items are derived from MDX frontmatter through `src/content/publications/whitepapers.ts`.
 - Whitepaper gating uses frontmatter `gated: true` plus the `<GatingCut />` marker instead of wrapper-style gated components.
 - Shared gating helpers live in `src/lib/publications/gating.ts`, and the current internal reference route is `/internal/whitepaper-gating-demo`.
+- For local-only browser verification of contact-us and whitepaper gating flows, see `docs/local-e2e.md`.
 - Blog and whitepaper detail metadata currently set `robots.index = false` and `robots.follow = false`; keep doc changes aligned with that implementation unless the user explicitly changes the indexing policy.
 - For AI-agent execution, use `.agents/skills/blog-posting/SKILL.md` for blog work and `.agents/skills/whitepaper-posting/SKILL.md` for whitepaper work.
 
@@ -263,6 +264,7 @@ Expected mapping on the Japan contact form:
 - Use `npm run test:ci` for PR-style verification when applicable.
 - Run `npm run build` when the change affects production rendering, metadata, routing, or deployment candidates.
 - Check the real browser when layout, spacing, or visual hierarchy changes.
+- For local-only hosted browser checks that already exist in this repo, see `docs/local-e2e.md` before adding a new ad-hoc browser workflow.
 - Prefer CI or hosted preview validation over starting a new local dev server.
 - Do not start `npm run dev` unless the user explicitly requests a local preview or no other practical verification path exists.
 - When adding a new public page, removing a public page, or changing a public page URI, update the corresponding entry in `src/app/sitemap.ts` in the same change unless the route is intentionally non-indexed or launch-gated.
