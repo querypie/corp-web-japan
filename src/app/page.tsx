@@ -34,6 +34,23 @@ import {
   CoreValueTitle,
 } from "@/components/sections/top-page-core-value-section";
 import {
+  RoadmapBody,
+  RoadmapCallout,
+  RoadmapCalloutBadge,
+  RoadmapCalloutBody,
+  RoadmapIntro,
+  RoadmapLinkAction,
+  RoadmapLinkBody,
+  RoadmapLinkCard,
+  RoadmapLinkGrid,
+  RoadmapLinkTitle,
+  RoadmapSection,
+  RoadmapStep,
+  RoadmapTab,
+  RoadmapTabs,
+  RoadmapTitle,
+} from "@/components/sections/top-page-roadmap-section";
+import {
   SolutionChoiceContent,
   SolutionChoiceGroup,
   SolutionChoiceHeading,
@@ -228,6 +245,63 @@ export default function HomePage() {
             </CoreValueCard>
           </CoreValueGrid>
         </CoreValueSection>
+
+        <RoadmapSection>
+          <RoadmapIntro>
+            <RoadmapTitle>
+              小さく始めて、確実に広げる
+              <br />
+              <span className="heading-highlight-accent">失敗しない</span>
+              AI導入へのロードマップ
+            </RoadmapTitle>
+            <RoadmapBody>
+              社内業務の効率化でも、自社サービスへのAI組み込みでも、大切なのは成果の出る領域から始めて、検証しながら運用へ広げることです。QueryPie AIは、両方のアプローチに対応できる現実的な導入ステップで、AI活用を定着へつなげます。
+            </RoadmapBody>
+          </RoadmapIntro>
+
+          <RoadmapTabs>
+            <RoadmapTab tabKey="crew" label="社内業務効率化">
+              <RoadmapStep label="特定業務でのスモールスタート" title={<><span className="heading-highlight-accent">成果の出る</span>領域を見極める</>}>
+                既存の業務フローを分析し、最も負荷が高く、<strong className="font-bold text-slate-800">AIによるコスト削減や価値向上が見込める業務に絞ってAIエージェントを適用</strong>します。まずは一つの部門で確実な成功体験を作ります。
+              </RoadmapStep>
+              <RoadmapStep label="効果測定と現場へのチューニング" title={<>現場が<span className="heading-highlight-accent">使い続ける</span>仕組みを作る</>}>
+                単なるツールの提供で終わらず、<strong className="font-bold text-slate-800">現場のフィードバックをもとにプロンプトや参照データを調整</strong>します。使われるためのUI/UXと運用ルールを固め、ROI（投資対効果）を可視化します。
+              </RoadmapStep>
+              <RoadmapStep label="ガバナンスを効かせた全社展開" title={<>安全に、<span className="heading-highlight-accent">会社全体の基盤</span>へ拡張する</>}>
+                QueryPie AIの強みである<strong className="font-bold text-slate-800">緻密な権限制御と監査ログを活用し、セキュリティを担保したまま他部門や自社サービスへ横展開</strong>します。一部署のツールから、全社の経営基盤へと進化させます。
+              </RoadmapStep>
+            </RoadmapTab>
+            <RoadmapTab tabKey="dashi" label="自社サービスAI化">
+              <RoadmapStep label="対象機能と要件の定義" title={<><span className="heading-highlight-accent">事業価値の高い</span>AI機能を定める</>}>
+                既存のSaaSやWebサービスを分析し、<strong className="font-bold text-slate-800">顧客体験の向上やアップセルにつながるAI機能を特定</strong>します。まずは一つの導線・一つの業務体験から設計を始めます。
+              </RoadmapStep>
+              <RoadmapStep label="API連携と導入検証" title={<><span className="heading-highlight-accent">既存システムと安全に</span>つなぐ</>}>
+                UI/UXを変えすぎず、<strong className="font-bold text-slate-800">既存データや業務システムとAPI経由で統合</strong>します。導入前の検証で精度・運用性・ガードレールを確認しながら調整します。
+              </RoadmapStep>
+              <RoadmapStep label="自社ブランドでの本番展開" title={<><span className="heading-highlight-accent">継続提供できる</span>AI機能へ育てる</>}>
+                リリース後も<strong className="font-bold text-slate-800">監査・権限制御・改善運用を前提に継続提供</strong>し、単発機能ではなく自社サービスの競争力として育てます。
+              </RoadmapStep>
+            </RoadmapTab>
+          </RoadmapTabs>
+
+          <RoadmapCallout>
+            <RoadmapCalloutBadge>Solutions</RoadmapCalloutBadge>
+            <RoadmapCalloutBody>社内業務の効率化と、自社サービスのAI化。目的に合わせて2つのソリューションを選べます。</RoadmapCalloutBody>
+          </RoadmapCallout>
+
+          <RoadmapLinkGrid>
+            <RoadmapLinkCard href="/solutions/ai-crew" imageSrc="/top-assets/roadmap-links/ai-crew-link.svg" imageAlt="AI Crew の具体的な業務ユースケースを示す背景イメージ" tone="crew">
+              <RoadmapLinkTitle>AIで社内業務を大幅に効率化したい</RoadmapLinkTitle>
+              <RoadmapLinkBody>専用AIエージェントで、調査・整理・下書きなどの下準備を任せ、人が本来の判断や改善に集中できる状態をつくります。</RoadmapLinkBody>
+              <RoadmapLinkAction>社内業務効率化の進め方を見る</RoadmapLinkAction>
+            </RoadmapLinkCard>
+            <RoadmapLinkCard href="/solutions/ai-dashi" imageSrc="/top-assets/roadmap-links/ai-dashi-link.svg" imageAlt="AI Dashi の組み込み方を示す背景イメージ" tone="dashi">
+              <RoadmapLinkTitle>SaaSやWebサービスのAI化を進めたい</RoadmapLinkTitle>
+              <RoadmapLinkBody>既存のSaaSやWebサービスにAI機能を組み込み、顧客体験の向上や新たな収益機会につなげます。</RoadmapLinkBody>
+              <RoadmapLinkAction>自社サービスAI化の進め方を見る</RoadmapLinkAction>
+            </RoadmapLinkCard>
+          </RoadmapLinkGrid>
+        </RoadmapSection>
       </TopPageSections>
       <SiteFooter />
     </main>
