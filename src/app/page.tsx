@@ -51,6 +51,18 @@ import {
   RoadmapTitle,
 } from "@/components/sections/top-page-roadmap-section";
 import {
+  PlatformRequirementsBlock,
+  PlatformRequirementsBlockBody,
+  PlatformRequirementsBlockContent,
+  PlatformRequirementsBlockImage,
+  PlatformRequirementsBlockLabel,
+  PlatformRequirementsBlockList,
+  PlatformRequirementsBlockTitle,
+  PlatformRequirementsIntro,
+  PlatformRequirementsSection,
+  PlatformRequirementsVideo,
+} from "@/components/sections/top-page-platform-requirements-section";
+import {
   SolutionChoiceContent,
   SolutionChoiceGroup,
   SolutionChoiceHeading,
@@ -302,6 +314,57 @@ export default function HomePage() {
             </RoadmapLinkCard>
           </RoadmapLinkGrid>
         </RoadmapSection>
+
+        <PlatformRequirementsSection>
+          <PlatformRequirementsIntro
+            title={
+              <>
+                企業がAIを
+                <span className="heading-highlight-accent">安全に使いこなす</span>
+                ための、3つの基盤要件
+              </>
+            }
+          >
+            AI導入を阻む壁を乗り越え、現場での定着と全社レベルのガバナンスを両立するために。QueryPie AIは、エンタープライズ企業が求める3つのシステム要件と支援体制を提供します。
+          </PlatformRequirementsIntro>
+
+          <PlatformRequirementsBlockList>
+            <PlatformRequirementsBlock>
+              <PlatformRequirementsBlockContent>
+                <PlatformRequirementsBlockLabel>ガバナンス＆セキュリティの壁に対応</PlatformRequirementsBlockLabel>
+                <PlatformRequirementsBlockTitle>権限制御と監査ログによる、強固なガバナンス統制</PlatformRequirementsBlockTitle>
+                <PlatformRequirementsBlockBody>
+                  「誰がどのデータにアクセスし、どう操作したか」を厳密に制御・記録します。情報漏洩リスクを排除する緻密なアクセス権限（RBAC）を設定し、エンタープライズの導入審査で必ず壁となるデータガバナンスとコンプライアンス要件を完全にクリアします。
+                </PlatformRequirementsBlockBody>
+              </PlatformRequirementsBlockContent>
+              <PlatformRequirementsBlockImage src="/top-assets/platform-requirements/governance.webp" alt="権限制御と監査ログによるガバナンス統制のイメージ" />
+            </PlatformRequirementsBlock>
+
+            <PlatformRequirementsBlock reverse>
+              <PlatformRequirementsBlockContent>
+                <PlatformRequirementsBlockLabel>技術的負債と運用泥沼の壁に対応</PlatformRequirementsBlockLabel>
+                <PlatformRequirementsBlockTitle>ハルシネーションを防ぎ、既存システムと繋がるセキュアな統合</PlatformRequirementsBlockTitle>
+                <PlatformRequirementsBlockBody>
+                  現在お使いのデータベースや業務システムを変更せず、API経由で安全にAIと接続できます。企業データのみに基づく事実回答（ガードレール）を実装し、業務利用で許されないAIの嘘（ハルシネーション）を防止。日進月歩のAIアーキテクチャへの追従もプラットフォーム側で吸収するので、技術的負債を防ぎます。
+                </PlatformRequirementsBlockBody>
+              </PlatformRequirementsBlockContent>
+              <PlatformRequirementsBlockImage src="/top-assets/platform-requirements/integration.jpg" alt="既存システムと繋がるセキュアな統合のイメージ" />
+            </PlatformRequirementsBlock>
+
+            <PlatformRequirementsBlock>
+              <PlatformRequirementsBlockContent>
+                <PlatformRequirementsBlockLabel>AI人材不足の壁に対応</PlatformRequirementsBlockLabel>
+                <PlatformRequirementsBlockTitle>専門家伴走による、確実なプロトタイプ開発と定着</PlatformRequirementsBlockTitle>
+                <PlatformRequirementsBlockBody>
+                  採用が極めて困難なAI専門エンジニアを自社で抱える必要はありません。当社のFDE（フォワード・デプロイド・エンジニア）がお客様の現場と対話しながら要件を定義し、素早く試作品（プロトタイプ）を構築。導入から運用、現場への定着までを伴走し、最速で事業のAI化を実現します。
+                </PlatformRequirementsBlockBody>
+              </PlatformRequirementsBlockContent>
+              <PlatformRequirementsBlockImage src="/top-assets/platform-requirements/fde-support.jpg" alt="専門家伴走によるプロトタイプ開発と定着支援のイメージ" />
+            </PlatformRequirementsBlock>
+          </PlatformRequirementsBlockList>
+
+          <PlatformRequirementsVideo src="https://www.youtube.com/embed/B-BAQRoMUnU?start=5&rel=0" />
+        </PlatformRequirementsSection>
       </TopPageSections>
       <SiteFooter />
     </main>

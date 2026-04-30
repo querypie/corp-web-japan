@@ -27,51 +27,6 @@ export const topPageHeader = {
     ],
     cta: { label: "Free Flow", href: "#contact" },
   } as const;
-export const topPagePlatformRequirements = {
-    title: {
-      before: "企業がAIを",
-      highlight: "安全に使いこなす",
-      after: "ための、3つの基盤要件",
-    },
-    body:
-      "AI導入を阻む壁を乗り越え、現場での定着と全社レベルのガバナンスを両立するために。QueryPie AIは、エンタープライズ企業が求める3つのシステム要件と支援体制を提供します。",
-    videoUrl: "https://www.youtube.com/embed/B-BAQRoMUnU?start=5&rel=0",
-    blocks: [
-      {
-        align: "left",
-        label: "ガバナンス＆セキュリティの壁に対応",
-        title: "権限制御と監査ログによる、強固なガバナンス統制",
-        image: {
-          src: "/top-assets/platform-requirements/governance.webp",
-          alt: "権限制御と監査ログによるガバナンス統制のイメージ",
-        },
-        body:
-          "「誰がどのデータにアクセスし、どう操作したか」を厳密に制御・記録します。情報漏洩リスクを排除する緻密なアクセス権限（RBAC）を設定し、エンタープライズの導入審査で必ず壁となるデータガバナンスとコンプライアンス要件を完全にクリアします。",
-      },
-      {
-        align: "right",
-        label: "技術的負債と運用泥沼の壁に対応",
-        title: "ハルシネーションを防ぎ、既存システムと繋がるセキュアな統合",
-        image: {
-          src: "/top-assets/platform-requirements/integration.jpg",
-          alt: "既存システムと繋がるセキュアな統合のイメージ",
-        },
-        body:
-          "現在お使いのデータベースや業務システムを変更せず、API経由で安全にAIと接続できます。企業データのみに基づく事実回答（ガードレール）を実装し、業務利用で許されないAIの嘘（ハルシネーション）を防止。日進月歩のAIアーキテクチャへの追従もプラットフォーム側で吸収するので、技術的負債を防ぎます。",
-      },
-      {
-        align: "left",
-        label: "AI人材不足の壁に対応",
-        title: "専門家伴走による、確実なプロトタイプ開発と定着",
-        image: {
-          src: "/top-assets/platform-requirements/fde-support.jpg",
-          alt: "専門家伴走によるプロトタイプ開発と定着支援のイメージ",
-        },
-        body:
-          "採用が極めて困難なAI専門エンジニアを自社で抱える必要はありません。当社のFDE（フォワード・デプロイド・エンジニア）がお客様の現場と対話しながら要件を定義し、素早く試作品（プロトタイプ）を構築。導入から運用、現場への定着までを伴走し、最速で事業のAI化を実現します。",
-      },
-    ],
-  } as const;
 export const topPageSecurity = {
     sectionName: "国際基準のセキュリティ認証",
     title: "国際基準のセキュリティ認証",
