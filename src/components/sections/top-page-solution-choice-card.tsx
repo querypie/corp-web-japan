@@ -1,7 +1,9 @@
-import type { ComponentType, ReactNode } from "react";
+"use client";
+
+import type { ReactNode } from "react";
 import { createContext, useContext } from "react";
 import Link from "next/link";
-import { ArrowRight, type LucideProps } from "lucide-react";
+import { ArrowRight, Blocks, Users } from "lucide-react";
 import {
   MarketingIconFrame,
   MarketingPill,
@@ -72,12 +74,13 @@ export function SolutionChoiceCard({ href, tone, children }: SolutionChoiceCardP
 }
 
 type SolutionChoiceHeaderProps = {
-  icon: ComponentType<LucideProps>;
   children: ReactNode;
 };
 
-export function SolutionChoiceHeader({ icon: Icon, children }: SolutionChoiceHeaderProps) {
+export function SolutionChoiceHeader({ children }: SolutionChoiceHeaderProps) {
   const tone = useTone();
+  const Icon = tone === "crew" ? Users : Blocks;
+
   return (
     <div className="flex items-start justify-between gap-4">
       {children}

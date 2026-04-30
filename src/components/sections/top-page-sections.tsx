@@ -2,12 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { Fragment, type ReactNode, useState } from "react";
 import {
   ArrowDown,
   ArrowRight,
   Building2,
-  Blocks,
   Compass,
   Settings2,
   ShieldCheck,
@@ -22,7 +21,6 @@ import {
   topPagePlatformRequirements,
   topPageRoadmap,
   topPageSecurity,
-  topPageSolutionBranch,
   topPageWhitepapers,
 } from "@/content/top-page";
 import {
@@ -32,23 +30,12 @@ import {
   MarketingSurface,
 } from "@/components/sections/marketing-section-primitives";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import {
-  SolutionChoiceAction,
-  SolutionChoiceBadge,
-  SolutionChoiceCard,
-  SolutionChoiceDescription,
-  SolutionChoiceHeader,
-  SolutionChoiceSubtitle,
-  SolutionChoiceTitle,
-} from "@/components/sections/top-page-solution-choice-card";
 
 const coreValueIcons = [ShieldCheck, Zap, Users] as const;
 const roadmapIcons = [Compass, Settings2, Building2] as const;
-const solutionBranchIcons = [Users, Blocks] as const;
 
-export function TopPageSections() {
+export function TopPageSections({ children }: { children?: ReactNode }) {
   const hero = topPageHero;
-  const solutionBranch = topPageSolutionBranch;
   const coreValue = topPageCoreValue;
   const roadmap = topPageRoadmap;
   const platformRequirements = topPagePlatformRequirements;
@@ -146,68 +133,7 @@ export function TopPageSections() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-16 lg:px-10 lg:py-20">
-          <div className="mx-auto w-full max-w-[1120px]">
-            <div className="mx-auto max-w-[900px] text-center">
-              <RevealOnScroll variant="up">
-                <MarketingSectionIntro
-                  className="max-w-[900px]"
-                  titleClassName="mx-auto max-w-[730px] text-balance text-[31px] leading-[1.22] tracking-[-0.045em] sm:text-[40px] lg:text-[43px]"
-                  bodyClassName="mt-6 max-w-[790px] space-y-4 text-left leading-[1.9]"
-                  title={
-                    <>
-                      {solutionBranch.title.line1}
-                      <span className="heading-highlight-accent">{solutionBranch.title.highlight}</span>
-                      {solutionBranch.title.after}
-                    </>
-                  }
-                  body={
-                    <>
-                      <p>{solutionBranch.lead.line1}</p>
-                      <p>
-                        {solutionBranch.lead.line2.map((part, index) =>
-                          part.strong ? (
-                            <strong
-                              key={`${part.text}-${index}`}
-                              className={`font-bold ${index === 1 ? "text-[#174EA6]" : "text-[#B85733]"}`}
-                            >
-                              {part.text}
-                            </strong>
-                          ) : (
-                            <span key={`${part.text}-${index}`}>{part.text}</span>
-                          ),
-                        )}
-                      </p>
-                    </>
-                  }
-                />
-              </RevealOnScroll>
-            </div>
-
-            <RevealOnScroll className="mt-10 grid items-stretch gap-5 lg:grid-cols-2" variant="up" delayMs={220}>
-              {solutionBranch.cards.map((card, index) => {
-                const Icon = solutionBranchIcons[index];
-                const tone = index === 0 ? "crew" : "dashi";
-
-                return (
-                  <SolutionChoiceCard key={card.title} href={card.href} tone={tone}>
-                    <SolutionChoiceHeader icon={Icon}>
-                      <SolutionChoiceBadge>{card.label}</SolutionChoiceBadge>
-                    </SolutionChoiceHeader>
-
-                    <div className="mt-5">
-                      <SolutionChoiceTitle>{card.title}</SolutionChoiceTitle>
-                      <SolutionChoiceSubtitle>{card.subtitle}</SolutionChoiceSubtitle>
-                    </div>
-
-                    <SolutionChoiceDescription>{card.body}</SolutionChoiceDescription>
-                    <SolutionChoiceAction>{card.ctaLabel}</SolutionChoiceAction>
-                  </SolutionChoiceCard>
-                );
-              })}
-            </RevealOnScroll>
-          </div>
-        </section>
+        {children}
 
         <section id="about" className="mx-auto max-w-[1920px] px-6 py-16 lg:px-10 lg:py-20">
           <div className="mx-auto w-full max-w-[1120px]">
