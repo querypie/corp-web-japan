@@ -33,6 +33,14 @@ import {
 } from "@/components/sections/marketing-section-primitives";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import {
+  TopPageSolutionChoiceContent,
+  TopPageSolutionChoiceGroup,
+  TopPageSolutionChoiceHeading,
+  TopPageSolutionOverviewIntro,
+  TopPageSolutionOverviewLead,
+  TopPageSolutionOverviewSection,
+} from "@/components/sections/top-page-solution-overview-section";
+import {
   SolutionChoiceAction,
   SolutionChoiceBadge,
   SolutionChoiceCard,
@@ -48,7 +56,6 @@ const solutionBranchIcons = [Users, Blocks] as const;
 
 export function TopPageSections() {
   const hero = topPageHero;
-  const solutionBranch = topPageSolutionBranch;
   const coreValue = topPageCoreValue;
   const roadmap = topPageRoadmap;
   const platformRequirements = topPagePlatformRequirements;
@@ -146,68 +153,60 @@ export function TopPageSections() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-16 lg:px-10 lg:py-20">
-          <div className="mx-auto w-full max-w-[1120px]">
-            <div className="mx-auto max-w-[900px] text-center">
-              <RevealOnScroll variant="up">
-                <MarketingSectionIntro
-                  className="max-w-[900px]"
-                  titleClassName="mx-auto max-w-[730px] text-balance text-[31px] leading-[1.22] tracking-[-0.045em] sm:text-[40px] lg:text-[43px]"
-                  bodyClassName="mt-6 max-w-[790px] space-y-4 text-left leading-[1.9]"
-                  title={
-                    <>
-                      {solutionBranch.title.line1}
-                      <span className="heading-highlight-accent">{solutionBranch.title.highlight}</span>
-                      {solutionBranch.title.after}
-                    </>
-                  }
-                  body={
-                    <>
-                      <p>{solutionBranch.lead.line1}</p>
-                      <p>
-                        {solutionBranch.lead.line2.map((part, index) =>
-                          part.strong ? (
-                            <strong
-                              key={`${part.text}-${index}`}
-                              className={`font-bold ${index === 1 ? "text-[#174EA6]" : "text-[#B85733]"}`}
-                            >
-                              {part.text}
-                            </strong>
-                          ) : (
-                            <span key={`${part.text}-${index}`}>{part.text}</span>
-                          ),
-                        )}
-                      </p>
-                    </>
-                  }
-                />
-              </RevealOnScroll>
-            </div>
+        <TopPageSolutionOverviewSection>
+          <TopPageSolutionOverviewIntro
+            title={
+              <>
+                AI活用は、単なる業務効率化にとどまらない
+                <span className="heading-highlight-accent">経営課題</span>
+                への対策
+              </>
+            }
+          >
+            <TopPageSolutionOverviewLead>
+              AI活用の真の目的は、日々の作業を減らすことではなく、企業全体の生産性と利益率を向上させることにあります。
+            </TopPageSolutionOverviewLead>
+            <TopPageSolutionOverviewLead>
+              QueryPie AIは、<strong className="font-bold text-[#174EA6]">社内業務の劇的な効率化がもたらすコスト削減</strong>と、
+              <strong className="font-bold text-[#B85733]">自社サービスの価値向上を通じた売上拡大</strong>
+              という2つのアプローチで、貴社の経営課題の解決を支援します。
+            </TopPageSolutionOverviewLead>
+          </TopPageSolutionOverviewIntro>
 
-            <RevealOnScroll className="mt-10 grid items-stretch gap-5 lg:grid-cols-2" variant="up" delayMs={220}>
-              {solutionBranch.cards.map((card, index) => {
-                const Icon = solutionBranchIcons[index];
-                const tone = index === 0 ? "crew" : "dashi";
+          <TopPageSolutionChoiceGroup>
+            <SolutionChoiceCard href="/solutions/ai-crew" tone="crew">
+              <SolutionChoiceHeader icon={Users}>
+                <SolutionChoiceBadge>AI Crew</SolutionChoiceBadge>
+              </SolutionChoiceHeader>
+              <TopPageSolutionChoiceContent>
+                <TopPageSolutionChoiceHeading>
+                  <SolutionChoiceTitle>AIで社内業務を大幅に効率化したい</SolutionChoiceTitle>
+                  <SolutionChoiceSubtitle>専用AIエージェントの設計・実運用支援</SolutionChoiceSubtitle>
+                </TopPageSolutionChoiceHeading>
+                <SolutionChoiceDescription>
+                  業務に合わせた専用AIエージェントを設計し、導入から運用、改善までを伴走支援します。テスト導入で終わらず、現場で使われるAI活用へつなげます。
+                </SolutionChoiceDescription>
+                <SolutionChoiceAction>社内業務効率化の進め方を見る</SolutionChoiceAction>
+              </TopPageSolutionChoiceContent>
+            </SolutionChoiceCard>
 
-                return (
-                  <SolutionChoiceCard key={card.title} href={card.href} tone={tone}>
-                    <SolutionChoiceHeader icon={Icon}>
-                      <SolutionChoiceBadge>{card.label}</SolutionChoiceBadge>
-                    </SolutionChoiceHeader>
-
-                    <div className="mt-5">
-                      <SolutionChoiceTitle>{card.title}</SolutionChoiceTitle>
-                      <SolutionChoiceSubtitle>{card.subtitle}</SolutionChoiceSubtitle>
-                    </div>
-
-                    <SolutionChoiceDescription>{card.body}</SolutionChoiceDescription>
-                    <SolutionChoiceAction>{card.ctaLabel}</SolutionChoiceAction>
-                  </SolutionChoiceCard>
-                );
-              })}
-            </RevealOnScroll>
-          </div>
-        </section>
+            <SolutionChoiceCard href="/solutions/ai-dashi" tone="dashi">
+              <SolutionChoiceHeader icon={Blocks}>
+                <SolutionChoiceBadge>AI Dashi</SolutionChoiceBadge>
+              </SolutionChoiceHeader>
+              <TopPageSolutionChoiceContent>
+                <TopPageSolutionChoiceHeading>
+                  <SolutionChoiceTitle>SaaSやWebサービスのAI化を進めたい</SolutionChoiceTitle>
+                  <SolutionChoiceSubtitle>組み込み型AI基盤・ホワイトラベル対応</SolutionChoiceSubtitle>
+                </TopPageSolutionChoiceHeading>
+                <SolutionChoiceDescription>
+                  自社SaaSやWebサービスに組み込める、エンタープライズ向けAI基盤です。安全性、拡張性、運用性を備えたAI機能を、自社ブランドで既存のサービスに展開できます。
+                </SolutionChoiceDescription>
+                <SolutionChoiceAction>自社サービスAI化の進め方を見る</SolutionChoiceAction>
+              </TopPageSolutionChoiceContent>
+            </SolutionChoiceCard>
+          </TopPageSolutionChoiceGroup>
+        </TopPageSolutionOverviewSection>
 
         <section id="about" className="mx-auto max-w-[1920px] px-6 py-16 lg:px-10 lg:py-20">
           <div className="mx-auto w-full max-w-[1120px]">
