@@ -2,12 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { Fragment, type ReactNode, useState } from "react";
 import {
   ArrowDown,
   ArrowRight,
   Building2,
-  Blocks,
   Compass,
   Settings2,
   ShieldCheck,
@@ -22,7 +21,6 @@ import {
   topPagePlatformRequirements,
   topPageRoadmap,
   topPageSecurity,
-  topPageSolutionBranch,
   topPageWhitepapers,
 } from "@/content/top-page";
 import {
@@ -32,29 +30,11 @@ import {
   MarketingSurface,
 } from "@/components/sections/marketing-section-primitives";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import {
-  TopPageSolutionChoiceContent,
-  TopPageSolutionChoiceGroup,
-  TopPageSolutionChoiceHeading,
-  TopPageSolutionOverviewIntro,
-  TopPageSolutionOverviewLead,
-  TopPageSolutionOverviewSection,
-} from "@/components/sections/top-page-solution-overview-section";
-import {
-  SolutionChoiceAction,
-  SolutionChoiceBadge,
-  SolutionChoiceCard,
-  SolutionChoiceDescription,
-  SolutionChoiceHeader,
-  SolutionChoiceSubtitle,
-  SolutionChoiceTitle,
-} from "@/components/sections/top-page-solution-choice-card";
 
 const coreValueIcons = [ShieldCheck, Zap, Users] as const;
 const roadmapIcons = [Compass, Settings2, Building2] as const;
-const solutionBranchIcons = [Users, Blocks] as const;
 
-export function TopPageSections() {
+export function TopPageSections({ children }: { children?: ReactNode }) {
   const hero = topPageHero;
   const coreValue = topPageCoreValue;
   const roadmap = topPageRoadmap;
@@ -153,60 +133,7 @@ export function TopPageSections() {
           </div>
         </section>
 
-        <TopPageSolutionOverviewSection>
-          <TopPageSolutionOverviewIntro
-            title={
-              <>
-                AI活用は、単なる業務効率化にとどまらない
-                <span className="heading-highlight-accent">経営課題</span>
-                への対策
-              </>
-            }
-          >
-            <TopPageSolutionOverviewLead>
-              AI活用の真の目的は、日々の作業を減らすことではなく、企業全体の生産性と利益率を向上させることにあります。
-            </TopPageSolutionOverviewLead>
-            <TopPageSolutionOverviewLead>
-              QueryPie AIは、<strong className="font-bold text-[#174EA6]">社内業務の劇的な効率化がもたらすコスト削減</strong>と、
-              <strong className="font-bold text-[#B85733]">自社サービスの価値向上を通じた売上拡大</strong>
-              という2つのアプローチで、貴社の経営課題の解決を支援します。
-            </TopPageSolutionOverviewLead>
-          </TopPageSolutionOverviewIntro>
-
-          <TopPageSolutionChoiceGroup>
-            <SolutionChoiceCard href="/solutions/ai-crew" tone="crew">
-              <SolutionChoiceHeader icon={Users}>
-                <SolutionChoiceBadge>AI Crew</SolutionChoiceBadge>
-              </SolutionChoiceHeader>
-              <TopPageSolutionChoiceContent>
-                <TopPageSolutionChoiceHeading>
-                  <SolutionChoiceTitle>AIで社内業務を大幅に効率化したい</SolutionChoiceTitle>
-                  <SolutionChoiceSubtitle>専用AIエージェントの設計・実運用支援</SolutionChoiceSubtitle>
-                </TopPageSolutionChoiceHeading>
-                <SolutionChoiceDescription>
-                  業務に合わせた専用AIエージェントを設計し、導入から運用、改善までを伴走支援します。テスト導入で終わらず、現場で使われるAI活用へつなげます。
-                </SolutionChoiceDescription>
-                <SolutionChoiceAction>社内業務効率化の進め方を見る</SolutionChoiceAction>
-              </TopPageSolutionChoiceContent>
-            </SolutionChoiceCard>
-
-            <SolutionChoiceCard href="/solutions/ai-dashi" tone="dashi">
-              <SolutionChoiceHeader icon={Blocks}>
-                <SolutionChoiceBadge>AI Dashi</SolutionChoiceBadge>
-              </SolutionChoiceHeader>
-              <TopPageSolutionChoiceContent>
-                <TopPageSolutionChoiceHeading>
-                  <SolutionChoiceTitle>SaaSやWebサービスのAI化を進めたい</SolutionChoiceTitle>
-                  <SolutionChoiceSubtitle>組み込み型AI基盤・ホワイトラベル対応</SolutionChoiceSubtitle>
-                </TopPageSolutionChoiceHeading>
-                <SolutionChoiceDescription>
-                  自社SaaSやWebサービスに組み込める、エンタープライズ向けAI基盤です。安全性、拡張性、運用性を備えたAI機能を、自社ブランドで既存のサービスに展開できます。
-                </SolutionChoiceDescription>
-                <SolutionChoiceAction>自社サービスAI化の進め方を見る</SolutionChoiceAction>
-              </TopPageSolutionChoiceContent>
-            </SolutionChoiceCard>
-          </TopPageSolutionChoiceGroup>
-        </TopPageSolutionOverviewSection>
+        {children}
 
         <section id="about" className="mx-auto max-w-[1920px] px-6 py-16 lg:px-10 lg:py-20">
           <div className="mx-auto w-full max-w-[1120px]">

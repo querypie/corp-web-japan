@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { MarketingSectionIntro } from "@/components/sections/marketing-section-primitives";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 
-export function TopPageSolutionOverviewSection({ children }: { children: ReactNode }) {
+export function SolutionOverviewSection({ children }: { children: ReactNode }) {
   return (
     <section className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-16 lg:px-10 lg:py-20">
       <div className="mx-auto w-full max-w-[1120px]">{children}</div>
@@ -10,7 +10,7 @@ export function TopPageSolutionOverviewSection({ children }: { children: ReactNo
   );
 }
 
-export function TopPageSolutionOverviewIntro({ title, children }: { title: ReactNode; children: ReactNode }) {
+export function SolutionOverviewIntro({ title, children }: { title: ReactNode; children: ReactNode }) {
   return (
     <div className="mx-auto max-w-[900px] text-center">
       <RevealOnScroll variant="up">
@@ -26,11 +26,11 @@ export function TopPageSolutionOverviewIntro({ title, children }: { title: React
   );
 }
 
-export function TopPageSolutionOverviewLead({ children }: { children: ReactNode }) {
+export function SolutionOverviewLead({ children }: { children: ReactNode }) {
   return <p>{children}</p>;
 }
 
-export function TopPageSolutionChoiceGroup({ children }: { children: ReactNode }) {
+export function SolutionChoiceGroup({ children }: { children: ReactNode }) {
   return (
     <RevealOnScroll className="mt-10 grid items-stretch gap-5 lg:grid-cols-2" variant="up" delayMs={220}>
       {children}
@@ -38,10 +38,10 @@ export function TopPageSolutionChoiceGroup({ children }: { children: ReactNode }
   );
 }
 
-export function TopPageSolutionChoiceContent({ children }: { children: ReactNode }) {
+export function SolutionChoiceContent({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-export function TopPageSolutionChoiceHeading({ children }: { children: ReactNode }) {
+export function SolutionChoiceHeading({ children }: { children: ReactNode }) {
   return <div className="mt-5">{children}</div>;
 }
