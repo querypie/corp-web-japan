@@ -14,12 +14,15 @@ test("/contact-us is the public form page and keeps production-ready form wiring
   assert.match(page, /canonical:\s*"\/contact-us"/);
   assert.doesNotMatch(page, /robots:\s*\{/);
   assert.match(page, /getPrefilledContactUsFormState\(urlSearchParams\)/);
-  assert.match(page, /<ContactUsForm[^>]*\/>/);
+  assert.match(page, /<ContactUsSection>/);
+  assert.match(page, /<ContactUsFormPanel>/);
+  assert.match(page, /<ContactUsForm initialPrefills=\{initialPrefills\} \/>/);
+  assert.match(page, /お問い合わせ/);
+  assert.match(page, /1〜2営業日以内にご連絡いたします/);
 
   assert.match(formComponent, /fetch\("\/contact-us\/submit"/);
   assert.doesNotMatch(formComponent, /fetch\("\/t\/contact-us\/submit"/);
-  assert.match(formComponent, /お問い合わせ/);
-  assert.match(formComponent, /1〜2営業日以内にご連絡いたします/);
+  assert.doesNotMatch(formComponent, /1〜2営業日以内にご連絡いたします/);
   assert.match(formComponent, /aria-invalid/);
   assert.match(formComponent, /autoComplete=/);
 
