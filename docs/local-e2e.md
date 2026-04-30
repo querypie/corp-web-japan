@@ -23,7 +23,10 @@ Typical examples:
 
 Current coverage:
 - page render and core required fields
-- stable query prefill behavior
+- stable query prefill behavior for valid values
+- invalid inquiry/product prefills are ignored and duplicate valid product params are deduplicated
+- query-prefilled fields still require the remaining mandatory inputs before submit becomes enabled
+- free-email validation blocks submit until a business or educational address is provided
 - submit flow against the current hosted environment behavior
 
 ### 2. Internal whitepaper gating demo on stage
