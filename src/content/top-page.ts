@@ -27,47 +27,6 @@ export const topPageHeader = {
     ],
     cta: { label: "Free Flow", href: "#contact" },
   } as const;
-export const topPageCoreValue = {
-    title: {
-      before: "AI導入の壁は、技術ではなく",
-      highlight: "信頼と定着",
-      after: "",
-    },
-    body:
-      "QueryPie AIは、企業のAI活用を前に進めるために不可欠な3つの条件を備えています。",
-    cards: [
-      {
-        number: "01",
-        title: "信頼",
-        subtitle: "安全性とガバナンス",
-        bullets: [
-          "組織・役割に応じた緻密な権限管理と監査対応",
-          "入力データの外部学習なし",
-          "エンタープライズ基準の安全な環境",
-        ],
-      },
-      {
-        number: "02",
-        title: "速さ",
-        subtitle: "開発・導入スピード",
-        bullets: [
-          "既存の社内データや業務システムとシームレスに連携",
-          "ゼロからの開発を省略",
-          "業務で使える状態を素早く構築",
-        ],
-      },
-      {
-        number: "03",
-        title: "現場定着",
-        subtitle: "運用・活用支援",
-        bullets: [
-          "現場が迷わず使えるUIとワークフロー設計",
-          "テスト導入で終わらせない",
-          "全社展開に向けた運用改善まで伴走",
-        ],
-      },
-    ],
-  } as const;
 export const topPageRoadmap = {
     sectionName: "Roadmap",
     title: {

@@ -9,13 +9,9 @@ import {
   Building2,
   Compass,
   Settings2,
-  ShieldCheck,
-  Users,
-  Zap,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
-  topPageCoreValue,
   topPageFinalCta,
   topPagePlatformRequirements,
   topPageRoadmap,
@@ -23,18 +19,15 @@ import {
   topPageWhitepapers,
 } from "@/content/top-page";
 import {
-  MarketingIconFrame,
   MarketingPill,
   MarketingSectionIntro,
   MarketingSurface,
 } from "@/components/sections/marketing-section-primitives";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 
-const coreValueIcons = [ShieldCheck, Zap, Users] as const;
 const roadmapIcons = [Compass, Settings2, Building2] as const;
 
 export function TopPageSections({ children }: { children?: ReactNode }) {
-  const coreValue = topPageCoreValue;
   const roadmap = topPageRoadmap;
   const platformRequirements = topPagePlatformRequirements;
   const security = topPageSecurity;
@@ -60,64 +53,6 @@ export function TopPageSections({ children }: { children?: ReactNode }) {
   return (
     <div className="bg-white text-[#17191d]">
         {children}
-
-        <section id="about" className="mx-auto max-w-[1920px] px-6 py-16 lg:px-10 lg:py-20">
-          <div className="mx-auto w-full max-w-[1120px]">
-            <div className="mx-auto max-w-[900px] text-center">
-              <RevealOnScroll variant="up">
-                <MarketingSectionIntro
-                  title={
-                    <>
-                      {coreValue.title.before}
-                      <span className="heading-highlight-accent">{coreValue.title.highlight}</span>
-                      {coreValue.title.after}
-                    </>
-                  }
-                  body={<p>{coreValue.body}</p>}
-                  bodyClassName="max-w-[760px] text-center leading-7"
-                />
-              </RevealOnScroll>
-            </div>
-
-            <RevealOnScroll className="mt-10 grid items-stretch gap-4 lg:grid-cols-3" variant="up" delayMs={220}>
-              {coreValue.cards.map((card, index) => {
-                const Icon = coreValueIcons[index];
-
-                return (
-                  <MarketingSurface
-                    as="article"
-                    key={card.title}
-                    className="flex h-full flex-col rounded-[1.8rem] bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.95)_100%)] px-5 py-6 shadow-[0_20px_54px_-44px_rgba(15,23,42,0.18)] sm:px-6"
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <MarketingPill className="bg-[#2f3a49] px-3 py-1 tracking-[0.08em] text-white shadow-[0_12px_24px_-18px_rgba(15,23,42,0.42)]">
-                        {card.number} {card.title}
-                      </MarketingPill>
-                      <MarketingIconFrame className="bg-[#eef2f7] text-[#2f3a49]">
-                        <Icon className="h-5 w-5" />
-                      </MarketingIconFrame>
-                    </div>
-
-                    <div className="mt-5">
-                      <h3 className="mt-2 text-[24px] font-semibold tracking-[0.02em] text-slate-950">
-                        {card.subtitle}
-                      </h3>
-                    </div>
-
-                    <ul className="mt-4 flex-1 space-y-2.5 text-[15px] leading-7 text-slate-600">
-                      {card.bullets.map((bullet) => (
-                        <li key={bullet} className="flex gap-2">
-                          <span className="mt-[0.55rem] h-1.5 w-1.5 flex-none rounded-full bg-[#2f3a49]/75" />
-                          <span>{bullet}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </MarketingSurface>
-                );
-              })}
-            </RevealOnScroll>
-          </div>
-        </section>
 
         <section className="mx-auto max-w-[1920px] bg-[#f7f9fc] px-6 py-16 lg:px-10 lg:py-20">
           <div className="mx-auto w-full max-w-[1120px]">
