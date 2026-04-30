@@ -28,11 +28,13 @@ test("whitepaper detail routes redirect to a frontmatter redirectUrl before rend
   assert.match(slugRouteSource, /const post = await getWhitepaperPublicationPost\(id\);/);
 });
 
-test("whitepaper 25 is explicitly marked as a hidden redirect-only shadow record for the Korean translation flow", () => {
+test("whitepaper 25 keeps its original body while adding only a short redirect note in frontmatter", () => {
   const source = readSource("src/content/whitepapers/25.mdx");
 
-  assert.match(source, /DO NOT LIST WHITEPAPER 25 ON THE JAPAN SITE\./);
-  assert.match(source, /WHITEPAPER 25 WAS CREATED ONLY AS A SIDE EFFECT WHILE AUTHORING THE KOREAN/);
   assert.match(source, /hidden:\s*true/);
+  assert.match(source, /# Created only for the Korean translation whitepaper flow\./);
+  assert.match(source, /# Redirect this shadow record to the real Japan whitepaper 24 route\./);
   assert.match(source, /redirectUrl:\s*"\/whitepapers\/24\/ai-transformation-japan"/);
+  assert.match(source, /gated:\s*true/);
+  assert.match(source, /# はじめに/);
 });
