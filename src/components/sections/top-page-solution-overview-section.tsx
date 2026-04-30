@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { MarketingSectionIntro } from "@/components/sections/marketing-section-primitives";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 
 export function SolutionOverviewSection({ children }: { children: ReactNode }) {
@@ -10,24 +9,30 @@ export function SolutionOverviewSection({ children }: { children: ReactNode }) {
   );
 }
 
-export function SolutionOverviewIntro({ title, children }: { title: ReactNode; children: ReactNode }) {
+export function SolutionOverviewIntro({ children }: { children: ReactNode }) {
   return (
     <div className="mx-auto max-w-[900px] text-center">
       <RevealOnScroll variant="up">
-        <MarketingSectionIntro
-          className="max-w-[900px]"
-          titleClassName="mx-auto max-w-[730px] text-balance text-[31px] leading-[1.22] tracking-[-0.045em] sm:text-[40px] lg:text-[43px]"
-          bodyClassName="mt-6 max-w-[790px] space-y-4 text-left leading-[1.9]"
-          title={title}
-          body={children}
-        />
+        <div className="mx-auto max-w-[900px]">{children}</div>
       </RevealOnScroll>
     </div>
   );
 }
 
+export function SolutionOverviewTitle({ children }: { children: ReactNode }) {
+  return (
+    <h2 className="mx-auto max-w-[730px] text-balance text-[31px] font-semibold leading-[1.22] tracking-[-0.045em] text-slate-950 sm:text-[40px] lg:text-[43px]">
+      {children}
+    </h2>
+  );
+}
+
 export function SolutionOverviewLead({ children }: { children: ReactNode }) {
-  return <p>{children}</p>;
+  return <p className="text-[15px] leading-[1.9] text-slate-600">{children}</p>;
+}
+
+export function SolutionOverviewLeadGroup({ children }: { children: ReactNode }) {
+  return <div className="mx-auto mt-6 max-w-[790px] space-y-4 text-left">{children}</div>;
 }
 
 export function SolutionChoiceGroup({ children }: { children: ReactNode }) {

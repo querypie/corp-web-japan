@@ -9,7 +9,9 @@ import {
   SolutionChoiceHeading,
   SolutionOverviewIntro,
   SolutionOverviewLead,
+  SolutionOverviewLeadGroup,
   SolutionOverviewSection,
+  SolutionOverviewTitle,
 } from "@/components/sections/top-page-solution-overview-section";
 import {
   SolutionChoiceAction,
@@ -47,23 +49,23 @@ export default function HomePage() {
       <FloatingConversionCta href={topPageFloatingCtaUrl} />
       <TopPageSections>
         <SolutionOverviewSection>
-          <SolutionOverviewIntro
-            title={
-              <>
-                AI活用は、単なる業務効率化にとどまらない
-                <span className="heading-highlight-accent">経営課題</span>
-                への対策
-              </>
-            }
-          >
-            <SolutionOverviewLead>
-              AI活用の真の目的は、日々の作業を減らすことではなく、企業全体の生産性と利益率を向上させることにあります。
-            </SolutionOverviewLead>
-            <SolutionOverviewLead>
-              QueryPie AIは、<strong className="font-bold text-[#174EA6]">社内業務の劇的な効率化がもたらすコスト削減</strong>と、
-              <strong className="font-bold text-[#B85733]">自社サービスの価値向上を通じた売上拡大</strong>
-              という2つのアプローチで、貴社の経営課題の解決を支援します。
-            </SolutionOverviewLead>
+          <SolutionOverviewIntro>
+            <SolutionOverviewTitle>
+              AI活用は、単なる業務効率化にとどまらない
+              <span className="heading-highlight-accent">経営課題</span>
+              への対策
+            </SolutionOverviewTitle>
+
+            <SolutionOverviewLeadGroup>
+              <SolutionOverviewLead>
+                AI活用の真の目的は、日々の作業を減らすことではなく、企業全体の生産性と利益率を向上させることにあります。
+              </SolutionOverviewLead>
+              <SolutionOverviewLead>
+                QueryPie AIは、<strong className="font-bold text-[#174EA6]">社内業務の劇的な効率化がもたらすコスト削減</strong>と、
+                <strong className="font-bold text-[#B85733]">自社サービスの価値向上を通じた売上拡大</strong>
+                という2つのアプローチで、貴社の経営課題の解決を支援します。
+              </SolutionOverviewLead>
+            </SolutionOverviewLeadGroup>
           </SolutionOverviewIntro>
 
           <SolutionChoiceGroup>
