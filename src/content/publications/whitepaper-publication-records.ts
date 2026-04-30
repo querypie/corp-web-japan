@@ -4,8 +4,6 @@ import { parse as parseYaml } from "yaml";
 import type { ResourceItem } from "@/content/resources";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 
-const QUERYPIE_JAPAN_WHITEPAPER_BASE_URL = "https://www.querypie.com/ja/features/documentation/white-paper";
-
 export type WhitepaperPublicationFrontmatter = {
   id: string;
   slug: string;
@@ -24,20 +22,12 @@ export type WhitepaperPublicationRecord = WhitepaperPublicationFrontmatter & {
   sourcePath: string;
 };
 
-export type WhitepaperPublicationListItem = {
-  href: string;
-  imageSrc: string;
-  badge: string;
-  title: string;
-  description: string;
-  date?: string;
-};
+export type WhitepaperPublicationListItem = ResourceItem;
 
 type WhitepaperPublicationCache = {
   records: readonly WhitepaperPublicationRecord[];
   recordsById: ReadonlyMap<string, WhitepaperPublicationRecord>;
   listItems: readonly WhitepaperPublicationListItem[];
-  externalItems: readonly ResourceItem[];
 };
 
 const WHITEPAPER_POSTS_ROOT = path.join(process.cwd(), "src/content/whitepapers");
@@ -111,10 +101,6 @@ function loadWhitepaperPublicationRecords(): WhitepaperPublicationRecord[] {
     .sort((left, right) => Number(right.id) - Number(left.id));
 }
 
-function getExternalWhitepaperHref(id: string, slug: string) {
-  return `${QUERYPIE_JAPAN_WHITEPAPER_BASE_URL}/${id}/${slug}`;
-}
-
 function createWhitepaperPublicationCache(): Readonly<WhitepaperPublicationCache> {
   const records = Object.freeze(loadWhitepaperPublicationRecords().map((record) => Object.freeze({ ...record })));
   const recordsById = new Map<string, WhitepaperPublicationRecord>(records.map((record) => [record.id, record]));
@@ -131,24 +117,11 @@ function createWhitepaperPublicationCache(): Readonly<WhitepaperPublicationCache
       }),
     ),
   );
-  const externalItems = Object.freeze(
-    visibleRecords.map((record) =>
-      Object.freeze({
-        href: getExternalWhitepaperHref(record.id, record.slug),
-        imageSrc: record.heroImageSrc,
-        badge: "ホワイトペーパー",
-        title: record.title,
-        description: record.listDescription ?? record.description,
-        date: record.date,
-      }),
-    ),
-  );
 
   return Object.freeze({
     records,
     recordsById,
     listItems,
-    externalItems,
   });
 }
 
@@ -162,7 +135,6 @@ function getWhitepaperPublicationCache(): Readonly<WhitepaperPublicationCache> {
 }
 
 export const whitepaperPublicationRecords = getWhitepaperPublicationCache().records;
-export const whitepaperItems: readonly ResourceItem[] = getWhitepaperPublicationCache().externalItems;
 
 export function listWhitepaperPublicationItems(): readonly WhitepaperPublicationListItem[] {
   return getWhitepaperPublicationCache().listItems;

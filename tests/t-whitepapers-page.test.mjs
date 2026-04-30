@@ -6,7 +6,7 @@ test("/t/whitepapers is a non-indexed blog-style whitepaper list page backed by 
   const source = readSource("src/app/t/whitepapers/page.tsx");
 
   assert.equal(sourceExists("src/app/t/whitepapers/page.tsx"), true);
-  assert.match(source, /import \{ listWhitepaperPublicationItems \} from "@\/content\/publications\/whitepapers"/);
+  assert.match(source, /import \{ listWhitepaperPublicationItems \} from "@\/content\/publications\/whitepaper-publication-records"/);
   assert.match(source, /const whitepaperItems = await listWhitepaperPublicationItems\(\);/);
   assert.match(source, /canonical:\s*"\/t\/whitepapers"/);
   assert.match(source, /robots:\s*\{[\s\S]*index:\s*false,[\s\S]*follow:\s*false,[\s\S]*\}/);
