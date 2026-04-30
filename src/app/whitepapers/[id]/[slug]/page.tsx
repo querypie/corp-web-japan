@@ -32,6 +32,15 @@ export async function generateMetadata({ params }: WhitepaperDetailPageProps): P
     return {};
   }
 
+  if (record.redirectUrl) {
+    return {
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
   return {
     title: `${record.title} | QueryPie AI`,
     description: record.description,
@@ -51,6 +60,10 @@ export default async function WhitepaperDetailPage({ params }: WhitepaperDetailP
 
   if (!record) {
     notFound();
+  }
+
+  if (record.redirectUrl) {
+    redirect(record.redirectUrl);
   }
 
   if (record.slug !== slug) {
