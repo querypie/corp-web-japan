@@ -40,11 +40,23 @@ function toneTheme(tone: RoadmapTone) {
 }
 
 function isRoadmapTabElement(node: ReactNode): node is ReactElement<RoadmapTabProps> {
-  return isValidElement(node) && node.type === RoadmapTab;
+  return (
+    isValidElement(node) &&
+    typeof node.props === "object" &&
+    node.props !== null &&
+    (node.props as { tabKey?: unknown }).tabKey !== undefined &&
+    typeof (node.props as { label?: unknown }).label === "string"
+  );
 }
 
 function isRoadmapStepElement(node: ReactNode): node is ReactElement<RoadmapStepProps> {
-  return isValidElement(node) && node.type === RoadmapStep;
+  return (
+    isValidElement(node) &&
+    typeof node.props === "object" &&
+    node.props !== null &&
+    typeof (node.props as { label?: unknown }).label === "string" &&
+    (node.props as { title?: unknown }).title !== undefined
+  );
 }
 
 export function RoadmapSection({ children }: { children: ReactNode }) {
