@@ -34,5 +34,5 @@ test("whitepaper 25 is explicitly marked as a hidden redirect-only shadow record
   assert.match(source, /DO NOT LIST WHITEPAPER 25 ON THE JAPAN SITE\./);
   assert.match(source, /WHITEPAPER 25 WAS CREATED ONLY AS A SIDE EFFECT WHILE AUTHORING THE KOREAN/);
   assert.match(source, /hidden:\s*true/);
-  assert.match(source, /redirectUrl:\s*"\/whitepapers\/24\/ai-tranformation-japan"/);
+  assert.match(source, /redirectUrl:\s*"\/whitepapers\/24\/ai-transformation-japan"/);
 });
