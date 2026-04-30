@@ -27,27 +27,6 @@ export const topPageHeader = {
     ],
     cta: { label: "Free Flow", href: "#contact" },
   } as const;
-export const topPageHero = {
-    tagline: "Secure Enterprise AI",
-    title: "信頼できるAIが、現場を動かす",
-    subcopy: "誰もが安全かつ迅速に業務で使えるAI",
-    body:
-      "QueryPie AIは、強固なセキュリティとガバナンスを前提としたエンタープライズAI基盤を提供します。経営層が求める「信頼」と、現場が求める「使いやすさ」を両立し、AI活用をスモールスタートから実運用・定着まで前に進めます。",
-    image: {
-      src: "/top-hero.png",
-      alt: "QueryPie AIの導入イメージを想起させる、オフィスでAIダッシュボードを活用するチーム",
-    },
-    proofPills: [
-      "国際基準のセキュリティ",
-      "テスト導入から全社展開へ",
-      "組織・役割に応じた権限管理",
-    ],
-    primaryCta: { label: "お問い合わせ", href: topPageHeroContactUrl },
-    secondaryCta: {
-      label: "資料をダウンロード",
-      href: topPageDownloadUrl,
-    },
-  } as const;
 export const topPageCoreValue = {
     title: {
       before: "AI導入の壁は、技術ではなく",
