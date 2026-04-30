@@ -65,6 +65,13 @@ import {
   PlatformRequirementsVideo,
 } from "@/components/sections/top-page-platform-requirements-section";
 import {
+  SecurityAction,
+  SecurityCertificationCard,
+  SecurityCertificationGrid,
+  SecurityIntro,
+  SecuritySection,
+} from "@/components/sections/top-page-security-section";
+import {
   SolutionChoiceContent,
   SolutionChoiceGroup,
   SolutionChoiceHeading,
@@ -366,6 +373,21 @@ export default function HomePage() {
 
           <PlatformRequirementsVideo src="https://www.youtube.com/embed/B-BAQRoMUnU?start=5&rel=0" />
         </PlatformRequirementsSection>
+
+        <SecuritySection>
+          <SecurityIntro title="国際基準のセキュリティ認証">
+            企業がAIを導入する際の最大の壁である「情報セキュリティ」と「コンプライアンス」。QueryPie AIは、SOC 2 Type II や ISO/IEC 27001 など、グローバル最高水準のセキュリティ認証を取得し、厳格な監査基準をクリアしています。
+          </SecurityIntro>
+
+          <SecurityCertificationGrid>
+            <SecurityCertificationCard src="/top-assets/certifications/soc2.webp" alt="SOC 2 Type II certification logo" title="SOC 2 Type II" />
+            <SecurityCertificationCard src="/top-assets/certifications/iso27001.png" alt="ISO/IEC 27001 certification logo" title="ISO/IEC 27001" />
+            <SecurityCertificationCard src="/top-assets/certifications/iso27701.png" alt="ISO/IEC 27701 certification logo" title="ISO/IEC 27701" />
+            <SecurityCertificationCard src="/top-assets/certifications/csastar.svg" alt="CSA STAR certification logo" title="CSA STAR" />
+          </SecurityCertificationGrid>
+
+          <SecurityAction href="https://trust.querypie.com/">セキュリティ・コンプライアンス（Trust Center）の詳細を見る</SecurityAction>
+        </SecuritySection>
       </TopPageSections>
       <SiteFooter />
     </main>

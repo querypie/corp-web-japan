@@ -14,7 +14,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
   const resourcePostPage = readSource("src/components/PublicationPostPage.tsx");
   const contactUsPage = readSource("src/app/contact-us/page.tsx");
-
+  const topPageSecuritySection = readSource("src/components/sections/top-page-security-section.tsx");
 
   assert.match(aiCrewDataSource, /const aiCrewConsultUrl =|export const aiCrewConsultUrl =/);
   assert.match(aiCrewDataSource, /const demoUseCasesUrl =|export const demoUseCasesUrl =/);
@@ -33,8 +33,10 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(topPageDataSource, /\{ label: "デモを依頼", href: topPageFinalDemoUrl \}/);
   assert.match(topPageDataSource, /\{ label: "資料をダウンロード", href: topPageDownloadUrl \}/);
   assert.match(topPageDataSource, /\{ label: "導入について相談する", href: topPageFinalConsultUrl \}/);
-  assert.match(topPageDataSource, /href: "https:\/\/trust\.querypie\.com\/"/);
-  assert.match(topPageStructureSource, /href=\{security\.link\.href\}[\s\S]*target="_blank"[\s\S]*rel="noopener noreferrer"/);
+  assert.match(`${topPageDataSource}\n${topPage}`, /href: "https:\/\/trust\.querypie\.com\/"|<SecurityAction href="https:\/\/trust\.querypie\.com\/">/);
+  assert.match(`${topPageStructureSource}\n${topPageSecuritySection}\n${topPage}`, /href=\{security\.link\.href\}|<SecurityAction href="https:\/\/trust\.querypie\.com\/">/);
+  assert.match(`${topPageStructureSource}\n${topPageSecuritySection}\n${topPage}`, /target="_blank"/);
+  assert.match(`${topPageStructureSource}\n${topPageSecuritySection}\n${topPage}`, /rel="noopener noreferrer"/);
   assert.match(aiCrewPage, /<FloatingConversionCta href={aiCrewFloatingCtaUrl} \/>/);
   assert.match(aiCrewFloatingGuide, /ctaHref: aiCrewConsultUrl/);
   assert.match(aiCrewFloatingGuide, /ctaHref: demoUseCasesUrl/);

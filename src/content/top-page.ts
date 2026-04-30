@@ -27,38 +27,6 @@ export const topPageHeader = {
     ],
     cta: { label: "Free Flow", href: "#contact" },
   } as const;
-export const topPageSecurity = {
-    sectionName: "国際基準のセキュリティ認証",
-    title: "国際基準のセキュリティ認証",
-    body:
-      "企業がAIを導入する際の最大の壁である「情報セキュリティ」と「コンプライアンス」。QueryPie AIは、SOC 2 Type II や ISO/IEC 27001 など、グローバル最高水準のセキュリティ認証を取得し、厳格な監査基準をクリアしています。",
-    certifications: [
-      {
-        title: "SOC 2 Type II",
-        src: "/top-assets/certifications/soc2.webp",
-        alt: "SOC 2 Type II certification logo",
-      },
-      {
-        title: "ISO/IEC 27001",
-        src: "/top-assets/certifications/iso27001.png",
-        alt: "ISO/IEC 27001 certification logo",
-      },
-      {
-        title: "ISO/IEC 27701",
-        src: "/top-assets/certifications/iso27701.png",
-        alt: "ISO/IEC 27701 certification logo",
-      },
-      {
-        title: "CSA STAR",
-        src: "/top-assets/certifications/csastar.svg",
-        alt: "CSA STAR certification logo",
-      },
-    ],
-    link: {
-      label: "セキュリティ・コンプライアンス（Trust Center）の詳細を見る",
-      href: "https://trust.querypie.com/",
-    },
-  } as const;
 export const topPageWhitepapers = {
     title: "経営層・事業責任者向け ホワイトペーパー",
     body:
