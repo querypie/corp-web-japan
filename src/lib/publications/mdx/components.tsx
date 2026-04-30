@@ -37,6 +37,12 @@ type InfoNoteProps = {
   children?: ReactNode;
 };
 
+type YoutubeProps = {
+  src: string;
+  title?: string;
+  center?: boolean;
+};
+
 function childrenToText(children: ReactNode): string {
   if (typeof children === "string") return children;
   if (typeof children === "number") return String(children);
@@ -133,6 +139,25 @@ function InfoNote({ hideIcon = false, children }: InfoNoteProps) {
   );
 }
 
+function Youtube({ src, title = "YouTube video", center = false }: YoutubeProps) {
+  return (
+    <div className={center ? "my-8 flex justify-center" : "my-8"}>
+      <div className="w-full overflow-hidden rounded-[8px] border border-[#e5e7eb] bg-slate-950 shadow-sm">
+        <div className="relative aspect-video w-full">
+          <iframe
+            className="absolute inset-0 h-full w-full"
+            src={src}
+            title={title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function GatingCut() {
   return null;
 }
@@ -152,6 +177,7 @@ export function buildPublicationMdxComponents(): MDXComponents {
     ButtonLink,
     ArticleFileImage,
     InfoNote,
+    Youtube,
     GatingCut,
     ArticleGatingForm,
   };
