@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ShieldCheck, Users, Zap } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -17,6 +18,21 @@ import {
   HeroTitleLine,
 } from "@/components/sections/top-page-hero-section";
 import { TopPageSections } from "@/components/sections/top-page-sections";
+import {
+  CoreValueBody,
+  CoreValueBullet,
+  CoreValueBulletList,
+  CoreValueCard,
+  CoreValueCardBadge,
+  CoreValueCardHeader,
+  CoreValueCardIcon,
+  CoreValueCardTitle,
+  CoreValueCardTitleWrap,
+  CoreValueGrid,
+  CoreValueIntro,
+  CoreValueSection,
+  CoreValueTitle,
+} from "@/components/sections/top-page-core-value-section";
 import {
   SolutionChoiceContent,
   SolutionChoiceGroup,
@@ -147,6 +163,71 @@ export default function HomePage() {
             </SolutionChoiceCard>
           </SolutionChoiceGroup>
         </SolutionOverviewSection>
+
+        <CoreValueSection>
+          <CoreValueIntro>
+            <CoreValueTitle>
+              AI導入の壁は、技術ではなく
+              <span className="heading-highlight-accent">信頼と定着</span>
+            </CoreValueTitle>
+            <CoreValueBody>
+              QueryPie AIは、企業のAI活用を前に進めるために不可欠な3つの条件を備えています。
+            </CoreValueBody>
+          </CoreValueIntro>
+
+          <CoreValueGrid>
+            <CoreValueCard>
+              <CoreValueCardHeader>
+                <CoreValueCardBadge>01 信頼</CoreValueCardBadge>
+                <CoreValueCardIcon>
+                  <ShieldCheck className="h-5 w-5" />
+                </CoreValueCardIcon>
+              </CoreValueCardHeader>
+              <CoreValueCardTitleWrap>
+                <CoreValueCardTitle>安全性とガバナンス</CoreValueCardTitle>
+              </CoreValueCardTitleWrap>
+              <CoreValueBulletList>
+                <CoreValueBullet>組織・役割に応じた緻密な権限管理と監査対応</CoreValueBullet>
+                <CoreValueBullet>入力データの外部学習なし</CoreValueBullet>
+                <CoreValueBullet>エンタープライズ基準の安全な環境</CoreValueBullet>
+              </CoreValueBulletList>
+            </CoreValueCard>
+
+            <CoreValueCard>
+              <CoreValueCardHeader>
+                <CoreValueCardBadge>02 速さ</CoreValueCardBadge>
+                <CoreValueCardIcon>
+                  <Zap className="h-5 w-5" />
+                </CoreValueCardIcon>
+              </CoreValueCardHeader>
+              <CoreValueCardTitleWrap>
+                <CoreValueCardTitle>開発・導入スピード</CoreValueCardTitle>
+              </CoreValueCardTitleWrap>
+              <CoreValueBulletList>
+                <CoreValueBullet>既存の社内データや業務システムとシームレスに連携</CoreValueBullet>
+                <CoreValueBullet>ゼロからの開発を省略</CoreValueBullet>
+                <CoreValueBullet>業務で使える状態を素早く構築</CoreValueBullet>
+              </CoreValueBulletList>
+            </CoreValueCard>
+
+            <CoreValueCard>
+              <CoreValueCardHeader>
+                <CoreValueCardBadge>03 現場定着</CoreValueCardBadge>
+                <CoreValueCardIcon>
+                  <Users className="h-5 w-5" />
+                </CoreValueCardIcon>
+              </CoreValueCardHeader>
+              <CoreValueCardTitleWrap>
+                <CoreValueCardTitle>運用・活用支援</CoreValueCardTitle>
+              </CoreValueCardTitleWrap>
+              <CoreValueBulletList>
+                <CoreValueBullet>現場が迷わず使えるUIとワークフロー設計</CoreValueBullet>
+                <CoreValueBullet>テスト導入で終わらせない</CoreValueBullet>
+                <CoreValueBullet>全社展開に向けた運用改善まで伴走</CoreValueBullet>
+              </CoreValueBulletList>
+            </CoreValueCard>
+          </CoreValueGrid>
+        </CoreValueSection>
       </TopPageSections>
       <SiteFooter />
     </main>
