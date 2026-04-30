@@ -2,6 +2,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { parse as parseYaml } from "yaml";
 import type { ResourceItem } from "@/content/resources";
+import { getPublicationHref } from "@/lib/publications/get-publication-href";
 
 const QUERYPIE_JAPAN_WHITEPAPER_BASE_URL = "https://www.querypie.com/ja/features/documentation/white-paper";
 
@@ -112,6 +113,19 @@ export const whitepaperItems: readonly ResourceItem[] = whitepaperPublicationRec
     description: record.listDescription ?? record.description,
     date: record.date,
   }));
+
+export function listWhitepaperPublicationItems(): readonly ResourceItem[] {
+  return whitepaperPublicationRecords
+    .filter((record) => !record.hidden)
+    .map((record) => ({
+      href: getPublicationHref("whitepaper", record.id, record.slug),
+      imageSrc: record.heroImageSrc,
+      badge: "ホワイトペーパー",
+      title: record.title,
+      description: record.listDescription ?? record.description,
+      date: record.date,
+    }));
+}
 
 export function listWhitepaperPublicationParams() {
   return whitepaperPublicationRecords.map(({ id, slug }) => ({ id, slug }));
