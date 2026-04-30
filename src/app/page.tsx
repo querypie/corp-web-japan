@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Blocks, Users } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -69,7 +68,7 @@ export default function HomePage() {
 
           <SolutionChoiceGroup>
             <SolutionChoiceCard href="/solutions/ai-crew" tone="crew">
-              <SolutionChoiceHeader icon={Users}>
+              <SolutionChoiceHeader>
                 <SolutionChoiceBadge>AI Crew</SolutionChoiceBadge>
               </SolutionChoiceHeader>
               <SolutionChoiceContent>
@@ -85,7 +84,7 @@ export default function HomePage() {
             </SolutionChoiceCard>
 
             <SolutionChoiceCard href="/solutions/ai-dashi" tone="dashi">
-              <SolutionChoiceHeader icon={Blocks}>
+              <SolutionChoiceHeader>
                 <SolutionChoiceBadge>AI Dashi</SolutionChoiceBadge>
               </SolutionChoiceHeader>
               <SolutionChoiceContent>
