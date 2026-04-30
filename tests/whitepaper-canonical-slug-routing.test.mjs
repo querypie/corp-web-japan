@@ -11,7 +11,7 @@ test("whitepaper detail routes implement id-only canonical redirects", () => {
 
   assert.equal(existsSync(new URL("../src/app/whitepapers/[id]/[slug]/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/whitepapers/[id]/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/content/whitepapers/28.mdx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/content/whitepapers/25.mdx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/content/publications/whitepapers.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/content/publications/whitepaper.ts", import.meta.url)), false);
 
@@ -32,7 +32,7 @@ test("whitepaper detail routes implement id-only canonical redirects", () => {
   assert.match(content, /listDescription/);
 });
 
-test("whitepaper list page is now driven by MDX-derived whitepaper items", () => {
+test("whitepaper list page is driven by MDX-derived whitepaper items", () => {
   const whitepapersPage = readSource("src/app/whitepapers/page.tsx");
   const resources = readSource("src/content/resources.ts");
 
