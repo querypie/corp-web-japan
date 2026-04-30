@@ -23,5 +23,9 @@ export default async function WhitepaperDetailIdPage({ params }: WhitepaperDetai
     notFound();
   }
 
+  if (record.redirectUrl) {
+    redirect(record.redirectUrl);
+  }
+
   redirect(getWhitepaperPublicationHref(id, record.slug));
 }

@@ -16,11 +16,13 @@ test("whitepaper detail routes implement id-only canonical redirects", () => {
   assert.equal(existsSync(new URL("../src/content/publications/whitepaper.ts", import.meta.url)), false);
 
   assert.match(canonicalRoute, /getWhitepaperPublicationRecord\(id\)/);
+  assert.match(canonicalRoute, /if \(record\.redirectUrl\) \{/);
   assert.match(canonicalRoute, /if \(record\.slug !== slug\) \{/);
   assert.match(canonicalRoute, /redirect\(getWhitepaperPublicationHref\(id, record\.slug\)\)/);
-  assert.match(canonicalRoute, /const post = await getWhitepaperPublicationPost\(id\)/);
+  assert.match(canonicalRoute, /const post = await getWhitepaperPublicationPost\(id\);/);
 
   assert.match(idRoute, /listWhitepaperPublicationIds\(\)/);
+  assert.match(idRoute, /if \(record\.redirectUrl\) \{/);
   assert.match(idRoute, /redirect\(getWhitepaperPublicationHref\(id, record\.slug\)\)/);
 
   assert.match(helper, /renderPublicationMdx/);

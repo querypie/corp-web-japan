@@ -2,10 +2,11 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { parse as parseYaml } from "yaml";
 import type { ResourceItem } from "@/content/resources";
+import { getPublicationHref } from "@/lib/publications/get-publication-href";
 
 const QUERYPIE_JAPAN_WHITEPAPER_BASE_URL = "https://www.querypie.com/ja/features/documentation/white-paper";
 
-type WhitepaperPublicationFrontmatter = {
+export type WhitepaperPublicationFrontmatter = {
   id: string;
   slug: string;
   title: string;
@@ -14,6 +15,8 @@ type WhitepaperPublicationFrontmatter = {
   date: string;
   heroImageSrc: string;
   author?: string | string[];
+  hidden?: boolean;
+  redirectUrl?: string;
   relatedIds: readonly string[];
 };
 
@@ -21,7 +24,24 @@ export type WhitepaperPublicationRecord = WhitepaperPublicationFrontmatter & {
   sourcePath: string;
 };
 
+export type WhitepaperPublicationListItem = {
+  href: string;
+  imageSrc: string;
+  badge: string;
+  title: string;
+  description: string;
+  date?: string;
+};
+
+type WhitepaperPublicationCache = {
+  records: readonly WhitepaperPublicationRecord[];
+  recordsById: ReadonlyMap<string, WhitepaperPublicationRecord>;
+  listItems: readonly WhitepaperPublicationListItem[];
+  externalItems: readonly ResourceItem[];
+};
+
 const WHITEPAPER_POSTS_ROOT = path.join(process.cwd(), "src/content/whitepapers");
+let whitepaperPublicationCache: Readonly<WhitepaperPublicationCache> | null = null;
 
 function normalizeWhitepaperPublicationFrontmatter(
   value: unknown,
@@ -37,6 +57,7 @@ function normalizeWhitepaperPublicationFrontmatter(
     ? relatedIdsValue.map((item) => String(item))
     : [];
   const authorValue = frontmatter.author;
+  const redirectUrlValue = frontmatter.redirectUrl;
 
   return {
     id: String(frontmatter.id ?? ""),
@@ -55,6 +76,8 @@ function normalizeWhitepaperPublicationFrontmatter(
         : Array.isArray(authorValue)
           ? authorValue.map((item) => String(item))
           : undefined,
+    hidden: frontmatter.hidden === true,
+    redirectUrl: typeof redirectUrlValue === "string" ? redirectUrlValue : undefined,
     relatedIds,
   };
 }
@@ -88,32 +111,71 @@ function loadWhitepaperPublicationRecords(): WhitepaperPublicationRecord[] {
     .sort((left, right) => Number(right.id) - Number(left.id));
 }
 
-export const whitepaperPublicationRecords = loadWhitepaperPublicationRecords();
-const whitepaperPublicationRecordById = new Map<string, WhitepaperPublicationRecord>(
-  whitepaperPublicationRecords.map((record) => [record.id, record]),
-);
-
 function getExternalWhitepaperHref(id: string, slug: string) {
   return `${QUERYPIE_JAPAN_WHITEPAPER_BASE_URL}/${id}/${slug}`;
 }
 
-export const whitepaperItems: readonly ResourceItem[] = whitepaperPublicationRecords.map((record) => ({
-  href: getExternalWhitepaperHref(record.id, record.slug),
-  imageSrc: record.heroImageSrc,
-  badge: "ホワイトペーパー",
-  title: record.title,
-  description: record.listDescription ?? record.description,
-  date: record.date,
-}));
+function createWhitepaperPublicationCache(): Readonly<WhitepaperPublicationCache> {
+  const records = Object.freeze(loadWhitepaperPublicationRecords().map((record) => Object.freeze({ ...record })));
+  const recordsById = new Map<string, WhitepaperPublicationRecord>(records.map((record) => [record.id, record]));
+  const visibleRecords = records.filter((record) => !record.hidden);
+  const listItems = Object.freeze(
+    visibleRecords.map((record) =>
+      Object.freeze({
+        href: getPublicationHref("whitepaper", record.id, record.slug),
+        imageSrc: record.heroImageSrc,
+        badge: "ホワイトペーパー",
+        title: record.title,
+        description: record.listDescription ?? record.description,
+        date: record.date,
+      }),
+    ),
+  );
+  const externalItems = Object.freeze(
+    visibleRecords.map((record) =>
+      Object.freeze({
+        href: getExternalWhitepaperHref(record.id, record.slug),
+        imageSrc: record.heroImageSrc,
+        badge: "ホワイトペーパー",
+        title: record.title,
+        description: record.listDescription ?? record.description,
+        date: record.date,
+      }),
+    ),
+  );
+
+  return Object.freeze({
+    records,
+    recordsById,
+    listItems,
+    externalItems,
+  });
+}
+
+function getWhitepaperPublicationCache(): Readonly<WhitepaperPublicationCache> {
+  if (whitepaperPublicationCache) {
+    return whitepaperPublicationCache;
+  }
+
+  whitepaperPublicationCache = Object.freeze(createWhitepaperPublicationCache());
+  return whitepaperPublicationCache;
+}
+
+export const whitepaperPublicationRecords = getWhitepaperPublicationCache().records;
+export const whitepaperItems: readonly ResourceItem[] = getWhitepaperPublicationCache().externalItems;
+
+export function listWhitepaperPublicationItems(): readonly WhitepaperPublicationListItem[] {
+  return getWhitepaperPublicationCache().listItems;
+}
 
 export function listWhitepaperPublicationParams() {
-  return whitepaperPublicationRecords.map(({ id, slug }) => ({ id, slug }));
+  return getWhitepaperPublicationCache().records.map(({ id, slug }) => ({ id, slug }));
 }
 
 export function listWhitepaperPublicationIds() {
-  return whitepaperPublicationRecords.map(({ id }) => ({ id }));
+  return getWhitepaperPublicationCache().records.map(({ id }) => ({ id }));
 }
 
 export function getWhitepaperPublicationRecord(id: string) {
-  return whitepaperPublicationRecordById.get(id) ?? null;
+  return getWhitepaperPublicationCache().recordsById.get(id) ?? null;
 }
