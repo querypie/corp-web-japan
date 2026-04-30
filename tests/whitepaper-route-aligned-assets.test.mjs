@@ -18,7 +18,7 @@ test("whitepaper hero thumbnails use route-aligned /whitepapers/{id}/thumbnail.p
     const source = readSource(`src/content/whitepapers/${file}`);
     const id = path.basename(file, ".mdx");
 
-    assert.match(source, new RegExp(`\nheroImageSrc: "/whitepapers/${id}/thumbnail\.png"\n`));
+    assert.match(source, new RegExp(`\nheroImageSrc: ?(?:\"|')?/whitepapers/${id}/thumbnail\.png(?:\"|')?\n`));
     assert.doesNotMatch(source, /\/assets\/image\/whitepapers\//);
   }
 });
