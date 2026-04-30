@@ -4,13 +4,21 @@ import { readSource } from "./helpers/source-readers.mjs";
 
 test("whitepaper gating uses gated frontmatter and a GatingCut component instead of the legacy ArticleGatingForm wrapper", () => {
   const whitepaper24 = readSource("src/content/whitepapers/24.mdx");
+  const whitepaper30 = readSource("src/content/whitepapers/30.mdx");
   const mdxComponents = readSource("src/lib/publications/mdx/components.tsx");
 
   assert.match(whitepaper24, /\ngated:\s*true\n/);
   assert.match(whitepaper24, /<GatingCut\s*\/>/);
   assert.doesNotMatch(whitepaper24, /<ArticleGatingForm>/);
   assert.doesNotMatch(whitepaper24, /<\/ArticleGatingForm>/);
+  assert.doesNotMatch(whitepaper24, /https:\/\/www\.querypie\.com\/ja\/features\/documentation\/white-paper\/24\/.+\/download/);
+
+  assert.match(whitepaper30, /\ngated:\s*true\n/);
+  assert.match(whitepaper30, /<GatingCut\s*\/>/);
+  assert.doesNotMatch(whitepaper30, /https:\/\/www\.querypie\.com\/ja\/features\/documentation\/white-paper\/30\/.+\/download/);
+
   assert.match(mdxComponents, /function GatingCut\(/);
+  assert.match(mdxComponents, /function Youtube\(/);
 });
 
 test("whitepaper publication loader carries a dedicated gated MDX contract and backend entrypoint", () => {
