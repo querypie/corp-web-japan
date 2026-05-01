@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { MarketingPill, MarketingSectionIntro, MarketingSurface } from "@/components/sections/marketing-section-primitives";
+import { MarketingPill, MarketingSurface } from "@/components/sections/marketing-section-primitives";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 
 export function WhitepaperSection({ children }: { children: ReactNode }) {
@@ -17,14 +17,23 @@ export function WhitepaperShell({ children }: { children: ReactNode }) {
   return <MarketingSurface className="rounded-[2rem] bg-[linear-gradient(180deg,rgba(248,250,252,0.98)_0%,rgba(255,255,255,0.98)_100%)] px-6 py-8 shadow-[0_24px_70px_-56px_rgba(15,23,42,0.14)] lg:px-8 lg:py-10">{children}</MarketingSurface>;
 }
 
-export function WhitepaperIntro({ title, children }: { title: ReactNode; children: ReactNode }) {
+export function WhitepaperIntro({ children }: { children: ReactNode }) {
   return (
     <div className="mx-auto max-w-[900px] text-center">
       <RevealOnScroll variant="up">
-        <MarketingSectionIntro eyebrow="Download" titleClassName="mt-2 text-[24px] leading-[1.3] tracking-[-0.03em] sm:text-[30px]" bodyClassName="mt-4 max-w-[820px] text-left leading-7" title={title} body={<p>{children}</p>} />
+        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748b]">Download</p>
+        <div className="mt-2 space-y-4">{children}</div>
       </RevealOnScroll>
     </div>
   );
+}
+
+export function WhitepaperIntroTitle({ children }: { children: ReactNode }) {
+  return <h2 className="text-[24px] leading-[1.3] tracking-[-0.03em] text-slate-950 sm:text-[30px]">{children}</h2>;
+}
+
+export function WhitepaperIntroBody({ children }: { children: ReactNode }) {
+  return <p className="mx-auto max-w-[820px] text-left leading-7 text-slate-600">{children}</p>;
 }
 
 export function WhitepaperGrid({ children }: { children: ReactNode }) {

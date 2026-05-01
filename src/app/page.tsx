@@ -80,6 +80,8 @@ import {
   WhitepaperDescription,
   WhitepaperGrid,
   WhitepaperIntro,
+  WhitepaperIntroBody,
+  WhitepaperIntroTitle,
   WhitepaperSection,
   WhitepaperShell,
   WhitepaperTag,
@@ -407,8 +409,11 @@ export default function HomePage() {
 
         <WhitepaperSection>
           <WhitepaperShell>
-            <WhitepaperIntro title="経営層・事業責任者向け ホワイトペーパー">
-              AI活用の戦略策定や、自社サービスのAI化に向けたインサイトをまとめた資料を無料でダウンロードいただけます。
+            <WhitepaperIntro>
+              <WhitepaperIntroTitle>経営層・事業責任者向け ホワイトペーパー</WhitepaperIntroTitle>
+              <WhitepaperIntroBody>
+                AI活用の戦略策定や、自社サービスのAI化に向けたインサイトをまとめた資料を無料でダウンロードいただけます。
+              </WhitepaperIntroBody>
             </WhitepaperIntro>
 
             <WhitepaperGrid>
