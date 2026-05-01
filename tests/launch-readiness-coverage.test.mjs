@@ -12,7 +12,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   const aiCrewFloatingGuide = readSource("src/components/sections/ai-crew-floating-guide.tsx");
   const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
-  const resourcePostPage = readSource("src/components/PublicationPostPage.tsx");
+  const resourcePostPage = readSource("src/components/sections/publication-post-page.tsx");
   const contactUsPage = readSource("src/app/contact-us/page.tsx");
   const topPageSecuritySection = readSource("src/components/sections/top-page-security-section.tsx");
 
