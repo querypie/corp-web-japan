@@ -72,6 +72,24 @@ import {
   SecuritySection,
 } from "@/components/sections/top-page-security-section";
 import {
+  WhitepaperAction,
+  WhitepaperCard,
+  WhitepaperCardBody,
+  WhitepaperCardImage,
+  WhitepaperCardTitle,
+  WhitepaperDescription,
+  WhitepaperGrid,
+  WhitepaperIntro,
+  WhitepaperIntroBody,
+  WhitepaperIntroTitle,
+  WhitepaperSection,
+  WhitepaperShell,
+  WhitepaperTag,
+  WhitepaperTagGroup,
+  WhitepaperToc,
+  WhitepaperTocItem,
+} from "@/components/sections/top-page-whitepapers-section";
+import {
   SolutionChoiceContent,
   SolutionChoiceGroup,
   SolutionChoiceHeading,
@@ -388,6 +406,67 @@ export default function HomePage() {
 
           <SecurityAction href="https://trust.querypie.com/">セキュリティ・コンプライアンス（Trust Center）の詳細を見る</SecurityAction>
         </SecuritySection>
+
+        <WhitepaperSection>
+          <WhitepaperShell>
+            <WhitepaperIntro>
+              <WhitepaperIntroTitle>経営層・事業責任者向け ホワイトペーパー</WhitepaperIntroTitle>
+              <WhitepaperIntroBody>
+                AI活用の戦略策定や、自社サービスのAI化に向けたインサイトをまとめた資料を無料でダウンロードいただけます。
+              </WhitepaperIntroBody>
+            </WhitepaperIntro>
+
+            <WhitepaperGrid>
+              <WhitepaperCard>
+                <WhitepaperCardImage src="/whitepapers/24/thumbnail.png" alt="なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか ホワイトペーパー表紙" />
+                <WhitepaperCardBody>
+                  <WhitepaperCardTitle>なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか</WhitepaperCardTitle>
+                  <WhitepaperTagGroup>
+                    <WhitepaperTag>経営層向け</WhitepaperTag>
+                    <WhitepaperTag>組織変革</WhitepaperTag>
+                    <WhitepaperTag>社内AI活用</WhitepaperTag>
+                  </WhitepaperTagGroup>
+                  <WhitepaperDescription>本ホワイトペーパーは事業責任者向けに、技術詳細やトレンド紹介ではなく、世界と日本のAI活用の温度差と日本企業の課題を踏まえ、今すぐ経営に組み込むための実務的プロセスと全社最適の変革指針を示す内容です。</WhitepaperDescription>
+                  <WhitepaperToc>
+                    <WhitepaperTocItem>はじめに</WhitepaperTocItem>
+                    <WhitepaperTocItem>第1章 世界で進む「AI活用を前提にした経営」</WhitepaperTocItem>
+                    <WhitepaperTocItem>第2章 日本企業が直面する課題</WhitepaperTocItem>
+                    <WhitepaperTocItem>第3章 AIトランスフォーメーションを導入するために</WhitepaperTocItem>
+                    <WhitepaperTocItem>第4章 「なぜ今」取り組むべきなのか</WhitepaperTocItem>
+                    <WhitepaperTocItem>第5章 まとめ ― AIを「導入する」から「経営に組み込む」へ</WhitepaperTocItem>
+                    <WhitepaperTocItem>付録：AI導入準備度チェックリスト</WhitepaperTocItem>
+                    <WhitepaperTocItem>参考サイト</WhitepaperTocItem>
+                  </WhitepaperToc>
+                  <WhitepaperAction href="https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan">無料ダウンロード</WhitepaperAction>
+                </WhitepaperCardBody>
+              </WhitepaperCard>
+
+              <WhitepaperCard>
+                <WhitepaperCardImage src="/solutions/ai-dashi/the-end-of-saas-or-its-evolution.png" alt="SaaSの終焉か、進化か ホワイトペーパー表紙" />
+                <WhitepaperCardBody>
+                  <WhitepaperCardTitle>SaaSの終焉か、進化か 〜AIエージェント時代にSaaS企業が取るべき戦略〜</WhitepaperCardTitle>
+                  <WhitepaperTagGroup>
+                    <WhitepaperTag>プロダクト責任者向け</WhitepaperTag>
+                    <WhitepaperTag>SaaS戦略</WhitepaperTag>
+                    <WhitepaperTag>組み込みAI</WhitepaperTag>
+                  </WhitepaperTagGroup>
+                  <WhitepaperDescription>本ホワイトペーパーは、AIエージェントがSaaSビジネスに与える影響を分析し、SaaS企業が取るべき戦略と、QueryPie AI自身のSaaSベンダーからAI Native企業への変革の実録をお伝えします。</WhitepaperDescription>
+                  <WhitepaperToc>
+                    <WhitepaperTocItem>SaaSの成功とその終わりの兆し</WhitepaperTocItem>
+                    <WhitepaperTocItem>AIエージェントとは何か（SaaSにおけるユーザー側の動作）</WhitepaperTocItem>
+                    <WhitepaperTocItem>UI中心の業務は消える</WhitepaperTocItem>
+                    <WhitepaperTocItem>アプリケーションという概念の崩壊</WhitepaperTocItem>
+                    <WhitepaperTocItem>AIエージェント時代の働き方と組織</WhitepaperTocItem>
+                    <WhitepaperTocItem>AIエージェント時代に何から始めればいいのか？</WhitepaperTocItem>
+                    <WhitepaperTocItem>QueryPie AIの変革 ― 自らの「SaaSの死」を乗り越えた実録</WhitepaperTocItem>
+                    <WhitepaperTocItem>まとめ</WhitepaperTocItem>
+                  </WhitepaperToc>
+                  <WhitepaperAction href="https://www.querypie.com/ja/features/documentation/white-paper/30/saas-end-or-evolution">無料ダウンロード</WhitepaperAction>
+                </WhitepaperCardBody>
+              </WhitepaperCard>
+            </WhitepaperGrid>
+          </WhitepaperShell>
+        </WhitepaperSection>
       </TopPageSections>
       <SiteFooter />
     </main>
