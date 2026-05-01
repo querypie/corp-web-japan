@@ -57,9 +57,11 @@ test("AI Dashi comparison cells allow long copy to wrap on narrow screens", () =
 });
 
 test("Trust Center CTA opens in a new tab", () => {
-  const source = getTopPageStructureSource();
+  const page = readSource("src/app/page.tsx");
+  const securitySection = readSource("src/components/sections/top-page-security-section.tsx");
+  const source = `${getTopPageStructureSource()}\n${securitySection}\n${page}`;
 
-  assert.match(source, /href=\{security\.link\.href\}/);
+  assert.match(source, /href=\{security\.link\.href\}|<SecurityAction href="https:\/\/trust\.querypie\.com\/">/);
   assert.match(source, /target="_blank"/);
   assert.match(source, /rel="noopener noreferrer"/);
 });
