@@ -4,11 +4,11 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { PublicationPostPage } from "@/components/PublicationPostPage";
 import {
-  getEventPost,
-  getEventPostCanonicalHref,
-  getEventPostRecord,
-  listEventPostParams,
-} from "@/lib/resource-posts";
+  getEventPublicationHref,
+  getEventPublicationPost,
+  getEventPublicationRecord,
+  listEventPublicationParams,
+} from "@/lib/publications/get-event-publication-post";
 import { absoluteUrl } from "@/lib/site-url";
 
 type EventDetailPageProps = {
@@ -19,39 +19,43 @@ type EventDetailPageProps = {
 };
 
 export function generateStaticParams() {
-  return listEventPostParams();
+  return listEventPublicationParams();
 }
 
 export async function generateMetadata({ params }: EventDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const record = getEventPostRecord(id);
+  const record = getEventPublicationRecord(id);
 
   if (!record) {
     return {};
   }
 
   return {
-    title: `${record.title} | QueryPie AI`,
+    title: record.title + " | QueryPie AI",
     description: record.description,
     alternates: {
-      canonical: absoluteUrl(getEventPostCanonicalHref(id, record.slug)),
+      canonical: absoluteUrl(getEventPublicationHref(id, record.slug)),
+    },
+    robots: {
+      index: false,
+      follow: false,
     },
   };
 }
 
 export default async function EventDetailPage({ params }: EventDetailPageProps) {
   const { id, slug } = await params;
-  const record = getEventPostRecord(id);
+  const record = getEventPublicationRecord(id);
 
   if (!record) {
     notFound();
   }
 
   if (record.slug !== slug) {
-    redirect(getEventPostCanonicalHref(id, record.slug));
+    redirect(getEventPublicationHref(id, record.slug));
   }
 
-  const post = getEventPost(id, slug);
+  const post = await getEventPublicationPost(id);
 
   if (!post) {
     notFound();
