@@ -3,13 +3,12 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
 import { SiteHeader } from "@/components/layout/site-header";
 import { Button } from "@/components/ui/button";
-import { topPageFloatingCtaUrl } from "@/content/top-page";
 
 export default function NotFound() {
   return (
     <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
       <SiteHeader />
-      <FloatingConversionCta href={topPageFloatingCtaUrl} />
+      <FloatingConversionCta href="/contact-us" />
 
       <section className="mx-auto flex min-h-[calc(100vh-72px)] w-full max-w-7xl items-center px-6 py-20 sm:px-8 lg:px-12">
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
