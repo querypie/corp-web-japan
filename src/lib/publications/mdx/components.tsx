@@ -43,6 +43,16 @@ type YoutubeProps = {
   center?: boolean;
 };
 
+type ArticleYoutubeGatingFormProps = {
+  src: string;
+  title?: string;
+};
+
+type EmailLinkProps = {
+  email: string;
+  children?: ReactNode;
+};
+
 function childrenToText(children: ReactNode): string {
   if (typeof children === "string") return children;
   if (typeof children === "number") return String(children);
@@ -166,6 +176,14 @@ function ArticleGatingForm({ children }: { children?: ReactNode }) {
   return <>{children}</>;
 }
 
+function ArticleYoutubeGatingForm({ src, title = "YouTube video" }: ArticleYoutubeGatingFormProps) {
+  return <Youtube src={src} title={title} />;
+}
+
+function EmailLink({ email, children }: EmailLinkProps) {
+  return <a href={`mailto:${email}`}>{children ?? email}</a>;
+}
+
 export function buildPublicationMdxComponents(): MDXComponents {
   return {
     h1: ({ children }: { children?: ReactNode }) => <h1 id={slugifyHeading(children)}>{children}</h1>,
@@ -180,5 +198,7 @@ export function buildPublicationMdxComponents(): MDXComponents {
     Youtube,
     GatingCut,
     ArticleGatingForm,
+    ArticleYoutubeGatingForm,
+    EmailLink,
   };
 }
