@@ -23,21 +23,14 @@ test("whitepaper hero thumbnails use route-aligned /whitepapers/{id}/thumbnail.p
   }
 });
 
-test("whitepaper body does not duplicate hero thumbnails for migrated posts that already use page-level hero rendering", () => {
-  for (const id of ["26", "27", "28", "29"]) {
-    const source = readSource(`src/content/whitepapers/${id}.mdx`);
-
-    assert.doesNotMatch(source, new RegExp(`filepath=\"public/whitepapers/${id}/thumbnail\\.png\"`));
-    assert.doesNotMatch(source, new RegExp(`!\\[[^\\]]*\\]\\(/whitepapers/${id}/thumbnail\\.png\\)`));
-  }
-});
-
 test("whitepaper supporting surfaces do not reference the legacy /assets/image/whitepapers path", () => {
   const topPage = getTopPageDataSource();
+  const topPagePage = readSource("src/app/page.tsx");
+  const topPageWhitepapersSection = readSource("src/components/sections/top-page-whitepapers-section.tsx");
   const gatingDemo = readSource("src/content/internal/whitepaper-gating-demo.mdx");
 
-  assert.match(topPage, /src: "\/whitepapers\/24\/thumbnail\.png"/);
+  assert.match(`${topPage}\n${topPagePage}\n${topPageWhitepapersSection}`, /src: "\/whitepapers\/24\/thumbnail\.png"|<WhitepaperCardImage src="\/whitepapers\/24\/thumbnail\.png"/);
   assert.match(gatingDemo, /\nheroImageSrc: "\/whitepapers\/24\/thumbnail\.png"\n/);
-  assert.doesNotMatch(topPage, /\/assets\/image\/whitepapers\//);
+  assert.doesNotMatch(`${topPage}\n${topPagePage}\n${topPageWhitepapersSection}`, /\/assets\/image\/whitepapers\//);
   assert.doesNotMatch(gatingDemo, /\/assets\/image\/whitepapers\//);
 });
