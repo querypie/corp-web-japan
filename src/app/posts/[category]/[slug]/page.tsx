@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { PublicationPostPage } from "@/components/PublicationPostPage";
+import { PublicationPostPage } from "@/components/sections/publication-post-page";
 import { ResourcePostDownloadPage } from "@/components/sections/resource-post-download-page";
 import { absoluteUrl } from "@/lib/site-url";
 import {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { ResourceListPage } from "@/components/ResourceListPage";
+import { ResourceListPage } from "@/components/sections/resource-list-page";
 import { eventItems } from "@/content/resources/events";
 
 export const metadata: Metadata = {

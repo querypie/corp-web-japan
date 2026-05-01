@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import fs from "node:fs";
 import path from "node:path";
 import { eventItems, eventPostRecords, getEventPostHref } from "@/content/resources/events";
-import { blogItems } from "@/content/publications/blog";
+import { blogItems } from "@/lib/publications/blog-items";
 import { querypieJapanWhitepaperItems } from "@/content/publications/querypie-ja-whitepaper-links";
 import type { PublicationTocItem } from "@/lib/publications/types";
 

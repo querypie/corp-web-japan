@@ -1,5 +1,5 @@
 import type { ResourceItem } from "@/content/resources";
-import { whitepaperPublicationRecords } from "@/content/publications/whitepaper-publication-records";
+import { whitepaperPublicationRecords } from "@/lib/publications/whitepaper-publication-records";
 
 const QUERYPIE_JAPAN_WHITEPAPER_BASE_URL = "https://www.querypie.com/ja/features/documentation/white-paper";
 
