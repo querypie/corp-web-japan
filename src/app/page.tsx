@@ -116,32 +116,32 @@ import {
   SolutionChoiceSubtitle,
   SolutionChoiceTitle,
 } from "@/components/sections/top-page-solution-choice-card";
-import {
-  topPageDownloadUrl,
-  topPageFloatingCtaUrl,
-  topPageHeroContactUrl,
-  topPageMetadata,
-} from "@/content/top-page";
-
 export const metadata: Metadata = {
-  title: topPageMetadata.title,
-  description: topPageMetadata.description,
+  title: "信頼できるAIが、現場を動かす｜QueryPie AI",
+  description:
+    "QueryPie AIは、社内業務効率化と自社サービスAI化を支援するエンタープライズAI基盤です。安全性と運用性を前提に、AI活用をスモールスタートから実運用・定着まで前に進めます。",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: topPageMetadata.title,
-    description: topPageMetadata.description,
+    title: "信頼できるAIが、現場を動かす｜QueryPie AI",
+    description:
+      "QueryPie AIは、社内業務効率化と自社サービスAI化を支援するエンタープライズAI基盤です。安全性と運用性を前提に、AI活用をスモールスタートから実運用・定着まで前に進めます。",
     type: "website",
   },
   twitter: {
-    title: topPageMetadata.title,
-    description: topPageMetadata.description,
+    title: "信頼できるAIが、現場を動かす｜QueryPie AI",
+    description:
+      "QueryPie AIは、社内業務効率化と自社サービスAI化を支援するエンタープライズAI基盤です。安全性と運用性を前提に、AI活用をスモールスタートから実運用・定着まで前に進めます。",
     card: "summary_large_image",
   },
 };
 
 export default function HomePage() {
+  const topPageFloatingCtaUrl = "/contact-us";
+  const topPageHeroContactUrl = "/contact-us?inquiry=ai-consulting";
+  const topPageDownloadUrl =
+    "https://www.querypie.com/ja/features/documentation/aip-introduction-download";
   const topPageFinalDemoUrl = "/contact-us?inquiry=demo-request";
   const topPageFinalConsultUrl = "/contact-us?inquiry=ai-consulting";
 
