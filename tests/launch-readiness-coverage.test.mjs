@@ -16,6 +16,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   const contactUsPage = readSource("src/app/contact-us/page.tsx");
   const topPageSecuritySection = readSource("src/components/sections/top-page-security-section.tsx");
 
+
   assert.match(aiCrewDataSource, /const aiCrewConsultUrl =|export const aiCrewConsultUrl =/);
   assert.match(aiCrewDataSource, /const demoUseCasesUrl =|export const demoUseCasesUrl =/);
   assert.match(aiCrewDataSource, /floatingCta: \{ label: "業務に合うAI活用を相談する", href: aiCrewFloatingCtaUrl \}/);
@@ -30,9 +31,9 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(topPageStructureSource, /id="contact"/);
   assert.match(topPageStructureSource, /bg-\[#0f172a\] text-white/);
   assert.match(topPageStructureSource, /id="download"/);
-  assert.match(topPageDataSource, /\{ label: "デモを依頼", href: topPageFinalDemoUrl \}/);
-  assert.match(topPageDataSource, /\{ label: "資料をダウンロード", href: topPageDownloadUrl \}/);
-  assert.match(topPageDataSource, /\{ label: "導入について相談する", href: topPageFinalConsultUrl \}/);
+  assert.match(topPageDataSource, /\{ label: "デモを依頼", href: topPageFinalDemoUrl \}|<FinalCtaAction href=\{topPageFinalDemoUrl\} primary>/);
+  assert.match(topPageDataSource, /\{ label: "資料をダウンロード", href: topPageDownloadUrl \}|<FinalCtaAction href=\{topPageDownloadUrl\}>資料をダウンロード<\/FinalCtaAction>/);
+  assert.match(topPageDataSource, /\{ label: "導入について相談する", href: topPageFinalConsultUrl \}|<FinalCtaAction href=\{topPageFinalConsultUrl\}>導入について相談する<\/FinalCtaAction>/);
   assert.match(`${topPageDataSource}\n${topPage}`, /href: "https:\/\/trust\.querypie\.com\/"|<SecurityAction href="https:\/\/trust\.querypie\.com\/">/);
   assert.match(`${topPageStructureSource}\n${topPageSecuritySection}\n${topPage}`, /href=\{security\.link\.href\}|<SecurityAction href="https:\/\/trust\.querypie\.com\/">/);
   assert.match(`${topPageStructureSource}\n${topPageSecuritySection}\n${topPage}`, /target="_blank"/);

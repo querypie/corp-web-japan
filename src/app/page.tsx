@@ -17,7 +17,15 @@ import {
   HeroTitle,
   HeroTitleLine,
 } from "@/components/sections/top-page-hero-section";
-import { TopPageSections } from "@/components/sections/top-page-sections";
+import {
+  FinalCtaAction,
+  FinalCtaActionGroup,
+  FinalCtaBody,
+  FinalCtaIntro,
+  FinalCtaSection,
+  FinalCtaShell,
+  FinalCtaTitle,
+} from "@/components/sections/top-page-final-cta-section";
 import {
   CoreValueBody,
   CoreValueBullet,
@@ -110,6 +118,8 @@ import {
 } from "@/components/sections/top-page-solution-choice-card";
 import {
   topPageDownloadUrl,
+  topPageFinalConsultUrl,
+  topPageFinalDemoUrl,
   topPageFloatingCtaUrl,
   topPageHeroContactUrl,
   topPageMetadata,
@@ -164,8 +174,7 @@ export default function HomePage() {
           </HeroActionGroup>
         </HeroPanel>
       </HeroSection>
-      <TopPageSections>
-        <SolutionOverviewSection>
+      <SolutionOverviewSection>
           <SolutionOverviewIntro>
             <SolutionOverviewTitle>
               AI活用は、単なる業務効率化にとどまらない
@@ -467,7 +476,23 @@ export default function HomePage() {
             </WhitepaperGrid>
           </WhitepaperShell>
         </WhitepaperSection>
-      </TopPageSections>
+
+        <FinalCtaSection>
+          <FinalCtaShell>
+            <FinalCtaIntro>
+              <FinalCtaTitle>信頼できるAI活用を、ここから前へ。</FinalCtaTitle>
+              <FinalCtaBody>
+                <p>大切なのは、安心して始められ、現場で使われ、定着し、広げられること。</p>
+                <p>どこからAI活用を始めるべきか、何を優先して整えるべきかなど、まずはお気軽にご相談ください。</p>
+              </FinalCtaBody>
+            </FinalCtaIntro>
+            <FinalCtaActionGroup>
+              <FinalCtaAction href={topPageFinalDemoUrl} primary>デモを依頼</FinalCtaAction>
+              <FinalCtaAction href={topPageDownloadUrl}>資料をダウンロード</FinalCtaAction>
+              <FinalCtaAction href={topPageFinalConsultUrl}>導入について相談する</FinalCtaAction>
+            </FinalCtaActionGroup>
+          </FinalCtaShell>
+        </FinalCtaSection>
       <SiteFooter />
     </main>
   );
