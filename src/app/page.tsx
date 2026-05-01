@@ -118,8 +118,6 @@ import {
 } from "@/components/sections/top-page-solution-choice-card";
 import {
   topPageDownloadUrl,
-  topPageFinalConsultUrl,
-  topPageFinalDemoUrl,
   topPageFloatingCtaUrl,
   topPageHeroContactUrl,
   topPageMetadata,
@@ -144,6 +142,9 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  const topPageFinalDemoUrl = "/contact-us?inquiry=demo-request";
+  const topPageFinalConsultUrl = "/contact-us?inquiry=ai-consulting";
+
   return (
     <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
       <SiteHeader />
