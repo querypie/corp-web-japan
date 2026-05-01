@@ -27,16 +27,3 @@ export const topPageHeader = {
     ],
     cta: { label: "Free Flow", href: "#contact" },
   } as const;
-export const topPageFinalCta = {
-    title: "信頼できるAI活用を、ここから前へ。",
-    body: {
-      line1: "大切なのは、安心して始められ、現場で使われ、定着し、広げられること。",
-      line2:
-        "どこからAI活用を始めるべきか、何を優先して整えるべきかなど、まずはお気軽にご相談ください。",
-    },
-    actions: [
-      { label: "デモを依頼", href: topPageFinalDemoUrl },
-      { label: "資料をダウンロード", href: topPageDownloadUrl },
-      { label: "導入について相談する", href: topPageFinalConsultUrl },
-    ],
-  } as const;
