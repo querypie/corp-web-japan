@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
 test("whitepaper publication frontmatter supports hidden list items and external detail redirects", () => {
-  const source = readSource("src/content/publications/whitepaper-publication-records.ts");
+  const source = readSource("src/lib/publications/whitepaper-publication-records.ts");
 
   assert.match(source, /hidden\?: boolean;/);
   assert.match(source, /redirectUrl\?: string;/);
@@ -12,7 +12,7 @@ test("whitepaper publication frontmatter supports hidden list items and external
 });
 
 test("whitepaper publication list excludes only frontmatter-hidden records while preserving full record lookup", () => {
-  const source = readSource("src/content/publications/whitepaper-publication-records.ts");
+  const source = readSource("src/lib/publications/whitepaper-publication-records.ts");
 
   assert.match(source, /const visibleRecords = records\.filter\(\(record\) => !record\.hidden\);/);
   assert.match(source, /const recordsById = new Map<string, WhitepaperPublicationRecord>\(records\.map\(\(record\) => \[record\.id, record\]\)\);/);

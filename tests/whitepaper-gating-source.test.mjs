@@ -24,7 +24,7 @@ test("whitepaper gating uses gated frontmatter and a GatingCut component instead
 test("whitepaper publication loader carries a dedicated gated MDX contract and backend entrypoint", () => {
   const loader = readSource("src/lib/publications/get-whitepaper-publication-post.ts");
   const publicationTypes = readSource("src/lib/publications/types.ts");
-  const publicationPage = readSource("src/components/PublicationPostPage.tsx");
+  const publicationPage = readSource("src/components/sections/publication-post-page.tsx");
   const gatingHelper = readSource("src/lib/publications/gating.ts");
   const gatingRoute = readSource("src/app/api/gating-form/unlock/route.ts");
 
