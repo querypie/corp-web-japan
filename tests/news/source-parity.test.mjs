@@ -1,9 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 const sourceNewsPagePath = path.join(process.cwd(), "../../../corp-web-contents/pages/company/news/ja/content.mdx");
+const sourceNewsPageExists = existsSync(sourceNewsPagePath);
 const localNewsDir = path.join(process.cwd(), "src/content/news");
 
 function parseSourceItems() {
@@ -32,16 +33,20 @@ function readLocalNewsItems() {
     .sort((left, right) => Number(right.id) - Number(left.id));
 }
 
-test("local news corpus includes every source news item in the same visible order", () => {
-  const sourceItems = parseSourceItems();
-  const localItems = readLocalNewsItems();
+test(
+  "local news corpus includes every source news item in the same visible order",
+  { skip: !sourceNewsPageExists },
+  () => {
+    const sourceItems = parseSourceItems();
+    const localItems = readLocalNewsItems();
 
-  assert.equal(localItems.length, sourceItems.length);
-  assert.deepEqual(
-    localItems.map((item) => item.title),
-    sourceItems.map((item) => item.title),
-  );
-});
+    assert.equal(localItems.length, sourceItems.length);
+    assert.deepEqual(
+      localItems.map((item) => item.title),
+      sourceItems.map((item) => item.title),
+    );
+  },
+);
 
 test("local news corpus keeps one MDX file per source item with non-empty metadata", () => {
   const localItems = readLocalNewsItems();
