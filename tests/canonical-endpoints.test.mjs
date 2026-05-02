@@ -58,7 +58,7 @@ const expectedRedirectFiles = [
 test("navigation surfaces point to the canonical local and redirect endpoints", () => {
   const siteHeader = readSource("src/components/layout/site-header.tsx");
   const siteFooter = readSource("src/components/layout/site-footer.tsx");
-  const resourcePage = readSource("src/components/ResourceListPage.tsx");
+  const resourcePage = readSource("src/components/sections/resource-list-page.tsx");
 
   for (const expected of expectedHeaderLinks) {
     assert.match(siteHeader, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));

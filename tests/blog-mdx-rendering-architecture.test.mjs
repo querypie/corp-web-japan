@@ -26,7 +26,7 @@ test("blog publication MDX has dedicated renderer and heading extraction utiliti
 test("blog detail page and publication page consume structured MDX toc data", () => {
   const publicationTypes = readSource("src/lib/publications/types.ts");
   const publicationLoader = readSource("src/lib/publications/get-publication-post.ts");
-  const publicationPage = readSource("src/components/PublicationPostPage.tsx");
+  const publicationPage = readSource("src/components/sections/publication-post-page.tsx");
   const tocComponent = readSource("src/components/sections/resource-post-toc.tsx");
 
   assert.match(publicationTypes, /toc: PublicationTocItem\[\]/);

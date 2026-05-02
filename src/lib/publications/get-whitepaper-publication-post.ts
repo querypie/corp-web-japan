@@ -5,7 +5,7 @@ import {
   listWhitepaperPublicationIds,
   listWhitepaperPublicationParams,
   whitepaperPublicationRecords,
-} from "@/content/publications/whitepaper-publication-records";
+} from "@/lib/publications/whitepaper-publication-records";
 import { buildGatingContentKey, splitMdxSourceAtGatingCut, stripFrontmatterBlock } from "@/lib/publications/gating";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";

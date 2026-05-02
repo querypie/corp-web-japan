@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { ResourceListPage } from "@/components/ResourceListPage";
+import { ResourceListPage } from "@/components/sections/resource-list-page";
 import { listNewsPublicationItems } from "@/content/publications/news-publication-records";
 
 export const metadata: Metadata = {

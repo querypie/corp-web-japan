@@ -7,12 +7,12 @@ test("whitepaper detail routes implement id-only canonical redirects", () => {
   const canonicalRoute = readSource("src/app/whitepapers/[id]/[slug]/page.tsx");
   const idRoute = readSource("src/app/whitepapers/[id]/page.tsx");
   const helper = readSource("src/lib/publications/get-whitepaper-publication-post.ts");
-  const publicationRecords = readSource("src/content/publications/whitepaper-publication-records.ts");
+  const publicationRecords = readSource("src/lib/publications/whitepaper-publication-records.ts");
 
   assert.equal(existsSync(new URL("../src/app/whitepapers/[id]/[slug]/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/whitepapers/[id]/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/content/whitepapers/25.mdx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/content/publications/whitepaper-publication-records.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/lib/publications/whitepaper-publication-records.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/content/publications/querypie-ja-whitepaper-links.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/content/publications/whitepapers.ts", import.meta.url)), false);
 

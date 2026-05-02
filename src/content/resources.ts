@@ -1,4 +1,4 @@
-import { blogItems } from "@/content/publications/blog";
+import { blogItems } from "@/lib/publications/blog-items";
 import { querypieJapanWhitepaperItems } from "@/content/publications/querypie-ja-whitepaper-links";
 import { eventItems } from "./resources/events";
 
@@ -13,7 +13,7 @@ export type ResourceItem = {
   date?: string;
 };
 
-export { blogItems } from "@/content/publications/blog";
+export { blogItems } from "@/lib/publications/blog-items";
 export { eventItems } from "./resources/events";
 export { querypieJapanWhitepaperItems as whitepaperItems } from "@/content/publications/querypie-ja-whitepaper-links";
 

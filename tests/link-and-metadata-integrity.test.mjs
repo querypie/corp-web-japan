@@ -48,7 +48,7 @@ test("header and footer navigation links match the current implemented destinati
 test("public interaction surfaces do not ship bare hash broken links", () => {
   const siteHeader = readSource("src/components/layout/site-header.tsx");
   const siteFooter = readSource("src/components/layout/site-footer.tsx");
-  const resourcePostPage = readSource("src/components/PublicationPostPage.tsx");
+  const resourcePostPage = readSource("src/components/sections/publication-post-page.tsx");
   const resourcePostDownloadPage = readSource("src/components/sections/resource-post-download-page.tsx");
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
   const aiCrewFloatingGuide = readSource("src/components/sections/ai-crew-floating-guide.tsx");
