@@ -31,6 +31,22 @@ Current coverage:
 
 ### 2. Internal whitepaper gating demo on stage
 
+### 3. News stage flow
+
+- Test file: `tests-local/src/app/t/news/page.e2e.mjs`
+- Test file: `tests-local/src/app/news/page.e2e.mjs`
+- npm scripts:
+  - `npm run e2e:local:news-list:stage`
+  - `npm run e2e:local:news-detail:stage`
+- Requested target base URL for this flow: `https://stage.querypie.com`
+- Representative target page: `/t/news`
+
+Current coverage intent:
+- `/t/news` renders the news list page and local `/news/:id/:slug` card hrefs
+- redirect-backed local news detail URIs (for example news 12) resolve to their configured external targets
+- local-body news detail URIs (news 13 and news 14) render the local MDX body instead of redirecting away
+
+
 - Test file: `tests-local/src/app/internal/whitepaper-gating-demo/page.e2e.mjs`
 - npm script: `npm run e2e:local:whitepaper-gating:stage`
 - Target page: `/internal/whitepaper-gating-demo` on the configured base URL

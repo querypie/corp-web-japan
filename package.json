@@ -13,7 +13,9 @@
     "e2e:local:contact-us:stage": "npx playwright test tests-local/src/app/contact-us/page.e2e.mjs --config=playwright.local.config.mjs",
     "e2e:local:whitepaper-gating:stage": "npx playwright test tests-local/src/app/internal/whitepaper-gating-demo/page.e2e.mjs --config=playwright.local.config.mjs",
     "e2e:local:blog:stage": "npx playwright test tests-local/src/app/blog/page.e2e.mjs --config=playwright.local.config.mjs",
-    "e2e:local:whitepapers:stage": "npx playwright test tests-local/src/app/whitepapers/page.e2e.mjs --config=playwright.local.config.mjs"
+    "e2e:local:whitepapers:stage": "npx playwright test tests-local/src/app/whitepapers/page.e2e.mjs --config=playwright.local.config.mjs",
+    "e2e:local:news-list:stage": "LOCAL_E2E_BASE_URL=https://stage.querypie.com npx playwright test tests-local/src/app/t/news/page.e2e.mjs --config=playwright.local.config.mjs",
+    "e2e:local:news-detail:stage": "LOCAL_E2E_BASE_URL=https://stage.querypie.com npx playwright test tests-local/src/app/news/page.e2e.mjs --config=playwright.local.config.mjs"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
