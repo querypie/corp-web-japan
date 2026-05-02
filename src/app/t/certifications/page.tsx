@@ -185,7 +185,7 @@ export default function TestCertificationsPage() {
           <h1 className="text-[44px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[52px] sm:leading-[1.15]">
             認証
           </h1>
-          <div className="mt-5 max-w-[760px] text-[16px] leading-8 text-slate-500">
+          <div className="mt-5 max-w-[760px] text-[16.875px] font-light leading-[26.25px] text-slate-500">
             <p>
               QueryPie AIは、数々の最高レベルの国際および国内セキュリティ認証を取得しています。
               <br />
