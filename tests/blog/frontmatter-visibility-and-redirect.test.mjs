@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../helpers/source-readers.mjs";
 
 test("blog publication frontmatter supports hidden list items and external detail redirects", () => {
   const source = readSource("src/lib/publications/blog-publication-records.ts");
@@ -26,4 +26,14 @@ test("blog detail routes redirect to a frontmatter redirectUrl before rendering 
   assert.match(idOnlyRouteSource, /if \(record\.redirectUrl\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
   assert.match(slugRouteSource, /if \(record\.redirectUrl\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
   assert.match(slugRouteSource, /const post = await getBlogPublicationPost\(id\);/);
+});
+
+test("blog 25 and 26 are hidden shadow records that redirect to the canonical news posts", () => {
+  const blog25 = readSource("src/content/blog/25.mdx");
+  const blog26 = readSource("src/content/blog/26.mdx");
+
+  assert.match(blog25, /hidden:\s*true/);
+  assert.match(blog25, /redirectUrl:\s*"\/news\/13\/terrasky-mitoco-buddy-announcement"/);
+  assert.match(blog26, /hidden:\s*true/);
+  assert.match(blog26, /redirectUrl:\s*"\/news\/14\/mitoco-buddy-official-launch"/);
 });

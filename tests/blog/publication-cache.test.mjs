@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../helpers/source-readers.mjs";
 
 test("blog publication records use an explicit module-level cache for MDX frontmatter", () => {
   const source = readSource("src/lib/publications/blog-publication-records.ts");

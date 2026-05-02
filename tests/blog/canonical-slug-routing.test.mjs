@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../helpers/source-readers.mjs";
 
 test("blog id-only route redirects to the canonical slug URL", () => {
   const source = readSource("src/app/blog/[id]/page.tsx");
