@@ -135,7 +135,7 @@ function CertificationCard({
   className,
 }: (typeof certifications)[number]) {
   return (
-    <article className="flex h-[375px] flex-col items-center justify-start rounded-[24px] bg-[#f5f7fa] px-8 pb-8 pt-10 text-center">
+    <article className="flex h-[375px] flex-col items-center justify-start rounded-[9.375px] bg-[#f5f7fa] px-8 pb-8 pt-10 text-center">
       <div className="flex min-h-[148px] items-center justify-center">
         <Image src={src} alt={label} width={width} height={height} className={className} />
       </div>
@@ -165,7 +165,7 @@ function TrialCtaSection() {
           href="https://app.querypie.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-8 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[12px] bg-[linear-gradient(90deg,#2563eb_0%,#7c3aed_100%)] px-6 py-3 text-sm font-medium text-white transition hover:opacity-95"
+          className="mt-8 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[5.625px] bg-[linear-gradient(90deg,#2563eb_0%,#7c3aed_100%)] px-6 py-3 text-sm font-medium text-white transition hover:opacity-95"
         >
           無料で試してみる
           <ArrowRight className="h-4 w-4" />
@@ -210,7 +210,7 @@ export default function TestCertificationsPage() {
             href="https://trust.querypie.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[12px] border border-[#d7dce5] bg-white px-6 py-3 text-sm font-medium text-slate-950 transition hover:bg-slate-50"
+            className="mt-8 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[5.625px] border border-[#d7dce5] bg-white px-6 py-3 text-sm font-medium text-slate-950 transition hover:bg-slate-50"
           >
             Trust Center を見る
             <ExternalLink className="h-4 w-4" />
