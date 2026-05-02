@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { blogFixtures, gotoStagePath, publicationCardLink } from '../../../helpers/publication-stage-fixtures.mjs';
+import { blogFixtures } from '../../../helpers/blog-stage-fixtures.mjs';
+import { gotoStagePath, publicationCardLink } from '../../../helpers/stage-page-helpers.mjs';
 
 test.describe('stage blog pages', () => {
   test('blog list renders the canonical page chrome and visible card links', async ({ page, baseURL }) => {

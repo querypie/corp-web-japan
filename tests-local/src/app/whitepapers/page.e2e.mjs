@@ -1,10 +1,9 @@
 import { test, expect } from '@playwright/test';
 import {
   fillGatingForm,
-  gotoStagePath,
-  publicationCardLink,
   whitepaperFixtures,
-} from '../../../helpers/publication-stage-fixtures.mjs';
+} from '../../../helpers/whitepaper-stage-fixtures.mjs';
+import { gotoStagePath, publicationCardLink } from '../../../helpers/stage-page-helpers.mjs';
 
 test.describe('stage whitepaper pages', () => {
   test('whitepaper list renders the canonical page chrome and visible upstream card href', async ({ page, baseURL }) => {
