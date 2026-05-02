@@ -43,32 +43,35 @@ Current coverage:
 - unlock cookie is issued
 - unlocked content remains visible after reload because of cookie persistence
 
-### 3. Publication list pages on stage
+### 3. Blog pages on stage
 
-- Test file: `tests-local/src/app/publications-list/page.e2e.mjs`
-- npm script: `npm run e2e:local:publications-list:stage`
-- Target pages: `/blog` and `/whitepapers` on the configured base URL
+- Test file: `tests-local/src/app/blog/page.e2e.mjs`
+- npm script: `npm run e2e:local:blog:stage`
+- Target pages: `/blog`, `/blog/:id`, and `/blog/:id/:slug` on the configured base URL
 
 Current coverage:
-- blog list renders a visible published entry
+- blog list renders the canonical page chrome and a representative visible card
 - blog hidden entries remain absent from the list surface
-- whitepaper list renders a visible published entry
-- whitepaper hidden shadow/redirect records remain absent from the list surface
-- whitepaper list cards keep the expected upstream QueryPie href contract
+- blog id-only routes redirect to the canonical slug URL
+- blog mismatched slug routes redirect to the canonical slug URL
+- visible blog detail renders title, author metadata, body heading, and related posts section
+- hidden blog detail remains directly reachable while still excluded from the list
 
-### 4. Publication detail pages on stage
+### 4. Whitepaper pages on stage
 
-- Test file: `tests-local/src/app/publications-posts/page.e2e.mjs`
-- npm script: `npm run e2e:local:publications-posts:stage`
-- Target pages: `/blog/:id/:slug`, `/whitepapers/:id/:slug`, and redirecting `/whitepapers/:id`/shadow routes on the configured base URL
+- Test file: `tests-local/src/app/whitepapers/page.e2e.mjs`
+- npm script: `npm run e2e:local:whitepapers:stage`
+- Target pages: `/whitepapers`, `/whitepapers/:id`, `/whitepapers/:id/:slug`, and redirecting hidden shadow routes on the configured base URL
 
 Current coverage:
-- visible blog detail renders on the local canonical route
-- hidden blog detail remains directly reachable while still being hidden from the list
-- gated whitepaper preview content renders before unlock
+- whitepaper list renders the canonical page chrome and keeps the expected upstream card href contract
+- whitepaper hidden shadow/redirect records remain absent from the list surface
+- whitepaper id-only routes redirect to the canonical slug URL
+- whitepaper mismatched slug routes redirect to the canonical slug URL
+- gated whitepaper preview state renders title, author metadata, CTA, preview copy, and locked-state form affordances
 - gated whitepaper hidden content appears only after form submit
 - gated whitepaper unlock cookie persists the unlocked state across reload
-- redirect whitepaper shadow records resolve to the canonical local whitepaper detail route
+- hidden redirect whitepaper shadow records resolve to the canonical local whitepaper detail route
 
 ## Base URL configuration
 
@@ -83,8 +86,8 @@ Examples:
 
 ```bash
 npm run e2e:local:whitepaper-gating:stage
-npm run e2e:local:publications-list:stage
-npm run e2e:local:publications-posts:stage
+npm run e2e:local:blog:stage
+npm run e2e:local:whitepapers:stage
 LOCAL_E2E_BASE_URL=https://stage.querypie.ai npm run e2e:local:contact-us:stage
 ```
 
