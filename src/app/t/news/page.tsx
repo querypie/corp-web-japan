@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { ResourceListPage } from "@/components/sections/resource-list-page";
+import { NewsListPage } from "@/components/sections/news-list-page";
 import { listNewsPublicationItems } from "@/content/publications/news-publication-records";
 
 export const metadata: Metadata = {
   title: "ニュース | QueryPie AI",
-  description: "QueryPie AI に関するニュースやメディア掲載情報をまとめたプレビュー一覧です。",
+  description: "QueryPie AIの最新ニュース、公式発表、外部メディア掲載情報をご覧いただけます。",
   alternates: {
     canonical: "/t/news",
   },
@@ -22,10 +22,9 @@ export default async function TestNewsPage() {
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
-      <ResourceListPage
+      <NewsListPage
         title="ニュース"
-        description="QueryPie AI に関するニュース、メディア掲載、アナウンスをローカル MDX で確認できるプレビュー一覧です。"
-        activeCategory="news"
+        description={<>QueryPie AIの最新ニュース、公式発表、外部メディア掲載情報をご覧いただけます。</>}
         items={newsItems}
       />
       <SiteFooter />

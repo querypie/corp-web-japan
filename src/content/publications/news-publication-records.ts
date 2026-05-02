@@ -1,7 +1,6 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { parse as parseYaml } from "yaml";
-import type { ResourceItem } from "@/content/resources";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 
 export type NewsPublicationFrontmatter = {
@@ -21,7 +20,16 @@ export type NewsPublicationRecord = NewsPublicationFrontmatter & {
   sourcePath: string;
 };
 
-export type NewsPublicationListItem = ResourceItem;
+export type NewsPublicationListItem = {
+  href: string;
+  imageSrc: string;
+  badge: string;
+  title: string;
+  description: string;
+  date?: string;
+  sourceLabel: string;
+  opensExternal: boolean;
+};
 
 type NewsPublicationCache = {
   records: readonly NewsPublicationRecord[];
@@ -103,6 +111,8 @@ function createNewsPublicationCache(): Readonly<NewsPublicationCache> {
         title: record.title,
         description: record.description,
         date: record.date,
+        sourceLabel: record.redirectUrl ? "メディア掲載" : "公式発表",
+        opensExternal: false,
       }),
     ),
   );

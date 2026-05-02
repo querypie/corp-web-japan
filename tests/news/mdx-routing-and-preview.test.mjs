@@ -5,6 +5,7 @@ import { readSource } from "../helpers/source-readers.mjs";
 
 test("news preview page and canonical routes are driven by news MDX publication records", () => {
   const previewPage = readSource("src/app/t/news/page.tsx");
+  const listPage = readSource("src/components/sections/news-list-page.tsx");
   const canonicalRoute = readSource("src/app/news/[id]/[slug]/page.tsx");
   const idRoute = readSource("src/app/news/[id]/page.tsx");
   const loader = readSource("src/lib/publications/get-news-publication-post.ts");
@@ -20,6 +21,11 @@ test("news preview page and canonical routes are driven by news MDX publication 
   assert.match(previewPage, /listNewsPublicationItems\(\)/);
   assert.match(previewPage, /canonical: "\/t\/news"/);
   assert.match(previewPage, /robots:\s*\{[\s\S]*index: false,[\s\S]*follow: false,[\s\S]*\}/);
+  assert.match(previewPage, /NewsListPage/);
+  assert.doesNotMatch(previewPage, /プレビュー一覧/);
+  assert.doesNotMatch(previewPage, /ローカル MDX/);
+  assert.match(previewPage, /QueryPie AIの最新ニュース、公式発表、外部メディア掲載情報をご覧いただけます。/);
+  assert.match(listPage, /function NewsCard/);
 
   assert.match(canonicalRoute, /getNewsPublicationRecord\(id\)/);
   assert.match(canonicalRoute, /if \(record\.redirectUrl\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
@@ -31,12 +37,16 @@ test("news preview page and canonical routes are driven by news MDX publication 
   assert.match(idRoute, /if \(record\.redirectUrl\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
   assert.match(idRoute, /redirect\(getNewsPublicationHref\(id, record\.slug\)\)/);
 
+  assert.match(loader, /stripLeadingNewsTitleHeading/);
   assert.match(loader, /renderPublicationMdx/);
-  assert.match(loader, /extractHeadingsFromMdx/);
+  assert.match(loader, /extractHeadingsFromMdx\(renderedSource\)/);
+  assert.match(loader, /record\.redirectUrl \?\? getNewsPublicationHref\(record\.id, record\.slug\)/);
   assert.match(records, /src\/content\/news/);
   assert.match(records, /redirectUrl\?: string;/);
   assert.match(records, /redirectUrl:\s*typeof redirectUrlValue === "string" \? redirectUrlValue : undefined/);
-  assert.match(records, /badge: "ニュース"/);
+  assert.match(records, /href: getPublicationHref\("news", record\.id, record\.slug\)/);
+  assert.match(records, /sourceLabel: record\.redirectUrl \? "メディア掲載" : "公式発表"/);
+  assert.match(records, /opensExternal: false/);
   assert.match(hrefs, /news: "\/news"/);
   assert.match(types, /"news"/);
 });
