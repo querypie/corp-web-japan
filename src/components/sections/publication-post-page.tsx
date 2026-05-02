@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Copy, Facebook, Linkedin, Link2, Twitter } from "lucide-react";
 import { AuthorBox } from "@/components/AuthorBox";
+import { PublicationShareButtons } from "@/components/sections/publication-share-buttons";
 import { ResourcePostGated } from "@/components/sections/resource-post-gated";
 import { ResourcePostToc } from "@/components/sections/resource-post-toc";
 import type { PublicationPost } from "@/lib/publications/types";
@@ -11,8 +11,6 @@ const publicationPostContactUrl = "/contact-us";
 type PublicationPostPageProps = {
   post: PublicationPost;
 };
-
-const shareIcons = [Facebook, Twitter, Linkedin, Link2] as const;
 
 export const publicationBodyClassName = [
   "text-base leading-6 text-slate-500",
@@ -61,25 +59,7 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
                 {post.author ? <AuthorBox author={post.author} /> : null}
                 <div className="mt-2 flex flex-col gap-4 border-t border-[#d1d5db] pt-[18px] sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-sm leading-6 text-slate-400">{post.date}</p>
-                  <div className="flex items-center gap-2.5">
-                    {shareIcons.map((Icon, index) => (
-                      <button
-                        key={index}
-                        type="button"
-                        aria-label="共有"
-                        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#e5e7eb] text-slate-400 transition hover:border-slate-950 hover:text-slate-950"
-                      >
-                        <Icon className="h-4 w-4" />
-                      </button>
-                    ))}
-                    <button
-                      type="button"
-                      aria-label="リンクをコピー"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#e5e7eb] text-slate-400 transition hover:border-slate-950 hover:text-slate-950"
-                    >
-                      <Copy className="h-4 w-4" />
-                    </button>
-                  </div>
+                  <PublicationShareButtons title={post.title} />
                 </div>
               </div>
 
@@ -130,29 +110,52 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
                 </h2>
                 <hr className="mb-[21px] border-0 border-t border-[#e5e7eb]" />
                 <div className="space-y-10">
-                  {post.relatedItems.map((item) => (
-                    <Link
-                      key={`${item.href}-${item.title}`}
-                      href={item.href}
-                      className="flex flex-col gap-3 transition hover:opacity-70"
-                    >
-                      <div className="aspect-[16/9] overflow-hidden rounded-[8px] bg-[#eceff3]">
-                        <Image
-                          src={item.imageSrc}
-                          alt={item.title}
-                          width={560}
-                          height={315}
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-[6px]">
-                        <h3 className="line-clamp-3 text-[14px] font-normal leading-[1.571] tracking-[0.0175rem] text-slate-950">
-                          {item.title}
-                        </h3>
-                        <p className="text-sm leading-6 text-slate-400">{item.date}</p>
-                      </div>
-                    </Link>
-                  ))}
+                  {post.relatedItems.map((item) => {
+                    const isExternalHref = /^https?:\/\//.test(item.href);
+                    const card = (
+                      <>
+                        <div className="aspect-[16/9] overflow-hidden rounded-[8px] bg-[#eceff3]">
+                          <Image
+                            src={item.imageSrc}
+                            alt={item.title}
+                            width={560}
+                            height={315}
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-[6px]">
+                          <h3 className="line-clamp-3 text-[14px] font-normal leading-[1.571] tracking-[0.0175rem] text-slate-950">
+                            {item.title}
+                          </h3>
+                          <p className="text-sm leading-6 text-slate-400">{item.date}</p>
+                        </div>
+                      </>
+                    );
+
+                    if (isExternalHref) {
+                      return (
+                        <a
+                          key={`${item.href}-${item.title}`}
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex flex-col gap-3 transition hover:opacity-70"
+                        >
+                          {card}
+                        </a>
+                      );
+                    }
+
+                    return (
+                      <Link
+                        key={`${item.href}-${item.title}`}
+                        href={item.href}
+                        className="flex flex-col gap-3 transition hover:opacity-70"
+                      >
+                        {card}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
               <div className="rounded-[10px] bg-[#f9f9fb] px-[30px] py-10 text-center">

@@ -15,6 +15,10 @@ function readNewsPublicationBodySource(sourcePath: string) {
   return fs.readFileSync(sourcePath, "utf8");
 }
 
+function stripLeadingNewsTitleHeading(source: string) {
+  return source.replace(/^(---\n[\s\S]*?\n---\n+)(# .*\n+)/, "$1");
+}
+
 function buildRelatedItems(id: string, relatedIds: readonly string[]): PublicationPostSummary[] {
   const recordsById = new Map(newsPublicationRecords.map((record) => [record.id, record]));
   const preferredIds = relatedIds.length > 0 ? relatedIds : newsPublicationRecords.map((record) => record.id);
@@ -25,7 +29,7 @@ function buildRelatedItems(id: string, relatedIds: readonly string[]): Publicati
     .filter((record) => record !== null)
     .slice(0, 3)
     .map((record) => ({
-      href: getNewsPublicationHref(record.id, record.slug),
+      href: record.redirectUrl ?? getNewsPublicationHref(record.id, record.slug),
       imageSrc: record.heroImageSrc,
       title: record.title,
       date: record.date,
@@ -41,6 +45,7 @@ export async function getNewsPublicationPost(id: string): Promise<PublicationPos
   }
 
   const bodySource = readNewsPublicationBodySource(record.sourcePath);
+  const renderedSource = stripLeadingNewsTitleHeading(bodySource);
   const { content, frontmatter } = await renderPublicationMdx<{
     author?: string | string[];
     relatedIds?: readonly string[];
@@ -48,7 +53,7 @@ export async function getNewsPublicationPost(id: string): Promise<PublicationPos
     description: string;
     date: string;
     heroImageSrc: string;
-  }>(bodySource);
+  }>(renderedSource);
   const resolvedAuthors = getDisplayableArticleAuthors(resolveArticleAuthors(frontmatter.author));
   const primaryAuthor = resolvedAuthors.find((author) => author.isRegistered) ?? null;
 
@@ -75,7 +80,7 @@ export async function getNewsPublicationPost(id: string): Promise<PublicationPos
     gating: null,
     relatedTitle: "関連ニュース",
     relatedItems: buildRelatedItems(id, frontmatter.relatedIds ?? record.relatedIds),
-    toc: extractHeadingsFromMdx(bodySource),
+    toc: extractHeadingsFromMdx(renderedSource),
   };
 }
 
