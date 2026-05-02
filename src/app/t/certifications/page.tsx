@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 
@@ -26,19 +26,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
   },
 };
-
-type CompanyLink = {
-  label: string;
-  href: string;
-  active?: boolean;
-};
-
-const companyLinks: readonly CompanyLink[] = [
-  { label: "私たちについて", href: "/about-us" },
-  { label: "認証情報", href: "/t/certifications", active: true },
-  { label: "ニュース", href: "/t/news" },
-  { label: "お問い合わせ", href: "/contact-us" },
-] as const;
 
 const certifications = [
   {
@@ -139,32 +126,6 @@ const certifications = [
   },
 ] as const;
 
-function CompanySidebar() {
-  return (
-    <aside className="w-full pt-[20px] lg:w-[210px] lg:flex-shrink-0">
-      <p className="sr-only">会社情報</p>
-      <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:overflow-visible">
-        <ul className="flex min-w-max gap-3 lg:min-w-0 lg:flex-col lg:gap-0">
-          {companyLinks.map((link) => (
-            <li key={link.label} className="lg:mt-0 lg:[&+li]:mt-3">
-              <Link
-                href={link.href}
-                className={`inline-flex rounded-[12px] px-4 py-3.5 text-[15px] leading-[1.467] transition lg:block lg:rounded-none lg:px-0 lg:py-0 ${
-                  link.active
-                    ? "bg-[#15181d] font-medium text-white lg:bg-transparent lg:text-[#15181d]"
-                    : "bg-[#f9f9fb] font-normal text-slate-700 hover:text-slate-950 lg:bg-transparent lg:text-slate-950"
-                }`}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </aside>
-  );
-}
-
 function CertificationCard({
   label,
   description,
@@ -174,13 +135,13 @@ function CertificationCard({
   className,
 }: (typeof certifications)[number]) {
   return (
-    <article className="flex h-full flex-col items-center rounded-[24px] border border-[#E5E7EB] bg-white px-6 py-8 text-center shadow-[0_18px_48px_-36px_rgba(15,23,42,0.3)] transition hover:-translate-y-0.5 hover:shadow-[0_24px_56px_-40px_rgba(15,23,42,0.35)]">
-      <div className="flex min-h-[138px] items-center justify-center">
-        <Image src={src} alt={`${label} certification badge`} width={width} height={height} className={className} />
+    <article className="flex h-[375px] flex-col items-center justify-start rounded-[24px] bg-[#f5f7fa] px-8 pb-8 pt-10 text-center">
+      <div className="flex min-h-[148px] items-center justify-center">
+        <Image src={src} alt={label} width={width} height={height} className={className} />
       </div>
-      <div className="mt-6 flex flex-1 flex-col justify-start gap-2">
-        <h2 className="text-[22px] font-medium leading-[1.35] tracking-[-0.02em] text-slate-950">{label}</h2>
-        <div className="space-y-1 text-sm leading-6 text-slate-500">
+      <div className="mt-7 flex flex-1 flex-col items-center justify-start">
+        <h2 className="text-[20px] font-medium leading-[1.4] tracking-[-0.02em] text-slate-950">{label}</h2>
+        <div className="mt-3 space-y-0 text-[15px] leading-[1.6] text-slate-500">
           {description.map((line) => (
             <p key={`${label}-${line}`}>{line}</p>
           ))}
@@ -190,58 +151,74 @@ function CertificationCard({
   );
 }
 
+function TrialCtaSection() {
+  return (
+    <section className="bg-[#f5f7fa] px-6 py-16 lg:px-10 lg:py-20">
+      <div className="mx-auto flex max-w-[1200px] flex-col items-center text-center">
+        <h2 className="text-[32px] font-medium leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[40px]">
+          まずは小さく、失敗しないAXを始めよう
+        </h2>
+        <p className="mt-4 text-base leading-7 text-slate-500">
+          簡単サインアップで、14日間の無料トライアルをお試しください
+        </p>
+        <Link
+          href="https://app.querypie.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-8 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[12px] bg-[linear-gradient(90deg,#2563eb_0%,#7c3aed_100%)] px-6 py-3 text-sm font-medium text-white transition hover:opacity-95"
+        >
+          無料で試してみる
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+    </section>
+  );
+}
+
 export default function TestCertificationsPage() {
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
-      <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[89px] pt-[82px] lg:px-[30px] lg:pb-[160px] lg:pt-[105px]">
-        <div className="mx-auto flex max-w-[1200px] flex-col gap-[34px] lg:flex-row lg:items-start lg:gap-[60px]">
-          <CompanySidebar />
-
-          <div className="min-w-0 flex-1">
-            <div className="text-left">
-              <h1 className="text-4xl font-medium leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
-                認証
-              </h1>
-              <div className="mt-5 max-w-[760px] space-y-3 text-base leading-7 text-slate-500">
-                <p>QueryPie AIは、数々の最高レベルの国際および国内セキュリティ認証を取得しています。</p>
-                <p>これにより、お客様のコンプライアンス遵守をサポートし、最も厳格な規制基準を満たします。</p>
-                <p>お客様のデータを、最高水準のセキュリティで保護することをお約束します。</p>
-              </div>
-            </div>
-
-            <div className="mt-[34px] grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {certifications.map((item) => (
-                <CertificationCard key={`${item.label}-${item.src}`} {...item} />
-              ))}
-            </div>
-
-            <section className="mt-14 rounded-[28px] border border-[#E5E7EB] bg-[#F8FAFC] px-6 py-8 sm:px-8 sm:py-10">
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <h2 className="text-[28px] font-medium leading-[1.3] tracking-[-0.03em] text-slate-950">
-                    セキュリティ対策とコンプライアンスの詳細情報
-                  </h2>
-                  <p className="mt-3 max-w-[620px] text-sm leading-6 text-slate-500">
-                    最新の認証、ポリシー、運用管理体制については Trust Center でご確認いただけます。
-                  </p>
-                </div>
-                <Link
-                  href="https://trust.querypie.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[12px] bg-[#15181d] px-5 py-3 text-sm font-medium text-white transition hover:bg-[#0f1115]"
-                >
-                  Trust Center を見る
-                  <ExternalLink className="h-4 w-4" />
-                </Link>
-              </div>
-            </section>
+      <section className="mx-auto max-w-[1200px] px-6 pb-24 pt-[86px] lg:px-10 lg:pb-28 lg:pt-[108px]">
+        <div className="text-left">
+          <h1 className="text-[44px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[52px] sm:leading-[1.15]">
+            認証
+          </h1>
+          <div className="mt-5 max-w-[760px] text-[16px] leading-8 text-slate-500">
+            <p>
+              QueryPie AIは、数々の最高レベルの国際および国内セキュリティ認証を取得しています。
+              <br />
+              これにより、お客様のコンプライアンス遵守をサポートし、最も厳格な規制基準を満たします。
+              <br />
+              お客様のデータを、最高水準のセキュリティで保護することをお約束します。
+            </p>
           </div>
         </div>
+
+        <div className="mt-[44px] grid gap-x-7 gap-y-9 md:grid-cols-2 xl:grid-cols-3">
+          {certifications.map((item) => (
+            <CertificationCard key={`${item.label}-${item.src}`} {...item} />
+          ))}
+        </div>
+
+        <section className="flex flex-col items-center px-6 pb-2 pt-20 text-center lg:px-0 lg:pt-24">
+          <h2 className="text-[32px] font-medium leading-[1.3] tracking-[-0.03em] text-slate-950 sm:text-[38px]">
+            セキュリティ対策とコンプライアンスの詳細情報
+          </h2>
+          <Link
+            href="https://trust.querypie.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[12px] border border-[#d7dce5] bg-white px-6 py-3 text-sm font-medium text-slate-950 transition hover:bg-slate-50"
+          >
+            Trust Center を見る
+            <ExternalLink className="h-4 w-4" />
+          </Link>
+        </section>
       </section>
 
+      <TrialCtaSection />
       <SiteFooter />
     </main>
   );
