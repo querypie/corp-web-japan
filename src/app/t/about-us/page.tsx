@@ -178,15 +178,18 @@ export default function TestAboutUsPage() {
       <SiteHeader />
 
       <section className="mx-auto max-w-[1200px] px-6 pb-[75px] pt-[75px] lg:px-0">
-        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_640px] lg:gap-16">
+        <RevealOnScroll>
+          <h1 className="max-w-[1200px] text-[34px] font-semibold leading-[1.16] tracking-[-0.04em] text-slate-950 sm:text-[44px] lg:text-[56px]">
+            エンタープライズAIを、すべての企業に
+            <br />
+            90%のコスト削減、妥協なしのパフォーマンス
+          </h1>
+        </RevealOnScroll>
+
+        <div className="mt-10 grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_640px] lg:gap-16">
           <RevealOnScroll>
             <div className="max-w-[620px]">
-              <h1 className="text-[34px] font-semibold leading-[1.16] tracking-[-0.04em] text-slate-950 sm:text-[44px] lg:text-[56px]">
-                エンタープライズAIを、すべての企業に
-                <br />
-                90%のコスト削減、妥協なしのパフォーマンス
-              </h1>
-              <div className="mt-8 space-y-5 text-[15px] leading-8 text-slate-600 sm:text-base">
+              <div className="space-y-5 text-[15px] leading-8 text-slate-600 sm:text-base">
                 <p>
                   QueryPie AIは、他社が解決できない課題、すなわち、莫大なコスト、セキュリティリスク、イノベーションを妨げる複雑さを解決することで、企業のAI活用方法を変革します。
                 </p>
