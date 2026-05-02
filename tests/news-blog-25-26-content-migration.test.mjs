@@ -8,9 +8,9 @@ test("news 13 and 14 now contain the migrated article bodies from the former blo
   const news14 = readSource("src/content/news/14.mdx");
 
   assert.match(news13, /### \*\*■ 背景\*\*/);
-  assert.match(news13, /public\/news\/13\/blog25-image-1\.png/);
-  assert.match(news13, /public\/news\/13\/blog25-image-2\.png/);
-  assert.match(news13, /public\/news\/13\/blog25-image-3\.png/);
+  assert.match(news13, /public\/news\/13\/image-1\.png/);
+  assert.match(news13, /public\/news\/13\/image-2\.png/);
+  assert.match(news13, /public\/news\/13\/image-3\.png/);
   assert.doesNotMatch(news13, /public\/blog\/25\//);
   assert.doesNotMatch(news13, /参照元: \[関連ブログを見る\]/);
 
@@ -21,7 +21,7 @@ test("news 13 and 14 now contain the migrated article bodies from the former blo
 });
 
 test("route-aligned migrated news assets for former blog 25 are present under public/news/13", () => {
-  assert.equal(existsSync(new URL("../public/news/13/blog25-image-1.png", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../public/news/13/blog25-image-2.png", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../public/news/13/blog25-image-3.png", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../public/news/13/image-1.png", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../public/news/13/image-2.png", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../public/news/13/image-3.png", import.meta.url)), true);
 });
