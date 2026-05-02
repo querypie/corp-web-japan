@@ -59,7 +59,7 @@ export function NewsListPage({ items }: NewsListPageProps) {
             News
           </h1>
 
-          <ul className="mt-10 flex flex-col gap-10 lg:mt-[54px] lg:gap-[64px]">
+          <ul className="mt-7 flex flex-col gap-10 lg:mt-[40px] lg:gap-[64px]">
             {items.map((item) => (
               <li key={`${item.href}-${item.title}`}>
                 <NewsCard item={item} />
