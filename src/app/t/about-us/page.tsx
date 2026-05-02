@@ -28,19 +28,19 @@ export const metadata: Metadata = {
 const investors = [
   {
     name: "Salesforce Ventures",
-    logoSrc: "/t/about-us/investors/salesforce-ventures-invest.svg",
+    logoSrc: "/about-us/investors/salesforce-ventures-invest.svg",
     width: 165,
     height: 59,
   },
   {
     name: "Y Combinator",
-    logoSrc: "/t/about-us/investors/y-combinator-invest.svg",
+    logoSrc: "/about-us/investors/y-combinator-invest.svg",
     width: 175,
     height: 35,
   },
   {
     name: "Z Venture Capital",
-    logoSrc: "/t/about-us/investors/z-venture-capital-invest.svg",
+    logoSrc: "/about-us/investors/z-venture-capital-invest.svg",
     width: 175,
     height: 77,
   },
@@ -97,37 +97,37 @@ const leaders = [
   {
     name: "Brant Hwang",
     role: "創業者 & 最高経営責任者 (CEO)",
-    imageSrc: "/t/about-us/crew/brant.png",
+    imageSrc: "/about-us/crew/brant.png",
     linkedinUrl: "https://www.linkedin.com/in/ishwang/",
   },
   {
     name: "Paul Hong",
     role: "共同創業者 & 最高財務責任者 (CFO)",
-    imageSrc: "/t/about-us/crew/paul.png",
+    imageSrc: "/about-us/crew/paul.png",
     linkedinUrl: "https://www.linkedin.com/in/paul-hong-bb0983216/",
   },
   {
     name: "Sam Kim",
     role: "最高技術責任者 (CTO)",
-    imageSrc: "/t/about-us/crew/sam.png",
+    imageSrc: "/about-us/crew/sam.png",
     linkedinUrl: "https://www.linkedin.com/in/sam0-kim/",
   },
   {
     name: "Jake Im",
     role: "最高セキュリティ責任者 (CISO & CPO)",
-    imageSrc: "/t/about-us/crew/jake-im.png",
+    imageSrc: "/about-us/crew/jake-im.png",
     linkedinUrl: "https://www.linkedin.com/in/sungbin-im-ba817b25/",
   },
   {
     name: "Kris Park",
     role: "最高戦略責任者 (CSO)",
-    imageSrc: "/t/about-us/crew/kris.png",
+    imageSrc: "/about-us/crew/kris.png",
     linkedinUrl: "https://www.linkedin.com/in/kris-park-89a83b19/",
   },
   {
     name: "Keizo Arinobu",
     role: "グローバルビジネス最高責任者 (CGO) & 日本カントリーマネージャ",
-    imageSrc: "/t/about-us/crew/keizo.png",
+    imageSrc: "/about-us/crew/keizo.png",
     linkedinUrl: "https://www.linkedin.com/in/keizo-arinobu-b40769/",
   },
 ] as const;
@@ -135,26 +135,26 @@ const leaders = [
 const locations = [
   {
     label: "アメリカ ロサンゼルス",
-    iconSrc: "/t/about-us/location/usa-cu.svg",
+    iconSrc: "/about-us/location/usa-cu.svg",
     iconAlt: "United States",
     lines: ["2525 West 8th Street, Suite 300,", "Los Angeles, CA 90057"],
   },
   {
     label: "韓国 ソウル",
-    iconSrc: "/t/about-us/location/republic-of-korea-cu.svg",
+    iconSrc: "/about-us/location/republic-of-korea-cu.svg",
     iconAlt: "Republic of Korea",
     lines: ["ソウル麻谷（マゴク）オフィス", "大韓民国 ソウル特別市 江西区 麻谷中央1路26 7階"],
   },
   {
     label: "日本 東京",
     subLabel: "QueryPie AI合同会社",
-    iconSrc: "/t/about-us/location/japan-cu.svg",
+    iconSrc: "/about-us/location/japan-cu.svg",
     iconAlt: "Japan",
     lines: ["〒105-6490", "東京都港区虎ノ門1丁目17番1号", "虎ノ門ヒルズビジネスタワー15階"],
   },
   {
     label: "インドネシア",
-    iconSrc: "/t/about-us/location/indonesia-cu.svg",
+    iconSrc: "/about-us/location/indonesia-cu.svg",
     iconAlt: "Indonesia",
     lines: ["Office Park Harapan Indah OP 2 No 20,", "Medan Satria, Bekasi, West Java 17132"],
   },
@@ -197,7 +197,7 @@ export default function TestAboutUsPage() {
             <div className="relative overflow-hidden rounded-[28px] bg-[#0B1220] shadow-[0_30px_90px_-58px_rgba(15,23,42,0.45)]">
               <div className="relative aspect-[16/9]">
                 <Image
-                  src="/t/about-us/hero-game-changer.png"
+                  src="/about-us/hero-game-changer.png"
                   alt="Game Changer"
                   fill
                   priority
@@ -347,7 +347,7 @@ export default function TestAboutUsPage() {
           <div className="mt-14 overflow-hidden rounded-[28px] bg-[#F4F7FB] p-4 sm:p-6 lg:p-8">
             <div className="relative aspect-[16/9] overflow-hidden rounded-[22px]">
               <Image
-                src="/t/about-us/location/world-location-cu.svg"
+                src="/about-us/location/world-location-cu.svg"
                 alt="QueryPie AI global office map"
                 fill
                 className="object-contain"
