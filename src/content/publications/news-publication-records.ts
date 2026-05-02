@@ -105,14 +105,14 @@ function createNewsPublicationCache(): Readonly<NewsPublicationCache> {
   const listItems = Object.freeze(
     visibleRecords.map((record) =>
       Object.freeze({
-        href: record.redirectUrl ?? getPublicationHref("news", record.id, record.slug),
+        href: getPublicationHref("news", record.id, record.slug),
         imageSrc: record.heroImageSrc,
         badge: "ニュース",
         title: record.title,
         description: record.description,
         date: record.date,
         sourceLabel: record.redirectUrl ? "メディア掲載" : "公式発表",
-        opensExternal: Boolean(record.redirectUrl),
+        opensExternal: false,
       }),
     ),
   );

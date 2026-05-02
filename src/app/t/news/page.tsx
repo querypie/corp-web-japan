@@ -6,7 +6,7 @@ import { listNewsPublicationItems } from "@/content/publications/news-publicatio
 
 export const metadata: Metadata = {
   title: "ニュース | QueryPie AI",
-  description: "QueryPie AI の公式発表と外部メディア掲載をまとめて確認できるニュース一覧です。",
+  description: "QueryPie AIの最新ニュース、公式発表、外部メディア掲載情報をご覧いただけます。",
   alternates: {
     canonical: "/t/news",
   },
@@ -24,7 +24,7 @@ export default async function TestNewsPage() {
       <SiteHeader />
       <NewsListPage
         title="ニュース"
-        description="QueryPie AI の公式発表、プロダクト関連ニュース、外部メディア掲載を掲載日順にまとめています。"
+        description={<>QueryPie AIの最新ニュース、公式発表、外部メディア掲載情報をご覧いただけます。</>}
         items={newsItems}
       />
       <SiteFooter />

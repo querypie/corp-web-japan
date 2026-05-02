@@ -25,7 +25,7 @@ test("news preview page and canonical routes are driven by news MDX publication 
   assert.doesNotMatch(previewPage, /プレビュー一覧/);
   assert.doesNotMatch(previewPage, /ローカル MDX/);
   assert.match(listPage, /QueryPie AI の公式発表はローカル詳細ページで確認でき、外部メディア掲載は掲載元の記事へ直接移動します。/);
-  assert.match(listPage, /target="_blank"/);
+  assert.doesNotMatch(listPage, /target="_blank"/);
 
   assert.match(canonicalRoute, /getNewsPublicationRecord\(id\)/);
   assert.match(canonicalRoute, /if \(record\.redirectUrl\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
@@ -44,9 +44,9 @@ test("news preview page and canonical routes are driven by news MDX publication 
   assert.match(records, /src\/content\/news/);
   assert.match(records, /redirectUrl\?: string;/);
   assert.match(records, /redirectUrl:\s*typeof redirectUrlValue === "string" \? redirectUrlValue : undefined/);
-  assert.match(records, /href: record\.redirectUrl \?\? getPublicationHref\("news", record\.id, record\.slug\)/);
+  assert.match(records, /href: getPublicationHref\("news", record\.id, record\.slug\)/);
   assert.match(records, /sourceLabel: record\.redirectUrl \? "メディア掲載" : "公式発表"/);
-  assert.match(records, /opensExternal: Boolean\(record\.redirectUrl\)/);
+  assert.match(records, /opensExternal: false/);
   assert.match(hrefs, /news: "\/news"/);
   assert.match(types, /"news"/);
 });
