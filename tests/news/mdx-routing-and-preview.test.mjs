@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../helpers/source-readers.mjs";
 
 test("news preview page and canonical routes are driven by news MDX publication records", () => {
   const previewPage = readSource("src/app/t/news/page.tsx");
@@ -12,10 +12,10 @@ test("news preview page and canonical routes are driven by news MDX publication 
   const hrefs = readSource("src/lib/publications/get-publication-href.ts");
   const types = readSource("src/lib/publications/types.ts");
 
-  assert.equal(existsSync(new URL("../src/app/t/news/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/app/news/[id]/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/content/publications/news-publication-records.ts", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/lib/publications/get-news-publication-post.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../src/app/t/news/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../src/app/news/[id]/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../src/content/publications/news-publication-records.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../src/lib/publications/get-news-publication-post.ts", import.meta.url)), true);
 
   assert.match(previewPage, /listNewsPublicationItems\(\)/);
   assert.match(previewPage, /canonical: "\/t\/news"/);

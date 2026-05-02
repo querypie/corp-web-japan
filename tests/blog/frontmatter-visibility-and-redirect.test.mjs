@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../helpers/source-readers.mjs";
 
 test("blog publication frontmatter supports hidden list items and external detail redirects", () => {
   const source = readSource("src/lib/publications/blog-publication-records.ts");
