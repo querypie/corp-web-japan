@@ -98,36 +98,48 @@ const leaders = [
     name: "Brant Hwang",
     role: "創業者 & 最高経営責任者 (CEO)",
     imageSrc: "/about-us/crew/brant.png",
+    imageWidth: 264,
+    imageHeight: 264,
     linkedinUrl: "https://www.linkedin.com/in/ishwang/",
   },
   {
     name: "Paul Hong",
     role: "共同創業者 & 最高財務責任者 (CFO)",
     imageSrc: "/about-us/crew/paul.png",
+    imageWidth: 242,
+    imageHeight: 242,
     linkedinUrl: "https://www.linkedin.com/in/paul-hong-bb0983216/",
   },
   {
     name: "Sam Kim",
     role: "最高技術責任者 (CTO)",
     imageSrc: "/about-us/crew/sam.png",
+    imageWidth: 320,
+    imageHeight: 320,
     linkedinUrl: "https://www.linkedin.com/in/sam0-kim/",
   },
   {
     name: "Jake Im",
     role: "最高セキュリティ責任者 (CISO & CPO)",
     imageSrc: "/about-us/crew/jake-im.png",
+    imageWidth: 264,
+    imageHeight: 264,
     linkedinUrl: "https://www.linkedin.com/in/sungbin-im-ba817b25/",
   },
   {
     name: "Kris Park",
     role: "最高戦略責任者 (CSO)",
     imageSrc: "/about-us/crew/kris.png",
+    imageWidth: 242,
+    imageHeight: 242,
     linkedinUrl: "https://www.linkedin.com/in/kris-park-89a83b19/",
   },
   {
     name: "Keizo Arinobu",
     role: "グローバルビジネス最高責任者 (CGO) & 日本カントリーマネージャ",
     imageSrc: "/about-us/crew/keizo.png",
+    imageWidth: 320,
+    imageHeight: 320,
     linkedinUrl: "https://www.linkedin.com/in/keizo-arinobu-b40769/",
   },
 ] as const;
@@ -165,7 +177,7 @@ export default function TestAboutUsPage() {
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
-      <section className="mx-auto max-w-[1200px] px-6 pb-20 pt-[112px] lg:px-0 lg:pb-24 lg:pt-[132px]">
+      <section className="mx-auto max-w-[1200px] px-6 pb-[75px] pt-[75px] lg:px-0">
         <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_640px] lg:gap-16">
           <RevealOnScroll>
             <div className="max-w-[620px]">
@@ -209,7 +221,7 @@ export default function TestAboutUsPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1200px] px-6 pb-24 lg:px-0 lg:pb-28">
+      <section className="mx-auto max-w-[1200px] px-6 pb-[94px] pt-[75px] lg:px-0">
         <RevealOnScroll>
           <div className="max-w-[760px]">
             <h2 className="text-[30px] font-semibold leading-[1.15] tracking-[-0.035em] text-slate-950 sm:text-[38px]">
@@ -241,7 +253,7 @@ export default function TestAboutUsPage() {
         </div>
       </section>
 
-      <section className="bg-[#F5F7FA] py-20 lg:py-24">
+      <section className="bg-[#F5F7FA] py-[112px]">
         <div className="mx-auto max-w-[1200px] px-6 lg:px-0">
           <RevealOnScroll>
             <div className="max-w-[760px]">
@@ -275,7 +287,7 @@ export default function TestAboutUsPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1200px] px-6 py-20 lg:px-0 lg:py-24">
+      <section className="mx-auto max-w-[1200px] px-6 pb-[75px] pt-[112px] lg:px-0">
         <RevealOnScroll>
           <div className="max-w-[760px]">
             <h2 className="text-[30px] font-semibold leading-[1.15] tracking-[-0.035em] text-slate-950 sm:text-[38px]">
@@ -289,13 +301,17 @@ export default function TestAboutUsPage() {
           </div>
         </RevealOnScroll>
 
-        <div className="mt-12 grid gap-x-8 gap-y-10 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-12 grid gap-y-10 md:grid-cols-2 md:gap-x-[187px] xl:grid-cols-[264px_242px_320px]">
           {leaders.map((leader, index) => (
             <RevealOnScroll key={leader.name} delayMs={index * 55}>
               <article className="flex h-full flex-col">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-[18px] bg-slate-100">
-                  <Image src={leader.imageSrc} alt={leader.name} fill className="object-cover" />
-                </div>
+                <Image
+                  src={leader.imageSrc}
+                  alt={leader.name}
+                  width={leader.imageWidth}
+                  height={leader.imageHeight}
+                  className="h-auto max-w-full object-contain"
+                />
                 <div className="pt-5">
                   <h3 className="text-[20px] font-semibold tracking-[-0.02em] text-slate-950">{leader.name}</h3>
                   <p className="mt-2 text-[15px] leading-7 text-slate-600">{leader.role}</p>
@@ -315,7 +331,7 @@ export default function TestAboutUsPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1200px] px-6 pb-20 lg:px-0 lg:pb-24">
+      <section className="mx-auto max-w-[1200px] px-6 pb-[188px] pt-[75px] lg:px-0">
         <RevealOnScroll>
           <div className="max-w-[760px]">
             <h2 className="text-[30px] font-semibold leading-[1.15] tracking-[-0.035em] text-slate-950 sm:text-[38px]">
@@ -328,7 +344,7 @@ export default function TestAboutUsPage() {
           {locations.map((location, index) => (
             <RevealOnScroll key={location.label} delayMs={index * 55}>
               <div className="flex h-full flex-col">
-                <Image src={location.iconSrc} alt={location.iconAlt} width={28} height={28} className="h-7 w-7" />
+                <Image src={location.iconSrc} alt={location.iconAlt} width={23} height={17} className="h-[17px] w-[23px]" />
                 <div className="mt-4">
                   <h3 className="text-[18px] font-semibold tracking-[-0.02em] text-slate-950">{location.label}</h3>
                   {"subLabel" in location ? <p className="text-[18px] font-semibold tracking-[-0.02em] text-slate-950">{location.subLabel}</p> : null}
@@ -344,20 +360,19 @@ export default function TestAboutUsPage() {
         </div>
 
         <RevealOnScroll delayMs={140}>
-          <div className="mt-14 overflow-hidden rounded-[28px] bg-[#F4F7FB] p-4 sm:p-6 lg:p-8">
-            <div className="relative aspect-[16/9] overflow-hidden rounded-[22px]">
-              <Image
-                src="/about-us/location/world-location-cu.svg"
-                alt="QueryPie AI global office map"
-                fill
-                className="object-contain"
-              />
-            </div>
+          <div className="mt-[123px]">
+            <Image
+              src="/about-us/location/world-location-cu.svg"
+              alt="QueryPie Locations"
+              width={1200}
+              height={480}
+              className="h-auto w-full"
+            />
           </div>
         </RevealOnScroll>
       </section>
 
-      <section className="bg-[#F5F7FA] py-20 lg:py-24">
+      <section className="bg-[#F5F7FA] py-[112px]">
         <div className="mx-auto max-w-[920px] px-6 text-center lg:px-10">
           <RevealOnScroll>
             <h2 className="text-[30px] font-semibold leading-[1.15] tracking-[-0.035em] text-slate-950 sm:text-[38px]">
