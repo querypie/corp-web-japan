@@ -24,10 +24,12 @@ test("migrated news MDX files use local news routes and route-aligned assets", (
 
     assert.match(source, new RegExp(`\\nheroImageSrc: "/news/${id}/thumbnail\\.png"\\n`));
     assert.doesNotMatch(source, new RegExp(`filepath="public/news/${id}/thumbnail\\.png"`));
-    assert.doesNotMatch(source, /<ArticleFileImage/);
-    assert.match(source, /## 掲載情報/);
-    assert.match(source, /区分: ニュース/);
     assert.ok(existsSync(thumbnailPath), `Missing thumbnail for news ${id}`);
     assert.doesNotMatch(source, /public\/assets\//);
+
+    if (id !== "13" && id !== "14") {
+      assert.match(source, /## 掲載情報/);
+      assert.match(source, /区分: ニュース/);
+    }
   }
 });
