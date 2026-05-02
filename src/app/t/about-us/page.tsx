@@ -29,20 +29,20 @@ const investors = [
   {
     name: "Salesforce Ventures",
     logoSrc: "/t/about-us/investors/salesforce-ventures-invest.svg",
-    width: 240,
-    height: 56,
+    width: 165,
+    height: 59,
   },
   {
     name: "Y Combinator",
     logoSrc: "/t/about-us/investors/y-combinator-invest.svg",
-    width: 250,
-    height: 56,
+    width: 175,
+    height: 35,
   },
   {
     name: "Z Venture Capital",
     logoSrc: "/t/about-us/investors/z-venture-capital-invest.svg",
-    width: 250,
-    height: 56,
+    width: 175,
+    height: 77,
   },
 ] as const;
 
@@ -165,8 +165,8 @@ export default function TestAboutUsPage() {
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
-      <section className="mx-auto max-w-[1240px] px-6 pb-20 pt-[112px] lg:px-10 lg:pb-24 lg:pt-[132px]">
-        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(420px,520px)] lg:gap-16">
+      <section className="mx-auto max-w-[1200px] px-6 pb-20 pt-[112px] lg:px-0 lg:pb-24 lg:pt-[132px]">
+        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_640px] lg:gap-16">
           <RevealOnScroll>
             <div className="max-w-[620px]">
               <h1 className="text-[34px] font-semibold leading-[1.16] tracking-[-0.04em] text-slate-950 sm:text-[44px] lg:text-[56px]">
@@ -195,7 +195,7 @@ export default function TestAboutUsPage() {
 
           <RevealOnScroll delayMs={120}>
             <div className="relative overflow-hidden rounded-[28px] bg-[#0B1220] shadow-[0_30px_90px_-58px_rgba(15,23,42,0.45)]">
-              <div className="relative aspect-[16/11]">
+              <div className="relative aspect-[16/9]">
                 <Image
                   src="/t/about-us/hero-game-changer.png"
                   alt="Game Changer"
@@ -209,7 +209,7 @@ export default function TestAboutUsPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1240px] px-6 pb-24 lg:px-10 lg:pb-28">
+      <section className="mx-auto max-w-[1200px] px-6 pb-24 lg:px-0 lg:pb-28">
         <RevealOnScroll>
           <div className="max-w-[760px]">
             <h2 className="text-[30px] font-semibold leading-[1.15] tracking-[-0.035em] text-slate-950 sm:text-[38px]">
@@ -232,7 +232,8 @@ export default function TestAboutUsPage() {
                   alt={investor.name}
                   width={investor.width}
                   height={investor.height}
-                  className="h-auto max-h-12 w-auto max-w-full"
+                  style={{ width: `${investor.width}px`, height: `${investor.height}px` }}
+                  className="max-w-full object-contain"
                 />
               </div>
             </RevealOnScroll>
@@ -241,7 +242,7 @@ export default function TestAboutUsPage() {
       </section>
 
       <section className="bg-[#F5F7FA] py-20 lg:py-24">
-        <div className="mx-auto max-w-[1240px] px-6 lg:px-10">
+        <div className="mx-auto max-w-[1200px] px-6 lg:px-0">
           <RevealOnScroll>
             <div className="max-w-[760px]">
               <h2 className="text-[30px] font-semibold leading-[1.15] tracking-[-0.035em] text-slate-950 sm:text-[38px]">
@@ -262,7 +263,7 @@ export default function TestAboutUsPage() {
               <RevealOnScroll key={item.year} delayMs={index * 50}>
                 <div className="grid gap-4 py-6 md:grid-cols-[120px_minmax(0,1fr)] md:gap-8 md:py-7">
                   <h3 className="text-[26px] font-semibold leading-none tracking-[-0.035em] text-slate-950 md:text-[28px]">{item.year}</h3>
-                  <ul className="space-y-2 text-[15px] leading-7 text-slate-600 sm:text-base">
+                  <ul className="list-none space-y-2 pl-0 text-[15px] leading-7 text-slate-600 sm:text-base">
                     {item.events.map((event) => (
                       <li key={event}>{event}</li>
                     ))}
@@ -274,7 +275,7 @@ export default function TestAboutUsPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1240px] px-6 py-20 lg:px-10 lg:py-24">
+      <section className="mx-auto max-w-[1200px] px-6 py-20 lg:px-0 lg:py-24">
         <RevealOnScroll>
           <div className="max-w-[760px]">
             <h2 className="text-[30px] font-semibold leading-[1.15] tracking-[-0.035em] text-slate-950 sm:text-[38px]">
@@ -314,7 +315,7 @@ export default function TestAboutUsPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1240px] px-6 pb-20 lg:px-10 lg:pb-24">
+      <section className="mx-auto max-w-[1200px] px-6 pb-20 lg:px-0 lg:pb-24">
         <RevealOnScroll>
           <div className="max-w-[760px]">
             <h2 className="text-[30px] font-semibold leading-[1.15] tracking-[-0.035em] text-slate-950 sm:text-[38px]">
@@ -327,12 +328,10 @@ export default function TestAboutUsPage() {
           {locations.map((location, index) => (
             <RevealOnScroll key={location.label} delayMs={index * 55}>
               <div className="flex h-full flex-col">
-                <div className="flex items-center gap-3">
-                  <Image src={location.iconSrc} alt={location.iconAlt} width={28} height={28} className="h-7 w-7" />
-                  <div>
-                    <h3 className="text-[18px] font-semibold tracking-[-0.02em] text-slate-950">{location.label}</h3>
-                    {"subLabel" in location ? <p className="text-[18px] font-semibold tracking-[-0.02em] text-slate-950">{location.subLabel}</p> : null}
-                  </div>
+                <Image src={location.iconSrc} alt={location.iconAlt} width={28} height={28} className="h-7 w-7" />
+                <div className="mt-4">
+                  <h3 className="text-[18px] font-semibold tracking-[-0.02em] text-slate-950">{location.label}</h3>
+                  {"subLabel" in location ? <p className="text-[18px] font-semibold tracking-[-0.02em] text-slate-950">{location.subLabel}</p> : null}
                 </div>
                 <div className="mt-4 space-y-1 text-[15px] leading-7 text-slate-600">
                   {location.lines.map((line) => (
