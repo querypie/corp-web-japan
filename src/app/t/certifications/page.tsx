@@ -139,9 +139,9 @@ function CertificationCard({
       <div className="flex min-h-[148px] items-center justify-center">
         <Image src={src} alt={label} width={width} height={height} className={className} />
       </div>
-      <div className="mt-7 flex flex-1 flex-col items-center justify-start">
-        <h2 className="text-[20px] font-medium leading-[1.4] tracking-[-0.02em] text-slate-950">{label}</h2>
-        <div className="mt-3 space-y-0 text-[15px] leading-[1.6] text-slate-500">
+      <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
+        <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">{label}</h2>
+        <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
           {description.map((line) => (
             <p key={`${label}-${line}`}>{line}</p>
           ))}
@@ -165,7 +165,7 @@ function TrialCtaSection() {
           href="https://app.querypie.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-8 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[5.625px] bg-[linear-gradient(90deg,#2563eb_0%,#7c3aed_100%)] px-6 py-3 text-sm font-medium text-white transition hover:opacity-95"
+          className="mt-8 inline-flex items-center justify-center gap-2 rounded-[5.625px] bg-[linear-gradient(90deg,#2563eb_0%,#7c3aed_100%)] px-[26.25px] py-[13.125px] text-[15px] font-normal leading-[15px] text-white transition hover:opacity-95"
         >
           無料で試してみる
           <ArrowRight className="h-4 w-4" />
@@ -185,7 +185,7 @@ export default function TestCertificationsPage() {
           <h1 className="text-[44px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[52px] sm:leading-[1.15]">
             認証
           </h1>
-          <div className="mt-5 max-w-[760px] text-[16.875px] font-light leading-[26.25px] text-slate-500">
+          <div className="mt-5 text-[16.875px] font-light leading-[26.25px] tracking-[0.3375px] text-slate-500">
             <p>
               QueryPie AIは、数々の最高レベルの国際および国内セキュリティ認証を取得しています。
               <br />
@@ -203,14 +203,14 @@ export default function TestCertificationsPage() {
         </div>
 
         <section className="flex flex-col items-center px-6 pb-2 pt-20 text-center lg:px-0 lg:pt-24">
-          <h2 className="text-[32px] font-medium leading-[1.3] tracking-[-0.03em] text-slate-950 sm:text-[38px]">
+          <h2 className="text-[37.5px] font-normal leading-[45px] text-slate-950">
             セキュリティ対策とコンプライアンスの詳細情報
           </h2>
           <Link
             href="https://trust.querypie.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[5.625px] border border-[#d7dce5] bg-white px-6 py-3 text-sm font-medium text-slate-950 transition hover:bg-slate-50"
+            className="mt-8 inline-flex items-center justify-center gap-2 rounded-[5.625px] border border-[#afb8c1] bg-white px-[26.25px] py-[13.125px] text-[15px] font-normal leading-[15px] text-slate-950 transition hover:bg-slate-50"
           >
             Trust Center を見る
             <ExternalLink className="h-4 w-4" />
