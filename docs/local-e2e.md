@@ -38,7 +38,7 @@ Current coverage:
 - npm scripts:
   - `npm run e2e:local:news-list:stage`
   - `npm run e2e:local:news-detail:stage`
-- Requested target base URL for this flow: `https://stage.querypie.com`
+- Requested target base URL for this flow: `https://stage.querypie.ai`
 - Representative target page: `/t/news`
 
 Current coverage intent:
