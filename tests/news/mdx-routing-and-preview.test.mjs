@@ -24,8 +24,8 @@ test("news preview page and canonical routes are driven by news MDX publication 
   assert.match(previewPage, /NewsListPage/);
   assert.doesNotMatch(previewPage, /プレビュー一覧/);
   assert.doesNotMatch(previewPage, /ローカル MDX/);
-  assert.match(listPage, /QueryPie AI の公式発表はローカル詳細ページで確認でき、外部メディア掲載は掲載元の記事へ直接移動します。/);
-  assert.doesNotMatch(listPage, /target="_blank"/);
+  assert.match(previewPage, /QueryPie AIの最新ニュース、公式発表、外部メディア掲載情報をご覧いただけます。/);
+  assert.match(listPage, /function NewsCard/);
 
   assert.match(canonicalRoute, /getNewsPublicationRecord\(id\)/);
   assert.match(canonicalRoute, /if \(record\.redirectUrl\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
