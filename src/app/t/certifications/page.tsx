@@ -180,7 +180,7 @@ export default function TestCertificationsPage() {
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
-      <section className="mx-auto max-w-[1200px] px-6 pb-24 pt-[86px] lg:px-10 lg:pb-28 lg:pt-[108px]">
+      <section className="mx-auto max-w-[1200px] pb-24 pt-[86px] lg:pb-28 lg:pt-[108px]">
         <div className="text-left">
           <h1 className="text-[44px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[52px] sm:leading-[1.15]">
             認証
