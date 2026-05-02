@@ -24,7 +24,11 @@ test("news preview page and canonical routes are driven by news MDX publication 
   assert.match(previewPage, /NewsListPage/);
   assert.doesNotMatch(previewPage, /プレビュー一覧/);
   assert.doesNotMatch(previewPage, /ローカル MDX/);
-  assert.match(previewPage, /QueryPie AIの最新ニュース、公式発表、外部メディア掲載情報をご覧いただけます。/);
+  assert.doesNotMatch(previewPage, /description=\{|description:\s*</);
+  assert.match(listPage, />\s*News\s*</);
+  assert.match(listPage, /まずは小さく、失敗しないAXを始めよう/);
+  assert.match(listPage, /簡単サインアップで、14日間の無料トライアルをお試しください/);
+  assert.match(listPage, /https:\/\/app\.querypie\.com\//);
   assert.match(listPage, /function NewsCard/);
 
   assert.match(canonicalRoute, /getNewsPublicationRecord\(id\)/);

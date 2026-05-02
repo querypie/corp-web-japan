@@ -22,11 +22,7 @@ export default async function TestNewsPage() {
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
-      <NewsListPage
-        title="ニュース"
-        description={<>QueryPie AIの最新ニュース、公式発表、外部メディア掲載情報をご覧いただけます。</>}
-        items={newsItems}
-      />
+      <NewsListPage items={newsItems} />
       <SiteFooter />
     </main>
   );
