@@ -428,6 +428,153 @@ When refactoring a non-compliant static page:
 5. remove obsolete content-registry and wrapper layers
 6. verify that `page.tsx` now reads like the page itself
 
+## What PR 155, 156, 157, and 158 demonstrate
+
+PR 155, 156, 157, and 158 are the concrete reference sequence for the desired top-page refactor style.
+
+Those PRs do not mean:
+
+- "inline everything into one giant JSX file"
+- "stop using section components"
+- "move all layout and class names into the route file"
+
+Instead, they show this exact pattern:
+
+1. remove one authored section at a time from the old top-page content layer
+2. remove the matching section from the old top-page orchestrator wrapper
+3. move the real copy for that section into `src/app/page.tsx`
+4. introduce or keep a dedicated section component file under `src/components/sections/**`
+5. let that section component file own layout, classes, and interaction details
+6. let `page.tsx` call those components directly with real text children and route-local props
+
+In other words:
+
+- `page.tsx` becomes the page authoring surface
+- `src/components/sections/**` becomes the implementation surface
+
+### The important change in those PRs
+
+Before this refactor style, the top page had an older pattern like:
+
+- `src/content/top-page.ts` holding the section copy/data
+- `src/components/sections/top-page-sections.tsx` orchestrating the full section markup
+- `src/app/page.tsx` remaining comparatively thin
+
+PR 155-158 progressively removed that shape.
+
+The desired result is not merely "content moved files".
+The desired result is specifically:
+
+- the page route now spells out the section content directly
+- the old shared top-page content registry no longer owns that copy
+- the old giant top-page wrapper no longer owns that section structure
+- the route imports smaller section-specific component APIs and uses them explicitly
+
+### Concrete example of the PR 155-158 pattern
+
+Desired shape:
+
+```tsx
+<PlatformRequirementsSection>
+  <PlatformRequirementsIntro>
+    <PlatformRequirementsTitle>
+      企業がAIを
+      <span className="heading-highlight-accent">安全に使いこなす</span>
+      ための、3つの基盤要件
+    </PlatformRequirementsTitle>
+    <PlatformRequirementsBody>
+      AI導入を阻む壁を乗り越え、現場での定着と全社レベルのガバナンスを両立するために。
+    </PlatformRequirementsBody>
+  </PlatformRequirementsIntro>
+
+  <PlatformRequirementsBlockList>
+    <PlatformRequirementsBlock>
+      <PlatformRequirementsBlockContent>
+        <PlatformRequirementsBlockLabel>ガバナンス＆セキュリティの壁に対応</PlatformRequirementsBlockLabel>
+        <PlatformRequirementsBlockTitle>
+          権限制御と監査ログによる、強固なガバナンス統制
+        </PlatformRequirementsBlockTitle>
+        <PlatformRequirementsBlockBody>
+          「誰がどのデータにアクセスし、どう操作したか」を厳密に制御・記録します。
+        </PlatformRequirementsBlockBody>
+      </PlatformRequirementsBlockContent>
+      <PlatformRequirementsBlockImage
+        src="/top-assets/platform-requirements/governance.webp"
+        alt="権限制御と監査ログによるガバナンス統制のイメージ"
+      />
+    </PlatformRequirementsBlock>
+  </PlatformRequirementsBlockList>
+</PlatformRequirementsSection>
+```
+
+Matching section implementation file:
+
+```tsx
+export function PlatformRequirementsSection({ children }: { children: ReactNode }) {
+  return <section className="mx-auto max-w-[1920px] bg-white px-6 py-16 lg:px-10 lg:py-20">{children}</section>;
+}
+
+export function PlatformRequirementsTitle({ children }: { children: ReactNode }) {
+  return <h2 className="text-[30px] font-semibold leading-[1.2] tracking-[-0.04em]">{children}</h2>;
+}
+
+export function PlatformRequirementsBlockImage({ src, alt }: { src: string; alt: string }) {
+  return <Image src={src} alt={alt} fill className="object-cover" />;
+}
+```
+
+This is the important split:
+
+- `page.tsx` owns the message
+- `src/components/sections/**` owns how the message is rendered
+
+### Why this is different from the old top-page wrapper pattern
+
+Old pattern:
+
+```tsx
+export default function HomePage() {
+  return (
+    <main>
+      <SiteHeader />
+      <TopPageSections />
+      <SiteFooter />
+    </main>
+  );
+}
+```
+
+And inside the wrapper:
+
+```tsx
+export function TopPageSections() {
+  return (
+    <div>
+      <section>
+        <MarketingSectionIntro title={whitepapers.title} body={<p>{whitepapers.body}</p>} />
+      </section>
+    </div>
+  );
+}
+```
+
+This is wrong because:
+
+- `page.tsx` does not author the page
+- the route file does not tell the story directly
+- the page meaning still lives in the old wrapper/content model
+
+### The section-by-section migration rule
+
+PR 155-158 also show an important migration strategy:
+
+- refactor one authored section at a time
+- delete the old source for that section in the same change when safe
+- update tests so they stop assuming the old location is canonical
+- keep moving until the old giant wrapper and old giant content file lose responsibility section by section
+
+This is the preferred practical strategy for large static pages.
+
 ## Review checklist
 
 Use this checklist in PR review or self-review.
