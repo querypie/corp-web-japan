@@ -109,10 +109,18 @@ Bad to keep extracted:
 - one big `HomePageSections`/`AiCrewSections`-style wrapper that hides most of the page
 - one big `homePageContent`/`<page>Content` object that stores almost all marketing copy and section composition
 - a top-level content registry copied from the old module into `page.tsx` with only the file location changed
+- the same giant registry merely split into many section-level top-level constants such as `const hero = { ... }`, `const roles = { ... }`, `const contact = { ... }` while the route still reads as `data blob first, JSX second`
+- an external page-specific wrapper merely moved into the route and renamed as a local helper such as `function AICrewSections()` or `function HomeSections()` while it still hides most of the authored page structure
 
 Important rule:
 Do not consider the refactor complete if you merely moved a giant object from `src/content/**` into the top of `page.tsx`.
 The point is to make the route readable, not to preserve the same indirection in a different file.
+
+Also do not consider the refactor complete if you only:
+- break the old giant object into many section constants at the top of `page.tsx`, or
+- copy the old page-specific wrapper into the same file as a large local `*Sections()` function.
+
+Those are only location changes. They are not yet route-local authoring in the intended sense.
 
 ### 3. Move authoring into `page.tsx`
 
@@ -158,6 +166,13 @@ Test intent should remain stable:
 - preserve required copy/section markers
 - preserve route-local readability expectations
 - allow the file layout to evolve away from the old content registry pattern
+
+Do not weaken tests so they merely accept the same old abstraction after it is moved locally.
+Examples of bad post-refactor assertions:
+- requiring a large local `function <Page>Sections()` wrapper to exist
+- checking only that content moved from `src/content/**` into top-level `const hero = ...` / `const contact = ...` blobs
+
+Prefer tests that confirm the route now owns the page authoring surface, not tests that bless an intermediate mechanical relocation.
 
 ### 6. Verification
 
