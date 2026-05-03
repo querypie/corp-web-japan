@@ -31,7 +31,7 @@ const certifications = [
   {
     label: "SOC 2 Type II",
     description: ["System and Organization Controls 2", "Type II"],
-    src: "/t/certifications/soc-2-type-2.png",
+    src: "/certifications/soc-2-type-2.png",
     width: 120,
     height: 120,
     className: "w-[120px]",
@@ -39,7 +39,7 @@ const certifications = [
   {
     label: "CSA-STAR",
     description: ["Security, Trust, Assurance and Risk", "(Level 1 - Bronze)"],
-    src: "/t/certifications/csa-star-level-1.png",
+    src: "/certifications/csa-star-level-1.png",
     width: 120,
     height: 120,
     className: "w-[120px]",
@@ -47,7 +47,7 @@ const certifications = [
   {
     label: "CSA-STAR",
     description: ["Security, Trust, Assurance and Risk", "(Level 2 - Gold)"],
-    src: "/t/certifications/csa-star-level-2.png",
+    src: "/certifications/csa-star-level-2.png",
     width: 120,
     height: 120,
     className: "w-[120px]",
@@ -55,7 +55,7 @@ const certifications = [
   {
     label: "PCI DSS",
     description: ["Payment Card Industry Data", "Security Standard"],
-    src: "/t/certifications/pci-dss.png",
+    src: "/certifications/pci-dss.png",
     width: 238,
     height: 72,
     className: "w-[180px] sm:w-[238px]",
@@ -63,7 +63,7 @@ const certifications = [
   {
     label: "ISO/IEC 27001",
     description: ["Information Security", "Management Systems"],
-    src: "/t/certifications/iso-iec-27001.png",
+    src: "/certifications/iso-iec-27001.png",
     width: 200,
     height: 127,
     className: "w-[160px] sm:w-[200px]",
@@ -71,7 +71,7 @@ const certifications = [
   {
     label: "ISO 27701",
     description: ["Privacy Information", "Management System"],
-    src: "/t/certifications/iso-iec-27701.png",
+    src: "/certifications/iso-iec-27701.png",
     width: 200,
     height: 127,
     className: "w-[160px] sm:w-[200px]",
@@ -79,7 +79,7 @@ const certifications = [
   {
     label: "ISO 27017",
     description: ["Information Security controls", "within a Cloud environment"],
-    src: "/t/certifications/iso-iec-27017.png",
+    src: "/certifications/iso-iec-27017.png",
     width: 120,
     height: 130,
     className: "w-[120px]",
@@ -87,7 +87,7 @@ const certifications = [
   {
     label: "ISO 27018",
     description: ["Privacy controls", "within a Cloud environment"],
-    src: "/t/certifications/iso-iec-27018.png",
+    src: "/certifications/iso-iec-27018.png",
     width: 120,
     height: 130,
     className: "w-[120px]",
@@ -95,7 +95,7 @@ const certifications = [
   {
     label: "ISO 22301",
     description: ["Business Continuity", "Management"],
-    src: "/t/certifications/iso-22301.png",
+    src: "/certifications/iso-22301.png",
     width: 200,
     height: 127,
     className: "w-[160px] sm:w-[200px]",
@@ -103,7 +103,7 @@ const certifications = [
   {
     label: "ISMS-P",
     description: ["Business Continuity", "Management"],
-    src: "/t/certifications/isms-p.png",
+    src: "/certifications/isms-p.png",
     width: 173,
     height: 120,
     className: "w-[140px] sm:w-[173px]",
@@ -111,7 +111,7 @@ const certifications = [
   {
     label: "GOOD Software",
     description: ["Good Software", "Level 1"],
-    src: "/t/certifications/good-software-level-1.png",
+    src: "/certifications/good-software-level-1.png",
     width: 190,
     height: 96,
     className: "w-[160px] sm:w-[190px]",
@@ -119,7 +119,7 @@ const certifications = [
   {
     label: "KSEL",
     description: ["Korea Security Evaluation Lab.", "Security Functionality Certificate"],
-    src: "/t/certifications/ksel.png",
+    src: "/certifications/ksel.png",
     width: 120,
     height: 120,
     className: "w-[120px]",
