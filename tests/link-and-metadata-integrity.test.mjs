@@ -10,7 +10,7 @@ const headerExpectedLinks = [
   'label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi"',
   'label: "活用事例", href: "/demo/use-cases"',
   'label: "全て", href: "/resources"',
-  'label: "ホワイトペーパー", href: "/whitepapers"',
+  'label: "ホワイトペーパー", href: t("/whitepapers", previewModeEnabled)',
   'label: "ブログ", href: "/blog"',
   'label: "お問い合わせ", href: "/contact-us"',
 ];
@@ -23,14 +23,16 @@ const footerExpectedLinks = [
   'label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi"',
   'label: "活用事例", href: "/demo/use-cases"',
   'label: "全て", href: "/resources"',
-  'label: "ホワイトペーパー", href: "/whitepapers"',
+  'label: "ホワイトペーパー", href: t("/whitepapers", previewModeEnabled)',
   'label: "ブログ", href: "/blog"',
-  'label: "私たちについて", href: "/about-us"',
+  'label: "私たちについて", href: t("/about-us", previewModeEnabled)',
+  'label: "認証情報", href: t("/certifications", previewModeEnabled)',
+  'label: "ニュース", href: t("/news", previewModeEnabled)',
   'label: "お問い合わせ", href: "/contact-us"',
 ];
 
 test("header and footer navigation links match the current implemented destinations", () => {
-  const siteHeader = readSource("src/components/layout/site-header.tsx");
+  const siteHeader = readSource("src/components/layout/site-header-client.tsx");
   const siteFooter = readSource("src/components/layout/site-footer.tsx");
 
   for (const expected of headerExpectedLinks) {
@@ -46,7 +48,7 @@ test("header and footer navigation links match the current implemented destinati
 });
 
 test("public interaction surfaces do not ship bare hash broken links", () => {
-  const siteHeader = readSource("src/components/layout/site-header.tsx");
+  const siteHeader = readSource("src/components/layout/site-header-client.tsx");
   const siteFooter = readSource("src/components/layout/site-footer.tsx");
   const resourcePostPage = readSource("src/components/sections/publication-post-page.tsx");
   const resourcePostDownloadPage = readSource("src/components/sections/resource-post-download-page.tsx");

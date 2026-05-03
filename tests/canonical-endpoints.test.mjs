@@ -13,9 +13,9 @@ const expectedHeaderLinks = [
   'label: "全て", href: "/resources"',
   'label: "用語集", href: "/glossary"',
   'label: "マニュアル", href: "/manuals"',
-  'label: "私たちについて", href: "/about-us"',
-  'label: "認証情報", href: "/certifications"',
-  'label: "ニュース", href: "/news"',
+  'label: "私たちについて", href: t("/about-us", previewModeEnabled)',
+  'label: "認証情報", href: t("/certifications", previewModeEnabled)',
+  'label: "ニュース", href: t("/news", previewModeEnabled)',
   'label: "お問い合わせ", href: "/contact-us"',
 ];
 
@@ -29,9 +29,9 @@ const expectedFooterLinks = [
   'label: "全て", href: "/resources"',
   'label: "用語集", href: "/glossary"',
   'label: "マニュアル", href: "/manuals"',
-  'label: "私たちについて", href: "/about-us"',
-  'label: "認証情報", href: "/certifications"',
-  'label: "ニュース", href: "/news"',
+  'label: "私たちについて", href: t("/about-us", previewModeEnabled)',
+  'label: "認証情報", href: t("/certifications", previewModeEnabled)',
+  'label: "ニュース", href: t("/news", previewModeEnabled)',
   'label: "お問い合わせ", href: "/contact-us"',
 ];
 
@@ -56,7 +56,7 @@ const expectedRedirectFiles = [
 ];
 
 test("navigation surfaces point to the canonical local and redirect endpoints", () => {
-  const siteHeader = readSource("src/components/layout/site-header.tsx");
+  const siteHeader = readSource("src/components/layout/site-header-client.tsx");
   const siteFooter = readSource("src/components/layout/site-footer.tsx");
   const resourcePage = readSource("src/components/sections/resource-list-page.tsx");
 
