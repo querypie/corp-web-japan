@@ -22,14 +22,20 @@ This skill is for repetitive refactors of the same class, especially when an ear
 
 ## Goal
 
-Move the real marketing copy, section order, and page-specific structure into the route file itself.
+Move the real marketing copy ownership into the route file itself, using the same section-scoped route-authoring pattern proven in PRs 155, 156, 157, and 158.
 
 Preferred end state:
-- `page.tsx` shows the real copy and major section composition directly
-- giant page-specific content registries are removed
-- giant page-specific orchestrator components are removed
+- `page.tsx` shows the real copy and the route-level section composition directly
+- the route owns the migrated section's headings, lead copy, body copy, and CTA labels in JSX
+- giant page-specific content registries are reduced or removed section by section
+- giant page-specific orchestrator components are reduced over time, but may temporarily remain as shells during a staged migration
 - only small reusable UI primitives or isolated interactive helpers remain extracted
-- tests are updated so they validate the new route-local structure instead of the removed file layout
+- tests are updated so they validate the new route-local section ownership instead of the removed file layout
+
+Important nuance from PRs 155–158:
+- the intended workflow is usually **section-scoped migration**, not one giant whole-page rewrite
+- a PR can be fully correct even if the page still keeps a temporary shared shell such as `TopPageSections`, as long as the target section's marketing copy now clearly lives in `page.tsx`
+- the key question is not "did we delete every wrapper yet?" but "does the route now own the authored copy for the section we moved?"
 
 ## When to use this skill
 
@@ -81,6 +87,14 @@ Read these before refactoring:
 
 If the user references specific merged commits as the canonical direction, inspect those commits too before editing.
 
+For this repository, the most important concrete references are the section-scoped top-page refactors in:
+- PR 155 — move top-page platform requirements authoring into `src/app/page.tsx`
+- PR 156 — move top-page security authoring into `src/app/page.tsx`
+- PR 157 — move top-page whitepaper authoring into `src/app/page.tsx`
+- PR 158 — move top-page final CTA authoring into `src/app/page.tsx`
+
+Treat those PRs as the canonical pattern when the user says "this repo's route-local authoring style".
+
 ## Refactor workflow
 
 ### 1. Inspect the current implementation shape
@@ -104,10 +118,12 @@ Good to keep extracted:
 - isolated client-only interactive sections
 - clearly reused visual helpers already shared by multiple pages
 - tiny shared route constants files when the values are reused by multiple surfaces and are not a giant content registry
+- a temporary shared page shell/orchestrator when you are intentionally migrating one section at a time and the shell still provides the surrounding layout for untouched sections
+- section component files that have been reduced to UI-only structure/styling wrappers while the moved section's marketing copy now lives in `page.tsx`
 
 Bad to keep extracted:
-- one big `HomePageSections`/`AiCrewSections`-style wrapper that hides most of the page
-- one big `homePageContent`/`<page>Content` object that stores almost all marketing copy and section composition
+- one big `HomePageSections`/`AiCrewSections`-style wrapper that still owns the target section's marketing copy after the migration
+- one big `homePageContent`/`<page>Content` object that still owns the target section's headings/body/CTA text after the migration
 - a top-level content registry copied from the old module into `page.tsx` with only the file location changed
 - the same giant registry merely split into many section-level top-level constants such as `const hero = { ... }`, `const roles = { ... }`, `const contact = { ... }` while the route still reads as `data blob first, JSX second`
 - an external page-specific wrapper merely moved into the route and renamed as a local helper such as `function AICrewSections()` or `function HomeSections()` while it still hides most of the authored page structure
@@ -122,6 +138,11 @@ Also do not consider the refactor complete if you only:
 
 Those are only location changes. They are not yet route-local authoring in the intended sense.
 
+Important staged-refactor rule from PRs 155–158:
+- the existence of a temporary shared shell is **not** itself a failure
+- it becomes a failure only if that shell still owns the migrated section's marketing copy
+- if the target section's visible copy now lives in `page.tsx`, while the shell only places that section among other not-yet-migrated sections, that is an acceptable intermediate state
+
 ### 3. Move authoring into `page.tsx`
 
 Preferred implementation style:
@@ -133,10 +154,22 @@ Preferred implementation style:
   - small badge/link lists
 - keep metadata strings route-local instead of referencing old content registries
 
+Most important implementation rule from PRs 155–158:
+- move **one target section at a time** into route-local authoring when that is the cleanest path
+- in that migration PR, `page.tsx` should visibly own that section's copy
+- the corresponding section component should shrink toward a UI-only shell or slot wrapper
+- do not require unrelated sections on the same page to migrate in the same PR if that makes the change harder to review
+
+A good route-authored section usually looks like:
+- route-local JSX in `page.tsx`
+- explicit text nodes and small inline emphasis
+- section-level composition that can be read top-to-bottom without opening the old content file
+- any surviving section component used primarily as a visual wrapper, not as the owner of marketing prose
+
 A good outcome is that a reviewer can open only `page.tsx` and understand:
 - the page purpose
 - the section order
-- the main Japanese copy
+- the main Japanese copy for the migrated section(s)
 - the CTA wiring
 - which small helpers remain shared
 
@@ -166,13 +199,15 @@ Test intent should remain stable:
 - preserve required copy/section markers
 - preserve route-local readability expectations
 - allow the file layout to evolve away from the old content registry pattern
+- allow a staged section-scoped migration where a shared page shell still exists, as long as the migrated section's copy ownership moved to `page.tsx`
 
 Do not weaken tests so they merely accept the same old abstraction after it is moved locally.
 Examples of bad post-refactor assertions:
 - requiring a large local `function <Page>Sections()` wrapper to exist
 - checking only that content moved from `src/content/**` into top-level `const hero = ...` / `const contact = ...` blobs
+- requiring the temporary shell to be deleted immediately even when the intended PR scope is only one section migration
 
-Prefer tests that confirm the route now owns the page authoring surface, not tests that bless an intermediate mechanical relocation.
+Prefer tests that confirm the route now owns the migrated section's authoring surface, not tests that bless an intermediate mechanical relocation or punish a deliberate staged migration.
 
 ### 6. Verification
 
