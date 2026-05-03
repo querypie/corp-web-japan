@@ -20,6 +20,10 @@ Current skills:
   - Path: `.agents/skills/static-page-route-local-authoring-refactor/SKILL.md`
   - Purpose: refactor a static marketing route so `page.tsx` becomes the primary readable authoring surface and old giant content/wrapper layers are removed safely
   - Scope: route-local authoring refactors for pages such as top page, solution pages, and static preview pages
+- `page-migration-preview-route`
+  - Path: `.agents/skills/page-migration-preview-route/SKILL.md`
+  - Purpose: migrate a `querypie.com/ja` page or another external marketing page into a local preview route under `/t/*`
+  - Asset rule: keep preview-page assets under route-aligned `public/<route-family>/...`, not under `public/t/...` and not under generic `public/assets/...`
 
 Usage notes:
 
@@ -27,5 +31,6 @@ Usage notes:
 - Use `blog-posting` for `src/content/blog/*.mdx` work.
 - Use `whitepaper-posting` for `src/content/whitepapers/*.mdx` work.
 - Use `static-page-route-local-authoring-refactor` for repetitive refactors that move static marketing-page authoring into `src/app/**/page.tsx`.
+- Use `page-migration-preview-route` when migrating an upstream or external page into a local `/t/...` preview route first.
 - For new publication work, do not put post-specific assets under `public/assets/...`; use the route-aligned per-post asset root instead.
 - Keep this index aligned with the actual skill directories.
