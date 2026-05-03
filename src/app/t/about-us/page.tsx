@@ -177,7 +177,7 @@ export default function TestAboutUsPage() {
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
-      <section className="mx-auto max-w-[1200px] px-6 pb-[75px] pt-[75px] lg:px-0">
+      <section className="mx-auto max-w-[1200px] px-6 pb-[75px] pt-[139px] lg:px-0">
         <RevealOnScroll>
           <h1 className="max-w-[1200px] text-[34px] font-semibold leading-[1.16] tracking-[-0.04em] text-slate-950 sm:text-[44px] lg:text-[56px]">
             エンタープライズAIを、すべての企業に
