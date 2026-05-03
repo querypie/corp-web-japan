@@ -81,9 +81,14 @@ export function NewsListPage({ items }: NewsListPageProps) {
             href="https://app.querypie.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex min-h-[52px] items-center justify-center rounded-[5.625px] bg-[linear-gradient(100deg,#0762D4_34.93%,#875AC5_76.81%,#C55A8C_99.98%)] px-[26.25px] py-[13.125px] text-[16px] font-medium text-white transition hover:brightness-[1.04]"
+            className="mt-8 inline-flex min-h-[52px] items-center justify-center gap-[9.375px] rounded-[5.625px] bg-[linear-gradient(100deg,#0762D4_34.93%,#875AC5_76.81%,#C55A8C_99.98%)] px-[26.25px] py-[13.125px] text-[15px] font-medium text-[#F6F6F6] transition hover:brightness-[1.04]"
           >
-            無料で試してみる
+            <span>無料で試してみる</span>
+            <span aria-hidden="true" className="inline-flex items-center justify-center text-[#24292F]">
+              <svg viewBox="0 0 7 12" width="1em" height="1em" className="h-3 w-[7px]" focusable="false">
+                <path d="M7 6L0.865033 12L0 11.154L5.26381 6L0 0.846L0.865033 0L7 6Z" fill="currentColor" />
+              </svg>
+            </span>
           </a>
         </div>
       </section>
