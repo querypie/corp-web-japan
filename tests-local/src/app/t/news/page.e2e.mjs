@@ -8,7 +8,9 @@ test.describe('stage news list page', () => {
 
     await expect(page).toHaveTitle(newsFixtures.listTitle);
     await expect(page.getByRole('heading', { name: newsFixtures.listHeading })).toBeVisible();
-    await expect(page.getByText(newsFixtures.listDescription, { exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: newsFixtures.listCtaHeading })).toBeVisible();
+    await expect(page.getByText(newsFixtures.listCtaBody, { exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: newsFixtures.listCtaLabel })).toBeVisible();
 
     for (const card of newsFixtures.visibleCards) {
       const cardLink = publicationCardLink(page, card.title);

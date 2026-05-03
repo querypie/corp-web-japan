@@ -1,8 +1,10 @@
 export const newsFixtures = {
   listPath: '/t/news',
   listTitle: 'ニュース | QueryPie AI',
-  listHeading: 'ニュース',
-  listDescription: 'QueryPie AI に関するニュース、メディア掲載、アナウンスをローカル MDX で確認できるプレビュー一覧です。',
+  listHeading: 'News',
+  listCtaHeading: 'まずは小さく、失敗しないAXを始めよう',
+  listCtaBody: '簡単サインアップで、14日間の無料トライアルをお試しください',
+  listCtaLabel: '無料で試してみる',
   visibleCards: [
     {
       title: 'テラスカイ社のMCP対応AIプラットフォーム 「mitoco Buddy」が正式ローンチ',
