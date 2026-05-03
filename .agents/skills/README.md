@@ -32,6 +32,10 @@ Current skills:
   - Path: `.agents/skills/aip-demo-mdx-migration/SKILL.md`
   - Purpose: migrate `../corp-web-contents` AIP demo entries into the local corp-web-japan MDX publication system with `/t/demo/aip` preview and `/demo/aip/:id/:slug` canonical detail routes
   - Asset rule: keep AIP demo thumbnails and demo-specific assets under `public/demo/aip/<id>/...`
+- `acp-demo-mdx-migration`
+  - Path: `.agents/skills/acp-demo-mdx-migration/SKILL.md`
+  - Purpose: migrate `../corp-web-contents` ACP demo entries into the local corp-web-japan MDX publication system with `/t/demo/acp` preview and `/demo/acp/:id/:slug` canonical detail routes
+  - Asset rule: keep ACP demo thumbnails and demo-specific assets under `public/demo/acp/<id>/...`
 
 Usage notes:
 
@@ -42,5 +46,6 @@ Usage notes:
 - Use `page-migration-preview-route` when migrating an upstream or external page into a local `/t/...` preview route first.
 - Use `use-case-mdx-migration` when migrating use-case detail content from `../corp-web-contents` into local MDX-backed preview/list/detail routes.
 - Use `aip-demo-mdx-migration` when migrating AIP demo detail content from `../corp-web-contents` into local MDX-backed preview/list/detail routes.
+- Use `acp-demo-mdx-migration` when migrating ACP demo detail content from `../corp-web-contents` into local MDX-backed preview/list/detail routes.
 - For new publication work, do not put post-specific assets under `public/assets/...`; use the route-aligned per-post asset root instead.
 - Keep this index aligned with the actual skill directories.
