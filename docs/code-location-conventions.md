@@ -4,39 +4,88 @@ This document records the current agreed code-location conventions for implement
 
 ## 1. Static page implementation
 
-This section covers representative static marketing pages such as the top page, AI Crew, and AI Dashi.
+This section covers static marketing pages such as the top page, solution landing pages, and mostly static preview pages under `src/app/t/**`.
+
+The detailed source of truth for this topic is:
+
+- `docs/static-page-route-local-authoring.md`
+
+This document records the short version of the convention.
 
 ### Core rule
 
-For static marketing pages, the preferred implementation style is stronger than the general thin-route rule used for publication and data-backed routes.
+For static marketing pages, the route file should be the primary authoring surface.
 
-- Keep the page primarily understandable from its own `page.tsx` file.
-- Prefer keeping the main page copy, section order, and page-specific structure directly in `page.tsx`.
-- Reusable UX primitives and clearly reusable visual helpers may still be called from `src/components/ui/**` or other shared component locations.
-- Avoid pushing most of the static page's content and structure into separate `src/content/**` data files or large page-specific section wrappers when that makes the route harder to understand in one place.
+That means:
+
+- `src/app/**/page.tsx` should contain the real copy
+- `src/app/**/page.tsx` should show the major section order directly
+- `src/app/**/page.tsx` should call the section components used to render the page
+- `src/components/sections/**` should define those components and own the UI implementation details such as classes, layout, styling behavior, and JavaScript interaction
+- avoid old page-specific content registries under `src/content/**` when they hide the real authored page content
+- avoid giant page-specific wrapper components that make `page.tsx` read like a shell instead of a page
+
+### Responsibility split
+
+Preferred split:
+
+- `src/app/**/page.tsx`
+  - page metadata
+  - headings, paragraphs, CTA labels, and route-local messaging
+  - major section ordering
+  - component composition calls
+  - small route-local constants only when they improve readability without recreating a giant registry
+- `src/components/sections/**`
+  - component definitions used by the page
+  - classes and layout details
+  - reusable presentation primitives
+  - isolated interaction logic and client-side behavior
+
+In short:
+
+- `page.tsx` owns copy and composition
+- `src/components/sections/**` owns implementation
 
 ### Recommended implementation pattern
 
-Use top page, AI Crew, and AI Dashi as the representative content family for this rule.
-For pages of this type, prefer the following implementation shape so the page can be built quickly, reviewed easily, and kept structurally consistent across routes.
+For pages of this type, prefer the following implementation shape:
 
-- Keep the primary page implementation in `src/app/<route>/page.tsx`.
-- Write the main Japanese copy, section order, and page-specific JSX directly in that `page.tsx` file.
-- Allow shared calls only for clearly reusable UI primitives or small visual helpers.
-- Keep route-specific constants close to the page when they mainly exist to support that one page.
-- Do not move the bulk of a static page into `src/content/**` data objects just to avoid a long `page.tsx` file.
-- Do not hide most of the page structure behind a single page-specific wrapper component if that makes the route harder to inspect.
-- If a helper is reused across multiple static pages, promote only that helper; keep the rest route-local.
+- keep the primary page implementation in `src/app/<route>/page.tsx`
+- write the main Japanese copy in `page.tsx`
+- keep the section order explicit in `page.tsx`
+- call section components directly from `page.tsx`
+- let section component files implement the rendering details
+- keep route-local constants small and close to the route
+- do not move the bulk of a static page into `src/content/**` data objects just to avoid a long `page.tsx` file
+- do not hide most of the page structure behind one page-specific wrapper component
 
-A good outcome is that a reviewer can open one `page.tsx` file and understand the page's content model, major sections, and CTA structure without chasing several content registries or page-specific wrapper layers.
+A good outcome is that a reviewer can open one `page.tsx` file and understand the page's content model, major sections, and CTA structure without chasing several content registries or giant page-specific wrapper layers.
 
 ### Current examples
 
-- Largely aligned:
-  - `src/app/solutions/ai-dashi/page.tsx`
-- Not aligned and should not be treated as the preferred pattern for new static pages:
-  - `src/app/page.tsx`
-  - `src/app/solutions/ai-crew/page.tsx`
+Desired direction:
+- `src/app/page.tsx`
+
+Partially refactored and not yet the final desired shape:
+- `src/app/solutions/ai-dashi/page.tsx`
+
+Not aligned and still representative of the old anti-pattern:
+- `src/app/solutions/ai-crew/page.tsx`
+
+### Practical migration rule for large static pages
+
+For large pages, migrate one authored section at a time.
+
+Preferred sequence:
+
+1. move one section's real copy into `page.tsx`
+2. add or keep a dedicated section component file under `src/components/sections/**`
+3. remove that section from the old page-specific content registry
+4. remove that section from the old giant wrapper/orchestrator
+5. update tests so they stop treating the old location as canonical
+6. repeat until the old giant wrapper and old giant content file are no longer responsible for the page
+
+This is the pattern demonstrated by the top-page refactor sequence in PR 155, 156, 157, and 158.
 
 ## 2. Code-location conventions for feature implementation
 
