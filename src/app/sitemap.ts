@@ -1,5 +1,9 @@
 import type { MetadataRoute } from "next";
+import {
+  useCasePublicationRecords,
+} from "@/content/publications/use-case-publication-records";
 import { eventPostRecords, getEventPostHref } from "@/content/resources/events";
+import { getUseCasePublicationHref } from "@/lib/publications/get-use-case-publication-post";
 import { absoluteUrl } from "@/lib/site-url";
 
 const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
@@ -42,5 +46,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...eventDetailRoutes];
+  const useCaseDetailRoutes: MetadataRoute.Sitemap = useCasePublicationRecords.map(({ id, slug }) => ({
+    url: absoluteUrl(getUseCasePublicationHref(id, slug)),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...eventDetailRoutes, ...useCaseDetailRoutes];
 }
