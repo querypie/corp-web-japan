@@ -24,6 +24,14 @@ Current skills:
   - Path: `.agents/skills/page-migration-preview-route/SKILL.md`
   - Purpose: migrate a `querypie.com/ja` page or another external marketing page into a local preview route under `/t/*`
   - Asset rule: keep preview-page assets under route-aligned `public/<route-family>/...`, not under `public/t/...` and not under generic `public/assets/...`
+- `use-case-mdx-migration`
+  - Path: `.agents/skills/use-case-mdx-migration/SKILL.md`
+  - Purpose: migrate `../corp-web-contents` use-case entries into the local corp-web-japan MDX publication system with `/t/use-cases` preview and `/use-cases/:id/:slug` canonical detail routes
+  - Asset rule: keep use-case thumbnails and use-case-specific assets under `public/use-cases/<id>/...`
+- `aip-demo-mdx-migration`
+  - Path: `.agents/skills/aip-demo-mdx-migration/SKILL.md`
+  - Purpose: migrate `../corp-web-contents` AIP demo entries into the local corp-web-japan MDX publication system with `/t/demo/aip` preview and `/demo/aip/:id/:slug` canonical detail routes
+  - Asset rule: keep AIP demo thumbnails and demo-specific assets under `public/demo/aip/<id>/...`
 
 Usage notes:
 
@@ -32,5 +40,7 @@ Usage notes:
 - Use `whitepaper-posting` for `src/content/whitepapers/*.mdx` work.
 - Use `static-page-route-local-authoring-refactor` for repetitive refactors that move static marketing-page authoring into `src/app/**/page.tsx`.
 - Use `page-migration-preview-route` when migrating an upstream or external page into a local `/t/...` preview route first.
+- Use `use-case-mdx-migration` when migrating use-case detail content from `../corp-web-contents` into local MDX-backed preview/list/detail routes.
+- Use `aip-demo-mdx-migration` when migrating AIP demo detail content from `../corp-web-contents` into local MDX-backed preview/list/detail routes.
 - For new publication work, do not put post-specific assets under `public/assets/...`; use the route-aligned per-post asset root instead.
 - Keep this index aligned with the actual skill directories.
