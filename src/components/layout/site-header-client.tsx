@@ -31,9 +31,9 @@ function getNavItems(previewModeEnabled: boolean): readonly NavItem[] {
       label: "サービス",
       description: "QueryPie AIのコアサービス",
       children: [
-        { label: "AIプラットフォーム｜AIP", href: "/services/aip" },
-        { label: "アクセス制御プラットフォーム｜ACP", href: "/services/acp" },
-        { label: "AI専門家伴走支援｜FDE", href: "/services/fde" },
+        { label: "AIプラットフォーム｜AIP", href: t("/services/aip", previewModeEnabled) },
+        { label: "アクセス制御プラットフォーム｜ACP", href: t("/services/acp", previewModeEnabled) },
+        { label: "AI専門家伴走支援｜FDE", href: t("/services/fde", previewModeEnabled) },
       ],
     },
     {

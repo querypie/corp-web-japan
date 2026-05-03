@@ -3,9 +3,9 @@ import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
 const headerExpectedLinks = [
-  'label: "AIプラットフォーム｜AIP", href: "/services/aip"',
-  'label: "アクセス制御プラットフォーム｜ACP", href: "/services/acp"',
-  'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
+  'label: "AIプラットフォーム｜AIP", href: t("/services/aip", previewModeEnabled)',
+  'label: "アクセス制御プラットフォーム｜ACP", href: t("/services/acp", previewModeEnabled)',
+  'label: "AI専門家伴走支援｜FDE", href: t("/services/fde", previewModeEnabled)',
   'label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew"',
   'label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi"',
   'label: "活用事例", href: "/demo/use-cases"',
@@ -16,9 +16,9 @@ const headerExpectedLinks = [
 ];
 
 const footerExpectedLinks = [
-  'label: "AIプラットフォーム｜AIP", href: "/services/aip"',
-  'label: "アクセス制御プラットフォーム｜ACP", href: "/services/acp"',
-  'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
+  'label: "AIプラットフォーム｜AIP", href: t("/services/aip", previewModeEnabled)',
+  'label: "アクセス制御プラットフォーム｜ACP", href: t("/services/acp", previewModeEnabled)',
+  'label: "AI専門家伴走支援｜FDE", href: t("/services/fde", previewModeEnabled)',
   'label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew"',
   'label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi"',
   'label: "活用事例", href: "/demo/use-cases"',
@@ -26,8 +26,6 @@ const footerExpectedLinks = [
   'label: "ホワイトペーパー", href: t("/whitepapers", previewModeEnabled)',
   'label: "ブログ", href: "/blog"',
   'label: "私たちについて", href: t("/about-us", previewModeEnabled)',
-  'label: "認証情報", href: t("/certifications", previewModeEnabled)',
-  'label: "ニュース", href: t("/news", previewModeEnabled)',
   'label: "お問い合わせ", href: "/contact-us"',
 ];
 
