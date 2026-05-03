@@ -55,7 +55,7 @@ export function NewsListPage({ items }: NewsListPageProps) {
     <>
       <section className="bg-white px-6 pb-[96px] pt-[88px] lg:px-[30px] lg:pb-[118px] lg:pt-[98px]">
         <div className="mx-auto max-w-[1200px]">
-          <h1 className="text-[44px] font-medium leading-[1.2] tracking-[-0.04em] text-slate-950 sm:text-[52px] lg:text-[56px]">
+          <h1 className="py-[0.4em] text-[44px] font-medium leading-[1.2] tracking-[-0.04em] text-slate-950 sm:text-[52px] lg:text-[56px]">
             News
           </h1>
 
