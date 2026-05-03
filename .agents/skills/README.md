@@ -16,11 +16,16 @@ Current skills:
   - Path: `.agents/skills/whitepaper-posting/SKILL.md`
   - Purpose: add a new local whitepaper post to the MDX-backed whitepaper system, including optional gating
   - Asset rule: keep the whitepaper thumbnail and every whitepaper-specific referenced file under `public/whitepapers/<id>/...`
+- `static-page-route-local-authoring-refactor`
+  - Path: `.agents/skills/static-page-route-local-authoring-refactor/SKILL.md`
+  - Purpose: refactor a static marketing route so `page.tsx` becomes the primary readable authoring surface and old giant content/wrapper layers are removed safely
+  - Scope: route-local authoring refactors for pages such as top page, solution pages, and static preview pages
 
 Usage notes:
 
 - Load the matching skill before adding or editing publication content.
 - Use `blog-posting` for `src/content/blog/*.mdx` work.
 - Use `whitepaper-posting` for `src/content/whitepapers/*.mdx` work.
+- Use `static-page-route-local-authoring-refactor` for repetitive refactors that move static marketing-page authoring into `src/app/**/page.tsx`.
 - For new publication work, do not put post-specific assets under `public/assets/...`; use the route-aligned per-post asset root instead.
 - Keep this index aligned with the actual skill directories.
