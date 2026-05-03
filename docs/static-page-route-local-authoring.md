@@ -90,17 +90,64 @@ The problem is when those imports hide most of the page's real authored copy and
 
 ## Good result example
 
-### Current desired reference
+### Desired route-local authoring shape
 
-- `src/app/page.tsx`
+The following shape is good because the route file visibly owns the copy and the component composition:
 
-Why this is the desired direction:
+```tsx
+export default function HomePage() {
+  const topPageHeroContactUrl = "/contact-us?inquiry=ai-consulting";
+  const topPageDownloadUrl =
+    "https://www.querypie.com/ja/features/documentation/aip-introduction-download";
 
-- the route file contains the actual page copy
-- the route file shows the major section order directly
-- the route file composes section components explicitly
-- the imported section files primarily provide UI structure, styling, and interaction details
-- the page is readable as a page from the route file itself
+  return (
+    <main>
+      <SiteHeader />
+      <FloatingConversionCta href="/contact-us" />
+
+      <HeroSection imageSrc="/top-hero.png" imageAlt="...">
+        <HeroProofPillGroup>
+          <HeroProofPill>国際基準のセキュリティ</HeroProofPill>
+          <HeroProofPill>テスト導入から全社展開へ</HeroProofPill>
+        </HeroProofPillGroup>
+
+        <HeroPanel>
+          <HeroEyebrow>Secure Enterprise AI</HeroEyebrow>
+          <HeroTitle>
+            <HeroTitleLine>信頼できるAIが、</HeroTitleLine>
+            <HeroTitleLine delayed>現場を動かす</HeroTitleLine>
+          </HeroTitle>
+          <HeroSubcopy>誰もが安全かつ迅速に業務で使えるAI</HeroSubcopy>
+          <HeroBody>
+            QueryPie AIは、強固なセキュリティとガバナンスを前提とした
+            エンタープライズAI基盤を提供します。
+          </HeroBody>
+          <HeroActionGroup>
+            <HeroPrimaryAction href={topPageHeroContactUrl}>お問い合わせ</HeroPrimaryAction>
+            <HeroSecondaryAction href={topPageDownloadUrl}>資料をダウンロード</HeroSecondaryAction>
+          </HeroActionGroup>
+        </HeroPanel>
+      </HeroSection>
+
+      <SolutionOverviewSection>
+        <SolutionOverviewTitle>
+          AI活用は、単なる業務効率化にとどまらない
+          <span className="heading-highlight-accent">経営課題</span>
+          への対策
+        </SolutionOverviewTitle>
+      </SolutionOverviewSection>
+    </main>
+  );
+}
+```
+
+Why this is good:
+
+- the real headings, paragraphs, and CTA labels are visible in `page.tsx`
+- the route file shows the section order directly
+- `page.tsx` composes section components explicitly
+- the imported section files provide UI structure, styling, and interaction details
+- a reviewer can understand the page narrative without opening hidden content registries
 
 Important nuance:
 
@@ -111,12 +158,49 @@ It means the route file must still remain the primary readable authoring surface
 
 ### Partially refactored, but not yet the target end state
 
-- `src/app/solutions/ai-dashi/page.tsx`
+The following shape is only partial because the route file still starts with large data blocks that dominate the authoring surface:
 
-Why it is only partial:
+```tsx
+const releaseFlow = [
+  {
+    step: "STEP 01",
+    period: "1〜2週間",
+    title: "ヒアリング・要件定義",
+    body: "貴社のビジネスモデルや既存システム...",
+  },
+  {
+    step: "STEP 02",
+    period: "2〜3週間",
+    title: "プロトタイプ作成",
+    body: "要件に基づき、UI/UXを貴社ブランドに合わせて...",
+  },
+] as const;
+
+const comparisonRows = [
+  {
+    label: "開発期間",
+    left: ["最短1ヶ月（API組み込みのみ）", "すぐに市場投入が可能"],
+    right: ["半年〜1年以上（試行錯誤の連続）", "競合に先を越され市場機会を逃す"],
+  },
+] as const;
+
+export default function AIDashiPage() {
+  return (
+    <main>
+      <SiteHeader />
+      <FloatingConversionCta href={aiDashiFloatingUrl} />
+      <section>
+        <h1>自社サービスをAI搭載SaaSへ最短で進化させる</h1>
+      </section>
+    </main>
+  );
+}
+```
+
+Why this is only partial:
 
 - the route file already owns much more of the page than the old wrapper/content-registry pattern
-- however, the page still keeps a large amount of route content in top-level data blocks
+- however, large top-level route data blocks still dominate the file
 - this can still read like `data blob first, page authoring second`
 
 This shape is closer to the target than the old pattern, but it is not yet the cleanest result.
@@ -131,9 +215,73 @@ Typical symptoms of a partial result:
 
 ### Typical pre-refactor anti-pattern
 
-- `src/app/solutions/ai-crew/page.tsx`
-- `src/content/home.ts`
-- `src/components/sections/home-page-sections.tsx`
+The following shape is wrong because `page.tsx` becomes only a shell:
+
+```tsx
+import { aiCrewFloatingCtaUrl, homePageContent } from "@/content/home";
+import { HomePageSections } from "@/components/sections/home-page-sections";
+
+export const metadata: Metadata = {
+  title: "作業を減らし、成果を増やす。| AI Crew | QueryPie AI",
+  description: homePageContent.metadata.description,
+};
+
+export default function AICrewPage() {
+  return (
+    <main>
+      <SiteHeader />
+      <FloatingConversionCta href={aiCrewFloatingCtaUrl} />
+      <HomePageSections />
+      <SiteFooter />
+    </main>
+  );
+}
+```
+
+And the hidden content registry looks like this:
+
+```ts
+export const homePageContent = {
+  metadata: {
+    title: "作業を減らし、成果を増やす。",
+    description: "調査、データ整理、下書きなど...",
+  },
+  hero: {
+    eyebrow: "専用AIエージェントの設計・実運用支援",
+    title: "作業を減らし、\n成果を増やす。",
+    subcopy: "利益を生み出す実務特化型AIエージェント",
+  },
+};
+```
+
+And the hidden wrapper starts like this:
+
+```tsx
+export function HomePageSections() {
+  const {
+    hero,
+    lostSection,
+    whitepaperCta,
+    featureIntro,
+    featureTabs,
+    comparison,
+    roi,
+    problem,
+    roles,
+    process,
+    testimonials,
+    contact,
+  } = homePageContent;
+
+  return (
+    <>
+      <section id="hero">
+        ...
+      </section>
+    </>
+  );
+}
+```
 
 Why this is the wrong shape:
 
