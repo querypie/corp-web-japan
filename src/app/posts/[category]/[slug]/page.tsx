@@ -3,13 +3,8 @@ import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { PublicationPostPage } from "@/components/sections/publication-post-page";
-import { ResourcePostDownloadPage } from "@/components/sections/resource-post-download-page";
 import { absoluteUrl } from "@/lib/site-url";
-import {
-  getResourceDownloadPost,
-  getResourcePost,
-  listEventPostParams,
-} from "@/lib/resource-posts";
+import { getResourcePost, listEventPostParams } from "@/lib/resource-posts";
 
 type ResourcePostRouteProps = {
   params: Promise<{
@@ -37,17 +32,6 @@ export async function generateMetadata({ params }: ResourcePostRouteProps): Prom
     return {};
   }
 
-  const downloadPost = getResourceDownloadPost(category, slug);
-  if (downloadPost) {
-    return {
-      title: `${downloadPost.title} | QueryPie AI`,
-      description: downloadPost.title,
-      alternates: {
-        canonical: absoluteUrl(canonicalPath),
-      },
-    };
-  }
-
   const post = getResourcePost(category, slug);
 
   if (!post) {
@@ -68,17 +52,6 @@ export default async function ResourcePostRoute({ params }: ResourcePostRoutePro
 
   if (!isLegacyEventCategory(category)) {
     notFound();
-  }
-
-  const downloadPost = getResourceDownloadPost(category, slug);
-  if (downloadPost) {
-    return (
-      <main className="relative overflow-x-hidden bg-white text-slate-950">
-        <SiteHeader />
-        <ResourcePostDownloadPage post={downloadPost} />
-        <SiteFooter />
-      </main>
-    );
   }
 
   const post = getResourcePost(category, slug);

@@ -39,15 +39,6 @@ export type ResourcePost = {
   toc: PublicationTocItem[];
 };
 
-export type ResourceDownloadPost = {
-  categoryLabel: string;
-  title: string;
-  coverImageSrc: string;
-  formDescription: string;
-  successTitle: string;
-  successTextHtml: string;
-};
-
 const POSTS_ROOT = path.join(process.cwd(), "content/source-posts");
 const VALID_CATEGORIES = new Set<ResourcePostCategory>(["blog", "whitepaper", "event"]);
 const RESOURCE_IMAGE_BY_HREF: Map<string, string> = new Map(
@@ -215,23 +206,3 @@ export function getResourcePost(category: ResourcePostCategory, slug: string): R
   };
 }
 
-export function getResourceDownloadPost(
-  category: ResourcePostCategory,
-  slug: string,
-): ResourceDownloadPost | null {
-  const html = getHtmlFor(category, slug);
-  if (!html) return null;
-  if (!html.includes("wp-dl-wrap")) return null;
-
-  return {
-    categoryLabel: stripHtml(matchFirst(html, /<span class="wp-dl-category">([\s\S]*?)<\/span>/)),
-    title: stripHtml(matchFirst(html, /<h1 class="wp-dl-doc-title">([\s\S]*?)<\/h1>/)),
-    coverImageSrc: matchFirst(
-      html,
-      /<div class="wp-dl-cover-img-wrap">[\s\S]*?<img src="([^"]+)"/,
-    ),
-    formDescription: stripHtml(matchFirst(html, /<p class="wp-dl-form-desc">([\s\S]*?)<\/p>/)),
-    successTitle: stripHtml(matchFirst(html, /<h2 class="wp-dl-success-title">([\s\S]*?)<\/h2>/)),
-    successTextHtml: matchFirst(html, /<p class="wp-dl-success-text">([\s\S]*?)<\/p>/),
-  };
-}

@@ -61,13 +61,11 @@ test("public interaction surfaces do not ship bare hash broken links", () => {
   const siteHeader = readSource("src/components/layout/site-header-client.tsx");
   const siteFooter = readSource("src/components/layout/site-footer.tsx");
   const resourcePostPage = readSource("src/components/sections/publication-post-page.tsx");
-  const resourcePostDownloadPage = readSource("src/components/sections/resource-post-download-page.tsx");
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
 
   assert.doesNotMatch(siteHeader, /href:\s*"#"/);
   assert.doesNotMatch(siteFooter, /href:\s*"#"/);
   assert.doesNotMatch(resourcePostPage, /href="#"/);
-  assert.doesNotMatch(resourcePostDownloadPage, /href="#"/);
   assert.doesNotMatch(aiDashiFaq, /href="#"/);
 });
 
@@ -92,7 +90,6 @@ test("public route metadata titles use the final QueryPie AI branding", () => {
   assert.match(introductionDeckPage, /title: "紹介資料 \| QueryPie AI"/);
   assert.match(glossaryPage, /title: "用語集 \| QueryPie AI"/);
   assert.match(manualsPage, /title: "マニュアル \| QueryPie AI"/);
-  assert.match(resourcePostRoute, /title: `\$\{downloadPost\.title\} \| QueryPie AI`/);
   assert.match(resourcePostRoute, /title: `\$\{post\.title\} \| QueryPie AI`/);
 
   assert.doesNotMatch(eventsPage, /title: ".*AI Staff"/);
