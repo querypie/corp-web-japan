@@ -49,6 +49,7 @@ export function getAiDashiStructureSource() {
     "src/components/sections/ai-dashi-support-section.tsx",
     "src/components/sections/ai-dashi-release-flow-section.tsx",
     "src/components/sections/ai-dashi-risk-section.tsx",
+    "src/components/sections/ai-dashi-wall-cards-section.tsx",
   ]);
 }
 

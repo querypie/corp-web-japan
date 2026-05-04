@@ -9,7 +9,7 @@ import {
   Settings,
   ShieldCheck,
   Users,
-  type LucideIcon,
+  X,
 } from "lucide-react";
 import { aiDashiConsultUrl, aiDashiFloatingUrl, aiDashiWhitepaperUrl } from "@/content/ai-dashi-links";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -79,6 +79,17 @@ import {
   AIDashiEnterpriseReadySection,
   AIDashiEnterpriseReadyTitle,
 } from "@/components/sections/ai-dashi-enterprise-ready-section";
+import {
+  AIDashiWallCardsBody,
+  AIDashiWallCardsCard,
+  AIDashiWallCardsCardBody,
+  AIDashiWallCardsCardIcon,
+  AIDashiWallCardsCardTitle,
+  AIDashiWallCardsGrid,
+  AIDashiWallCardsIntro,
+  AIDashiWallCardsSection,
+  AIDashiWallCardsTitle,
+} from "@/components/sections/ai-dashi-wall-cards-section";
 export const metadata: Metadata = {
   title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
   description:
@@ -100,27 +111,6 @@ export const metadata: Metadata = {
   },
 };
 
-const aiWallCards: ReadonlyArray<{
-  icon: LucideIcon;
-  title: string;
-  body: string;
-}> = [
-  {
-    icon: Users,
-    title: "人材と技術の枯渇",
-    body: "AI専門エンジニアの採用難に加え、日進月歩で変わる最新アーキテクチャへの追従に開発リソースが食いつぶされ、本来のコア事業の進化が止まります。",
-  },
-  {
-    icon: Database,
-    title: "データ整備の泥沼",
-    body: "自社データベースを正確にAIに読み込ませる（RAG構築）には膨大な工数がかかり、実用レベルの精度が出ないままリリースが無限に延期されます。",
-  },
-  {
-    icon: Settings,
-    title: "肥大化するインフラ保守",
-    body: "リリース後も、モデルの更新やプロンプトの調整、インフラ監視など、想定外の保守運用コストが継続的に発生し利益を圧迫します。",
-  },
-] as const;
 
 export default function AIDashiPage() {
   return (
@@ -313,38 +303,46 @@ export default function AIDashiPage() {
         </div>
       </section>
 
-      <section id="why-ai-dashi" className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="flex flex-col items-center gap-12">
-            <RevealOnScroll variant="up" className="w-full max-w-[920px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
-                ゼロからの自社AI化を阻む、3つの致命的リスク
-              </h2>
-              <p className="mx-auto mt-5 max-w-[710px] text-left text-base leading-7 text-slate-500">
-                LLMのAPIを叩くだけなら簡単ですが、それを「商用レベルのSaaS」として実装しようとすると、多くのプロジェクトが以下の壁に直面し頓挫します。
-              </p>
-            </RevealOnScroll>
+      <AIDashiWallCardsSection>
+        <AIDashiWallCardsIntro>
+          <AIDashiWallCardsTitle>ゼロからの自社AI化を阻む、3つの致命的リスク</AIDashiWallCardsTitle>
+          <AIDashiWallCardsBody>
+            LLMのAPIを叩くだけなら簡単ですが、それを「商用レベルのSaaS」として実装しようとすると、多くのプロジェクトが以下の壁に直面し頓挫します。
+          </AIDashiWallCardsBody>
+        </AIDashiWallCardsIntro>
 
-            <RevealOnScroll className="grid w-full gap-4 lg:grid-cols-3 lg:gap-4" variant="up" delayMs={120}>
-              {aiWallCards.map((item) => {
-                const Icon = item.icon;
+        <AIDashiWallCardsGrid>
+          <AIDashiWallCardsCard>
+            <AIDashiWallCardsCardIcon>
+              <Users className="h-5 w-5" />
+            </AIDashiWallCardsCardIcon>
+            <AIDashiWallCardsCardTitle>人材と技術の枯渇</AIDashiWallCardsCardTitle>
+            <AIDashiWallCardsCardBody>
+              AI専門エンジニアの採用難に加え、日進月歩で変わる最新アーキテクチャへの追従に開発リソースが食いつぶされ、本来のコア事業の進化が止まります。
+            </AIDashiWallCardsCardBody>
+          </AIDashiWallCardsCard>
 
-                return (
-                  <article key={item.title} className="flex h-full flex-col rounded-[1.8rem] border border-black/6 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-md shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#eef1f4] text-[#15181d]">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <h3 className="mt-5 text-[22px] font-semibold leading-8 tracking-[-0.03em] text-slate-950">
-                      {item.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">{item.body}</p>
-                  </article>
-                );
-              })}
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
+          <AIDashiWallCardsCard>
+            <AIDashiWallCardsCardIcon>
+              <Database className="h-5 w-5" />
+            </AIDashiWallCardsCardIcon>
+            <AIDashiWallCardsCardTitle>データ整備の泥沼</AIDashiWallCardsCardTitle>
+            <AIDashiWallCardsCardBody>
+              自社データベースを正確にAIに読み込ませる（RAG構築）には膨大な工数がかかり、実用レベルの精度が出ないままリリースが無限に延期されます。
+            </AIDashiWallCardsCardBody>
+          </AIDashiWallCardsCard>
+
+          <AIDashiWallCardsCard>
+            <AIDashiWallCardsCardIcon>
+              <Settings className="h-5 w-5" />
+            </AIDashiWallCardsCardIcon>
+            <AIDashiWallCardsCardTitle>肥大化するインフラ保守</AIDashiWallCardsCardTitle>
+            <AIDashiWallCardsCardBody>
+              リリース後も、モデルの更新やプロンプトの調整、インフラ監視など、想定外の保守運用コストが継続的に発生し利益を圧迫します。
+            </AIDashiWallCardsCardBody>
+          </AIDashiWallCardsCard>
+        </AIDashiWallCardsGrid>
+      </AIDashiWallCardsSection>
 
       <AIDashiEnterpriseReadySection>
         <AIDashiEnterpriseReadyIntro>

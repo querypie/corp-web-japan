@@ -59,6 +59,24 @@ test("AI Dashi support section follows route-local authoring", () => {
   assert.match(aiDashiStructureSource, /export function AIDashiSupportCardPoint/);
 });
 
+test("AI Dashi fatal-risk cards section follows route-local authoring", () => {
+  const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
+  const aiDashiStructureSource = getAiDashiStructureSource();
+
+  assert.match(aiDashiPage, /AIDashiWallCardsSection/);
+  assert.match(aiDashiPage, /AIDashiWallCardsCard/);
+  assert.match(aiDashiPage, /AIDashiWallCardsCardIcon/);
+  assert.match(aiDashiPage, /ゼロからの自社AI化を阻む、3つの致命的リスク/);
+  assert.match(aiDashiPage, /人材と技術の枯渇/);
+  assert.match(aiDashiPage, /データ整備の泥沼/);
+  assert.match(aiDashiPage, /肥大化するインフラ保守/);
+  assert.doesNotMatch(aiDashiPage, /const aiWallCards: ReadonlyArray/);
+
+  assert.match(aiDashiStructureSource, /export function AIDashiWallCardsSection/);
+  assert.match(aiDashiStructureSource, /export function AIDashiWallCardsGrid/);
+  assert.match(aiDashiStructureSource, /export function AIDashiWallCardsCardBody/);
+});
+
 test("AI Dashi enterprise-ready section follows route-local authoring", () => {
   const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
   const aiDashiStructureSource = getAiDashiStructureSource();
