@@ -75,9 +75,7 @@ export default function AICrewPage() {
         <AICrewAboutShell>
           <AICrewAboutIntro>
             <AICrewAboutTitle>
-              <>
-                AI Agentではなく、<span className="bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_52%,#2563EB_100%)] bg-clip-text text-transparent">AI Crew</span>
-              </>
+              AI Agentではなく、<strong>AI Crew</strong>
             </AICrewAboutTitle>
             <AICrewAboutBody>
               <p>
