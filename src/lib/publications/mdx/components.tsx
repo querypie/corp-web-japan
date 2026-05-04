@@ -43,6 +43,14 @@ type YoutubeProps = {
   center?: boolean;
 };
 
+type BlueStateProps = {
+  children?: ReactNode;
+};
+
+type UserProps = {
+  children?: ReactNode;
+};
+
 type ArticleYoutubeGatingFormProps = {
   src: string;
   title?: string;
@@ -168,6 +176,18 @@ function Youtube({ src, title = "YouTube video", center = false }: YoutubeProps)
   );
 }
 
+function BlueState({ children }: BlueStateProps) {
+  return (
+    <span className="mr-2 inline-flex rounded-full bg-[#e8f1ff] px-3 py-1 text-xs font-semibold tracking-[0.02em] text-[#2458b9]">
+      {children}
+    </span>
+  );
+}
+
+function User({ children }: UserProps) {
+  return <span className="font-semibold text-slate-950">{children}</span>;
+}
+
 function GatingCut() {
   return null;
 }
@@ -196,6 +216,8 @@ export function buildPublicationMdxComponents(): MDXComponents {
     ArticleFileImage,
     InfoNote,
     Youtube,
+    BlueState,
+    User,
     GatingCut,
     ArticleGatingForm,
     ArticleYoutubeGatingForm,

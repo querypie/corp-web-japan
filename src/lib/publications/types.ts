@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export type PublicationCategory = "blog" | "whitepaper" | "event" | "news" | "use-case" | "aip-demo";
+export type PublicationCategory = "blog" | "whitepaper" | "event" | "news" | "use-case" | "aip-demo" | "acp-demo";
 
 export type PublicationPostSummary = {
   href: string;
