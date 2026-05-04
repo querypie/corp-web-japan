@@ -1,7 +1,7 @@
 ---
 name: static-page-route-local-authoring-refactor
 description: Refactor a corp-web-japan static marketing route so page.tsx becomes the primary readable authoring surface and old giant content/wrapper layers are removed safely.
-version: 1.0.0
+version: 1.2.0
 author: Hermes Agent
 license: MIT
 metadata:
@@ -127,6 +127,26 @@ Important lesson from PR 193 follow-up:
 5. Avoid repeated local `npm install` when the existing workspace already has what you need.
 6. Rebase onto the latest `origin/main` again before push/PR update.
 
+### Worktree freshness gate
+
+Before editing in an existing PR or follow-up branch, explicitly verify whether the local worktree is still a trustworthy base.
+
+Minimum checks:
+```bash
+git status -sb
+git rev-parse HEAD origin/<branch>
+git rev-list --left-right --count HEAD...origin/<branch>
+```
+
+Interpretation:
+- if `HEAD` equals `origin/<branch>` and the worktree is clean, it is a valid starting point
+- if the worktree is ahead/behind/diverged, do **not** continue editing there just because its directory name matches the branch
+- if the worktree contains unrelated residue from prior attempts, prefer a fresh detached worktree from `origin/<branch>` or `origin/main`
+
+Important lesson from AI Crew PR 190 follow-up:
+- a stale local PR worktree can silently drag old experiments, outdated conflict resolutions, or mixed post-main history into the next follow-up
+- when in doubt, recreate the worktree from the remote branch tip and verify the SHA before editing
+
 ## Reference patterns in this repo
 
 Read these before refactoring:
@@ -162,6 +182,27 @@ Map what belongs in each bucket:
 - should remain extracted because it is shared or interactive
 - should move to a small dedicated route-adjacent/shared constants file because multiple surfaces still need the same URL constants
 
+### 1a. Decide early whether this is a normal section migration or a rewrite-on-main case
+
+Before you start editing, classify the branch condition as one of two modes:
+
+1. normal section migration
+   - the branch is already based on a recent `origin/main`
+   - the current PR/worktree does not contain stale structural history
+   - you can safely implement the scoped refactor in place
+
+2. rewrite-on-main
+   - the open PR branch predates important merged main changes
+   - the branch contains intermediate or experimental commits that no longer represent the user's desired final diff
+   - the user is dissatisfied with the overall refactor direction, not just one bug
+   - preserving old branch ancestry would make the PR harder to reason about than rebuilding the final intended file set on top of latest `origin/main`
+
+When the second mode applies, prefer rebuilding the intended final state on top of a clean latest-main worktree rather than trying to salvage the old branch mechanically.
+
+Important practical rule from AI Crew PR 190:
+- if the user says the current PR is "not the expected level of refactoring" and the branch also trails `origin/main`, treat that as a strong rewrite-on-main signal
+- in that case, inspect the old PR only to recover the intended outcome, then reconstruct that outcome cleanly on top of latest `origin/main`
+
 ### 2. Keep only the right extracted pieces
 
 Good to keep extracted:
@@ -181,7 +222,14 @@ Bad to keep extracted:
 - JSON-like or object/array-based marketing copy declarations inside `page.tsx`, such as `const cards = [{ title, body }]`, `const section = { title, body, cta }`, or `const items = [...]`, when the main purpose is to store visible page copy rather than tiny incidental labels
 - prop-shaped copy APIs such as `intro={{ title: ..., body: ... }}`, `section={{ ... }}`, or large `items` arrays whose values are the real user-facing marketing sentences
 - an external page-specific wrapper merely moved into the route and renamed as a local helper such as `function AICrewSections()` or `function HomeSections()` while it still hides most of the authored page structure
+- a large local section helper such as `function SupportSection()` or `function ReleaseFlowSection()` when it still owns that section's real headings, prose-heavy arrays, CTA text, and JSX structure together
+- relocating a former top-level blob into `function SomeSection() { const items = [...] ... }` while the route body now only shows `<SomeSection />`
 - passing a giant raw JSX section blob as a prop such as `contactSection={<section ...>...</section>}` or `aboutSection={<section ...>...</section>}` from `page.tsx` into a shared shell component
+
+Important anti-regression rule from AI Dashi follow-up work:
+- moving `const supportItems = [...]` or `const releaseFlow = [...]` out of file scope is **not** enough if the same prose-heavy data and section markup are merely re-hidden inside a local helper such as `function AIDashiSupportSection()`
+- that reduces top-level clutter, but it does not yet make the route body the primary readable authoring surface
+- if the default export body becomes less readable because the section collapsed to a single helper call, treat the refactor as still incomplete
 
 Important rule:
 Do not consider the refactor complete if you merely moved a giant object from `src/content/**` into the top of `page.tsx`.
@@ -194,11 +242,60 @@ Also do not consider the refactor complete if you only:
 
 Those are only location changes. They are not yet route-local authoring in the intended sense.
 
+Explicit failure case:
+- do not consider the refactor successful if a former top-level content blob is merely moved into a large local section helper inside `page.tsx`
+- relocating `const cards = [...]`, `const supportItems = [...]`, or `const releaseFlow = [...]` into `function SomeSection()` is still an intermediate mechanical relocation unless the route body now clearly shows the section's authored copy/composition
+
 Important staged-refactor rule from PRs 155–158:
 - the existence of a temporary shared shell is **not** itself a failure
 - it becomes a failure only if that shell still owns the migrated section's marketing copy
 - if the target section's visible copy now lives in `page.tsx`, while the shell only places that section among other not-yet-migrated sections, that is an acceptable intermediate state
 - however, even in this acceptable intermediate state, the migrated section's implementation should still live under `src/components/sections/**`; `page.tsx` should compose section components, not inject a giant raw JSX section blob into a shell prop
+
+## UI drift prevention checklist
+
+Use this checklist whenever the user asked for a refactor, migration, or authoring-location cleanup rather than a visual redesign.
+
+Before coding:
+- name the exact section whose visual output must remain unchanged
+- identify the current file that is the visual source of truth for that section
+- decide whether the task allows *any* visual implementation change; default is no unless the user explicitly asked
+
+While editing:
+- preserve the old wrapper element hierarchy unless a structural change is strictly required
+- preserve the old class strings for box wrappers, borders, shadows, gradients, spacing, and hover behavior unless the user explicitly asked for a design change
+- preserve the old icon set, icon positions, and icon absence; removing or adding icons is a visual change
+- preserve text layout mechanics such as `whitespace-pre-line`, paragraph splitting, inline `<strong>` placement, and line-break strategy
+- if you extract a section component, prefer moving the old JSX almost verbatim into the new component before making any abstraction decisions
+
+Before pushing:
+- compare the new section implementation against the old section JSX line by line
+- search for newly introduced generic primitives such as `MarketingSurface`, `MarketingPill`, new button helpers, or new wrapper utilities that did not exist in the old section
+- treat any such new primitive as suspicious unless it preserves the exact previous visual output
+- if the preview URL is available, verify the actual deployed preview before declaring the refactor done
+
+If the task is truly refactor-only, a good result is:
+- route-local copy ownership changed
+- file boundaries improved
+- tests updated
+- visual output stayed the same
+
+### Visual-parity guardrail
+
+When the old section already has acceptable UX, prefer this order:
+1. copy the old section markup nearly verbatim into the new extracted section component
+2. move copy ownership into `page.tsx` with the smallest possible API
+3. verify visual parity
+4. only then consider further abstraction in a separate PR
+
+Do **not** combine all of these in one refactor-only PR:
+- route-local authoring migration
+- generalized visual primitive adoption
+- button redesign
+- icon redesign
+- spacing cleanup based on taste
+
+That combination is the fastest path to accidental UI drift.
 
 ### 3. Move authoring into `page.tsx`
 
@@ -232,6 +329,12 @@ A good outcome is that a reviewer can open only `page.tsx` and understand:
 - the CTA wiring
 - which small helpers remain shared
 
+Mandatory route-body readability check:
+- inspect the default export's main route body in `page.tsx`, not just helper definitions above it
+- ask: if I collapse all local helper functions and read only the route body, can I still see the migrated section's heading copy, main body copy, CTA labels, and composition clearly enough to review the page narrative?
+- if the answer is no, the refactor is still incomplete even if the copy technically remains in the same file
+- if replacing a section with `<LocalSectionHelper />` makes the route body less readable than before, that helper is too large for the intended route-local authoring standard
+
 ### 4. Delete obsolete page-specific layers
 
 Once the route-local version is in place:
@@ -248,6 +351,13 @@ Common test migration pattern:
 - replace exact dependence on `src/components/sections/<page>-sections.tsx` with either:
   - `page.tsx`, or
   - `page.tsx` + the few shared interactive section files that still legitimately remain
+- inspect broader repo-level tests as well, not only the obvious section-structure test for the touched page
+- explicitly search for CTA labels, route constants, or old content-registry strings that may still be asserted elsewhere in the test suite
+
+Important practical finding from AI Crew PR 190:
+- broader tests such as launch-readiness, CTA coverage, route-policy, or source-layout assertions can still encode the old source-of-truth location even after the section-specific structure test is updated
+- when copy/CTA ownership moves from `src/content/**` into route-local JSX, update those broader tests in the same PR so they accept the new intended source shape
+- if the repo is in an intentional staged transition, allow assertions that match either the old registry pattern or the new route-local markup only where that transition is still real; otherwise tighten directly to the final route-local form
 
 Examples of helpful test helper functions:
 - `get<Page>DataSource()` -> combine `page.tsx` with any small surviving shared constants file
@@ -292,6 +402,11 @@ Before finalizing:
 - push the branch
 - open the PR
 
+Important safety rule from AI Crew PR 190:
+- if you decide this is a rewrite-on-main case, do **not** perform the rewrite by staging changes in a stale PR worktree and then using `git reset --soft origin/main`
+- on an old PR branch, that pattern can stage a large mixed diff that includes unrelated pre-main history or other stale branch residue
+- instead, create a completely clean worktree from latest `origin/main`, reapply only the intended final file set, verify the scoped diff, commit once, and force-push that clean result back to the PR branch
+
 Unless the user explicitly says otherwise, the task is not complete until:
 - commit exists
 - branch is pushed
@@ -302,14 +417,21 @@ Unless the user explicitly says otherwise, the task is not complete until:
 - planning from stale local `main` instead of latest `origin/main`
 - editing the main checkout instead of a worktree
 - continuing an old worktree without validating its current base
+- trusting a PR-named worktree directory without checking whether `HEAD` still matches `origin/<branch>`
+- trying to preserve a stale branch mechanically when the user actually wants a structure-level rewrite on top of latest main
 - recreating the giant content object inside `page.tsx`
+- changing a section's visual wrapper/classes/icons/spacing while doing a refactor-only authoring migration
 - leaving the old content/orchestrator files in place after the move
 - forgetting that tests may still read removed file paths directly
+- updating only the obvious section-specific test while broader launch-readiness or CTA coverage tests still assume the old source-of-truth location
 - widening scope into CMS/data-backed routes that the user did not authorize
 - starting a local dev server even though CI/targeted checks are sufficient
 - spending time on repeated installs in a fresh worktree when the existing environment can already run the relevant checks
 - losing PR focus by partially refactoring neighboring sections after the user only asked for one section to be fully completed
 - keeping earlier experimental extracts in the branch after deciding that only one section should remain as the showcased completed result
+- mistaking "same file" for success when the real section copy/data/layout have simply been re-hidden inside a large local helper function
+- allowing the route body to degrade from visible section narrative into a sequence of opaque helper calls such as `<SupportSection />`, `<FlowSection />`, or similar local wrappers
+- using `git reset --soft origin/main` inside a stale PR worktree during a rewrite-on-main follow-up and accidentally staging unrelated branch history
 
 ## Suggested resume-prompt template
 
