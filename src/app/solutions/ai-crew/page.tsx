@@ -1,5 +1,15 @@
 import type { Metadata } from "next";
-import { ArrowRight, CalendarDays, Play, Settings2 } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  ChartColumnIncreasing,
+  FileSearch,
+  Layers3,
+  Play,
+  Search,
+  Settings2,
+  ShieldCheck,
+} from "lucide-react";
 import {
   aiCrewConsultUrl,
   aiCrewFloatingCtaUrl,
@@ -56,6 +66,22 @@ import {
   AICrewDashiPromoVisual,
   AICrewDashiPromoVisualOrb,
 } from "@/components/sections/ai-crew-contact-section";
+import {
+  AICrewWhyAfterCard,
+  AICrewWhyAfterDesktopLayout,
+  AICrewWhyAfterMobileLayout,
+  AICrewWhyAfterOrbitItem,
+  AICrewWhyBeforeCard,
+  AICrewWhyBeforePainPoint,
+  AICrewWhyBody,
+  AICrewWhyComparisonShell,
+  AICrewWhyDesktopTaskColumn,
+  AICrewWhyIntro,
+  AICrewWhySection,
+  AICrewWhyTaskColumn,
+  AICrewWhyTaskItem,
+  AICrewWhyTitle,
+} from "@/components/sections/ai-crew-why-section";
 import {
   HomePageIntroSections,
   HomePageSections,
@@ -140,6 +166,77 @@ export default function AICrewPage() {
           />
         </AICrewAboutShell>
       </AICrewAboutSection>
+      <AICrewWhySection>
+        <AICrewWhyIntro>
+          <AICrewWhyTitle>
+            AIに下準備を任せ、人は
+            <span className="bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_48%,#2563EB_78%,#93C5FD_100%)] bg-clip-text text-transparent [animation:heroAccentGlow_3.2s_ease-in-out_infinite] motion-reduce:animate-none">
+              判断と創造
+            </span>
+            に集中する
+          </AICrewWhyTitle>
+          <AICrewWhyBody>
+            <strong>現場が止まるのは、判断の前にある業務が多すぎるから。</strong>
+            情報収集、データ整理、一次ドラフト作成、ログ確認などの下準備をAIに任せることで、人は最終判断、顧客対応、企画や改善など、本来注力すべき仕事に集中できます。
+          </AICrewWhyBody>
+        </AICrewWhyIntro>
+
+        <AICrewWhyComparisonShell>
+          <AICrewWhyBeforeCard subtitle="一次対応に時間がかかる">
+            <AICrewWhyBeforePainPoint>情報が散らばり調査と確認に時間がかかる</AICrewWhyBeforePainPoint>
+            <AICrewWhyBeforePainPoint>下準備が多く本来の判断に時間を使えない</AICrewWhyBeforePainPoint>
+          </AICrewWhyBeforeCard>
+
+          <AICrewWhyAfterCard subtitle="役割分担が整理され、本来の業務に集中">
+            <AICrewWhyAfterMobileLayout>
+              <AICrewWhyTaskColumn label="人">
+                <AICrewWhyTaskItem>最終判断</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>顧客対応</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>提案</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>企画</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>改善</AICrewWhyTaskItem>
+              </AICrewWhyTaskColumn>
+
+              <AICrewWhyTaskColumn label="AI">
+                <AICrewWhyTaskItem>調査</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>整理</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>一次ドラフト</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>分析準備</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>リスク検知</AICrewWhyTaskItem>
+              </AICrewWhyTaskColumn>
+            </AICrewWhyAfterMobileLayout>
+
+            <AICrewWhyAfterDesktopLayout>
+              <AICrewWhyAfterOrbitItem icon={Search} label="調査" bubbleClassName="right-[132px] top-[44px]" />
+              <AICrewWhyAfterOrbitItem icon={Layers3} label="整理" bubbleClassName="right-[34px] top-[112px]" />
+              <AICrewWhyAfterOrbitItem icon={FileSearch} label="一次ドラフト" bubbleClassName="right-[138px] bottom-[118px]" />
+              <AICrewWhyAfterOrbitItem icon={ChartColumnIncreasing} label="分析準備" bubbleClassName="right-[30px] bottom-[110px]" />
+              <AICrewWhyAfterOrbitItem
+                icon={ShieldCheck}
+                label="リスク検知"
+                bubbleClassName="left-1/2 top-[22px] -translate-x-1/2"
+                chipClassName="left-1/2 top-[88px] -translate-x-1/2"
+              />
+
+              <AICrewWhyDesktopTaskColumn label="人" side="left">
+                <AICrewWhyTaskItem>最終判断</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>顧客対応</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>提案</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>企画</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>改善</AICrewWhyTaskItem>
+              </AICrewWhyDesktopTaskColumn>
+
+              <AICrewWhyDesktopTaskColumn label="AI" side="right">
+                <AICrewWhyTaskItem>調査</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>整理</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>一次ドラフト</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>分析準備</AICrewWhyTaskItem>
+                <AICrewWhyTaskItem>リスク検知</AICrewWhyTaskItem>
+              </AICrewWhyDesktopTaskColumn>
+            </AICrewWhyAfterDesktopLayout>
+          </AICrewWhyAfterCard>
+        </AICrewWhyComparisonShell>
+      </AICrewWhySection>
       <HomePageSections />
       <AICrewContactSection>
         <AICrewContactShell>

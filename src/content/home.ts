@@ -82,12 +82,6 @@ export const homePageContent = {
       cards: ["工数削減", "回答速度", "品質確認"],
     },
   ],
-  comparison: {
-    eyebrow: "考え方",
-    title: "AIに下準備を任せ、人は判断と創造に集中する",
-    body:
-      "**現場が止まるのは、判断の前にある業務が多すぎるから。**情報収集、データ整理、一次ドラフト作成、ログ確認などの下準備をAIに任せることで、人は最終判断、顧客対応、企画や改善など、本来注力すべき仕事に集中できます。",
-  },
   roi: {
     eyebrow: "Technology & Security",
     title: "実務での安全なAI活用を支える\nエンタープライズAI基盤 QueryPie AIP",
@@ -117,21 +111,6 @@ export const homePageContent = {
         body:
           "エンタープライズ水準の監査ログ\nシャドーAIや情報漏洩リスクを低減",
         stat: "監査ログ / 人の承認",
-      },
-    ],
-  },
-  problem: {
-    eyebrow: "なぜ今なのか",
-    title: "一次対応に時間がかかる",
-    body: "",
-    cards: [
-      {
-        title: "情報が散らばり調査と確認に時間がかかる",
-        body: "",
-      },
-      {
-        title: "下準備が多く本来の判断に時間を使えない",
-        body: "",
       },
     ],
   },

@@ -8,8 +8,9 @@ import {
   isAiCrewSectionExternalized,
 } from "./helpers/static-marketing-page-sources.mjs";
 
-test("AI Crew lost section follows route-local authoring while the shared shell remains split around it", () => {
+test("AI Crew about, lost, and why sections follow route-local authoring while the shared shell remains split around them", () => {
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
+  const homePageSections = readSource("src/components/sections/home-page-sections.tsx");
   const aiCrewDataSource = getAiCrewDataSource();
   const aiCrewStructureSource = getAiCrewStructureSource();
 
@@ -30,6 +31,20 @@ test("AI Crew lost section follows route-local authoring while the shared shell 
   assert.match(aiCrewPage, /AICrewLostWhitepaperTitle/);
   assert.match(aiCrewPage, /AICrewLostWhitepaperAction href=\{aiCrewWhitepaperUrl\}/);
 
+  assert.match(aiCrewPage, /AICrewWhySection/);
+  assert.match(aiCrewPage, /AIに下準備を任せ、人は/);
+  assert.ok(aiCrewPage.includes("<strong>判断と創造</strong>"));
+  assert.match(aiCrewPage, /判断と創造/);
+  assert.match(aiCrewPage, /<AICrewWhyBeforeCard>/);
+  assert.match(aiCrewPage, /<AICrewWhyBeforeCardSubtitle>一次対応に時間がかかる<\/AICrewWhyBeforeCardSubtitle>/);
+  assert.doesNotMatch(aiCrewPage, /<AICrewWhyBeforeCard subtitle=/);
+  assert.match(aiCrewPage, /<AICrewWhyAfterCard>/);
+  assert.match(aiCrewPage, /<AICrewWhyAfterCardSubtitle>役割分担が整理され、本来の業務に集中<\/AICrewWhyAfterCardSubtitle>/);
+  assert.doesNotMatch(aiCrewPage, /<AICrewWhyAfterCard subtitle=/);
+  assert.match(aiCrewPage, /現場が止まるのは、判断の前にある業務が多すぎるから。/);
+  assert.match(aiCrewPage, /情報が散らばり調査と確認に時間がかかる/);
+  assert.match(aiCrewPage, /リスク検知/);
+
   assert.match(aiCrewPage, /AICrewContactSection/);
   assert.match(aiCrewPage, /どの業務から始めるべきか、/);
   assert.match(aiCrewPage, /href=\{aiCrewConsultUrl\}/);
@@ -41,7 +56,10 @@ test("AI Crew lost section follows route-local authoring while the shared shell 
   assert.match(aiCrewStructureSource, /export function AICrewLostProblemCard/);
   assert.match(aiCrewStructureSource, /export function AICrewLostWhitepaperCard/);
   assert.match(aiCrewStructureSource, /export function AICrewAboutImage/);
+  assert.match(aiCrewStructureSource, /export function AICrewWhySection/);
+  assert.match(aiCrewStructureSource, /export function AICrewWhyAfterOrbitItem/);
   assert.match(aiCrewStructureSource, /featureIntro\.subtitle/);
+  assert.doesNotMatch(homePageSections, /<section id="why"/);
   assert.doesNotMatch(aiCrewStructureSource, /FeatureShowcase/);
   assert.doesNotMatch(aiCrewStructureSource, /aboutSection\?: ReactNode/);
   assert.doesNotMatch(aiCrewStructureSource, /\{aboutSection\}/);
@@ -56,6 +74,8 @@ test("AI Crew lost section follows route-local authoring while the shared shell 
     assert.match(aiCrewContent, /subtitle: "あなたの実務を担うAI、5つの設計要素"/);
     assert.doesNotMatch(aiCrewContent, /人手不足と見えないコストが、企業の成長を鈍化させる。/);
     assert.doesNotMatch(aiCrewContent, /なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか/);
+    assert.doesNotMatch(aiCrewContent, /comparison:/);
+    assert.doesNotMatch(aiCrewContent, /problem:/);
     assert.doesNotMatch(aiCrewContent, /AI Crewの考え方/);
     assert.doesNotMatch(aiCrewContent, /AI Agentではなく、AI Crew/);
     assert.doesNotMatch(aiCrewContent, /concept-team\.webp/);
