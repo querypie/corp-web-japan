@@ -41,6 +41,14 @@ export function getAiCrewStructureSource() {
   ]);
 }
 
+export function getAiDashiStructureSource() {
+  return readCombinedExistingSources([
+    "src/app/solutions/ai-dashi/page.tsx",
+    "src/components/sections/ai-dashi-support-section.tsx",
+    "src/components/sections/ai-dashi-release-flow-section.tsx",
+  ]);
+}
+
 export function isTopPageContentExternalized() {
   return sourceExists("src/content/top-page.ts");
 }

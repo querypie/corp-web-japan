@@ -50,6 +50,19 @@ import {
   AIDashiSupportSection,
   AIDashiSupportTitle,
 } from "@/components/sections/ai-dashi-support-section";
+import {
+  AIDashiReleaseFlowBody,
+  AIDashiReleaseFlowCard,
+  AIDashiReleaseFlowCardBody,
+  AIDashiReleaseFlowCardHeader,
+  AIDashiReleaseFlowCardTitle,
+  AIDashiReleaseFlowGrid,
+  AIDashiReleaseFlowIntro,
+  AIDashiReleaseFlowPeriodBadge,
+  AIDashiReleaseFlowSection,
+  AIDashiReleaseFlowStepBadge,
+  AIDashiReleaseFlowTitle,
+} from "@/components/sections/ai-dashi-release-flow-section";
 export const metadata: Metadata = {
   title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
   description:
@@ -70,37 +83,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
   },
 };
-
-const releaseFlow = [
-  {
-    step: "STEP 01",
-    period: "1〜2週間",
-    title: "ヒアリング・要件定義",
-    body:
-      "貴社のビジネスモデルや既存システム、実現したいAI機能を深くヒアリングし、最適なアーキテクチャと実装方針を策定します。",
-  },
-  {
-    step: "STEP 02",
-    period: "2〜3週間",
-    title: "プロトタイプ作成",
-    body:
-      "要件に基づき、UI/UXを貴社ブランドに合わせてカスタマイズした初期のAIモデル・プロトタイプを構築し、実際の動作をご確認いただきます。",
-  },
-  {
-    step: "STEP 03",
-    period: "4〜6週間",
-    title: "統合開発・テスト",
-    body:
-      "既存の自社サービスやデータベースとのAPI連携（組み込み）を実施。ハルシネーション対策の調整やセキュリティ要件を満たすためのテストを徹底して行います。",
-  },
-  {
-    step: "STEP 04",
-    period: "最短1〜3ヶ月",
-    title: "本番リリース・運用開始",
-    body:
-      "貴社の顧客向けにAIサービスを公開。リリース後も24時間365日のインフラ監視と、FDEによる継続的な改善サポートでビジネスの成長を支えます。",
-  },
-] as const;
 
 const aiWallCards: ReadonlyArray<{
   icon: LucideIcon;
@@ -577,49 +559,65 @@ export default function AIDashiPage() {
         </AIDashiSupportCards>
       </AIDashiSupportSection>
 
-      <section id="ai-dashi-flow" className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="mx-auto flex max-w-[1120px] flex-col items-center gap-10">
-            <RevealOnScroll variant="up" className="w-full max-w-[920px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
-                最速で市場へ
-                <br />
-                市場機会を逃さない、
-                <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
-                  圧倒的な導入スピード
-                </span>
-              </h2>
-              <p className="mx-auto mt-5 max-w-[760px] text-left text-base leading-7 text-slate-500">
-                ゼロからAIを自社開発し、試行錯誤で時間を浪費する必要はありません。当社の専門エンジニア（FDE）が要件定義から本番公開まで一気通貫で伴走し、競合に先んじたスピーディな立ち上げを実現します。
-              </p>
-            </RevealOnScroll>
+      <AIDashiReleaseFlowSection>
+        <AIDashiReleaseFlowIntro>
+          <AIDashiReleaseFlowTitle>
+            最速で市場へ
+            <br />
+            市場機会を逃さない、
+            <strong>圧倒的な導入スピード</strong>
+          </AIDashiReleaseFlowTitle>
+          <AIDashiReleaseFlowBody>
+            ゼロからAIを自社開発し、試行錯誤で時間を浪費する必要はありません。当社の専門エンジニア（FDE）が要件定義から本番公開まで一気通貫で伴走し、競合に先んじたスピーディな立ち上げを実現します。
+          </AIDashiReleaseFlowBody>
+        </AIDashiReleaseFlowIntro>
 
-            <RevealOnScroll className="grid w-full gap-4 lg:grid-cols-2" variant="up" delayMs={120}>
-              {releaseFlow.map((item) => (
-                <article
-                  key={item.step}
-                  className="flex h-full flex-col rounded-[1.6rem] border border-black/6 bg-white p-5 shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md lg:p-6"
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="inline-flex rounded-full border border-[#2f3a49]/20 bg-[#2f3a49] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-white shadow-[0_12px_24px_-18px_rgba(15,23,42,0.38)]">
-                      {item.step}
-                    </div>
-                    <div className="inline-flex rounded-full bg-[#fff4ee] px-3 py-1 text-[12px] font-semibold text-[#b85733]">
-                      {item.period}
-                    </div>
-                  </div>
-                  <h3 className="mt-5 text-[21px] font-semibold leading-7 tracking-[-0.03em] text-slate-950 md:text-[22px] md:leading-8 md:tracking-[-0.04em]">
-                    {item.title}
-                  </h3>
-                  <div className="mt-4 flex-1 border-t border-black/6 pt-4">
-                    <p className="text-sm leading-7 text-slate-600">{item.body}</p>
-                  </div>
-                </article>
-              ))}
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
+        <AIDashiReleaseFlowGrid>
+          <AIDashiReleaseFlowCard>
+            <AIDashiReleaseFlowCardHeader>
+              <AIDashiReleaseFlowStepBadge>STEP 01</AIDashiReleaseFlowStepBadge>
+              <AIDashiReleaseFlowPeriodBadge>1〜2週間</AIDashiReleaseFlowPeriodBadge>
+            </AIDashiReleaseFlowCardHeader>
+            <AIDashiReleaseFlowCardTitle>ヒアリング・要件定義</AIDashiReleaseFlowCardTitle>
+            <AIDashiReleaseFlowCardBody>
+              貴社のビジネスモデルや既存システム、実現したいAI機能を深くヒアリングし、最適なアーキテクチャと実装方針を策定します。
+            </AIDashiReleaseFlowCardBody>
+          </AIDashiReleaseFlowCard>
+
+          <AIDashiReleaseFlowCard>
+            <AIDashiReleaseFlowCardHeader>
+              <AIDashiReleaseFlowStepBadge>STEP 02</AIDashiReleaseFlowStepBadge>
+              <AIDashiReleaseFlowPeriodBadge>2〜3週間</AIDashiReleaseFlowPeriodBadge>
+            </AIDashiReleaseFlowCardHeader>
+            <AIDashiReleaseFlowCardTitle>プロトタイプ作成</AIDashiReleaseFlowCardTitle>
+            <AIDashiReleaseFlowCardBody>
+              要件に基づき、UI/UXを貴社ブランドに合わせてカスタマイズした初期のAIモデル・プロトタイプを構築し、実際の動作をご確認いただきます。
+            </AIDashiReleaseFlowCardBody>
+          </AIDashiReleaseFlowCard>
+
+          <AIDashiReleaseFlowCard>
+            <AIDashiReleaseFlowCardHeader>
+              <AIDashiReleaseFlowStepBadge>STEP 03</AIDashiReleaseFlowStepBadge>
+              <AIDashiReleaseFlowPeriodBadge>4〜6週間</AIDashiReleaseFlowPeriodBadge>
+            </AIDashiReleaseFlowCardHeader>
+            <AIDashiReleaseFlowCardTitle>統合開発・テスト</AIDashiReleaseFlowCardTitle>
+            <AIDashiReleaseFlowCardBody>
+              既存の自社サービスやデータベースとのAPI連携（組み込み）を実施。ハルシネーション対策の調整やセキュリティ要件を満たすためのテストを徹底して行います。
+            </AIDashiReleaseFlowCardBody>
+          </AIDashiReleaseFlowCard>
+
+          <AIDashiReleaseFlowCard>
+            <AIDashiReleaseFlowCardHeader>
+              <AIDashiReleaseFlowStepBadge>STEP 04</AIDashiReleaseFlowStepBadge>
+              <AIDashiReleaseFlowPeriodBadge>最短1〜3ヶ月</AIDashiReleaseFlowPeriodBadge>
+            </AIDashiReleaseFlowCardHeader>
+            <AIDashiReleaseFlowCardTitle>本番リリース・運用開始</AIDashiReleaseFlowCardTitle>
+            <AIDashiReleaseFlowCardBody>
+              貴社の顧客向けにAIサービスを公開。リリース後も24時間365日のインフラ監視と、FDEによる継続的な改善サポートでビジネスの成長を支えます。
+            </AIDashiReleaseFlowCardBody>
+          </AIDashiReleaseFlowCard>
+        </AIDashiReleaseFlowGrid>
+      </AIDashiReleaseFlowSection>
 
       <section className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-[1120px]">
