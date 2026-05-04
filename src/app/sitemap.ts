@@ -37,6 +37,11 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
     priority: 0.8,
   },
   {
+    url: absoluteUrl("/news"),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  },
+  {
     url: absoluteUrl("/contact-us"),
     changeFrequency: "weekly",
     priority: 0.7,

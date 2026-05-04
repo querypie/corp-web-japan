@@ -1,5 +1,5 @@
 export const newsFixtures = {
-  listPath: '/t/news',
+  listPath: '/news',
   listTitle: 'ニュース | QueryPie AI',
   listHeading: 'News',
   listCtaHeading: 'まずは小さく、失敗しないAXを始めよう',

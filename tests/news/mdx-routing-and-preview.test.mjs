@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../helpers/source-readers.mjs";
 
-test("news preview page and canonical routes are driven by news MDX publication records", () => {
-  const previewPage = readSource("src/app/t/news/page.tsx");
+test("news public page and canonical routes are driven by news MDX publication records", () => {
+  const publicPage = readSource("src/app/news/page.tsx");
   const listPage = readSource("src/components/sections/news-list-page.tsx");
   const sectionComponents = readSource("src/components/sections/news-page-section.tsx");
   const canonicalRoute = readSource("src/app/news/[id]/[slug]/page.tsx");
@@ -14,24 +14,25 @@ test("news preview page and canonical routes are driven by news MDX publication 
   const hrefs = readSource("src/lib/publications/get-publication-href.ts");
   const types = readSource("src/lib/publications/types.ts");
 
-  assert.equal(existsSync(new URL("../../src/app/t/news/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../src/app/news/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../src/app/t/news/page.tsx", import.meta.url)), false);
   assert.equal(existsSync(new URL("../../src/app/news/[id]/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../../src/lib/publications/news-publication-records.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../../src/lib/publications/get-news-publication-post.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../../src/components/sections/news-page-section.tsx", import.meta.url)), true);
 
-  assert.match(previewPage, /listNewsPublicationItems\(\)/);
-  assert.match(previewPage, /canonical: "\/t\/news"/);
-  assert.match(previewPage, /robots:\s*\{[\s\S]*index: false,[\s\S]*follow: false,[\s\S]*\}/);
-  assert.match(previewPage, /NewsArticleList/);
-  assert.match(previewPage, /NewsPageSection/);
-  assert.match(previewPage, />\s*News\s*</);
-  assert.match(previewPage, /まずは小さく、失敗しないAXを始めよう/);
-  assert.match(previewPage, /簡単サインアップで、14日間の無料トライアルをお試しください/);
-  assert.match(previewPage, /https:\/\/app\.querypie\.com\//);
-  assert.doesNotMatch(previewPage, /プレビュー一覧/);
-  assert.doesNotMatch(previewPage, /ローカル MDX/);
-  assert.doesNotMatch(previewPage, /description=\{|description:\s*</);
+  assert.match(publicPage, /listNewsPublicationItems\(\)/);
+  assert.match(publicPage, /canonical: "\/news"/);
+  assert.doesNotMatch(publicPage, /robots:\s*\{[\s\S]*index: false,[\s\S]*follow: false,[\s\S]*\}/);
+  assert.match(publicPage, /NewsArticleList/);
+  assert.match(publicPage, /NewsPageSection/);
+  assert.match(publicPage, />\s*News\s*</);
+  assert.match(publicPage, /まずは小さく、失敗しないAXを始めよう/);
+  assert.match(publicPage, /簡単サインアップで、14日間の無料トライアルをお試しください/);
+  assert.match(publicPage, /https:\/\/app\.querypie\.com\//);
+  assert.doesNotMatch(publicPage, /プレビュー一覧/);
+  assert.doesNotMatch(publicPage, /ローカル MDX/);
+  assert.doesNotMatch(publicPage, /description=\{|description:\s*</);
 
   assert.match(listPage, /function NewsCard/);
   assert.match(listPage, /export function NewsArticleList/);
