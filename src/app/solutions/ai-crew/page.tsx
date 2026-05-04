@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CalendarDays, Play, Settings2 } from "lucide-react";
+import { ArrowRight, CalendarDays, Play, Settings2 } from "lucide-react";
 import {
   aiCrewConsultUrl,
   aiCrewFloatingCtaUrl,
