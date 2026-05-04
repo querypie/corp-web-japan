@@ -21,3 +21,21 @@ test("AI Dashi release flow section follows route-local authoring", () => {
   assert.match(aiDashiStructureSource, /export function AIDashiReleaseFlowGrid/);
   assert.match(aiDashiStructureSource, /export function AIDashiReleaseFlowCardBody/);
 });
+
+test("AI Dashi risk section follows route-local authoring", () => {
+  const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
+  const aiDashiStructureSource = getAiDashiStructureSource();
+
+  assert.match(aiDashiPage, /AIDashiRiskSection/);
+  assert.match(aiDashiPage, /AIDashiRiskLead/);
+  assert.match(aiDashiPage, /AIDashiRiskTitle/);
+  assert.match(aiDashiPage, /AIDashiRiskBody/);
+  assert.match(aiDashiPage, /明日、AIを搭載した競合が現れたら。/);
+  assert.match(aiDashiPage, /貴社のサービスは選ばれ続けますか？/);
+  assert.match(aiDashiPage, /<strong>致命的な解約（チャーン）<\/strong>/);
+  assert.doesNotMatch(aiDashiPage, /const lostSection = \{/);
+
+  assert.match(aiDashiStructureSource, /export function AIDashiRiskSection/);
+  assert.match(aiDashiStructureSource, /export function AIDashiRiskTitle/);
+  assert.match(aiDashiStructureSource, /export function AIDashiRiskBody/);
+});

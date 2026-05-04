@@ -63,6 +63,12 @@ import {
   AIDashiReleaseFlowStepBadge,
   AIDashiReleaseFlowTitle,
 } from "@/components/sections/ai-dashi-release-flow-section";
+import {
+  AIDashiRiskBody,
+  AIDashiRiskLead,
+  AIDashiRiskSection,
+  AIDashiRiskTitle,
+} from "@/components/sections/ai-dashi-risk-section";
 export const metadata: Metadata = {
   title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
   description:
@@ -105,18 +111,6 @@ const aiWallCards: ReadonlyArray<{
     body: "リリース後も、モデルの更新やプロンプトの調整、インフラ監視など、想定外の保守運用コストが継続的に発生し利益を圧迫します。",
   },
 ] as const;
-
-const lostSection = {
-  title: {
-    line1: "明日、AIを搭載した競合が現れたら。",
-    line2: "貴社のサービスは選ばれ続けますか？",
-  },
-  paragraphs: [
-    "LLM（大規模言語モデル）の進化により、ソフトウェアの価値基準が根底から変わろうとしています。ユーザーの期待値は、手動で画面を操作する従来のSaaSから、AIが自律的に作業を完結させるSaaSへと急速に移行しています。",
-    "自社の長年の強みに固執している間に、AIエージェントを組み込んだ後発のサービスが、圧倒的な自動化体験を武器に突然シェアを奪いに来る時代です。",
-    "AI実装の遅れは、単なる機能不足ではありません。サービスの陳腐化と致命的な解約（チャーン）に直結する、経営レベルの危機なのです。",
-  ],
-} as const;
 
 const enterpriseReadyItems = [
   {
@@ -203,31 +197,23 @@ export default function AIDashiPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1920px] bg-white px-6 py-16 lg:px-10 lg:py-20">
-        <div className="mx-auto max-w-[1120px]">
-          <RevealOnScroll variant="up">
-            <div className="mx-auto max-w-[980px] rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.95)_100%)] px-6 py-8 shadow-[0_22px_60px_-46px_rgba(15,23,42,0.16)] sm:px-8 lg:px-10 lg:py-10">
-              <div className="max-w-[860px] border-l-4 border-[#ED602E] pl-5">
-                <p className="text-[14px] font-semibold leading-7 tracking-[0.02em] text-[#8c4a2f] sm:text-[15px]">
-                  {lostSection.title.line1}
-                </p>
-                <h2 className="mt-2 text-[28px] font-bold leading-[1.18] tracking-[-0.04em] text-slate-950 sm:text-[34px] lg:text-[38px] lg:whitespace-nowrap">
-                  {lostSection.title.line2}
-                </h2>
-                <div className="mt-6 space-y-5 text-[15px] leading-8 text-slate-600">
-                  <p>{lostSection.paragraphs[0]}</p>
-                  <p>{lostSection.paragraphs[1]}</p>
-                  <p>
-                    AI実装の遅れは、単なる機能不足ではありません。サービスの陳腐化と
-                    <span className="font-semibold text-slate-800"> 致命的な解約（チャーン）</span>
-                    に直結する、経営レベルの危機なのです。
-                  </p>
-                </div>
-              </div>
-            </div>
-          </RevealOnScroll>
-        </div>
-      </section>
+      <AIDashiRiskSection>
+        <AIDashiRiskLead>明日、AIを搭載した競合が現れたら。</AIDashiRiskLead>
+        <AIDashiRiskTitle>貴社のサービスは選ばれ続けますか？</AIDashiRiskTitle>
+        <AIDashiRiskBody>
+          <p>
+            LLM（大規模言語モデル）の進化により、ソフトウェアの価値基準が根底から変わろうとしています。ユーザーの期待値は、手動で画面を操作する従来のSaaSから、AIが自律的に作業を完結させるSaaSへと急速に移行しています。
+          </p>
+          <p>
+            自社の長年の強みに固執している間に、AIエージェントを組み込んだ後発のサービスが、圧倒的な自動化体験を武器に突然シェアを奪いに来る時代です。
+          </p>
+          <p>
+            AI実装の遅れは、単なる機能不足ではありません。サービスの陳腐化と
+            <strong>致命的な解約（チャーン）</strong>
+            に直結する、経営レベルの危機なのです。
+          </p>
+        </AIDashiRiskBody>
+      </AIDashiRiskSection>
 
       <section id="about-ai-dashi" className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-[1120px]">

@@ -47,6 +47,7 @@ export function getAiDashiStructureSource() {
     "src/app/solutions/ai-dashi/page.tsx",
     "src/components/sections/ai-dashi-support-section.tsx",
     "src/components/sections/ai-dashi-release-flow-section.tsx",
+    "src/components/sections/ai-dashi-risk-section.tsx",
   ]);
 }
 
