@@ -6,21 +6,21 @@ import { listManualPublicationItems } from "@/lib/resources/manual-publications"
 const manualExternalItems: ResourceItem[] = [
   {
     href: "https://aip-docs.app.querypie.com/ja/user-guide",
-    imageSrc: "/documentation/docu-thumb-aip-manual.png",
+    imageSrc: "/manuals/aip-guide/thumbnail.png",
     badge: "マニュアル",
     title: "QueryPie AIP マニュアル",
     description: "AIP のユーザーガイドを外部ドキュメントサイトで確認できます。",
   },
   {
     href: "https://docs.querypie.com/ja",
-    imageSrc: "/documentation/docu-thumb-acp-manual.png",
+    imageSrc: "/manuals/acp-guide/thumbnail.png",
     badge: "マニュアル",
     title: "QueryPie ACP マニュアル",
     description: "ACP の管理者・利用者向けドキュメントを外部ドキュメントサイトで確認できます。",
   },
   {
     href: "/api-docs.html",
-    imageSrc: "/documentation/docu-thumb-api.png",
+    imageSrc: "/manuals/api-docs/thumbnail.png",
     badge: "マニュアル",
     title: "API Docs",
     description: "API リファレンスと関連開発資料への入口です。",
