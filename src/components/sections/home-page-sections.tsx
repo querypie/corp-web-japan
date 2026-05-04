@@ -11,7 +11,6 @@ import {
   ScanSearch,
   Shield,
   Settings2,
-  Search,
   ShieldCheck,
   Wallet,
   ChartColumnIncreasing,
@@ -28,14 +27,6 @@ const aiCrewPrimaryButtonClass =
 
 const aiCrewSecondaryButtonClass =
   "inline-flex items-center justify-center gap-2 rounded-[12px] border border-[#C9D8F5] bg-[linear-gradient(180deg,#FFFFFF_0%,#EEF4FF_100%)] px-5 py-3 text-base font-semibold text-[#163A7A] shadow-[0_18px_40px_-30px_rgba(15,42,95,0.34)] transition hover:border-[#B7CCEF] hover:bg-[linear-gradient(180deg,#FAFCFF_0%,#E8F0FF_100%)]";
-
-const processStepIcons = [
-  FolderKanban,
-  Search,
-  BriefcaseBusiness,
-  Settings2,
-  Cable,
-] as const;
 
 function renderHighlightedKeyword(line: string, keyword: string) {
   if (!line.includes(keyword)) {
@@ -171,90 +162,10 @@ export function HomePageIntroSections() {
 }
 
 export function AICrewSectionsAfterDesignElements() {
-  const { roi, roles, process, testimonials } = homePageContent;
+  const { roi, roles, testimonials } = homePageContent;
 
   return (
     <>
-      <section id="process" className="mx-auto max-w-[1920px] px-6 py-20 lg:px-10">
-        <div className="mx-auto max-w-[1120px] text-center">
-          <RevealOnScroll>
-            <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
-              {renderHighlightedKeyword(process.title, "小さく始める")}
-            </h2>
-          </RevealOnScroll>
-          <RevealOnScroll delayMs={80}>
-            <p className="mx-auto mt-5 w-full max-w-[900px] whitespace-pre-line text-left text-base leading-7 text-slate-500 lg:pl-[30px]">
-              {process.body}
-            </p>
-          </RevealOnScroll>
-        </div>
-
-        <div className="mx-auto mt-12 max-w-[1120px]">
-          {process.note ? (
-            <p className="mx-auto mb-6 max-w-[860px] text-center text-[15px] leading-7 text-slate-600">{process.note}</p>
-          ) : null}
-
-          <div className="grid gap-4 md:auto-rows-fr md:grid-cols-2 lg:grid-cols-3">
-              {process.steps.map((step, index) => {
-                const Icon = processStepIcons[index % processStepIcons.length];
-
-                return (
-                  <RevealOnScroll
-                    key={step.step}
-                    className="h-full"
-                    delayMs={index * 70}
-                  >
-                    <article className="relative flex h-full min-h-[288px] flex-col overflow-hidden rounded-[1.8rem] border border-black/6 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-md shadow-[0_24px_70px_-50px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md lg:p-7">
-                      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-white/0 via-white/70 to-white/0" />
-                      <div className="flex items-center justify-between gap-3">
-                        <span className="inline-flex items-center rounded-full bg-[#2f3a49] px-3 py-1.5 text-[12px] font-semibold tracking-[0.08em] text-white">
-                          {step.step}
-                        </span>
-                        <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#f2f4f7] text-[#344054]">
-                          <Icon className="h-5 w-5" />
-                        </div>
-                      </div>
-
-                      <h3 className="mt-6 text-[20px] font-semibold leading-[1.45] tracking-[-0.02em] text-slate-800">
-                        {step.title}
-                      </h3>
-                      <p className="mt-4 text-[15px] leading-[1.95] text-slate-600">{step.body}</p>
-                    </article>
-                  </RevealOnScroll>
-                );
-              })}
-
-              <RevealOnScroll className="h-full" delayMs={process.steps.length * 70}>
-                <article className="relative flex h-full min-h-[288px] flex-col overflow-hidden rounded-[1.8rem] border border-[#d7e4fb] bg-[linear-gradient(135deg,#f8fbff_0%,#eef4ff_52%,#f7faff_100%)] p-6 shadow-[0_24px_70px_-50px_rgba(15,42,95,0.18)] transition duration-300 hover:-translate-y-1 hover:shadow-md lg:p-7">
-                  <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,rgba(37,99,235,0)_0%,rgba(37,99,235,0.45)_50%,rgba(37,99,235,0)_100%)]" />
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_52%,#2563EB_100%)] text-white shadow-[0_18px_36px_-24px_rgba(23,78,166,0.65)]">
-                      <ArrowRight className="h-5 w-5" />
-                    </div>
-                    <span className="inline-flex rounded-full border border-[#C9D8F5] bg-white/90 px-4 py-2 text-[12px] font-semibold tracking-[0.12em] text-[#163A7A] shadow-[0_14px_36px_-24px_rgba(15,42,95,0.28)]">
-                      小さく始めて本番運用へ
-                    </span>
-                  </div>
-
-                  <p className="mt-6 bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_52%,#2563EB_100%)] bg-clip-text text-[16px] font-semibold leading-6 tracking-[-0.01em] text-transparent">
-                    まずはお気軽にご相談ください
-                  </p>
-
-                  <div className="mt-auto flex flex-col gap-3 pt-5">
-                    <Link href={process.primaryCta.href} className={aiCrewPrimaryButtonClass}>
-                      {process.primaryCta.label}
-                    </Link>
-                    <Link href={process.secondaryCta.href} className={aiCrewSecondaryButtonClass}>
-                      活用事例を見る
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </div>
-                </article>
-              </RevealOnScroll>
-          </div>
-        </div>
-      </section>
-
       <section id="platform" className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-20 lg:px-10">
         <div className="mx-auto max-w-[1120px] text-center">
           <RevealOnScroll>
