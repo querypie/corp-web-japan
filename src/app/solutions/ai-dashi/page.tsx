@@ -32,7 +32,24 @@ import {
   AIDashiComparisonTitle,
   AIDashiComparisonIntro,
 } from "@/components/sections/ai-dashi-comparison-section";
-
+import {
+  AIDashiSupportBody,
+  AIDashiSupportCard,
+  AIDashiSupportCardDetailLabel,
+  AIDashiSupportCardDetails,
+  AIDashiSupportCardHeader,
+  AIDashiSupportCardIcon,
+  AIDashiSupportCardLead,
+  AIDashiSupportCardLayout,
+  AIDashiSupportCardPoint,
+  AIDashiSupportCardPointList,
+  AIDashiSupportCardText,
+  AIDashiSupportCardTitle,
+  AIDashiSupportCards,
+  AIDashiSupportIntro,
+  AIDashiSupportSection,
+  AIDashiSupportTitle,
+} from "@/components/sections/ai-dashi-support-section";
 export const metadata: Metadata = {
   title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
   description:
@@ -82,42 +99,6 @@ const releaseFlow = [
     title: "本番リリース・運用開始",
     body:
       "貴社の顧客向けにAIサービスを公開。リリース後も24時間365日のインフラ監視と、FDEによる継続的な改善サポートでビジネスの成長を支えます。",
-  },
-] as const;
-
-const supportItems = [
-  {
-    number: "01",
-    title: "カスタマイズ自在なAI基盤の提供",
-    intro: "最速での市場投入を実現するコアシステム",
-    points: [
-      "貴社のブランドデザインに合わせたUI/UXのフルカスタマイズ",
-      "QueryPie AIが誇る高性能AIエージェント基盤の提供",
-      "既存の自社サービスやデータベースとシームレスに繋がるAPI連携",
-      "最短1〜3ヶ月でのスピーディな立ち上げを可能にする開発環境",
-    ],
-  },
-  {
-    number: "02",
-    title: "専門エンジニアによる開発支援",
-    intro: "貴社チームに伴走し、最適なAIを共に創り上げる",
-    points: [
-      "現場導入支援エンジニア（FDE）がプロジェクトの要件定義から参画",
-      "貴社のドメイン知識と私たちのAI知見を掛け合わせた最適なアーキテクチャ設計",
-      "初期セットアップから、貴社開発チームへの技術トレーニング・ナレッジ移転",
-      "リリースに向けた継続的かつ専門的な技術サポート",
-    ],
-  },
-  {
-    number: "03",
-    title: "24時間365日のインフラ・運用保守",
-    intro: "リリース後も安心。インフラ管理を完全にオフロード",
-    points: [
-      "セキュアで高可用性を誇るAIインフラの構築と運用",
-      "24時間365日体制でのシステム監視・障害対応（ハウジングサポート）",
-      "最新のAIモデルへのアップデートや、継続的な機能改善の適用",
-      "インフラ運用のリソースを気にすることなく、ビジネス成長に集中できる環境",
-    ],
   },
 ] as const;
 
@@ -516,66 +497,85 @@ export default function AIDashiPage() {
         </AIDashiComparisonCallout>
       </AIDashiComparisonSection>
 
-      <section
-        id="ai-dashi-support"
-        className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24"
-      >
-        <div className="mx-auto max-w-[1200px]">
-          <div className="mx-auto max-w-[1120px]">
-            <RevealOnScroll variant="up" className="mx-auto max-w-[920px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
-                QueryPie AIの包括的サポート体制
-              </h2>
-              <p className="mx-auto mt-5 max-w-[740px] text-left text-base leading-7 text-slate-500">
-                単なるツールの提供ではありません。貴社が自社ブランドのAIサービスを確実かつ迅速にリリースし、安定して運用し続けるために必要なすべての要素を、QueryPie AIがワンストップで提供します。
-              </p>
-            </RevealOnScroll>
+      <AIDashiSupportSection>
+        <AIDashiSupportIntro>
+          <AIDashiSupportTitle>QueryPie AIの包括的サポート体制</AIDashiSupportTitle>
+          <AIDashiSupportBody>
+            単なるツールの提供ではありません。貴社が自社ブランドのAIサービスを確実かつ迅速にリリースし、安定して運用し続けるために必要なすべての要素を、QueryPie AIがワンストップで提供します。
+          </AIDashiSupportBody>
+        </AIDashiSupportIntro>
 
-            <RevealOnScroll className="mx-auto mt-10 flex max-w-[1120px] flex-col gap-3" variant="up" delayMs={120}>
-              {supportItems.map((item, index) => (
-                <article
-                  key={item.number}
-                  className="rounded-[1.45rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.94)_100%)] px-4 py-3.5 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.14)] ring-1 ring-white/80 transition duration-300 hover:-translate-y-1 hover:shadow-md md:px-5 md:py-4"
-                >
-                  <div className="flex flex-col gap-3 md:grid md:grid-cols-[minmax(0,500px)_minmax(0,1fr)] md:items-start md:gap-4">
-                    <div className="flex items-start gap-3.5">
-                      <div className="flex h-10 w-10 flex-none items-center justify-center rounded-[12px] bg-[linear-gradient(180deg,#f3f6fa_0%,#e9eef5_100%)] text-[#15181d] md:h-11 md:w-11">
-                        {index === 0 && <Blocks className="h-5 w-5" />}
-                        {index === 1 && <Users className="h-5 w-5" />}
-                        {index === 2 && <ShieldCheck className="h-5 w-5" />}
-                      </div>
-                      <div className="min-w-0 flex-1 pt-0.5">
-                        <h3 className="text-[19px] font-semibold leading-7 tracking-[-0.03em] text-slate-950 md:text-[21px] md:leading-7 md:tracking-[-0.04em] lg:whitespace-nowrap">
-                          {item.title}
-                        </h3>
-                        <p className="mt-1.5 text-[13px] font-medium leading-5 text-slate-700 lg:whitespace-nowrap">
-                          {item.intro}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="border-t border-slate-200/80 pt-3 md:border-t-0 md:border-l md:pl-4 md:pt-0">
-                      <p className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] text-slate-500">
-                        提供内容
-                      </p>
-                      <ul className="mt-2 grid gap-1.5 text-sm text-slate-600">
-                        {item.points.map((point) => (
-                          <li
-                            key={point}
-                            className="flex items-start gap-2 rounded-[0.95rem] bg-slate-50/90 px-3 py-2 leading-5.5"
-                          >
-                            <span className="mt-[0.45rem] h-1.5 w-1.5 flex-none rounded-full bg-[#ED602E]/70" />
-                            <span>{point}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
+        <AIDashiSupportCards>
+          <AIDashiSupportCard>
+            <AIDashiSupportCardLayout>
+              <AIDashiSupportCardHeader>
+                <AIDashiSupportCardIcon>
+                  <Blocks className="h-5 w-5" />
+                </AIDashiSupportCardIcon>
+                <AIDashiSupportCardText>
+                  <AIDashiSupportCardTitle>カスタマイズ自在なAI基盤の提供</AIDashiSupportCardTitle>
+                  <AIDashiSupportCardLead>最速での市場投入を実現するコアシステム</AIDashiSupportCardLead>
+                </AIDashiSupportCardText>
+              </AIDashiSupportCardHeader>
+              <AIDashiSupportCardDetails>
+                <AIDashiSupportCardDetailLabel>提供内容</AIDashiSupportCardDetailLabel>
+                <AIDashiSupportCardPointList>
+                  <AIDashiSupportCardPoint>貴社のブランドデザインに合わせたUI/UXのフルカスタマイズ</AIDashiSupportCardPoint>
+                  <AIDashiSupportCardPoint>QueryPie AIが誇る高性能AIエージェント基盤の提供</AIDashiSupportCardPoint>
+                  <AIDashiSupportCardPoint>既存の自社サービスやデータベースとシームレスに繋がるAPI連携</AIDashiSupportCardPoint>
+                  <AIDashiSupportCardPoint>最短1〜3ヶ月でのスピーディな立ち上げを可能にする開発環境</AIDashiSupportCardPoint>
+                </AIDashiSupportCardPointList>
+              </AIDashiSupportCardDetails>
+            </AIDashiSupportCardLayout>
+          </AIDashiSupportCard>
+
+          <AIDashiSupportCard>
+            <AIDashiSupportCardLayout>
+              <AIDashiSupportCardHeader>
+                <AIDashiSupportCardIcon>
+                  <Users className="h-5 w-5" />
+                </AIDashiSupportCardIcon>
+                <AIDashiSupportCardText>
+                  <AIDashiSupportCardTitle>専門エンジニアによる開発支援</AIDashiSupportCardTitle>
+                  <AIDashiSupportCardLead>貴社チームに伴走し、最適なAIを共に創り上げる</AIDashiSupportCardLead>
+                </AIDashiSupportCardText>
+              </AIDashiSupportCardHeader>
+              <AIDashiSupportCardDetails>
+                <AIDashiSupportCardDetailLabel>提供内容</AIDashiSupportCardDetailLabel>
+                <AIDashiSupportCardPointList>
+                  <AIDashiSupportCardPoint>現場導入支援エンジニア（FDE）がプロジェクトの要件定義から参画</AIDashiSupportCardPoint>
+                  <AIDashiSupportCardPoint>貴社のドメイン知識と私たちのAI知見を掛け合わせた最適なアーキテクチャ設計</AIDashiSupportCardPoint>
+                  <AIDashiSupportCardPoint>初期セットアップから、貴社開発チームへの技術トレーニング・ナレッジ移転</AIDashiSupportCardPoint>
+                  <AIDashiSupportCardPoint>リリースに向けた継続的かつ専門的な技術サポート</AIDashiSupportCardPoint>
+                </AIDashiSupportCardPointList>
+              </AIDashiSupportCardDetails>
+            </AIDashiSupportCardLayout>
+          </AIDashiSupportCard>
+
+          <AIDashiSupportCard>
+            <AIDashiSupportCardLayout>
+              <AIDashiSupportCardHeader>
+                <AIDashiSupportCardIcon>
+                  <ShieldCheck className="h-5 w-5" />
+                </AIDashiSupportCardIcon>
+                <AIDashiSupportCardText>
+                  <AIDashiSupportCardTitle>24時間365日のインフラ・運用保守</AIDashiSupportCardTitle>
+                  <AIDashiSupportCardLead>リリース後も安心。インフラ管理を完全にオフロード</AIDashiSupportCardLead>
+                </AIDashiSupportCardText>
+              </AIDashiSupportCardHeader>
+              <AIDashiSupportCardDetails>
+                <AIDashiSupportCardDetailLabel>提供内容</AIDashiSupportCardDetailLabel>
+                <AIDashiSupportCardPointList>
+                  <AIDashiSupportCardPoint>セキュアで高可用性を誇るAIインフラの構築と運用</AIDashiSupportCardPoint>
+                  <AIDashiSupportCardPoint>24時間365日体制でのシステム監視・障害対応（ハウジングサポート）</AIDashiSupportCardPoint>
+                  <AIDashiSupportCardPoint>最新のAIモデルへのアップデートや、継続的な機能改善の適用</AIDashiSupportCardPoint>
+                  <AIDashiSupportCardPoint>インフラ運用のリソースを気にすることなく、ビジネス成長に集中できる環境</AIDashiSupportCardPoint>
+                </AIDashiSupportCardPointList>
+              </AIDashiSupportCardDetails>
+            </AIDashiSupportCardLayout>
+          </AIDashiSupportCard>
+        </AIDashiSupportCards>
+      </AIDashiSupportSection>
 
       <section id="ai-dashi-flow" className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-[1200px]">
