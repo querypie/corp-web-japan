@@ -137,16 +137,19 @@ function AICrewWhyHumanDecisionCore() {
   );
 }
 
-export function AICrewWhyAfterCard({ subtitle, children }: { subtitle: ReactNode; children: ReactNode }) {
+export function AICrewWhyAfterCard({ children }: { children: ReactNode }) {
   return (
     <article className="rounded-[1.8rem] border border-black/6 bg-[#2f3a49] p-6">
       <div className="text-center">
         <p className="text-2xl font-semibold tracking-[-0.04em] text-white">After</p>
-        <p className="mt-1 text-sm font-medium tracking-[-0.02em] text-white/65">{subtitle}</p>
       </div>
       {children}
     </article>
   );
+}
+
+export function AICrewWhyAfterCardSubtitle({ children }: { children: ReactNode }) {
+  return <p className="text-sm font-medium tracking-[-0.02em] text-white/65">{children}</p>;
 }
 
 export function AICrewWhyAfterMobileLayout({ children }: { children: ReactNode }) {

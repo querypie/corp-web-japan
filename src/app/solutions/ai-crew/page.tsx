@@ -68,6 +68,7 @@ import {
 } from "@/components/sections/ai-crew-contact-section";
 import {
   AICrewWhyAfterCard,
+  AICrewWhyAfterCardSubtitle,
   AICrewWhyAfterDesktopLayout,
   AICrewWhyAfterMobileLayout,
   AICrewWhyAfterOrbitItem,
@@ -187,7 +188,8 @@ export default function AICrewPage() {
             <AICrewWhyBeforePainPoint>下準備が多く本来の判断に時間を使えない</AICrewWhyBeforePainPoint>
           </AICrewWhyBeforeCard>
 
-          <AICrewWhyAfterCard subtitle="役割分担が整理され、本来の業務に集中">
+          <AICrewWhyAfterCard>
+            <AICrewWhyAfterCardSubtitle>役割分担が整理され、本来の業務に集中</AICrewWhyAfterCardSubtitle>
             <AICrewWhyAfterMobileLayout>
               <AICrewWhyTaskColumn label="人">
                 <AICrewWhyTaskItem>最終判断</AICrewWhyTaskItem>

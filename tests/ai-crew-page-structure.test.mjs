@@ -38,6 +38,9 @@ test("AI Crew about, lost, and why sections follow route-local authoring while t
   assert.match(aiCrewPage, /<AICrewWhyBeforeCard>/);
   assert.match(aiCrewPage, /<AICrewWhyBeforeCardSubtitle>一次対応に時間がかかる<\/AICrewWhyBeforeCardSubtitle>/);
   assert.doesNotMatch(aiCrewPage, /<AICrewWhyBeforeCard subtitle=/);
+  assert.match(aiCrewPage, /<AICrewWhyAfterCard>/);
+  assert.match(aiCrewPage, /<AICrewWhyAfterCardSubtitle>役割分担が整理され、本来の業務に集中<\/AICrewWhyAfterCardSubtitle>/);
+  assert.doesNotMatch(aiCrewPage, /<AICrewWhyAfterCard subtitle=/);
   assert.match(aiCrewPage, /現場が止まるのは、判断の前にある業務が多すぎるから。/);
   assert.match(aiCrewPage, /情報が散らばり調査と確認に時間がかかる/);
   assert.match(aiCrewPage, /リスク検知/);
