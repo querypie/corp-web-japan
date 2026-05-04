@@ -22,7 +22,10 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(aiCrewDataSource, /floatingCta: \{ label: "業務に合うAI活用を相談する", href: aiCrewFloatingCtaUrl \}/);
   assert.match(aiCrewDataSource, /secondaryCta: \{ label: "業務に合うAI活用を相談する", href: aiCrewConsultUrl \}/);
   assert.match(aiCrewDataSource, /primaryCta: \{ label: "進め方を相談する", href: aiCrewConsultUrl \}/);
-  assert.match(aiCrewDataSource, /partnerCta: \{ label: "自社サービスAI化の進め方を見る", href: "\/solutions\/ai-dashi" \}/);
+  assert.match(
+    aiCrewDataSource,
+    /partnerCta: \{ label: "自社サービスAI化の進め方を見る", href: "\/solutions\/ai-dashi" \}|<AICrewDashiPromoAction href="\/solutions\/ai-dashi">/,
+  );
   assert.match(aiCrewDataSource, /href: aiCrewWhitepaperUrl/);
 
   assert.match(topPage, /<FloatingConversionCta href={topPageFloatingCtaUrl} \/>/);
