@@ -10,6 +10,14 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
+  AICrewAboutBody,
+  AICrewAboutImage,
+  AICrewAboutIntro,
+  AICrewAboutSection,
+  AICrewAboutShell,
+  AICrewAboutTitle,
+} from "@/components/sections/ai-crew-about-section";
+import {
   AICrewContactActionGroup,
   AICrewContactBody,
   AICrewContactIntro,
@@ -34,7 +42,10 @@ import {
   AICrewDashiPromoVisual,
   AICrewDashiPromoVisualOrb,
 } from "@/components/sections/ai-crew-contact-section";
-import { HomePageSections } from "@/components/sections/home-page-sections";
+import {
+  HomePageIntroSections,
+  HomePageSections,
+} from "@/components/sections/home-page-sections";
 
 export const metadata: Metadata = {
   title: "作業を減らし、成果を増やす。| AI Crew | QueryPie AI",
@@ -59,6 +70,33 @@ export default function AICrewPage() {
     <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
       <SiteHeader />
       <FloatingConversionCta href={aiCrewFloatingCtaUrl} />
+      <HomePageIntroSections />
+      <AICrewAboutSection>
+        <AICrewAboutShell>
+          <AICrewAboutIntro>
+            <AICrewAboutTitle>
+              AI Agentではなく、<strong>AI Crew</strong>
+            </AICrewAboutTitle>
+            <AICrewAboutBody>
+              <p>
+                AIを単なる便利なツールとしてではなく、貴社のチームに加わる
+                <strong>「新しい同僚」</strong>
+                として迎え入れる。それが私たちの考え方です。
+              </p>
+              <p>
+                企業の業務効率化に必要なのは、人間が指示を考えながら操作しなければならない汎用AIではありません。貴社の業務フローやルールを理解し、面倒な情報収集やデータ整理といった下準備を自律的に巻き取ってくれる、優秀な部下やアシスタントのような存在です。
+              </p>
+              <p>
+                QueryPie AIが提供するAIプラットフォーム（AIP）は、システムとして裏側で動くだけでなく、各業務に合ったAIエージェントを構築し、現場の仲間（Crew）の一員として実務を分担。チーム全体の生産性を劇的に引き上げる最高品質のAIソリューションです。
+              </p>
+            </AICrewAboutBody>
+          </AICrewAboutIntro>
+          <AICrewAboutImage
+            src="/solutions/ai-crew/concept-team.webp"
+            alt="人とAI Crewが同じチームの一員として業務を分担するイメージ"
+          />
+        </AICrewAboutShell>
+      </AICrewAboutSection>
       <HomePageSections />
       <AICrewContactSection>
         <AICrewContactShell>
