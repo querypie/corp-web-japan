@@ -54,73 +54,6 @@ export const metadata: Metadata = {
   },
 };
 
-const releaseFlow = [
-  {
-    step: "STEP 01",
-    period: "1〜2週間",
-    title: "ヒアリング・要件定義",
-    body:
-      "貴社のビジネスモデルや既存システム、実現したいAI機能を深くヒアリングし、最適なアーキテクチャと実装方針を策定します。",
-  },
-  {
-    step: "STEP 02",
-    period: "2〜3週間",
-    title: "プロトタイプ作成",
-    body:
-      "要件に基づき、UI/UXを貴社ブランドに合わせてカスタマイズした初期のAIモデル・プロトタイプを構築し、実際の動作をご確認いただきます。",
-  },
-  {
-    step: "STEP 03",
-    period: "4〜6週間",
-    title: "統合開発・テスト",
-    body:
-      "既存の自社サービスやデータベースとのAPI連携（組み込み）を実施。ハルシネーション対策の調整やセキュリティ要件を満たすためのテストを徹底して行います。",
-  },
-  {
-    step: "STEP 04",
-    period: "最短1〜3ヶ月",
-    title: "本番リリース・運用開始",
-    body:
-      "貴社の顧客向けにAIサービスを公開。リリース後も24時間365日のインフラ監視と、FDEによる継続的な改善サポートでビジネスの成長を支えます。",
-  },
-] as const;
-
-const supportItems = [
-  {
-    number: "01",
-    title: "カスタマイズ自在なAI基盤の提供",
-    intro: "最速での市場投入を実現するコアシステム",
-    points: [
-      "貴社のブランドデザインに合わせたUI/UXのフルカスタマイズ",
-      "QueryPie AIが誇る高性能AIエージェント基盤の提供",
-      "既存の自社サービスやデータベースとシームレスに繋がるAPI連携",
-      "最短1〜3ヶ月でのスピーディな立ち上げを可能にする開発環境",
-    ],
-  },
-  {
-    number: "02",
-    title: "専門エンジニアによる開発支援",
-    intro: "貴社チームに伴走し、最適なAIを共に創り上げる",
-    points: [
-      "現場導入支援エンジニア（FDE）がプロジェクトの要件定義から参画",
-      "貴社のドメイン知識と私たちのAI知見を掛け合わせた最適なアーキテクチャ設計",
-      "初期セットアップから、貴社開発チームへの技術トレーニング・ナレッジ移転",
-      "リリースに向けた継続的かつ専門的な技術サポート",
-    ],
-  },
-  {
-    number: "03",
-    title: "24時間365日のインフラ・運用保守",
-    intro: "リリース後も安心。インフラ管理を完全にオフロード",
-    points: [
-      "セキュアで高可用性を誇るAIインフラの構築と運用",
-      "24時間365日体制でのシステム監視・障害対応（ハウジングサポート）",
-      "最新のAIモデルへのアップデートや、継続的な機能改善の適用",
-      "インフラ運用のリソースを気にすることなく、ビジネス成長に集中できる環境",
-    ],
-  },
-] as const;
-
 const aiWallCards: ReadonlyArray<{
   icon: LucideIcon;
   title: string;
@@ -176,6 +109,190 @@ const enterpriseReadyItems = [
   },
 ] as const;
 
+function AIDashiSupportSection() {
+  const supportItems = [
+    {
+      number: "01",
+      title: "カスタマイズ自在なAI基盤の提供",
+      intro: "最速での市場投入を実現するコアシステム",
+      icon: Blocks,
+      points: [
+        "貴社のブランドデザインに合わせたUI/UXのフルカスタマイズ",
+        "QueryPie AIが誇る高性能AIエージェント基盤の提供",
+        "既存の自社サービスやデータベースとシームレスに繋がるAPI連携",
+        "最短1〜3ヶ月でのスピーディな立ち上げを可能にする開発環境",
+      ],
+    },
+    {
+      number: "02",
+      title: "専門エンジニアによる開発支援",
+      intro: "貴社チームに伴走し、最適なAIを共に創り上げる",
+      icon: Users,
+      points: [
+        "現場導入支援エンジニア（FDE）がプロジェクトの要件定義から参画",
+        "貴社のドメイン知識と私たちのAI知見を掛け合わせた最適なアーキテクチャ設計",
+        "初期セットアップから、貴社開発チームへの技術トレーニング・ナレッジ移転",
+        "リリースに向けた継続的かつ専門的な技術サポート",
+      ],
+    },
+    {
+      number: "03",
+      title: "24時間365日のインフラ・運用保守",
+      intro: "リリース後も安心。インフラ管理を完全にオフロード",
+      icon: ShieldCheck,
+      points: [
+        "セキュアで高可用性を誇るAIインフラの構築と運用",
+        "24時間365日体制でのシステム監視・障害対応（ハウジングサポート）",
+        "最新のAIモデルへのアップデートや、継続的な機能改善の適用",
+        "インフラ運用のリソースを気にすることなく、ビジネス成長に集中できる環境",
+      ],
+    },
+  ] as const;
+
+  return (
+    <section
+      id="ai-dashi-support"
+      className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24"
+    >
+      <div className="mx-auto max-w-[1200px]">
+        <div className="mx-auto max-w-[1120px]">
+          <RevealOnScroll variant="up" className="mx-auto max-w-[920px] text-center">
+            <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+              QueryPie AIの包括的サポート体制
+            </h2>
+            <p className="mx-auto mt-5 max-w-[740px] text-left text-base leading-7 text-slate-500">
+              単なるツールの提供ではありません。貴社が自社ブランドのAIサービスを確実かつ迅速にリリースし、安定して運用し続けるために必要なすべての要素を、QueryPie AIがワンストップで提供します。
+            </p>
+          </RevealOnScroll>
+
+          <RevealOnScroll className="mx-auto mt-10 flex max-w-[1120px] flex-col gap-3" variant="up" delayMs={120}>
+            {supportItems.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <article
+                  key={item.number}
+                  className="rounded-[1.45rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.94)_100%)] px-4 py-3.5 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.14)] ring-1 ring-white/80 transition duration-300 hover:-translate-y-1 hover:shadow-md md:px-5 md:py-4"
+                >
+                  <div className="flex flex-col gap-3 md:grid md:grid-cols-[minmax(0,500px)_minmax(0,1fr)] md:items-start md:gap-4">
+                    <div className="flex items-start gap-3.5">
+                      <div className="flex h-10 w-10 flex-none items-center justify-center rounded-[12px] bg-[linear-gradient(180deg,#f3f6fa_0%,#e9eef5_100%)] text-[#15181d] md:h-11 md:w-11">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <div className="min-w-0 flex-1 pt-0.5">
+                        <h3 className="text-[19px] font-semibold leading-7 tracking-[-0.03em] text-slate-950 md:text-[21px] md:leading-7 md:tracking-[-0.04em] lg:whitespace-nowrap">
+                          {item.title}
+                        </h3>
+                        <p className="mt-1.5 text-[13px] font-medium leading-5 text-slate-700 lg:whitespace-nowrap">
+                          {item.intro}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="border-t border-slate-200/80 pt-3 md:border-t-0 md:border-l md:pl-4 md:pt-0">
+                      <p className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] text-slate-500">
+                        提供内容
+                      </p>
+                      <ul className="mt-2 grid gap-1.5 text-sm text-slate-600">
+                        {item.points.map((point) => (
+                          <li
+                            key={point}
+                            className="flex items-start gap-2 rounded-[0.95rem] bg-slate-50/90 px-3 py-2 leading-5.5"
+                          >
+                            <span className="mt-[0.45rem] h-1.5 w-1.5 flex-none rounded-full bg-[#ED602E]/70" />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </RevealOnScroll>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AIDashiReleaseFlowSection() {
+  const releaseFlow = [
+    {
+      step: "STEP 01",
+      period: "1〜2週間",
+      title: "ヒアリング・要件定義",
+      body:
+        "貴社のビジネスモデルや既存システム、実現したいAI機能を深くヒアリングし、最適なアーキテクチャと実装方針を策定します。",
+    },
+    {
+      step: "STEP 02",
+      period: "2〜3週間",
+      title: "プロトタイプ作成",
+      body:
+        "要件に基づき、UI/UXを貴社ブランドに合わせてカスタマイズした初期のAIモデル・プロトタイプを構築し、実際の動作をご確認いただきます。",
+    },
+    {
+      step: "STEP 03",
+      period: "4〜6週間",
+      title: "統合開発・テスト",
+      body:
+        "既存の自社サービスやデータベースとのAPI連携（組み込み）を実施。ハルシネーション対策の調整やセキュリティ要件を満たすためのテストを徹底して行います。",
+    },
+    {
+      step: "STEP 04",
+      period: "最短1〜3ヶ月",
+      title: "本番リリース・運用開始",
+      body:
+        "貴社の顧客向けにAIサービスを公開。リリース後も24時間365日のインフラ監視と、FDEによる継続的な改善サポートでビジネスの成長を支えます。",
+    },
+  ] as const;
+
+  return (
+    <section id="ai-dashi-flow" className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
+      <div className="mx-auto max-w-[1200px]">
+        <div className="mx-auto flex max-w-[1120px] flex-col items-center gap-10">
+          <RevealOnScroll variant="up" className="w-full max-w-[920px] text-center">
+            <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+              最速で市場へ
+              <br />
+              市場機会を逃さない、
+              <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
+                圧倒的な導入スピード
+              </span>
+            </h2>
+            <p className="mx-auto mt-5 max-w-[760px] text-left text-base leading-7 text-slate-500">
+              ゼロからAIを自社開発し、試行錯誤で時間を浪費する必要はありません。当社の専門エンジニア（FDE）が要件定義から本番公開まで一気通貫で伴走し、競合に先んじたスピーディな立ち上げを実現します。
+            </p>
+          </RevealOnScroll>
+
+          <RevealOnScroll className="grid w-full gap-4 lg:grid-cols-2" variant="up" delayMs={120}>
+            {releaseFlow.map((item) => (
+              <article
+                key={item.step}
+                className="flex h-full flex-col rounded-[1.6rem] border border-black/6 bg-white p-5 shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md lg:p-6"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <div className="inline-flex rounded-full border border-[#2f3a49]/20 bg-[#2f3a49] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-white shadow-[0_12px_24px_-18px_rgba(15,23,42,0.38)]">
+                    {item.step}
+                  </div>
+                  <div className="inline-flex rounded-full bg-[#fff4ee] px-3 py-1 text-[12px] font-semibold text-[#b85733]">
+                    {item.period}
+                  </div>
+                </div>
+                <h3 className="mt-5 text-[21px] font-semibold leading-7 tracking-[-0.03em] text-slate-950 md:text-[22px] md:leading-8 md:tracking-[-0.04em]">
+                  {item.title}
+                </h3>
+                <div className="mt-4 flex-1 border-t border-black/6 pt-4">
+                  <p className="text-sm leading-7 text-slate-600">{item.body}</p>
+                </div>
+              </article>
+            ))}
+          </RevealOnScroll>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function AIDashiPage() {
   return (
@@ -516,110 +633,9 @@ export default function AIDashiPage() {
         </AIDashiComparisonCallout>
       </AIDashiComparisonSection>
 
-      <section
-        id="ai-dashi-support"
-        className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24"
-      >
-        <div className="mx-auto max-w-[1200px]">
-          <div className="mx-auto max-w-[1120px]">
-            <RevealOnScroll variant="up" className="mx-auto max-w-[920px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
-                QueryPie AIの包括的サポート体制
-              </h2>
-              <p className="mx-auto mt-5 max-w-[740px] text-left text-base leading-7 text-slate-500">
-                単なるツールの提供ではありません。貴社が自社ブランドのAIサービスを確実かつ迅速にリリースし、安定して運用し続けるために必要なすべての要素を、QueryPie AIがワンストップで提供します。
-              </p>
-            </RevealOnScroll>
+      <AIDashiSupportSection />
 
-            <RevealOnScroll className="mx-auto mt-10 flex max-w-[1120px] flex-col gap-3" variant="up" delayMs={120}>
-              {supportItems.map((item, index) => (
-                <article
-                  key={item.number}
-                  className="rounded-[1.45rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.94)_100%)] px-4 py-3.5 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.14)] ring-1 ring-white/80 transition duration-300 hover:-translate-y-1 hover:shadow-md md:px-5 md:py-4"
-                >
-                  <div className="flex flex-col gap-3 md:grid md:grid-cols-[minmax(0,500px)_minmax(0,1fr)] md:items-start md:gap-4">
-                    <div className="flex items-start gap-3.5">
-                      <div className="flex h-10 w-10 flex-none items-center justify-center rounded-[12px] bg-[linear-gradient(180deg,#f3f6fa_0%,#e9eef5_100%)] text-[#15181d] md:h-11 md:w-11">
-                        {index === 0 && <Blocks className="h-5 w-5" />}
-                        {index === 1 && <Users className="h-5 w-5" />}
-                        {index === 2 && <ShieldCheck className="h-5 w-5" />}
-                      </div>
-                      <div className="min-w-0 flex-1 pt-0.5">
-                        <h3 className="text-[19px] font-semibold leading-7 tracking-[-0.03em] text-slate-950 md:text-[21px] md:leading-7 md:tracking-[-0.04em] lg:whitespace-nowrap">
-                          {item.title}
-                        </h3>
-                        <p className="mt-1.5 text-[13px] font-medium leading-5 text-slate-700 lg:whitespace-nowrap">
-                          {item.intro}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="border-t border-slate-200/80 pt-3 md:border-t-0 md:border-l md:pl-4 md:pt-0">
-                      <p className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] text-slate-500">
-                        提供内容
-                      </p>
-                      <ul className="mt-2 grid gap-1.5 text-sm text-slate-600">
-                        {item.points.map((point) => (
-                          <li
-                            key={point}
-                            className="flex items-start gap-2 rounded-[0.95rem] bg-slate-50/90 px-3 py-2 leading-5.5"
-                          >
-                            <span className="mt-[0.45rem] h-1.5 w-1.5 flex-none rounded-full bg-[#ED602E]/70" />
-                            <span>{point}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
-
-      <section id="ai-dashi-flow" className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="mx-auto flex max-w-[1120px] flex-col items-center gap-10">
-            <RevealOnScroll variant="up" className="w-full max-w-[920px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
-                最速で市場へ
-                <br />
-                市場機会を逃さない、
-                <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
-                  圧倒的な導入スピード
-                </span>
-              </h2>
-              <p className="mx-auto mt-5 max-w-[760px] text-left text-base leading-7 text-slate-500">
-                ゼロからAIを自社開発し、試行錯誤で時間を浪費する必要はありません。当社の専門エンジニア（FDE）が要件定義から本番公開まで一気通貫で伴走し、競合に先んじたスピーディな立ち上げを実現します。
-              </p>
-            </RevealOnScroll>
-
-            <RevealOnScroll className="grid w-full gap-4 lg:grid-cols-2" variant="up" delayMs={120}>
-              {releaseFlow.map((item) => (
-                <article
-                  key={item.step}
-                  className="flex h-full flex-col rounded-[1.6rem] border border-black/6 bg-white p-5 shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md lg:p-6"
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="inline-flex rounded-full border border-[#2f3a49]/20 bg-[#2f3a49] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-white shadow-[0_12px_24px_-18px_rgba(15,23,42,0.38)]">
-                      {item.step}
-                    </div>
-                    <div className="inline-flex rounded-full bg-[#fff4ee] px-3 py-1 text-[12px] font-semibold text-[#b85733]">
-                      {item.period}
-                    </div>
-                  </div>
-                  <h3 className="mt-5 text-[21px] font-semibold leading-7 tracking-[-0.03em] text-slate-950 md:text-[22px] md:leading-8 md:tracking-[-0.04em]">
-                    {item.title}
-                  </h3>
-                  <div className="mt-4 flex-1 border-t border-black/6 pt-4">
-                    <p className="text-sm leading-7 text-slate-600">{item.body}</p>
-                  </div>
-                </article>
-              ))}
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
+      <AIDashiReleaseFlowSection />
 
       <section className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-[1120px]">
