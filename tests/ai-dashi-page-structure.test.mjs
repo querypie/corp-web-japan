@@ -58,3 +58,21 @@ test("AI Dashi support section follows route-local authoring", () => {
   assert.match(aiDashiStructureSource, /export function AIDashiSupportCards/);
   assert.match(aiDashiStructureSource, /export function AIDashiSupportCardPoint/);
 });
+
+test("AI Dashi enterprise-ready section follows route-local authoring", () => {
+  const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
+  const aiDashiStructureSource = getAiDashiStructureSource();
+
+  assert.match(aiDashiPage, /AIDashiEnterpriseReadySection/);
+  assert.match(aiDashiPage, /AIDashiEnterpriseReadyIntro/);
+  assert.match(aiDashiPage, /AIDashiEnterpriseReadyCard/);
+  assert.match(aiDashiPage, /LLMを繋ぐだけでは、\s*<br\s*\/?>\s*エンタープライズ顧客には売れない/);
+  assert.match(aiDashiPage, /B2B基準の権限管理（RBAC）/);
+  assert.match(aiDashiPage, /ハルシネーションを防ぐガードレール/);
+  assert.match(aiDashiPage, /監査ログとコンプライアンス対応/);
+  assert.doesNotMatch(aiDashiPage, /const enterpriseReadyItems = \[/);
+
+  assert.match(aiDashiStructureSource, /export function AIDashiEnterpriseReadySection/);
+  assert.match(aiDashiStructureSource, /export function AIDashiEnterpriseReadyCards/);
+  assert.match(aiDashiStructureSource, /export function AIDashiEnterpriseReadyCardBody/);
+});

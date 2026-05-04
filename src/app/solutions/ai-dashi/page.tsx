@@ -9,7 +9,6 @@ import {
   Settings,
   ShieldCheck,
   Users,
-  X,
   type LucideIcon,
 } from "lucide-react";
 import { aiDashiConsultUrl, aiDashiFloatingUrl, aiDashiWhitepaperUrl } from "@/content/ai-dashi-links";
@@ -69,6 +68,17 @@ import {
   AIDashiRiskSection,
   AIDashiRiskTitle,
 } from "@/components/sections/ai-dashi-risk-section";
+import {
+  AIDashiEnterpriseReadyBody,
+  AIDashiEnterpriseReadyCard,
+  AIDashiEnterpriseReadyCardBody,
+  AIDashiEnterpriseReadyCardIcon,
+  AIDashiEnterpriseReadyCardTitle,
+  AIDashiEnterpriseReadyCards,
+  AIDashiEnterpriseReadyIntro,
+  AIDashiEnterpriseReadySection,
+  AIDashiEnterpriseReadyTitle,
+} from "@/components/sections/ai-dashi-enterprise-ready-section";
 export const metadata: Metadata = {
   title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
   description:
@@ -111,28 +121,6 @@ const aiWallCards: ReadonlyArray<{
     body: "リリース後も、モデルの更新やプロンプトの調整、インフラ監視など、想定外の保守運用コストが継続的に発生し利益を圧迫します。",
   },
 ] as const;
-
-const enterpriseReadyItems = [
-  {
-    icon: ShieldCheck,
-    title: "B2B基準の権限管理（RBAC）",
-    body:
-      "組織階層やユーザーごとの緻密なアクセス制御をAPIで実装。情報漏洩の致命的リスクを防ぎます。",
-  },
-  {
-    icon: Database,
-    title: "ハルシネーションを防ぐガードレール",
-    body:
-      "自社データのみに基づく事実回答を徹底し、B2Bの業務利用で絶対に許されない「AIの嘘」を防止します。",
-  },
-  {
-    icon: Check,
-    title: "監査ログとコンプライアンス対応",
-    body:
-      "SOC2 / ISO27001水準のセキュリティ基盤により、エンタープライズ顧客の厳しいセキュリティシート（導入審査）をパスできます。",
-  },
-] as const;
-
 
 export default function AIDashiPage() {
   return (
@@ -358,44 +346,51 @@ export default function AIDashiPage() {
         </div>
       </section>
 
-      <section id="enterprise-ready" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="flex flex-col items-center gap-12">
-            <RevealOnScroll variant="up" className="w-full max-w-[900px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
-                LLMを繋ぐだけでは、
-                <br />
-                エンタープライズ顧客には売れない
-              </h2>
-              <p className="mx-auto mt-5 max-w-[780px] text-left text-base leading-7 text-slate-500">
-                AI機能を実装できても、大企業が求める厳しいセキュリティ要件を満たさなければ、導入審査で弾かれます。
-                QueryPie AIPは、これらの要件をあらかじめクリアしたAI基盤です。
-              </p>
-            </RevealOnScroll>
+      <AIDashiEnterpriseReadySection>
+        <AIDashiEnterpriseReadyIntro>
+          <AIDashiEnterpriseReadyTitle>
+            LLMを繋ぐだけでは、
+            <br />
+            エンタープライズ顧客には売れない
+          </AIDashiEnterpriseReadyTitle>
+          <AIDashiEnterpriseReadyBody>
+            AI機能を実装できても、大企業が求める厳しいセキュリティ要件を満たさなければ、導入審査で弾かれます。
+            QueryPie AIPは、これらの要件をあらかじめクリアしたAI基盤です。
+          </AIDashiEnterpriseReadyBody>
+        </AIDashiEnterpriseReadyIntro>
 
-            <RevealOnScroll className="grid w-full gap-4 lg:grid-cols-3" variant="up" delayMs={120}>
-              {enterpriseReadyItems.map((item) => {
-                const Icon = item.icon;
+        <AIDashiEnterpriseReadyCards>
+          <AIDashiEnterpriseReadyCard>
+            <AIDashiEnterpriseReadyCardIcon>
+              <ShieldCheck className="h-6 w-6" />
+            </AIDashiEnterpriseReadyCardIcon>
+            <AIDashiEnterpriseReadyCardTitle>B2B基準の権限管理（RBAC）</AIDashiEnterpriseReadyCardTitle>
+            <AIDashiEnterpriseReadyCardBody>
+              組織階層やユーザーごとの緻密なアクセス制御をAPIで実装。情報漏洩の致命的リスクを防ぎます。
+            </AIDashiEnterpriseReadyCardBody>
+          </AIDashiEnterpriseReadyCard>
 
-                return (
-                  <article
-                    key={item.title}
-                    className="flex h-full flex-col rounded-[1.8rem] border border-slate-200/80 bg-white p-6 shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md"
-                  >
-                    <div className="flex h-14 w-14 items-center justify-center rounded-[16px] border border-slate-200 bg-[#f6f8fb] text-[#2f3a49] shadow-[0_16px_34px_-24px_rgba(15,23,42,0.18)]">
-                      <Icon className="h-6 w-6" />
-                    </div>
-                    <h3 className="mt-5 text-[22px] font-semibold leading-8 tracking-[-0.03em] text-slate-950">
-                      {item.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">{item.body}</p>
-                  </article>
-                );
-              })}
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
+          <AIDashiEnterpriseReadyCard>
+            <AIDashiEnterpriseReadyCardIcon>
+              <Database className="h-6 w-6" />
+            </AIDashiEnterpriseReadyCardIcon>
+            <AIDashiEnterpriseReadyCardTitle>ハルシネーションを防ぐガードレール</AIDashiEnterpriseReadyCardTitle>
+            <AIDashiEnterpriseReadyCardBody>
+              自社データのみに基づく事実回答を徹底し、B2Bの業務利用で絶対に許されない「AIの嘘」を防止します。
+            </AIDashiEnterpriseReadyCardBody>
+          </AIDashiEnterpriseReadyCard>
+
+          <AIDashiEnterpriseReadyCard>
+            <AIDashiEnterpriseReadyCardIcon>
+              <Check className="h-6 w-6" />
+            </AIDashiEnterpriseReadyCardIcon>
+            <AIDashiEnterpriseReadyCardTitle>監査ログとコンプライアンス対応</AIDashiEnterpriseReadyCardTitle>
+            <AIDashiEnterpriseReadyCardBody>
+              SOC2 / ISO27001水準のセキュリティ基盤により、エンタープライズ顧客の厳しいセキュリティシート（導入審査）をパスできます。
+            </AIDashiEnterpriseReadyCardBody>
+          </AIDashiEnterpriseReadyCard>
+        </AIDashiEnterpriseReadyCards>
+      </AIDashiEnterpriseReadySection>
 
       <AIDashiComparisonSection>
         <AIDashiComparisonIntro>
