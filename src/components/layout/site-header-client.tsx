@@ -62,7 +62,7 @@ function getNavItems(previewModeEnabled: boolean): readonly NavItem[] {
         { label: "紹介資料", href: "/introduction-deck" },
         { label: "用語集", href: "/glossary" },
         { label: "マニュアル", href: "/manuals" },
-        { label: "ホワイトペーパー", href: t("/whitepapers", previewModeEnabled) },
+        { label: "ホワイトペーパー", href: "/whitepapers" },
         { label: "ブログ", href: "/blog" },
       ],
     },

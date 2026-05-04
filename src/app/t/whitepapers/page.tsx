@@ -1,34 +1,5 @@
-import type { Metadata } from "next";
-import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
-import { ResourceListPage } from "@/components/sections/resource-list-page";
-import { listWhitepaperPublicationItems } from "@/lib/publications/whitepaper-publication-records";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "ホワイトペーパー | QueryPie AI",
-  description: "AI Staff に関する資料や導入検討向けホワイトペーパーをまとめたページです。",
-  alternates: {
-    canonical: "/t/whitepapers",
-  },
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
-
-export default async function TestWhitepaperPage() {
-  const whitepaperItems = await listWhitepaperPublicationItems();
-
-  return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
-      <SiteHeader />
-      <ResourceListPage
-        title="ホワイトペーパー"
-        description="包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。"
-        activeCategory="whitepaper"
-        items={whitepaperItems}
-      />
-      <SiteFooter />
-    </main>
-  );
+export default function TestWhitepaperPage() {
+  redirect("/whitepapers");
 }

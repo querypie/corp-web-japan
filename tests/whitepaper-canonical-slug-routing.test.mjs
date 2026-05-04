@@ -37,8 +37,9 @@ test("whitepaper list page is driven by MDX-derived whitepaper items", () => {
   const whitepapersPage = readSource("src/app/whitepapers/page.tsx");
   const resources = readSource("src/content/resources.ts");
 
-  assert.match(whitepapersPage, /import \{ querypieJapanWhitepaperItems \} from "@\/lib\/publications\/querypie-ja-whitepaper-links"/);
-  assert.match(whitepapersPage, /items=\{querypieJapanWhitepaperItems\}/);
+  assert.match(whitepapersPage, /import \{ listWhitepaperPublicationItems \} from "@\/lib\/publications\/whitepaper-publication-records"/);
+  assert.match(whitepapersPage, /const whitepaperItems = await listWhitepaperPublicationItems\(\);/);
+  assert.match(whitepapersPage, /items=\{whitepaperItems\}/);
   assert.match(resources, /export \{ querypieJapanWhitepaperItems as whitepaperItems \} from "@\/lib\/publications\/querypie-ja-whitepaper-links"/);
   assert.doesNotMatch(resources, /publications\/whitepaper"/);
 });
