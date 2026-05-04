@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { Children, type ReactNode } from "react";
 import Image from "next/image";
 import {
   CalendarDays,
@@ -84,8 +84,11 @@ export function AICrewWhyComparisonShell({ children }: { children: ReactNode }) 
 }
 
 export function AICrewWhyBeforeCard({ children }: { children: ReactNode }) {
+  const [header, ...body] = Children.toArray(children);
+
   return (
     <article className="rounded-[1.8rem] border border-black/6 bg-[#f9f9fb] p-6">
+      {header}
       <div className="mt-8 flex min-h-[18rem] items-center justify-center">
         <div className="relative h-[320px] w-full max-w-[27rem]">
           {beforeIcons.map(({ icon: Icon, pos, rot }, index) => (
@@ -102,7 +105,7 @@ export function AICrewWhyBeforeCard({ children }: { children: ReactNode }) {
             </div>
           </div>
 
-          <div className="absolute inset-x-0 bottom-0 z-30 flex flex-col items-center gap-2">{children}</div>
+          <div className="absolute inset-x-0 bottom-0 z-30 flex flex-col items-center gap-2">{body}</div>
         </div>
       </div>
     </article>
