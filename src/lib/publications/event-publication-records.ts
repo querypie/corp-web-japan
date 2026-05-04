@@ -10,6 +10,8 @@ export type EventPublicationFrontmatter = {
   description: string;
   date: string;
   heroImageSrc: string;
+  eventLabel?: string;
+  hideHeroImageOnDetail?: boolean;
   author?: string | string[];
   hidden?: boolean;
   redirectUrl?: string;
@@ -49,6 +51,8 @@ function normalizeEventPublicationFrontmatter(value: unknown, sourcePath: string
     ? relatedIdsValue.map((item) => String(item))
     : [];
   const authorValue = frontmatter.author;
+  const eventLabelValue = frontmatter.eventLabel;
+  const hideHeroImageOnDetailValue = frontmatter.hideHeroImageOnDetail;
   const redirectUrlValue = frontmatter.redirectUrl;
 
   return {
@@ -58,6 +62,8 @@ function normalizeEventPublicationFrontmatter(value: unknown, sourcePath: string
     description: String(frontmatter.description ?? ""),
     date: String(frontmatter.date ?? ""),
     heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
+    eventLabel: typeof eventLabelValue === "string" ? eventLabelValue : undefined,
+    hideHeroImageOnDetail: hideHeroImageOnDetailValue === true,
     author:
       typeof authorValue === "string"
         ? authorValue
@@ -105,7 +111,7 @@ function createEventPublicationCache(): Readonly<EventPublicationCache> {
       Object.freeze({
         href: getPublicationHref("event", record.id, record.slug),
         imageSrc: record.heroImageSrc,
-        badge: "イベント",
+        badge: record.eventLabel ?? "イベント",
         title: record.title,
         description: record.description,
         date: record.date,

@@ -48,6 +48,7 @@ export async function getEventPublicationPost(id: string): Promise<PublicationPo
     description: string;
     date: string;
     heroImageSrc: string;
+    hideHeroImageOnDetail?: boolean;
   }>(bodySource);
   const resolvedAuthors = getDisplayableArticleAuthors(resolveArticleAuthors(frontmatter.author));
   const primaryAuthor = resolvedAuthors.find((author) => author.isRegistered) ?? null;
@@ -59,6 +60,7 @@ export async function getEventPublicationPost(id: string): Promise<PublicationPo
     description: frontmatter.description,
     date: frontmatter.date,
     heroImageSrc: frontmatter.heroImageSrc,
+    hideHeroImageOnDetail: frontmatter.hideHeroImageOnDetail === true,
     author: primaryAuthor
       ? {
           avatarSrc: primaryAuthor.profileImageSrc ?? "/querypie-logo.svg",

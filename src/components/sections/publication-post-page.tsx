@@ -63,15 +63,17 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
                 </div>
               </div>
 
-              <div className="aspect-[16/9] overflow-hidden bg-[#eceff3]">
-                <Image
-                  src={post.heroImageSrc}
-                  alt={post.title}
-                  width={1280}
-                  height={720}
-                  className="h-full w-full object-cover"
-                />
-              </div>
+              {post.hideHeroImageOnDetail ? null : (
+                <div className="aspect-[16/9] overflow-hidden bg-[#eceff3]">
+                  <Image
+                    src={post.heroImageSrc}
+                    alt={post.title}
+                    width={1280}
+                    height={720}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              )}
             </div>
 
             <div className="pb-[89px]">
