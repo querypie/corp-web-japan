@@ -127,6 +127,26 @@ Important lesson from PR 193 follow-up:
 5. Avoid repeated local `npm install` when the existing workspace already has what you need.
 6. Rebase onto the latest `origin/main` again before push/PR update.
 
+### Worktree freshness gate
+
+Before editing in an existing PR or follow-up branch, explicitly verify whether the local worktree is still a trustworthy base.
+
+Minimum checks:
+```bash
+git status -sb
+git rev-parse HEAD origin/<branch>
+git rev-list --left-right --count HEAD...origin/<branch>
+```
+
+Interpretation:
+- if `HEAD` equals `origin/<branch>` and the worktree is clean, it is a valid starting point
+- if the worktree is ahead/behind/diverged, do **not** continue editing there just because its directory name matches the branch
+- if the worktree contains unrelated residue from prior attempts, prefer a fresh detached worktree from `origin/<branch>` or `origin/main`
+
+Important lesson from AI Crew PR 190 follow-up:
+- a stale local PR worktree can silently drag old experiments, outdated conflict resolutions, or mixed post-main history into the next follow-up
+- when in doubt, recreate the worktree from the remote branch tip and verify the SHA before editing
+
 ## Reference patterns in this repo
 
 Read these before refactoring:
@@ -161,6 +181,27 @@ Map what belongs in each bucket:
 - may stay as a tiny local array/constant inside `page.tsx`
 - should remain extracted because it is shared or interactive
 - should move to a small dedicated route-adjacent/shared constants file because multiple surfaces still need the same URL constants
+
+### 1a. Decide early whether this is a normal section migration or a rewrite-on-main case
+
+Before you start editing, classify the branch condition as one of two modes:
+
+1. normal section migration
+   - the branch is already based on a recent `origin/main`
+   - the current PR/worktree does not contain stale structural history
+   - you can safely implement the scoped refactor in place
+
+2. rewrite-on-main
+   - the open PR branch predates important merged main changes
+   - the branch contains intermediate or experimental commits that no longer represent the user's desired final diff
+   - the user is dissatisfied with the overall refactor direction, not just one bug
+   - preserving old branch ancestry would make the PR harder to reason about than rebuilding the final intended file set on top of latest `origin/main`
+
+When the second mode applies, prefer rebuilding the intended final state on top of a clean latest-main worktree rather than trying to salvage the old branch mechanically.
+
+Important practical rule from AI Crew PR 190:
+- if the user says the current PR is "not the expected level of refactoring" and the branch also trails `origin/main`, treat that as a strong rewrite-on-main signal
+- in that case, inspect the old PR only to recover the intended outcome, then reconstruct that outcome cleanly on top of latest `origin/main`
 
 ### 2. Keep only the right extracted pieces
 
@@ -248,6 +289,13 @@ Common test migration pattern:
 - replace exact dependence on `src/components/sections/<page>-sections.tsx` with either:
   - `page.tsx`, or
   - `page.tsx` + the few shared interactive section files that still legitimately remain
+- inspect broader repo-level tests as well, not only the obvious section-structure test for the touched page
+- explicitly search for CTA labels, route constants, or old content-registry strings that may still be asserted elsewhere in the test suite
+
+Important practical finding from AI Crew PR 190:
+- broader tests such as launch-readiness, CTA coverage, route-policy, or source-layout assertions can still encode the old source-of-truth location even after the section-specific structure test is updated
+- when copy/CTA ownership moves from `src/content/**` into route-local JSX, update those broader tests in the same PR so they accept the new intended source shape
+- if the repo is in an intentional staged transition, allow assertions that match either the old registry pattern or the new route-local markup only where that transition is still real; otherwise tighten directly to the final route-local form
 
 Examples of helpful test helper functions:
 - `get<Page>DataSource()` -> combine `page.tsx` with any small surviving shared constants file
@@ -292,6 +340,11 @@ Before finalizing:
 - push the branch
 - open the PR
 
+Important safety rule from AI Crew PR 190:
+- if you decide this is a rewrite-on-main case, do **not** perform the rewrite by staging changes in a stale PR worktree and then using `git reset --soft origin/main`
+- on an old PR branch, that pattern can stage a large mixed diff that includes unrelated pre-main history or other stale branch residue
+- instead, create a completely clean worktree from latest `origin/main`, reapply only the intended final file set, verify the scoped diff, commit once, and force-push that clean result back to the PR branch
+
 Unless the user explicitly says otherwise, the task is not complete until:
 - commit exists
 - branch is pushed
@@ -302,14 +355,18 @@ Unless the user explicitly says otherwise, the task is not complete until:
 - planning from stale local `main` instead of latest `origin/main`
 - editing the main checkout instead of a worktree
 - continuing an old worktree without validating its current base
+- trusting a PR-named worktree directory without checking whether `HEAD` still matches `origin/<branch>`
+- trying to preserve a stale branch mechanically when the user actually wants a structure-level rewrite on top of latest main
 - recreating the giant content object inside `page.tsx`
 - leaving the old content/orchestrator files in place after the move
 - forgetting that tests may still read removed file paths directly
+- updating only the obvious section-specific test while broader launch-readiness or CTA coverage tests still assume the old source-of-truth location
 - widening scope into CMS/data-backed routes that the user did not authorize
 - starting a local dev server even though CI/targeted checks are sufficient
 - spending time on repeated installs in a fresh worktree when the existing environment can already run the relevant checks
 - losing PR focus by partially refactoring neighboring sections after the user only asked for one section to be fully completed
 - keeping earlier experimental extracts in the branch after deciding that only one section should remain as the showcased completed result
+- using `git reset --soft origin/main` inside a stale PR worktree during a rewrite-on-main follow-up and accidentally staging unrelated branch history
 
 ## Suggested resume-prompt template
 
