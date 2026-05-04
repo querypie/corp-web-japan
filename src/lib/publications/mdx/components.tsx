@@ -26,6 +26,12 @@ type ButtonLinkProps = {
   children?: ReactNode;
 };
 
+type MdxLinkProps = {
+  href: string;
+  children?: ReactNode;
+  external?: boolean;
+};
+
 type ArticleFileImageProps = {
   filepath: string;
   alt?: string;
@@ -134,6 +140,18 @@ function ButtonLink({ href, children }: ButtonLinkProps) {
   );
 }
 
+function MdxLink({ href, children, external = false }: MdxLinkProps) {
+  if (external || isExternalHref(href)) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
+    );
+  }
+
+  return <Link href={href}>{children}</Link>;
+}
+
 function ArticleFileImage({ filepath, alt = "", caption }: ArticleFileImageProps) {
   const src = normalizePublicFilepath(filepath);
 
@@ -213,6 +231,7 @@ export function buildPublicationMdxComponents(): MDXComponents {
     Table,
     Box,
     ButtonLink,
+    Link: MdxLink,
     ArticleFileImage,
     InfoNote,
     Youtube,

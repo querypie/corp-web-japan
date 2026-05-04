@@ -58,7 +58,7 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
                 </h1>
                 {post.author ? <AuthorBox author={post.author} /> : null}
                 <div className="mt-2 flex flex-col gap-4 border-t border-[#d1d5db] pt-[18px] sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-sm leading-6 text-slate-400">{post.date}</p>
+                  {post.date ? <p className="text-sm leading-6 text-slate-400">{post.date}</p> : <span />}
                   <PublicationShareButtons title={post.title} />
                 </div>
               </div>
@@ -106,60 +106,62 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
                   <ResourcePostToc items={post.toc} />
                 </div>
               ) : null}
-              <div>
-                <h2 className="mb-[13px] text-[15px] font-medium leading-[1.467] text-slate-950">
-                  {post.relatedTitle}
-                </h2>
-                <hr className="mb-[21px] border-0 border-t border-[#e5e7eb]" />
-                <div className="space-y-10">
-                  {post.relatedItems.map((item) => {
-                    const isExternalHref = /^https?:\/\//.test(item.href);
-                    const card = (
-                      <>
-                        <div className="aspect-[16/9] overflow-hidden rounded-[8px] bg-[#eceff3]">
-                          <Image
-                            src={item.imageSrc}
-                            alt={item.title}
-                            width={560}
-                            height={315}
-                            className="h-full w-full object-cover"
-                          />
-                        </div>
-                        <div className="flex flex-col gap-[6px]">
-                          <h3 className="line-clamp-3 text-[14px] font-normal leading-[1.571] tracking-[0.0175rem] text-slate-950">
-                            {item.title}
-                          </h3>
-                          <p className="text-sm leading-6 text-slate-400">{item.date}</p>
-                        </div>
-                      </>
-                    );
+              {post.relatedItems.length > 0 ? (
+                <div>
+                  <h2 className="mb-[13px] text-[15px] font-medium leading-[1.467] text-slate-950">
+                    {post.relatedTitle}
+                  </h2>
+                  <hr className="mb-[21px] border-0 border-t border-[#e5e7eb]" />
+                  <div className="space-y-10">
+                    {post.relatedItems.map((item) => {
+                      const isExternalHref = /^https?:\/\//.test(item.href);
+                      const card = (
+                        <>
+                          <div className="aspect-[16/9] overflow-hidden rounded-[8px] bg-[#eceff3]">
+                            <Image
+                              src={item.imageSrc}
+                              alt={item.title}
+                              width={560}
+                              height={315}
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+                          <div className="flex flex-col gap-[6px]">
+                            <h3 className="line-clamp-3 text-[14px] font-normal leading-[1.571] tracking-[0.0175rem] text-slate-950">
+                              {item.title}
+                            </h3>
+                            <p className="text-sm leading-6 text-slate-400">{item.date}</p>
+                          </div>
+                        </>
+                      );
 
-                    if (isExternalHref) {
+                      if (isExternalHref) {
+                        return (
+                          <a
+                            key={`${item.href}-${item.title}`}
+                            href={item.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex flex-col gap-3 transition hover:opacity-70"
+                          >
+                            {card}
+                          </a>
+                        );
+                      }
+
                       return (
-                        <a
+                        <Link
                           key={`${item.href}-${item.title}`}
                           href={item.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
                           className="flex flex-col gap-3 transition hover:opacity-70"
                         >
                           {card}
-                        </a>
+                        </Link>
                       );
-                    }
-
-                    return (
-                      <Link
-                        key={`${item.href}-${item.title}`}
-                        href={item.href}
-                        className="flex flex-col gap-3 transition hover:opacity-70"
-                      >
-                        {card}
-                      </Link>
-                    );
-                  })}
+                    })}
+                  </div>
                 </div>
-              </div>
+              ) : null}
               <div className="rounded-[10px] bg-[#f9f9fb] px-[30px] py-10 text-center">
                 <h3 className="mb-[10px] text-base font-medium text-slate-950">お問い合わせ</h3>
                 <p className="mb-[30px] text-sm leading-6 text-slate-500">
