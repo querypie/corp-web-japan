@@ -222,7 +222,14 @@ Bad to keep extracted:
 - JSON-like or object/array-based marketing copy declarations inside `page.tsx`, such as `const cards = [{ title, body }]`, `const section = { title, body, cta }`, or `const items = [...]`, when the main purpose is to store visible page copy rather than tiny incidental labels
 - prop-shaped copy APIs such as `intro={{ title: ..., body: ... }}`, `section={{ ... }}`, or large `items` arrays whose values are the real user-facing marketing sentences
 - an external page-specific wrapper merely moved into the route and renamed as a local helper such as `function AICrewSections()` or `function HomeSections()` while it still hides most of the authored page structure
+- a large local section helper such as `function SupportSection()` or `function ReleaseFlowSection()` when it still owns that section's real headings, prose-heavy arrays, CTA text, and JSX structure together
+- relocating a former top-level blob into `function SomeSection() { const items = [...] ... }` while the route body now only shows `<SomeSection />`
 - passing a giant raw JSX section blob as a prop such as `contactSection={<section ...>...</section>}` or `aboutSection={<section ...>...</section>}` from `page.tsx` into a shared shell component
+
+Important anti-regression rule from AI Dashi follow-up work:
+- moving `const supportItems = [...]` or `const releaseFlow = [...]` out of file scope is **not** enough if the same prose-heavy data and section markup are merely re-hidden inside a local helper such as `function AIDashiSupportSection()`
+- that reduces top-level clutter, but it does not yet make the route body the primary readable authoring surface
+- if the default export body becomes less readable because the section collapsed to a single helper call, treat the refactor as still incomplete
 
 Important rule:
 Do not consider the refactor complete if you merely moved a giant object from `src/content/**` into the top of `page.tsx`.
@@ -234,6 +241,10 @@ Also do not consider the refactor complete if you only:
 - move a whole section's implementation blob into a `page.tsx` prop passed to an old shell component.
 
 Those are only location changes. They are not yet route-local authoring in the intended sense.
+
+Explicit failure case:
+- do not consider the refactor successful if a former top-level content blob is merely moved into a large local section helper inside `page.tsx`
+- relocating `const cards = [...]`, `const supportItems = [...]`, or `const releaseFlow = [...]` into `function SomeSection()` is still an intermediate mechanical relocation unless the route body now clearly shows the section's authored copy/composition
 
 Important staged-refactor rule from PRs 155–158:
 - the existence of a temporary shared shell is **not** itself a failure
@@ -317,6 +328,12 @@ A good outcome is that a reviewer can open only `page.tsx` and understand:
 - the main Japanese copy for the migrated section(s)
 - the CTA wiring
 - which small helpers remain shared
+
+Mandatory route-body readability check:
+- inspect the default export's main route body in `page.tsx`, not just helper definitions above it
+- ask: if I collapse all local helper functions and read only the route body, can I still see the migrated section's heading copy, main body copy, CTA labels, and composition clearly enough to review the page narrative?
+- if the answer is no, the refactor is still incomplete even if the copy technically remains in the same file
+- if replacing a section with `<LocalSectionHelper />` makes the route body less readable than before, that helper is too large for the intended route-local authoring standard
 
 ### 4. Delete obsolete page-specific layers
 
@@ -412,6 +429,8 @@ Unless the user explicitly says otherwise, the task is not complete until:
 - spending time on repeated installs in a fresh worktree when the existing environment can already run the relevant checks
 - losing PR focus by partially refactoring neighboring sections after the user only asked for one section to be fully completed
 - keeping earlier experimental extracts in the branch after deciding that only one section should remain as the showcased completed result
+- mistaking "same file" for success when the real section copy/data/layout have simply been re-hidden inside a large local helper function
+- allowing the route body to degrade from visible section narrative into a sequence of opaque helper calls such as `<SupportSection />`, `<FlowSection />`, or similar local wrappers
 - using `git reset --soft origin/main` inside a stale PR worktree during a rewrite-on-main follow-up and accidentally staging unrelated branch history
 
 ## Suggested resume-prompt template
