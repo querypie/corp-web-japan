@@ -83,12 +83,11 @@ export function AICrewWhyComparisonShell({ children }: { children: ReactNode }) 
   );
 }
 
-export function AICrewWhyBeforeCard({ subtitle, children }: { subtitle: ReactNode; children: ReactNode }) {
+export function AICrewWhyBeforeCard({ children }: { children: ReactNode }) {
   return (
     <article className="rounded-[1.8rem] border border-black/6 bg-[#f9f9fb] p-6">
       <div className="text-center">
         <p className="text-2xl font-semibold tracking-[-0.04em] text-slate-900">Before</p>
-        <p className="mt-1 text-sm font-medium tracking-[-0.02em] text-slate-500">{subtitle}</p>
       </div>
       <div className="mt-8 flex min-h-[18rem] items-center justify-center">
         <div className="relative h-[320px] w-full max-w-[27rem]">
@@ -111,6 +110,10 @@ export function AICrewWhyBeforeCard({ subtitle, children }: { subtitle: ReactNod
       </div>
     </article>
   );
+}
+
+export function AICrewWhyBeforeCardSubtitle({ children }: { children: ReactNode }) {
+  return <p className="text-sm font-medium tracking-[-0.02em] text-slate-500">{children}</p>;
 }
 
 export function AICrewWhyBeforePainPoint({ children }: { children: ReactNode }) {

@@ -72,6 +72,7 @@ import {
   AICrewWhyAfterMobileLayout,
   AICrewWhyAfterOrbitItem,
   AICrewWhyBeforeCard,
+  AICrewWhyBeforeCardSubtitle,
   AICrewWhyBeforePainPoint,
   AICrewWhyBody,
   AICrewWhyComparisonShell,
@@ -180,7 +181,8 @@ export default function AICrewPage() {
         </AICrewWhyIntro>
 
         <AICrewWhyComparisonShell>
-          <AICrewWhyBeforeCard subtitle="一次対応に時間がかかる">
+          <AICrewWhyBeforeCard>
+            <AICrewWhyBeforeCardSubtitle>一次対応に時間がかかる</AICrewWhyBeforeCardSubtitle>
             <AICrewWhyBeforePainPoint>情報が散らばり調査と確認に時間がかかる</AICrewWhyBeforePainPoint>
             <AICrewWhyBeforePainPoint>下準備が多く本来の判断に時間を使えない</AICrewWhyBeforePainPoint>
           </AICrewWhyBeforeCard>
