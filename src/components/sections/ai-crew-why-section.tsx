@@ -54,7 +54,7 @@ export function AICrewWhyIntro({ children }: { children: ReactNode }) {
 export function AICrewWhyTitle({ children }: { children: ReactNode }) {
   return (
     <RevealOnScroll>
-      <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+      <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em] [&_strong]:bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_48%,#2563EB_78%,#93C5FD_100%)] [&_strong]:bg-clip-text [&_strong]:font-inherit [&_strong]:text-transparent [&_strong]:[animation:heroAccentGlow_3.2s_ease-in-out_infinite] [&_strong]:motion-reduce:animate-none">
         {children}
       </h2>
     </RevealOnScroll>

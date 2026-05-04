@@ -170,9 +170,7 @@ export default function AICrewPage() {
         <AICrewWhyIntro>
           <AICrewWhyTitle>
             AIに下準備を任せ、人は
-            <span className="bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_48%,#2563EB_78%,#93C5FD_100%)] bg-clip-text text-transparent [animation:heroAccentGlow_3.2s_ease-in-out_infinite] motion-reduce:animate-none">
-              判断と創造
-            </span>
+            <strong>判断と創造</strong>
             に集中する
           </AICrewWhyTitle>
           <AICrewWhyBody>
