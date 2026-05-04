@@ -39,3 +39,22 @@ test("AI Dashi risk section follows route-local authoring", () => {
   assert.match(aiDashiStructureSource, /export function AIDashiRiskTitle/);
   assert.match(aiDashiStructureSource, /export function AIDashiRiskBody/);
 });
+
+test("AI Dashi support section follows route-local authoring", () => {
+  const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
+  const aiDashiStructureSource = getAiDashiStructureSource();
+
+  assert.match(aiDashiPage, /AIDashiSupportSection/);
+  assert.match(aiDashiPage, /AIDashiSupportIntro/);
+  assert.match(aiDashiPage, /AIDashiSupportCards/);
+  assert.match(aiDashiPage, /AIDashiSupportCardPointList/);
+  assert.match(aiDashiPage, /QueryPie AIの包括的サポート体制/);
+  assert.match(aiDashiPage, /カスタマイズ自在なAI基盤の提供/);
+  assert.match(aiDashiPage, /専門エンジニアによる開発支援/);
+  assert.match(aiDashiPage, /24時間365日のインフラ・運用保守/);
+  assert.doesNotMatch(aiDashiPage, /const supportItems = \[/);
+
+  assert.match(aiDashiStructureSource, /export function AIDashiSupportSection/);
+  assert.match(aiDashiStructureSource, /export function AIDashiSupportCards/);
+  assert.match(aiDashiStructureSource, /export function AIDashiSupportCardPoint/);
+});
