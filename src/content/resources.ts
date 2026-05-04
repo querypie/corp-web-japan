@@ -1,5 +1,5 @@
 import { blogItems } from "@/lib/publications/blog-items";
-import { querypieJapanWhitepaperItems } from "@/lib/publications/querypie-ja-whitepaper-links";
+import { listWhitepaperPublicationItems } from "@/lib/publications/whitepaper-publication-records";
 import { eventItems } from "./resources/events";
 
 export type ResourceCategory = "blog" | "whitepaper" | "events";
@@ -15,10 +15,10 @@ export type ResourceItem = {
 
 export { blogItems } from "@/lib/publications/blog-items";
 export { eventItems } from "./resources/events";
-export { querypieJapanWhitepaperItems as whitepaperItems } from "@/lib/publications/querypie-ja-whitepaper-links";
+export const whitepaperItems = listWhitepaperPublicationItems();
 
 export function getResourceItems(category: ResourceCategory) {
   if (category === "blog") return blogItems;
-  if (category === "whitepaper") return querypieJapanWhitepaperItems;
+  if (category === "whitepaper") return whitepaperItems;
   return eventItems;
 }

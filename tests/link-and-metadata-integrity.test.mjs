@@ -10,7 +10,7 @@ const headerExpectedLinks = [
   'label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi"',
   'label: "活用事例", href: "/demo/use-cases"',
   'label: "全て", href: "/resources"',
-  'label: "ホワイトペーパー", href: t("/whitepapers", previewModeEnabled)',
+  'label: "ホワイトペーパー", href: "/whitepapers"',
   'label: "ブログ", href: "/blog"',
   'label: "お問い合わせ", href: "/contact-us"',
 ];
@@ -23,7 +23,7 @@ const footerExpectedLinks = [
   'label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi"',
   'label: "活用事例", href: "/demo/use-cases"',
   'label: "全て", href: "/resources"',
-  'label: "ホワイトペーパー", href: t("/whitepapers", previewModeEnabled)',
+  'label: "ホワイトペーパー", href: "/whitepapers"',
   'label: "ブログ", href: "/blog"',
   'label: "私たちについて", href: t("/about-us", previewModeEnabled)',
   'label: "お問い合わせ", href: "/contact-us"',
