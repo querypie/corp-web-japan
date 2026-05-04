@@ -17,7 +17,7 @@ test("AI Crew about section follows route-local authoring while the shared shell
   assert.match(aiCrewPage, /HomePageSections/);
   assert.match(aiCrewPage, /AICrewAboutSection/);
   assert.match(aiCrewPage, /AICrewAboutTitle/);
-  assert.match(aiCrewPage, /AI Agentではなく、AI Crew/);
+  assert.match(aiCrewPage, /AI Agentではなく、<strong>AI Crew<\/strong>/);
   assert.match(aiCrewPage, /「新しい同僚」/);
   assert.match(aiCrewPage, /AICrewAboutImage/);
   assert.match(aiCrewPage, /concept-team\.webp/);
