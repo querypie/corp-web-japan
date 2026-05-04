@@ -348,17 +348,4 @@ export const homePageContent = {
       notes: ["QueryPie AI"],
     },
   },
-  contact: {
-    eyebrow: "お問い合わせ",
-    title: "どの業務から始めるべきか、\nまずは一緒に整理しませんか？",
-    body:
-      "まだ対象業務が明確でなくても問題ありません。\nQueryPie AIの専門チームが、貴社のボトルネック整理からPoCの進め方までご一緒します。",
-    primaryCta: { label: "業務に合うAI活用を相談する", href: aiCrewConsultUrl },
-    secondaryCta: { label: "活用事例を見る", href: demoUseCasesUrl },
-    partnerBadge: "SaaSやWebサービスのAI化を進めたい企業様へ",
-    partnerTitle: "貴社のサービスを、最短でAI化しませんか？",
-    partnerBody:
-      "自社サービスのAI化を、ゼロから数千万円かけて開発する必要はありません。QueryPie AIの強固なAI基盤を、貴社のブランドとUIのまま組み込めるAIソリューションを提供しています。専門エンジニア（FDE）が伴走し、最短1ヶ月で貴社の顧客に新しいAI体験を届けることが可能です。",
-    partnerCta: { label: "自社サービスAI化の進め方を見る", href: "/solutions/ai-dashi" },
-  },
 } as const;
