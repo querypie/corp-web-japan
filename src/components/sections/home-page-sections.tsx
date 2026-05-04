@@ -38,20 +38,6 @@ const processStepIcons = [
   Cable,
 ] as const;
 
-function renderEmphasizedText(text: string) {
-  return text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
-    if (part.startsWith("**") && part.endsWith("**")) {
-      return (
-        <strong key={`${part}-${index}`} className="font-semibold text-slate-800">
-          {part.slice(2, -2)}
-        </strong>
-      );
-    }
-
-    return <span key={`${part}-${index}`}>{part}</span>;
-  });
-}
-
 function renderHighlightedKeyword(line: string, keyword: string) {
   if (!line.includes(keyword)) {
     return line;
