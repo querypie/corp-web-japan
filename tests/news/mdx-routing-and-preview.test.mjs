@@ -6,6 +6,7 @@ import { readSource } from "../helpers/source-readers.mjs";
 test("news preview page and canonical routes are driven by news MDX publication records", () => {
   const previewPage = readSource("src/app/t/news/page.tsx");
   const listPage = readSource("src/components/sections/news-list-page.tsx");
+  const sectionComponents = readSource("src/components/sections/news-page-section.tsx");
   const canonicalRoute = readSource("src/app/news/[id]/[slug]/page.tsx");
   const idRoute = readSource("src/app/news/[id]/page.tsx");
   const loader = readSource("src/lib/publications/get-news-publication-post.ts");
@@ -17,19 +18,31 @@ test("news preview page and canonical routes are driven by news MDX publication 
   assert.equal(existsSync(new URL("../../src/app/news/[id]/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../../src/content/publications/news-publication-records.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../../src/lib/publications/get-news-publication-post.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../src/components/sections/news-page-section.tsx", import.meta.url)), true);
 
   assert.match(previewPage, /listNewsPublicationItems\(\)/);
   assert.match(previewPage, /canonical: "\/t\/news"/);
   assert.match(previewPage, /robots:\s*\{[\s\S]*index: false,[\s\S]*follow: false,[\s\S]*\}/);
-  assert.match(previewPage, /NewsListPage/);
+  assert.match(previewPage, /NewsArticleList/);
+  assert.match(previewPage, /NewsPageSection/);
+  assert.match(previewPage, />\s*News\s*</);
+  assert.match(previewPage, /まずは小さく、失敗しないAXを始めよう/);
+  assert.match(previewPage, /簡単サインアップで、14日間の無料トライアルをお試しください/);
+  assert.match(previewPage, /https:\/\/app\.querypie\.com\//);
   assert.doesNotMatch(previewPage, /プレビュー一覧/);
   assert.doesNotMatch(previewPage, /ローカル MDX/);
   assert.doesNotMatch(previewPage, /description=\{|description:\s*</);
-  assert.match(listPage, />\s*News\s*</);
-  assert.match(listPage, /まずは小さく、失敗しないAXを始めよう/);
-  assert.match(listPage, /簡単サインアップで、14日間の無料トライアルをお試しください/);
-  assert.match(listPage, /https:\/\/app\.querypie\.com\//);
+
   assert.match(listPage, /function NewsCard/);
+  assert.match(listPage, /export function NewsArticleList/);
+  assert.doesNotMatch(listPage, /まずは小さく、失敗しないAXを始めよう/);
+  assert.doesNotMatch(listPage, /簡単サインアップで、14日間の無料トライアルをお試しください/);
+  assert.doesNotMatch(listPage, />\s*News\s*</);
+
+  assert.match(sectionComponents, /export function NewsPageSection/);
+  assert.match(sectionComponents, /export function NewsPageNavItem/);
+  assert.match(sectionComponents, /export function NewsFinalCtaSection/);
+  assert.match(sectionComponents, /export function NewsFinalCtaAction/);
 
   assert.match(canonicalRoute, /getNewsPublicationRecord\(id\)/);
   assert.match(canonicalRoute, /if \(record\.redirectUrl\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
