@@ -85,9 +85,18 @@ import {
   AICrewWhyTitle,
 } from "@/components/sections/ai-crew-why-section";
 import {
+  AICrewSectionsAfterDesignElements,
   HomePageIntroSections,
-  HomePageSections,
 } from "@/components/sections/home-page-sections";
+import {
+  AICrewDesignElementBody,
+  AICrewDesignElementCard,
+  AICrewDesignElementHeading,
+  AICrewDesignElementsGrid,
+  AICrewDesignElementsSection,
+  AICrewDesignElementsTitle,
+} from "@/components/sections/ai-crew-design-elements-section";
+import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 
 export const metadata: Metadata = {
   title: "作業を減らし、成果を増やす。| AI Crew | QueryPie AI",
@@ -239,7 +248,56 @@ export default function AICrewPage() {
           </AICrewWhyAfterCard>
         </AICrewWhyComparisonShell>
       </AICrewWhySection>
-      <HomePageSections />
+      <AICrewDesignElementsSection>
+        <AICrewDesignElementsTitle>
+          あなたの
+          <strong>実務を担う</strong>
+          AI、5つの設計要素
+        </AICrewDesignElementsTitle>
+        <AICrewDesignElementsGrid>
+          <RevealOnScroll delayMs={0}>
+            <AICrewDesignElementCard label="業務定義">
+              <AICrewDesignElementHeading>任せる業務と期待する成果を明確にする</AICrewDesignElementHeading>
+              <AICrewDesignElementBody>
+                <p>任せる業務と成果物を決め、役割を明確にします。</p>
+              </AICrewDesignElementBody>
+            </AICrewDesignElementCard>
+          </RevealOnScroll>
+          <RevealOnScroll delayMs={70}>
+            <AICrewDesignElementCard label="文脈設定">
+              <AICrewDesignElementHeading>必要なデータと前提知識をつなぐ</AICrewDesignElementHeading>
+              <AICrewDesignElementBody>
+                <p>必要な社内データや前提知識につなぎ、使える状態に整えます。</p>
+              </AICrewDesignElementBody>
+            </AICrewDesignElementCard>
+          </RevealOnScroll>
+          <RevealOnScroll delayMs={140}>
+            <AICrewDesignElementCard label="出力設計">
+              <AICrewDesignElementHeading>現場で使える形でアウトプットさせる</AICrewDesignElementHeading>
+              <AICrewDesignElementBody>
+                <p>要約、比較表、一次ドラフトなど、使いやすい形式を定義します。</p>
+              </AICrewDesignElementBody>
+            </AICrewDesignElementCard>
+          </RevealOnScroll>
+          <RevealOnScroll delayMs={210}>
+            <AICrewDesignElementCard label="権限管理">
+              <AICrewDesignElementHeading>任せる範囲と人の承認を明確にする</AICrewDesignElementHeading>
+              <AICrewDesignElementBody>
+                <p>アクセス範囲と承認フローを定め、安心して任せられる形にします。</p>
+              </AICrewDesignElementBody>
+            </AICrewDesignElementCard>
+          </RevealOnScroll>
+          <RevealOnScroll delayMs={280}>
+            <AICrewDesignElementCard label="効果検証">
+              <AICrewDesignElementHeading>利用量ではなく、業務への貢献で見る</AICrewDesignElementHeading>
+              <AICrewDesignElementBody>
+                <p>工数削減や品質改善を確認し、次の改善や横展開につなげます。</p>
+              </AICrewDesignElementBody>
+            </AICrewDesignElementCard>
+          </RevealOnScroll>
+        </AICrewDesignElementsGrid>
+      </AICrewDesignElementsSection>
+      <AICrewSectionsAfterDesignElements />
       <AICrewContactSection>
         <AICrewContactShell>
           <AICrewContactIntro>

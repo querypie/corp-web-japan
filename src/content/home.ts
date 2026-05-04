@@ -22,66 +22,6 @@ export const homePageContent = {
     imageAlt: "オフィスでAIアシスタント画面を活用しながら業務を進めるチームのイメージ",
   },
   floatingCta: { label: "業務に合うAI活用を相談する", href: aiCrewFloatingCtaUrl },
-  featureIntro: {
-    subtitle: "あなたの実務を担うAI、5つの設計要素",
-  },
-  featureTabs: [
-    {
-      label: "業務定義",
-      heading: "任せる業務と期待する成果を明確にする",
-      description:
-        "任せる業務と成果物を決め、役割を明確にします。",
-      cta: "",
-      panelTitle: "業務定義",
-      panelSubtitle: "任せる業務と成果物の整理",
-      tags: ["担当業務", "対象チーム", "成果物", "承認範囲"],
-      cards: ["対象業務", "成果物", "期待成果"],
-    },
-    {
-      label: "文脈設定",
-      heading: "必要なデータと前提知識をつなぐ",
-      description:
-        "必要な社内データや前提知識につなぎ、使える状態に整えます。",
-      cta: "",
-      panelTitle: "文脈設定",
-      panelSubtitle: "必要な情報と前提知識の接続",
-      tags: ["Notion", "Slack", "CRM", "Docs", "Tickets"],
-      cards: ["参照データ", "関連システム", "前提知識"],
-    },
-    {
-      label: "出力設計",
-      heading: "現場で使える形でアウトプットさせる",
-      description:
-        "要約、比較表、一次ドラフトなど、使いやすい形式を定義します。",
-      cta: "",
-      panelTitle: "出力設計",
-      panelSubtitle: "現場で使える形式への最適化",
-      tags: ["調査", "作成", "整理", "分析"],
-      cards: ["要約", "比較表", "ドラフト"],
-    },
-    {
-      label: "権限管理",
-      heading: "任せる範囲と人の承認を明確にする",
-      description:
-        "アクセス範囲と承認フローを定め、安心して任せられる形にします。",
-      cta: "",
-      panelTitle: "ガードレール",
-      panelSubtitle: "アクセス範囲と承認フローの整理",
-      tags: ["承認", "レビュー", "権限", "監査"],
-      cards: ["アクセス範囲", "承認条件", "レビュー運用"],
-    },
-    {
-      label: "効果検証",
-      heading: "利用量ではなく、業務への貢献で見る",
-      description:
-        "工数削減や品質改善を確認し、次の改善や横展開につなげます。",
-      cta: "",
-      panelTitle: "運用ダッシュボード",
-      panelSubtitle: "業務への貢献度を確認",
-      tags: ["稼働状況", "成果物数", "削減時間", "次の改善候補"],
-      cards: ["工数削減", "回答速度", "品質確認"],
-    },
-  ],
   roi: {
     eyebrow: "Technology & Security",
     title: "実務での安全なAI活用を支える\nエンタープライズAI基盤 QueryPie AIP",

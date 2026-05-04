@@ -38,6 +38,7 @@ export function getAiCrewStructureSource() {
     "src/app/solutions/ai-crew/page.tsx",
     "src/components/sections/home-page-sections.tsx",
     "src/components/sections/ai-crew-about-section.tsx",
+    "src/components/sections/ai-crew-design-elements-section.tsx",
     "src/components/sections/ai-crew-lost-section.tsx",
     "src/components/sections/ai-crew-why-section.tsx",
     "src/components/sections/ai-crew-contact-section.tsx",
