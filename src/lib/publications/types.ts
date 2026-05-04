@@ -36,6 +36,7 @@ export type PublicationPost = {
   description: string;
   date: string;
   heroImageSrc: string;
+  hideHeroImageOnDetail?: boolean;
   author: PublicationPostAuthor | null;
   bodyHtml: string | null;
   bodyMdx: ReactNode | null;

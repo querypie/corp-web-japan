@@ -10,6 +10,7 @@ test("event preview page and canonical routes are driven by event MDX publicatio
   const idRoute = readSource("src/app/events/[id]/page.tsx");
   const loader = readSource("src/lib/publications/get-event-publication-post.ts");
   const records = readSource("src/lib/publications/event-publication-records.ts");
+  const postPage = readSource("src/components/sections/publication-post-page.tsx");
 
   assert.equal(existsSync(new URL("../src/app/t/events/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/events/[id]/page.tsx", import.meta.url)), true);
@@ -35,6 +36,8 @@ test("event preview page and canonical routes are driven by event MDX publicatio
   assert.match(loader, /extractHeadingsFromMdx/);
   assert.match(records, /src\/content\/events/);
   assert.match(records, /badge: record\.eventLabel \?\? "イベント"/);
+  assert.match(records, /hideHeroImageOnDetail: hideHeroImageOnDetailValue === true/);
+  assert.match(postPage, /post\.hideHeroImageOnDetail \? null :/);
 });
 
 test("event MDX loader supports the webinar corpus component set and route-aligned assets", () => {
@@ -47,12 +50,14 @@ test("event MDX loader supports the webinar corpus component set and route-align
 
   assert.match(event1, /heroImageSrc: "\/events\/1\/thumbnail\.png"/);
   assert.match(event1, /eventLabel: "ウェビナー"/);
+  assert.match(event1, /hideHeroImageOnDetail: true/);
   assert.match(event1, /relatedIds:/);
   assert.match(event1, /<ArticleYoutubeGatingForm/);
   assert.doesNotMatch(event1, /public\/webinar\//);
 
   assert.match(event27, /heroImageSrc: "\/events\/27\/thumbnail\.png"/);
   assert.match(event27, /eventLabel: "ウェビナー"/);
+  assert.doesNotMatch(event27, /hideHeroImageOnDetail: true/);
   assert.match(event27, /<ButtonLink href="https:\/\/us02web\.zoom\.us\/webinar\/register\//);
   assert.doesNotMatch(event27, /filepath="public\/webinar\//);
 });

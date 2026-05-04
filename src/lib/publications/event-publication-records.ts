@@ -11,6 +11,7 @@ export type EventPublicationFrontmatter = {
   date: string;
   heroImageSrc: string;
   eventLabel?: string;
+  hideHeroImageOnDetail?: boolean;
   author?: string | string[];
   hidden?: boolean;
   redirectUrl?: string;
@@ -51,6 +52,7 @@ function normalizeEventPublicationFrontmatter(value: unknown, sourcePath: string
     : [];
   const authorValue = frontmatter.author;
   const eventLabelValue = frontmatter.eventLabel;
+  const hideHeroImageOnDetailValue = frontmatter.hideHeroImageOnDetail;
   const redirectUrlValue = frontmatter.redirectUrl;
 
   return {
@@ -61,6 +63,7 @@ function normalizeEventPublicationFrontmatter(value: unknown, sourcePath: string
     date: String(frontmatter.date ?? ""),
     heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
     eventLabel: typeof eventLabelValue === "string" ? eventLabelValue : undefined,
+    hideHeroImageOnDetail: hideHeroImageOnDetailValue === true,
     author:
       typeof authorValue === "string"
         ? authorValue
