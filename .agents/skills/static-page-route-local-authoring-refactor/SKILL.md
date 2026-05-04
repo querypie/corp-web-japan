@@ -120,6 +120,7 @@ Good to keep extracted:
 - tiny shared route constants files when the values are reused by multiple surfaces and are not a giant content registry
 - a temporary shared page shell/orchestrator when you are intentionally migrating one section at a time and the shell still provides the surrounding layout for untouched sections
 - section component files that have been reduced to UI-only structure/styling wrappers while the moved section's marketing copy now lives in `page.tsx`
+- section-level primitives or semantic wrapper components under `src/components/sections/**` that are composed directly from `page.tsx`
 
 Bad to keep extracted:
 - one big `HomePageSections`/`AiCrewSections`-style wrapper that still owns the target section's marketing copy after the migration
@@ -127,6 +128,7 @@ Bad to keep extracted:
 - a top-level content registry copied from the old module into `page.tsx` with only the file location changed
 - the same giant registry merely split into many section-level top-level constants such as `const hero = { ... }`, `const roles = { ... }`, `const contact = { ... }` while the route still reads as `data blob first, JSX second`
 - an external page-specific wrapper merely moved into the route and renamed as a local helper such as `function AICrewSections()` or `function HomeSections()` while it still hides most of the authored page structure
+- passing a giant raw JSX section blob as a prop such as `contactSection={<section ...>...</section>}` or `aboutSection={<section ...>...</section>}` from `page.tsx` into a shared shell component
 
 Important rule:
 Do not consider the refactor complete if you merely moved a giant object from `src/content/**` into the top of `page.tsx`.
@@ -134,7 +136,8 @@ The point is to make the route readable, not to preserve the same indirection in
 
 Also do not consider the refactor complete if you only:
 - break the old giant object into many section constants at the top of `page.tsx`, or
-- copy the old page-specific wrapper into the same file as a large local `*Sections()` function.
+- copy the old page-specific wrapper into the same file as a large local `*Sections()` function, or
+- move a whole section's implementation blob into a `page.tsx` prop passed to an old shell component.
 
 Those are only location changes. They are not yet route-local authoring in the intended sense.
 
@@ -142,6 +145,7 @@ Important staged-refactor rule from PRs 155–158:
 - the existence of a temporary shared shell is **not** itself a failure
 - it becomes a failure only if that shell still owns the migrated section's marketing copy
 - if the target section's visible copy now lives in `page.tsx`, while the shell only places that section among other not-yet-migrated sections, that is an acceptable intermediate state
+- however, even in this acceptable intermediate state, the migrated section's implementation should still live under `src/components/sections/**`; `page.tsx` should compose section components, not inject a giant raw JSX section blob into a shell prop
 
 ### 3. Move authoring into `page.tsx`
 
