@@ -3,24 +3,19 @@ import { notFound, redirect } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { PublicationPostPage } from "@/components/sections/publication-post-page";
-import {
-  getDocumentationPublicationHref,
-  getDocumentationPublicationPost,
-  getDocumentationPublicationRecordById,
-  listDocumentationPublicationParamsByCategory,
-} from "@/lib/get-documentation-publication-post";
+import { getGlossaryPublicationHref, getGlossaryPublicationPost, getGlossaryPublicationRecordById, listGlossaryPublicationParamsByCategory } from "@/lib/resources/glossary-post-loader";
 
-type DocumentationPreviewDetailPageProps = {
+type ResourcePreviewDetailPageProps = {
   params: Promise<{ id: string; slug: string }>;
 };
 
 export function generateStaticParams() {
-  return listDocumentationPublicationParamsByCategory("glossary");
+  return listGlossaryPublicationParamsByCategory();
 }
 
-export async function generateMetadata({ params }: DocumentationPreviewDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ResourcePreviewDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const record = getDocumentationPublicationRecordById("glossary", id);
+  const record = getGlossaryPublicationRecordById(id);
 
   if (!record) {
     return {};
@@ -30,7 +25,7 @@ export async function generateMetadata({ params }: DocumentationPreviewDetailPag
     title: `${record.title} | QueryPie AI`,
     description: record.description,
     alternates: {
-      canonical: getDocumentationPublicationHref("glossary", id, record.slug),
+      canonical: getGlossaryPublicationHref(id, record.slug),
     },
     robots: {
       index: false,
@@ -39,19 +34,19 @@ export async function generateMetadata({ params }: DocumentationPreviewDetailPag
   };
 }
 
-export default async function GlossaryDetailPage({ params }: DocumentationPreviewDetailPageProps) {
+export default async function GlossaryDetailPage({ params }: ResourcePreviewDetailPageProps) {
   const { id, slug } = await params;
-  const record = getDocumentationPublicationRecordById("glossary", id);
+  const record = getGlossaryPublicationRecordById(id);
 
   if (!record) {
     notFound();
   }
 
   if (record.slug !== slug) {
-    redirect(getDocumentationPublicationHref("glossary", id, record.slug));
+    redirect(getGlossaryPublicationHref(id, record.slug));
   }
 
-  const post = await getDocumentationPublicationPost("glossary", id);
+  const post = await getGlossaryPublicationPost(id);
   if (!post) {
     notFound();
   }

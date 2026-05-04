@@ -1,28 +1,23 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import { buildGatingCookieName } from "@/lib/publications/gating";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { PublicationPostPage } from "@/components/sections/publication-post-page";
-import { buildGatingCookieName } from "@/lib/publications/gating";
-import { cookies } from "next/headers";
-import {
-  getDocumentationPublicationHref,
-  getDocumentationPublicationPost,
-  getDocumentationPublicationRecordById,
-  listDocumentationPublicationParamsByCategory,
-} from "@/lib/get-documentation-publication-post";
+import { getIntroductionDeckPublicationHref, getIntroductionDeckPublicationPost, getIntroductionDeckPublicationRecord, listIntroductionDeckPublicationParamsByCategory } from "@/lib/resources/introduction-deck-post-loader";
 
-type DocumentationPreviewDetailPageProps = {
+type ResourcePreviewDetailPageProps = {
   params: Promise<{ id: string; slug: string }>;
 };
 
 export function generateStaticParams() {
-  return listDocumentationPublicationParamsByCategory("introduction-deck");
+  return listIntroductionDeckPublicationParamsByCategory();
 }
 
-export async function generateMetadata({ params }: DocumentationPreviewDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ResourcePreviewDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const record = getDocumentationPublicationRecordById("introduction-deck", id);
+  const record = getIntroductionDeckPublicationRecord(id);
 
   if (!record) {
     return {};
@@ -32,7 +27,7 @@ export async function generateMetadata({ params }: DocumentationPreviewDetailPag
     title: `${record.title} | QueryPie AI`,
     description: record.description,
     alternates: {
-      canonical: getDocumentationPublicationHref("introduction-deck", id, record.slug),
+      canonical: getIntroductionDeckPublicationHref(id, record.slug),
     },
     robots: {
       index: false,
@@ -41,19 +36,19 @@ export async function generateMetadata({ params }: DocumentationPreviewDetailPag
   };
 }
 
-export default async function IntroductionDeckDetailPage({ params }: DocumentationPreviewDetailPageProps) {
+export default async function IntroductionDeckDetailPage({ params }: ResourcePreviewDetailPageProps) {
   const { id, slug } = await params;
-  const record = getDocumentationPublicationRecordById("introduction-deck", id);
+  const record = getIntroductionDeckPublicationRecord(id);
 
   if (!record) {
     notFound();
   }
 
   if (record.slug !== slug) {
-    redirect(getDocumentationPublicationHref("introduction-deck", id, record.slug));
+    redirect(getIntroductionDeckPublicationHref(id, record.slug));
   }
 
-  const post = await getDocumentationPublicationPost("introduction-deck", id);
+  const post = await getIntroductionDeckPublicationPost(id);
   if (!post) {
     notFound();
   }

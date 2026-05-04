@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourceListPage } from "@/components/sections/resource-list-page";
-import { listDocumentationResourceItems } from "@/lib/documentation-publications";
+import { listResourcePreviewItems } from "@/lib/resources/resource-preview-items";
 
 export const metadata: Metadata = {
   title: "ドキュメント | QueryPie AI",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 export default function PreviewResourcesPage() {
-  const items = listDocumentationResourceItems();
+  const items = listResourcePreviewItems();
 
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">

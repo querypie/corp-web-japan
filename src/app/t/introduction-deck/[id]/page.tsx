@@ -1,25 +1,21 @@
 import { notFound, redirect } from "next/navigation";
-import {
-  getDocumentationPublicationHref,
-  getDocumentationPublicationRecordById,
-  listDocumentationPublicationIdsByCategory,
-} from "@/lib/get-documentation-publication-post";
+import { getIntroductionDeckPublicationHref, getIntroductionDeckPublicationRecord, listIntroductionDeckPublicationIdsByCategory } from "@/lib/resources/introduction-deck-post-loader";
 
-type DocumentationPreviewDetailIdPageProps = {
+type ResourcePreviewDetailIdPageProps = {
   params: Promise<{ id: string }>;
 };
 
 export function generateStaticParams() {
-  return listDocumentationPublicationIdsByCategory("introduction-deck");
+  return listIntroductionDeckPublicationIdsByCategory();
 }
 
-export default async function IntroductionDeckDetailIdPage({ params }: DocumentationPreviewDetailIdPageProps) {
+export default async function IntroductionDeckDetailIdPage({ params }: ResourcePreviewDetailIdPageProps) {
   const { id } = await params;
-  const record = getDocumentationPublicationRecordById("introduction-deck", id);
+  const record = getIntroductionDeckPublicationRecord(id);
 
   if (!record) {
     notFound();
   }
 
-  redirect(getDocumentationPublicationHref("introduction-deck", id, record.slug));
+  redirect(getIntroductionDeckPublicationHref(id, record.slug));
 }

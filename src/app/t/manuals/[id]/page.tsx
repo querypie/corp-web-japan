@@ -1,25 +1,21 @@
 import { notFound, redirect } from "next/navigation";
-import {
-  getDocumentationPublicationHref,
-  getDocumentationPublicationRecordById,
-  listDocumentationPublicationIdsByCategory,
-} from "@/lib/get-documentation-publication-post";
+import { getManualPublicationHref, getManualPublicationRecordById, listManualPublicationIdsByCategory } from "@/lib/resources/manual-post-loader";
 
-type DocumentationPreviewDetailIdPageProps = {
+type ResourcePreviewDetailIdPageProps = {
   params: Promise<{ id: string }>;
 };
 
 export function generateStaticParams() {
-  return listDocumentationPublicationIdsByCategory("manuals");
+  return listManualPublicationIdsByCategory();
 }
 
-export default async function ManualsDetailIdPage({ params }: DocumentationPreviewDetailIdPageProps) {
+export default async function ManualsDetailIdPage({ params }: ResourcePreviewDetailIdPageProps) {
   const { id } = await params;
-  const record = getDocumentationPublicationRecordById("manuals", id);
+  const record = getManualPublicationRecordById(id);
 
   if (!record) {
     notFound();
   }
 
-  redirect(getDocumentationPublicationHref("manuals", id, record.slug));
+  redirect(getManualPublicationHref(id, record.slug));
 }

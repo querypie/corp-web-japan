@@ -1,25 +1,21 @@
 import { notFound, redirect } from "next/navigation";
-import {
-  getDocumentationPublicationHref,
-  getDocumentationPublicationRecordById,
-  listDocumentationPublicationIdsByCategory,
-} from "@/lib/get-documentation-publication-post";
+import { getGlossaryPublicationHref, getGlossaryPublicationRecordById, listGlossaryPublicationIdsByCategory } from "@/lib/resources/glossary-post-loader";
 
-type DocumentationPreviewDetailIdPageProps = {
+type ResourcePreviewDetailIdPageProps = {
   params: Promise<{ id: string }>;
 };
 
 export function generateStaticParams() {
-  return listDocumentationPublicationIdsByCategory("glossary");
+  return listGlossaryPublicationIdsByCategory();
 }
 
-export default async function GlossaryDetailIdPage({ params }: DocumentationPreviewDetailIdPageProps) {
+export default async function GlossaryDetailIdPage({ params }: ResourcePreviewDetailIdPageProps) {
   const { id } = await params;
-  const record = getDocumentationPublicationRecordById("glossary", id);
+  const record = getGlossaryPublicationRecordById(id);
 
   if (!record) {
     notFound();
   }
 
-  redirect(getDocumentationPublicationHref("glossary", id, record.slug));
+  redirect(getGlossaryPublicationHref(id, record.slug));
 }

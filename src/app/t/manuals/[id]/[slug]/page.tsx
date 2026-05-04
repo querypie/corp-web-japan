@@ -3,24 +3,19 @@ import { notFound, redirect } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { PublicationPostPage } from "@/components/sections/publication-post-page";
-import {
-  getDocumentationPublicationHref,
-  getDocumentationPublicationPost,
-  getDocumentationPublicationRecordById,
-  listDocumentationPublicationParamsByCategory,
-} from "@/lib/get-documentation-publication-post";
+import { getManualPublicationHref, getManualPublicationPost, getManualPublicationRecordById, listManualPublicationParamsByCategory } from "@/lib/resources/manual-post-loader";
 
-type DocumentationPreviewDetailPageProps = {
+type ResourcePreviewDetailPageProps = {
   params: Promise<{ id: string; slug: string }>;
 };
 
 export function generateStaticParams() {
-  return listDocumentationPublicationParamsByCategory("manuals");
+  return listManualPublicationParamsByCategory();
 }
 
-export async function generateMetadata({ params }: DocumentationPreviewDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ResourcePreviewDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const record = getDocumentationPublicationRecordById("manuals", id);
+  const record = getManualPublicationRecordById(id);
 
   if (!record) {
     return {};
@@ -30,7 +25,7 @@ export async function generateMetadata({ params }: DocumentationPreviewDetailPag
     title: `${record.title} | QueryPie AI`,
     description: record.description,
     alternates: {
-      canonical: getDocumentationPublicationHref("manuals", id, record.slug),
+      canonical: getManualPublicationHref(id, record.slug),
     },
     robots: {
       index: false,
@@ -39,19 +34,19 @@ export async function generateMetadata({ params }: DocumentationPreviewDetailPag
   };
 }
 
-export default async function ManualsDetailPage({ params }: DocumentationPreviewDetailPageProps) {
+export default async function ManualsDetailPage({ params }: ResourcePreviewDetailPageProps) {
   const { id, slug } = await params;
-  const record = getDocumentationPublicationRecordById("manuals", id);
+  const record = getManualPublicationRecordById(id);
 
   if (!record) {
     notFound();
   }
 
   if (record.slug !== slug) {
-    redirect(getDocumentationPublicationHref("manuals", id, record.slug));
+    redirect(getManualPublicationHref(id, record.slug));
   }
 
-  const post = await getDocumentationPublicationPost("manuals", id);
+  const post = await getManualPublicationPost(id);
   if (!post) {
     notFound();
   }

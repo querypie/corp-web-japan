@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourceListPage } from "@/components/sections/resource-list-page";
-import { listDocumentationPublicationItems } from "@/lib/documentation-publications";
+import { listIntroductionDeckPublicationItems } from "@/lib/resources/introduction-deck-publications";
 
 export const metadata: Metadata = {
   title: "紹介資料 | QueryPie AI",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default function PreviewIntroductionDeckPage() {
-  const items = listDocumentationPublicationItems("introduction-deck");
+  const items = listIntroductionDeckPublicationItems();
 
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">

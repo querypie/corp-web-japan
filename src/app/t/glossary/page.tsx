@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourceListPage } from "@/components/sections/resource-list-page";
-import { listDocumentationPublicationItems } from "@/lib/documentation-publications";
+import { listGlossaryPublicationItems } from "@/lib/resources/glossary-publications";
 
 export const metadata: Metadata = {
   title: "用語集 | QueryPie AI",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default function PreviewGlossaryPage() {
-  const items = listDocumentationPublicationItems("glossary");
+  const items = listGlossaryPublicationItems();
 
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
