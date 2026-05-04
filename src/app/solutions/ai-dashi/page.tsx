@@ -9,7 +9,6 @@ import {
   Settings,
   ShieldCheck,
   Users,
-  X,
 } from "lucide-react";
 import { aiDashiConsultUrl, aiDashiFloatingUrl, aiDashiWhitepaperUrl } from "@/content/ai-dashi-links";
 import { SiteFooter } from "@/components/layout/site-footer";
