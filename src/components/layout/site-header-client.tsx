@@ -72,7 +72,7 @@ function getNavItems(previewModeEnabled: boolean): readonly NavItem[] {
       children: [
         { label: "私たちについて", href: t("/about-us", previewModeEnabled) },
         { label: "認証情報", href: t("/certifications", previewModeEnabled) },
-        { label: "ニュース", href: t("/news", previewModeEnabled) },
+        { label: "ニュース", href: "/news" },
         { label: "お問い合わせ", href: "/contact-us" },
       ],
     },

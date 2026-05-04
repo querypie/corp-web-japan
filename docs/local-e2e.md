@@ -33,16 +33,15 @@ Current coverage:
 
 ### 3. News stage flow
 
-- Test file: `tests-local/src/app/t/news/page.e2e.mjs`
 - Test file: `tests-local/src/app/news/page.e2e.mjs`
 - npm scripts:
   - `npm run e2e:local:news-list:stage`
   - `npm run e2e:local:news-detail:stage`
 - Requested target base URL for this flow: `https://stage.querypie.ai`
-- Representative target page: `/t/news`
+- Representative target page: `/news`
 
 Current coverage intent:
-- `/t/news` renders the news list page and local `/news/:id/:slug` card hrefs
+- `/news` renders the news list page and local `/news/:id/:slug` card hrefs
 - redirect-backed local news detail URIs (for example news 12) resolve to their configured external targets
 - local-body news detail URIs (news 13 and news 14) render the local MDX body instead of redirecting away
 

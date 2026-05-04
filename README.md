@@ -23,6 +23,8 @@ The current public structure is:
 - `/blog/:id/:slug` — local MDX-backed blog detail, with `/blog/:id` redirecting to the canonical slug route
 - `/whitepapers` — local whitepaper index
 - `/whitepapers/:id/:slug` — local MDX-backed whitepaper detail, with `/whitepapers/:id` redirecting to the canonical slug route
+- `/news` — local news index
+- `/news/:id/:slug` — local MDX-backed news detail, with `/news/:id` redirecting to the canonical slug route
 - `/events/:id/:slug` — local event detail route
 - `/contact-us` — local contact form page with stable query-string prefills and a local submit flow
 

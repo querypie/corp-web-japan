@@ -18,15 +18,11 @@ export const metadata: Metadata = {
   title: "ニュース | QueryPie AI",
   description: "QueryPie AIの最新ニュース、公式発表、外部メディア掲載情報をご覧いただけます。",
   alternates: {
-    canonical: "/t/news",
-  },
-  robots: {
-    index: false,
-    follow: false,
+    canonical: "/news",
   },
 };
 
-export default function TestNewsPage() {
+export default function NewsPage() {
   const newsItems = listNewsPublicationItems();
   const newsTrialUrl = "https://app.querypie.com/";
 

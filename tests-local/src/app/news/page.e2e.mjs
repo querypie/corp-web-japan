@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { newsFixtures } from '../../../helpers/news-stage-fixtures.mjs';
-import { gotoStagePath } from '../../../helpers/stage-page-helpers.mjs';
+import { gotoStagePath, publicationCardLink } from '../../../helpers/stage-page-helpers.mjs';
 
 function escapeRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -11,7 +11,23 @@ async function waitForExactUrl(page, url) {
   await expect(page).toHaveURL(url);
 }
 
-test.describe('stage news detail routes', () => {
+test.describe('stage news routes', () => {
+  test('news list renders the canonical page chrome and local news detail card hrefs', async ({ page, baseURL }) => {
+    await gotoStagePath(page, baseURL, newsFixtures.listPath);
+
+    await expect(page).toHaveTitle(newsFixtures.listTitle);
+    await expect(page.getByRole('heading', { name: newsFixtures.listHeading })).toBeVisible();
+    await expect(page.getByRole('heading', { name: newsFixtures.listCtaHeading })).toBeVisible();
+    await expect(page.getByText(newsFixtures.listCtaBody, { exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: newsFixtures.listCtaLabel })).toBeVisible();
+
+    for (const card of newsFixtures.visibleCards) {
+      const cardLink = publicationCardLink(page, card.title);
+      await expect(cardLink).toBeVisible();
+      await expect(cardLink).toHaveAttribute('href', card.href);
+    }
+  });
+
   test('redirect-backed news id-only path resolves to the configured external target', async ({ page, baseURL }) => {
     await gotoStagePath(page, baseURL, newsFixtures.redirectPost.idOnlyPath);
 

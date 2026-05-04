@@ -15,7 +15,7 @@ const expectedHeaderLinks = [
   'label: "マニュアル", href: "/manuals"',
   'label: "私たちについて", href: t("/about-us", previewModeEnabled)',
   'label: "認証情報", href: t("/certifications", previewModeEnabled)',
-  'label: "ニュース", href: t("/news", previewModeEnabled)',
+  'label: "ニュース", href: "/news"',
   'label: "お問い合わせ", href: "/contact-us"',
 ];
 
@@ -31,7 +31,7 @@ const expectedFooterLinks = [
   'label: "マニュアル", href: "/manuals"',
   'label: "私たちについて", href: t("/about-us", previewModeEnabled)',
   'label: "認証情報", href: t("/certifications", previewModeEnabled)',
-  'label: "ニュース", href: t("/news", previewModeEnabled)',
+  'label: "ニュース", href: "/news"',
   'label: "お問い合わせ", href: "/contact-us"',
 ];
 
@@ -52,7 +52,6 @@ const expectedRedirectFiles = [
   "src/app/demo/acp/route.ts",
   "src/app/about-us/route.ts",
   "src/app/certifications/route.ts",
-  "src/app/news/route.ts",
 ];
 
 test("navigation surfaces point to the canonical local and redirect endpoints", () => {
@@ -76,17 +75,21 @@ test("navigation surfaces point to the canonical local and redirect endpoints", 
 test("new non-local endpoints are implemented as redirect routes", () => {
   const sitemap = readSource("src/app/sitemap.ts");
   const contactUsPage = readSource("src/app/contact-us/page.tsx");
+  const newsPage = readSource("src/app/news/page.tsx");
 
   for (const relativePath of expectedRedirectFiles) {
     assert.equal(existsSync(new URL(`../${relativePath}`, import.meta.url)), true, `${relativePath} should exist`);
   }
 
   assert.match(contactUsPage, /canonical:\s*"\/contact-us"/);
+  assert.match(newsPage, /canonical:\s*"\/news"/);
   assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/news"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/resources"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/manuals"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/glossary"\)/);
+  assert.equal(existsSync(new URL("../src/app/news/route.ts", import.meta.url)), false);
 });
 
 test("events remains gated and stays out of the sitemap until launch", () => {
