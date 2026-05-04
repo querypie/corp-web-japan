@@ -34,7 +34,7 @@ test("event preview page and canonical routes are driven by event MDX publicatio
   assert.match(loader, /renderPublicationMdx/);
   assert.match(loader, /extractHeadingsFromMdx/);
   assert.match(records, /src\/content\/events/);
-  assert.match(records, /badge: "イベント"/);
+  assert.match(records, /badge: record\.eventLabel \?\? "イベント"/);
 });
 
 test("event MDX loader supports the webinar corpus component set and route-aligned assets", () => {
@@ -46,11 +46,13 @@ test("event MDX loader supports the webinar corpus component set and route-align
   assert.match(mdxComponents, /EmailLink/);
 
   assert.match(event1, /heroImageSrc: "\/events\/1\/thumbnail\.png"/);
+  assert.match(event1, /eventLabel: "ウェビナー"/);
   assert.match(event1, /relatedIds:/);
   assert.match(event1, /<ArticleYoutubeGatingForm/);
   assert.doesNotMatch(event1, /public\/webinar\//);
 
   assert.match(event27, /heroImageSrc: "\/events\/27\/thumbnail\.png"/);
+  assert.match(event27, /eventLabel: "ウェビナー"/);
   assert.match(event27, /<ButtonLink href="https:\/\/us02web\.zoom\.us\/webinar\/register\//);
   assert.doesNotMatch(event27, /filepath="public\/webinar\//);
 });

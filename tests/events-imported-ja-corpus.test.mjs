@@ -45,6 +45,7 @@ test("migrated event MDX files use local event routes and route-aligned assets",
     const source = readFileSync(path.join(eventsDir, `${id}.mdx`), "utf8");
 
     assert.match(source, new RegExp(`\\nheroImageSrc: "/events/${id}/thumbnail\\.png"\\n`));
+    assert.match(source, /\neventLabel: "ウェビナー"\n/);
     assert.doesNotMatch(source, /public\/webinar\//);
     assert.doesNotMatch(source, /\/features\/demo\/webinars\//);
 
