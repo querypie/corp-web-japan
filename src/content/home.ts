@@ -1,6 +1,6 @@
 export const demoUseCasesUrl = "/demo/use-cases";
 export const aiCrewWhitepaperUrl =
-  "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-transformation-japan";
+  "/whitepapers/24/ai-transformation-japan";
 export const aiCrewFloatingCtaUrl = "/contact-us?product=ai-crew";
 export const aiCrewConsultUrl = "/contact-us?inquiry=ai-consulting&product=ai-crew";
 
