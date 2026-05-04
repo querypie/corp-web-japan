@@ -21,7 +21,7 @@ export function AIDashiReleaseFlowIntro({ children }: { children: ReactNode }) {
 
 export function AIDashiReleaseFlowTitle({ children }: { children: ReactNode }) {
   return (
-    <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
+    <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em] [&_strong]:bg-gradient-to-r [&_strong]:from-[#E45A2A] [&_strong]:via-[#ED602E] [&_strong]:to-[#F08A3C] [&_strong]:bg-clip-text [&_strong]:font-inherit [&_strong]:text-transparent">
       {children}
     </h2>
   );

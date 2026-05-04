@@ -565,9 +565,7 @@ export default function AIDashiPage() {
             最速で市場へ
             <br />
             市場機会を逃さない、
-            <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
-              圧倒的な導入スピード
-            </span>
+            <strong>圧倒的な導入スピード</strong>
           </AIDashiReleaseFlowTitle>
           <AIDashiReleaseFlowBody>
             ゼロからAIを自社開発し、試行錯誤で時間を浪費する必要はありません。当社の専門エンジニア（FDE）が要件定義から本番公開まで一気通貫で伴走し、競合に先んじたスピーディな立ち上げを実現します。

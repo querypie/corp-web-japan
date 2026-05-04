@@ -9,6 +9,8 @@ test("AI Dashi release flow section follows route-local authoring", () => {
 
   assert.match(aiDashiPage, /AIDashiReleaseFlowSection/);
   assert.match(aiDashiPage, /AIDashiReleaseFlowCard/);
+  assert.match(aiDashiPage, /市場機会を逃さない、\s*<strong>圧倒的な導入スピード<\/strong>/);
+  assert.doesNotMatch(aiDashiPage, /市場機会を逃さない、[\s\S]*?<span className="bg-gradient-to-r from\[#E45A2A\] via\[#ED602E\] to\[#F08A3C\] bg-clip-text text-transparent">[\s\S]*?圧倒的な導入スピード[\s\S]*?<\/span>/);
   assert.match(aiDashiPage, /最速で市場へ/);
   assert.match(aiDashiPage, /ヒアリング・要件定義/);
   assert.match(aiDashiPage, /本番リリース・運用開始/);
