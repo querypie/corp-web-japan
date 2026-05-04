@@ -221,6 +221,7 @@ Bad to keep extracted:
 - the same giant registry merely split into many section-level top-level constants such as `const hero = { ... }`, `const roles = { ... }`, `const contact = { ... }` while the route still reads as `data blob first, JSX second`
 - JSON-like or object/array-based marketing copy declarations inside `page.tsx`, such as `const cards = [{ title, body }]`, `const section = { title, body, cta }`, or `const items = [...]`, when the main purpose is to store visible page copy rather than tiny incidental labels
 - prop-shaped copy APIs such as `intro={{ title: ..., body: ... }}`, `section={{ ... }}`, or large `items` arrays whose values are the real user-facing marketing sentences
+- title/text emphasis that is inferred inside a section component by substring matching (for example detecting `AI Crew` and auto-wrapping it with highlight markup) instead of being authored explicitly at the route level
 - an external page-specific wrapper merely moved into the route and renamed as a local helper such as `function AICrewSections()` or `function HomeSections()` while it still hides most of the authored page structure
 - a large local section helper such as `function SupportSection()` or `function ReleaseFlowSection()` when it still owns that section's real headings, prose-heavy arrays, CTA text, and JSX structure together
 - relocating a former top-level blob into `function SomeSection() { const items = [...] ... }` while the route body now only shows `<SomeSection />`
@@ -308,6 +309,9 @@ Preferred implementation style:
   - `<CardTitle>...</CardTitle>`
   - `<CardBody>...</CardBody>`
 - when emphasis is needed, prefer authored JSX such as `<strong>...</strong>` or small inline elements in the route instead of hiding the sentence in a data object
+- for highlighted keywords or gradient-emphasis title fragments, keep the emphasis decision explicit in `page.tsx` JSX rather than teaching a section component to detect and restyle a substring via `includes`, `split`, or other string-matching logic
+- prefer semantic route authoring such as `...<strong>AI Crew</strong>...` when the intent is emphasis, and let the section wrapper/component style that semantic tag via wrapper-owned selectors such as `[&_strong]:...`
+- in other words: the route owns the meaning of emphasis, while the section wrapper owns the visual treatment of that emphasis
 
 Most important implementation rule from PRs 155–158:
 - move **one target section at a time** into route-local authoring when that is the cleanest path
