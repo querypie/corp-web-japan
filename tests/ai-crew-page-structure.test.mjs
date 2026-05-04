@@ -23,9 +23,12 @@ test("AI Crew lost section follows route-local authoring while the shared shell 
   assert.match(aiCrewPage, /concept-team\.webp/);
 
   assert.match(aiCrewPage, /AICrewLostSection/);
-  assert.match(aiCrewPage, /人手不足と見えないコストが、企業の成長を鈍化させる。/);
-  assert.match(aiCrewPage, /なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか/);
-  assert.match(aiCrewPage, /href=\{aiCrewWhitepaperUrl\}/);
+  assert.match(aiCrewPage, /AICrewLostProblemCard/);
+  assert.match(aiCrewPage, /AICrewLostProblemTitle/);
+  assert.match(aiCrewPage, /AICrewLostProblemBody/);
+  assert.match(aiCrewPage, /AICrewLostWhitepaperCard/);
+  assert.match(aiCrewPage, /AICrewLostWhitepaperTitle/);
+  assert.match(aiCrewPage, /AICrewLostWhitepaperAction href=\{aiCrewWhitepaperUrl\}/);
 
   assert.match(aiCrewPage, /AICrewContactSection/);
   assert.match(aiCrewPage, /どの業務から始めるべきか、/);
@@ -35,11 +38,17 @@ test("AI Crew lost section follows route-local authoring while the shared shell 
   assert.match(aiCrewStructureSource, /export function HomePageIntroSections/);
   assert.match(aiCrewStructureSource, /export function AICrewAboutSection/);
   assert.match(aiCrewStructureSource, /export function AICrewLostSection/);
+  assert.match(aiCrewStructureSource, /export function AICrewLostProblemCard/);
+  assert.match(aiCrewStructureSource, /export function AICrewLostWhitepaperCard/);
   assert.match(aiCrewStructureSource, /export function AICrewAboutImage/);
   assert.match(aiCrewStructureSource, /featureIntro\.subtitle/);
   assert.doesNotMatch(aiCrewStructureSource, /FeatureShowcase/);
   assert.doesNotMatch(aiCrewStructureSource, /aboutSection\?: ReactNode/);
   assert.doesNotMatch(aiCrewStructureSource, /\{aboutSection\}/);
+
+  assert.doesNotMatch(aiCrewPage, /RevealOnScroll variant="up"/);
+  assert.doesNotMatch(aiCrewPage, /whitepaper-background\.svg/);
+  assert.doesNotMatch(aiCrewPage, /rounded-\[1\.8rem\] border border-\[#d7e4fb\]/);
 
   if (isAiCrewContentExternalized()) {
     const aiCrewContent = readSource("src/content/home.ts");
