@@ -18,6 +18,20 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { ZoomableFigure } from "@/components/sections/zoomable-figure";
+import {
+  AIDashiComparisonBody,
+  AIDashiComparisonCallout,
+  AIDashiComparisonHeaderRow,
+  AIDashiComparisonLabelCell,
+  AIDashiComparisonLegacyCell,
+  AIDashiComparisonNote,
+  AIDashiComparisonPreferredCell,
+  AIDashiComparisonRow,
+  AIDashiComparisonSection,
+  AIDashiComparisonTable,
+  AIDashiComparisonTitle,
+  AIDashiComparisonIntro,
+} from "@/components/sections/ai-dashi-comparison-section";
 
 export const metadata: Metadata = {
   title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
@@ -68,39 +82,6 @@ const releaseFlow = [
     title: "本番リリース・運用開始",
     body:
       "貴社の顧客向けにAIサービスを公開。リリース後も24時間365日のインフラ監視と、FDEによる継続的な改善サポートでビジネスの成長を支えます。",
-  },
-] as const;
-
-const comparisonRows = [
-  {
-    label: "開発期間",
-    left: ["最短1ヶ月（API組み込みのみ）", "すぐに市場投入が可能"],
-    right: ["半年〜1年以上（試行錯誤の連続）", "競合に先を越され市場機会を逃す"],
-  },
-  {
-    label: "初期インフラ投資",
-    left: ["初期投資ゼロ（インフラ不要）", "使った分だけの従量課金でスモールスタートが可能"],
-    right: ["数千万円規模の先行投資", "サーバー代や検証費用など、回収不能なサンクコストが発生"],
-  },
-  {
-    label: "専門エンジニア確保",
-    left: ["QueryPie AIのFDE（専門エンジニア）が伴走", "AIに関する専門知識不要"],
-    right: ["AI人材の採用が必須（極めて困難）", "人件費の高騰で採用が進まないリスク"],
-  },
-  {
-    label: "セキュリティ",
-    left: ["エンタープライズ品質の基盤（SOC2/ISO27001）", "厳格な権限管理（RBAC）が標準装備"],
-    right: ["ゼロトラストアーキテクチャを一から構築", "情報漏洩の致命的リスクと認証取得の果てしない工数"],
-  },
-  {
-    label: "ハルシネーション対策",
-    left: ["エンタープライズRAGによる事実のみの回答", "内蔵されたガードレール機能でB2Bでの業務利用も安心"],
-    right: ["精度が上がらず本番リリース不可", "自社データとLLMの連携（チャンキング等）で泥沼化"],
-  },
-  {
-    label: "運用保守",
-    left: ["24時間365日のインフラ監視と継続アップデート", "LLMの進化や運用はすべてオフロード、本業に集中"],
-    right: ["自社エンジニアが運用保守に追われる", "プロンプト調整やインフラ管理でコア事業の進化が停止"],
   },
 ] as const;
 
@@ -467,117 +448,73 @@ export default function AIDashiPage() {
         </div>
       </section>
 
-      <section id="ai-dashi-comparison" className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="w-full">
-            <RevealOnScroll variant="up" className="mx-auto max-w-[920px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
-                QueryPie AIPと自社開発の比較
-              </h2>
-              <p className="mx-auto mt-5 max-w-[760px] text-left text-base leading-7 text-slate-500">
-                ゼロから要件を満たす基盤を構築するフルスクラッチ（自社開発）とQueryPie AIPの比較です。AIPを活用すれば、開発期間・初期コスト・運用リスクのすべてを圧倒的に圧縮し、最短で市場へ展開できます。
-              </p>
-            </RevealOnScroll>
-
-            <RevealOnScroll className="mx-auto mt-12 max-w-[1000px] overflow-hidden rounded-[1.8rem] border border-black/6 bg-white shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)]" variant="up" delayMs={120}>
-            <div className="overflow-hidden rounded-[1.8rem] bg-white">
-              <div className="grid w-full grid-cols-[118px_1fr_1fr] bg-white md:grid-cols-[150px_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[180px_minmax(0,1.02fr)_minmax(0,0.98fr)]">
-                <div className="border-r border-b border-black/5 bg-white px-4 py-6" />
-                <div className="relative flex items-center justify-center overflow-hidden bg-[#f8fafc] px-4 py-7 text-center shadow-[inset_0_0_0_1px_rgba(237,96,46,0.05)]">
-                  <span className="pointer-events-none absolute inset-y-0 left-0 w-[3px] bg-[linear-gradient(180deg,#E45A2A_0%,#ED602E_45%,#F08A3C_100%)]" />
-                  <span className="pointer-events-none absolute inset-y-0 right-0 w-[3px] bg-[linear-gradient(180deg,#E45A2A_0%,#ED602E_45%,#F08A3C_100%)]" />
-                  <span className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-[linear-gradient(90deg,#E45A2A_0%,#ED602E_45%,#F08A3C_100%)]" />
-                  <span className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-black/5" />
-                  <div className="relative z-[1] flex items-start justify-center gap-3">
-                    <div className="mt-0.5 inline-flex h-fit rounded-full bg-[#ED602E] px-3 py-1 text-[11px] font-semibold tracking-[0.14em] text-white">
-                      おすすめ
-                    </div>
-                    <div className="flex max-w-fit flex-col items-center justify-center text-center">
-                      <p className="text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">QueryPie AIP導入</p>
-                      <p className="mt-1 text-[13px] font-medium leading-5 text-slate-600">組み込みAI基盤</p>
-                    </div>
-                    <div className="invisible inline-flex h-fit rounded-full px-3 py-1 text-[11px] font-semibold tracking-[0.14em]">
-                      おすすめ
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center justify-center border-b border-black/5 bg-white px-4 py-7 text-center">
-                  <div className="flex max-w-fit flex-col items-center justify-center text-center">
-                    <p className="text-[22px] font-semibold leading-7 tracking-[-0.03em] text-slate-700">自社開発</p>
-                    <p className="mt-1 text-[13px] font-medium leading-5 text-slate-500">フルスクラッチ</p>
-                  </div>
-                </div>
-              </div>
-
-              {comparisonRows.map((row, index) => (
-                <div
-                  key={row.label}
-                  className="grid w-full grid-cols-[118px_1fr_1fr] md:grid-cols-[150px_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[180px_minmax(0,1.02fr)_minmax(0,0.98fr)]"
-                >
-                  <div className={`flex items-center whitespace-nowrap border-r border-black/5 bg-white px-3 py-5 text-[12px] font-semibold leading-5 tracking-[-0.01em] text-slate-700 md:px-4 md:text-[12px] lg:px-5 lg:text-[14px] ${index < comparisonRows.length - 1 ? "border-b" : ""}`}>
-                    {row.label}
-                  </div>
-
-                  <div className={`relative flex min-h-[118px] items-center justify-center overflow-hidden bg-[#f8fafc] px-4 py-5 text-center md:px-5 lg:px-6`}>
-                    <span className="pointer-events-none absolute inset-y-0 left-0 w-[3px] bg-[linear-gradient(180deg,#E45A2A_0%,#ED602E_45%,#F08A3C_100%)]" />
-                    <span className="pointer-events-none absolute inset-y-0 right-0 w-[3px] bg-[linear-gradient(180deg,#E45A2A_0%,#ED602E_45%,#F08A3C_100%)]" />
-                    {index === comparisonRows.length - 1 ? (
-                      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] bg-[linear-gradient(90deg,#E45A2A_0%,#ED602E_45%,#F08A3C_100%)]" />
-                    ) : (
-                      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-black/5" />
-                    )}
-                    <div className="relative z-[1] flex w-full max-w-[380px] flex-col items-center justify-center gap-2 text-center">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#ED602E] shadow-[0_10px_24px_-18px_rgba(15,23,42,0.28)]">
-                        <Check className="h-4 w-4 stroke-[2.5]" />
-                      </div>
-                    <p className="max-w-full text-[15px] font-bold leading-6 text-slate-950 md:text-base">
-                        {row.left[0]}
-                      </p>
-                      <p className="mx-auto max-w-[380px] text-[11px] font-medium leading-5 text-slate-700 md:text-[12px]">
-                        {row.left[1]}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className={`flex min-h-[118px] items-center justify-center bg-white px-4 py-5 text-center md:px-5 lg:px-6 ${index < comparisonRows.length - 1 ? "border-b border-black/5" : ""}`}>
-                    <div className="flex w-full max-w-[340px] flex-col items-center justify-center gap-2 text-center">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-[0_10px_24px_-18px_rgba(15,23,42,0.12)]">
-                        <X className="h-4 w-4 stroke-[2.5]" />
-                      </div>
-                      <p className="max-w-full text-[15px] font-semibold leading-6 text-slate-700 md:text-base">{row.right[0]}</p>
-                      <p className="max-w-[340px] text-[11px] font-medium leading-5 text-slate-500 md:text-[12px]">
-                        {row.right[1]}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            </RevealOnScroll>
-
-            <RevealOnScroll variant="up" delayMs={220}>
-            <p className="mt-4 text-center text-xs leading-5 text-slate-500">
-              ※記載の期間・費用は標準的な導入ケースの目安です。要件により変動します。
+      <AIDashiComparisonSection>
+        <AIDashiComparisonIntro>
+          <AIDashiComparisonTitle>QueryPie AIPと自社開発の比較</AIDashiComparisonTitle>
+          <AIDashiComparisonBody>
+            <p>
+              ゼロから要件を満たす基盤を構築するフルスクラッチ（自社開発）とQueryPie AIPの比較です。AIPを活用すれば、開発期間・初期コスト・運用リスクのすべてを圧倒的に圧縮し、最短で市場へ展開できます。
             </p>
-            </RevealOnScroll>
+          </AIDashiComparisonBody>
+        </AIDashiComparisonIntro>
 
-            <RevealOnScroll className="mx-auto mt-6 max-w-[980px] border-t border-slate-200 px-2 pt-5 text-center" variant="up" delayMs={280}>
-            <div className="mx-auto max-w-[820px] text-center">
-              <p className="text-base leading-6 text-slate-600">
-                競合他社がAI化を進める中、開発に半年以上かけていては市場機会を逃します。
-              </p>
-              <p className="mt-2 text-[18px] font-semibold leading-7 text-slate-950">
-                QueryPie AIPを活用すれば、
-                <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
-                  最短1ヶ月で
-                </span>
-                独自のAIサービスをリリースできます。
-              </p>
-            </div>
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
+        <AIDashiComparisonTable>
+          <AIDashiComparisonHeaderRow />
+
+          <AIDashiComparisonRow>
+            <AIDashiComparisonLabelCell>開発期間</AIDashiComparisonLabelCell>
+            <AIDashiComparisonPreferredCell title="最短1ヶ月（API組み込みのみ）" body="すぐに市場投入が可能" />
+            <AIDashiComparisonLegacyCell title="半年〜1年以上（試行錯誤の連続）" body="競合に先を越され市場機会を逃す" />
+          </AIDashiComparisonRow>
+
+          <AIDashiComparisonRow>
+            <AIDashiComparisonLabelCell>初期インフラ投資</AIDashiComparisonLabelCell>
+            <AIDashiComparisonPreferredCell title="初期投資ゼロ（インフラ不要）" body="使った分だけの従量課金でスモールスタートが可能" />
+            <AIDashiComparisonLegacyCell title="数千万円規模の先行投資" body="サーバー代や検証費用など、回収不能なサンクコストが発生" />
+          </AIDashiComparisonRow>
+
+          <AIDashiComparisonRow>
+            <AIDashiComparisonLabelCell>専門エンジニア確保</AIDashiComparisonLabelCell>
+            <AIDashiComparisonPreferredCell title="QueryPie AIのFDE（専門エンジニア）が伴走" body="AIに関する専門知識不要" />
+            <AIDashiComparisonLegacyCell title="AI人材の採用が必須（極めて困難）" body="人件費の高騰で採用が進まないリスク" />
+          </AIDashiComparisonRow>
+
+          <AIDashiComparisonRow>
+            <AIDashiComparisonLabelCell>セキュリティ</AIDashiComparisonLabelCell>
+            <AIDashiComparisonPreferredCell title="エンタープライズ品質の基盤（SOC2/ISO27001）" body="厳格な権限管理（RBAC）が標準装備" />
+            <AIDashiComparisonLegacyCell title="ゼロトラストアーキテクチャを一から構築" body="情報漏洩の致命的リスクと認証取得の果てしない工数" />
+          </AIDashiComparisonRow>
+
+          <AIDashiComparisonRow>
+            <AIDashiComparisonLabelCell>ハルシネーション対策</AIDashiComparisonLabelCell>
+            <AIDashiComparisonPreferredCell title="エンタープライズRAGによる事実のみの回答" body="内蔵されたガードレール機能でB2Bでの業務利用も安心" />
+            <AIDashiComparisonLegacyCell title="精度が上がらず本番リリース不可" body="自社データとLLMの連携（チャンキング等）で泥沼化" />
+          </AIDashiComparisonRow>
+
+          <AIDashiComparisonRow>
+            <AIDashiComparisonLabelCell isLast>運用保守</AIDashiComparisonLabelCell>
+            <AIDashiComparisonPreferredCell title="24時間365日のインフラ監視と継続アップデート" body="LLMの進化や運用はすべてオフロード、本業に集中" isLast />
+            <AIDashiComparisonLegacyCell title="自社エンジニアが運用保守に追われる" body="プロンプト調整やインフラ管理でコア事業の進化が停止" isLast />
+          </AIDashiComparisonRow>
+        </AIDashiComparisonTable>
+
+        <AIDashiComparisonNote>
+          ※記載の期間・費用は標準的な導入ケースの目安です。要件により変動します。
+        </AIDashiComparisonNote>
+
+        <AIDashiComparisonCallout>
+          <p className="text-base leading-6 text-slate-600">
+            競合他社がAI化を進める中、開発に半年以上かけていては市場機会を逃します。
+          </p>
+          <p className="mt-2 text-[18px] font-semibold leading-7 text-slate-950">
+            QueryPie AIPを活用すれば、
+            <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
+              最短1ヶ月で
+            </span>
+            独自のAIサービスをリリースできます。
+          </p>
+        </AIDashiComparisonCallout>
+      </AIDashiComparisonSection>
 
       <section
         id="ai-dashi-support"
