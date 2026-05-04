@@ -1,6 +1,6 @@
 export const demoUseCasesUrl = "/demo/use-cases";
 export const aiCrewWhitepaperUrl =
-  "https://www.querypie.com/ja/features/documentation/white-paper/24/ai-transformation-japan";
+  "/whitepapers/24/ai-transformation-japan";
 export const aiCrewFloatingCtaUrl = "/contact-us?product=ai-crew";
 export const aiCrewConsultUrl = "/contact-us?inquiry=ai-consulting&product=ai-crew";
 
@@ -20,22 +20,6 @@ export const homePageContent = {
     secondaryCta: { label: "活用事例を見る", href: demoUseCasesUrl },
     imageSrc: "/solutions/ai-crew/hero-visual.webp",
     imageAlt: "オフィスでAIアシスタント画面を活用しながら業務を進めるチームのイメージ",
-  },
-  lostSection: {
-    title: "人手不足と見えないコストが、企業の成長を鈍化させる。",
-    paragraphs: [
-      "労働人口の減少と人件費の高騰が続く中、多くの企業が「人が足りない」「採用できない」という深刻な課題に直面しています。",
-      "しかし、本当に人が足りないのでしょうか？ 現場の実態は、情報収集、データの転記、資料の下書きといった付加価値を生まない作業（＝見えないコスト）に、優秀な社員の貴重な時間が奪われているケースがほとんどです。",
-      "「残業でカバーする」「人を増やして解決する」という従来のやり方は、もはや限界を迎えています。この非効率を放置し、社員を疲弊させ続けることは、企業の利益を削り落とし、競争力を失う最大の経営リスクなのです。",
-    ],
-  },
-  whitepaperCta: {
-    label: "White Paper",
-    title: "なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか",
-    body:
-      "AI活用を単なる業務改善で終わらせず、事業変革につなげるための視点をまとめました。",
-    cta: "ホワイトペーパーを読む",
-    href: aiCrewWhitepaperUrl,
   },
   floatingCta: { label: "業務に合うAI活用を相談する", href: aiCrewFloatingCtaUrl },
   featureIntro: {

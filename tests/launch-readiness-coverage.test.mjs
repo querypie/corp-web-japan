@@ -26,7 +26,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
     aiCrewDataSource,
     /partnerCta: \{ label: "自社サービスAI化の進め方を見る", href: "\/solutions\/ai-dashi" \}|<AICrewDashiPromoAction href="\/solutions\/ai-dashi">/,
   );
-  assert.match(aiCrewDataSource, /href: aiCrewWhitepaperUrl/);
+  assert.match(aiCrewDataSource, /href: aiCrewWhitepaperUrl|href=\{aiCrewWhitepaperUrl\}/);
 
   assert.match(topPage, /<FloatingConversionCta href={topPageFloatingCtaUrl} \/>/);
   assert.match(`${topPageDataSource}\n${topPage}`, /primaryCta: \{ label: "お問い合わせ", href: topPageHeroContactUrl \}|<HeroPrimaryAction href=\{topPageHeroContactUrl\}>お問い合わせ<\/HeroPrimaryAction>/);

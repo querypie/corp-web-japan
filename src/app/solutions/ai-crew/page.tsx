@@ -3,6 +3,7 @@ import { ArrowRight, CalendarDays, Play, Settings2 } from "lucide-react";
 import {
   aiCrewConsultUrl,
   aiCrewFloatingCtaUrl,
+  aiCrewWhitepaperUrl,
   demoUseCasesUrl,
   homePageContent,
 } from "@/content/home";
@@ -17,6 +18,19 @@ import {
   AICrewAboutShell,
   AICrewAboutTitle,
 } from "@/components/sections/ai-crew-about-section";
+import {
+  AICrewLostProblemBody,
+  AICrewLostProblemCard,
+  AICrewLostProblemContent,
+  AICrewLostProblemTitle,
+  AICrewLostSection,
+  AICrewLostWhitepaperAction,
+  AICrewLostWhitepaperBody,
+  AICrewLostWhitepaperCard,
+  AICrewLostWhitepaperContent,
+  AICrewLostWhitepaperEyebrow,
+  AICrewLostWhitepaperTitle,
+} from "@/components/sections/ai-crew-lost-section";
 import {
   AICrewContactActionGroup,
   AICrewContactBody,
@@ -71,6 +85,35 @@ export default function AICrewPage() {
       <SiteHeader />
       <FloatingConversionCta href={aiCrewFloatingCtaUrl} />
       <HomePageIntroSections />
+      <AICrewLostSection>
+        <AICrewLostProblemCard>
+          <AICrewLostProblemContent>
+            <AICrewLostProblemTitle>
+              人手不足と見えないコストが、企業の成長を鈍化させる。
+            </AICrewLostProblemTitle>
+            <AICrewLostProblemBody>
+              <p>労働人口の減少と人件費の高騰が続く中、多くの企業が「人が足りない」「採用できない」という深刻な課題に直面しています。</p>
+              <p>しかし、本当に人が足りないのでしょうか？ 現場の実態は、情報収集、データの転記、資料の下書きといった付加価値を生まない作業（＝見えないコスト）に、優秀な社員の貴重な時間が奪われているケースがほとんどです。</p>
+              <p>「残業でカバーする」「人を増やして解決する」という従来のやり方は、もはや限界を迎えています。この非効率を放置し、社員を疲弊させ続けることは、企業の利益を削り落とし、競争力を失う最大の経営リスクなのです。</p>
+            </AICrewLostProblemBody>
+          </AICrewLostProblemContent>
+        </AICrewLostProblemCard>
+
+        <AICrewLostWhitepaperCard>
+          <AICrewLostWhitepaperContent>
+            <AICrewLostWhitepaperEyebrow>White Paper</AICrewLostWhitepaperEyebrow>
+            <AICrewLostWhitepaperTitle>
+              なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか
+            </AICrewLostWhitepaperTitle>
+            <AICrewLostWhitepaperBody>
+              AI活用を単なる業務改善で終わらせず、事業変革につなげるための視点をまとめました。
+            </AICrewLostWhitepaperBody>
+          </AICrewLostWhitepaperContent>
+          <AICrewLostWhitepaperAction href={aiCrewWhitepaperUrl}>
+            ホワイトペーパーを読む
+          </AICrewLostWhitepaperAction>
+        </AICrewLostWhitepaperCard>
+      </AICrewLostSection>
       <AICrewAboutSection>
         <AICrewAboutShell>
           <AICrewAboutIntro>

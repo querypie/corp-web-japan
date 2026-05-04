@@ -92,11 +92,7 @@ function isExternalHref(href: string) {
 }
 
 export function HomePageIntroSections() {
-  const {
-    hero,
-    lostSection,
-    whitepaperCta,
-  } = homePageContent;
+  const { hero } = homePageContent;
 
   return (
     <>
@@ -187,56 +183,6 @@ export function HomePageIntroSections() {
         </div>
       </section>
 
-      <section id="lost" className="mx-auto max-w-[1920px] bg-white px-6 py-16 lg:px-10 lg:py-20">
-        <div className="mx-auto max-w-[1120px]">
-          <RevealOnScroll variant="up">
-            <div className="mx-auto max-w-[980px] rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.95)_100%)] px-6 py-8 shadow-[0_22px_60px_-46px_rgba(15,23,42,0.16)] sm:px-8 lg:px-10 lg:py-10">
-              <div className="max-w-[880px] border-l-4 border-[#2563EB] pl-5">
-                <h2 className="text-[28px] font-bold leading-[1.18] tracking-[-0.04em] text-slate-950 sm:text-[34px] lg:text-[38px]">
-                  {lostSection.title}
-                </h2>
-                <div className="mt-6 space-y-5 text-[15px] leading-8 text-slate-600">
-                  <p>{lostSection.paragraphs[0]}</p>
-                  <p>{lostSection.paragraphs[1]}</p>
-                  <p>{lostSection.paragraphs[2]}</p>
-                </div>
-              </div>
-            </div>
-          </RevealOnScroll>
-
-          <RevealOnScroll variant="up" delayMs={140}>
-            <div className="relative mx-auto mt-8 max-w-[980px] overflow-hidden rounded-[1.8rem] border border-[#d7e4fb] bg-[linear-gradient(135deg,#f8fbff_0%,#eef4ff_54%,#f7faff_100%)] px-6 py-6 text-left shadow-[0_22px_60px_-48px_rgba(15,42,95,0.18)] sm:px-8">
-              <Image
-                src="/solutions/ai-crew/whitepaper-background.svg"
-                alt=""
-                fill
-                className="pointer-events-none object-cover opacity-100"
-                sizes="980px"
-              />
-              <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-                <div className="max-w-[630px]">
-                  <div className="inline-flex rounded-full border border-[#C9D8F5] bg-white/90 px-4 py-2 text-[12px] font-semibold tracking-[0.12em] text-[#163A7A] shadow-[0_14px_36px_-24px_rgba(15,42,95,0.28)]">
-                    {whitepaperCta.label}
-                  </div>
-                  <h3 className="mt-4 text-[24px] font-semibold leading-[1.35] tracking-[-0.03em] text-white sm:text-[28px]">
-                    {whitepaperCta.title}
-                  </h3>
-                  <p className="mt-3 text-[14px] leading-7 text-white/82">
-                    {whitepaperCta.body}
-                  </p>
-                </div>
-                <a
-                  href={whitepaperCta.href}
-                  className={`${aiCrewSecondaryButtonClass} whitespace-nowrap`}
-                >
-                  {whitepaperCta.cta}
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-              </div>
-            </div>
-          </RevealOnScroll>
-        </div>
-      </section>
 
     </>
   );
