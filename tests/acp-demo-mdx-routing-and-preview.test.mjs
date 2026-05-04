@@ -8,14 +8,14 @@ test("ACP demo preview page and canonical routes are driven by ACP demo MDX publ
   const canonicalRoute = readSource("src/app/demo/acp/[id]/[slug]/page.tsx");
   const idRoute = readSource("src/app/demo/acp/[id]/page.tsx");
   const loader = readSource("src/lib/publications/get-acp-demo-publication-post.ts");
-  const records = readSource("src/content/publications/acp-demo-publication-records.ts");
+  const records = readSource("src/lib/publications/acp-demo-publication-records.ts");
   const hrefs = readSource("src/lib/publications/get-publication-href.ts");
   const categories = readSource("src/lib/publications/types.ts");
   const mdxComponents = readSource("src/lib/publications/mdx/components.tsx");
 
   assert.equal(existsSync(new URL("../src/app/t/demo/acp/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/demo/acp/[id]/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/content/publications/acp-demo-publication-records.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/lib/publications/acp-demo-publication-records.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/lib/publications/get-acp-demo-publication-post.ts", import.meta.url)), true);
 
   assert.match(previewPage, /listAcpDemoPublicationItems\(\)/);

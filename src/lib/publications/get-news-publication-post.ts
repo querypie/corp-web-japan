@@ -5,7 +5,7 @@ import {
   listNewsPublicationIds,
   listNewsPublicationParams,
   newsPublicationRecords,
-} from "@/content/publications/news-publication-records";
+} from "@/lib/publications/news-publication-records";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";

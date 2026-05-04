@@ -54,8 +54,7 @@ Core directories:
 - `src/content/` — structured copy plus MDX source content
 - `src/content/blog/` — local blog MDX source
 - `src/content/whitepapers/` — local whitepaper MDX source
-- `src/content/publications/` — publication-list loaders and list-item derivation
-- `src/lib/` — shared helpers, publication loaders, and route utilities
+- `src/lib/` — shared helpers, publication loaders, list-item derivation, and route utilities
 - `public/` — static assets
 - `tests/` — Node-based repo verification tests
 - `scripts/deploy/` — Vercel deployment scripts used by GitHub Actions

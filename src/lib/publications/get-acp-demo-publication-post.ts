@@ -6,7 +6,7 @@ import {
   listAcpDemoPublicationIds,
   listAcpDemoPublicationParams,
   type AcpDemoPublicationFrontmatter,
-} from "@/content/publications/acp-demo-publication-records";
+} from "@/lib/publications/acp-demo-publication-records";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";

@@ -157,12 +157,9 @@ Some files are part of the current implementation, but their locations should be
 - Page- or domain-specific composed UI that currently lives outside `src/components/sections/**`:
   - `src/components/PublicationPostPage.tsx`
   - `src/components/ResourceListPage.tsx`
-- Non-UI publication loader/adaptor code that currently lives outside `src/lib/**`:
-  - `src/content/publications/whitepapers.ts`
-  - `src/content/publications/blog.ts`
 
 ### Guidance for future work
 
 - Do not copy these exception locations as the default pattern for new code.
-- Treat them as cleanup targets when the surrounding feature areas are next reorganized.
+- Keep publication loader and adaptor code under `src/lib/publications/**` so `src/content/**` remains focused on source content.
 - New code should follow the preferred locations in section 1 or section 2 so that humans and AI agents do not extend the same location drift.

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourceListPage } from "@/components/sections/resource-list-page";
-import { listUseCasePublicationItems } from "@/content/publications/use-case-publication-records";
+import { listUseCasePublicationItems } from "@/lib/publications/use-case-publication-records";
 
 export const metadata: Metadata = {
   title: "活用事例 | QueryPie AI",
