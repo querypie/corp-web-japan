@@ -8,13 +8,13 @@ test("AIP demo preview page and canonical routes are driven by AIP demo MDX publ
   const canonicalRoute = readSource("src/app/demo/aip/[id]/[slug]/page.tsx");
   const idRoute = readSource("src/app/demo/aip/[id]/page.tsx");
   const loader = readSource("src/lib/publications/get-aip-demo-publication-post.ts");
-  const records = readSource("src/content/publications/aip-demo-publication-records.ts");
+  const records = readSource("src/lib/publications/aip-demo-publication-records.ts");
   const hrefs = readSource("src/lib/publications/get-publication-href.ts");
   const categories = readSource("src/lib/publications/types.ts");
 
   assert.equal(existsSync(new URL("../src/app/t/demo/aip/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/demo/aip/[id]/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/content/publications/aip-demo-publication-records.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/lib/publications/aip-demo-publication-records.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/lib/publications/get-aip-demo-publication-post.ts", import.meta.url)), true);
 
   assert.match(previewPage, /listAipDemoPublicationItems\(\)/);

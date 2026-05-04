@@ -6,7 +6,7 @@ import {
   listUseCasePublicationParams,
   useCasePublicationRecords,
   type UseCasePublicationFrontmatter,
-} from "@/content/publications/use-case-publication-records";
+} from "@/lib/publications/use-case-publication-records";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";

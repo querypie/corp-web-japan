@@ -9,11 +9,11 @@ test("event preview page and canonical routes are driven by event MDX publicatio
   const canonicalRoute = readSource("src/app/events/[id]/[slug]/page.tsx");
   const idRoute = readSource("src/app/events/[id]/page.tsx");
   const loader = readSource("src/lib/publications/get-event-publication-post.ts");
-  const records = readSource("src/content/publications/event-publication-records.ts");
+  const records = readSource("src/lib/publications/event-publication-records.ts");
 
   assert.equal(existsSync(new URL("../src/app/t/events/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/events/[id]/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/content/publications/event-publication-records.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/lib/publications/event-publication-records.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/lib/publications/get-event-publication-post.ts", import.meta.url)), true);
 
   assert.match(previewPage, /listEventPublicationItems\(\)/);

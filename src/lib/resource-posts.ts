@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { eventItems, eventPostRecords, getEventPostHref } from "@/content/resources/events";
 import { blogItems } from "@/lib/publications/blog-items";
-import { querypieJapanWhitepaperItems } from "@/content/publications/querypie-ja-whitepaper-links";
+import { querypieJapanWhitepaperItems } from "@/lib/publications/querypie-ja-whitepaper-links";
 import type { PublicationTocItem } from "@/lib/publications/types";
 
 export type ResourcePostCategory = "blog" | "whitepaper" | "event";

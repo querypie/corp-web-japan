@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourceListPage } from "@/components/sections/resource-list-page";
-import { listAcpDemoPublicationItems } from "@/content/publications/acp-demo-publication-records";
+import { listAcpDemoPublicationItems } from "@/lib/publications/acp-demo-publication-records";
 
 export const metadata: Metadata = {
   title: "ACP機能 | QueryPie AI",

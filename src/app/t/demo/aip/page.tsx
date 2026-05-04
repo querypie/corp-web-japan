@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourceListPage } from "@/components/sections/resource-list-page";
-import { listAipDemoPublicationItems } from "@/content/publications/aip-demo-publication-records";
+import { listAipDemoPublicationItems } from "@/lib/publications/aip-demo-publication-records";
 
 export const metadata: Metadata = {
   title: "AIP機能 | QueryPie AI",

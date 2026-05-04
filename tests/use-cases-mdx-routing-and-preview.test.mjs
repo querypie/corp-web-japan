@@ -8,13 +8,13 @@ test("use-case preview page and canonical routes are driven by use-case MDX publ
   const canonicalRoute = readSource("src/app/use-cases/[id]/[slug]/page.tsx");
   const idRoute = readSource("src/app/use-cases/[id]/page.tsx");
   const loader = readSource("src/lib/publications/get-use-case-publication-post.ts");
-  const records = readSource("src/content/publications/use-case-publication-records.ts");
+  const records = readSource("src/lib/publications/use-case-publication-records.ts");
   const hrefs = readSource("src/lib/publications/get-publication-href.ts");
   const categories = readSource("src/lib/publications/types.ts");
 
   assert.equal(existsSync(new URL("../src/app/t/use-cases/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/use-cases/[id]/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/content/publications/use-case-publication-records.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/lib/publications/use-case-publication-records.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/lib/publications/get-use-case-publication-post.ts", import.meta.url)), true);
 
   assert.match(previewPage, /listUseCasePublicationItems\(\)/);

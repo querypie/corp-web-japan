@@ -5,7 +5,7 @@ import {
   getEventPublicationRecord,
   listEventPublicationIds,
   listEventPublicationParams,
-} from "@/content/publications/event-publication-records";
+} from "@/lib/publications/event-publication-records";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";

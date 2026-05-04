@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
-import { acpDemoPublicationRecords } from "@/content/publications/acp-demo-publication-records";
-import { aipDemoPublicationRecords } from "@/content/publications/aip-demo-publication-records";
+import { acpDemoPublicationRecords } from "@/lib/publications/acp-demo-publication-records";
+import { aipDemoPublicationRecords } from "@/lib/publications/aip-demo-publication-records";
 import {
   useCasePublicationRecords,
-} from "@/content/publications/use-case-publication-records";
+} from "@/lib/publications/use-case-publication-records";
 import { eventPostRecords, getEventPostHref } from "@/content/resources/events";
 import { getAcpDemoPublicationHref } from "@/lib/publications/get-acp-demo-publication-post";
 import { getAipDemoPublicationHref } from "@/lib/publications/get-aip-demo-publication-post";

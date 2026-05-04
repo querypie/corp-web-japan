@@ -21,7 +21,7 @@ import {
   NewsPageSidebarLabel,
   NewsPageTitle,
 } from "@/components/sections/news-page-section";
-import { listNewsPublicationItems } from "@/content/publications/news-publication-records";
+import { listNewsPublicationItems } from "@/lib/publications/news-publication-records";
 import {
   PREVIEW_NAVIGATION_COOKIE,
   getPreviewNavigationState,

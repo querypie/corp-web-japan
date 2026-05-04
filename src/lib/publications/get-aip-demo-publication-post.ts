@@ -6,7 +6,7 @@ import {
   listAipDemoPublicationIds,
   listAipDemoPublicationParams,
   type AipDemoPublicationFrontmatter,
-} from "@/content/publications/aip-demo-publication-records";
+} from "@/lib/publications/aip-demo-publication-records";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
