@@ -45,6 +45,7 @@ export function getAiCrewStructureSource() {
 export function getAiDashiStructureSource() {
   return readCombinedExistingSources([
     "src/app/solutions/ai-dashi/page.tsx",
+    "src/components/sections/ai-dashi-enterprise-ready-section.tsx",
     "src/components/sections/ai-dashi-support-section.tsx",
     "src/components/sections/ai-dashi-release-flow-section.tsx",
     "src/components/sections/ai-dashi-risk-section.tsx",
