@@ -2,24 +2,6 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 
-function renderHighlightedKeyword(line: string, keyword: string) {
-  if (!line.includes(keyword)) {
-    return line;
-  }
-
-  const [before, after] = line.split(keyword);
-
-  return (
-    <>
-      {before}
-      <span className="bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_52%,#2563EB_100%)] bg-clip-text text-transparent">
-        {keyword}
-      </span>
-      {after}
-    </>
-  );
-}
-
 export function AICrewAboutSection({ children }: { children: ReactNode }) {
   return (
     <section id="about" className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-20 lg:px-10">
@@ -48,9 +30,7 @@ export function AICrewAboutTitle({ children }: { children: ReactNode }) {
   return (
     <RevealOnScroll>
       <h2 className="max-w-none text-[30px] font-semibold leading-[1.2] tracking-[-0.04em] text-[#101828] sm:text-[42px] sm:leading-[1.2] sm:whitespace-nowrap">
-        <span className="block">
-          {typeof children === "string" ? renderHighlightedKeyword(children, "AI Crew") : children}
-        </span>
+        <span className="block">{children}</span>
       </h2>
     </RevealOnScroll>
   );
