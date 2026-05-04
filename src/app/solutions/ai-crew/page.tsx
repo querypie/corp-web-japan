@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Sparkles } from "lucide-react";
+import { ArrowRight, CalendarDays, Play, Settings2 } from "lucide-react";
 import {
   aiCrewConsultUrl,
   aiCrewFloatingCtaUrl,
@@ -10,10 +10,11 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  AICrewContactAction,
   AICrewContactActionGroup,
   AICrewContactBody,
   AICrewContactIntro,
+  AICrewContactPrimaryAction,
+  AICrewContactSecondaryAction,
   AICrewContactSection,
   AICrewContactShell,
   AICrewContactTitle,
@@ -67,17 +68,19 @@ export default function AICrewPage() {
               <br />
               まずは一緒に整理しませんか？
             </AICrewContactTitle>
-            <AICrewContactBody>
-              <p>まだ対象業務が明確でなくても問題ありません。</p>
-              <p>QueryPie AIの専門チームが、貴社のボトルネック整理からPoCの進め方までご一緒します。</p>
-            </AICrewContactBody>
+            <AICrewContactBody>{`まだ対象業務が明確でなくても問題ありません。
+QueryPie AIの専門チームが、貴社のボトルネック整理からPoCの進め方までご一緒します。`}</AICrewContactBody>
           </AICrewContactIntro>
 
           <AICrewContactActionGroup>
-            <AICrewContactAction href={aiCrewConsultUrl} primary>
+            <AICrewContactPrimaryAction href={aiCrewConsultUrl}>
+              <CalendarDays className="h-4 w-4" />
               業務に合うAI活用を相談する
-            </AICrewContactAction>
-            <AICrewContactAction href={demoUseCasesUrl}>活用事例を見る</AICrewContactAction>
+            </AICrewContactPrimaryAction>
+            <AICrewContactSecondaryAction href={demoUseCasesUrl}>
+              <Play className="h-4 w-4" />
+              活用事例を見る
+            </AICrewContactSecondaryAction>
           </AICrewContactActionGroup>
         </AICrewContactShell>
 
@@ -87,7 +90,7 @@ export default function AICrewPage() {
               SaaSやWebサービスのAI化を進めたい企業様へ
             </AICrewDashiPromoEyebrow>
             <AICrewDashiPromoIcon>
-              <Sparkles className="h-5 w-5" />
+              <Settings2 className="h-5 w-5" />
             </AICrewDashiPromoIcon>
             <AICrewDashiPromoTitle>貴社のサービスを、最短でAI化しませんか？</AICrewDashiPromoTitle>
             <AICrewDashiPromoBody>
@@ -96,7 +99,9 @@ export default function AICrewPage() {
               </p>
             </AICrewDashiPromoBody>
             <AICrewDashiPromoAction href="/solutions/ai-dashi">
+              <Settings2 className="h-4 w-4" />
               自社サービスAI化の進め方を見る
+              <ArrowRight className="h-4 w-4" />
             </AICrewDashiPromoAction>
           </AICrewDashiPromoContent>
 
@@ -116,7 +121,9 @@ export default function AICrewPage() {
                 </AICrewDashiPromoPanelItem>
               </AICrewDashiPromoPanelList>
             </AICrewDashiPromoPanel>
-            <AICrewDashiPromoVisualOrb />
+            <AICrewDashiPromoVisualOrb>
+              <Settings2 className="h-8 w-8" />
+            </AICrewDashiPromoVisualOrb>
           </AICrewDashiPromoVisual>
         </AICrewDashiPromo>
       </AICrewContactSection>
