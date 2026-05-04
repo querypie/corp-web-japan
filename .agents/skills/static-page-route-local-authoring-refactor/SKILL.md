@@ -127,6 +127,8 @@ Bad to keep extracted:
 - one big `homePageContent`/`<page>Content` object that still owns the target section's headings/body/CTA text after the migration
 - a top-level content registry copied from the old module into `page.tsx` with only the file location changed
 - the same giant registry merely split into many section-level top-level constants such as `const hero = { ... }`, `const roles = { ... }`, `const contact = { ... }` while the route still reads as `data blob first, JSX second`
+- JSON-like or object/array-based marketing copy declarations inside `page.tsx`, such as `const cards = [{ title, body }]`, `const section = { title, body, cta }`, or `const items = [...]`, when the main purpose is to store visible page copy rather than tiny incidental labels
+- prop-shaped copy APIs such as `intro={{ title: ..., body: ... }}`, `section={{ ... }}`, or large `items` arrays whose values are the real user-facing marketing sentences
 - an external page-specific wrapper merely moved into the route and renamed as a local helper such as `function AICrewSections()` or `function HomeSections()` while it still hides most of the authored page structure
 - passing a giant raw JSX section blob as a prop such as `contactSection={<section ...>...</section>}` or `aboutSection={<section ...>...</section>}` from `page.tsx` into a shared shell component
 
@@ -151,12 +153,13 @@ Important staged-refactor rule from PRs 155–158:
 
 Preferred implementation style:
 - write headings, paragraphs, CTA labels, and section structure directly in JSX where practical
-- keep small repeated arrays local inside `page.tsx` only when they improve readability, for example:
-  - cards
-  - steps
-  - use-case summaries
-  - small badge/link lists
 - keep metadata strings route-local instead of referencing old content registries
+- prefer direct authored markup like:
+  - `<SectionTitle>...</SectionTitle>`
+  - `<SectionBody>...</SectionBody>`
+  - `<CardTitle>...</CardTitle>`
+  - `<CardBody>...</CardBody>`
+- when emphasis is needed, prefer authored JSX such as `<strong>...</strong>` or small inline elements in the route instead of hiding the sentence in a data object
 
 Most important implementation rule from PRs 155–158:
 - move **one target section at a time** into route-local authoring when that is the cleanest path
