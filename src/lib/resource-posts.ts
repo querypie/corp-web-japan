@@ -3,7 +3,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { eventItems, eventPostRecords, getEventPostHref } from "@/content/resources/events";
 import { blogItems } from "@/lib/publications/blog-items";
-import { querypieJapanWhitepaperItems } from "@/lib/publications/querypie-ja-whitepaper-links";
 import type { PublicationTocItem } from "@/lib/publications/types";
 
 export type ResourcePostCategory = "blog" | "whitepaper" | "event";
@@ -51,7 +50,7 @@ export type ResourceDownloadPost = {
 const POSTS_ROOT = path.join(process.cwd(), "content/source-posts");
 const VALID_CATEGORIES = new Set<ResourcePostCategory>(["blog", "whitepaper", "event"]);
 const RESOURCE_IMAGE_BY_HREF: Map<string, string> = new Map(
-  [...blogItems, ...querypieJapanWhitepaperItems, ...eventItems].map((item) => [item.href, item.imageSrc]),
+  [...blogItems, ...eventItems].map((item) => [item.href, item.imageSrc]),
 );
 
 function stripHtml(value: string) {
