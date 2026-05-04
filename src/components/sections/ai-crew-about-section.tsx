@@ -39,7 +39,7 @@ export function AICrewAboutTitle({ children }: { children: ReactNode }) {
 export function AICrewAboutBody({ children }: { children: ReactNode }) {
   return (
     <RevealOnScroll delayMs={90}>
-      <div className="mt-5 space-y-5 text-[15px] leading-8 text-[#667085]">{children}</div>
+      <div className="mt-5 space-y-5 text-[15px] leading-8 text-[#667085] [&_strong]:font-semibold [&_strong]:text-[#163A7A]">{children}</div>
     </RevealOnScroll>
   );
 }

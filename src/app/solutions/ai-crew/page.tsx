@@ -80,7 +80,7 @@ export default function AICrewPage() {
             <AICrewAboutBody>
               <p>
                 AIを単なる便利なツールとしてではなく、貴社のチームに加わる
-                <strong className="font-semibold text-[#163A7A]">「新しい同僚」</strong>
+                <strong>「新しい同僚」</strong>
                 として迎え入れる。それが私たちの考え方です。
               </p>
               <p>
