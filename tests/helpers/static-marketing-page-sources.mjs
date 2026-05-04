@@ -37,6 +37,7 @@ export function getAiCrewStructureSource() {
   return readCombinedExistingSources([
     "src/app/solutions/ai-crew/page.tsx",
     "src/components/sections/home-page-sections.tsx",
+    "src/components/sections/ai-crew-about-section.tsx",
     "src/components/sections/ai-crew-contact-section.tsx",
   ]);
 }

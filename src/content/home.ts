@@ -39,13 +39,7 @@ export const homePageContent = {
   },
   floatingCta: { label: "業務に合うAI活用を相談する", href: aiCrewFloatingCtaUrl },
   featureIntro: {
-    eyebrow: "AI Crewの考え方",
-    title: "AI Agentではなく、AI Crew",
-    body:
-      "AIを単なる便利なツールとしてではなく、貴社のチームに加わる**「新しい同僚」**として迎え入れる。それが私たちの考え方です。\n\n企業の業務効率化に必要なのは、人間が指示を考えながら操作しなければならない汎用AIではありません。貴社の業務フローやルールを理解し、面倒な情報収集やデータ整理といった下準備を自律的に巻き取ってくれる、優秀な部下やアシスタントのような存在です。\n\nQueryPie AIが提供するAIプラットフォーム（AIP）は、システムとして裏側で動くだけでなく、各業務に合ったAIエージェントを構築し、現場の仲間（Crew）の一員として実務を分担。チーム全体の生産性を劇的に引き上げる最高品質のAIソリューションです。",
     subtitle: "あなたの実務を担うAI、5つの設計要素",
-    imageSrc: "/solutions/ai-crew/concept-team.webp",
-    imageAlt: "人とAI Crewが同じチームの一員として業務を分担するイメージ",
   },
   featureTabs: [
     {

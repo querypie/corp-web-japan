@@ -14,7 +14,6 @@ import {
   MessageSquareText,
   ScanSearch,
   Shield,
-  Play,
   Settings2,
   Search,
   ShieldCheck,
@@ -22,7 +21,6 @@ import {
   ChartColumnIncreasing,
 } from "lucide-react";
 import { homePageContent } from "@/content/home";
-import { FeatureShowcase } from "@/components/sections/feature-showcase";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { UseCaseShowcase } from "@/components/sections/use-case-showcase";
 
@@ -93,19 +91,11 @@ function isExternalHref(href: string) {
   return /^https?:\/\//.test(href);
 }
 
-export function HomePageSections() {
+export function HomePageIntroSections() {
   const {
     hero,
     lostSection,
     whitepaperCta,
-    featureIntro,
-    featureTabs,
-    comparison,
-    roi,
-    problem,
-    roles,
-    process,
-    testimonials,
   } = homePageContent;
 
   return (
@@ -248,11 +238,24 @@ export function HomePageSections() {
         </div>
       </section>
 
-      <section id="about" className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-20 lg:px-10">
-        <FeatureShowcase
-          intro={{ title: featureIntro.title, body: featureIntro.body, imageSrc: featureIntro.imageSrc, imageAlt: featureIntro.imageAlt }}
-        />
-      </section>
+    </>
+  );
+}
+
+export function HomePageSections() {
+  const {
+    featureIntro,
+    featureTabs,
+    comparison,
+    roi,
+    problem,
+    roles,
+    process,
+    testimonials,
+  } = homePageContent;
+
+  return (
+    <>
 
       <section id="why" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-28">
         <div className="mx-auto max-w-[1120px] text-center">
