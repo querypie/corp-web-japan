@@ -1,7 +1,7 @@
 ---
 name: static-page-route-local-authoring-refactor
 description: Refactor a corp-web-japan static marketing route so page.tsx becomes the primary readable authoring surface and old giant content/wrapper layers are removed safely.
-version: 1.0.0
+version: 1.2.0
 author: Hermes Agent
 license: MIT
 metadata:
@@ -241,6 +241,51 @@ Important staged-refactor rule from PRs 155–158:
 - if the target section's visible copy now lives in `page.tsx`, while the shell only places that section among other not-yet-migrated sections, that is an acceptable intermediate state
 - however, even in this acceptable intermediate state, the migrated section's implementation should still live under `src/components/sections/**`; `page.tsx` should compose section components, not inject a giant raw JSX section blob into a shell prop
 
+## UI drift prevention checklist
+
+Use this checklist whenever the user asked for a refactor, migration, or authoring-location cleanup rather than a visual redesign.
+
+Before coding:
+- name the exact section whose visual output must remain unchanged
+- identify the current file that is the visual source of truth for that section
+- decide whether the task allows *any* visual implementation change; default is no unless the user explicitly asked
+
+While editing:
+- preserve the old wrapper element hierarchy unless a structural change is strictly required
+- preserve the old class strings for box wrappers, borders, shadows, gradients, spacing, and hover behavior unless the user explicitly asked for a design change
+- preserve the old icon set, icon positions, and icon absence; removing or adding icons is a visual change
+- preserve text layout mechanics such as `whitespace-pre-line`, paragraph splitting, inline `<strong>` placement, and line-break strategy
+- if you extract a section component, prefer moving the old JSX almost verbatim into the new component before making any abstraction decisions
+
+Before pushing:
+- compare the new section implementation against the old section JSX line by line
+- search for newly introduced generic primitives such as `MarketingSurface`, `MarketingPill`, new button helpers, or new wrapper utilities that did not exist in the old section
+- treat any such new primitive as suspicious unless it preserves the exact previous visual output
+- if the preview URL is available, verify the actual deployed preview before declaring the refactor done
+
+If the task is truly refactor-only, a good result is:
+- route-local copy ownership changed
+- file boundaries improved
+- tests updated
+- visual output stayed the same
+
+### Visual-parity guardrail
+
+When the old section already has acceptable UX, prefer this order:
+1. copy the old section markup nearly verbatim into the new extracted section component
+2. move copy ownership into `page.tsx` with the smallest possible API
+3. verify visual parity
+4. only then consider further abstraction in a separate PR
+
+Do **not** combine all of these in one refactor-only PR:
+- route-local authoring migration
+- generalized visual primitive adoption
+- button redesign
+- icon redesign
+- spacing cleanup based on taste
+
+That combination is the fastest path to accidental UI drift.
+
 ### 3. Move authoring into `page.tsx`
 
 Preferred implementation style:
@@ -358,6 +403,7 @@ Unless the user explicitly says otherwise, the task is not complete until:
 - trusting a PR-named worktree directory without checking whether `HEAD` still matches `origin/<branch>`
 - trying to preserve a stale branch mechanically when the user actually wants a structure-level rewrite on top of latest main
 - recreating the giant content object inside `page.tsx`
+- changing a section's visual wrapper/classes/icons/spacing while doing a refactor-only authoring migration
 - leaving the old content/orchestrator files in place after the move
 - forgetting that tests may still read removed file paths directly
 - updating only the obvious section-specific test while broader launch-readiness or CTA coverage tests still assume the old source-of-truth location
