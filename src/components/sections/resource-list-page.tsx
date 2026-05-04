@@ -19,22 +19,29 @@ type ResourceListPageProps = {
   description: string;
   activeCategory: string;
   items: readonly ResourceItem[];
+  sidebarBasePath?: string;
 };
 
 const sidebarLinks = [
   { label: "全て", href: "/resources", key: "resources" },
-  { label: "紹介資料", href: "/introduction-deck" },
+  { label: "紹介資料", href: "/introduction-deck", key: "introduction-deck" },
   { label: "用語集", href: "/glossary", key: "glossary" },
   { label: "マニュアル", href: "/manuals", key: "manuals" },
   { label: "ホワイトペーパー", href: "/whitepapers", key: "whitepaper" },
   { label: "ブログ", href: "/blog", key: "blog" },
 ] as const;
 
-export function ResourceListPage({ title, description, activeCategory, items }: ResourceListPageProps) {
+export function ResourceListPage({
+  title,
+  description,
+  activeCategory,
+  items,
+  sidebarBasePath = "",
+}: ResourceListPageProps) {
   const categoryLinks: ResourceCategoryLink[] = sidebarLinks.map((link) => ({
     label: link.label,
-    href: link.href,
-    active: "key" in link ? link.key === activeCategory : false,
+    href: `${sidebarBasePath}${link.href}`,
+    active: link.key === activeCategory,
   }));
 
   return (

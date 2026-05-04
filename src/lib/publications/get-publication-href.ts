@@ -8,6 +8,9 @@ const publicationDetailPrefixes: Record<PublicationCategory, string> = {
   "use-case": "/use-cases",
   "aip-demo": "/demo/aip",
   "acp-demo": "/demo/acp",
+  "introduction-deck": "/t/introduction-deck",
+  glossary: "/t/glossary",
+  manuals: "/t/manuals",
 };
 
 export function getPublicationHref(category: PublicationCategory, id: string, slug: string) {
