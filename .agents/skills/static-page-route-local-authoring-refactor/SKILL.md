@@ -67,6 +67,57 @@ A good task packet usually contains:
 - deletions expected at the end
 - exact verification/PR requirements
 
+## Scope lock before editing
+
+Before you write any code, explicitly classify the intended PR shape.
+
+Preferred order of interpretation:
+1. whole-page final refactor
+2. section-scoped refactor
+3. comparison/experiment PR for exactly one named section
+
+Important rule learned from AI Dashi follow-up work:
+- if the user's real goal is "make one section fully correct," do **not** opportunistically refactor neighboring sections in the same PR just because they are adjacent or currently similar
+- choose the *hero scope* of the PR first, and keep that scope visible in both the diff and the final PR description
+- when the user says a specific section should be the only fully refactored result, treat every other section as preserve-by-default unless a supporting change is strictly required
+
+Practical checklist:
+- name the target section(s) before editing
+- list the neighboring sections that must stay minimally changed
+- decide which files are allowed to be added for the target section only
+- decide whether the PR is meant to demonstrate a reusable pattern or only to complete one narrow section
+
+If you cannot state the target section in one short sentence, the scope is probably still too broad.
+
+## Section-complete-first rule
+
+For this repository, a narrow PR with one *fully completed* section is better than a broad PR with many half-finished sections.
+
+When the user wants a section-scoped refactor:
+- finish that section to the intended end-state standard
+- keep the rest of the page as unchanged as practical
+- do not dilute the review by mixing in unrelated partial cleanups elsewhere on the page
+
+A section counts as fully complete when:
+- the visible marketing copy for that section is authored in `page.tsx`
+- `page.tsx` shows the section composition directly
+- the implementation details for that section live under `src/components/sections/**`
+- the section no longer depends on a page-level content blob or prop-shaped copy object for its real user-facing sentences
+- the PR diff makes it obvious that *this specific section* is the completed outcome
+
+## If scope drifts mid-PR
+
+If you discover that the branch has already accumulated broader refactor changes than the user actually wants:
+- stop widening the scope
+- identify the intended hero section of the PR
+- revert or remove non-hero-section refactor changes unless they are strictly required support work
+- keep only the minimal surrounding edits necessary for the hero section to function and remain reviewable
+
+Important lesson from PR 193 follow-up:
+- if one section becomes the true completed result and the rest of the page is still intermediate, prefer rewriting the PR so only that completed section stands out
+- do not leave unrelated extracted files or partial route-localization work in the branch just because they were already written once
+- a narrower PR with one clearly correct section is easier to review, easier to explain, and less likely to create misleading precedent in the skill itself
+
 ## Mandatory repo workflow
 
 1. Start from the latest `origin/main`.
@@ -166,6 +217,7 @@ Most important implementation rule from PRs 155–158:
 - in that migration PR, `page.tsx` should visibly own that section's copy
 - the corresponding section component should shrink toward a UI-only shell or slot wrapper
 - do not require unrelated sections on the same page to migrate in the same PR if that makes the change harder to review
+- if the PR is intentionally comparison-only or section-only, prefer leaving neighboring sections on their previous implementation rather than partially refactoring them in the same branch
 
 A good route-authored section usually looks like:
 - route-local JSX in `page.tsx`
@@ -256,6 +308,8 @@ Unless the user explicitly says otherwise, the task is not complete until:
 - widening scope into CMS/data-backed routes that the user did not authorize
 - starting a local dev server even though CI/targeted checks are sufficient
 - spending time on repeated installs in a fresh worktree when the existing environment can already run the relevant checks
+- losing PR focus by partially refactoring neighboring sections after the user only asked for one section to be fully completed
+- keeping earlier experimental extracts in the branch after deciding that only one section should remain as the showcased completed result
 
 ## Suggested resume-prompt template
 
@@ -267,8 +321,10 @@ Continue the corp-web-japan static-page route-local authoring refactor.
 
 Current goal:
 - Refactor `<target-page>` toward the same route-local authoring direction as `<reference-example>`.
-- Remove the giant content registry layer and page-specific orchestrator layer.
-- Move the real marketing copy into `page.tsx`.
+- Complete the hero section `<hero-section>` to the intended end-state standard.
+- Keep neighboring sections `<preserve-sections>` minimally changed unless strictly required support work is needed.
+- Remove the giant content registry layer and page-specific orchestrator layer only within the approved scope.
+- Move the real marketing copy for the hero section into `page.tsx`.
 - Keep section components only when they are truly reusable or isolated interactive helpers.
 - Finish in a single PR unless otherwise noted.
 
