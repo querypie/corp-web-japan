@@ -1,8 +1,10 @@
 import type { MetadataRoute } from "next";
+import { aipDemoPublicationRecords } from "@/content/publications/aip-demo-publication-records";
 import {
   useCasePublicationRecords,
 } from "@/content/publications/use-case-publication-records";
 import { eventPostRecords, getEventPostHref } from "@/content/resources/events";
+import { getAipDemoPublicationHref } from "@/lib/publications/get-aip-demo-publication-post";
 import { getUseCasePublicationHref } from "@/lib/publications/get-use-case-publication-post";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -52,5 +54,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...eventDetailRoutes, ...useCaseDetailRoutes];
+  const aipDemoDetailRoutes: MetadataRoute.Sitemap = aipDemoPublicationRecords.map(({ id, slug }) => ({
+    url: absoluteUrl(getAipDemoPublicationHref(id, slug)),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...eventDetailRoutes, ...useCaseDetailRoutes, ...aipDemoDetailRoutes];
 }
