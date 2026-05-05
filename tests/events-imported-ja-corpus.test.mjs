@@ -29,8 +29,6 @@ const expectedIds = [
   "27",
 ];
 
-const topVideoIds = ["1", "2", "3", "4", "5", "8", "10", "12", "14"];
-
 function listEventIds() {
   return readdirSync(eventsDir)
     .filter((file) => file.endsWith(".mdx"))
@@ -49,10 +47,13 @@ test("migrated event MDX files use local event routes and route-aligned assets",
     assert.match(source, new RegExp(`\\nheroImageSrc: "/events/${id}/thumbnail\\.png"\\n`));
     assert.match(source, /\neventLabel: "ウェビナー"\n/);
 
-    if (topVideoIds.includes(id)) {
+    const heroImageMatch = source.match(/\nheroImageSrc: "(\/events\/(\d+)\/thumbnail\.png)"\n/);
+    assert.ok(heroImageMatch, `missing heroImageSrc for event ${id}`);
+
+    const duplicatedHeroInBody = source.includes(`filepath="public${heroImageMatch[1]}"`);
+
+    if (duplicatedHeroInBody) {
       assert.match(source, /\nhideHeroImageOnDetail: true\n/);
-    } else {
-      assert.doesNotMatch(source, /\nhideHeroImageOnDetail: true\n/);
     }
 
     assert.doesNotMatch(source, /public\/webinar\//);

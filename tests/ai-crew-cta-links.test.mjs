@@ -1,6 +1,5 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "./helpers/source-readers.mjs";
 import { getAiCrewDataSource } from "./helpers/static-marketing-page-sources.mjs";
 
 test("AI Crew CTA links match the intended targets", () => {
