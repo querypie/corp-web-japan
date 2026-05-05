@@ -20,11 +20,7 @@ export function AIDashiReleaseFlowIntro({ children }: { children: ReactNode }) {
 }
 
 export function AIDashiReleaseFlowTitle({ children }: { children: ReactNode }) {
-  return (
-    <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em] [&_strong]:bg-gradient-to-r [&_strong]:from-[#E45A2A] [&_strong]:via-[#ED602E] [&_strong]:to-[#F08A3C] [&_strong]:bg-clip-text [&_strong]:font-inherit [&_strong]:text-transparent">
-      {children}
-    </h2>
-  );
+  return <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em] [&_strong]:bg-gradient-to-r [&_strong]:from-[#E45A2A] [&_strong]:via-[#ED602E] [&_strong]:to-[#F08A3C] [&_strong]:bg-clip-text [&_strong]:font-inherit [&_strong]:text-transparent">{children}</h2>;
 }
 
 export function AIDashiReleaseFlowBody({ children }: { children: ReactNode }) {
@@ -40,11 +36,7 @@ export function AIDashiReleaseFlowGrid({ children }: { children: ReactNode }) {
 }
 
 export function AIDashiReleaseFlowCard({ children }: { children: ReactNode }) {
-  return (
-    <article className="flex h-full flex-col rounded-[1.6rem] border border-black/6 bg-white p-5 shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md lg:p-6">
-      {children}
-    </article>
-  );
+  return <article className="flex h-full flex-col rounded-[1.6rem] border border-black/6 bg-white p-5 shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md lg:p-6">{children}</article>;
 }
 
 export function AIDashiReleaseFlowCardHeader({ children }: { children: ReactNode }) {
@@ -52,11 +44,7 @@ export function AIDashiReleaseFlowCardHeader({ children }: { children: ReactNode
 }
 
 export function AIDashiReleaseFlowStepBadge({ children }: { children: ReactNode }) {
-  return (
-    <div className="inline-flex rounded-full border border-[#2f3a49]/20 bg-[#2f3a49] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-white shadow-[0_12px_24px_-18px_rgba(15,23,42,0.38)]">
-      {children}
-    </div>
-  );
+  return <div className="inline-flex rounded-full border border-[#2f3a49]/20 bg-[#2f3a49] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-white shadow-[0_12px_24px_-18px_rgba(15,23,42,0.38)]">{children}</div>;
 }
 
 export function AIDashiReleaseFlowPeriodBadge({ children }: { children: ReactNode }) {
