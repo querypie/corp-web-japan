@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { ResourceListPage } from "@/components/sections/resource-list-page";
+import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
+import {
+  ResourceListContentSection,
+  ResourceListHeroDescription,
+  ResourceListHeroSection,
+  ResourceListHeroTitle,
+  ResourceListItems,
+} from "@/components/sections/resource-list-section";
 import { listAcpDemoPublicationItems } from "@/lib/publications/acp-demo-publication-records";
 
 export const metadata: Metadata = {
@@ -20,15 +27,22 @@ export default async function TestAcpDemoPage() {
   const acpDemoItems = await listAcpDemoPublicationItems();
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main className="relative bg-white text-slate-950">
       <SiteHeader />
-      <ResourceListPage
-        title="ACP機能"
-        description="QueryPie ACPの主要機能デモを一覧で確認できるプレビューページです。各デモから詳細なMDXコンテンツを確認できます。"
-        activeCategory="acp-demo"
-        items={acpDemoItems}
-      />
+
+      <ResourceListHeroSection>
+        <ResourceListHeroTitle>ACP機能</ResourceListHeroTitle>
+        <ResourceListHeroDescription>QueryPie ACPの主要機能デモを一覧で確認できるプレビューページです。各デモから詳細なMDXコンテンツを確認できます。</ResourceListHeroDescription>
+      </ResourceListHeroSection>
+
+      <ResourceListContentSection>
+        <ResourceCategorySidebar />
+
+        <ResourceListItems items={acpDemoItems} />
+      </ResourceListContentSection>
+
       <SiteFooter />
     </main>
   );
 }
+

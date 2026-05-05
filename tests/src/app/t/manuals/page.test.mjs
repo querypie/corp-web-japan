@@ -3,10 +3,6 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../../../../helpers/source-readers.mjs";
 
-function escapeRegex(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
 test("/t/manuals page exists with noindex metadata and canonical preview path", () => {
   const file = "src/app/t/manuals/page.tsx";
   assert.equal(existsSync(new URL(`../../../../../${file}`, import.meta.url)), true, `${file} should exist`);
@@ -15,7 +11,8 @@ test("/t/manuals page exists with noindex metadata and canonical preview path", 
   assert.match(source, /canonical: "\/t\/manuals"/);
   assert.match(source, /title: "マニュアル \| QueryPie AI"/);
   assert.match(source, /listManualPreviewItems/);
-  assert.match(source, /sidebarBasePath="\/t"/);
+  assert.match(source, /previewResourceCategorySidebarLinks/);
+  assert.match(source, /<ResourceCategorySidebar links=\{previewResourceCategorySidebarLinks\} activeLabel="マニュアル" \/>/);
 });
 
 test("/t/manuals detail route family exists and uses category-specific loaders", () => {
@@ -33,7 +30,7 @@ test("/t/manuals detail route family exists and uses category-specific loaders",
   const publicationSource = readSource(publicationFile);
 
   assert.match(idSource, /redirect\(getManualPublicationHref/);
-  assert.match(idSource, new RegExp(escapeRegex('getManualPublicationRecordById(id)')));
+  assert.match(idSource, /getManualPublicationRecordById\(id\)/);
   assert.match(slugSource, /PublicationPostPage post=\{post\}/);
   assert.match(loaderSource, /extends BaseResourcePublicationPostLoader/);
   assert.match(publicationSource, /extends BaseResourcePublicationRepository/);

@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { ResourceListPage } from "@/components/sections/resource-list-page";
+import { ResourceListLoadMore } from "@/components/sections/resource-list-load-more";
+import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
+import {
+  ResourceListContentSection,
+  ResourceListHeroDescription,
+  ResourceListHeroSection,
+  ResourceListHeroTitle,
+} from "@/components/sections/resource-list-section";
 import { listBlogPublicationItems } from "@/lib/publications/blog-publication-records";
 import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
@@ -27,16 +34,26 @@ export default async function InternalLoadMorePage({ searchParams }: InternalLoa
   const initialVisibleCount = resolveResourceListVisibleCount(blogItems, resolvedSearchParams?.until);
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main className="relative bg-white text-slate-950">
       <SiteHeader />
-      <ResourceListPage
-        title="Internal Load More Demo"
-        description="既存の blog / whitepapers の公開リスト動作は変えずに、共通 Resource list UI の load-more ボタンだけを internal route で確認するためのデモページです。"
-        activeCategory="blog"
-        items={blogItems}
-        initialVisibleCount={initialVisibleCount}
-      />
+
+      <ResourceListHeroSection>
+        <ResourceListHeroTitle>Internal Load More Demo</ResourceListHeroTitle>
+        <ResourceListHeroDescription>既存の blog / whitepapers の公開リスト動作は変えずに、共通 Resource list UI の load-more ボタンだけを internal route で確認するためのデモページです。</ResourceListHeroDescription>
+      </ResourceListHeroSection>
+
+      <ResourceListContentSection>
+        <ResourceCategorySidebar activeLabel="ブログ" />
+
+        <ResourceListLoadMore
+          key={`blog:${initialVisibleCount}`}
+          items={blogItems}
+          initialVisibleCount={initialVisibleCount}
+        />
+      </ResourceListContentSection>
+
       <SiteFooter />
     </main>
   );
 }
+

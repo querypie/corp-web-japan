@@ -1,7 +1,17 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { ResourceListPage } from "@/components/sections/resource-list-page";
+import {
+  previewResourceCategorySidebarLinks,
+  ResourceCategorySidebar,
+} from "@/components/sections/resource-category-sidebar";
+import {
+  ResourceListContentSection,
+  ResourceListHeroDescription,
+  ResourceListHeroSection,
+  ResourceListHeroTitle,
+  ResourceListItems,
+} from "@/components/sections/resource-list-section";
 import { listManualPreviewItems } from "@/lib/resources/resource-preview-items";
 
 export const metadata: Metadata = {
@@ -20,16 +30,26 @@ export default function PreviewManualsPage() {
   const items = listManualPreviewItems();
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main className="relative bg-white text-slate-950">
       <SiteHeader />
-      <ResourceListPage
-        title="マニュアル"
-        description="corp-web-contents の manual source を local MDX detail route として移設し、既存の外部マニュアル導線도合わせて確認できる preview 一覧です。"
-        activeCategory="manuals"
-        items={items}
-        sidebarBasePath="/t"
-      />
+
+      <ResourceListHeroSection>
+        <ResourceListHeroTitle>マニュアル</ResourceListHeroTitle>
+        <ResourceListHeroDescription>
+          包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。
+          <br />
+          基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。
+        </ResourceListHeroDescription>
+      </ResourceListHeroSection>
+
+      <ResourceListContentSection>
+        <ResourceCategorySidebar links={previewResourceCategorySidebarLinks} activeLabel="マニュアル" />
+
+        <ResourceListItems items={items} />
+      </ResourceListContentSection>
+
       <SiteFooter />
     </main>
   );
 }
+

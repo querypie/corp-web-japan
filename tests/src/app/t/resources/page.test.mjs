@@ -11,6 +11,7 @@ test("/t/resources page exists with noindex metadata and canonical preview path"
   assert.match(source, /canonical: "\/t\/resources"/);
   assert.match(source, /title: "ドキュメント \| QueryPie AI"/);
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
-  assert.match(source, /sidebarBasePath="\/t"/);
+  assert.match(source, /previewResourceCategorySidebarLinks/);
+  assert.match(source, /<ResourceCategorySidebar links=\{previewResourceCategorySidebarLinks\} activeLabel="全て" \/>/);
   assert.match(source, /listResourcePreviewItems/);
 });

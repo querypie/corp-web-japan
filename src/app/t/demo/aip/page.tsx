@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { ResourceListPage } from "@/components/sections/resource-list-page";
+import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
+import {
+  ResourceListContentSection,
+  ResourceListHeroDescription,
+  ResourceListHeroSection,
+  ResourceListHeroTitle,
+  ResourceListItems,
+} from "@/components/sections/resource-list-section";
 import { listAipDemoPublicationItems } from "@/lib/publications/aip-demo-publication-records";
 
 export const metadata: Metadata = {
@@ -20,15 +27,22 @@ export default async function TestAipDemoPage() {
   const aipDemoItems = await listAipDemoPublicationItems();
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main className="relative bg-white text-slate-950">
       <SiteHeader />
-      <ResourceListPage
-        title="AIP機能"
-        description="QueryPie AIPの主要機能デモを一覧で確認できるプレビューページです。各デモから詳細なMDXコンテンツを確認できます。"
-        activeCategory="aip-demo"
-        items={aipDemoItems}
-      />
+
+      <ResourceListHeroSection>
+        <ResourceListHeroTitle>AIP機能</ResourceListHeroTitle>
+        <ResourceListHeroDescription>QueryPie AIPの主要機能デモを一覧で確認できるプレビューページです。各デモから詳細なMDXコンテンツを確認できます。</ResourceListHeroDescription>
+      </ResourceListHeroSection>
+
+      <ResourceListContentSection>
+        <ResourceCategorySidebar />
+
+        <ResourceListItems items={aipDemoItems} />
+      </ResourceListContentSection>
+
       <SiteFooter />
     </main>
   );
 }
+
