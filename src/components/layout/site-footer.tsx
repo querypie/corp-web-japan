@@ -13,6 +13,16 @@ export async function SiteFooter() {
   const previewCookieValue = cookieStore.get(PREVIEW_NAVIGATION_COOKIE)?.value;
   const { enabled: previewModeEnabled } = getPreviewNavigationState(previewCookieValue);
 
+  const internalFooterColumn = {
+    title: "Internal",
+    links: [
+      { label: "Internal Hub", href: "/internal" },
+      { label: "Whitepaper Gating Demo", href: "/internal/whitepaper-gating-demo" },
+      { label: "MDX List Demo", href: "/internal/mdx-list-demo" },
+      { label: "Load More Demo", href: "/internal/load-more" },
+    ],
+  } as const;
+
   const footerColumns = [
     {
       title: "サービス",
@@ -57,6 +67,7 @@ export async function SiteFooter() {
         { label: "お問い合わせ", href: "/contact-us" },
       ],
     },
+    ...(previewModeEnabled ? [internalFooterColumn] : []),
   ] as const;
 
   const socialLinks = [
@@ -124,7 +135,9 @@ export async function SiteFooter() {
           </div>
         </div>
 
-        <div className={styles.footerLinks}>
+        <div
+          className={previewModeEnabled ? `${styles.footerLinks} ${styles.footerLinksPreview}` : styles.footerLinks}
+        >
           {footerColumns.map((column) => (
             <div key={column.title} className={styles.linkColumn}>
               <h4>{column.title}</h4>
