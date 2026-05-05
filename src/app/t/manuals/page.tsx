@@ -35,7 +35,11 @@ export default function PreviewManualsPage() {
 
       <ResourceListHeroSection>
         <ResourceListHeroTitle>マニュアル</ResourceListHeroTitle>
-        <ResourceListHeroDescription>corp-web-contents の manual source を local MDX detail route として移設し、既存の外部マニュアル導線도合わせて確認できる preview 一覧です。</ResourceListHeroDescription>
+        <ResourceListHeroDescription>
+          包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。
+          <br />
+          基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。
+        </ResourceListHeroDescription>
       </ResourceListHeroSection>
 
       <ResourceListContentSection>

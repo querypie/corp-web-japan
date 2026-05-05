@@ -36,7 +36,11 @@ export default function PreviewResourcesPage() {
 
       <ResourceListHeroSection>
         <ResourceListHeroTitle>ドキュメント</ResourceListHeroTitle>
-        <ResourceListHeroDescription>紹介資料、用語集、マニュアルに加えて、現在の日本向けホワイトペーパーとブログもまとめて確認できる preview リソース一覧です。</ResourceListHeroDescription>
+        <ResourceListHeroDescription>
+          包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。
+          <br />
+          基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。
+        </ResourceListHeroDescription>
       </ResourceListHeroSection>
 
       <ResourceListContentSection>

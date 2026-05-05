@@ -29,7 +29,9 @@ export default async function BlogPage() {
       <ResourceListHeroSection>
         <ResourceListHeroTitle>ブログ</ResourceListHeroTitle>
         <ResourceListHeroDescription>
-          包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。
+          包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。
+          <br />
+          基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 
