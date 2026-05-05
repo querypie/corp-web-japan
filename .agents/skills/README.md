@@ -36,6 +36,9 @@ Current skills:
   - Path: `.agents/skills/acp-demo-mdx-migration/SKILL.md`
   - Purpose: migrate `../corp-web-contents` ACP demo entries into the local corp-web-japan MDX publication system with `/t/demo/acp` preview and `/demo/acp/:id/:slug` canonical detail routes
   - Asset rule: keep ACP demo thumbnails and demo-specific assets under `public/demo/acp/<id>/...`
+- `resource-list-sidebar-pattern`
+  - Path: `.agents/skills/resource-list-sidebar-pattern/SKILL.md`
+  - Purpose: maintain corp-web-japan resource-list pages while keeping hero/CTA authoring route-local, centralizing only repeated sidebar markup, handling preview/public sidebar link differences, and preserving sticky behavior
 
 Usage notes:
 
@@ -47,5 +50,6 @@ Usage notes:
 - Use `use-case-mdx-migration` when migrating use-case detail content from `../corp-web-contents` into local MDX-backed preview/list/detail routes.
 - Use `aip-demo-mdx-migration` when migrating AIP demo detail content from `../corp-web-contents` into local MDX-backed preview/list/detail routes.
 - Use `acp-demo-mdx-migration` when migrating ACP demo detail content from `../corp-web-contents` into local MDX-backed preview/list/detail routes.
+- Use `resource-list-sidebar-pattern` when refactoring resource-list pages, sidebar composition, sticky behavior, or preview-vs-public sidebar link sets.
 - For new publication work, do not put post-specific assets under `public/assets/...`; use the route-aligned per-post asset root instead.
 - Keep this index aligned with the actual skill directories.
