@@ -5,6 +5,7 @@ import { eventItems } from "./resources/events";
 export type ResourceCategory = "blog" | "whitepaper" | "events";
 
 export type ResourceItem = {
+  id: string;
   href: string;
   imageSrc: string;
   badge: string;

@@ -1,6 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { parse as parseYaml } from "yaml";
+import type { ResourceItem } from "@/content/resources";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 
 export type BlogPostFrontmatter = {
@@ -20,14 +21,7 @@ export type BlogPostRecord = BlogPostFrontmatter & {
   sourcePath: string;
 };
 
-export type BlogPublicationListItem = {
-  href: string;
-  imageSrc: string;
-  badge: string;
-  title: string;
-  description: string;
-  date?: string;
-};
+export type BlogPublicationListItem = ResourceItem;
 
 type BlogPublicationCache = {
   records: readonly BlogPostRecord[];
@@ -103,6 +97,7 @@ function createBlogPublicationCache(): Readonly<BlogPublicationCache> {
   const listItems = Object.freeze(
     visibleRecords.map((record) =>
       Object.freeze({
+        id: record.id,
         href: getPublicationHref("blog", record.id, record.slug),
         imageSrc: record.heroImageSrc,
         badge: "ブログ",

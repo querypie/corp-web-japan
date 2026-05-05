@@ -39,6 +39,7 @@ test("whitepaper list page is driven by MDX-derived whitepaper items", () => {
   const resources = readSource("src/content/resources.ts");
 
   assert.match(whitepapersPage, /import \{ listWhitepaperPublicationItems \} from "@\/lib\/publications\/whitepaper-publication-records"/);
+  assert.match(whitepapersPage, /listWhitepaperPublicationItems\(/);
   assert.match(whitepapersPage, /const whitepaperItems = await listWhitepaperPublicationItems\(\);/);
   assert.match(whitepapersPage, /items=\{whitepaperItems\}/);
   assert.match(resources, /import \{ listWhitepaperPublicationItems \} from "@\/lib\/publications\/whitepaper-publication-records"/);

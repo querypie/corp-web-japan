@@ -1,4 +1,5 @@
 import type { ResourceItem } from "@/content/resources";
+import { ResourceListLoadMore } from "@/components/sections/resource-list-load-more";
 import {
   ResourceListContentSection,
   ResourceListHeroDescription,
@@ -19,6 +20,7 @@ type ResourceListPageProps = {
   description: string;
   activeCategory: string;
   items: readonly ResourceItem[];
+  initialVisibleCount?: number;
   sidebarBasePath?: string;
 };
 
@@ -36,6 +38,7 @@ export function ResourceListPage({
   description,
   activeCategory,
   items,
+  initialVisibleCount,
   sidebarBasePath = "",
 }: ResourceListPageProps) {
   const categoryLinks: ResourceCategoryLink[] = sidebarLinks.map((link) => ({
@@ -67,7 +70,15 @@ export function ResourceListPage({
           </ResourceListSidebarNav>
         </ResourceListSidebar>
 
-        <ResourceListItems items={items} />
+        {typeof initialVisibleCount === "number" ? (
+          <ResourceListLoadMore
+            key={`${activeCategory}:${initialVisibleCount}`}
+            items={items}
+            initialVisibleCount={initialVisibleCount}
+          />
+        ) : (
+          <ResourceListItems items={items} />
+        )}
       </ResourceListContentSection>
     </>
   );

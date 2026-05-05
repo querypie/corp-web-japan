@@ -108,6 +108,7 @@ function createWhitepaperPublicationCache(): Readonly<WhitepaperPublicationCache
   const listItems = Object.freeze(
     visibleRecords.map((record) =>
       Object.freeze({
+        id: record.id,
         href: getPublicationHref("whitepaper", record.id, record.slug),
         imageSrc: record.heroImageSrc,
         badge: "ホワイトペーパー",

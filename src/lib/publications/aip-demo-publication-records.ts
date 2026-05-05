@@ -103,6 +103,7 @@ function createAipDemoPublicationCache(): Readonly<AipDemoPublicationCache> {
   const listItems = Object.freeze(
     visibleRecords.map((record) =>
       Object.freeze({
+        id: record.id,
         href: getPublicationHref("aip-demo", record.id, record.slug),
         imageSrc: record.heroImageSrc,
         badge: "AIP機能",

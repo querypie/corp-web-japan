@@ -103,6 +103,7 @@ function createUseCasePublicationCache(): Readonly<UseCasePublicationCache> {
   const listItems = Object.freeze(
     visibleRecords.map((record) =>
       Object.freeze({
+        id: record.id,
         href: getPublicationHref("use-case", record.id, record.slug),
         imageSrc: record.heroImageSrc,
         badge: "活用事例",
