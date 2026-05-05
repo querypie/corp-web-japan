@@ -10,17 +10,6 @@ export const homePageContent = {
     description:
       "調査、データ整理、下書きなど、時間のかかる下準備をAIに任せて効率化。人員を増やすことなく、企業の生産性・利益率の向上を実現します。",
   },
-  hero: {
-    eyebrow: "専用AIエージェントの設計・実運用支援",
-    title: "作業を減らし、\n成果を増やす。",
-    subcopy: "利益を生み出す実務特化型AIエージェント",
-    body:
-      "調査、データ整理、下書きなど、時間のかかる「下準備」をAIに任せて効率化。人員を増やすことなく、企業の生産性・利益率の向上を実現します。",
-    primaryCta: { label: "業務に合うAI活用を相談する", href: aiCrewConsultUrl },
-    secondaryCta: { label: "活用事例を見る", href: demoUseCasesUrl },
-    imageSrc: "/solutions/ai-crew/hero-visual.webp",
-    imageAlt: "オフィスでAIアシスタント画面を活用しながら業務を進めるチームのイメージ",
-  },
   floatingCta: { label: "業務に合うAI活用を相談する", href: aiCrewFloatingCtaUrl },
   system: {
     eyebrow: "運用設計",

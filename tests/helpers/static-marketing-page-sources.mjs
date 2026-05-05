@@ -36,7 +36,7 @@ export function getAiCrewDataSource() {
 export function getAiCrewStructureSource() {
   return readCombinedExistingSources([
     "src/app/solutions/ai-crew/page.tsx",
-    "src/components/sections/home-page-sections.tsx",
+    "src/components/sections/ai-crew-hero-section.tsx",
     "src/components/sections/ai-crew-about-section.tsx",
     "src/components/sections/ai-crew-design-elements-section.tsx",
     "src/components/sections/ai-crew-lost-section.tsx",
@@ -83,5 +83,5 @@ export function isTopPageSectionExternalized() {
 }
 
 export function isAiCrewSectionExternalized() {
-  return sourceExists("src/components/sections/home-page-sections.tsx");
+  return sourceExists("src/components/sections/ai-crew-hero-section.tsx");
 }
