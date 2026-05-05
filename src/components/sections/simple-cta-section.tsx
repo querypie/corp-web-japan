@@ -47,7 +47,7 @@ export function CtaTitle({ children, className = "" }: { children: ReactNode } &
 }
 
 export function CtaDescription({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <p className={`mt-[18.75px] max-w-full text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-slate-600 ${className}`.trim()}>{children}</p>;
+  return <p className={`mt-[18.75px] max-w-full text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-[#24292F] ${className}`.trim()}>{children}</p>;
 }
 
 export function CtaActions({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
