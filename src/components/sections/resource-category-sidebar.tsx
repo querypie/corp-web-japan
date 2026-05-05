@@ -30,6 +30,7 @@ export const previewResourceCategorySidebarLinks: readonly ResourceCategoryLink[
   { label: "マニュアル", href: "/t/manuals" },
   { label: "ホワイトペーパー", href: "/whitepapers" },
   { label: "ブログ", href: "/blog" },
+  { label: "イベント", href: "/t/events" },
 ] as const;
 
 type ResourceCategorySidebarProps = {
