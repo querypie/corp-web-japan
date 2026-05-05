@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import {
   ArrowRight,
   Blocks,
@@ -14,8 +12,72 @@ import { aiDashiConsultUrl, aiDashiFloatingUrl, aiDashiWhitepaperUrl } from "@/c
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
-import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import { ZoomableFigure } from "@/components/sections/zoomable-figure";
+import {
+  AIDashiHeroActions,
+  AIDashiHeroBackground,
+  AIDashiHeroBackgroundImage,
+  AIDashiHeroBackdrop,
+  AIDashiHeroEyebrow,
+  AIDashiHeroLead,
+  AIDashiHeroPanel,
+  AIDashiHeroPrimaryAction,
+  AIDashiHeroSecondaryAction,
+  AIDashiHeroSection,
+  AIDashiHeroShell,
+  AIDashiHeroTitle,
+  AIDashiHeroTitleAccent,
+  AIDashiHeroTitleLine,
+} from "@/components/sections/ai-dashi-hero-section";
+import {
+  AIDashiAboutBody,
+  AIDashiAboutHighlight,
+  AIDashiAboutIntro,
+  AIDashiAboutSection,
+  AIDashiAboutShell,
+  AIDashiAboutTitle,
+  AIDashiAboutVisual,
+} from "@/components/sections/ai-dashi-about-section";
+import {
+  AIDashiValuesDiagram,
+  AIDashiValueBadge,
+  AIDashiValueCard,
+  AIDashiValueCardBody,
+  AIDashiValueCardHeader,
+  AIDashiValueCardTitle,
+  AIDashiValueHighlight,
+  AIDashiValueNumber,
+  AIDashiValuesGrid,
+  AIDashiValuesIntro,
+  AIDashiValuesSection,
+  AIDashiValuesShell,
+  AIDashiValuesTitle,
+} from "@/components/sections/ai-dashi-values-section";
+import {
+  AIDashiWhitepaperAction,
+  AIDashiWhitepaperBody,
+  AIDashiWhitepaperCard,
+  AIDashiWhitepaperCardBodyLayout,
+  AIDashiWhitepaperCardDescription,
+  AIDashiWhitepaperCardTitle,
+  AIDashiWhitepaperCover,
+  AIDashiWhitepaperEyebrow,
+  AIDashiWhitepaperIntro,
+  AIDashiWhitepaperSection,
+  AIDashiWhitepaperShell,
+  AIDashiWhitepaperTag,
+  AIDashiWhitepaperTags,
+  AIDashiWhitepaperTitle,
+} from "@/components/sections/ai-dashi-whitepaper-section";
+import {
+  AIDashiContactActions,
+  AIDashiContactBody,
+  AIDashiContactHighlight,
+  AIDashiContactIntro,
+  AIDashiContactPrimaryAction,
+  AIDashiContactSection,
+  AIDashiContactShell,
+  AIDashiContactTitle,
+} from "@/components/sections/ai-dashi-contact-section";
 import {
   AIDashiComparisonBody,
   AIDashiComparisonCallout,
@@ -117,62 +179,39 @@ export default function AIDashiPage() {
       <SiteHeader />
       <FloatingConversionCta href={aiDashiFloatingUrl} />
 
-      <section className="relative mx-auto max-w-[1920px] overflow-hidden bg-[#eceff3] px-6 py-14 lg:px-10 lg:py-[84px]">
-        <div className="absolute inset-0">
-          <div className="relative h-full w-full">
-            <Image
-              src="/solutions/ai-dashi/hero-ai.webp"
-              alt="AI Dashi hero visual"
-              fill
-              priority
-              className="object-cover object-[50%_18%]"
-            />
-          </div>
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,18,34,0.4)_0%,rgba(10,18,34,0.22)_30%,rgba(10,18,34,0.08)_58%,rgba(10,18,34,0.0)_100%)]" />
-          <div className="absolute left-[8%] top-[12%] h-[280px] w-[280px] rounded-full bg-[radial-gradient(circle,rgba(237,96,46,0.18)_0%,rgba(237,96,46,0.06)_38%,rgba(237,96,46,0)_72%)] blur-2xl" />
-          <div className="absolute left-[22%] top-[24%] h-[320px] w-[320px] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.16)_0%,rgba(255,255,255,0.06)_34%,rgba(255,255,255,0)_72%)] blur-3xl" />
-        </div>
+      <AIDashiHeroSection>
+        <AIDashiHeroBackground>
+          <AIDashiHeroBackgroundImage src="/solutions/ai-dashi/hero-ai.webp" alt="AI Dashi hero visual" />
+          <AIDashiHeroBackdrop />
+        </AIDashiHeroBackground>
 
-        <div className="relative mx-auto flex max-w-[1260px] items-center justify-start px-[30px] text-left">
-          <div className="flex w-full max-w-[790px] flex-col items-start gap-5 rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(10,18,34,0.12)_0%,rgba(10,18,34,0.28)_100%)] px-6 py-7 shadow-[0_28px_72px_-46px_rgba(15,23,42,0.65)] backdrop-blur-[10px] sm:px-8 sm:py-8 lg:gap-5 lg:px-9 lg:py-10">
-            <p className="hero-copy-enter inline-flex rounded-full border border-white/18 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/78 backdrop-blur">
-              組み込み型AI基盤・ホワイトラベル対応
-            </p>
-            <h1 className="max-w-[760px] text-[34px] font-semibold leading-[1.12] tracking-[-0.04em] text-white md:text-[40px] md:leading-[1.12] lg:text-[54px] lg:leading-[1.16] lg:tracking-[-1.02px]">
-              <span className="hero-title-fragment block">自社サービスを</span>
-              <span
-                className="hero-title-fragment hero-highlight-sweep block bg-gradient-to-r from-[#ffffff] via-[#edf3ff] to-[#b8c9ff] bg-clip-text text-transparent drop-shadow-[0_12px_28px_rgba(159,182,255,0.22)]"
-                style={{ animationDelay: "110ms" }}
-              >
+        <AIDashiHeroShell>
+          <AIDashiHeroPanel>
+            <AIDashiHeroEyebrow>組み込み型AI基盤・ホワイトラベル対応</AIDashiHeroEyebrow>
+            <AIDashiHeroTitle>
+              <AIDashiHeroTitleLine>自社サービスを</AIDashiHeroTitleLine>
+              <AIDashiHeroTitleAccent delayMs={110}>
                 AI搭載SaaS
                 <span className="text-white">へ</span>
-              </span>
-              <span className="hero-title-fragment block" style={{ animationDelay: "220ms" }}>
-                最短で進化させる
-              </span>
-            </h1>
-            <p className="hero-copy-enter hero-copy-enter-1 max-w-[540px] text-[15px] leading-8 text-white/84 md:max-w-[620px] md:text-[16px] lg:max-w-[660px]">
+              </AIDashiHeroTitleAccent>
+              <AIDashiHeroTitleLine delayMs={220}>最短で進化させる</AIDashiHeroTitleLine>
+            </AIDashiHeroTitle>
+            <AIDashiHeroLead>
               ブランド体験はそのままに、エンタープライズ品質のAI基盤をシームレスに統合。ゼロからの開発リスクを排除し、新たな収益源の創出とタイム・トゥ・マーケットを最速化します。
-            </p>
-            <div className="hero-copy-enter hero-copy-enter-2 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Link
-                href={aiDashiConsultUrl}
-                className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] border border-white bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_36px_-24px_rgba(15,23,42,0.42)] transition hover:bg-slate-100"
-              >
+            </AIDashiHeroLead>
+            <AIDashiHeroActions>
+              <AIDashiHeroPrimaryAction href={aiDashiConsultUrl}>
                 無料で導入相談・お見積り
                 <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href={aiDashiWhitepaperUrl}
-                className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] border border-white/24 bg-white/6 px-5 py-3 text-sm font-semibold text-white/92 backdrop-blur transition hover:bg-white/10"
-              >
+              </AIDashiHeroPrimaryAction>
+              <AIDashiHeroSecondaryAction href={aiDashiWhitepaperUrl}>
                 資料をダウンロード
                 <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+              </AIDashiHeroSecondaryAction>
+            </AIDashiHeroActions>
+          </AIDashiHeroPanel>
+        </AIDashiHeroShell>
+      </AIDashiHeroSection>
 
       <AIDashiRiskSection>
         <AIDashiRiskLead>明日、AIを搭載した競合が現れたら。</AIDashiRiskLead>
@@ -192,115 +231,76 @@ export default function AIDashiPage() {
         </AIDashiRiskBody>
       </AIDashiRiskSection>
 
-      <section id="about-ai-dashi" className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1120px]">
-          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:justify-between lg:gap-10">
-            <RevealOnScroll variant="up" className="flex flex-col">
-              <div className="flex flex-col gap-5">
-                <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
-                  なぜ
-                  <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
-                    AI Dashi
-                  </span>
-                  なのか？
-                </h2>
+      <AIDashiAboutSection>
+        <AIDashiAboutShell>
+          <AIDashiAboutIntro>
+            <AIDashiAboutTitle>
+              なぜ
+              <AIDashiAboutHighlight>AI Dashi</AIDashiAboutHighlight>
+              なのか？
+            </AIDashiAboutTitle>
 
-                <div className="max-w-[640px] space-y-5 text-[15px] leading-8 text-slate-500">
-                  <p>良い「出汁」は、主役の食材を邪魔せず、料理全体の旨味を底上げします。</p>
-                  <p>SaaSやWebサービスにおけるAIも同じです。AIそのものが主役になるのではなく、貴社がこれまで築き上げてきた「プロダクトのコア価値」を裏側から圧倒的に引き上げる存在でなければなりません。</p>
-                  <p>QueryPie AIが提供するAIプラットフォーム（AIP）は、貴社のUIやブランドの世界観に完全に溶け込み、ユーザーに「このサービス、すごく便利になった！」という最高の体験（旨味）を提供するための、最高品質のAI基盤（AI Dashi）です。</p>
-                </div>
-              </div>
-            </RevealOnScroll>
+            <AIDashiAboutBody>
+              <p>良い「出汁」は、主役の食材を邪魔せず、料理全体の旨味を底上げします。</p>
+              <p>SaaSやWebサービスにおけるAIも同じです。AIそのものが主役になるのではなく、貴社がこれまで築き上げてきた「プロダクトのコア価値」を裏側から圧倒的に引き上げる存在でなければなりません。</p>
+              <p>QueryPie AIが提供するAIプラットフォーム（AIP）は、貴社のUIやブランドの世界観に完全に溶け込み、ユーザーに「このサービス、すごく便利になった！」という最高の体験（旨味）を提供するための、最高品質のAI基盤（AI Dashi）です。</p>
+            </AIDashiAboutBody>
+          </AIDashiAboutIntro>
 
-            <RevealOnScroll variant="right" delayMs={160} className="relative h-[320px] w-full overflow-hidden rounded-[20px] bg-[#eceff3] shadow-[0_24px_70px_-50px_rgba(15,23,42,0.22)] lg:h-[430px] lg:w-full">
-              <Image
-                src="/solutions/ai-dashi/about-visual.webp"
-                alt="AI Dashi のコンセプトを表現するビジュアル"
-                fill
-                className="object-cover"
-                sizes="(min-width: 1024px) 40vw, 100vw"
-              />
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
+          <AIDashiAboutVisual src="/solutions/ai-dashi/about-visual.webp" alt="AI Dashi のコンセプトを表現するビジュアル" />
+        </AIDashiAboutShell>
+      </AIDashiAboutSection>
 
-      <section id="ai-dashi-values" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1120px]">
-          <div className="flex flex-col items-center gap-12">
-            <RevealOnScroll variant="up" className="w-full max-w-[920px] text-center">
-              <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
-                QueryPie AIPが提供する3つの価値
-              </h2>
-            </RevealOnScroll>
+      <AIDashiValuesSection>
+        <AIDashiValuesShell>
+          <AIDashiValuesIntro>
+            <AIDashiValuesTitle>QueryPie AIPが提供する3つの価値</AIDashiValuesTitle>
+          </AIDashiValuesIntro>
 
-            <RevealOnScroll className="grid w-full gap-4 lg:grid-cols-3" variant="up" delayMs={120}>
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-md shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md">
-                <div className="flex items-center gap-3">
-                  <div className="text-[32px] font-semibold tracking-[-0.06em] text-slate-300">
-                    01
-                  </div>
-                  <div className="inline-flex rounded-full bg-[#eef2f7] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-[#2f3a49]">
-                    競合優位性の確立
-                  </div>
-                </div>
-                <h3 className="mt-5 text-[21px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">
-                  自社の<span className="text-[#ED602E]">オリジナル機能</span>としてシームレスに展開
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-slate-600">
-                  他社の汎用AIツールを外付けするのではなく、貴社プロダクトの裏側に深く組み込みます。ブランド体験を損なわず、直接的な競争力と顧客ロイヤルティを高めます。
-                </p>
-              </article>
+          <AIDashiValuesGrid>
+            <AIDashiValueCard>
+              <AIDashiValueCardHeader>
+                <AIDashiValueNumber>01</AIDashiValueNumber>
+                <AIDashiValueBadge>競合優位性の確立</AIDashiValueBadge>
+              </AIDashiValueCardHeader>
+              <AIDashiValueCardTitle>
+                自社の<AIDashiValueHighlight>オリジナル機能</AIDashiValueHighlight>としてシームレスに展開
+              </AIDashiValueCardTitle>
+              <AIDashiValueCardBody>
+                他社の汎用AIツールを外付けするのではなく、貴社プロダクトの裏側に深く組み込みます。ブランド体験を損なわず、直接的な競争力と顧客ロイヤルティを高めます。
+              </AIDashiValueCardBody>
+            </AIDashiValueCard>
 
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-md shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md">
-                <div className="flex items-center gap-3">
-                  <div className="text-[32px] font-semibold tracking-[-0.06em] text-slate-300">
-                    02
-                  </div>
-                  <div className="inline-flex rounded-full bg-[#eef2f7] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-[#2f3a49]">
-                    開発リソースの最適化
-                  </div>
-                </div>
-                <h3 className="mt-5 text-[21px] font-semibold leading-7 tracking-[-0.03em] text-slate-950">
-                  AI開発の<span className="text-[#ED602E]">技術的負債を回避</span>し、コアビジネスに集中
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-slate-600">
-                  変化の速いLLMの追従や複雑なインフラ保守はすべてQueryPie AIPが担います。ゼロから内製するコストとリスクを抑え、エンジニアの貴重な時間を本来のプロダクト開発に集中させられます。
-                </p>
-              </article>
+            <AIDashiValueCard>
+              <AIDashiValueCardHeader>
+                <AIDashiValueNumber>02</AIDashiValueNumber>
+                <AIDashiValueBadge>開発リソースの最適化</AIDashiValueBadge>
+              </AIDashiValueCardHeader>
+              <AIDashiValueCardTitle>
+                AI開発の<AIDashiValueHighlight>技術的負債を回避</AIDashiValueHighlight>し、コアビジネスに集中
+              </AIDashiValueCardTitle>
+              <AIDashiValueCardBody>
+                変化の速いLLMの追従や複雑なインフラ保守はすべてQueryPie AIPが担います。ゼロから内製するコストとリスクを抑え、エンジニアの貴重な時間を本来のプロダクト開発に集中させられます。
+              </AIDashiValueCardBody>
+            </AIDashiValueCard>
 
-              <article className="rounded-[1.8rem] border border-black/6 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-md shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md">
-                <div className="flex items-center gap-3">
-                  <div className="text-[32px] font-semibold tracking-[-0.06em] text-slate-300">
-                    03
-                  </div>
-                  <div className="inline-flex rounded-full bg-[#eef2f7] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-[#2f3a49]">
-                    事業成長の加速
-                  </div>
-                </div>
-                <h3 className="mt-5 text-[20px] font-semibold leading-7 tracking-[-0.045em] text-slate-950">
-                  <span className="text-[#ED602E]">タイム・トゥ・マーケット</span>を最速化し、新たな収益源へ
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-slate-600">
-                  フルスクラッチなら1年以上かかるエンタープライズ水準のセキュアなAI基盤を、最短1ヶ月で市場投入。単価向上（アップセル）や新プランの立ち上げを加速します。
-                </p>
-              </article>
-            </RevealOnScroll>
+            <AIDashiValueCard>
+              <AIDashiValueCardHeader>
+                <AIDashiValueNumber>03</AIDashiValueNumber>
+                <AIDashiValueBadge>事業成長の加速</AIDashiValueBadge>
+              </AIDashiValueCardHeader>
+              <AIDashiValueCardTitle compact>
+                <AIDashiValueHighlight>タイム・トゥ・マーケット</AIDashiValueHighlight>を最速化し、新たな収益源へ
+              </AIDashiValueCardTitle>
+              <AIDashiValueCardBody>
+                フルスクラッチなら1年以上かかるエンタープライズ水準のセキュアなAI基盤を、最短1ヶ月で市場投入。単価向上（アップセル）や新プランの立ち上げを加速します。
+              </AIDashiValueCardBody>
+            </AIDashiValueCard>
+          </AIDashiValuesGrid>
 
-            <RevealOnScroll className="w-full max-w-[820px]" variant="up" delayMs={220}>
-              <ZoomableFigure
-                src="/solutions/ai-dashi/value-diagram.png"
-                alt="AI Dashi の3つの価値を示す図解"
-                caption=""
-                sizes="(min-width: 1024px) 680px, 100vw"
-                modalScale={1.25}
-              />
-            </RevealOnScroll>
-
-          </div>
-        </div>
-      </section>
+          <AIDashiValuesDiagram />
+        </AIDashiValuesShell>
+      </AIDashiValuesSection>
 
       <AIDashiWallCardsSection>
         <AIDashiWallCardsIntro>
@@ -597,104 +597,68 @@ export default function AIDashiPage() {
         </AIDashiReleaseFlowGrid>
       </AIDashiReleaseFlowSection>
 
-      <section className="mx-auto max-w-[1920px] bg-[#f8fafc] px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1120px]">
-          <div className="rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(248,250,252,0.98)_0%,rgba(255,255,255,0.98)_100%)] px-6 py-8 shadow-[0_24px_70px_-56px_rgba(15,23,42,0.14)] lg:px-8 lg:py-10">
-            <div className="flex flex-col items-center gap-10">
-              <RevealOnScroll variant="up" className="w-full max-w-[860px] text-center">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748b]">White Paper</p>
-                <h2 className="mt-2 text-[24px] font-semibold leading-[1.3] tracking-[-0.03em] text-slate-950 sm:text-[30px]">
-                  SaaS事業責任者向けホワイトペーパー
-                </h2>
-                <p className="mx-auto mt-4 max-w-[760px] text-left text-base leading-7 text-slate-500">
-                  AIエージェント時代に、SaaS企業が取るべき戦略をまとめた資料を無料でダウンロードいただけます。
-                </p>
-              </RevealOnScroll>
+      <AIDashiWhitepaperSection>
+        <AIDashiWhitepaperShell>
+          <AIDashiWhitepaperIntro>
+            <AIDashiWhitepaperEyebrow>White Paper</AIDashiWhitepaperEyebrow>
+            <AIDashiWhitepaperTitle>SaaS事業責任者向けホワイトペーパー</AIDashiWhitepaperTitle>
+            <AIDashiWhitepaperBody>
+              AIエージェント時代に、SaaS企業が取るべき戦略をまとめた資料を無料でダウンロードいただけます。
+            </AIDashiWhitepaperBody>
+          </AIDashiWhitepaperIntro>
 
-              <RevealOnScroll
-                variant="up"
-                delayMs={120}
-                className="w-full max-w-[980px]"
-              >
-                <Link
-                  href={aiDashiWhitepaperUrl}
-                  className="group grid overflow-hidden rounded-[1.8rem] border border-black/6 bg-white shadow-[0_22px_56px_-44px_rgba(15,23,42,0.14)] transition duration-300 hover:-translate-y-1 hover:shadow-md md:grid-cols-[280px_minmax(0,1fr)]"
-                >
-                  <div className="relative min-h-[260px] bg-[#f5f7fb] p-6 md:min-h-full">
-                    <Image
-                      src="/solutions/ai-dashi/the-end-of-saas-or-its-evolution.png"
-                      alt="SaaSの終焉か、進化か ホワイトペーパー表紙"
-                      fill
-                      className="object-contain p-6"
-                      sizes="(min-width: 768px) 280px, 100vw"
-                    />
-                  </div>
+          <AIDashiWhitepaperCard href={aiDashiWhitepaperUrl}>
+            <AIDashiWhitepaperCover src="/solutions/ai-dashi/the-end-of-saas-or-its-evolution.png" alt="SaaSの終焉か、進化か ホワイトペーパー表紙" />
 
-                  <div className="flex flex-col justify-between gap-5 px-6 py-6 md:px-8 md:py-8">
-                    <div>
-                      <div className="flex flex-wrap gap-2">
-                        <span className="inline-flex rounded-full bg-[#eef2f7] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-[#2f3a49]">
-                          プロダクト責任者向け
-                        </span>
-                        <span className="inline-flex rounded-full bg-[#eef2f7] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-[#2f3a49]">
-                          SaaS戦略
-                        </span>
-                        <span className="inline-flex rounded-full bg-[#eef2f7] px-3 py-1 text-[11px] font-semibold tracking-[0.08em] text-[#2f3a49]">
-                          組み込みAI
-                        </span>
-                      </div>
+            <AIDashiWhitepaperCardBodyLayout>
+              <div>
+                <AIDashiWhitepaperTags>
+                  <AIDashiWhitepaperTag>プロダクト責任者向け</AIDashiWhitepaperTag>
+                  <AIDashiWhitepaperTag>SaaS戦略</AIDashiWhitepaperTag>
+                  <AIDashiWhitepaperTag>組み込みAI</AIDashiWhitepaperTag>
+                </AIDashiWhitepaperTags>
 
-                      <h3 className="mt-5 text-[24px] font-semibold leading-[1.4] tracking-[-0.03em] text-slate-950">
-                        SaaSの終焉か、進化か 〜AIエージェント時代にSaaS企業が取るべき戦略〜
-                      </h3>
-                      <p className="mt-4 text-[15px] leading-7 text-slate-600">
-                        本ホワイトペーパーは、AIエージェントがSaaSビジネスに与える影響を分析し、SaaS企業が取るべき戦略と、QueryPie AI自身のSaaSベンダーからAI Native企業への変革の実録をお伝えします。
-                      </p>
-                    </div>
+                <AIDashiWhitepaperCardTitle>
+                  SaaSの終焉か、進化か 〜AIエージェント時代にSaaS企業が取るべき戦略〜
+                </AIDashiWhitepaperCardTitle>
+                <AIDashiWhitepaperCardDescription>
+                  本ホワイトペーパーは、AIエージェントがSaaSビジネスに与える影響を分析し、SaaS企業が取るべき戦略と、QueryPie AI自身のSaaSベンダーからAI Native企業への変革の実録をお伝えします。
+                </AIDashiWhitepaperCardDescription>
+              </div>
 
-                    <div className="inline-flex items-center gap-2 text-sm font-semibold text-[#ED602E] transition group-hover:gap-2.5">
-                      無料ダウンロード
-                      <ArrowRight className="h-4 w-4" />
-                    </div>
-                  </div>
-                </Link>
-              </RevealOnScroll>
-            </div>
-          </div>
-        </div>
-      </section>
+              <AIDashiWhitepaperAction>
+                無料ダウンロード
+                <ArrowRight className="h-4 w-4" />
+              </AIDashiWhitepaperAction>
+            </AIDashiWhitepaperCardBodyLayout>
+          </AIDashiWhitepaperCard>
+        </AIDashiWhitepaperShell>
+      </AIDashiWhitepaperSection>
 
-      <section id="contact" className="w-full bg-[#f9f9fb] px-6 py-16 lg:px-10 lg:py-20">
-        <div className="mx-auto flex max-w-[920px] flex-col items-center gap-8">
-          <RevealOnScroll variant="up" className="flex flex-col items-center gap-4 text-center">
-            <h2 className="text-[36px] font-semibold leading-[1.14] tracking-[-0.05em] text-[#15181d] sm:text-[46px] sm:leading-[58px]">
+      <AIDashiContactSection>
+        <AIDashiContactShell>
+          <AIDashiContactIntro>
+            <AIDashiContactTitle>
               <span className="inline-block whitespace-nowrap">
                 自社サービスの
-                <span className="bg-gradient-to-r from-[#E45A2A] via-[#ED602E] to-[#F08A3C] bg-clip-text text-transparent">
-                  AI化
-                </span>
+                <AIDashiContactHighlight>AI化</AIDashiContactHighlight>
                 を、
               </span>
               <br />
               一緒にデザインしませんか？
-            </h2>
-            <p className="max-w-[780px] text-base leading-7 text-slate-500">
+            </AIDashiContactTitle>
+            <AIDashiContactBody>
               複雑な手動操作をAIに任せたい。顧客の要望に応えるAI機能をスピーディに実装したい。
               <br />
               QueryPie AIPを活用した具体的な連携アイデアからお見積もりまで、まずはお気軽にご相談ください。
-            </p>
-          </RevealOnScroll>
+            </AIDashiContactBody>
+          </AIDashiContactIntro>
 
-          <RevealOnScroll variant="up" delayMs={120} className="flex flex-col items-center gap-4">
-            <Link
-              href={aiDashiConsultUrl}
-              className="inline-flex max-w-full items-center justify-center rounded-[8px] bg-[#15181d] px-4 py-2.5 text-center text-sm font-semibold leading-5 text-white transition hover:bg-[#0f1216] sm:whitespace-nowrap sm:text-base"
-            >
-              無料で導入相談・お見積もりをする
-            </Link>
-          </RevealOnScroll>
-        </div>
-      </section>
+          <AIDashiContactActions>
+            <AIDashiContactPrimaryAction href={aiDashiConsultUrl}>無料で導入相談・お見積もりをする</AIDashiContactPrimaryAction>
+          </AIDashiContactActions>
+        </AIDashiContactShell>
+      </AIDashiContactSection>
 
       <SiteFooter />
     </main>
