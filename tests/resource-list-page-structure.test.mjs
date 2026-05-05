@@ -76,3 +76,4 @@ test("resource category sidebar owns both public and preview category link sets 
 test("shared ResourceListPage wrapper component has been removed", () => {
   assert.equal(existsSync(new URL("../src/components/sections/resource-list-page.tsx", import.meta.url)), false);
 });
+

@@ -34,7 +34,7 @@ export default async function InternalLoadMorePage({ searchParams }: InternalLoa
   const initialVisibleCount = resolveResourceListVisibleCount(blogItems, resolvedSearchParams?.until);
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main className="relative bg-white text-slate-950">
       <SiteHeader />
 
       <ResourceListHeroSection>
@@ -56,3 +56,4 @@ export default async function InternalLoadMorePage({ searchParams }: InternalLoa
     </main>
   );
 }
+
