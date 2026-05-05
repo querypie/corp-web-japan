@@ -353,7 +353,7 @@ export function AICrewUseCaseTabbedCard({
                     event.stopPropagation();
                     setActiveTabIndex(tabIndex);
                   }}
-                  className={`rounded-full px-3 py-1.5 text-[12px] font-semibold transition ${
+                  className={`rounded-full px-3 py-1.5 text-[12px] leading-[18px] font-semibold transition ${
                     activeTabIndex === tabIndex
                       ? "bg-[#2f3a49] text-white"
                       : "border border-black/6 bg-white text-slate-600 hover:bg-slate-50"
