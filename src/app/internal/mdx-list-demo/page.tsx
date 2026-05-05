@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { PublicResourceSidebar } from "@/components/sections/resource-list-public-sidebar";
 import {
   ResourceListContentSection,
   ResourceListCtaActions,
@@ -13,14 +14,6 @@ import {
   ResourceListHeroSection,
   ResourceListHeroTitle,
   ResourceListItems,
-  ResourceListSidebar,
-  ResourceListSidebarItem,
-  ResourceListSidebarLabel,
-  ResourceListSidebarLink,
-  ResourceListSidebarList,
-  ResourceListSidebarNav,
-  ResourceListSidebarViewport,
-  type ResourceCategoryLink,
 } from "@/components/sections/resource-list-section";
 import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 import { listBlogPublicationItems } from "@/lib/publications/blog-publication-records";
@@ -32,15 +25,6 @@ export const metadata: Metadata = {
     follow: false,
   },
 };
-
-const sidebarLinks: readonly ResourceCategoryLink[] = [
-  { label: "全て", href: "/resources" },
-  { label: "紹介資料", href: "/introduction-deck" },
-  { label: "用語集", href: "/glossary" },
-  { label: "マニュアル", href: "/manuals" },
-  { label: "ホワイトペーパー", href: "/whitepapers" },
-  { label: "ブログ", href: "/blog", active: true },
-] as const;
 
 export default async function InternalMdxListDemoPage() {
   const blogItems = await listBlogPublicationItems();
@@ -59,22 +43,7 @@ export default async function InternalMdxListDemoPage() {
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
-        <ResourceListSidebar>
-          <ResourceListSidebarLabel>カテゴリー</ResourceListSidebarLabel>
-          <ResourceListSidebarViewport>
-            <ResourceListSidebarNav label="Sidebar Navigation">
-              <ResourceListSidebarList>
-                {sidebarLinks.map((link) => (
-                  <ResourceListSidebarItem key={link.label}>
-                    <ResourceListSidebarLink href={link.href} active={link.active} label={link.label}>
-                      {link.label}
-                    </ResourceListSidebarLink>
-                  </ResourceListSidebarItem>
-                ))}
-              </ResourceListSidebarList>
-            </ResourceListSidebarNav>
-          </ResourceListSidebarViewport>
-        </ResourceListSidebar>
+        <PublicResourceSidebar activeLabel="ブログ" />
 
         <ResourceListItems items={blogItems} />
       </ResourceListContentSection>

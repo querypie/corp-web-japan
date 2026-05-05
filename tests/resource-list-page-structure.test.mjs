@@ -18,14 +18,42 @@ const routeFiles = [
   "src/app/t/demo/acp/page.tsx",
 ];
 
-test("resource list routes compose hero and sidebar sections directly in each page.tsx", () => {
+test("resource list routes compose hero sections directly in each page.tsx", () => {
   for (const path of routeFiles) {
     const source = readSource(path);
     assert.match(source, /ResourceListHeroSection/);
-    assert.match(source, /ResourceListSidebar>/);
-    assert.match(source, /ResourceListSidebarNav label="Sidebar Navigation"/);
     assert.doesNotMatch(source, /ResourceListPage/);
   }
+});
+
+test("public resource-list routes use the concrete public sidebar component", () => {
+  for (const path of [
+    "src/app/blog/page.tsx",
+    "src/app/whitepapers/page.tsx",
+    "src/app/events/page.tsx",
+    "src/app/internal/load-more/page.tsx",
+    "src/app/internal/mdx-list-demo/page.tsx",
+    "src/app/t/use-cases/page.tsx",
+    "src/app/t/events/page.tsx",
+    "src/app/t/demo/aip/page.tsx",
+    "src/app/t/demo/acp/page.tsx",
+  ]) {
+    const source = readSource(path);
+    assert.match(source, /PublicResourceSidebar/);
+  }
+});
+
+test("public resource sidebar concrete component owns the public category links and sidebar markup", () => {
+  const source = readSource("src/components/sections/resource-list-public-sidebar.tsx");
+
+  assert.match(source, /export const publicResourceSidebarLinks/);
+  assert.match(source, /\{ label: "全て", href: "\/resources" \}/);
+  assert.match(source, /\{ label: "紹介資料", href: "\/introduction-deck" \}/);
+  assert.match(source, /\{ label: "用語集", href: "\/glossary" \}/);
+  assert.match(source, /\{ label: "マニュアル", href: "\/manuals" \}/);
+  assert.match(source, /\{ label: "ホワイトペーパー", href: "\/whitepapers" \}/);
+  assert.match(source, /\{ label: "ブログ", href: "\/blog" \}/);
+  assert.match(source, /ResourceListSidebarNav label="Sidebar Navigation"/);
 });
 
 test("shared ResourceListPage wrapper component has been removed", () => {
