@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { Children, isValidElement, type ReactNode } from "react";
 import {
   Brain,
   Cable,
@@ -121,6 +121,13 @@ export function AICrewPlatformCoreBody({ children }: AICrewPlatformSectionProps)
 
 export function AICrewPlatformCard({ children, icon, position }: AICrewPlatformCardProps) {
   const Icon = platformCardIcons[icon] ?? ShieldCheck;
+  const childNodes = Children.toArray(children);
+  const bodyChild = childNodes.find(
+    (child) => isValidElement(child) && child.type === AICrewPlatformCardBody,
+  );
+  const headerChildren = childNodes.filter(
+    (child) => !(isValidElement(child) && child.type === AICrewPlatformCardBody),
+  );
 
   return (
     <article
@@ -130,8 +137,9 @@ export function AICrewPlatformCard({ children, icon, position }: AICrewPlatformC
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px] bg-[#eef2f7] text-[#2f3a49]">
           <Icon className="h-[18px] w-[18px]" />
         </div>
-        <div className="min-w-0">{children}</div>
+        <div className="min-w-0 flex-1">{headerChildren}</div>
       </div>
+      {bodyChild}
     </article>
   );
 }
@@ -158,7 +166,7 @@ export function AICrewPlatformCardStat({ children }: AICrewPlatformSectionProps)
 }
 
 export function AICrewPlatformCardBody({ children }: AICrewPlatformSectionProps) {
-  return <div className="mt-2.5 space-y-1.5">{children}</div>;
+  return <div className="mt-4 space-y-1.5">{children}</div>;
 }
 
 export function AICrewPlatformCardBullet({ children }: AICrewPlatformSectionProps) {
