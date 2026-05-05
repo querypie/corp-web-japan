@@ -15,7 +15,8 @@ test("/t/glossary page exists with noindex metadata and canonical preview path",
   assert.match(source, /canonical: "\/t\/glossary"/);
   assert.match(source, /title: "用語集 \| QueryPie AI"/);
   assert.match(source, /listGlossaryPublicationItems/);
-  assert.match(source, /sidebarBasePath="\/t"/);
+  assert.match(source, /const sidebarLinks: readonly ResourceCategoryLink\[] = \[/);
+  assert.match(source, /\{ label: "用語集", href: "\/t\/glossary" \}/);
 });
 
 test("/t/glossary detail route family exists and uses category-specific loaders", () => {

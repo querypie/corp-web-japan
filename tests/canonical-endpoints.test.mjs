@@ -38,12 +38,12 @@ const expectedFooterLinks = [
 ];
 
 const expectedSidebarLinks = [
-  'label: "全て", href: "/resources", key: "resources"',
-  'label: "紹介資料", href: "/introduction-deck", key: "introduction-deck"',
-  'label: "用語集", href: "/glossary", key: "glossary"',
-  'label: "マニュアル", href: "/manuals", key: "manuals"',
-  'label: "ホワイトペーパー", href: "/whitepapers", key: "whitepaper"',
-  'label: "ブログ", href: "/blog", key: "blog"',
+  'label: "全て", href: "/resources"',
+  'label: "紹介資料", href: "/introduction-deck"',
+  'label: "用語集", href: "/glossary"',
+  'label: "マニュアル", href: "/manuals"',
+  'label: "ホワイトペーパー", href: "/whitepapers"',
+  'label: "ブログ", href: "/blog"',
 ];
 
 const expectedRedirectFiles = [
@@ -60,7 +60,7 @@ const expectedRedirectFiles = [
 test("navigation surfaces point to the canonical local and redirect endpoints", () => {
   const siteHeader = readSource("src/components/layout/site-header-client.tsx");
   const siteFooter = readSource("src/components/layout/site-footer.tsx");
-  const resourcePage = readSource("src/components/sections/resource-list-page.tsx");
+  const resourceSidebar = readSource("src/components/sections/resource-category-sidebar.tsx");
 
   for (const expected of expectedHeaderLinks) {
     assert.match(siteHeader, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
@@ -71,7 +71,7 @@ test("navigation surfaces point to the canonical local and redirect endpoints", 
   }
 
   for (const expected of expectedSidebarLinks) {
-    assert.match(resourcePage, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.match(resourceSidebar, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
 });
 

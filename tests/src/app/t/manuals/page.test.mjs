@@ -15,7 +15,8 @@ test("/t/manuals page exists with noindex metadata and canonical preview path", 
   assert.match(source, /canonical: "\/t\/manuals"/);
   assert.match(source, /title: "マニュアル \| QueryPie AI"/);
   assert.match(source, /listManualPreviewItems/);
-  assert.match(source, /sidebarBasePath="\/t"/);
+  assert.match(source, /const sidebarLinks: readonly ResourceCategoryLink\[] = \[/);
+  assert.match(source, /\{ label: "マニュアル", href: "\/t\/manuals" \}/);
 });
 
 test("/t/manuals detail route family exists and uses category-specific loaders", () => {

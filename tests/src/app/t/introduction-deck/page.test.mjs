@@ -15,7 +15,8 @@ test("/t/introduction-deck page exists with noindex metadata and canonical previ
   assert.match(source, /canonical: "\/t\/introduction-deck"/);
   assert.match(source, /title: "紹介資料 \| QueryPie AI"/);
   assert.match(source, /listIntroductionDeckPublicationItems/);
-  assert.match(source, /sidebarBasePath="\/t"/);
+  assert.match(source, /const sidebarLinks: readonly ResourceCategoryLink\[] = \[/);
+  assert.match(source, /\{ label: "紹介資料", href: "\/t\/introduction-deck" \}/);
 });
 
 test("/t/introduction-deck detail route family exists and uses category-specific loaders", () => {
