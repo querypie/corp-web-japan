@@ -1,6 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { parse as parseYaml } from "yaml";
+import type { ResourceItem } from "@/content/resources";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 
 export type EventPublicationFrontmatter = {
@@ -22,14 +23,7 @@ export type EventPublicationRecord = EventPublicationFrontmatter & {
   sourcePath: string;
 };
 
-export type EventPublicationListItem = {
-  href: string;
-  imageSrc: string;
-  badge: string;
-  title: string;
-  description: string;
-  date?: string;
-};
+export type EventPublicationListItem = ResourceItem;
 
 type EventPublicationCache = {
   records: readonly EventPublicationRecord[];
@@ -109,6 +103,7 @@ function createEventPublicationCache(): Readonly<EventPublicationCache> {
   const listItems = Object.freeze(
     visibleRecords.map((record) =>
       Object.freeze({
+        id: record.id,
         href: getPublicationHref("event", record.id, record.slug),
         imageSrc: record.heroImageSrc,
         badge: record.eventLabel ?? "イベント",

@@ -103,6 +103,7 @@ function createAcpDemoPublicationCache(): Readonly<AcpDemoPublicationCache> {
   const listItems = Object.freeze(
     visibleRecords.map((record) =>
       Object.freeze({
+        id: record.id,
         href: getPublicationHref("acp-demo", record.id, record.slug),
         imageSrc: record.heroImageSrc,
         badge: "ACP機能",

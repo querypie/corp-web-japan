@@ -83,7 +83,7 @@ export function ResourceListItems({ items }: { items: readonly ResourceItem[] })
     <div className="min-w-0 flex-1">
       <ul className="grid gap-[34px] lg:grid-cols-2 lg:gap-[60px]">
         {items.map((item) => (
-          <li key={item.title}>
+          <li key={item.id}>
             <Link href={item.href} className="flex flex-col gap-5 transition hover:opacity-70">
               <div className="aspect-[16/9] overflow-hidden rounded-[8px] bg-[#eceff3]">
                 <Image

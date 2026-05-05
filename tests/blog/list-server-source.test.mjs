@@ -5,7 +5,8 @@ import { readSource } from "../helpers/source-readers.mjs";
 test("blog index page reads blog list items from a server loader instead of a static blogItems array", () => {
   const source = readSource("src/app/blog/page.tsx");
 
-  assert.match(source, /await\s+listBlogPublicationItems\(/);
+  assert.match(source, /listBlogPublicationItems\(/);
+  assert.match(source, /const blogItems = await listBlogPublicationItems\(\);/);
   assert.doesNotMatch(source, /import\s*\{\s*blogItems\s*\}\s*from\s*"@\/content\/publications\/blog"/);
 });
 

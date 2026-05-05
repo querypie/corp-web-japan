@@ -104,6 +104,7 @@ export abstract class BaseResourcePublicationRepository {
 
   listItems(): readonly ResourcePublicationListItem[] {
     return this.listRecords().map((record) => ({
+      id: record.id,
       href: getPublicationHref(this.category, record.id, record.slug),
       imageSrc: record.heroImageSrc,
       badge: this.badge,
