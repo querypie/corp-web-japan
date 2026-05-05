@@ -4,8 +4,8 @@ import { SiteHeader } from "@/components/layout/site-header";
 import {
   ResourceListContentSection,
   ResourceListCtaActions,
-  ResourceListCtaBox,
-  ResourceListCtaButton,
+  ResourceListCtaContent,
+  ResourceListCtaCopy,
   ResourceListCtaDescription,
   ResourceListCtaSection,
   ResourceListCtaTitle,
@@ -19,12 +19,14 @@ import {
   ResourceListSidebarLink,
   ResourceListSidebarList,
   ResourceListSidebarNav,
+  ResourceListSidebarViewport,
   type ResourceCategoryLink,
 } from "@/components/sections/resource-list-section";
+import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 import { listBlogPublicationItems } from "@/lib/publications/blog-publication-records";
 
 export const metadata: Metadata = {
-  title: "Internal MDX List UX Demo | QueryPie AI",
+  title: "MDXコンテンツ一覧画面サンプル | QueryPie AI",
   robots: {
     index: false,
     follow: false,
@@ -44,50 +46,49 @@ export default async function InternalMdxListDemoPage() {
   const blogItems = await listBlogPublicationItems();
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main className="relative bg-white text-slate-950">
       <SiteHeader />
 
       <ResourceListHeroSection>
-        <ResourceListHeroTitle>MDX 컨텐츠의 List 화면 예시</ResourceListHeroTitle>
+        <ResourceListHeroTitle>MDXコンテンツ一覧画面サンプル</ResourceListHeroTitle>
         <ResourceListHeroDescription>
-          MDX 기반 컨텐츠의 공통 List UX 예시입니다. 좌측 Sidebar 링크 구성, 카드형 목록 레이아웃, 하단 CTA 박스까지
-          route file 에서 직접 authoring 하는 패턴을 보여줍니다.
+          包括的なガイド、技術マニュアル、業界ホワイトペーパー、専門家ブログを見ることができます。
+          <br />
+          基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
         <ResourceListSidebar>
           <ResourceListSidebarLabel>カテゴリー</ResourceListSidebarLabel>
-          <ResourceListSidebarNav>
-            <ResourceListSidebarList>
-              {sidebarLinks.map((link) => (
-                <ResourceListSidebarItem key={link.label}>
-                  <ResourceListSidebarLink href={link.href} active={link.active} label={link.label}>
-                    {link.label}
-                  </ResourceListSidebarLink>
-                </ResourceListSidebarItem>
-              ))}
-            </ResourceListSidebarList>
-          </ResourceListSidebarNav>
+          <ResourceListSidebarViewport>
+            <ResourceListSidebarNav label="Sidebar Navigation">
+              <ResourceListSidebarList>
+                {sidebarLinks.map((link) => (
+                  <ResourceListSidebarItem key={link.label}>
+                    <ResourceListSidebarLink href={link.href} active={link.active} label={link.label}>
+                      {link.label}
+                    </ResourceListSidebarLink>
+                  </ResourceListSidebarItem>
+                ))}
+              </ResourceListSidebarList>
+            </ResourceListSidebarNav>
+          </ResourceListSidebarViewport>
         </ResourceListSidebar>
 
         <ResourceListItems items={blogItems} />
       </ResourceListContentSection>
 
       <ResourceListCtaSection>
-        <ResourceListCtaBox>
-          <ResourceListCtaTitle>같은 UX를 다른 MDX 카테고리에도 확장할 수 있습니다.</ResourceListCtaTitle>
-          <ResourceListCtaDescription>
-            이 internal 데모는 blog 목록 데이터를 예시로 사용하지만, 같은 Sidebar / 카드 리스트 / CTA 조합을
-            whitepaper, event, use-case, demo 계열의 MDX 목록 화면에도 그대로 적용할 수 있습니다.
-          </ResourceListCtaDescription>
+        <ResourceListCtaContent>
+          <ResourceListCtaCopy>
+            <ResourceListCtaTitle>Stop Thinking. Start Transforming.</ResourceListCtaTitle>
+            <ResourceListCtaDescription>Sign up in seconds and secure your 14-day free trial now.</ResourceListCtaDescription>
+          </ResourceListCtaCopy>
           <ResourceListCtaActions>
-            <ResourceListCtaButton href="/blog">Blog 목록 보기</ResourceListCtaButton>
-            <ResourceListCtaButton href="/whitepapers" variant="secondary">
-              Whitepaper 목록 보기
-            </ResourceListCtaButton>
+            <BrandGradientCtaButton href="https://app.querypie.com">Make It Happen</BrandGradientCtaButton>
           </ResourceListCtaActions>
-        </ResourceListCtaBox>
+        </ResourceListCtaContent>
       </ResourceListCtaSection>
 
       <SiteFooter />

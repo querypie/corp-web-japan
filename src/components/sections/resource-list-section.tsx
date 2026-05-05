@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import type { ResourceItem } from "@/content/resources";
 
 export type ResourceCategoryLink = {
@@ -9,46 +9,72 @@ export type ResourceCategoryLink = {
   active?: boolean;
 };
 
-export function ResourceListHeroSection({ children }: { children: ReactNode }) {
+type ClassNameProps = {
+  className?: string;
+  style?: CSSProperties;
+};
+
+type SectionWithContentProps = ClassNameProps & {
+  contentClassName?: string;
+};
+
+export function ResourceListHeroSection({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
   return (
     <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[34px] pt-[111px] lg:px-[30px] lg:pb-[34px] lg:pt-[143px]">
-      <div className="mx-auto max-w-[1200px] text-center">{children}</div>
+      <div className={`mx-auto max-w-[1200px] text-center ${className}`.trim()}>{children}</div>
     </section>
   );
 }
 
-export function ResourceListHeroTitle({ children }: { children: ReactNode }) {
+export function ResourceListHeroTitle({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
   return (
-    <h1 className="text-4xl font-medium leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px]">
+    <h1
+      className={`text-[56.25px] font-medium leading-[67.5px] tracking-[-0.04em] text-slate-950 sm:text-[56.25px] sm:leading-[67.5px] sm:tracking-[-0.04em] ${className}`.trim()}
+    >
       {children}
     </h1>
   );
 }
 
-export function ResourceListHeroDescription({ children }: { children: ReactNode }) {
-  return <p className="mx-auto mt-5 max-w-[760px] text-base leading-6 text-slate-500">{children}</p>;
+export function ResourceListHeroDescription({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
+  return (
+    <p className={`mx-auto mt-5 max-w-none text-[16.875px] leading-[26.25px] text-slate-600 ${className}`.trim()}>{children}</p>
+  );
 }
 
-export function ResourceListContentSection({ children }: { children: ReactNode }) {
+export function ResourceListContentSection({
+  children,
+  className = "",
+  contentClassName = "",
+  style,
+}: { children: ReactNode } & SectionWithContentProps) {
   return (
-    <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[89px] pt-[34px] lg:px-[30px] lg:pb-[160px] lg:pt-[55px]">
-      <div className="mx-auto flex max-w-[1200px] flex-col gap-[34px] lg:flex-row lg:items-start lg:gap-[60px]">
+    <section className={`mx-auto max-w-[1920px] bg-white px-[30px] pb-[187.5px] pt-[34px] lg:px-[30px] lg:pb-[187.5px] lg:pt-[55px] ${className}`.trim()} style={style}>
+      <div className={`mx-auto flex max-w-[1200px] flex-col gap-[34px] lg:flex-row lg:items-start lg:gap-[60px] ${contentClassName}`.trim()}>
         {children}
       </div>
     </section>
   );
 }
 
-export function ResourceListSidebar({ children }: { children: ReactNode }) {
-  return <aside className="w-full lg:w-[210px] lg:flex-shrink-0">{children}</aside>;
+export function ResourceListSidebar({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
+  return <aside className={`w-full lg:w-[240px] lg:flex-shrink-0 lg:sticky lg:top-[128px] lg:self-start ${className}`.trim()}>{children}</aside>;
 }
 
 export function ResourceListSidebarLabel({ children }: { children: ReactNode }) {
   return <p className="sr-only">{children}</p>;
 }
 
-export function ResourceListSidebarNav({ children }: { children: ReactNode }) {
-  return <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:overflow-visible">{children}</div>;
+export function ResourceListSidebarViewport({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
+  return <div className={`overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:overflow-visible ${className}`.trim()}>{children}</div>;
+}
+
+export function ResourceListSidebarNav({ children, className = "", label }: { children: ReactNode; label?: string } & ClassNameProps) {
+  return (
+    <nav aria-label={label} className={`flex lg:block ${className}`.trim()}>
+      {children}
+    </nav>
+  );
 }
 
 export function ResourceListSidebarList({ children }: { children: ReactNode }) {
@@ -110,50 +136,78 @@ export function ResourceListItems({ items }: { items: readonly ResourceItem[] })
   );
 }
 
-export function ResourceListCtaSection({ children }: { children: ReactNode }) {
+export function ResourceListCtaSection({
+  children,
+  className = "",
+  contentClassName = "",
+  style,
+}: { children: ReactNode } & SectionWithContentProps) {
   return (
-    <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[110px] lg:px-[30px] lg:pb-[160px]">
-      <div className="mx-auto max-w-[1200px]">{children}</div>
+    <section
+      className={`mx-auto max-w-[1920px] bg-[#F6F8FA] px-[22.5px] pb-[112.5px] pt-[112.5px] text-center lg:px-[22.5px] lg:pb-[112.5px] lg:pt-[112.5px] ${className}`.trim()}
+      style={style}
+    >
+      <div className={`mx-auto max-w-[1200px] ${contentClassName}`.trim()}>{children}</div>
     </section>
   );
 }
 
-export function ResourceListCtaBox({ children }: { children: ReactNode }) {
+export function ResourceListCtaContent({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
+  return <div className={`mx-auto flex max-w-[772.61px] flex-col items-center gap-[37.5px] ${className}`.trim()}>{children}</div>;
+}
+
+export function ResourceListCtaCopy({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
+  return <div className={`w-full ${className}`.trim()}>{children}</div>;
+}
+
+export function ResourceListCtaBox({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
   return (
-    <div className="rounded-[28px] border border-slate-200 bg-[linear-gradient(180deg,#f8fafc_0%,#eef2f7_100%)] px-6 py-8 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.24)] sm:px-8 sm:py-10 lg:px-12 lg:py-12">
+    <div className={`rounded-[28px] border border-slate-200 bg-[linear-gradient(180deg,#f8fafc_0%,#eef2f7_100%)] px-6 py-8 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.24)] sm:px-8 sm:py-10 lg:px-12 lg:py-12 ${className}`.trim()}>
       {children}
     </div>
   );
 }
 
-export function ResourceListCtaTitle({ children }: { children: ReactNode }) {
-  return <h2 className="text-[28px] font-medium leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[34px]">{children}</h2>;
+export function ResourceListCtaTitle({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
+  return (
+    <h2
+      className={`text-[48.75px] font-normal leading-[58.125px] tracking-normal text-slate-950 sm:text-[48.75px] ${className}`.trim()}
+    >
+      {children}
+    </h2>
+  );
 }
 
-export function ResourceListCtaDescription({ children }: { children: ReactNode }) {
-  return <p className="mt-4 max-w-[760px] text-[15px] leading-7 text-slate-600">{children}</p>;
+export function ResourceListCtaDescription({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
+  return (
+    <p className={`mt-[18.75px] max-w-full text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-slate-600 ${className}`.trim()}>{children}</p>
+  );
 }
 
-export function ResourceListCtaActions({ children }: { children: ReactNode }) {
-  return <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">{children}</div>;
+export function ResourceListCtaActions({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
+  return <div className={`flex justify-center ${className}`.trim()}>{children}</div>;
 }
 
 export function ResourceListCtaButton({
   href,
   variant = "primary",
   children,
+  className = "",
 }: {
   href: string;
   variant?: "primary" | "secondary";
   children: ReactNode;
+  className?: string;
 }) {
   return (
     <Link
       href={href}
       className={
-        variant === "primary"
-          ? "inline-flex min-h-[46px] items-center justify-center rounded-[10px] bg-[#15181d] px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-          : "inline-flex min-h-[46px] items-center justify-center rounded-[10px] border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
+        (
+          variant === "primary"
+            ? "inline-flex min-h-[46px] items-center justify-center rounded-[10px] bg-[#15181d] px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+            : "inline-flex min-h-[46px] items-center justify-center rounded-[10px] border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
+        ) + ` ${className}`
       }
     >
       {children}
