@@ -45,6 +45,7 @@ export function getAiCrewStructureSource() {
     "src/components/sections/ai-crew-results-section.tsx",
     "src/components/sections/ai-crew-why-section.tsx",
     "src/components/sections/ai-crew-contact-section.tsx",
+    "src/components/sections/ai-crew-use-cases-section.tsx",
   ]);
 }
 

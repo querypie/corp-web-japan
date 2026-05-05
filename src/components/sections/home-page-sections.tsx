@@ -1,16 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Brain,
-  Cable,
-  ScanSearch,
-  Shield,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { homePageContent } from "@/content/home";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import { UseCaseShowcase } from "@/components/sections/use-case-showcase";
 
 const aiCrewAccentTextClass =
   "bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_48%,#2563EB_78%,#93C5FD_100%)] bg-clip-text text-transparent [animation:heroAccentGlow_3.2s_ease-in-out_infinite] motion-reduce:animate-none";
@@ -20,24 +12,6 @@ const aiCrewPrimaryButtonClass =
 
 const aiCrewSecondaryButtonClass =
   "inline-flex items-center justify-center gap-2 rounded-[12px] border border-[#C9D8F5] bg-[linear-gradient(180deg,#FFFFFF_0%,#EEF4FF_100%)] px-5 py-3 text-base font-semibold text-[#163A7A] shadow-[0_18px_40px_-30px_rgba(15,42,95,0.34)] transition hover:border-[#B7CCEF] hover:bg-[linear-gradient(180deg,#FAFCFF_0%,#E8F0FF_100%)]";
-
-function renderHighlightedKeyword(line: string, keyword: string) {
-  if (!line.includes(keyword)) {
-    return line;
-  }
-
-  const [before, after] = line.split(keyword);
-
-  return (
-    <>
-      {before}
-      <span className={aiCrewAccentTextClass}>
-        {keyword}
-      </span>
-      {after}
-    </>
-  );
-}
 
 function isExternalHref(href: string) {
   return /^https?:\/\//.test(href);
@@ -140,38 +114,6 @@ export function HomePageIntroSections() {
   );
 }
 
-export function AICrewSectionsAfterDesignElements() {
-  const { roles } = homePageContent;
-
-  return (
-    <>
-      <section id="use-cases" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10">
-        <div className="mx-auto max-w-[1120px] text-center">
-          <RevealOnScroll>
-            <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
-              {roles.title}
-            </h2>
-          </RevealOnScroll>
-          <RevealOnScroll delayMs={80}>
-            <p className="mx-auto mt-5 w-full max-w-[860px] whitespace-pre-line text-left text-base leading-7 text-slate-500 lg:pl-[42px]">
-              {roles.body}
-            </p>
-          </RevealOnScroll>
-        </div>
-
-        <UseCaseShowcase
-          note={roles.note}
-          primaryCta={roles.primaryCta}
-          secondaryCta={roles.secondaryCta}
-          cards={roles.cards}
-        />
-      </section>
-
-
-    </>
-  );
-}
-
 export function HomePageSections() {
-  return <AICrewSectionsAfterDesignElements />;
+  return null;
 }
