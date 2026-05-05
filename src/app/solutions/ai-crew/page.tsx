@@ -90,7 +90,20 @@ import {
   AICrewWhyTaskItem,
   AICrewWhyTitle,
 } from "@/components/sections/ai-crew-why-section";
-import { HomePageIntroSections } from "@/components/sections/home-page-sections";
+import {
+  AICrewHeroActions,
+  AICrewHeroBody,
+  AICrewHeroContent,
+  AICrewHeroEyebrow,
+  AICrewHeroPrimaryAction,
+  AICrewHeroSecondaryAction,
+  AICrewHeroSection,
+  AICrewHeroShell,
+  AICrewHeroSubcopy,
+  AICrewHeroTitle,
+  AICrewHeroTitleLine,
+  AICrewHeroVisual,
+} from "@/components/sections/ai-crew-hero-section";
 import {
   AICrewPlatformAccent,
   AICrewPlatformBody,
@@ -205,7 +218,36 @@ export default function AICrewPage() {
     <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
       <SiteHeader />
       <FloatingConversionCta href={aiCrewFloatingCtaUrl} />
-      <HomePageIntroSections />
+      <AICrewHeroSection>
+        <AICrewHeroShell>
+          <AICrewHeroContent>
+            <AICrewHeroEyebrow>専用AIエージェントの設計・実運用支援</AICrewHeroEyebrow>
+            <AICrewHeroTitle>
+              <AICrewHeroTitleLine>作業を減らし、</AICrewHeroTitleLine>
+              <AICrewHeroTitleLine accent delayMs={120}>成果を増やす。</AICrewHeroTitleLine>
+            </AICrewHeroTitle>
+            <AICrewHeroSubcopy>利益を生み出す実務特化型AIエージェント</AICrewHeroSubcopy>
+            <AICrewHeroBody>
+              <p>
+                調査、データ整理、下書きなど、時間のかかる「下準備」をAIに任せて効率化。人員を増やすことなく、企業の生産性・利益率の向上を実現します。
+              </p>
+            </AICrewHeroBody>
+            <AICrewHeroActions>
+              <AICrewHeroPrimaryAction href={aiCrewConsultUrl}>
+                業務に合うAI活用を相談する
+              </AICrewHeroPrimaryAction>
+              <AICrewHeroSecondaryAction href={demoUseCasesUrl}>
+                活用事例を見る
+                <ArrowRight className="h-4 w-4" />
+              </AICrewHeroSecondaryAction>
+            </AICrewHeroActions>
+          </AICrewHeroContent>
+          <AICrewHeroVisual
+            src="/solutions/ai-crew/hero-visual.webp"
+            alt="オフィスでAIアシスタント画面を活用しながら業務を進めるチームのイメージ"
+          />
+        </AICrewHeroShell>
+      </AICrewHeroSection>
       <AICrewLostSection>
         <AICrewLostProblemCard>
           <AICrewLostProblemContent>

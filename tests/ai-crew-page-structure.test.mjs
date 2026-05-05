@@ -8,12 +8,15 @@ import {
   isAiCrewSectionExternalized,
 } from "./helpers/static-marketing-page-sources.mjs";
 
-test("AI Crew route-local authoring keeps platform, why, design-elements, process, use-cases, and results copy in the route while shared UI stays extracted", () => {
+test("AI Crew route-local authoring keeps hero, platform, why, design-elements, process, use-cases, and results copy in the route while shared UI stays extracted", () => {
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
   const aiCrewDataSource = getAiCrewDataSource();
   const aiCrewStructureSource = getAiCrewStructureSource();
 
-  assert.match(aiCrewPage, /HomePageIntroSections/);
+  assert.match(aiCrewPage, /AICrewHeroSection/);
+  assert.match(aiCrewPage, /AICrewHeroTitleLine>作業を減らし、/);
+  assert.match(aiCrewPage, /AICrewHeroTitleLine accent delayMs=\{120\}>成果を増やす。/);
+  assert.match(aiCrewPage, /利益を生み出す実務特化型AIエージェント/);
   assert.match(aiCrewPage, /AICrewAboutSection/);
   assert.match(aiCrewPage, /AICrewAboutTitle/);
   assert.match(aiCrewPage, /AI Agentではなく、<strong>AI Crew<\/strong>/);
@@ -80,7 +83,8 @@ test("AI Crew route-local authoring keeps platform, why, design-elements, proces
   assert.match(aiCrewPage, /href=\{aiCrewConsultUrl\}/);
   assert.match(aiCrewPage, /href=\{demoUseCasesUrl\}/);
 
-  assert.match(aiCrewStructureSource, /export function HomePageIntroSections/);
+  assert.match(aiCrewStructureSource, /export function AICrewHeroSection/);
+  assert.match(aiCrewStructureSource, /export function AICrewHeroTitleLine/);
   assert.match(aiCrewStructureSource, /export function AICrewAboutSection/);
   assert.match(aiCrewStructureSource, /export function AICrewLostSection/);
   assert.match(aiCrewStructureSource, /export function AICrewLostProblemCard/);
@@ -149,7 +153,7 @@ test("AI Crew route-local authoring keeps platform, why, design-elements, proces
   }
 
   if (isAiCrewSectionExternalized()) {
-    assert.match(aiCrewPage, /@\/components\/sections\/home-page-sections/);
+    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-hero-section/);
     assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-design-elements-section/);
     assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-platform-section/);
     assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-process-section/);
