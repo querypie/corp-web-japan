@@ -11,6 +11,7 @@ import {
 test("AI Crew route-local authoring keeps hero, platform, why, design-elements, process, use-cases, and results copy in the route while shared UI stays extracted", () => {
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
   const aiCrewWhySection = readSource("src/components/sections/ai-crew-why-section.tsx");
+  const aiCrewUseCasesSection = readSource("src/components/sections/ai-crew-use-cases-section.tsx");
   const aiCrewDataSource = getAiCrewDataSource();
   const aiCrewStructureSource = getAiCrewStructureSource();
 
@@ -68,6 +69,10 @@ test("AI Crew route-local authoring keeps hero, platform, why, design-elements, 
   assert.match(aiCrewPage, /AICrewUseCaseCardTitle slot="card-title">SEO分析/);
   assert.match(aiCrewPage, /AICrewUseCaseCardTitle slot="card-title">開発インサイト/);
   assert.match(aiCrewPage, /AICrewUseCaseCardTitle slot="card-title">データ分析/);
+  assert.match(aiCrewPage, /videoAriaLabel="SEO分析の動画を見る"/);
+  assert.match(aiCrewPage, /videoAriaLabel="見積分析の動画を見る"/);
+  assert.match(aiCrewPage, /videoAriaLabel="見積書作成の動画を見る"/);
+  assert.match(aiCrewPage, /ctaLabel="詳しく見る"/);
   assert.match(aiCrewPage, /AICrewUseCaseTabbedCard icon="wallet"/);
   assert.match(aiCrewPage, /見積関連文書の確認から、複雑な見積ロジックに基づく出力までを支援。属人化しやすい見積業務を効率化します。/);
   assert.match(aiCrewPage, /label="見積分析"/);
@@ -108,10 +113,15 @@ test("AI Crew route-local authoring keeps hero, platform, why, design-elements, 
   assert.match(aiCrewStructureSource, /export function AICrewUseCaseCard/);
   assert.match(aiCrewStructureSource, /export function AICrewUseCaseTabbedCard/);
   assert.match(aiCrewStructureSource, /type AICrewUseCaseCardSlot = "card-category" \| "card-title" \| "card-body";/);
+  assert.match(aiCrewStructureSource, /ctaLabel: ReactNode/);
+  assert.match(aiCrewStructureSource, /videoAriaLabel: string/);
   assert.doesNotMatch(aiCrewStructureSource, /child\.type === AICrewUseCaseCardCategory/);
   assert.doesNotMatch(aiCrewStructureSource, /child\.type === AICrewUseCaseCardTitle/);
   assert.doesNotMatch(aiCrewStructureSource, /child\.type === AICrewUseCaseCardBody/);
   assert.doesNotMatch(aiCrewStructureSource, /child\.type === AICrewUseCaseTab/);
+  assert.doesNotMatch(aiCrewUseCasesSection, /詳しく見る/);
+  assert.doesNotMatch(aiCrewUseCasesSection, /活用事例/);
+  assert.doesNotMatch(aiCrewUseCasesSection, /の動画を見る/);
   assert.match(aiCrewStructureSource, /export function AICrewResultsSection/);
   assert.match(aiCrewStructureSource, /export function AICrewResultsCard/);
   assert.doesNotMatch(aiCrewStructureSource, /featureIntro\.subtitle/);

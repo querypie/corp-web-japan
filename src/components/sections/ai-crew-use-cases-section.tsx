@@ -62,7 +62,9 @@ function UseCaseCardChrome({
   title,
   body,
   detailHref,
+  ctaLabel,
   videoHref,
+  videoAriaLabel,
   delayMs = 0,
 }: {
   icon: UseCaseIconName;
@@ -70,7 +72,9 @@ function UseCaseCardChrome({
   title: ReactNode;
   body: ReactNode;
   detailHref: string;
+  ctaLabel: ReactNode;
   videoHref: string;
+  videoAriaLabel: string;
   delayMs?: number;
 }) {
   const Icon = useCaseIcons[icon];
@@ -82,7 +86,7 @@ function UseCaseCardChrome({
       <article
         role="button"
         tabIndex={0}
-        aria-label={`${typeof title === "string" ? title : "活用事例"} の動画を見る`}
+        aria-label={videoAriaLabel}
         onClick={() => openVideo(videoHref)}
         onKeyDown={(event) => {
           if (event.key === "Enter" || event.key === " ") {
@@ -125,7 +129,7 @@ function UseCaseCardChrome({
             onClick={(event) => event.stopPropagation()}
             className="inline-flex items-center gap-2 text-sm font-medium text-[#475467] transition hover:text-[#101828]"
           >
-            詳しく見る
+            {ctaLabel}
           </a>
         </div>
       </article>
@@ -265,14 +269,18 @@ function readCardContent(children: ReactNode) {
 export function AICrewUseCaseCard({
   children,
   detailHref,
+  ctaLabel,
   icon,
   videoHref,
+  videoAriaLabel,
   delayMs = 0,
 }: {
   children: ReactNode;
   detailHref: string;
+  ctaLabel: ReactNode;
   icon: UseCaseIconName;
   videoHref: string;
+  videoAriaLabel: string;
   delayMs?: number;
 }) {
   const { category, title, body } = readCardContent(children);
@@ -281,11 +289,13 @@ export function AICrewUseCaseCard({
     <UseCaseCardChrome
       body={body}
       category={category}
+      ctaLabel={ctaLabel}
       delayMs={delayMs}
       detailHref={detailHref}
       icon={icon}
       title={title}
       videoHref={videoHref}
+      videoAriaLabel={videoAriaLabel}
     />
   );
 }
@@ -299,9 +309,11 @@ type AICrewUseCaseCardSlotProps = {
 
 type AICrewUseCaseTabProps = {
   children: ReactNode;
+  ctaLabel: ReactNode;
   detailHref: string;
   label: string;
   videoHref: string;
+  videoAriaLabel: string;
 };
 
 export function AICrewUseCaseTab(_props: AICrewUseCaseTabProps) {
@@ -315,8 +327,10 @@ function isUseCaseTabElement(node: ReactNode): node is ReactElement<AICrewUseCas
     typeof node.props === "object" &&
     node.props !== null &&
     typeof node.props.label === "string" &&
+    node.props.ctaLabel !== undefined &&
     typeof node.props.detailHref === "string" &&
-    typeof node.props.videoHref === "string"
+    typeof node.props.videoHref === "string" &&
+    typeof node.props.videoAriaLabel === "string"
   );
 }
 
@@ -367,11 +381,13 @@ export function AICrewUseCaseTabbedCard({
         </>
       }
       category={category}
+      ctaLabel={activeTab?.props.ctaLabel ?? null}
       delayMs={delayMs}
       detailHref={activeTab?.props.detailHref ?? ""}
       icon={icon}
       title={title}
       videoHref={activeTab?.props.videoHref ?? ""}
+      videoAriaLabel={activeTab?.props.videoAriaLabel ?? ""}
     />
   );
 }

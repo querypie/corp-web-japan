@@ -591,7 +591,9 @@ export default function AICrewPage() {
           <AICrewUseCaseCard
             icon="search"
             videoHref="https://youtu.be/K-ld_s4Che0"
+            videoAriaLabel="SEO分析の動画を見る"
             detailHref="https://www.querypie.com/ja/features/demo/use-cases/29/seo-analyst"
+            ctaLabel="詳しく見る"
           >
             <AICrewUseCaseCardCategory slot="card-category">マーケティング</AICrewUseCaseCardCategory>
             <AICrewUseCaseCardTitle slot="card-title">SEO分析</AICrewUseCaseCardTitle>
@@ -609,14 +611,18 @@ export default function AICrewPage() {
             <AICrewUseCaseTab
               label="見積分析"
               videoHref="https://youtu.be/qwvyVcTaDsA"
+              videoAriaLabel="見積分析の動画を見る"
               detailHref="https://www.querypie.com/ja/features/demo/use-cases/28/quotation-analyze-ai-agent"
+              ctaLabel="詳しく見る"
             >
               ローカルファイルやパスワード付きPDFをアップロードせずに分析し、確認や比較の手間を減らします。
             </AICrewUseCaseTab>
             <AICrewUseCaseTab
               label="見積書作成"
               videoHref="https://youtu.be/mKZrCQti0Rc"
+              videoAriaLabel="見積書作成の動画を見る"
               detailHref="https://www.querypie.com/ja/features/demo/use-cases/27/quotation-ai-agent"
+              ctaLabel="詳しく見る"
             >
               複雑な価格表や条件をスキル化し、指定フォーマットで正確な見積書を出力します。
             </AICrewUseCaseTab>
@@ -626,7 +632,9 @@ export default function AICrewPage() {
             icon="brain"
             delayMs={180}
             videoHref="https://youtu.be/cWC5lzN1JnE"
+            videoAriaLabel="開発インサイトの動画を見る"
             detailHref="https://www.querypie.com/ja/features/demo/use-cases/16/dev-insight-ai-agent"
+            ctaLabel="詳しく見る"
           >
             <AICrewUseCaseCardCategory slot="card-category">開発</AICrewUseCaseCardCategory>
             <AICrewUseCaseCardTitle slot="card-title">開発インサイト</AICrewUseCaseCardTitle>
@@ -639,7 +647,9 @@ export default function AICrewPage() {
             icon="chart"
             delayMs={270}
             videoHref="https://youtu.be/f_yM6dinVU4"
+            videoAriaLabel="データ分析の動画を見る"
             detailHref="https://www.querypie.com/ja/features/demo/use-cases/7/data-analytics-agent"
+            ctaLabel="詳しく見る"
           >
             <AICrewUseCaseCardCategory slot="card-category">分析・経営</AICrewUseCaseCardCategory>
             <AICrewUseCaseCardTitle slot="card-title">データ分析</AICrewUseCaseCardTitle>
