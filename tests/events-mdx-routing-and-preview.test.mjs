@@ -57,7 +57,7 @@ test("event MDX loader supports the webinar corpus component set and route-align
 
   assert.match(event27, /heroImageSrc: "\/events\/27\/thumbnail\.png"/);
   assert.match(event27, /eventLabel: "ウェビナー"/);
-  assert.doesNotMatch(event27, /hideHeroImageOnDetail: true/);
+  assert.match(event27, /hideHeroImageOnDetail: true/);
   assert.match(event27, /<ButtonLink href="https:\/\/us02web\.zoom\.us\/webinar\/register\//);
   assert.doesNotMatch(event27, /filepath="public\/webinar\//);
 });
