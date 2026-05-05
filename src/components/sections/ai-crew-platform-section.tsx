@@ -31,8 +31,11 @@ type AICrewPlatformSectionProps = {
 
 type AICrewPlatformCardProps = {
   children: ReactNode;
-  icon: keyof typeof platformCardIcons;
   position: keyof typeof platformCardPositions;
+};
+
+type AICrewPlatformCardIconProps = {
+  icon: keyof typeof platformCardIcons;
 };
 
 type AICrewPlatformCardTitleProps = {
@@ -119,21 +122,32 @@ export function AICrewPlatformCoreBody({ children }: AICrewPlatformSectionProps)
   return <p className="mt-2 text-[12px] font-medium leading-5 text-slate-600">{children}</p>;
 }
 
-export function AICrewPlatformCard({ children, icon, position }: AICrewPlatformCardProps) {
-  const Icon = platformCardIcons[icon] ?? ShieldCheck;
-
+export function AICrewPlatformCard({ children, position }: AICrewPlatformCardProps) {
   return (
     <article
       className={`rounded-[1.4rem] border border-black/6 bg-white/92 p-4 text-left shadow-[0_20px_54px_-48px_rgba(15,42,95,0.18)] backdrop-blur-sm lg:absolute lg:min-h-[146px] lg:w-[300px] ${platformCardPositions[position] ?? ""}`}
     >
-      <div className="flex items-start gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px] bg-[#eef2f7] text-[#2f3a49]">
-          <Icon className="h-[18px] w-[18px]" />
-        </div>
-        <div className="min-w-0">{children}</div>
-      </div>
+      {children}
     </article>
   );
+}
+
+export function AICrewPlatformCardHeader({ children }: { children: ReactNode }) {
+  return <div className="flex items-start gap-3">{children}</div>;
+}
+
+export function AICrewPlatformCardIcon({ icon }: AICrewPlatformCardIconProps) {
+  const Icon = platformCardIcons[icon] ?? ShieldCheck;
+
+  return (
+    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px] bg-[#eef2f7] text-[#2f3a49]">
+      <Icon className="h-[18px] w-[18px]" />
+    </div>
+  );
+}
+
+export function AICrewPlatformCardText({ children }: { children: ReactNode }) {
+  return <div className="min-w-0">{children}</div>;
 }
 
 export function AICrewPlatformCardTitle({ children, subtitle }: AICrewPlatformCardTitleProps) {
@@ -158,7 +172,7 @@ export function AICrewPlatformCardStat({ children }: AICrewPlatformSectionProps)
 }
 
 export function AICrewPlatformCardBody({ children }: AICrewPlatformSectionProps) {
-  return <div className="-ml-[52px] mt-2.5 space-y-1.5">{children}</div>;
+  return <div className="mt-2.5 space-y-1.5">{children}</div>;
 }
 
 export function AICrewPlatformCardBullet({ children }: AICrewPlatformSectionProps) {
