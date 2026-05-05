@@ -29,7 +29,7 @@ export function ResourceListHeroSection({ children, className = "" }: { children
 export function ResourceListHeroTitle({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
   return (
     <h1
-      className={`text-4xl font-medium leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[48px] sm:leading-[60px] sm:tracking-[-0.96px] ${className}`.trim()}
+      className={`text-[56.25px] font-medium leading-[67.5px] tracking-[-0.04em] text-slate-950 sm:text-[56.25px] sm:leading-[67.5px] sm:tracking-[-0.04em] ${className}`.trim()}
     >
       {children}
     </h1>
@@ -37,7 +37,9 @@ export function ResourceListHeroTitle({ children, className = "" }: { children: 
 }
 
 export function ResourceListHeroDescription({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <p className={`mx-auto mt-5 max-w-[760px] text-base leading-6 text-slate-500 ${className}`.trim()}>{children}</p>;
+  return (
+    <p className={`mx-auto mt-5 max-w-none text-[16.875px] leading-[26.25px] text-slate-600 ${className}`.trim()}>{children}</p>
+  );
 }
 
 export function ResourceListContentSection({
@@ -56,7 +58,7 @@ export function ResourceListContentSection({
 }
 
 export function ResourceListSidebar({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <aside className={`w-full lg:w-[210px] lg:flex-shrink-0 ${className}`.trim()}>{children}</aside>;
+  return <aside className={`w-full lg:w-[240px] lg:flex-shrink-0 lg:sticky lg:top-[128px] lg:self-start ${className}`.trim()}>{children}</aside>;
 }
 
 export function ResourceListSidebarLabel({ children }: { children: ReactNode }) {
@@ -142,7 +144,7 @@ export function ResourceListCtaSection({
 }: { children: ReactNode } & SectionWithContentProps) {
   return (
     <section
-      className={`mx-auto max-w-[1920px] bg-[#F6F8FA] px-[22.5px] pt-[112.5px] pb-[112.5px] text-center lg:px-[22.5px] lg:pt-[112.5px] lg:pb-[112.5px] ${className}`.trim()}
+      className={`mx-auto max-w-[1920px] bg-[#F6F8FA] px-[22.5px] pb-[112.5px] pt-[112.5px] text-center lg:px-[22.5px] lg:pb-[112.5px] lg:pt-[112.5px] ${className}`.trim()}
       style={style}
     >
       <div className={`mx-auto max-w-[1200px] ${contentClassName}`.trim()}>{children}</div>
@@ -167,11 +169,19 @@ export function ResourceListCtaBox({ children, className = "" }: { children: Rea
 }
 
 export function ResourceListCtaTitle({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <h2 className={`text-[28px] font-medium leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[34px] ${className}`.trim()}>{children}</h2>;
+  return (
+    <h2
+      className={`text-[48.75px] font-normal leading-[58.125px] tracking-normal text-slate-950 sm:text-[48.75px] ${className}`.trim()}
+    >
+      {children}
+    </h2>
+  );
 }
 
 export function ResourceListCtaDescription({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <p className={`mt-4 max-w-[760px] text-[15px] leading-7 text-slate-600 ${className}`.trim()}>{children}</p>;
+  return (
+    <p className={`mt-[18.75px] max-w-full text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-slate-600 ${className}`.trim()}>{children}</p>
+  );
 }
 
 export function ResourceListCtaActions({ children, className = "" }: { children: ReactNode } & ClassNameProps) {

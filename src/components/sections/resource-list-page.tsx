@@ -11,6 +11,7 @@ import {
   ResourceListSidebarLink,
   ResourceListSidebarList,
   ResourceListSidebarNav,
+  ResourceListSidebarViewport,
   type ResourceCategoryLink,
 } from "@/components/sections/resource-list-section";
 
@@ -54,17 +55,19 @@ export function ResourceListPage({
       <ResourceListContentSection>
         <ResourceListSidebar>
           <ResourceListSidebarLabel>カテゴリー</ResourceListSidebarLabel>
-          <ResourceListSidebarNav>
-            <ResourceListSidebarList>
-              {categoryLinks.map((link) => (
-                <ResourceListSidebarItem key={link.label}>
-                  <ResourceListSidebarLink href={link.href} active={link.active} label={link.label}>
-                    {link.label}
-                  </ResourceListSidebarLink>
-                </ResourceListSidebarItem>
-              ))}
-            </ResourceListSidebarList>
-          </ResourceListSidebarNav>
+          <ResourceListSidebarViewport>
+            <ResourceListSidebarNav label="Sidebar Navigation">
+              <ResourceListSidebarList>
+                {categoryLinks.map((link) => (
+                  <ResourceListSidebarItem key={link.label}>
+                    <ResourceListSidebarLink href={link.href} active={link.active} label={link.label}>
+                      {link.label}
+                    </ResourceListSidebarLink>
+                  </ResourceListSidebarItem>
+                ))}
+              </ResourceListSidebarList>
+            </ResourceListSidebarNav>
+          </ResourceListSidebarViewport>
         </ResourceListSidebar>
 
         <ResourceListItems items={items} />

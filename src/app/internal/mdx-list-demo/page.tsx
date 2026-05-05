@@ -49,11 +49,9 @@ export default async function InternalMdxListDemoPage() {
     <main className="relative bg-white text-slate-950">
       <SiteHeader />
 
-      <ResourceListHeroSection className="text-center">
-        <ResourceListHeroTitle className="text-[56.25px] leading-[67.5px] tracking-[-0.04em] sm:text-[56.25px] sm:leading-[67.5px] sm:tracking-[-0.04em]">
-          MDXコンテンツ一覧画面サンプル
-        </ResourceListHeroTitle>
-        <ResourceListHeroDescription className="max-w-none text-[16.875px] leading-[26.25px] text-slate-600">
+      <ResourceListHeroSection>
+        <ResourceListHeroTitle>MDXコンテンツ一覧画面サンプル</ResourceListHeroTitle>
+        <ResourceListHeroDescription>
           包括的なガイド、技術マニュアル、業界ホワイトペーパー、専門家ブログを見ることができます。
           <br />
           基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。
@@ -61,7 +59,7 @@ export default async function InternalMdxListDemoPage() {
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
-        <ResourceListSidebar className="lg:sticky lg:top-[128px] lg:w-[240px] lg:self-start">
+        <ResourceListSidebar>
           <ResourceListSidebarLabel>カテゴリー</ResourceListSidebarLabel>
           <ResourceListSidebarViewport>
             <ResourceListSidebarNav label="Sidebar Navigation">
@@ -84,23 +82,11 @@ export default async function InternalMdxListDemoPage() {
       <ResourceListCtaSection>
         <ResourceListCtaContent>
           <ResourceListCtaCopy>
-            <ResourceListCtaTitle className="text-[48.75px] font-normal leading-[58.125px] tracking-normal sm:text-[48.75px]">
-              Stop Thinking. Start Transforming.
-            </ResourceListCtaTitle>
-            <ResourceListCtaDescription className="mt-[18.75px] max-w-full text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-slate-600">
-              Sign up in seconds and secure your 14-day free trial now.
-            </ResourceListCtaDescription>
+            <ResourceListCtaTitle>Stop Thinking. Start Transforming.</ResourceListCtaTitle>
+            <ResourceListCtaDescription>Sign up in seconds and secure your 14-day free trial now.</ResourceListCtaDescription>
           </ResourceListCtaCopy>
           <ResourceListCtaActions>
-            <BrandGradientCtaButton
-              href="https://app.querypie.com"
-              geometryClassName="min-h-[46.875px] gap-[9.375px] rounded-[5.625px] bg-[linear-gradient(100deg,#0762D4_34.93%,#875AC5_76.81%,#C55A8C_99.98%)] px-[26.25px] py-[13.125px] text-[15px] font-normal leading-[15px]"
-              labelClassName="text-[14.0625px] font-normal leading-[20.625px]"
-              iconWrapClassName="inline-flex h-[11.25px] w-[11.25px] items-center justify-center"
-              iconClassName="h-[11.25px] w-[6.5625px]"
-            >
-              Make It Happen
-            </BrandGradientCtaButton>
+            <BrandGradientCtaButton href="https://app.querypie.com">Make It Happen</BrandGradientCtaButton>
           </ResourceListCtaActions>
         </ResourceListCtaContent>
       </ResourceListCtaSection>
