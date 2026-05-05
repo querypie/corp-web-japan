@@ -84,6 +84,7 @@ import {
   AICrewWhyBody,
   AICrewWhyComparisonShell,
   AICrewWhyDesktopTaskColumn,
+  AICrewWhyHumanDecisionCore,
   AICrewWhyIntro,
   AICrewWhySection,
   AICrewWhyTaskColumn,
@@ -325,7 +326,7 @@ export default function AICrewPage() {
 
           <AICrewWhyAfterCard>
             <AICrewWhyAfterCardSubtitle>役割分担が整理され、本来の業務に集中</AICrewWhyAfterCardSubtitle>
-            <AICrewWhyAfterMobileLayout>
+            <AICrewWhyAfterMobileLayout centerCore={<AICrewWhyHumanDecisionCore>人による最終判断</AICrewWhyHumanDecisionCore>}>
               <AICrewWhyTaskColumn label="人">
                 <AICrewWhyTaskItem>最終判断</AICrewWhyTaskItem>
                 <AICrewWhyTaskItem>顧客対応</AICrewWhyTaskItem>
@@ -343,7 +344,7 @@ export default function AICrewPage() {
               </AICrewWhyTaskColumn>
             </AICrewWhyAfterMobileLayout>
 
-            <AICrewWhyAfterDesktopLayout>
+            <AICrewWhyAfterDesktopLayout centerCore={<AICrewWhyHumanDecisionCore>人による最終判断</AICrewWhyHumanDecisionCore>}>
               <AICrewWhyAfterOrbitItem icon={Search} label="調査" bubbleClassName="right-[132px] top-[44px]" />
               <AICrewWhyAfterOrbitItem icon={Layers3} label="整理" bubbleClassName="right-[34px] top-[112px]" />
               <AICrewWhyAfterOrbitItem icon={FileSearch} label="一次ドラフト" bubbleClassName="right-[138px] bottom-[118px]" />

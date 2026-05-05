@@ -129,14 +129,14 @@ export function AICrewWhyBeforePainPoint({ children }: { children: ReactNode }) 
   );
 }
 
-function AICrewWhyHumanDecisionCore() {
+export function AICrewWhyHumanDecisionCore({ children }: { children: ReactNode }) {
   return (
     <>
       <div className="relative h-[74px] w-[74px] overflow-hidden">
         <Image src="/images/icon_main.png" alt="Human decision maker" fill className="object-contain" sizes="74px" />
       </div>
       <span className="mt-2 text-center text-[12px] font-semibold leading-4 tracking-[-0.01em] text-slate-600">
-        人による最終判断
+        {children}
       </span>
     </>
   );
@@ -155,20 +155,30 @@ export function AICrewWhyAfterCardSubtitle({ children }: { children: ReactNode }
   );
 }
 
-export function AICrewWhyAfterMobileLayout({ children }: { children: ReactNode }) {
+export function AICrewWhyAfterMobileLayout({
+  centerCore,
+  children,
+}: {
+  centerCore: ReactNode;
+  children: ReactNode;
+}) {
   return (
     <div className="mt-8 lg:hidden">
       <div className="flex flex-col items-center gap-4">
-        <div className="relative flex h-[154px] w-[154px] flex-col items-center justify-center rounded-full bg-white text-[#2f3a49] shadow-[0_30px_70px_-28px_rgba(15,23,42,0.18)]">
-          <AICrewWhyHumanDecisionCore />
-        </div>
+        <div className="relative flex h-[154px] w-[154px] flex-col items-center justify-center rounded-full bg-white text-[#2f3a49] shadow-[0_30px_70px_-28px_rgba(15,23,42,0.18)]">{centerCore}</div>
         <div className="grid w-full max-w-[23rem] gap-3 sm:grid-cols-2">{children}</div>
       </div>
     </div>
   );
 }
 
-export function AICrewWhyAfterDesktopLayout({ children }: { children: ReactNode }) {
+export function AICrewWhyAfterDesktopLayout({
+  centerCore,
+  children,
+}: {
+  centerCore: ReactNode;
+  children: ReactNode;
+}) {
   return (
     <div className="mt-8 hidden min-h-[18rem] items-center justify-center lg:flex">
       <div className="relative h-[356px] w-full max-w-[33rem]">
@@ -187,9 +197,7 @@ export function AICrewWhyAfterDesktopLayout({ children }: { children: ReactNode 
 
         <div className="absolute left-1/2 top-1/2 z-20 h-[312px] w-[312px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/16 bg-[radial-gradient(circle,#f7fbff_0%,#eef4fb_52%,rgba(255,255,255,0.06)_72%,rgba(255,255,255,0)_100%)]" />
 
-        <div className="absolute left-1/2 top-1/2 z-30 flex h-[154px] w-[154px] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-white text-[#2f3a49] shadow-[0_30px_70px_-28px_rgba(15,23,42,0.18)]">
-          <AICrewWhyHumanDecisionCore />
-        </div>
+        <div className="absolute left-1/2 top-1/2 z-30 flex h-[154px] w-[154px] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-white text-[#2f3a49] shadow-[0_30px_70px_-28px_rgba(15,23,42,0.18)]">{centerCore}</div>
 
         {children}
       </div>
