@@ -104,6 +104,30 @@ A section counts as fully complete when:
 - the implementation details for that section live under `src/components/sections/**`
 - the section no longer depends on a page-level content blob or prop-shaped copy object for its real user-facing sentences
 - the PR diff makes it obvious that *this specific section* is the completed outcome
+- the migrated section still appears in the same rendered page order relative to its neighboring sections as before the refactor
+
+## Render-order preservation rule
+
+For section-scoped route-local authoring work, preserving page section order is mandatory.
+
+Important lesson from AI Crew PR 219 follow-up:
+- a section can be "route-localized" correctly in isolation yet still be wrong if it is pulled out of a shared shell and reinserted at the wrong point in the page
+- this commonly happens when the target section sits between two sections that are still owned by a temporary shared shell
+- in that situation, extracting only the middle/later section can silently reorder the rendered page even if all copy and tests still look mostly correct
+
+Practical rule:
+- before extracting one section from a still-shared shell, map the live/latest-main rendered order explicitly
+- identify which sections before and after the target are still owned by the shell
+- do not move the target section outside that shell unless you also preserve its exact relative slot in the final `page.tsx`
+
+Safe patterns:
+1. extract sections in real page order from top to bottom when possible
+2. if the target section is not the first remaining section inside a shared shell, split the shell first into before/after pieces so the target can be inserted in the correct slot
+3. verify rendered order against latest `origin/main` or the specified live/stage reference before finalizing
+
+Explicit failure case:
+- if latest main renders `process -> platform -> use-cases -> results`, it is wrong to refactor only `use-cases` into route-local JSX as `process -> use-cases -> platform/results-shell`
+- even though the target section's copy ownership moved into `page.tsx`, the PR is still incorrect because the page order changed
 
 ## If scope drifts mid-PR
 
