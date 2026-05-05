@@ -64,6 +64,7 @@ function getNavItems(previewModeEnabled: boolean): readonly NavItem[] {
         { label: "マニュアル", href: t("/manuals", previewModeEnabled) },
         { label: "ホワイトペーパー", href: "/whitepapers" },
         { label: "ブログ", href: "/blog" },
+        ...(previewModeEnabled ? [{ label: "イベント", href: t("/events", previewModeEnabled) }] : []),
       ],
     },
     {
