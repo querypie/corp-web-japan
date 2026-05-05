@@ -23,7 +23,11 @@ test("internal hub page exists and links to each internal demo route", () => {
   assert.match(source, /canonical:\s*"\/internal"/);
   assert.match(source, /index:\s*false/);
   assert.match(source, /follow:\s*false/);
-  assert.match(source, /href=\{"\/internal\/whitepaper-gating-demo"\}/);
-  assert.match(source, /href=\{"\/internal\/mdx-list-demo"\}/);
-  assert.match(source, /href=\{"\/internal\/load-more"\}/);
+  assert.match(source, /const internalDemoCards = \[/);
+  assert.match(source, /internalDemoCards\.length/);
+  assert.match(source, /모든 internal 페이지는 검색 엔진 색인에서 제외됩니다/);
+  assert.match(source, /card\.href/);
+  assert.match(source, /\/internal\/whitepaper-gating-demo/);
+  assert.match(source, /\/internal\/mdx-list-demo/);
+  assert.match(source, /\/internal\/load-more/);
 });
