@@ -47,7 +47,7 @@ export function ProgressiveLoadMore({
         {isLoading ? (
           <div className="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-slate-900" />
         ) : (
-          <>
+          <span className="flex translate-x-[2px] items-center space-x-2">
             <span className="text-sm font-semibold text-slate-900">Load More</span>
             <svg
               className="h-4 w-4 text-slate-400 transition-all duration-200 group-hover:translate-y-0.5 group-hover:text-slate-900"
@@ -58,7 +58,7 @@ export function ProgressiveLoadMore({
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
-          </>
+          </span>
         )}
       </button>
     </div>
