@@ -60,6 +60,9 @@ test("AI Crew route-local authoring keeps hero, platform, why, design-elements, 
   assert.match(aiCrewPage, /AICrewPlatformTitle/);
   assert.match(aiCrewPage, /実務での安全なAI活用を支える/);
   assert.match(aiCrewPage, /エンタープライズAI基盤 <AICrewPlatformAccent>QueryPie AIP<\/AICrewPlatformAccent>/);
+  assert.match(aiCrewPage, /AICrewPlatformCardHeader/);
+  assert.match(aiCrewPage, /AICrewPlatformCardIcon icon="brain"/);
+  assert.match(aiCrewPage, /AICrewPlatformCardText/);
   assert.match(aiCrewPage, /AICrewPlatformCardTitle subtitle="Brain">頭脳/);
   assert.match(aiCrewPage, /AICrewPlatformCardTitle subtitle="Governance">統制/);
 
@@ -94,6 +97,9 @@ test("AI Crew route-local authoring keeps hero, platform, why, design-elements, 
   assert.match(aiCrewStructureSource, /export function AICrewAboutImage/);
   assert.match(aiCrewStructureSource, /export function AICrewPlatformSection/);
   assert.match(aiCrewStructureSource, /export function AICrewPlatformCard/);
+  assert.match(aiCrewStructureSource, /export function AICrewPlatformCardHeader/);
+  assert.match(aiCrewStructureSource, /export function AICrewPlatformCardIcon/);
+  assert.match(aiCrewStructureSource, /export function AICrewPlatformCardText/);
   assert.match(aiCrewStructureSource, /export function AICrewPlatformCardBullet/);
   assert.match(aiCrewStructureSource, /export function AICrewWhySection/);
   assert.match(aiCrewStructureSource, /export function AICrewWhyAfterOrbitItem/);

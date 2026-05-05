@@ -111,7 +111,10 @@ import {
   AICrewPlatformCard,
   AICrewPlatformCardBody,
   AICrewPlatformCardBullet,
+  AICrewPlatformCardHeader,
+  AICrewPlatformCardIcon,
   AICrewPlatformCardStat,
+  AICrewPlatformCardText,
   AICrewPlatformCardTitle,
   AICrewPlatformCore,
   AICrewPlatformCoreBody,
@@ -542,36 +545,56 @@ export default function AICrewPage() {
             </AICrewPlatformCoreBody>
           </AICrewPlatformCore>
 
-          <AICrewPlatformCard icon="brain" position="top">
-            <AICrewPlatformCardTitle subtitle="Brain">頭脳</AICrewPlatformCardTitle>
-            <AICrewPlatformCardStat>マルチLLM / データ保護</AICrewPlatformCardStat>
+          <AICrewPlatformCard position="top">
+            <AICrewPlatformCardHeader>
+              <AICrewPlatformCardIcon icon="brain" />
+              <AICrewPlatformCardText>
+                <AICrewPlatformCardTitle subtitle="Brain">頭脳</AICrewPlatformCardTitle>
+                <AICrewPlatformCardStat>マルチLLM / データ保護</AICrewPlatformCardStat>
+              </AICrewPlatformCardText>
+            </AICrewPlatformCardHeader>
             <AICrewPlatformCardBody>
               <AICrewPlatformCardBullet>業務特性に合わせて最適なLLMを使い分け</AICrewPlatformCardBullet>
               <AICrewPlatformCardBullet>入力した社内データの外部学習はなし</AICrewPlatformCardBullet>
             </AICrewPlatformCardBody>
           </AICrewPlatformCard>
 
-          <AICrewPlatformCard icon="connect" position="right">
-            <AICrewPlatformCardTitle subtitle="Connect">連携</AICrewPlatformCardTitle>
-            <AICrewPlatformCardStat>社内連携 / アクセス制御</AICrewPlatformCardStat>
+          <AICrewPlatformCard position="right">
+            <AICrewPlatformCardHeader>
+              <AICrewPlatformCardIcon icon="connect" />
+              <AICrewPlatformCardText>
+                <AICrewPlatformCardTitle subtitle="Connect">連携</AICrewPlatformCardTitle>
+                <AICrewPlatformCardStat>社内連携 / アクセス制御</AICrewPlatformCardStat>
+              </AICrewPlatformCardText>
+            </AICrewPlatformCardHeader>
             <AICrewPlatformCardBody>
               <AICrewPlatformCardBullet>ゼロトラスト基準で社内システムと繋がり文脈を理解</AICrewPlatformCardBullet>
               <AICrewPlatformCardBullet>QueryPieが誇る厳格なアクセス制御</AICrewPlatformCardBullet>
             </AICrewPlatformCardBody>
           </AICrewPlatformCard>
 
-          <AICrewPlatformCard icon="knowledge" position="bottom">
-            <AICrewPlatformCardTitle subtitle="Knowledge">業務知識</AICrewPlatformCardTitle>
-            <AICrewPlatformCardStat>業務再現 / 事実参照</AICrewPlatformCardStat>
+          <AICrewPlatformCard position="bottom">
+            <AICrewPlatformCardHeader>
+              <AICrewPlatformCardIcon icon="knowledge" />
+              <AICrewPlatformCardText>
+                <AICrewPlatformCardTitle subtitle="Knowledge">業務知識</AICrewPlatformCardTitle>
+                <AICrewPlatformCardStat>業務再現 / 事実参照</AICrewPlatformCardStat>
+              </AICrewPlatformCardText>
+            </AICrewPlatformCardHeader>
             <AICrewPlatformCardBody>
               <AICrewPlatformCardBullet>手順書を記憶しハルシネーションを抑える</AICrewPlatformCardBullet>
               <AICrewPlatformCardBullet>自社の信頼できるデータを参照</AICrewPlatformCardBullet>
             </AICrewPlatformCardBody>
           </AICrewPlatformCard>
 
-          <AICrewPlatformCard icon="governance" position="left">
-            <AICrewPlatformCardTitle subtitle="Governance">統制</AICrewPlatformCardTitle>
-            <AICrewPlatformCardStat>監査ログ / 人の承認</AICrewPlatformCardStat>
+          <AICrewPlatformCard position="left">
+            <AICrewPlatformCardHeader>
+              <AICrewPlatformCardIcon icon="governance" />
+              <AICrewPlatformCardText>
+                <AICrewPlatformCardTitle subtitle="Governance">統制</AICrewPlatformCardTitle>
+                <AICrewPlatformCardStat>監査ログ / 人の承認</AICrewPlatformCardStat>
+              </AICrewPlatformCardText>
+            </AICrewPlatformCardHeader>
             <AICrewPlatformCardBody>
               <AICrewPlatformCardBullet>エンタープライズ水準の監査ログ</AICrewPlatformCardBullet>
               <AICrewPlatformCardBullet>シャドーAIや情報漏洩リスクを低減</AICrewPlatformCardBullet>
