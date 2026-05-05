@@ -614,15 +614,18 @@ Desired reference:
 
 - `src/app/page.tsx`
 
+Aligned solution-page reference:
+
+- `src/app/solutions/ai-crew/page.tsx`
+
 Partial / intermediate reference:
 
 - `src/app/solutions/ai-dashi/page.tsx`
 
-Wrong / pre-refactor reference:
+Historical anti-pattern references:
 
-- `src/app/solutions/ai-crew/page.tsx`
-- `src/content/home.ts`
-- `src/components/sections/home-page-sections.tsx`
+- page shapes where `page.tsx` mostly wires together a large page-specific content registry under `src/content/**`
+- page shapes where a giant page-specific `*Sections` wrapper still hides most of the authored page structure
 
 ## Notes for future documentation updates
 
