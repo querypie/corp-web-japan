@@ -81,6 +81,13 @@ Important rule learned from AI Dashi follow-up work:
 - choose the *hero scope* of the PR first, and keep that scope visible in both the diff and the final PR description
 - when the user says a specific section should be the only fully refactored result, treat every other section as preserve-by-default unless a supporting change is strictly required
 
+Important rule learned from late-stage AI Crew follow-up work:
+- when the user asks for section-split PRs on a page that may already have multiple route-local migrations merged, inspect latest `origin/main` and recent file history first before deciding the PR plan
+- do not assume the remaining work still matches an older broad PR branch or earlier migration plan
+- first identify which sections are already merged on `main`, then create PRs only for the truly remaining route-local or hidden-copy cleanup units
+- if an older broad PR is still open but now conflicts with `main`, prefer replacing it with new narrow PRs from latest `origin/main` rather than continuing to pile follow-up commits onto the stale broad branch
+- for user requests like "split by section and do them simultaneously," the correct output can be a small set of remaining independent PRs in parallel, not one PR per historical section name
+
 Practical checklist:
 - name the target section(s) before editing
 - list the neighboring sections that must stay minimally changed
@@ -105,6 +112,33 @@ A section counts as fully complete when:
 - the section no longer depends on a page-level content blob or prop-shaped copy object for its real user-facing sentences
 - the PR diff makes it obvious that *this specific section* is the completed outcome
 - the migrated section still appears in the same rendered page order relative to its neighboring sections as before the refactor
+
+## Second-stage cleanup after a section is already route-local
+
+A route-local section can still deserve a follow-up refactor even after its copy ownership is already in `page.tsx`.
+
+Important lesson from AI Crew platform-card follow-up work:
+- once a section's copy already lives in the route, the next useful cleanup can be reducing the section helper toward smaller UI-only primitives
+- this kind of PR is appropriate when the route still hides meaningful section composition behind a helper contract like `icon`/`variant` props or other bundled structural shortcuts
+- the goal is not to move more copy; the goal is to make the route's JSX show the section composition more explicitly while pushing the shared file closer to a pure primitive layer
+
+Good examples of valid second-stage cleanup:
+- replacing a single bundled card API with smaller primitives such as `CardHeader`, `CardIcon`, and `CardText`
+- keeping the visible copy in `page.tsx` but exposing more of the section's semantic composition there
+- removing layout hacks that became unnecessary after the primitive split
+
+Review rule for this kind of PR:
+- ask whether the route becomes a clearer authoring surface after the change
+- ask whether the shared section file becomes more UI-only rather than more magical
+- reject the PR if it merely churns markup without improving route-local readability or primitive boundaries
+
+Test rule for this kind of PR:
+- add or update a narrow structure-oriented test so the route-local composition intent is explicit in the diff
+- useful assertions include:
+  - the route now renders the new primitive names directly
+  - the section helper exports the new primitive building blocks
+  - the route still owns the same visible copy after the primitive split
+- this is especially valuable when the visual output changes little, because otherwise the PR can look like unnecessary markup churn during review
 
 ## Render-order preservation rule
 
