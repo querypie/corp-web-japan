@@ -10,6 +10,7 @@ import {
 
 test("AI Crew route-local authoring keeps hero, platform, why, design-elements, process, use-cases, and results copy in the route while shared UI stays extracted", () => {
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
+  const aiCrewWhySection = readSource("src/components/sections/ai-crew-why-section.tsx");
   const aiCrewDataSource = getAiCrewDataSource();
   const aiCrewStructureSource = getAiCrewStructureSource();
 
@@ -38,6 +39,7 @@ test("AI Crew route-local authoring keeps hero, platform, why, design-elements, 
   assert.match(aiCrewPage, /現場が止まるのは、判断の前にある業務が多すぎるから。/);
   assert.match(aiCrewPage, /AICrewWhyBeforeCardSubtitle>一次対応に時間がかかる/);
   assert.match(aiCrewPage, /AICrewWhyAfterCardSubtitle>役割分担が整理され、本来の業務に集中/);
+  assert.match(aiCrewPage, /AICrewWhyHumanDecisionCore>人による最終判断<\/AICrewWhyHumanDecisionCore>/);
 
   assert.match(aiCrewPage, /AICrewDesignElementsSection/);
   assert.match(aiCrewPage, /AICrewDesignElementsTitle/);
@@ -161,6 +163,8 @@ test("AI Crew route-local authoring keeps hero, platform, why, design-elements, 
     assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-use-cases-section/);
     assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-why-section/);
   }
+
+  assert.doesNotMatch(aiCrewWhySection, /人による最終判断/);
 
   assert.match(aiCrewDataSource, /homePageContent|floatingCta: \{ label: "業務に合うAI活用を相談する", href: aiCrewFloatingCtaUrl \}/);
 });
