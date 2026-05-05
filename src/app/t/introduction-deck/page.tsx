@@ -2,19 +2,15 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
+  previewResourceCategorySidebarLinks,
+  ResourceCategorySidebar,
+} from "@/components/sections/resource-category-sidebar";
+import {
   ResourceListContentSection,
   ResourceListHeroDescription,
   ResourceListHeroSection,
   ResourceListHeroTitle,
   ResourceListItems,
-  ResourceListSidebar,
-  ResourceListSidebarItem,
-  ResourceListSidebarLabel,
-  ResourceListSidebarLink,
-  ResourceListSidebarList,
-  ResourceListSidebarNav,
-  ResourceListSidebarViewport,
-  type ResourceCategoryLink,
 } from "@/components/sections/resource-list-section";
 import { listIntroductionDeckPublicationItems } from "@/lib/resources/introduction-deck-publications";
 
@@ -30,15 +26,6 @@ export const metadata: Metadata = {
   },
 };
 
-const sidebarLinks: readonly ResourceCategoryLink[] = [
-  { label: "全て", href: "/t/resources" },
-  { label: "紹介資料", href: "/t/introduction-deck" },
-  { label: "用語集", href: "/t/glossary" },
-  { label: "マニュアル", href: "/t/manuals" },
-  { label: "ホワイトペーパー", href: "/t/whitepapers" },
-  { label: "ブログ", href: "/t/blog" },
-] as const;
-
 export default function PreviewIntroductionDeckPage() {
   const items = listIntroductionDeckPublicationItems();
 
@@ -52,22 +39,7 @@ export default function PreviewIntroductionDeckPage() {
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
-        <ResourceListSidebar>
-          <ResourceListSidebarLabel>カテゴリー</ResourceListSidebarLabel>
-          <ResourceListSidebarViewport>
-            <ResourceListSidebarNav label="Sidebar Navigation">
-              <ResourceListSidebarList>
-                {sidebarLinks.map((link) => (
-                  <ResourceListSidebarItem key={link.label}>
-                    <ResourceListSidebarLink href={link.href} active={link.label === "紹介資料"} label={link.label}>
-                      {link.label}
-                    </ResourceListSidebarLink>
-                  </ResourceListSidebarItem>
-                ))}
-              </ResourceListSidebarList>
-            </ResourceListSidebarNav>
-          </ResourceListSidebarViewport>
-        </ResourceListSidebar>
+        <ResourceCategorySidebar links={previewResourceCategorySidebarLinks} activeLabel="紹介資料" />
 
         <ResourceListItems items={items} />
       </ResourceListContentSection>

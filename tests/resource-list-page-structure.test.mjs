@@ -43,7 +43,21 @@ test("public resource-list routes use the concrete public sidebar component", ()
   }
 });
 
-test("public resource sidebar concrete component owns the public category links and sidebar markup", () => {
+test("preview resource list routes also use ResourceCategorySidebar instead of redefining sidebar markup", () => {
+  for (const path of [
+    "src/app/t/resources/page.tsx",
+    "src/app/t/glossary/page.tsx",
+    "src/app/t/introduction-deck/page.tsx",
+    "src/app/t/manuals/page.tsx",
+  ]) {
+    const source = readSource(path);
+    assert.match(source, /ResourceCategorySidebar/);
+    assert.doesNotMatch(source, /const sidebarLinks: readonly ResourceCategoryLink\[] = \[/);
+    assert.doesNotMatch(source, /<ResourceListSidebar>/);
+  }
+});
+
+test("resource category sidebar owns both public and preview category link sets and sidebar markup", () => {
   const source = readSource("src/components/sections/resource-category-sidebar.tsx");
 
   assert.match(source, /export const resourceCategorySidebarLinks/);
@@ -53,6 +67,9 @@ test("public resource sidebar concrete component owns the public category links 
   assert.match(source, /\{ label: "マニュアル", href: "\/manuals" \}/);
   assert.match(source, /\{ label: "ホワイトペーパー", href: "\/whitepapers" \}/);
   assert.match(source, /\{ label: "ブログ", href: "\/blog" \}/);
+  assert.match(source, /export const previewResourceCategorySidebarLinks/);
+  assert.match(source, /\{ label: "全て", href: "\/t\/resources" \}/);
+  assert.match(source, /\{ label: "マニュアル", href: "\/t\/manuals" \}/);
   assert.match(source, /ResourceListSidebarNav label="Sidebar Navigation"/);
 });
 

@@ -3,10 +3,6 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../../../../helpers/source-readers.mjs";
 
-function escapeRegex(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
 test("/t/introduction-deck page exists with noindex metadata and canonical preview path", () => {
   const file = "src/app/t/introduction-deck/page.tsx";
   assert.equal(existsSync(new URL(`../../../../../${file}`, import.meta.url)), true, `${file} should exist`);
@@ -15,8 +11,8 @@ test("/t/introduction-deck page exists with noindex metadata and canonical previ
   assert.match(source, /canonical: "\/t\/introduction-deck"/);
   assert.match(source, /title: "紹介資料 \| QueryPie AI"/);
   assert.match(source, /listIntroductionDeckPublicationItems/);
-  assert.match(source, /const sidebarLinks: readonly ResourceCategoryLink\[] = \[/);
-  assert.match(source, /\{ label: "紹介資料", href: "\/t\/introduction-deck" \}/);
+  assert.match(source, /previewResourceCategorySidebarLinks/);
+  assert.match(source, /<ResourceCategorySidebar links=\{previewResourceCategorySidebarLinks\} activeLabel="紹介資料" \/>/);
 });
 
 test("/t/introduction-deck detail route family exists and uses category-specific loaders", () => {
@@ -34,7 +30,7 @@ test("/t/introduction-deck detail route family exists and uses category-specific
   const publicationSource = readSource(publicationFile);
 
   assert.match(idSource, /redirect\(getIntroductionDeckPublicationHref/);
-  assert.match(idSource, new RegExp(escapeRegex('getIntroductionDeckPublicationRecord(id)')));
+  assert.match(idSource, /getIntroductionDeckPublicationRecord\(id\)/);
   assert.match(slugSource, /PublicationPostPage post=\{post\}/);
   assert.match(loaderSource, /extends BaseResourcePublicationPostLoader/);
   assert.match(publicationSource, /extends BaseResourcePublicationRepository/);

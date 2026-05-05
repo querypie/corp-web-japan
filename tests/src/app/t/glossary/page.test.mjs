@@ -3,10 +3,6 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../../../../helpers/source-readers.mjs";
 
-function escapeRegex(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
 test("/t/glossary page exists with noindex metadata and canonical preview path", () => {
   const file = "src/app/t/glossary/page.tsx";
   assert.equal(existsSync(new URL(`../../../../../${file}`, import.meta.url)), true, `${file} should exist`);
@@ -15,8 +11,8 @@ test("/t/glossary page exists with noindex metadata and canonical preview path",
   assert.match(source, /canonical: "\/t\/glossary"/);
   assert.match(source, /title: "用語集 \| QueryPie AI"/);
   assert.match(source, /listGlossaryPublicationItems/);
-  assert.match(source, /const sidebarLinks: readonly ResourceCategoryLink\[] = \[/);
-  assert.match(source, /\{ label: "用語集", href: "\/t\/glossary" \}/);
+  assert.match(source, /previewResourceCategorySidebarLinks/);
+  assert.match(source, /<ResourceCategorySidebar links=\{previewResourceCategorySidebarLinks\} activeLabel="用語集" \/>/);
 });
 
 test("/t/glossary detail route family exists and uses category-specific loaders", () => {
@@ -34,7 +30,7 @@ test("/t/glossary detail route family exists and uses category-specific loaders"
   const publicationSource = readSource(publicationFile);
 
   assert.match(idSource, /redirect\(getGlossaryPublicationHref/);
-  assert.match(idSource, new RegExp(escapeRegex('getGlossaryPublicationRecordById(id)')));
+  assert.match(idSource, /getGlossaryPublicationRecordById\(id\)/);
   assert.match(slugSource, /PublicationPostPage post=\{post\}/);
   assert.match(loaderSource, /extends BaseResourcePublicationPostLoader/);
   assert.match(publicationSource, /extends BaseResourcePublicationRepository/);
