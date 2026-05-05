@@ -172,7 +172,7 @@ export function AICrewPlatformCardStat({ children }: AICrewPlatformSectionProps)
 }
 
 export function AICrewPlatformCardBody({ children }: AICrewPlatformSectionProps) {
-  return <div className="-ml-[52px] mt-2.5 space-y-1.5">{children}</div>;
+  return <div className="mt-2.5 space-y-1.5">{children}</div>;
 }
 
 export function AICrewPlatformCardBullet({ children }: AICrewPlatformSectionProps) {
