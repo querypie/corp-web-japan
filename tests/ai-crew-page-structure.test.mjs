@@ -8,7 +8,7 @@ import {
   isAiCrewSectionExternalized,
 } from "./helpers/static-marketing-page-sources.mjs";
 
-test("AI Crew route-local authoring keeps platform, why, design-elements, process, and results copy in the route while shared UI stays extracted", () => {
+test("AI Crew route-local authoring keeps platform, why, design-elements, process, use-cases, and results copy in the route while shared UI stays extracted", () => {
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
   const aiCrewDataSource = getAiCrewDataSource();
   const aiCrewStructureSource = getAiCrewStructureSource();
@@ -57,7 +57,16 @@ test("AI Crew route-local authoring keeps platform, why, design-elements, proces
   assert.match(aiCrewPage, /エンタープライズAI基盤 <AICrewPlatformAccent>QueryPie AIP<\/AICrewPlatformAccent>/);
   assert.match(aiCrewPage, /AICrewPlatformCardTitle subtitle="Brain">頭脳/);
   assert.match(aiCrewPage, /AICrewPlatformCardTitle subtitle="Governance">統制/);
-  assert.match(aiCrewPage, /AICrewSectionsAfterDesignElements/);
+
+  assert.match(aiCrewPage, /AICrewUseCasesSection/);
+  assert.match(aiCrewPage, /AICrewUseCasesTitle>まずは、貴社で最も負荷の高い業務から/);
+  assert.match(aiCrewPage, /AICrewUseCaseCardTitle>SEO分析/);
+  assert.match(aiCrewPage, /AICrewUseCaseCardTitle>開発インサイト/);
+  assert.match(aiCrewPage, /AICrewUseCaseCardTitle>データ分析/);
+  assert.match(aiCrewPage, /AICrewUseCaseTabbedCard icon="wallet"/);
+  assert.match(aiCrewPage, /見積関連文書の確認から、複雑な見積ロジックに基づく出力までを支援。属人化しやすい見積業務を効率化します。/);
+  assert.match(aiCrewPage, /label="見積分析"/);
+  assert.match(aiCrewPage, /label="見積書作成"/);
 
   assert.match(aiCrewPage, /AICrewResultsSection/);
   assert.match(aiCrewPage, /現場は仕事が進む<AICrewResultsHighlight>スピード<\/AICrewResultsHighlight>を、経営は/);
@@ -89,7 +98,9 @@ test("AI Crew route-local authoring keeps platform, why, design-elements, proces
   assert.match(aiCrewStructureSource, /\[&_strong\]:bg-\[linear-gradient\(135deg,#0F2A5F_0%,#174EA6_48%,#2563EB_78%,#93C5FD_100%\)\]/);
   assert.match(aiCrewStructureSource, /export function AICrewProcessStepCard/);
   assert.match(aiCrewStructureSource, /export function AICrewProcessSecondaryAction/);
-  assert.match(aiCrewStructureSource, /export function AICrewSectionsAfterDesignElements/);
+  assert.match(aiCrewStructureSource, /export function AICrewUseCasesSection/);
+  assert.match(aiCrewStructureSource, /export function AICrewUseCaseCard/);
+  assert.match(aiCrewStructureSource, /export function AICrewUseCaseTabbedCard/);
   assert.match(aiCrewStructureSource, /export function AICrewResultsSection/);
   assert.match(aiCrewStructureSource, /export function AICrewResultsCard/);
   assert.doesNotMatch(aiCrewStructureSource, /featureIntro\.subtitle/);
@@ -138,6 +149,7 @@ test("AI Crew route-local authoring keeps platform, why, design-elements, proces
     assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-platform-section/);
     assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-process-section/);
     assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-results-section/);
+    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-use-cases-section/);
     assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-why-section/);
   }
 
