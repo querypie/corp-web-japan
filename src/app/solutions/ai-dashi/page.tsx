@@ -83,9 +83,15 @@ import {
   AIDashiComparisonCallout,
   AIDashiComparisonHeaderRow,
   AIDashiComparisonLabelCell,
+  AIDashiComparisonLegacyBody,
   AIDashiComparisonLegacyCell,
+  AIDashiComparisonLegacyIcon,
+  AIDashiComparisonLegacyTitle,
   AIDashiComparisonNote,
+  AIDashiComparisonPreferredBody,
   AIDashiComparisonPreferredCell,
+  AIDashiComparisonPreferredIcon,
+  AIDashiComparisonPreferredTitle,
   AIDashiComparisonRow,
   AIDashiComparisonSection,
   AIDashiComparisonTable,
@@ -97,13 +103,13 @@ import {
   AIDashiSupportCard,
   AIDashiSupportCardDetailLabel,
   AIDashiSupportCardDetails,
-  AIDashiSupportCardHeader,
   AIDashiSupportCardIcon,
   AIDashiSupportCardLead,
   AIDashiSupportCardLayout,
   AIDashiSupportCardPoint,
   AIDashiSupportCardPointList,
-  AIDashiSupportCardText,
+  AIDashiSupportCardCopy,
+  AIDashiSupportCardSummary,
   AIDashiSupportCardTitle,
   AIDashiSupportCards,
   AIDashiSupportIntro,
@@ -404,38 +410,86 @@ export default function AIDashiPage() {
 
           <AIDashiComparisonRow>
             <AIDashiComparisonLabelCell>開発期間</AIDashiComparisonLabelCell>
-            <AIDashiComparisonPreferredCell title="最短1ヶ月（API組み込みのみ）" body="すぐに市場投入が可能" />
-            <AIDashiComparisonLegacyCell title="半年〜1年以上（試行錯誤の連続）" body="競合に先を越され市場機会を逃す" />
+            <AIDashiComparisonPreferredCell>
+              <AIDashiComparisonPreferredIcon />
+              <AIDashiComparisonPreferredTitle>最短1ヶ月（API組み込みのみ）</AIDashiComparisonPreferredTitle>
+              <AIDashiComparisonPreferredBody>すぐに市場投入が可能</AIDashiComparisonPreferredBody>
+            </AIDashiComparisonPreferredCell>
+            <AIDashiComparisonLegacyCell>
+              <AIDashiComparisonLegacyIcon />
+              <AIDashiComparisonLegacyTitle>半年〜1年以上（試行錯誤の連続）</AIDashiComparisonLegacyTitle>
+              <AIDashiComparisonLegacyBody>競合に先を越され市場機会を逃す</AIDashiComparisonLegacyBody>
+            </AIDashiComparisonLegacyCell>
           </AIDashiComparisonRow>
 
           <AIDashiComparisonRow>
             <AIDashiComparisonLabelCell>初期インフラ投資</AIDashiComparisonLabelCell>
-            <AIDashiComparisonPreferredCell title="初期投資ゼロ（インフラ不要）" body="使った分だけの従量課金でスモールスタートが可能" />
-            <AIDashiComparisonLegacyCell title="数千万円規模の先行投資" body="サーバー代や検証費用など、回収不能なサンクコストが発生" />
+            <AIDashiComparisonPreferredCell>
+              <AIDashiComparisonPreferredIcon />
+              <AIDashiComparisonPreferredTitle>初期投資ゼロ（インフラ不要）</AIDashiComparisonPreferredTitle>
+              <AIDashiComparisonPreferredBody>使った分だけの従量課金でスモールスタートが可能</AIDashiComparisonPreferredBody>
+            </AIDashiComparisonPreferredCell>
+            <AIDashiComparisonLegacyCell>
+              <AIDashiComparisonLegacyIcon />
+              <AIDashiComparisonLegacyTitle>数千万円規模の先行投資</AIDashiComparisonLegacyTitle>
+              <AIDashiComparisonLegacyBody>サーバー代や検証費用など、回収不能なサンクコストが発生</AIDashiComparisonLegacyBody>
+            </AIDashiComparisonLegacyCell>
           </AIDashiComparisonRow>
 
           <AIDashiComparisonRow>
             <AIDashiComparisonLabelCell>専門エンジニア確保</AIDashiComparisonLabelCell>
-            <AIDashiComparisonPreferredCell title="QueryPie AIのFDE（専門エンジニア）が伴走" body="AIに関する専門知識不要" />
-            <AIDashiComparisonLegacyCell title="AI人材の採用が必須（極めて困難）" body="人件費の高騰で採用が進まないリスク" />
+            <AIDashiComparisonPreferredCell>
+              <AIDashiComparisonPreferredIcon />
+              <AIDashiComparisonPreferredTitle>QueryPie AIのFDE（専門エンジニア）が伴走</AIDashiComparisonPreferredTitle>
+              <AIDashiComparisonPreferredBody>AIに関する専門知識不要</AIDashiComparisonPreferredBody>
+            </AIDashiComparisonPreferredCell>
+            <AIDashiComparisonLegacyCell>
+              <AIDashiComparisonLegacyIcon />
+              <AIDashiComparisonLegacyTitle>AI人材の採用が必須（極めて困難）</AIDashiComparisonLegacyTitle>
+              <AIDashiComparisonLegacyBody>人件費の高騰で採用が進まないリスク</AIDashiComparisonLegacyBody>
+            </AIDashiComparisonLegacyCell>
           </AIDashiComparisonRow>
 
           <AIDashiComparisonRow>
             <AIDashiComparisonLabelCell>セキュリティ</AIDashiComparisonLabelCell>
-            <AIDashiComparisonPreferredCell title="エンタープライズ品質の基盤（SOC2/ISO27001）" body="厳格な権限管理（RBAC）が標準装備" />
-            <AIDashiComparisonLegacyCell title="ゼロトラストアーキテクチャを一から構築" body="情報漏洩の致命的リスクと認証取得の果てしない工数" />
+            <AIDashiComparisonPreferredCell>
+              <AIDashiComparisonPreferredIcon />
+              <AIDashiComparisonPreferredTitle>エンタープライズ品質の基盤（SOC2/ISO27001）</AIDashiComparisonPreferredTitle>
+              <AIDashiComparisonPreferredBody>厳格な権限管理（RBAC）が標準装備</AIDashiComparisonPreferredBody>
+            </AIDashiComparisonPreferredCell>
+            <AIDashiComparisonLegacyCell>
+              <AIDashiComparisonLegacyIcon />
+              <AIDashiComparisonLegacyTitle>ゼロトラストアーキテクチャを一から構築</AIDashiComparisonLegacyTitle>
+              <AIDashiComparisonLegacyBody>情報漏洩の致命的リスクと認証取得の果てしない工数</AIDashiComparisonLegacyBody>
+            </AIDashiComparisonLegacyCell>
           </AIDashiComparisonRow>
 
           <AIDashiComparisonRow>
             <AIDashiComparisonLabelCell>ハルシネーション対策</AIDashiComparisonLabelCell>
-            <AIDashiComparisonPreferredCell title="エンタープライズRAGによる事実のみの回答" body="内蔵されたガードレール機能でB2Bでの業務利用も安心" />
-            <AIDashiComparisonLegacyCell title="精度が上がらず本番リリース不可" body="自社データとLLMの連携（チャンキング等）で泥沼化" />
+            <AIDashiComparisonPreferredCell>
+              <AIDashiComparisonPreferredIcon />
+              <AIDashiComparisonPreferredTitle>エンタープライズRAGによる事実のみの回答</AIDashiComparisonPreferredTitle>
+              <AIDashiComparisonPreferredBody>内蔵されたガードレール機能でB2Bでの業務利用も安心</AIDashiComparisonPreferredBody>
+            </AIDashiComparisonPreferredCell>
+            <AIDashiComparisonLegacyCell>
+              <AIDashiComparisonLegacyIcon />
+              <AIDashiComparisonLegacyTitle>精度が上がらず本番リリース不可</AIDashiComparisonLegacyTitle>
+              <AIDashiComparisonLegacyBody>自社データとLLMの連携（チャンキング等）で泥沼化</AIDashiComparisonLegacyBody>
+            </AIDashiComparisonLegacyCell>
           </AIDashiComparisonRow>
 
           <AIDashiComparisonRow>
             <AIDashiComparisonLabelCell isLast>運用保守</AIDashiComparisonLabelCell>
-            <AIDashiComparisonPreferredCell title="24時間365日のインフラ監視と継続アップデート" body="LLMの進化や運用はすべてオフロード、本業に集中" isLast />
-            <AIDashiComparisonLegacyCell title="自社エンジニアが運用保守に追われる" body="プロンプト調整やインフラ管理でコア事業の進化が停止" isLast />
+            <AIDashiComparisonPreferredCell isLast>
+              <AIDashiComparisonPreferredIcon />
+              <AIDashiComparisonPreferredTitle>24時間365日のインフラ監視と継続アップデート</AIDashiComparisonPreferredTitle>
+              <AIDashiComparisonPreferredBody>LLMの進化や運用はすべてオフロード、本業に集中</AIDashiComparisonPreferredBody>
+            </AIDashiComparisonPreferredCell>
+            <AIDashiComparisonLegacyCell isLast>
+              <AIDashiComparisonLegacyIcon />
+              <AIDashiComparisonLegacyTitle>自社エンジニアが運用保守に追われる</AIDashiComparisonLegacyTitle>
+              <AIDashiComparisonLegacyBody>プロンプト調整やインフラ管理でコア事業の進化が停止</AIDashiComparisonLegacyBody>
+            </AIDashiComparisonLegacyCell>
           </AIDashiComparisonRow>
         </AIDashiComparisonTable>
 
@@ -468,15 +522,15 @@ export default function AIDashiPage() {
         <AIDashiSupportCards>
           <AIDashiSupportCard>
             <AIDashiSupportCardLayout>
-              <AIDashiSupportCardHeader>
+              <AIDashiSupportCardSummary>
                 <AIDashiSupportCardIcon>
                   <Blocks className="h-5 w-5" />
                 </AIDashiSupportCardIcon>
-                <AIDashiSupportCardText>
+                <AIDashiSupportCardCopy>
                   <AIDashiSupportCardTitle>カスタマイズ自在なAI基盤の提供</AIDashiSupportCardTitle>
                   <AIDashiSupportCardLead>最速での市場投入を実現するコアシステム</AIDashiSupportCardLead>
-                </AIDashiSupportCardText>
-              </AIDashiSupportCardHeader>
+                </AIDashiSupportCardCopy>
+              </AIDashiSupportCardSummary>
               <AIDashiSupportCardDetails>
                 <AIDashiSupportCardDetailLabel>提供内容</AIDashiSupportCardDetailLabel>
                 <AIDashiSupportCardPointList>
@@ -491,15 +545,15 @@ export default function AIDashiPage() {
 
           <AIDashiSupportCard>
             <AIDashiSupportCardLayout>
-              <AIDashiSupportCardHeader>
+              <AIDashiSupportCardSummary>
                 <AIDashiSupportCardIcon>
                   <Users className="h-5 w-5" />
                 </AIDashiSupportCardIcon>
-                <AIDashiSupportCardText>
+                <AIDashiSupportCardCopy>
                   <AIDashiSupportCardTitle>専門エンジニアによる開発支援</AIDashiSupportCardTitle>
                   <AIDashiSupportCardLead>貴社チームに伴走し、最適なAIを共に創り上げる</AIDashiSupportCardLead>
-                </AIDashiSupportCardText>
-              </AIDashiSupportCardHeader>
+                </AIDashiSupportCardCopy>
+              </AIDashiSupportCardSummary>
               <AIDashiSupportCardDetails>
                 <AIDashiSupportCardDetailLabel>提供内容</AIDashiSupportCardDetailLabel>
                 <AIDashiSupportCardPointList>
@@ -514,15 +568,15 @@ export default function AIDashiPage() {
 
           <AIDashiSupportCard>
             <AIDashiSupportCardLayout>
-              <AIDashiSupportCardHeader>
+              <AIDashiSupportCardSummary>
                 <AIDashiSupportCardIcon>
                   <ShieldCheck className="h-5 w-5" />
                 </AIDashiSupportCardIcon>
-                <AIDashiSupportCardText>
+                <AIDashiSupportCardCopy>
                   <AIDashiSupportCardTitle>24時間365日のインフラ・運用保守</AIDashiSupportCardTitle>
                   <AIDashiSupportCardLead>リリース後も安心。インフラ管理を完全にオフロード</AIDashiSupportCardLead>
-                </AIDashiSupportCardText>
-              </AIDashiSupportCardHeader>
+                </AIDashiSupportCardCopy>
+              </AIDashiSupportCardSummary>
               <AIDashiSupportCardDetails>
                 <AIDashiSupportCardDetailLabel>提供内容</AIDashiSupportCardDetailLabel>
                 <AIDashiSupportCardPointList>
