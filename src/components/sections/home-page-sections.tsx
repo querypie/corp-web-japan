@@ -3,17 +3,10 @@ import Link from "next/link";
 import {
   ArrowRight,
   Brain,
-  BriefcaseBusiness,
   Cable,
-  FolderKanban,
-  Megaphone,
-  MessageSquareText,
   ScanSearch,
   Shield,
-  Settings2,
   ShieldCheck,
-  Wallet,
-  ChartColumnIncreasing,
 } from "lucide-react";
 import { homePageContent } from "@/content/home";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
@@ -44,20 +37,6 @@ function renderHighlightedKeyword(line: string, keyword: string) {
       {after}
     </>
   );
-}
-
-function renderHighlightedKeywords(line: string, keywords: string[]) {
-  return line.split(new RegExp(`(${keywords.join("|")})`, "g")).map((part, index) => {
-    if (keywords.includes(part)) {
-      return (
-        <span key={`${part}-${index}`} className={aiCrewAccentTextClass}>
-          {part}
-        </span>
-      );
-    }
-
-    return <span key={`${part}-${index}`}>{part}</span>;
-  });
 }
 
 function isExternalHref(href: string) {
@@ -162,7 +141,7 @@ export function HomePageIntroSections() {
 }
 
 export function AICrewSectionsAfterDesignElements() {
-  const { roi, roles, testimonials } = homePageContent;
+  const { roi, roles } = homePageContent;
 
   return (
     <>
@@ -270,78 +249,6 @@ export function AICrewSectionsAfterDesignElements() {
           secondaryCta={roles.secondaryCta}
           cards={roles.cards}
         />
-      </section>
-
-      <section id="results" className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-20 lg:px-10">
-        <div className="mx-auto max-w-[1280px] text-center">
-          <RevealOnScroll>
-            <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em] xl:whitespace-nowrap">
-              {renderHighlightedKeywords(testimonials.title, ["スピード", "投資対効果"])}
-            </h2>
-          </RevealOnScroll>
-          <RevealOnScroll delayMs={80}>
-            <p className="mx-auto mt-5 max-w-[1280px] text-center text-[15px] leading-7 text-slate-500 xl:whitespace-nowrap">
-              {testimonials.body}
-            </p>
-          </RevealOnScroll>
-        </div>
-
-        <div className="mx-auto mt-12 max-w-[1120px] grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {testimonials.items.map((item, index) => {
-              const icons = [Megaphone, MessageSquareText, ChartColumnIncreasing, FolderKanban] as const;
-              const Icon = icons[index] ?? BriefcaseBusiness;
-
-              return (
-                <RevealOnScroll key={item.name} className="h-full" delayMs={index * 70}>
-                <article
-                  className="flex h-full flex-col rounded-[1.8rem] border border-black/8 bg-white px-7 py-7 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)] transition duration-300 hover:-translate-y-1 hover:shadow-md"
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-[12px] bg-[#eef2f7] text-[#2f3a49]">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <p className="mt-5 flex-1 text-[14px] leading-7 tracking-[-0.01em] text-slate-700">{item.comment}</p>
-                  <div className="mt-6 flex items-center gap-3 pt-1">
-                    <div className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-[#f9f9fb] text-[11px] font-semibold text-slate-700">
-                      {item.brand.slice(0, 2)}
-                    </div>
-                    <div className="text-left">
-                      <p className="whitespace-nowrap text-[14px] font-medium tracking-[-0.02em] text-slate-900">{item.name}</p>
-                      <p className="whitespace-nowrap text-[11px] leading-5 tracking-[-0.01em] text-slate-500">{item.company}</p>
-                    </div>
-                  </div>
-                </article>
-                </RevealOnScroll>
-              );
-            })}
-        </div>
-
-        <RevealOnScroll className="mx-auto mt-16 max-w-[1120px] rounded-[2rem] border border-black/6 bg-white p-8 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.16)]" variant="up">
-          <div className="max-w-none">
-            <div className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-[#eef2f7] text-[#2f3a49]">
-              <Wallet className="h-5 w-5" />
-            </div>
-            <h3 className="mt-5 text-[30px] font-semibold leading-[1.35] tracking-[-0.03em] text-slate-950">
-              {renderHighlightedKeyword(testimonials.pricing.title, "業務量に応じたクレジット制")}
-            </h3>
-            <div className="mt-5 space-y-1 text-base leading-7 text-slate-600">
-              {testimonials.pricing.body.split("\n").map((line, index) => (
-                <p key={`${line}-${index}`} className={index === 1 ? "xl:whitespace-nowrap" : ""}>
-                  {line}
-                </p>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {testimonials.pricing.bullets.map((item) => (
-              <article key={item.title} className="rounded-[1.5rem] border border-black/6 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-md">
-                <h4 className="text-[20px] font-semibold tracking-[-0.03em] text-slate-950">{item.title}</h4>
-                <p className="mt-3 text-sm leading-7 text-slate-600">{item.body}</p>
-              </article>
-            ))}
-          </div>
-        </RevealOnScroll>
-
       </section>
 
 

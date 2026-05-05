@@ -8,7 +8,7 @@ import {
   isAiCrewSectionExternalized,
 } from "./helpers/static-marketing-page-sources.mjs";
 
-test("AI Crew route-local authoring keeps why, design-elements, and process copy in the route while shared UI stays extracted", () => {
+test("AI Crew route-local authoring keeps why, design-elements, process, and results copy in the route while shared UI stays extracted", () => {
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
   const aiCrewDataSource = getAiCrewDataSource();
   const aiCrewStructureSource = getAiCrewStructureSource();
@@ -52,6 +52,13 @@ test("AI Crew route-local authoring keeps why, design-elements, and process copy
   assert.match(aiCrewPage, /進め方を相談する/);
   assert.match(aiCrewPage, /AICrewSectionsAfterDesignElements/);
 
+  assert.match(aiCrewPage, /AICrewResultsSection/);
+  assert.match(aiCrewPage, /現場は仕事が進む<AICrewResultsHighlight>スピード<\/AICrewResultsHighlight>を、経営は/);
+  assert.match(aiCrewPage, /<AICrewResultsHighlight>投資対効果<\/AICrewResultsHighlight>を実感/);
+  assert.match(aiCrewPage, /AICrewResultsCardName>マーケティング担当者/);
+  assert.match(aiCrewPage, /AICrewResultsPricingCardTitle>必要な分だけ使えるコスト設計/);
+  assert.match(aiCrewPage, /AICrewResultsPricingCardTitle>部署をまたいでも管理しやすい/);
+
   assert.match(aiCrewPage, /AICrewContactSection/);
   assert.match(aiCrewPage, /どの業務から始めるべきか、/);
   assert.match(aiCrewPage, /href=\{aiCrewConsultUrl\}/);
@@ -73,6 +80,8 @@ test("AI Crew route-local authoring keeps why, design-elements, and process copy
   assert.match(aiCrewStructureSource, /export function AICrewProcessStepCard/);
   assert.match(aiCrewStructureSource, /export function AICrewProcessSecondaryAction/);
   assert.match(aiCrewStructureSource, /export function AICrewSectionsAfterDesignElements/);
+  assert.match(aiCrewStructureSource, /export function AICrewResultsSection/);
+  assert.match(aiCrewStructureSource, /export function AICrewResultsCard/);
   assert.doesNotMatch(aiCrewStructureSource, /featureIntro\.subtitle/);
   assert.doesNotMatch(aiCrewStructureSource, /featureTabs/);
   assert.doesNotMatch(aiCrewStructureSource, /comparison:/);
@@ -100,6 +109,7 @@ test("AI Crew route-local authoring keeps why, design-elements, and process copy
     assert.doesNotMatch(aiCrewContent, /comparison:/);
     assert.doesNotMatch(aiCrewContent, /problem:/);
     assert.doesNotMatch(aiCrewContent, /process:/);
+    assert.doesNotMatch(aiCrewContent, /testimonials:/);
     assert.doesNotMatch(aiCrewContent, /人手不足と見えないコストが、企業の成長を鈍化させる。/);
     assert.doesNotMatch(aiCrewContent, /なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか/);
     assert.doesNotMatch(aiCrewContent, /AI Agentではなく、AI Crew/);
@@ -111,6 +121,7 @@ test("AI Crew route-local authoring keeps why, design-elements, and process copy
     assert.match(aiCrewPage, /@\/components\/sections\/home-page-sections/);
     assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-design-elements-section/);
     assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-process-section/);
+    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-results-section/);
     assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-why-section/);
   }
 

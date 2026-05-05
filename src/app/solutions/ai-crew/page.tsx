@@ -8,10 +8,13 @@ import {
   FileSearch,
   FolderKanban,
   Layers3,
+  Megaphone,
+  MessageSquareText,
   Play,
   Search,
   Settings2,
   ShieldCheck,
+  Wallet,
 } from "lucide-react";
 import {
   aiCrewConsultUrl,
@@ -91,6 +94,31 @@ import {
   AICrewSectionsAfterDesignElements,
   HomePageIntroSections,
 } from "@/components/sections/home-page-sections";
+import {
+  AICrewResultsBody,
+  AICrewResultsCard,
+  AICrewResultsCardBody,
+  AICrewResultsCardBrand,
+  AICrewResultsCardCompany,
+  AICrewResultsCardIdentity,
+  AICrewResultsCardMeta,
+  AICrewResultsCardName,
+  AICrewResultsCards,
+  AICrewResultsHighlight,
+  AICrewResultsIntro,
+  AICrewResultsPricing,
+  AICrewResultsPricingBody,
+  AICrewResultsPricingBodyLine,
+  AICrewResultsPricingCard,
+  AICrewResultsPricingCardBody,
+  AICrewResultsPricingCardTitle,
+  AICrewResultsPricingGrid,
+  AICrewResultsPricingHeader,
+  AICrewResultsPricingIcon,
+  AICrewResultsPricingTitle,
+  AICrewResultsSection,
+  AICrewResultsTitle,
+} from "@/components/sections/ai-crew-results-section";
 import {
   AICrewProcessActionGroup,
   AICrewProcessBody,
@@ -417,6 +445,106 @@ export default function AICrewPage() {
         </AICrewProcessGrid>
       </AICrewProcessSection>
       <AICrewSectionsAfterDesignElements />
+      <AICrewResultsSection>
+        <AICrewResultsIntro>
+          <AICrewResultsTitle>
+            現場は仕事が進む<AICrewResultsHighlight>スピード</AICrewResultsHighlight>を、経営は
+            <AICrewResultsHighlight>投資対効果</AICrewResultsHighlight>を実感
+          </AICrewResultsTitle>
+          <AICrewResultsBody>
+            負荷が高い業務から始めることで、現場は業務を前に進めやすくなり、経営も効果とコストを確認しながら導入を広げられます。
+          </AICrewResultsBody>
+        </AICrewResultsIntro>
+
+        <AICrewResultsCards>
+          <AICrewResultsCard icon={Megaphone}>
+            <AICrewResultsCardBody>
+              AIツールを1つ増やした感覚ではなく、実務を支えてくれる新しい同僚という感覚に近いです。
+            </AICrewResultsCardBody>
+            <AICrewResultsCardMeta>
+              <AICrewResultsCardBrand>MK</AICrewResultsCardBrand>
+              <AICrewResultsCardIdentity>
+                <AICrewResultsCardName>マーケティング担当者</AICrewResultsCardName>
+                <AICrewResultsCardCompany>B2B事業会社</AICrewResultsCardCompany>
+              </AICrewResultsCardIdentity>
+            </AICrewResultsCardMeta>
+          </AICrewResultsCard>
+
+          <AICrewResultsCard icon={MessageSquareText} delayMs={70}>
+            <AICrewResultsCardBody>
+              問い合わせ対応の初動が圧倒的に速くなり、担当者が本当に時間を使うべき難易度の高い案件や攻めのサクセス業務に集中できるようになりました。
+            </AICrewResultsCardBody>
+            <AICrewResultsCardMeta>
+              <AICrewResultsCardBrand>CS</AICrewResultsCardBrand>
+              <AICrewResultsCardIdentity>
+                <AICrewResultsCardName>カスタマーサポート責任者</AICrewResultsCardName>
+                <AICrewResultsCardCompany>SaaS運営チーム</AICrewResultsCardCompany>
+              </AICrewResultsCardIdentity>
+            </AICrewResultsCardMeta>
+          </AICrewResultsCard>
+
+          <AICrewResultsCard icon={ChartColumnIncreasing} delayMs={140}>
+            <AICrewResultsCardBody>
+              会議前に必要な市場データや議事録が先に整理されているので、分析担当の準備負荷が劇的に軽くなりました。
+            </AICrewResultsCardBody>
+            <AICrewResultsCardMeta>
+              <AICrewResultsCardBrand>BD</AICrewResultsCardBrand>
+              <AICrewResultsCardIdentity>
+                <AICrewResultsCardName>事業企画マネージャー</AICrewResultsCardName>
+                <AICrewResultsCardCompany>成長フェーズ企業</AICrewResultsCardCompany>
+              </AICrewResultsCardIdentity>
+            </AICrewResultsCardMeta>
+          </AICrewResultsCard>
+
+          <AICrewResultsCard icon={FolderKanban} delayMs={210}>
+            <AICrewResultsCardBody>
+              最初から大きく変えず、まずはこの1つの業務だけと小さく始められたので、現場への導入もスムーズでした。
+            </AICrewResultsCardBody>
+            <AICrewResultsCardMeta>
+              <AICrewResultsCardBrand>OP</AICrewResultsCardBrand>
+              <AICrewResultsCardIdentity>
+                <AICrewResultsCardName>オペレーション統括</AICrewResultsCardName>
+                <AICrewResultsCardCompany>業務支援組織</AICrewResultsCardCompany>
+              </AICrewResultsCardIdentity>
+            </AICrewResultsCardMeta>
+          </AICrewResultsCard>
+        </AICrewResultsCards>
+
+        <AICrewResultsPricing>
+          <AICrewResultsPricingHeader>
+            <AICrewResultsPricingIcon>
+              <Wallet className="h-5 w-5" />
+            </AICrewResultsPricingIcon>
+            <AICrewResultsPricingTitle>
+              固定費ではなく、<AICrewResultsHighlight>業務量に応じたクレジット制</AICrewResultsHighlight>
+            </AICrewResultsPricingTitle>
+            <AICrewResultsPricingBody>
+              <AICrewResultsPricingBodyLine>
+                専用AIエージェントの導入に、多額の初期費用や固定コストは必要ありません。
+              </AICrewResultsPricingBodyLine>
+              <AICrewResultsPricingBodyLine nowrap>
+                人数ではなく、どれだけの業務を支援したかに応じたクレジット制です。まずは、最もボトルネックの大きい業務から小さく始められます。
+              </AICrewResultsPricingBodyLine>
+            </AICrewResultsPricingBody>
+          </AICrewResultsPricingHeader>
+
+          <AICrewResultsPricingGrid>
+            <AICrewResultsPricingCard>
+              <AICrewResultsPricingCardTitle>必要な分だけ使えるコスト設計</AICrewResultsPricingCardTitle>
+              <AICrewResultsPricingCardBody>
+                月額固定ではなく、必要な業務ボリュームに応じて利用量を調整できます。繁忙期と閑散期に合わせて、無駄の少ない運用が可能です。
+              </AICrewResultsPricingCardBody>
+            </AICrewResultsPricingCard>
+
+            <AICrewResultsPricingCard>
+              <AICrewResultsPricingCardTitle>部署をまたいでも管理しやすい</AICrewResultsPricingCardTitle>
+              <AICrewResultsPricingCardBody>
+                マーケティング、経理、人事、開発など、複数部署で活用しても、利用は共通のクレジットで管理できます。導入範囲を広げる際も、コストを把握しやすくなります。
+              </AICrewResultsPricingCardBody>
+            </AICrewResultsPricingCard>
+          </AICrewResultsPricingGrid>
+        </AICrewResultsPricing>
+      </AICrewResultsSection>
       <AICrewContactSection>
         <AICrewContactShell>
           <AICrewContactIntro>
