@@ -22,38 +22,6 @@ export const homePageContent = {
     imageAlt: "オフィスでAIアシスタント画面を活用しながら業務を進めるチームのイメージ",
   },
   floatingCta: { label: "業務に合うAI活用を相談する", href: aiCrewFloatingCtaUrl },
-  roi: {
-    eyebrow: "Technology & Security",
-    title: "実務での安全なAI活用を支える\nエンタープライズAI基盤 QueryPie AIP",
-    body:
-      "自律したAIエージェントを実務で安心安全に活用するために不可欠な要素を兼ね備えています。",
-    cards: [
-      {
-        title: "頭脳 / Brain",
-        body:
-          "業務特性に合わせて最適なLLMを使い分け\n入力した社内データの外部学習はなし",
-        stat: "マルチLLM / データ保護",
-      },
-      {
-        title: "連携 / Connect",
-        body:
-          "ゼロトラスト基準で社内システムと繋がり文脈を理解\nQueryPieが誇る厳格なアクセス制御",
-        stat: "社内連携 / アクセス制御",
-      },
-      {
-        title: "業務知識 / Knowledge",
-        body:
-          "手順書を記憶しハルシネーションを抑える\n自社の信頼できるデータを参照",
-        stat: "業務再現 / 事実参照",
-      },
-      {
-        title: "統制 / Governance",
-        body:
-          "エンタープライズ水準の監査ログ\nシャドーAIや情報漏洩リスクを低減",
-        stat: "監査ログ / 人の承認",
-      },
-    ],
-  },
   roles: {
     eyebrow: "Use Cases",
     title: "まずは、貴社で最も負荷の高い業務から",

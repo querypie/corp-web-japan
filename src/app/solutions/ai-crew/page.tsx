@@ -95,6 +95,23 @@ import {
   HomePageIntroSections,
 } from "@/components/sections/home-page-sections";
 import {
+  AICrewPlatformAccent,
+  AICrewPlatformBody,
+  AICrewPlatformCard,
+  AICrewPlatformCardBody,
+  AICrewPlatformCardBullet,
+  AICrewPlatformCardStat,
+  AICrewPlatformCardTitle,
+  AICrewPlatformCore,
+  AICrewPlatformCoreBody,
+  AICrewPlatformCoreEyebrow,
+  AICrewPlatformCoreTitle,
+  AICrewPlatformDiagram,
+  AICrewPlatformHeader,
+  AICrewPlatformSection,
+  AICrewPlatformTitle,
+} from "@/components/sections/ai-crew-platform-section";
+import {
   AICrewResultsBody,
   AICrewResultsCard,
   AICrewResultsCardBody,
@@ -444,6 +461,66 @@ export default function AICrewPage() {
           </AICrewProcessCtaCard>
         </AICrewProcessGrid>
       </AICrewProcessSection>
+      <AICrewPlatformSection>
+        <AICrewPlatformHeader>
+          <AICrewPlatformTitle>
+            実務での安全なAI活用を支える
+            <br />
+            エンタープライズAI基盤 <AICrewPlatformAccent>QueryPie AIP</AICrewPlatformAccent>
+          </AICrewPlatformTitle>
+          <AICrewPlatformBody>
+            自律したAIエージェントを実務で安心安全に活用するために不可欠な要素を兼ね備えています。
+          </AICrewPlatformBody>
+        </AICrewPlatformHeader>
+
+        <AICrewPlatformDiagram>
+          <AICrewPlatformCore>
+            <AICrewPlatformCoreEyebrow>Secure Enterprise AI</AICrewPlatformCoreEyebrow>
+            <AICrewPlatformCoreTitle>QueryPie AIP</AICrewPlatformCoreTitle>
+            <AICrewPlatformCoreBody>
+              AIエージェントの実務性能と
+              <br className="hidden lg:block" />
+              ガバナンスを支える中核基盤
+            </AICrewPlatformCoreBody>
+          </AICrewPlatformCore>
+
+          <AICrewPlatformCard icon="brain" position="top">
+            <AICrewPlatformCardTitle subtitle="Brain">頭脳</AICrewPlatformCardTitle>
+            <AICrewPlatformCardStat>マルチLLM / データ保護</AICrewPlatformCardStat>
+            <AICrewPlatformCardBody>
+              <AICrewPlatformCardBullet>業務特性に合わせて最適なLLMを使い分け</AICrewPlatformCardBullet>
+              <AICrewPlatformCardBullet>入力した社内データの外部学習はなし</AICrewPlatformCardBullet>
+            </AICrewPlatformCardBody>
+          </AICrewPlatformCard>
+
+          <AICrewPlatformCard icon="connect" position="right">
+            <AICrewPlatformCardTitle subtitle="Connect">連携</AICrewPlatformCardTitle>
+            <AICrewPlatformCardStat>社内連携 / アクセス制御</AICrewPlatformCardStat>
+            <AICrewPlatformCardBody>
+              <AICrewPlatformCardBullet>ゼロトラスト基準で社内システムと繋がり文脈を理解</AICrewPlatformCardBullet>
+              <AICrewPlatformCardBullet>QueryPieが誇る厳格なアクセス制御</AICrewPlatformCardBullet>
+            </AICrewPlatformCardBody>
+          </AICrewPlatformCard>
+
+          <AICrewPlatformCard icon="knowledge" position="bottom">
+            <AICrewPlatformCardTitle subtitle="Knowledge">業務知識</AICrewPlatformCardTitle>
+            <AICrewPlatformCardStat>業務再現 / 事実参照</AICrewPlatformCardStat>
+            <AICrewPlatformCardBody>
+              <AICrewPlatformCardBullet>手順書を記憶しハルシネーションを抑える</AICrewPlatformCardBullet>
+              <AICrewPlatformCardBullet>自社の信頼できるデータを参照</AICrewPlatformCardBullet>
+            </AICrewPlatformCardBody>
+          </AICrewPlatformCard>
+
+          <AICrewPlatformCard icon="governance" position="left">
+            <AICrewPlatformCardTitle subtitle="Governance">統制</AICrewPlatformCardTitle>
+            <AICrewPlatformCardStat>監査ログ / 人の承認</AICrewPlatformCardStat>
+            <AICrewPlatformCardBody>
+              <AICrewPlatformCardBullet>エンタープライズ水準の監査ログ</AICrewPlatformCardBullet>
+              <AICrewPlatformCardBullet>シャドーAIや情報漏洩リスクを低減</AICrewPlatformCardBullet>
+            </AICrewPlatformCardBody>
+          </AICrewPlatformCard>
+        </AICrewPlatformDiagram>
+      </AICrewPlatformSection>
       <AICrewSectionsAfterDesignElements />
       <AICrewResultsSection>
         <AICrewResultsIntro>
