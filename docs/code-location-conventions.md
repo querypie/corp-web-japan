@@ -65,8 +65,6 @@ A good outcome is that a reviewer can open one `page.tsx` file and understand th
 
 Desired direction:
 - `src/app/page.tsx`
-
-Partially refactored and not yet the final desired shape:
 - `src/app/solutions/ai-dashi/page.tsx`
 
 Not aligned and still representative of the old anti-pattern:

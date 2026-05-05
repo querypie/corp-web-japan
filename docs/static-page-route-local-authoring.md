@@ -613,9 +613,6 @@ Use this simple test:
 Desired reference:
 
 - `src/app/page.tsx`
-
-Partial / intermediate reference:
-
 - `src/app/solutions/ai-dashi/page.tsx`
 
 Wrong / pre-refactor reference:
