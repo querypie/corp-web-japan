@@ -342,8 +342,7 @@ export function AICrewUseCaseTabbedCard({
     <UseCaseCardChrome
       body={
         <>
-          {body ? <div>{body}</div> : null}
-          {activeTab ? <div className={body ? "mt-4" : undefined}>{activeTab.props.children}</div> : null}
+          {activeTab ? <div>{activeTab.props.children}</div> : body ? <div>{body}</div> : null}
           {tabs.length > 0 ? (
             <div className="mt-4 flex flex-wrap gap-2">
               {tabs.map((tab, tabIndex) => (
