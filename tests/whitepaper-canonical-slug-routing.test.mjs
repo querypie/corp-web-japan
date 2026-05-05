@@ -40,7 +40,8 @@ test("whitepaper list page is driven by MDX-derived whitepaper items", () => {
 
   assert.match(whitepapersPage, /import \{ listWhitepaperPublicationItems \} from "@\/lib\/publications\/whitepaper-publication-records"/);
   assert.match(whitepapersPage, /listWhitepaperPublicationItems\(/);
-  assert.match(whitepapersPage, /const whitepaperItems = await listWhitepaperPublicationItems\(\);/);
+  assert.match(whitepapersPage, /const \[whitepaperItems, resolvedSearchParams\] = await Promise\.all\(\[listWhitepaperPublicationItems\(\), searchParams\]\);/);
+  assert.match(whitepapersPage, /const initialVisibleCount = resolveResourceListVisibleCount\(whitepaperItems, resolvedSearchParams\?\.until\);/);
   assert.match(whitepapersPage, /items=\{whitepaperItems\}/);
   assert.match(resources, /import \{ listWhitepaperPublicationItems \} from "@\/lib\/publications\/whitepaper-publication-records"/);
   assert.match(resources, /export const whitepaperItems = listWhitepaperPublicationItems\(\);/);
@@ -56,6 +57,8 @@ test("whitepaper index page directly composes the resource-list hero and uses th
   assert.match(source, /ResourceListHeroDescription>/);
   assert.match(source, /ResourceCategorySidebar/);
   assert.match(source, /<ResourceCategorySidebar activeLabel="ホワイトペーパー" \/>/);
-  assert.match(source, /ResourceListItems items=\{whitepaperItems\}/);
+  assert.match(source, /ResourceListLoadMore/);
+  assert.match(source, /items=\{whitepaperItems\}/);
+  assert.match(source, /initialVisibleCount=\{initialVisibleCount\}/);
   assert.doesNotMatch(source, /ResourceListPage/);
 });

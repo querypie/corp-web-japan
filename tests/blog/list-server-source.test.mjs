@@ -6,7 +6,8 @@ test("blog index page reads blog list items from a server loader instead of a st
   const source = readSource("src/app/blog/page.tsx");
 
   assert.match(source, /listBlogPublicationItems\(/);
-  assert.match(source, /const blogItems = await listBlogPublicationItems\(\);/);
+  assert.match(source, /const \[blogItems, resolvedSearchParams\] = await Promise\.all\(\[listBlogPublicationItems\(\), searchParams\]\);/);
+  assert.match(source, /const initialVisibleCount = resolveResourceListVisibleCount\(blogItems, resolvedSearchParams\?\.until\);/);
   assert.doesNotMatch(source, /import\s*\{\s*blogItems\s*\}\s*from\s*"@\/content\/publications\/blog"/);
 });
 
@@ -18,7 +19,9 @@ test("blog index page directly composes the resource-list hero and uses the conc
   assert.match(source, /ResourceListHeroDescription>/);
   assert.match(source, /ResourceCategorySidebar/);
   assert.match(source, /<ResourceCategorySidebar activeLabel="ブログ" \/>/);
-  assert.match(source, /ResourceListItems items=\{blogItems\}/);
+  assert.match(source, /ResourceListLoadMore/);
+  assert.match(source, /items=\{blogItems\}/);
+  assert.match(source, /initialVisibleCount=\{initialVisibleCount\}/);
   assert.doesNotMatch(source, /ResourceListPage/);
 });
 
