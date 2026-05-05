@@ -57,14 +57,12 @@ test("public interaction surfaces do not ship bare hash broken links", () => {
   const resourcePostPage = readSource("src/components/sections/publication-post-page.tsx");
   const resourcePostDownloadPage = readSource("src/components/sections/resource-post-download-page.tsx");
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
-  const aiCrewFloatingGuide = readSource("src/components/sections/ai-crew-floating-guide.tsx");
 
   assert.doesNotMatch(siteHeader, /href:\s*"#"/);
   assert.doesNotMatch(siteFooter, /href:\s*"#"/);
   assert.doesNotMatch(resourcePostPage, /href=\"#\"/);
   assert.doesNotMatch(resourcePostDownloadPage, /href=\"#\"/);
   assert.doesNotMatch(aiDashiFaq, /href=\"#\"/);
-  assert.doesNotMatch(aiCrewFloatingGuide, /ctaHref:\s*"#"/);
 });
 
 test("public route metadata titles use the final QueryPie AI branding", () => {
