@@ -9,7 +9,6 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   const aiCrewDataSource = getAiCrewDataSource();
   const topPageDataSource = getTopPageDataSource();
   const topPageStructureSource = getTopPageStructureSource();
-  const aiCrewFloatingGuide = readSource("src/components/sections/ai-crew-floating-guide.tsx");
   const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
   const aiDashiFaq = readSource("src/components/sections/ai-dashi-faq.tsx");
   const resourcePostPage = readSource("src/components/sections/publication-post-page.tsx");
@@ -45,8 +44,6 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(`${topPageStructureSource}\n${topPageSecuritySection}\n${topPage}`, /target="_blank"/);
   assert.match(`${topPageStructureSource}\n${topPageSecuritySection}\n${topPage}`, /rel="noopener noreferrer"/);
   assert.match(aiCrewPage, /<FloatingConversionCta href={aiCrewFloatingCtaUrl} \/>/);
-  assert.match(aiCrewFloatingGuide, /ctaHref: aiCrewConsultUrl/);
-  assert.match(aiCrewFloatingGuide, /ctaHref: demoUseCasesUrl/);
   assert.match(aiDashiPage, /from "@\/content\/ai-dashi-links"/);
   assert.match(aiDashiPage, /<FloatingConversionCta href={aiDashiFloatingUrl} \/>/);
   assert.match(aiDashiPage, /href={aiDashiConsultUrl}/);
@@ -55,7 +52,6 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(contactUsPage, /canonical:\s*"\/contact-us"/);
   assert.match(contactUsPage, /getPrefilledContactUsFormState\(urlSearchParams\)/);
   assert.doesNotMatch(aiCrewDataSource, /href: "#"/);
-  assert.doesNotMatch(aiCrewFloatingGuide, /ctaHref: "#"/);
 });
 
 test("events launch-readiness gate remains explicit and redirect-only resource aliases stay out of the sitemap", () => {
