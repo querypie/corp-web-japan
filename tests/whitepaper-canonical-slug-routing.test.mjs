@@ -47,3 +47,17 @@ test("whitepaper list page is driven by MDX-derived whitepaper items", () => {
   assert.doesNotMatch(resources, /querypieJapanWhitepaperItems/);
   assert.doesNotMatch(resources, /publications\/whitepaper"/);
 });
+
+test("whitepaper index page directly composes the resource-list hero and sidebar sections", () => {
+  const source = readSource("src/app/whitepapers/page.tsx");
+
+  assert.match(source, /ResourceListHeroSection/);
+  assert.match(source, /ResourceListHeroTitle>ホワイトペーパー<\/ResourceListHeroTitle>/);
+  assert.match(source, /ResourceListHeroDescription>/);
+  assert.match(source, /ResourceListSidebar>/);
+  assert.match(source, /ResourceListSidebarViewport>/);
+  assert.match(source, /ResourceListSidebarNav label="Sidebar Navigation"/);
+  assert.match(source, /ResourceListItems items=\{whitepaperItems\}/);
+  assert.match(source, /\{ label: "ホワイトペーパー", href: "\/whitepapers", active: true \}/);
+  assert.doesNotMatch(source, /ResourceListPage/);
+});
