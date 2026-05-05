@@ -85,10 +85,10 @@ test("internal mdx list demo uses the generic CTA section primitives instead of 
   const ctaSectionSource = readSource("src/components/sections/cta-section.tsx");
 
   assert.match(demoSource, /from "@\/components\/sections\/cta-section"/);
-  assert.match(demoSource, /<CtaSection>/);
+  assert.match(demoSource, /<SimpleCtaSection>/);
   assert.doesNotMatch(demoSource, /ResourceListCtaSection/);
 
-  assert.match(ctaSectionSource, /export function CtaSection/);
+  assert.match(ctaSectionSource, /export function SimpleCtaSection/);
   assert.match(ctaSectionSource, /export function CtaTitle/);
   assert.match(ctaSectionSource, /export function CtaButton/);
   assert.doesNotMatch(resourceListSectionSource, /ResourceListCtaSection/);

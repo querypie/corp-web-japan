@@ -10,7 +10,7 @@ type SectionWithContentProps = ClassNameProps & {
   contentClassName?: string;
 };
 
-export function CtaSection({
+export function SimpleCtaSection({
   children,
   className = "",
   contentClassName = "",
