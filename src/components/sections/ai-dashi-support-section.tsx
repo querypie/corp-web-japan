@@ -20,11 +20,7 @@ export function AIDashiSupportIntro({ children }: { children: ReactNode }) {
 }
 
 export function AIDashiSupportTitle({ children }: { children: ReactNode }) {
-  return (
-    <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
-      {children}
-    </h2>
-  );
+  return <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">{children}</h2>;
 }
 
 export function AIDashiSupportBody({ children }: { children: ReactNode }) {
@@ -40,18 +36,14 @@ export function AIDashiSupportCards({ children }: { children: ReactNode }) {
 }
 
 export function AIDashiSupportCard({ children }: { children: ReactNode }) {
-  return (
-    <article className="rounded-[1.45rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.94)_100%)] px-4 py-3.5 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.14)] ring-1 ring-white/80 transition duration-300 hover:-translate-y-1 hover:shadow-md md:px-5 md:py-4">
-      {children}
-    </article>
-  );
+  return <article className="rounded-[1.45rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.94)_100%)] px-4 py-3.5 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.14)] ring-1 ring-white/80 transition duration-300 hover:-translate-y-1 hover:shadow-md md:px-5 md:py-4">{children}</article>;
 }
 
 export function AIDashiSupportCardLayout({ children }: { children: ReactNode }) {
   return <div className="flex flex-col gap-3 md:grid md:grid-cols-[minmax(0,500px)_minmax(0,1fr)] md:items-start md:gap-4">{children}</div>;
 }
 
-export function AIDashiSupportCardHeader({ children }: { children: ReactNode }) {
+export function AIDashiSupportCardSummary({ children }: { children: ReactNode }) {
   return <div className="flex items-start gap-3.5">{children}</div>;
 }
 
@@ -59,7 +51,7 @@ export function AIDashiSupportCardIcon({ children }: { children: ReactNode }) {
   return <div className="flex h-10 w-10 flex-none items-center justify-center rounded-[12px] bg-[linear-gradient(180deg,#f3f6fa_0%,#e9eef5_100%)] text-[#15181d] md:h-11 md:w-11">{children}</div>;
 }
 
-export function AIDashiSupportCardText({ children }: { children: ReactNode }) {
+export function AIDashiSupportCardCopy({ children }: { children: ReactNode }) {
   return <div className="min-w-0 flex-1 pt-0.5">{children}</div>;
 }
 
