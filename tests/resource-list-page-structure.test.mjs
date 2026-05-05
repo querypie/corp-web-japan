@@ -82,9 +82,9 @@ test("shared ResourceListPage wrapper component has been removed", () => {
 test("internal mdx list demo uses the generic CTA section primitives instead of resource-list-specific CTA names", () => {
   const demoSource = readSource("src/app/internal/mdx-list-demo/page.tsx");
   const resourceListSectionSource = readSource("src/components/sections/resource-list-section.tsx");
-  const ctaSectionSource = readSource("src/components/sections/cta-section.tsx");
+  const ctaSectionSource = readSource("src/components/sections/simple-cta-section.tsx");
 
-  assert.match(demoSource, /from "@\/components\/sections\/cta-section"/);
+  assert.match(demoSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(demoSource, /<SimpleCtaSection>/);
   assert.doesNotMatch(demoSource, /ResourceListCtaSection/);
 

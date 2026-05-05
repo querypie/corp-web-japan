@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
-import { CtaActions, CtaContent, CtaCopy, CtaDescription, SimpleCtaSection, CtaTitle } from "@/components/sections/cta-section";
+import { CtaActions, CtaContent, CtaCopy, CtaDescription, SimpleCtaSection, CtaTitle } from "@/components/sections/simple-cta-section";
 import { ResourceListContentSection, ResourceListHeroDescription, ResourceListHeroSection, ResourceListHeroTitle, ResourceListItems } from "@/components/sections/resource-list-section";
 import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 import { listBlogPublicationItems } from "@/lib/publications/blog-publication-records";
