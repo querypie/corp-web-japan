@@ -46,6 +46,7 @@ test("AI Crew route-local authoring keeps why, design-elements, and process copy
   assert.match(aiCrewPage, /AICrewProcessSection/);
   assert.match(aiCrewPage, /AICrewProcessTitle/);
   assert.match(aiCrewPage, /導入は5ステップ、任せやすい業務から/);
+  assert.match(aiCrewPage, /<strong>小さく始める<\/strong>/);
   assert.match(aiCrewPage, /STEP 01/);
   assert.match(aiCrewPage, /STEP 05/);
   assert.match(aiCrewPage, /進め方を相談する/);
@@ -67,6 +68,8 @@ test("AI Crew route-local authoring keeps why, design-elements, and process copy
   assert.match(aiCrewStructureSource, /export function AICrewDesignElementsSection/);
   assert.match(aiCrewStructureSource, /export function AICrewDesignElementCard/);
   assert.match(aiCrewStructureSource, /export function AICrewProcessSection/);
+  assert.match(aiCrewStructureSource, /export function AICrewProcessTitle/);
+  assert.match(aiCrewStructureSource, /\[&_strong\]:bg-\[linear-gradient\(135deg,#0F2A5F_0%,#174EA6_48%,#2563EB_78%,#93C5FD_100%\)\]/);
   assert.match(aiCrewStructureSource, /export function AICrewProcessStepCard/);
   assert.match(aiCrewStructureSource, /export function AICrewProcessSecondaryAction/);
   assert.match(aiCrewStructureSource, /export function AICrewSectionsAfterDesignElements/);

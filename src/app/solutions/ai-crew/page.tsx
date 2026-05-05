@@ -325,9 +325,7 @@ export default function AICrewPage() {
         <AICrewProcessIntro>
           <AICrewProcessTitle>
             導入は5ステップ、任せやすい業務から
-            <span className="bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_48%,#2563EB_78%,#93C5FD_100%)] bg-clip-text text-transparent [animation:heroAccentGlow_3.2s_ease-in-out_infinite] motion-reduce:animate-none">
-              小さく始める
-            </span>
+            <strong>小さく始める</strong>
           </AICrewProcessTitle>
           <AICrewProcessBody>{`業務課題のヒアリングから、テスト導入（PoC）、試作版の構築、本番導入、改善までを一気通貫で支援します。
 いきなり全社導入する必要はありません。まずは1つの業務から始め、成果が見えた領域から広げられます。`}</AICrewProcessBody>
