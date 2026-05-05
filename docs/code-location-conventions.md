@@ -63,14 +63,17 @@ A good outcome is that a reviewer can open one `page.tsx` file and understand th
 
 ### Current examples
 
-Desired direction:
+Desired reference:
 - `src/app/page.tsx`
 
-Partially refactored and not yet the final desired shape:
+Aligned solution-page reference:
+- `src/app/solutions/ai-crew/page.tsx`
+
+Partial / intermediate reference:
 - `src/app/solutions/ai-dashi/page.tsx`
 
-Not aligned and still representative of the old anti-pattern:
-- `src/app/solutions/ai-crew/page.tsx`
+Historical anti-pattern to avoid:
+- pages where `page.tsx` mostly wires together a large page-specific content registry under `src/content/**` and a giant page-specific wrapper from `src/components/sections/**`
 
 ### Practical migration rule for large static pages
 
