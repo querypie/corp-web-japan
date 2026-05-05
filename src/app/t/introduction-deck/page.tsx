@@ -1,7 +1,21 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { ResourceListPage } from "@/components/sections/resource-list-page";
+import {
+  ResourceListContentSection,
+  ResourceListHeroDescription,
+  ResourceListHeroSection,
+  ResourceListHeroTitle,
+  ResourceListItems,
+  ResourceListSidebar,
+  ResourceListSidebarItem,
+  ResourceListSidebarLabel,
+  ResourceListSidebarLink,
+  ResourceListSidebarList,
+  ResourceListSidebarNav,
+  ResourceListSidebarViewport,
+  type ResourceCategoryLink,
+} from "@/components/sections/resource-list-section";
 import { listIntroductionDeckPublicationItems } from "@/lib/resources/introduction-deck-publications";
 
 export const metadata: Metadata = {
@@ -16,19 +30,48 @@ export const metadata: Metadata = {
   },
 };
 
+const sidebarLinks: readonly ResourceCategoryLink[] = [
+  { label: "全て", href: "/t/resources" },
+  { label: "紹介資料", href: "/t/introduction-deck" },
+  { label: "用語集", href: "/t/glossary" },
+  { label: "マニュアル", href: "/t/manuals" },
+  { label: "ホワイトペーパー", href: "/t/whitepapers" },
+  { label: "ブログ", href: "/t/blog" },
+] as const;
+
 export default function PreviewIntroductionDeckPage() {
   const items = listIntroductionDeckPublicationItems();
 
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
-      <ResourceListPage
-        title="紹介資料"
-        description="corp-web-contents の introduction-deck source を local MDX detail route として移設した preview 一覧です。"
-        activeCategory="introduction-deck"
-        items={items}
-        sidebarBasePath="/t"
-      />
+
+      <ResourceListHeroSection>
+        <ResourceListHeroTitle>紹介資料</ResourceListHeroTitle>
+        <ResourceListHeroDescription>corp-web-contents の introduction-deck source を local MDX detail route として移設した preview 一覧です。</ResourceListHeroDescription>
+      </ResourceListHeroSection>
+
+      <ResourceListContentSection>
+        <ResourceListSidebar>
+          <ResourceListSidebarLabel>カテゴリー</ResourceListSidebarLabel>
+          <ResourceListSidebarViewport>
+            <ResourceListSidebarNav label="Sidebar Navigation">
+              <ResourceListSidebarList>
+                {sidebarLinks.map((link) => (
+                  <ResourceListSidebarItem key={link.label}>
+                    <ResourceListSidebarLink href={link.href} active={link.label === "紹介資料"} label={link.label}>
+                      {link.label}
+                    </ResourceListSidebarLink>
+                  </ResourceListSidebarItem>
+                ))}
+              </ResourceListSidebarList>
+            </ResourceListSidebarNav>
+          </ResourceListSidebarViewport>
+        </ResourceListSidebar>
+
+        <ResourceListItems items={items} />
+      </ResourceListContentSection>
+
       <SiteFooter />
     </main>
   );
