@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourceListLoadMore } from "@/components/sections/resource-list-load-more";
-import { PublicResourceSidebar } from "@/components/sections/resource-list-public-sidebar";
+import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
 import {
   ResourceListContentSection,
   ResourceListHeroDescription,
@@ -43,7 +43,7 @@ export default async function InternalLoadMorePage({ searchParams }: InternalLoa
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
-        <PublicResourceSidebar activeLabel="ブログ" />
+        <ResourceCategorySidebar activeLabel="ブログ" />
 
         <ResourceListLoadMore
           key={`blog:${initialVisibleCount}`}

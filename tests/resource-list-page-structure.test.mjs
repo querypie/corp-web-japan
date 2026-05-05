@@ -39,14 +39,14 @@ test("public resource-list routes use the concrete public sidebar component", ()
     "src/app/t/demo/acp/page.tsx",
   ]) {
     const source = readSource(path);
-    assert.match(source, /PublicResourceSidebar/);
+    assert.match(source, /ResourceCategorySidebar/);
   }
 });
 
 test("public resource sidebar concrete component owns the public category links and sidebar markup", () => {
-  const source = readSource("src/components/sections/resource-list-public-sidebar.tsx");
+  const source = readSource("src/components/sections/resource-category-sidebar.tsx");
 
-  assert.match(source, /export const publicResourceSidebarLinks/);
+  assert.match(source, /export const resourceCategorySidebarLinks/);
   assert.match(source, /\{ label: "全て", href: "\/resources" \}/);
   assert.match(source, /\{ label: "紹介資料", href: "\/introduction-deck" \}/);
   assert.match(source, /\{ label: "用語集", href: "\/glossary" \}/);

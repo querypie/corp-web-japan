@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { PublicResourceSidebar } from "@/components/sections/resource-list-public-sidebar";
+import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
 import {
   ResourceListContentSection,
   ResourceListHeroDescription,
@@ -46,7 +46,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
-        <PublicResourceSidebar />
+        <ResourceCategorySidebar />
 
         <ResourceListItems items={eventItems} />
       </ResourceListContentSection>

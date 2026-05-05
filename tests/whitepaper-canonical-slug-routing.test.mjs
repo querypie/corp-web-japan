@@ -54,8 +54,8 @@ test("whitepaper index page directly composes the resource-list hero and uses th
   assert.match(source, /ResourceListHeroSection/);
   assert.match(source, /ResourceListHeroTitle>ホワイトペーパー<\/ResourceListHeroTitle>/);
   assert.match(source, /ResourceListHeroDescription>/);
-  assert.match(source, /PublicResourceSidebar/);
-  assert.match(source, /<PublicResourceSidebar activeLabel="ホワイトペーパー" \/>/);
+  assert.match(source, /ResourceCategorySidebar/);
+  assert.match(source, /<ResourceCategorySidebar activeLabel="ホワイトペーパー" \/>/);
   assert.match(source, /ResourceListItems items=\{whitepaperItems\}/);
   assert.doesNotMatch(source, /ResourceListPage/);
 });

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { PublicResourceSidebar } from "@/components/sections/resource-list-public-sidebar";
+import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
 import {
   ResourceListContentSection,
   ResourceListHeroDescription,
@@ -34,7 +34,7 @@ export default async function BlogPage() {
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
-        <PublicResourceSidebar activeLabel="ブログ" />
+        <ResourceCategorySidebar activeLabel="ブログ" />
 
         <ResourceListItems items={blogItems} />
       </ResourceListContentSection>

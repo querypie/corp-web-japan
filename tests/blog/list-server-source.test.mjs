@@ -16,8 +16,8 @@ test("blog index page directly composes the resource-list hero and uses the conc
   assert.match(source, /ResourceListHeroSection/);
   assert.match(source, /ResourceListHeroTitle>ブログ<\/ResourceListHeroTitle>/);
   assert.match(source, /ResourceListHeroDescription>/);
-  assert.match(source, /PublicResourceSidebar/);
-  assert.match(source, /<PublicResourceSidebar activeLabel="ブログ" \/>/);
+  assert.match(source, /ResourceCategorySidebar/);
+  assert.match(source, /<ResourceCategorySidebar activeLabel="ブログ" \/>/);
   assert.match(source, /ResourceListItems items=\{blogItems\}/);
   assert.doesNotMatch(source, /ResourceListPage/);
 });
