@@ -60,9 +60,9 @@ test("AI Crew route-local authoring keeps platform, why, design-elements, proces
 
   assert.match(aiCrewPage, /AICrewUseCasesSection/);
   assert.match(aiCrewPage, /AICrewUseCasesTitle>まずは、貴社で最も負荷の高い業務から/);
-  assert.match(aiCrewPage, /AICrewUseCaseCardTitle>SEO分析/);
-  assert.match(aiCrewPage, /AICrewUseCaseCardTitle>開発インサイト/);
-  assert.match(aiCrewPage, /AICrewUseCaseCardTitle>データ分析/);
+  assert.match(aiCrewPage, /AICrewUseCaseCardTitle slot="card-title">SEO分析/);
+  assert.match(aiCrewPage, /AICrewUseCaseCardTitle slot="card-title">開発インサイト/);
+  assert.match(aiCrewPage, /AICrewUseCaseCardTitle slot="card-title">データ分析/);
   assert.match(aiCrewPage, /AICrewUseCaseTabbedCard icon="wallet"/);
   assert.match(aiCrewPage, /見積関連文書の確認から、複雑な見積ロジックに基づく出力までを支援。属人化しやすい見積業務を効率化します。/);
   assert.match(aiCrewPage, /label="見積分析"/);
@@ -101,6 +101,11 @@ test("AI Crew route-local authoring keeps platform, why, design-elements, proces
   assert.match(aiCrewStructureSource, /export function AICrewUseCasesSection/);
   assert.match(aiCrewStructureSource, /export function AICrewUseCaseCard/);
   assert.match(aiCrewStructureSource, /export function AICrewUseCaseTabbedCard/);
+  assert.match(aiCrewStructureSource, /type AICrewUseCaseCardSlot = "card-category" \| "card-title" \| "card-body";/);
+  assert.doesNotMatch(aiCrewStructureSource, /child\.type === AICrewUseCaseCardCategory/);
+  assert.doesNotMatch(aiCrewStructureSource, /child\.type === AICrewUseCaseCardTitle/);
+  assert.doesNotMatch(aiCrewStructureSource, /child\.type === AICrewUseCaseCardBody/);
+  assert.doesNotMatch(aiCrewStructureSource, /child\.type === AICrewUseCaseTab/);
   assert.match(aiCrewStructureSource, /export function AICrewResultsSection/);
   assert.match(aiCrewStructureSource, /export function AICrewResultsCard/);
   assert.doesNotMatch(aiCrewStructureSource, /featureIntro\.subtitle/);

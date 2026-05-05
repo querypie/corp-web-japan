@@ -550,17 +550,17 @@ export default function AICrewPage() {
             videoHref="https://youtu.be/K-ld_s4Che0"
             detailHref="https://www.querypie.com/ja/features/demo/use-cases/29/seo-analyst"
           >
-            <AICrewUseCaseCardCategory>マーケティング</AICrewUseCaseCardCategory>
-            <AICrewUseCaseCardTitle>SEO分析</AICrewUseCaseCardTitle>
-            <AICrewUseCaseCardBody>
+            <AICrewUseCaseCardCategory slot="card-category">マーケティング</AICrewUseCaseCardCategory>
+            <AICrewUseCaseCardTitle slot="card-title">SEO分析</AICrewUseCaseCardTitle>
+            <AICrewUseCaseCardBody slot="card-body">
               サイト分析、改善ポイント整理、ダッシュボード化までを短時間で支援。SEOの現状把握と次の打ち手を見えやすくします。
             </AICrewUseCaseCardBody>
           </AICrewUseCaseCard>
 
           <AICrewUseCaseTabbedCard icon="wallet" delayMs={90}>
-            <AICrewUseCaseCardCategory>見積・営業</AICrewUseCaseCardCategory>
-            <AICrewUseCaseCardTitle>見積業務</AICrewUseCaseCardTitle>
-            <AICrewUseCaseCardBody>
+            <AICrewUseCaseCardCategory slot="card-category">見積・営業</AICrewUseCaseCardCategory>
+            <AICrewUseCaseCardTitle slot="card-title">見積業務</AICrewUseCaseCardTitle>
+            <AICrewUseCaseCardBody slot="card-body">
               見積関連文書の確認から、複雑な見積ロジックに基づく出力までを支援。属人化しやすい見積業務を効率化します。
             </AICrewUseCaseCardBody>
             <AICrewUseCaseTab
@@ -585,9 +585,9 @@ export default function AICrewPage() {
             videoHref="https://youtu.be/cWC5lzN1JnE"
             detailHref="https://www.querypie.com/ja/features/demo/use-cases/16/dev-insight-ai-agent"
           >
-            <AICrewUseCaseCardCategory>開発</AICrewUseCaseCardCategory>
-            <AICrewUseCaseCardTitle>開発インサイト</AICrewUseCaseCardTitle>
-            <AICrewUseCaseCardBody>
+            <AICrewUseCaseCardCategory slot="card-category">開発</AICrewUseCaseCardCategory>
+            <AICrewUseCaseCardTitle slot="card-title">開発インサイト</AICrewUseCaseCardTitle>
+            <AICrewUseCaseCardBody slot="card-body">
               Git、PR、チケット、CI/CD、インシデントを横断し、開発状況とリスクを会話型で可視化。開発チームの意思決定を支援します。
             </AICrewUseCaseCardBody>
           </AICrewUseCaseCard>
@@ -598,9 +598,9 @@ export default function AICrewPage() {
             videoHref="https://youtu.be/f_yM6dinVU4"
             detailHref="https://www.querypie.com/ja/features/demo/use-cases/7/data-analytics-agent"
           >
-            <AICrewUseCaseCardCategory>分析・経営</AICrewUseCaseCardCategory>
-            <AICrewUseCaseCardTitle>データ分析</AICrewUseCaseCardTitle>
-            <AICrewUseCaseCardBody>
+            <AICrewUseCaseCardCategory slot="card-category">分析・経営</AICrewUseCaseCardCategory>
+            <AICrewUseCaseCardTitle slot="card-title">データ分析</AICrewUseCaseCardTitle>
+            <AICrewUseCaseCardBody slot="card-body">
               自然言語での質問から、データ抽出、可視化、インサイト整理までを支援。アドホックな分析依頼やレポート作成の負荷を下げます。
             </AICrewUseCaseCardBody>
           </AICrewUseCaseCard>

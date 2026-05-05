@@ -213,16 +213,25 @@ export function AICrewUseCasesGrid({ children }: { children: ReactNode }) {
   return <div className="relative mx-auto mt-10 grid max-w-[980px] gap-4 md:grid-cols-2">{children}</div>;
 }
 
-export function AICrewUseCaseCardCategory({ children }: { children: ReactNode }) {
+export function AICrewUseCaseCardCategory({ children }: { children: ReactNode; slot: AICrewUseCaseCardSlot }) {
   return <>{children}</>;
 }
 
-export function AICrewUseCaseCardTitle({ children }: { children: ReactNode }) {
+export function AICrewUseCaseCardTitle({ children }: { children: ReactNode; slot: AICrewUseCaseCardSlot }) {
   return <>{children}</>;
 }
 
-export function AICrewUseCaseCardBody({ children }: { children: ReactNode }) {
+export function AICrewUseCaseCardBody({ children }: { children: ReactNode; slot: AICrewUseCaseCardSlot }) {
   return <>{children}</>;
+}
+
+function isCardSlotElement(node: ReactNode): node is ReactElement<AICrewUseCaseCardSlotProps> {
+  return (
+    isValidElement<AICrewUseCaseCardSlotProps>(node) &&
+    typeof node.props === "object" &&
+    node.props !== null &&
+    typeof node.props.slot === "string"
+  );
 }
 
 function readCardContent(children: ReactNode) {
@@ -231,21 +240,21 @@ function readCardContent(children: ReactNode) {
   let body: ReactNode = null;
 
   for (const child of Children.toArray(children)) {
-    if (!isValidElement<{ children?: ReactNode }>(child)) {
+    if (!isCardSlotElement(child)) {
       continue;
     }
 
-    if (child.type === AICrewUseCaseCardCategory) {
+    if (child.props.slot === "card-category") {
       category = child.props.children;
       continue;
     }
 
-    if (child.type === AICrewUseCaseCardTitle) {
+    if (child.props.slot === "card-title") {
       title = child.props.children;
       continue;
     }
 
-    if (child.type === AICrewUseCaseCardBody) {
+    if (child.props.slot === "card-body") {
       body = child.props.children;
     }
   }
@@ -281,6 +290,13 @@ export function AICrewUseCaseCard({
   );
 }
 
+type AICrewUseCaseCardSlot = "card-category" | "card-title" | "card-body";
+
+type AICrewUseCaseCardSlotProps = {
+  children: ReactNode;
+  slot: AICrewUseCaseCardSlot;
+};
+
 type AICrewUseCaseTabProps = {
   children: ReactNode;
   detailHref: string;
@@ -293,10 +309,19 @@ export function AICrewUseCaseTab(_props: AICrewUseCaseTabProps) {
   return null;
 }
 
-function getUseCaseTabs(children: ReactNode) {
-  return Children.toArray(children).filter(
-    (child): child is ReactElement<AICrewUseCaseTabProps> => isValidElement<AICrewUseCaseTabProps>(child) && child.type === AICrewUseCaseTab,
+function isUseCaseTabElement(node: ReactNode): node is ReactElement<AICrewUseCaseTabProps> {
+  return (
+    isValidElement<AICrewUseCaseTabProps>(node) &&
+    typeof node.props === "object" &&
+    node.props !== null &&
+    typeof node.props.label === "string" &&
+    typeof node.props.detailHref === "string" &&
+    typeof node.props.videoHref === "string"
   );
+}
+
+function getUseCaseTabs(children: ReactNode) {
+  return Children.toArray(children).filter(isUseCaseTabElement);
 }
 
 export function AICrewUseCaseTabbedCard({
