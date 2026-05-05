@@ -1,6 +1,6 @@
 import type { ResourceItem } from "@/content/resources";
 
-export const DEFAULT_RESOURCE_LIST_CHUNK_SIZE = 8;
+export const DEFAULT_RESOURCE_LIST_CHUNK_SIZE = 12;
 
 type ResourceItemWithId = Pick<ResourceItem, "id">;
 

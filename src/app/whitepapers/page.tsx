@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { ResourceListLoadMore } from "@/components/sections/resource-list-load-more";
 import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
 import {
   ResourceListContentSection,
   ResourceListHeroDescription,
   ResourceListHeroSection,
   ResourceListHeroTitle,
-  ResourceListItems,
 } from "@/components/sections/resource-list-section";
 import { listWhitepaperPublicationItems } from "@/lib/publications/whitepaper-publication-records";
+import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
 export const metadata: Metadata = {
   title: "ホワイトペーパー | QueryPie AI",
@@ -19,8 +20,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function WhitepaperPage() {
-  const whitepaperItems = await listWhitepaperPublicationItems();
+type WhitepaperPageProps = {
+  searchParams?: Promise<{
+    until?: string | string[];
+  }>;
+};
+
+export default async function WhitepaperPage({ searchParams }: WhitepaperPageProps) {
+  const [whitepaperItems, resolvedSearchParams] = await Promise.all([listWhitepaperPublicationItems(), searchParams]);
+  const initialVisibleCount = resolveResourceListVisibleCount(whitepaperItems, resolvedSearchParams?.until);
 
   return (
     <main className="relative bg-white text-slate-950">
@@ -38,7 +46,11 @@ export default async function WhitepaperPage() {
       <ResourceListContentSection>
         <ResourceCategorySidebar activeLabel="ホワイトペーパー" />
 
-        <ResourceListItems items={whitepaperItems} />
+        <ResourceListLoadMore
+          key={`whitepaper:${initialVisibleCount}`}
+          items={whitepaperItems}
+          initialVisibleCount={initialVisibleCount}
+        />
       </ResourceListContentSection>
 
       <SiteFooter />

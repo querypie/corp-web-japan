@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { ResourceListLoadMore } from "@/components/sections/resource-list-load-more";
 import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
 import {
   ResourceListContentSection,
   ResourceListHeroDescription,
   ResourceListHeroSection,
   ResourceListHeroTitle,
-  ResourceListItems,
 } from "@/components/sections/resource-list-section";
 import { listBlogPublicationItems } from "@/lib/publications/blog-publication-records";
+import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
 export const metadata: Metadata = {
   title: "ブログ | QueryPie AI",
@@ -19,8 +20,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function BlogPage() {
-  const blogItems = await listBlogPublicationItems();
+type BlogPageProps = {
+  searchParams?: Promise<{
+    until?: string | string[];
+  }>;
+};
+
+export default async function BlogPage({ searchParams }: BlogPageProps) {
+  const [blogItems, resolvedSearchParams] = await Promise.all([listBlogPublicationItems(), searchParams]);
+  const initialVisibleCount = resolveResourceListVisibleCount(blogItems, resolvedSearchParams?.until);
 
   return (
     <main className="relative bg-white text-slate-950">
@@ -38,7 +46,11 @@ export default async function BlogPage() {
       <ResourceListContentSection>
         <ResourceCategorySidebar activeLabel="ブログ" />
 
-        <ResourceListItems items={blogItems} />
+        <ResourceListLoadMore
+          key={`blog:${initialVisibleCount}`}
+          items={blogItems}
+          initialVisibleCount={initialVisibleCount}
+        />
       </ResourceListContentSection>
 
       <SiteFooter />
