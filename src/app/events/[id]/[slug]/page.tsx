@@ -30,6 +30,15 @@ export async function generateMetadata({ params }: EventDetailPageProps): Promis
     return {};
   }
 
+  if (record.redirectUrl) {
+    return {
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
   return {
     title: record.title + " | QueryPie AI",
     description: record.description,
@@ -49,6 +58,10 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
 
   if (!record) {
     notFound();
+  }
+
+  if (record.redirectUrl) {
+    redirect(record.redirectUrl);
   }
 
   if (record.slug !== slug) {

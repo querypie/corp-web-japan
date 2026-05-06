@@ -8,12 +8,16 @@ test("event preview page and canonical routes are driven by event MDX publicatio
   const listPage = readSource("src/app/events/page.tsx");
   const canonicalRoute = readSource("src/app/events/[id]/[slug]/page.tsx");
   const idRoute = readSource("src/app/events/[id]/page.tsx");
+  const legacyIdRoute = readSource("src/app/features/demo/webinars/[id]/route.ts");
+  const legacySlugRoute = readSource("src/app/features/demo/webinars/[id]/[slug]/route.ts");
   const loader = readSource("src/lib/publications/get-event-publication-post.ts");
   const records = readSource("src/lib/publications/event-publication-records.ts");
   const postPage = readSource("src/components/sections/publication-post-page.tsx");
 
   assert.equal(existsSync(new URL("../src/app/t/events/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/events/[id]/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/app/features/demo/webinars/[id]/route.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/app/features/demo/webinars/[id]/[slug]/route.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/lib/publications/event-publication-records.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/lib/publications/get-event-publication-post.ts", import.meta.url)), true);
 
@@ -25,18 +29,32 @@ test("event preview page and canonical routes are driven by event MDX publicatio
   assert.match(listPage, /return notFound\(\);/);
 
   assert.match(canonicalRoute, /getEventPublicationRecord\(id\)/);
+  assert.match(canonicalRoute, /if \(record\.redirectUrl\) \{/);
   assert.match(canonicalRoute, /if \(record\.slug !== slug\) \{/);
   assert.match(canonicalRoute, /redirect\(getEventPublicationHref\(id, record\.slug\)\)/);
   assert.match(canonicalRoute, /const post = await getEventPublicationPost\(id\);/);
 
   assert.match(idRoute, /listEventPublicationIds\(\)/);
+  assert.match(idRoute, /if \(record\.redirectUrl\) \{/);
   assert.match(idRoute, /redirect\(getEventPublicationHref\(id, record\.slug\)\)/);
+
+  assert.match(legacyIdRoute, /getEventPublicationRecord\(id\)/);
+  assert.match(legacyIdRoute, /record\.redirectUrl \?\? getEventPublicationHref\(id, record\.slug\)/);
+  assert.match(legacyIdRoute, /destination\.search = request\.nextUrl\.search/);
+  assert.match(legacyIdRoute, /NextResponse\.redirect\(destination, 307\)/);
+
+  assert.match(legacySlugRoute, /getEventPublicationRecord\(id\)/);
+  assert.match(legacySlugRoute, /record\.redirectUrl \?\? getEventPublicationHref\(id, record\.slug\)/);
+  assert.match(legacySlugRoute, /destination\.search = request\.nextUrl\.search/);
+  assert.match(legacySlugRoute, /NextResponse\.redirect\(destination, 307\)/);
 
   assert.match(loader, /renderPublicationMdx/);
   assert.match(loader, /extractHeadingsFromMdx/);
   assert.match(records, /src\/content\/events/);
   assert.match(records, /badge: record\.eventLabel \?\? "イベント"/);
   assert.match(records, /hideHeroImageOnDetail: hideHeroImageOnDetailValue === true/);
+  assert.match(records, /hidden: frontmatter\.hidden === true/);
+  assert.match(records, /redirectUrl: typeof redirectUrlValue === "string" \? redirectUrlValue : undefined/);
   assert.match(postPage, /post\.hideHeroImageOnDetail \? null :/);
 });
 
