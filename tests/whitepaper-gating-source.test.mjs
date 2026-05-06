@@ -2,16 +2,23 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
-test("whitepaper gating remains on 2026 download-gated posts while older download CTA posts stay ungated and avoid the legacy ArticleGatingForm wrapper", () => {
+test("whitepaper gating remains on gated download CTA posts while legacy shadow redirects stay ungated and avoid the legacy ArticleGatingForm wrapper", () => {
   const whitepaper24 = readSource("src/content/whitepapers/24.mdx");
+  const whitepaper25 = readSource("src/content/whitepapers/25.mdx");
   const whitepaper30 = readSource("src/content/whitepapers/30.mdx");
   const mdxComponents = readSource("src/lib/publications/mdx/components.tsx");
 
-  assert.doesNotMatch(whitepaper24, /\ngated:\s*true\n/);
-  assert.doesNotMatch(whitepaper24, /<GatingCut\s*\/>/);
+  assert.match(whitepaper24, /\ngated:\s*true\n/);
+  assert.match(whitepaper24, /<GatingCut\s*\/>/);
   assert.doesNotMatch(whitepaper24, /<ArticleGatingForm>/);
   assert.doesNotMatch(whitepaper24, /<\/ArticleGatingForm>/);
   assert.match(whitepaper24, /https:\/\/www\.querypie\.com\/ja\/features\/documentation\/white-paper\/24\/.+\/download/);
+
+  assert.doesNotMatch(whitepaper25, /\ngated:\s*true\n/);
+  assert.doesNotMatch(whitepaper25, /<GatingCut\s*\/>/);
+  assert.doesNotMatch(whitepaper25, /<ArticleGatingForm>/);
+  assert.doesNotMatch(whitepaper25, /<\/ArticleGatingForm>/);
+  assert.match(whitepaper25, /https:\/\/www\.querypie\.com\/ja\/features\/documentation\/white-paper\/24\/.+\/download/);
 
   assert.match(whitepaper30, /\ngated:\s*true\n/);
   assert.match(whitepaper30, /<GatingCut\s*\/>/);
