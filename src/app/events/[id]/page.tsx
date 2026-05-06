@@ -23,5 +23,9 @@ export default async function EventIdPage({ params }: EventIdPageProps) {
     notFound();
   }
 
+  if (record.redirectUrl) {
+    redirect(record.redirectUrl);
+  }
+
   redirect(getEventPublicationHref(id, record.slug));
 }
