@@ -4,7 +4,7 @@ import { BaseResourcePublicationRepository } from "@/lib/resources/base-resource
 class IntroductionDeckPublications extends BaseResourcePublicationRepository {
   protected readonly category = "introduction-deck" as const;
   protected readonly badge = "紹介資料";
-  protected readonly contentRoot = path.join(process.cwd(), "src/content/documentation/introduction-deck");
+  protected readonly contentRoot = path.join(process.cwd(), "src/content/introduction-deck");
 }
 
 export const introductionDeckPublications = new IntroductionDeckPublications();
