@@ -6,10 +6,12 @@ import { readSource } from "./helpers/source-readers.mjs";
 test("header exposes the preview toggle UI and preview-navigation API route again", () => {
   const headerClient = readSource("src/components/layout/site-header-client.tsx");
   const siteHeader = readSource("src/components/layout/site-header.tsx");
+  const previewNavigation = readSource("src/lib/preview-navigation.ts");
 
   assert.match(headerClient, /PreviewModeToggle/);
   assert.match(headerClient, /showPreviewModeToggle/);
   assert.match(siteHeader, /showPreviewModeToggle=\{showToggle\}/);
+  assert.match(previewNavigation, /return cookieValue === "on";/);
   assert.equal(existsSync(new URL("../src/components/layout/preview-mode-toggle.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/api/preview-navigation/route.ts", import.meta.url)), true);
 });

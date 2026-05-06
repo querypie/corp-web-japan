@@ -11,6 +11,10 @@ import {
   listWhitepaperPublicationParams,
 } from "@/lib/publications/get-whitepaper-publication-post";
 import { buildGatingCookieName } from "@/lib/publications/gating";
+import {
+  getPreviewNavigationState,
+  PREVIEW_NAVIGATION_COOKIE,
+} from "@/lib/preview-navigation";
 import { absoluteUrl } from "@/lib/site-url";
 
 type WhitepaperDetailPageProps = {
@@ -77,8 +81,12 @@ export default async function WhitepaperDetailPage({ params }: WhitepaperDetailP
   }
 
   const cookieStore = await cookies();
+  const previewCookieValue = cookieStore.get(PREVIEW_NAVIGATION_COOKIE)?.value;
+  const { enabled: previewModeEnabled } = getPreviewNavigationState(previewCookieValue);
+
   if (post.gating) {
-    post.gating.initiallyUnlocked = cookieStore.has(buildGatingCookieName(post.gating.contentKey));
+    post.gating.initiallyUnlocked =
+      previewModeEnabled || cookieStore.has(buildGatingCookieName(post.gating.contentKey));
   }
 
   return (

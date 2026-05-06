@@ -60,3 +60,15 @@ test("internal gating demo page exists as an MDX-backed route under \/internal",
   assert.match(internalMdx, /\ngated:\s*true\n/);
   assert.match(internalMdx, /<GatingCut\s*\/>/);
 });
+
+test("gating pages bypass the form when preview navigation is enabled", () => {
+  const whitepaperDetailPage = readSource("src/app/whitepapers/[id]/[slug]/page.tsx");
+  const internalDemoPage = readSource("src/app/internal/whitepaper-gating-demo/page.tsx");
+  const introductionDeckDetailPage = readSource("src/app/t/introduction-deck/[id]/[slug]/page.tsx");
+
+  for (const source of [whitepaperDetailPage, internalDemoPage, introductionDeckDetailPage]) {
+    assert.match(source, /PREVIEW_NAVIGATION_COOKIE/);
+    assert.match(source, /getPreviewNavigationState/);
+    assert.match(source, /previewModeEnabled \|\| cookieStore\.has\(buildGatingCookieName\(post\.gating\.contentKey\)\)/);
+  }
+});
