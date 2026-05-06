@@ -10,6 +10,7 @@ import {
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
+import { resolveRedirectablePublicationHref } from "@/lib/publications/resolve-redirectable-publication-href";
 import type { PublicationPost, PublicationPostSummary } from "@/lib/publications/types";
 
 function readUseCasePublicationBodySource(sourcePath: string) {
@@ -26,7 +27,7 @@ function buildRelatedItems(id: string, relatedIds: readonly string[]): Publicati
     .filter((record) => record !== null)
     .slice(0, 3)
     .map((record) => ({
-      href: getUseCasePublicationHref(record.id, record.slug),
+      href: resolveRedirectablePublicationHref(record.redirectUrl, getUseCasePublicationHref(record.id, record.slug)),
       imageSrc: record.heroImageSrc,
       title: record.title,
       date: record.date,

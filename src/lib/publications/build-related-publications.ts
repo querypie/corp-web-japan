@@ -1,38 +1,32 @@
-import { listBlogPublicationItems } from "@/lib/publications/blog-publication-records";
+import { blogPostRecords, type BlogPostRecord } from "@/lib/publications/blog-publication-records";
 import type { PublicationPostSummary } from "@/lib/publications/types";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
+import { resolveRedirectablePublicationHref } from "@/lib/publications/resolve-redirectable-publication-href";
 
 type RelatedPublicationSource = {
   id: string;
   relatedIds: readonly string[];
 };
 
-const blogItems = listBlogPublicationItems();
-const blogItemById = new Map<string, (typeof blogItems)[number]>();
-for (const item of blogItems) {
-  const match = item.href.match(/\/blog\/(\d+)\/([^/]+)$/);
-  if (!match) continue;
-  blogItemById.set(match[1], item);
-}
+const visibleBlogRecords = blogPostRecords.filter((record) => !record.hidden);
+const blogRecordById = new Map<string, BlogPostRecord>(visibleBlogRecords.map((record) => [record.id, record]));
 
-function getBlogCardRoute(item: (typeof blogItems)[number]) {
-  const match = item.href.match(/\/blog\/(\d+)\/([^/]+)$/);
-  if (!match) return item.href;
-  return getPublicationHref("blog", match[1], match[2]);
+function getBlogCardRoute(record: BlogPostRecord) {
+  return resolveRedirectablePublicationHref(record.redirectUrl, getPublicationHref("blog", record.id, record.slug));
 }
 
 export function buildRelatedPublications(post: RelatedPublicationSource): PublicationPostSummary[] {
   const relatedItems: PublicationPostSummary[] = [];
 
   for (const relatedId of post.relatedIds) {
-    const relatedCard = blogItemById.get(relatedId);
-    if (!relatedCard) continue;
+    const relatedRecord = blogRecordById.get(relatedId);
+    if (!relatedRecord) continue;
 
     relatedItems.push({
-      href: getBlogCardRoute(relatedCard),
-      imageSrc: relatedCard.imageSrc,
-      title: relatedCard.title,
-      date: relatedCard.date ?? "",
+      href: getBlogCardRoute(relatedRecord),
+      imageSrc: relatedRecord.heroImageSrc,
+      title: relatedRecord.title,
+      date: relatedRecord.date,
     });
   }
 
@@ -40,13 +34,13 @@ export function buildRelatedPublications(post: RelatedPublicationSource): Public
     return relatedItems;
   }
 
-  return blogItems
-    .filter((item) => post.id !== item.href.match(/\/blog\/(\d+)\/([^/]+)$/)?.[1])
+  return visibleBlogRecords
+    .filter((record) => post.id !== record.id)
     .slice(0, 3)
-    .map((item) => ({
-      href: getBlogCardRoute(item),
-      imageSrc: item.imageSrc,
-      title: item.title,
-      date: item.date ?? "",
+    .map((record) => ({
+      href: getBlogCardRoute(record),
+      imageSrc: record.heroImageSrc,
+      title: record.title,
+      date: record.date,
     }));
 }

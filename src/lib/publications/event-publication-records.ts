@@ -3,6 +3,7 @@ import * as path from "node:path";
 import { parse as parseYaml } from "yaml";
 import type { ResourceItem } from "@/content/resources";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
+import { resolveRedirectablePublicationHref } from "@/lib/publications/resolve-redirectable-publication-href";
 
 export type EventPublicationFrontmatter = {
   id: string;
@@ -104,7 +105,7 @@ function createEventPublicationCache(): Readonly<EventPublicationCache> {
     visibleRecords.map((record) =>
       Object.freeze({
         id: record.id,
-        href: getPublicationHref("event", record.id, record.slug),
+        href: resolveRedirectablePublicationHref(record.redirectUrl, getPublicationHref("event", record.id, record.slug)),
         imageSrc: record.heroImageSrc,
         badge: record.eventLabel ?? "イベント",
         title: record.title,

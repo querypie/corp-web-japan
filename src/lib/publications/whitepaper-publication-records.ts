@@ -3,6 +3,7 @@ import * as path from "node:path";
 import { parse as parseYaml } from "yaml";
 import type { ResourceItem } from "@/content/resources";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
+import { resolveRedirectablePublicationHref } from "@/lib/publications/resolve-redirectable-publication-href";
 
 export type WhitepaperPublicationFrontmatter = {
   id: string;
@@ -109,7 +110,7 @@ function createWhitepaperPublicationCache(): Readonly<WhitepaperPublicationCache
     visibleRecords.map((record) =>
       Object.freeze({
         id: record.id,
-        href: getPublicationHref("whitepaper", record.id, record.slug),
+        href: resolveRedirectablePublicationHref(record.redirectUrl, getPublicationHref("whitepaper", record.id, record.slug)),
         imageSrc: record.heroImageSrc,
         badge: "ホワイトペーパー",
         title: record.title,

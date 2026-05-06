@@ -5,11 +5,13 @@ import {
   getAcpDemoPublicationRecord,
   listAcpDemoPublicationIds,
   listAcpDemoPublicationParams,
+  type AcpDemoPublicationRecord,
   type AcpDemoPublicationFrontmatter,
 } from "@/lib/publications/acp-demo-publication-records";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
+import { resolveRedirectablePublicationHref } from "@/lib/publications/resolve-redirectable-publication-href";
 import type { PublicationPost, PublicationPostSummary } from "@/lib/publications/types";
 
 function readAcpDemoPublicationBodySource(sourcePath: string) {
@@ -22,10 +24,10 @@ function buildRelatedItems(id: string, relatedIds: readonly string[]): Publicati
   return relatedIds
     .filter((relatedId) => relatedId !== id)
     .map((relatedId) => recordsById.get(relatedId) ?? null)
-    .filter((record) => record !== null)
+    .filter((record): record is AcpDemoPublicationRecord => record !== null)
     .slice(0, 3)
     .map((record) => ({
-      href: getAcpDemoPublicationHref(record.id, record.slug),
+      href: resolveRedirectablePublicationHref(record.redirectUrl, getAcpDemoPublicationHref(record.id, record.slug)),
       imageSrc: record.heroImageSrc,
       title: record.title,
       date: record.date,

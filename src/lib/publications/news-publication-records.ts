@@ -2,6 +2,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { parse as parseYaml } from "yaml";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
+import { resolveRedirectablePublicationHref } from "@/lib/publications/resolve-redirectable-publication-href";
 
 export type NewsPublicationFrontmatter = {
   id: string;
@@ -108,7 +109,7 @@ function createNewsPublicationCache(): Readonly<NewsPublicationCache> {
   const listItems = Object.freeze(
     visibleRecords.map((record) =>
       Object.freeze({
-        href: getPublicationHref("news", record.id, record.slug),
+        href: resolveRedirectablePublicationHref(record.redirectUrl, getPublicationHref("news", record.id, record.slug)),
         imageSrc: record.heroImageSrc,
         badge: "ニュース",
         title: record.title,
