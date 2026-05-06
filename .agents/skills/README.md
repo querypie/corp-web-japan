@@ -24,6 +24,10 @@ Current skills:
   - Path: `.agents/skills/page-migration-preview-route/SKILL.md`
   - Purpose: migrate a `querypie.com/ja` page or another external marketing page into a local preview route under `/t/*`
   - Asset rule: keep preview-page assets under route-aligned `public/<route-family>/...`, not under `public/t/...` and not under generic `public/assets/...`
+- `preview-root-rem-parity`
+  - Path: `.agents/skills/preview-root-rem-parity/SKILL.md`
+  - Purpose: preserve visual parity when importing `querypie.com/ja/**` or `querypie.com/en/**` pages into corp-web-japan even though the source site can use a 15px html root while corp-web-japan keeps a 16px root
+  - Typography rule: do not blindly copy computed px values from the source page; recover the rem/token intent first, then rebuild for the 16px-root preview environment
 - `use-case-mdx-migration`
   - Path: `.agents/skills/use-case-mdx-migration/SKILL.md`
   - Purpose: migrate `../corp-web-contents` use-case entries into the local corp-web-japan MDX publication system with `/t/use-cases` preview and `/use-cases/:id/:slug` canonical detail routes
@@ -47,6 +51,7 @@ Usage notes:
 - Use `whitepaper-posting` for `src/content/whitepapers/*.mdx` work.
 - Use `static-page-route-local-authoring-refactor` for repetitive refactors that move static marketing-page authoring into `src/app/**/page.tsx`.
 - Use `page-migration-preview-route` when migrating an upstream or external page into a local `/t/...` preview route first.
+- Use `preview-root-rem-parity` whenever the source page lives under `querypie.com/ja/**` or `querypie.com/en/**` and the imported UI design needs typography/spacing parity under corp-web-japan's 16px root environment.
 - Use `use-case-mdx-migration` when migrating use-case detail content from `../corp-web-contents` into local MDX-backed preview/list/detail routes.
 - Use `aip-demo-mdx-migration` when migrating AIP demo detail content from `../corp-web-contents` into local MDX-backed preview/list/detail routes.
 - Use `acp-demo-mdx-migration` when migrating ACP demo detail content from `../corp-web-contents` into local MDX-backed preview/list/detail routes.

@@ -2,19 +2,8 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
-import {
-  ResourceListContentSection,
-  ResourceListCtaActions,
-  ResourceListCtaContent,
-  ResourceListCtaCopy,
-  ResourceListCtaDescription,
-  ResourceListCtaSection,
-  ResourceListCtaTitle,
-  ResourceListHeroDescription,
-  ResourceListHeroSection,
-  ResourceListHeroTitle,
-  ResourceListItems,
-} from "@/components/sections/resource-list-section";
+import { CtaActions, CtaContent, CtaCopy, CtaDescription, SimpleCtaSection, CtaTitle } from "@/components/sections/simple-cta-section";
+import { ResourceListContentSection, ResourceListHeroDescription, ResourceListHeroSection, ResourceListHeroTitle, ResourceListItems } from "@/components/sections/resource-list-section";
 import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 import { listBlogPublicationItems } from "@/lib/publications/blog-publication-records";
 
@@ -48,17 +37,17 @@ export default async function InternalMdxListDemoPage() {
         <ResourceListItems items={blogItems} />
       </ResourceListContentSection>
 
-      <ResourceListCtaSection>
-        <ResourceListCtaContent>
-          <ResourceListCtaCopy>
-            <ResourceListCtaTitle>Stop Thinking. Start Transforming.</ResourceListCtaTitle>
-            <ResourceListCtaDescription>Sign up in seconds and secure your 14-day free trial now.</ResourceListCtaDescription>
-          </ResourceListCtaCopy>
-          <ResourceListCtaActions>
+      <SimpleCtaSection>
+        <CtaContent>
+          <CtaCopy>
+            <CtaTitle>Stop Thinking. Start Transforming.</CtaTitle>
+            <CtaDescription>Sign up in seconds and secure your 14-day free trial now.</CtaDescription>
+          </CtaCopy>
+          <CtaActions>
             <BrandGradientCtaButton href="https://app.querypie.com">Make It Happen</BrandGradientCtaButton>
-          </ResourceListCtaActions>
-        </ResourceListCtaContent>
-      </ResourceListCtaSection>
+          </CtaActions>
+        </CtaContent>
+      </SimpleCtaSection>
 
       <SiteFooter />
     </main>

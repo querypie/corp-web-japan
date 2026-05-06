@@ -24,10 +24,12 @@ This skill is based on the preview-page migration pattern used in PR #182 (`feat
 
 Load and follow these before authoring:
 - `.agents/skills/static-page-route-local-authoring-refactor/SKILL.md`
+- `.agents/skills/preview-root-rem-parity/SKILL.md`
 - `docs/code-location-conventions.md`
 
 Why:
 - `static-page-route-local-authoring-refactor` defines how `page.tsx` should stay readable and route-local
+- `preview-root-rem-parity` explains how to preserve visual parity when the source QueryPie page uses a 15px html root but corp-web-japan keeps a 16px root
 - `docs/code-location-conventions.md` defines the repo's preferred code placement rules and the stronger exception rule for static marketing pages
 
 Do not treat these as optional background reading. This skill assumes their rules are active.
@@ -183,6 +185,13 @@ For upstream / external migration, inspect:
 - CTA destinations
 - image and illustration files
 - whether the page is mostly static or contains application logic that should not be copied as-is
+- the source page `html` root font size and whether the typography/spacing is driven by rem-based tokens
+
+Important parity rule for QueryPie page imports:
+- when the source page comes from `querypie.com/ja/**` or `querypie.com/en/**`, do not blindly copy source computed px values into corp-web-japan
+- first determine whether the source page is rendering under a 15px root rem environment
+- if corp-web-japan keeps the standard 16px root, preserve the source token/design intent and convert the values for the 16px-root preview environment
+- use `.agents/skills/preview-root-rem-parity/SKILL.md` for the exact calculation workflow
 
 ## Existing-route safety rule
 
