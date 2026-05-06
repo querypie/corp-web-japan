@@ -8,6 +8,7 @@ test("internal hub page exists and links to each internal demo route", () => {
   const childPages = [
     "src/app/internal/whitepaper-gating-demo/page.tsx",
     "src/app/internal/mdx-list-demo/page.tsx",
+    "src/app/internal/events-demo/page.tsx",
     "src/app/internal/load-more/page.tsx",
   ];
 
@@ -29,5 +30,6 @@ test("internal hub page exists and links to each internal demo route", () => {
   assert.match(source, /card\.href/);
   assert.match(source, /\/internal\/whitepaper-gating-demo/);
   assert.match(source, /\/internal\/mdx-list-demo/);
+  assert.match(source, /\/internal\/events-demo/);
   assert.match(source, /\/internal\/load-more/);
 });

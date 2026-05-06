@@ -24,6 +24,7 @@ test("footer keeps the preview-only Internal section when preview mode is enable
   assert.match(footer, /label:\s*"Internal Hub"/);
   assert.match(footer, /label:\s*"Whitepaper Gating Demo"/);
   assert.match(footer, /label:\s*"MDX List Demo"/);
+  assert.match(footer, /label:\s*"Events Demo"/);
   assert.match(footer, /label:\s*"Load More Demo"/);
   assert.match(footer, /footerLinksPreview/);
 });
