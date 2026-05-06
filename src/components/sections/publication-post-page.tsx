@@ -38,6 +38,7 @@ export const publicationBodyClassName = [
   "[&_tr:nth-child(even)_td]:bg-[#f6f8fa]",
   "[&_tr:last-child_td]:border-b-0",
   "[&_.article-content-btn]:mb-7 [&_.article-content-btn]:flex [&_.article-content-btn]:w-full [&_.article-content-btn]:items-center [&_.article-content-btn]:justify-center [&_.article-content-btn]:gap-2 [&_.article-content-btn]:rounded-[6px] [&_.article-content-btn]:bg-[#111827] [&_.article-content-btn]:px-8 [&_.article-content-btn]:py-[10px] [&_.article-content-btn]:text-base [&_.article-content-btn]:font-medium [&_.article-content-btn]:text-white [&_.article-content-btn]:no-underline hover:[&_.article-content-btn]:opacity-85 hover:[&_.article-content-btn]:text-white",
+  "[&_p+_.article-content-btn]:mt-4 [&_ul+_.article-content-btn]:mt-4 [&_ol+_.article-content-btn]:mt-4",
   "[&_hr]:hidden",
   "[&>br]:hidden",
 ].join(" ");
