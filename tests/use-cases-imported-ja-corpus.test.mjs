@@ -59,6 +59,11 @@ test("migrated use-case MDX files use local use-case routes and route-aligned as
 
     if (source.includes("<Youtube")) {
       assert.match(source, /<Youtube/);
+      assert.match(source, /hideHeroImageOnDetail: true/);
+    }
+
+    if (source.includes("hideHeroImageOnDetail: true")) {
+      assert.match(source, /<Youtube/);
     }
   }
 });
