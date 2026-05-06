@@ -23,10 +23,14 @@ test("legacy whitepaper resource paths are handled by dedicated static app route
   assert.match(singularRootSource, /const destination = "\/whitepapers"/);
   assert.match(pluralDetailSource, /getWhitepaperPublicationRecord\(id\)/);
   assert.match(singularDetailSource, /getWhitepaperPublicationRecord\(id\)/);
-  assert.match(pluralDetailSource, /NextResponse\.redirect\(`\/whitepapers\/\$\{record\.id\}\/\$\{record\.slug\}`, 307\)/);
-  assert.match(singularDetailSource, /NextResponse\.redirect\(`\/whitepapers\/\$\{record\.id\}\/\$\{record\.slug\}`, 307\)/);
-  assert.match(pluralDetailSource, /return NextResponse\.redirect\("\/whitepapers", 307\)/);
-  assert.match(singularDetailSource, /return NextResponse\.redirect\("\/whitepapers", 307\)/);
+  assert.match(pluralDetailSource, /export async function GET\(request: Request, \{ params \}: LegacyWhitepaperRouteContext\)/);
+  assert.match(singularDetailSource, /export async function GET\(request: Request, \{ params \}: LegacyWhitepaperRouteContext\)/);
+  assert.match(pluralDetailSource, /const destinationPath = record \? `\/whitepapers\/\$\{record\.id\}\/\$\{record\.slug\}` : "\/whitepapers"/);
+  assert.match(singularDetailSource, /const destinationPath = record \? `\/whitepapers\/\$\{record\.id\}\/\$\{record\.slug\}` : "\/whitepapers"/);
+  assert.match(pluralDetailSource, /const destination = new URL\(destinationPath, request\.url\)/);
+  assert.match(singularDetailSource, /const destination = new URL\(destinationPath, request\.url\)/);
+  assert.match(pluralDetailSource, /return NextResponse\.redirect\(destination, 307\)/);
+  assert.match(singularDetailSource, /return NextResponse\.redirect\(destination, 307\)/);
 
   assert.doesNotMatch(missingRoute, /buildCorpWebJapanLegacyRedirectPath/);
 });
