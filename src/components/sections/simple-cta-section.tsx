@@ -43,11 +43,11 @@ export function CtaBox({ children, className = "" }: { children: ReactNode } & C
 }
 
 export function CtaTitle({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <h2 className={`text-[48.75px] font-normal leading-[58.125px] tracking-normal text-slate-950 sm:text-[48.75px] ${className}`.trim()}>{children}</h2>;
+  return <h2 className={`text-[52px] font-normal leading-[62px] tracking-normal text-slate-950 sm:text-[52px] ${className}`.trim()}>{children}</h2>;
 }
 
 export function CtaDescription({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <p className={`mt-[18.75px] max-w-full text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-[#24292F] ${className}`.trim()}>{children}</p>;
+  return <p className={`mt-[19.2px] max-w-full text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#24292F] ${className}`.trim()}>{children}</p>;
 }
 
 export function CtaActions({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
