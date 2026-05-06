@@ -21,9 +21,9 @@ export const publicDemoCategorySidebarLinks: readonly ResourceCategoryLink[] = [
 ] as const;
 
 export const previewDemoCategorySidebarLinks: readonly ResourceCategoryLink[] = [
-  { label: "活用事例", href: "/t/use-cases" },
-  { label: "AIP機能", href: "/t/demo/aip" },
-  { label: "ACP機能", href: "/t/demo/acp" },
+  { label: "活用事例", href: "/demo/use-cases" },
+  { label: "AIP機能", href: "/demo/aip" },
+  { label: "ACP機能", href: "/demo/acp" },
 ] as const;
 
 type DemoCategorySidebarProps = {
