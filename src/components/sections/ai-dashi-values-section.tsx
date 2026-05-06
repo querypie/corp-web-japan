@@ -65,7 +65,16 @@ export function AIDashiValueCardBody({ children }: { children: ReactNode }) {
 export function AIDashiValuesDiagram() {
   return (
     <RevealOnScroll className="w-full max-w-[820px]" variant="up" delayMs={220}>
-      <ZoomableFigure src="/solutions/ai-dashi/value-diagram.png" alt="AI Dashi の3つの価値を示す図解" caption="" sizes="(min-width: 1024px) 680px, 100vw" modalScale={1.25} />
+      <ZoomableFigure
+        src="/optimized/ai-dashi-value-diagram.jpg"
+        modalSrc="/solutions/ai-dashi/value-diagram.png"
+        modalImageWidth={2469}
+        modalImageHeight={2160}
+        alt="AI Dashi の3つの価値を示す図解"
+        caption=""
+        sizes="(min-width: 1024px) 680px, 100vw"
+        modalScale={1.25}
+      />
     </RevealOnScroll>
   );
 }
