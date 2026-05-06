@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
+import { DemoCategorySidebar } from "@/components/sections/demo-category-sidebar";
 import {
   ResourceListContentSection,
   ResourceListHeroDescription,
@@ -36,7 +36,7 @@ export default async function TestUseCasesPage() {
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
-        <ResourceCategorySidebar />
+        <DemoCategorySidebar activeLabel="活用事例" />
 
         <ResourceListItems items={useCaseItems} />
       </ResourceListContentSection>

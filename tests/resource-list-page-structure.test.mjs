@@ -33,13 +33,19 @@ test("public resource-list routes use the concrete public sidebar component", ()
     "src/app/events/page.tsx",
     "src/app/internal/load-more/page.tsx",
     "src/app/internal/mdx-list-demo/page.tsx",
-    "src/app/t/use-cases/page.tsx",
     "src/app/t/events/page.tsx",
-    "src/app/t/demo/aip/page.tsx",
-    "src/app/t/demo/acp/page.tsx",
   ]) {
     const source = readSource(path);
     assert.match(source, /ResourceCategorySidebar/);
+  }
+});
+
+test("demo preview list routes use the dedicated demo sidebar component", () => {
+  for (const path of ["src/app/t/use-cases/page.tsx", "src/app/t/demo/aip/page.tsx", "src/app/t/demo/acp/page.tsx"]) {
+    const source = readSource(path);
+    assert.match(source, /DemoCategorySidebar/);
+    assert.doesNotMatch(source, /ResourceCategorySidebar/);
+    assert.doesNotMatch(source, /<ResourceListSidebar>/);
   }
 });
 
@@ -80,6 +86,17 @@ test("resource category sidebar owns both public and preview category link sets 
   assert.match(source, /ResourceListSidebarNav label="Sidebar Navigation"/);
 });
 
+test("demo category sidebar owns demo preview links and sidebar markup", () => {
+  const source = readSource("src/components/sections/demo-category-sidebar.tsx");
+
+  assert.match(source, /export const demoCategorySidebarLinks/);
+  assert.match(source, /\{ label: "活用事例", href: "\/t\/use-cases" \}/);
+  assert.match(source, /\{ label: "AIP機能", href: "\/t\/demo\/aip" \}/);
+  assert.match(source, /\{ label: "ACP機能", href: "\/t\/demo\/acp" \}/);
+  assert.match(source, /<ResourceListSidebarLabel>デモカテゴリー<\/ResourceListSidebarLabel>/);
+  assert.match(source, /ResourceListSidebarNav label="Sidebar Navigation"/);
+});
+
 test("shared ResourceListPage wrapper component has been removed", () => {
   assert.equal(existsSync(new URL("../src/components/sections/resource-list-page.tsx", import.meta.url)), false);
 });
@@ -98,4 +115,3 @@ test("internal mdx list demo uses the generic CTA section primitives instead of 
   assert.match(ctaSectionSource, /export function CtaButton/);
   assert.doesNotMatch(resourceListSectionSource, /ResourceListCtaSection/);
 });
-
