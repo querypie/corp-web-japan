@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+import { buildCorpWebJapanLegacyRedirectPath } from "@/lib/corp-web-japan-legacy-redirect";
 import { buildQueryPieContentRedirectUrl } from "@/lib/querypie-content-redirect";
 
 export const dynamic = "force-dynamic";
@@ -37,6 +38,23 @@ export default async function MissingRoutePage({ params, searchParams }: Missing
   const requestHeaders = await headers();
   const requestedPath = `/${missing.join("/")}`;
   const search = toSearchString(resolvedSearchParams);
+  const localRedirectPath = buildCorpWebJapanLegacyRedirectPath(requestedPath);
+
+  if (localRedirectPath) {
+    console.log(
+      "[runtime-missing-redirect]",
+      JSON.stringify({
+        requestedPath,
+        redirectTarget: localRedirectPath + search,
+        host: requestHeaders.get("host"),
+        referer: requestHeaders.get("referer"),
+        userAgent: requestHeaders.get("user-agent"),
+      }),
+    );
+
+    redirect(localRedirectPath + search);
+  }
+
   const redirectTarget = buildQueryPieContentRedirectUrl(requestedPath, search);
 
   if (redirectTarget) {
