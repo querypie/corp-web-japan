@@ -42,9 +42,9 @@ export async function SiteFooter() {
     {
       title: "デモ",
       links: [
-        { label: "活用事例", href: "/demo/use-cases" },
-        { label: "AIP 機能", href: "/demo/aip" },
-        { label: "ACP 機能", href: "/demo/acp" },
+        { label: "活用事例", href: t("/use-cases", previewModeEnabled) },
+        { label: "AIP 機能", href: t("/demo/aip", previewModeEnabled) },
+        { label: "ACP 機能", href: t("/demo/acp", previewModeEnabled) },
       ],
     },
     {
