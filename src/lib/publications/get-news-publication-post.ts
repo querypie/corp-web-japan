@@ -16,10 +16,6 @@ function readNewsPublicationBodySource(sourcePath: string) {
   return fs.readFileSync(sourcePath, "utf8");
 }
 
-function stripLeadingNewsTitleHeading(source: string) {
-  return source.replace(/^(---\n[\s\S]*?\n---\n+)(# .*\n+)/, "$1");
-}
-
 function buildRelatedItems(id: string, relatedIds: readonly string[]): PublicationPostSummary[] {
   const recordsById = new Map(newsPublicationRecords.map((record) => [record.id, record]));
   const preferredIds = relatedIds.length > 0 ? relatedIds : newsPublicationRecords.map((record) => record.id);
@@ -46,7 +42,6 @@ export async function getNewsPublicationPost(id: string): Promise<PublicationPos
   }
 
   const bodySource = readNewsPublicationBodySource(record.sourcePath);
-  const renderedSource = stripLeadingNewsTitleHeading(bodySource);
   const { content, frontmatter } = await renderPublicationMdx<{
     author?: string | string[];
     relatedIds?: readonly string[];
@@ -54,7 +49,7 @@ export async function getNewsPublicationPost(id: string): Promise<PublicationPos
     description: string;
     date: string;
     heroImageSrc: string;
-  }>(renderedSource);
+  }>(bodySource);
   const resolvedAuthors = getDisplayableArticleAuthors(resolveArticleAuthors(frontmatter.author));
   const primaryAuthor = resolvedAuthors.find((author) => author.isRegistered) ?? null;
 
@@ -81,7 +76,7 @@ export async function getNewsPublicationPost(id: string): Promise<PublicationPos
     gating: null,
     relatedTitle: "関連ニュース",
     relatedItems: buildRelatedItems(id, frontmatter.relatedIds ?? record.relatedIds),
-    toc: extractHeadingsFromMdx(renderedSource),
+    toc: extractHeadingsFromMdx(bodySource),
   };
 }
 
