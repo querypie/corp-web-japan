@@ -12,6 +12,7 @@ class ManualPublications extends BaseResourcePublicationRepository {
       "2-acp-administrator-manual.mdx",
       "3-acp-user-manual.mdx",
       "4-acp-api-reference.mdx",
+      "5-acp-manual.mdx",
       "6-aip-manual.mdx",
       "7-acp-release-notes.mdx",
     ] as const;
