@@ -14,7 +14,8 @@ import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
 export const metadata: Metadata = {
   title: "活用事例 | QueryPie AI",
-  description: "QueryPie AIの活用事例やAIエージェントデモをまとめた一覧ページです。",
+  description:
+    "QueryPie AIがお客様のためにできることを見つけることができます。ライブデモを視聴し、実際のユースケースをご覧になってください。AIPとACP機能の実際の動作を確認したり、インタラクティブなショーケースを通じて全体像を把握することができます。",
   alternates: {
     canonical: "/demo/use-cases",
   },
