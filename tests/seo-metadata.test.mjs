@@ -13,7 +13,7 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   const whitepapersPage = read("src/app/whitepapers/page.tsx");
   const useCasesPage = read("src/app/demo/use-cases/page.tsx");
   const aipPage = read("src/app/demo/aip/page.tsx");
-  const acpPage = read("src/app/demo-acp/page.tsx");
+  const acpPage = read("src/app\/demo\/acp/page.tsx");
   const aiCrewPage = read("src/app/solutions/ai-crew/page.tsx");
   const aiDashiPage = read("src/app/solutions/ai-dashi/page.tsx");
   const contactUsPage = read("src/app/contact-us/page.tsx");
@@ -30,7 +30,7 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.match(whitepapersPage, /canonical:\s*"\/whitepapers"/);
   assert.match(useCasesPage, /canonical:\s*"\/demo\/use-cases"/);
   assert.match(aipPage, /canonical:\s*"\/demo\/aip"/);
-  assert.match(acpPage, /canonical:\s*"\/demo-acp"/);
+  assert.match(acpPage, /canonical:\s*"\/demo\/acp"/);
   assert.match(aiCrewPage, /canonical:\s*"\/solutions\/ai-crew"/);
   assert.match(aiDashiPage, /canonical:\s*"\/solutions\/ai-dashi"/);
   assert.match(contactUsPage, /canonical:\s*"\/contact-us"/);
@@ -43,7 +43,7 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/whitepaper"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/aip"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/demo-acp"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/demo\/acp"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/use-cases"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/events"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/resources"\)/);

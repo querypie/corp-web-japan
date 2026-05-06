@@ -17,13 +17,13 @@ import {
 export const publicDemoCategorySidebarLinks: readonly ResourceCategoryLink[] = [
   { label: "活用事例", href: "/demo/use-cases" },
   { label: "AIP機能", href: "/demo/aip" },
-  { label: "ACP機能", href: "/demo-acp" },
+  { label: "ACP機能", href: "/demo/acp" },
 ] as const;
 
 export const previewDemoCategorySidebarLinks: readonly ResourceCategoryLink[] = [
   { label: "活用事例", href: "/demo/use-cases" },
   { label: "AIP機能", href: "/demo/aip" },
-  { label: "ACP機能", href: "/demo-acp" },
+  { label: "ACP機能", href: "/demo/acp" },
 ] as const;
 
 type DemoCategorySidebarProps = {

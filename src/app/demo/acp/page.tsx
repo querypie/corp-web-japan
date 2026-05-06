@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   description:
     "QueryPie AIがお客様のためにできることを見つけることができます。ライブデモを視聴し、実際のユースケースをご覧になってください。AIPとACP機能の実際の動作を確認したり、インタラクティブなショーケースを通じて全体像を把握することができます。",
   alternates: {
-    canonical: "/demo-acp",
+    canonical: "/demo/acp",
   },
 };
 

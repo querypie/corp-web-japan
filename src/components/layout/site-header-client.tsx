@@ -50,7 +50,7 @@ function getNavItems(previewModeEnabled: boolean): readonly NavItem[] {
       children: [
         { label: "活用事例", href: "/demo/use-cases" },
         { label: "AIP機能", href: "/demo/aip" },
-        { label: "ACP機能", href: "/demo-acp" },
+        { label: "ACP機能", href: "/demo/acp" },
       ],
     },
     {

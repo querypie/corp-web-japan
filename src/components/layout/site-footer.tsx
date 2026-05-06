@@ -44,7 +44,7 @@ export async function SiteFooter() {
       links: [
         { label: "活用事例", href: "/demo/use-cases" },
         { label: "AIP 機能", href: "/demo/aip" },
-        { label: "ACP 機能", href: "/demo-acp" },
+        { label: "ACP 機能", href: "/demo/acp" },
       ],
     },
     {

@@ -92,7 +92,7 @@ test("/t/news preview entrypoint has been removed after public rollout", () => {
 test("rolled-out demo list pages replace preview entrypoints without redirects", () => {
   assert.equal(existsSync(new URL("../src/app/demo/use-cases/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/demo/aip/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/app/demo-acp/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/app/demo/acp/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/t/use-cases/page.tsx", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/t/demo/aip/page.tsx", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/t/demo/acp/page.tsx", import.meta.url)), false);

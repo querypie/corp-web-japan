@@ -31,7 +31,7 @@ test("footer demo links point to the rolled-out canonical list routes", () => {
 
   assert.match(footer, /label:\s*"活用事例", href:\s*"\/demo\/use-cases"/);
   assert.match(footer, /label:\s*"AIP 機能", href:\s*"\/demo\/aip"/);
-  assert.match(footer, /label:\s*"ACP 機能", href:\s*"\/demo-acp"/);
+  assert.match(footer, /label:\s*"ACP 機能", href:\s*"\/demo\/acp"/);
   assert.doesNotMatch(footer, /t\("\/use-cases", previewModeEnabled\)/);
   assert.doesNotMatch(footer, /t\("\/demo\/aip", previewModeEnabled\)/);
   assert.doesNotMatch(footer, /t\("\/demo\/acp", previewModeEnabled\)/);

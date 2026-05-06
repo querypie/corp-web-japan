@@ -26,7 +26,7 @@ The current public structure is:
 - `/news` — local news index
 - `/demo/use-cases` — local use-case index
 - `/demo/aip` — local AIP demo index
-- `/demo-acp` — local ACP demo index
+- `/demo/acp` — local ACP demo index
 - `/news/:id/:slug` — local MDX-backed news detail, with `/news/:id` redirecting to the canonical slug route
 - `/events/:id/:slug` — local event detail route
 - `/contact-us` — local contact form page with stable query-string prefills and a local submit flow

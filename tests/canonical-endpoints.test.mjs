@@ -9,7 +9,7 @@ const expectedHeaderLinks = [
   'label: "AI専門家伴走支援｜FDE", href: t("/services/fde", previewModeEnabled)',
   'label: "活用事例", href: "/demo/use-cases"',
   'label: "AIP機能", href: "/demo/aip"',
-  'label: "ACP機能", href: "/demo-acp"',
+  'label: "ACP機能", href: "\/demo\/acp"',
   'label: "全て", href: t("/resources", previewModeEnabled)',
   'label: "紹介資料", href: t("/introduction-deck", previewModeEnabled)',
   'label: "用語集", href: t("/glossary", previewModeEnabled)',
@@ -27,7 +27,7 @@ const expectedFooterLinks = [
   'label: "AI専門家伴走支援｜FDE", href: t("/services/fde", previewModeEnabled)',
   'label: "活用事例", href: "/demo/use-cases"',
   'label: "AIP 機能", href: "/demo/aip"',
-  'label: "ACP 機能", href: "/demo-acp"',
+  'label: "ACP 機能", href: "\/demo\/acp"',
   'label: "全て", href: t("/resources", previewModeEnabled)',
   'label: "紹介資料", href: t("/introduction-deck", previewModeEnabled)',
   'label: "用語集", href: t("/glossary", previewModeEnabled)',
@@ -80,7 +80,7 @@ test("redirect and local list endpoints stay on the intended files", () => {
   const newsPage = readSource("src/app/news/page.tsx");
   const useCasesPage = readSource("src/app/demo/use-cases/page.tsx");
   const aipPage = readSource("src/app/demo/aip/page.tsx");
-  const acpPage = readSource("src/app/demo-acp/page.tsx");
+  const acpPage = readSource("src/app\/demo\/acp/page.tsx");
 
   for (const relativePath of expectedRedirectFiles) {
     assert.equal(existsSync(new URL(`../${relativePath}`, import.meta.url)), true, `${relativePath} should exist`);
@@ -90,12 +90,12 @@ test("redirect and local list endpoints stay on the intended files", () => {
   assert.match(newsPage, /canonical:\s*"\/news"/);
   assert.match(useCasesPage, /canonical:\s*"\/demo\/use-cases"/);
   assert.match(aipPage, /canonical:\s*"\/demo\/aip"/);
-  assert.match(acpPage, /canonical:\s*"\/demo-acp"/);
+  assert.match(acpPage, /canonical:\s*"\/demo\/acp"/);
   assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
   assert.match(sitemap, /absoluteUrl\("\/news"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/aip"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/demo-acp"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/demo\/acp"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/use-cases"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/resources"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/manuals"\)/);
