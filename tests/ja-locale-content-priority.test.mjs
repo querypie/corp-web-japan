@@ -25,6 +25,8 @@ test("ja locale catch-all prefers corp-web-japan local content before redirectin
 
   assert.match(source, /isCorpWebJapanInternalContentPath/);
   assert.match(source, /const strippedPath = request\.nextUrl\.pathname\.replace/);
+  assert.match(source, /if \(strippedPath === "\/company\/news"\)/);
+  assert.match(source, /new URL\("\/news", request\.url\)/);
   assert.match(source, /if \(isCorpWebJapanInternalContentPath\(strippedPath\)\)/);
   assert.match(source, /new URL\(strippedPath, request\.url\)/);
   assert.match(source, /new URL\(request\.nextUrl\.pathname, querypieOrigin\)/);
