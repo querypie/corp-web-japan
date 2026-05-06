@@ -30,6 +30,7 @@ test("AIP demo preview page and canonical routes are driven by AIP demo MDX publ
   assert.match(idRoute, /redirect\(getAipDemoPublicationHref\(id, record\.slug\)\)/);
 
   assert.match(loader, /renderPublicationMdx/);
+  assert.match(loader, /hideHeroImageOnDetail: frontmatter\.hideHeroImageOnDetail === true/);
   assert.match(loader, /extractHeadingsFromMdx/);
   assert.match(records, /src\/content\/demo\/aip/);
   assert.match(records, /badge: "AIP機能"/);
@@ -45,5 +46,6 @@ test("AIP demo MDX loader supports the imported corpus component set and route-a
   assert.match(demo1, /heroImageSrc: "\/demo\/aip\/1\/thumbnail\.png"/);
   assert.match(demo1, /relatedIds:/);
   assert.match(demo1, /<Youtube/);
+  assert.match(demo1, /hideHeroImageOnDetail: true/);
   assert.doesNotMatch(demo1, /public\/demo\//);
 });

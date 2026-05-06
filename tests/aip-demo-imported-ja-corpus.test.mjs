@@ -25,6 +25,11 @@ test("migrated AIP demo MDX files use local demo/aip routes and route-aligned as
     assert.doesNotMatch(source, /public\/demo\//);
     assert.doesNotMatch(source, /\/features\/demo\/aip-features\//);
     assert.match(source, /relatedIds:/);
-    assert.match(source, /<Youtube/);
+
+    if (source.includes("<Youtube")) {
+      assert.match(source, /hideHeroImageOnDetail: true/);
+    } else {
+      assert.doesNotMatch(source, /hideHeroImageOnDetail: true/);
+    }
   }
 });

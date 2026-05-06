@@ -31,6 +31,7 @@ test("ACP demo preview page and canonical routes are driven by ACP demo MDX publ
   assert.match(idRoute, /redirect\(getAcpDemoPublicationHref\(id, record\.slug\)\)/);
 
   assert.match(loader, /renderPublicationMdx/);
+  assert.match(loader, /hideHeroImageOnDetail: frontmatter\.hideHeroImageOnDetail === true/);
   assert.match(loader, /extractHeadingsFromMdx/);
   assert.match(records, /src\/content\/demo\/acp/);
   assert.match(records, /badge: "ACP機能"/);
@@ -45,11 +46,13 @@ test("ACP demo MDX loader supports the imported corpus component set and route-a
   const demo26 = readSource("src/content/demo/acp/26.mdx");
 
   assert.match(demo4, /heroImageSrc: "\/demo\/acp\/4\/thumbnail\.png"/);
+  assert.match(demo4, /hideHeroImageOnDetail: true/);
   assert.match(demo4, /<BlueState>/);
   assert.match(demo4, /<InfoNote>/);
   assert.doesNotMatch(demo4, /public\/tutorial\//);
 
   assert.match(demo26, /heroImageSrc: "\/demo\/acp\/26\/thumbnail\.png"/);
   assert.match(demo26, /<Youtube/);
+  assert.match(demo26, /hideHeroImageOnDetail: true/);
   assert.doesNotMatch(demo26, /public\/tutorial\//);
 });
