@@ -79,6 +79,7 @@ Use `.agents/skills/README.md` as the first local index, then load the specific 
 - For the current general code-location conventions, see `docs/code-location-conventions.md`.
 - Use the existing stack and conventions already present in the repo.
 - Notify the user before any non-text change if the request did not explicitly include it.
+- Keep page-level default text color conventions consistent across the site: use `text-slate-950` on the route-level `main` wrapper by default, use `text-slate-600` for ordinary descriptive/body copy unless a component already owns a different shared style, and avoid route-local custom hex text colors unless the user explicitly asks for a visual exception or a shared token layer is being introduced.
 - Apply cursor semantics consistently in UX work: interactive controls such as buttons, clickable cards, disclosure triggers, and menu toggles should show `cursor-pointer`, while static text, headings, and other non-interactive copy should keep the default arrow cursor unless editing or text selection is intentional.
 - Prefer enforcing the cursor affordance contract in global CSS for standard semantics (`a[href]`, `button:not(:disabled)`, `summary`, `[role="button"]`, form text inputs, and editable text) so `.tsx` markup stays minimal and the browser behavior stays consistent.
 - When a UI surface mixes controls and text, verify the cursor in the browser so hover behavior matches the interaction model (pointer for controls, arrow for titles and body copy).
