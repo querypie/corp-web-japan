@@ -20,6 +20,21 @@ const expectedRedirectRules = [
     destination: "https://www.querypie.com/ja/solutions/aip/fde-services",
   },
   {
+    requestPath: "/demo/use-cases",
+    file: "src/app/demo/use-cases/route.ts",
+    destination: "https://www.querypie.com/ja/features/demo?category=use-cases",
+  },
+  {
+    requestPath: "/demo/aip",
+    file: "src/app/demo/aip/route.ts",
+    destination: "https://www.querypie.com/ja/features/demo?category=aip-features",
+  },
+  {
+    requestPath: "/demo/acp",
+    file: "src/app/demo/acp/route.ts",
+    destination: "https://www.querypie.com/ja/features/demo?category=acp-features",
+  },
+  {
     requestPath: "/about-us",
     file: "src/app/about-us/route.ts",
     destination: "https://www.querypie.com/ja/company/about-us",
@@ -58,7 +73,7 @@ const expectedRedirectRules = [
 ];
 
 test("redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 10);
+  assert.equal(expectedRedirectRules.length, 13);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
@@ -88,13 +103,18 @@ test("/t/news preview entrypoint has been removed after public rollout", () => {
   assert.equal(existsSync(new URL("../src/app/t/news/page.tsx", import.meta.url)), false);
 });
 
+test("legacy company news root path redirects to the local /news page", () => {
+  const file = "src/app/company/news/route.ts";
 
-test("rolled-out demo list pages replace preview entrypoints without redirects", () => {
-  assert.equal(existsSync(new URL("../src/app/demo/use-cases/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/app/demo/aip/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/app/demo/acp/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/app/t/use-cases/page.tsx", import.meta.url)), false);
-  assert.equal(existsSync(new URL("../src/app/t/demo/aip/page.tsx", import.meta.url)), false);
-  assert.equal(existsSync(new URL("../src/app/t/demo/acp/page.tsx", import.meta.url)), false);
-  assert.equal(existsSync(new URL("../src/app/demo/aip/route.ts", import.meta.url)), false);
+  assert.equal(existsSync(new URL(`../${file}`, import.meta.url)), true, `${file} should exist`);
+
+  const source = readSource(file);
+
+  assert.match(source, /import type \{ NextRequest \} from "next\/server";/);
+  assert.match(source, /const destinationPath = "\/news";/);
+  assert.match(source, /const destination = new URL\(destinationPath, request\.url\);/);
+  assert.match(source, /destination\.search = request\.nextUrl\.search;/);
+  assert.match(source, /return NextResponse\.redirect\(destination, 307\);/);
+  assert.match(source, /export const HEAD = GET;/);
+  assert.equal(existsSync(new URL("../src/app/[locale]/company/news/route.ts", import.meta.url)), false);
 });
