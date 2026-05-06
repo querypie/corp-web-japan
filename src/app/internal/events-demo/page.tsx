@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 export default async function InternalEventsDemoPage() {
   const eventItems = await listEventPublicationItems();
-  const [heroEvent, ...pastEvents] = eventItems;
+  const [heroEvent] = eventItems;
 
   return (
     <main className="relative bg-white text-slate-950">
@@ -81,7 +81,7 @@ export default async function InternalEventsDemoPage() {
               <h2 className="mt-2 text-[28px] font-medium leading-[1.25] text-slate-950 lg:text-[32px]">지난 이벤트</h2>
             </div>
 
-            <ResourceListItems items={pastEvents} />
+            <ResourceListItems items={eventItems} />
           </section>
         </div>
       </ResourceListContentSection>

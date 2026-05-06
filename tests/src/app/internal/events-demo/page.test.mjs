@@ -12,9 +12,9 @@ test("/internal/events-demo shows the most recent event as a hero block and labe
   assert.match(source, /canonical:\s*"\/internal\/events-demo"/);
   assert.match(source, /index:\s*false/);
   assert.match(source, /follow:\s*false/);
-  assert.match(source, /const \[heroEvent, \.\.\.pastEvents\] = eventItems;/);
+  assert.match(source, /const \[heroEvent\] = eventItems;/);
   assert.match(source, /Most Recent Event/);
   assert.match(source, /Past Events/);
   assert.match(source, /지난 이벤트/);
-  assert.match(source, /<ResourceListItems items=\{pastEvents\} \/>/);
+  assert.match(source, /<ResourceListItems items=\{eventItems\} \/>/);
 });
