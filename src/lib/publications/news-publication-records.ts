@@ -11,6 +11,7 @@ export type NewsPublicationFrontmatter = {
   date: string;
   heroImageSrc: string;
   author?: string | string[];
+  sourceLabel?: string;
   hidden?: boolean;
   redirectUrl?: string;
   relatedIds: readonly string[];
@@ -52,6 +53,7 @@ function normalizeNewsPublicationFrontmatter(value: unknown, sourcePath: string)
     : [];
   const authorValue = frontmatter.author;
   const redirectUrlValue = frontmatter.redirectUrl;
+  const sourceLabelValue = frontmatter.sourceLabel;
 
   return {
     id: String(frontmatter.id ?? ""),
@@ -66,6 +68,7 @@ function normalizeNewsPublicationFrontmatter(value: unknown, sourcePath: string)
         : Array.isArray(authorValue)
           ? authorValue.map((item) => String(item))
           : undefined,
+    sourceLabel: typeof sourceLabelValue === "string" ? sourceLabelValue : undefined,
     hidden: frontmatter.hidden === true,
     redirectUrl: typeof redirectUrlValue === "string" ? redirectUrlValue : undefined,
     relatedIds,
@@ -111,7 +114,7 @@ function createNewsPublicationCache(): Readonly<NewsPublicationCache> {
         title: record.title,
         description: record.description,
         date: record.date,
-        sourceLabel: record.redirectUrl ? "メディア掲載" : "公式発表",
+        sourceLabel: record.sourceLabel ?? (record.redirectUrl ? "メディア掲載" : "公式発表"),
         opensExternal: false,
       }),
     ),

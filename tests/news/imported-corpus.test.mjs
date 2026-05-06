@@ -5,6 +5,7 @@ import path from "node:path";
 
 const newsDir = path.join(process.cwd(), "src/content/news");
 const expectedIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"];
+const migratedExternalIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
 function listNewsIds() {
   return readdirSync(newsDir)
@@ -26,11 +27,17 @@ test("migrated news MDX files use local news routes and route-aligned assets", (
     assert.ok(existsSync(thumbnailPath), `Missing thumbnail for news ${id}`);
     assert.doesNotMatch(source, new RegExp(`filepath="public/news/${id}/thumbnail\\.png"`));
     assert.doesNotMatch(source, /public\/assets\//);
+  }
+});
 
-    if (id !== "13" && id !== "14") {
-      assert.match(source, /\nredirectUrl: "https?:\/\//);
-      assert.match(source, /## 掲載情報/);
-      assert.match(source, /区分: ニュース/);
-    }
+test("formerly redirect-backed external news posts now render local article bodies", () => {
+  for (const id of migratedExternalIds) {
+    const source = readFileSync(path.join(newsDir, `${id}.mdx`), "utf8");
+
+    assert.match(source, /\nsourceLabel: "メディア掲載"\n/);
+    assert.doesNotMatch(source, /\nredirectUrl: "https?:\/\//);
+    assert.doesNotMatch(source, /## 掲載情報/);
+    assert.doesNotMatch(source, /区分: ニュース/);
+    assert.match(source, /> (Source article|Original source): /);
   }
 });
