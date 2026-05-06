@@ -3,7 +3,20 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../helpers/source-readers.mjs";
 
-test("news 13 and 14 now contain the migrated article bodies from the former blog-only records", () => {
+test("news 1-12 now contain imported article bodies instead of redirect-only archive placeholders", () => {
+  const migratedNewsIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+
+  for (const id of migratedNewsIds) {
+    const source = readSource(`src/content/news/${id}.mdx`);
+
+    assert.doesNotMatch(source, /## 掲載情報/);
+    assert.doesNotMatch(source, /区分: ニュース/);
+    assert.doesNotMatch(source, /詳細は元記事または関連ブログをご確認ください。/);
+    assert.match(source, /> (Source article|Original source): /);
+  }
+});
+
+test("news 13 and 14 still contain the migrated article bodies from the former blog-only records", () => {
   const news13 = readSource("src/content/news/13.mdx");
   const news14 = readSource("src/content/news/14.mdx");
 
