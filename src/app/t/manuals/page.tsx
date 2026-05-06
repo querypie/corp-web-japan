@@ -16,7 +16,7 @@ import { listManualPreviewItems } from "@/lib/resources/resource-preview-items";
 
 export const metadata: Metadata = {
   title: "マニュアル | QueryPie AI",
-  description: "Community Edition インストールガイドと外部マニュアル導線をまとめた preview 一覧です。",
+  description: "リリースノート、管理者マニュアル、ユーザーマニュアル、API Docs などをローカル MDX detail route として確認できる preview 一覧です。",
   alternates: {
     canonical: "/t/manuals",
   },
@@ -36,15 +36,12 @@ export default function PreviewManualsPage() {
       <ResourceListHeroSection>
         <ResourceListHeroTitle>マニュアル</ResourceListHeroTitle>
         <ResourceListHeroDescription>
-          包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。
-          <br />
-          基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。
+          リリースノート、管理者マニュアル、ユーザーマニュアル、API Docs などを local MDX detail route として確認できる preview 一覧です。
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
         <ResourceCategorySidebar links={previewResourceCategorySidebarLinks} activeLabel="マニュアル" />
-
         <ResourceListItems items={items} />
       </ResourceListContentSection>
 
@@ -52,4 +49,3 @@ export default function PreviewManualsPage() {
     </main>
   );
 }
-

@@ -21,6 +21,10 @@ export abstract class BaseResourcePublicationRepository {
   protected abstract readonly badge: string;
   protected abstract readonly contentRoot: string;
 
+  protected listSourceFiles(): readonly string[] {
+    return fs.readdirSync(this.contentRoot).filter((file) => file.endsWith(".mdx")).sort();
+  }
+
   protected normalizeFrontmatter(value: unknown, sourcePath: string): ResourcePublicationFrontmatter {
     if (!value || typeof value !== "object") {
       throw new Error(`Missing resource publication frontmatter in ${sourcePath}`);
@@ -59,20 +63,17 @@ export abstract class BaseResourcePublicationRepository {
   }
 
   protected loadRecordsFromDisk(): ResourcePublicationRecord[] {
-    return fs.readdirSync(this.contentRoot)
-      .filter((file) => file.endsWith(".mdx"))
-      .map((file) => {
-        const sourcePath = path.join(this.contentRoot, file);
-        const source = fs.readFileSync(sourcePath, "utf8");
-        const frontmatter = this.parseFrontmatter(source, sourcePath);
+    return this.listSourceFiles().map((file) => {
+      const sourcePath = path.join(this.contentRoot, file);
+      const source = fs.readFileSync(sourcePath, "utf8");
+      const frontmatter = this.parseFrontmatter(source, sourcePath);
 
-        return {
-          ...frontmatter,
-          category: this.category,
-          sourcePath,
-        };
-      })
-      .sort((left, right) => Number(left.id) - Number(right.id));
+      return {
+        ...frontmatter,
+        category: this.category,
+        sourcePath,
+      };
+    });
   }
 
   private getCache() {

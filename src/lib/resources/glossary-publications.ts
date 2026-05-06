@@ -4,7 +4,7 @@ import { BaseResourcePublicationRepository } from "@/lib/resources/base-resource
 class GlossaryPublications extends BaseResourcePublicationRepository {
   protected readonly category = "glossary" as const;
   protected readonly badge = "用語集";
-  protected readonly contentRoot = path.join(process.cwd(), "src/content/documentation/glossary");
+  protected readonly contentRoot = path.join(process.cwd(), "src/content/glossary");
 }
 
 export const glossaryPublications = new GlossaryPublications();
