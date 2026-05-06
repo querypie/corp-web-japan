@@ -60,10 +60,60 @@ const expectedRedirectRules = [
     file: "src/app/ja/[[...path]]/route.ts",
     destination: "/",
   },
+  {
+    requestPath: "/platform/ai/aihub",
+    file: "src/app/platform/ai/aihub/route.ts",
+    destination: "https://www.querypie.com/ja/solutions/aip",
+  },
+  {
+    requestPath: "/platform/ai/aip",
+    file: "src/app/platform/ai/aip/route.ts",
+    destination: "https://www.querypie.com/ja/solutions/aip",
+  },
+  {
+    requestPath: "/platform/ai/aip/integrations",
+    file: "src/app/platform/ai/aip/integrations/route.ts",
+    destination: "https://www.querypie.com/ja/solutions/aip/integrations",
+  },
+  {
+    requestPath: "/platform/ai/aip/usage-based-llm",
+    file: "src/app/platform/ai/aip/usage-based-llm/route.ts",
+    destination: "https://www.querypie.com/ja/solutions/aip/usage-based-llm",
+  },
+  {
+    requestPath: "/platform/ai/aip/fde-services",
+    file: "src/app/platform/ai/aip/fde-services/route.ts",
+    destination: "https://www.querypie.com/ja/solutions/aip/fde-services",
+  },
+  {
+    requestPath: "/platform/ai/aip/mcp-gateway",
+    file: "src/app/platform/ai/aip/mcp-gateway/route.ts",
+    destination: "https://www.querypie.com/ja/solutions/aip/mcp-gateway",
+  },
+  {
+    requestPath: "/platform/security/database-access-controller",
+    file: "src/app/platform/security/database-access-controller/route.ts",
+    destination: "https://www.querypie.com/ja/solutions/acp/database-access-controller",
+  },
+  {
+    requestPath: "/platform/security/system-access-controller",
+    file: "src/app/platform/security/system-access-controller/route.ts",
+    destination: "https://www.querypie.com/ja/solutions/acp/system-access-controller",
+  },
+  {
+    requestPath: "/platform/security/kubernetes-access-controller",
+    file: "src/app/platform/security/kubernetes-access-controller/route.ts",
+    destination: "https://www.querypie.com/ja/solutions/acp/kubernetes-access-controller",
+  },
+  {
+    requestPath: "/platform/security/web-access-controller",
+    file: "src/app/platform/security/web-access-controller/route.ts",
+    destination: "https://www.querypie.com/ja/solutions/acp/web-access-controller",
+  },
 ];
 
 test("redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 11);
+  assert.equal(expectedRedirectRules.length, 21);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
