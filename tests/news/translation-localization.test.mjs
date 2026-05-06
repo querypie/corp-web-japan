@@ -26,7 +26,9 @@ test("translated external news posts place a Japanese translation before preserv
     const source = readNews(id);
     assert.match(source, /## 日本語訳/);
     assert.match(source, /## 原文（英語）/);
+    assert.match(source, /\*\*Original title:\*\* .+/);
     assert.ok(source.indexOf("## 日本語訳") < source.indexOf("## 原文（英語）"));
+    assert.ok(source.indexOf("## 原文（英語）") < source.indexOf("**Original title:**"));
   }
 
   for (const id of translatedKoreanIds) {
