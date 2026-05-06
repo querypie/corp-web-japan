@@ -14,23 +14,20 @@ import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
 export const metadata: Metadata = {
   title: "活用事例 | QueryPie AI",
-  description: "QueryPie AIの活用事例やAIエージェントデモをまとめたプレビュー一覧です。",
+  description:
+    "QueryPie AIがお客様のためにできることを見つけることができます。ライブデモを視聴し、実際のユースケースをご覧になってください。AIPとACP機能の実際の動作を確認したり、インタラクティブなショーケースを通じて全体像を把握することができます。",
   alternates: {
-    canonical: "/t/use-cases",
-  },
-  robots: {
-    index: false,
-    follow: false,
+    canonical: "/demo/use-cases",
   },
 };
 
-type TestUseCasesPageProps = {
+type UseCasesPageProps = {
   searchParams?: Promise<{
     until?: string | string[];
   }>;
 };
 
-export default async function TestUseCasesPage({ searchParams }: TestUseCasesPageProps) {
+export default async function DemoUseCasesPage({ searchParams }: UseCasesPageProps) {
   const [useCaseItems, resolvedSearchParams] = await Promise.all([listUseCasePublicationItems(), searchParams]);
   const initialVisibleCount = resolveResourceListVisibleCount(useCaseItems, resolvedSearchParams?.until);
 
@@ -40,7 +37,11 @@ export default async function TestUseCasesPage({ searchParams }: TestUseCasesPag
 
       <ResourceListHeroSection>
         <ResourceListHeroTitle>活用事例</ResourceListHeroTitle>
-        <ResourceListHeroDescription>QueryPie AIの活用事例やAIエージェントデモを一覧で確認できるプレビューページです。各事例から詳細なMDXコンテンツを確認できます。</ResourceListHeroDescription>
+        <ResourceListHeroDescription>
+          QueryPie AIがお客様のためにできることを見つけることができます。
+          ライブデモを視聴し、実際のユースケースをご覧になってください。
+          AIPとACP機能の実際の動作を確認したり、インタラクティブなショーケースを通じて全体像を把握することができます。
+        </ResourceListHeroDescription>
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
@@ -57,4 +58,3 @@ export default async function TestUseCasesPage({ searchParams }: TestUseCasesPag
     </main>
   );
 }
-

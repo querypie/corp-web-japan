@@ -24,6 +24,9 @@ The current public structure is:
 - `/whitepapers` — local whitepaper index
 - `/whitepapers/:id/:slug` — local MDX-backed whitepaper detail, with `/whitepapers/:id` redirecting to the canonical slug route
 - `/news` — local news index
+- `/demo/use-cases` — local use-case index
+- `/demo/aip` — local AIP demo index
+- `/demo/acp` — local ACP demo index
 - `/news/:id/:slug` — local MDX-backed news detail, with `/news/:id` redirecting to the canonical slug route
 - `/events/:id/:slug` — local event detail route
 - `/contact-us` — local contact form page with stable query-string prefills and a local submit flow
@@ -34,7 +37,7 @@ Additional notes:
 - Whitepaper detail pages can use the current MDX gating contract.
 - The `/events` list page is not publicly launched yet. It remains query-gated and is intentionally excluded from the top-level sitemap entry set.
 - The legacy `/posts/:category/:slug` surface remains only for event compatibility and should not be reused for blog or whitepaper content.
-- Some top-level paths such as `/demo/use-cases`, `/resources`, `/manuals`, `/glossary`, `/about-us`, and legal endpoints are implemented as redirect routes to upstream QueryPie destinations.
+- Some top-level paths such as `/resources`, `/manuals`, `/glossary`, `/about-us`, and legal endpoints are implemented as redirect routes to upstream QueryPie destinations.
 - The catch-all missing-route flow only redirects paths that match the maintained QueryPie allowlist; other unmatched paths are logged and resolve to the local not-found flow.
 
 ## Shared principles

@@ -46,6 +46,21 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
     changeFrequency: "weekly",
     priority: 0.7,
   },
+  {
+    url: absoluteUrl("/demo/use-cases"),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  },
+  {
+    url: absoluteUrl("/demo/aip"),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  },
+  {
+    url: absoluteUrl("/demo/acp"),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
