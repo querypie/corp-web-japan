@@ -1,9 +1,9 @@
-import * as fs from "node:fs";
 import * as path from "node:path";
-import { parse as parseYaml } from "yaml";
 import type { ResourceItem } from "@/content/resources";
-import { getPublicationHref } from "@/lib/publications/get-publication-href";
-import { resolveRedirectablePublicationHref } from "@/lib/publications/resolve-redirectable-publication-href";
+import {
+  createStandardPublicationRecordsRepository,
+  type StandardPublicationRecord,
+} from "@/lib/publications/create-standard-publication-records-repository";
 
 export type AipDemoPublicationFrontmatter = {
   id: string;
@@ -19,20 +19,8 @@ export type AipDemoPublicationFrontmatter = {
   relatedIds: readonly string[];
 };
 
-export type AipDemoPublicationRecord = AipDemoPublicationFrontmatter & {
-  sourcePath: string;
-};
-
+export type AipDemoPublicationRecord = StandardPublicationRecord<AipDemoPublicationFrontmatter>;
 export type AipDemoPublicationListItem = ResourceItem;
-
-type AipDemoPublicationCache = {
-  records: readonly AipDemoPublicationRecord[];
-  recordsById: ReadonlyMap<string, AipDemoPublicationRecord>;
-  listItems: readonly AipDemoPublicationListItem[];
-};
-
-const AIP_DEMO_POSTS_ROOT = path.join(process.cwd(), "src/content/demo/aip");
-let aipDemoPublicationCache: Readonly<AipDemoPublicationCache> | null = null;
 
 function normalizeAipDemoPublicationFrontmatter(
   value: unknown,
@@ -71,83 +59,27 @@ function normalizeAipDemoPublicationFrontmatter(
   };
 }
 
-function parseAipDemoPublicationFrontmatter(
-  source: string,
-  sourcePath: string,
-): AipDemoPublicationFrontmatter {
-  const match = source.match(/^---\n([\s\S]*?)\n---\n?/);
-  if (!match) {
-    throw new Error(`Missing frontmatter block in ${sourcePath}`);
-  }
+const aipDemoPublicationRepository = createStandardPublicationRecordsRepository<AipDemoPublicationFrontmatter>({
+  contentRoot: path.join(process.cwd(), "src/content/demo/aip"),
+  category: "aip-demo",
+  badge: "AIP機能",
+  normalizeFrontmatter: normalizeAipDemoPublicationFrontmatter,
+});
 
-  return normalizeAipDemoPublicationFrontmatter(parseYaml(match[1]), sourcePath);
-}
-
-function loadAipDemoPublicationRecords(): AipDemoPublicationRecord[] {
-  return fs
-    .readdirSync(AIP_DEMO_POSTS_ROOT)
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => {
-      const sourcePath = path.join(AIP_DEMO_POSTS_ROOT, file);
-      const source = fs.readFileSync(sourcePath, "utf8");
-      const frontmatter = parseAipDemoPublicationFrontmatter(source, sourcePath);
-
-      return {
-        ...frontmatter,
-        sourcePath,
-      };
-    })
-    .sort((left, right) => Number(right.id) - Number(left.id));
-}
-
-function createAipDemoPublicationCache(): Readonly<AipDemoPublicationCache> {
-  const records = Object.freeze(loadAipDemoPublicationRecords().map((record) => Object.freeze({ ...record })));
-  const recordsById = new Map<string, AipDemoPublicationRecord>(records.map((record) => [record.id, record]));
-  const visibleRecords = records.filter((record) => !record.hidden);
-  const listItems = Object.freeze(
-    visibleRecords.map((record) =>
-      Object.freeze({
-        id: record.id,
-        href: resolveRedirectablePublicationHref(record.redirectUrl, getPublicationHref("aip-demo", record.id, record.slug)),
-        imageSrc: record.heroImageSrc,
-        badge: "AIP機能",
-        title: record.title,
-        description: record.description,
-        date: record.date,
-      }),
-    ),
-  );
-
-  return Object.freeze({
-    records,
-    recordsById,
-    listItems,
-  });
-}
-
-function getAipDemoPublicationCache(): Readonly<AipDemoPublicationCache> {
-  if (aipDemoPublicationCache) {
-    return aipDemoPublicationCache;
-  }
-
-  aipDemoPublicationCache = Object.freeze(createAipDemoPublicationCache());
-  return aipDemoPublicationCache;
-}
-
-export const aipDemoPublicationRecords = getAipDemoPublicationCache().records;
+export const aipDemoPublicationRecords = aipDemoPublicationRepository.records;
 
 export function listAipDemoPublicationItems(): readonly AipDemoPublicationListItem[] {
-  return getAipDemoPublicationCache().listItems;
+  return aipDemoPublicationRepository.listItems;
 }
 
 export function listAipDemoPublicationParams() {
-  return getAipDemoPublicationCache().records.map(({ id, slug }) => ({ id, slug }));
+  return aipDemoPublicationRepository.listParams();
 }
 
 export function listAipDemoPublicationIds() {
-  return getAipDemoPublicationCache().records.map(({ id }) => ({ id }));
+  return aipDemoPublicationRepository.listIds();
 }
 
 export function getAipDemoPublicationRecord(id: string) {
-  return getAipDemoPublicationCache().recordsById.get(id) ?? null;
+  return aipDemoPublicationRepository.getRecord(id);
 }
