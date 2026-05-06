@@ -3,22 +3,30 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 
-test("missing-route handling redirects legacy whitepaper paths to local canonical whitepaper detail routes", () => {
-  assert.equal(
-    existsSync(new URL("../src/lib/corp-web-japan-legacy-redirect.ts", import.meta.url)),
-    true,
-    "legacy redirect helper should exist",
-  );
-
-  const helper = readSource("src/lib/corp-web-japan-legacy-redirect.ts");
+test("legacy whitepaper resource paths are handled by dedicated static app routes", () => {
+  const pluralRoot = "src/app/resources/discover/whitepapers/route.ts";
+  const singularRoot = "src/app/resources/discover/white-paper/route.ts";
+  const pluralDetail = "src/app/resources/discover/whitepapers/[id]/[slug]/route.ts";
+  const singularDetail = "src/app/resources/discover/white-paper/[id]/[slug]/route.ts";
   const missingRoute = readSource("src/app/[...missing]/page.tsx");
 
-  assert.match(helper, /\^\\\/resources\\\/discover\\\/whitepapers\\\/\(\?<id>/);
-  assert.match(helper, /\^\\\/resources\\\/discover\\\/white-paper\\\/\(\?<id>/);
-  assert.match(helper, /getWhitepaperPublicationRecord\(id\)/);
-  assert.match(helper, /return `\/whitepapers\/\$\{record\.id\}\/\$\{record\.slug\}`;/);
+  for (const file of [pluralRoot, singularRoot, pluralDetail, singularDetail]) {
+    assert.equal(existsSync(new URL(`../${file}`, import.meta.url)), true, `${file} should exist`);
+  }
 
-  assert.match(missingRoute, /buildCorpWebJapanLegacyRedirectPath/);
-  assert.match(missingRoute, /const localRedirectPath = buildCorpWebJapanLegacyRedirectPath\(requestedPath\)/);
-  assert.match(missingRoute, /redirect\(localRedirectPath \+ search\)/);
+  const pluralRootSource = readSource(pluralRoot);
+  const singularRootSource = readSource(singularRoot);
+  const pluralDetailSource = readSource(pluralDetail);
+  const singularDetailSource = readSource(singularDetail);
+
+  assert.match(pluralRootSource, /const destination = "\/whitepapers"/);
+  assert.match(singularRootSource, /const destination = "\/whitepapers"/);
+  assert.match(pluralDetailSource, /getWhitepaperPublicationRecord\(id\)/);
+  assert.match(singularDetailSource, /getWhitepaperPublicationRecord\(id\)/);
+  assert.match(pluralDetailSource, /NextResponse\.redirect\(`\/whitepapers\/\$\{record\.id\}\/\$\{record\.slug\}`, 307\)/);
+  assert.match(singularDetailSource, /NextResponse\.redirect\(`\/whitepapers\/\$\{record\.id\}\/\$\{record\.slug\}`, 307\)/);
+  assert.match(pluralDetailSource, /return NextResponse\.redirect\("\/whitepapers", 307\)/);
+  assert.match(singularDetailSource, /return NextResponse\.redirect\("\/whitepapers", 307\)/);
+
+  assert.doesNotMatch(missingRoute, /buildCorpWebJapanLegacyRedirectPath/);
 });
