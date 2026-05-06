@@ -85,6 +85,7 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
                       contentKey={post.gating.contentKey}
                       initiallyUnlocked={post.gating.initiallyUnlocked}
                       gatedContent={post.gatedBodyMdx}
+                      bodyClassName={publicationBodyClassName}
                     />
                   ) : null}
                 </div>
