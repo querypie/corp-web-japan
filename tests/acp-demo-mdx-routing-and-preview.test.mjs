@@ -31,9 +31,9 @@ test("ACP demo public list page and canonical routes are driven by ACP demo MDX 
   assert.match(idRoute, /listAcpDemoPublicationIds\(\)/);
   assert.match(idRoute, /redirect\(getAcpDemoPublicationHref\(id, record\.slug\)\)/);
 
-  assert.match(loader, /renderPublicationMdx/);
-  assert.match(loader, /hideHeroImageOnDetail: frontmatter\.hideHeroImageOnDetail === true/);
-  assert.match(loader, /extractHeadingsFromMdx/);
+  assert.match(loader, /createStandardPublicationPostLoader/);
+  assert.doesNotMatch(loader, /fallbackToAllRecords: true/);
+  assert.match(loader, /categoryLabel: "ACP機能"/);
   assert.match(records, /src\/content\/demo\/acp/);
   assert.match(records, /badge: "ACP機能"/);
   assert.match(hrefs, /"acp-demo": "\/demo\/acp"/);

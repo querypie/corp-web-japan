@@ -30,9 +30,9 @@ test("AIP demo public list page and canonical routes are driven by AIP demo MDX 
   assert.match(idRoute, /listAipDemoPublicationIds\(\)/);
   assert.match(idRoute, /redirect\(getAipDemoPublicationHref\(id, record\.slug\)\)/);
 
-  assert.match(loader, /renderPublicationMdx/);
-  assert.match(loader, /hideHeroImageOnDetail: frontmatter\.hideHeroImageOnDetail === true/);
-  assert.match(loader, /extractHeadingsFromMdx/);
+  assert.match(loader, /createStandardPublicationPostLoader/);
+  assert.doesNotMatch(loader, /fallbackToAllRecords: true/);
+  assert.match(loader, /categoryLabel: "AIP機能"/);
   assert.match(records, /src\/content\/demo\/aip/);
   assert.match(records, /badge: "AIP機能"/);
   assert.match(hrefs, /"aip-demo": "\/demo\/aip"/);

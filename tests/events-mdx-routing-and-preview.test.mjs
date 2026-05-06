@@ -48,8 +48,8 @@ test("event preview page and canonical routes are driven by event MDX publicatio
   assert.match(legacySlugRoute, /destination\.search = request\.nextUrl\.search/);
   assert.match(legacySlugRoute, /NextResponse\.redirect\(destination, 307\)/);
 
-  assert.match(loader, /renderPublicationMdx/);
-  assert.match(loader, /extractHeadingsFromMdx/);
+  assert.match(loader, /createStandardPublicationPostLoader/);
+  assert.match(loader, /fallbackToAllRecords: true/);
   assert.match(records, /src\/content\/events/);
   assert.match(records, /badge: record\.eventLabel \?\? "イベント"/);
   assert.match(records, /hideHeroImageOnDetail: hideHeroImageOnDetailValue === true/);
