@@ -7,7 +7,7 @@ test("/t/glossary detail route family uses numeric ids with readable filenames",
   const idPage = "src/app/t/glossary/[id]/page.tsx";
   const slugPage = "src/app/t/glossary/[id]/[slug]/page.tsx";
   const publicationFile = "src/lib/resources/glossary-publications.ts";
-  const contentFile = "src/content/glossary/1-querypie-ai-glossary-main-terms-definitions.mdx";
+  const contentFile = "src/content/glossary/1-querypie-ai-glossary.mdx";
 
   assert.equal(existsSync(new URL(`../../../../../${idPage}`, import.meta.url)), true, `${idPage} should exist`);
   assert.equal(existsSync(new URL(`../../../../../${slugPage}`, import.meta.url)), true, `${slugPage} should exist`);
