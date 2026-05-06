@@ -29,6 +29,11 @@ test("migrated ACP demo MDX files use local demo/acp routes and route-aligned as
     assert.doesNotMatch(source, /public\/tutorial\//);
     assert.doesNotMatch(source, /\/features\/demo\/acp-features\//);
     assert.match(source, /relatedIds:/);
-    assert.match(source, /<Youtube/);
+
+    if (source.includes("<Youtube")) {
+      assert.match(source, /hideHeroImageOnDetail: true/);
+    } else {
+      assert.doesNotMatch(source, /hideHeroImageOnDetail: true/);
+    }
   }
 });

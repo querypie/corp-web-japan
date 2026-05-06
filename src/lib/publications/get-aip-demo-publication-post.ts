@@ -52,6 +52,7 @@ export async function getAipDemoPublicationPost(id: string): Promise<Publication
     description: frontmatter.description,
     date: frontmatter.date,
     heroImageSrc: frontmatter.heroImageSrc,
+    hideHeroImageOnDetail: frontmatter.hideHeroImageOnDetail === true,
     author: primaryAuthor
       ? {
           avatarSrc: primaryAuthor.profileImageSrc ?? "/querypie-logo.svg",

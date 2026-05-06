@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
+import { DemoCategorySidebar } from "@/components/sections/demo-category-sidebar";
+import { ResourceListLoadMore } from "@/components/sections/resource-list-load-more";
 import {
   ResourceListContentSection,
   ResourceListHeroDescription,
   ResourceListHeroSection,
   ResourceListHeroTitle,
-  ResourceListItems,
 } from "@/components/sections/resource-list-section";
 import { listUseCasePublicationItems } from "@/lib/publications/use-case-publication-records";
+import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
 export const metadata: Metadata = {
   title: "活用事例 | QueryPie AI",
@@ -23,8 +24,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function TestUseCasesPage() {
-  const useCaseItems = await listUseCasePublicationItems();
+type TestUseCasesPageProps = {
+  searchParams?: Promise<{
+    until?: string | string[];
+  }>;
+};
+
+export default async function TestUseCasesPage({ searchParams }: TestUseCasesPageProps) {
+  const [useCaseItems, resolvedSearchParams] = await Promise.all([listUseCasePublicationItems(), searchParams]);
+  const initialVisibleCount = resolveResourceListVisibleCount(useCaseItems, resolvedSearchParams?.until);
 
   return (
     <main className="relative bg-white text-slate-950">
@@ -36,9 +44,13 @@ export default async function TestUseCasesPage() {
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
-        <ResourceCategorySidebar />
+        <DemoCategorySidebar activeLabel="活用事例" />
 
-        <ResourceListItems items={useCaseItems} />
+        <ResourceListLoadMore
+          key={`use-cases:${initialVisibleCount}`}
+          items={useCaseItems}
+          initialVisibleCount={initialVisibleCount}
+        />
       </ResourceListContentSection>
 
       <SiteFooter />

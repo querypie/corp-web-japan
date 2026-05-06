@@ -16,3 +16,11 @@ test("footer shows the Internal section only when preview mode is enabled", () =
   assert.match(footer, /label:\s*"Load More Demo"/);
   assert.match(footer, /href:\s*"\/internal\/load-more"/);
 });
+
+test("footer demo links also switch with preview mode", () => {
+  const footer = readSource("src/components/layout/site-footer.tsx");
+
+  assert.match(footer, /label:\s*"活用事例", href:\s*t\("\/use-cases", previewModeEnabled\)/);
+  assert.match(footer, /label:\s*"AIP 機能", href:\s*t\("\/demo\/aip", previewModeEnabled\)/);
+  assert.match(footer, /label:\s*"ACP 機能", href:\s*t\("\/demo\/acp", previewModeEnabled\)/);
+});
