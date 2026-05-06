@@ -1,3 +1,8 @@
+import { cookies } from "next/headers";
+import {
+  PREVIEW_NAVIGATION_COOKIE,
+  getPreviewNavigationState,
+} from "@/lib/preview-navigation";
 import {
   ResourceListSidebar,
   ResourceListSidebarItem,
@@ -25,6 +30,7 @@ export const previewResourceCategorySidebarLinks: readonly ResourceCategoryLink[
   { label: "マニュアル", href: "/t/manuals" },
   { label: "ホワイトペーパー", href: "/whitepapers" },
   { label: "ブログ", href: "/blog" },
+  { label: "イベント", href: "/t/events" },
 ] as const;
 
 type ResourceCategorySidebarProps = {
@@ -32,14 +38,23 @@ type ResourceCategorySidebarProps = {
   links?: readonly ResourceCategoryLink[];
 };
 
-export function ResourceCategorySidebar({ activeLabel, links = resourceCategorySidebarLinks }: ResourceCategorySidebarProps) {
+export function getDefaultResourceCategorySidebarLinks(previewModeEnabled: boolean) {
+  return previewModeEnabled ? previewResourceCategorySidebarLinks : resourceCategorySidebarLinks;
+}
+
+export async function ResourceCategorySidebar({ activeLabel, links }: ResourceCategorySidebarProps) {
+  const cookieStore = await cookies();
+  const previewCookieValue = cookieStore.get(PREVIEW_NAVIGATION_COOKIE)?.value;
+  const { enabled: previewModeEnabled } = getPreviewNavigationState(previewCookieValue);
+  const resolvedLinks = links ?? getDefaultResourceCategorySidebarLinks(previewModeEnabled);
+
   return (
     <ResourceListSidebar>
       <ResourceListSidebarLabel>カテゴリー</ResourceListSidebarLabel>
       <ResourceListSidebarViewport>
         <ResourceListSidebarNav label="Sidebar Navigation">
           <ResourceListSidebarList>
-            {links.map((link) => (
+            {resolvedLinks.map((link) => (
               <ResourceListSidebarItem key={link.label}>
                 <ResourceListSidebarLink href={link.href} active={link.label === activeLabel} label={link.label}>
                   {link.label}

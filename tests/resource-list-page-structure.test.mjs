@@ -71,7 +71,12 @@ test("resource category sidebar owns both public and preview category link sets 
   assert.match(source, /\{ label: "全て", href: "\/t\/resources" \}/);
   assert.match(source, /\{ label: "ホワイトペーパー", href: "\/whitepapers" \}/);
   assert.match(source, /\{ label: "ブログ", href: "\/blog" \}/);
+  assert.match(source, /\{ label: "イベント", href: "\/t\/events" \}/);
   assert.match(source, /\{ label: "マニュアル", href: "\/t\/manuals" \}/);
+  assert.match(source, /getDefaultResourceCategorySidebarLinks\(previewModeEnabled\)/);
+  assert.match(source, /cookies\(\)/);
+  assert.match(source, /PREVIEW_NAVIGATION_COOKIE/);
+  assert.match(source, /getPreviewNavigationState/);
   assert.match(source, /ResourceListSidebarNav label="Sidebar Navigation"/);
 });
 
