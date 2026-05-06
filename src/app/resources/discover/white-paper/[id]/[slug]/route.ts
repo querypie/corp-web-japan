@@ -8,13 +8,11 @@ type LegacyWhitepaperRouteContext = {
   }>;
 };
 
-export async function GET(_request: Request, { params }: LegacyWhitepaperRouteContext) {
+export async function GET(request: Request, { params }: LegacyWhitepaperRouteContext) {
   const { id } = await params;
   const record = getWhitepaperPublicationRecord(id);
+  const destinationPath = record ? `/whitepapers/${record.id}/${record.slug}` : "/whitepapers";
+  const destination = new URL(destinationPath, request.url);
 
-  if (!record) {
-    return NextResponse.redirect("/whitepapers", 307);
-  }
-
-  return NextResponse.redirect(`/whitepapers/${record.id}/${record.slug}`, 307);
+  return NextResponse.redirect(destination, 307);
 }
