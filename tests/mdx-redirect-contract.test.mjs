@@ -50,8 +50,24 @@ test("all MDX publication record lists resolve hrefs through the redirectUrl con
 });
 
 test("all MDX publication related-item builders resolve hrefs through the redirectUrl contract", () => {
+  const sharedLoaderFiles = new Set([
+    "src/lib/publications/get-use-case-publication-post.ts",
+    "src/lib/publications/get-aip-demo-publication-post.ts",
+    "src/lib/publications/get-acp-demo-publication-post.ts",
+    "src/lib/publications/get-event-publication-post.ts",
+  ]);
+
   for (const filePath of redirectAwareLoaderFiles) {
     const source = readSource(filePath);
+
+    if (sharedLoaderFiles.has(filePath)) {
+      assert.match(
+        source,
+        /createStandardPublicationPostLoader/,
+        `${filePath} should delegate related href creation through the shared publication post loader`,
+      );
+      continue;
+    }
 
     assert.match(
       source,
