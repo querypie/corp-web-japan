@@ -23,8 +23,23 @@ const redirectAwareLoaderFiles = [
 ];
 
 test("all MDX publication record lists resolve hrefs through the redirectUrl contract", () => {
+  const sharedRepositoryFiles = new Set([
+    "src/lib/publications/use-case-publication-records.ts",
+    "src/lib/publications/aip-demo-publication-records.ts",
+    "src/lib/publications/acp-demo-publication-records.ts",
+  ]);
+
   for (const filePath of redirectAwareRecordFiles) {
     const source = readSource(filePath);
+
+    if (sharedRepositoryFiles.has(filePath)) {
+      assert.match(
+        source,
+        /createStandardPublicationRecordsRepository/,
+        `${filePath} should delegate redirect-aware list href creation through the shared records repository`,
+      );
+      continue;
+    }
 
     assert.match(
       source,
