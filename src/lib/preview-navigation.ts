@@ -11,7 +11,7 @@ export function isPreviewNavigationEnabled(cookieValue?: string | null) {
     return false;
   }
 
-  return cookieValue !== "off";
+  return cookieValue === "on";
 }
 
 export function getPreviewNavigationState(cookieValue?: string | null) {

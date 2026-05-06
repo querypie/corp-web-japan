@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { buildGatingCookieName } from "@/lib/publications/gating";
+import {
+  getPreviewNavigationState,
+  PREVIEW_NAVIGATION_COOKIE,
+} from "@/lib/preview-navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { PublicationPostPage } from "@/components/sections/publication-post-page";
@@ -54,8 +58,12 @@ export default async function IntroductionDeckDetailPage({ params }: ResourcePre
   }
 
   const cookieStore = await cookies();
+  const previewCookieValue = cookieStore.get(PREVIEW_NAVIGATION_COOKIE)?.value;
+  const { enabled: previewModeEnabled } = getPreviewNavigationState(previewCookieValue);
+
   if (post.gating) {
-    post.gating.initiallyUnlocked = cookieStore.has(buildGatingCookieName(post.gating.contentKey));
+    post.gating.initiallyUnlocked =
+      previewModeEnabled || cookieStore.has(buildGatingCookieName(post.gating.contentKey));
   }
 
   return (
