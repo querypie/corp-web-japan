@@ -33,7 +33,6 @@ test("/t/manuals detail route family exists and uses category-specific loaders",
     "src/content/manuals/2-acp-administrator-manual.mdx",
     "src/content/manuals/3-acp-user-manual.mdx",
     "src/content/manuals/4-acp-api-reference.mdx",
-    "src/content/manuals/5-acp-manual.mdx",
     "src/content/manuals/6-aip-manual.mdx",
     "src/content/manuals/7-acp-release-notes.mdx",
   ];
@@ -59,7 +58,6 @@ test("/t/manuals detail route family exists and uses category-specific loaders",
   assert.match(publicationSource, /2-acp-administrator-manual\.mdx/);
   assert.match(publicationSource, /3-acp-user-manual\.mdx/);
   assert.match(publicationSource, /4-acp-api-reference\.mdx/);
-  assert.match(publicationSource, /5-acp-manual\.mdx/);
   assert.match(publicationSource, /6-aip-manual\.mdx/);
   assert.match(publicationSource, /7-acp-release-notes\.mdx/);
 });
