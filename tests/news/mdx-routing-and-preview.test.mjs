@@ -58,13 +58,13 @@ test("news public page and canonical routes are driven by news MDX publication r
   assert.match(loader, /stripLeadingNewsTitleHeading/);
   assert.match(loader, /renderPublicationMdx/);
   assert.match(loader, /extractHeadingsFromMdx\(renderedSource\)/);
-  assert.match(loader, /record\.redirectUrl \?\? getNewsPublicationHref\(record\.id, record\.slug\)/);
+  assert.match(loader, /resolveRedirectablePublicationHref\(record\.redirectUrl, getNewsPublicationHref\(record\.id, record\.slug\)\)/);
   assert.match(records, /src\/content\/news/);
   assert.match(records, /redirectUrl\?: string;/);
   assert.match(records, /sourceLabel\?: string;/);
   assert.match(records, /redirectUrl:\s*typeof redirectUrlValue === "string" \? redirectUrlValue : undefined/);
   assert.match(records, /sourceLabel:\s*typeof sourceLabelValue === "string" \? sourceLabelValue : undefined/);
-  assert.match(records, /href: getPublicationHref\("news", record\.id, record\.slug\)/);
+  assert.match(records, /href: resolveRedirectablePublicationHref\(record\.redirectUrl, getPublicationHref\("news", record\.id, record\.slug\)\)/);
   assert.match(records, /sourceLabel: record\.sourceLabel \?\? \(record\.redirectUrl \? "メディア掲載" : "公式発表"\)/);
   assert.match(records, /opensExternal: false/);
   assert.match(hrefs, /news: "\/news"/);

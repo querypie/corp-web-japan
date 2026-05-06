@@ -3,6 +3,7 @@ import * as path from "node:path";
 import { parse as parseYaml } from "yaml";
 import type { ResourceItem } from "@/content/resources";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
+import { resolveRedirectablePublicationHref } from "@/lib/publications/resolve-redirectable-publication-href";
 
 export type UseCasePublicationFrontmatter = {
   id: string;
@@ -107,7 +108,7 @@ function createUseCasePublicationCache(): Readonly<UseCasePublicationCache> {
     visibleRecords.map((record) =>
       Object.freeze({
         id: record.id,
-        href: getPublicationHref("use-case", record.id, record.slug),
+        href: resolveRedirectablePublicationHref(record.redirectUrl, getPublicationHref("use-case", record.id, record.slug)),
         imageSrc: record.heroImageSrc,
         badge: "活用事例",
         title: record.title,
