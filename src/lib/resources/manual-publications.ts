@@ -8,12 +8,13 @@ class ManualPublications extends BaseResourcePublicationRepository {
 
   protected override listSourceFiles() {
     return [
-      "acp-release-notes.mdx",
-      "acp-administrator-manual.mdx",
-      "acp-user-manual.mdx",
-      "acp-api-reference.mdx",
-      "aip-user-manual.mdx",
-      "acp-community-edition.mdx",
+      "1-querypie-acp-community-install-guide.mdx",
+      "2-acp-administrator-manual.mdx",
+      "3-acp-user-manual.mdx",
+      "4-acp-api-reference.mdx",
+      "5-acp-manual.mdx",
+      "6-aip-manual.mdx",
+      "7-acp-release-notes.mdx",
     ] as const;
   }
 }

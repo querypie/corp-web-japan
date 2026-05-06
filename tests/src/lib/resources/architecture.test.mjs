@@ -27,10 +27,11 @@ test("resource preview loaders are split into an abstract base plus category-spe
   assert.match(introPublications, /src\/content\/introduction-deck/);
   assert.match(glossaryPublications, /src\/content\/glossary/);
   assert.match(manualPublications, /src\/content\/manuals/);
-  assert.match(manualPublications, /acp-release-notes\.mdx/);
-  assert.match(manualPublications, /acp-administrator-manual\.mdx/);
-  assert.match(manualPublications, /acp-user-manual\.mdx/);
-  assert.match(manualPublications, /acp-api-reference\.mdx/);
-  assert.match(manualPublications, /aip-user-manual\.mdx/);
-  assert.match(manualPublications, /acp-community-edition\.mdx/);
+  assert.match(manualPublications, /1-querypie-acp-community-install-guide\.mdx/);
+  assert.match(manualPublications, /2-acp-administrator-manual\.mdx/);
+  assert.match(manualPublications, /3-acp-user-manual\.mdx/);
+  assert.match(manualPublications, /4-acp-api-reference\.mdx/);
+  assert.match(manualPublications, /5-acp-manual\.mdx/);
+  assert.match(manualPublications, /6-aip-manual\.mdx/);
+  assert.match(manualPublications, /7-acp-release-notes\.mdx/);
 });

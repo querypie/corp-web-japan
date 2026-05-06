@@ -29,12 +29,13 @@ test("/t/manuals detail route family exists and uses category-specific loaders",
   const loaderFile = "src/lib/resources/manual-post-loader.ts";
   const publicationFile = "src/lib/resources/manual-publications.ts";
   const contentFiles = [
-    "src/content/manuals/acp-release-notes.mdx",
-    "src/content/manuals/acp-administrator-manual.mdx",
-    "src/content/manuals/acp-user-manual.mdx",
-    "src/content/manuals/acp-api-reference.mdx",
-    "src/content/manuals/aip-user-manual.mdx",
-    "src/content/manuals/acp-community-edition.mdx",
+    "src/content/manuals/1-querypie-acp-community-install-guide.mdx",
+    "src/content/manuals/2-acp-administrator-manual.mdx",
+    "src/content/manuals/3-acp-user-manual.mdx",
+    "src/content/manuals/4-acp-api-reference.mdx",
+    "src/content/manuals/5-acp-manual.mdx",
+    "src/content/manuals/6-aip-manual.mdx",
+    "src/content/manuals/7-acp-release-notes.mdx",
   ];
 
   assert.equal(existsSync(new URL(`../../../../../${idPage}`, import.meta.url)), true, `${idPage} should exist`);
@@ -54,10 +55,11 @@ test("/t/manuals detail route family exists and uses category-specific loaders",
   assert.match(loaderSource, /extends BaseResourcePublicationPostLoader/);
   assert.match(publicationSource, /extends BaseResourcePublicationRepository/);
   assert.match(publicationSource, /src\/content\/manuals/);
-  assert.match(publicationSource, /acp-release-notes\.mdx/);
-  assert.match(publicationSource, /acp-administrator-manual\.mdx/);
-  assert.match(publicationSource, /acp-user-manual\.mdx/);
-  assert.match(publicationSource, /acp-api-reference\.mdx/);
-  assert.match(publicationSource, /aip-user-manual\.mdx/);
-  assert.match(publicationSource, /acp-community-edition\.mdx/);
+  assert.match(publicationSource, /1-querypie-acp-community-install-guide\.mdx/);
+  assert.match(publicationSource, /2-acp-administrator-manual\.mdx/);
+  assert.match(publicationSource, /3-acp-user-manual\.mdx/);
+  assert.match(publicationSource, /4-acp-api-reference\.mdx/);
+  assert.match(publicationSource, /5-acp-manual\.mdx/);
+  assert.match(publicationSource, /6-aip-manual\.mdx/);
+  assert.match(publicationSource, /7-acp-release-notes\.mdx/);
 });
