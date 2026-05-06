@@ -4,13 +4,14 @@ import { existsSync } from "node:fs";
 import { readSource } from "../../../helpers/source-readers.mjs";
 
 const sharedRepositoryPath = "src/lib/publications/create-standard-records-repository.ts";
-const firstPassRecordFiles = [
+const standardRecordFiles = [
   "src/lib/publications/use-case-publication-records.ts",
   "src/lib/publications/aip-demo-publication-records.ts",
   "src/lib/publications/acp-demo-publication-records.ts",
+  "src/lib/publications/event-publication-records.ts",
 ];
 
-test("use-case, AIP demo, and ACP demo records share a common standard publication records repository helper", () => {
+test("use-case, AIP demo, ACP demo, and event records share a common standard publication records repository helper", () => {
   assert.equal(existsSync(new URL("../../../../src/lib/publications/create-standard-records-repository.ts", import.meta.url)), true);
 
   const sharedRepository = readSource(sharedRepositoryPath);
@@ -19,7 +20,7 @@ test("use-case, AIP demo, and ACP demo records share a common standard publicati
   assert.match(sharedRepository, /getPublicationHref/);
   assert.match(sharedRepository, /resolveRedirectablePublicationHref/);
 
-  for (const filePath of firstPassRecordFiles) {
+  for (const filePath of standardRecordFiles) {
     const source = readSource(filePath);
 
     assert.match(source, /createStandardPublicationRecordsRepository/);
@@ -28,4 +29,7 @@ test("use-case, AIP demo, and ACP demo records share a common standard publicati
     assert.doesNotMatch(source, /function create[A-Za-z]+PublicationCache/);
     assert.doesNotMatch(source, /function get[A-Za-z]+PublicationCache/);
   }
+
+  const eventSource = readSource("src/lib/publications/event-publication-records.ts");
+  assert.match(eventSource, /getListItemBadge: \(record\) => record\.eventLabel \?\? "イベント"/);
 });

@@ -31,6 +31,7 @@ type CreateStandardPublicationRecordsRepositoryConfig<
   badge: string;
   normalizeFrontmatter: (value: unknown, sourcePath: string) => TFrontmatter;
   createRecord?: (frontmatter: TFrontmatter, sourcePath: string) => TRecord;
+  getListItemBadge?: (record: TRecord) => string;
   getListItemDescription?: (record: TRecord) => string;
 };
 
@@ -92,7 +93,7 @@ export function createStandardPublicationRecordsRepository<
           getPublicationHref(config.category, record.id, record.slug),
         ),
         imageSrc: record.heroImageSrc,
-        badge: config.badge,
+        badge: config.getListItemBadge?.(record) ?? config.badge,
         title: record.title,
         description: config.getListItemDescription?.(record) ?? record.description,
         date: record.date,
