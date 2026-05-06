@@ -66,10 +66,8 @@ A good outcome is that a reviewer can open one `page.tsx` file and understand th
 Desired reference:
 - `src/app/page.tsx`
 
-Aligned solution-page reference:
+Aligned solution-page references:
 - `src/app/solutions/ai-crew/page.tsx`
-
-Partial / intermediate reference:
 - `src/app/solutions/ai-dashi/page.tsx`
 
 Historical anti-pattern to avoid:

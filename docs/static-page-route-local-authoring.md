@@ -614,12 +614,9 @@ Desired reference:
 
 - `src/app/page.tsx`
 
-Aligned solution-page reference:
+Aligned solution-page references:
 
 - `src/app/solutions/ai-crew/page.tsx`
-
-Partial / intermediate reference:
-
 - `src/app/solutions/ai-dashi/page.tsx`
 
 Historical anti-pattern references:
