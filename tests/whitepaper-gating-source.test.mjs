@@ -2,13 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
-test("whitepaper gating uses gated frontmatter and a GatingCut component instead of the legacy ArticleGatingForm wrapper", () => {
+test("whitepaper gating remains on 2026 download-gated posts while older download CTA posts stay ungated and avoid the legacy ArticleGatingForm wrapper", () => {
   const whitepaper24 = readSource("src/content/whitepapers/24.mdx");
   const whitepaper30 = readSource("src/content/whitepapers/30.mdx");
   const mdxComponents = readSource("src/lib/publications/mdx/components.tsx");
 
-  assert.match(whitepaper24, /\ngated:\s*true\n/);
-  assert.match(whitepaper24, /<GatingCut\s*\/>/);
+  assert.doesNotMatch(whitepaper24, /\ngated:\s*true\n/);
+  assert.doesNotMatch(whitepaper24, /<GatingCut\s*\/>/);
   assert.doesNotMatch(whitepaper24, /<ArticleGatingForm>/);
   assert.doesNotMatch(whitepaper24, /<\/ArticleGatingForm>/);
   assert.match(whitepaper24, /https:\/\/www\.querypie\.com\/ja\/features\/documentation\/white-paper\/24\/.+\/download/);
