@@ -7,6 +7,14 @@ const querypieOrigin = "https://www.querypie.com";
 export function GET(request: NextRequest) {
   const strippedPath = request.nextUrl.pathname.replace(/^\/ja(?=\/|$)/, "") || "/";
 
+  if (strippedPath === "/company/news") {
+    const redirectedUrl = new URL("/news", request.url);
+
+    redirectedUrl.search = request.nextUrl.search;
+
+    return NextResponse.redirect(redirectedUrl, 307);
+  }
+
   if (isCorpWebJapanInternalContentPath(strippedPath)) {
     const redirectedUrl = new URL(strippedPath, request.url);
 
