@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Expand, X } from "lucide-react";
+import { Expand } from "lucide-react";
 
 type ZoomableFigureProps = {
   src: string;
@@ -10,6 +10,11 @@ type ZoomableFigureProps = {
   caption?: string;
   sizes?: string;
   modalScale?: number;
+  modalSrc?: string;
+  modalImageWidth?: number;
+  modalImageHeight?: number;
+  modalViewportWidth?: string;
+  modalViewportHeight?: string;
 };
 
 export function ZoomableFigure({
@@ -18,6 +23,11 @@ export function ZoomableFigure({
   caption = "クリックで拡大表示",
   sizes = "(min-width: 1024px) 720px, 100vw",
   modalScale = 1,
+  modalSrc,
+  modalImageWidth = 1600,
+  modalImageHeight = 1200,
+  modalViewportWidth = "94vw",
+  modalViewportHeight = "88vh",
 }: ZoomableFigureProps) {
   const [open, setOpen] = useState(false);
   const modalMaxWidth = Math.round(1120 * modalScale);
@@ -59,38 +69,31 @@ export function ZoomableFigure({
           className="fixed inset-0 z-[1300] bg-[radial-gradient(circle_at_top,rgba(15,23,42,0.28),rgba(2,6,23,0.88))] px-4 py-8 backdrop-blur-md"
           onClick={() => setOpen(false)}
         >
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/80 text-white transition hover:bg-slate-950"
-            aria-label="拡大表示を閉じる"
-          >
-            <X className="h-5 w-5" />
-          </button>
-          <div
-            className="mx-auto flex h-full w-full max-w-[1280px] items-center justify-center"
-            onClick={(event) => event.stopPropagation()}
-          >
+          <div className="mx-auto flex h-full w-full max-w-[1280px] items-center justify-center">
             <div
               className="flex h-full w-full items-center justify-center"
               style={{
                 minHeight: "100%",
               }}
             >
-              <div className="flex h-full w-full items-center justify-center">
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="flex h-full w-full items-center justify-center bg-transparent p-0"
+                aria-label="拡大表示を閉じる"
+              >
                 <Image
-                  src={src}
+                  src={modalSrc ?? src}
                   alt={alt}
-                  width={modalMaxWidth}
-                  height={modalMaxHeight}
+                  width={modalImageWidth}
+                  height={modalImageHeight}
                   className="block h-auto w-auto max-w-full max-h-full object-contain"
                   style={{
-                    maxWidth: `min(94vw, ${modalMaxWidth}px)`,
-                    maxHeight: `min(88vh, ${modalMaxHeight}px)`,
+                    maxWidth: `min(${modalViewportWidth}, ${modalMaxWidth}px)`,
+                    maxHeight: `min(${modalViewportHeight}, ${modalMaxHeight}px)`,
                   }}
-                  sizes={`min(94vw, ${modalMaxWidth}px)`}
                 />
-              </div>
+              </button>
             </div>
           </div>
         </div>
