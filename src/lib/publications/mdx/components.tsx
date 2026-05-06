@@ -24,6 +24,7 @@ type BoxProps = {
 type ButtonLinkProps = {
   href: string;
   children?: ReactNode;
+  external?: boolean;
 };
 
 type MdxLinkProps = {
@@ -124,8 +125,8 @@ function Box({ center, children }: BoxProps) {
   return <div className={center ? "flex justify-center" : undefined}>{children}</div>;
 }
 
-function ButtonLink({ href, children }: ButtonLinkProps) {
-  if (isExternalHref(href)) {
+function ButtonLink({ href, children, external = false }: ButtonLinkProps) {
+  if (external || isExternalHref(href)) {
     return (
       <a href={href} className="article-content-btn" target="_blank" rel="noopener noreferrer">
         {children}
