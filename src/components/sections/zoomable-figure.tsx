@@ -13,6 +13,8 @@ type ZoomableFigureProps = {
   modalSrc?: string;
   modalImageWidth?: number;
   modalImageHeight?: number;
+  modalViewportWidth?: string;
+  modalViewportHeight?: string;
 };
 
 export function ZoomableFigure({
@@ -24,6 +26,8 @@ export function ZoomableFigure({
   modalSrc,
   modalImageWidth = 1600,
   modalImageHeight = 1200,
+  modalViewportWidth = "94vw",
+  modalViewportHeight = "88vh",
 }: ZoomableFigureProps) {
   const [open, setOpen] = useState(false);
   const modalMaxWidth = Math.round(1120 * modalScale);
@@ -91,8 +95,8 @@ export function ZoomableFigure({
                   height={modalImageHeight}
                   className="block h-auto w-auto max-w-full max-h-full object-contain"
                   style={{
-                    maxWidth: `min(94vw, ${modalMaxWidth}px)`,
-                    maxHeight: `min(88vh, ${modalMaxHeight}px)`,
+                    maxWidth: `min(${modalViewportWidth}, ${modalMaxWidth}px)`,
+                    maxHeight: `min(${modalViewportHeight}, ${modalMaxHeight}px)`,
                   }}
                 />
               </div>

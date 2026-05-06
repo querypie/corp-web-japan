@@ -73,7 +73,9 @@ export function AIDashiValuesDiagram() {
         alt="AI Dashi の3つの価値を示す図解"
         caption=""
         sizes="(min-width: 1024px) 680px, 100vw"
-        modalScale={1.25}
+        modalScale={2}
+        modalViewportWidth="98vw"
+        modalViewportHeight="94vh"
       />
     </RevealOnScroll>
   );
