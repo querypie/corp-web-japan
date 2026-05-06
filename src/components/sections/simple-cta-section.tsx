@@ -27,7 +27,7 @@ export function SimpleCtaSection({
 }
 
 export function CtaContent({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <div className={`mx-auto flex max-w-[772.61px] flex-col items-center gap-[37.5px] ${className}`.trim()}>{children}</div>;
+  return <div className={`mx-auto flex max-w-[1200px] flex-col items-center gap-[37.5px] ${className}`.trim()}>{children}</div>;
 }
 
 export function CtaCopy({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
