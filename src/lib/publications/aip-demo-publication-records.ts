@@ -3,7 +3,7 @@ import type { ResourceItem } from "@/content/resources";
 import {
   createStandardPublicationRecordsRepository,
   type StandardPublicationRecord,
-} from "@/lib/publications/create-standard-publication-records-repository";
+} from "@/lib/publications/create-standard-records-repository";
 
 export type AipDemoPublicationFrontmatter = {
   id: string;

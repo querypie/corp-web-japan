@@ -44,7 +44,7 @@ Do not include in phase 1:
 ## Phase 1 implementation shape
 
 Add:
-- `src/lib/publications/create-standard-publication-records-repository.ts`
+- `src/lib/publications/create-standard-records-repository.ts`
 
 This helper should own:
 - frontmatter block parsing
