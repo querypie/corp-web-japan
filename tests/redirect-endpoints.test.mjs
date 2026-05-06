@@ -53,7 +53,7 @@ const expectedRedirectRules = [
   {
     requestPath: "/api-docs.html",
     file: "src/app/api-docs.html/route.ts",
-    destination: "https://www.querypie.com/api-docs.html",
+    destination: "https://docs.querypie.com/ja/api-reference",
   },
   {
     requestPath: "/ja",
