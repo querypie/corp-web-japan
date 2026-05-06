@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const mdxComponents = readFileSync(new URL("../src/lib/publications/mdx/components.tsx", import.meta.url), "utf8");
-const introductionDeckAip = readFileSync(new URL("../src/content/introduction-deck/1-querypie-aip-introduction.mdx", import.meta.url), "utf8");
-const introductionDeckAcp = readFileSync(new URL("../src/content/introduction-deck/2-querypie-acp-introduction.mdx", import.meta.url), "utf8");
+const introductionDeckAip = readFileSync(new URL("../src/content/introduction-deck/1-querypie-aip.mdx", import.meta.url), "utf8");
+const introductionDeckAcp = readFileSync(new URL("../src/content/introduction-deck/2-querypie-acp.mdx", import.meta.url), "utf8");
 
 test("ButtonLink supports external prop and renders new-tab anchors for external links", () => {
   assert.match(mdxComponents, /type ButtonLinkProps = \{[\s\S]*external\?: boolean;/);

@@ -8,8 +8,8 @@ test("/t/introduction-deck detail route family uses numeric ids with readable fi
   const slugPage = "src/app/t/introduction-deck/[id]/[slug]/page.tsx";
   const publicationFile = "src/lib/resources/introduction-deck-publications.ts";
   const contentFiles = [
-    "src/content/introduction-deck/1-querypie-aip-introduction.mdx",
-    "src/content/introduction-deck/2-querypie-acp-introduction.mdx",
+    "src/content/introduction-deck/1-querypie-aip.mdx",
+    "src/content/introduction-deck/2-querypie-acp.mdx",
   ];
 
   assert.equal(existsSync(new URL(`../../../../../${idPage}`, import.meta.url)), true, `${idPage} should exist`);
