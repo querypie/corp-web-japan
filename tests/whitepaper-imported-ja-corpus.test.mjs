@@ -55,6 +55,7 @@ test("migrated whitepaper MDX files use local whitepaper routes and route-aligne
     assert.doesNotMatch(source, /]\(\/features\/documentation\/white-paper\//);
     assert.doesNotMatch(source, /href="\/white-paper\//);
     assert.doesNotMatch(source, /]\(\/white-paper\//);
+    assert.doesNotMatch(source, /https:\/\/(www\.)?querypie\.com\/resources\/discover\/whitepapers?\//);
     assert.doesNotMatch(source, /\/assets\/image\/whitepapers\//);
     assert.match(source, new RegExp(`\\nheroImageSrc: /whitepapers/${id}/thumbnail\\.png\\n`));
 
