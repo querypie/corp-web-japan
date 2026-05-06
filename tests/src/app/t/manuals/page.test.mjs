@@ -29,7 +29,7 @@ test("/t/manuals detail route family exists and uses category-specific loaders",
   const loaderFile = "src/lib/resources/manual-post-loader.ts";
   const publicationFile = "src/lib/resources/manual-publications.ts";
   const contentFiles = [
-    "src/content/manuals/1-querypie-acp-community-install-guide.mdx",
+    "src/content/manuals/1-acp-community-install-guide.mdx",
     "src/content/manuals/2-acp-administrator-manual.mdx",
     "src/content/manuals/3-acp-user-manual.mdx",
     "src/content/manuals/4-acp-api-reference.mdx",
@@ -55,7 +55,7 @@ test("/t/manuals detail route family exists and uses category-specific loaders",
   assert.match(loaderSource, /extends BaseResourcePublicationPostLoader/);
   assert.match(publicationSource, /extends BaseResourcePublicationRepository/);
   assert.match(publicationSource, /src\/content\/manuals/);
-  assert.match(publicationSource, /1-querypie-acp-community-install-guide\.mdx/);
+  assert.match(publicationSource, /1-acp-community-install-guide\.mdx/);
   assert.match(publicationSource, /2-acp-administrator-manual\.mdx/);
   assert.match(publicationSource, /3-acp-user-manual\.mdx/);
   assert.match(publicationSource, /4-acp-api-reference\.mdx/);

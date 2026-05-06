@@ -8,7 +8,7 @@ class ManualPublications extends BaseResourcePublicationRepository {
 
   protected override listSourceFiles() {
     return [
-      "1-querypie-acp-community-install-guide.mdx",
+      "1-acp-community-install-guide.mdx",
       "2-acp-administrator-manual.mdx",
       "3-acp-user-manual.mdx",
       "4-acp-api-reference.mdx",
