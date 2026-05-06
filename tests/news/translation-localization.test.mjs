@@ -17,7 +17,6 @@ test("news 1-11 use Japanese titles and descriptions when the original article w
 
     assert.match(source, /\ntitle: ".*[ぁ-んァ-ヶ一-龯].*"\n/);
     assert.match(source, /\ndescription: ".*[ぁ-んァ-ヶ一-龯].*"\n/);
-    assert.match(source, /^# .*[ぁ-んァ-ヶ一-龯].*$/m);
   }
 });
 

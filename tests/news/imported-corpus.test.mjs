@@ -18,7 +18,7 @@ test("news corpus includes every imported news record as a local MDX file", () =
   assert.deepEqual(listNewsIds(), expectedIds);
 });
 
-test("migrated news MDX files use local news routes and route-aligned assets", () => {
+test("migrated news MDX files use local news routes, route-aligned assets, and no duplicated leading H1", () => {
   for (const id of expectedIds) {
     const source = readFileSync(path.join(newsDir, `${id}.mdx`), "utf8");
     const thumbnailPath = path.join(process.cwd(), "public", "news", id, "thumbnail.png");
@@ -27,6 +27,7 @@ test("migrated news MDX files use local news routes and route-aligned assets", (
     assert.ok(existsSync(thumbnailPath), `Missing thumbnail for news ${id}`);
     assert.doesNotMatch(source, new RegExp(`filepath="public/news/${id}/thumbnail\\.png"`));
     assert.doesNotMatch(source, /public\/assets\//);
+    assert.doesNotMatch(source, /^---\n[\s\S]*?\n---\n+# /);
   }
 });
 
