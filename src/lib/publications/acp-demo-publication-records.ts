@@ -1,9 +1,9 @@
-import * as fs from "node:fs";
 import * as path from "node:path";
-import { parse as parseYaml } from "yaml";
 import type { ResourceItem } from "@/content/resources";
-import { getPublicationHref } from "@/lib/publications/get-publication-href";
-import { resolveRedirectablePublicationHref } from "@/lib/publications/resolve-redirectable-publication-href";
+import {
+  createStandardPublicationRecordsRepository,
+  type StandardPublicationRecord,
+} from "@/lib/publications/create-standard-records-repository";
 
 export type AcpDemoPublicationFrontmatter = {
   id: string;
@@ -19,20 +19,8 @@ export type AcpDemoPublicationFrontmatter = {
   relatedIds: readonly string[];
 };
 
-export type AcpDemoPublicationRecord = AcpDemoPublicationFrontmatter & {
-  sourcePath: string;
-};
-
+export type AcpDemoPublicationRecord = StandardPublicationRecord<AcpDemoPublicationFrontmatter>;
 export type AcpDemoPublicationListItem = ResourceItem;
-
-type AcpDemoPublicationCache = {
-  records: readonly AcpDemoPublicationRecord[];
-  recordsById: ReadonlyMap<string, AcpDemoPublicationRecord>;
-  listItems: readonly AcpDemoPublicationListItem[];
-};
-
-const ACP_DEMO_POSTS_ROOT = path.join(process.cwd(), "src/content/demo/acp");
-let acpDemoPublicationCache: Readonly<AcpDemoPublicationCache> | null = null;
 
 function normalizeAcpDemoPublicationFrontmatter(
   value: unknown,
@@ -71,83 +59,27 @@ function normalizeAcpDemoPublicationFrontmatter(
   };
 }
 
-function parseAcpDemoPublicationFrontmatter(
-  source: string,
-  sourcePath: string,
-): AcpDemoPublicationFrontmatter {
-  const match = source.match(/^---\n([\s\S]*?)\n---\n?/);
-  if (!match) {
-    throw new Error(`Missing frontmatter block in ${sourcePath}`);
-  }
+const acpDemoPublicationRepository = createStandardPublicationRecordsRepository<AcpDemoPublicationFrontmatter>({
+  contentRoot: path.join(process.cwd(), "src/content/demo/acp"),
+  category: "acp-demo",
+  badge: "ACP機能",
+  normalizeFrontmatter: normalizeAcpDemoPublicationFrontmatter,
+});
 
-  return normalizeAcpDemoPublicationFrontmatter(parseYaml(match[1]), sourcePath);
-}
-
-function loadAcpDemoPublicationRecords(): AcpDemoPublicationRecord[] {
-  return fs
-    .readdirSync(ACP_DEMO_POSTS_ROOT)
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => {
-      const sourcePath = path.join(ACP_DEMO_POSTS_ROOT, file);
-      const source = fs.readFileSync(sourcePath, "utf8");
-      const frontmatter = parseAcpDemoPublicationFrontmatter(source, sourcePath);
-
-      return {
-        ...frontmatter,
-        sourcePath,
-      };
-    })
-    .sort((left, right) => Number(right.id) - Number(left.id));
-}
-
-function createAcpDemoPublicationCache(): Readonly<AcpDemoPublicationCache> {
-  const records = Object.freeze(loadAcpDemoPublicationRecords().map((record) => Object.freeze({ ...record })));
-  const recordsById = new Map<string, AcpDemoPublicationRecord>(records.map((record) => [record.id, record]));
-  const visibleRecords = records.filter((record) => !record.hidden);
-  const listItems = Object.freeze(
-    visibleRecords.map((record) =>
-      Object.freeze({
-        id: record.id,
-        href: resolveRedirectablePublicationHref(record.redirectUrl, getPublicationHref("acp-demo", record.id, record.slug)),
-        imageSrc: record.heroImageSrc,
-        badge: "ACP機能",
-        title: record.title,
-        description: record.description,
-        date: record.date,
-      }),
-    ),
-  );
-
-  return Object.freeze({
-    records,
-    recordsById,
-    listItems,
-  });
-}
-
-function getAcpDemoPublicationCache(): Readonly<AcpDemoPublicationCache> {
-  if (acpDemoPublicationCache) {
-    return acpDemoPublicationCache;
-  }
-
-  acpDemoPublicationCache = Object.freeze(createAcpDemoPublicationCache());
-  return acpDemoPublicationCache;
-}
-
-export const acpDemoPublicationRecords = getAcpDemoPublicationCache().records;
+export const acpDemoPublicationRecords = acpDemoPublicationRepository.records;
 
 export function listAcpDemoPublicationItems(): readonly AcpDemoPublicationListItem[] {
-  return getAcpDemoPublicationCache().listItems;
+  return acpDemoPublicationRepository.listItems;
 }
 
 export function listAcpDemoPublicationParams() {
-  return getAcpDemoPublicationCache().records.map(({ id, slug }) => ({ id, slug }));
+  return acpDemoPublicationRepository.listParams();
 }
 
 export function listAcpDemoPublicationIds() {
-  return getAcpDemoPublicationCache().records.map(({ id }) => ({ id }));
+  return acpDemoPublicationRepository.listIds();
 }
 
 export function getAcpDemoPublicationRecord(id: string) {
-  return getAcpDemoPublicationCache().recordsById.get(id) ?? null;
+  return acpDemoPublicationRepository.getRecord(id);
 }
