@@ -12,6 +12,7 @@ export type UseCasePublicationFrontmatter = {
   date: string;
   heroImageSrc: string;
   author?: string | string[];
+  hideHeroImageOnDetail?: boolean;
   hidden?: boolean;
   redirectUrl?: string;
   relatedIds: readonly string[];
@@ -46,6 +47,7 @@ function normalizeUseCasePublicationFrontmatter(
     ? relatedIdsValue.map((item) => String(item))
     : [];
   const authorValue = frontmatter.author;
+  const hideHeroImageOnDetailValue = frontmatter.hideHeroImageOnDetail;
   const redirectUrlValue = frontmatter.redirectUrl;
 
   return {
@@ -61,6 +63,7 @@ function normalizeUseCasePublicationFrontmatter(
         : Array.isArray(authorValue)
           ? authorValue.map((item) => String(item))
           : undefined,
+    hideHeroImageOnDetail: hideHeroImageOnDetailValue === true,
     hidden: frontmatter.hidden === true,
     redirectUrl: typeof redirectUrlValue === "string" ? redirectUrlValue : undefined,
     relatedIds,
