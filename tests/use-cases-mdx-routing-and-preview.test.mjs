@@ -30,6 +30,7 @@ test("use-case preview page and canonical routes are driven by use-case MDX publ
   assert.match(idRoute, /redirect\(getUseCasePublicationHref\(id, record\.slug\)\)/);
 
   assert.match(loader, /renderPublicationMdx/);
+  assert.match(loader, /hideHeroImageOnDetail: frontmatter\.hideHeroImageOnDetail === true/);
   assert.match(loader, /extractHeadingsFromMdx/);
   assert.match(records, /src\/content\/use-cases/);
   assert.match(records, /badge: "活用事例"/);
@@ -47,9 +48,11 @@ test("use-case MDX loader supports the imported corpus component set and route-a
   assert.match(useCase1, /heroImageSrc: "\/use-cases\/1\/thumbnail\.png"/);
   assert.match(useCase1, /relatedIds:/);
   assert.match(useCase1, /<Youtube/);
+  assert.match(useCase1, /hideHeroImageOnDetail: true/);
   assert.doesNotMatch(useCase1, /public\/customer-success-cases\//);
 
   assert.match(useCase29, /heroImageSrc: "\/use-cases\/29\/thumbnail\.png"/);
   assert.match(useCase29, /<Youtube/);
+  assert.match(useCase29, /hideHeroImageOnDetail: true/);
   assert.doesNotMatch(useCase29, /public\/demo\//);
 });
