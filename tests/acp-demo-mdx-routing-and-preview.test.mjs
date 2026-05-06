@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 
-test("ACP demo preview page and canonical routes are driven by ACP demo MDX publication records", () => {
-  const previewPage = readSource("src/app/t/demo/acp/page.tsx");
+test("ACP demo public list page and canonical routes are driven by ACP demo MDX publication records", () => {
+  const listPage = readSource("src/app/demo-acp/page.tsx");
   const canonicalRoute = readSource("src/app/demo/acp/[id]/[slug]/page.tsx");
   const idRoute = readSource("src/app/demo/acp/[id]/page.tsx");
   const loader = readSource("src/lib/publications/get-acp-demo-publication-post.ts");
@@ -13,14 +13,15 @@ test("ACP demo preview page and canonical routes are driven by ACP demo MDX publ
   const categories = readSource("src/lib/publications/types.ts");
   const mdxComponents = readSource("src/lib/publications/mdx/components.tsx");
 
-  assert.equal(existsSync(new URL("../src/app/t/demo/acp/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/app/demo-acp/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/app/t/demo/acp/page.tsx", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/demo/acp/[id]/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/lib/publications/acp-demo-publication-records.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/lib/publications/get-acp-demo-publication-post.ts", import.meta.url)), true);
 
-  assert.match(previewPage, /listAcpDemoPublicationItems\(\)/);
-  assert.match(previewPage, /canonical: "\/t\/demo\/acp"/);
-  assert.match(previewPage, /robots:\s*\{[\s\S]*index: false,[\s\S]*follow: false,[\s\S]*\}/);
+  assert.match(listPage, /listAcpDemoPublicationItems\(\)/);
+  assert.match(listPage, /canonical: "\/demo-acp"/);
+  assert.doesNotMatch(listPage, /index: false/);
 
   assert.match(canonicalRoute, /getAcpDemoPublicationRecord\(id\)/);
   assert.match(canonicalRoute, /if \(record\.slug !== slug\) \{/);

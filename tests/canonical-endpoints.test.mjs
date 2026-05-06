@@ -7,9 +7,9 @@ const expectedHeaderLinks = [
   'label: "AIプラットフォーム｜AIP", href: t("/services/aip", previewModeEnabled)',
   'label: "アクセス制御プラットフォーム｜ACP", href: t("/services/acp", previewModeEnabled)',
   'label: "AI専門家伴走支援｜FDE", href: t("/services/fde", previewModeEnabled)',
-  'label: "活用事例", href: t("/use-cases", previewModeEnabled)',
-  'label: "AIP機能", href: t("/demo/aip", previewModeEnabled)',
-  'label: "ACP機能", href: t("/demo/acp", previewModeEnabled)',
+  'label: "活用事例", href: "/demo/use-cases"',
+  'label: "AIP機能", href: "/demo/aip"',
+  'label: "ACP機能", href: "/demo-acp"',
   'label: "全て", href: t("/resources", previewModeEnabled)',
   'label: "紹介資料", href: t("/introduction-deck", previewModeEnabled)',
   'label: "用語集", href: t("/glossary", previewModeEnabled)',
@@ -25,9 +25,9 @@ const expectedFooterLinks = [
   'label: "AIプラットフォーム｜AIP", href: t("/services/aip", previewModeEnabled)',
   'label: "アクセス制御プラットフォーム｜ACP", href: t("/services/acp", previewModeEnabled)',
   'label: "AI専門家伴走支援｜FDE", href: t("/services/fde", previewModeEnabled)',
-  'label: "活用事例", href: t("/use-cases", previewModeEnabled)',
-  'label: "AIP 機能", href: t("/demo/aip", previewModeEnabled)',
-  'label: "ACP 機能", href: t("/demo/acp", previewModeEnabled)',
+  'label: "活用事例", href: "/demo/use-cases"',
+  'label: "AIP 機能", href: "/demo/aip"',
+  'label: "ACP 機能", href: "/demo-acp"',
   'label: "全て", href: t("/resources", previewModeEnabled)',
   'label: "紹介資料", href: t("/introduction-deck", previewModeEnabled)',
   'label: "用語集", href: t("/glossary", previewModeEnabled)',
@@ -52,9 +52,6 @@ const expectedRedirectFiles = [
   "src/app/resources/route.ts",
   "src/app/manuals/route.ts",
   "src/app/glossary/route.ts",
-  "src/app/demo/use-cases/route.ts",
-  "src/app/demo/aip/route.ts",
-  "src/app/demo/acp/route.ts",
   "src/app/about-us/route.ts",
   "src/app/certifications/route.ts",
 ];
@@ -77,10 +74,13 @@ test("navigation surfaces point to the canonical local and redirect endpoints", 
   }
 });
 
-test("new non-local endpoints are implemented as redirect routes", () => {
+test("redirect and local list endpoints stay on the intended files", () => {
   const sitemap = readSource("src/app/sitemap.ts");
   const contactUsPage = readSource("src/app/contact-us/page.tsx");
   const newsPage = readSource("src/app/news/page.tsx");
+  const useCasesPage = readSource("src/app/demo/use-cases/page.tsx");
+  const aipPage = readSource("src/app/demo/aip/page.tsx");
+  const acpPage = readSource("src/app/demo-acp/page.tsx");
 
   for (const relativePath of expectedRedirectFiles) {
     assert.equal(existsSync(new URL(`../${relativePath}`, import.meta.url)), true, `${relativePath} should exist`);
@@ -88,9 +88,15 @@ test("new non-local endpoints are implemented as redirect routes", () => {
 
   assert.match(contactUsPage, /canonical:\s*"\/contact-us"/);
   assert.match(newsPage, /canonical:\s*"\/news"/);
+  assert.match(useCasesPage, /canonical:\s*"\/demo\/use-cases"/);
+  assert.match(aipPage, /canonical:\s*"\/demo\/aip"/);
+  assert.match(acpPage, /canonical:\s*"\/demo-acp"/);
   assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
   assert.match(sitemap, /absoluteUrl\("\/news"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/demo\/aip"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/demo-acp"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/use-cases"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/resources"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/manuals"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/glossary"\)/);
