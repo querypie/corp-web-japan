@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Expand, X } from "lucide-react";
+import { Expand } from "lucide-react";
 
 type ZoomableFigureProps = {
   src: string;
@@ -69,25 +69,19 @@ export function ZoomableFigure({
           className="fixed inset-0 z-[1300] bg-[radial-gradient(circle_at_top,rgba(15,23,42,0.28),rgba(2,6,23,0.88))] px-4 py-8 backdrop-blur-md"
           onClick={() => setOpen(false)}
         >
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/80 text-white transition hover:bg-slate-950"
-            aria-label="拡大表示を閉じる"
-          >
-            <X className="h-5 w-5" />
-          </button>
-          <div
-            className="mx-auto flex h-full w-full max-w-[1280px] items-center justify-center"
-            onClick={(event) => event.stopPropagation()}
-          >
+          <div className="mx-auto flex h-full w-full max-w-[1280px] items-center justify-center">
             <div
               className="flex h-full w-full items-center justify-center"
               style={{
                 minHeight: "100%",
               }}
             >
-              <div className="flex h-full w-full items-center justify-center">
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="flex h-full w-full items-center justify-center bg-transparent p-0"
+                aria-label="拡大表示を閉じる"
+              >
                 <Image
                   src={modalSrc ?? src}
                   alt={alt}
@@ -99,7 +93,7 @@ export function ZoomableFigure({
                     maxHeight: `min(${modalViewportHeight}, ${modalMaxHeight}px)`,
                   }}
                 />
-              </div>
+              </button>
             </div>
           </div>
         </div>
