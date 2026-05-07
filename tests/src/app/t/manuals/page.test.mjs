@@ -3,27 +3,25 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../../../../helpers/source-readers.mjs";
 
-test("/manuals page is the public canonical route and /t/manuals redirects to it", () => {
+test("manuals now uses only canonical public routes and does not keep a /t preview route family", () => {
   const canonicalFile = "src/app/manuals/page.tsx";
   const previewFile = "src/app/t/manuals/page.tsx";
   const previewItemsFile = "src/lib/resources/resource-preview-items.ts";
   assert.equal(existsSync(new URL(`../../../../../${canonicalFile}`, import.meta.url)), true, `${canonicalFile} should exist`);
-  assert.equal(existsSync(new URL(`../../../../../${previewFile}`, import.meta.url)), true, `${previewFile} should exist`);
+  assert.equal(existsSync(new URL(`../../../../../${previewFile}`, import.meta.url)), false, `${previewFile} should be removed`);
 
   const canonicalSource = readSource(canonicalFile);
-  const previewSource = readSource(previewFile);
   const previewItemsSource = readSource(previewItemsFile);
   assert.match(canonicalSource, /canonical: "\/manuals"/);
   assert.match(canonicalSource, /title: "マニュアル \| QueryPie AI"/);
   assert.match(canonicalSource, /listManualPreviewItems/);
   assert.match(canonicalSource, /resourceCategorySidebarLinks/);
   assert.match(canonicalSource, /<ResourceCategorySidebar links=\{resourceCategorySidebarLinks\} activeLabel="マニュアル" \/>/);
-  assert.match(previewSource, /redirect\("\/manuals"\)/);
   assert.doesNotMatch(previewItemsSource, /manualExternalItems/);
   assert.match(previewItemsSource, /return listManualPublicationItems\(\)/);
 });
 
-test("manual detail route family now uses canonical public paths while /t routes redirect", () => {
+test("manual detail route family now uses only canonical public paths and no /t routes remain", () => {
   const canonicalIdPage = "src/app/manuals/[id]/page.tsx";
   const canonicalSlugPage = "src/app/manuals/[id]/[slug]/page.tsx";
   const previewIdPage = "src/app/t/manuals/[id]/page.tsx";
@@ -40,20 +38,20 @@ test("manual detail route family now uses canonical public paths while /t routes
     "src/content/manuals/7-acp-release-notes.mdx",
   ];
 
-  for (const file of [canonicalIdPage, canonicalSlugPage, previewIdPage, previewSlugPage, ...contentFiles]) {
+  for (const file of [canonicalIdPage, canonicalSlugPage, ...contentFiles]) {
     assert.equal(existsSync(new URL(`../../../../../${file}`, import.meta.url)), true, `${file} should exist`);
   }
 
+  for (const file of [previewIdPage, previewSlugPage]) {
+    assert.equal(existsSync(new URL(`../../../../../${file}`, import.meta.url)), false, `${file} should be removed`);
+  }
+
   const canonicalSlugSource = readSource(canonicalSlugPage);
-  const previewIdSource = readSource(previewIdPage);
-  const previewSlugSource = readSource(previewSlugPage);
   const loaderSource = readSource(loaderFile);
   const publicationSource = readSource(publicationFile);
 
   assert.match(canonicalSlugSource, /canonical: getManualPublicationHref/);
   assert.match(canonicalSlugSource, /PublicationPostPage post=\{post\}/);
-  assert.match(previewIdSource, /redirect\(getManualPublicationHref\(id, record\.slug\)\)/);
-  assert.match(previewSlugSource, /redirect\(getManualPublicationHref\(id, record\.slug\)\)/);
   assert.match(loaderSource, /extends BaseResourcePublicationPostLoader/);
   assert.match(publicationSource, /extends BaseResourcePublicationRepository/);
   assert.match(publicationSource, /src\/content\/manuals/);
