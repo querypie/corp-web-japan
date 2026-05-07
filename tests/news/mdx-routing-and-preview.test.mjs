@@ -55,9 +55,12 @@ test("news public page and canonical routes are driven by news MDX publication r
   assert.match(idRoute, /if \(record\.redirectUrl\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
   assert.match(idRoute, /redirect\(getNewsPublicationHref\(id, record\.slug\)\)/);
 
-  assert.match(loader, /renderPublicationMdx/);
-  assert.match(loader, /extractHeadingsFromMdx\(bodySource\)/);
-  assert.match(loader, /buildRelatedPublicationItems/);
+  assert.match(loader, /createStandardPublicationPostLoader/);
+  assert.match(loader, /from "@\/lib\/publications\/create-standard-publication-post-loader"/);
+  assert.doesNotMatch(loader, /function readNewsPublicationBodySource/);
+  assert.doesNotMatch(loader, /renderPublicationMdx/);
+  assert.doesNotMatch(loader, /extractHeadingsFromMdx\(bodySource\)/);
+  assert.doesNotMatch(loader, /buildRelatedPublicationItems\(/);
   assert.match(records, /src\/content\/news/);
   assert.match(records, /redirectUrl\?: string;/);
   assert.match(records, /sourceLabel\?: string;/);
