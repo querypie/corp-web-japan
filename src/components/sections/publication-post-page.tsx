@@ -100,7 +100,6 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
             <div className="pb-[89px]">
               {post.bodyMdx ? (
                 <div className={publicationBodyClassName}>
-                  {post.downloadCta ? <PublicationDownloadCta downloadCta={post.downloadCta} /> : null}
                   {post.bodyMdx}
                   {post.gating ? (
                     <ResourcePostGated
@@ -108,21 +107,21 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
                       initiallyUnlocked={post.gating.initiallyUnlocked}
                       gatedContent={post.gatedBodyMdx}
                       bodyClassName={publicationBodyClassName}
+                      unlockedFooter={
+                        post.downloadCta ? <PublicationDownloadCta downloadCta={post.downloadCta} /> : null
+                      }
                     />
+                  ) : post.downloadCta ? (
+                    <PublicationDownloadCta downloadCta={post.downloadCta} />
                   ) : null}
                 </div>
               ) : post.bodyHtml ? (
-                <>
-                  {post.downloadCta ? (
-                    <div className={publicationBodyClassName}>
-                      <PublicationDownloadCta downloadCta={post.downloadCta} />
-                    </div>
-                  ) : null}
+                <div className={publicationBodyClassName}>
                   <div
-                    className={publicationBodyClassName}
                     dangerouslySetInnerHTML={{ __html: post.bodyHtml }}
                   />
-                </>
+                  {post.downloadCta ? <PublicationDownloadCta downloadCta={post.downloadCta} /> : null}
+                </div>
               ) : null}
             </div>
           </div>
