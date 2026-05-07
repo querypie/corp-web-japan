@@ -19,8 +19,12 @@ test("legacy whitepaper resource paths are handled by dedicated static app route
   const pluralDetailSource = readSource(pluralDetail);
   const singularDetailSource = readSource(singularDetail);
 
-  assert.match(pluralRootSource, /const destination = "\/whitepapers"/);
-  assert.match(singularRootSource, /const destination = "\/whitepapers"/);
+  assert.match(pluralRootSource, /export function GET\(request: Request\)/);
+  assert.match(singularRootSource, /export function GET\(request: Request\)/);
+  assert.match(pluralRootSource, /const destination = new URL\("\/whitepapers", request\.url\)/);
+  assert.match(singularRootSource, /const destination = new URL\("\/whitepapers", request\.url\)/);
+  assert.match(pluralRootSource, /return NextResponse\.redirect\(destination, 307\)/);
+  assert.match(singularRootSource, /return NextResponse\.redirect\(destination, 307\)/);
   assert.match(pluralDetailSource, /getWhitepaperPublicationRecord\(id\)/);
   assert.match(singularDetailSource, /getWhitepaperPublicationRecord\(id\)/);
   assert.match(pluralDetailSource, /export async function GET\(request: Request, \{ params \}: LegacyWhitepaperRouteContext\)/);

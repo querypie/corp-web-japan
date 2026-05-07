@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-const destination = "/whitepapers";
+export function GET(request: Request) {
+  const destination = new URL("/whitepapers", request.url);
 
-export function GET() {
   return NextResponse.redirect(destination, 307);
 }
