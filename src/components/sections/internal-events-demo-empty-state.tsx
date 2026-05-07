@@ -1,12 +1,11 @@
 export function InternalEventsDemoEmptyState() {
   return (
-    <section
-      className="relative mb-16 min-h-[240px] overflow-hidden rounded-lg border border-slate-200 bg-white"
-      style={{
-        backgroundImage:
-          "linear-gradient(45deg, transparent calc(50% - 0.5px), #f4efe6 calc(50% - 0.5px), #f4efe6 calc(50% + 0.5px), transparent calc(50% + 0.5px)), linear-gradient(-45deg, transparent calc(50% - 0.5px), #f4efe6 calc(50% - 0.5px), #f4efe6 calc(50% + 0.5px), transparent calc(50% + 0.5px))",
-      }}
-    >
+    <section className="relative mb-16 min-h-[240px] overflow-hidden border bg-white" style={{ borderColor: "#f4efe6" }}>
+      <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="0" y1="0" x2="100" y2="100" stroke="#f4efe6" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+        <line x1="100" y1="0" x2="0" y2="100" stroke="#f4efe6" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+      </svg>
+
       <div className="flex min-h-[240px] items-center justify-center px-6 py-12 text-center md:px-10">
         <div className="relative z-10 mx-auto max-w-4xl bg-white/88 px-6 py-4 backdrop-blur-[1px]">
           <div className="mb-4 inline-flex h-12 w-12 items-center justify-center text-slate-300">
