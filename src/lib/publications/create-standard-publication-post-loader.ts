@@ -26,10 +26,7 @@ type StandardPublicationPostRecord = {
   sourcePath: string;
 };
 
-type CreateStandardPublicationPostLoaderConfig<
-  TFrontmatter extends StandardPublicationPostFrontmatter,
-  TRecord extends StandardPublicationPostRecord,
-> = {
+type CreateStandardPublicationPostLoaderConfig<TRecord extends StandardPublicationPostRecord> = {
   category: PublicationCategory;
   categoryLabel: string;
   relatedTitle: string;
@@ -61,7 +58,7 @@ function buildPublicationAuthor(author: string | string[] | undefined, defaultAu
 export function createStandardPublicationPostLoader<
   TFrontmatter extends StandardPublicationPostFrontmatter,
   TRecord extends StandardPublicationPostRecord,
->(config: CreateStandardPublicationPostLoaderConfig<TFrontmatter, TRecord>) {
+>(config: CreateStandardPublicationPostLoaderConfig<TRecord>) {
   const bodySourceCache = new Map<string, string>();
 
   const readBodySource = (sourcePath: string) => {
