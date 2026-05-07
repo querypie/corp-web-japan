@@ -92,30 +92,42 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
   },
 ];
 
+function shouldIncludeRedirectableRecordInSitemap(record: { hidden?: boolean; redirectUrl?: string }) {
+  return record.hidden !== true || typeof record.redirectUrl === "string";
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const blogDetailRoutes: MetadataRoute.Sitemap = blogPostRecords.map(({ id, slug }) => ({
-    url: absoluteUrl(getBlogPublicationHref(id, slug)),
-    changeFrequency: "monthly",
-    priority: 0.7,
-  }));
+  const blogDetailRoutes: MetadataRoute.Sitemap = blogPostRecords
+    .filter(shouldIncludeRedirectableRecordInSitemap)
+    .map(({ id, slug }) => ({
+      url: absoluteUrl(getBlogPublicationHref(id, slug)),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }));
 
-  const whitepaperDetailRoutes: MetadataRoute.Sitemap = whitepaperPublicationRecords.map(({ id, slug }) => ({
-    url: absoluteUrl(getWhitepaperPublicationHref(id, slug)),
-    changeFrequency: "monthly",
-    priority: 0.7,
-  }));
+  const whitepaperDetailRoutes: MetadataRoute.Sitemap = whitepaperPublicationRecords
+    .filter(shouldIncludeRedirectableRecordInSitemap)
+    .map(({ id, slug }) => ({
+      url: absoluteUrl(getWhitepaperPublicationHref(id, slug)),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }));
 
-  const eventDetailRoutes: MetadataRoute.Sitemap = eventPostRecords.map(({ id, slug }) => ({
-    url: absoluteUrl(getEventPostHref(id, slug)),
-    changeFrequency: "monthly",
-    priority: 0.7,
-  }));
+  const eventDetailRoutes: MetadataRoute.Sitemap = eventPostRecords
+    .filter(shouldIncludeRedirectableRecordInSitemap)
+    .map(({ id, slug }) => ({
+      url: absoluteUrl(getEventPostHref(id, slug)),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }));
 
-  const newsDetailRoutes: MetadataRoute.Sitemap = newsPublicationRecords.map(({ id, slug }) => ({
-    url: absoluteUrl(getNewsPublicationHref(id, slug)),
-    changeFrequency: "monthly",
-    priority: 0.7,
-  }));
+  const newsDetailRoutes: MetadataRoute.Sitemap = newsPublicationRecords
+    .filter(shouldIncludeRedirectableRecordInSitemap)
+    .map(({ id, slug }) => ({
+      url: absoluteUrl(getNewsPublicationHref(id, slug)),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }));
 
   const useCaseDetailRoutes: MetadataRoute.Sitemap = useCasePublicationRecords.map(({ id, slug }) => ({
     url: absoluteUrl(getUseCasePublicationHref(id, slug)),
