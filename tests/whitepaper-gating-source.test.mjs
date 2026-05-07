@@ -51,8 +51,7 @@ test("whitepaper publication loader carries a dedicated gated MDX contract and b
   assert.match(publicationTypes, /gatedBodyMdx: ReactNode \| null;/);
   assert.match(publicationTypes, /gating: PublicationPostGating \| null;/);
   assert.match(publicationTypes, /downloadCta: PublicationPostDownloadCta \| null;/);
-  assert.match(publicationPage, /post\.gating && post\.downloadCta \? <PublicationDownloadCta downloadCta=\{post\.downloadCta\} \/> : null/);
-  assert.doesNotMatch(publicationPage, /post\.category === "whitepaper" && post\.gating && post\.downloadCta/);
+  assert.match(publicationPage, /post\.category === "whitepaper" && post\.gating && post\.downloadCta \? <PublicationDownloadCta downloadCta=\{post\.downloadCta\} \/> : null/);
 
   assert.match(publicationPage, /post\.gating \? \(/);
   assert.match(gatingHelper, /import isProduction from "@\/lib\/is-production"/);

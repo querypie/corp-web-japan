@@ -25,9 +25,10 @@ test("resource publication loaders parse and expose downloadCta for introduction
   assert.match(resourceRepo, /downloadCta,/);
   assert.match(resourcePostLoader, /downloadCta: previewEvaluation\.frontmatter\.downloadCta \?\? null,/);
   assert.match(resourcePostLoader, /downloadCta: evaluation\.frontmatter\.downloadCta \?\? null,/);
-  assert.match(publicationPage, /post\.gating && post\.downloadCta \? <PublicationDownloadCta downloadCta=\{post\.downloadCta\} \/> : null/);
-  assert.doesNotMatch(publicationPage, /post\.category === "whitepaper" && post\.gating && post\.downloadCta/);
-  assert.doesNotMatch(publicationPage, /downloadCta=\{post\.category === "whitepaper" \? null : post\.downloadCta\}/);
-  assert.doesNotMatch(gated, /downloadCta\?: PublicationPostDownloadCta \| null;/);
-  assert.doesNotMatch(gated, /ResourceDownloadCta/);
+  assert.match(publicationPage, /post\.category === "whitepaper" && post\.gating && post\.downloadCta/);
+  assert.match(publicationPage, /downloadCta=\{post\.category === "whitepaper" \? null : post\.downloadCta\}/);
+  assert.match(gated, /downloadCta\?: PublicationPostDownloadCta \| null;/);
+  assert.match(gated, /ResourceDownloadCta/);
+  assert.match(gated, /\{gatedContent\}/);
+  assert.match(gated, /\{downloadCta \? <ResourceDownloadCta downloadCta=\{downloadCta\} \/> : null\}/);
 });

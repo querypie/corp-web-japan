@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import type { FormEvent, ReactNode } from "react";
+import type { PublicationPostDownloadCta } from "@/lib/publications/types";
 import {
   ResourceLeadForm,
   type ResourceLeadFormState,
@@ -74,13 +76,35 @@ type ResourcePostGatedProps = {
   initiallyUnlocked: boolean;
   gatedContent: ReactNode;
   bodyClassName?: string;
+  downloadCta?: PublicationPostDownloadCta | null;
 };
+
+function isExternalHref(href: string) {
+  return /^https?:\/\//.test(href);
+}
+
+function ResourceDownloadCta({ downloadCta }: { downloadCta: PublicationPostDownloadCta }) {
+  if (downloadCta.external || isExternalHref(downloadCta.href)) {
+    return (
+      <a href={downloadCta.href} className="article-content-btn" target="_blank" rel="noopener noreferrer">
+        {downloadCta.label}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={downloadCta.href} className="article-content-btn">
+      {downloadCta.label}
+    </Link>
+  );
+}
 
 export function ResourcePostGated({
   contentKey,
   initiallyUnlocked,
   gatedContent,
   bodyClassName,
+  downloadCta,
 }: ResourcePostGatedProps) {
   const [unlocked, setUnlocked] = useState(initiallyUnlocked);
   const [submitting, setSubmitting] = useState(false);
@@ -161,7 +185,10 @@ export function ResourcePostGated({
 
       {unlocked ? (
         <div className="mt-12">
-          <div className={bodyClassName}>{gatedContent}</div>
+          <div className={bodyClassName}>
+            {gatedContent}
+            {downloadCta ? <ResourceDownloadCta downloadCta={downloadCta} /> : null}
+          </div>
         </div>
       ) : null}
     </>
