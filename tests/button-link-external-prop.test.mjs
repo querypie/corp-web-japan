@@ -13,7 +13,9 @@ test("ButtonLink supports external prop and renders new-tab anchors for external
   assert.match(mdxComponents, /<a href=\{href\} className="article-content-btn" target="_blank" rel="noopener noreferrer">/);
 });
 
-test("introduction deck PDF buttons opt into external new-tab behavior", () => {
-  assert.match(introductionDeckAip, /<ButtonLink href="\/introduction-deck\/1\/QueryPie_AIP_Intro_JP\.pdf" external=\{true\}>/);
-  assert.match(introductionDeckAcp, /<ButtonLink href="\/introduction-deck\/2\/QueryPie_ACP_Intro_JP\.pdf" external=\{true\}>/);
+test("introduction deck PDFs are now modeled through frontmatter downloadCta instead of inline ButtonLink markup", () => {
+  assert.match(introductionDeckAip, /downloadCta:\n  href: "\/introduction-deck\/1\/QueryPie_AIP_Intro_JP\.pdf"/);
+  assert.match(introductionDeckAcp, /downloadCta:\n  href: "\/introduction-deck\/2\/QueryPie_ACP_Intro_JP\.pdf"/);
+  assert.doesNotMatch(introductionDeckAip, /<ButtonLink href="\/introduction-deck\/1\/QueryPie_AIP_Intro_JP\.pdf"/);
+  assert.doesNotMatch(introductionDeckAcp, /<ButtonLink href="\/introduction-deck\/2\/QueryPie_ACP_Intro_JP\.pdf"/);
 });

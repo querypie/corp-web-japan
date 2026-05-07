@@ -10,6 +10,11 @@ export type ResourcePublicationFrontmatter = {
   heroImageSrc: string;
   date?: string;
   gated?: boolean;
+  downloadCta?: {
+    href: string;
+    label: string;
+    external?: boolean;
+  };
   relatedItems?: readonly {
     href: string;
     imageSrc: string;
