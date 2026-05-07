@@ -11,10 +11,10 @@ export function InternalEventsDemoEmptyState() {
             </svg>
           </div>
           <h2 className="mb-2 text-[32px] font-semibold leading-[1.3] tracking-[-0.01em] text-slate-900">
-            현재 예정된 이벤트가 없습니다.
+            現在予定されているイベントはありません。
           </h2>
           <p className="mx-auto max-w-2xl text-base leading-[1.6] text-slate-500">
-            새로운 소식을 기다려 주세요. 업계 리더들의 인사이트와 기술 세미나 일정이 곧 업데이트될 예정입니다.
+            最新のお知らせをお待ちください。業界リーダーのインサイトや技術セミナーの日程はまもなく更新される予定です。
           </p>
         </div>
       </div>

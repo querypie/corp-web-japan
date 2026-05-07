@@ -11,8 +11,8 @@ test("InternalEventsDemoEmptyState renders the provided no-upcoming-event hero d
   assert.match(source, /min-h-\[400px\]/);
   assert.match(source, /border-b border-slate-100 bg-white/);
   assert.match(source, /<svg viewBox="0 0 24 24"/);
-  assert.match(source, /현재 예정된 이벤트가 없습니다\./);
-  assert.match(source, /새로운 소식을 기다려 주세요\. 업계 리더들의 인사이트와 기술 세미나 일정이 곧 업데이트될 예정입니다\./);
+  assert.match(source, /現在予定されているイベントはありません。/);
+  assert.match(source, /最新のお知らせをお待ちください。業界リーダーのインサイトや技術セミナーの日程はまもなく更新される予定です。/);
   assert.doesNotMatch(source, /Event showcase is being prepared/);
   assert.doesNotMatch(source, /Next Webinar/);
 });
