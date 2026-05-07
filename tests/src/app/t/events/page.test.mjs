@@ -22,6 +22,11 @@ test("/t/events shows an asof-driven upcoming hero or the empty state without ex
   assert.match(source, /heroEvent \?/);
   assert.match(source, /eyebrow="Upcoming Event"/);
   assert.match(source, /ctaLabel="詳細を見る"/);
+  assert.match(source, /ResourceListSectionHeading/);
+  assert.match(source, /ResourceListSectionEyebrow/);
+  assert.match(source, /ResourceListSectionTitleRow/);
+  assert.match(source, /ResourceListSectionTitle/);
+  assert.match(source, /ResourceListSectionDescription/);
   assert.match(source, /Past Events/);
   assert.match(source, /過去のイベント/);
   assert.match(source, /カンファレンスやセミナーのインサイトをご覧ください。/);
@@ -29,4 +34,5 @@ test("/t/events shows an asof-driven upcoming hero or the empty state without ex
   assert.match(source, /<ResourceListItems items=\{pastEvents\} \/>/);
   assert.doesNotMatch(source, /InternalEventsDemoHeroToggle/);
   assert.doesNotMatch(source, /upcoming\?: string \| string\[];/);
+  assert.doesNotMatch(source, /border-b border-slate-200 pb-4/);
 });
