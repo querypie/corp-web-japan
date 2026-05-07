@@ -94,7 +94,7 @@ export default function AipUsageBasedLlmPreviewPage() {
       </AipUsageBasedLlmFeatureBand>
 
       <AipUsageBasedLlmFeatureBand>
-        <AipUsageBasedLlmFeatureRow reverse>
+        <AipUsageBasedLlmFeatureRow>
           <RevealOnScroll delayMs={80}>
             <AipUsageBasedLlmFeatureImage
               src="/solutions/aip/usage-based-llm/premium-llm.gif"
@@ -106,7 +106,7 @@ export default function AipUsageBasedLlmPreviewPage() {
           </RevealOnScroll>
 
           <RevealOnScroll>
-            <AipUsageBasedLlmFeatureCopy>
+            <AipUsageBasedLlmFeatureCopy className="ml-auto">
               <AipUsageBasedLlmFeatureTitle>
                 選択可能なプレミアムLLM
                 <br />
