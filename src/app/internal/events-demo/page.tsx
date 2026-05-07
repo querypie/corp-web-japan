@@ -51,7 +51,7 @@ export default async function InternalEventsDemoPage() {
               title={heroEvent.title}
               description={heroEvent.description}
               date={heroEvent.date}
-              eyebrow="Most Recent Event"
+              eyebrow="Upcoming Event"
               ctaLabel="詳細を見る"
             />
           ) : null}

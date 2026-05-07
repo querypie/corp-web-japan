@@ -14,7 +14,7 @@ test("/internal/events-demo shows the most recent event as a hero block and labe
   assert.match(source, /follow:\s*false/);
   assert.match(source, /const \[heroEvent\] = eventItems;/);
   assert.match(source, /FeaturedEventHero/);
-  assert.match(source, /eyebrow="Most Recent Event"/);
+  assert.match(source, /eyebrow="Upcoming Event"/);
   assert.match(source, /ctaLabel="詳細を見る"/);
   assert.match(source, /過去のイベント/);
   assert.match(source, /カンファレンスやセミナーのインサイトをご覧ください。/);
