@@ -1,9 +1,9 @@
 import * as fs from "node:fs";
 import { getDisplayableArticleAuthors, resolveArticleAuthors } from "@/lib/authors/resolve-authors";
+import { buildRelatedPublicationItems } from "@/lib/publications/build-related-publication-items";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
-import { resolveRedirectablePublicationHref } from "@/lib/publications/resolve-redirectable-publication-href";
-import type { PublicationCategory, PublicationPost, PublicationPostAuthor, PublicationPostSummary } from "@/lib/publications/types";
+import type { PublicationCategory, PublicationPost, PublicationPostAuthor } from "@/lib/publications/types";
 
 type StandardPublicationPostFrontmatter = {
   author?: string | string[];
@@ -38,7 +38,6 @@ type CreateStandardPublicationPostLoaderConfig<
   formatDate?: (value: string) => string;
   getRecord: (id: string) => TRecord | null;
   getHref: (id: string, slug: string) => string;
-  fallbackToAllRecords?: boolean;
 };
 
 function buildPublicationAuthor(author: string | string[] | undefined, defaultAuthorAvatarSrc: string): PublicationPostAuthor | null {
@@ -57,30 +56,6 @@ function buildPublicationAuthor(author: string | string[] | undefined, defaultAu
     bio: primaryAuthor.description ?? "",
     profileUrl: primaryAuthor.links.find((link) => link.type === "linkedin")?.url,
   };
-}
-
-function buildRelatedItems<TRecord extends StandardPublicationPostRecord>(
-  records: readonly TRecord[],
-  id: string,
-  relatedIds: readonly string[],
-  getHref: (id: string, slug: string) => string,
-  fallbackToAllRecords: boolean,
-  formatDate?: (value: string) => string,
-): PublicationPostSummary[] {
-  const recordsById = new Map<string, TRecord>(records.map((record) => [record.id, record]));
-  const preferredIds = relatedIds.length > 0 || !fallbackToAllRecords ? relatedIds : records.map((record) => record.id);
-
-  return preferredIds
-    .filter((relatedId) => relatedId != id)
-    .map((relatedId) => recordsById.get(relatedId) ?? null)
-    .filter((record): record is TRecord => record !== null)
-    .slice(0, 3)
-    .map((record) => ({
-      href: resolveRedirectablePublicationHref(record.redirectUrl, getHref(record.id, record.slug)),
-      imageSrc: record.heroImageSrc,
-      title: record.title,
-      date: formatDate ? formatDate(record.date) : record.date,
-    }));
 }
 
 export function createStandardPublicationPostLoader<
@@ -123,14 +98,13 @@ export function createStandardPublicationPostLoader<
       gatedBodyMdx: null,
       gating: null,
       relatedTitle: config.relatedTitle,
-      relatedItems: buildRelatedItems(
-        config.records,
+      relatedItems: buildRelatedPublicationItems({
+        records: config.records,
         id,
-        frontmatter.relatedIds ?? record.relatedIds,
-        config.getHref,
-        config.fallbackToAllRecords === true,
-        config.formatDate,
-      ),
+        relatedIds: frontmatter.relatedIds ?? record.relatedIds,
+        getHref: config.getHref,
+        formatDate: config.formatDate,
+      }),
       toc: extractHeadingsFromMdx(bodySource),
     };
   };

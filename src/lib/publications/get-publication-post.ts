@@ -1,12 +1,12 @@
 import * as fs from "node:fs";
 import { getDisplayableArticleAuthors, resolveArticleAuthors } from "@/lib/authors/resolve-authors";
-import { buildRelatedPublications } from "@/lib/publications/build-related-publications";
+import { buildRelatedPublicationItems } from "@/lib/publications/build-related-publication-items";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
 import type { PublicationPost } from "@/lib/publications/types";
 import type { BlogPostFrontmatter, BlogPostRecord } from "@/lib/publications/blog-publication-records";
-import { getBlogPublicationRecord } from "@/lib/publications/blog-publication-records";
+import { blogPostRecords, getBlogPublicationRecord } from "@/lib/publications/blog-publication-records";
 export {
   getBlogPublicationRecord,
   listBlogPublicationIds,
@@ -60,7 +60,12 @@ export async function getBlogPublicationPost(id: string): Promise<PublicationPos
     gatedBodyMdx: null,
     gating: null,
     relatedTitle: "関連記事",
-    relatedItems: buildRelatedPublications(frontmatter),
+    relatedItems: buildRelatedPublicationItems({
+      records: blogPostRecords,
+      id,
+      relatedIds: frontmatter.relatedIds ?? post.relatedIds,
+      getHref: getBlogPublicationHref,
+    }),
     toc: extractHeadingsFromMdx(bodySource),
   };
 }

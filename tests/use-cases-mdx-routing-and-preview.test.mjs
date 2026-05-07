@@ -31,7 +31,7 @@ test("use-case public list page and canonical routes are driven by use-case MDX 
   assert.match(idRoute, /redirect\(getUseCasePublicationHref\(id, record\.slug\)\)/);
 
   assert.match(loader, /createStandardPublicationPostLoader/);
-  assert.match(loader, /fallbackToAllRecords: true/);
+  assert.match(loader, /createStandardPublicationPostLoader/);
   assert.match(loader, /categoryLabel: "活用事例"/);
   assert.match(records, /src\/content\/use-cases/);
   assert.match(records, /badge: "活用事例"/);

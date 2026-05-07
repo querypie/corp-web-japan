@@ -22,7 +22,6 @@ export const getUseCasePublicationPost = createStandardPublicationPostLoader<
   records: useCasePublicationRecords,
   getRecord: getUseCasePublicationRecord,
   getHref: getUseCasePublicationHref,
-  fallbackToAllRecords: true,
 });
 
 export function getUseCasePublicationHref(id: string, slug: string) {
