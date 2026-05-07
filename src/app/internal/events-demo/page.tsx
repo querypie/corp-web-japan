@@ -58,8 +58,10 @@ export default async function InternalEventsDemoPage() {
 
           <section className="mt-12 lg:mt-16">
             <div className="mb-8 border-b border-slate-200 pb-4">
-              <p className="text-sm font-medium uppercase tracking-[0.18em] text-slate-500">Past Events</p>
-              <h2 className="mt-2 text-[28px] font-medium leading-[1.25] text-slate-950 lg:text-[32px]">지난 이벤트</h2>
+              <div className="flex flex-col gap-2 lg:flex-row lg:items-baseline lg:gap-4">
+                <h2 className="text-[28px] font-medium leading-[1.25] text-slate-950 lg:text-[32px]">過去のイベント</h2>
+                <p className="text-base leading-7 text-slate-600">カンファレンスやセミナーのインサイトをご覧ください。</p>
+              </div>
             </div>
 
             <ResourceListItems items={eventItems} />
