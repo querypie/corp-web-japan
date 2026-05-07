@@ -7,7 +7,7 @@ test("introduction deck models downloadable PDFs through frontmatter downloadCta
   const acp = readSource("src/content/introduction-deck/2-querypie-acp.mdx");
 
   assert.match(aip, /downloadCta:\n  href: "\/introduction-deck\/1\/QueryPie_AIP_Intro_JP\.pdf"\n  label: "QueryPie AIP 製品紹介書を開く"\n  external: true/);
-  assert.match(acp, /downloadCta:\n  href: "\/introduction-deck\/2\/QueryPie_ACP_Intro_JP\.pdf"\n  label: "QueryPie製品紹介を開く"\n  external: true/);
+  assert.match(acp, /downloadCta:\n  href: "\/introduction-deck\/2\/QueryPie_ACP_Intro_JP\.pdf"\n  label: "QueryPie ACP 製品紹介を開く"\n  external: true/);
   assert.doesNotMatch(aip, /<ButtonLink href="\/introduction-deck\/1\/QueryPie_AIP_Intro_JP\.pdf"/);
   assert.doesNotMatch(acp, /<ButtonLink href="\/introduction-deck\/2\/QueryPie_ACP_Intro_JP\.pdf"/);
 });
