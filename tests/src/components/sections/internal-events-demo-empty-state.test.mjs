@@ -16,7 +16,7 @@ test("InternalEventsDemoEmptyState renders a sharp-corner bordered box with corn
   assert.match(source, /<line x1="0" y1="0" x2="100" y2="100" stroke="#f4efe6" strokeWidth="1"/);
   assert.match(source, /<line x1="100" y1="0" x2="0" y2="100" stroke="#f4efe6" strokeWidth="1"/);
   assert.match(source, /vectorEffect="non-scaling-stroke"/);
-  assert.match(source, /bg-white\/88/);
+  assert.match(source, /-translate-y-\[10px\] bg-white\/88/);
   assert.match(source, /現在予定されているイベントはありません。/);
   assert.match(source, /最新のお知らせをお待ちください。業界リーダーのインサイトや技術セミナーの日程はまもなく更新される予定です。/);
 });

@@ -7,7 +7,7 @@ export function InternalEventsDemoEmptyState() {
       </svg>
 
       <div className="flex min-h-[240px] items-center justify-center px-6 py-12 text-center md:px-10">
-        <div className="relative z-10 mx-auto max-w-4xl bg-white/88 px-6 py-4 backdrop-blur-[1px]">
+        <div className="relative z-10 mx-auto max-w-4xl -translate-y-[10px] bg-white/88 px-6 py-4 backdrop-blur-[1px]">
           <div className="mb-4 inline-flex h-12 w-12 items-center justify-center text-slate-300">
             <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
               <rect x="3.75" y="5.25" width="16.5" height="15" rx="2.25" />
