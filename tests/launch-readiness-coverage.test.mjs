@@ -62,14 +62,16 @@ ${topPage}`, /rel="noopener noreferrer"/);
   assert.doesNotMatch(aiCrewDataSource, /href: "#"/);
 });
 
-test("events launch-readiness gate remains explicit while released resource hubs are included in the sitemap", () => {
+test("events is now a released resource hub with canonical metadata and a sitemap entry", () => {
   const eventsPage = readSource("src/app/events/page.tsx");
   const sitemap = readSource("src/app/sitemap.ts");
 
-  assert.match(eventsPage, /unblock\?: string \| string\[];/);
-  assert.match(eventsPage, /return notFound\(\);/);
-  assert.match(eventsPage, /temporary `unblock` query-based readiness check/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/events"\)/);
+  assert.match(eventsPage, /canonical:\s*"\/events"/);
+  assert.match(eventsPage, /resolveEventTimeline\(resolvedSearchParams\?\.asof\)/);
+  assert.match(eventsPage, /FeaturedEventHero/);
+  assert.match(eventsPage, /InternalEventsDemoEmptyState/);
+  assert.match(eventsPage, /Past Events/);
+  assert.match(sitemap, /absoluteUrl\("\/events"\)/);
   assert.match(sitemap, /absoluteUrl\("\/resources"\)/);
   assert.match(sitemap, /absoluteUrl\("\/introduction-deck"\)/);
   assert.match(sitemap, /absoluteUrl\("\/manuals"\)/);

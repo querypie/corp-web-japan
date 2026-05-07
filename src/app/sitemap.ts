@@ -56,6 +56,11 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
     priority: 0.8,
   },
   {
+    url: absoluteUrl("/events"),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  },
+  {
     url: absoluteUrl("/introduction-deck"),
     changeFrequency: "weekly",
     priority: 0.7,

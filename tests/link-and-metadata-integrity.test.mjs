@@ -17,7 +17,7 @@ const headerExpectedLinks = [
   'label: "マニュアル", href: "/manuals"',
   'label: "ホワイトペーパー", href: "/whitepapers"',
   'label: "ブログ", href: "/blog"',
-  'label: "イベント", href: t("/events", previewModeEnabled)',
+  'label: "イベント", href: "/events"',
   'label: "お問い合わせ", href: "/contact-us"',
 ];
 
@@ -36,7 +36,7 @@ const footerExpectedLinks = [
   'label: "マニュアル", href: "/manuals"',
   'label: "ホワイトペーパー", href: "/whitepapers"',
   'label: "ブログ", href: "/blog"',
-  'label: "イベント", href: t("/events", previewModeEnabled)',
+  'label: "イベント", href: "/events"',
   'label: "私たちについて", href: t("/about-us", previewModeEnabled)',
   'label: "お問い合わせ", href: "/contact-us"',
 ];

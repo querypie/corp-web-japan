@@ -3,8 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 
-test("event preview page and canonical routes are driven by event MDX publication records", () => {
-  const previewPage = readSource("src/app/t/events/page.tsx");
+test("event canonical list and detail routes are driven by event MDX publication records", () => {
   const listPage = readSource("src/app/events/page.tsx");
   const canonicalRoute = readSource("src/app/events/[id]/[slug]/page.tsx");
   const idRoute = readSource("src/app/events/[id]/page.tsx");
@@ -14,27 +13,26 @@ test("event preview page and canonical routes are driven by event MDX publicatio
   const records = readSource("src/lib/publications/events/records.ts");
   const postPage = readSource("src/components/sections/publication-post-page.tsx");
 
-  assert.equal(existsSync(new URL("../src/app/t/events/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/app/t/events/page.tsx", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/events/[id]/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/features/demo/webinars/[id]/route.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/features/demo/webinars/[id]/[slug]/route.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/lib/publications/events/records.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/lib/publications/events/get-post.ts", import.meta.url)), true);
 
-  assert.match(previewPage, /resolveEventTimeline\(resolvedSearchParams\?\.asof\)/);
-  assert.match(previewPage, /searchParams\?: Promise<\{/);
-  assert.match(previewPage, /asof\?: string \| string\[];/);
-  assert.match(previewPage, /canonical: "\/t\/events"/);
-  assert.match(previewPage, /robots:\s*\{[\s\S]*index: false,[\s\S]*follow: false,[\s\S]*\}/);
-  assert.match(previewPage, /FeaturedEventHero/);
-  assert.match(previewPage, /InternalEventsDemoEmptyState/);
-  assert.match(previewPage, /Past Events/);
-  assert.match(previewPage, /過去のイベント/);
-  assert.match(previewPage, /<ResourceListItems items=\{pastEvents\} \/>/);
-  assert.doesNotMatch(previewPage, /InternalEventsDemoHeroToggle/);
-
-  assert.match(listPage, /eventItems/);
-  assert.match(listPage, /return notFound\(\);/);
+  assert.match(listPage, /resolveEventTimeline\(resolvedSearchParams\?\.asof\)/);
+  assert.match(listPage, /searchParams\?: Promise<\{/);
+  assert.match(listPage, /asof\?: string \| string\[];/);
+  assert.match(listPage, /canonical: "\/events"/);
+  assert.match(listPage, /FeaturedEventHero/);
+  assert.match(listPage, /InternalEventsDemoEmptyState/);
+  assert.match(listPage, /Past Events/);
+  assert.match(listPage, /過去のイベント/);
+  assert.match(listPage, /<ResourceCategorySidebar activeLabel="イベント" \/>/);
+  assert.match(listPage, /<ResourceListItems items=\{pastEvents\} \/>/);
+  assert.doesNotMatch(listPage, /canonical: "\/t\/events"/);
+  assert.doesNotMatch(listPage, /index: false/);
+  assert.doesNotMatch(listPage, /follow: false/);
 
   assert.match(canonicalRoute, /getEventPublicationRecord\(id\)/);
   assert.match(canonicalRoute, /shouldRedirectHumanVisitorFromRedirectablePublication/);

@@ -57,7 +57,7 @@ export async function SiteFooter() {
         { label: "マニュアル", href: "/manuals" },
         { label: "ホワイトペーパー", href: "/whitepapers" },
         { label: "ブログ", href: "/blog" },
-        ...(previewModeEnabled ? [{ label: "イベント", href: t("/events", previewModeEnabled) }] : []),
+        { label: "イベント", href: "/events" },
       ],
     },
     {

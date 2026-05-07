@@ -13,7 +13,6 @@ const routeFiles = [
   "src/app/introduction-deck/page.tsx",
   "src/app/glossary/page.tsx",
   "src/app/manuals/page.tsx",
-  "src/app/t/events/page.tsx",
   "src/app/demo/use-cases/page.tsx",
   "src/app/demo/aip/page.tsx",
   "src/app/demo/acp/page.tsx",
@@ -35,8 +34,7 @@ test("public resource-list routes use the concrete public sidebar component", ()
     "src/app/internal/events-demo/page.tsx",
     "src/app/internal/load-more/page.tsx",
     "src/app/internal/mdx-list-demo/page.tsx",
-    "src/app/t/events/page.tsx",
-    "src/app/resources/page.tsx",
+      "src/app/resources/page.tsx",
     "src/app/introduction-deck/page.tsx",
     "src/app/glossary/page.tsx",
     "src/app/manuals/page.tsx",
@@ -72,7 +70,7 @@ test("resource category sidebar owns both public and preview category link sets 
   assert.match(source, /\{ label: "マニュアル", href: "\/manuals" \}/);
   assert.match(source, /\{ label: "ホワイトペーパー", href: "\/whitepapers" \}/);
   assert.match(source, /\{ label: "ブログ", href: "\/blog" \}/);
-  assert.match(source, /\{ label: "イベント", href: "\/t\/events" \}/);
+  assert.match(source, /\{ label: "イベント", href: "\/events" \}/);
   assert.match(source, /getDefaultResourceCategorySidebarLinks\(previewModeEnabled\)/);
   assert.match(source, /cookies\(\)/);
   assert.match(source, /PREVIEW_NAVIGATION_COOKIE/);
