@@ -51,10 +51,10 @@ export async function SiteFooter() {
     {
       title: "リソース",
       links: [
-        { label: "全て", href: t("/resources", previewModeEnabled) },
-        { label: "紹介資料", href: t("/introduction-deck", previewModeEnabled) },
-        { label: "用語集", href: t("/glossary", previewModeEnabled) },
-        { label: "マニュアル", href: t("/manuals", previewModeEnabled) },
+        { label: "全て", href: "/resources" },
+        { label: "紹介資料", href: "/introduction-deck" },
+        { label: "用語集", href: "/glossary" },
+        { label: "マニュアル", href: "/manuals" },
         { label: "ホワイトペーパー", href: "/whitepapers" },
         { label: "ブログ", href: "/blog" },
         ...(previewModeEnabled ? [{ label: "イベント", href: t("/events", previewModeEnabled) }] : []),

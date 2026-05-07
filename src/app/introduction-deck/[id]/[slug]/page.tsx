@@ -11,7 +11,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { PublicationPostPage } from "@/components/sections/publication-post-page";
 import { getIntroductionDeckPublicationHref, getIntroductionDeckPublicationPost, getIntroductionDeckPublicationRecord, listIntroductionDeckPublicationParamsByCategory } from "@/lib/resources/introduction-deck-post-loader";
 
-type ResourcePreviewDetailPageProps = {
+type IntroductionDeckDetailPageProps = {
   params: Promise<{ id: string; slug: string }>;
 };
 
@@ -19,7 +19,7 @@ export function generateStaticParams() {
   return listIntroductionDeckPublicationParamsByCategory();
 }
 
-export async function generateMetadata({ params }: ResourcePreviewDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: IntroductionDeckDetailPageProps): Promise<Metadata> {
   const { id } = await params;
   const record = getIntroductionDeckPublicationRecord(id);
 
@@ -33,14 +33,10 @@ export async function generateMetadata({ params }: ResourcePreviewDetailPageProp
     alternates: {
       canonical: getIntroductionDeckPublicationHref(id, record.slug),
     },
-    robots: {
-      index: false,
-      follow: false,
-    },
   };
 }
 
-export default async function IntroductionDeckDetailPage({ params }: ResourcePreviewDetailPageProps) {
+export default async function IntroductionDeckDetailPage({ params }: IntroductionDeckDetailPageProps) {
   const { id, slug } = await params;
   const record = getIntroductionDeckPublicationRecord(id);
 

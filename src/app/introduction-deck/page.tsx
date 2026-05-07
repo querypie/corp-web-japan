@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  previewResourceCategorySidebarLinks,
+  resourceCategorySidebarLinks,
   ResourceCategorySidebar,
 } from "@/components/sections/resource-category-sidebar";
 import {
@@ -12,29 +12,25 @@ import {
   ResourceListHeroTitle,
   ResourceListItems,
 } from "@/components/sections/resource-list-section";
-import { listGlossaryPublicationItems } from "@/lib/resources/glossary-publications";
+import { listIntroductionDeckPublicationItems } from "@/lib/resources/introduction-deck-publications";
 
 export const metadata: Metadata = {
-  title: "用語集 | QueryPie AI",
-  description: "QueryPie AI の主要セキュリティ・AI用語を local MDX detail route で確認できる preview 一覧です。",
+  title: "紹介資料 | QueryPie AI",
+  description: "AIP / ACP の製品紹介資料をまとめて確認できる紹介資料一覧です。",
   alternates: {
-    canonical: "/t/glossary",
-  },
-  robots: {
-    index: false,
-    follow: false,
+    canonical: "/introduction-deck",
   },
 };
 
-export default function PreviewGlossaryPage() {
-  const items = listGlossaryPublicationItems();
+export default function IntroductionDeckPage() {
+  const items = listIntroductionDeckPublicationItems();
 
   return (
     <main className="relative bg-white text-slate-950">
       <SiteHeader />
 
       <ResourceListHeroSection>
-        <ResourceListHeroTitle>用語集</ResourceListHeroTitle>
+        <ResourceListHeroTitle>紹介資料</ResourceListHeroTitle>
         <ResourceListHeroDescription>
           包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。
           <br />
@@ -43,7 +39,7 @@ export default function PreviewGlossaryPage() {
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
-        <ResourceCategorySidebar links={previewResourceCategorySidebarLinks} activeLabel="用語集" />
+        <ResourceCategorySidebar links={resourceCategorySidebarLinks} activeLabel="紹介資料" />
 
         <ResourceListItems items={items} />
       </ResourceListContentSection>
@@ -52,4 +48,3 @@ export default function PreviewGlossaryPage() {
     </main>
   );
 }
-

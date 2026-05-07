@@ -5,7 +5,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { PublicationPostPage } from "@/components/sections/publication-post-page";
 import { getGlossaryPublicationHref, getGlossaryPublicationPost, getGlossaryPublicationRecordById, listGlossaryPublicationParamsByCategory } from "@/lib/resources/glossary-post-loader";
 
-type ResourcePreviewDetailPageProps = {
+type GlossaryDetailPageProps = {
   params: Promise<{ id: string; slug: string }>;
 };
 
@@ -13,7 +13,7 @@ export function generateStaticParams() {
   return listGlossaryPublicationParamsByCategory();
 }
 
-export async function generateMetadata({ params }: ResourcePreviewDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: GlossaryDetailPageProps): Promise<Metadata> {
   const { id } = await params;
   const record = getGlossaryPublicationRecordById(id);
 
@@ -27,14 +27,10 @@ export async function generateMetadata({ params }: ResourcePreviewDetailPageProp
     alternates: {
       canonical: getGlossaryPublicationHref(id, record.slug),
     },
-    robots: {
-      index: false,
-      follow: false,
-    },
   };
 }
 
-export default async function GlossaryDetailPage({ params }: ResourcePreviewDetailPageProps) {
+export default async function GlossaryDetailPage({ params }: GlossaryDetailPageProps) {
   const { id, slug } = await params;
   const record = getGlossaryPublicationRecordById(id);
 

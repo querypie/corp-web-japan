@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  previewResourceCategorySidebarLinks,
+  resourceCategorySidebarLinks,
   ResourceCategorySidebar,
 } from "@/components/sections/resource-category-sidebar";
 import {
@@ -16,17 +16,14 @@ import { listManualPreviewItems } from "@/lib/resources/resource-preview-items";
 
 export const metadata: Metadata = {
   title: "マニュアル | QueryPie AI",
-  description: "リリースノート、管理者マニュアル、ユーザーマニュアル、API Docs など、QueryPie の主要ドキュメントをまとめて確認できるマニュアル一覧です。",
+  description:
+    "リリースノート、管理者マニュアル、ユーザーマニュアル、API Docs など、QueryPie の主要ドキュメントをまとめて確認できるマニュアル一覧です。",
   alternates: {
-    canonical: "/t/manuals",
-  },
-  robots: {
-    index: false,
-    follow: false,
+    canonical: "/manuals",
   },
 };
 
-export default function PreviewManualsPage() {
+export default function ManualsPage() {
   const items = listManualPreviewItems();
 
   return (
@@ -41,7 +38,7 @@ export default function PreviewManualsPage() {
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
-        <ResourceCategorySidebar links={previewResourceCategorySidebarLinks} activeLabel="マニュアル" />
+        <ResourceCategorySidebar links={resourceCategorySidebarLinks} activeLabel="マニュアル" />
         <ResourceListItems items={items} />
       </ResourceListContentSection>
 

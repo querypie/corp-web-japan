@@ -9,14 +9,14 @@ const routeFiles = [
   "src/app/events/page.tsx",
   "src/app/internal/events-demo/page.tsx",
   "src/app/internal/load-more/page.tsx",
-  "src/app/t/resources/page.tsx",
-  "src/app/t/introduction-deck/page.tsx",
-  "src/app/t/glossary/page.tsx",
-  "src/app/t/manuals/page.tsx",
+  "src/app/resources/page.tsx",
+  "src/app/introduction-deck/page.tsx",
+  "src/app/glossary/page.tsx",
+  "src/app/manuals/page.tsx",
   "src/app/t/events/page.tsx",
   "src/app/demo/use-cases/page.tsx",
   "src/app/demo/aip/page.tsx",
-  "src/app\/demo\/acp/page.tsx",
+  "src/app/demo/acp/page.tsx",
 ];
 
 test("resource list routes compose hero sections directly in each page.tsx", () => {
@@ -36,6 +36,10 @@ test("public resource-list routes use the concrete public sidebar component", ()
     "src/app/internal/load-more/page.tsx",
     "src/app/internal/mdx-list-demo/page.tsx",
     "src/app/t/events/page.tsx",
+    "src/app/resources/page.tsx",
+    "src/app/introduction-deck/page.tsx",
+    "src/app/glossary/page.tsx",
+    "src/app/manuals/page.tsx",
   ]) {
     const source = readSource(path);
     assert.match(source, /ResourceCategorySidebar/);
@@ -43,24 +47,10 @@ test("public resource-list routes use the concrete public sidebar component", ()
 });
 
 test("public demo list routes use the dedicated demo sidebar component", () => {
-  for (const path of ["src/app/demo/use-cases/page.tsx", "src/app/demo/aip/page.tsx", "src/app\/demo\/acp/page.tsx"]) {
+  for (const path of ["src/app/demo/use-cases/page.tsx", "src/app/demo/aip/page.tsx", "src/app/demo/acp/page.tsx"]) {
     const source = readSource(path);
     assert.match(source, /DemoCategorySidebar/);
     assert.doesNotMatch(source, /ResourceCategorySidebar/);
-    assert.doesNotMatch(source, /<ResourceListSidebar>/);
-  }
-});
-
-test("preview resource list routes also use ResourceCategorySidebar instead of redefining sidebar markup", () => {
-  for (const path of [
-    "src/app/t/resources/page.tsx",
-    "src/app/t/glossary/page.tsx",
-    "src/app/t/introduction-deck/page.tsx",
-    "src/app/t/manuals/page.tsx",
-  ]) {
-    const source = readSource(path);
-    assert.match(source, /ResourceCategorySidebar/);
-    assert.doesNotMatch(source, /const sidebarLinks: readonly ResourceCategoryLink\[] = \[/);
     assert.doesNotMatch(source, /<ResourceListSidebar>/);
   }
 });
@@ -76,11 +66,13 @@ test("resource category sidebar owns both public and preview category link sets 
   assert.match(source, /\{ label: "ホワイトペーパー", href: "\/whitepapers" \}/);
   assert.match(source, /\{ label: "ブログ", href: "\/blog" \}/);
   assert.match(source, /export const previewResourceCategorySidebarLinks/);
-  assert.match(source, /\{ label: "全て", href: "\/t\/resources" \}/);
+  assert.match(source, /\{ label: "全て", href: "\/resources" \}/);
+  assert.match(source, /\{ label: "紹介資料", href: "\/introduction-deck" \}/);
+  assert.match(source, /\{ label: "用語集", href: "\/glossary" \}/);
+  assert.match(source, /\{ label: "マニュアル", href: "\/manuals" \}/);
   assert.match(source, /\{ label: "ホワイトペーパー", href: "\/whitepapers" \}/);
   assert.match(source, /\{ label: "ブログ", href: "\/blog" \}/);
   assert.match(source, /\{ label: "イベント", href: "\/t\/events" \}/);
-  assert.match(source, /\{ label: "マニュアル", href: "\/t\/manuals" \}/);
   assert.match(source, /getDefaultResourceCategorySidebarLinks\(previewModeEnabled\)/);
   assert.match(source, /cookies\(\)/);
   assert.match(source, /PREVIEW_NAVIGATION_COOKIE/);

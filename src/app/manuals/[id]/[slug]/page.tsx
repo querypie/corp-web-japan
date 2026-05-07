@@ -5,7 +5,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { PublicationPostPage } from "@/components/sections/publication-post-page";
 import { getManualPublicationHref, getManualPublicationPost, getManualPublicationRecordById, listManualPublicationParamsByCategory } from "@/lib/resources/manual-post-loader";
 
-type ResourcePreviewDetailPageProps = {
+type ManualsDetailPageProps = {
   params: Promise<{ id: string; slug: string }>;
 };
 
@@ -13,7 +13,7 @@ export function generateStaticParams() {
   return listManualPublicationParamsByCategory();
 }
 
-export async function generateMetadata({ params }: ResourcePreviewDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ManualsDetailPageProps): Promise<Metadata> {
   const { id } = await params;
   const record = getManualPublicationRecordById(id);
 
@@ -27,14 +27,10 @@ export async function generateMetadata({ params }: ResourcePreviewDetailPageProp
     alternates: {
       canonical: getManualPublicationHref(id, record.slug),
     },
-    robots: {
-      index: false,
-      follow: false,
-    },
   };
 }
 
-export default async function ManualsDetailPage({ params }: ResourcePreviewDetailPageProps) {
+export default async function ManualsDetailPage({ params }: ManualsDetailPageProps) {
   const { id, slug } = await params;
   const record = getManualPublicationRecordById(id);
 

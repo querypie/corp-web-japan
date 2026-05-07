@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  previewResourceCategorySidebarLinks,
+  resourceCategorySidebarLinks,
   ResourceCategorySidebar,
 } from "@/components/sections/resource-category-sidebar";
 import {
@@ -17,17 +17,13 @@ import { listResourcePreviewItems } from "@/lib/resources/resource-preview-items
 export const metadata: Metadata = {
   title: "ドキュメント | QueryPie AI",
   description:
-    "corp-web-contents の documentation source と local MDX loader を元にした preview リソース一覧です。",
+    "包括的なガイド、技術マニュアル、業界ホワイトペーパー、専門家ブログを一か所で確認できるリソース一覧です。",
   alternates: {
-    canonical: "/t/resources",
-  },
-  robots: {
-    index: false,
-    follow: false,
+    canonical: "/resources",
   },
 };
 
-export default function PreviewResourcesPage() {
+export default function ResourcesPage() {
   const items = listResourcePreviewItems();
 
   return (
@@ -44,7 +40,7 @@ export default function PreviewResourcesPage() {
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
-        <ResourceCategorySidebar links={previewResourceCategorySidebarLinks} activeLabel="全て" />
+        <ResourceCategorySidebar links={resourceCategorySidebarLinks} activeLabel="全て" />
 
         <ResourceListItems items={items} />
       </ResourceListContentSection>
@@ -53,4 +49,3 @@ export default function PreviewResourcesPage() {
     </main>
   );
 }
-

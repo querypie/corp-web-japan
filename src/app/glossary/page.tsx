@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  previewResourceCategorySidebarLinks,
+  resourceCategorySidebarLinks,
   ResourceCategorySidebar,
 } from "@/components/sections/resource-category-sidebar";
 import {
@@ -12,29 +12,25 @@ import {
   ResourceListHeroTitle,
   ResourceListItems,
 } from "@/components/sections/resource-list-section";
-import { listIntroductionDeckPublicationItems } from "@/lib/resources/introduction-deck-publications";
+import { listGlossaryPublicationItems } from "@/lib/resources/glossary-publications";
 
 export const metadata: Metadata = {
-  title: "紹介資料 | QueryPie AI",
-  description: "AIP / ACP の製品紹介資料カテゴリを local MDX loader で確認できる preview 一覧です。",
+  title: "用語集 | QueryPie AI",
+  description: "QueryPie AI の主要セキュリティ・AI用語を確認できる用語集一覧です。",
   alternates: {
-    canonical: "/t/introduction-deck",
-  },
-  robots: {
-    index: false,
-    follow: false,
+    canonical: "/glossary",
   },
 };
 
-export default function PreviewIntroductionDeckPage() {
-  const items = listIntroductionDeckPublicationItems();
+export default function GlossaryPage() {
+  const items = listGlossaryPublicationItems();
 
   return (
     <main className="relative bg-white text-slate-950">
       <SiteHeader />
 
       <ResourceListHeroSection>
-        <ResourceListHeroTitle>紹介資料</ResourceListHeroTitle>
+        <ResourceListHeroTitle>用語集</ResourceListHeroTitle>
         <ResourceListHeroDescription>
           包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。
           <br />
@@ -43,7 +39,7 @@ export default function PreviewIntroductionDeckPage() {
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
-        <ResourceCategorySidebar links={previewResourceCategorySidebarLinks} activeLabel="紹介資料" />
+        <ResourceCategorySidebar links={resourceCategorySidebarLinks} activeLabel="用語集" />
 
         <ResourceListItems items={items} />
       </ResourceListContentSection>
@@ -52,4 +48,3 @@ export default function PreviewIntroductionDeckPage() {
     </main>
   );
 }
-
