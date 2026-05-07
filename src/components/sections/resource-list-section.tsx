@@ -57,6 +57,26 @@ export function ResourceListContentSection({
   );
 }
 
+export function ResourceListSectionHeading({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
+  return <div className={`mb-8 border-b border-slate-200 pb-4 ${className}`.trim()}>{children}</div>;
+}
+
+export function ResourceListSectionEyebrow({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
+  return <p className={`text-sm font-medium uppercase tracking-[0.18em] text-slate-500 ${className}`.trim()}>{children}</p>;
+}
+
+export function ResourceListSectionTitleRow({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
+  return <div className={`mt-2 flex flex-col gap-2 lg:flex-row lg:items-baseline lg:gap-4 ${className}`.trim()}>{children}</div>;
+}
+
+export function ResourceListSectionTitle({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
+  return <h2 className={`text-[28px] font-medium leading-[1.25] text-slate-950 lg:text-[32px] ${className}`.trim()}>{children}</h2>;
+}
+
+export function ResourceListSectionDescription({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
+  return <p className={`text-base leading-7 text-slate-600 ${className}`.trim()}>{children}</p>;
+}
+
 export function ResourceListSidebar({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
   return <aside className={`w-full lg:w-[240px] lg:flex-shrink-0 lg:sticky lg:top-[128px] lg:self-start ${className}`.trim()}>{children}</aside>;
 }

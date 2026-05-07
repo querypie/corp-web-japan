@@ -26,8 +26,14 @@ test("/internal/events-demo delegates demo hero-state resolution to the event pu
   assert.match(source, /InternalEventsDemoEmptyState/);
   assert.match(source, /eyebrow="Upcoming Event"/);
   assert.match(source, /ctaLabel="詳細を見る"/);
+  assert.match(source, /ResourceListSectionHeading/);
+  assert.match(source, /ResourceListSectionEyebrow/);
+  assert.match(source, /ResourceListSectionTitleRow/);
+  assert.match(source, /ResourceListSectionTitle/);
+  assert.match(source, /ResourceListSectionDescription/);
   assert.match(source, /Past Events/);
   assert.match(source, /過去のイベント/);
   assert.match(source, /カンファレンスやセミナーのインサイトをご覧ください。/);
   assert.match(source, /<ResourceListItems items=\{visiblePastEvents\} \/>/);
+  assert.doesNotMatch(source, /border-b border-slate-200 pb-4/);
 });
