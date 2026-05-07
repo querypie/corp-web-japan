@@ -8,10 +8,13 @@ const standardRecordFiles = [
   "src/lib/publications/use-case-publication-records.ts",
   "src/lib/publications/aip-demo-publication-records.ts",
   "src/lib/publications/acp-demo-publication-records.ts",
+  "src/lib/publications/event-publication-records.ts",
+  "src/lib/publications/blog-publication-records.ts",
+  "src/lib/publications/whitepaper-publication-records.ts",
   "src/lib/publications/news-publication-records.ts",
 ];
 
-test("use-case, AIP demo, ACP demo, and news records share a common standard publication records repository helper", () => {
+test("use-case, AIP demo, ACP demo, event, blog, whitepaper, and news records share a common standard publication records repository helper", () => {
   assert.equal(existsSync(new URL("../../../../src/lib/publications/create-standard-records-repository.ts", import.meta.url)), true);
 
   const sharedRepository = readSource(sharedRepositoryPath);

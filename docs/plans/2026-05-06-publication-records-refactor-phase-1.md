@@ -126,37 +126,17 @@ PR #293 removed the related-items discrepancy here too, but it did not reduce th
 Whitepaper should therefore remain explicit until the gating boundary is extracted deliberately.
 It should not be forced into the current standard helper by adding ad hoc conditionals.
 
-## Current gaps in the supporting docs and tests
+## Current gaps after the phase 2A alignment pass
 
-The helper rollout on `main` has advanced faster than the original architecture memo, and the support artifacts are still uneven.
+The helper baseline is now documented coherently through PR #293, and the architecture tests cover the current helper adopters in each layer.
 
-Notable follow-up gaps:
-- `tests/src/lib/publications/records-repository-architecture.test.mjs` still documents only a subset of the current records-helper adopters.
-- There is now a `tests/src/lib/publications/related-publication-items-architecture.test.mjs`, but this memo still needs to explain how that helper fits into the broader refactor sequence.
-- The current architecture docs still do not describe the latest helper rollout sequence through PR #293 as one coherent baseline.
-- There is still no single up-to-date plan that distinguishes:
-  - records-layer unification status
-  - related-items contract unification status
-  - post-loader unification status
-  - path-cleanup work that should happen only after helper boundaries stabilize
+The remaining gaps are now implementation-focused:
+- `get-news-publication-post.ts` still duplicates the standard non-gated post-loader shape
+- `get-publication-post.ts` still keeps a category-local loader body even though PR #293 removed the old related-items divergence
+- `get-whitepaper-publication-post.ts` still needs an explicit long-term boundary decision around the gating split
+- the publication helper paths are still flat and verbose, but should not be renamed until the loader boundaries settle
 
 ## Recommended follow-up order
-
-### Phase 2A: align docs and helper-architecture coverage
-
-Objective:
-- make the documentation and architecture tests describe the actual latest-`main` state before the next refactor starts
-
-Recommended scope:
-- update `tests/src/lib/publications/records-repository-architecture.test.mjs`
-- keep `tests/src/lib/publications/standard-publication-post-loader-architecture.test.mjs` aligned with the current helper adopters
-- keep `tests/src/lib/publications/related-publication-items-architecture.test.mjs` aligned with the current helper contract
-- keep this plan document as the canonical baseline for the next publication-helper refactor PRs
-
-Acceptance signals:
-- the architecture tests clearly identify every current helper adopter in their respective layer
-- the plan document no longer describes pre-PR-293 related-items behavior as unresolved
-- the plan document no longer describes event/blog/whitepaper/news as future work at the records layer
 
 ### Phase 2B: migrate the news post loader to the shared post-loader
 
