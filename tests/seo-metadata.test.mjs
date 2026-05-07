@@ -13,10 +13,14 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   const whitepapersPage = read("src/app/whitepapers/page.tsx");
   const useCasesPage = read("src/app/demo/use-cases/page.tsx");
   const aipPage = read("src/app/demo/aip/page.tsx");
-  const acpPage = read("src/app\/demo\/acp/page.tsx");
+  const acpPage = read("src/app/demo/acp/page.tsx");
   const aiCrewPage = read("src/app/solutions/ai-crew/page.tsx");
   const aiDashiPage = read("src/app/solutions/ai-dashi/page.tsx");
   const contactUsPage = read("src/app/contact-us/page.tsx");
+  const resourcesPage = read("src/app/resources/page.tsx");
+  const introductionDeckPage = read("src/app/introduction-deck/page.tsx");
+  const glossaryPage = read("src/app/glossary/page.tsx");
+  const manualsPage = read("src/app/manuals/page.tsx");
   const postPage = read("src/app/posts/[category]/[slug]/page.tsx");
   const eventsPage = read("src/app/events/page.tsx");
 
@@ -34,19 +38,24 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.match(aiCrewPage, /canonical:\s*"\/solutions\/ai-crew"/);
   assert.match(aiDashiPage, /canonical:\s*"\/solutions\/ai-dashi"/);
   assert.match(contactUsPage, /canonical:\s*"\/contact-us"/);
+  assert.match(resourcesPage, /canonical:\s*"\/resources"/);
+  assert.match(introductionDeckPage, /canonical:\s*"\/introduction-deck"/);
+  assert.match(glossaryPage, /canonical:\s*"\/glossary"/);
+  assert.match(manualsPage, /canonical:\s*"\/manuals"/);
   assert.match(postPage, /canonical:/);
   assert.match(eventsPage, /title: "イベント \| QueryPie AI"/);
   assert.doesNotMatch(eventsPage, /canonical:\s*"\/events"/);
 
   assert.match(sitemap, /absoluteUrl\("\/whitepapers"\)/);
   assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/resources"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/introduction-deck"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/glossary"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/manuals"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/whitepaper"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/aip"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/acp"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/use-cases"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/events"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/resources"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/manuals"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/glossary"\)/);
 });

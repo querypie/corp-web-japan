@@ -15,7 +15,6 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   const contactUsPage = readSource("src/app/contact-us/page.tsx");
   const topPageSecuritySection = readSource("src/components/sections/top-page-security-section.tsx");
 
-
   assert.match(aiCrewDataSource, /const aiCrewConsultUrl =|export const aiCrewConsultUrl =/);
   assert.match(aiCrewDataSource, /const demoUseCasesUrl =|export const demoUseCasesUrl =/);
   assert.match(aiCrewDataSource, /floatingCta: \{ label: "業務に合うAI活用を相談する", href: aiCrewFloatingCtaUrl \}/);
@@ -31,18 +30,27 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.match(aiCrewDataSource, /href: aiCrewWhitepaperUrl|href=\{aiCrewWhitepaperUrl\}/);
 
   assert.match(topPage, /<FloatingConversionCta href={topPageFloatingCtaUrl} \/>/);
-  assert.match(`${topPageDataSource}\n${topPage}`, /primaryCta: \{ label: "お問い合わせ", href: topPageHeroContactUrl \}|<HeroPrimaryAction href=\{topPageHeroContactUrl\}>お問い合わせ<\/HeroPrimaryAction>/);
-  assert.match(`${topPageDataSource}\n${topPage}`, /secondaryCta: \{[\s\S]*label: "資料をダウンロード",[\s\S]*href: topPageDownloadUrl,?[\s\S]*\}|<HeroSecondaryAction href=\{topPageDownloadUrl\}>資料をダウンロード<\/HeroSecondaryAction>/);
+  assert.match(`${topPageDataSource}
+${topPage}`, /primaryCta: \{ label: "お問い合わせ", href: topPageHeroContactUrl \}|<HeroPrimaryAction href=\{topPageHeroContactUrl\}>お問い合わせ<\/HeroPrimaryAction>/);
+  assert.match(`${topPageDataSource}
+${topPage}`, /secondaryCta: \{[\s\S]*label: "資料をダウンロード",[\s\S]*href: topPageDownloadUrl,?[\s\S]*\}|<HeroSecondaryAction href=\{topPageDownloadUrl\}>資料をダウンロード<\/HeroSecondaryAction>/);
   assert.match(topPageStructureSource, /id="contact"/);
   assert.match(topPageStructureSource, /bg-\[#0f172a\] text-white/);
   assert.match(topPageStructureSource, /id="download"/);
   assert.match(topPageDataSource, /\{ label: "デモを依頼", href: topPageFinalDemoUrl \}|<FinalCtaAction href=\{topPageFinalDemoUrl\} primary>/);
   assert.match(topPageDataSource, /\{ label: "資料をダウンロード", href: topPageDownloadUrl \}|<FinalCtaAction href=\{topPageDownloadUrl\}>資料をダウンロード<\/FinalCtaAction>/);
   assert.match(topPageDataSource, /\{ label: "導入について相談する", href: topPageFinalConsultUrl \}|<FinalCtaAction href=\{topPageFinalConsultUrl\}>導入について相談する<\/FinalCtaAction>/);
-  assert.match(`${topPageDataSource}\n${topPage}`, /href: "https:\/\/trust\.querypie\.com\/"|<SecurityAction href="https:\/\/trust\.querypie\.com\/">/);
-  assert.match(`${topPageStructureSource}\n${topPageSecuritySection}\n${topPage}`, /href=\{security\.link\.href\}|<SecurityAction href="https:\/\/trust\.querypie\.com\/">/);
-  assert.match(`${topPageStructureSource}\n${topPageSecuritySection}\n${topPage}`, /target="_blank"/);
-  assert.match(`${topPageStructureSource}\n${topPageSecuritySection}\n${topPage}`, /rel="noopener noreferrer"/);
+  assert.match(`${topPageDataSource}
+${topPage}`, /href: "https:\/\/trust\.querypie\.com\/"|<SecurityAction href="https:\/\/trust\.querypie\.com\/">/);
+  assert.match(`${topPageStructureSource}
+${topPageSecuritySection}
+${topPage}`, /href=\{security\.link\.href\}|<SecurityAction href="https:\/\/trust\.querypie\.com\/">/);
+  assert.match(`${topPageStructureSource}
+${topPageSecuritySection}
+${topPage}`, /target="_blank"/);
+  assert.match(`${topPageStructureSource}
+${topPageSecuritySection}
+${topPage}`, /rel="noopener noreferrer"/);
   assert.match(aiCrewPage, /<FloatingConversionCta href={aiCrewFloatingCtaUrl} \/>/);
   assert.match(aiDashiPage, /from "@\/content\/ai-dashi-links"/);
   assert.match(aiDashiPage, /<FloatingConversionCta href={aiDashiFloatingUrl} \/>/);
@@ -54,7 +62,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   assert.doesNotMatch(aiCrewDataSource, /href: "#"/);
 });
 
-test("events launch-readiness gate remains explicit and redirect-only resource aliases stay out of the sitemap", () => {
+test("events launch-readiness gate remains explicit while released resource hubs are included in the sitemap", () => {
   const eventsPage = readSource("src/app/events/page.tsx");
   const sitemap = readSource("src/app/sitemap.ts");
 
@@ -62,9 +70,10 @@ test("events launch-readiness gate remains explicit and redirect-only resource a
   assert.match(eventsPage, /return notFound\(\);/);
   assert.match(eventsPage, /temporary `unblock` query-based readiness check/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/events"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/resources"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/manuals"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/glossary"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/resources"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/introduction-deck"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/manuals"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/glossary"\)/);
 });
 
 test("robots and sitemap metadata files exist and cover the core public routes", () => {
@@ -79,6 +88,10 @@ test("robots and sitemap metadata files exist and cover the core public routes",
   assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-dashi"\)/);
   assert.match(sitemap, /absoluteUrl\("\/blog"\)/);
   assert.match(sitemap, /absoluteUrl\("\/whitepapers"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/resources"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/introduction-deck"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/glossary"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/manuals"\)/);
   assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
   assert.match(sitemap, /eventPostRecords/);
   assert.match(sitemap, /getEventPostHref/);

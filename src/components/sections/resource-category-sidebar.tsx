@@ -24,10 +24,10 @@ export const resourceCategorySidebarLinks: readonly ResourceCategoryLink[] = [
 ] as const;
 
 export const previewResourceCategorySidebarLinks: readonly ResourceCategoryLink[] = [
-  { label: "全て", href: "/t/resources" },
-  { label: "紹介資料", href: "/t/introduction-deck" },
-  { label: "用語集", href: "/t/glossary" },
-  { label: "マニュアル", href: "/t/manuals" },
+  { label: "全て", href: "/resources" },
+  { label: "紹介資料", href: "/introduction-deck" },
+  { label: "用語集", href: "/glossary" },
+  { label: "マニュアル", href: "/manuals" },
   { label: "ホワイトペーパー", href: "/whitepapers" },
   { label: "ブログ", href: "/blog" },
   { label: "イベント", href: "/t/events" },

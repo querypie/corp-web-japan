@@ -3,15 +3,18 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../../../../helpers/source-readers.mjs";
 
-test("/t/resources page exists with noindex metadata and canonical preview path", () => {
-  const file = "src/app/t/resources/page.tsx";
-  assert.equal(existsSync(new URL(`../../../../../${file}`, import.meta.url)), true, `${file} should exist`);
+test("/resources page is the public canonical route and /t/resources redirects to it", () => {
+  const canonicalFile = "src/app/resources/page.tsx";
+  const previewFile = "src/app/t/resources/page.tsx";
+  assert.equal(existsSync(new URL(`../../../../../${canonicalFile}`, import.meta.url)), true, `${canonicalFile} should exist`);
+  assert.equal(existsSync(new URL(`../../../../../${previewFile}`, import.meta.url)), true, `${previewFile} should exist`);
 
-  const source = readSource(file);
-  assert.match(source, /canonical: "\/t\/resources"/);
-  assert.match(source, /title: "ドキュメント \| QueryPie AI"/);
-  assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
-  assert.match(source, /previewResourceCategorySidebarLinks/);
-  assert.match(source, /<ResourceCategorySidebar links=\{previewResourceCategorySidebarLinks\} activeLabel="全て" \/>/);
-  assert.match(source, /listResourcePreviewItems/);
+  const canonicalSource = readSource(canonicalFile);
+  const previewSource = readSource(previewFile);
+  assert.match(canonicalSource, /canonical: "\/resources"/);
+  assert.match(canonicalSource, /title: "ドキュメント \| QueryPie AI"/);
+  assert.match(canonicalSource, /resourceCategorySidebarLinks/);
+  assert.match(canonicalSource, /<ResourceCategorySidebar links=\{resourceCategorySidebarLinks\} activeLabel="全て" \/>/);
+  assert.match(canonicalSource, /listResourcePreviewItems/);
+  assert.match(previewSource, /redirect\("\/resources"\)/);
 });

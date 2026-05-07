@@ -3,6 +3,10 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 
+function escapeRegex(value) {
+  return value.replace(/[|\{}()[\]^$+*?.]/g, "\$&");
+}
+
 const expectedRedirectRules = [
   {
     requestPath: "/services/aip",
@@ -28,27 +32,6 @@ const expectedRedirectRules = [
     requestPath: "/certifications",
     file: "src/app/certifications/route.ts",
     destination: "https://www.querypie.com/ja/company/certifications",
-  },
-
-  {
-    requestPath: "/introduction-deck",
-    file: "src/app/introduction-deck/route.ts",
-    destination: "https://www.querypie.com/ja/features/documentation?category=introduction-deck",
-  },
-  {
-    requestPath: "/resources",
-    file: "src/app/resources/route.ts",
-    destination: "https://www.querypie.com/ja/features/documentation?category=all",
-  },
-  {
-    requestPath: "/manuals",
-    file: "src/app/manuals/route.ts",
-    destination: "https://www.querypie.com/ja/features/documentation?category=manual",
-  },
-  {
-    requestPath: "/glossary",
-    file: "src/app/glossary/route.ts",
-    destination: "https://www.querypie.com/ja/features/documentation?category=glossary",
   },
   {
     requestPath: "/api-docs.html",
@@ -112,8 +95,8 @@ const expectedRedirectRules = [
   },
 ];
 
-test("redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 21);
+test("remaining redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
+  assert.equal(expectedRedirectRules.length, 17);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
@@ -122,16 +105,36 @@ test("redirect endpoints are defined in a single test-case table with temporary 
 
     assert.match(source, /export function GET\(/);
     assert.match(source, /307/);
-    assert.match(source, new RegExp(rule.destination.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.ok(source.includes(rule.destination), `missing redirect destination: ${rule.destination}`);
 
     if (rule.requestPath === "/ja") {
       assert.match(source, /export function GET\(request: NextRequest\)/);
       assert.match(source, /export const HEAD = GET;/);
-      assert.match(source, /request\.nextUrl\.pathname\.replace\(\/\^\\\/ja\(\?=\\\/\|\$\)\//);
-      assert.match(source, /const strippedPath = .* \|\| "\/";/);
-      assert.match(source, /new URL\(strippedPath, request\.url\)/);
-      assert.match(source, /redirectedUrl\.search = request\.nextUrl\.search;/);
+      assert.ok(source.includes("request.nextUrl.pathname.replace(/^\\/ja(?=\\/|$)/"));
+      assert.ok(source.includes("const strippedPath = request.nextUrl.pathname.replace(/^\\/ja(?=\\/|$)/, \"\") || \"/\";"));
+      assert.ok(source.includes("new URL(strippedPath, request.url)"));
+      assert.ok(source.includes("redirectedUrl.search = request.nextUrl.search;"));
     }
+  }
+});
+
+test("resource rollout replaced the former public redirect endpoints with local page routes", () => {
+  for (const file of [
+    "src/app/resources/page.tsx",
+    "src/app/introduction-deck/page.tsx",
+    "src/app/glossary/page.tsx",
+    "src/app/manuals/page.tsx",
+  ]) {
+    assert.equal(existsSync(new URL(`../${file}`, import.meta.url)), true, `${file} should exist`);
+  }
+
+  for (const file of [
+    "src/app/resources/route.ts",
+    "src/app/introduction-deck/route.ts",
+    "src/app/glossary/route.ts",
+    "src/app/manuals/route.ts",
+  ]) {
+    assert.equal(existsSync(new URL(`../${file}`, import.meta.url)), false, `${file} should be removed`);
   }
 });
 
