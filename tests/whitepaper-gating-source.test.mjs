@@ -55,10 +55,12 @@ test("whitepaper publication loader carries a dedicated gated MDX contract and b
   assert.match(publicationPage, /\) : post\.downloadCta \? \(/);
   assert.match(publicationPage, /post\.gating \? \(/);
   assert.match(gatingHelper, /import isProduction from "@\/lib\/is-production"/);
-  assert.match(gatingHelper, /PRODUCTION_GATING_MAX_AGE_SECONDS/);
-  assert.match(gatingHelper, /NON_PRODUCTION_GATING_MAX_AGE_SECONDS/);
+  assert.match(gatingHelper, /const NON_PRODUCTION_GATING_MAX_AGE_SECONDS = 60 \* 15;/);
+  assert.match(gatingHelper, /const PRODUCTION_GATING_MAX_AGE_SECONDS = 60 \* 60 \* 48;/);
+  assert.match(gatingHelper, /return isProduction\(\)\s*\? PRODUCTION_GATING_MAX_AGE_SECONDS\s*:\s*NON_PRODUCTION_GATING_MAX_AGE_SECONDS;/);
   assert.match(gatingRoute, /submitGatingForm/);
   assert.match(gatingRoute, /response\.cookies\.set/);
+  assert.match(gatingRoute, /maxAge: getGatingCookieMaxAgeSeconds\(\)/);
 });
 
 test("internal gating demo page exists as an MDX-backed route under /internal", () => {
