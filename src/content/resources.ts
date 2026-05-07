@@ -1,5 +1,5 @@
-import { blogItems } from "@/lib/publications/blog-items";
-import { listWhitepaperPublicationItems } from "@/lib/publications/whitepaper-publication-records";
+import { blogItems } from "@/lib/publications/blog/items";
+import { listWhitepaperPublicationItems } from "@/lib/publications/whitepapers/records";
 import { eventItems } from "./resources/events";
 
 export type ResourceCategory = "blog" | "whitepaper" | "events";
@@ -14,7 +14,7 @@ export type ResourceItem = {
   date?: string;
 };
 
-export { blogItems } from "@/lib/publications/blog-items";
+export { blogItems } from "@/lib/publications/blog/items";
 export { eventItems } from "./resources/events";
 export const whitepaperItems = listWhitepaperPublicationItems();
 

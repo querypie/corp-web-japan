@@ -5,7 +5,7 @@ import {
   listAipDemoPublicationParams,
   type AipDemoPublicationFrontmatter,
   type AipDemoPublicationRecord,
-} from "@/lib/publications/aip-demo-publication-records";
+} from "@/lib/publications/demo/aip/records";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { createStandardPublicationPostLoader } from "@/lib/publications/create-standard-publication-post-loader";
 

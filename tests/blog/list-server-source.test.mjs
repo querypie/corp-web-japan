@@ -26,8 +26,8 @@ test("blog index page directly composes the resource-list hero and uses the conc
 });
 
 test("blog publication list source is generated from local MDX content through the shared records helper", () => {
-  const source = readSource("src/lib/publications/blog-publication-records.ts");
-  const blogItemsSource = readSource("src/lib/publications/blog-items.ts");
+  const source = readSource("src/lib/publications/blog/records.ts");
+  const blogItemsSource = readSource("src/lib/publications/blog/items.ts");
 
   assert.match(source, /export function listBlogPublicationItems\(/);
   assert.match(source, /createStandardPublicationRecordsRepository/);

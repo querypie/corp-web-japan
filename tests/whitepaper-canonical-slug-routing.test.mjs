@@ -5,12 +5,12 @@ import { readSource } from "./helpers/source-readers.mjs";
 
 test("whitepaper canonical routing keeps the local MDX-backed detail flow and preserves hidden redirect records", () => {
   const whitepaper25 = readSource("src/content/whitepapers/25-ai-transformation-japan.mdx");
-  const helper = readSource("src/lib/publications/get-whitepaper-publication-post.ts");
+  const helper = readSource("src/lib/publications/whitepapers/get-post.ts");
   const gatedLoader = readSource("src/lib/publications/create-gated-publication-post-loader.ts");
-  const publicationRecords = readSource("src/lib/publications/whitepaper-publication-records.ts");
+  const publicationRecords = readSource("src/lib/publications/whitepapers/records.ts");
 
   assert.equal(existsSync(new URL("../src/content/whitepapers/25-ai-transformation-japan.mdx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/lib/publications/whitepaper-publication-records.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/lib/publications/whitepapers/records.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/t/whitepapers/page.tsx", import.meta.url)), false);
 
   assert.match(whitepaper25, /hidden:\s*true/);
@@ -29,7 +29,7 @@ test("whitepaper canonical routing keeps the local MDX-backed detail flow and pr
 test("whitepaper list pages are driven by the shared list loader instead of legacy static arrays", () => {
   const whitepapersPage = readSource("src/app/whitepapers/page.tsx");
 
-  assert.match(whitepapersPage, /import \{ listWhitepaperPublicationItems \} from "@\/lib\/publications\/whitepaper-publication-records"/);
+  assert.match(whitepapersPage, /import \{ listWhitepaperPublicationItems \} from "@\/lib\/publications\/whitepapers\/records"/);
   assert.match(whitepapersPage, /listWhitepaperPublicationItems\(/);
   assert.match(whitepapersPage, /const \[whitepaperItems, resolvedSearchParams\] = await Promise\.all\(\[listWhitepaperPublicationItems\(\), searchParams\]\);/);
   assert.match(whitepapersPage, /const initialVisibleCount = resolveResourceListVisibleCount\(whitepaperItems, resolvedSearchParams\?\.until\);/);

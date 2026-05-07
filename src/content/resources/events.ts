@@ -2,7 +2,7 @@ import {
   eventPublicationRecords,
   listEventPublicationItems,
   type EventPublicationRecord,
-} from "@/lib/publications/event-publication-records";
+} from "@/lib/publications/events/records";
 
 export type EventPostRecord = EventPublicationRecord;
 

@@ -24,13 +24,13 @@ As of the latest `main`, the refactor status is:
 ### Shared records helper adopters
 
 These record modules now use `createStandardPublicationRecordsRepository(...)`:
-- `src/lib/publications/use-case-publication-records.ts`
-- `src/lib/publications/aip-demo-publication-records.ts`
-- `src/lib/publications/acp-demo-publication-records.ts`
-- `src/lib/publications/event-publication-records.ts`
-- `src/lib/publications/blog-publication-records.ts`
-- `src/lib/publications/whitepaper-publication-records.ts`
-- `src/lib/publications/news-publication-records.ts`
+- `src/lib/publications/use-cases/records.ts`
+- `src/lib/publications/demo/aip/records.ts`
+- `src/lib/publications/demo/acp/records.ts`
+- `src/lib/publications/events/records.ts`
+- `src/lib/publications/blog/records.ts`
+- `src/lib/publications/whitepapers/records.ts`
+- `src/lib/publications/news/records.ts`
 
 The shared records helper now owns:
 - frontmatter block parsing
@@ -48,9 +48,9 @@ The shared records helper now owns:
 
 These publication post loaders now use `buildRelatedPublicationItems(...)`:
 - `src/lib/publications/create-standard-publication-post-loader.ts`
-- `src/lib/publications/get-publication-post.ts`
-- `src/lib/publications/get-news-publication-post.ts`
-- `src/lib/publications/get-whitepaper-publication-post.ts`
+- `src/lib/publications/blog/get-post.ts`
+- `src/lib/publications/news/get-post.ts`
+- `src/lib/publications/whitepapers/get-post.ts`
 
 The shared related-items helper now owns:
 - explicit `relatedIds` passthrough exactly as authored
@@ -66,10 +66,10 @@ This matters because PR #293 also narrowed the current contract explicitly:
 ### Shared post-loader adopters
 
 These post loaders now use `createStandardPublicationPostLoader(...)`:
-- `src/lib/publications/get-use-case-publication-post.ts`
-- `src/lib/publications/get-aip-demo-publication-post.ts`
-- `src/lib/publications/get-acp-demo-publication-post.ts`
-- `src/lib/publications/get-event-publication-post.ts`
+- `src/lib/publications/use-cases/get-post.ts`
+- `src/lib/publications/demo/aip/get-post.ts`
+- `src/lib/publications/demo/acp/get-post.ts`
+- `src/lib/publications/events/get-post.ts`
 
 The shared post-loader now owns:
 - body-source caching
@@ -82,9 +82,9 @@ The shared post-loader now owns:
 ## What is still intentionally separate
 
 The remaining non-shared post loaders are:
-- `src/lib/publications/get-publication-post.ts` (blog)
-- `src/lib/publications/get-news-publication-post.ts`
-- `src/lib/publications/get-whitepaper-publication-post.ts`
+- `src/lib/publications/blog/get-post.ts` (blog)
+- `src/lib/publications/news/get-post.ts`
+- `src/lib/publications/whitepapers/get-post.ts`
 
 Those files are still separate for understandable reasons, but PR #293 changed why they remain separate.
 The remaining differences are now mostly about loader assembly shape, not about the related-items contract.
@@ -126,17 +126,37 @@ PR #293 removed the related-items discrepancy here too, but it did not reduce th
 Whitepaper should therefore remain explicit until the gating boundary is extracted deliberately.
 It should not be forced into the current standard helper by adding ad hoc conditionals.
 
-## Current gaps after the phase 2A alignment pass
+## Current gaps in the supporting docs and tests
 
-The helper baseline is now documented coherently through PR #293, and the architecture tests cover the current helper adopters in each layer.
+The helper rollout on `main` has advanced faster than the original architecture memo, and the support artifacts are still uneven.
 
-The remaining gaps are now implementation-focused:
-- `get-news-publication-post.ts` still duplicates the standard non-gated post-loader shape
-- `get-publication-post.ts` still keeps a category-local loader body even though PR #293 removed the old related-items divergence
-- `get-whitepaper-publication-post.ts` still needs an explicit long-term boundary decision around the gating split
-- the publication helper paths are still flat and verbose, but should not be renamed until the loader boundaries settle
+Notable follow-up gaps:
+- `tests/src/lib/publications/records-repository-architecture.test.mjs` still documents only a subset of the current records-helper adopters.
+- There is now a `tests/src/lib/publications/related-publication-items-architecture.test.mjs`, but this memo still needs to explain how that helper fits into the broader refactor sequence.
+- The current architecture docs still do not describe the latest helper rollout sequence through PR #293 as one coherent baseline.
+- There is still no single up-to-date plan that distinguishes:
+  - records-layer unification status
+  - related-items contract unification status
+  - post-loader unification status
+  - path-cleanup work that should happen only after helper boundaries stabilize
 
 ## Recommended follow-up order
+
+### Phase 2A: align docs and helper-architecture coverage
+
+Objective:
+- make the documentation and architecture tests describe the actual latest-`main` state before the next refactor starts
+
+Recommended scope:
+- update `tests/src/lib/publications/records-repository-architecture.test.mjs`
+- keep `tests/src/lib/publications/standard-publication-post-loader-architecture.test.mjs` aligned with the current helper adopters
+- keep `tests/src/lib/publications/related-publication-items-architecture.test.mjs` aligned with the current helper contract
+- keep this plan document as the canonical baseline for the next publication-helper refactor PRs
+
+Acceptance signals:
+- the architecture tests clearly identify every current helper adopter in their respective layer
+- the plan document no longer describes pre-PR-293 related-items behavior as unresolved
+- the plan document no longer describes event/blog/whitepaper/news as future work at the records layer
 
 ### Phase 2B: migrate the news post loader to the shared post-loader
 
@@ -150,7 +170,7 @@ Why this should come next:
 
 Expected file set:
 - `src/lib/publications/create-standard-publication-post-loader.ts`
-- `src/lib/publications/get-news-publication-post.ts`
+- `src/lib/publications/news/get-post.ts`
 - `tests/news/mdx-routing-and-preview.test.mjs`
 - `tests/src/lib/publications/standard-publication-post-loader-architecture.test.mjs`
 
@@ -171,7 +191,7 @@ Objective:
 
 Expected file set:
 - `src/lib/publications/create-standard-publication-post-loader.ts`
-- `src/lib/publications/get-publication-post.ts`
+- `src/lib/publications/blog/get-post.ts`
 - `tests/blog/canonical-slug-routing.test.mjs`
 - `tests/blog/frontmatter-visibility-and-redirect.test.mjs`
 - `tests/src/lib/publications/standard-publication-post-loader-architecture.test.mjs`
@@ -196,7 +216,7 @@ Recommended decision rule:
 - if the gated flow still dominates the full loader shape, keep whitepaper separate and document it as a deliberate exception
 
 Expected file set if refactored:
-- `src/lib/publications/get-whitepaper-publication-post.ts`
+- `src/lib/publications/whitepapers/get-post.ts`
 - `src/lib/publications/gating.ts`
 - optionally a new helper such as `src/lib/publications/create-gated-publication-post-loader.ts`
 - whitepaper routing / gating tests only

@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import fs from "node:fs";
 import path from "node:path";
 import { eventItems, eventPostRecords, getEventPostHref } from "@/content/resources/events";
-import { blogItems } from "@/lib/publications/blog-items";
+import { blogItems } from "@/lib/publications/blog/items";
 import type { PublicationTocItem } from "@/lib/publications/types";
 
 export type ResourcePostCategory = "blog" | "whitepaper" | "event";

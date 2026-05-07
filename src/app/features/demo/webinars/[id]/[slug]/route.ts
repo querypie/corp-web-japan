@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getEventPublicationHref, getEventPublicationRecord } from "@/lib/publications/get-event-publication-post";
+import { getEventPublicationHref, getEventPublicationRecord } from "@/lib/publications/events/get-post";
 
 type LegacyWebinarSlugRouteContext = {
   params: Promise<{

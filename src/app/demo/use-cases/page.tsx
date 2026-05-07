@@ -9,7 +9,7 @@ import {
   ResourceListHeroSection,
   ResourceListHeroTitle,
 } from "@/components/sections/resource-list-section";
-import { listUseCasePublicationItems } from "@/lib/publications/use-case-publication-records";
+import { listUseCasePublicationItems } from "@/lib/publications/use-cases/records";
 import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
 export const metadata: Metadata = {

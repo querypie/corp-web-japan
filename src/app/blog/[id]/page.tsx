@@ -3,7 +3,7 @@ import {
   getBlogPublicationHref,
   getBlogPublicationRecord,
   listBlogPublicationIds,
-} from "@/lib/publications/get-publication-post";
+} from "@/lib/publications/blog/get-post";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 
 type BlogDetailCanonicalRedirectPageProps = {

@@ -5,7 +5,7 @@ import { ResourceCategorySidebar } from "@/components/sections/resource-category
 import { CtaActions, CtaContent, CtaCopy, CtaDescription, SimpleCtaSection, CtaTitle } from "@/components/sections/simple-cta-section";
 import { ResourceListContentSection, ResourceListHeroDescription, ResourceListHeroSection, ResourceListHeroTitle, ResourceListItems } from "@/components/sections/resource-list-section";
 import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
-import { listBlogPublicationItems } from "@/lib/publications/blog-publication-records";
+import { listBlogPublicationItems } from "@/lib/publications/blog/records";
 
 export const metadata: Metadata = {
   title: "MDXコンテンツ一覧画面サンプル | QueryPie AI",

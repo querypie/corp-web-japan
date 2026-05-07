@@ -8,7 +8,7 @@ import {
   getUseCasePublicationPost,
   getUseCasePublicationRecord,
   listUseCasePublicationParams,
-} from "@/lib/publications/get-use-case-publication-post";
+} from "@/lib/publications/use-cases/get-post";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import { absoluteUrl } from "@/lib/site-url";
 

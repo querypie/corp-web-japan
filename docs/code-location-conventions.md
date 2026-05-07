@@ -141,9 +141,9 @@ The following existing files are good reference points for new work because they
   - `src/app/whitepapers/page.tsx`
   - `src/app/whitepapers/[id]/[slug]/page.tsx`
 - Shared non-UI implementation in `src/lib/**`:
-  - `src/lib/publications/blog-publication-records.ts`
-  - `src/lib/publications/get-publication-post.ts`
-  - `src/lib/publications/get-whitepaper-publication-post.ts`
+  - `src/lib/publications/blog/records.ts`
+  - `src/lib/publications/blog/get-post.ts`
+  - `src/lib/publications/whitepapers/get-post.ts`
   - `src/lib/publications/gating.ts`
 
 When adding similar features, prefer these files as structural examples rather than copying code from older or legacy-shaped areas.

@@ -3,7 +3,7 @@ import {
   getUseCasePublicationHref,
   getUseCasePublicationRecord,
   listUseCasePublicationIds,
-} from "@/lib/publications/get-use-case-publication-post";
+} from "@/lib/publications/use-cases/get-post";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 
 type UseCaseDetailIdPageProps = {

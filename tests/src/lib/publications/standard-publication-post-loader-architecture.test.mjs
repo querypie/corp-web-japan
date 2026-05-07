@@ -5,12 +5,12 @@ import { readSource } from "../../../helpers/source-readers.mjs";
 
 const sharedLoaderPath = "src/lib/publications/create-standard-publication-post-loader.ts";
 const standardLoaderFiles = [
-  "src/lib/publications/get-use-case-publication-post.ts",
-  "src/lib/publications/get-aip-demo-publication-post.ts",
-  "src/lib/publications/get-acp-demo-publication-post.ts",
-  "src/lib/publications/get-event-publication-post.ts",
-  "src/lib/publications/get-news-publication-post.ts",
-  "src/lib/publications/get-publication-post.ts",
+  "src/lib/publications/use-cases/get-post.ts",
+  "src/lib/publications/demo/aip/get-post.ts",
+  "src/lib/publications/demo/acp/get-post.ts",
+  "src/lib/publications/events/get-post.ts",
+  "src/lib/publications/news/get-post.ts",
+  "src/lib/publications/blog/get-post.ts",
 ];
 
 test("use-case, AIP demo, ACP demo, event, news, and blog post loaders share a common standard publication post loader helper", () => {

@@ -3,10 +3,6 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 
-function escapeRegex(value) {
-  return value.replace(/[|\{}()[\]^$+*?.]/g, "\$&");
-}
-
 const expectedRedirectRules = [
   {
     requestPath: "/services/aip",

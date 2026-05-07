@@ -12,7 +12,7 @@ import {
   NewsPageSection,
   NewsPageTitle,
 } from "@/components/sections/news-page-section";
-import { listNewsPublicationItems } from "@/lib/publications/news-publication-records";
+import { listNewsPublicationItems } from "@/lib/publications/news/records";
 
 export const metadata: Metadata = {
   title: "ニュース | QueryPie AI",

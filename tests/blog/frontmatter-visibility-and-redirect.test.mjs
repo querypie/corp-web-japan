@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readSource } from "../helpers/source-readers.mjs";
 
 test("blog publication frontmatter supports hidden list items and external detail redirects", () => {
-  const source = readSource("src/lib/publications/blog-publication-records.ts");
+  const source = readSource("src/lib/publications/blog/records.ts");
 
   assert.match(source, /hidden\?: boolean;/);
   assert.match(source, /redirectUrl\?: string;/);
@@ -12,7 +12,7 @@ test("blog publication frontmatter supports hidden list items and external detai
 });
 
 test("blog publication list excludes only frontmatter-hidden records while preserving full record lookup", () => {
-  const source = readSource("src/lib/publications/blog-publication-records.ts");
+  const source = readSource("src/lib/publications/blog/records.ts");
 
   assert.match(source, /createStandardPublicationRecordsRepository/);
   assert.match(source, /listBlogPublicationParams\(\) \{\s*return blogPublicationRepository\.listParams\(\);\s*\}/s);

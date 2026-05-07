@@ -3,7 +3,7 @@ import {
   getAcpDemoPublicationHref,
   getAcpDemoPublicationRecord,
   listAcpDemoPublicationIds,
-} from "@/lib/publications/get-acp-demo-publication-post";
+} from "@/lib/publications/demo/acp/get-post";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 
 type AcpDemoDetailIdPageProps = {

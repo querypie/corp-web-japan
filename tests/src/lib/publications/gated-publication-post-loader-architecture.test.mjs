@@ -9,7 +9,7 @@ test("whitepaper post loading isolates gating-specific rendering behind a dedica
   assert.equal(existsSync(new URL("../../../../src/lib/publications/create-gated-publication-post-loader.ts", import.meta.url)), true);
 
   const gatedLoader = readSource(gatedLoaderPath);
-  const whitepaperLoader = readSource("src/lib/publications/get-whitepaper-publication-post.ts");
+  const whitepaperLoader = readSource("src/lib/publications/whitepapers/get-post.ts");
 
   assert.match(gatedLoader, /export function createGatedPublicationPostLoader/);
   assert.match(gatedLoader, /splitMdxSourceAtGatingCut/);
