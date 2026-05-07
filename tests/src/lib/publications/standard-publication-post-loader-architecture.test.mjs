@@ -16,11 +16,10 @@ test("use-case, AIP demo, ACP demo, and event post loaders share a common standa
 
   const sharedLoader = readSource(sharedLoaderPath);
   assert.match(sharedLoader, /export function createStandardPublicationPostLoader/);
+  assert.match(sharedLoader, /buildRelatedPublicationItems/);
   assert.match(sharedLoader, /renderPublicationMdx/);
   assert.match(sharedLoader, /extractHeadingsFromMdx/);
-  assert.match(sharedLoader, /resolveRedirectablePublicationHref/);
   assert.match(sharedLoader, /buildPublicationAuthor/);
-  assert.match(sharedLoader, /buildRelatedItems/);
 
   for (const filePath of standardLoaderFiles) {
     const source = readSource(filePath);
@@ -31,13 +30,5 @@ test("use-case, AIP demo, ACP demo, and event post loaders share a common standa
     assert.doesNotMatch(source, /function buildRelatedItems/);
   }
 
-  const useCaseSource = readSource("src/lib/publications/get-use-case-publication-post.ts");
-  const eventSource = readSource("src/lib/publications/get-event-publication-post.ts");
-  const aipSource = readSource("src/lib/publications/get-aip-demo-publication-post.ts");
-  const acpSource = readSource("src/lib/publications/get-acp-demo-publication-post.ts");
-
-  assert.match(useCaseSource, /fallbackToAllRecords: true/);
-  assert.match(eventSource, /fallbackToAllRecords: true/);
-  assert.doesNotMatch(aipSource, /fallbackToAllRecords: true/);
-  assert.doesNotMatch(acpSource, /fallbackToAllRecords: true/);
+  assert.doesNotMatch(sharedLoader, /fallbackToAllRecords/);
 });

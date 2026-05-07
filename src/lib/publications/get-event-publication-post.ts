@@ -23,9 +23,9 @@ export const getEventPublicationPost = createStandardPublicationPostLoader<
   records: eventPublicationRecords,
   getRecord: getEventPublicationRecord,
   getHref: getEventPublicationHref,
-  fallbackToAllRecords: true,
   formatDate: formatJapaneseDateFromIsoDate,
 });
+
 
 export function getEventPublicationHref(id: string, slug: string) {
   return getPublicationHref("event", id, slug);

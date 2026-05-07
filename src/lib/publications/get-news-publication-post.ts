@@ -1,5 +1,6 @@
 import * as fs from "node:fs";
 import { getDisplayableArticleAuthors, resolveArticleAuthors } from "@/lib/authors/resolve-authors";
+import { buildRelatedPublicationItems } from "@/lib/publications/build-related-publication-items";
 import {
   getNewsPublicationRecord,
   listNewsPublicationIds,
@@ -9,28 +10,10 @@ import {
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
-import { resolveRedirectablePublicationHref } from "@/lib/publications/resolve-redirectable-publication-href";
-import type { PublicationPost, PublicationPostSummary } from "@/lib/publications/types";
+import type { PublicationPost } from "@/lib/publications/types";
 
 function readNewsPublicationBodySource(sourcePath: string) {
   return fs.readFileSync(sourcePath, "utf8");
-}
-
-function buildRelatedItems(id: string, relatedIds: readonly string[]): PublicationPostSummary[] {
-  const recordsById = new Map(newsPublicationRecords.map((record) => [record.id, record]));
-  const preferredIds = relatedIds.length > 0 ? relatedIds : newsPublicationRecords.map((record) => record.id);
-
-  return preferredIds
-    .filter((relatedId) => relatedId !== id)
-    .map((relatedId) => recordsById.get(relatedId) ?? null)
-    .filter((record) => record !== null)
-    .slice(0, 3)
-    .map((record) => ({
-      href: resolveRedirectablePublicationHref(record.redirectUrl, getNewsPublicationHref(record.id, record.slug)),
-      imageSrc: record.heroImageSrc,
-      title: record.title,
-      date: record.date,
-    }));
 }
 
 export { getNewsPublicationRecord, listNewsPublicationIds, listNewsPublicationParams };
@@ -75,7 +58,12 @@ export async function getNewsPublicationPost(id: string): Promise<PublicationPos
     gatedBodyMdx: null,
     gating: null,
     relatedTitle: "関連ニュース",
-    relatedItems: buildRelatedItems(id, frontmatter.relatedIds ?? record.relatedIds),
+    relatedItems: buildRelatedPublicationItems({
+      records: newsPublicationRecords,
+      id,
+      relatedIds: frontmatter.relatedIds ?? record.relatedIds,
+      getHref: getNewsPublicationHref,
+    }),
     toc: extractHeadingsFromMdx(bodySource),
   };
 }

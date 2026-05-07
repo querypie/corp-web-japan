@@ -49,7 +49,7 @@ test("event preview page and canonical routes are driven by event MDX publicatio
   assert.match(legacySlugRoute, /NextResponse\.redirect\(destination, 307\)/);
 
   assert.match(loader, /createStandardPublicationPostLoader/);
-  assert.match(loader, /fallbackToAllRecords: true/);
+  assert.match(loader, /createStandardPublicationPostLoader/);
   assert.match(loader, /formatDate: formatJapaneseDateFromIsoDate/);
   assert.match(records, /src\/content\/events/);
   assert.match(records, /eventDate\?: string/);

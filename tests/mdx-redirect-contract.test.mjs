@@ -19,7 +19,7 @@ const redirectAwareLoaderFiles = [
   "src/lib/publications/get-aip-demo-publication-post.ts",
   "src/lib/publications/get-acp-demo-publication-post.ts",
   "src/lib/publications/get-event-publication-post.ts",
-  "src/lib/publications/build-related-publications.ts",
+  "src/lib/publications/build-related-publication-items.ts",
 ];
 
 test("all MDX publication record lists resolve hrefs through the redirectUrl contract", () => {
@@ -60,6 +60,14 @@ test("all MDX publication related-item builders resolve hrefs through the redire
     "src/lib/publications/get-acp-demo-publication-post.ts",
     "src/lib/publications/get-event-publication-post.ts",
   ]);
+  const sharedRelatedConsumerFiles = new Set([
+    "src/lib/publications/get-publication-post.ts",
+    "src/lib/publications/get-news-publication-post.ts",
+    "src/lib/publications/get-whitepaper-publication-post.ts",
+  ]);
+  const sharedRelatedHelperFiles = new Set([
+    "src/lib/publications/build-related-publication-items.ts",
+  ]);
 
   for (const filePath of redirectAwareLoaderFiles) {
     const source = readSource(filePath);
@@ -69,6 +77,24 @@ test("all MDX publication related-item builders resolve hrefs through the redire
         source,
         /createStandardPublicationPostLoader/,
         `${filePath} should delegate related href creation through the shared publication post loader`,
+      );
+      continue;
+    }
+
+    if (sharedRelatedHelperFiles.has(filePath)) {
+      assert.match(
+        source,
+        /resolveRedirectablePublicationHref\(/,
+        `${filePath} should centralize redirect-aware related href creation`,
+      );
+      continue;
+    }
+
+    if (sharedRelatedConsumerFiles.has(filePath)) {
+      assert.match(
+        source,
+        /buildRelatedPublicationItems\(/,
+        `${filePath} should delegate related href creation through the shared related-items helper`,
       );
       continue;
     }
