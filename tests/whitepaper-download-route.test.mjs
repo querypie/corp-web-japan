@@ -4,6 +4,7 @@ import { readSource } from "./helpers/source-readers.mjs";
 
 test("whitepaper loader rewrites article download CTAs to canonical local download pages while preserving asset hrefs in frontmatter", () => {
   const getPost = readSource("src/lib/publications/whitepapers/get-post.ts");
+  const records = readSource("src/lib/publications/whitepapers/records.ts");
   const record24 = readSource("src/content/whitepapers/24-ai-transformation-japan.mdx");
   const record30 = readSource("src/content/whitepapers/30-saas-end-or-evolution.mdx");
 
@@ -13,6 +14,10 @@ test("whitepaper loader rewrites article download CTAs to canonical local downlo
   assert.match(getPost, /href: getWhitepaperPublicationDownloadHref\(id, record\.slug\)/);
   assert.match(getPost, /external: false/);
 
+  assert.match(records, /downloadCoverImageSrc\?: string;/);
+  assert.match(records, /typeof frontmatter\.downloadCoverImageSrc === "string"/);
+  assert.match(record24, /downloadCoverImageSrc: \/whitepapers\/24\/download-cover\.png/);
+  assert.match(record30, /downloadCoverImageSrc: \/whitepapers\/30\/download-cover\.png/);
   assert.match(record24, /downloadCta:\n  href: "\/whitepapers\/24\/QP_Whitepaper_AI_Transformation_JP\.pdf"/);
   assert.match(record30, /downloadCta:\n  href: "\/whitepapers\/30\/QP_Whitepaper_SaaS_End_Or_Evolution_JP\.pdf"/);
 });
@@ -28,6 +33,7 @@ test("whitepaper canonical download routes exist and use a dedicated gating-form
 
   assert.match(slugPage, /listWhitepaperPublicationDownloadParams/);
   assert.match(slugPage, /buildGatingContentKey\("whitepaper", id\)/);
+  assert.match(slugPage, /coverImageSrc=\{record\.downloadCoverImageSrc \?\? record\.heroImageSrc\}/);
   assert.match(slugPage, /downloadHref=\{record\.downloadCta\.href\}/);
   assert.match(slugPage, /robots: \{\s*index: false,\s*follow: false,\s*\}/s);
 

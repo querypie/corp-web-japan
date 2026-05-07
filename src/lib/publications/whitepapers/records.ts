@@ -13,6 +13,7 @@ export type WhitepaperPublicationFrontmatter = {
   listDescription?: string;
   date: string;
   heroImageSrc: string;
+  downloadCoverImageSrc?: string;
   author?: string | string[];
   hidden?: boolean;
   redirectUrl?: string;
@@ -76,6 +77,10 @@ function normalizeWhitepaperPublicationFrontmatter(
         : undefined,
     date: String(frontmatter.date ?? ""),
     heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
+    downloadCoverImageSrc:
+      typeof frontmatter.downloadCoverImageSrc === "string"
+        ? frontmatter.downloadCoverImageSrc
+        : undefined,
     author:
       typeof authorValue === "string"
         ? authorValue

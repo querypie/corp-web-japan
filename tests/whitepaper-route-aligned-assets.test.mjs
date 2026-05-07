@@ -38,4 +38,6 @@ test("whitepaper supporting surfaces do not reference the legacy /assets/image/w
 test("download CTA PDF assets live under route-aligned whitepaper public directories", () => {
   assert.equal(existsSync(path.join(process.cwd(), "public/whitepapers/24/QP_Whitepaper_AI_Transformation_JP.pdf")), true);
   assert.equal(existsSync(path.join(process.cwd(), "public/whitepapers/30/QP_Whitepaper_SaaS_End_Or_Evolution_JP.pdf")), true);
+  assert.equal(existsSync(path.join(process.cwd(), "public/whitepapers/24/download-cover.png")), true);
+  assert.equal(existsSync(path.join(process.cwd(), "public/whitepapers/30/download-cover.png")), true);
 });

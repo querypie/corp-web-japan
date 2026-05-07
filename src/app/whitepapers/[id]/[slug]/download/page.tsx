@@ -66,7 +66,7 @@ export default async function WhitepaperDownloadPage({ params }: WhitepaperDownl
       <WhitepaperDownloadGatePage
         categoryLabel="ホワイトペーパー"
         title={record.title}
-        coverImageSrc={record.heroImageSrc}
+        coverImageSrc={record.downloadCoverImageSrc ?? record.heroImageSrc}
         contentKey={buildGatingContentKey("whitepaper", id)}
         downloadHref={record.downloadCta.href}
       />
