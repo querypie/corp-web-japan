@@ -16,6 +16,7 @@ test("FeaturedEventHero exists as a reusable section component for hero-event re
   assert.match(source, /export function FeaturedEventHero/);
   assert.match(source, /eyebrow = "Featured Event"/);
   assert.match(source, /ctaLabel = "詳細を見る"/);
+  assert.match(source, /rounded-2xl/);
   assert.match(source, /<Image/);
   assert.match(source, /<Link/);
 });

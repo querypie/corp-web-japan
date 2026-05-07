@@ -26,7 +26,7 @@ export function FeaturedEventHero({
 }: FeaturedEventHeroProps) {
   return (
     <section className="mb-16">
-      <div className="overflow-hidden rounded-3xl bg-[#f2f4f6]">
+      <div className="overflow-hidden rounded-2xl bg-[#f2f4f6]">
         <div className="flex flex-col items-stretch lg:flex-row">
           <div className="w-full aspect-video lg:w-3/5 lg:aspect-auto">
             <Image src={imageSrc} alt={imageAlt} width={1200} height={675} className="h-full w-full object-cover" />
