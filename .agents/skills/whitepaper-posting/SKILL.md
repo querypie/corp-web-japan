@@ -71,7 +71,7 @@ gated: true
 
 Notes:
 - `id` must be a string and must be unique.
-- Use the next available numeric filename and `id`, for example `src/content/whitepapers/29.mdx`.
+- Use the next available numeric `id` and keep the filename route-readable, for example `src/content/whitepapers/29-example-whitepaper-slug.mdx`.
 - `slug` becomes the canonical route suffix.
 - `listDescription` is strongly recommended because the whitepaper list uses `listDescription ?? description`.
 - `author` is optional in the loader, but use it when a matching author exists in `src/content/authors/ja.yaml`.
