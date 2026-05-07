@@ -39,7 +39,7 @@ test("whitepaper 25 keeps its original body while adding only a short redirect n
   assert.match(source, /# Created only for the Korean translation whitepaper flow\./);
   assert.match(source, /# Redirect this shadow record to the real Japan whitepaper 24 route\./);
   assert.match(source, /redirectUrl:\s*"\/whitepapers\/24\/ai-transformation-japan"/);
-  assert.match(source, /downloadCta:\n  href: "\/whitepapers\/24\/download\.pdf"/);
+  assert.match(source, /downloadCta:\n  href: "\/whitepapers\/24\/QP_Whitepaper_AI_Transformation_JP\.pdf"/);
   assert.doesNotMatch(source, /gated:\s*true/);
   assert.match(source, /# はじめに/);
 });

@@ -74,9 +74,9 @@ test("migrated whitepaper MDX files use local whitepaper routes and route-aligne
 
 test("download CTA whitepapers model route-aligned PDF links in frontmatter instead of hardcoded upstream download routes", () => {
   const expected = new Map([
-    ["24", "/whitepapers/24/download.pdf"],
-    ["25", "/whitepapers/24/download.pdf"],
-    ["30", "/whitepapers/30/download.pdf"],
+    ["24", "/whitepapers/24/QP_Whitepaper_AI_Transformation_JP.pdf"],
+    ["25", "/whitepapers/24/QP_Whitepaper_AI_Transformation_JP.pdf"],
+    ["30", "/whitepapers/30/QP_Whitepaper_SaaS_End_Or_Evolution_JP.pdf"],
   ]);
 
   for (const [id, href] of expected) {

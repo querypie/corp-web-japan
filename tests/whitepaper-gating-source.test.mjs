@@ -23,12 +23,12 @@ test("whitepaper gating uses gated frontmatter and a GatingCut component instead
   assert.match(whitepaper24, /<GatingCut\s*\/>/);
   assert.doesNotMatch(whitepaper24, /<ArticleGatingForm>/);
   assert.doesNotMatch(whitepaper24, /<\/ArticleGatingForm>/);
-  assert.match(whitepaper24, /downloadCta:\n  href: "\/whitepapers\/24\/download\.pdf"\n  label: "ホワイトペーパーを入手する 🚀"\n  external: true/);
+  assert.match(whitepaper24, /downloadCta:\n  href: "\/whitepapers\/24\/QP_Whitepaper_AI_Transformation_JP\.pdf"\n  label: "ホワイトペーパーを入手する 🚀"\n  external: true/);
   assert.doesNotMatch(whitepaper24, /<ButtonLink href=/);
 
   assert.match(whitepaper30, /\ngated:\s*true\n/);
   assert.match(whitepaper30, /<GatingCut\s*\/>/);
-  assert.match(whitepaper30, /downloadCta:\n  href: "\/whitepapers\/30\/download\.pdf"\n  label: "ホワイトペーパーを入手する 🚀"\n  external: true/);
+  assert.match(whitepaper30, /downloadCta:\n  href: "\/whitepapers\/30\/QP_Whitepaper_SaaS_End_Or_Evolution_JP\.pdf"\n  label: "ホワイトペーパーを入手する 🚀"\n  external: true/);
   assert.doesNotMatch(whitepaper30, /<ButtonLink href=/);
 
   assert.match(mdxComponents, /function GatingCut\(/);
