@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { FeaturedEventHero } from "@/components/sections/featured-event-hero";
+import { InternalEventsDemoEmptyState } from "@/components/sections/internal-events-demo-empty-state";
 import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
 import {
   ResourceListContentSection,
@@ -9,32 +10,31 @@ import {
   ResourceListHeroSection,
   ResourceListHeroTitle,
   ResourceListItems,
+  ResourceListSectionDescription,
+  ResourceListSectionEyebrow,
+  ResourceListSectionHeading,
+  ResourceListSectionTitle,
+  ResourceListSectionTitleRow,
 } from "@/components/sections/resource-list-section";
-import { eventItems } from "@/content/resources/events";
+import { resolveEventTimeline } from "@/lib/publications/events/records";
 
 export const metadata: Metadata = {
   title: "イベント | QueryPie AI",
   description: "QueryPie AI に関するセミナーやイベント情報をまとめたページです。",
+  alternates: {
+    canonical: "/events",
+  },
 };
 
 type EventsPageProps = {
   searchParams?: Promise<{
-    unblock?: string | string[];
+    asof?: string | string[];
   }>;
 };
 
 export default async function EventsPage({ searchParams }: EventsPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
-  const unblockParam = resolvedSearchParams?.unblock;
-  const isEventContentReady = Array.isArray(unblockParam)
-    ? unblockParam.length > 0
-    : typeof unblockParam === "string";
-
-  if (!isEventContentReady) {
-    // TODO: When the real externally publishable event content is ready,
-    // replace this temporary `unblock` query-based readiness check with the final launch condition.
-    return notFound();
-  }
+  const { heroEvent, pastEvents } = resolveEventTimeline(resolvedSearchParams?.asof);
 
   return (
     <main className="relative bg-white text-slate-950">
@@ -43,20 +43,47 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
       <ResourceListHeroSection>
         <ResourceListHeroTitle>イベント</ResourceListHeroTitle>
         <ResourceListHeroDescription>
-          包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。
+          QueryPie AI に関するセミナーやウェビナー、イベント情報をご覧いただけます。
           <br />
-          基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。
+          開催予定のイベントから過去のインサイトまで、最新の情報を一か所で確認できます。
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
-        <ResourceCategorySidebar />
+        <ResourceCategorySidebar activeLabel="イベント" />
 
-        <ResourceListItems items={eventItems} />
+        <div className="min-w-0 flex-1">
+          {heroEvent ? (
+            <FeaturedEventHero
+              href={heroEvent.href}
+              imageSrc={heroEvent.imageSrc}
+              imageAlt={heroEvent.title}
+              badge={heroEvent.badge}
+              title={heroEvent.title}
+              description={heroEvent.description}
+              date={heroEvent.date}
+              eyebrow="Upcoming Event"
+              ctaLabel="詳細を見る"
+            />
+          ) : (
+            <InternalEventsDemoEmptyState />
+          )}
+
+          <section className="mt-12 lg:mt-16">
+            <ResourceListSectionHeading>
+              <ResourceListSectionEyebrow>Past Events</ResourceListSectionEyebrow>
+              <ResourceListSectionTitleRow>
+                <ResourceListSectionTitle>過去のイベント</ResourceListSectionTitle>
+                <ResourceListSectionDescription>カンファレンスやセミナーのインサイトをご覧ください。</ResourceListSectionDescription>
+              </ResourceListSectionTitleRow>
+            </ResourceListSectionHeading>
+
+            <ResourceListItems items={pastEvents} />
+          </section>
+        </div>
       </ResourceListContentSection>
 
       <SiteFooter />
     </main>
   );
 }
-

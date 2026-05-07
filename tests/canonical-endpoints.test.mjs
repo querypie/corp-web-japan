@@ -14,7 +14,7 @@ const expectedHeaderLinks = [
   'label: "紹介資料", href: "/introduction-deck"',
   'label: "用語集", href: "/glossary"',
   'label: "マニュアル", href: "/manuals"',
-  'label: "イベント", href: t("/events", previewModeEnabled)',
+  'label: "イベント", href: "/events"',
   'label: "私たちについて", href: t("/about-us", previewModeEnabled)',
   'label: "認証情報", href: t("/certifications", previewModeEnabled)',
   'label: "ニュース", href: "/news"',
@@ -32,7 +32,7 @@ const expectedFooterLinks = [
   'label: "紹介資料", href: "/introduction-deck"',
   'label: "用語集", href: "/glossary"',
   'label: "マニュアル", href: "/manuals"',
-  'label: "イベント", href: t("/events", previewModeEnabled)',
+  'label: "イベント", href: "/events"',
   'label: "私たちについて", href: t("/about-us", previewModeEnabled)',
   'label: "認証情報", href: t("/certifications", previewModeEnabled)',
   'label: "ニュース", href: "/news"',
@@ -119,13 +119,16 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.equal(existsSync(new URL("../src/app/news/route.ts", import.meta.url)), false);
 });
 
-test("events remains gated and stays out of the sitemap until launch", () => {
+test("events is a canonical public resource list route and is included in the sitemap", () => {
   const eventsPage = readSource("src/app/events/page.tsx");
   const sitemap = readSource("src/app/sitemap.ts");
 
   assert.match(eventsPage, /title: "イベント \| QueryPie AI"/);
-  assert.match(eventsPage, /unblock\?: string \| string\[];/);
-  assert.match(eventsPage, /return notFound\(\);/);
-  assert.doesNotMatch(eventsPage, /canonical: "\/events"/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/events"\)/);
+  assert.match(eventsPage, /canonical: "\/events"/);
+  assert.match(eventsPage, /resolveEventTimeline\(resolvedSearchParams\?\.asof\)/);
+  assert.match(eventsPage, /<ResourceCategorySidebar activeLabel="イベント" \/>/);
+  assert.match(eventsPage, /<FeaturedEventHero/);
+  assert.match(eventsPage, /<ResourceListItems items=\{pastEvents\} \/>/);
+  assert.doesNotMatch(eventsPage, /return notFound\(\);/);
+  assert.match(sitemap, /absoluteUrl\("\/events"\)/);
 });
