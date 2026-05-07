@@ -52,7 +52,7 @@ Use `.agents/skills/README.md` as the first local index, then load the specific 
 
 - If the user names a skill explicitly, use that skill.
 - If the task clearly matches a skill description, use that skill even without an explicit name.
-- If the task is adding or updating publication content, check `.agents/skills/README.md` and load `blog-posting` or `whitepaper-posting` before editing the content.
+- If the task is adding or updating public MDX publication content, check `.agents/skills/README.md` and load `mdx-publication-operations` first, then load the narrowest matching family wrapper (`blog-posting`, `whitepaper-posting`, `news-posting`, `events-posting`, `use-case-posting`, `aip-demo-posting`, `acp-demo-posting`, `introduction-deck-posting`, `glossary-posting`, or `manuals-posting`).
 - If multiple skills match, use the minimum set and state the execution order briefly.
 - Do not carry skill activation across turns unless re-triggered.
 
@@ -172,7 +172,8 @@ Use these rules when editing local blog or whitepaper content.
 - Shared gating helpers live in `src/lib/publications/gating.ts`, and the current internal reference route is `/internal/whitepaper-gating-demo`.
 - For local-only browser verification of contact-us and whitepaper gating flows, see `docs/local-e2e.md`.
 - Blog and whitepaper detail metadata currently set `robots.index = false` and `robots.follow = false`; keep doc changes aligned with that implementation unless the user explicitly changes the indexing policy.
-- For AI-agent execution, use `.agents/skills/blog-posting/SKILL.md` for blog work and `.agents/skills/whitepaper-posting/SKILL.md` for whitepaper work.
+- For AI-agent execution, load `.agents/skills/mdx-publication-operations/SKILL.md` first for public MDX publication maintenance.
+- Then load the narrowest matching family wrapper from `.agents/skills/` for the target content root.
 
 ## Contact-us redirect query-prefill contract
 
