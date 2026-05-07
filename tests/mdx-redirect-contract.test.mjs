@@ -62,9 +62,10 @@ test("all MDX publication related-item builders resolve hrefs through the redire
     "src/lib/publications/get-news-publication-post.ts",
     "src/lib/publications/get-publication-post.ts",
   ]);
-  const sharedRelatedConsumerFiles = new Set([
+  const gatedLoaderFiles = new Set([
     "src/lib/publications/get-whitepaper-publication-post.ts",
   ]);
+  const sharedRelatedConsumerFiles = new Set([]);
   const sharedRelatedHelperFiles = new Set([
     "src/lib/publications/build-related-publication-items.ts",
   ]);
@@ -81,11 +82,11 @@ test("all MDX publication related-item builders resolve hrefs through the redire
       continue;
     }
 
-    if (sharedRelatedHelperFiles.has(filePath)) {
+    if (gatedLoaderFiles.has(filePath)) {
       assert.match(
         source,
-        /resolveRedirectablePublicationHref\(/,
-        `${filePath} should centralize redirect-aware related href creation`,
+        /createGatedPublicationPostLoader/,
+        `${filePath} should delegate related href creation through the dedicated gated publication post loader`,
       );
       continue;
     }
