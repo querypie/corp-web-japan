@@ -4,13 +4,33 @@ import { AuthorBox } from "@/components/AuthorBox";
 import { PublicationShareButtons } from "@/components/sections/publication-share-buttons";
 import { ResourcePostGated } from "@/components/sections/resource-post-gated";
 import { ResourcePostToc } from "@/components/sections/resource-post-toc";
-import type { PublicationPost } from "@/lib/publications/types";
+import type { PublicationPost, PublicationPostDownloadCta } from "@/lib/publications/types";
 
 const publicationPostContactUrl = "/contact-us";
 
 type PublicationPostPageProps = {
   post: PublicationPost;
 };
+
+function isExternalPublicationHref(href: string) {
+  return /^https?:\/\//.test(href);
+}
+
+function PublicationDownloadCta({ downloadCta }: { downloadCta: PublicationPostDownloadCta }) {
+  if (downloadCta.external || isExternalPublicationHref(downloadCta.href)) {
+    return (
+      <a href={downloadCta.href} className="article-content-btn" target="_blank" rel="noopener noreferrer">
+        {downloadCta.label}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={downloadCta.href} className="article-content-btn">
+      {downloadCta.label}
+    </Link>
+  );
+}
 
 export const publicationBodyClassName = [
   "text-base leading-6 text-slate-500",
@@ -80,6 +100,7 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
             <div className="pb-[89px]">
               {post.bodyMdx ? (
                 <div className={publicationBodyClassName}>
+                  {post.downloadCta ? <PublicationDownloadCta downloadCta={post.downloadCta} /> : null}
                   {post.bodyMdx}
                   {post.gating ? (
                     <ResourcePostGated
@@ -91,10 +112,17 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
                   ) : null}
                 </div>
               ) : post.bodyHtml ? (
-                <div
-                  className={publicationBodyClassName}
-                  dangerouslySetInnerHTML={{ __html: post.bodyHtml }}
-                />
+                <>
+                  {post.downloadCta ? (
+                    <div className={publicationBodyClassName}>
+                      <PublicationDownloadCta downloadCta={post.downloadCta} />
+                    </div>
+                  ) : null}
+                  <div
+                    className={publicationBodyClassName}
+                    dangerouslySetInnerHTML={{ __html: post.bodyHtml }}
+                  />
+                </>
               ) : null}
             </div>
           </div>

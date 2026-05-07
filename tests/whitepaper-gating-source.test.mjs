@@ -23,11 +23,13 @@ test("whitepaper gating uses gated frontmatter and a GatingCut component instead
   assert.match(whitepaper24, /<GatingCut\s*\/>/);
   assert.doesNotMatch(whitepaper24, /<ArticleGatingForm>/);
   assert.doesNotMatch(whitepaper24, /<\/ArticleGatingForm>/);
-  assert.match(whitepaper24, /https:\/\/www\.querypie\.com\/ja\/features\/documentation\/white-paper\/24\/.+\/download/);
+  assert.match(whitepaper24, /downloadCta:\n  href: "\/whitepapers\/24\/download\.pdf"\n  label: "ホワイトペーパーを入手する 🚀"\n  external: true/);
+  assert.doesNotMatch(whitepaper24, /<ButtonLink href=/);
 
   assert.match(whitepaper30, /\ngated:\s*true\n/);
   assert.match(whitepaper30, /<GatingCut\s*\/>/);
-  assert.match(whitepaper30, /https:\/\/www\.querypie\.com\/ja\/features\/documentation\/white-paper\/30\/.+\/download/);
+  assert.match(whitepaper30, /downloadCta:\n  href: "\/whitepapers\/30\/download\.pdf"\n  label: "ホワイトペーパーを入手する 🚀"\n  external: true/);
+  assert.doesNotMatch(whitepaper30, /<ButtonLink href=/);
 
   assert.match(mdxComponents, /function GatingCut\(/);
   assert.match(mdxComponents, /function Youtube\(/);
@@ -45,8 +47,11 @@ test("whitepaper publication loader carries a dedicated gated MDX contract and b
   assert.match(loader, /from "@\/lib\/publications\/create-gated-publication-post-loader"/);
   assert.match(gatedLoader, /gatedBodyMdx/);
   assert.match(gatedLoader, /contentKey/);
+  assert.match(gatedLoader, /normalizeDownloadCta/);
   assert.match(publicationTypes, /gatedBodyMdx: ReactNode \| null;/);
   assert.match(publicationTypes, /gating: PublicationPostGating \| null;/);
+  assert.match(publicationTypes, /downloadCta: PublicationPostDownloadCta \| null;/);
+  assert.match(publicationPage, /post\.downloadCta \? <PublicationDownloadCta downloadCta=\{post\.downloadCta\} \/> : null/);
   assert.match(publicationPage, /post\.gating \? \(/);
   assert.match(gatingHelper, /import isProduction from "@\/lib\/is-production"/);
   assert.match(gatingHelper, /PRODUCTION_GATING_MAX_AGE_SECONDS/);
@@ -55,7 +60,7 @@ test("whitepaper publication loader carries a dedicated gated MDX contract and b
   assert.match(gatingRoute, /response\.cookies\.set/);
 });
 
-test("internal gating demo page exists as an MDX-backed route under \/internal", () => {
+test("internal gating demo page exists as an MDX-backed route under /internal", () => {
   const internalPage = readSource("src/app/internal/whitepaper-gating-demo/page.tsx");
   const internalMdx = readSource("src/content/internal/whitepaper-gating-demo.mdx");
 

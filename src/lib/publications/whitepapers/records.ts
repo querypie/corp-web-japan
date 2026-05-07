@@ -17,6 +17,11 @@ export type WhitepaperPublicationFrontmatter = {
   hidden?: boolean;
   redirectUrl?: string;
   relatedIds: readonly string[];
+  downloadCta?: {
+    href: string;
+    label: string;
+    external?: boolean;
+  };
 };
 
 export type WhitepaperPublicationRecord = StandardPublicationRecord<WhitepaperPublicationFrontmatter>;
@@ -40,6 +45,25 @@ function normalizeWhitepaperPublicationFrontmatter(
     : [];
   const authorValue = frontmatter.author;
   const redirectUrlValue = frontmatter.redirectUrl;
+  const downloadCtaValue = frontmatter.downloadCta;
+  const downloadCta =
+    downloadCtaValue && typeof downloadCtaValue === "object"
+      ? (() => {
+          const candidate = downloadCtaValue as Record<string, unknown>;
+          const href = typeof candidate.href === "string" ? candidate.href : "";
+          const label = typeof candidate.label === "string" ? candidate.label : "";
+
+          if (!href || !label) {
+            return undefined;
+          }
+
+          return {
+            href,
+            label,
+            external: candidate.external === true,
+          };
+        })()
+      : undefined;
 
   return {
     id: String(frontmatter.id ?? ""),
@@ -61,6 +85,7 @@ function normalizeWhitepaperPublicationFrontmatter(
     hidden: frontmatter.hidden === true,
     redirectUrl: typeof redirectUrlValue === "string" ? redirectUrlValue : undefined,
     relatedIds,
+    downloadCta,
   };
 }
 

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readdirSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { readSource } from "./helpers/source-readers.mjs";
 import { getTopPageDataSource } from "./helpers/static-marketing-page-sources.mjs";
@@ -33,4 +33,9 @@ test("whitepaper supporting surfaces do not reference the legacy /assets/image/w
   assert.match(gatingDemo, /\nheroImageSrc: "\/whitepapers\/24\/thumbnail\.png"\n/);
   assert.doesNotMatch(`${topPage}\n${topPagePage}\n${topPageWhitepapersSection}`, /\/assets\/image\/whitepapers\//);
   assert.doesNotMatch(gatingDemo, /\/assets\/image\/whitepapers\//);
+});
+
+test("download CTA PDF assets live under route-aligned whitepaper public directories", () => {
+  assert.equal(existsSync(path.join(process.cwd(), "public/whitepapers/24/download.pdf")), true);
+  assert.equal(existsSync(path.join(process.cwd(), "public/whitepapers/30/download.pdf")), true);
 });

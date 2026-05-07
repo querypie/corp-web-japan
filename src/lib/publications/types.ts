@@ -39,6 +39,12 @@ export type PublicationPostGating = {
   initiallyUnlocked: boolean;
 };
 
+export type PublicationPostDownloadCta = {
+  href: string;
+  label: string;
+  external?: boolean;
+};
+
 export type PublicationPost = {
   category: PublicationCategory;
   categoryLabel: string;
@@ -52,6 +58,7 @@ export type PublicationPost = {
   bodyMdx: ReactNode | null;
   gatedBodyMdx: ReactNode | null;
   gating: PublicationPostGating | null;
+  downloadCta: PublicationPostDownloadCta | null;
   relatedTitle: string;
   relatedItems: PublicationPostSummary[];
   toc: PublicationTocItem[];

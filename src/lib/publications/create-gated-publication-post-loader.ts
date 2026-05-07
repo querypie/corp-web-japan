@@ -4,7 +4,13 @@ import { buildRelatedPublicationItems } from "@/lib/publications/build-related-p
 import { buildGatingContentKey, splitMdxSourceAtGatingCut, stripFrontmatterBlock } from "@/lib/publications/gating";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
-import type { PublicationCategory, PublicationPost, PublicationPostAuthor } from "@/lib/publications/types";
+import type { PublicationCategory, PublicationPost, PublicationPostAuthor, PublicationPostDownloadCta } from "@/lib/publications/types";
+
+type GatedPublicationDownloadCta = {
+  href: string;
+  label: string;
+  external?: boolean;
+};
 
 type GatedPublicationPostFrontmatter = {
   author?: string | string[];
@@ -15,6 +21,7 @@ type GatedPublicationPostFrontmatter = {
   heroImageSrc: string;
   gated?: boolean;
   hideHeroImageOnDetail?: boolean;
+  downloadCta?: GatedPublicationDownloadCta;
 };
 
 type GatedPublicationPostRecord = {
@@ -37,6 +44,26 @@ type CreateGatedPublicationPostLoaderConfig<TRecord extends GatedPublicationPost
   getRecord: (id: string) => TRecord | null;
   getHref: (id: string, slug: string) => string;
 };
+
+function normalizeDownloadCta(value: unknown): PublicationPostDownloadCta | null {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  const candidate = value as Record<string, unknown>;
+  const href = typeof candidate.href === "string" ? candidate.href : "";
+  const label = typeof candidate.label === "string" ? candidate.label : "";
+
+  if (!href || !label) {
+    return null;
+  }
+
+  return {
+    href,
+    label,
+    external: candidate.external === true,
+  };
+}
 
 function buildPublicationAuthor(author: string | string[] | undefined, defaultAuthorAvatarSrc: string): PublicationPostAuthor | null {
   const resolvedAuthors = getDisplayableArticleAuthors(resolveArticleAuthors(author));
@@ -115,6 +142,7 @@ export function createGatedPublicationPostLoader<
             initiallyUnlocked: false,
           }
         : null,
+      downloadCta: normalizeDownloadCta(frontmatter.downloadCta),
       relatedTitle: config.relatedTitle,
       relatedItems: buildRelatedPublicationItems({
         records: config.records,
