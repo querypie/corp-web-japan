@@ -14,9 +14,9 @@ test("blog publication frontmatter supports hidden list items and external detai
 test("blog publication list excludes only frontmatter-hidden records while preserving full record lookup", () => {
   const source = readSource("src/lib/publications/blog-publication-records.ts");
 
-  assert.match(source, /records\.filter\(\(record\) => !record\.hidden\)/);
-  assert.match(source, /const recordsById = new Map<string, BlogPostRecord>\(records\.map\(\(post\) => \[post\.id, post\]\)\);/);
-  assert.match(source, /listBlogPublicationParams\(\) \{\s*return getBlogPublicationCache\(\)\.records\.map\(\(\{ id, slug \}\) => \(\{ id, slug \}\)\);\s*\}/s);
+  assert.match(source, /createStandardPublicationRecordsRepository/);
+  assert.match(source, /listBlogPublicationParams\(\) \{\s*return blogPublicationRepository\.listParams\(\);\s*\}/s);
+  assert.match(source, /getBlogPublicationRecord\(id: string\) \{\s*return blogPublicationRepository\.getRecord\(id\);\s*\}/s);
 });
 
 test("blog detail routes redirect to a frontmatter redirectUrl before rendering the local post", () => {

@@ -1,9 +1,9 @@
-import * as fs from "node:fs";
 import * as path from "node:path";
-import { parse as parseYaml } from "yaml";
 import type { ResourceItem } from "@/content/resources";
-import { getPublicationHref } from "@/lib/publications/get-publication-href";
-import { resolveRedirectablePublicationHref } from "@/lib/publications/resolve-redirectable-publication-href";
+import {
+  createStandardPublicationRecordsRepository,
+  type StandardPublicationRecord,
+} from "@/lib/publications/create-standard-records-repository";
 
 export type BlogPostFrontmatter = {
   id: string;
@@ -18,20 +18,11 @@ export type BlogPostFrontmatter = {
   relatedIds: readonly string[];
 };
 
-export type BlogPostRecord = BlogPostFrontmatter & {
-  sourcePath: string;
-};
+export type BlogPostRecord = StandardPublicationRecord<BlogPostFrontmatter>;
 
 export type BlogPublicationListItem = ResourceItem;
 
-type BlogPublicationCache = {
-  records: readonly BlogPostRecord[];
-  recordsById: ReadonlyMap<string, BlogPostRecord>;
-  listItems: readonly BlogPublicationListItem[];
-};
-
 const BLOG_POSTS_ROOT = path.join(process.cwd(), "src/content/blog");
-let blogPublicationCache: Readonly<BlogPublicationCache> | null = null;
 
 function normalizeBlogPostFrontmatter(value: unknown, sourcePath: string): BlogPostFrontmatter {
   if (!value || typeof value !== "object") {
@@ -65,80 +56,27 @@ function normalizeBlogPostFrontmatter(value: unknown, sourcePath: string): BlogP
   };
 }
 
-function parseBlogPostFrontmatter(source: string, sourcePath: string): BlogPostFrontmatter {
-  const match = source.match(/^---\n([\s\S]*?)\n---\n?/);
-  if (!match) {
-    throw new Error(`Missing frontmatter block in ${sourcePath}`);
-  }
+const blogPublicationRepository = createStandardPublicationRecordsRepository<BlogPostFrontmatter>({
+  contentRoot: BLOG_POSTS_ROOT,
+  category: "blog",
+  badge: "ブログ",
+  normalizeFrontmatter: normalizeBlogPostFrontmatter,
+});
 
-  return normalizeBlogPostFrontmatter(parseYaml(match[1]), sourcePath);
-}
-
-function loadBlogPostRecords(): BlogPostRecord[] {
-  return fs
-    .readdirSync(BLOG_POSTS_ROOT)
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => {
-      const sourcePath = path.join(BLOG_POSTS_ROOT, file);
-      const source = fs.readFileSync(sourcePath, "utf8");
-      const frontmatter = parseBlogPostFrontmatter(source, sourcePath);
-
-      return {
-        ...frontmatter,
-        sourcePath,
-      };
-    })
-    .sort((left, right) => Number(right.id) - Number(left.id));
-}
-
-function createBlogPublicationCache(): Readonly<BlogPublicationCache> {
-  const records = Object.freeze(loadBlogPostRecords().map((record) => Object.freeze({ ...record })));
-  const recordsById = new Map<string, BlogPostRecord>(records.map((post) => [post.id, post]));
-  const visibleRecords = records.filter((record) => !record.hidden);
-  const listItems = Object.freeze(
-    visibleRecords.map((record) =>
-      Object.freeze({
-        id: record.id,
-        href: resolveRedirectablePublicationHref(record.redirectUrl, getPublicationHref("blog", record.id, record.slug)),
-        imageSrc: record.heroImageSrc,
-        badge: "ブログ",
-        title: record.title,
-        description: record.description,
-        date: record.date,
-      }),
-    ),
-  );
-
-  return Object.freeze({
-    records,
-    recordsById,
-    listItems,
-  });
-}
-
-function getBlogPublicationCache(): Readonly<BlogPublicationCache> {
-  if (blogPublicationCache) {
-    return blogPublicationCache;
-  }
-
-  blogPublicationCache = Object.freeze(createBlogPublicationCache());
-  return blogPublicationCache;
-}
-
-export const blogPostRecords = getBlogPublicationCache().records;
+export const blogPostRecords = blogPublicationRepository.records;
 
 export function listBlogPublicationItems(): readonly BlogPublicationListItem[] {
-  return getBlogPublicationCache().listItems;
+  return blogPublicationRepository.listItems;
 }
 
 export function listBlogPublicationParams() {
-  return getBlogPublicationCache().records.map(({ id, slug }) => ({ id, slug }));
+  return blogPublicationRepository.listParams();
 }
 
 export function listBlogPublicationIds() {
-  return getBlogPublicationCache().records.map(({ id }) => ({ id }));
+  return blogPublicationRepository.listIds();
 }
 
 export function getBlogPublicationRecord(id: string) {
-  return getBlogPublicationCache().recordsById.get(id) ?? null;
+  return blogPublicationRepository.getRecord(id);
 }
