@@ -24,11 +24,12 @@ const redirectAwareLoaderFiles = [
 
 test("all MDX publication record lists resolve hrefs through the redirectUrl contract", () => {
   const sharedRepositoryFiles = new Set([
+    "src/lib/publications/blog-publication-records.ts",
+    "src/lib/publications/whitepaper-publication-records.ts",
     "src/lib/publications/use-case-publication-records.ts",
     "src/lib/publications/aip-demo-publication-records.ts",
     "src/lib/publications/acp-demo-publication-records.ts",
     "src/lib/publications/event-publication-records.ts",
-    "src/lib/publications/blog-publication-records.ts",
   ]);
 
   for (const filePath of redirectAwareRecordFiles) {
