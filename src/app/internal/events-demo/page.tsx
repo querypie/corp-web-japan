@@ -34,7 +34,7 @@ export default async function InternalEventsDemoPage() {
       <ResourceListHeroSection>
         <ResourceListHeroTitle>Internal Events Demo</ResourceListHeroTitle>
         <ResourceListHeroDescription>
-          events 목록 페이지 변경 전에, 실제 event publication 데이터를 그대로 사용해 internal 경로에서만 먼저 리스트 구성을 확인할 수 있는 데모 페이지입니다.
+          This demo page lets you preview the list composition on an internal-only route using the real event publication data before updating the events index page.
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 
