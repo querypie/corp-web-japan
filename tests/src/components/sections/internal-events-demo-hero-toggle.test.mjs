@@ -18,6 +18,7 @@ test("InternalEventsDemoHeroToggle renders two rectangular selectable buttons an
   assert.match(source, /router\.replace\(`\$\{pathname\}\?\$\{nextQueryString\}`, \{ scroll: false \}\)/);
   assert.match(source, /role="group"/);
   assert.match(source, /aria-label="Internal events demo hero state"/);
+  assert.doesNotMatch(source, /Hero state/);
   assert.match(source, /rounded-\[14px\]/);
   assert.match(source, /aria-pressed=\{selected\}/);
 });

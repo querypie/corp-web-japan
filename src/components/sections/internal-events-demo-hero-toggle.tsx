@@ -42,13 +42,11 @@ export function InternalEventsDemoHeroToggle({
   }
 
   return (
-    <div className="inline-flex flex-col items-start gap-2">
-      <span className="text-[13px] font-medium leading-none text-slate-500">Hero state</span>
-      <div
-        className={`inline-flex flex-wrap gap-2 ${disabled ? "opacity-60" : ""}`}
-        role="group"
-        aria-label="Internal events demo hero state"
-      >
+    <div
+      className={`inline-flex flex-wrap gap-2 ${disabled ? "opacity-60" : ""}`}
+      role="group"
+      aria-label="Internal events demo hero state"
+    >
         {heroModeOptions.map((option) => {
           const selected = option.value === (showUpcomingEvent ? "show" : "none");
 
@@ -71,7 +69,6 @@ export function InternalEventsDemoHeroToggle({
             </button>
           );
         })}
-      </div>
     </div>
   );
 }
