@@ -45,7 +45,7 @@ Use these paths:
 - preview list page: `src/app/t/demo/acp/page.tsx`
 - canonical detail page: `src/app/demo/acp/[id]/[slug]/page.tsx`
 - id-only redirect page: `src/app/demo/acp/[id]/page.tsx`
-- content source: `src/content/demo/acp/<id>.mdx`
+- content source: `src/content/demo/acp/<id>-<slug>.mdx`
 - publication records: `src/content/publications/acp-demo-publication-records.ts`
 - detail loader: `src/lib/publications/get-acp-demo-publication-post.ts`
 - thumbnails: `public/demo/acp/<id>/thumbnail.png`
@@ -188,7 +188,7 @@ Do not replace the existing redirect route in a migration-only PR unless the use
    - `src/content/publications/use-case-publication-records.ts`
 3. Inspect the source corpus under `../corp-web-contents/pages/features/demo/acp-features/**/ja/content.mdx`.
 4. Inventory source asset paths from `ogImage`.
-5. Generate or author normalized `src/content/demo/acp/<id>.mdx` files.
+5. Generate or author normalized `src/content/demo/acp/<id>-<slug>.mdx` files.
 6. Copy thumbnails into `public/demo/acp/<id>/thumbnail.png`.
 7. Add the records file, loader file, preview page, canonical detail page, id redirect page, and sitemap wiring.
 8. Add focused tests for corpus completeness and route architecture.
@@ -235,7 +235,7 @@ If repo-root `node_modules` already exists, this fast check is useful from the w
 When asked to migrate corp-web-japan ACP demos into local MDX routes:
 1. use a fresh worktree from latest `origin/main`
 2. source from `../corp-web-contents/pages/features/demo/acp-features/**/ja/content.mdx`
-3. create `src/content/demo/acp/<id>.mdx` with normalized frontmatter
+3. create `src/content/demo/acp/<id>-<slug>.mdx` with normalized frontmatter
 4. copy thumbnails to `public/demo/acp/<id>/thumbnail.png`
 5. add records and loader files following the event/news/use-case publication pattern
 6. add `/t/demo/acp`, `/demo/acp/:id/:slug`, and `/demo/acp/:id`

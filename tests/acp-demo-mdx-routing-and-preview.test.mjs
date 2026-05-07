@@ -43,8 +43,8 @@ test("ACP demo public list page and canonical routes are driven by ACP demo MDX 
 });
 
 test("ACP demo MDX loader supports the imported corpus component set and route-aligned assets", () => {
-  const demo4 = readSource("src/content\/demo\/acp/4.mdx");
-  const demo26 = readSource("src/content\/demo\/acp/26.mdx");
+  const demo4 = readSource("src/content/demo/acp/4-connect-kubernetes-agent.mdx");
+  const demo26 = readSource("src/content/demo/acp/26-integrate-sso-with-okta.mdx");
 
   assert.match(demo4, /heroImageSrc: "\/demo\/acp\/4\/thumbnail\.png"/);
   assert.match(demo4, /hideHeroImageOnDetail: true/);

@@ -30,7 +30,7 @@ test("whitepaper detail routes redirect to a frontmatter redirectUrl before rend
 });
 
 test("whitepaper 25 keeps its original body while adding only a short redirect note in frontmatter", () => {
-  const source = readSource("src/content/whitepapers/25.mdx");
+  const source = readSource("src/content/whitepapers/25-ai-transformation-japan.mdx");
 
   assert.match(source, /hidden:\s*true/);
   assert.match(source, /# Created only for the Korean translation whitepaper flow\./);

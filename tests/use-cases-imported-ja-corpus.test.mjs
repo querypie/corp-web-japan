@@ -35,11 +35,14 @@ const expectedIds = [
   "28",
   "29",
 ];
+const useCaseFilesById = new Map(
+  readdirSync(useCasesDir)
+    .filter((file) => file.endsWith(".mdx"))
+    .map((file) => [file.split("-", 1)[0], file]),
+);
 
 function listUseCaseIds() {
-  return readdirSync(useCasesDir)
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => path.basename(file, ".mdx"))
+  return [...useCaseFilesById.keys()]
     .sort((left, right) => Number(left) - Number(right));
 }
 
@@ -49,7 +52,7 @@ test("use-case corpus includes every Japanese use-case source with a local MDX f
 
 test("migrated use-case MDX files use local use-case routes and route-aligned assets", () => {
   for (const id of expectedIds) {
-    const source = readFileSync(path.join(useCasesDir, `${id}.mdx`), "utf8");
+    const source = readFileSync(path.join(useCasesDir, useCaseFilesById.get(id)), "utf8");
 
     assert.match(source, new RegExp(`\\nheroImageSrc: "/use-cases/${id}/thumbnail\\.png"\\n`));
     assert.doesNotMatch(source, /public\/demo\//);

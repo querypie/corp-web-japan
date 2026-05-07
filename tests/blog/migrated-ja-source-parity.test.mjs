@@ -30,12 +30,11 @@ function listTargetPosts() {
   return readdirSync(TARGET_ROOT)
     .filter((name) => name.endsWith(".mdx"))
     .map((name) => {
-      const id = name.replace(/\.mdx$/, "");
       const filePath = path.join(TARGET_ROOT, name);
       const frontmatter = parseSimpleFrontmatter(readFileSync(filePath, "utf8"), filePath);
 
       return {
-        id,
+        id: String(frontmatter.id),
         slug: frontmatter.slug,
         title: frontmatter.title,
         description: frontmatter.description,

@@ -4,11 +4,11 @@ import { existsSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 
 test("whitepaper canonical routing keeps the local MDX-backed detail flow and preserves hidden redirect records", () => {
-  const whitepaper25 = readSource("src/content/whitepapers/25.mdx");
+  const whitepaper25 = readSource("src/content/whitepapers/25-ai-transformation-japan.mdx");
   const helper = readSource("src/lib/publications/get-whitepaper-publication-post.ts");
   const publicationRecords = readSource("src/lib/publications/whitepaper-publication-records.ts");
 
-  assert.equal(existsSync(new URL("../src/content/whitepapers/25.mdx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/content/whitepapers/25-ai-transformation-japan.mdx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/lib/publications/whitepaper-publication-records.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/t/whitepapers/page.tsx", import.meta.url)), false);
 

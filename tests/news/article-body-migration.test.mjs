@@ -1,13 +1,24 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 import { readSource } from "../helpers/source-readers.mjs";
+
+const newsDir = join(process.cwd(), "src/content/news");
+const newsFilesById = new Map(
+  readdirSync(newsDir)
+    .filter((file) => file.endsWith(".mdx"))
+    .map((file) => [file.split("-", 1)[0], file]),
+);
 
 test("news 1-12 now contain imported article bodies instead of redirect-only archive placeholders", () => {
   const migratedNewsIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
   for (const id of migratedNewsIds) {
-    const source = readSource(`src/content/news/${id}.mdx`);
+    const filename = newsFilesById.get(id);
+    assert.ok(filename);
+
+    const source = readSource(`src/content/news/${filename}`);
 
     assert.doesNotMatch(source, /## 掲載情報/);
     assert.doesNotMatch(source, /区分: ニュース/);
@@ -17,8 +28,8 @@ test("news 1-12 now contain imported article bodies instead of redirect-only arc
 });
 
 test("news 13 and 14 still contain the migrated article bodies from the former blog-only records", () => {
-  const news13 = readSource("src/content/news/13.mdx");
-  const news14 = readSource("src/content/news/14.mdx");
+  const news13 = readSource("src/content/news/13-terrasky-mitoco-buddy-announcement.mdx");
+  const news14 = readSource("src/content/news/14-mitoco-buddy-official-launch.mdx");
 
   assert.match(news13, /### \*\*■ 背景\*\*/);
   assert.match(news13, /public\/news\/13\/image-1\.png/);

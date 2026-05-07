@@ -3,10 +3,10 @@ import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
 test("whitepaper gating uses gated frontmatter and a GatingCut component instead of the legacy ArticleGatingForm wrapper", () => {
-  const whitepaper13 = readSource("src/content/whitepapers/13.mdx");
-  const whitepaper14 = readSource("src/content/whitepapers/14.mdx");
-  const whitepaper24 = readSource("src/content/whitepapers/24.mdx");
-  const whitepaper30 = readSource("src/content/whitepapers/30.mdx");
+  const whitepaper13 = readSource("src/content/whitepapers/13-seamless-ssh-connection.mdx");
+  const whitepaper14 = readSource("src/content/whitepapers/14-reverse-tunneling-jumphost-solution.mdx");
+  const whitepaper24 = readSource("src/content/whitepapers/24-ai-transformation-japan.mdx");
+  const whitepaper30 = readSource("src/content/whitepapers/30-saas-end-or-evolution.mdx");
   const mdxComponents = readSource("src/lib/publications/mdx/components.tsx");
 
   assert.doesNotMatch(whitepaper13, /\ngated:\s*true\n/);
