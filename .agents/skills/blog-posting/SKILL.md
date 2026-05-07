@@ -68,7 +68,8 @@ relatedIds:
 
 Notes:
 - `id` must be a string and must be unique.
-- Use the next available numeric filename and `id`, for example `src/content/blog/30.mdx`.
+- Name the file as `src/content/blog/<id>-<slug>.mdx` and keep the canonical route slug in frontmatter `slug`.
+- The filename slug is for developer convenience only; the loader and canonical route must continue to treat frontmatter `slug` as the source of truth.
 - `slug` becomes the canonical route suffix.
 - `author` is optional in the loader, but use it when a matching author exists in `src/content/authors/ja.yaml`.
 - `relatedIds` should list existing local blog IDs as strings.
@@ -85,8 +86,8 @@ Check the existing files under `src/content/blog/` and pick the next numeric id.
 ### 2. Inspect nearby examples
 
 Read at least one or two recent blog MDX files such as:
-- `src/content/blog/28.mdx`
-- `src/content/blog/29.mdx`
+- `src/content/blog/28-ai-security-threat-map-2026-cxo.mdx`
+- `src/content/blog/29-ai-attack-tool-firewall-breach-data-protection.mdx`
 
 Match the current frontmatter and body style.
 
@@ -108,7 +109,7 @@ Keep public URLs and MDX filepaths aligned with file placement.
 ### 4. Add the MDX file
 
 Create:
-- `src/content/blog/<id>.mdx`
+- `src/content/blog/<id>-<slug>.mdx`
 
 Requirements:
 - include the required frontmatter
@@ -191,7 +192,7 @@ When asked to add a blog posting:
 1. choose the next blog id
 2. add `public/blog/<id>/thumbnail.png`
 3. place all blog-specific referenced files under `public/blog/<id>/...`
-4. add `src/content/blog/<id>.mdx`
+4. add `src/content/blog/<id>-<slug>.mdx`
 5. update `src/content/authors/ja.yaml` only if a new author is needed
 6. run the targeted blog tests
 7. run broader verification only if the scope warrants it

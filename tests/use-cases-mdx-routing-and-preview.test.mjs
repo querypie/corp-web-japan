@@ -41,8 +41,8 @@ test("use-case public list page and canonical routes are driven by use-case MDX 
 
 test("use-case MDX loader supports the imported corpus component set and route-aligned assets", () => {
   const mdxComponents = readSource("src/lib/publications/mdx/components.tsx");
-  const useCase1 = readSource("src/content/use-cases/1.mdx");
-  const useCase29 = readSource("src/content/use-cases/29.mdx");
+  const useCase1 = readSource("src/content/use-cases/1-allganize-changsu-lee.mdx");
+  const useCase29 = readSource("src/content/use-cases/29-seo-analyst.mdx");
 
   assert.match(mdxComponents, /Youtube/);
 

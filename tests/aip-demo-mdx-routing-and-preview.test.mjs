@@ -41,7 +41,7 @@ test("AIP demo public list page and canonical routes are driven by AIP demo MDX 
 
 test("AIP demo MDX loader supports the imported corpus component set and route-aligned assets", () => {
   const mdxComponents = readSource("src/lib/publications/mdx/components.tsx");
-  const demo1 = readSource("src/content/demo/aip/1.mdx");
+  const demo1 = readSource("src/content/demo/aip/1-google-oauth-demo.mdx");
 
   assert.match(mdxComponents, /Youtube/);
   assert.match(demo1, /heroImageSrc: "\/demo\/aip\/1\/thumbnail\.png"/);

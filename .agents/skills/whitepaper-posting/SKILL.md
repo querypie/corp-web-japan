@@ -19,7 +19,7 @@ Use this skill when the task is to add a new whitepaper article to the local MDX
 - Canonical whitepaper detail routes are `/whitepapers/:id/:slug`.
 - `/whitepapers/:id` must redirect to the canonical slug route.
 - The detail loader is `src/lib/publications/get-whitepaper-publication-post.ts`.
-- The whitepaper list source is derived from `src/content/publications/whitepapers.ts`.
+- The whitepaper list source is derived from `src/lib/publications/whitepaper-publication-records.ts`.
 - Whitepaper list items currently keep upstream `querypie.com/ja` hrefs for list-card destinations while local detail routes exist for the MDX-backed rendering flow.
 - Author metadata is resolved from `src/content/authors/ja.yaml` via `src/lib/authors/resolve-authors.ts`.
 - Whitepaper hero/list thumbnails now live at `/whitepapers/<id>/thumbnail.png` under `public/whitepapers/<id>/thumbnail.png`.
@@ -71,7 +71,8 @@ gated: true
 
 Notes:
 - `id` must be a string and must be unique.
-- Use the next available numeric filename and `id`, for example `src/content/whitepapers/29.mdx`.
+- Name the file as `src/content/whitepapers/<id>-<slug>.mdx`.
+- The filename slug is for developer convenience only; the canonical route slug must remain the frontmatter `slug` value.
 - `slug` becomes the canonical route suffix.
 - `listDescription` is strongly recommended because the whitepaper list uses `listDescription ?? description`.
 - `author` is optional in the loader, but use it when a matching author exists in `src/content/authors/ja.yaml`.
@@ -90,11 +91,11 @@ Do not assume every number is present already. Use the next approved available i
 ### 2. Inspect nearby examples
 
 Read at least one or two recent whitepaper MDX files such as:
-- `src/content/whitepapers/26.mdx`
-- `src/content/whitepapers/28.mdx`
+- `src/content/whitepapers/26-llm-evaluation-agentic-rag-part1.mdx`
+- `src/content/whitepapers/28-ai-agent-guardrails-governance-2026.mdx`
 
 If gating is needed, also inspect:
-- `src/content/whitepapers/24.mdx`
+- `src/content/whitepapers/24-ai-transformation-japan.mdx`
 - `src/content/internal/whitepaper-gating-demo.mdx`
 
 ### 3. Add the thumbnail and any referenced assets
@@ -115,7 +116,7 @@ Keep public URLs and MDX filepaths aligned with file placement.
 ### 4. Add the MDX file
 
 Create:
-- `src/content/whitepapers/<id>.mdx`
+- `src/content/whitepapers/<id>-<slug>.mdx`
 
 Requirements:
 - include the required frontmatter
@@ -172,7 +173,7 @@ Do not use the old `crew/authors/...` path pattern for new author YAML values.
 No manual route registration should be needed if the file follows the current conventions.
 
 The current system auto-derives:
-- whitepaper list items from `src/content/publications/whitepapers.ts`
+- whitepaper list items from `src/lib/publications/whitepaper-publication-records.ts`
 - detail page content from `src/lib/publications/get-whitepaper-publication-post.ts`
 
 However, always verify that:
@@ -228,7 +229,7 @@ When asked to add a whitepaper posting:
 1. choose the intended next whitepaper id
 2. add `public/whitepapers/<id>/thumbnail.png`
 3. place all whitepaper-specific referenced files under `public/whitepapers/<id>/...`
-4. add `src/content/whitepapers/<id>.mdx`
+4. add `src/content/whitepapers/<id>-<slug>.mdx`
 5. add `<GatingCut />` only if gated content is required
 6. update `src/content/authors/ja.yaml` only if a new author is needed
 7. run the targeted whitepaper tests

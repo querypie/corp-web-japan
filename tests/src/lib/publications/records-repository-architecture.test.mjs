@@ -19,6 +19,9 @@ test("use-case, AIP demo, ACP demo, and news records share a common standard pub
   assert.match(sharedRepository, /createListItem\?: \(record: TRecord, href: string\) => TListItem/);
   assert.match(sharedRepository, /getPublicationHref/);
   assert.match(sharedRepository, /resolveRedirectablePublicationHref/);
+  assert.match(sharedRepository, /const frontmatter = parseFrontmatter\(source, sourcePath\);/);
+  assert.match(sharedRepository, /listParams\(\) \{\s*return records\.map\(\(\{ id, slug \}\) => \(\{ id, slug \}\)\);\s*\}/s);
+  assert.doesNotMatch(sharedRepository, /basename\(/);
 
   for (const filePath of standardRecordFiles) {
     const source = readSource(filePath);

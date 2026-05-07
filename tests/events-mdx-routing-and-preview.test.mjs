@@ -64,8 +64,8 @@ test("event preview page and canonical routes are driven by event MDX publicatio
 
 test("event MDX loader supports the webinar corpus component set and route-aligned assets", () => {
   const mdxComponents = readSource("src/lib/publications/mdx/components.tsx");
-  const event1 = readSource("src/content/events/1.mdx");
-  const event27 = readSource("src/content/events/27.mdx");
+  const event1 = readSource("src/content/events/1-cloud-certification-shortest-path.mdx");
+  const event27 = readSource("src/content/events/27-air-company-ai-agent-security-webinar.mdx");
 
   assert.match(mdxComponents, /ArticleYoutubeGatingForm/);
   assert.match(mdxComponents, /EmailLink/);

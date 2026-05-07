@@ -29,9 +29,9 @@ test("blog detail routes redirect to a frontmatter redirectUrl before rendering 
 });
 
 test("blog 23, 25, and 26 are hidden shadow records that redirect to canonical news posts", () => {
-  const blog23 = readSource("src/content/blog/23.mdx");
-  const blog25 = readSource("src/content/blog/25.mdx");
-  const blog26 = readSource("src/content/blog/26.mdx");
+  const blog23 = readSource("src/content/blog/23-querypie-payroll-partnership.mdx");
+  const blog25 = readSource("src/content/blog/25-terrasky-mitoco-buddy.mdx");
+  const blog26 = readSource("src/content/blog/26-mitoco-buddy-release.mdx");
 
   assert.match(blog23, /hidden:\s*true/);
   assert.match(blog23, /redirectUrl:\s*"\/news\/12\/payroll-querypie-ai-security-partnership"/);

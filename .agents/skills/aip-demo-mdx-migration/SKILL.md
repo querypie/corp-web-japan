@@ -43,7 +43,7 @@ Use these paths:
 - preview list page: `src/app/t/demo/aip/page.tsx`
 - canonical detail page: `src/app/demo/aip/[id]/[slug]/page.tsx`
 - id-only redirect page: `src/app/demo/aip/[id]/page.tsx`
-- content source: `src/content/demo/aip/<id>.mdx`
+- content source: `src/content/demo/aip/<id>-<slug>.mdx`
 - publication records: `src/content/publications/aip-demo-publication-records.ts`
 - detail loader: `src/lib/publications/get-aip-demo-publication-post.ts`
 - thumbnails: `public/demo/aip/<id>/thumbnail.png`
@@ -174,7 +174,7 @@ Do not replace the existing redirect route in a migration-only PR unless the use
    - `src/content/publications/use-case-publication-records.ts`
 3. Inspect the source corpus under `../corp-web-contents/pages/features/demo/aip-features/**/ja/content.mdx`.
 4. Inventory source asset paths from `ogImage`.
-5. Generate or author normalized `src/content/demo/aip/<id>.mdx` files.
+5. Generate or author normalized `src/content/demo/aip/<id>-<slug>.mdx` files.
 6. Copy thumbnails into `public/demo/aip/<id>/thumbnail.png`.
 7. Add the records file, loader file, preview page, canonical detail page, id redirect page, and sitemap wiring.
 8. Add focused tests for corpus completeness and route architecture.
@@ -219,7 +219,7 @@ If repo-root `node_modules` already exists, this fast check is useful from the w
 When asked to migrate corp-web-japan AIP demos into local MDX routes:
 1. use a fresh worktree from latest `origin/main`
 2. source from `../corp-web-contents/pages/features/demo/aip-features/**/ja/content.mdx`
-3. create `src/content/demo/aip/<id>.mdx` with normalized frontmatter
+3. create `src/content/demo/aip/<id>-<slug>.mdx` with normalized frontmatter
 4. copy thumbnails to `public/demo/aip/<id>/thumbnail.png`
 5. add records and loader files following the event/news/use-case publication pattern
 6. add `/t/demo/aip`, `/demo/aip/:id/:slug`, and `/demo/aip/:id`
