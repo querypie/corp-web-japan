@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../../../../helpers/source-readers.mjs";
 
-test("/internal/events-demo supports asof-based past events and a query-driven hero-state demo toggle", () => {
+test("/internal/events-demo delegates demo hero-state resolution to the event publication helper", () => {
   const file = "src/app/internal/events-demo/page.tsx";
   const source = readSource(file);
 
@@ -15,18 +15,16 @@ test("/internal/events-demo supports asof-based past events and a query-driven h
   assert.match(source, /searchParams\?: Promise<\{/);
   assert.match(source, /asof\?: string \| string\[];/);
   assert.match(source, /upcoming\?: string \| string\[];/);
-  assert.match(source, /resolveEventTimeline\(resolvedSearchParams\?\.asof\)/);
-  assert.match(source, /resolveEventTimeline\("1900-01-01"\)/);
-  assert.match(source, /resolveShowUpcomingEvent/);
-  assert.match(source, /previewHeroEvent/);
+  assert.match(source, /resolveInternalEventsDemoState\(resolvedSearchParams\)/);
+  assert.match(source, /demoHeroEvent/);
+  assert.match(source, /showUpcomingEvent/);
   assert.match(source, /visiblePastEvents/);
-  assert.match(source, /filter\(\(event\) => event\.id !== previewHeroEvent\.id\)/);
   assert.match(source, /InternalEventsDemoHeroToggle/);
-  assert.match(source, /disabled=\{!previewHeroEvent\}/);
-  assert.match(source, /showUpcomingEvent && previewHeroEvent/);
+  assert.match(source, /disabled=\{!demoHeroEvent\}/);
+  assert.match(source, /showUpcomingEvent && demoHeroEvent/);
   assert.match(source, /FeaturedEventHero/);
   assert.match(source, /InternalEventsDemoEmptyState/);
-  assert.match(source, /eyebrow="Upcoming Event"/);
+  assert.match(source, /eyebrow="Hero Event Preview"/);
   assert.match(source, /ctaLabel="詳細を見る"/);
   assert.match(source, /Past Events/);
   assert.match(source, /過去のイベント/);

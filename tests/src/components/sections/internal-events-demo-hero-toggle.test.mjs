@@ -12,7 +12,7 @@ test("InternalEventsDemoHeroToggle renders two rectangular selectable buttons an
   assert.match(source, /useRouter/);
   assert.match(source, /useSearchParams/);
   assert.match(source, /const heroModeOptions/);
-  assert.match(source, /Upcoming Event 있음/);
+  assert.match(source, /Show Upcoming Event/);
   assert.match(source, /No Upcoming Event/);
   assert.match(source, /nextSearchParams\.set\("upcoming", nextMode\)/);
   assert.match(source, /router\.replace\(`\$\{pathname\}\?\$\{nextQueryString\}`, \{ scroll: false \}\)/);

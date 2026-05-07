@@ -74,6 +74,11 @@ function normalizeAsofDate(value?: string | string[]) {
   return getCurrentJstDate();
 }
 
+function normalizeUpcomingMode(value?: string | string[]) {
+  const candidate = Array.isArray(value) ? value.at(0) : value;
+  return candidate === "none" ? "none" : "show";
+}
+
 function getEffectiveEventDate(record: EventPublicationRecord) {
   return record.eventDate ?? record.date;
 }
@@ -161,6 +166,10 @@ function getEventListItem(record: EventPublicationRecord): EventPublicationListI
   return item;
 }
 
+function getVisibleEventRecords() {
+  return eventPublicationRecords.filter((record) => !record.hidden);
+}
+
 export const eventPublicationRecords = eventPublicationRepository.records;
 
 export function listEventPublicationItems(): readonly EventPublicationListItem[] {
@@ -169,7 +178,7 @@ export function listEventPublicationItems(): readonly EventPublicationListItem[]
 
 export function resolveEventTimeline(asof?: string | string[]) {
   const asofDate = normalizeAsofDate(asof);
-  const visibleRecords = eventPublicationRecords.filter((record) => !record.hidden);
+  const visibleRecords = getVisibleEventRecords();
   const upcomingEvents = visibleRecords.filter((record) => isUpcomingEvent(record, asofDate)).sort(compareUpcomingEvents);
   const heroEvent = upcomingEvents.at(0) ? getEventListItem(upcomingEvents.at(0)!) : null;
   const pastEvents = visibleRecords
@@ -181,6 +190,23 @@ export function resolveEventTimeline(asof?: string | string[]) {
     asofDate,
     heroEvent,
     pastEvents,
+  };
+}
+
+export function resolveInternalEventsDemoState(params?: {
+  asof?: string | string[];
+  upcoming?: string | string[];
+}) {
+  const { pastEvents } = resolveEventTimeline(params?.asof);
+  const visibleRecords = getVisibleEventRecords().sort(comparePastEvents);
+  const demoHeroEvent = visibleRecords.at(0) ? getEventListItem(visibleRecords.at(0)!) : null;
+  const showUpcomingEvent = demoHeroEvent ? normalizeUpcomingMode(params?.upcoming) === "show" : false;
+  const visiblePastEvents = demoHeroEvent ? pastEvents.filter((event) => event.id !== demoHeroEvent.id) : pastEvents;
+
+  return {
+    demoHeroEvent,
+    showUpcomingEvent,
+    visiblePastEvents,
   };
 }
 

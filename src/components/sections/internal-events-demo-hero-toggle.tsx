@@ -14,7 +14,7 @@ type HeroModeOption = {
 };
 
 const heroModeOptions: readonly HeroModeOption[] = [
-  { value: "show", label: "Upcoming Event 있음" },
+  { value: "show", label: "Show Upcoming Event" },
   { value: "none", label: "No Upcoming Event" },
 ];
 
@@ -34,7 +34,6 @@ export function InternalEventsDemoHeroToggle({
 
     const nextSearchParams = new URLSearchParams(searchParams.toString());
     nextSearchParams.set("upcoming", nextMode);
-
     const nextQueryString = nextSearchParams.toString();
 
     startTransition(() => {

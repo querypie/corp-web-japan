@@ -12,7 +12,7 @@ import {
   ResourceListHeroTitle,
   ResourceListItems,
 } from "@/components/sections/resource-list-section";
-import { resolveEventTimeline } from "@/lib/publications/event-publication-records";
+import { resolveInternalEventsDemoState } from "@/lib/publications/event-publication-records";
 
 export const metadata: Metadata = {
   title: "Internal Events Demo | QueryPie AI",
@@ -32,17 +32,9 @@ type InternalEventsDemoPageProps = {
   }>;
 };
 
-function resolveShowUpcomingEvent(upcoming: string | string[] | undefined) {
-  const value = Array.isArray(upcoming) ? upcoming[0] : upcoming;
-  return value !== "none";
-}
-
 export default async function InternalEventsDemoPage({ searchParams }: InternalEventsDemoPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
-  const { pastEvents } = resolveEventTimeline(resolvedSearchParams?.asof);
-  const { heroEvent: previewHeroEvent } = resolveEventTimeline("1900-01-01");
-  const showUpcomingEvent = previewHeroEvent ? resolveShowUpcomingEvent(resolvedSearchParams?.upcoming) : false;
-  const visiblePastEvents = previewHeroEvent ? pastEvents.filter((event) => event.id !== previewHeroEvent.id) : pastEvents;
+  const { demoHeroEvent, showUpcomingEvent, visiblePastEvents } = resolveInternalEventsDemoState(resolvedSearchParams);
 
   return (
     <main className="relative bg-white text-slate-950">
@@ -52,7 +44,7 @@ export default async function InternalEventsDemoPage({ searchParams }: InternalE
         <div className="flex flex-col items-center gap-5">
           <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-5">
             <ResourceListHeroTitle className="whitespace-normal">Internal Events Demo</ResourceListHeroTitle>
-            <InternalEventsDemoHeroToggle showUpcomingEvent={showUpcomingEvent} disabled={!previewHeroEvent} />
+            <InternalEventsDemoHeroToggle showUpcomingEvent={showUpcomingEvent} disabled={!demoHeroEvent} />
           </div>
           <ResourceListHeroDescription className="max-w-[920px]">
             This demo page lets you preview the list composition on an internal-only route using the real event publication data before updating the events index page.
@@ -64,16 +56,16 @@ export default async function InternalEventsDemoPage({ searchParams }: InternalE
         <ResourceCategorySidebar activeLabel="イベント" />
 
         <div className="min-w-0 flex-1">
-          {showUpcomingEvent && previewHeroEvent ? (
+          {showUpcomingEvent && demoHeroEvent ? (
             <FeaturedEventHero
-              href={previewHeroEvent.href}
-              imageSrc={previewHeroEvent.imageSrc}
-              imageAlt={previewHeroEvent.title}
-              badge={previewHeroEvent.badge}
-              title={previewHeroEvent.title}
-              description={previewHeroEvent.description}
-              date={previewHeroEvent.date}
-              eyebrow="Upcoming Event"
+              href={demoHeroEvent.href}
+              imageSrc={demoHeroEvent.imageSrc}
+              imageAlt={demoHeroEvent.title}
+              badge={demoHeroEvent.badge}
+              title={demoHeroEvent.title}
+              description={demoHeroEvent.description}
+              date={demoHeroEvent.date}
+              eyebrow="Hero Event Preview"
               ctaLabel="詳細を見る"
             />
           ) : (
