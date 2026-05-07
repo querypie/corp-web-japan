@@ -4,6 +4,7 @@ import {
   createStandardPublicationRecordsRepository,
   type StandardPublicationRecord,
 } from "@/lib/publications/create-standard-records-repository";
+import { formatJapaneseDateFromIsoDate } from "@/lib/publications/format-japanese-date";
 
 export type EventPublicationFrontmatter = {
   id: string;
@@ -68,6 +69,15 @@ const eventPublicationRepository = createStandardPublicationRecordsRepository<Ev
   badge: "イベント",
   normalizeFrontmatter: normalizeEventPublicationFrontmatter,
   getListItemBadge: (record) => record.eventLabel ?? "イベント",
+  createListItem: (record, href) => ({
+    id: record.id,
+    href,
+    imageSrc: record.heroImageSrc,
+    badge: record.eventLabel ?? "イベント",
+    title: record.title,
+    description: record.description,
+    date: formatJapaneseDateFromIsoDate(record.date),
+  }),
 });
 
 export const eventPublicationRecords = eventPublicationRepository.records;

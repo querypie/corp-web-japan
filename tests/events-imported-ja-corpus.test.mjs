@@ -50,6 +50,7 @@ test("migrated event MDX files use local event routes and route-aligned assets",
 
     assert.match(source, new RegExp(`\\nheroImageSrc: "/events/${id}/thumbnail\\.png"\\n`));
     assert.match(source, /\neventLabel: "ウェビナー"\n/);
+    assert.match(source, /\ndate: "\d{4}-\d{2}-\d{2}"\n/);
 
     const heroImageMatch = source.match(/\nheroImageSrc: "(\/events\/(\d+)\/thumbnail\.png)"\n/);
     assert.ok(heroImageMatch, `missing heroImageSrc for event ${id}`);

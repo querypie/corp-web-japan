@@ -35,6 +35,7 @@ type CreateStandardPublicationPostLoaderConfig<
   relatedTitle: string;
   defaultAuthorAvatarSrc: string;
   records: readonly TRecord[];
+  formatDate?: (value: string) => string;
   getRecord: (id: string) => TRecord | null;
   getHref: (id: string, slug: string) => string;
   fallbackToAllRecords?: boolean;
@@ -64,6 +65,7 @@ function buildRelatedItems<TRecord extends StandardPublicationPostRecord>(
   relatedIds: readonly string[],
   getHref: (id: string, slug: string) => string,
   fallbackToAllRecords: boolean,
+  formatDate?: (value: string) => string,
 ): PublicationPostSummary[] {
   const recordsById = new Map<string, TRecord>(records.map((record) => [record.id, record]));
   const preferredIds = relatedIds.length > 0 || !fallbackToAllRecords ? relatedIds : records.map((record) => record.id);
@@ -77,7 +79,7 @@ function buildRelatedItems<TRecord extends StandardPublicationPostRecord>(
       href: resolveRedirectablePublicationHref(record.redirectUrl, getHref(record.id, record.slug)),
       imageSrc: record.heroImageSrc,
       title: record.title,
-      date: record.date,
+      date: formatDate ? formatDate(record.date) : record.date,
     }));
 }
 
@@ -112,7 +114,7 @@ export function createStandardPublicationPostLoader<
       categoryLabel: config.categoryLabel,
       title: frontmatter.title,
       description: frontmatter.description,
-      date: frontmatter.date,
+      date: config.formatDate ? config.formatDate(frontmatter.date) : frontmatter.date,
       heroImageSrc: frontmatter.heroImageSrc,
       hideHeroImageOnDetail: frontmatter.hideHeroImageOnDetail === true,
       author: buildPublicationAuthor(frontmatter.author, config.defaultAuthorAvatarSrc),
@@ -127,6 +129,7 @@ export function createStandardPublicationPostLoader<
         frontmatter.relatedIds ?? record.relatedIds,
         config.getHref,
         config.fallbackToAllRecords === true,
+        config.formatDate,
       ),
       toc: extractHeadingsFromMdx(bodySource),
     };
