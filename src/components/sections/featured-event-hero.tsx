@@ -26,10 +26,13 @@ export function FeaturedEventHero({
 }: FeaturedEventHeroProps) {
   return (
     <section className="mb-16">
-      <Link href={href} className="group block overflow-hidden rounded-lg bg-[#f2f4f6] transition hover:opacity-95">
+      <Link
+        href={href}
+        className="group block overflow-hidden rounded-lg bg-[#f2f4f6] transition hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-4 focus-visible:ring-offset-white"
+      >
         <div className="flex cursor-pointer flex-col items-stretch lg:flex-row">
           <div className="aspect-video w-full lg:w-3/5 lg:aspect-auto">
-            <Image src={imageSrc} alt={imageAlt} width={1200} height={675} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+            <Image src={imageSrc} alt={imageAlt} width={1200} height={675} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02] group-focus-visible:scale-[1.02]" />
           </div>
 
           <div className="flex w-full flex-col justify-center p-6 lg:w-2/5 lg:p-8">
@@ -45,7 +48,7 @@ export function FeaturedEventHero({
 
             <div className="mt-auto flex items-center justify-between border-t border-slate-200 pt-6">
               <span className="text-sm font-medium text-slate-400">{date}</span>
-              <span className="inline-flex items-center rounded-lg bg-black px-6 py-3 text-sm font-bold text-white transition-colors group-hover:bg-slate-800">
+              <span className="inline-flex items-center rounded-lg bg-black px-6 py-3 text-sm font-bold text-white transition-colors group-hover:bg-slate-800 group-focus-visible:bg-slate-900 group-focus-visible:ring-2 group-focus-visible:ring-slate-900 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-[#f2f4f6]">
                 {ctaLabel}
               </span>
             </div>

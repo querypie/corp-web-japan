@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../../../helpers/source-readers.mjs";
 
-test("FeaturedEventHero renders the whole hero card as a single clickable link", () => {
+test("FeaturedEventHero renders the whole hero card as a single clickable link with strong focus-visible CTA emphasis", () => {
   const file = "src/components/sections/featured-event-hero.tsx";
   const source = readSource(file);
 
@@ -19,8 +19,11 @@ test("FeaturedEventHero renders the whole hero card as a single clickable link",
   assert.match(source, /rounded-lg/);
   assert.match(source, /p-6 lg:w-2\/5 lg:p-8/);
   assert.match(source, /<Image/);
-  assert.match(source, /<Link href=\{href\} className="group block overflow-hidden rounded-lg bg/);
+  assert.match(source, /<Link[\s\S]*focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-4/);
   assert.match(source, /cursor-pointer/);
   assert.match(source, /group-hover:scale-\[1\.02\]/);
+  assert.match(source, /group-focus-visible:scale-\[1\.02\]/);
+  assert.match(source, /group-focus-visible:bg-slate-900/);
+  assert.match(source, /group-focus-visible:ring-2 group-focus-visible:ring-slate-900/);
   assert.doesNotMatch(source, /<Link[\s\S]*<Link/);
 });
