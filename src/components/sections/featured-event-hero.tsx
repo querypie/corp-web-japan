@@ -32,7 +32,7 @@ export function FeaturedEventHero({
             <Image src={imageSrc} alt={imageAlt} width={1200} height={675} className="h-full w-full object-cover" />
           </div>
 
-          <div className="flex w-full flex-col justify-center p-8 lg:w-2/5 lg:p-12">
+          <div className="flex w-full flex-col justify-center p-6 lg:w-2/5 lg:p-8">
             <div className="inline-flex w-fit rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-[12px] font-bold uppercase tracking-wider text-slate-500 backdrop-blur-sm">
               {badge}
             </div>
