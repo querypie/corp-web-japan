@@ -11,7 +11,7 @@ import { getPublicationHref } from "@/lib/publications/get-publication-href";
 
 export { getWhitepaperPublicationRecord, listWhitepaperPublicationIds, listWhitepaperPublicationParams };
 
-export const getWhitepaperPublicationPost = createGatedPublicationPostLoader<
+const getWhitepaperPublicationPostBase = createGatedPublicationPostLoader<
   WhitepaperPublicationFrontmatter,
   WhitepaperPublicationRecord
 >({
@@ -24,6 +24,38 @@ export const getWhitepaperPublicationPost = createGatedPublicationPostLoader<
   getHref: getWhitepaperPublicationHref,
 });
 
+export async function getWhitepaperPublicationPost(id: string) {
+  const record = getWhitepaperPublicationRecord(id);
+  if (!record) {
+    return null;
+  }
+
+  const post = await getWhitepaperPublicationPostBase(id);
+  if (!post) {
+    return null;
+  }
+
+  if (post.downloadCta) {
+    post.downloadCta = {
+      ...post.downloadCta,
+      href: getWhitepaperPublicationDownloadHref(id, record.slug),
+      external: false,
+    };
+  }
+
+  return post;
+}
+
 export function getWhitepaperPublicationHref(id: string, slug: string) {
   return getPublicationHref("whitepaper", id, slug);
+}
+
+export function getWhitepaperPublicationDownloadHref(id: string, slug: string) {
+  return `${getWhitepaperPublicationHref(id, slug)}/download`;
+}
+
+export function listWhitepaperPublicationDownloadParams() {
+  return whitepaperPublicationRecords
+    .filter((record) => Boolean(record.downloadCta) && !record.redirectUrl)
+    .map(({ id, slug }) => ({ id, slug }));
 }

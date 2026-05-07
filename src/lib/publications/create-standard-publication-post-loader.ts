@@ -94,6 +94,7 @@ export function createStandardPublicationPostLoader<
       bodyMdx: content,
       gatedBodyMdx: null,
       gating: null,
+      downloadCta: null,
       relatedTitle: config.relatedTitle,
       relatedItems: buildRelatedPublicationItems({
         records: config.records,

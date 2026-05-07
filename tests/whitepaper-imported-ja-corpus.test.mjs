@@ -43,8 +43,7 @@ const whitepaperFilesById = new Map(
 );
 
 function listWhitepaperIds() {
-  return [...whitepaperFilesById.keys()]
-    .sort((left, right) => Number(left) - Number(right));
+  return [...whitepaperFilesById.keys()].sort((left, right) => Number(left) - Number(right));
 }
 
 test("whitepaper corpus includes every Japanese corp-web-contents source with a local MDX file", () => {
@@ -73,12 +72,21 @@ test("migrated whitepaper MDX files use local whitepaper routes and route-aligne
   }
 });
 
-test("download CTA whitepapers keep upstream download URLs instead of local detail URLs", () => {
-  for (const id of ["24", "25", "30"]) {
+test("download CTA whitepapers model route-aligned PDF links in frontmatter instead of hardcoded upstream download routes", () => {
+  const expected = new Map([
+    ["24", "/whitepapers/24/QP_Whitepaper_AI_Transformation_JP.pdf"],
+    ["25", "/whitepapers/24/QP_Whitepaper_AI_Transformation_JP.pdf"],
+    ["30", "/whitepapers/30/QP_Whitepaper_SaaS_End_Or_Evolution_JP.pdf"],
+  ]);
+
+  for (const [id, href] of expected) {
     const source = readFileSync(path.join(whitepapersDir, whitepaperFilesById.get(id)), "utf8");
-    assert.match(
-      source,
-      /https:\/\/www\.querypie\.com\/ja\/features\/documentation\/white-paper\/\d+\/[a-z0-9-]+\/download/,
-    );
+    const escapedHref = href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+    assert.match(source, new RegExp(`downloadCta:\\n  href: \"${escapedHref}\"`));
+    assert.match(source, /label: "ホワイトペーパーを入手する 🚀"/);
+    assert.match(source, /external: true/);
+    assert.doesNotMatch(source, /https:\/\/www\.querypie\.com\/ja\/features\/documentation\/white-paper\/\d+\/[a-z0-9-]+\/download/);
+    assert.doesNotMatch(source, /<ButtonLink href=/);
   }
 });

@@ -21,6 +21,7 @@ export type ResourcePost = {
   description: string;
   date: string;
   heroImageSrc: string;
+  downloadCta: null;
   author: {
     avatarSrc: string;
     avatarAlt: string;
@@ -202,6 +203,7 @@ export function getResourcePost(category: ResourcePostCategory, slug: string): R
       html,
       /<div class="article-hero-img">[\s\S]*?<img src="([^"]+)"/,
     ),
+    downloadCta: null,
     author: parseAuthor(html),
     bodyHtml: extractInnerHtml(html, '<div class="article-content">', "div"),
     bodyMdx: null,

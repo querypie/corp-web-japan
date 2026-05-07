@@ -76,6 +76,7 @@ export abstract class BaseResourcePublicationPostLoader {
           contentKey: buildGatingContentKey(category, id),
           initiallyUnlocked: false,
         },
+        downloadCta: null,
         relatedTitle: "関連リソース",
         relatedItems: previewEvaluation.frontmatter.relatedItems?.map((item) => ({
           href: item.href,
@@ -101,6 +102,7 @@ export abstract class BaseResourcePublicationPostLoader {
       bodyMdx: evaluation.content,
       gatedBodyMdx: null,
       gating: null,
+      downloadCta: null,
       relatedTitle: "関連リソース",
       relatedItems: evaluation.frontmatter.relatedItems?.map((item) => ({
         href: item.href,
