@@ -28,6 +28,7 @@ test("all MDX publication record lists resolve hrefs through the redirectUrl con
     "src/lib/publications/aip-demo-publication-records.ts",
     "src/lib/publications/acp-demo-publication-records.ts",
     "src/lib/publications/event-publication-records.ts",
+    "src/lib/publications/blog-publication-records.ts",
   ]);
 
   for (const filePath of redirectAwareRecordFiles) {

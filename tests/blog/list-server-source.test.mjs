@@ -25,13 +25,15 @@ test("blog index page directly composes the resource-list hero and uses the conc
   assert.doesNotMatch(source, /ResourceListPage/);
 });
 
-test("blog publication list source is generated from local MDX content instead of a handwritten array", () => {
+test("blog publication list source is generated from local MDX content through the shared records helper", () => {
   const source = readSource("src/lib/publications/blog-publication-records.ts");
   const blogItemsSource = readSource("src/lib/publications/blog-items.ts");
 
   assert.match(source, /export function listBlogPublicationItems\(/);
-  assert.match(source, /getBlogPublicationCache\(\)\.listItems/);
-  assert.match(source, /getPublicationHref\("blog"/);
+  assert.match(source, /createStandardPublicationRecordsRepository/);
+  assert.match(source, /const blogPublicationRepository = createStandardPublicationRecordsRepository<BlogPostFrontmatter>/);
+  assert.match(source, /category: "blog"/);
+  assert.match(source, /badge: "ブログ"/);
   assert.match(blogItemsSource, /export const blogItems = listBlogPublicationItems\(\);/);
   assert.doesNotMatch(blogItemsSource, /readonly ResourceItem\[]\s*=\s*\[/);
 });
