@@ -13,9 +13,9 @@ test("blog publication records delegate MDX frontmatter caching to the shared re
 });
 
 test("blog publication detail loader caches MDX body source by file path", () => {
-  const source = readSource("src/lib/publications/get-publication-post.ts");
+  const source = readSource("src/lib/publications/create-standard-publication-post-loader.ts");
 
-  assert.match(source, /const\s+blogPostBodySourceCache\s*=\s*new Map/);
-  assert.match(source, /blogPostBodySourceCache\.get\(post\.sourcePath\)/);
-  assert.match(source, /blogPostBodySourceCache\.set\(post\.sourcePath,/);
+  assert.match(source, /const\s+bodySourceCache\s*=\s*new Map/);
+  assert.match(source, /bodySourceCache\.get\(sourcePath\)/);
+  assert.match(source, /bodySourceCache\.set\(sourcePath,/);
 });

@@ -10,9 +10,10 @@ const standardLoaderFiles = [
   "src/lib/publications/get-acp-demo-publication-post.ts",
   "src/lib/publications/get-event-publication-post.ts",
   "src/lib/publications/get-news-publication-post.ts",
+  "src/lib/publications/get-publication-post.ts",
 ];
 
-test("use-case, AIP demo, ACP demo, event, and news post loaders share a common standard publication post loader helper", () => {
+test("use-case, AIP demo, ACP demo, event, news, and blog post loaders share a common standard publication post loader helper", () => {
   assert.equal(existsSync(new URL("../../../../src/lib/publications/create-standard-publication-post-loader.ts", import.meta.url)), true);
 
   const sharedLoader = readSource(sharedLoaderPath);

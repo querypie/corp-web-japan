@@ -23,7 +23,9 @@ test("blog slug route renders posts by id and only redirects when the slug misma
 test("blog publication loader resolves posts by id without requiring a slug match", () => {
   const source = readSource("src/lib/publications/get-publication-post.ts");
 
-  assert.match(source, /export async function getBlogPublicationPost\(id: string\): Promise<PublicationPost \| null>/);
-  assert.match(source, /const post = getBlogPublicationRecord\(id\);/);
+  assert.match(source, /createStandardPublicationPostLoader/);
+  assert.match(source, /from "@\/lib\/publications\/create-standard-publication-post-loader"/);
+  assert.match(source, /getRecord: getBlogPublicationRecord/);
+  assert.doesNotMatch(source, /function readBlogPostBodySource/);
   assert.doesNotMatch(source, /post\.slug !== slug/);
 });
