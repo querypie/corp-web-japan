@@ -1,15 +1,19 @@
 import type { MetadataRoute } from "next";
 import { acpDemoPublicationRecords } from "@/lib/publications/acp-demo-publication-records";
 import { aipDemoPublicationRecords } from "@/lib/publications/aip-demo-publication-records";
-import {
-  useCasePublicationRecords,
-} from "@/lib/publications/use-case-publication-records";
+import { blogPostRecords } from "@/lib/publications/blog-publication-records";
 import { eventPostRecords, getEventPostHref } from "@/content/resources/events";
 import { getAcpDemoPublicationHref } from "@/lib/publications/get-acp-demo-publication-post";
 import { getAipDemoPublicationHref } from "@/lib/publications/get-aip-demo-publication-post";
+import { getBlogPublicationHref } from "@/lib/publications/get-publication-post";
 import { getNewsPublicationHref } from "@/lib/publications/get-news-publication-post";
-import { newsPublicationRecords } from "@/lib/publications/news-publication-records";
 import { getUseCasePublicationHref } from "@/lib/publications/get-use-case-publication-post";
+import { getWhitepaperPublicationHref } from "@/lib/publications/get-whitepaper-publication-post";
+import { newsPublicationRecords } from "@/lib/publications/news-publication-records";
+import {
+  useCasePublicationRecords,
+} from "@/lib/publications/use-case-publication-records";
+import { whitepaperPublicationRecords } from "@/lib/publications/whitepaper-publication-records";
 import { listIntroductionDeckPublicationParams } from "@/lib/resources/introduction-deck-publications";
 import { listGlossaryPublicationParams } from "@/lib/resources/glossary-publications";
 import { listManualPublicationParams } from "@/lib/resources/manual-publications";
@@ -89,19 +93,29 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const blogDetailRoutes: MetadataRoute.Sitemap = blogPostRecords.map(({ id, slug }) => ({
+    url: absoluteUrl(getBlogPublicationHref(id, slug)),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  const whitepaperDetailRoutes: MetadataRoute.Sitemap = whitepaperPublicationRecords.map(({ id, slug }) => ({
+    url: absoluteUrl(getWhitepaperPublicationHref(id, slug)),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
   const eventDetailRoutes: MetadataRoute.Sitemap = eventPostRecords.map(({ id, slug }) => ({
     url: absoluteUrl(getEventPostHref(id, slug)),
     changeFrequency: "monthly",
     priority: 0.7,
   }));
 
-  const newsDetailRoutes: MetadataRoute.Sitemap = newsPublicationRecords
-    .filter(({ redirectUrl }) => !redirectUrl)
-    .map(({ id, slug }) => ({
-      url: absoluteUrl(getNewsPublicationHref(id, slug)),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    }));
+  const newsDetailRoutes: MetadataRoute.Sitemap = newsPublicationRecords.map(({ id, slug }) => ({
+    url: absoluteUrl(getNewsPublicationHref(id, slug)),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
 
   const useCaseDetailRoutes: MetadataRoute.Sitemap = useCasePublicationRecords.map(({ id, slug }) => ({
     url: absoluteUrl(getUseCasePublicationHref(id, slug)),
@@ -141,6 +155,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...staticRoutes,
+    ...blogDetailRoutes,
+    ...whitepaperDetailRoutes,
     ...eventDetailRoutes,
     ...newsDetailRoutes,
     ...useCaseDetailRoutes,

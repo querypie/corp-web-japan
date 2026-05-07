@@ -9,6 +9,7 @@ import {
   getNewsPublicationRecord,
   listNewsPublicationParams,
 } from "@/lib/publications/get-news-publication-post";
+import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import { absoluteUrl } from "@/lib/site-url";
 
 type NewsDetailPageProps = {
@@ -28,15 +29,6 @@ export async function generateMetadata({ params }: NewsDetailPageProps): Promise
 
   if (!record) {
     return {};
-  }
-
-  if (record.redirectUrl) {
-    return {
-      robots: {
-        index: false,
-        follow: false,
-      },
-    };
   }
 
   return {
@@ -60,7 +52,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
     notFound();
   }
 
-  if (record.redirectUrl) {
+  if (record.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication()) {
     redirect(record.redirectUrl);
   }
 

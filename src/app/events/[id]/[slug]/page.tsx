@@ -9,6 +9,7 @@ import {
   getEventPublicationRecord,
   listEventPublicationParams,
 } from "@/lib/publications/get-event-publication-post";
+import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import { absoluteUrl } from "@/lib/site-url";
 
 type EventDetailPageProps = {
@@ -32,9 +33,14 @@ export async function generateMetadata({ params }: EventDetailPageProps): Promis
 
   if (record.redirectUrl) {
     return {
+      title: record.title + " | QueryPie AI",
+      description: record.description,
+      alternates: {
+        canonical: absoluteUrl(getEventPublicationHref(id, record.slug)),
+      },
       robots: {
-        index: false,
-        follow: false,
+        index: true,
+        follow: true,
       },
     };
   }
@@ -60,7 +66,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
     notFound();
   }
 
-  if (record.redirectUrl) {
+  if (record.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication()) {
     redirect(record.redirectUrl);
   }
 

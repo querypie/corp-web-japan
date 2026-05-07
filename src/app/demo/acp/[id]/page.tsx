@@ -4,6 +4,7 @@ import {
   getAcpDemoPublicationRecord,
   listAcpDemoPublicationIds,
 } from "@/lib/publications/get-acp-demo-publication-post";
+import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 
 type AcpDemoDetailIdPageProps = {
   params: Promise<{
@@ -23,7 +24,7 @@ export default async function AcpDemoDetailIdPage({ params }: AcpDemoDetailIdPag
     notFound();
   }
 
-  if (record.redirectUrl) {
+  if (record.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication()) {
     redirect(record.redirectUrl);
   }
 

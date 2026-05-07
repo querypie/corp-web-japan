@@ -9,6 +9,7 @@ import {
   getAipDemoPublicationRecord,
   listAipDemoPublicationParams,
 } from "@/lib/publications/get-aip-demo-publication-post";
+import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import { absoluteUrl } from "@/lib/site-url";
 
 type AipDemoDetailPageProps = {
@@ -32,9 +33,14 @@ export async function generateMetadata({ params }: AipDemoDetailPageProps): Prom
 
   if (record.redirectUrl) {
     return {
+      title: `${record.title} | QueryPie AI`,
+      description: record.description,
+      alternates: {
+        canonical: absoluteUrl(getAipDemoPublicationHref(id, record.slug)),
+      },
       robots: {
-        index: false,
-        follow: false,
+        index: true,
+        follow: true,
       },
     };
   }
@@ -60,7 +66,7 @@ export default async function AipDemoDetailPage({ params }: AipDemoDetailPagePro
     notFound();
   }
 
-  if (record.redirectUrl) {
+  if (record.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication()) {
     redirect(record.redirectUrl);
   }
 

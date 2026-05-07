@@ -9,6 +9,7 @@ import {
   getBlogPublicationRecord,
   listBlogPublicationParams,
 } from "@/lib/publications/get-publication-post";
+import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import { absoluteUrl } from "@/lib/site-url";
 
 type BlogDetailPageProps = {
@@ -32,9 +33,14 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
 
   if (record.redirectUrl) {
     return {
+      title: `${record.title} | QueryPie AI`,
+      description: record.description,
+      alternates: {
+        canonical: absoluteUrl(getBlogPublicationHref(id, record.slug)),
+      },
       robots: {
-        index: false,
-        follow: false,
+        index: true,
+        follow: true,
       },
     };
   }
@@ -60,7 +66,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     notFound();
   }
 
-  if (record.redirectUrl) {
+  if (record.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication()) {
     redirect(record.redirectUrl);
   }
 

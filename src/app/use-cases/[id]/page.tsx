@@ -4,6 +4,7 @@ import {
   getUseCasePublicationRecord,
   listUseCasePublicationIds,
 } from "@/lib/publications/get-use-case-publication-post";
+import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 
 type UseCaseDetailIdPageProps = {
   params: Promise<{
@@ -23,7 +24,7 @@ export default async function UseCaseDetailIdPage({ params }: UseCaseDetailIdPag
     notFound();
   }
 
-  if (record.redirectUrl) {
+  if (record.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication()) {
     redirect(record.redirectUrl);
   }
 

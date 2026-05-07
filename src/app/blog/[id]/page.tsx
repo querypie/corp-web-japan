@@ -4,6 +4,7 @@ import {
   getBlogPublicationRecord,
   listBlogPublicationIds,
 } from "@/lib/publications/get-publication-post";
+import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 
 type BlogDetailCanonicalRedirectPageProps = {
   params: Promise<{
@@ -23,7 +24,7 @@ export default async function BlogDetailCanonicalRedirectPage({ params }: BlogDe
     notFound();
   }
 
-  if (record.redirectUrl) {
+  if (record.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication()) {
     redirect(record.redirectUrl);
   }
 

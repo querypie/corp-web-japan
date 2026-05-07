@@ -19,12 +19,18 @@ test("blog publication list excludes only frontmatter-hidden records while prese
   assert.match(source, /getBlogPublicationRecord\(id: string\) \{\s*return blogPublicationRepository\.getRecord\(id\);\s*\}/s);
 });
 
-test("blog detail routes redirect to a frontmatter redirectUrl before rendering the local post", () => {
+test("blog redirect-backed detail routes redirect only human visitors while preserving local bot-rendered content paths", () => {
   const idOnlyRouteSource = readSource("src/app/blog/[id]/page.tsx");
   const slugRouteSource = readSource("src/app/blog/[id]/[slug]/page.tsx");
+  const helperSource = readSource("src/lib/publications/redirectable-publication-request.ts");
 
-  assert.match(idOnlyRouteSource, /if \(record\.redirectUrl\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
-  assert.match(slugRouteSource, /if \(record\.redirectUrl\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
+  assert.match(helperSource, /isSearchBotUserAgent/);
+  assert.match(helperSource, /shouldRedirectHumanVisitorFromRedirectablePublication/);
+  assert.match(idOnlyRouteSource, /shouldRedirectHumanVisitorFromRedirectablePublication/);
+  assert.match(slugRouteSource, /shouldRedirectHumanVisitorFromRedirectablePublication/);
+  assert.match(idOnlyRouteSource, /if \(record\.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication\(\)\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
+  assert.match(slugRouteSource, /if \(record\.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication\(\)\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
+  assert.match(slugRouteSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(slugRouteSource, /const post = await getBlogPublicationPost\(id\);/);
 });
 
