@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent, ReactNode } from "react";
 import type { PublicationPostDownloadCta } from "@/lib/publications/types";
 import {
@@ -110,6 +110,10 @@ export function ResourcePostGated({
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [form, setForm] = useState<ResourceLeadFormState>(defaultGatingFormState);
+
+  useEffect(() => {
+    setUnlocked(initiallyUnlocked);
+  }, [initiallyUnlocked]);
 
   const hasRequiredFields = isGatingFormValid(form);
 

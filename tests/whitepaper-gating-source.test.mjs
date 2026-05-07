@@ -83,3 +83,10 @@ test("gating pages bypass the form when preview navigation is enabled", () => {
     assert.match(source, /previewModeEnabled \|\| cookieStore\.has\(buildGatingCookieName\(post\.gating\.contentKey\)\)/);
   }
 });
+
+test("client gating UI re-syncs when preview toggle refreshes the server prop", () => {
+  const gatedClient = readSource("src/components/sections/resource-post-gated.tsx");
+
+  assert.match(gatedClient, /import \{ useEffect, useState \} from "react"/);
+  assert.match(gatedClient, /useEffect\(\(\) => \{\s*setUnlocked\(initiallyUnlocked\);\s*\}, \[initiallyUnlocked\]\);/s);
+});
