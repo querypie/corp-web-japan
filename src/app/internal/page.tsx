@@ -19,6 +19,13 @@ const internalDemoCards = [
       "Sidebar, 카드형 목록, CTA 박스를 조합한 MDX 기반 리소스 리스트 UX 예시입니다. 공통 list 패턴을 route 단에서 어떻게 authoring 하는지 살펴볼 수 있습니다.",
   },
   {
+    eyebrow: "Events",
+    title: "Events Demo",
+    href: "/internal/events-demo",
+    description:
+      "events 목록 페이지를 바꾸기 전에, 현재 local event publication 데이터를 그대로 사용한 리스트 구성을 internal 경로에서 먼저 확인할 수 있는 데모입니다.",
+  },
+  {
     eyebrow: "Interaction",
     title: "Load More Demo",
     href: "/internal/load-more",

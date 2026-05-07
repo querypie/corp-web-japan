@@ -19,6 +19,7 @@ export async function SiteFooter() {
       { label: "Internal Hub", href: "/internal" },
       { label: "Whitepaper Gating Demo", href: "/internal/whitepaper-gating-demo" },
       { label: "MDX List Demo", href: "/internal/mdx-list-demo" },
+      { label: "Events Demo", href: "/internal/events-demo" },
       { label: "Load More Demo", href: "/internal/load-more" },
     ],
   } as const;
