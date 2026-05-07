@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../../../../helpers/source-readers.mjs";
 
-test("/internal/events-demo supports asof-based timelines and an internal upcoming-event hero toggle", () => {
+test("/internal/events-demo supports asof-based past events and a query-driven hero-state demo toggle", () => {
   const file = "src/app/internal/events-demo/page.tsx";
   const source = readSource(file);
 
@@ -15,13 +15,15 @@ test("/internal/events-demo supports asof-based timelines and an internal upcomi
   assert.match(source, /searchParams\?: Promise<\{/);
   assert.match(source, /asof\?: string \| string\[];/);
   assert.match(source, /upcoming\?: string \| string\[];/);
-  assert.match(source, /resolveEventTimeline\(/);
+  assert.match(source, /resolveEventTimeline\(resolvedSearchParams\?\.asof\)/);
+  assert.match(source, /resolveEventTimeline\("1900-01-01"\)/);
   assert.match(source, /resolveShowUpcomingEvent/);
-  assert.match(source, /heroEvent/);
-  assert.match(source, /pastEvents/);
+  assert.match(source, /previewHeroEvent/);
+  assert.match(source, /visiblePastEvents/);
+  assert.match(source, /filter\(\(event\) => event\.id !== previewHeroEvent\.id\)/);
   assert.match(source, /InternalEventsDemoHeroToggle/);
-  assert.match(source, /disabled=\{!heroEvent\}/);
-  assert.match(source, /showUpcomingEvent && heroEvent/);
+  assert.match(source, /disabled=\{!previewHeroEvent\}/);
+  assert.match(source, /showUpcomingEvent && previewHeroEvent/);
   assert.match(source, /FeaturedEventHero/);
   assert.match(source, /InternalEventsDemoEmptyState/);
   assert.match(source, /eyebrow="Upcoming Event"/);
@@ -29,5 +31,5 @@ test("/internal/events-demo supports asof-based timelines and an internal upcomi
   assert.match(source, /Past Events/);
   assert.match(source, /過去のイベント/);
   assert.match(source, /カンファレンスやセミナーのインサイトをご覧ください。/);
-  assert.match(source, /<ResourceListItems items=\{pastEvents\} \/>/);
+  assert.match(source, /<ResourceListItems items=\{visiblePastEvents\} \/>/);
 });

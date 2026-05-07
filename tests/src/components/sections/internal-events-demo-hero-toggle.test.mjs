@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../../../helpers/source-readers.mjs";
 
-test("InternalEventsDemoHeroToggle syncs the upcoming-event hero mode through the URL query", () => {
+test("InternalEventsDemoHeroToggle renders two rectangular selectable buttons and syncs hero mode through the URL query", () => {
   const file = "src/components/sections/internal-events-demo-hero-toggle.tsx";
   const source = readSource(file);
 
@@ -11,9 +11,13 @@ test("InternalEventsDemoHeroToggle syncs the upcoming-event hero mode through th
   assert.match(source, /usePathname/);
   assert.match(source, /useRouter/);
   assert.match(source, /useSearchParams/);
-  assert.match(source, /nextSearchParams\.set\("upcoming", "none"\)/);
-  assert.match(source, /nextSearchParams\.delete\("upcoming"\)/);
-  assert.match(source, /router\.replace\(nextQueryString \? `\$\{pathname\}\?\$\{nextQueryString\}` : pathname, \{ scroll: false \}\)/);
-  assert.match(source, /Show Upcoming Event/);
+  assert.match(source, /const heroModeOptions/);
+  assert.match(source, /Upcoming Event 있음/);
   assert.match(source, /No Upcoming Event/);
+  assert.match(source, /nextSearchParams\.set\("upcoming", nextMode\)/);
+  assert.match(source, /router\.replace\(`\$\{pathname\}\?\$\{nextQueryString\}`, \{ scroll: false \}\)/);
+  assert.match(source, /role="group"/);
+  assert.match(source, /aria-label="Internal events demo hero state"/);
+  assert.match(source, /rounded-\[14px\]/);
+  assert.match(source, /aria-pressed=\{selected\}/);
 });

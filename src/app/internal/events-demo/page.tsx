@@ -39,8 +39,10 @@ function resolveShowUpcomingEvent(upcoming: string | string[] | undefined) {
 
 export default async function InternalEventsDemoPage({ searchParams }: InternalEventsDemoPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
-  const { heroEvent, pastEvents } = resolveEventTimeline(resolvedSearchParams?.asof);
-  const showUpcomingEvent = heroEvent ? resolveShowUpcomingEvent(resolvedSearchParams?.upcoming) : false;
+  const { pastEvents } = resolveEventTimeline(resolvedSearchParams?.asof);
+  const { heroEvent: previewHeroEvent } = resolveEventTimeline("1900-01-01");
+  const showUpcomingEvent = previewHeroEvent ? resolveShowUpcomingEvent(resolvedSearchParams?.upcoming) : false;
+  const visiblePastEvents = previewHeroEvent ? pastEvents.filter((event) => event.id !== previewHeroEvent.id) : pastEvents;
 
   return (
     <main className="relative bg-white text-slate-950">
@@ -50,7 +52,7 @@ export default async function InternalEventsDemoPage({ searchParams }: InternalE
         <div className="flex flex-col items-center gap-5">
           <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-5">
             <ResourceListHeroTitle className="whitespace-normal">Internal Events Demo</ResourceListHeroTitle>
-            <InternalEventsDemoHeroToggle showUpcomingEvent={showUpcomingEvent} disabled={!heroEvent} />
+            <InternalEventsDemoHeroToggle showUpcomingEvent={showUpcomingEvent} disabled={!previewHeroEvent} />
           </div>
           <ResourceListHeroDescription className="max-w-[920px]">
             This demo page lets you preview the list composition on an internal-only route using the real event publication data before updating the events index page.
@@ -62,15 +64,15 @@ export default async function InternalEventsDemoPage({ searchParams }: InternalE
         <ResourceCategorySidebar activeLabel="イベント" />
 
         <div className="min-w-0 flex-1">
-          {showUpcomingEvent && heroEvent ? (
+          {showUpcomingEvent && previewHeroEvent ? (
             <FeaturedEventHero
-              href={heroEvent.href}
-              imageSrc={heroEvent.imageSrc}
-              imageAlt={heroEvent.title}
-              badge={heroEvent.badge}
-              title={heroEvent.title}
-              description={heroEvent.description}
-              date={heroEvent.date}
+              href={previewHeroEvent.href}
+              imageSrc={previewHeroEvent.imageSrc}
+              imageAlt={previewHeroEvent.title}
+              badge={previewHeroEvent.badge}
+              title={previewHeroEvent.title}
+              description={previewHeroEvent.description}
+              date={previewHeroEvent.date}
               eyebrow="Upcoming Event"
               ctaLabel="詳細を見る"
             />
@@ -87,7 +89,7 @@ export default async function InternalEventsDemoPage({ searchParams }: InternalE
               </div>
             </div>
 
-            <ResourceListItems items={pastEvents} />
+            <ResourceListItems items={visiblePastEvents} />
           </section>
         </div>
       </ResourceListContentSection>

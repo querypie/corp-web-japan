@@ -8,6 +8,16 @@ type InternalEventsDemoHeroToggleProps = {
   disabled?: boolean;
 };
 
+type HeroModeOption = {
+  value: "show" | "none";
+  label: string;
+};
+
+const heroModeOptions: readonly HeroModeOption[] = [
+  { value: "show", label: "Upcoming Event 있음" },
+  { value: "none", label: "No Upcoming Event" },
+];
+
 export function InternalEventsDemoHeroToggle({
   showUpcomingEvent,
   disabled = false,
@@ -17,56 +27,52 @@ export function InternalEventsDemoHeroToggle({
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
-  function handleClick() {
+  function handleSelect(nextMode: HeroModeOption["value"]) {
     if (disabled) {
       return;
     }
 
     const nextSearchParams = new URLSearchParams(searchParams.toString());
-    const nextShowUpcomingEvent = !showUpcomingEvent;
-
-    if (nextShowUpcomingEvent) {
-      nextSearchParams.delete("upcoming");
-    } else {
-      nextSearchParams.set("upcoming", "none");
-    }
+    nextSearchParams.set("upcoming", nextMode);
 
     const nextQueryString = nextSearchParams.toString();
 
     startTransition(() => {
-      router.replace(nextQueryString ? `${pathname}?${nextQueryString}` : pathname, { scroll: false });
+      router.replace(`${pathname}?${nextQueryString}`, { scroll: false });
     });
   }
 
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      disabled={disabled || isPending}
-      aria-pressed={showUpcomingEvent}
-      aria-label={showUpcomingEvent ? "Switch to no upcoming event state" : "Switch to show upcoming event state"}
-      className={`inline-flex min-h-12 items-center gap-3 rounded-full border px-3 py-2 text-left transition ${
-        disabled
-          ? "cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400"
-          : "cursor-pointer border-slate-200 bg-white text-slate-950 shadow-[0_8px_24px_rgba(15,23,42,0.08)] hover:border-slate-300"
-      }`}
-    >
-      <span className="text-[13px] font-medium leading-none text-slate-500">Hero mode</span>
-      <span
-        className={`relative flex h-7 w-[52px] items-center rounded-full p-1 transition ${
-          showUpcomingEvent ? "bg-slate-950" : "bg-slate-300"
-        }`}
-        aria-hidden="true"
+    <div className="inline-flex flex-col items-start gap-2">
+      <span className="text-[13px] font-medium leading-none text-slate-500">Hero state</span>
+      <div
+        className={`inline-flex flex-wrap gap-2 ${disabled ? "opacity-60" : ""}`}
+        role="group"
+        aria-label="Internal events demo hero state"
       >
-        <span
-          className={`h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${
-            showUpcomingEvent ? "translate-x-5" : "translate-x-0"
-          }`}
-        />
-      </span>
-      <span className="text-sm font-medium leading-none text-slate-950">
-        {showUpcomingEvent ? "Show Upcoming Event" : "No Upcoming Event"}
-      </span>
-    </button>
+        {heroModeOptions.map((option) => {
+          const selected = option.value === (showUpcomingEvent ? "show" : "none");
+
+          return (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => handleSelect(option.value)}
+              disabled={disabled || isPending}
+              aria-pressed={selected}
+              className={`min-h-11 rounded-[14px] border px-4 py-2 text-sm font-medium transition ${
+                disabled
+                  ? "cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400"
+                  : selected
+                    ? "cursor-pointer border-slate-950 bg-slate-950 text-white shadow-[0_12px_28px_rgba(15,23,42,0.16)]"
+                    : "cursor-pointer border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+              }`}
+            >
+              {option.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }
