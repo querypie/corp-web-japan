@@ -1,9 +1,9 @@
-import * as fs from "node:fs";
 import * as path from "node:path";
-import { parse as parseYaml } from "yaml";
 import type { ResourceItem } from "@/content/resources";
-import { getPublicationHref } from "@/lib/publications/get-publication-href";
-import { resolveRedirectablePublicationHref } from "@/lib/publications/resolve-redirectable-publication-href";
+import {
+  createStandardPublicationRecordsRepository,
+  type StandardPublicationRecord,
+} from "@/lib/publications/create-standard-records-repository";
 
 export type WhitepaperPublicationFrontmatter = {
   id: string;
@@ -19,20 +19,11 @@ export type WhitepaperPublicationFrontmatter = {
   relatedIds: readonly string[];
 };
 
-export type WhitepaperPublicationRecord = WhitepaperPublicationFrontmatter & {
-  sourcePath: string;
-};
+export type WhitepaperPublicationRecord = StandardPublicationRecord<WhitepaperPublicationFrontmatter>;
 
 export type WhitepaperPublicationListItem = ResourceItem;
 
-type WhitepaperPublicationCache = {
-  records: readonly WhitepaperPublicationRecord[];
-  recordsById: ReadonlyMap<string, WhitepaperPublicationRecord>;
-  listItems: readonly WhitepaperPublicationListItem[];
-};
-
 const WHITEPAPER_POSTS_ROOT = path.join(process.cwd(), "src/content/whitepapers");
-let whitepaperPublicationCache: Readonly<WhitepaperPublicationCache> | null = null;
 
 function normalizeWhitepaperPublicationFrontmatter(
   value: unknown,
@@ -73,83 +64,28 @@ function normalizeWhitepaperPublicationFrontmatter(
   };
 }
 
-function parseWhitepaperPublicationFrontmatter(
-  source: string,
-  sourcePath: string,
-): WhitepaperPublicationFrontmatter {
-  const match = source.match(/^---\n([\s\S]*?)\n---\n?/);
-  if (!match) {
-    throw new Error(`Missing frontmatter block in ${sourcePath}`);
-  }
+const whitepaperPublicationRepository = createStandardPublicationRecordsRepository<WhitepaperPublicationFrontmatter>({
+  contentRoot: WHITEPAPER_POSTS_ROOT,
+  category: "whitepaper",
+  badge: "ホワイトペーパー",
+  normalizeFrontmatter: normalizeWhitepaperPublicationFrontmatter,
+  getListItemDescription: (record) => record.listDescription ?? record.description,
+});
 
-  return normalizeWhitepaperPublicationFrontmatter(parseYaml(match[1]), sourcePath);
-}
-
-function loadWhitepaperPublicationRecords(): WhitepaperPublicationRecord[] {
-  return fs
-    .readdirSync(WHITEPAPER_POSTS_ROOT)
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => {
-      const sourcePath = path.join(WHITEPAPER_POSTS_ROOT, file);
-      const source = fs.readFileSync(sourcePath, "utf8");
-      const frontmatter = parseWhitepaperPublicationFrontmatter(source, sourcePath);
-
-      return {
-        ...frontmatter,
-        sourcePath,
-      };
-    })
-    .sort((left, right) => Number(right.id) - Number(left.id));
-}
-
-function createWhitepaperPublicationCache(): Readonly<WhitepaperPublicationCache> {
-  const records = Object.freeze(loadWhitepaperPublicationRecords().map((record) => Object.freeze({ ...record })));
-  const recordsById = new Map<string, WhitepaperPublicationRecord>(records.map((record) => [record.id, record]));
-  const visibleRecords = records.filter((record) => !record.hidden);
-  const listItems = Object.freeze(
-    visibleRecords.map((record) =>
-      Object.freeze({
-        id: record.id,
-        href: resolveRedirectablePublicationHref(record.redirectUrl, getPublicationHref("whitepaper", record.id, record.slug)),
-        imageSrc: record.heroImageSrc,
-        badge: "ホワイトペーパー",
-        title: record.title,
-        description: record.listDescription ?? record.description,
-        date: record.date,
-      }),
-    ),
-  );
-
-  return Object.freeze({
-    records,
-    recordsById,
-    listItems,
-  });
-}
-
-function getWhitepaperPublicationCache(): Readonly<WhitepaperPublicationCache> {
-  if (whitepaperPublicationCache) {
-    return whitepaperPublicationCache;
-  }
-
-  whitepaperPublicationCache = Object.freeze(createWhitepaperPublicationCache());
-  return whitepaperPublicationCache;
-}
-
-export const whitepaperPublicationRecords = getWhitepaperPublicationCache().records;
+export const whitepaperPublicationRecords = whitepaperPublicationRepository.records;
 
 export function listWhitepaperPublicationItems(): readonly WhitepaperPublicationListItem[] {
-  return getWhitepaperPublicationCache().listItems;
+  return whitepaperPublicationRepository.listItems;
 }
 
 export function listWhitepaperPublicationParams() {
-  return getWhitepaperPublicationCache().records.map(({ id, slug }) => ({ id, slug }));
+  return whitepaperPublicationRepository.listParams();
 }
 
 export function listWhitepaperPublicationIds() {
-  return getWhitepaperPublicationCache().records.map(({ id }) => ({ id }));
+  return whitepaperPublicationRepository.listIds();
 }
 
 export function getWhitepaperPublicationRecord(id: string) {
-  return getWhitepaperPublicationCache().recordsById.get(id) ?? null;
+  return whitepaperPublicationRepository.getRecord(id);
 }

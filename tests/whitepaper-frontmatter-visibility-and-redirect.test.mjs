@@ -14,10 +14,10 @@ test("whitepaper publication frontmatter supports hidden list items and external
 test("whitepaper publication list excludes only frontmatter-hidden records while preserving full record lookup", () => {
   const source = readSource("src/lib/publications/whitepaper-publication-records.ts");
 
-  assert.match(source, /const visibleRecords = records\.filter\(\(record\) => !record\.hidden\);/);
-  assert.match(source, /const recordsById = new Map<string, WhitepaperPublicationRecord>\(records\.map\(\(record\) => \[record\.id, record\]\)\);/);
-  assert.match(source, /listWhitepaperPublicationItems\(\): readonly WhitepaperPublicationListItem\[] \{\s*return getWhitepaperPublicationCache\(\)\.listItems;\s*\}/s);
-  assert.match(source, /listWhitepaperPublicationParams\(\) \{\s*return getWhitepaperPublicationCache\(\)\.records\.map\(\(\{ id, slug \}\) => \(\{ id, slug \}\)\);\s*\}/s);
+  assert.match(source, /createStandardPublicationRecordsRepository/);
+  assert.match(source, /listWhitepaperPublicationItems\(\): readonly WhitepaperPublicationListItem\[] \{\s*return whitepaperPublicationRepository\.listItems;\s*\}/s);
+  assert.match(source, /listWhitepaperPublicationParams\(\) \{\s*return whitepaperPublicationRepository\.listParams\(\);\s*\}/s);
+  assert.match(source, /getWhitepaperPublicationRecord\(id: string\) \{\s*return whitepaperPublicationRepository\.getRecord\(id\);\s*\}/s);
 });
 
 test("whitepaper detail routes redirect to a frontmatter redirectUrl before rendering the local post", () => {
