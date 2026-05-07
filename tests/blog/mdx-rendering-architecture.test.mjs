@@ -40,12 +40,12 @@ test("blog publication metadata lives in MDX frontmatter instead of blog-posts.t
   const renderer = readSource("src/lib/publications/mdx/renderer.ts");
   const publicationLoader = readSource("src/lib/publications/get-publication-post.ts");
   const standardPublicationLoader = readSource("src/lib/publications/create-standard-publication-post-loader.ts");
-  const mdx21 = readSource("src/content/blog/21.mdx");
-  const mdx22 = readSource("src/content/blog/22.mdx");
-  const mdx23 = readSource("src/content/blog/23.mdx");
-  const mdx25 = readSource("src/content/blog/25.mdx");
-  const mdx27 = readSource("src/content/blog/27.mdx");
-  const mdx28 = readSource("src/content/blog/28.mdx");
+  const mdx21 = readSource("src/content/blog/21-why-we-need-ai-red-teaming.mdx");
+  const mdx22 = readSource("src/content/blog/22-ai-agent-security-replit-case.mdx");
+  const mdx23 = readSource("src/content/blog/23-querypie-payroll-partnership.mdx");
+  const mdx25 = readSource("src/content/blog/25-terrasky-mitoco-buddy.mdx");
+  const mdx27 = readSource("src/content/blog/27-shadow-ai-risk-cxo-countermeasures.mdx");
+  const mdx28 = readSource("src/content/blog/28-ai-security-threat-map-2026-cxo.mdx");
 
   assert.match(renderer, /parseFrontmatter\?:\s*boolean/);
   assert.match(renderer, /\{\s*parseFrontmatter\s*=\s*true\s*\}/);
