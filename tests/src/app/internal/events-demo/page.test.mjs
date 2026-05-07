@@ -24,7 +24,7 @@ test("/internal/events-demo delegates demo hero-state resolution to the event pu
   assert.match(source, /showUpcomingEvent && demoHeroEvent/);
   assert.match(source, /FeaturedEventHero/);
   assert.match(source, /InternalEventsDemoEmptyState/);
-  assert.match(source, /eyebrow="Hero Event Preview"/);
+  assert.match(source, /eyebrow="Upcoming Event"/);
   assert.match(source, /ctaLabel="詳細を見る"/);
   assert.match(source, /Past Events/);
   assert.match(source, /過去のイベント/);
