@@ -112,7 +112,7 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
             <div className="pb-[89px]">
               {post.bodyMdx ? (
                 <div className={publicationBodyClassName}>
-                  {post.category === "whitepaper" && post.gating && post.downloadCta ? <PublicationDownloadCta downloadCta={post.downloadCta} /> : null}
+                  {post.gating && post.downloadCta ? <PublicationDownloadCta downloadCta={post.downloadCta} /> : null}
                   {post.bodyMdx}
                   {post.gating ? (
                     <ResourcePostGated
@@ -120,7 +120,6 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
                       initiallyUnlocked={post.gating.initiallyUnlocked}
                       gatedContent={post.gatedBodyMdx}
                       bodyClassName={publicationBodyClassName}
-                      downloadCta={post.category === "whitepaper" ? null : post.downloadCta}
                     />
                   ) : post.downloadCta ? (
                     <PublicationDownloadCta downloadCta={post.downloadCta} />

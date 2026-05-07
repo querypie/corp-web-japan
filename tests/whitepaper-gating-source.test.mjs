@@ -52,7 +52,8 @@ test("whitepaper publication loader carries a dedicated gated MDX contract and b
   assert.match(publicationTypes, /gating: PublicationPostGating \| null;/);
   assert.match(publicationTypes, /downloadCta: PublicationPostDownloadCta \| null;/);
   assert.match(publicationPage, /post\.gating && post\.downloadCta \? <PublicationDownloadCta downloadCta=\{post\.downloadCta\} \/> : null/);
-  assert.match(publicationPage, /\) : post\.downloadCta \? \(/);
+  assert.doesNotMatch(publicationPage, /post\.category === "whitepaper" && post\.gating && post\.downloadCta/);
+
   assert.match(publicationPage, /post\.gating \? \(/);
   assert.match(gatingHelper, /import isProduction from "@\/lib\/is-production"/);
   assert.match(gatingHelper, /const NON_PRODUCTION_GATING_MAX_AGE_SECONDS = 60 \* 15;/);
