@@ -46,8 +46,8 @@ export async function generateMetadata({ params }: NewsDetailPageProps): Promise
       canonical: absoluteUrl(getNewsPublicationHref(id, record.slug)),
     },
     robots: {
-      index: false,
-      follow: false,
+      index: true,
+      follow: true,
     },
   };
 }
