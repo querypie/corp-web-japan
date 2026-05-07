@@ -35,13 +35,16 @@ test("whitepaper gating uses gated frontmatter and a GatingCut component instead
 
 test("whitepaper publication loader carries a dedicated gated MDX contract and backend entrypoint", () => {
   const loader = readSource("src/lib/publications/get-whitepaper-publication-post.ts");
+  const gatedLoader = readSource("src/lib/publications/create-gated-publication-post-loader.ts");
   const publicationTypes = readSource("src/lib/publications/types.ts");
   const publicationPage = readSource("src/components/sections/publication-post-page.tsx");
   const gatingHelper = readSource("src/lib/publications/gating.ts");
   const gatingRoute = readSource("src/app/api/gating-form/unlock/route.ts");
 
-  assert.match(loader, /gatedBodyMdx/);
-  assert.match(loader, /contentKey/);
+  assert.match(loader, /createGatedPublicationPostLoader/);
+  assert.match(loader, /from "@\/lib\/publications\/create-gated-publication-post-loader"/);
+  assert.match(gatedLoader, /gatedBodyMdx/);
+  assert.match(gatedLoader, /contentKey/);
   assert.match(publicationTypes, /gatedBodyMdx: ReactNode \| null;/);
   assert.match(publicationTypes, /gating: PublicationPostGating \| null;/);
   assert.match(publicationPage, /post\.gating \? \(/);

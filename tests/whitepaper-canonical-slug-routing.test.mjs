@@ -6,6 +6,7 @@ import { readSource } from "./helpers/source-readers.mjs";
 test("whitepaper canonical routing keeps the local MDX-backed detail flow and preserves hidden redirect records", () => {
   const whitepaper25 = readSource("src/content/whitepapers/25-ai-transformation-japan.mdx");
   const helper = readSource("src/lib/publications/get-whitepaper-publication-post.ts");
+  const gatedLoader = readSource("src/lib/publications/create-gated-publication-post-loader.ts");
   const publicationRecords = readSource("src/lib/publications/whitepaper-publication-records.ts");
 
   assert.equal(existsSync(new URL("../src/content/whitepapers/25-ai-transformation-japan.mdx", import.meta.url)), true);
@@ -14,8 +15,12 @@ test("whitepaper canonical routing keeps the local MDX-backed detail flow and pr
 
   assert.match(whitepaper25, /hidden:\s*true/);
   assert.match(whitepaper25, /redirectUrl:\s*"\/whitepapers\/24\/ai-transformation-japan"/);
-  assert.match(helper, /splitMdxSourceAtGatingCut/);
-  assert.match(helper, /buildGatingContentKey\("whitepaper", id\)/);
+  assert.match(helper, /createGatedPublicationPostLoader/);
+  assert.match(helper, /from "@\/lib\/publications\/create-gated-publication-post-loader"/);
+  assert.doesNotMatch(helper, /splitMdxSourceAtGatingCut/);
+  assert.doesNotMatch(helper, /buildGatingContentKey\("whitepaper", id\)/);
+  assert.match(gatedLoader, /splitMdxSourceAtGatingCut/);
+  assert.match(gatedLoader, /buildGatingContentKey\(config\.category, id\)/);
   assert.match(publicationRecords, /createStandardPublicationRecordsRepository/);
   assert.match(publicationRecords, /listDescription/);
   assert.match(publicationRecords, /getListItemDescription: \(record\) => record\.listDescription \?\? record\.description/);

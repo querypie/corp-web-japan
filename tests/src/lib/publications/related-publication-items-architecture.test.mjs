@@ -6,12 +6,13 @@ import { readSource } from "../../../helpers/source-readers.mjs";
 const sharedHelperPath = "src/lib/publications/build-related-publication-items.ts";
 const sharedLoaderFiles = [
   "src/lib/publications/create-standard-publication-post-loader.ts",
-  "src/lib/publications/get-whitepaper-publication-post.ts",
+  "src/lib/publications/create-gated-publication-post-loader.ts",
 ];
 
 const thinWrapperFiles = [
   "src/lib/publications/get-news-publication-post.ts",
   "src/lib/publications/get-publication-post.ts",
+  "src/lib/publications/get-whitepaper-publication-post.ts",
 ];
 
 test("all publication post loaders share one common related-items helper with explicit-related passthrough and same-category recent fallback", () => {
