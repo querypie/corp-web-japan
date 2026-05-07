@@ -48,7 +48,7 @@ export function FeaturedEventHero({
 
             <div className="mt-auto flex items-center justify-between border-t border-slate-200 pt-6">
               <span className="text-sm font-medium text-slate-400">{date}</span>
-              <span className="inline-flex items-center rounded-lg bg-black px-6 py-3 text-sm font-bold text-white transition-colors group-hover:bg-slate-800 group-focus-visible:bg-slate-900 group-focus-visible:ring-2 group-focus-visible:ring-slate-900 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-[#f2f4f6]">
+              <span className="inline-flex items-center rounded-lg bg-black px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(15,23,42,0.18)] transition-all group-hover:bg-slate-800 group-hover:shadow-[0_14px_28px_rgba(15,23,42,0.28)] group-hover:ring-2 group-hover:ring-slate-700/40 group-hover:ring-offset-2 group-hover:ring-offset-[#f2f4f6] group-focus-visible:bg-slate-900 group-focus-visible:shadow-[0_16px_32px_rgba(15,23,42,0.32)] group-focus-visible:ring-2 group-focus-visible:ring-slate-900 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-[#f2f4f6]">
                 {ctaLabel}
               </span>
             </div>

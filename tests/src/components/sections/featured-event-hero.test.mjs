@@ -23,7 +23,11 @@ test("FeaturedEventHero renders the whole hero card as a single clickable link w
   assert.match(source, /cursor-pointer/);
   assert.match(source, /group-hover:scale-\[1\.02\]/);
   assert.match(source, /group-focus-visible:scale-\[1\.02\]/);
+  assert.match(source, /group-hover:bg-slate-800/);
+  assert.match(source, /group-hover:shadow-\[0_14px_28px_rgba\(15,23,42,0\.28\)\]/);
+  assert.match(source, /group-hover:ring-2 group-hover:ring-slate-700\/40/);
   assert.match(source, /group-focus-visible:bg-slate-900/);
+  assert.match(source, /group-focus-visible:shadow-\[0_16px_32px_rgba\(15,23,42,0\.32\)\]/);
   assert.match(source, /group-focus-visible:ring-2 group-focus-visible:ring-slate-900/);
   assert.doesNotMatch(source, /<Link[\s\S]*<Link/);
 });
