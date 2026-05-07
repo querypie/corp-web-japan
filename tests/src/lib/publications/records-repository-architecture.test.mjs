@@ -8,15 +8,15 @@ const standardRecordFiles = [
   "src/lib/publications/use-case-publication-records.ts",
   "src/lib/publications/aip-demo-publication-records.ts",
   "src/lib/publications/acp-demo-publication-records.ts",
-  "src/lib/publications/whitepaper-publication-records.ts",
+  "src/lib/publications/news-publication-records.ts",
 ];
 
-test("use-case, AIP demo, ACP demo, and whitepaper records share a common standard publication records repository helper", () => {
+test("use-case, AIP demo, ACP demo, and news records share a common standard publication records repository helper", () => {
   assert.equal(existsSync(new URL("../../../../src/lib/publications/create-standard-records-repository.ts", import.meta.url)), true);
 
   const sharedRepository = readSource(sharedRepositoryPath);
   assert.match(sharedRepository, /export function createStandardPublicationRecordsRepository/);
-  assert.match(sharedRepository, /parse as parseYaml/);
+  assert.match(sharedRepository, /createListItem\?: \(record: TRecord, href: string\) => TListItem/);
   assert.match(sharedRepository, /getPublicationHref/);
   assert.match(sharedRepository, /resolveRedirectablePublicationHref/);
 
@@ -30,6 +30,8 @@ test("use-case, AIP demo, ACP demo, and whitepaper records share a common standa
     assert.doesNotMatch(source, /function get[A-Za-z]+PublicationCache/);
   }
 
-  const whitepaperSource = readSource("src/lib/publications/whitepaper-publication-records.ts");
-  assert.match(whitepaperSource, /getListItemDescription: \(record\) => record\.listDescription \?\? record\.description/);
+  const newsSource = readSource("src/lib/publications/news-publication-records.ts");
+  assert.match(newsSource, /createListItem: \(record, href\) => \(\{/);
+  assert.match(newsSource, /sourceLabel: record\.sourceLabel \?\? \(record\.redirectUrl \? "メディア掲載" : "公式発表"\)/);
+  assert.match(newsSource, /opensExternal: false/);
 });
