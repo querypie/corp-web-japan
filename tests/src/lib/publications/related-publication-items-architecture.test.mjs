@@ -7,8 +7,11 @@ const sharedHelperPath = "src/lib/publications/build-related-publication-items.t
 const sharedLoaderFiles = [
   "src/lib/publications/create-standard-publication-post-loader.ts",
   "src/lib/publications/get-publication-post.ts",
-  "src/lib/publications/get-news-publication-post.ts",
   "src/lib/publications/get-whitepaper-publication-post.ts",
+];
+
+const thinWrapperFiles = [
+  "src/lib/publications/get-news-publication-post.ts",
 ];
 
 test("all publication post loaders share one common related-items helper with explicit-related passthrough and same-category recent fallback", () => {
@@ -31,6 +34,11 @@ test("all publication post loaders share one common related-items helper with ex
     const source = readSource(filePath);
     assert.match(source, /buildRelatedPublicationItems/);
     assert.match(source, /from "@\/lib\/publications\/build-related-publication-items"/);
+    assert.doesNotMatch(source, /function buildRelatedItems/);
+  }
+
+  for (const filePath of thinWrapperFiles) {
+    const source = readSource(filePath);
     assert.doesNotMatch(source, /function buildRelatedItems/);
   }
 

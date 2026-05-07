@@ -59,10 +59,10 @@ test("all MDX publication related-item builders resolve hrefs through the redire
     "src/lib/publications/get-aip-demo-publication-post.ts",
     "src/lib/publications/get-acp-demo-publication-post.ts",
     "src/lib/publications/get-event-publication-post.ts",
+    "src/lib/publications/get-news-publication-post.ts",
   ]);
   const sharedRelatedConsumerFiles = new Set([
     "src/lib/publications/get-publication-post.ts",
-    "src/lib/publications/get-news-publication-post.ts",
     "src/lib/publications/get-whitepaper-publication-post.ts",
   ]);
   const sharedRelatedHelperFiles = new Set([
