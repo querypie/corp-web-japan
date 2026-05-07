@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../../../helpers/source-readers.mjs";
 
-test("FeaturedEventHero exists as a reusable section component for hero-event rendering", () => {
+test("FeaturedEventHero renders the whole hero card as a single clickable link", () => {
   const file = "src/components/sections/featured-event-hero.tsx";
   const source = readSource(file);
 
@@ -19,5 +19,8 @@ test("FeaturedEventHero exists as a reusable section component for hero-event re
   assert.match(source, /rounded-lg/);
   assert.match(source, /p-6 lg:w-2\/5 lg:p-8/);
   assert.match(source, /<Image/);
-  assert.match(source, /<Link/);
+  assert.match(source, /<Link href=\{href\} className="group block overflow-hidden rounded-lg bg/);
+  assert.match(source, /cursor-pointer/);
+  assert.match(source, /group-hover:scale-\[1\.02\]/);
+  assert.doesNotMatch(source, /<Link[\s\S]*<Link/);
 });
