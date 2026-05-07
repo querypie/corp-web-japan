@@ -12,6 +12,7 @@ export type EventPublicationFrontmatter = {
   title: string;
   description: string;
   date: string;
+  eventDate?: string;
   heroImageSrc: string;
   eventLabel?: string;
   hideHeroImageOnDetail?: boolean;
@@ -38,6 +39,7 @@ function normalizeEventPublicationFrontmatter(value: unknown, sourcePath: string
     ? relatedIdsValue.map((item) => String(item))
     : [];
   const authorValue = frontmatter.author;
+  const eventDateValue = frontmatter.eventDate;
   const eventLabelValue = frontmatter.eventLabel;
   const hideHeroImageOnDetailValue = frontmatter.hideHeroImageOnDetail;
   const redirectUrlValue = frontmatter.redirectUrl;
@@ -48,6 +50,7 @@ function normalizeEventPublicationFrontmatter(value: unknown, sourcePath: string
     title: String(frontmatter.title ?? ""),
     description: String(frontmatter.description ?? ""),
     date: String(frontmatter.date ?? ""),
+    eventDate: typeof eventDateValue === "string" ? eventDateValue : undefined,
     heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
     eventLabel: typeof eventLabelValue === "string" ? eventLabelValue : undefined,
     hideHeroImageOnDetail: hideHeroImageOnDetailValue === true,

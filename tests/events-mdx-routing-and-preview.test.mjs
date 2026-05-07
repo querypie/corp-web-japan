@@ -52,6 +52,8 @@ test("event preview page and canonical routes are driven by event MDX publicatio
   assert.match(loader, /fallbackToAllRecords: true/);
   assert.match(loader, /formatDate: formatJapaneseDateFromIsoDate/);
   assert.match(records, /src\/content\/events/);
+  assert.match(records, /eventDate\?: string/);
+  assert.match(records, /eventDate: typeof eventDateValue === "string" \? eventDateValue : undefined/);
   assert.match(records, /date: formatJapaneseDateFromIsoDate\(record\.date\)/);
   assert.match(records, /getListItemBadge: \(record\) => record\.eventLabel \?\? "イベント"/);
   assert.match(records, /hideHeroImageOnDetail: hideHeroImageOnDetailValue === true/);
