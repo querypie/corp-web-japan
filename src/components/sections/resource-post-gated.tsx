@@ -74,7 +74,6 @@ type ResourcePostGatedProps = {
   initiallyUnlocked: boolean;
   gatedContent: ReactNode;
   bodyClassName?: string;
-  unlockedFooter?: ReactNode;
 };
 
 export function ResourcePostGated({
@@ -82,7 +81,6 @@ export function ResourcePostGated({
   initiallyUnlocked,
   gatedContent,
   bodyClassName,
-  unlockedFooter,
 }: ResourcePostGatedProps) {
   const [unlocked, setUnlocked] = useState(initiallyUnlocked);
   const [submitting, setSubmitting] = useState(false);
@@ -164,7 +162,6 @@ export function ResourcePostGated({
       {unlocked ? (
         <div className="mt-12">
           <div className={bodyClassName}>{gatedContent}</div>
-          {unlockedFooter}
         </div>
       ) : null}
     </>
