@@ -64,6 +64,7 @@ async function getInternalDemoPost(): Promise<PublicationPost> {
       contentKey,
       initiallyUnlocked: false,
     },
+    downloadCta: null,
     relatedTitle: "関連記事",
     relatedItems: [],
     toc: [],
