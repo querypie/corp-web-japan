@@ -84,9 +84,9 @@ test("download CTA whitepapers model route-aligned PDF links in frontmatter inst
     const escapedHref = href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
     assert.match(source, new RegExp(`downloadCta:\\n  href: \"${escapedHref}\"`));
-    assert.match(source, /label: "ホワイトペーパーを入手する 🚀"/);
+    assert.match(source, /label: "PDF版ホワイトペーパーを見る"/);
     assert.match(source, /external: true/);
-    assert.doesNotMatch(source, /https:\/\/www\.querypie\.com\/ja\/features\/documentation\/white-paper\/\d+\/[a-z0-9-]+\/download/);
+    assert.doesNotMatch(source, /https:\/\/www\.querypie\.com\/ja\/features\/documentation\/white-paper\/\d+\/[a-z0-9-]+\/(download|pdf)/);
     assert.doesNotMatch(source, /<ButtonLink href=/);
   }
 });
