@@ -18,8 +18,8 @@ Use this skill when the task is to add a new whitepaper article to the local MDX
 - Local whitepaper content source lives in `src/content/whitepapers/*.mdx`.
 - Canonical whitepaper detail routes are `/whitepapers/:id/:slug`.
 - `/whitepapers/:id` must redirect to the canonical slug route.
-- The detail loader is `src/lib/publications/get-whitepaper-publication-post.ts`.
-- The whitepaper list source is derived from `src/lib/publications/whitepaper-publication-records.ts`.
+- The detail loader is `src/lib/publications/whitepapers/get-post.ts`.
+- The whitepaper list source is derived from `src/lib/publications/whitepapers/records.ts`.
 - Whitepaper list items currently keep upstream `querypie.com/ja` hrefs for list-card destinations while local detail routes exist for the MDX-backed rendering flow.
 - Author metadata is resolved from `src/content/authors/ja.yaml` via `src/lib/authors/resolve-authors.ts`.
 - Whitepaper hero/list thumbnails now live at `/whitepapers/<id>/thumbnail.png` under `public/whitepapers/<id>/thumbnail.png`.
@@ -173,8 +173,8 @@ Do not use the old `crew/authors/...` path pattern for new author YAML values.
 No manual route registration should be needed if the file follows the current conventions.
 
 The current system auto-derives:
-- whitepaper list items from `src/lib/publications/whitepaper-publication-records.ts`
-- detail page content from `src/lib/publications/get-whitepaper-publication-post.ts`
+- whitepaper list items from `src/lib/publications/whitepapers/records.ts`
+- detail page content from `src/lib/publications/whitepapers/get-post.ts`
 
 However, always verify that:
 - the new file is discoverable by the directory scan

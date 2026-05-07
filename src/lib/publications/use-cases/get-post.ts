@@ -5,7 +5,7 @@ import {
   useCasePublicationRecords,
   type UseCasePublicationFrontmatter,
   type UseCasePublicationRecord,
-} from "@/lib/publications/use-case-publication-records";
+} from "@/lib/publications/use-cases/records";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { createStandardPublicationPostLoader } from "@/lib/publications/create-standard-publication-post-loader";
 

@@ -46,8 +46,8 @@ Use these paths:
 - canonical detail page: `src/app/demo/acp/[id]/[slug]/page.tsx`
 - id-only redirect page: `src/app/demo/acp/[id]/page.tsx`
 - content source: `src/content/demo/acp/<id>-<slug>.mdx`
-- publication records: `src/content/publications/acp-demo-publication-records.ts`
-- detail loader: `src/lib/publications/get-acp-demo-publication-post.ts`
+- publication records: `src/lib/publications/demo/acp/records.ts`
+- detail loader: `src/lib/publications/demo/acp/get-post.ts`
 - thumbnails: `public/demo/acp/<id>/thumbnail.png`
 
 Also extend:
@@ -100,7 +100,7 @@ Follow the event/news/use-case publication pattern.
 
 ### Records file expectations
 
-`src/content/publications/acp-demo-publication-records.ts` should:
+`src/lib/publications/demo/acp/records.ts` should:
 - scan `src/content/demo/acp/*.mdx`
 - parse frontmatter with YAML
 - expose:
@@ -115,7 +115,7 @@ Follow the event/news/use-case publication pattern.
 
 ### Loader file expectations
 
-`src/lib/publications/get-acp-demo-publication-post.ts` should:
+`src/lib/publications/demo/acp/get-post.ts` should:
 - read the MDX source file
 - render it through `renderPublicationMdx()`
 - derive TOC with `extractHeadingsFromMdx()`
@@ -184,7 +184,7 @@ Do not replace the existing redirect route in a migration-only PR unless the use
    - `src/app/t/events/page.tsx`
    - `src/app/events/[id]/[slug]/page.tsx`
    - `src/content/publications/event-publication-records.ts`
-   - `src/lib/publications/get-event-publication-post.ts`
+   - `src/lib/publications/events/get-post.ts`
    - `src/content/publications/use-case-publication-records.ts`
 3. Inspect the source corpus under `../corp-web-contents/pages/features/demo/acp-features/**/ja/content.mdx`.
 4. Inventory source asset paths from `ogImage`.

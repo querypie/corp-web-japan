@@ -166,8 +166,8 @@ Use these rules when editing local blog or whitepaper content.
 - Whitepaper source lives under `src/content/whitepapers/*.mdx`.
 - Keep required frontmatter aligned with the current loaders: `id`, `slug`, `title`, `description`, `date`, `heroImageSrc`, and `relatedIds`.
 - Whitepapers may additionally use `listDescription` and `gated: true` when the current whitepaper flow requires them.
-- Blog list items are derived from MDX frontmatter through `src/lib/publications/blog-publication-records.ts`.
-- Whitepaper list items are derived from MDX frontmatter through `src/lib/publications/whitepaper-publication-records.ts`.
+- Blog list items are derived from MDX frontmatter through `src/lib/publications/blog/records.ts`.
+- Whitepaper list items are derived from MDX frontmatter through `src/lib/publications/whitepapers/records.ts`.
 - Whitepaper gating uses frontmatter `gated: true` plus the `<GatingCut />` marker instead of wrapper-style gated components.
 - Shared gating helpers live in `src/lib/publications/gating.ts`, and the current internal reference route is `/internal/whitepaper-gating-demo`.
 - For local-only browser verification of contact-us and whitepaper gating flows, see `docs/local-e2e.md`.

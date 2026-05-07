@@ -8,7 +8,7 @@ import {
   getAipDemoPublicationPost,
   getAipDemoPublicationRecord,
   listAipDemoPublicationParams,
-} from "@/lib/publications/get-aip-demo-publication-post";
+} from "@/lib/publications/demo/aip/get-post";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import { absoluteUrl } from "@/lib/site-url";
 

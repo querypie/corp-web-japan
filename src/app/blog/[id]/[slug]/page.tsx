@@ -8,7 +8,7 @@ import {
   getBlogPublicationPost,
   getBlogPublicationRecord,
   listBlogPublicationParams,
-} from "@/lib/publications/get-publication-post";
+} from "@/lib/publications/blog/get-post";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import { absoluteUrl } from "@/lib/site-url";
 

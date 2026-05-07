@@ -2,10 +2,6 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
-function escapeRegex(value) {
-  return value.replace(/[|\{}()[\]^$+*?.]/g, "\$&");
-}
-
 const headerExpectedLinks = [
   'label: "AIプラットフォーム｜AIP", href: t("/services/aip", previewModeEnabled)',
   'label: "アクセス制御プラットフォーム｜ACP", href: t("/services/acp", previewModeEnabled)',

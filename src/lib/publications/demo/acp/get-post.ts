@@ -5,7 +5,7 @@ import {
   listAcpDemoPublicationParams,
   type AcpDemoPublicationFrontmatter,
   type AcpDemoPublicationRecord,
-} from "@/lib/publications/acp-demo-publication-records";
+} from "@/lib/publications/demo/acp/records";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { createStandardPublicationPostLoader } from "@/lib/publications/create-standard-publication-post-loader";
 

@@ -8,7 +8,7 @@ import {
   getAcpDemoPublicationPost,
   getAcpDemoPublicationRecord,
   listAcpDemoPublicationParams,
-} from "@/lib/publications/get-acp-demo-publication-post";
+} from "@/lib/publications/demo/acp/get-post";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import { absoluteUrl } from "@/lib/site-url";
 

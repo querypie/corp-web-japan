@@ -16,10 +16,10 @@ Use this skill when the task is to add a new blog article to the local MDX-backe
 ## What this repository currently does
 
 - Local blog content source lives in `src/content/blog/*.mdx`.
-- The blog index reads list items from `src/lib/publications/blog-publication-records.ts` via `listBlogPublicationItems()`.
+- The blog index reads list items from `src/lib/publications/blog/records.ts` via `listBlogPublicationItems()`.
 - Canonical blog detail routes are `/blog/:id/:slug`.
 - `/blog/:id` must redirect to the canonical slug route.
-- The detail loader is `src/lib/publications/get-publication-post.ts`.
+- The detail loader is `src/lib/publications/blog/get-post.ts`.
 - Author metadata is resolved from `src/content/authors/ja.yaml` via `src/lib/authors/resolve-authors.ts`.
 - Blog hero/list thumbnails now live at `/blog/<id>/thumbnail.png` under `public/blog/<id>/thumbnail.png`.
 - In-body blog figures, videos, downloadable files, and any other blog-specific referenced assets should also live under `public/blog/<id>/...`.
@@ -138,8 +138,8 @@ Do not use the old `crew/authors/...` path pattern for new author YAML values.
 No manual list registration should be needed if the file follows the current conventions.
 
 The current system auto-derives:
-- blog list items from `src/lib/publications/blog-publication-records.ts`
-- detail page content from `src/lib/publications/get-publication-post.ts`
+- blog list items from `src/lib/publications/blog/records.ts`
+- detail page content from `src/lib/publications/blog/get-post.ts`
 
 However, always verify that:
 - the new file is discoverable by the directory scan

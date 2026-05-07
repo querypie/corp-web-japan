@@ -9,7 +9,7 @@ import {
   ResourceListHeroTitle,
   ResourceListItems,
 } from "@/components/sections/resource-list-section";
-import { listAipDemoPublicationItems } from "@/lib/publications/aip-demo-publication-records";
+import { listAipDemoPublicationItems } from "@/lib/publications/demo/aip/records";
 
 export const metadata: Metadata = {
   title: "QueryPie AI Platform (AIP) の機能 | QueryPie AI",

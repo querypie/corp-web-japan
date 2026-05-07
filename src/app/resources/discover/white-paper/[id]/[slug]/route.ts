@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getWhitepaperPublicationRecord } from "@/lib/publications/whitepaper-publication-records";
+import { getWhitepaperPublicationRecord } from "@/lib/publications/whitepapers/records";
 
 type LegacyWhitepaperRouteContext = {
   params: Promise<{

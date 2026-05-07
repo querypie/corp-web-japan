@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { NewsPublicationListItem } from "@/lib/publications/news-publication-records";
+import type { NewsPublicationListItem } from "@/lib/publications/news/records";
 
 type NewsArticleListProps = {
   items: readonly NewsPublicationListItem[];

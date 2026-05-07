@@ -3,7 +3,7 @@ import {
   getEventPublicationHref,
   getEventPublicationRecord,
   listEventPublicationIds,
-} from "@/lib/publications/get-event-publication-post";
+} from "@/lib/publications/events/get-post";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 
 type EventIdPageProps = {

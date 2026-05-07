@@ -5,7 +5,7 @@ import {
   newsPublicationRecords,
   type NewsPublicationFrontmatter,
   type NewsPublicationRecord,
-} from "@/lib/publications/news-publication-records";
+} from "@/lib/publications/news/records";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { createStandardPublicationPostLoader } from "@/lib/publications/create-standard-publication-post-loader";
 

@@ -8,7 +8,7 @@ import {
   getEventPublicationPost,
   getEventPublicationRecord,
   listEventPublicationParams,
-} from "@/lib/publications/get-event-publication-post";
+} from "@/lib/publications/events/get-post";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import { absoluteUrl } from "@/lib/site-url";
 

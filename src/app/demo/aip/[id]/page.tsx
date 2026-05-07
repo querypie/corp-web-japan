@@ -3,7 +3,7 @@ import {
   getAipDemoPublicationHref,
   getAipDemoPublicationRecord,
   listAipDemoPublicationIds,
-} from "@/lib/publications/get-aip-demo-publication-post";
+} from "@/lib/publications/demo/aip/get-post";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 
 type AipDemoDetailIdPageProps = {

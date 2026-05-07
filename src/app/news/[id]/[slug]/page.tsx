@@ -8,7 +8,7 @@ import {
   getNewsPublicationPost,
   getNewsPublicationRecord,
   listNewsPublicationParams,
-} from "@/lib/publications/get-news-publication-post";
+} from "@/lib/publications/news/get-post";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import { absoluteUrl } from "@/lib/site-url";
 

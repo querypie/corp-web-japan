@@ -3,7 +3,7 @@ import {
   getNewsPublicationHref,
   getNewsPublicationRecord,
   listNewsPublicationIds,
-} from "@/lib/publications/get-news-publication-post";
+} from "@/lib/publications/news/get-post";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 
 type NewsIdPageProps = {

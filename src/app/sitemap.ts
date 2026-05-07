@@ -1,19 +1,19 @@
 import type { MetadataRoute } from "next";
-import { acpDemoPublicationRecords } from "@/lib/publications/acp-demo-publication-records";
-import { aipDemoPublicationRecords } from "@/lib/publications/aip-demo-publication-records";
-import { blogPostRecords } from "@/lib/publications/blog-publication-records";
+import { acpDemoPublicationRecords } from "@/lib/publications/demo/acp/records";
+import { aipDemoPublicationRecords } from "@/lib/publications/demo/aip/records";
+import { blogPostRecords } from "@/lib/publications/blog/records";
 import { eventPostRecords, getEventPostHref } from "@/content/resources/events";
-import { getAcpDemoPublicationHref } from "@/lib/publications/get-acp-demo-publication-post";
-import { getAipDemoPublicationHref } from "@/lib/publications/get-aip-demo-publication-post";
-import { getBlogPublicationHref } from "@/lib/publications/get-publication-post";
-import { getNewsPublicationHref } from "@/lib/publications/get-news-publication-post";
-import { getUseCasePublicationHref } from "@/lib/publications/get-use-case-publication-post";
-import { getWhitepaperPublicationHref } from "@/lib/publications/get-whitepaper-publication-post";
-import { newsPublicationRecords } from "@/lib/publications/news-publication-records";
+import { getAcpDemoPublicationHref } from "@/lib/publications/demo/acp/get-post";
+import { getAipDemoPublicationHref } from "@/lib/publications/demo/aip/get-post";
+import { getBlogPublicationHref } from "@/lib/publications/blog/get-post";
+import { getNewsPublicationHref } from "@/lib/publications/news/get-post";
+import { getUseCasePublicationHref } from "@/lib/publications/use-cases/get-post";
+import { getWhitepaperPublicationHref } from "@/lib/publications/whitepapers/get-post";
+import { newsPublicationRecords } from "@/lib/publications/news/records";
 import {
   useCasePublicationRecords,
-} from "@/lib/publications/use-case-publication-records";
-import { whitepaperPublicationRecords } from "@/lib/publications/whitepaper-publication-records";
+} from "@/lib/publications/use-cases/records";
+import { whitepaperPublicationRecords } from "@/lib/publications/whitepapers/records";
 import { listIntroductionDeckPublicationParams } from "@/lib/resources/introduction-deck-publications";
 import { listGlossaryPublicationParams } from "@/lib/resources/glossary-publications";
 import { listManualPublicationParams } from "@/lib/resources/manual-publications";

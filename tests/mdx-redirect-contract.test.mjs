@@ -3,22 +3,22 @@ import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
 const redirectAwareRecordFiles = [
-  "src/lib/publications/blog-publication-records.ts",
-  "src/lib/publications/whitepaper-publication-records.ts",
-  "src/lib/publications/news-publication-records.ts",
-  "src/lib/publications/use-case-publication-records.ts",
-  "src/lib/publications/aip-demo-publication-records.ts",
-  "src/lib/publications/acp-demo-publication-records.ts",
-  "src/lib/publications/event-publication-records.ts",
+  "src/lib/publications/blog/records.ts",
+  "src/lib/publications/whitepapers/records.ts",
+  "src/lib/publications/news/records.ts",
+  "src/lib/publications/use-cases/records.ts",
+  "src/lib/publications/demo/aip/records.ts",
+  "src/lib/publications/demo/acp/records.ts",
+  "src/lib/publications/events/records.ts",
 ];
 
 const redirectAwareLoaderFiles = [
-  "src/lib/publications/get-whitepaper-publication-post.ts",
-  "src/lib/publications/get-news-publication-post.ts",
-  "src/lib/publications/get-use-case-publication-post.ts",
-  "src/lib/publications/get-aip-demo-publication-post.ts",
-  "src/lib/publications/get-acp-demo-publication-post.ts",
-  "src/lib/publications/get-event-publication-post.ts",
+  "src/lib/publications/whitepapers/get-post.ts",
+  "src/lib/publications/news/get-post.ts",
+  "src/lib/publications/use-cases/get-post.ts",
+  "src/lib/publications/demo/aip/get-post.ts",
+  "src/lib/publications/demo/acp/get-post.ts",
+  "src/lib/publications/events/get-post.ts",
   "src/lib/publications/build-related-publication-items.ts",
 ];
 
@@ -47,20 +47,17 @@ test("all MDX publication record lists resolve hrefs through the redirectUrl con
 
 test("all MDX publication related-item builders resolve hrefs through the redirectUrl contract", () => {
   const sharedLoaderFiles = new Set([
-    "src/lib/publications/get-use-case-publication-post.ts",
-    "src/lib/publications/get-aip-demo-publication-post.ts",
-    "src/lib/publications/get-acp-demo-publication-post.ts",
-    "src/lib/publications/get-event-publication-post.ts",
-    "src/lib/publications/get-news-publication-post.ts",
-    "src/lib/publications/get-publication-post.ts",
+    "src/lib/publications/use-cases/get-post.ts",
+    "src/lib/publications/demo/aip/get-post.ts",
+    "src/lib/publications/demo/acp/get-post.ts",
+    "src/lib/publications/events/get-post.ts",
+    "src/lib/publications/news/get-post.ts",
+    "src/lib/publications/blog/get-post.ts",
   ]);
   const gatedLoaderFiles = new Set([
-    "src/lib/publications/get-whitepaper-publication-post.ts",
+    "src/lib/publications/whitepapers/get-post.ts",
   ]);
   const sharedRelatedConsumerFiles = new Set([]);
-  const sharedRelatedHelperFiles = new Set([
-    "src/lib/publications/build-related-publication-items.ts",
-  ]);
 
   for (const filePath of redirectAwareLoaderFiles) {
     const source = readSource(filePath);

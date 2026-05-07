@@ -5,7 +5,7 @@ import {
   whitepaperPublicationRecords,
   type WhitepaperPublicationFrontmatter,
   type WhitepaperPublicationRecord,
-} from "@/lib/publications/whitepaper-publication-records";
+} from "@/lib/publications/whitepapers/records";
 import { createGatedPublicationPostLoader } from "@/lib/publications/create-gated-publication-post-loader";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 

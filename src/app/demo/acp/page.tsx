@@ -9,7 +9,7 @@ import {
   ResourceListHeroTitle,
   ResourceListItems,
 } from "@/components/sections/resource-list-section";
-import { listAcpDemoPublicationItems } from "@/lib/publications/acp-demo-publication-records";
+import { listAcpDemoPublicationItems } from "@/lib/publications/demo/acp/records";
 
 export const metadata: Metadata = {
   title: "QueryPie Access Control Platform (ACP) の機能 | QueryPie AI",

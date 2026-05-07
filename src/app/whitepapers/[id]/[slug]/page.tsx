@@ -9,7 +9,7 @@ import {
   getWhitepaperPublicationPost,
   getWhitepaperPublicationRecord,
   listWhitepaperPublicationParams,
-} from "@/lib/publications/get-whitepaper-publication-post";
+} from "@/lib/publications/whitepapers/get-post";
 import { buildGatingCookieName } from "@/lib/publications/gating";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import {

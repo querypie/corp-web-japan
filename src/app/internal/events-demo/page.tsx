@@ -12,7 +12,7 @@ import {
   ResourceListHeroTitle,
   ResourceListItems,
 } from "@/components/sections/resource-list-section";
-import { resolveInternalEventsDemoState } from "@/lib/publications/event-publication-records";
+import { resolveInternalEventsDemoState } from "@/lib/publications/events/records";
 
 export const metadata: Metadata = {
   title: "Internal Events Demo | QueryPie AI",

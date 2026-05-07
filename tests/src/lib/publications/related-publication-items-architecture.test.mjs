@@ -10,9 +10,9 @@ const sharedLoaderFiles = [
 ];
 
 const thinWrapperFiles = [
-  "src/lib/publications/get-news-publication-post.ts",
-  "src/lib/publications/get-publication-post.ts",
-  "src/lib/publications/get-whitepaper-publication-post.ts",
+  "src/lib/publications/blog/get-post.ts",
+  "src/lib/publications/news/get-post.ts",
+  "src/lib/publications/whitepapers/get-post.ts",
 ];
 
 test("all publication post loaders share one common related-items helper with explicit-related passthrough and same-category recent fallback", () => {
@@ -43,7 +43,7 @@ test("all publication post loaders share one common related-items helper with ex
     assert.doesNotMatch(source, /function buildRelatedItems/);
   }
 
-  const blogLoader = readSource("src/lib/publications/get-publication-post.ts");
+  const blogLoader = readSource("src/lib/publications/blog/get-post.ts");
   assert.doesNotMatch(blogLoader, /buildRelatedPublications/);
 
   const standardLoader = readSource("src/lib/publications/create-standard-publication-post-loader.ts");

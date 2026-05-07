@@ -3,7 +3,7 @@ import {
   getBlogPublicationRecord,
   type BlogPostFrontmatter,
   type BlogPostRecord,
-} from "@/lib/publications/blog-publication-records";
+} from "@/lib/publications/blog/records";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { createStandardPublicationPostLoader } from "@/lib/publications/create-standard-publication-post-loader";
 
@@ -11,7 +11,7 @@ export {
   getBlogPublicationRecord,
   listBlogPublicationIds,
   listBlogPublicationParams,
-} from "@/lib/publications/blog-publication-records";
+} from "@/lib/publications/blog/records";
 
 export const getBlogPublicationPost = createStandardPublicationPostLoader<
   BlogPostFrontmatter,

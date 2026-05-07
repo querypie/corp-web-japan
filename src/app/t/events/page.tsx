@@ -9,7 +9,7 @@ import {
   ResourceListHeroTitle,
   ResourceListItems,
 } from "@/components/sections/resource-list-section";
-import { listEventPublicationItems } from "@/lib/publications/event-publication-records";
+import { listEventPublicationItems } from "@/lib/publications/events/records";
 
 export const metadata: Metadata = {
   title: "イベント | QueryPie AI",

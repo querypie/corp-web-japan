@@ -3,7 +3,7 @@ import {
   getWhitepaperPublicationHref,
   getWhitepaperPublicationRecord,
   listWhitepaperPublicationIds,
-} from "@/lib/publications/get-whitepaper-publication-post";
+} from "@/lib/publications/whitepapers/get-post";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 
 type WhitepaperDetailIdPageProps = {

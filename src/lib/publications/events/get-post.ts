@@ -5,7 +5,7 @@ import {
   listEventPublicationParams,
   type EventPublicationFrontmatter,
   type EventPublicationRecord,
-} from "@/lib/publications/event-publication-records";
+} from "@/lib/publications/events/records";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import { createStandardPublicationPostLoader } from "@/lib/publications/create-standard-publication-post-loader";
 import { formatJapaneseDateFromIsoDate } from "@/lib/publications/format-japanese-date";

@@ -10,16 +10,16 @@ test("event preview page and canonical routes are driven by event MDX publicatio
   const idRoute = readSource("src/app/events/[id]/page.tsx");
   const legacyIdRoute = readSource("src/app/features/demo/webinars/[id]/route.ts");
   const legacySlugRoute = readSource("src/app/features/demo/webinars/[id]/[slug]/route.ts");
-  const loader = readSource("src/lib/publications/get-event-publication-post.ts");
-  const records = readSource("src/lib/publications/event-publication-records.ts");
+  const loader = readSource("src/lib/publications/events/get-post.ts");
+  const records = readSource("src/lib/publications/events/records.ts");
   const postPage = readSource("src/components/sections/publication-post-page.tsx");
 
   assert.equal(existsSync(new URL("../src/app/t/events/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/events/[id]/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/features/demo/webinars/[id]/route.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/features/demo/webinars/[id]/[slug]/route.ts", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/lib/publications/event-publication-records.ts", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/lib/publications/get-event-publication-post.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/lib/publications/events/records.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/lib/publications/events/get-post.ts", import.meta.url)), true);
 
   assert.match(previewPage, /listEventPublicationItems\(\)/);
   assert.match(previewPage, /canonical: "\/t\/events"/);

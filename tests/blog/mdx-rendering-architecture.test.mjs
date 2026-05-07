@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readSource } from "../helpers/source-readers.mjs";
 
 test("blog publication MDX uses an RSC evaluate renderer instead of compileMDX", () => {
-  const publicationLoader = readSource("src/lib/publications/get-publication-post.ts");
+  const publicationLoader = readSource("src/lib/publications/blog/get-post.ts");
   const packageJson = readSource("package.json");
 
   assert.doesNotMatch(publicationLoader, /compileMDX/);
@@ -38,7 +38,7 @@ test("blog detail page and publication page consume structured MDX toc data", ()
 
 test("blog publication metadata lives in MDX frontmatter instead of blog-posts.ts", () => {
   const renderer = readSource("src/lib/publications/mdx/renderer.ts");
-  const publicationLoader = readSource("src/lib/publications/get-publication-post.ts");
+  const publicationLoader = readSource("src/lib/publications/blog/get-post.ts");
   const standardPublicationLoader = readSource("src/lib/publications/create-standard-publication-post-loader.ts");
   const mdx21 = readSource("src/content/blog/21-why-we-need-ai-red-teaming.mdx");
   const mdx22 = readSource("src/content/blog/22-ai-agent-security-replit-case.mdx");

@@ -9,7 +9,7 @@ import {
   ResourceListHeroSection,
   ResourceListHeroTitle,
 } from "@/components/sections/resource-list-section";
-import { listWhitepaperPublicationItems } from "@/lib/publications/whitepaper-publication-records";
+import { listWhitepaperPublicationItems } from "@/lib/publications/whitepapers/records";
 import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
 export const metadata: Metadata = {

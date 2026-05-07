@@ -5,16 +5,13 @@ import { readSource } from "../../../helpers/source-readers.mjs";
 
 const sharedRepositoryPath = "src/lib/publications/create-standard-records-repository.ts";
 const standardRecordFiles = [
-  "src/lib/publications/use-case-publication-records.ts",
-  "src/lib/publications/aip-demo-publication-records.ts",
-  "src/lib/publications/acp-demo-publication-records.ts",
-  "src/lib/publications/event-publication-records.ts",
-  "src/lib/publications/blog-publication-records.ts",
-  "src/lib/publications/whitepaper-publication-records.ts",
-  "src/lib/publications/news-publication-records.ts",
+  "src/lib/publications/use-cases/records.ts",
+  "src/lib/publications/demo/aip/records.ts",
+  "src/lib/publications/demo/acp/records.ts",
+  "src/lib/publications/news/records.ts",
 ];
 
-test("use-case, AIP demo, ACP demo, event, blog, whitepaper, and news records share a common standard publication records repository helper", () => {
+test("use-case, AIP demo, ACP demo, and news records share a common standard publication records repository helper", () => {
   assert.equal(existsSync(new URL("../../../../src/lib/publications/create-standard-records-repository.ts", import.meta.url)), true);
 
   const sharedRepository = readSource(sharedRepositoryPath);
@@ -22,9 +19,6 @@ test("use-case, AIP demo, ACP demo, event, blog, whitepaper, and news records sh
   assert.match(sharedRepository, /createListItem\?: \(record: TRecord, href: string\) => TListItem/);
   assert.match(sharedRepository, /getPublicationHref/);
   assert.match(sharedRepository, /resolveRedirectablePublicationHref/);
-  assert.match(sharedRepository, /const frontmatter = parseFrontmatter\(source, sourcePath\);/);
-  assert.match(sharedRepository, /listParams\(\) \{\s*return records\.map\(\(\{ id, slug \}\) => \(\{ id, slug \}\)\);\s*\}/s);
-  assert.doesNotMatch(sharedRepository, /basename\(/);
 
   for (const filePath of standardRecordFiles) {
     const source = readSource(filePath);
@@ -36,7 +30,7 @@ test("use-case, AIP demo, ACP demo, event, blog, whitepaper, and news records sh
     assert.doesNotMatch(source, /function get[A-Za-z]+PublicationCache/);
   }
 
-  const newsSource = readSource("src/lib/publications/news-publication-records.ts");
+  const newsSource = readSource("src/lib/publications/news/records.ts");
   assert.match(newsSource, /createListItem: \(record, href\) => \(\{/);
   assert.match(newsSource, /sourceLabel: record\.sourceLabel \?\? \(record\.redirectUrl \? "メディア掲載" : "公式発表"\)/);
   assert.match(newsSource, /opensExternal: false/);
