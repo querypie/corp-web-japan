@@ -1,0 +1,244 @@
+{
+  "firewallEnabled": true,
+  "managedRules": {},
+  "ips": [],
+  "rules": [
+    {
+      "name": "Deny frontend config discovery probes",
+      "description": "Block known config and discovery probe paths at the edge so they do not reach the corp-web-japan hosting runtime.",
+      "active": true,
+      "conditionGroup": [
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/runtime-config.js"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/env.json"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/config.json"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/manifest.webmanifest"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/swagger.json"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/openapi.json"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/firebase-config.json"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/.well-known/jwks.json"
+            }
+          ]
+        }
+      ],
+      "action": {
+        "mitigate": {
+          "action": "deny"
+        }
+      }
+    },
+    {
+      "name": "Deny API and health endpoint probes",
+      "description": "Block recurring API, account, and health discovery probes at the edge so they do not produce runtime 404 noise.",
+      "active": true,
+      "conditionGroup": [
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/api/v1/config"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/api/v2/settings"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/api/health"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/health"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/api/account"
+            }
+          ]
+        }
+      ],
+      "action": {
+        "mitigate": {
+          "action": "deny"
+        }
+      }
+    },
+    {
+      "name": "Deny env and secret file probes",
+      "description": "Block common env and secret file probes at the edge instead of letting them reach the application runtime.",
+      "active": true,
+      "conditionGroup": [
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "pre",
+              "value": "/.env"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/backend/.env"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/api/.env"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/admin/.env"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "eq",
+              "value": "/config.env"
+            }
+          ]
+        }
+      ],
+      "action": {
+        "mitigate": {
+          "action": "deny"
+        }
+      }
+    },
+    {
+      "name": "Deny exploit and scanner probe prefixes",
+      "description": "Block obviously malicious exploit and scanner paths at the edge, including the specific wp-admin, .git, and .ssh probes seen in runtime logs.",
+      "active": true,
+      "conditionGroup": [
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "pre",
+              "value": "/wp-admin/"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "pre",
+              "value": "/.git/"
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "type": "path",
+              "op": "pre",
+              "value": "/.ssh/"
+            }
+          ]
+        }
+      ],
+      "action": {
+        "mitigate": {
+          "action": "deny"
+        }
+      }
+    }
+  ]
+}
