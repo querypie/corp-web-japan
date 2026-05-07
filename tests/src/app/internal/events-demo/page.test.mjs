@@ -16,6 +16,7 @@ test("/internal/events-demo shows the most recent event as a hero block and labe
   assert.match(source, /FeaturedEventHero/);
   assert.match(source, /eyebrow="Upcoming Event"/);
   assert.match(source, /ctaLabel="詳細を見る"/);
+  assert.match(source, /Past Events/);
   assert.match(source, /過去のイベント/);
   assert.match(source, /カンファレンスやセミナーのインサイトをご覧ください。/);
   assert.match(source, /<ResourceListItems items=\{eventItems\} \/>/);
