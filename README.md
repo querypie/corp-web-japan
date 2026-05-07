@@ -89,8 +89,8 @@ Blog and whitepaper lists are driven from local content source files.
 - Blog list items resolve to local canonical detail routes.
 - Whitepaper list items currently keep upstream `querypie.com/ja` hrefs for card destinations while the local detail routes exist for the new MDX-backed rendering flow.
 - For AI-agent execution, the repo-local publication skills are indexed in `.agents/skills/README.md`.
-- Use `.agents/skills/blog-posting/SKILL.md` when adding a blog post.
-- Use `.agents/skills/whitepaper-posting/SKILL.md` when adding a whitepaper post.
+- Load `.agents/skills/mdx-publication-operations/SKILL.md` first for public MDX publication maintenance.
+- Then load the narrowest matching family wrapper from `.agents/skills/` for the target content root.
 
 Whitepaper gating contract:
 
@@ -103,7 +103,7 @@ Whitepaper gating contract:
 
 1. Read this README for project context.
 2. Check `AGENTS.md` if you are an AI agent or need repository work rules.
-3. If your task is publication-content work, read `.agents/skills/README.md` and load the matching skill before editing.
+3. If your task is publication-content work, read `.agents/skills/README.md`, load `mdx-publication-operations` first for public MDX maintenance, then load the narrower family skill when one applies.
 4. Use the structured content under `src/content/` first when updating copy.
 5. Run the relevant verification commands before considering a change done.
 
@@ -151,7 +151,7 @@ Both humans and agents should remember:
 - `src/content/` is preferred for structured copy changes.
 - Repo-local AI agent skills belong under `.agents/skills/`.
 - `.agents/skills/README.md` is the local skill index.
-- Publication authoring should use `.agents/skills/blog-posting/SKILL.md` or `.agents/skills/whitepaper-posting/SKILL.md` as appropriate.
+- Publication authoring should load `.agents/skills/mdx-publication-operations/SKILL.md` first for public MDX maintenance, then load the narrowest matching family wrapper from `.agents/skills/`.
 - `npm run test:ci` is the standard baseline verification step.
 - `npm run build` is required for deployment-sensitive changes.
 - Working rules and execution details live in `AGENTS.md`.
