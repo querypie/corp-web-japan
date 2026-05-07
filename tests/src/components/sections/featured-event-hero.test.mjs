@@ -25,6 +25,7 @@ test("FeaturedEventHero separates box-link focus from CTA hover/focus behavior",
   assert.match(source, /pointer-events-none flex-col items-stretch/);
   assert.match(source, /pointer-events-auto inline-flex items-center rounded-lg bg-black/);
   assert.match(source, /peer-hover:scale-\[1\.02\]/);
+  assert.match(source, /peer-focus:scale-\[1\.02\]/);
   assert.match(source, /peer-focus-visible:scale-\[1\.02\]/);
   assert.match(source, /hover:scale-\[1\.03\] hover:bg-blue-600/);
   assert.match(source, /focus-visible:scale-\[1\.03\] focus-visible:bg-blue-600/);

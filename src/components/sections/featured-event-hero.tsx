@@ -40,7 +40,7 @@ export function FeaturedEventHero({
               alt={imageAlt}
               width={1200}
               height={675}
-              className="h-full w-full object-cover transition-transform duration-500 peer-hover:scale-[1.02] peer-focus-visible:scale-[1.02]"
+              className="h-full w-full object-cover transition-transform duration-500 peer-hover:scale-[1.02] peer-focus:scale-[1.02] peer-focus-visible:scale-[1.02]"
             />
           </div>
 
