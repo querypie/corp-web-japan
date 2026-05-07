@@ -113,6 +113,17 @@ A section counts as fully complete when:
 - the PR diff makes it obvious that *this specific section* is the completed outcome
 - the migrated section still appears in the same rendered page order relative to its neighboring sections as before the refactor
 
+Practical pattern confirmed on `/t/about-us` follow-up work:
+- even when a route is already technically route-local because everything lives in one `page.tsx`, it can still fail the intended readability standard if the page hides major content in large top-level data arrays such as `const timeline = [...]`, `const leaders = [...]`, or `const locations = [...]`
+- in that case, a valid refactor is to move those user-facing entries into direct JSX in `page.tsx` while extracting only UI/layout primitives into a dedicated section file such as `src/components/sections/about-us.tsx`
+- good outcome:
+  - `page.tsx` shows the real timeline entries, leader names/roles, and location copy directly
+  - the extracted section file owns card/grid/layout/image/link styling primitives only
+- add a narrow page-specific structure test that asserts both sides of the contract:
+  - `page.tsx` imports and composes the new section primitives directly
+  - the old top-level data arrays are gone from the route
+  - the new section module exports the intended UI primitive set
+
 ## Second-stage cleanup after a section is already route-local
 
 A route-local section can still deserve a follow-up refactor even after its copy ownership is already in `page.tsx`.
