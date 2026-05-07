@@ -21,9 +21,17 @@ test("event preview page and canonical routes are driven by event MDX publicatio
   assert.equal(existsSync(new URL("../src/lib/publications/events/records.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/lib/publications/events/get-post.ts", import.meta.url)), true);
 
-  assert.match(previewPage, /listEventPublicationItems\(\)/);
+  assert.match(previewPage, /resolveEventTimeline\(resolvedSearchParams\?\.asof\)/);
+  assert.match(previewPage, /searchParams\?: Promise<\{/);
+  assert.match(previewPage, /asof\?: string \| string\[];/);
   assert.match(previewPage, /canonical: "\/t\/events"/);
   assert.match(previewPage, /robots:\s*\{[\s\S]*index: false,[\s\S]*follow: false,[\s\S]*\}/);
+  assert.match(previewPage, /FeaturedEventHero/);
+  assert.match(previewPage, /InternalEventsDemoEmptyState/);
+  assert.match(previewPage, /Past Events/);
+  assert.match(previewPage, /過去のイベント/);
+  assert.match(previewPage, /<ResourceListItems items=\{pastEvents\} \/>/);
+  assert.doesNotMatch(previewPage, /InternalEventsDemoHeroToggle/);
 
   assert.match(listPage, /eventItems/);
   assert.match(listPage, /return notFound\(\);/);
