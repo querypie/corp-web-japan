@@ -65,7 +65,7 @@ export default async function InternalEventsDemoPage({ searchParams }: InternalE
               title={demoHeroEvent.title}
               description={demoHeroEvent.description}
               date={demoHeroEvent.date}
-              eyebrow="Hero Event Preview"
+              eyebrow="Upcoming Event"
               ctaLabel="詳細を見る"
             />
           ) : (
