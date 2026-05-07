@@ -32,14 +32,14 @@ test("whitepaper canonical download routes exist and use a dedicated gating-form
   assert.match(idPage, /redirect\(getWhitepaperPublicationDownloadHref\(id, record\.slug\)\)/);
 
   assert.match(slugPage, /listWhitepaperPublicationDownloadParams/);
-  assert.match(slugPage, /PREVIEW_NAVIGATION_COOKIE/);
-  assert.match(slugPage, /getPreviewNavigationState/);
-  assert.match(slugPage, /buildGatingCookieName\(contentKey\)/);
-  assert.match(slugPage, /if \(previewModeEnabled \|\| cookieStore\.has\(buildGatingCookieName\(contentKey\)\)\) \{/);
-  assert.match(slugPage, /redirect\(record\.downloadCta\.href\)/);
+  assert.match(slugPage, /buildGatingContentKey\("whitepaper", id\)/);
   assert.match(slugPage, /coverImageSrc=\{record\.downloadCoverImageSrc \?\? record\.heroImageSrc\}/);
   assert.match(slugPage, /downloadHref=\{record\.downloadCta\.href\}/);
   assert.match(slugPage, /robots: \{\s*index: false,\s*follow: false,\s*\}/s);
+
+  assert.doesNotMatch(slugPage, /PREVIEW_NAVIGATION_COOKIE/);
+  assert.doesNotMatch(slugPage, /buildGatingCookieName/);
+  assert.doesNotMatch(slugPage, /redirect\(record\.downloadCta\.href\)/);
 
   assert.match(gatePage, /fetch\("\/api\/gating-form\/unlock"/);
   assert.match(gatePage, /window\.location\.assign\(downloadHref\)/);
