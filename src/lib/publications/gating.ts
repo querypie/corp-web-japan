@@ -1,7 +1,7 @@
 import isProduction from "@/lib/is-production";
 
 export const GATING_CUT_MARKER = "<GatingCut />";
-const NON_PRODUCTION_GATING_MAX_AGE_SECONDS = 60 * 5;
+const NON_PRODUCTION_GATING_MAX_AGE_SECONDS = 60 * 15;
 const PRODUCTION_GATING_MAX_AGE_SECONDS = 60 * 60 * 48;
 
 function normalizeCookieSegment(value: string) {
