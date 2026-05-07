@@ -10,10 +10,11 @@ test("local official news detail pages are indexable and sitemap includes news d
 
   assert.match(newsDetailPage, /canonical:\s*absoluteUrl\(getNewsPublicationHref\(id, record\.slug\)\)/);
   assert.match(newsDetailPage, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
-  assert.match(newsDetailPage, /if \(record\.redirectUrl\) \{\s*return \{\s*robots:\s*\{\s*index: false,\s*follow: false,\s*\},\s*\};\s*\}/s);
+  assert.match(newsDetailPage, /shouldRedirectHumanVisitorFromRedirectablePublication/);
+  assert.match(newsDetailPage, /if \(record\.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication\(\)\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
 
   assert.match(sitemap, /newsPublicationRecords/);
-  assert.match(sitemap, /filter\(\(\{ redirectUrl \}\) => !redirectUrl\)/);
+  assert.doesNotMatch(sitemap, /newsPublicationRecords\s*\.filter\(\(\{ redirectUrl \}\) => !redirectUrl\)/s);
   assert.match(sitemap, /absoluteUrl\(getNewsPublicationHref\(id, slug\)\)/);
   assert.match(sitemap, /\.\.\.newsDetailRoutes/);
 });

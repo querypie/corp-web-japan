@@ -20,12 +20,15 @@ test("whitepaper publication list excludes only frontmatter-hidden records while
   assert.match(source, /getWhitepaperPublicationRecord\(id: string\) \{\s*return whitepaperPublicationRepository\.getRecord\(id\);\s*\}/s);
 });
 
-test("whitepaper detail routes redirect to a frontmatter redirectUrl before rendering the local post", () => {
+test("whitepaper redirect-backed detail routes redirect only human visitors while preserving local bot-rendered content paths", () => {
   const idOnlyRouteSource = readSource("src/app/whitepapers/[id]/page.tsx");
   const slugRouteSource = readSource("src/app/whitepapers/[id]/[slug]/page.tsx");
 
-  assert.match(idOnlyRouteSource, /if \(record\.redirectUrl\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
-  assert.match(slugRouteSource, /if \(record\.redirectUrl\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
+  assert.match(idOnlyRouteSource, /shouldRedirectHumanVisitorFromRedirectablePublication/);
+  assert.match(slugRouteSource, /shouldRedirectHumanVisitorFromRedirectablePublication/);
+  assert.match(idOnlyRouteSource, /if \(record\.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication\(\)\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
+  assert.match(slugRouteSource, /if \(record\.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication\(\)\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
+  assert.match(slugRouteSource, /if \(record\.redirectUrl\) \{[\s\S]*robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(slugRouteSource, /const post = await getWhitepaperPublicationPost\(id\);/);
 });
 

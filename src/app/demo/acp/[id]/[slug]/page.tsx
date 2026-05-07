@@ -9,6 +9,7 @@ import {
   getAcpDemoPublicationRecord,
   listAcpDemoPublicationParams,
 } from "@/lib/publications/get-acp-demo-publication-post";
+import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import { absoluteUrl } from "@/lib/site-url";
 
 type AcpDemoDetailPageProps = {
@@ -32,9 +33,14 @@ export async function generateMetadata({ params }: AcpDemoDetailPageProps): Prom
 
   if (record.redirectUrl) {
     return {
+      title: `${record.title} | QueryPie AI`,
+      description: record.description,
+      alternates: {
+        canonical: absoluteUrl(getAcpDemoPublicationHref(id, record.slug)),
+      },
       robots: {
-        index: false,
-        follow: false,
+        index: true,
+        follow: true,
       },
     };
   }
@@ -60,7 +66,7 @@ export default async function AcpDemoDetailPage({ params }: AcpDemoDetailPagePro
     notFound();
   }
 
-  if (record.redirectUrl) {
+  if (record.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication()) {
     redirect(record.redirectUrl);
   }
 

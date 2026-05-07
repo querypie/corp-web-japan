@@ -29,13 +29,15 @@ test("event preview page and canonical routes are driven by event MDX publicatio
   assert.match(listPage, /return notFound\(\);/);
 
   assert.match(canonicalRoute, /getEventPublicationRecord\(id\)/);
-  assert.match(canonicalRoute, /if \(record\.redirectUrl\) \{/);
+  assert.match(canonicalRoute, /shouldRedirectHumanVisitorFromRedirectablePublication/);
+  assert.match(canonicalRoute, /if \(record\.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication\(\)\) \{/);
   assert.match(canonicalRoute, /if \(record\.slug !== slug\) \{/);
   assert.match(canonicalRoute, /redirect\(getEventPublicationHref\(id, record\.slug\)\)/);
   assert.match(canonicalRoute, /const post = await getEventPublicationPost\(id\);/);
 
   assert.match(idRoute, /listEventPublicationIds\(\)/);
-  assert.match(idRoute, /if \(record\.redirectUrl\) \{/);
+  assert.match(idRoute, /shouldRedirectHumanVisitorFromRedirectablePublication/);
+  assert.match(idRoute, /if \(record\.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication\(\)\) \{/);
   assert.match(idRoute, /redirect\(getEventPublicationHref\(id, record\.slug\)\)/);
 
   assert.match(legacyIdRoute, /getEventPublicationRecord\(id\)/);
@@ -48,7 +50,6 @@ test("event preview page and canonical routes are driven by event MDX publicatio
   assert.match(legacySlugRoute, /destination\.search = request\.nextUrl\.search/);
   assert.match(legacySlugRoute, /NextResponse\.redirect\(destination, 307\)/);
 
-  assert.match(loader, /createStandardPublicationPostLoader/);
   assert.match(loader, /createStandardPublicationPostLoader/);
   assert.match(loader, /formatDate: formatJapaneseDateFromIsoDate/);
   assert.match(records, /src\/content\/events/);

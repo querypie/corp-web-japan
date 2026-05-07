@@ -4,6 +4,7 @@ import {
   getEventPublicationRecord,
   listEventPublicationIds,
 } from "@/lib/publications/get-event-publication-post";
+import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 
 type EventIdPageProps = {
   params: Promise<{
@@ -23,7 +24,7 @@ export default async function EventIdPage({ params }: EventIdPageProps) {
     notFound();
   }
 
-  if (record.redirectUrl) {
+  if (record.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication()) {
     redirect(record.redirectUrl);
   }
 

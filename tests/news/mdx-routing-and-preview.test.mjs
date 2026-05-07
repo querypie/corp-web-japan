@@ -46,13 +46,15 @@ test("news public page and canonical routes are driven by news MDX publication r
   assert.match(sectionComponents, /export function NewsFinalCtaAction/);
 
   assert.match(canonicalRoute, /getNewsPublicationRecord\(id\)/);
-  assert.match(canonicalRoute, /if \(record\.redirectUrl\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
+  assert.match(canonicalRoute, /shouldRedirectHumanVisitorFromRedirectablePublication/);
+  assert.match(canonicalRoute, /if \(record\.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication\(\)\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
   assert.match(canonicalRoute, /if \(record\.slug !== slug\) \{/);
   assert.match(canonicalRoute, /redirect\(getNewsPublicationHref\(id, record\.slug\)\)/);
   assert.match(canonicalRoute, /const post = await getNewsPublicationPost\(id\);/);
 
   assert.match(idRoute, /listNewsPublicationIds\(\)/);
-  assert.match(idRoute, /if \(record\.redirectUrl\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
+  assert.match(idRoute, /shouldRedirectHumanVisitorFromRedirectablePublication/);
+  assert.match(idRoute, /if \(record\.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication\(\)\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
   assert.match(idRoute, /redirect\(getNewsPublicationHref\(id, record\.slug\)\)/);
 
   assert.match(loader, /createStandardPublicationPostLoader/);

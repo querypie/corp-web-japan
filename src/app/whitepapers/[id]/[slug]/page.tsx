@@ -11,6 +11,7 @@ import {
   listWhitepaperPublicationParams,
 } from "@/lib/publications/get-whitepaper-publication-post";
 import { buildGatingCookieName } from "@/lib/publications/gating";
+import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import {
   getPreviewNavigationState,
   PREVIEW_NAVIGATION_COOKIE,
@@ -38,9 +39,14 @@ export async function generateMetadata({ params }: WhitepaperDetailPageProps): P
 
   if (record.redirectUrl) {
     return {
+      title: `${record.title} | QueryPie AI`,
+      description: record.description,
+      alternates: {
+        canonical: absoluteUrl(getWhitepaperPublicationHref(id, record.slug)),
+      },
       robots: {
-        index: false,
-        follow: false,
+        index: true,
+        follow: true,
       },
     };
   }
@@ -66,7 +72,7 @@ export default async function WhitepaperDetailPage({ params }: WhitepaperDetailP
     notFound();
   }
 
-  if (record.redirectUrl) {
+  if (record.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication()) {
     redirect(record.redirectUrl);
   }
 

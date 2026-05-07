@@ -4,6 +4,7 @@ import {
   getWhitepaperPublicationRecord,
   listWhitepaperPublicationIds,
 } from "@/lib/publications/get-whitepaper-publication-post";
+import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 
 type WhitepaperDetailIdPageProps = {
   params: Promise<{
@@ -23,7 +24,7 @@ export default async function WhitepaperDetailIdPage({ params }: WhitepaperDetai
     notFound();
   }
 
-  if (record.redirectUrl) {
+  if (record.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication()) {
     redirect(record.redirectUrl);
   }
 

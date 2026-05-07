@@ -4,6 +4,7 @@ import {
   getAipDemoPublicationRecord,
   listAipDemoPublicationIds,
 } from "@/lib/publications/get-aip-demo-publication-post";
+import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 
 type AipDemoDetailIdPageProps = {
   params: Promise<{
@@ -23,7 +24,7 @@ export default async function AipDemoDetailIdPage({ params }: AipDemoDetailIdPag
     notFound();
   }
 
-  if (record.redirectUrl) {
+  if (record.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication()) {
     redirect(record.redirectUrl);
   }
 
