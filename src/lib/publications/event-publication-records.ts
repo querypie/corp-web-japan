@@ -27,6 +27,68 @@ export type EventPublicationRecord = StandardPublicationRecord<EventPublicationF
 export type EventPublicationListItem = ResourceItem;
 
 const EVENT_POSTS_ROOT = path.join(process.cwd(), "src/content/events");
+const EVENT_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+function parseIsoCalendarDate(value: string) {
+  if (!EVENT_DATE_PATTERN.test(value)) {
+    return null;
+  }
+
+  const parsedDate = new Date(`${value}T00:00:00Z`);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return null;
+  }
+
+  return parsedDate.toISOString().slice(0, 10) === value ? value : null;
+}
+
+function getCurrentJstDate() {
+  const formatter = new Intl.DateTimeFormat("en", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
+  const parts = formatter.formatToParts(new Date());
+  const year = parts.find((part) => part.type === "year")?.value;
+  const month = parts.find((part) => part.type === "month")?.value;
+  const day = parts.find((part) => part.type === "day")?.value;
+
+  if (!year || !month || !day) {
+    throw new Error("Failed to derive the current JST date.");
+  }
+
+  return `${year}-${month}-${day}`;
+}
+
+function normalizeAsofDate(value?: string | string[]) {
+  const candidate = Array.isArray(value) ? value.at(0) : value;
+  const normalizedCandidate = candidate ? parseIsoCalendarDate(candidate) : null;
+
+  if (normalizedCandidate) {
+    return normalizedCandidate;
+  }
+
+  return getCurrentJstDate();
+}
+
+function getEffectiveEventDate(record: EventPublicationRecord) {
+  return record.eventDate ?? record.date;
+}
+
+function isUpcomingEvent(record: EventPublicationRecord, asofDate: string) {
+  return getEffectiveEventDate(record) >= asofDate;
+}
+
+function compareUpcomingEvents(left: EventPublicationRecord, right: EventPublicationRecord) {
+  return getEffectiveEventDate(left).localeCompare(getEffectiveEventDate(right)) || Number(right.id) - Number(left.id);
+}
+
+function comparePastEvents(left: EventPublicationRecord, right: EventPublicationRecord) {
+  return getEffectiveEventDate(right).localeCompare(getEffectiveEventDate(left)) || Number(right.id) - Number(left.id);
+}
 
 function normalizeEventPublicationFrontmatter(value: unknown, sourcePath: string): EventPublicationFrontmatter {
   if (!value || typeof value !== "object") {
@@ -43,6 +105,10 @@ function normalizeEventPublicationFrontmatter(value: unknown, sourcePath: string
   const eventLabelValue = frontmatter.eventLabel;
   const hideHeroImageOnDetailValue = frontmatter.hideHeroImageOnDetail;
   const redirectUrlValue = frontmatter.redirectUrl;
+
+  if (typeof eventDateValue === "string" && !parseIsoCalendarDate(eventDateValue)) {
+    throw new Error(`Invalid eventDate in ${sourcePath}: ${eventDateValue}`);
+  }
 
   return {
     id: String(frontmatter.id ?? ""),
@@ -79,14 +145,43 @@ const eventPublicationRepository = createStandardPublicationRecordsRepository<Ev
     badge: record.eventLabel ?? "イベント",
     title: record.title,
     description: record.description,
-    date: formatJapaneseDateFromIsoDate(record.date),
+    date: formatJapaneseDateFromIsoDate(getEffectiveEventDate(record)),
   }),
 });
+
+const eventListItemsById = new Map(eventPublicationRepository.listItems.map((item) => [item.id, item]));
+
+function getEventListItem(record: EventPublicationRecord): EventPublicationListItem {
+  const item = eventListItemsById.get(record.id);
+
+  if (!item) {
+    throw new Error(`Missing event list item for event ${record.id}`);
+  }
+
+  return item;
+}
 
 export const eventPublicationRecords = eventPublicationRepository.records;
 
 export function listEventPublicationItems(): readonly EventPublicationListItem[] {
   return eventPublicationRepository.listItems;
+}
+
+export function resolveEventTimeline(asof?: string | string[]) {
+  const asofDate = normalizeAsofDate(asof);
+  const visibleRecords = eventPublicationRecords.filter((record) => !record.hidden);
+  const upcomingEvents = visibleRecords.filter((record) => isUpcomingEvent(record, asofDate)).sort(compareUpcomingEvents);
+  const heroEvent = upcomingEvents.at(0) ? getEventListItem(upcomingEvents.at(0)!) : null;
+  const pastEvents = visibleRecords
+    .filter((record) => !isUpcomingEvent(record, asofDate))
+    .sort(comparePastEvents)
+    .map((record) => getEventListItem(record));
+
+  return {
+    asofDate,
+    heroEvent,
+    pastEvents,
+  };
 }
 
 export function listEventPublicationParams() {

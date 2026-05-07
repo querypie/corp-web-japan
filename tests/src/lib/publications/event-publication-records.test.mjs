@@ -1,0 +1,26 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
+import { readSource } from "../../../helpers/source-readers.mjs";
+
+test("event publication records expose eventDate-aware timeline helpers", () => {
+  const file = "src/lib/publications/event-publication-records.ts";
+  const source = readSource(file);
+
+  assert.equal(existsSync(new URL("../../../../src/lib/publications/event-publication-records.ts", import.meta.url)), true);
+  assert.match(source, /eventDate\?: string;/);
+  assert.match(source, /const EVENT_DATE_PATTERN = \/\^\\d\{4\}-\\d\{2\}-\\d\{2\}\$\//);
+  assert.match(source, /function parseIsoCalendarDate\(value: string\)/);
+  assert.match(source, /function getCurrentJstDate\(\)/);
+  assert.match(source, /function normalizeAsofDate\(/);
+  assert.match(source, /return parsedDate\.toISOString\(\)\.slice\(0, 10\) === value \? value : null/);
+  assert.match(source, /function getEffectiveEventDate\(/);
+  assert.match(source, /function isUpcomingEvent\(/);
+  assert.match(source, /export function resolveEventTimeline\(/);
+  assert.match(source, /const normalizedCandidate = candidate \? parseIsoCalendarDate\(candidate\) : null/);
+  assert.match(source, /if \(typeof eventDateValue === "string" && !parseIsoCalendarDate\(eventDateValue\)\)/);
+  assert.match(source, /date: formatJapaneseDateFromIsoDate\(getEffectiveEventDate\(record\)\)/);
+  assert.match(source, /return getEffectiveEventDate\(record\) >= asofDate/);
+  assert.match(source, /const heroEvent = upcomingEvents\.at\(0\) \? getEventListItem\(upcomingEvents\.at\(0\)!\) : null/);
+  assert.match(source, /const pastEvents = visibleRecords/);
+});

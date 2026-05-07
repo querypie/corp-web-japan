@@ -10,7 +10,7 @@ import {
   ResourceListHeroTitle,
   ResourceListItems,
 } from "@/components/sections/resource-list-section";
-import { listEventPublicationItems } from "@/lib/publications/event-publication-records";
+import { resolveEventTimeline } from "@/lib/publications/event-publication-records";
 
 export const metadata: Metadata = {
   title: "Internal Events Demo | QueryPie AI",
@@ -23,9 +23,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function InternalEventsDemoPage() {
-  const eventItems = await listEventPublicationItems();
-  const [heroEvent] = eventItems;
+type InternalEventsDemoPageProps = {
+  searchParams?: Promise<{
+    asof?: string | string[];
+  }>;
+};
+
+export default async function InternalEventsDemoPage({ searchParams }: InternalEventsDemoPageProps) {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const { heroEvent, pastEvents } = resolveEventTimeline(resolvedSearchParams?.asof);
 
   return (
     <main className="relative bg-white text-slate-950">
@@ -65,7 +71,7 @@ export default async function InternalEventsDemoPage() {
               </div>
             </div>
 
-            <ResourceListItems items={eventItems} />
+            <ResourceListItems items={pastEvents} />
           </section>
         </div>
       </ResourceListContentSection>
