@@ -4,23 +4,54 @@ import { existsSync } from "node:fs";
 import { readSource } from "../../../helpers/source-readers.mjs";
 
 const sharedRepositoryPath = "src/lib/publications/create-standard-records-repository.ts";
+
 const standardRecordFiles = [
-  "src/lib/publications/use-cases/records.ts",
-  "src/lib/publications/demo/aip/records.ts",
-  "src/lib/publications/demo/acp/records.ts",
-  "src/lib/publications/news/records.ts",
+  {
+    filePath: "src/lib/publications/use-cases/records.ts",
+  },
+  {
+    filePath: "src/lib/publications/demo/aip/records.ts",
+  },
+  {
+    filePath: "src/lib/publications/demo/acp/records.ts",
+  },
+  {
+    filePath: "src/lib/publications/events/records.ts",
+    expectedMatches: [
+      /getListItemBadge: \(record\) => record\.eventLabel \?\? "イベント"/,
+      /createListItem: \(record, href\) => \(\{/,
+      /date: formatJapaneseDateFromIsoDate\(getEffectiveEventDate\(record\)\)/,
+    ],
+  },
+  {
+    filePath: "src/lib/publications/blog/records.ts",
+  },
+  {
+    filePath: "src/lib/publications/whitepapers/records.ts",
+    expectedMatches: [/getListItemDescription: \(record\) => record\.listDescription \?\? record\.description/],
+  },
+  {
+    filePath: "src/lib/publications/news/records.ts",
+    expectedMatches: [
+      /createListItem: \(record, href\) => \(\{/,
+      /sourceLabel: record\.sourceLabel \?\? \(record\.redirectUrl \? "メディア掲載" : "公式発表"\)/,
+      /opensExternal: false/,
+    ],
+  },
 ];
 
-test("use-case, AIP demo, ACP demo, and news records share a common standard publication records repository helper", () => {
+test("all current records-helper adopters on main share the common standard publication records repository helper", () => {
   assert.equal(existsSync(new URL("../../../../src/lib/publications/create-standard-records-repository.ts", import.meta.url)), true);
 
   const sharedRepository = readSource(sharedRepositoryPath);
   assert.match(sharedRepository, /export function createStandardPublicationRecordsRepository/);
   assert.match(sharedRepository, /createListItem\?: \(record: TRecord, href: string\) => TListItem/);
+  assert.match(sharedRepository, /getListItemBadge\?: \(record: TRecord\) => string/);
+  assert.match(sharedRepository, /getListItemDescription\?: \(record: TRecord\) => string/);
   assert.match(sharedRepository, /getPublicationHref/);
   assert.match(sharedRepository, /resolveRedirectablePublicationHref/);
 
-  for (const filePath of standardRecordFiles) {
+  for (const { filePath, expectedMatches = [] } of standardRecordFiles) {
     const source = readSource(filePath);
 
     assert.match(source, /createStandardPublicationRecordsRepository/);
@@ -28,10 +59,9 @@ test("use-case, AIP demo, ACP demo, and news records share a common standard pub
     assert.doesNotMatch(source, /function load[A-Za-z]+PublicationRecords/);
     assert.doesNotMatch(source, /function create[A-Za-z]+PublicationCache/);
     assert.doesNotMatch(source, /function get[A-Za-z]+PublicationCache/);
-  }
 
-  const newsSource = readSource("src/lib/publications/news/records.ts");
-  assert.match(newsSource, /createListItem: \(record, href\) => \(\{/);
-  assert.match(newsSource, /sourceLabel: record\.sourceLabel \?\? \(record\.redirectUrl \? "メディア掲載" : "公式発表"\)/);
-  assert.match(newsSource, /opensExternal: false/);
+    for (const expectedMatch of expectedMatches) {
+      assert.match(source, expectedMatch);
+    }
+  }
 });
