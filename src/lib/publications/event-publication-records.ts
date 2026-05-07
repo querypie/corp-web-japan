@@ -1,9 +1,9 @@
-import * as fs from "node:fs";
 import * as path from "node:path";
-import { parse as parseYaml } from "yaml";
 import type { ResourceItem } from "@/content/resources";
-import { getPublicationHref } from "@/lib/publications/get-publication-href";
-import { resolveRedirectablePublicationHref } from "@/lib/publications/resolve-redirectable-publication-href";
+import {
+  createStandardPublicationRecordsRepository,
+  type StandardPublicationRecord,
+} from "@/lib/publications/create-standard-records-repository";
 
 export type EventPublicationFrontmatter = {
   id: string;
@@ -20,20 +20,11 @@ export type EventPublicationFrontmatter = {
   relatedIds: readonly string[];
 };
 
-export type EventPublicationRecord = EventPublicationFrontmatter & {
-  sourcePath: string;
-};
+export type EventPublicationRecord = StandardPublicationRecord<EventPublicationFrontmatter>;
 
 export type EventPublicationListItem = ResourceItem;
 
-type EventPublicationCache = {
-  records: readonly EventPublicationRecord[];
-  recordsById: ReadonlyMap<string, EventPublicationRecord>;
-  listItems: readonly EventPublicationListItem[];
-};
-
 const EVENT_POSTS_ROOT = path.join(process.cwd(), "src/content/events");
-let eventPublicationCache: Readonly<EventPublicationCache> | null = null;
 
 function normalizeEventPublicationFrontmatter(value: unknown, sourcePath: string): EventPublicationFrontmatter {
   if (!value || typeof value !== "object") {
@@ -71,80 +62,28 @@ function normalizeEventPublicationFrontmatter(value: unknown, sourcePath: string
   };
 }
 
-function parseEventPublicationFrontmatter(source: string, sourcePath: string): EventPublicationFrontmatter {
-  const match = source.match(/^---\n([\s\S]*?)\n---\n?/);
-  if (!match) {
-    throw new Error(`Missing frontmatter block in ${sourcePath}`);
-  }
+const eventPublicationRepository = createStandardPublicationRecordsRepository<EventPublicationFrontmatter>({
+  contentRoot: EVENT_POSTS_ROOT,
+  category: "event",
+  badge: "イベント",
+  normalizeFrontmatter: normalizeEventPublicationFrontmatter,
+  getListItemBadge: (record) => record.eventLabel ?? "イベント",
+});
 
-  return normalizeEventPublicationFrontmatter(parseYaml(match[1]), sourcePath);
-}
-
-function loadEventPublicationRecords(): EventPublicationRecord[] {
-  return fs
-    .readdirSync(EVENT_POSTS_ROOT)
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => {
-      const sourcePath = path.join(EVENT_POSTS_ROOT, file);
-      const source = fs.readFileSync(sourcePath, "utf8");
-      const frontmatter = parseEventPublicationFrontmatter(source, sourcePath);
-
-      return {
-        ...frontmatter,
-        sourcePath,
-      };
-    })
-    .sort((left, right) => Number(right.id) - Number(left.id));
-}
-
-function createEventPublicationCache(): Readonly<EventPublicationCache> {
-  const records = Object.freeze(loadEventPublicationRecords().map((record) => Object.freeze({ ...record })));
-  const recordsById = new Map<string, EventPublicationRecord>(records.map((record) => [record.id, record]));
-  const visibleRecords = records.filter((record) => !record.hidden);
-  const listItems = Object.freeze(
-    visibleRecords.map((record) =>
-      Object.freeze({
-        id: record.id,
-        href: resolveRedirectablePublicationHref(record.redirectUrl, getPublicationHref("event", record.id, record.slug)),
-        imageSrc: record.heroImageSrc,
-        badge: record.eventLabel ?? "イベント",
-        title: record.title,
-        description: record.description,
-        date: record.date,
-      }),
-    ),
-  );
-
-  return Object.freeze({
-    records,
-    recordsById,
-    listItems,
-  });
-}
-
-function getEventPublicationCache(): Readonly<EventPublicationCache> {
-  if (eventPublicationCache) {
-    return eventPublicationCache;
-  }
-
-  eventPublicationCache = Object.freeze(createEventPublicationCache());
-  return eventPublicationCache;
-}
-
-export const eventPublicationRecords = getEventPublicationCache().records;
+export const eventPublicationRecords = eventPublicationRepository.records;
 
 export function listEventPublicationItems(): readonly EventPublicationListItem[] {
-  return getEventPublicationCache().listItems;
+  return eventPublicationRepository.listItems;
 }
 
 export function listEventPublicationParams() {
-  return getEventPublicationCache().records.map(({ id, slug }) => ({ id, slug }));
+  return eventPublicationRepository.listParams();
 }
 
 export function listEventPublicationIds() {
-  return getEventPublicationCache().records.map(({ id }) => ({ id }));
+  return eventPublicationRepository.listIds();
 }
 
 export function getEventPublicationRecord(id: string) {
-  return getEventPublicationCache().recordsById.get(id) ?? null;
+  return eventPublicationRepository.getRecord(id);
 }
