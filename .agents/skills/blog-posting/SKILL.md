@@ -68,7 +68,7 @@ relatedIds:
 
 Notes:
 - `id` must be a string and must be unique.
-- Use the next available numeric filename and `id`, for example `src/content/blog/30.mdx`.
+- Use the next available numeric `id` and keep the filename route-readable, for example `src/content/blog/30-example-slug.mdx`.
 - `slug` becomes the canonical route suffix.
 - `author` is optional in the loader, but use it when a matching author exists in `src/content/authors/ja.yaml`.
 - `relatedIds` should list existing local blog IDs as strings.
