@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../../../../helpers/source-readers.mjs";
 
-test("/internal/events-demo classifies upcoming and past events from the asof query", () => {
+test("/internal/events-demo supports asof-based timelines and an internal upcoming-event hero toggle", () => {
   const file = "src/app/internal/events-demo/page.tsx";
   const source = readSource(file);
 
@@ -13,10 +13,17 @@ test("/internal/events-demo classifies upcoming and past events from the asof qu
   assert.match(source, /index:\s*false/);
   assert.match(source, /follow:\s*false/);
   assert.match(source, /searchParams\?: Promise<\{/);
-  assert.match(source, /asof\?: string \| string\[\];/);
+  assert.match(source, /asof\?: string \| string\[];/);
+  assert.match(source, /upcoming\?: string \| string\[];/);
   assert.match(source, /resolveEventTimeline\(/);
+  assert.match(source, /resolveShowUpcomingEvent/);
   assert.match(source, /heroEvent/);
   assert.match(source, /pastEvents/);
+  assert.match(source, /InternalEventsDemoHeroToggle/);
+  assert.match(source, /disabled=\{!heroEvent\}/);
+  assert.match(source, /showUpcomingEvent && heroEvent/);
+  assert.match(source, /FeaturedEventHero/);
+  assert.match(source, /InternalEventsDemoEmptyState/);
   assert.match(source, /eyebrow="Upcoming Event"/);
   assert.match(source, /ctaLabel="詳細を見る"/);
   assert.match(source, /Past Events/);

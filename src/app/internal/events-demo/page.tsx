@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { FeaturedEventHero } from "@/components/sections/featured-event-hero";
+import { InternalEventsDemoEmptyState } from "@/components/sections/internal-events-demo-empty-state";
+import { InternalEventsDemoHeroToggle } from "@/components/sections/internal-events-demo-hero-toggle";
 import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
 import {
   ResourceListContentSection,
@@ -26,29 +28,41 @@ export const metadata: Metadata = {
 type InternalEventsDemoPageProps = {
   searchParams?: Promise<{
     asof?: string | string[];
+    upcoming?: string | string[];
   }>;
 };
+
+function resolveShowUpcomingEvent(upcoming: string | string[] | undefined) {
+  const value = Array.isArray(upcoming) ? upcoming[0] : upcoming;
+  return value !== "none";
+}
 
 export default async function InternalEventsDemoPage({ searchParams }: InternalEventsDemoPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const { heroEvent, pastEvents } = resolveEventTimeline(resolvedSearchParams?.asof);
+  const showUpcomingEvent = heroEvent ? resolveShowUpcomingEvent(resolvedSearchParams?.upcoming) : false;
 
   return (
     <main className="relative bg-white text-slate-950">
       <SiteHeader />
 
       <ResourceListHeroSection>
-        <ResourceListHeroTitle>Internal Events Demo</ResourceListHeroTitle>
-        <ResourceListHeroDescription>
-          This demo page lets you preview the list composition on an internal-only route using the real event publication data before updating the events index page.
-        </ResourceListHeroDescription>
+        <div className="flex flex-col items-center gap-5">
+          <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-5">
+            <ResourceListHeroTitle className="whitespace-normal">Internal Events Demo</ResourceListHeroTitle>
+            <InternalEventsDemoHeroToggle showUpcomingEvent={showUpcomingEvent} disabled={!heroEvent} />
+          </div>
+          <ResourceListHeroDescription className="max-w-[920px]">
+            This demo page lets you preview the list composition on an internal-only route using the real event publication data before updating the events index page.
+          </ResourceListHeroDescription>
+        </div>
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
         <ResourceCategorySidebar activeLabel="イベント" />
 
         <div className="min-w-0 flex-1">
-          {heroEvent ? (
+          {showUpcomingEvent && heroEvent ? (
             <FeaturedEventHero
               href={heroEvent.href}
               imageSrc={heroEvent.imageSrc}
@@ -60,7 +74,9 @@ export default async function InternalEventsDemoPage({ searchParams }: InternalE
               eyebrow="Upcoming Event"
               ctaLabel="詳細を見る"
             />
-          ) : null}
+          ) : (
+            <InternalEventsDemoEmptyState />
+          )}
 
           <section className="mt-12 lg:mt-16">
             <div className="mb-8 border-b border-slate-200 pb-4">
