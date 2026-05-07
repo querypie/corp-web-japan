@@ -34,6 +34,8 @@ export default function ManualsPage() {
         <ResourceListHeroTitle>マニュアル</ResourceListHeroTitle>
         <ResourceListHeroDescription>
           リリースノート、管理者マニュアル、ユーザーマニュアル、API Docs など、QueryPie の導入・運用・活用に役立つ主要ドキュメントをまとめてご覧いただけます。
+          <br />
+          製品の設定方法から日々の利用手順、最新アップデート情報まで、必要な情報を目的に応じてすばやく確認できます。
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 
