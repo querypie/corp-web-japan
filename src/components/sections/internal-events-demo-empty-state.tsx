@@ -1,8 +1,14 @@
 export function InternalEventsDemoEmptyState() {
   return (
-    <section className="relative mb-16 min-h-[400px] overflow-hidden border-b border-slate-100 bg-white">
-      <div className="flex min-h-[400px] items-center justify-center px-6 py-16 text-center md:px-10">
-        <div className="relative z-10 mx-auto max-w-4xl">
+    <section
+      className="relative mb-16 min-h-[240px] overflow-hidden rounded-lg border border-slate-200 bg-white"
+      style={{
+        backgroundImage:
+          "linear-gradient(45deg, transparent calc(50% - 0.5px), #f4efe6 calc(50% - 0.5px), #f4efe6 calc(50% + 0.5px), transparent calc(50% + 0.5px)), linear-gradient(-45deg, transparent calc(50% - 0.5px), #f4efe6 calc(50% - 0.5px), #f4efe6 calc(50% + 0.5px), transparent calc(50% + 0.5px))",
+      }}
+    >
+      <div className="flex min-h-[240px] items-center justify-center px-6 py-12 text-center md:px-10">
+        <div className="relative z-10 mx-auto max-w-4xl bg-white/88 px-6 py-4 backdrop-blur-[1px]">
           <div className="mb-4 inline-flex h-12 w-12 items-center justify-center text-slate-300">
             <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
               <rect x="3.75" y="5.25" width="16.5" height="15" rx="2.25" />
