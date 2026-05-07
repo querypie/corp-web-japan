@@ -1,29 +1,32 @@
-# Publication Records Refactor Status and Follow-up Plan
+# Publication Records Refactor Status and Remaining Work
 
-> For Hermes: this memo supersedes the original PR #270 phase-1 note. It records the latest `main` baseline after the subsequent publication-helper refactors through PR #293 and defines the next recommended follow-up sequence.
+> For Hermes: this memo replaces the older phase-oriented note with a latest-`main` baseline. It should describe what is already true on `main`, not preserve the state of the original phase-1 PR.
 
 ## Goal
 
-Keep the publication helper refactor readable, incremental, and aligned with the latest `main` branch instead of preserving an outdated “phase 1 only” snapshot.
+Keep the publication helper architecture documented against the current `main` implementation so future refactors do not restart from stale assumptions.
 
-## Latest main baseline
+## Current latest-main baseline
 
-The original PR #270 introduced the first shared records helper:
+The publication refactor is no longer at an early phase.
+As of the current `main`, the helper rollout has already crossed these boundaries:
+
+- shared records repository extraction
+- shared related-items extraction
+- shared standard post-loader extraction
+- dedicated gated whitepaper post-loader extraction
+- category-local publication file paths
+
+This means the older follow-up plan that treated news/blog post-loader migration, whitepaper boundary isolation, and category-local path cleanup as future work is now outdated.
+
+## Current helper layout on `main`
+
+### 1. Shared records repository helper
+
+Shared helper:
 - `src/lib/publications/create-standard-records-repository.ts`
 
-That baseline has already been expanded on `main` by later PRs:
-- PR #277: event records migrated to the shared records helper
-- PR #278: shared post-loader extracted as `create-standard-publication-post-loader.ts`
-- PR #279: blog records migrated to the shared records helper
-- PR #280: whitepaper records migrated to the shared records helper
-- PR #281: news records migrated to the shared records helper
-- PR #293: related-items behavior unified behind `build-related-publication-items.ts`
-
-As of the latest `main`, the refactor status is:
-
-### Shared records helper adopters
-
-These record modules now use `createStandardPublicationRecordsRepository(...)`:
+Current adopters:
 - `src/lib/publications/use-cases/records.ts`
 - `src/lib/publications/demo/aip/records.ts`
 - `src/lib/publications/demo/acp/records.ts`
@@ -32,209 +35,93 @@ These record modules now use `createStandardPublicationRecordsRepository(...)`:
 - `src/lib/publications/whitepapers/records.ts`
 - `src/lib/publications/news/records.ts`
 
-The shared records helper now owns:
-- frontmatter block parsing
+Current helper responsibilities:
+- frontmatter block detection
 - YAML parsing
 - content-root scanning
 - `sourcePath` attachment
-- numeric id sorting
-- hidden-record filtering
+- descending numeric-id sorting
+- hidden-record filtering for list pages
 - redirect-aware href derivation
 - default resource-card list item construction
-- custom list item construction via `createListItem(...)`
-- `records`, `listItems`, `listParams`, `listIds`, and `getRecord`
+- custom list item construction via `createListItem(record, href)`
+- description override via `getListItemDescription(record)`
+- badge override via `getListItemBadge(record)`
+- precomputed `records`, `listItems`, `listParams`, `listIds`, and `getRecord`
 
-### Shared related-items helper adopters
+Current category-specific extension points in wrappers:
+- frontmatter normalization per category
+- whitepaper list-description override via `getListItemDescription(...)`
+- news custom list-item shape via `createListItem(...)`
+- event badge selection via `getListItemBadge(...)`
 
-These publication post loaders now use `buildRelatedPublicationItems(...)`:
-- `src/lib/publications/create-standard-publication-post-loader.ts`
-- `src/lib/publications/blog/get-post.ts`
-- `src/lib/publications/news/get-post.ts`
-- `src/lib/publications/whitepapers/get-post.ts`
+### 2. Shared related-items helper
 
-The shared related-items helper now owns:
+Shared helper:
+- `src/lib/publications/build-related-publication-items.ts`
+
+Current helper responsibilities:
 - explicit `relatedIds` passthrough exactly as authored
-- same-category fallback to the most recent three other records
 - self-id exclusion
-- redirect-aware href derivation for related cards
+- same-category fallback to the most recent three other records
+- redirect-aware href derivation for related items
+- optional date formatting passthrough from the loader layer
 
-This matters because PR #293 also narrowed the current contract explicitly:
-- `relatedIds: string[]` is currently category-local
-- cross-publication related entries are not part of the current helper contract
-- any future cross-publication related system should be a separate schema change, not an incidental option added to the current helper line
+Current consumers:
+- `src/lib/publications/create-standard-publication-post-loader.ts`
+- `src/lib/publications/create-gated-publication-post-loader.ts`
 
-### Shared post-loader adopters
+The category-local post-loader wrappers no longer own their own related-items builders.
 
-These post loaders now use `createStandardPublicationPostLoader(...)`:
+### 3. Shared standard post-loader helper
+
+Shared helper:
+- `src/lib/publications/create-standard-publication-post-loader.ts`
+
+Current adopters:
 - `src/lib/publications/use-cases/get-post.ts`
 - `src/lib/publications/demo/aip/get-post.ts`
 - `src/lib/publications/demo/acp/get-post.ts`
 - `src/lib/publications/events/get-post.ts`
+- `src/lib/publications/news/get-post.ts`
+- `src/lib/publications/blog/get-post.ts`
 
-The shared post-loader now owns:
-- body-source caching
+Current helper responsibilities:
+- body-source caching and reading
 - MDX rendering
 - author resolution for registered authors
 - TOC extraction
-- final `PublicationPost` assembly for the standard non-gated path
-- integration with the shared same-category related-items helper
+- final `PublicationPost` assembly for the non-gated path
+- integration with `buildRelatedPublicationItems(...)`
+- optional date formatting hook
 
-## What is still intentionally separate
+### 4. Dedicated gated post-loader helper for whitepapers
 
-The remaining non-shared post loaders are:
-- `src/lib/publications/blog/get-post.ts` (blog)
-- `src/lib/publications/news/get-post.ts`
+Shared helper:
+- `src/lib/publications/create-gated-publication-post-loader.ts`
+
+Current adopter:
 - `src/lib/publications/whitepapers/get-post.ts`
 
-Those files are still separate for understandable reasons, but PR #293 changed why they remain separate.
-The remaining differences are now mostly about loader assembly shape, not about the related-items contract.
-
-### Blog post loader
-
-`get-publication-post.ts` no longer has a special related-items path.
-After PR #293, it already uses the same `buildRelatedPublicationItems(...)` contract as the other post loaders.
-
-Its remaining custom logic is mostly:
-- local body-source caching and reading
-- local author assembly inline in the loader file
-- direct `PublicationPost` assembly in the category-specific file
-
-That means blog is no longer blocked on any cross-publication related-items generalization.
-If cross-publication related links are ever needed later, they should come back only with a new frontmatter schema rather than by reopening the current `relatedIds` contract.
-
-### News post loader
-
-`get-news-publication-post.ts` is still the smallest and clearest next post-loader migration target.
-
-Its remaining custom logic is mostly:
-- local `readNewsPublicationBodySource(...)`
-- local author assembly inline in the loader file
-- direct `PublicationPost` assembly in the category-specific file
-
-Unlike whitepaper, news does not currently have a gating split or a different content-render pipeline.
-That keeps news as the strongest next candidate for post-loader unification.
-
-### Whitepaper post loader
-
-`get-whitepaper-publication-post.ts` still owns real category-specific behavior:
-- `<GatingCut />` splitting
+Current helper responsibilities:
+- body-source caching and reading
+- `<GatingCut />` source splitting
 - preview/full/gated render branching
 - gated content-key generation
-- TOC extraction from the preview source when gated
+- TOC extraction from the preview source for gated content
+- final `PublicationPost` assembly for the gated path
+- integration with `buildRelatedPublicationItems(...)`
 
-PR #293 removed the related-items discrepancy here too, but it did not reduce the actual gating-specific loader complexity.
-Whitepaper should therefore remain explicit until the gating boundary is extracted deliberately.
-It should not be forced into the current standard helper by adding ad hoc conditionals.
+This is an important architecture boundary on current `main`:
+whitepaper is no longer “still separate and waiting for a decision” at the top level.
+The decision has already been made to isolate gating-specific behavior in a dedicated helper rather than forcing it into the standard helper.
 
-## Current gaps in the supporting docs and tests
+### 5. Category-local path cleanup is already done
 
-The helper rollout on `main` has advanced faster than the original architecture memo, and the support artifacts are still uneven.
-
-Notable follow-up gaps:
-- `tests/src/lib/publications/records-repository-architecture.test.mjs` still documents only a subset of the current records-helper adopters.
-- There is now a `tests/src/lib/publications/related-publication-items-architecture.test.mjs`, but this memo still needs to explain how that helper fits into the broader refactor sequence.
-- The current architecture docs still do not describe the latest helper rollout sequence through PR #293 as one coherent baseline.
-- There is still no single up-to-date plan that distinguishes:
-  - records-layer unification status
-  - related-items contract unification status
-  - post-loader unification status
-  - path-cleanup work that should happen only after helper boundaries stabilize
-
-## Recommended follow-up order
-
-### Phase 2A: align docs and helper-architecture coverage
-
-Objective:
-- make the documentation and architecture tests describe the actual latest-`main` state before the next refactor starts
-
-Recommended scope:
-- update `tests/src/lib/publications/records-repository-architecture.test.mjs`
-- keep `tests/src/lib/publications/standard-publication-post-loader-architecture.test.mjs` aligned with the current helper adopters
-- keep `tests/src/lib/publications/related-publication-items-architecture.test.mjs` aligned with the current helper contract
-- keep this plan document as the canonical baseline for the next publication-helper refactor PRs
-
-Acceptance signals:
-- the architecture tests clearly identify every current helper adopter in their respective layer
-- the plan document no longer describes pre-PR-293 related-items behavior as unresolved
-- the plan document no longer describes event/blog/whitepaper/news as future work at the records layer
-
-### Phase 2B: migrate the news post loader to the shared post-loader
-
-Objective:
-- make `get-news-publication-post.ts` a thin wrapper around `createStandardPublicationPostLoader(...)`
-
-Why this should come next:
-- news already shares the same non-gated MDX render path
-- PR #293 already removed its local related-items builder
-- its remaining duplication is mechanical rather than architectural
-
-Expected file set:
-- `src/lib/publications/create-standard-publication-post-loader.ts`
-- `src/lib/publications/news/get-post.ts`
-- `tests/news/mdx-routing-and-preview.test.mjs`
-- `tests/src/lib/publications/standard-publication-post-loader-architecture.test.mjs`
-
-Preferred implementation direction:
-- first check whether news can migrate with the current helper API exactly as-is
-- if not, add the smallest explicit hook needed for news rather than introducing a broad abstraction jump
-- avoid adding whitepaper-oriented complexity at this step
-
-Done criteria:
-- `get-news-publication-post.ts` no longer owns local body-source reading
-- `get-news-publication-post.ts` no longer owns inline author assembly
-- route behavior stays unchanged
-
-### Phase 2C: migrate blog to the shared post-loader if the current API still fits
-
-Objective:
-- pull blog onto the shared post-loader now that PR #293 removed the old related-items divergence
-
-Expected file set:
-- `src/lib/publications/create-standard-publication-post-loader.ts`
-- `src/lib/publications/blog/get-post.ts`
-- `tests/blog/canonical-slug-routing.test.mjs`
-- `tests/blog/frontmatter-visibility-and-redirect.test.mjs`
-- `tests/src/lib/publications/standard-publication-post-loader-architecture.test.mjs`
-
-Preferred implementation direction:
-- first test whether blog can migrate with the current helper API exactly as-is
-- if a small explicit hook is still needed, keep it narrowly scoped to loader assembly concerns rather than reopening related-items semantics
-- do not reintroduce `buildRelatedPublications(...)`-style cross-publication logic under the current `relatedIds` schema
-
-Guardrails:
-- keep the current category-local `relatedIds` contract intact
-- if future product requirements need cross-publication related links, handle that as a separate schema/change-set with explicit typing
-- prefer one small loader-shape hook over a large “everything is configurable” helper surface
-
-### Phase 2D: decide the whitepaper isolation boundary explicitly
-
-Objective:
-- determine whether whitepaper should remain a dedicated loader or whether its gated rendering should be extracted into a dedicated lower-level helper
-
-Recommended decision rule:
-- if the only meaningful whitepaper-specific difference remains the gated render split, extract a whitepaper-specific gated-render helper and keep the top-level loader thin
-- if the gated flow still dominates the full loader shape, keep whitepaper separate and document it as a deliberate exception
-
-Expected file set if refactored:
-- `src/lib/publications/whitepapers/get-post.ts`
-- `src/lib/publications/gating.ts`
-- optionally a new helper such as `src/lib/publications/create-gated-publication-post-loader.ts`
-- whitepaper routing / gating tests only
-
-Guardrails:
-- do not mix whitepaper gating logic into the standard non-gated loader with category conditionals
-- do not combine this step with any path-renaming work
-
-### Phase 2E: perform category-local path cleanup only after helper boundaries settle
-
-Objective:
-- shorten the flat publication-helper filenames without creating another intermediate naming churn later
-
-This should happen only after the records, related-items, and post-loader boundaries are stable.
-
-Recommended target layout:
+Current category-local paths already exist on `main`:
 - `src/lib/publications/blog/records.ts`
 - `src/lib/publications/blog/get-post.ts`
+- `src/lib/publications/blog/items.ts`
 - `src/lib/publications/news/records.ts`
 - `src/lib/publications/news/get-post.ts`
 - `src/lib/publications/whitepapers/records.ts`
@@ -248,42 +135,142 @@ Recommended target layout:
 - `src/lib/publications/demo/acp/records.ts`
 - `src/lib/publications/demo/acp/get-post.ts`
 
-Why this is last:
-- the current flat filenames are verbose, but stable
-- renaming before helper convergence would multiply import churn across several PRs
-- the path cleanup should reflect the final helper boundaries, not the pre-refactor intermediate state
+The old flat filenames are already gone.
+Path cleanup should no longer be listed as upcoming work in this plan.
 
-## What not to do in the next PR
+## Current architecture-test baseline
 
-Do not combine all remaining publication-helper work into one broad “final cleanup” PR.
+Relevant architecture / structure tests currently present on `main`:
+- `tests/src/lib/publications/records-repository-architecture.test.mjs`
+- `tests/src/lib/publications/standard-publication-post-loader-architecture.test.mjs`
+- `tests/src/lib/publications/gated-publication-post-loader-architecture.test.mjs`
+- `tests/src/lib/publications/related-publication-items-architecture.test.mjs`
+- `tests/src/lib/publications/category-local-paths.test.mjs`
 
-Avoid bundling together:
-- docs/test alignment
-- news post-loader migration
-- blog post-loader migration
-- whitepaper gating extraction
-- category-local path renames
+What these already cover well:
+- standard post-loader adoption includes use-cases, AIP demo, ACP demo, event, news, and blog
+- whitepaper gating is isolated behind a dedicated gated helper
+- related-items logic is centralized behind one helper
+- category-local file paths exist and legacy flat files are removed
 
-Those are separate review concerns and should remain reviewable as separate steps.
+What is still uneven:
+- `tests/src/lib/publications/records-repository-architecture.test.mjs` currently asserts only a subset of the records-helper adopters (`use-cases`, `demo/aip`, `demo/acp`, `news`)
+- the same repo already has `events`, `blog`, and `whitepapers` on the shared records helper, but that broader baseline is not described in that specific architecture test
 
-Do not reopen cross-publication related-items design inside the current helper line.
-If that product requirement returns later, it should be proposed as an explicit schema change rather than smuggled in as a helper option.
+That gap is now more about documentation / architecture-test framing than about product behavior.
+
+## What is no longer remaining work
+
+The following items should not be described as pending anymore:
+
+- migrate news post loader to the shared standard post-loader
+- migrate blog post loader to the shared standard post-loader
+- decide whether whitepaper should remain separate or gain a dedicated helper
+- perform category-local path cleanup after helper boundaries stabilize
+
+All of those are already reflected in the current codebase.
+
+## Remaining work
+
+There is no obvious mandatory “Phase 2” product-facing refactor left in this helper line.
+The remaining tasks are narrower and should be treated as cleanup / maintenance work.
+
+### Remaining task A: align the records-helper architecture test with the actual helper baseline
+
+Objective:
+- make `tests/src/lib/publications/records-repository-architecture.test.mjs` match the real latest-`main` records-helper adoption story
+
+Why this matters:
+- the codebase already uses the records helper for `events`, `blog`, and `whitepapers`
+- the current test still reads like an earlier intermediate milestone
+- future readers can misinterpret that as “the rest are still pending” even though the code already moved on
+
+Preferred direction:
+- either expand that test to cover every current records-helper adopter
+- or explicitly rename / narrow its purpose so it is clear that it validates only the custom-extension subset rather than the full adopter list
+
+Guardrail:
+- do not rewrite route-behavior tests just to make the architecture test broader
+- keep this as structure/documentation alignment, not feature work
+
+### Remaining task B: keep the current low-level loader duplication as-is unless it grows materially
+
+Current duplication still visible between:
+- `src/lib/publications/create-standard-publication-post-loader.ts`
+- `src/lib/publications/create-gated-publication-post-loader.ts`
+
+Duplicated concerns currently include:
+- body-source cache setup and file reading
+- author-building logic
+- some top-level `PublicationPost` assembly shape
+
+Current decision:
+- keep this duplication as-is for now
+- do not schedule an immediate helper-internal deduplication PR
+
+Rationale:
+- the duplication is currently limited to two small top-level helpers
+- the standard and gated flows are intentionally distinct and still read clearly in their current form
+- introducing another abstraction layer now would likely add indirection without enough payoff
+
+Future trigger for reconsideration:
+- if a third loader style appears
+- if both helpers continue to grow in parallel
+- if the duplicated low-level code expands materially beyond the current scope
+
+If that future trigger is hit, the preferred follow-up remains small and low-level only, for example:
+- shared `buildPublicationAuthor(...)`
+- shared body-source cache / reader utility
+- a tiny lower-level post-base assembler that does not mix gated and non-gated branching into one helper
+
+Guardrails:
+- do not collapse standard and gated flows back into one mega-helper
+- do not reintroduce category conditionals for whitepaper gating into the standard loader
+- keep the current “two top-level helpers, one non-gated and one gated” boundary unless future growth makes a narrowly scoped extraction clearly worthwhile
+
+### Remaining task C: keep this memo as a latest-main status memo, not another stale phase note
+
+Objective:
+- whenever the helper architecture changes again, update this document so it continues to reflect the current baseline rather than a historical slice
+
+Practical rule:
+- if a future PR changes helper adoption or helper boundaries, update this memo in the same PR
+- do not create another follow-up plan that describes already-landed migrations as if they were still hypothetical
+
+## Recommended next-step order
+
+If follow-up work is requested, the safest order is:
+
+1. documentation / architecture-test alignment for the records-helper baseline
+2. otherwise stop and keep the current architecture stable
+3. revisit low-level loader deduplication only if future growth materially increases the duplicated code surface
+
+## What not to do next
+
+Do not open another broad “finish publication helper refactor” task that bundles together:
+- architecture-test alignment
+- helper-internal deduplication
+- unrelated path churn
+- any new related-items schema redesign
+
+Also do not reopen cross-publication related-items design inside the current helper line.
+The current contract is category-local `relatedIds`, and any cross-publication relationship system should be introduced only as a separate schema change.
 
 ## Verification guidance
 
 For docs-only updates like this memo:
-- verify the file content against the latest `main` implementation and helper adopters through PR #293
+- verify the statements directly against the latest `main` helper files and architecture tests
 
-For future code follow-up PRs:
-- run the narrow architecture tests for the helper layer being changed
-- run the category routing tests for the affected publication family
+For future helper-maintenance work:
+- run the architecture test for the helper layer being changed
+- run the affected publication-family routing tests
 - run `npx tsc --noEmit --pretty false` when helper signatures change
 
 ## Expected outcome
 
-After the next follow-up sequence:
-- the records-layer refactor history is documented accurately through PR #293
-- the related-items contract boundary is explicit
-- the next post-loader target is unambiguous (`news` first)
-- blog and whitepaper follow-up work have explicit boundaries instead of an implied “just share more” direction
-- path cleanup is deferred until the helper architecture stops moving
+After this memo update:
+- the plan matches the real latest-`main` helper architecture
+- already-completed refactors are no longer presented as future work
+- the only active follow-up task is architecture-test alignment for the records-helper baseline
+- low-level standard/gated loader duplication is explicitly kept as-is for now and revisited only if it grows materially
+- future follow-up work can start from the real current baseline instead of a stale mid-refactor snapshot
