@@ -25,6 +25,7 @@ export type StandardPublicationRecord<TFrontmatter extends StandardPublicationFr
 type CreateStandardPublicationRecordsRepositoryConfig<
   TFrontmatter extends StandardPublicationFrontmatter,
   TRecord extends StandardPublicationRecord<TFrontmatter>,
+  TListItem,
 > = {
   contentRoot: string;
   category: PublicationCategory;
@@ -32,15 +33,17 @@ type CreateStandardPublicationRecordsRepositoryConfig<
   normalizeFrontmatter: (value: unknown, sourcePath: string) => TFrontmatter;
   createRecord?: (frontmatter: TFrontmatter, sourcePath: string) => TRecord;
   getListItemBadge?: (record: TRecord) => string;
+  createListItem?: (record: TRecord, href: string) => TListItem;
   getListItemDescription?: (record: TRecord) => string;
 };
 
 type StandardPublicationRecordsRepository<
   TFrontmatter extends StandardPublicationFrontmatter,
   TRecord extends StandardPublicationRecord<TFrontmatter>,
+  TListItem,
 > = {
   records: readonly TRecord[];
-  listItems: readonly ResourceItem[];
+  listItems: readonly TListItem[];
   listParams: () => Array<{ id: string; slug: string }>;
   listIds: () => Array<{ id: string }>;
   getRecord: (id: string) => TRecord | null;
@@ -49,9 +52,10 @@ type StandardPublicationRecordsRepository<
 export function createStandardPublicationRecordsRepository<
   TFrontmatter extends StandardPublicationFrontmatter,
   TRecord extends StandardPublicationRecord<TFrontmatter> = StandardPublicationRecord<TFrontmatter>,
+  TListItem = ResourceItem,
 >(
-  config: CreateStandardPublicationRecordsRepositoryConfig<TFrontmatter, TRecord>,
-): StandardPublicationRecordsRepository<TFrontmatter, TRecord> {
+  config: CreateStandardPublicationRecordsRepositoryConfig<TFrontmatter, TRecord, TListItem>,
+): StandardPublicationRecordsRepository<TFrontmatter, TRecord, TListItem> {
   const parseFrontmatter = (source: string, sourcePath: string) => {
     const match = source.match(/^---\n([\s\S]*?)\n---\n?/);
     if (!match) {
@@ -85,20 +89,26 @@ export function createStandardPublicationRecordsRepository<
   const recordsById = new Map<string, TRecord>(records.map((record) => [record.id, record]));
   const visibleRecords = records.filter((record) => !record.hidden);
   const listItems = Object.freeze(
-    visibleRecords.map((record) =>
-      Object.freeze({
+    visibleRecords.map((record) => {
+      const href = resolveRedirectablePublicationHref(
+        record.redirectUrl,
+        getPublicationHref(config.category, record.id, record.slug),
+      );
+
+      if (config.createListItem) {
+        return Object.freeze(config.createListItem(record, href));
+      }
+
+      return Object.freeze({
         id: record.id,
-        href: resolveRedirectablePublicationHref(
-          record.redirectUrl,
-          getPublicationHref(config.category, record.id, record.slug),
-        ),
+        href,
         imageSrc: record.heroImageSrc,
         badge: config.getListItemBadge?.(record) ?? config.badge,
         title: record.title,
         description: config.getListItemDescription?.(record) ?? record.description,
         date: record.date,
-      }),
-    ),
+      } as TListItem);
+    }),
   );
 
   return {

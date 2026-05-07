@@ -26,6 +26,7 @@ test("all MDX publication record lists resolve hrefs through the redirectUrl con
   const sharedRepositoryFiles = new Set([
     "src/lib/publications/blog-publication-records.ts",
     "src/lib/publications/whitepaper-publication-records.ts",
+    "src/lib/publications/news-publication-records.ts",
     "src/lib/publications/use-case-publication-records.ts",
     "src/lib/publications/aip-demo-publication-records.ts",
     "src/lib/publications/acp-demo-publication-records.ts",
