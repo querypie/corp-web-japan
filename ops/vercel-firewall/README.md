@@ -54,6 +54,35 @@ The current file blocks these clusters:
    - `/.git/*`
    - `/.ssh/*`
 
+## Rule count and why this file is structured this way
+
+Vercel Pricing currently documents the following custom WAF rule limits:
+
+- Hobby: up to 3 custom firewall rules
+- Pro: up to 40 custom firewall rules
+- Enterprise: up to 1,000 custom firewall rules
+
+The current `corp-web-japan.firewall.json` file uses 4 custom rules total:
+
+1. `Deny frontend config discovery probes`
+2. `Deny API and health endpoint probes`
+3. `Deny env and secret file probes`
+4. `Deny exploit and scanner probe prefixes`
+
+Why this file keeps 4 broader rules instead of many tiny rules:
+
+- Rule-count efficiency: on Pro, the practical limit is the number of custom rules, not the number of path conditions inside a rule. Grouping related paths into one rule leaves plenty of headroom under the 40-rule limit.
+- Reviewability: each rule maps to one operational noise family, so reviewers can understand the intent quickly.
+- Safer maintenance: explicit exact-path and prefix conditions are easier to audit than over-broad wildcard-like patterns.
+- Runtime-log goal alignment: the purpose is not to preserve `404` for these probe paths; it is to stop obvious probes at the edge before they reach the hosting runtime.
+- Future flexibility: this leaves room to add separate allow, challenge, rate-limit, or product-specific rules later without immediately pressuring the Pro plan limit.
+
+Why the env-probe group is not compressed further:
+
+- The root `/.env*` family is already covered by a single prefix condition.
+- The remaining nested `.env` paths are kept explicit for readability.
+- Compressing them into regex-style matching would not materially reduce the custom rule count, because they already live inside one rule.
+
 ## Query the current live firewall config
 
 Use the Vercel CLI API command:
