@@ -97,6 +97,22 @@ test("demo category sidebar owns both public and preview demo links and sidebar 
   assert.match(source, /ResourceListSidebarNav label="Sidebar Navigation"/);
 });
 
+test("mobile sidebar block-list pattern removes horizontal overflow and uses a multi-column layout", () => {
+  const sectionSource = readSource("src/components/sections/resource-list-section.tsx");
+  const resourceSidebarSource = readSource("src/components/sections/resource-category-sidebar.tsx");
+  const demoSidebarSource = readSource("src/components/sections/demo-category-sidebar.tsx");
+
+  assert.doesNotMatch(sectionSource, /overflow-x-auto \[scrollbar-width:none\] \[&::-webkit-scrollbar\]:hidden lg:overflow-visible/);
+  assert.doesNotMatch(sectionSource, /flex min-w-max gap-3 lg:min-w-0 lg:flex-col lg:gap-0/);
+  assert.match(sectionSource, /grid grid-cols-2 gap-3 lg:flex lg:flex-col lg:gap-0/);
+  assert.match(sectionSource, /flex w-full items-center justify-center rounded-\[12px\] px-4 py-3\.5 text-center/);
+  assert.match(sectionSource, /block lg:hidden/);
+  assert.match(sectionSource, /hidden lg:block/);
+
+  assert.match(resourceSidebarSource, /ResourceListSidebarViewport/);
+  assert.match(demoSidebarSource, /ResourceListSidebarViewport/);
+});
+
 test("shared ResourceListPage wrapper component has been removed", () => {
   assert.equal(existsSync(new URL("../src/components/sections/resource-list-page.tsx", import.meta.url)), false);
 });

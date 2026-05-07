@@ -86,19 +86,23 @@ export function ResourceListSidebarLabel({ children }: { children: ReactNode }) 
 }
 
 export function ResourceListSidebarViewport({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <div className={`overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:overflow-visible ${className}`.trim()}>{children}</div>;
+  return <div className={`block lg:hidden ${className}`.trim()}>{children}</div>;
+}
+
+export function ResourceListSidebarDesktop({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
+  return <div className={`hidden lg:block ${className}`.trim()}>{children}</div>;
 }
 
 export function ResourceListSidebarNav({ children, className = "", label }: { children: ReactNode; label?: string } & ClassNameProps) {
   return (
-    <nav aria-label={label} className={`flex lg:block ${className}`.trim()}>
+    <nav aria-label={label} className={`block ${className}`.trim()}>
       {children}
     </nav>
   );
 }
 
 export function ResourceListSidebarList({ children }: { children: ReactNode }) {
-  return <ul className="flex min-w-max gap-3 lg:min-w-0 lg:flex-col lg:gap-0">{children}</ul>;
+  return <ul className="grid grid-cols-2 gap-3 lg:flex lg:flex-col lg:gap-0">{children}</ul>;
 }
 
 export function ResourceListSidebarItem({ children }: { children: ReactNode }) {
@@ -113,7 +117,7 @@ export function ResourceListSidebarLink({
   return (
     <Link
       href={href}
-      className={`inline-flex rounded-[12px] px-4 py-3.5 text-[15px] leading-[1.467] transition lg:block lg:rounded-none lg:px-0 lg:py-0 ${
+      className={`flex w-full items-center justify-center rounded-[12px] px-4 py-3.5 text-center text-[15px] leading-[1.467] transition lg:block lg:rounded-none lg:px-0 lg:py-0 lg:text-left ${
         active
           ? "bg-[#15181d] font-medium text-white lg:bg-transparent lg:text-[#15181d]"
           : "bg-[#f9f9fb] font-normal text-slate-700 hover:text-slate-950 lg:bg-transparent lg:text-slate-950"

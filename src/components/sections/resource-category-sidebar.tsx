@@ -5,6 +5,7 @@ import {
 } from "@/lib/preview-navigation";
 import {
   ResourceListSidebar,
+  ResourceListSidebarDesktop,
   ResourceListSidebarItem,
   ResourceListSidebarLabel,
   ResourceListSidebarLink,
@@ -48,22 +49,27 @@ export async function ResourceCategorySidebar({ activeLabel, links }: ResourceCa
   const { enabled: previewModeEnabled } = getPreviewNavigationState(previewCookieValue);
   const resolvedLinks = links ?? getDefaultResourceCategorySidebarLinks(previewModeEnabled);
 
+  const renderSidebarList = () => (
+    <ResourceListSidebarList>
+      {resolvedLinks.map((link) => (
+        <ResourceListSidebarItem key={link.label}>
+          <ResourceListSidebarLink href={link.href} active={link.label === activeLabel} label={link.label}>
+            {link.label}
+          </ResourceListSidebarLink>
+        </ResourceListSidebarItem>
+      ))}
+    </ResourceListSidebarList>
+  );
+
   return (
     <ResourceListSidebar>
       <ResourceListSidebarLabel>カテゴリー</ResourceListSidebarLabel>
       <ResourceListSidebarViewport>
-        <ResourceListSidebarNav label="Sidebar Navigation">
-          <ResourceListSidebarList>
-            {resolvedLinks.map((link) => (
-              <ResourceListSidebarItem key={link.label}>
-                <ResourceListSidebarLink href={link.href} active={link.label === activeLabel} label={link.label}>
-                  {link.label}
-                </ResourceListSidebarLink>
-              </ResourceListSidebarItem>
-            ))}
-          </ResourceListSidebarList>
-        </ResourceListSidebarNav>
+        <ResourceListSidebarNav label="Sidebar Navigation">{renderSidebarList()}</ResourceListSidebarNav>
       </ResourceListSidebarViewport>
+      <ResourceListSidebarDesktop>
+        <ResourceListSidebarNav label="Sidebar Navigation">{renderSidebarList()}</ResourceListSidebarNav>
+      </ResourceListSidebarDesktop>
     </ResourceListSidebar>
   );
 }
