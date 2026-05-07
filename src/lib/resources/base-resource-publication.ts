@@ -32,6 +32,25 @@ export abstract class BaseResourcePublicationRepository {
 
     const frontmatter = value as Record<string, unknown>;
     const relatedItemsValue = Array.isArray(frontmatter.relatedItems) ? frontmatter.relatedItems : [];
+    const downloadCtaValue = frontmatter.downloadCta;
+    const downloadCta =
+      downloadCtaValue && typeof downloadCtaValue === "object"
+        ? (() => {
+            const candidate = downloadCtaValue as Record<string, unknown>;
+            const href = typeof candidate.href === "string" ? candidate.href : "";
+            const label = typeof candidate.label === "string" ? candidate.label : "";
+
+            if (!href || !label) {
+              return undefined;
+            }
+
+            return {
+              href,
+              label,
+              external: candidate.external === true,
+            };
+          })()
+        : undefined;
 
     return {
       id: String(frontmatter.id ?? ""),
@@ -41,6 +60,7 @@ export abstract class BaseResourcePublicationRepository {
       heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
       date: typeof frontmatter.date === "string" ? frontmatter.date : undefined,
       gated: frontmatter.gated === true,
+      downloadCta,
       relatedItems: relatedItemsValue.map((item) => {
         const related = item as Record<string, unknown>;
         return {
