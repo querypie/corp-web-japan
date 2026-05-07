@@ -7,6 +7,8 @@ import {
 import { eventPostRecords, getEventPostHref } from "@/content/resources/events";
 import { getAcpDemoPublicationHref } from "@/lib/publications/get-acp-demo-publication-post";
 import { getAipDemoPublicationHref } from "@/lib/publications/get-aip-demo-publication-post";
+import { getNewsPublicationHref } from "@/lib/publications/get-news-publication-post";
+import { newsPublicationRecords } from "@/lib/publications/news-publication-records";
 import { getUseCasePublicationHref } from "@/lib/publications/get-use-case-publication-post";
 import { listIntroductionDeckPublicationParams } from "@/lib/resources/introduction-deck-publications";
 import { listGlossaryPublicationParams } from "@/lib/resources/glossary-publications";
@@ -93,6 +95,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  const newsDetailRoutes: MetadataRoute.Sitemap = newsPublicationRecords
+    .filter(({ redirectUrl }) => !redirectUrl)
+    .map(({ id, slug }) => ({
+      url: absoluteUrl(getNewsPublicationHref(id, slug)),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }));
+
   const useCaseDetailRoutes: MetadataRoute.Sitemap = useCasePublicationRecords.map(({ id, slug }) => ({
     url: absoluteUrl(getUseCasePublicationHref(id, slug)),
     changeFrequency: "monthly",
@@ -132,6 +142,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...staticRoutes,
     ...eventDetailRoutes,
+    ...newsDetailRoutes,
     ...useCaseDetailRoutes,
     ...aipDemoDetailRoutes,
     ...acpDemoDetailRoutes,
