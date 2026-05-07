@@ -61,7 +61,7 @@ export function FeaturedEventHero({
               <span className="text-sm font-medium text-slate-400">{date}</span>
               <Link
                 href={href}
-                className="pointer-events-auto inline-flex items-center rounded-lg bg-black px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(15,23,42,0.18)] transition-all hover:scale-[1.03] hover:bg-[#1E3A8A] hover:shadow-[0_10px_22px_rgba(30,58,138,0.20)] focus-visible:scale-[1.03] focus-visible:bg-[#1E3A8A] focus-visible:shadow-[0_10px_22px_rgba(30,58,138,0.20)] focus-visible:outline-none"
+                className="pointer-events-auto inline-flex items-center rounded-lg bg-black px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(15,23,42,0.18)] transition-all hover:scale-[1.03] hover:bg-[#1E3A8A] hover:shadow-[0_0_0_1px_rgba(30,58,138,0.10),0_10px_24px_rgba(30,58,138,0.24)] focus-visible:scale-[1.03] focus-visible:bg-[#1E3A8A] focus-visible:shadow-[0_0_0_1px_rgba(30,58,138,0.10),0_10px_24px_rgba(30,58,138,0.24)] focus-visible:outline-none"
               >
                 {ctaLabel}
               </Link>

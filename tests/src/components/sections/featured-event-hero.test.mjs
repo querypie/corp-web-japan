@@ -29,7 +29,7 @@ test("FeaturedEventHero separates box-link focus from CTA hover/focus behavior w
   assert.match(source, /pointer-events-auto inline-flex items-center rounded-lg bg-black/);
   assert.match(source, /hover:scale-\[1\.03\] hover:bg-\[#1E3A8A\]/);
   assert.match(source, /focus-visible:scale-\[1\.03\] focus-visible:bg-\[#1E3A8A\]/);
-  assert.match(source, /shadow-\[0_10px_22px_rgba\(30,58,138,0\.20\)\]/);
+  assert.match(source, /shadow-\[0_0_0_1px_rgba\(30,58,138,0\.10\),0_10px_24px_rgba\(30,58,138,0\.24\)\]/);
   assert.doesNotMatch(source, /hover:ring-/);
   assert.doesNotMatch(source, /focus-visible:ring-.*blue/);
 });
