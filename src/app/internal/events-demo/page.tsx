@@ -57,7 +57,6 @@ export default async function InternalEventsDemoPage() {
           ) : null}
 
           <section className="mt-12 lg:mt-16">
-          <section className="mt-12 lg:mt-16">
             <div className="mb-8 border-b border-slate-200 pb-4">
               <p className="text-sm font-medium uppercase tracking-[0.18em] text-slate-500">Past Events</p>
               <div className="mt-2 flex flex-col gap-2 lg:flex-row lg:items-baseline lg:gap-4">
