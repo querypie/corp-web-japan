@@ -16,10 +16,22 @@ function isExternalPublicationHref(href: string) {
   return /^https?:\/\//.test(href);
 }
 
+function isDocumentNavigationDownloadHref(href: string) {
+  return href.startsWith("/") && href.endsWith("/download");
+}
+
 function PublicationDownloadCta({ downloadCta }: { downloadCta: PublicationPostDownloadCta }) {
-  if (downloadCta.external || isExternalPublicationHref(downloadCta.href)) {
+  if (
+    downloadCta.external ||
+    isExternalPublicationHref(downloadCta.href) ||
+    isDocumentNavigationDownloadHref(downloadCta.href)
+  ) {
+    const externalProps = downloadCta.external || isExternalPublicationHref(downloadCta.href)
+      ? { target: "_blank", rel: "noopener noreferrer" as const }
+      : {};
+
     return (
-      <a href={downloadCta.href} className="article-content-btn" target="_blank" rel="noopener noreferrer">
+      <a href={downloadCta.href} className="article-content-btn" {...externalProps}>
         {downloadCta.label}
       </a>
     );

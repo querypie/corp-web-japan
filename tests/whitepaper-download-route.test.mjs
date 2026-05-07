@@ -52,3 +52,17 @@ test("whitepaper canonical download routes exist and use a dedicated gating-form
 
   assert.match(previewUnlockRoute, /buildGatingCookieName/);
 });
+
+test("whitepaper article download CTA uses full document navigation for local /download routes instead of Next client navigation", () => {
+  const publicationPage = readSource("src/components/sections/publication-post-page.tsx");
+
+  assert.match(publicationPage, /function isDocumentNavigationDownloadHref\(href: string\) \{/);
+  assert.match(publicationPage, /return href\.startsWith\("\/"\) && href\.endsWith\("\/download"\);/);
+  assert.match(
+    publicationPage,
+    /downloadCta\.external\s*\|\|\s*isExternalPublicationHref\(downloadCta\.href\)\s*\|\|\s*isDocumentNavigationDownloadHref\(downloadCta\.href\)/s,
+  );
+  assert.match(publicationPage, /const externalProps = downloadCta\.external \|\| isExternalPublicationHref\(downloadCta\.href\)/);
+  assert.match(publicationPage, /<a href=\{downloadCta\.href\} className="article-content-btn" \{\.\.\.externalProps\}>/);
+  assert.match(publicationPage, /<Link href=\{downloadCta\.href\} className="article-content-btn">/);
+});
