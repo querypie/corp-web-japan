@@ -4,13 +4,13 @@ import {
   getPreviewNavigationState,
 } from "@/lib/preview-navigation";
 import {
+  ResourceListMobileSidebarDrawer,
   ResourceListSidebar,
   ResourceListSidebarItem,
   ResourceListSidebarLabel,
   ResourceListSidebarLink,
   ResourceListSidebarList,
   ResourceListSidebarNav,
-  ResourceListSidebarViewport,
   type ResourceCategoryLink,
 } from "@/components/sections/resource-list-section";
 
@@ -41,22 +41,27 @@ export async function DemoCategorySidebar({ activeLabel, links }: DemoCategorySi
   const { enabled: previewModeEnabled } = getPreviewNavigationState(previewCookieValue);
   const resolvedLinks = links ?? getDefaultDemoCategorySidebarLinks(previewModeEnabled);
 
+  const renderSidebarList = () => (
+    <ResourceListSidebarList>
+      {resolvedLinks.map((link) => (
+        <ResourceListSidebarItem key={link.label}>
+          <ResourceListSidebarLink href={link.href} active={link.label === activeLabel} label={link.label}>
+            {link.label}
+          </ResourceListSidebarLink>
+        </ResourceListSidebarItem>
+      ))}
+    </ResourceListSidebarList>
+  );
+
   return (
     <ResourceListSidebar>
       <ResourceListSidebarLabel>デモカテゴリー</ResourceListSidebarLabel>
-      <ResourceListSidebarViewport>
-        <ResourceListSidebarNav label="Sidebar Navigation">
-          <ResourceListSidebarList>
-            {resolvedLinks.map((link) => (
-              <ResourceListSidebarItem key={link.label}>
-                <ResourceListSidebarLink href={link.href} active={link.label === activeLabel} label={link.label}>
-                  {link.label}
-                </ResourceListSidebarLink>
-              </ResourceListSidebarItem>
-            ))}
-          </ResourceListSidebarList>
-        </ResourceListSidebarNav>
-      </ResourceListSidebarViewport>
+      <ResourceListMobileSidebarDrawer title="デモカテゴリー" activeLabel={activeLabel}>
+        <ResourceListSidebarNav label="Sidebar Navigation">{renderSidebarList()}</ResourceListSidebarNav>
+      </ResourceListMobileSidebarDrawer>
+      <div className="hidden lg:block">
+        <ResourceListSidebarNav label="Sidebar Navigation">{renderSidebarList()}</ResourceListSidebarNav>
+      </div>
     </ResourceListSidebar>
   );
 }

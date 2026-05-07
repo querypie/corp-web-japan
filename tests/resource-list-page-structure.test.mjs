@@ -97,6 +97,32 @@ test("demo category sidebar owns both public and preview demo links and sidebar 
   assert.match(source, /ResourceListSidebarNav label="Sidebar Navigation"/);
 });
 
+test("mobile sidebar drawer pattern uses a dedicated client sheet trigger and keeps desktop nav separate", () => {
+  const sectionSource = readSource("src/components/sections/resource-list-section.tsx");
+  const resourceSidebarSource = readSource("src/components/sections/resource-category-sidebar.tsx");
+  const demoSidebarSource = readSource("src/components/sections/demo-category-sidebar.tsx");
+  const drawerSource = readSource("src/components/sections/resource-list-mobile-sidebar-drawer.tsx");
+
+  assert.match(drawerSource, /"use client"/);
+  assert.match(drawerSource, /useState/);
+  assert.match(drawerSource, /aria-expanded=\{open\}/);
+  assert.match(drawerSource, /role="dialog"/);
+  assert.match(drawerSource, /aria-modal="true"/);
+  assert.match(drawerSource, /fixed inset-0 z-50/);
+  assert.match(drawerSource, /lg:hidden/);
+
+  assert.match(sectionSource, /ResourceListMobileSidebarDrawer/);
+  assert.doesNotMatch(sectionSource, /overflow-x-auto \[scrollbar-width:none\] \[&::-webkit-scrollbar\]:hidden lg:overflow-visible/);
+  assert.doesNotMatch(sectionSource, /flex min-w-max gap-3 lg:min-w-0 lg:flex-col lg:gap-0/);
+
+  assert.match(resourceSidebarSource, /hidden lg:block/);
+  assert.match(resourceSidebarSource, /title="カテゴリー"/);
+  assert.match(resourceSidebarSource, /activeLabel=\{activeLabel\}/);
+  assert.match(demoSidebarSource, /hidden lg:block/);
+  assert.match(demoSidebarSource, /title="デモカテゴリー"/);
+  assert.match(demoSidebarSource, /activeLabel=\{activeLabel\}/);
+});
+
 test("shared ResourceListPage wrapper component has been removed", () => {
   assert.equal(existsSync(new URL("../src/components/sections/resource-list-page.tsx", import.meta.url)), false);
 });
