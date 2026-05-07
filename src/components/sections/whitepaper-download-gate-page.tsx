@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import Image from "next/image";
 import { ResourceLeadForm } from "@/components/sections/resource-lead-form";
@@ -17,6 +17,7 @@ type WhitepaperDownloadGatePageProps = {
   contentKey: string;
   downloadHref: string;
   formDescription?: string;
+  autoUnlock?: boolean;
 };
 
 const UTM_ATTRIBUTION_COOKIE_KEY = "utm-attribution";
@@ -84,12 +85,58 @@ export function WhitepaperDownloadGatePage({
   contentKey,
   downloadHref,
   formDescription = "限定コンテンツの入手には、フォームのご記入をお願いいたします。",
+  autoUnlock = false,
 }: WhitepaperDownloadGatePageProps) {
   const [form, setForm] = useState<GatingFormState>(defaultGatingFormState);
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const submitEnabled = isGatingFormValid(form);
+
+  useEffect(() => {
+    if (!autoUnlock) {
+      return;
+    }
+
+    let cancelled = false;
+
+    async function unlockAndRedirect() {
+      try {
+        const response = await fetch("/api/gating-form/preview-unlock", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ contentKey }),
+        });
+
+        const result = (await response.json().catch(() => null)) as
+          | { success?: boolean; message?: string }
+          | null;
+
+        if (!response.ok || !result?.success) {
+          if (!cancelled) {
+            setErrorMessage(result?.message ?? "プレビュー用の自動解除に失敗しました。");
+          }
+          return;
+        }
+
+        if (!cancelled) {
+          window.location.assign(downloadHref);
+        }
+      } catch {
+        if (!cancelled) {
+          setErrorMessage("プレビュー用の自動解除に失敗しました。");
+        }
+      }
+    }
+
+    void unlockAndRedirect();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [autoUnlock, contentKey, downloadHref]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -155,17 +202,30 @@ export function WhitepaperDownloadGatePage({
           </div>
 
           <div className="rounded-[12px] border border-[#E5E7EB] bg-white px-6 py-8 shadow-[0_2px_12px_rgba(0,0,0,0.06)] lg:px-10 lg:py-9">
-            <p className="mb-7 text-base leading-6 text-slate-500">{formDescription}</p>
-            <ResourceLeadForm
-              form={form}
-              setForm={setForm}
-              submitEnabled={submitEnabled}
-              submitting={submitting}
-              errorMessage={errorMessage}
-              submitLabel="ダウンロードする"
-              variant="download"
-              onSubmit={handleSubmit}
-            />
+            {autoUnlock ? (
+              <div className="py-12 text-center">
+                <p className="text-base leading-6 text-slate-500">
+                  プレビューモードのため、資料ダウンロードを自動的に準備しています。
+                </p>
+                {errorMessage ? (
+                  <p className="mt-4 text-sm text-[#EF4444]">{errorMessage}</p>
+                ) : null}
+              </div>
+            ) : (
+              <>
+                <p className="mb-7 text-base leading-6 text-slate-500">{formDescription}</p>
+                <ResourceLeadForm
+                  form={form}
+                  setForm={setForm}
+                  submitEnabled={submitEnabled}
+                  submitting={submitting}
+                  errorMessage={errorMessage}
+                  submitLabel="ダウンロードする"
+                  variant="download"
+                  onSubmit={handleSubmit}
+                />
+              </>
+            )}
           </div>
         </div>
       </div>

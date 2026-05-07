@@ -1,15 +1,23 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { WhitepaperDownloadGatePage } from "@/components/sections/whitepaper-download-gate-page";
-import { buildGatingContentKey } from "@/lib/publications/gating";
+import {
+  buildGatingContentKey,
+  buildGatingCookieName,
+} from "@/lib/publications/gating";
 import {
   getWhitepaperPublicationDownloadHref,
   getWhitepaperPublicationHref,
   getWhitepaperPublicationRecord,
   listWhitepaperPublicationDownloadParams,
 } from "@/lib/publications/whitepapers/get-post";
+import {
+  getPreviewNavigationState,
+  PREVIEW_NAVIGATION_COOKIE,
+} from "@/lib/preview-navigation";
 import { absoluteUrl } from "@/lib/site-url";
 
 type WhitepaperDownloadPageProps = {
@@ -60,6 +68,16 @@ export default async function WhitepaperDownloadPage({ params }: WhitepaperDownl
     redirect(getWhitepaperPublicationDownloadHref(id, record.slug));
   }
 
+  const cookieStore = await cookies();
+  const previewCookieValue = cookieStore.get(PREVIEW_NAVIGATION_COOKIE)?.value;
+  const { enabled: previewModeEnabled } = getPreviewNavigationState(previewCookieValue);
+  const contentKey = buildGatingContentKey("whitepaper", id);
+  const alreadyUnlocked = cookieStore.has(buildGatingCookieName(contentKey));
+
+  if (alreadyUnlocked) {
+    redirect(record.downloadCta.href);
+  }
+
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
@@ -67,8 +85,9 @@ export default async function WhitepaperDownloadPage({ params }: WhitepaperDownl
         categoryLabel="ホワイトペーパー"
         title={record.title}
         coverImageSrc={record.downloadCoverImageSrc ?? record.heroImageSrc}
-        contentKey={buildGatingContentKey("whitepaper", id)}
+        contentKey={contentKey}
         downloadHref={record.downloadCta.href}
+        autoUnlock={previewModeEnabled}
       />
       <SiteFooter />
     </main>

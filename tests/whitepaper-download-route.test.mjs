@@ -26,22 +26,29 @@ test("whitepaper canonical download routes exist and use a dedicated gating-form
   const idPage = readSource("src/app/whitepapers/[id]/download/page.tsx");
   const slugPage = readSource("src/app/whitepapers/[id]/[slug]/download/page.tsx");
   const gatePage = readSource("src/components/sections/whitepaper-download-gate-page.tsx");
+  const previewUnlockRoute = readSource("src/app/api/gating-form/preview-unlock/route.ts");
 
   assert.match(idPage, /getWhitepaperPublicationDownloadHref/);
   assert.match(idPage, /redirect\(`\$\{record\.redirectUrl\}\/download`\)/);
   assert.match(idPage, /redirect\(getWhitepaperPublicationDownloadHref\(id, record\.slug\)\)/);
 
   assert.match(slugPage, /listWhitepaperPublicationDownloadParams/);
-  assert.match(slugPage, /buildGatingContentKey\("whitepaper", id\)/);
+  assert.match(slugPage, /PREVIEW_NAVIGATION_COOKIE/);
+  assert.match(slugPage, /getPreviewNavigationState/);
+  assert.match(slugPage, /buildGatingCookieName\(contentKey\)/);
+  assert.match(slugPage, /const alreadyUnlocked = cookieStore\.has\(buildGatingCookieName\(contentKey\)\)/);
+  assert.match(slugPage, /if \(alreadyUnlocked\) \{/);
+  assert.match(slugPage, /redirect\(record\.downloadCta\.href\)/);
+  assert.match(slugPage, /autoUnlock=\{previewModeEnabled\}/);
   assert.match(slugPage, /coverImageSrc=\{record\.downloadCoverImageSrc \?\? record\.heroImageSrc\}/);
   assert.match(slugPage, /downloadHref=\{record\.downloadCta\.href\}/);
   assert.match(slugPage, /robots: \{\s*index: false,\s*follow: false,\s*\}/s);
 
-  assert.doesNotMatch(slugPage, /PREVIEW_NAVIGATION_COOKIE/);
-  assert.doesNotMatch(slugPage, /buildGatingCookieName/);
-  assert.doesNotMatch(slugPage, /redirect\(record\.downloadCta\.href\)/);
-
-  assert.match(gatePage, /fetch\("\/api\/gating-form\/unlock"/);
+  assert.match(gatePage, /useEffect\(\(\) => \{/);
+  assert.match(gatePage, /if \(!autoUnlock\) \{/);
+  assert.match(gatePage, /fetch\("\/api\/gating-form\/preview-unlock"/);
   assert.match(gatePage, /window\.location\.assign\(downloadHref\)/);
   assert.match(gatePage, /submitLabel="ダウンロードする"/);
+
+  assert.match(previewUnlockRoute, /buildGatingCookieName/);
 });
