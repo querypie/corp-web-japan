@@ -16,7 +16,7 @@ function listWhitepaperMdxFiles() {
 test("whitepaper hero thumbnails use route-aligned /whitepapers/{id}/thumbnail.png paths", () => {
   for (const file of listWhitepaperMdxFiles()) {
     const source = readSource(`src/content/whitepapers/${file}`);
-    const id = path.basename(file, ".mdx");
+    const id = file.split("-", 1)[0];
 
     assert.match(source, new RegExp(`\nheroImageSrc: ?(?:\"|')?/whitepapers/${id}/thumbnail\.png(?:\"|')?\n`));
     assert.doesNotMatch(source, /\/assets\/image\/whitepapers\//);

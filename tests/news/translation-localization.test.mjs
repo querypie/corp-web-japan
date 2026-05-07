@@ -1,14 +1,19 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 
 const newsDir = path.join(process.cwd(), "src/content/news");
 const translatedEnglishIds = ["1", "2", "3", "4", "6", "8", "9", "10", "11"];
 const translatedKoreanIds = ["5", "7"];
+const newsFilesById = new Map(
+  readdirSync(newsDir)
+    .filter((file) => file.endsWith(".mdx"))
+    .map((file) => [file.split("-", 1)[0], file]),
+);
 
 function readNews(id) {
-  return readFileSync(path.join(newsDir, `${id}.mdx`), "utf8");
+  return readFileSync(path.join(newsDir, newsFilesById.get(id)), "utf8");
 }
 
 test("news 1-11 use Japanese titles and descriptions when the original article was not Japanese", () => {

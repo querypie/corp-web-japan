@@ -36,11 +36,14 @@ const expectedIds = [
   "29",
   "30",
 ];
+const whitepaperFilesById = new Map(
+  readdirSync(whitepapersDir)
+    .filter((file) => file.endsWith(".mdx"))
+    .map((file) => [file.split("-", 1)[0], file]),
+);
 
 function listWhitepaperIds() {
-  return readdirSync(whitepapersDir)
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => path.basename(file, ".mdx"))
+  return [...whitepaperFilesById.keys()]
     .sort((left, right) => Number(left) - Number(right));
 }
 
@@ -50,7 +53,7 @@ test("whitepaper corpus includes every Japanese corp-web-contents source with a 
 
 test("migrated whitepaper MDX files use local whitepaper routes and route-aligned assets", () => {
   for (const id of expectedIds) {
-    const source = readFileSync(path.join(whitepapersDir, `${id}.mdx`), "utf8");
+    const source = readFileSync(path.join(whitepapersDir, whitepaperFilesById.get(id)), "utf8");
 
     assert.doesNotMatch(source, /ArticleGatingForm/);
     assert.doesNotMatch(source, /href="\/features\/documentation\/white-paper\//);
@@ -72,7 +75,7 @@ test("migrated whitepaper MDX files use local whitepaper routes and route-aligne
 
 test("download CTA whitepapers keep upstream download URLs instead of local detail URLs", () => {
   for (const id of ["24", "25", "30"]) {
-    const source = readFileSync(path.join(whitepapersDir, `${id}.mdx`), "utf8");
+    const source = readFileSync(path.join(whitepapersDir, whitepaperFilesById.get(id)), "utf8");
     assert.match(
       source,
       /https:\/\/www\.querypie\.com\/ja\/features\/documentation\/white-paper\/\d+\/[a-z0-9-]+\/download/,

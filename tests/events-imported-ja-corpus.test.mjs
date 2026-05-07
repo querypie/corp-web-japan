@@ -47,6 +47,11 @@ const expectedEventDates = {
   "26": "2026-03-19",
   "27": "2026-04-16",
 };
+const eventFilesById = new Map(
+  readdirSync(eventsDir)
+    .filter((file) => file.endsWith(".mdx"))
+    .map((file) => [file.split("-", 1)[0], file]),
+);
 
 function extractExplicitBodyEventDate(source) {
   const body = source.startsWith("---") ? source.split("---").slice(2).join("---") : source;
@@ -61,9 +66,7 @@ function extractExplicitBodyEventDate(source) {
 }
 
 function listEventIds() {
-  return readdirSync(eventsDir)
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => path.basename(file, ".mdx"))
+  return [...eventFilesById.keys()]
     .sort((left, right) => Number(left) - Number(right));
 }
 
@@ -73,7 +76,7 @@ test("event corpus includes every Japanese webinar source with a local MDX file"
 
 test("migrated event MDX files use local event routes and route-aligned assets", () => {
   for (const id of expectedIds) {
-    const source = readFileSync(path.join(eventsDir, `${id}.mdx`), "utf8");
+    const source = readFileSync(path.join(eventsDir, eventFilesById.get(id)), "utf8");
 
     assert.match(source, new RegExp(`\\nheroImageSrc: "/events/${id}/thumbnail\\.png"\\n`));
     assert.match(source, /\neventLabel: "ウェビナー"\n/);

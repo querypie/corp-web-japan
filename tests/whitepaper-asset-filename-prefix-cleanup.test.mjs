@@ -9,9 +9,15 @@ const whitepapersRoot = path.join(process.cwd(), "src/content/whitepapers");
 function listWhitepaperIds() {
   return readdirSync(whitepapersRoot)
     .filter((file) => file.endsWith(".mdx"))
-    .map((file) => path.basename(file, ".mdx"))
+    .map((file) => file.split("-", 1)[0])
     .sort((left, right) => Number(left) - Number(right));
 }
+
+const whitepaperFilesById = new Map(
+  readdirSync(whitepapersRoot)
+    .filter((file) => file.endsWith(".mdx"))
+    .map((file) => [file.split("-", 1)[0], file]),
+);
 
 test("whitepaper asset filenames do not keep redundant wp{id}- prefixes inside per-id directories", () => {
   for (const id of listWhitepaperIds()) {
@@ -26,7 +32,7 @@ test("whitepaper asset filenames do not keep redundant wp{id}- prefixes inside p
 
 test("whitepaper MDX sources do not reference redundant wp{id}-prefixed asset names", () => {
   for (const id of listWhitepaperIds()) {
-    const source = readFileSync(path.join(whitepapersRoot, `${id}.mdx`), "utf8");
+    const source = readFileSync(path.join(whitepapersRoot, whitepaperFilesById.get(id)), "utf8");
     assert.doesNotMatch(source, new RegExp(`/whitepapers/${id}/wp${id}-`));
     assert.doesNotMatch(source, new RegExp(`public/whitepapers/${id}/wp${id}-`));
   }
