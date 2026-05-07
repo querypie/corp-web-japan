@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../../../helpers/source-readers.mjs";
 
-test("FeaturedEventHero exists as a reusable section component for hero-event rendering", () => {
+test("FeaturedEventHero separates box-link focus from CTA hover/focus behavior", () => {
   const file = "src/components/sections/featured-event-hero.tsx";
   const source = readSource(file);
 
@@ -19,5 +19,17 @@ test("FeaturedEventHero exists as a reusable section component for hero-event re
   assert.match(source, /rounded-lg/);
   assert.match(source, /p-6 lg:w-2\/5 lg:p-8/);
   assert.match(source, /<Image/);
-  assert.match(source, /<Link/);
+  assert.match(source, /aria-label=\{`\$\{title\} \$\{ctaLabel\}`\}/);
+  assert.match(source, /className="peer absolute inset-0 z-0 cursor-pointer rounded-lg/);
+  assert.match(source, /focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-4/);
+  assert.match(source, /pointer-events-none flex-col items-stretch/);
+  assert.match(source, /pointer-events-auto inline-flex items-center rounded-lg bg-black/);
+  assert.match(source, /peer-hover:scale-\[1\.02\]/);
+  assert.match(source, /peer-focus:scale-\[1\.02\]/);
+  assert.match(source, /peer-focus-visible:scale-\[1\.02\]/);
+  assert.match(source, /hover:scale-\[1\.03\] hover:bg-blue-600/);
+  assert.match(source, /focus-visible:scale-\[1\.03\] focus-visible:bg-blue-600/);
+  assert.match(source, /shadow-\[0_12px_24px_rgba\(37,99,235,0\.24\)\]/);
+  assert.doesNotMatch(source, /hover:ring-/);
+  assert.doesNotMatch(source, /focus-visible:ring-.*blue/);
 });

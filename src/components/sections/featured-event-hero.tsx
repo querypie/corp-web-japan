@@ -26,10 +26,22 @@ export function FeaturedEventHero({
 }: FeaturedEventHeroProps) {
   return (
     <section className="mb-16">
-      <div className="overflow-hidden rounded-lg bg-[#f2f4f6]">
-        <div className="flex flex-col items-stretch lg:flex-row">
-          <div className="w-full aspect-video lg:w-3/5 lg:aspect-auto">
-            <Image src={imageSrc} alt={imageAlt} width={1200} height={675} className="h-full w-full object-cover" />
+      <div className="relative overflow-hidden rounded-lg bg-[#f2f4f6]">
+        <Link
+          href={href}
+          aria-label={`${title} ${ctaLabel}`}
+          className="peer absolute inset-0 z-0 cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-4 focus-visible:ring-offset-white"
+        />
+
+        <div className="relative z-10 flex pointer-events-none flex-col items-stretch lg:flex-row">
+          <div className="aspect-video w-full lg:w-3/5 lg:aspect-auto">
+            <Image
+              src={imageSrc}
+              alt={imageAlt}
+              width={1200}
+              height={675}
+              className="h-full w-full object-cover transition-transform duration-500 peer-hover:scale-[1.02] peer-focus:scale-[1.02] peer-focus-visible:scale-[1.02]"
+            />
           </div>
 
           <div className="flex w-full flex-col justify-center p-6 lg:w-2/5 lg:p-8">
@@ -47,7 +59,7 @@ export function FeaturedEventHero({
               <span className="text-sm font-medium text-slate-400">{date}</span>
               <Link
                 href={href}
-                className="inline-flex items-center rounded-lg bg-black px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-slate-800 active:scale-[0.98]"
+                className="pointer-events-auto inline-flex items-center rounded-lg bg-black px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(15,23,42,0.18)] transition-all hover:scale-[1.03] hover:bg-blue-600 hover:shadow-[0_12px_24px_rgba(37,99,235,0.24)] focus-visible:scale-[1.03] focus-visible:bg-blue-600 focus-visible:shadow-[0_12px_24px_rgba(37,99,235,0.24)] focus-visible:outline-none"
               >
                 {ctaLabel}
               </Link>
