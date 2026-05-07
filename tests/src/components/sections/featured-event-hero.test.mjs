@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "../../../helpers/source-readers.mjs";
 
-test("FeaturedEventHero renders the whole hero card as a single clickable link with strong focus-visible CTA emphasis", () => {
+test("FeaturedEventHero separates box-link focus from CTA hover/focus behavior", () => {
   const file = "src/components/sections/featured-event-hero.tsx";
   const source = readSource(file);
 
@@ -19,15 +19,16 @@ test("FeaturedEventHero renders the whole hero card as a single clickable link w
   assert.match(source, /rounded-lg/);
   assert.match(source, /p-6 lg:w-2\/5 lg:p-8/);
   assert.match(source, /<Image/);
-  assert.match(source, /<Link[\s\S]*focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-4/);
-  assert.match(source, /cursor-pointer/);
-  assert.match(source, /group-hover:scale-\[1\.02\]/);
-  assert.match(source, /group-focus-visible:scale-\[1\.02\]/);
-  assert.match(source, /group-hover:bg-slate-800/);
-  assert.match(source, /group-hover:shadow-\[0_14px_28px_rgba\(15,23,42,0\.28\)\]/);
-  assert.match(source, /group-hover:ring-2 group-hover:ring-slate-700\/40/);
-  assert.match(source, /group-focus-visible:bg-slate-900/);
-  assert.match(source, /group-focus-visible:shadow-\[0_16px_32px_rgba\(15,23,42,0\.32\)\]/);
-  assert.match(source, /group-focus-visible:ring-2 group-focus-visible:ring-slate-900/);
-  assert.doesNotMatch(source, /<Link[\s\S]*<Link/);
+  assert.match(source, /aria-label=\{`\$\{title\} \$\{ctaLabel\}`\}/);
+  assert.match(source, /className="peer absolute inset-0 z-0 cursor-pointer rounded-lg/);
+  assert.match(source, /focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-4/);
+  assert.match(source, /pointer-events-none flex-col items-stretch/);
+  assert.match(source, /pointer-events-auto inline-flex items-center rounded-lg bg-black/);
+  assert.match(source, /peer-hover:scale-\[1\.02\]/);
+  assert.match(source, /peer-focus-visible:scale-\[1\.02\]/);
+  assert.match(source, /hover:scale-\[1\.03\] hover:bg-blue-600/);
+  assert.match(source, /focus-visible:scale-\[1\.03\] focus-visible:bg-blue-600/);
+  assert.match(source, /shadow-\[0_14px_28px_rgba\(37,99,235,0\.32\)\]/);
+  assert.doesNotMatch(source, /hover:ring-/);
+  assert.doesNotMatch(source, /focus-visible:ring-.*blue/);
 });
