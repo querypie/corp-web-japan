@@ -14,24 +14,29 @@ import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-butto
 import { buildPublicationMdxComponents } from "@/lib/publications/mdx/components";
 import { slugifyHeadingText } from "@/lib/publications/mdx/headings";
 
-export const metadata: Metadata = {
-  title: "QueryPie Terms of Service | QueryPie AI",
-  description: "QueryPie Terms of Service",
-  alternates: {
-    canonical: "/t/terms-of-service",
-  },
-  robots: {
-    index: false,
-    follow: false,
-  },
+type TermsFrontmatter = {
+  title: string;
+  description: string;
+  date: string;
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { frontmatter } = await renderTermsOfServiceContent();
+
+  return {
+    title: `${frontmatter.title} | QueryPie AI`,
+    description: frontmatter.description,
+    alternates: {
+      canonical: "/t/terms-of-service",
+    },
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
+}
 
 type StaticHeadingProps = {
-  children?: ReactNode;
-  [key: string]: unknown;
-};
-
-type StaticHeaderProps = {
   children?: ReactNode;
   [key: string]: unknown;
 };
@@ -61,20 +66,8 @@ function CenterSection({ children }: { children?: ReactNode }) {
   return <div className="mx-auto max-w-[920px]">{children}</div>;
 }
 
-function StaticH1({ children }: StaticHeadingProps) {
-  return (
-    <h1 id={legalHeadingId(children)} className="text-[34px] font-normal leading-[1.2] text-slate-950 lg:text-[40px]">
-      {children}
-    </h1>
-  );
-}
-
 function LegalBodyH1({ children }: StaticHeadingProps) {
   return <h2 id={legalHeadingId(children)}>{children}</h2>;
-}
-
-function StaticHeader({ children }: StaticHeaderProps) {
-  return <p className="text-base leading-7 text-slate-500">{children}</p>;
 }
 
 function TermsMdxLink({ href, children }: TermsLinkProps) {
@@ -109,18 +102,16 @@ async function renderTermsOfServiceContent() {
   const sourcePath = join(process.cwd(), "src/app/t/terms-of-service/content.mdx");
   const source = await readFile(sourcePath, "utf8");
 
-  return evaluate({
+  return evaluate<TermsFrontmatter>({
     source,
     components: {
       ...buildPublicationMdxComponents(),
       h1: LegalBodyH1,
       CenterSection,
-      StaticH1,
-      StaticHeader,
       Link: TermsMdxLink,
     },
     options: {
-      parseFrontmatter: false,
+      parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [remarkGfm],
       },
@@ -130,12 +121,18 @@ async function renderTermsOfServiceContent() {
 
 export default async function PreviewTermsOfServicePage() {
   const evaluation = await renderTermsOfServiceContent();
+  const { frontmatter } = evaluation;
 
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[120px] pt-[112px] lg:px-[30px] lg:pb-[160px] lg:pt-[144px]">
         <div className="mx-auto max-w-[920px]">
+          <header className="mb-12 border-b border-slate-200 pb-8">
+            <p className="text-sm leading-6 text-slate-500">{frontmatter.date}</p>
+            <h1 className="mt-2 text-[34px] font-normal leading-[1.2] text-slate-950 lg:text-[40px]">{frontmatter.title}</h1>
+            <p className="mt-4 max-w-[760px] text-base leading-7 text-slate-500">{frontmatter.description}</p>
+          </header>
           <div className={`${publicationBodyClassName} [&_h1:first-child]:mt-0`}>{evaluation.content}</div>
         </div>
       </section>
