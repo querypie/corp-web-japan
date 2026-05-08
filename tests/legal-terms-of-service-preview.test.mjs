@@ -24,6 +24,7 @@ test("terms of service preview page derives metadata and hero copy from content.
   assert.match(source, /\{frontmatter\.description\}/);
   assert.match(source, /<BrandGradientCtaButton href="https:\/\/app\.querypie\.com\/">無料で試してみる<\/BrandGradientCtaButton>/);
   assert.doesNotMatch(source, /export const metadata: Metadata = \{/);
+  assert.doesNotMatch(source, /function CenterSection/);
   assert.doesNotMatch(source, /corp-web-contents \/ corp-web-app/);
 });
 
@@ -37,6 +38,8 @@ test("terms of service preview keeps title, description, and date in content.mdx
   assert.match(contentSource, /Article 1 \(Purpose\)/);
   assert.match(contentSource, /Article 17 \(Governing Law and Jurisdiction\)/);
   assert.doesNotMatch(contentSource, /StaticH1/);
+  assert.doesNotMatch(contentSource, /<Box direction="column"/);
+  assert.doesNotMatch(contentSource, /<CenterSection/);
   assert.doesNotMatch(contentSource, /まずは小さく、失敗しないAXを始めよう/);
   assert.match(footerSource, /label: "利用規約", href: t\("\/terms-of-service", previewModeEnabled\)/);
 });

@@ -62,10 +62,6 @@ function legalHeadingId(children: ReactNode) {
   return slugifyHeadingText(childrenToText(children));
 }
 
-function CenterSection({ children }: { children?: ReactNode }) {
-  return <div className="mx-auto max-w-[920px]">{children}</div>;
-}
-
 function LegalBodyH1({ children }: StaticHeadingProps) {
   return <h2 id={legalHeadingId(children)}>{children}</h2>;
 }
@@ -107,7 +103,6 @@ async function renderTermsOfServiceContent() {
     components: {
       ...buildPublicationMdxComponents(),
       h1: LegalBodyH1,
-      CenterSection,
       Link: TermsMdxLink,
     },
     options: {
