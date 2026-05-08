@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
 
-const headingBodyClass = "text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-[#57606A]";
+const headingBodyClass = "text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]";
 
 type ClassNameProps = {
   className?: string;
@@ -39,11 +39,11 @@ export function AipFdeHeroCopy({ children }: { children: ReactNode }) {
 }
 
 export function AipFdeHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 className="text-[56.25px] font-normal leading-[67.5px] tracking-normal text-[#24292F]">{children}</h1>;
+  return <h1 className="text-[60px] font-normal leading-[72px] tracking-normal text-[#24292F]">{children}</h1>;
 }
 
 export function AipFdeHeroLead({ children }: { children: ReactNode }) {
-  return <p className="max-w-[746px] text-[16.875px] font-light leading-[26.25px] tracking-[0.3375px] text-[#57606A]">{children}</p>;
+  return <p className="max-w-[746px] text-[18px] font-light leading-[28px] tracking-[0.36px] text-[#57606A]">{children}</p>;
 }
 
 export function AipFdeHeroVisual() {
@@ -80,7 +80,7 @@ export function AipFdeFeatureCopy({ children }: { children: ReactNode }) {
 }
 
 export function AipFdeFeatureTitle({ children }: { children: ReactNode }) {
-  return <h2 className="text-[30px] font-medium leading-[39.375px] tracking-normal text-[#24292F]">{children}</h2>;
+  return <h2 className="text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F]">{children}</h2>;
 }
 
 export function AipFdeFeatureBody({ children }: { children: ReactNode }) {
@@ -110,7 +110,7 @@ export function AipFdeFeatureImage({ src, alt }: { src: string; alt: string }) {
 }
 
 export function AipFdeCtaSection({ children }: { children: ReactNode }) {
-  return <section className="flex w-full flex-col items-center gap-[40px] bg-[#F6F8FA] px-[24px] py-[112.5px]">{children}</section>;
+  return <section className="flex w-full flex-col items-center gap-[40px] bg-[#F6F8FA] px-[24px] py-[120px]">{children}</section>;
 }
 
 export function AipFdeCtaCopy({ children }: { children: ReactNode }) {
@@ -118,7 +118,7 @@ export function AipFdeCtaCopy({ children }: { children: ReactNode }) {
 }
 
 export function AipFdeCtaTitle({ children }: { children: ReactNode }) {
-  return <h2 className="text-[48.75px] font-normal leading-[58.125px] tracking-normal text-[#24292F]">{children}</h2>;
+  return <h2 className="text-[52px] font-normal leading-[62px] tracking-normal text-[#24292F]">{children}</h2>;
 }
 
 export function AipFdeCtaDescription({ children }: { children: ReactNode }) {
