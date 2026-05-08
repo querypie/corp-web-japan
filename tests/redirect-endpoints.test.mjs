@@ -167,3 +167,4 @@ test("legacy company news root path redirects to the local /news page", () => {
   assert.match(source, /export const HEAD = GET;/);
   assert.equal(existsSync(new URL("../src/app/[locale]/company/news/route.ts", import.meta.url)), false);
 });
+
