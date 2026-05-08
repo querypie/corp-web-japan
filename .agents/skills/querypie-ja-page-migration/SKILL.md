@@ -1,7 +1,7 @@
 ---
 name: querypie-ja-page-migration
 description: Migrate a page under querypie.com/ja into corp-web-japan by triangulating corp-web-contents source content, corp-web-app behavior contracts, and the live rendered page, then implementing a route-local static preview route under /t/*.
-version: 1.0.0
+version: 1.1.0
 author: Hermes Agent
 license: MIT
 metadata:
@@ -112,10 +112,14 @@ Use `corp-web-app` to recover contracts such as:
 - helper side effects
 - whether the page uses a checkbox, switch, or button role contract
 - whether supporting layout links should point to a local route, redirect route, or preview-aware route
+- the actual DOM composition and primitive/component chain that produces the shipped UI
+- the CSS/layout contract carried by that primitive chain (for example wrapper flex direction, inline order, spacing, and alignment)
 
 Important rule:
 - if `corp-web-app` defines a stable behavior contract, preserve that contract in the preview implementation unless the user explicitly asks to change it
 - do not invent new cookie keys, query params, or route semantics when a real upstream contract already exists
+- do not treat visual structure as separate from behavior when the structure is already encoded in the upstream component chain
+- if the upstream page already renders through a concrete component such as `CookiePreferenceSwitch -> CookieSwitch -> Switch`, inspect that chain completely before redesigning the local markup
 
 ### 3. the live page answers “what actually shipped?”
 
@@ -129,6 +133,8 @@ Inspect:
 - heading hierarchy
 - whether explanatory copy is truly one paragraph or visually split
 - the rendered toggle/control semantics
+- the relative order of control vs label vs description inside each repeated row
+- whether the control/label pair is left-inline, right-aligned, centered, or distributed with `space-between`
 - root font size and token-vs-computed spacing behavior
 
 Important rule:
@@ -176,6 +182,24 @@ Why this order works:
 - shipped UI confirmation third
 - local implementation style last
 
+### 2a. Extract row-level UI contracts explicitly before writing JSX
+
+For any page with repeated rows, toggles, cards, disclosures, or mixed control/text blocks, do not stop at high-level statements like "flat list" or "settings page".
+
+Before implementing, explicitly record all of these from upstream:
+- row DOM shape
+- control/label order
+- whether the label is part of the same primitive wrapper as the control
+- whether spacing comes from the repeated-item wrapper or from the control primitive itself
+- whether the heading text is a standalone heading node or the child/label of the control primitive
+- whether the row alignment is inline-start, end-aligned, or `space-between`
+
+For browser verification, inspect at least one concrete repeated item using DOM extraction, not only screenshots or text snapshots.
+Examples:
+- `outerHTML` of the first repeated row
+- `getBoundingClientRect()` for control, label, and description
+- computed `display`, `justify-content`, `align-items`, and gap values on the immediate row wrapper
+
 ### 3. Decide the target route and scope
 
 For preview-first migration:
@@ -200,8 +224,12 @@ Good pattern:
 - `src/components/sections/**` contains only UI implementation details and isolated client behavior
 
 For small interactive legal/settings pages, a good split is:
-- `page.tsx`: authored heading/body/CTA copy plus per-row labels and descriptions
-- section component: switch visuals, local state, cookie persistence, accessibility attributes, interaction plumbing
+- `page.tsx`: authored heading/body/CTA copy plus per-row labels and descriptions when those strings truly belong to the route layer
+- section component: switch visuals, local state, cookie persistence, accessibility attributes, interaction plumbing, and any upstream-presentational contract that already belongs to the control primitive chain
+
+Guardrail:
+- if the upstream component chain already owns both the control and its inline label structure, do not arbitrarily split them into a new `h2 + switch` layout just because that feels cleaner locally
+- preserve the upstream row composition first, then localize only what is truly route-authored
 
 ### 5. Preserve upstream helper contracts where needed
 
@@ -244,6 +272,7 @@ Good examples of what to assert:
 - the route includes the real Japanese copy
 - the section file includes the preserved contract names/keys
 - the footer or header link uses preview-aware local routing when required
+- when a row-level UI contract matters, the structure test asserts the intended relative composition rather than only the existence of text and cookie keys
 
 ## Implementation heuristics
 
@@ -259,6 +288,13 @@ Good examples of what to assert:
 - if the live UI is a flat list with whitespace, do not rebuild it as boxed marketing cards
 - if the live page includes a CTA block beneath the settings section, keep that CTA block
 - if the heading hierarchy is one H1 + repeated item headings, keep that shape
+- if a repeated row renders as `control + label` inline on the live page, do not reinterpret it into `label left / control right` or another familiar settings-page layout without explicit evidence
+- do not replace an upstream row-level contract with a generic SaaS dashboard convention just because it looks reasonable in isolation
+
+### Do not inherit stale intermediate PR layout decisions as migration truth
+- an older local PR or draft implementation can be useful as a clue, but it is never a source of truth over `corp-web-contents`, `corp-web-app`, and the live page
+- if an earlier branch already rebuilt the page with placeholder layout choices, verify every row-level structure against the upstream sources before carrying that shape forward
+- when the upstream component chain and the draft PR disagree, prefer the upstream component chain and live page unless the user explicitly asked for a redesign
 
 ## Verification checklist
 
@@ -268,6 +304,7 @@ Before opening the PR:
 3. confirm the copied contract names still match the upstream implementation
 4. confirm the preview page metadata is non-indexed
 5. if the task was visually sensitive, compare against the exact live page in the browser
+6. for repeated rows or interactive controls, verify at least one concrete row against upstream DOM structure and geometry before finalizing
 
 Preferred minimum verification for this class of task:
 - page-specific `node --test ...` regression(s)
@@ -288,6 +325,10 @@ This makes later follow-up work much easier.
 - using only the live page and losing exact authored copy
 - using only `corp-web-contents` and missing runtime behavior contracts
 - using only `corp-web-app` and missing the actual shipped visual composition
+- preserving cookie/query behavior but silently redesigning the upstream DOM/layout contract for repeated rows
+- copying only text and keys while missing the primitive chain that determines control/label order and alignment
+- reinterpreting the page through a generic local pattern such as `justify-between` settings rows without upstream evidence
+- trusting an older local PR's intermediate layout over the upstream component chain and live page
 - shortening copy because an earlier stale PR used placeholders
 - copying computed px values from a 15px-root source into a 16px-root preview without conversion reasoning
 - hiding all page content in a new content registry instead of keeping route-local authoring
@@ -298,6 +339,6 @@ This makes later follow-up work much easier.
 You are done when:
 - the page exists locally under `/t/**`
 - the route file is the readable source of truth for the page copy and section order
-- any required upstream contract from `corp-web-app` is preserved exactly
+- any required upstream contract from `corp-web-app` is preserved exactly, including row-level structure when that contract is encoded in the upstream component chain
 - the implementation matches the live `querypie.com/ja` page’s content and UI composition closely enough for preview review
-- a narrow regression test proves the intended route/contract behavior
+- a narrow regression test proves the intended route/contract behavior, and for row-sensitive UIs that includes the expected control/label composition
