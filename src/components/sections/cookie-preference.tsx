@@ -74,17 +74,17 @@ function CookiePreferenceSwitch({ checked, disabled, onToggle, id }: { checked: 
       disabled={disabled}
       onClick={onToggle}
       className={[
-        "relative inline-flex h-[24px] w-[42px] shrink-0 items-center rounded-full transition-colors duration-200",
-        checked ? "bg-[#0969DA]" : "bg-[#D0D7DE]",
-        disabled ? "cursor-not-allowed opacity-100" : "cursor-pointer",
+        "relative inline-flex h-[25px] w-[42px] shrink-0 items-center rounded-full transition-colors duration-200",
+        checked ? "bg-[#0969DA]" : "bg-[#91959A]",
+        disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0969DA] focus-visible:ring-offset-2",
       ].join(" ")}
     >
       <span
         aria-hidden="true"
         className={[
-          "absolute left-[2px] top-[2px] h-[20px] w-[20px] rounded-full bg-white shadow-[0_1px_2px_rgba(9,30,66,0.2)] transition-transform duration-200",
-          checked ? "translate-x-[18px]" : "translate-x-0",
+          "absolute left-[2px] top-[2px] h-[21px] w-[21px] rounded-full bg-white shadow-[0_2px_2px_rgba(9,30,66,0.24)] transition-transform duration-200",
+          checked ? "translate-x-[19px]" : "translate-x-0",
         ].join(" ")}
       />
     </button>
@@ -92,7 +92,7 @@ function CookiePreferenceSwitch({ checked, disabled, onToggle, id }: { checked: 
 }
 
 export function CookiePreferenceList({ children }: CookiePreferenceListProps) {
-  return <ul className="space-y-[31.5px]">{children}</ul>;
+  return <ul className="flex flex-col gap-[40px]">{children}</ul>;
 }
 
 export function CookiePreferenceItem({ id, label, description, disabled = false }: CookiePreferenceItemProps) {
@@ -122,14 +122,14 @@ export function CookiePreferenceItem({ id, label, description, disabled = false 
   const switchId = `cookie-preference-${id}`;
 
   return (
-    <li className="border-b border-[#D0D7DE] pb-[31.5px] last:border-b-0 last:pb-0">
-      <div className="flex items-center gap-4">
+    <li className="flex flex-col gap-[20px]">
+      <div className="flex items-center gap-[15px]">
         <CookiePreferenceSwitch checked={checked} disabled={disabled || isNecessary} onToggle={handleToggle} id={switchId} />
-        <label htmlFor={switchId} className="text-[18px] font-medium leading-[27px] tracking-[0.2px] text-slate-950">
+        <label htmlFor={switchId} className="text-[18.75px] font-medium leading-[26.25px] text-[#24292F]">
           {label}
         </label>
       </div>
-      <div className="mt-[14px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-slate-600">
+      <div className="text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-[#57606A]">
         {description}
       </div>
     </li>

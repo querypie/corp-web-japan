@@ -31,9 +31,9 @@ export default function CookiePreferencePreviewPage() {
 
       <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[112.5px] pt-[108px] lg:px-[30px] lg:pb-[150px] lg:pt-[132px]">
         <div className="mx-auto max-w-[1200px]">
-          <h1 className="text-[52px] font-normal leading-[62px] tracking-normal text-slate-950">クッキー設定</h1>
+          <h1 className="text-[56.25px] font-normal leading-[67.5px] text-[#24292F]">クッキー設定</h1>
 
-          <div className="mt-[18.75px] max-w-[1035px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-slate-600">
+          <div className="mt-[18.75px] max-w-[1200px] text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-[#57606A]">
             <p>
               当社は、データを収集し、お客様のオンライン体験をカスタマイズするために、「Cookie」などの技術を使用しています。Cookie の設定を管理して、お客様の便宜を図るために分類された特定の種類の Cookie を有効または無効にすることができます。
               <br />
@@ -98,16 +98,18 @@ export default function CookiePreferencePreviewPage() {
         </div>
       </section>
 
-      <SimpleCtaSection>
-        <CtaContent className="gap-[30px]">
+      <SimpleCtaSection className="pt-[108px] pb-[108px]" contentClassName="max-w-[841px]">
+        <CtaContent className="gap-[37.5px] max-w-[841px]">
           <CtaCopy>
-            <CtaTitle>まずは小さく、失敗しないAXを始めよう</CtaTitle>
-            <CtaDescription className="mx-auto max-w-[420px] text-slate-500">
+            <CtaTitle className="text-[48.75px] leading-[58.125px] text-[#24292F]">まずは小さく、失敗しないAXを始めよう</CtaTitle>
+            <CtaDescription className="mx-auto mt-[18.75px] max-w-[841px] text-[15px] leading-[24.375px] tracking-[0.3375px] text-[#24292F]">
               簡単サインアップで、14日間の無料トライアルをお試しください
             </CtaDescription>
           </CtaCopy>
           <CtaActions>
-            <BrandGradientCtaButton href="https://app.querypie.com">無料で試してみる</BrandGradientCtaButton>
+            <BrandGradientCtaButton href="https://app.querypie.com" className="min-h-[47px] px-[26.25px] py-[13.125px] text-[15px] leading-[15px]">
+              無料で試してみる
+            </BrandGradientCtaButton>
           </CtaActions>
         </CtaContent>
       </SimpleCtaSection>
