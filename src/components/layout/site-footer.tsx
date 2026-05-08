@@ -101,7 +101,7 @@ export async function SiteFooter() {
   ] as const;
 
   const legalLinks = [
-    { label: "Cookie設定", href: "/cookie-preference" },
+    { label: "Cookie設定", href: t("/cookie-preference", previewModeEnabled) },
     { label: "利用規約", href: "/terms-of-service" },
     { label: "プライバシーポリシー", href: "/privacy-policy" },
     { label: "EULA", href: "/eula" },
