@@ -25,6 +25,7 @@ test("whitepaper loader rewrites article download CTAs to canonical local pdf pa
 test("whitepaper canonical pdf routes exist and use a dedicated gating-form page", () => {
   const idPage = readSource("src/app/whitepapers/[id]/pdf/page.tsx");
   const slugPage = readSource("src/app/whitepapers/[id]/[slug]/pdf/page.tsx");
+  const legacyDownloadRoute = readSource("src/app/whitepapers/[id]/[slug]/download/route.ts");
   const gatePage = readSource("src/components/sections/whitepaper-download-gate-page.tsx");
   const previewUnlockRoute = readSource("src/app/api/gating-form/preview-unlock/route.ts");
 
@@ -33,6 +34,12 @@ test("whitepaper canonical pdf routes exist and use a dedicated gating-form page
   assert.match(idPage, /redirect\(getWhitepaperPublicationPdfHref\(id, record\.slug\)\)/);
 
   assert.match(slugPage, /listWhitepaperPublicationPdfParams/);
+  assert.match(legacyDownloadRoute, /export async function GET\(request: NextRequest, \{ params \}: WhitepaperLegacyDownloadRouteContext\)/);
+  assert.match(legacyDownloadRoute, /getWhitepaperPublicationRecord\(id\)/);
+  assert.match(legacyDownloadRoute, /const destinationPath = record \? getWhitepaperPublicationPdfHref\(record\.id, record\.slug\) : "\/whitepapers"/);
+  assert.match(legacyDownloadRoute, /const destination = new URL\(destinationPath, request\.url\)/);
+  assert.match(legacyDownloadRoute, /destination\.search = request\.nextUrl\.search/);
+  assert.match(legacyDownloadRoute, /return NextResponse\.redirect\(destination, 307\)/);
   assert.match(slugPage, /PREVIEW_NAVIGATION_COOKIE/);
   assert.match(slugPage, /getPreviewNavigationState/);
   assert.match(slugPage, /buildGatingCookieName\(contentKey\)/);
