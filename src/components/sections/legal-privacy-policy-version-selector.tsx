@@ -1,7 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 type LegalPrivacyPolicyVersionSelectorProps = {
   language: "en" | "ko";
   currentVersion: string;
@@ -49,25 +47,24 @@ const VERSIONS = {
   ],
 } as const;
 
-export function LegalPrivacyPolicyVersionSelector({
-  language,
-  currentVersion,
-}: LegalPrivacyPolicyVersionSelectorProps) {
-  const router = useRouter();
+function buildVersionUrl(language: "en" | "ko", version: string) {
+  return `https://www.querypie.com/ja/privacy-policy-${language}/${version}`;
+}
 
+export function LegalPrivacyPolicyVersionSelector({ language, currentVersion }: LegalPrivacyPolicyVersionSelectorProps) {
   return (
     <label className="inline-flex items-center gap-3 text-sm text-slate-500">
-      <span>Version</span>
+      <span className="sr-only">Version</span>
       <select
         defaultValue={currentVersion}
         className="h-10 rounded-[6px] border border-[#d1d5db] bg-white px-3 text-sm text-slate-950"
         onChange={(event) => {
           const nextVersion = event.target.value;
-          if (!nextVersion || nextVersion === currentVersion) {
+          if (!nextVersion || nextVersion === currentVersion || typeof window === "undefined") {
             return;
           }
 
-          router.push(`/privacy-policy-${language}/${nextVersion}`);
+          window.location.assign(buildVersionUrl(language, nextVersion));
         }}
       >
         {VERSIONS[language].map((version) => (

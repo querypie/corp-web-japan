@@ -7,7 +7,6 @@ const resourceLeadFormPath = new URL("../src/components/sections/resource-lead-f
 
 const expectedStaticLinks = [
   { label: "利用規約", href: "/terms-of-service" },
-  { label: "プライバシーポリシー", href: "/privacy-policy" },
   { label: "EULA", href: "/eula" },
 ];
 
@@ -15,6 +14,7 @@ test("site footer legal links point to local legal redirect endpoints", () => {
   const siteFooter = readFileSync(siteFooterPath, "utf8");
 
   assert.match(siteFooter, /label: "Cookie設定", href: t\("\/cookie-preference", previewModeEnabled\)/);
+  assert.match(siteFooter, /label: "プライバシーポリシー", href: t\("\/privacy-policy", previewModeEnabled\)/);
 
   for (const { label, href } of expectedStaticLinks) {
     assert.match(siteFooter, new RegExp(`label: "${label}", href: "${href}"`));
