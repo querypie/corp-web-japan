@@ -13,6 +13,13 @@ metadata:
 
 Use this skill when the user wants to migrate a page that currently lives on `querypie.com/ja/**` or another external site into this repository first as a local preview page.
 
+This is the generic preview-route implementation skill.
+It defines how a migrated page should live under `/t/**`, where assets should go, how `page.tsx` should read, and how preview metadata should be set.
+It is intentionally broad and implementation-focused.
+
+It is not the higher-level source-of-truth investigation skill for QueryPie Japan pages.
+When the source page is specifically under `querypie.com/ja/**` and correct implementation requires triangulating `../corp-web-contents`, `../corp-web-app`, and the live shipped page, load `querypie-ja-page-migration` first and then use this skill as the narrower implementation rulebook.
+
 Typical targets:
 - upstream QueryPie Japan pages such as `https://www.querypie.com/ja/...`
 - external campaign / marketing pages that should be recreated locally before public rollout
@@ -50,11 +57,19 @@ Use it when:
 - the user asks to migrate an external marketing page into this repo
 - the user wants a preview implementation first, usually on `/t/...`
 - the content is primarily static marketing content rather than CMS/data-backed application logic
+- the main question is implementation shape, preview routing, asset placement, and route-local authoring
+
+Load `querypie-ja-page-migration` first instead when:
+- the source page is under `https://www.querypie.com/ja/**`
+- you need `../corp-web-contents` as the authored-copy source of truth
+- you need `../corp-web-app` to recover behavior contracts, selectors, helper logic, or route semantics
+- you need to compare against the live shipped page before deciding whether a stale PR branch can be preserved or must be rewritten on latest main
 
 Do not use it for:
 - blog / whitepaper MDX posting work
 - CMS-backed feature work unless explicitly requested
 - backend-heavy routes where the main task is API or form-processing logic rather than page migration
+- source-of-truth disputes where the hard part is reconciling authored copy vs `corp-web-app` behavior vs live page output; that belongs to `querypie-ja-page-migration`
 
 ## Mandatory repo workflow
 
@@ -138,6 +153,12 @@ Bad extracted pieces:
 - a giant page-specific content object that hides the full page structure
 - a page-specific wrapper that turns `page.tsx` into a thin shell for a static marketing page
 - moving the old content registry into top-level constants without making the route materially easier to read
+
+Large-document exception:
+- this skill still prefers route-local readability, but do not read it as "every migrated page body must be fully inlined into `page.tsx` no matter what"
+- if the page is a very large legal/policy document, it can be better to keep the route self-contained under `src/app/t/<route>/...` and let `page.tsx` render an adjacent route-local source file
+- in that case, `page.tsx` should still own metadata, the page shell, selector/CTA composition, and the rendering call site
+- avoid broad generic indirection such as repo-wide `src/content/legal-preview/**` plus `src/lib/legal-preview/**` when the real goal is a reviewable one-page preview migration
 
 ## Recommended implementation shape
 
@@ -254,6 +275,11 @@ Guidance:
 - avoid a page-specific data registry under `src/content/**` unless the content model truly requires it
 - avoid a page-specific `*Sections` wrapper for static page migration
 
+Important scope boundary:
+- this skill tells you how to implement the preview route once you already know the correct content and behavior
+- it does not by itself decide whether an existing PR branch is stale, whether the live page contradicts an older draft implementation, or whether `corp-web-app` semantics overrule a local refactor idea
+- if those questions matter, switch up one level to `querypie-ja-page-migration`
+
 ### 5. Add metadata and safe preview semantics
 
 At minimum:
@@ -313,12 +339,13 @@ Before finalizing:
 
 When asked to migrate a `querypie.com/ja` or external page into this website as a preview page:
 1. start from latest `origin/main` in a worktree
-2. load `static-page-route-local-authoring-refactor` and read `docs/code-location-conventions.md`
-3. choose the preview URI under `/t/...`
-4. create the matching `src/app/t/**/page.tsx`
-5. place page-specific assets under route-aligned `public/**`, not `public/t/**` and not `public/assets/**`
-6. author the real copy directly in `page.tsx`
-7. mark the preview page as noindex with canonical `/t/...`
-8. keep existing non-preview public redirects/routes separate unless rollout was explicitly requested
-9. add the lightest targeted regression checks
-10. rebase and finish the git workflow
+2. if the source is specifically `querypie.com/ja/**` and correctness depends on source triangulation, load `querypie-ja-page-migration` first
+3. load `static-page-route-local-authoring-refactor` and read `docs/code-location-conventions.md`
+4. choose the preview URI under `/t/...`
+5. create the matching `src/app/t/**/page.tsx`
+6. place page-specific assets under route-aligned `public/**`, not `public/t/**` and not `public/assets/**`
+7. author the real copy directly in `page.tsx` or, for very large legal documents, keep the route self-contained with an adjacent route-local source file
+8. mark the preview page as noindex with canonical `/t/...`
+9. keep existing non-preview public redirects/routes separate unless rollout was explicitly requested
+10. add the lightest targeted regression checks
+11. rebase and finish the git workflow

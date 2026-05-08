@@ -48,7 +48,7 @@ Current skills:
   - Scope: route-local authoring refactors for pages such as top page, solution pages, and static preview pages
 - `page-migration-preview-route`
   - Path: `.agents/skills/page-migration-preview-route/SKILL.md`
-  - Purpose: migrate a `querypie.com/ja` page or another external marketing page into a local preview route under `/t/*`
+  - Purpose: generic implementation skill for migrating a `querypie.com/ja` page or another external marketing page into a local preview route under `/t/*`
   - Asset rule: keep preview-page assets under route-aligned `public/<route-family>/...`, not under `public/t/...` and not under generic `public/assets/...`
 - `preview-root-rem-parity`
   - Path: `.agents/skills/preview-root-rem-parity/SKILL.md`
@@ -67,7 +67,7 @@ Current skills:
   - Purpose: maintain corp-web-japan resource-list pages while keeping hero/CTA authoring route-local, centralizing only repeated sidebar markup, handling preview/public sidebar link differences, and preserving sticky behavior
 - `querypie-ja-page-migration`
   - Path: `.agents/skills/querypie-ja-page-migration/SKILL.md`
-  - Purpose: migrate a `querypie.com/ja/**` page into corp-web-japan by triangulating `../corp-web-contents`, `../corp-web-app`, and the live rendered page before building a route-local `/t/*` preview implementation
+  - Purpose: higher-level QueryPie Japan migration skill that triangulates `../corp-web-contents`, `../corp-web-app`, and the live rendered page, then decides the correct latest-main implementation shape before the narrower preview-route implementation step
 
 Usage notes:
 
@@ -84,6 +84,8 @@ Usage notes:
 - Use `glossary-posting` for `src/content/glossary/*.mdx`.
 - Use `manuals-posting` for `src/content/manuals/*.mdx`.
 - Use the migration skills only when the task is actually a corp-web-contents migration, not ordinary day-2 MDX maintenance.
+- Use `page-migration-preview-route` when the main question is generic `/t/**` implementation shape, route-local authoring, preview metadata, and route-aligned asset placement.
+- Use `querypie-ja-page-migration` first when the source page is specifically `querypie.com/ja/**` and correctness depends on reconciling `../corp-web-contents`, `../corp-web-app`, and the live page, or when an existing PR branch may need latest-main rewrite instead of a mechanical rebase.
 - For `querypie.com/ja/**` static page migrations that also require `corp-web-app` behavior-contract lookup and live-page verification, load `querypie-ja-page-migration` before the narrower preview-route implementation skills.
 - For new publication work, do not put post-specific assets under `public/assets/...`; use the route-aligned per-post asset root instead.
 - Keep this index aligned with the actual skill directories.

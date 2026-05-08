@@ -29,6 +29,13 @@ Load and follow these first:
 This skill is not a replacement for those files.
 It is the higher-level investigation and implementation workflow for a very specific migration source: `querypie.com/ja/**`.
 
+Role boundary:
+- `page-migration-preview-route` is the generic implementation skill for building a `/t/**` preview page with route-aligned assets and preview metadata
+- `querypie-ja-page-migration` is the QueryPie Japan source-of-truth skill for deciding what the page should be, which upstream contracts matter, and whether an existing PR branch should be preserved or rewritten on latest main
+
+Use this skill first when both could apply.
+Then use `page-migration-preview-route` as the narrower implementation rulebook.
+
 ## When to use this skill
 
 Use it when:
@@ -48,13 +55,15 @@ Do not use it for:
 - ordinary local-only day-2 edits to an already-migrated page
 - publication MDX tasks such as blog, whitepaper, news, events, or demo postings
 - backend-heavy flows where the main challenge is API or server logic rather than page migration
+- generic preview-route implementation questions where the source-of-truth is already settled; in that case use `page-migration-preview-route` directly
 
 ## Goal
 
 Produce a local implementation that:
 - starts from latest `origin/main` in a fresh worktree
 - recreates the same page content and UI composition under `/t/**`
-- keeps marketing/legal copy route-local in `page.tsx`
+- keeps marketing/legal copy route-local in `page.tsx` when that remains reviewable
+- for unusually large legal documents, keeps the preview implementation self-contained under the route subtree rather than hiding it behind broad repo-level registries
 - extracts only UI implementation details and isolated client behavior into `src/components/sections/**`
 - preserves any real upstream behavior contract discovered in `corp-web-app`
 - stays safe for preview review by using non-indexed preview metadata
@@ -200,6 +209,25 @@ Examples:
 - `getBoundingClientRect()` for control, label, and description
 - computed `display`, `justify-content`, `align-items`, and gap values on the immediate row wrapper
 
+### 2b. Decide whether the existing PR branch should survive or be rewritten
+
+If the work is already on an open PR branch, do not assume a mechanical rebase is the correct next step.
+Classify the branch first:
+- if the branch already matches the latest source-of-truth understanding and only needs ancestry refresh, a normal rebase may be enough
+- if the branch contains placeholder copy, preview-only explanation text, broad helper indirection, or layout choices that contradict `corp-web-contents`, `corp-web-app`, or the live page, prefer a latest-main rewrite of the intended final file set
+
+Strong rewrite signals:
+- the PR branch rebuilt the page through broad helpers such as `src/content/...` plus `src/lib/...` that hide the page from reviewers
+- the PR branch replaced the live page title, selector semantics, or CTA structure with preview-only substitute text
+- the PR branch copied only part of the upstream contract and filled the rest with local assumptions
+- latest `origin/main` has already moved the surrounding route/layout structure forward enough that preserving old branch history would keep stale implementation ideas alive
+
+For long legal/policy pages, prefer a route-subtree self-contained rewrite over preserving broad repo-level legal-preview helper layers.
+That usually means:
+- `src/app/t/<route>/page.tsx` owns metadata, shell, selector/CTA composition, and the render call site
+- the long-form source sits adjacent under the same route subtree
+- old generic `src/content/legal-preview/**` plus `src/lib/legal-preview/**` indirection is removed
+
 ### 3. Decide the target route and scope
 
 For preview-first migration:
@@ -317,6 +345,10 @@ In the PR body, record the three-source evidence explicitly:
 - which `corp-web-contents` files supplied the authored copy
 - which `corp-web-app` files supplied the behavior contract
 - which live URL was inspected for final UI confirmation
+
+Also record the implementation-shape decision when it mattered:
+- why the existing PR branch could be preserved or had to be rewritten on latest main
+- for large legal pages, why the route-subtree self-contained placement was chosen instead of broad repo-level helper indirection
 
 This makes later follow-up work much easier.
 
