@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import {
-  getWhitepaperPublicationDownloadHref,
+  getWhitepaperPublicationPdfHref,
   getWhitepaperPublicationRecord,
   listWhitepaperPublicationIds,
 } from "@/lib/publications/whitepapers/get-post";
@@ -24,8 +24,8 @@ export default async function WhitepaperDownloadIdPage({ params }: WhitepaperDow
   }
 
   if (record.redirectUrl) {
-    redirect(`${record.redirectUrl}/download`);
+    redirect(`${record.redirectUrl}/pdf`);
   }
 
-  redirect(getWhitepaperPublicationDownloadHref(id, record.slug));
+  redirect(getWhitepaperPublicationPdfHref(id, record.slug));
 }

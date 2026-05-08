@@ -9,10 +9,10 @@ import {
   buildGatingCookieName,
 } from "@/lib/publications/gating";
 import {
-  getWhitepaperPublicationDownloadHref,
+  getWhitepaperPublicationPdfHref,
   getWhitepaperPublicationHref,
   getWhitepaperPublicationRecord,
-  listWhitepaperPublicationDownloadParams,
+  listWhitepaperPublicationPdfParams,
 } from "@/lib/publications/whitepapers/get-post";
 import {
   getPreviewNavigationState,
@@ -28,7 +28,7 @@ type WhitepaperDownloadPageProps = {
 };
 
 export function generateStaticParams() {
-  return listWhitepaperPublicationDownloadParams();
+  return listWhitepaperPublicationPdfParams();
 }
 
 export async function generateMetadata({ params }: WhitepaperDownloadPageProps): Promise<Metadata> {
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: WhitepaperDownloadPageProps):
     title: `${record.title} | QueryPie AI`,
     description: "限定コンテンツの入手には、フォームのご記入をお願いいたします。",
     alternates: {
-      canonical: absoluteUrl(getWhitepaperPublicationDownloadHref(id, record.slug)),
+      canonical: absoluteUrl(getWhitepaperPublicationPdfHref(id, record.slug)),
     },
     robots: {
       index: false,
@@ -61,11 +61,11 @@ export default async function WhitepaperDownloadPage({ params }: WhitepaperDownl
   }
 
   if (record.redirectUrl) {
-    redirect(`${record.redirectUrl}/download`);
+    redirect(`${record.redirectUrl}/pdf`);
   }
 
   if (record.slug !== slug) {
-    redirect(getWhitepaperPublicationDownloadHref(id, record.slug));
+    redirect(getWhitepaperPublicationPdfHref(id, record.slug));
   }
 
   const cookieStore = await cookies();

@@ -2,16 +2,16 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
-test("whitepaper loader rewrites article download CTAs to canonical local download pages while preserving asset hrefs in frontmatter", () => {
+test("whitepaper loader rewrites article download CTAs to canonical local pdf pages while preserving asset hrefs in frontmatter", () => {
   const getPost = readSource("src/lib/publications/whitepapers/get-post.ts");
   const records = readSource("src/lib/publications/whitepapers/records.ts");
   const record24 = readSource("src/content/whitepapers/24-ai-transformation-japan.mdx");
   const record30 = readSource("src/content/whitepapers/30-saas-end-or-evolution.mdx");
 
   assert.match(getPost, /const getWhitepaperPublicationPostBase = createGatedPublicationPostLoader/);
-  assert.match(getPost, /getWhitepaperPublicationDownloadHref/);
+  assert.match(getPost, /getWhitepaperPublicationPdfHref/);
   assert.match(getPost, /post\.downloadCta = \{/);
-  assert.match(getPost, /href: getWhitepaperPublicationDownloadHref\(id, record\.slug\)/);
+  assert.match(getPost, /href: getWhitepaperPublicationPdfHref\(id, record\.slug\)/);
   assert.match(getPost, /external: false/);
 
   assert.match(records, /downloadCoverImageSrc\?: string;/);
@@ -22,17 +22,17 @@ test("whitepaper loader rewrites article download CTAs to canonical local downlo
   assert.match(record30, /downloadCta:\n  href: "\/whitepapers\/30\/QP_Whitepaper_SaaS_End_Or_Evolution_JP\.pdf"/);
 });
 
-test("whitepaper canonical download routes exist and use a dedicated gating-form page", () => {
-  const idPage = readSource("src/app/whitepapers/[id]/download/page.tsx");
-  const slugPage = readSource("src/app/whitepapers/[id]/[slug]/download/page.tsx");
+test("whitepaper canonical pdf routes exist and use a dedicated gating-form page", () => {
+  const idPage = readSource("src/app/whitepapers/[id]/pdf/page.tsx");
+  const slugPage = readSource("src/app/whitepapers/[id]/[slug]/pdf/page.tsx");
   const gatePage = readSource("src/components/sections/whitepaper-download-gate-page.tsx");
   const previewUnlockRoute = readSource("src/app/api/gating-form/preview-unlock/route.ts");
 
-  assert.match(idPage, /getWhitepaperPublicationDownloadHref/);
-  assert.match(idPage, /redirect\(`\$\{record\.redirectUrl\}\/download`\)/);
-  assert.match(idPage, /redirect\(getWhitepaperPublicationDownloadHref\(id, record\.slug\)\)/);
+  assert.match(idPage, /getWhitepaperPublicationPdfHref/);
+  assert.match(idPage, /redirect\(`\$\{record\.redirectUrl\}\/pdf`\)/);
+  assert.match(idPage, /redirect\(getWhitepaperPublicationPdfHref\(id, record\.slug\)\)/);
 
-  assert.match(slugPage, /listWhitepaperPublicationDownloadParams/);
+  assert.match(slugPage, /listWhitepaperPublicationPdfParams/);
   assert.match(slugPage, /PREVIEW_NAVIGATION_COOKIE/);
   assert.match(slugPage, /getPreviewNavigationState/);
   assert.match(slugPage, /buildGatingCookieName\(contentKey\)/);
@@ -53,11 +53,11 @@ test("whitepaper canonical download routes exist and use a dedicated gating-form
   assert.match(previewUnlockRoute, /buildGatingCookieName/);
 });
 
-test("whitepaper article download CTA uses full document navigation for local /download routes instead of Next client navigation", () => {
+test("whitepaper article pdf CTA uses full document navigation for local /pdf routes instead of Next client navigation", () => {
   const publicationPage = readSource("src/components/sections/publication-post-page.tsx");
 
   assert.match(publicationPage, /function isDocumentNavigationDownloadHref\(href: string\) \{/);
-  assert.match(publicationPage, /return href\.startsWith\("\/"\) && href\.endsWith\("\/download"\);/);
+  assert.match(publicationPage, /return href\.startsWith\("\/"\) && href\.endsWith\("\/pdf"\);/);
   assert.match(
     publicationPage,
     /downloadCta\.external\s*\|\|\s*isExternalPublicationHref\(downloadCta\.href\)\s*\|\|\s*isDocumentNavigationDownloadHref\(downloadCta\.href\)/s,

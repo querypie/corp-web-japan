@@ -38,7 +38,7 @@ export async function getWhitepaperPublicationPost(id: string) {
   if (post.downloadCta) {
     post.downloadCta = {
       ...post.downloadCta,
-      href: getWhitepaperPublicationDownloadHref(id, record.slug),
+      href: getWhitepaperPublicationPdfHref(id, record.slug),
       external: false,
     };
   }
@@ -50,11 +50,11 @@ export function getWhitepaperPublicationHref(id: string, slug: string) {
   return getPublicationHref("whitepaper", id, slug);
 }
 
-export function getWhitepaperPublicationDownloadHref(id: string, slug: string) {
-  return `${getWhitepaperPublicationHref(id, slug)}/download`;
+export function getWhitepaperPublicationPdfHref(id: string, slug: string) {
+  return `${getWhitepaperPublicationHref(id, slug)}/pdf`;
 }
 
-export function listWhitepaperPublicationDownloadParams() {
+export function listWhitepaperPublicationPdfParams() {
   return whitepaperPublicationRecords
     .filter((record) => Boolean(record.downloadCta) && !record.redirectUrl)
     .map(({ id, slug }) => ({ id, slug }));

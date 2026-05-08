@@ -17,7 +17,7 @@ function isExternalPublicationHref(href: string) {
 }
 
 function isDocumentNavigationDownloadHref(href: string) {
-  return href.startsWith("/") && href.endsWith("/download");
+  return href.startsWith("/") && href.endsWith("/pdf");
 }
 
 function PublicationDownloadCta({ downloadCta }: { downloadCta: PublicationPostDownloadCta }) {
