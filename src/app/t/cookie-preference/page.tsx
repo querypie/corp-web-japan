@@ -1,16 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { CookiePreferenceItem, CookiePreferenceList } from "@/components/sections/cookie-preference";
-import {
-  CtaActions,
-  CtaContent,
-  CtaCopy,
-  CtaDescription,
-  CtaTitle,
-  SimpleCtaSection,
-} from "@/components/sections/simple-cta-section";
-import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 
 export const metadata: Metadata = {
   title: "クッキー設定 | QueryPie AI",
@@ -98,21 +90,29 @@ export default function CookiePreferencePreviewPage() {
         </div>
       </section>
 
-      <SimpleCtaSection className="pt-[108px] pb-[108px]" contentClassName="max-w-[841px]">
-        <CtaContent className="gap-[37.5px] max-w-[841px]">
-          <CtaCopy>
-            <CtaTitle className="text-[48.75px] leading-[58.125px] text-[#24292F]">まずは小さく、失敗しないAXを始めよう</CtaTitle>
-            <CtaDescription className="mx-auto mt-[18.75px] max-w-[841px] text-[15px] leading-[24.375px] tracking-[0.3375px] text-[#24292F]">
-              簡単サインアップで、14日間の無料トライアルをお試しください
-            </CtaDescription>
-          </CtaCopy>
-          <CtaActions>
-            <BrandGradientCtaButton href="https://app.querypie.com" className="min-h-[47px] px-[26.25px] py-[13.125px] text-[15px] leading-[15px]">
-              無料で試してみる
-            </BrandGradientCtaButton>
-          </CtaActions>
-        </CtaContent>
-      </SimpleCtaSection>
+      <section className="mx-auto max-w-[1920px] bg-[#F6F8FA] px-[22.5px] pb-[112.5px] pt-[112.5px] text-center lg:px-[22.5px]">
+        <div className="mx-auto max-w-[841px]">
+          <h2 className="text-[48.75px] font-normal leading-[58.125px] text-[#24292F]">まずは小さく、失敗しないAXを始めよう</h2>
+          <p className="mt-[18.75px] text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-[#24292F]">
+            簡単サインアップで、14日間の無料トライアルをお試しください
+          </p>
+          <div className="mt-[38px] flex justify-center">
+            <Link
+              href="https://app.querypie.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-[10px] rounded-[6px] bg-[linear-gradient(100deg,#0762D4_34.93%,#875AC5_76.81%,#C55A8C_99.98%)] px-[26.25px] py-[13.125px] text-[15px] font-normal leading-[15px] text-[#F6F6F6] transition hover:brightness-[1.04]"
+            >
+              <span className="block">無料で試してみる</span>
+              <span aria-hidden="true" className="inline-flex h-[12px] w-[12px] items-center justify-center">
+                <svg viewBox="0 0 7 12" className="h-[12px] w-[7px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7 6L0.865033 12L0 11.154L5.26381 6L0 0.846L0.865033 0L7 6Z" fill="currentColor" />
+                </svg>
+              </span>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       <SiteFooter />
     </main>
