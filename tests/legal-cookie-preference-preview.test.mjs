@@ -26,7 +26,7 @@ test("cookie preference preview page is implemented as a non-indexed /t route wi
   assert.match(pageSource, /クッキー設定/);
   assert.match(pageSource, /まずは小さく、失敗しないAXを始めよう/);
   assert.match(pageSource, /簡単サインアップで、14日間の無料トライアルをお試しください/);
-  assert.match(pageSource, /inline-flex items-center justify-center gap-\[10px\]/);
+  assert.match(pageSource, /inline-flex min-h-\[47px\] items-center justify-center gap-\[10px\]/);
   assert.doesNotMatch(pageSource, /SimpleCtaSection/);
   assert.doesNotMatch(pageSource, /BrandGradientCtaButton/);
   assert.doesNotMatch(pageSource, /src\/content\//);

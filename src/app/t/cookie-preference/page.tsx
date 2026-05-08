@@ -92,7 +92,7 @@ export default function CookiePreferencePreviewPage() {
 
       <section className="mx-auto max-w-[1920px] bg-[#F6F8FA] px-[22.5px] pb-[112.5px] pt-[112.5px] text-center lg:px-[22.5px]">
         <div className="mx-auto max-w-[841px]">
-          <h2 className="text-[48.75px] font-normal leading-[58.125px] text-[#24292F]">まずは小さく、失敗しないAXを始めよう</h2>
+          <h2 className="text-[47px] font-normal leading-[56.06px] text-[#24292F]">まずは小さく、失敗しないAXを始めよう</h2>
           <p className="mt-[18.75px] text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-[#24292F]">
             簡単サインアップで、14日間の無料トライアルをお試しください
           </p>
@@ -101,7 +101,7 @@ export default function CookiePreferencePreviewPage() {
               href="https://app.querypie.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-[10px] rounded-[6px] bg-[linear-gradient(100deg,#0762D4_34.93%,#875AC5_76.81%,#C55A8C_99.98%)] px-[26.25px] py-[13.125px] text-[15px] font-normal leading-[15px] text-[#F6F6F6] transition hover:brightness-[1.04]"
+              className="inline-flex min-h-[47px] items-center justify-center gap-[10px] rounded-[6px] bg-[linear-gradient(100deg,#0762D4_34.93%,#875AC5_76.81%,#C55A8C_99.98%)] px-[26.25px] py-[13.125px] text-[15px] font-normal leading-[15px] text-[#F6F6F6] transition hover:brightness-[1.04]"
             >
               <span className="block">無料で試してみる</span>
               <span aria-hidden="true" className="inline-flex h-[12px] w-[12px] items-center justify-center">
