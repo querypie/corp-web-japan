@@ -5,6 +5,7 @@ import { readSource } from "./helpers/source-readers.mjs";
 
 const pagePath = "src/app/t/terms-of-service/page.tsx";
 const contentPath = new URL("../src/app/t/terms-of-service/content.mdx", import.meta.url);
+const sectionPath = "src/components/sections/legal-terms-of-service-preview.tsx";
 const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
 
 test("terms of service preview page derives metadata and hero copy from content.mdx frontmatter", () => {
@@ -17,20 +18,19 @@ test("terms of service preview page derives metadata and hero copy from content.
   assert.match(source, /description: frontmatter\.description,/);
   assert.match(source, /canonical: "\/t\/terms-of-service"/);
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
-  assert.match(source, /parseFrontmatter: true,/);
-  assert.match(source, /const \{ frontmatter \} = evaluation;/);
-  assert.match(source, /\{frontmatter\.date\}/);
-  assert.match(source, /\{frontmatter\.title\}/);
-  assert.match(source, /\{frontmatter\.description\}/);
-  assert.match(source, /<BrandGradientCtaButton href="https:\/\/app\.querypie\.com\/">無料で試してみる<\/BrandGradientCtaButton>/);
+  assert.match(source, /const trialHref = "https:\/\/app\.querypie\.com\/";/);
+  assert.match(source, /<TermsOfServiceHero frontmatter=\{frontmatter\} \/>/);
+  assert.match(source, /<TermsOfServiceBody content=\{evaluation\.content\} \/>/);
+  assert.match(source, /<BrandGradientCtaButton href=\{trialHref\}>無料で試してみる<\/BrandGradientCtaButton>/);
   assert.doesNotMatch(source, /export const metadata: Metadata = \{/);
-  assert.doesNotMatch(source, /function CenterSection/);
+  assert.doesNotMatch(source, /function LegalBodyH1/);
   assert.doesNotMatch(source, /corp-web-contents \/ corp-web-app/);
 });
 
 test("terms of service preview keeps title, description, and date in content.mdx frontmatter with legal body below", () => {
   const footerSource = readFileSync(footerPath, "utf8");
   const contentSource = readFileSync(contentPath, "utf8");
+  const sectionSource = readSource(sectionPath);
 
   assert.equal(existsSync(contentPath), true, "terms of service MDX content file should exist");
   assert.match(contentSource, /^---\ntitle: "QueryPie Terms of Service"\ndescription: "Terms of service for QueryPie AIP/m);
@@ -41,5 +41,9 @@ test("terms of service preview keeps title, description, and date in content.mdx
   assert.doesNotMatch(contentSource, /<Box direction="column"/);
   assert.doesNotMatch(contentSource, /<CenterSection/);
   assert.doesNotMatch(contentSource, /まずは小さく、失敗しないAXを始めよう/);
+  assert.match(sectionSource, /export async function renderTermsOfServiceContent\(\)/);
+  assert.match(sectionSource, /parseFrontmatter: true,/);
+  assert.match(sectionSource, /export function TermsOfServiceHero/);
+  assert.match(sectionSource, /export function TermsOfServiceBody/);
   assert.match(footerSource, /label: "利用規約", href: t\("\/terms-of-service", previewModeEnabled\)/);
 });
