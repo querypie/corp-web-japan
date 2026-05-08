@@ -63,9 +63,10 @@ function readCheckedState(): CookiePreferenceState {
   };
 }
 
-function CookiePreferenceSwitch({ checked, disabled, onToggle }: { checked: boolean; disabled?: boolean; onToggle: () => void }) {
+function CookiePreferenceSwitch({ checked, disabled, onToggle, id }: { checked: boolean; disabled?: boolean; onToggle: () => void; id: string }) {
   return (
     <button
+      id={id}
       type="button"
       role="switch"
       aria-checked={checked}
@@ -118,13 +119,17 @@ export function CookiePreferenceItem({ id, label, description, disabled = false 
     });
   }
 
+  const switchId = `cookie-preference-${id}`;
+
   return (
     <li className="border-b border-[#D0D7DE] pb-[31.5px] last:border-b-0 last:pb-0">
-      <div className="flex items-center justify-between gap-6">
-        <h2 className="text-[18px] font-medium leading-[27px] tracking-[0.2px] text-slate-950">{label}</h2>
-        <CookiePreferenceSwitch checked={checked} disabled={disabled || isNecessary} onToggle={handleToggle} />
+      <div className="flex items-center gap-4">
+        <CookiePreferenceSwitch checked={checked} disabled={disabled || isNecessary} onToggle={handleToggle} id={switchId} />
+        <label htmlFor={switchId} className="text-[18px] font-medium leading-[27px] tracking-[0.2px] text-slate-950">
+          {label}
+        </label>
       </div>
-      <div className="mt-[14px] max-w-[920px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-slate-600">
+      <div className="mt-[14px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-slate-600">
         {description}
       </div>
     </li>

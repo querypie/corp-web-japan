@@ -40,5 +40,9 @@ test("cookie preference section keeps the upstream cookie key contract and previ
   assert.match(sectionSource, /cookie-preference-marketing/);
   assert.match(sectionSource, /role="switch"/);
   assert.match(sectionSource, /document\.cookie/);
+  assert.match(sectionSource, /<div className="flex items-center gap-4">/);
+  assert.match(sectionSource, /<CookiePreferenceSwitch[^>]*id=\{switchId\}/s);
+  assert.match(sectionSource, /<label htmlFor=\{switchId\}/);
+  assert.doesNotMatch(sectionSource, /justify-between/);
   assert.match(footerSource, /label: "Cookie設定", href: t\("\/cookie-preference", previewModeEnabled\)/);
 });
