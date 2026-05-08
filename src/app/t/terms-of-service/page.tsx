@@ -1,15 +1,16 @@
-import * as fs from "node:fs";
-import * as path from "node:path";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { evaluate } from "next-mdx-remote-client/rsc";
 import { isValidElement } from "react";
 import type { ReactNode } from "react";
-import { ArrowRight } from "lucide-react";
 import remarkGfm from "remark-gfm";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { CtaActions, CtaContent, CtaCopy, CtaDescription, CtaTitle, SimpleCtaSection } from "@/components/sections/simple-cta-section";
 import { publicationBodyClassName } from "@/components/sections/publication-post-page";
+import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 import { buildPublicationMdxComponents } from "@/lib/publications/mdx/components";
 import { slugifyHeadingText } from "@/lib/publications/mdx/headings";
 
@@ -24,13 +25,6 @@ export const metadata: Metadata = {
     follow: false,
   },
 };
-
-const sourcePath = path.join(process.cwd(), "src/app/t/terms-of-service/content.mdx");
-
-
-function getTermsOfServiceSource() {
-  return fs.readFileSync(sourcePath, "utf8");
-}
 
 type StaticHeadingProps = {
   children?: ReactNode;
@@ -97,31 +91,26 @@ function TermsMdxLink({ href, children }: TermsLinkProps) {
 
 function TrialCtaSection() {
   return (
-    <section className="bg-[#f5f7fa] px-6 py-16 lg:px-10 lg:py-20">
-      <div className="mx-auto flex max-w-[1200px] flex-col items-center text-center">
-        <h2 className="text-[32px] font-medium leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[40px]">
-          まずは小さく、失敗しないAXを始めよう
-        </h2>
-        <p className="mt-4 text-base leading-7 text-slate-500">
-          簡単サインアップで、14日間の無料トライアルをお試しください
-        </p>
-        <Link
-          href="https://app.querypie.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-8 inline-flex items-center justify-center gap-2 rounded-[5.625px] bg-[linear-gradient(90deg,#2563eb_0%,#7c3aed_100%)] px-[26.25px] py-[13.125px] text-[15px] font-normal leading-[15px] text-white transition hover:opacity-95"
-        >
-          無料で試してみる
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-    </section>
+    <SimpleCtaSection>
+      <CtaContent>
+        <CtaCopy>
+          <CtaTitle>まずは小さく、失敗しないAXを始めよう</CtaTitle>
+          <CtaDescription>簡単サインアップで、14日間の無料トライアルをお試しください</CtaDescription>
+        </CtaCopy>
+        <CtaActions>
+          <BrandGradientCtaButton href="https://app.querypie.com/">無料で試してみる</BrandGradientCtaButton>
+        </CtaActions>
+      </CtaContent>
+    </SimpleCtaSection>
   );
 }
 
 async function renderTermsOfServiceContent() {
+  const sourcePath = join(process.cwd(), "src/app/t/terms-of-service/content.mdx");
+  const source = await readFile(sourcePath, "utf8");
+
   return evaluate({
-    source: getTermsOfServiceSource(),
+    source,
     components: {
       ...buildPublicationMdxComponents(),
       h1: LegalBodyH1,
@@ -146,7 +135,9 @@ export default async function PreviewTermsOfServicePage() {
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[120px] pt-[112px] lg:px-[30px] lg:pb-[160px] lg:pt-[144px]">
-        <div className={`${publicationBodyClassName} [&_h1:first-child]:mt-0`}>{evaluation.content}</div>
+        <div className="mx-auto max-w-[920px]">
+          <div className={`${publicationBodyClassName} [&_h1:first-child]:mt-0`}>{evaluation.content}</div>
+        </div>
       </section>
       <TrialCtaSection />
       <SiteFooter />

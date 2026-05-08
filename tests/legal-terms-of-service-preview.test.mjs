@@ -15,10 +15,11 @@ test("terms of service preview page keeps noindex metadata and renders MDX conte
   assert.match(source, /export const metadata: Metadata = \{/);
   assert.match(source, /canonical: "\/t\/terms-of-service"/);
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
-  assert.match(source, /const sourcePath = path\.join\(process\.cwd\(\), "src\/app\/t\/terms-of-service\/content\.mdx"\);/);
-  assert.match(source, /source: getTermsOfServiceSource\(\),/);
+  assert.match(source, /src\/app\/t\/terms-of-service\/content\.mdx/);
+  assert.match(source, /const source = await readFile\(sourcePath, "utf8"\);/);
   assert.doesNotMatch(source, /Article 1 \(Purpose\)/);
   assert.match(source, /まずは小さく、失敗しないAXを始めよう/);
+  assert.match(source, /<BrandGradientCtaButton href="https:\/\/app\.querypie\.com\/">無料で試してみる<\/BrandGradientCtaButton>/);
   assert.match(source, /簡単サインアップで、14日間の無料トライアルをお試しください/);
   assert.doesNotMatch(source, /corp-web-contents \/ corp-web-app/);
   assert.doesNotMatch(source, /法務・ポリシー関連のご質問/);
