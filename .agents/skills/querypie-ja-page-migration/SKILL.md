@@ -315,6 +315,7 @@ Good examples of what to assert:
 ### Use the live page literally for composition
 - if the live UI is a flat list with whitespace, do not rebuild it as boxed marketing cards
 - if the live page includes a CTA block beneath the settings section, keep that CTA block
+- if the live page CTA targets `https://app.querypie.com/`, do not silently swap it to a local contact/demo route unless the user explicitly asked for a different CTA contract
 - if the heading hierarchy is one H1 + repeated item headings, keep that shape
 - if a repeated row renders as `control + label` inline on the live page, do not reinterpret it into `label left / control right` or another familiar settings-page layout without explicit evidence
 - do not replace an upstream row-level contract with a generic SaaS dashboard convention just because it looks reasonable in isolation
