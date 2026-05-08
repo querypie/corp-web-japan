@@ -27,7 +27,7 @@ import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-butto
 export const metadata: Metadata = {
   title: "QueryPie AIP：実際使用量ベースエンタープライズAI | QueryPie AI",
   description:
-    "従量課金型の QueryPie AIP usage-based LLM ページを corp-web-japan preview route に static page として移行した確認用ページです。",
+    "固定費なしで使った分だけ支払える QueryPie AIP の従量課金型エンタープライズAIページ。プレミアムLLM、SSO、コスト最適化を一体で提供します。",
   alternates: {
     canonical: "/t/solutions/aip/usage-based-llm",
   },
@@ -166,7 +166,7 @@ export default function AipUsageBasedLlmPreviewPage() {
               <CtaTitle>まずは小さく、失敗しないAXを始めよう</CtaTitle>
               <AipUsageBasedLlmCtaDescription>簡単サインアップで、14日間の無料トライアルをお試しください</AipUsageBasedLlmCtaDescription>
               <AipUsageBasedLlmCtaButtonWrap>
-                <BrandGradientCtaButton href="/contact-us?inquiry=demo-request&product=aip" target="_self" rel={undefined}>
+                <BrandGradientCtaButton href="https://app.querypie.com/">
                   無料で試してみる
                 </BrandGradientCtaButton>
               </AipUsageBasedLlmCtaButtonWrap>

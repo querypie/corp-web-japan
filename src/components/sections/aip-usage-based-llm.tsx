@@ -15,7 +15,7 @@ export function AipUsageBasedLlmHeroSection({ children }: { children: ReactNode 
 }
 
 export function AipUsageBasedLlmHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 className="mx-auto max-w-[738px] text-center text-[60px] font-normal leading-[67.5px] text-slate-950">{children}</h1>;
+  return <h1 className="mx-auto max-w-[738px] text-center text-[64px] font-normal leading-[72px] text-slate-950">{children}</h1>;
 }
 
 export function AipUsageBasedLlmHeroDescription({ children }: { children: ReactNode }) {
@@ -80,7 +80,7 @@ export function AipUsageBasedLlmComparisonSection({ children }: { children: Reac
 }
 
 export function AipUsageBasedLlmComparisonTitle({ children }: { children: ReactNode }) {
-  return <h2 className="text-center text-[52px] font-normal leading-[58.125px] text-slate-950">{children}</h2>;
+  return <h2 className="text-center text-[52px] font-normal leading-[62px] text-slate-950">{children}</h2>;
 }
 
 export function AipUsageBasedLlmComparisonImage() {
