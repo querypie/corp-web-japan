@@ -45,14 +45,14 @@ function CenterSection({ children }: { children?: ReactNode }) {
 
 function StaticH1({ children }: StaticHeadingProps) {
   return (
-    <h2 id={legalHeadingId(children)} className="text-[34px] font-normal leading-[1.2] text-slate-950 lg:text-[40px]">
+    <h1 id={legalHeadingId(children)} className="text-[34px] font-normal leading-[1.2] text-slate-950 lg:text-[40px]">
       {children}
-    </h2>
+    </h1>
   );
 }
 
 function LegalBodyH1({ children }: StaticHeadingProps) {
-  return <h3 id={legalHeadingId(children)}>{children}</h3>;
+  return <h2 id={legalHeadingId(children)}>{children}</h2>;
 }
 
 function StaticHeader({ children }: StaticHeaderProps) {

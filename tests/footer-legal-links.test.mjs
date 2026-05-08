@@ -7,7 +7,7 @@ const resourceLeadFormPath = new URL("../src/components/sections/resource-lead-f
 
 const expectedLinks = [
   { label: "Cookie設定", href: "/cookie-preference" },
-  { label: "利用規約", href: "/terms-of-service" },
+  { label: "利用規約", href: null },
   { label: "プライバシーポリシー", href: "/privacy-policy" },
   { label: "EULA", href: "/eula" },
 ];
@@ -16,8 +16,12 @@ test("site footer legal links point to local legal redirect endpoints", () => {
   const siteFooter = readFileSync(siteFooterPath, "utf8");
 
   for (const { label, href } of expectedLinks) {
-    assert.match(siteFooter, new RegExp(`label: "${label}", href: "${href}"`));
+    if (href) {
+      assert.match(siteFooter, new RegExp(`label: "${label}", href: "${href}"`));
+    }
   }
+
+  assert.match(siteFooter, /label: "利用規約", href: t\("\/terms-of-service", previewModeEnabled\)/);
 
   assert.doesNotMatch(siteFooter, /label: "Cookie設定", href: "#"/);
   assert.doesNotMatch(siteFooter, /label: "利用規約", href: "#"/);
