@@ -56,6 +56,41 @@ function readCheckedState(): CookiePreferenceState {
   };
 }
 
+function CookiePreferenceToggle({
+  checked,
+  disabled,
+  label,
+  onCheckedChange,
+}: {
+  checked: boolean;
+  disabled?: boolean;
+  label: string;
+  onCheckedChange: (nextValue: boolean) => void;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-label={label}
+      aria-checked={checked}
+      disabled={disabled}
+      onClick={() => onCheckedChange(!checked)}
+      className={[
+        "relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border transition",
+        disabled ? "cursor-not-allowed border-slate-200 bg-slate-200" : checked ? "cursor-pointer border-sky-600 bg-sky-600" : "cursor-pointer border-slate-300 bg-slate-300",
+      ].join(" ")}
+    >
+      <span
+        aria-hidden="true"
+        className={[
+          "pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-sm transition-transform",
+          checked ? "translate-x-[22px]" : "translate-x-[2px]",
+        ].join(" ")}
+      />
+    </button>
+  );
+}
+
 export function LegalCookiePreferenceSwitch({ items }: LegalCookiePreferenceSwitchProps) {
   const [checked, setChecked] = useState<CookiePreferenceState>(() => readCheckedState());
 
@@ -66,35 +101,29 @@ export function LegalCookiePreferenceSwitch({ items }: LegalCookiePreferenceSwit
   }
 
   return (
-    <ul className="space-y-4">
+    <ul className="divide-y divide-slate-200 border-y border-slate-200">
       {items.map((item) => {
         const isNecessary = item.id === "necessary";
-        const enabled = isNecessary
-          ? true
-          : checked[item.id as Exclude<CookiePreferenceItem["id"], "necessary">];
+        const enabled = isNecessary ? true : checked[item.id as CookiePreferenceKey];
 
         return (
-          <li key={item.id} className="rounded-[12px] border border-[#e5e7eb] bg-white p-5 shadow-sm">
-            <label className="flex cursor-pointer items-start justify-between gap-4">
-              <div className="min-w-0">
-                <p className="text-base font-medium text-slate-950">{item.label}</p>
-                <p className="mt-2 text-sm leading-6 text-slate-500">{item.description}</p>
+          <li key={item.id} className="py-6 first:pt-0 last:pb-0">
+            <div className="flex items-start justify-between gap-6">
+              <div className="min-w-0 flex-1 pr-2">
+                <h2 className="text-[18px] font-medium leading-7 text-slate-950">{item.label}</h2>
+                <p className="mt-3 text-[15px] font-light leading-7 text-slate-600">{item.description}</p>
               </div>
-              <input
-                type="checkbox"
-                className="mt-1 h-5 w-5 rounded border-[#cbd5e1]"
+              <CookiePreferenceToggle
                 checked={enabled}
                 disabled={item.disabled}
-                onChange={(event) => {
+                label={item.label}
+                onCheckedChange={(nextValue) => {
                   if (!isNecessary) {
-                    updatePreference(
-                      item.id as Exclude<CookiePreferenceItem["id"], "necessary">,
-                      event.target.checked,
-                    );
+                    updatePreference(item.id as CookiePreferenceKey, nextValue);
                   }
                 }}
               />
-            </label>
+            </div>
           </li>
         );
       })}

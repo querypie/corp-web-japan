@@ -5,19 +5,13 @@ import { readFileSync } from "node:fs";
 const siteFooterPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
 const resourceLeadFormPath = new URL("../src/components/sections/resource-lead-form.tsx", import.meta.url);
 
-const expectedLinks = [
-  { label: "Cookie設定", href: "/cookie-preference" },
-  { label: "利用規約", href: "/terms-of-service" },
-  { label: "プライバシーポリシー", href: "/privacy-policy" },
-  { label: "EULA", href: "/eula" },
-];
-
 test("site footer legal links point to local legal redirect endpoints", () => {
   const siteFooter = readFileSync(siteFooterPath, "utf8");
 
-  for (const { label, href } of expectedLinks) {
-    assert.match(siteFooter, new RegExp(`label: "${label}", href: "${href}"`));
-  }
+  assert.match(siteFooter, /label: "Cookie設定", href: t\("\/cookie-preference", previewModeEnabled\)/);
+  assert.match(siteFooter, /label: "利用規約", href: "\/terms-of-service"/);
+  assert.match(siteFooter, /label: "プライバシーポリシー", href: "\/privacy-policy"/);
+  assert.match(siteFooter, /label: "EULA", href: "\/eula"/);
 
   assert.doesNotMatch(siteFooter, /label: "Cookie設定", href: "#"/);
   assert.doesNotMatch(siteFooter, /label: "利用規約", href: "#"/);
