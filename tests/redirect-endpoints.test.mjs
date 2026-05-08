@@ -65,11 +65,6 @@ const expectedRedirectRules = [
     destination: "https://www.querypie.com/ja/solutions/aip/fde-services",
   },
   {
-    requestPath: "/platform/ai/aip/mcp-gateway",
-    file: "src/app/platform/ai/aip/mcp-gateway/route.ts",
-    destination: "https://www.querypie.com/ja/solutions/aip/mcp-gateway",
-  },
-  {
     requestPath: "/platform/security/database-access-controller",
     file: "src/app/platform/security/database-access-controller/route.ts",
     destination: "https://www.querypie.com/ja/solutions/acp/database-access-controller",
@@ -92,7 +87,7 @@ const expectedRedirectRules = [
 ];
 
 test("remaining redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 17);
+  assert.equal(expectedRedirectRules.length, 16);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
@@ -166,4 +161,25 @@ test("legacy company news root path redirects to the local /news page", () => {
   assert.match(source, /return NextResponse\.redirect\(destination, 307\);/);
   assert.match(source, /export const HEAD = GET;/);
   assert.equal(existsSync(new URL("../src/app/[locale]/company/news/route.ts", import.meta.url)), false);
+});
+
+
+test("legacy mcp gateway endpoint switches between the /t route and the live destination based on Preview Toggle state", () => {
+  const file = "src/app/platform/ai/aip/mcp-gateway/route.ts";
+
+  assert.equal(existsSync(new URL(`../${file}`, import.meta.url)), true, `${file} should exist`);
+
+  const source = readSource(file);
+
+  assert.match(source, /import type \{ NextRequest \} from "next\/server";/);
+  assert.match(source, /PREVIEW_NAVIGATION_COOKIE/);
+  assert.match(source, /isPreviewNavigationEnabled\(previewCookieValue\)/);
+  assert.match(source, /const internalDestinationPath = "\/t\/solutions\/aip\/mcp-gateway";/);
+  assert.match(source, /const productionDestination = "https:\/\/www\.querypie\.com\/ja\/solutions\/aip\/mcp-gateway";/);
+  assert.match(source, /request\.cookies\.get\(PREVIEW_NAVIGATION_COOKIE\)\?\.value/);
+  assert.match(source, /const destination = new URL\(internalDestinationPath, request\.url\);/);
+  assert.match(source, /const destination = new URL\(productionDestination\);/);
+  assert.match(source, /destination\.search = request\.nextUrl\.search;/);
+  assert.match(source, /return NextResponse\.redirect\(destination, 307\);/);
+  assert.match(source, /export const HEAD = GET;/);
 });
