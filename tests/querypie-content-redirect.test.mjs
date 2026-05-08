@@ -78,3 +78,13 @@ test("querypie locale catch-all sends non-local ja paths to querypie.com after c
   assert.match(source, /new URL\(request\.nextUrl\.pathname, querypieOrigin\)/);
   assert.match(source, /NextResponse\.redirect\(querypieRedirectedUrl, 307\)/);
 });
+
+test("querypie locale catch-all sends ko paths directly to querypie.com/ko", () => {
+  const file = "src/app/ko/[[...path]]/route.ts";
+  const source = readSource(file);
+
+  assert.match(source, /const querypieOrigin = "https:\/\/www\.querypie\.com"/);
+  assert.match(source, /new URL\(request\.nextUrl\.pathname, querypieOrigin\)/);
+  assert.match(source, /querypieRedirectedUrl\.search = request\.nextUrl\.search/);
+  assert.match(source, /NextResponse\.redirect\(querypieRedirectedUrl, 307\)/);
+});
