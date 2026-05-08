@@ -50,6 +50,13 @@ type YoutubeProps = {
   center?: boolean;
 };
 
+type StateColor = "gray" | "blue" | "purple" | "green" | "yellow" | "red";
+
+type StateProps = {
+  color?: StateColor;
+  children?: ReactNode;
+};
+
 type BlueStateProps = {
   children?: ReactNode;
 };
@@ -195,12 +202,31 @@ function Youtube({ src, title = "YouTube video", center = false }: YoutubeProps)
   );
 }
 
-function BlueState({ children }: BlueStateProps) {
+function getStateClass(color: StateColor = "blue") {
+  const palette: Record<StateColor, string> = {
+    gray: "bg-slate-100 text-slate-700",
+    blue: "bg-[#e8f1ff] text-[#2458b9]",
+    purple: "bg-purple-100 text-purple-700",
+    green: "bg-emerald-100 text-emerald-700",
+    yellow: "bg-amber-100 text-amber-700",
+    red: "bg-rose-100 text-rose-700",
+  };
+
+  return palette[color];
+}
+
+function State({ color = "blue", children }: StateProps) {
   return (
-    <span className="mr-2 inline-flex rounded-full bg-[#e8f1ff] px-3 py-1 text-xs font-semibold tracking-[0.02em] text-[#2458b9]">
+    <span
+      className={`mr-2 inline-flex rounded-full px-3 py-1 text-xs font-semibold tracking-[0.02em] ${getStateClass(color)}`}
+    >
       {children}
     </span>
   );
+}
+
+function BlueState({ children }: BlueStateProps) {
+  return <State color="blue">{children}</State>;
 }
 
 function User({ children }: UserProps) {
@@ -236,6 +262,7 @@ export function buildPublicationMdxComponents(): MDXComponents {
     ArticleFileImage,
     InfoNote,
     Youtube,
+    State,
     BlueState,
     User,
     GatingCut,
