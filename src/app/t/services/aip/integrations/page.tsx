@@ -33,92 +33,92 @@ type IntegrationsPageProps = {
 };
 
 type IntegrationCategory = {
-  id: string;
+  key: string;
   label: string;
 };
 
 type IntegrationProduct = {
-  categoryIds: readonly string[];
+  categoryKeys: readonly string[];
   label: string;
   svgFilename: string;
 };
 
 const categories: readonly IntegrationCategory[] = [
-  { id: "0", label: "ワークフロー自動化" },
-  { id: "1", label: "コミュニケーション & コラボレーション" },
-  { id: "2", label: "顧客関係管理" },
-  { id: "3", label: "Googleサービス" },
-  { id: "4", label: "Microsoftサービス" },
-  { id: "5", label: "プロジェクト管理" },
-  { id: "6", label: "開発 & DevOps" },
-  { id: "7", label: "データベース接続" },
-  { id: "8", label: "検索 & ナビゲーション" },
-  { id: "9", label: "ローカル統合" },
+  { key: "workflow-automation", label: "ワークフロー自動化" },
+  { key: "collaboration", label: "コミュニケーション & コラボレーション" },
+  { key: "crm", label: "顧客関係管理" },
+  { key: "google-workspace", label: "Googleサービス" },
+  { key: "microsoft-365", label: "Microsoftサービス" },
+  { key: "project-management", label: "プロジェクト管理" },
+  { key: "devops", label: "開発 & DevOps" },
+  { key: "databases", label: "データベース接続" },
+  { key: "search-navigation", label: "検索 & ナビゲーション" },
+  { key: "local-tools", label: "ローカル統合" },
 ] as const;
 
 const products: readonly IntegrationProduct[] = [
-  { categoryIds: ["7"], label: "AirTable", svgFilename: "airtable" },
-  { categoryIds: ["6"], label: "AWS", svgFilename: "aws-icon" },
-  { categoryIds: ["8"], label: "Brave Search", svgFilename: "brave-search" },
-  { categoryIds: ["7"], label: "ClickHouse", svgFilename: "clickhouse" },
-  { categoryIds: ["6"], label: "Code Executor", svgFilename: "querypie" },
-  { categoryIds: ["5"], label: "Confluence Cloud", svgFilename: "confluence" },
-  { categoryIds: ["6"], label: "Context7", svgFilename: "context7" },
-  { categoryIds: ["6"], label: "Datadog", svgFilename: "datadog" },
-  { categoryIds: ["8"], label: "Daum Search", svgFilename: "daum-search" },
-  { categoryIds: ["0"], label: "Dify API Access", svgFilename: "dify" },
-  { categoryIds: ["1"], label: "Discord", svgFilename: "discord" },
-  { categoryIds: ["1"], label: "Discord with OAuth", svgFilename: "discord" },
-  { categoryIds: ["6", "9"], label: "Filesystem", svgFilename: "mcp" },
-  { categoryIds: ["1"], label: "GitHub", svgFilename: "github" },
-  { categoryIds: ["3"], label: "Google Calendar", svgFilename: "google-calendar" },
-  { categoryIds: ["3"], label: "Google Drive", svgFilename: "google-drive" },
-  { categoryIds: ["3"], label: "Google Gmail", svgFilename: "google-gmail" },
-  { categoryIds: ["3"], label: "Google Sheets", svgFilename: "google-sheets" },
-  { categoryIds: ["3"], label: "Google Slides", svgFilename: "google-slides" },
-  { categoryIds: ["6"], label: "Grafana", svgFilename: "grafana" },
-  { categoryIds: ["5"], label: "Jira Cloud", svgFilename: "jira" },
-  { categoryIds: ["8"], label: "Kakao Map", svgFilename: "kakao" },
-  { categoryIds: ["8"], label: "Kakao Navigation", svgFilename: "kakao" },
-  { categoryIds: ["6"], label: "Kubernetes", svgFilename: "kubernetes-icon" },
-  { categoryIds: ["7"], label: "MariaDB", svgFilename: "maria-db-icon" },
-  { categoryIds: ["4"], label: "Microsoft 365", svgFilename: "microsoft-365" },
-  { categoryIds: ["7"], label: "MySQL", svgFilename: "mysql-icon" },
-  { categoryIds: ["0"], label: "n8n Chat", svgFilename: "n8n-chat" },
-  { categoryIds: ["0"], label: "n8n Webhook", svgFilename: "n8n-webhook" },
-  { categoryIds: ["8"], label: "Naver Search", svgFilename: "naver-search" },
-  { categoryIds: ["1"], label: "Notion", svgFilename: "notion" },
-  { categoryIds: ["7"], label: "Oracle Database", svgFilename: "oracle-icon" },
-  { categoryIds: ["8"], label: "Perplexity Ask", svgFilename: "perplexity-ask" },
-  { categoryIds: ["7"], label: "PostgreSQL", svgFilename: "postgresql-icon" },
-  { categoryIds: ["6"], label: "QueryPie Customer Center", svgFilename: "querypie" },
-  { categoryIds: ["7"], label: "Redis", svgFilename: "redis-icon" },
-  { categoryIds: ["2"], label: "Salesforce", svgFilename: "salesforce" },
-  { categoryIds: ["2"], label: "Salesforce with OAuth", svgFilename: "salesforce" },
-  { categoryIds: ["0"], label: "Sequential Thinking", svgFilename: "querypie" },
-  { categoryIds: ["1"], label: "Slack", svgFilename: "slack-icon" },
-  { categoryIds: ["7"], label: "Snowflake", svgFilename: "snowflake-icon" },
-  { categoryIds: ["7"], label: "SQL Server", svgFilename: "sql-server-icon" },
-  { categoryIds: ["6"], label: "SSH", svgFilename: "ssh" },
-  { categoryIds: ["6", "7"], label: "Supabase", svgFilename: "supabase" },
-  { categoryIds: ["6", "9"], label: "Terminal", svgFilename: "ssh" },
+  { categoryKeys: ["databases"], label: "AirTable", svgFilename: "airtable" },
+  { categoryKeys: ["devops"], label: "AWS", svgFilename: "aws-icon" },
+  { categoryKeys: ["search-navigation"], label: "Brave Search", svgFilename: "brave-search" },
+  { categoryKeys: ["databases"], label: "ClickHouse", svgFilename: "clickhouse" },
+  { categoryKeys: ["devops"], label: "Code Executor", svgFilename: "querypie" },
+  { categoryKeys: ["project-management"], label: "Confluence Cloud", svgFilename: "confluence" },
+  { categoryKeys: ["devops"], label: "Context7", svgFilename: "context7" },
+  { categoryKeys: ["devops"], label: "Datadog", svgFilename: "datadog" },
+  { categoryKeys: ["search-navigation"], label: "Daum Search", svgFilename: "daum-search" },
+  { categoryKeys: ["workflow-automation"], label: "Dify API Access", svgFilename: "dify" },
+  { categoryKeys: ["collaboration"], label: "Discord", svgFilename: "discord" },
+  { categoryKeys: ["collaboration"], label: "Discord with OAuth", svgFilename: "discord" },
+  { categoryKeys: ["devops", "local-tools"], label: "Filesystem", svgFilename: "mcp" },
+  { categoryKeys: ["collaboration"], label: "GitHub", svgFilename: "github" },
+  { categoryKeys: ["google-workspace"], label: "Google Calendar", svgFilename: "google-calendar" },
+  { categoryKeys: ["google-workspace"], label: "Google Drive", svgFilename: "google-drive" },
+  { categoryKeys: ["google-workspace"], label: "Google Gmail", svgFilename: "google-gmail" },
+  { categoryKeys: ["google-workspace"], label: "Google Sheets", svgFilename: "google-sheets" },
+  { categoryKeys: ["google-workspace"], label: "Google Slides", svgFilename: "google-slides" },
+  { categoryKeys: ["devops"], label: "Grafana", svgFilename: "grafana" },
+  { categoryKeys: ["project-management"], label: "Jira Cloud", svgFilename: "jira" },
+  { categoryKeys: ["search-navigation"], label: "Kakao Map", svgFilename: "kakao" },
+  { categoryKeys: ["search-navigation"], label: "Kakao Navigation", svgFilename: "kakao" },
+  { categoryKeys: ["devops"], label: "Kubernetes", svgFilename: "kubernetes-icon" },
+  { categoryKeys: ["databases"], label: "MariaDB", svgFilename: "maria-db-icon" },
+  { categoryKeys: ["microsoft-365"], label: "Microsoft 365", svgFilename: "microsoft-365" },
+  { categoryKeys: ["databases"], label: "MySQL", svgFilename: "mysql-icon" },
+  { categoryKeys: ["workflow-automation"], label: "n8n Chat", svgFilename: "n8n-chat" },
+  { categoryKeys: ["workflow-automation"], label: "n8n Webhook", svgFilename: "n8n-webhook" },
+  { categoryKeys: ["search-navigation"], label: "Naver Search", svgFilename: "naver-search" },
+  { categoryKeys: ["collaboration"], label: "Notion", svgFilename: "notion" },
+  { categoryKeys: ["databases"], label: "Oracle Database", svgFilename: "oracle-icon" },
+  { categoryKeys: ["search-navigation"], label: "Perplexity Ask", svgFilename: "perplexity-ask" },
+  { categoryKeys: ["databases"], label: "PostgreSQL", svgFilename: "postgresql-icon" },
+  { categoryKeys: ["devops"], label: "QueryPie Customer Center", svgFilename: "querypie" },
+  { categoryKeys: ["databases"], label: "Redis", svgFilename: "redis-icon" },
+  { categoryKeys: ["crm"], label: "Salesforce", svgFilename: "salesforce" },
+  { categoryKeys: ["crm"], label: "Salesforce with OAuth", svgFilename: "salesforce" },
+  { categoryKeys: ["workflow-automation"], label: "Sequential Thinking", svgFilename: "querypie" },
+  { categoryKeys: ["collaboration"], label: "Slack", svgFilename: "slack-icon" },
+  { categoryKeys: ["databases"], label: "Snowflake", svgFilename: "snowflake-icon" },
+  { categoryKeys: ["databases"], label: "SQL Server", svgFilename: "sql-server-icon" },
+  { categoryKeys: ["devops"], label: "SSH", svgFilename: "ssh" },
+  { categoryKeys: ["devops", "databases"], label: "Supabase", svgFilename: "supabase" },
+  { categoryKeys: ["devops", "local-tools"], label: "Terminal", svgFilename: "ssh" },
 ] as const;
 
 function readCurrentCategory(searchParams: Record<string, string | string[] | undefined> | undefined) {
   const raw = searchParams?.category;
   const value = Array.isArray(raw) ? raw[0] : raw;
-  return value && (value === "all" || categories.some((category) => category.id === value)) ? value : "all";
+  return value && (value === "all" || categories.some((category) => category.key === value)) ? value : "all";
 }
 
-function getCategoryCount(categoryId: string) {
-  return products.filter((product) => product.categoryIds.includes(categoryId)).length;
+function getCategoryCount(categoryKey: string) {
+  return products.filter((product) => product.categoryKeys.includes(categoryKey)).length;
 }
 
 export default async function AipIntegrationsPreviewPage({ searchParams }: IntegrationsPageProps) {
   const resolvedSearchParams = (await searchParams) ?? {};
   const currentCategory = readCurrentCategory(resolvedSearchParams);
   const filteredProducts = products
-    .filter((product) => currentCategory === "all" || product.categoryIds.includes(currentCategory))
+    .filter((product) => currentCategory === "all" || product.categoryKeys.includes(currentCategory))
     .sort((left, right) => left.label.localeCompare(right.label));
 
   return (
@@ -142,11 +142,11 @@ export default async function AipIntegrationsPreviewPage({ searchParams }: Integ
             </AipIntegrationsCategoryLink>
             {categories.map((category) => (
               <AipIntegrationsCategoryLink
-                key={category.id}
-                href={`/t/services/aip/integrations?category=${category.id}`}
-                active={currentCategory === category.id}
+                key={category.key}
+                href={`/t/services/aip/integrations?category=${category.key}`}
+                active={currentCategory === category.key}
               >
-                {category.label} ({getCategoryCount(category.id)})
+                {category.label} ({getCategoryCount(category.key)})
               </AipIntegrationsCategoryLink>
             ))}
           </AipIntegrationsCategoryList>
