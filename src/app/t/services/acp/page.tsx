@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { AcpFeatureBrowser } from "@/components/sections/acp-feature-browser";
 import {
   AcpEasyUseImage,
   AcpEasyUseInner,
   AcpEasyUseSection,
-  AcpFeatureBrowser,
   AcpHeroCopy,
   AcpHeroInner,
   AcpHeroLead,
@@ -263,8 +263,19 @@ export default function AcpServicePreviewPage() {
       </AcpEasyUseSection>
 
       <section className="flex justify-center px-6 pb-[80px] lg:px-0">
-        <div className="w-full max-w-[1200px]">
-          <AcpFeatureBrowser categories={categories} />
+        <div className="flex w-full max-w-[1200px] flex-col gap-[24px]">
+          <RevealOnScroll>
+            <div className="flex flex-col items-center gap-[20px] text-center">
+              <AcpSectionTitle>QueryPie ACPができること</AcpSectionTitle>
+              <AcpSectionBody>
+                データベース、システム、Kubernetes、Web、ワークフロー全体にまたがる代表機能をカテゴリごとに確認できます。
+              </AcpSectionBody>
+            </div>
+          </RevealOnScroll>
+
+          <RevealOnScroll delayMs={80}>
+            <AcpFeatureBrowser categories={categories} />
+          </RevealOnScroll>
         </div>
       </section>
 
