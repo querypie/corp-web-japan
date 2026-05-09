@@ -38,7 +38,7 @@ Then use `page-migration-preview-route` as the narrower implementation rulebook.
 
 Important repo-local note:
 - when this workflow produces reusable migration knowledge for this repository, record it under `.agents/skills/` rather than relying only on built-in/global skills
-- service-page follow-up knowledge for `/t/services/*` now lives in `.agents/skills/services-preview-migration/SKILL.md`
+- service-page follow-up knowledge for `/t/services/*` now lives in `.agents/skills/querypie-ja-preview-parity-followup/SKILL.md`
 
 ## When to use this skill
 
@@ -55,7 +55,7 @@ Typical examples:
 - `/ja/services/...`
 - other legal/company/marketing pages that currently live on QueryPie Japan
 
-If the target is specifically `/t/services/*`, also load `.agents/skills/services-preview-migration/SKILL.md` because service landing pages often need page-family-specific parity rules such as hero video restoration, value-card recovery, alternating feature-band layout, category-browser restoration, and separate PRs per page.
+If the target is specifically `/t/services/*`, also load `.agents/skills/querypie-ja-preview-parity-followup/SKILL.md` because service landing pages often need page-family-specific parity rules such as hero video restoration, value-card recovery, alternating feature-band layout, category-browser restoration, and separate PRs per page.
 
 Do not use it for:
 - ordinary local-only day-2 edits to an already-migrated page

@@ -30,7 +30,7 @@ This skill is based on the preview-page migration pattern used in PR #182 (`feat
 Important repo-local note:
 - initial preview-route creation and later live-parity completion are different phases
 - if an existing `/t/*` page already exists but still uses placeholder preview-only copy or a structurally simplified layout, do not treat this skill alone as sufficient; also load any narrower repo-local follow-up skill that captures the page-family-specific parity rules
-- for `/t/services/*`, use `.agents/skills/services-preview-migration/SKILL.md`
+- for `/t/services/*`, use `.agents/skills/querypie-ja-preview-parity-followup/SKILL.md`
 
 ## Mandatory references
 

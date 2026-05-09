@@ -62,10 +62,10 @@ Current skills:
   - Path: `.agents/skills/acp-demo-mdx-migration/SKILL.md`
   - Purpose: migrate `../corp-web-contents` ACP demo entries into the local corp-web-japan MDX publication system with `/t/demo/acp` preview and `/demo/acp/:id/:slug` canonical detail routes
   - Asset rule: keep ACP demo thumbnails and demo-specific assets under `public/demo/acp/<id>/...`
-- `services-preview-migration`
-  - Path: `.agents/skills/services-preview-migration/SKILL.md`
-  - Purpose: migrate or finish `/t/services/{aip,acp,fde}` pages to live parity with route-local authoring, route-aligned assets, and separate PRs per page by default
-  - Scope: hero video restoration, service-page value/feature/CTA parity, ACP category-browser parity, and sibling-preview reuse heuristics like `/t/services/fde` ↔ `/t/solutions/aip/fde-services`
+- `querypie-ja-preview-parity-followup`
+  - Path: `.agents/skills/querypie-ja-preview-parity-followup/SKILL.md`
+  - Purpose: finish an existing QueryPie Japan preview route so it reaches live parity with route-local authoring, route-aligned assets, and page-family-specific follow-up guidance when needed
+  - Scope: general `querypie.com/ja/**` preview follow-up work, with concrete heuristics for `/t/services/{aip,acp,fde}` including hero video restoration, service-page value/feature/CTA parity, ACP category-browser parity, and sibling-preview reuse
 - `resource-list-sidebar-pattern`
   - Path: `.agents/skills/resource-list-sidebar-pattern/SKILL.md`
   - Purpose: maintain corp-web-japan resource-list pages while keeping hero/CTA authoring route-local, centralizing only repeated sidebar markup, handling preview/public sidebar link differences, and preserving sticky behavior
@@ -91,6 +91,6 @@ Usage notes:
 - Use `page-migration-preview-route` when the main question is generic `/t/**` implementation shape, route-local authoring, preview metadata, and route-aligned asset placement.
 - Use `querypie-ja-page-migration` first when the source page is specifically `querypie.com/ja/**` and correctness depends on reconciling `../corp-web-contents`, `../corp-web-app`, and the live page, or when an existing PR branch may need latest-main rewrite instead of a mechanical rebase.
 - For `querypie.com/ja/**` static page migrations that also require `corp-web-app` behavior-contract lookup and live-page verification, load `querypie-ja-page-migration` before the narrower preview-route implementation skills.
-- Use `services-preview-migration` when the target is `/t/services/*`, especially if an earlier preview exists but still contains placeholder preview-only structure or simplified cards that need to be brought up to live parity.
+- Use `querypie-ja-preview-parity-followup` when an existing `querypie.com/ja/**` preview route under `/t/**` already exists but still contains placeholder preview-only structure or a simplified layout and needs a live-parity follow-up pass.
 - For new publication work, do not put post-specific assets under `public/assets/...`; use the route-aligned per-post asset root instead.
 - Keep this index aligned with the actual skill directories.
