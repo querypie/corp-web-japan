@@ -42,8 +42,8 @@ Current coverage:
 
 Current coverage intent:
 - `/news` renders the news list page and local `/news/:id/:slug` card hrefs
-- redirect-backed local news detail URIs (for example news 12) resolve to their configured external targets
-- local-body news detail URIs (news 13 and news 14) render the local MDX body instead of redirecting away
+- representative local-body news detail URIs (currently news 12, 13, and 14) redirect `/news/:id` and mismatched slugs to the canonical local slug route
+- those local-body news detail URIs render the local MDX body instead of redirecting away
 
 
 - Test file: `tests-local/src/app/internal/whitepaper-gating-demo/page.e2e.mjs`
@@ -70,7 +70,7 @@ Current coverage:
 - blog id-only routes redirect to the canonical slug URL
 - blog mismatched slug routes redirect to the canonical slug URL
 - visible blog detail renders title, author metadata, body heading, and related posts section
-- hidden blog detail remains directly reachable while still excluded from the list
+- hidden blog redirect-shadow records resolve to their canonical local target route while remaining excluded from the list
 
 ### 4. Whitepaper pages on stage
 
@@ -79,7 +79,7 @@ Current coverage:
 - Target pages: `/whitepapers`, `/whitepapers/:id`, `/whitepapers/:id/:slug`, and redirecting hidden shadow routes on the configured base URL
 
 Current coverage:
-- whitepaper list renders the canonical page chrome and keeps the expected upstream card href contract
+- whitepaper list renders the canonical page chrome and keeps the expected local card href contract
 - whitepaper hidden shadow/redirect records remain absent from the list surface
 - whitepaper id-only routes redirect to the canonical slug URL
 - whitepaper mismatched slug routes redirect to the canonical slug URL

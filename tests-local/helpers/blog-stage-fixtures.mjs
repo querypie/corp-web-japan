@@ -17,10 +17,9 @@ export const blogFixtures = {
     authorName: 'Brant Hwang',
     relatedHeading: '関連記事',
   },
-  hiddenPost: {
+  hiddenRedirectPost: {
     path: '/blog/23/querypie-payroll-partnership',
-    title: '株式会社ペイロールとQueryPieがAIセキュリティ分野で技術提携',
-    bodyHeading: '〜AIサービスの安全・迅速な展開に向け、セキュリティとデータ統合技術で連携〜',
-    relatedHeading: '関連記事',
+    redirectedPath: '/news/12/payroll-querypie-ai-security-partnership',
+    redirectedTitle: '株式会社ペイロール、AIセキュリティ領域でQueryPie, Inc.と技術提携を開始',
   },
 };

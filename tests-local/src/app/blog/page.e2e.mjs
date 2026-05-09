@@ -45,12 +45,11 @@ test.describe('stage blog pages', () => {
     await expect(page.getByRole('heading', { name: blogFixtures.visiblePost.relatedHeading })).toBeVisible();
   });
 
-  test('hidden blog detail stays directly reachable while remaining a normal article page', async ({ page, baseURL }) => {
-    await gotoStagePath(page, baseURL, blogFixtures.hiddenPost.path);
+  test('hidden blog redirect-shadow record resolves to the canonical local news detail route', async ({ page, baseURL }) => {
+    await gotoStagePath(page, baseURL, blogFixtures.hiddenRedirectPost.path);
 
-    await expect(page).toHaveTitle(`${blogFixtures.hiddenPost.title} | QueryPie AI`);
-    await expect(page.getByRole('heading', { name: blogFixtures.hiddenPost.title }).first()).toBeVisible();
-    await expect(page.getByRole('heading', { name: blogFixtures.hiddenPost.bodyHeading })).toBeVisible();
-    await expect(page.getByRole('heading', { name: blogFixtures.hiddenPost.relatedHeading })).toBeVisible();
+    await expect(page).toHaveURL(`${baseURL}${blogFixtures.hiddenRedirectPost.redirectedPath}`);
+    await expect(page).toHaveTitle(`${blogFixtures.hiddenRedirectPost.redirectedTitle} | QueryPie AI`);
+    await expect(page.getByRole('heading', { name: blogFixtures.hiddenRedirectPost.redirectedTitle }).first()).toBeVisible();
   });
 });

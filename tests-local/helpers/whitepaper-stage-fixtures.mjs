@@ -4,7 +4,7 @@ export const whitepaperFixtures = {
   listHeading: 'ホワイトペーパー',
   visibleCard: {
     title: 'なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか',
-    href: 'https://www.querypie.com/ja/features/documentation/white-paper/24/ai-transformation-japan',
+    href: '/whitepapers/24/ai-transformation-japan',
   },
   hiddenCardTitle: 'Created only for the Korean translation whitepaper flow.',
   gatedPost: {
@@ -19,7 +19,7 @@ export const whitepaperFixtures = {
     previewText: 'フォームに入力後、限定コンテンツをご覧いただけます。',
     revealedHeading: '■ テクノロジー大手',
     ctaText: 'PDF版ホワイトペーパーを見る',
-    ctaHref: 'https://www.querypie.com/ja/features/documentation/white-paper/24/ai-transformation-japan/pdf',
+    ctaHref: '/whitepapers/24/ai-transformation-japan/pdf',
     cookieName: 'qp-gated-whitepaper-24',
     relatedHeading: '関連記事',
   },

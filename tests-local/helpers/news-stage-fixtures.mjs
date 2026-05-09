@@ -19,13 +19,17 @@ export const newsFixtures = {
       href: '/news/12/payroll-querypie-ai-security-partnership',
     },
   ],
-  redirectPost: {
-    idOnlyPath: '/news/12',
-    path: '/news/12/payroll-querypie-ai-security-partnership',
-    canonicalPath: '/news/12/payroll-querypie-ai-security-partnership',
-    redirectTargetPrefix: 'https://news.nicovideo.jp/watch/nw18070980',
-  },
   localBodyPosts: [
+    {
+      idOnlyPath: '/news/12',
+      path: '/news/12/payroll-querypie-ai-security-partnership',
+      canonicalPath: '/news/12/payroll-querypie-ai-security-partnership',
+      mismatchedSlugPath: '/news/12/not-the-canonical-slug',
+      title: '株式会社ペイロール、AIセキュリティ領域でQueryPie, Inc.と技術提携を開始',
+      bodyHeading: '提携の主な目的と成果目標',
+      authorName: 'QueryPie AI編集部',
+      relatedHeading: '関連ニュース',
+    },
     {
       idOnlyPath: '/news/13',
       path: '/news/13/terrasky-mitoco-buddy-announcement',
