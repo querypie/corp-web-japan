@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 export function AcpServicePageShell({ children }: { children: ReactNode }) {
@@ -50,6 +51,18 @@ export function AcpEasyUseInner({ children }: { children: ReactNode }) {
   return <div className="flex w-full max-w-[1200px] flex-col gap-[80px]">{children}</div>;
 }
 
+export function AcpFeatureSection({ children }: { children: ReactNode }) {
+  return <section className="flex justify-center px-6 pb-[80px] lg:px-0">{children}</section>;
+}
+
+export function AcpFeatureInner({ children }: { children: ReactNode }) {
+  return <div className="flex w-full max-w-[1200px] flex-col gap-[24px]">{children}</div>;
+}
+
+export function AcpFeatureIntro({ children }: { children: ReactNode }) {
+  return <div className="flex flex-col items-center gap-[20px] text-center">{children}</div>;
+}
+
 export function AcpSectionTitle({ children }: { children: ReactNode }) {
   return <h2 className="text-[52px] font-normal leading-[62px] tracking-normal text-[#24292F]">{children}</h2>;
 }
@@ -80,6 +93,19 @@ export function AcpIntegrationsTitle({ children }: { children: ReactNode }) {
 
 export function AcpIntegrationsBody({ children }: { children: ReactNode }) {
   return <p className="mt-[20px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+}
+
+export function AcpIntegrationsLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="mt-[20px] inline-flex text-[15px] font-normal leading-normal text-[#24292F] underline-offset-4 hover:underline"
+    >
+      {children}
+    </Link>
+  );
 }
 
 export function AcpIntegrationsImage() {

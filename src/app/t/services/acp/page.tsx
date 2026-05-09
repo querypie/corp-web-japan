@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { AcpFeatureBrowser } from "@/components/sections/acp-feature-browser";
+import { AcpFeatureBrowser, AcpFeatureCategory, AcpFeatureItem } from "@/components/sections/acp-feature-browser";
 import {
   AcpEasyUseImage,
   AcpEasyUseInner,
   AcpEasyUseSection,
+  AcpFeatureInner,
+  AcpFeatureIntro,
+  AcpFeatureSection,
   AcpHeroCopy,
   AcpHeroInner,
   AcpHeroLead,
@@ -16,6 +18,7 @@ import {
   AcpIntegrationsBody,
   AcpIntegrationsImage,
   AcpIntegrationsInner,
+  AcpIntegrationsLink,
   AcpIntegrationsSection,
   AcpIntegrationsTitle,
   AcpSectionBody,
@@ -38,186 +41,6 @@ export const metadata: Metadata = {
     follow: false,
   },
 };
-
-type AcpFeatureItem = {
-  title: string;
-  description: ReactNode;
-  imageSrc: string;
-  learnMoreHref: string;
-};
-
-type AcpFeatureCategory = {
-  label: string;
-  items: readonly AcpFeatureItem[];
-};
-
-const categories: readonly AcpFeatureCategory[] = [
-  {
-    label: "データベースアクセス制御",
-    items: [
-      {
-        title: "エージェントレスクラウド",
-        description:
-          "DB同期 AWS、GCP、Azureからデータ資産を個別設定なしで自動同期。 管理者は運用を効率化し、本当に重要なことに集中できる 自動化されたエージェントレス統合を取得します。",
-        imageSrc: "/services/acp/db-agentless-cloud.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/databases/connection-management/cloud-providers",
-      },
-      {
-        title: "汎用DB権限制御",
-        description:
-          "QueryPieのクエリアナライザ があらゆるプラットフォームの複雑なクエリを解釈し、 統一フォーマットに変換します。 汎用的な互換性により、すべてのデータソースに一貫したアクセス制御ポリシーを適用します。",
-        imageSrc: "/services/acp/db-query-analyzer.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/databases/db-access-control/privilege-type",
-      },
-      {
-        title: "機密データマスキング",
-        description:
-          "プリセットのマスキングパターンとカスタムルールを使用して機密データと個人データを保護し、未承認ユーザーが重要データにアクセスできないことを保証します。組織全体で安全なアクセスを可能にしながら、コンプライアンスとデータプライバシーを維持します。",
-        imageSrc: "/services/acp/db-data-masking.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/databases/policies/data-masking",
-      },
-      {
-        title: "ユーザーフレンドリーなWeb SQLエディター",
-        description:
-          "Web SQLエディターにより、使用するオペレーティングシステムに関係なく、ブラウザ上で 直接クエリの実行、インポート、エクスポート、その他のさまざまなタスクを簡単に実行できます。",
-        imageSrc: "/services/acp/db-web-sql-editor.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/user-manual/database-access-control/connecting-with-web-sql-editor",
-      },
-    ],
-  },
-  {
-    label: "システムアクセス制御",
-    items: [
-      {
-        title: "エージェントレスクラウド",
-        description:
-          "複数のクラウドプラットフォーム全体でインフラを自動同期・管理します。自動スケーリングリソースを含むすべてのインフラ資産をシームレスに処理して、 重要な業務に集中することを可能にします。",
-        imageSrc: "/services/acp/system-agentless-cloud.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/servers/connection-management/cloud-providers",
-      },
-      {
-        title: "コードとしてのシステムアクセスポリシー",
-        description:
-          "YAMLベースのアクセスポリシーがユーザー のシステムアクセスのタイミング、場所、方法を制御します。 RBACが複数のポリシーを組み合わせ、インフラ管理を簡素化。 拡張可能で監査可能なアクセス制御のためのインフラストラクチャ・アズ・コード(IaC)アプローチ。",
-        imageSrc: "/services/acp/system-policy-as-code.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/servers/server-access-control/policies",
-      },
-      {
-        title: "Webターミナル & SFTPクライアント",
-        description:
-          "Webブラウザインターフェースから直接サーバーにアクセスしコマンドを実行できます。追加ソフトウェアのインストールなしに内蔵SFTPクライアントを使用してファイルを転送できます。クロスプラットフォーム互換性により、オペレーティングシステムに関係なくアクセスを保証します。",
-        imageSrc: "/services/acp/system-web-terminal-sftp.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/user-manual/server-access-control/using-web-terminal",
-      },
-      {
-        title: "リアルタイム監視 & セッション再生",
-        description:
-          "すべてのユーザーインタラクションを捉えて、包括的な監査証跡を提供します。運用中断なしにセキュリティ分析とコンプライアンスレビューのためのセッションを再生し、すべてのアクティビティを完全に可視化して安全なサーバー環境を構築します。",
-        imageSrc: "/services/acp/system-session-replay.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/audit/server-logs/session-logs",
-      },
-    ],
-  },
-  {
-    label: "Kubernetesアクセス制御",
-    items: [
-      {
-        title: "簡単なKubernetes登録",
-        description:
-          "シングルスクリプトがクレデンシャルを自動収集し、どこにあるKubernetesクラスターでも接続します。オンプレミスとクラウド環境全体でのシームレスな統合をサポートします。 クラウドプラットフォームクラスターの自動同期サポートも含みます。",
-        imageSrc: "/services/acp/kubernetes-easy-registration.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/kubernetes/connection-management/clusters/manually-registering-kubernetes-clusters",
-      },
-      {
-        title: "マルチK8S環境での統合RBAC",
-        description:
-          "クラスターごとの個別RBAC設定なしに単一コンソールから権限を管理できます。ワイルドカードを使用して複数環境に同ポリシーを適用し、効率的な制御を実現しています。複雑さを排除し、管理オーバーヘッドを大幅に削減できます。",
-        imageSrc: "/services/acp/kubernetes-unified-rbac.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/kubernetes/k8s-access-control/policies/setting-kubernetes-policies",
-      },
-      {
-        title: "Kubernetes API履歴ログ",
-        description:
-          "クラスター全体のすべてのK8s APIリクエストを記録し、重要なアクションのみに焦点を当てます。明確で焦点を絞った監査証跡が混乱を招くKubernetesログを置き換え、可視性を向上させます。 複雑さを削減して重要な操作を効率的に追跡できます。",
-        imageSrc: "/services/acp/kubernetes-api-history.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/audit/kubernetes-logs/request-audit",
-      },
-      {
-        title: "ライブコンテナセッション記録",
-        description:
-          "コンテナ内のすべてのユーザーアクティビティを完全な再生機能付きでキャプチャします。 Pod接続後のアクションを監視・レビューし、包括的な監督を実現します。 コンテナ操作を完全に可視化して制御します。",
-        imageSrc: "/services/acp/kubernetes-live-session-recording.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/audit/kubernetes-logs/pod-session-recordings",
-      },
-    ],
-  },
-  {
-    label: "Webアクセス制御",
-    items: [
-      {
-        title: "一元化されたWebアプリケーション管理",
-        description:
-          "統合WebプロキシとChrome拡張機能を通じて、AIツール、SaaSプラットフォーム、 社内アプリなどすべてのWebアプリケーションを管理します。 GUIコンソールとプラットフォームの統一されたガバナンスにより、セキュリティの死角を排除します。",
-        imageSrc: "/services/acp/web-centralized-management.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/user-manual/web-access-control/accessing-web-applications-websites",
-      },
-      {
-        title: "ジャストインタイム（JIT）権限制御",
-        description:
-          "内蔵ワークフローを通じて一時的なWebアプリケーションアクセスを要求・許可します。SaaSと社内アプリケーションへの時間制限付きアクセスを簡単に管理。包括的な制御により、機能制限アプリのセキュリティを強化します。",
-        imageSrc: "/services/acp/web-jit.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/web-apps/connection-management/web-app-configurations",
-      },
-      {
-        title: "動的Webアプリケーション透かし",
-        description:
-          "制御されたWebアプリケーション画面に動的透かしを適用しています。可視的な可視化された説明責任を維持することで、エンドユーザーのセキュリティ体制を強化します。持続的なユーザーIDオーバーレイにより、不正な画面共有とデータ漏洩を防止します。",
-        imageSrc: "/services/acp/web-watermark.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/web-apps/connection-management/web-app-configurations",
-      },
-      {
-        title: "タイムラインベースブラウザ監視",
-        description:
-          "タイムラインビューと自動スクリーンショットにより、アプリ全体のアクションをキャプチャできます。リアルタイムインタラクションを監視し、セキュリティ異常を瞬時に特定し、完全に可視化することで完全な可視性により、すべてのアプリケーション全体で包括的な保護を保証します。",
-        imageSrc: "/services/acp/web-timeline-monitoring.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/audit/web-app-logs/user-activity-recordings",
-      },
-    ],
-  },
-  {
-    label: "ワークフロー & 統合",
-    items: [
-      {
-        title: "アイデンティティプロバイダ （IdP）統合",
-        description:
-          "SAML SSOとSCIMプロトコルを通じてOktaやAD/LDAPなどのIdPを接続できます。一元制御によりユーザー管理とライフサイクルプロセスを効率化し、統一認証とアクセス制御により組織セキュリティを強化しています。",
-        imageSrc: "/services/acp/workflow-idp.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/general/user-management/authentication",
-      },
-      {
-        title: "内蔵アクセス要求ワークフロー",
-        description:
-          "内蔵された要求・承認ワークフロー によりジャストインタイムアクセス管理を効率化します。承認者がSlackを通じて直接決定を行うことで応答時間を短縮できます。行い、応答時間を短縮。効果的なアクセス制御と承認遅延の削減により、効率的な運用を保証します。",
-        imageSrc: "/services/acp/workflow-request-approval.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/user-manual/workflow",
-      },
-      {
-        title: "シークレットストア統合",
-        description:
-          "HashiCorp Vaultを統合し、既存のシークレットストアから直接クレデンシャルを管理します。許可された操作やワークフローが、安全にストレージやデータベース、セキュリティインフラを完全に制御して効率化されたクレデンシャルを管理します。",
-        imageSrc: "/services/acp/workflow-secret-store.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/general/system/integrations/integrating-with-secret-store",
-      },
-      {
-        title: "簡単なログストリーミング",
-        description:
-          "簡単な設定により一元監視へのセキュリティデータストリーミングします。リアルタイムでログを関連付けしてインフラ全体の脅威を特定。包括的な監視とアラートにより新たな脅威に対応します。",
-        imageSrc: "/services/acp/workflow-log-streaming.gif",
-        learnMoreHref: "https://docs.querypie.com/ja/administrator-manual/general/system/integrations/integrating-with-syslog",
-      },
-    ],
-  },
-];
 
 export default function AcpServicePreviewPage() {
   return (
@@ -251,7 +74,7 @@ export default function AcpServicePreviewPage() {
               <AcpSectionBody>
                 QueryPie ACPは、クラウド技術とWebベースのインターフェースを組み合わせ、あらゆるオペレーティングシステムで簡単に導入できます。
                 <br />
-                Dockerパッケージングによりハイブリッド導入も可能で、 オンプレミスのセキュリティとSaaS並みの利便性と自動更新を実装しています。
+                Dockerパッケージングによりハイブリッド導入も可能で、オンプレミスのセキュリティとSaaS並みの利便性と自動更新を実装しています。
               </AcpSectionBody>
             </div>
           </RevealOnScroll>
@@ -262,22 +85,223 @@ export default function AcpServicePreviewPage() {
         </AcpEasyUseInner>
       </AcpEasyUseSection>
 
-      <section className="flex justify-center px-6 pb-[80px] lg:px-0">
-        <div className="flex w-full max-w-[1200px] flex-col gap-[24px]">
+      <AcpFeatureSection>
+        <AcpFeatureInner>
           <RevealOnScroll>
-            <div className="flex flex-col items-center gap-[20px] text-center">
+            <AcpFeatureIntro>
               <AcpSectionTitle>QueryPie ACPができること</AcpSectionTitle>
               <AcpSectionBody>
                 データベース、システム、Kubernetes、Web、ワークフロー全体にまたがる代表機能をカテゴリごとに確認できます。
               </AcpSectionBody>
-            </div>
+            </AcpFeatureIntro>
           </RevealOnScroll>
 
           <RevealOnScroll delayMs={80}>
-            <AcpFeatureBrowser categories={categories} />
+            <AcpFeatureBrowser>
+              <AcpFeatureCategory label="データベースアクセス制御">
+                <AcpFeatureItem
+                  title="エージェントレスクラウド"
+                  imageSrc="/services/acp/db-agentless-cloud.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/databases/connection-management/cloud-providers"
+                >
+                  DB同期 AWS、GCP、Azureからデータ資産を個別設定なしで自動同期。
+                  <br />
+                  管理者は運用を効率化し、本当に重要なことに集中できる自動化されたエージェントレス統合を取得します。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="汎用DB権限制御"
+                  imageSrc="/services/acp/db-query-analyzer.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/databases/db-access-control/privilege-type"
+                >
+                  QueryPieのクエリアナライザがあらゆるプラットフォームの複雑なクエリを解釈し、統一フォーマットに変換します。
+                  <br />
+                  汎用的な互換性により、すべてのデータソースに一貫したアクセス制御ポリシーを適用します。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="機密データマスキング"
+                  imageSrc="/services/acp/db-data-masking.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/databases/policies/data-masking"
+                >
+                  プリセットのマスキングパターンとカスタムルールを使用して機密データと個人データを保護し、未承認ユーザーが重要データにアクセスできないことを保証します。
+                  <br />
+                  組織全体で安全なアクセスを可能にしながら、コンプライアンスとデータプライバシーを維持します。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="ユーザーフレンドリーなWeb SQLエディター"
+                  imageSrc="/services/acp/db-web-sql-editor.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/user-manual/database-access-control/connecting-with-web-sql-editor"
+                >
+                  Web SQLエディターにより、使用するオペレーティングシステムに関係なく、ブラウザ上で直接クエリの実行、インポート、エクスポート、その他のさまざまなタスクを簡単に実行できます。
+                </AcpFeatureItem>
+              </AcpFeatureCategory>
+
+              <AcpFeatureCategory label="システムアクセス制御">
+                <AcpFeatureItem
+                  title="エージェントレスクラウド"
+                  imageSrc="/services/acp/system-agentless-cloud.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/servers/connection-management/cloud-providers"
+                >
+                  複数のクラウドプラットフォーム全体でインフラを自動同期・管理します。
+                  <br />
+                  自動スケーリングリソースを含むすべてのインフラ資産をシームレスに処理して、重要な業務に集中することを可能にします。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="コードとしてのシステムアクセスポリシー"
+                  imageSrc="/services/acp/system-policy-as-code.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/servers/server-access-control/policies"
+                >
+                  YAMLベースのアクセスポリシーがユーザーのシステムアクセスのタイミング、場所、方法を制御します。
+                  <br />
+                  RBACが複数のポリシーを組み合わせ、インフラ管理を簡素化。拡張可能で監査可能なアクセス制御のためのInfrastructure as Codeアプローチです。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="Webターミナル & SFTPクライアント"
+                  imageSrc="/services/acp/system-web-terminal-sftp.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/user-manual/server-access-control/using-web-terminal"
+                >
+                  Webブラウザインターフェースから直接サーバーにアクセスし、コマンドを実行できます。
+                  <br />
+                  追加ソフトウェアのインストールなしに内蔵SFTPクライアントを使用してファイルを転送できます。
+                  <br />
+                  クロスプラットフォーム互換性により、オペレーティングシステムに関係なくアクセスを保証します。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="リアルタイム監視 & セッション再生"
+                  imageSrc="/services/acp/system-session-replay.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/audit/server-logs/session-logs"
+                >
+                  すべてのユーザーインタラクションを捉えて、包括的な監査証跡を提供します。
+                  <br />
+                  運用中断なしにセキュリティ分析とコンプライアンスレビューのためのセッションを再生し、すべてのアクティビティを完全に可視化して安全なサーバー環境を構築します。
+                </AcpFeatureItem>
+              </AcpFeatureCategory>
+
+              <AcpFeatureCategory label="Kubernetesアクセス制御">
+                <AcpFeatureItem
+                  title="簡単なKubernetes登録"
+                  imageSrc="/services/acp/kubernetes-easy-registration.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/kubernetes/connection-management/clusters/manually-registering-kubernetes-clusters"
+                >
+                  シングルスクリプトがクレデンシャルを自動収集し、どこにあるKubernetesクラスターでも接続します。
+                  <br />
+                  オンプレミスとクラウド環境全体でのシームレスな統合をサポートし、クラウドプラットフォームクラスターの自動同期も可能です。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="マルチK8S環境での統合RBAC"
+                  imageSrc="/services/acp/kubernetes-unified-rbac.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/kubernetes/k8s-access-control/policies/setting-kubernetes-policies"
+                >
+                  クラスターごとの個別RBAC設定なしに単一コンソールから権限を管理できます。
+                  <br />
+                  ワイルドカードを使用して複数環境に同ポリシーを適用し、効率的な制御を実現しています。
+                  <br />
+                  複雑さを排除し、管理オーバーヘッドを大幅に削減できます。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="Kubernetes API履歴ログ"
+                  imageSrc="/services/acp/kubernetes-api-history.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/audit/kubernetes-logs/request-audit"
+                >
+                  クラスター全体のすべてのK8s APIリクエストを記録し、重要なアクションのみに焦点を当てます。
+                  <br />
+                  明確で焦点を絞った監査証跡が混乱を招くKubernetesログを置き換え、可視性を向上させます。
+                  <br />
+                  複雑さを削減して重要な操作を効率的に追跡できます。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="ライブコンテナセッション記録"
+                  imageSrc="/services/acp/kubernetes-live-session-recording.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/audit/kubernetes-logs/pod-session-recordings"
+                >
+                  コンテナ内のすべてのユーザーアクティビティを完全な再生機能付きでキャプチャします。
+                  <br />
+                  Pod接続後のアクションを監視・レビューし、包括的な監督を実現します。
+                  <br />
+                  コンテナ操作を完全に可視化して制御します。
+                </AcpFeatureItem>
+              </AcpFeatureCategory>
+
+              <AcpFeatureCategory label="Webアクセス制御">
+                <AcpFeatureItem
+                  title="一元化されたWebアプリケーション管理"
+                  imageSrc="/services/acp/web-centralized-management.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/user-manual/web-access-control/accessing-web-applications-websites"
+                >
+                  統合WebプロキシとChrome拡張機能を通じて、AIツール、SaaSプラットフォーム、社内アプリなどすべてのWebアプリケーションを管理します。
+                  <br />
+                  GUIコンソールとプラットフォームの統一されたガバナンスにより、セキュリティの死角を排除します。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="ジャストインタイム（JIT）権限制御"
+                  imageSrc="/services/acp/web-jit.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/web-apps/connection-management/web-app-configurations"
+                >
+                  内蔵ワークフローを通じて一時的なWebアプリケーションアクセスを要求・許可します。
+                  <br />
+                  SaaSと社内アプリケーションへの時間制限付きアクセスを簡単に管理し、包括的な制御でアプリのセキュリティを強化します。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="動的Webアプリケーション透かし"
+                  imageSrc="/services/acp/web-watermark.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/web-apps/connection-management/web-app-configurations"
+                >
+                  制御されたWebアプリケーション画面に動的透かしを適用しています。
+                  <br />
+                  可視化された説明責任を維持することでエンドユーザーのセキュリティ体制を強化し、持続的なユーザーIDオーバーレイで不正な画面共有とデータ漏洩を防止します。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="タイムラインベースブラウザ監視"
+                  imageSrc="/services/acp/web-timeline-monitoring.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/audit/web-app-logs/user-activity-recordings"
+                >
+                  タイムラインビューと自動スクリーンショットにより、アプリ全体のアクションをキャプチャできます。
+                  <br />
+                  リアルタイムインタラクションを監視してセキュリティ異常を瞬時に特定し、すべてのアプリケーション全体で包括的な保護を保証します。
+                </AcpFeatureItem>
+              </AcpFeatureCategory>
+
+              <AcpFeatureCategory label="ワークフロー & 統合">
+                <AcpFeatureItem
+                  title="アイデンティティプロバイダ（IdP）統合"
+                  imageSrc="/services/acp/workflow-idp.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/general/user-management/authentication"
+                >
+                  SAML SSOとSCIMプロトコルを通じてOktaやAD/LDAPなどのIdPを接続できます。
+                  <br />
+                  一元制御によりユーザー管理とライフサイクルプロセスを効率化し、統一認証とアクセス制御により組織セキュリティを強化しています。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="内蔵アクセス要求ワークフロー"
+                  imageSrc="/services/acp/workflow-request-approval.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/user-manual/workflow"
+                >
+                  内蔵された要求・承認ワークフローによりジャストインタイムアクセス管理を効率化します。
+                  <br />
+                  承認者がSlackを通じて直接決定を行うことで応答時間を短縮し、効果的なアクセス制御と承認遅延の削減を実現します。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="シークレットストア統合"
+                  imageSrc="/services/acp/workflow-secret-store.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/general/system/integrations/integrating-with-secret-store"
+                >
+                  HashiCorp Vaultを統合し、既存のシークレットストアから直接クレデンシャルを管理します。
+                  <br />
+                  許可された操作やワークフローが、安全にストレージやデータベース、セキュリティインフラを完全に制御できるよう、効率化されたクレデンシャル管理を実現します。
+                </AcpFeatureItem>
+                <AcpFeatureItem
+                  title="簡単なログストリーミング"
+                  imageSrc="/services/acp/workflow-log-streaming.gif"
+                  learnMoreHref="https://docs.querypie.com/ja/administrator-manual/general/system/integrations/integrating-with-syslog"
+                >
+                  簡単な設定により一元監視へのセキュリティデータストリーミングを実現します。
+                  <br />
+                  リアルタイムでログを関連付けしてインフラ全体の脅威を特定し、包括的な監視とアラートにより新たな脅威に対応します。
+                </AcpFeatureItem>
+              </AcpFeatureCategory>
+            </AcpFeatureBrowser>
           </RevealOnScroll>
-        </div>
-      </section>
+        </AcpFeatureInner>
+      </AcpFeatureSection>
 
       <AcpIntegrationsSection>
         <AcpIntegrationsInner>
@@ -291,14 +315,9 @@ export default function AcpServicePreviewPage() {
               <AcpIntegrationsBody>
                 データベース、サーバー、Kubernetes、Webアプリケーション、アイデンティティプロバイダ、セキュリティツールなど50以上のシステムとシームレスに統合し、インフラエコシステム全体で統一された権限制御を実現しています。
               </AcpIntegrationsBody>
-              <a
-                href="https://www.querypie.com/ja/solutions/acp/integrations"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex text-[15px] font-normal leading-normal text-[#24292F] underline-offset-4 hover:underline"
-              >
+              <AcpIntegrationsLink href="https://www.querypie.com/ja/solutions/acp/integrations">
                 利用可能なACP統合機能をすべて見る &gt;
-              </a>
+              </AcpIntegrationsLink>
             </div>
           </RevealOnScroll>
 
