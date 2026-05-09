@@ -2,32 +2,50 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState, type ReactNode } from "react";
+import { Children, isValidElement, useMemo, useState, type ReactElement, type ReactNode } from "react";
 
-type AcpFeatureItem = {
+type AcpFeatureItemProps = {
   title: string;
-  description: ReactNode;
   imageSrc: string;
   learnMoreHref: string;
+  children: ReactNode;
 };
 
-type AcpFeatureCategory = {
+type AcpFeatureCategoryProps = {
   label: string;
-  items: readonly AcpFeatureItem[];
+  children: ReactNode;
 };
 
-type AcpFeatureBrowserProps = {
-  categories: readonly AcpFeatureCategory[];
-};
+function isAcpFeatureCategoryElement(node: ReactNode): node is ReactElement<AcpFeatureCategoryProps> {
+  return (
+    isValidElement(node) &&
+    typeof node.props === "object" &&
+    node.props !== null &&
+    typeof (node.props as { label?: unknown }).label === "string"
+  );
+}
 
-export function AcpFeatureBrowser({ categories }: AcpFeatureBrowserProps) {
+function isAcpFeatureItemElement(node: ReactNode): node is ReactElement<AcpFeatureItemProps> {
+  return (
+    isValidElement(node) &&
+    typeof node.props === "object" &&
+    node.props !== null &&
+    typeof (node.props as { title?: unknown }).title === "string" &&
+    typeof (node.props as { imageSrc?: unknown }).imageSrc === "string" &&
+    typeof (node.props as { learnMoreHref?: unknown }).learnMoreHref === "string"
+  );
+}
+
+export function AcpFeatureBrowser({ children }: { children: ReactNode }) {
+  const categories = useMemo(() => Children.toArray(children).filter(isAcpFeatureCategoryElement), [children]);
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
 
   const activeCategory = categories[activeCategoryIndex];
-  const activeItem = activeCategory.items[activeItemIndex];
+  const activeItems = useMemo(() => Children.toArray(activeCategory?.props.children).filter(isAcpFeatureItemElement), [activeCategory]);
+  const activeItem = activeItems[activeItemIndex];
   const isFirst = activeItemIndex === 0;
-  const isLast = activeItemIndex === activeCategory.items.length - 1;
+  const isLast = activeItemIndex === activeItems.length - 1;
 
   const tabClassName = useMemo(
     () => "cursor-pointer rounded-full border px-[20px] py-[10px] text-[15px] font-medium leading-[20px] transition",
@@ -44,7 +62,7 @@ export function AcpFeatureBrowser({ categories }: AcpFeatureBrowserProps) {
   }
 
   function goNext() {
-    setActiveItemIndex((index) => Math.min(index + 1, activeCategory.items.length - 1));
+    setActiveItemIndex((index) => Math.min(index + 1, activeItems.length - 1));
   }
 
   return (
@@ -55,7 +73,7 @@ export function AcpFeatureBrowser({ categories }: AcpFeatureBrowserProps) {
 
           return (
             <button
-              key={category.label}
+              key={category.props.label}
               type="button"
               onClick={() => selectCategory(index)}
               className={[
@@ -63,7 +81,7 @@ export function AcpFeatureBrowser({ categories }: AcpFeatureBrowserProps) {
                 active ? "border-slate-950 bg-slate-950 text-white" : "border-slate-200 bg-white text-slate-700 hover:border-slate-300",
               ].join(" ")}
             >
-              {category.label}
+              {category.props.label}
             </button>
           );
         })}
@@ -84,10 +102,10 @@ export function AcpFeatureBrowser({ categories }: AcpFeatureBrowserProps) {
 
         <article className="grid w-full max-w-[1200px] items-center gap-[40px] lg:grid-cols-[1fr_651px]">
           <div className="order-2 lg:order-1">
-            <h3 className="text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F]">{activeItem.title}</h3>
-            <div className="mt-[20px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{activeItem.description}</div>
+            <h3 className="text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F]">{activeItem?.props.title}</h3>
+            <div className="mt-[20px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{activeItem?.props.children}</div>
             <Link
-              href={activeItem.learnMoreHref}
+              href={activeItem?.props.learnMoreHref ?? "#"}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-[20px] inline-flex items-center text-[15px] font-normal leading-[16px] text-[#24292F] underline-offset-4 hover:underline"
@@ -98,7 +116,14 @@ export function AcpFeatureBrowser({ categories }: AcpFeatureBrowserProps) {
 
           <div className="order-1 lg:order-2">
             <div className="overflow-hidden rounded-[8px] shadow-[0_8px_20px_rgba(0,0,0,0.15)]">
-              <Image src={activeItem.imageSrc} alt={activeItem.title} width={651} height={366} unoptimized className="h-auto w-full" />
+              <Image
+                src={activeItem?.props.imageSrc ?? "/services/acp/easy-use.png"}
+                alt={activeItem?.props.title ?? ""}
+                width={651}
+                height={366}
+                unoptimized
+                className="h-auto w-full"
+              />
             </div>
           </div>
         </article>
@@ -117,4 +142,14 @@ export function AcpFeatureBrowser({ categories }: AcpFeatureBrowserProps) {
       </div>
     </div>
   );
+}
+
+export function AcpFeatureCategory(props: AcpFeatureCategoryProps) {
+  void props;
+  return null;
+}
+
+export function AcpFeatureItem(props: AcpFeatureItemProps) {
+  void props;
+  return null;
 }
