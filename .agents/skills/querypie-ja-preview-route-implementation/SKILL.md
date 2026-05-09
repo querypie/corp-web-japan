@@ -9,13 +9,12 @@ metadata:
     tags: [corp-web-japan, migration, preview, static-page, nextjs, route-local-authoring]
 ---
 
-# Migrate an upstream or external page into a local preview route in corp-web-japan
+# Implement a new local `/t/**` preview route for a QueryPie Japan page
 
-Use this skill when the user wants to migrate a page that currently lives on `querypie.com/ja/**` or another external site into this repository first as a local preview page.
+Use this skill when the target page shape is already settled and you are creating the first local preview route.
 
-This is the generic preview-route implementation skill.
-It defines how a migrated page should live under `/t/**`, where assets should go, how `page.tsx` should read, and how preview metadata should be set.
-It is intentionally broad and implementation-focused.
+It is the implementation phase of the QueryPie Japan migration stack.
+It tells you how to place the route under `/t/**`, where to put assets, how `page.tsx` should read, and how preview metadata should be set.
 
 It is not the higher-level source-of-truth investigation skill for QueryPie Japan pages.
 When the source page is specifically under `querypie.com/ja/**` and correct implementation requires triangulating `../corp-web-contents`, `../corp-web-app`, and the live shipped page, load `querypie-ja-source-triangulation` first and then use this skill as the narrower implementation rulebook.

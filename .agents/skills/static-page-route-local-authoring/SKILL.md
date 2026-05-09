@@ -9,16 +9,12 @@ metadata:
     tags: [corp-web-japan, static-page, route-local-authoring, refactor, nextjs]
 ---
 
-# Refactor a static marketing page to route-local authoring in corp-web-japan
+# Keep a static marketing route readable and route-local
 
-Use this skill when a corp-web-japan static marketing route should be rewritten so the route file itself becomes the main readable implementation surface.
+Use this skill when the route file should stay the primary readable authoring surface.
 
-Typical targets:
-- `src/app/page.tsx`
-- `src/app/solutions/<slug>/page.tsx`
-- preview/company-info static pages under `src/app/t/**/page.tsx`
-
-This skill is for repetitive refactors of the same class, especially when an earlier session already identified the target files, desired direction, and completion criteria.
+It is a support skill, not a migration-phase skill.
+Use it whenever `page.tsx` should own the copy and section composition while extracted sections own only UI implementation details.
 
 ## Goal
 

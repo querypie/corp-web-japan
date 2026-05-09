@@ -9,14 +9,15 @@ metadata:
     tags: [corp-web-japan, querypie.com/ja, migration, preview, static-page, route-local-authoring]
 ---
 
-# Migrate a `querypie.com/ja/**` page into `corp-web-japan`
+# Determine the correct source of truth for a `querypie.com/ja/**` page migration
 
-Use this skill when the source of truth is an existing public QueryPie Japan page and the target is a new static implementation in `corp-web-japan`, usually first under `/t/**`.
+Use this skill when you still need to decide what the migrated page should be before writing the new local route.
 
-This skill captures the workflow proven during the `/t/cookie-preference` migration, where the implementation needed all three of these inputs at once:
-- `../corp-web-contents` for authored copy and section structure
-- `../corp-web-app` for behavior contracts, cookie keys, helper logic, and other implementation semantics
-- the live `https://www.querypie.com/ja/...` page for the final rendered hierarchy, spacing intent, and real user-facing UI shape
+It is the investigation phase of the QueryPie Japan migration stack.
+It reconciles three inputs:
+- `../corp-web-contents` for authored source copy and section structure
+- `../corp-web-app` for behavior contracts and implementation semantics
+- the live `https://www.querypie.com/ja/...` page for the actually shipped UI shape
 
 ## Mandatory references
 

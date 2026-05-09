@@ -6,17 +6,12 @@ author: Hermes Agent
 license: MIT
 ---
 
-# Finish an existing QueryPie Japan preview route in corp-web-japan so it reaches live parity
+# Bring an existing `/t/**` preview route up to live parity
 
-Use this repo-local skill when a page already exists under `/t/**`, but the current local preview is still a placeholder or simplified approximation and needs to be brought up to live parity.
+Use this skill when a local preview route already exists, but the page still looks like a placeholder or simplified first pass.
 
-Typical examples:
-- `/t/services/aip`
-- `/t/services/acp`
-- `/t/services/fde`
-- other future `querypie.com/ja/**` preview routes where the first-pass preview exists but still needs a follow-up parity pass
-
-This skill is intentionally broader than just the services family, but it includes page-family-specific rules for `/t/services/*` because those were the first concrete follow-up migrations that exposed the pattern.
+It is the follow-up parity phase of the QueryPie Japan migration stack.
+Use it after the first route exists and the remaining work is to match the real shipped page more faithfully.
 
 ## Load together with
 

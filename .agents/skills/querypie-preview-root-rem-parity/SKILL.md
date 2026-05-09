@@ -11,9 +11,10 @@ metadata:
 
 # Preserve visual parity across different root rem environments
 
-Use this when copying or recreating UI design from pages under `querypie.com/ja/**` or `querypie.com/en/**` into `corp-web-japan` preview routes under `/t/**`.
+Use this skill when a QueryPie page is being reproduced in corp-web-japan and the source/root font-size environment may differ.
 
-## Why this skill exists
+It is a support skill, not a migration-phase skill.
+Use it whenever the source page is under `querypie.com/ja/**` or `querypie.com/en/**` and visual parity depends on recovering token intent instead of copying computed px values literally.
 
 A recurring pitfall in this repository:
 - the source `querypie.com` pages can render under `html { font-size: 15px; }`
