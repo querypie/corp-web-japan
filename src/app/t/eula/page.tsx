@@ -8,14 +8,19 @@ import type { ReactNode } from "react";
 import remarkGfm from "remark-gfm";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { CtaActions, CtaContent, CtaCopy, CtaDescription, CtaTitle, SimpleCtaSection } from "@/components/sections/simple-cta-section";
-import { publicationBodyClassName } from "@/components/sections/publication-post-page";
+import {
+  CtaActions,
+  CtaContent,
+  CtaCopy,
+  CtaDescription,
+  CtaTitle,
+  SimpleCtaSection,
+} from "@/components/sections/simple-cta-section";
 import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
-import { buildPublicationMdxComponents } from "@/lib/publications/mdx/components";
 import { slugifyHeadingText } from "@/lib/publications/mdx/headings";
 
 export const metadata: Metadata = {
-  title: "End User License Agreement | QueryPie AI",
+  title: "QueryPie EULA",
   description: "Preview of the current QueryPie End User License Agreement for the Japan site.",
   alternates: {
     canonical: "/t/eula",
@@ -26,7 +31,7 @@ export const metadata: Metadata = {
   },
 };
 
-type StaticHeadingProps = {
+type SharedChildrenProps = {
   children?: ReactNode;
   [key: string]: unknown;
 };
@@ -36,6 +41,20 @@ type LinkProps = {
   children?: ReactNode;
   [key: string]: unknown;
 };
+
+type BoxProps = SharedChildrenProps & {
+  direction?: "row" | "column";
+  center?: boolean;
+};
+
+const legalBodyClassName = [
+  "text-[15px] leading-[1.75] text-[#24292f]",
+  "[&_a]:font-inherit [&_a]:text-slate-950 [&_a]:underline [&_a]:decoration-[1px] [&_a]:underline-offset-[3px] hover:[&_a]:text-slate-950",
+  "[&_h2]:mt-20 [&_h2]:text-[32px] [&_h2]:font-normal [&_h2]:leading-[1.375] [&_h2]:tracking-[-0.01em] [&_h2]:text-slate-950",
+  "[&_h3]:mt-10 [&_h3]:text-[22px] [&_h3]:font-normal [&_h3]:leading-[1.455] [&_h3]:tracking-[-0.01em] [&_h3]:text-slate-950",
+  "[&_p]:mt-[1.3125rem] [&_p]:text-[15px] [&_p]:leading-[1.75] [&_p]:text-[#24292f]",
+  "[&_strong]:font-medium [&_strong]:text-slate-950 [&_a_strong]:font-inherit [&_a_strong]:text-inherit",
+].join(" ");
 
 function childrenToText(children: ReactNode): string {
   if (typeof children === "string") return children;
@@ -52,20 +71,31 @@ function legalHeadingId(children: ReactNode) {
   return slugifyHeadingText(childrenToText(children));
 }
 
-function CenterSection({ children }: { children?: ReactNode }) {
-  return <div className="mx-auto max-w-[920px]">{children}</div>;
+function Box({ children, direction = "column", center = false }: BoxProps) {
+  return <div className={`${direction === "column" ? "flex flex-col" : "flex flex-row"}${center ? " items-center" : ""}`}>{children}</div>;
 }
 
-function StaticH1({ children }: StaticHeadingProps) {
+function CenterSection({ children }: SharedChildrenProps) {
+  return <div className="mx-auto max-w-[920px] [&>*+*]:mt-8">{children}</div>;
+}
+
+function StaticH1({ children }: SharedChildrenProps) {
   return (
-    <h1 id={legalHeadingId(children)} className="text-[34px] font-normal leading-[1.2] text-slate-950 lg:text-[40px]">
+    <h1
+      id={legalHeadingId(children)}
+      className="text-[60px] font-normal leading-[1.2] tracking-[-0.02em] text-slate-950"
+    >
       {children}
     </h1>
   );
 }
 
-function LegalBodyH1({ children }: StaticHeadingProps) {
+function LegalSectionHeading({ children }: SharedChildrenProps) {
   return <h2 id={legalHeadingId(children)}>{children}</h2>;
+}
+
+function LegalSubsectionHeading({ children }: SharedChildrenProps) {
+  return <h3 id={legalHeadingId(children)}>{children}</h3>;
 }
 
 function EulaMdxLink({ href, children }: LinkProps) {
@@ -87,11 +117,12 @@ async function renderEulaPreviewMdx() {
   return evaluate({
     source,
     components: {
-      ...buildPublicationMdxComponents(),
-      h1: LegalBodyH1,
+      Box,
       CenterSection,
-      StaticH1,
       Link: EulaMdxLink,
+      StaticH1,
+      h1: LegalSectionHeading,
+      h2: LegalSubsectionHeading,
     },
     options: {
       parseFrontmatter: false,
@@ -108,9 +139,9 @@ export default async function PreviewEulaPage() {
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
-      <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[120px] pt-[112px] lg:px-[30px] lg:pb-[160px] lg:pt-[144px]">
+      <section className="bg-white px-[30px] pb-[200px] pt-20">
         <div className="mx-auto max-w-[920px]">
-          <div className={`${publicationBodyClassName} [&_h1:first-child]:mt-0`}>{evaluation.content}</div>
+          <div className={legalBodyClassName}>{evaluation.content}</div>
         </div>
       </section>
       <SimpleCtaSection>
