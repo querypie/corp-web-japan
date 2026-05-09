@@ -165,8 +165,8 @@ export default async function AipIntegrationsPreviewPage({ searchParams }: Integ
         </AipIntegrationsContent>
       </AipIntegrationsHeroSection>
 
-      <SimpleCtaSection>
-        <CtaContent>
+      <SimpleCtaSection className="px-[24px] pb-[120px] pt-[120px]">
+        <CtaContent className="gap-[40px]">
           <CtaCopy>
             <CtaTitle>まずは小さく、失敗しないAXを始めよう</CtaTitle>
             <p className="mt-[20px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#24292F]">
