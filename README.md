@@ -137,6 +137,7 @@ npm run build
 GitHub Actions currently provide:
 
 - `ci.yml` — runs `npm run test:ci` and `npm run build` on pull requests and pushes to `main`
+- `e2e-stage.yml` — manually runs the full hosted Playwright E2E suite against a chosen base URL, defaulting to stage
 - `deploy-preview.yml` — preview deployment workflow
 - `deploy-staging.yml` — staging deployment workflow
 - `deploy-production.yml` — production deployment workflow

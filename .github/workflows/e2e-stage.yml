@@ -1,0 +1,81 @@
+name: E2E on Stage
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Base URL for the hosted E2E run"
+        required: true
+        default: "https://stage.querypie.ai"
+        type: string
+      contact_us_expected_submit_outcome:
+        description: "Expected contact-us submit outcome for the target environment"
+        required: true
+        default: "success"
+        type: choice
+        options:
+          - success
+          - failure
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: e2e-stage-${{ github.ref }}-${{ inputs.base_url }}
+  cancel-in-progress: true
+
+jobs:
+  playwright:
+    name: Full hosted E2E suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      LOCAL_E2E_BASE_URL: ${{ inputs.base_url }}
+      CONTACT_US_EXPECTED_SUBMIT_OUTCOME: ${{ inputs.contact_us_expected_submit_outcome }}
+      PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-report
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Show E2E target
+        run: |
+          echo "Base URL: ${LOCAL_E2E_BASE_URL}"
+          echo "Contact-us expected outcome: ${CONTACT_US_EXPECTED_SUBMIT_OUTCOME}"
+          echo "Git ref: ${GITHUB_REF}"
+          echo "Git SHA: ${GITHUB_SHA}"
+
+      - name: Run full hosted E2E suite
+        run: npx playwright test tests-local/src/app --config=playwright.local.config.mjs --reporter=github,html
+
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ github.run_id }}
+          path: playwright-report
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload Playwright traces and media
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results-${{ github.run_id }}
+          path: .playwright-local/results
+          if-no-files-found: warn
+          retention-days: 14
