@@ -6,7 +6,7 @@ import {
   TermsOfServiceBody,
   TermsOfServiceHero,
   renderTermsOfServiceContent,
-} from "@/components/sections/legal-terms-of-service-preview";
+} from "@/components/sections/legal-terms-of-service";
 import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 
 const trialHref = "https://app.querypie.com/";
@@ -43,7 +43,7 @@ function TrialCtaSection() {
   );
 }
 
-export default async function PreviewTermsOfServicePage() {
+export default async function TermsOfServicePage() {
   const evaluation = await renderTermsOfServiceContent();
   const { frontmatter } = evaluation;
 

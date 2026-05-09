@@ -5,10 +5,10 @@ import { readSource } from "./helpers/source-readers.mjs";
 
 const pagePath = "src/app/t/terms-of-service/page.tsx";
 const contentPath = new URL("../src/app/t/terms-of-service/content.mdx", import.meta.url);
-const sectionPath = "src/components/sections/legal-terms-of-service-preview.tsx";
+const sectionPath = "src/components/sections/legal-terms-of-service.tsx";
 const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
 
-test("terms of service preview page derives metadata and hero copy from content.mdx frontmatter", () => {
+test("terms of service page derives metadata and hero copy from content.mdx frontmatter", () => {
   assert.equal(existsSync(new URL(`../${pagePath}`, import.meta.url)), true, `${pagePath} should exist`);
 
   const source = readSource(pagePath);
@@ -27,7 +27,7 @@ test("terms of service preview page derives metadata and hero copy from content.
   assert.doesNotMatch(source, /corp-web-contents \/ corp-web-app/);
 });
 
-test("terms of service preview keeps title, description, and date in content.mdx frontmatter with legal body below", () => {
+test("terms of service page keeps title, description, and date in content.mdx frontmatter with legal body below", () => {
   const footerSource = readFileSync(footerPath, "utf8");
   const contentSource = readFileSync(contentPath, "utf8");
   const sectionSource = readSource(sectionPath);
