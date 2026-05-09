@@ -1,7 +1,7 @@
 # Local E2E Checks
 
-This repository includes local-only Playwright checks for stage-facing browser flows.
-These checks are intentionally separate from the standard CI workflow.
+This repository includes Playwright checks for hosted browser flows.
+These checks can be run locally and through the manual GitHub Actions E2E workflow.
 
 ## Purpose
 
@@ -100,6 +100,7 @@ Default when unset:
 Examples:
 
 ```bash
+npm run e2e:stage
 npm run e2e:local:whitepaper-gating:stage
 npm run e2e:local:blog:stage
 npm run e2e:local:whitepapers:stage
@@ -118,11 +119,12 @@ If `@playwright/test` is missing from the root dependency install, add it at the
 
 ## CI relationship
 
-These checks are local-only by design.
+These checks remain separate from the default CI workflow.
 
 - They are not part of `npm run test:ci`.
 - They are not run by the default GitHub Actions CI workflow.
-- Keep them local unless the user explicitly asks to promote a flow into CI.
+- The dedicated manual workflow is `.github/workflows/e2e-stage.yml`.
+- Use the manual E2E workflow when a maintainer wants a hosted full-suite regression run without pushing a dummy commit.
 
 ## When to use
 
