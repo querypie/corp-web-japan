@@ -17,7 +17,7 @@ const previewPages = [
   {
     file: "src/app/t/services/fde/page.tsx",
     canonical: 'canonical: "/t/services/fde"',
-    title: 'QueryPie FDE AXを成功に導く専門家チーム',
+    title: 'QueryPie AIP：あなたのためのAI変革エキスパート',
   },
 ];
 
