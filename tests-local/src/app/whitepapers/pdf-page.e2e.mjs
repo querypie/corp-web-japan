@@ -8,7 +8,7 @@ import { gotoStagePath } from '../../../helpers/stage-page-helpers.mjs';
 const gatedPost = whitepaperFixtures.gatedPost;
 const downloadGate = gatedPost.downloadGate;
 
-test.describe('stage whitepaper download gate page', () => {
+test.describe('stage whitepaper pdf gate page', () => {
   test('article CTA opens the canonical pdf gate page with the localized cover image and locked form state', async ({ page, baseURL }) => {
     await gotoStagePath(page, baseURL, gatedPost.path);
 

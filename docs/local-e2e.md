@@ -76,10 +76,10 @@ Current coverage:
 
 - Test files:
   - `tests-local/src/app/whitepapers/page.e2e.mjs`
-  - `tests-local/src/app/whitepapers/download-page.e2e.mjs`
+  - `tests-local/src/app/whitepapers/pdf-page.e2e.mjs`
 - npm scripts:
   - `npm run e2e:local:whitepapers:stage`
-  - `npm run e2e:local:whitepaper-download:stage`
+  - `npm run e2e:local:whitepaper-pdf:stage`
 - Target pages: `/whitepapers`, `/whitepapers/:id`, `/whitepapers/:id/:slug`, `/whitepapers/:id/:slug/pdf`, and redirecting hidden shadow routes on the configured base URL
 
 Current coverage:
