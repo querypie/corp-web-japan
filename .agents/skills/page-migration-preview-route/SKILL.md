@@ -27,6 +27,11 @@ Typical targets:
 
 This skill is based on the preview-page migration pattern used in PR #182 (`feat: add /t/services preview pages`).
 
+Important repo-local note:
+- initial preview-route creation and later live-parity completion are different phases
+- if an existing `/t/*` page already exists but still uses placeholder preview-only copy or a structurally simplified layout, do not treat this skill alone as sufficient; also load any narrower repo-local follow-up skill that captures the page-family-specific parity rules
+- for `/t/services/*`, use `.agents/skills/services-preview-migration/SKILL.md`
+
 ## Mandatory references
 
 Load and follow these before authoring:
@@ -226,6 +231,11 @@ Preferred pattern, as seen in PR #182:
 Examples:
 - existing `src/app/services/aip/route.ts` may keep redirect behavior
 - preview implementation lives separately at `src/app/t/services/aip/page.tsx`
+
+Additional follow-up rule learned from service-page parity work:
+- an existing preview route may still need a later parity pass if it was first implemented as a placeholder or simplified surface
+- signals include `Preview Service` labels, generic numbered cards, preview-only explanatory copy, missing hero video, missing CTA restoration, or a flat card grid replacing the live page's alternating/interactive structure
+- in that case, create a follow-up PR from latest `origin/main` and rebuild the page toward live parity rather than preserving the placeholder structure just because the route already exists
 
 This separation is especially important when the current public path still intentionally redirects upstream.
 
