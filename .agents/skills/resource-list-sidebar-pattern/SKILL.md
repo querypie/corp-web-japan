@@ -75,6 +75,59 @@ Therefore the current preview sidebar should link:
 
 Before changing any sidebar links, verify the actual route exists in `src/app/` and check tests for removed preview entrypoints.
 
+## Mobile narrow-width adaptation patterns learned from sidebar overflow work
+
+When a resource/demo sidebar works on desktop but becomes too wide or horizontally scroll-heavy on mobile, do not default to preserving the same horizontal chip bar.
+
+Preferred reusable options:
+
+1. Bottom-sheet / drawer pattern
+- Best for resource-style sidebars with 5+ items or longer labels.
+- Keep desktop sticky sidebar unchanged.
+- On mobile, replace the horizontal overflow list with:
+  - a trigger button showing the current active label
+  - a bottom sheet / drawer containing the same nav items as a vertical list
+- Recommended structure:
+  - shared client component such as `ResourceListMobileSidebarDrawer`
+  - `ResourceCategorySidebar` / `DemoCategorySidebar` render:
+    - mobile drawer trigger + drawer content
+    - separate desktop-only sidebar nav
+- Practical rule: keep mobile and desktop render trees separate instead of trying to make one overflowing wrapper behave for both.
+
+2. Multi-column block-list / grid pattern
+- Good when the item count is still fairly small and the user should see all options immediately.
+- Keep desktop sticky sidebar unchanged.
+- On mobile:
+  - remove `overflow-x-auto`
+  - remove `min-w-max` / nowrap-style flex assumptions
+  - render links in a 2-column grid or wrapped block list
+  - center mobile labels visually; return to left-aligned desktop text on `lg`
+- Recommended structure:
+  - `ResourceListSidebarViewport` as mobile-only wrapper
+  - `ResourceListSidebarDesktop` as desktop-only wrapper
+  - shared list primitive becomes `grid grid-cols-2 gap-3 lg:flex lg:flex-col lg:gap-0`
+
+Decision rule:
+- resource families with longer labels / more categories -> prefer drawer
+- short demo families or low-count category sets -> block-list/grid can be a better direct-comparison UX
+
+Test strategy learned from this work:
+- Add a small structure test first in `tests/resource-list-page-structure.test.mjs`.
+- For drawer pattern, assert:
+  - dedicated client component exists
+  - `aria-expanded`, `role="dialog"`, `aria-modal="true"`, and mobile-only visibility classes are present
+  - old horizontal overflow classes are removed from shared primitives
+- For grid pattern, assert:
+  - old overflow/min-width classes are gone
+  - shared primitives now use mobile grid + desktop-only wrapper split
+  - the concrete resource/demo sidebar components still compose via the shared wrappers
+- Keep regexes matched to the actual component that owns a class. In this repo, visibility wrappers like `hidden lg:block` may live in the concrete sidebar component rather than the primitive file.
+
+Worktree reliability lesson from this same task:
+- In this repo, `git worktree add` can print success while the target directory is missing.
+- After creating a worktree, always verify the directory exists on disk before using file tools.
+- If it does not, prune stale worktrees and recreate the worktree at a fresh flat external path.
+
 ## Important sticky behavior rule learned from this refactor series
 
 If a resource-list page uses the sticky sidebar and the sidebar stops sticking while the same sidebar works elsewhere, inspect the nearest scrolling ancestor first.

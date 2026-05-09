@@ -51,9 +51,9 @@ They currently support add/edit, and they support `gated: true` where applicable
 
 | Family | Content root | Canonical detail route | List route | Asset root | Extra frontmatter |
 |---|---|---|---|---|---|
-| Introduction deck | `src/content/introduction-deck/*.mdx` | `/introduction-deck/:id/:slug` | `/introduction-deck` | `public/introduction-deck/<id>/...` | `date?`, `gated?`, `relatedItems?` |
-| Glossary | `src/content/glossary/*.mdx` | `/glossary/:id/:slug` | `/glossary` | `public/glossary/<id>/...` | `date?`, `gated?`, `relatedItems?` |
-| Manuals | `src/content/manuals/*.mdx` | `/manuals/:id/:slug` | `/manuals` | `public/manuals/<id>/...` | `date?`, `gated?`, `relatedItems?` |
+| Introduction deck | `src/content/introduction-deck/*.mdx` | `/introduction-deck/:id/:slug` | `/introduction-deck` | `public/introduction-deck/<id>/...` | `date?`, `gated?`, `downloadCta?`, `relatedItems?` |
+| Glossary | `src/content/glossary/*.mdx` | `/glossary/:id/:slug` | `/glossary` | `public/glossary/<id>/...` | `date?`, `gated?`, `downloadCta?`, `relatedItems?` |
+| Manuals | `src/content/manuals/*.mdx` | `/manuals/:id/:slug` | `/manuals` | `public/manuals/<id>/...` | `date?`, `gated?`, `downloadCta?`, `relatedItems?` |
 
 ### Out of scope
 
@@ -200,6 +200,10 @@ description: "説明"
 heroImageSrc: "/glossary/1/thumbnail.png"
 date: "2026-05-01"
 gated: true
+downloadCta:
+  href: "/glossary/1/download.pdf"
+  label: "資料を開く"
+  external: true
 relatedItems:
   - href: "/manuals/1/example"
     imageSrc: "/manuals/1/thumbnail.png"
@@ -211,6 +215,9 @@ relatedItems:
 Field notes:
 - `date` is optional.
 - `gated` is optional and uses the same `<GatingCut />` marker contract in the current resource post loader.
+- `downloadCta` is optional. When present, it is parsed from frontmatter and rendered through the shared publication CTA flow instead of requiring an inline MDX `ButtonLink` for the actual downloadable file action.
+- In gated resource families, keep the explanatory copy inside the post body after `<GatingCut />`, but prefer the actual file-opening action in frontmatter `downloadCta`.
+- Important current rendering nuance in this repo: whitepapers intentionally keep their `downloadCta` visible before the form wall, but resource families such as introduction-deck should keep the actual file-opening CTA inside the unlocked gated-content flow, after the gated body copy, not above the form wall.
 - `relatedItems` is optional and is an array of explicit link objects, not `relatedIds`.
 - Do not assume `hidden` or `redirectUrl` support for these families unless code is updated first.
 
@@ -337,7 +344,9 @@ Do not set `gated: true` without `<GatingCut />`.
 
 ### Introduction deck / Glossary / Manuals
 - Support add/edit today.
-- Support `gated` and `relatedItems`.
+- Support `gated`, `downloadCta`, and `relatedItems`.
+- For real downloadable files in these families, prefer frontmatter `downloadCta` over inline MDX `ButtonLink` markup so the shared publication renderer controls when the CTA appears.
+- In gated resource posts, the actual `downloadCta` should appear after unlock, not before the form.
 - Do not document hide/remove/shadow-record workflows for these families as if they already exist.
 
 ## Common pitfalls
