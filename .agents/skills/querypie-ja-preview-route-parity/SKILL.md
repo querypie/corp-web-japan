@@ -35,6 +35,13 @@ Use this skill when:
 - the current local page has placeholder preview-only copy, generic cards, missing media, or flattened/simplified structure
 - the user wants actual browser-rendered parity, not just source-text migration
 
+## Do not use
+
+Do not use it for:
+- a page that does not exist locally yet; use `querypie-ja-preview-route-implementation` instead
+- source-of-truth disputes about what the page should be; use `querypie-ja-source-triangulation` instead
+- general route-local authoring cleanup where the page is not a QueryPie Japan preview migration target; use `static-page-route-local-authoring` instead
+
 ## Core rule
 
 Do not treat an existing `/t/**` preview page as already-migrated just because the title and a few paragraphs roughly match.

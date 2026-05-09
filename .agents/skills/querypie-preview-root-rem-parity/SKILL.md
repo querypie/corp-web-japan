@@ -16,6 +16,21 @@ Use this skill when a QueryPie page is being reproduced in corp-web-japan and th
 It is a support skill, not a migration-phase skill.
 Use it whenever the source page is under `querypie.com/ja/**` or `querypie.com/en/**` and visual parity depends on recovering token intent instead of copying computed px values literally.
 
+## When to use
+
+Use this skill when:
+- the source page is under `querypie.com/ja/**` or `querypie.com/en/**`
+- the local target is a corp-web-japan preview/public route
+- typography or spacing parity matters
+- the source and target may render under different root font sizes
+
+## Do not use
+
+Do not use it for:
+- migrations where visual parity is not a requirement
+- cases where the source and target intentionally share the same root-rem environment and direct computed-value copying is acceptable
+- source-of-truth investigation or route construction; use the migration-phase skills for those
+
 A recurring pitfall in this repository:
 - the source `querypie.com` pages can render under `html { font-size: 15px; }`
 - `corp-web-japan` should keep the more standard `html { font-size: 16px; }`
