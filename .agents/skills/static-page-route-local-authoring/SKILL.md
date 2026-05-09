@@ -120,6 +120,19 @@ Practical pattern confirmed on `/t/about-us` follow-up work:
   - the old top-level data arrays are gone from the route
   - the new section module exports the intended UI primitive set
 
+Practical pattern confirmed on `/t/services/acp` follow-up work:
+- a route can look partially refactored even after a server-safe section file and a dedicated client widget file already exist, if the route still keeps a large top-level object/array blob such as `const categories = [...]` whose nested fields contain the real marketing copy
+- when the page includes one interactive browser/tab/carousel section, do not keep that marketing copy inside a JSON-like data structure just because the client widget needs structured input
+- preferred end state:
+  - `page.tsx` authors each category/item in JSX directly
+  - the client widget consumes `children`-based semantic elements such as `FeatureCategory` and `FeatureItem`
+  - the static section file keeps only layout primitives for the surrounding section shell and neighboring non-interactive sections
+- this pattern is especially useful when a user explicitly objects to lingering JSON-props / data-blob authoring even after a first-pass route-local refactor
+- good outcome:
+  - the route no longer defines top-level `type ...Item`, `type ...Category`, or `const categories = [...]` blobs for the interactive section's real copy
+  - the client widget parses typed child elements with `Children.toArray(...)` / element guards, so interactivity stays isolated without pulling authored copy back out of `page.tsx`
+  - the structure test asserts both the route-owned JSX category/item authoring and the client/server boundary split
+
 ## Second-stage cleanup after a section is already route-local
 
 A route-local section can still deserve a follow-up refactor even after its copy ownership is already in `page.tsx`.
