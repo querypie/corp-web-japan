@@ -74,9 +74,13 @@ Current coverage:
 
 ### 4. Whitepaper pages on stage
 
-- Test file: `tests-local/src/app/whitepapers/page.e2e.mjs`
-- npm script: `npm run e2e:local:whitepapers:stage`
-- Target pages: `/whitepapers`, `/whitepapers/:id`, `/whitepapers/:id/:slug`, and redirecting hidden shadow routes on the configured base URL
+- Test files:
+  - `tests-local/src/app/whitepapers/page.e2e.mjs`
+  - `tests-local/src/app/whitepapers/download-page.e2e.mjs`
+- npm scripts:
+  - `npm run e2e:local:whitepapers:stage`
+  - `npm run e2e:local:whitepaper-download:stage`
+- Target pages: `/whitepapers`, `/whitepapers/:id`, `/whitepapers/:id/:slug`, `/whitepapers/:id/:slug/pdf`, and redirecting hidden shadow routes on the configured base URL
 
 Current coverage:
 - whitepaper list renders the canonical page chrome and keeps the expected local card href contract
@@ -87,6 +91,10 @@ Current coverage:
 - gated whitepaper hidden content appears only after form submit
 - gated whitepaper unlock cookie persists the unlocked state across reload
 - hidden redirect whitepaper shadow records resolve to the canonical local whitepaper detail route
+- article CTA opens the canonical local PDF gate page
+- the PDF gate page renders the localized cover image and locked-state form before submit
+- PDF gate submit triggers the localized route-aligned PDF asset download instead of an upstream download page
+- preview-mode auto-unlock on the PDF gate triggers the same localized PDF asset download and issues the same unlock cookie
 
 ## Base URL configuration
 

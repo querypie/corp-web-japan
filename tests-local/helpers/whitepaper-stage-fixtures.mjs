@@ -22,6 +22,16 @@ export const whitepaperFixtures = {
     ctaHref: '/whitepapers/24/ai-transformation-japan/pdf',
     cookieName: 'qp-gated-whitepaper-24',
     relatedHeading: '関連記事',
+    downloadGate: {
+      path: '/whitepapers/24/ai-transformation-japan/pdf',
+      coverImageSrc: '/whitepapers/24/download-cover.png',
+      buttonText: 'ダウンロードする',
+      helperText: '限定コンテンツの入手には、フォームのご記入をお願いいたします。',
+      previewAutoUnlockText: 'プレビューモードのため、資料ダウンロードを自動的に準備しています。',
+      pdfPath: '/whitepapers/24/QP_Whitepaper_AI_Transformation_JP.pdf',
+      previewCookieName: 'querypie-preview-navigation',
+      previewCookieValue: 'on',
+    },
   },
   redirectPost: {
     path: '/whitepapers/25/ai-transformation-japan',
