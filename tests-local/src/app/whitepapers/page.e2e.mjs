@@ -6,7 +6,7 @@ import {
 import { gotoStagePath, publicationCardLink } from '../../../helpers/stage-page-helpers.mjs';
 
 test.describe('stage whitepaper pages', () => {
-  test('whitepaper list renders the canonical page chrome and visible upstream card href', async ({ page, baseURL }) => {
+  test('whitepaper list renders the canonical page chrome and visible local card href', async ({ page, baseURL }) => {
     await gotoStagePath(page, baseURL, whitepaperFixtures.listPath);
 
     await expect(page).toHaveTitle(whitepaperFixtures.listTitle);
