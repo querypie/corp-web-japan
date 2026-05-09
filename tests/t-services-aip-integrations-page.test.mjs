@@ -24,13 +24,19 @@ test("AIP integrations preview page keeps authored hero copy and CTA in page.tsx
   assert.match(pageSource, /14日間の無料トライアル/);
 });
 
-test("AIP integrations preview page keeps category and product catalog route-local", () => {
+test("AIP integrations preview page keeps category and product catalog route-local with keyword-based filters", () => {
   const categoryMatches = pageSource.match(/label: ".*?"/g) ?? [];
   assert.ok(categoryMatches.length >= 55, `expected category and product label entries, got ${categoryMatches.length}`);
   assert.match(pageSource, /const categories:/);
   assert.match(pageSource, /const products:/);
   assert.match(pageSource, /products\.length/);
-  assert.match(pageSource, /currentCategory === "all" \|\| product.categoryIds.includes\(currentCategory\)/);
+  assert.match(pageSource, /workflow-automation/);
+  assert.match(pageSource, /google-workspace/);
+  assert.match(pageSource, /project-management/);
+  assert.match(pageSource, /search-navigation/);
+  assert.match(pageSource, /currentCategory === "all" \|\| product.categoryKeys.includes\(currentCategory\)/);
+  assert.doesNotMatch(pageSource, /href=\{`\/t\/services\/aip\/integrations\?category=\$\{category\.id\}`\}/);
+  assert.doesNotMatch(pageSource, /categoryIds:/);
 });
 
 test("AIP integrations preview section primitives define the integration filter and grid UI", () => {
