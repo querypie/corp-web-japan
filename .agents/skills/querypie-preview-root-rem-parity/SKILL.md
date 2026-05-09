@@ -1,5 +1,5 @@
 ---
-name: preview-root-rem-parity
+name: querypie-preview-root-rem-parity
 description: Preserve visual parity when importing QueryPie pages into corp-web-japan preview routes even though the source site uses a 15px html root and corp-web-japan keeps the standard 16px root.
 version: 1.0.0
 author: Hermes Agent
@@ -11,9 +11,25 @@ metadata:
 
 # Preserve visual parity across different root rem environments
 
-Use this when copying or recreating UI design from pages under `querypie.com/ja/**` or `querypie.com/en/**` into `corp-web-japan` preview routes under `/t/**`.
+Use this skill when a QueryPie page is being reproduced in corp-web-japan and the source/root font-size environment may differ.
 
-## Why this skill exists
+It is a support skill, not a migration-phase skill.
+Use it whenever the source page is under `querypie.com/ja/**` or `querypie.com/en/**` and visual parity depends on recovering token intent instead of copying computed px values literally.
+
+## When to use
+
+Use this skill when:
+- the source page is under `querypie.com/ja/**` or `querypie.com/en/**`
+- the local target is a corp-web-japan preview/public route
+- typography or spacing parity matters
+- the source and target may render under different root font sizes
+
+## Do not use
+
+Do not use it for:
+- migrations where visual parity is not a requirement
+- cases where the source and target intentionally share the same root-rem environment and direct computed-value copying is acceptable
+- source-of-truth investigation or route construction; use the migration-phase skills for those
 
 A recurring pitfall in this repository:
 - the source `querypie.com` pages can render under `html { font-size: 15px; }`

@@ -3,7 +3,6 @@
 This repository keeps checked-in agent skills under `.agents/skills/`.
 
 Canonical layout:
-
 - `.agents/skills/<skill-name>/SKILL.md`
 
 Current skills:
@@ -42,18 +41,6 @@ Current skills:
 - `manuals-posting`
   - Path: `.agents/skills/manuals-posting/SKILL.md`
   - Purpose: thin wrapper for manuals-specific paths, fields, and current limits
-- `static-page-route-local-authoring-refactor`
-  - Path: `.agents/skills/static-page-route-local-authoring-refactor/SKILL.md`
-  - Purpose: refactor a static marketing route so `page.tsx` becomes the primary readable authoring surface and old giant content/wrapper layers are removed safely
-  - Scope: route-local authoring refactors for pages such as top page, solution pages, and static preview pages
-- `page-migration-preview-route`
-  - Path: `.agents/skills/page-migration-preview-route/SKILL.md`
-  - Purpose: generic implementation skill for migrating a `querypie.com/ja` page or another external marketing page into a local preview route under `/t/*`
-  - Asset rule: keep preview-page assets under route-aligned `public/<route-family>/...`, not under `public/t/...` and not under generic `public/assets/...`
-- `preview-root-rem-parity`
-  - Path: `.agents/skills/preview-root-rem-parity/SKILL.md`
-  - Purpose: preserve visual parity when importing `querypie.com/ja/**` or `querypie.com/en/**` pages into corp-web-japan even though the source site can use a 15px html root while corp-web-japan keeps a 16px root
-  - Typography rule: do not blindly copy computed px values from the source page; recover the rem/token intent first, then rebuild for the 16px-root preview environment
 - `aip-demo-mdx-migration`
   - Path: `.agents/skills/aip-demo-mdx-migration/SKILL.md`
   - Purpose: migrate `../corp-web-contents` AIP demo entries into the local corp-web-japan MDX publication system with `/t/demo/aip` preview and `/demo/aip/:id/:slug` canonical detail routes
@@ -65,9 +52,42 @@ Current skills:
 - `resource-list-sidebar-pattern`
   - Path: `.agents/skills/resource-list-sidebar-pattern/SKILL.md`
   - Purpose: maintain corp-web-japan resource-list pages while keeping hero/CTA authoring route-local, centralizing only repeated sidebar markup, handling preview/public sidebar link differences, and preserving sticky behavior
-- `querypie-ja-page-migration`
-  - Path: `.agents/skills/querypie-ja-page-migration/SKILL.md`
-  - Purpose: higher-level QueryPie Japan migration skill that triangulates `../corp-web-contents`, `../corp-web-app`, and the live rendered page, then decides the correct latest-main implementation shape before the narrower preview-route implementation step
+
+## QueryPie Japan webpage migration skill stack (MECE)
+
+These five skills are the repo-local webpage migration stack for `querypie.com/ja/**` pages.
+Use them by phase so responsibilities stay mutually exclusive and collectively exhaustive.
+
+1. Source-of-truth phase
+- `querypie-ja-source-triangulation`
+  - Path: `.agents/skills/querypie-ja-source-triangulation/SKILL.md`
+  - Purpose: determine the correct source of truth and final target shape by reconciling `../corp-web-contents`, `../corp-web-app`, and the live rendered page
+  - Use when: you still need to decide what the migrated page should be
+
+2. First implementation phase
+- `querypie-ja-preview-route-implementation`
+  - Path: `.agents/skills/querypie-ja-preview-route-implementation/SKILL.md`
+  - Purpose: implement a new local `/t/**` preview route once the target shape is already settled
+  - Use when: the page does not exist locally yet and you are creating the first preview route implementation
+
+3. Existing preview follow-up phase
+- `querypie-ja-preview-route-parity`
+  - Path: `.agents/skills/querypie-ja-preview-route-parity/SKILL.md`
+  - Purpose: bring an already-existing `/t/**` preview route up to live parity
+  - Use when: the preview route exists already, but still contains placeholder or simplified structure that needs a parity pass
+  - Includes: page-family-specific heuristics for `/t/services/{aip,acp,fde}`
+
+4. Cross-cutting route authoring support
+- `static-page-route-local-authoring`
+  - Path: `.agents/skills/static-page-route-local-authoring/SKILL.md`
+  - Purpose: keep static marketing routes readable by making `page.tsx` the primary authoring surface and extracted sections UI-only
+  - Use when: copy/composition ownership needs to remain route-local during any migration phase
+
+5. Cross-cutting visual parity support
+- `querypie-preview-root-rem-parity`
+  - Path: `.agents/skills/querypie-preview-root-rem-parity/SKILL.md`
+  - Purpose: preserve visual parity when the source QueryPie page uses a 15px root and corp-web-japan keeps a 16px root
+  - Use when: typography/spacing needs to be reconstructed from token intent rather than copied from computed px values
 
 Usage notes:
 
@@ -83,9 +103,12 @@ Usage notes:
 - Use `introduction-deck-posting` for `src/content/introduction-deck/*.mdx`.
 - Use `glossary-posting` for `src/content/glossary/*.mdx`.
 - Use `manuals-posting` for `src/content/manuals/*.mdx`.
-- Use the migration skills only when the task is actually a corp-web-contents migration, not ordinary day-2 MDX maintenance.
-- Use `page-migration-preview-route` when the main question is generic `/t/**` implementation shape, route-local authoring, preview metadata, and route-aligned asset placement.
-- Use `querypie-ja-page-migration` first when the source page is specifically `querypie.com/ja/**` and correctness depends on reconciling `../corp-web-contents`, `../corp-web-app`, and the live page, or when an existing PR branch may need latest-main rewrite instead of a mechanical rebase.
-- For `querypie.com/ja/**` static page migrations that also require `corp-web-app` behavior-contract lookup and live-page verification, load `querypie-ja-page-migration` before the narrower preview-route implementation skills.
+- Use the migration skills only when the task is actually a corp-web-contents / querypie.com migration, not ordinary day-2 MDX maintenance.
+- For a new `querypie.com/ja/**` page migration, load in this order when needed:
+  1. `querypie-ja-source-triangulation`
+  2. `querypie-ja-preview-route-implementation`
+  3. `static-page-route-local-authoring`
+  4. `querypie-preview-root-rem-parity`
+- For an existing `/t/**` preview route that needs to be finished, replace step 2 with `querypie-ja-preview-route-parity`.
 - For new publication work, do not put post-specific assets under `public/assets/...`; use the route-aligned per-post asset root instead.
 - Keep this index aligned with the actual skill directories.
