@@ -1,47 +1,50 @@
 ---
-name: services-preview-migration
-description: Migrate or finish QueryPie Japan service preview pages under /t/services/* in corp-web-japan with live-parity structure, route-local authoring, route-aligned assets, and separate PRs per page by default.
+name: querypie-ja-preview-route-parity
+description: Bring an existing QueryPie Japan preview route under `/t/**` up to live parity after an earlier first-pass migration, while keeping route-local authoring and route-aligned assets.
 version: 1.0.0
 author: Hermes Agent
 license: MIT
 ---
 
-# Migrate or finish `/t/services/*` preview pages in corp-web-japan
+# Finish an existing QueryPie Japan preview route in corp-web-japan so it reaches live parity
 
-Use this repo-local skill when the target is a QueryPie Japan service landing page under:
+Use this repo-local skill when a page already exists under `/t/**`, but the current local preview is still a placeholder or simplified approximation and needs to be brought up to live parity.
+
+Typical examples:
 - `/t/services/aip`
 - `/t/services/acp`
 - `/t/services/fde`
+- other future `querypie.com/ja/**` preview routes where the first-pass preview exists but still needs a follow-up parity pass
 
-This skill is specifically for the real-world follow-up case where an initial preview route already exists but is still a placeholder or simplified approximation, and the user wants the page brought up to live parity.
+This skill is intentionally broader than just the services family, but it includes page-family-specific rules for `/t/services/*` because those were the first concrete follow-up migrations that exposed the pattern.
 
 ## Load together with
 
 Before using this skill, also read:
-- `.agents/skills/querypie-ja-page-migration/SKILL.md`
-- `.agents/skills/page-migration-preview-route/SKILL.md`
-- `.agents/skills/static-page-route-local-authoring-refactor/SKILL.md`
-- `.agents/skills/preview-root-rem-parity/SKILL.md`
+- `.agents/skills/querypie-ja-source-triangulation/SKILL.md`
+- `.agents/skills/querypie-ja-preview-route-implementation/SKILL.md`
+- `.agents/skills/static-page-route-local-authoring/SKILL.md`
+- `.agents/skills/querypie-preview-root-rem-parity/SKILL.md`
 - `docs/code-location-conventions.md`
 
 Role split:
-- `querypie-ja-page-migration` = source-of-truth investigation workflow
-- `page-migration-preview-route` = generic `/t/*` implementation rules
-- `services-preview-migration` = service-page-specific parity rules learned from `/t/services/aip`, `/t/services/acp`, and `/t/services/fde`
+- `querypie-ja-source-triangulation` = decide the correct source of truth and final target shape
+- `querypie-ja-preview-route-implementation` = build a new local preview route once the shape is settled
+- `querypie-ja-preview-route-parity` = complete a preview route that already exists but still needs live-parity follow-up work
 
 ## When to use
 
 Use this skill when:
-- the source page is under `https://www.querypie.com/ja/solutions/...`
-- the local route is under `/t/services/*`
-- the current local page has placeholder preview-only copy, generic cards, missing video, or flattened structure
+- the source page is under `https://www.querypie.com/ja/...`
+- the local route already exists under `/t/**`
+- the current local page has placeholder preview-only copy, generic cards, missing media, or flattened/simplified structure
 - the user wants actual browser-rendered parity, not just source-text migration
 
 ## Core rule
 
-Do not treat an existing `/t/services/*` page as already-migrated just because the title and a few paragraphs roughly match.
+Do not treat an existing `/t/**` preview page as already-migrated just because the title and a few paragraphs roughly match.
 
-A service preview page is incomplete if any of these remain:
+A preview page still needs parity follow-up if any of these remain:
 - placeholder preview-only labels such as `Preview Service`
 - explanatory copy such as `preview で確認できるように移しています`
 - generic numbered cards like `Value 1`, `Value 2`

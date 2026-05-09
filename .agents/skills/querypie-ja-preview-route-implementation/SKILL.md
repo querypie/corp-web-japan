@@ -1,6 +1,6 @@
 ---
-name: page-migration-preview-route
-description: Migrate a querypie.com/ja page or another external marketing page into a local corp-web-japan preview route under /t/* with route-local authoring and route-aligned assets.
+name: querypie-ja-preview-route-implementation
+description: Implement a new local `/t/**` preview route in corp-web-japan for a page sourced from querypie.com/ja or another upstream marketing page, once the target shape is already settled.
 version: 1.0.0
 author: Hermes Agent
 license: MIT
@@ -18,7 +18,7 @@ It defines how a migrated page should live under `/t/**`, where assets should go
 It is intentionally broad and implementation-focused.
 
 It is not the higher-level source-of-truth investigation skill for QueryPie Japan pages.
-When the source page is specifically under `querypie.com/ja/**` and correct implementation requires triangulating `../corp-web-contents`, `../corp-web-app`, and the live shipped page, load `querypie-ja-page-migration` first and then use this skill as the narrower implementation rulebook.
+When the source page is specifically under `querypie.com/ja/**` and correct implementation requires triangulating `../corp-web-contents`, `../corp-web-app`, and the live shipped page, load `querypie-ja-source-triangulation` first and then use this skill as the narrower implementation rulebook.
 
 Typical targets:
 - upstream QueryPie Japan pages such as `https://www.querypie.com/ja/...`
@@ -30,18 +30,18 @@ This skill is based on the preview-page migration pattern used in PR #182 (`feat
 Important repo-local note:
 - initial preview-route creation and later live-parity completion are different phases
 - if an existing `/t/*` page already exists but still uses placeholder preview-only copy or a structurally simplified layout, do not treat this skill alone as sufficient; also load any narrower repo-local follow-up skill that captures the page-family-specific parity rules
-- for `/t/services/*`, use `.agents/skills/querypie-ja-preview-parity-followup/SKILL.md`
+- for `/t/services/*`, use `.agents/skills/querypie-ja-preview-route-parity/SKILL.md`
 
 ## Mandatory references
 
 Load and follow these before authoring:
-- `.agents/skills/static-page-route-local-authoring-refactor/SKILL.md`
-- `.agents/skills/preview-root-rem-parity/SKILL.md`
+- `.agents/skills/static-page-route-local-authoring/SKILL.md`
+- `.agents/skills/querypie-preview-root-rem-parity/SKILL.md`
 - `docs/code-location-conventions.md`
 
 Why:
-- `static-page-route-local-authoring-refactor` defines how `page.tsx` should stay readable and route-local
-- `preview-root-rem-parity` explains how to preserve visual parity when the source QueryPie page uses a 15px html root but corp-web-japan keeps a 16px root
+- `static-page-route-local-authoring` defines how `page.tsx` should stay readable and route-local
+- `querypie-preview-root-rem-parity` explains how to preserve visual parity when the source QueryPie page uses a 15px html root but corp-web-japan keeps a 16px root
 - `docs/code-location-conventions.md` defines the repo's preferred code placement rules and the stronger exception rule for static marketing pages
 
 Do not treat these as optional background reading. This skill assumes their rules are active.
@@ -64,7 +64,7 @@ Use it when:
 - the content is primarily static marketing content rather than CMS/data-backed application logic
 - the main question is implementation shape, preview routing, asset placement, and route-local authoring
 
-Load `querypie-ja-page-migration` first instead when:
+Load `querypie-ja-source-triangulation` first instead when:
 - the source page is under `https://www.querypie.com/ja/**`
 - you need `../corp-web-contents` as the authored-copy source of truth
 - you need `../corp-web-app` to recover behavior contracts, selectors, helper logic, or route semantics
@@ -74,7 +74,7 @@ Do not use it for:
 - blog / whitepaper MDX posting work
 - CMS-backed feature work unless explicitly requested
 - backend-heavy routes where the main task is API or form-processing logic rather than page migration
-- source-of-truth disputes where the hard part is reconciling authored copy vs `corp-web-app` behavior vs live page output; that belongs to `querypie-ja-page-migration`
+- source-of-truth disputes where the hard part is reconciling authored copy vs `corp-web-app` behavior vs live page output; that belongs to `querypie-ja-source-triangulation`
 
 ## Mandatory repo workflow
 
@@ -141,7 +141,7 @@ Reason:
 
 For static marketing migrations, `page.tsx` is the main authoring surface.
 
-You must follow the route-local authoring direction from `static-page-route-local-authoring-refactor` and `docs/code-location-conventions.md`:
+You must follow the route-local authoring direction from `static-page-route-local-authoring` and `docs/code-location-conventions.md`:
 - keep the page primarily understandable from its own `page.tsx`
 - put the real marketing copy, section order, and page-specific structure directly in `page.tsx`
 - prefer direct JSX authoring for the real copy
@@ -217,7 +217,7 @@ Important parity rule for QueryPie page imports:
 - when the source page comes from `querypie.com/ja/**` or `querypie.com/en/**`, do not blindly copy source computed px values into corp-web-japan
 - first determine whether the source page is rendering under a 15px root rem environment
 - if corp-web-japan keeps the standard 16px root, preserve the source token/design intent and convert the values for the 16px-root preview environment
-- use `.agents/skills/preview-root-rem-parity/SKILL.md` for the exact calculation workflow
+- use `.agents/skills/querypie-preview-root-rem-parity/SKILL.md` for the exact calculation workflow
 
 ## Existing-route safety rule
 
@@ -245,7 +245,7 @@ This separation is especially important when the current public path still inten
 
 Read these first:
 - `docs/code-location-conventions.md`
-- `.agents/skills/static-page-route-local-authoring-refactor/SKILL.md`
+- `.agents/skills/static-page-route-local-authoring/SKILL.md`
 - one or more aligned preview examples such as:
   - `src/app/t/about-us/page.tsx`
   - `src/app/t/certifications/page.tsx`
@@ -288,7 +288,7 @@ Guidance:
 Important scope boundary:
 - this skill tells you how to implement the preview route once you already know the correct content and behavior
 - it does not by itself decide whether an existing PR branch is stale, whether the live page contradicts an older draft implementation, or whether `corp-web-app` semantics overrule a local refactor idea
-- if those questions matter, switch up one level to `querypie-ja-page-migration`
+- if those questions matter, switch up one level to `querypie-ja-source-triangulation`
 
 ### 5. Add metadata and safe preview semantics
 
@@ -349,8 +349,8 @@ Before finalizing:
 
 When asked to migrate a `querypie.com/ja` or external page into this website as a preview page:
 1. start from latest `origin/main` in a worktree
-2. if the source is specifically `querypie.com/ja/**` and correctness depends on source triangulation, load `querypie-ja-page-migration` first
-3. load `static-page-route-local-authoring-refactor` and read `docs/code-location-conventions.md`
+2. if the source is specifically `querypie.com/ja/**` and correctness depends on source triangulation, load `querypie-ja-source-triangulation` first
+3. load `static-page-route-local-authoring` and read `docs/code-location-conventions.md`
 4. choose the preview URI under `/t/...`
 5. create the matching `src/app/t/**/page.tsx`
 6. place page-specific assets under route-aligned `public/**`, not `public/t/**` and not `public/assets/**`

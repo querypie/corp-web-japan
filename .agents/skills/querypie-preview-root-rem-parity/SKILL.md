@@ -1,5 +1,5 @@
 ---
-name: preview-root-rem-parity
+name: querypie-preview-root-rem-parity
 description: Preserve visual parity when importing QueryPie pages into corp-web-japan preview routes even though the source site uses a 15px html root and corp-web-japan keeps the standard 16px root.
 version: 1.0.0
 author: Hermes Agent

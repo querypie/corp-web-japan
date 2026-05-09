@@ -1,6 +1,6 @@
 ---
-name: static-page-route-local-authoring-refactor
-description: Refactor a corp-web-japan static marketing route so page.tsx becomes the primary readable authoring surface and old giant content/wrapper layers are removed safely.
+name: static-page-route-local-authoring
+description: Keep a static marketing route readable and route-local by making `page.tsx` the primary authoring surface while extracted sections own only UI implementation details.
 version: 1.2.0
 author: Hermes Agent
 license: MIT

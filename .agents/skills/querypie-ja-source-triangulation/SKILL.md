@@ -1,6 +1,6 @@
 ---
-name: querypie-ja-page-migration
-description: Migrate a page under querypie.com/ja into corp-web-japan by triangulating corp-web-contents source content, corp-web-app behavior contracts, and the live rendered page, then implementing a route-local static preview route under /t/*.
+name: querypie-ja-source-triangulation
+description: Determine the correct source of truth and target implementation shape for migrating a querypie.com/ja page into corp-web-japan by triangulating corp-web-contents, corp-web-app behavior contracts, and the live rendered page.
 version: 1.1.0
 author: Hermes Agent
 license: MIT
@@ -21,24 +21,25 @@ This skill captures the workflow proven during the `/t/cookie-preference` migrat
 ## Mandatory references
 
 Load and follow these first:
-- `.agents/skills/page-migration-preview-route/SKILL.md`
-- `.agents/skills/static-page-route-local-authoring-refactor/SKILL.md`
-- `.agents/skills/preview-root-rem-parity/SKILL.md`
+- `.agents/skills/querypie-ja-preview-route-implementation/SKILL.md`
+- `.agents/skills/static-page-route-local-authoring/SKILL.md`
+- `.agents/skills/querypie-preview-root-rem-parity/SKILL.md`
 - `docs/code-location-conventions.md`
 
 This skill is not a replacement for those files.
 It is the higher-level investigation and implementation workflow for a very specific migration source: `querypie.com/ja/**`.
 
 Role boundary:
-- `page-migration-preview-route` is the generic implementation skill for building a `/t/**` preview page with route-aligned assets and preview metadata
-- `querypie-ja-page-migration` is the QueryPie Japan source-of-truth skill for deciding what the page should be, which upstream contracts matter, and whether an existing PR branch should be preserved or rewritten on latest main
+- `querypie-ja-source-triangulation` decides what the migrated page should be by reconciling authored source, app contracts, and live output
+- `querypie-ja-preview-route-implementation` builds a new local `/t/**` preview route once the target shape is settled
+- `querypie-ja-preview-route-parity` is the follow-up skill for an existing preview route that still needs live-parity completion
 
 Use this skill first when both could apply.
-Then use `page-migration-preview-route` as the narrower implementation rulebook.
+Then use `querypie-ja-preview-route-implementation` as the narrower implementation rulebook.
 
 Important repo-local note:
 - when this workflow produces reusable migration knowledge for this repository, record it under `.agents/skills/` rather than relying only on built-in/global skills
-- service-page follow-up knowledge for `/t/services/*` now lives in `.agents/skills/querypie-ja-preview-parity-followup/SKILL.md`
+- existing-preview follow-up knowledge now lives in `.agents/skills/querypie-ja-preview-route-parity/SKILL.md`
 
 ## When to use this skill
 
@@ -55,13 +56,13 @@ Typical examples:
 - `/ja/services/...`
 - other legal/company/marketing pages that currently live on QueryPie Japan
 
-If the target is specifically `/t/services/*`, also load `.agents/skills/querypie-ja-preview-parity-followup/SKILL.md` because service landing pages often need page-family-specific parity rules such as hero video restoration, value-card recovery, alternating feature-band layout, category-browser restoration, and separate PRs per page.
+If the target is specifically `/t/services/*`, also load `.agents/skills/querypie-ja-preview-route-parity/SKILL.md` because service landing pages often need page-family-specific parity rules such as hero video restoration, value-card recovery, alternating feature-band layout, category-browser restoration, and separate PRs per page.
 
 Do not use it for:
 - ordinary local-only day-2 edits to an already-migrated page
 - publication MDX tasks such as blog, whitepaper, news, events, or demo postings
 - backend-heavy flows where the main challenge is API or server logic rather than page migration
-- generic preview-route implementation questions where the source-of-truth is already settled; in that case use `page-migration-preview-route` directly
+- generic preview-route implementation questions where the source-of-truth is already settled; in that case use `querypie-ja-preview-route-implementation` directly
 
 ## Goal
 
