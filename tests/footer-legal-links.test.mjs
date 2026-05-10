@@ -5,17 +5,18 @@ import { readFileSync } from "node:fs";
 const siteFooterPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
 const resourceLeadFormPath = new URL("../src/components/sections/resource-lead-form.tsx", import.meta.url);
 
-const expectedStaticLinks = [{ label: "利用規約", href: "/terms-of-service" }];
+const expectedLinks = [
+  'label: "Cookie設定", href: t("/cookie-preference", previewModeEnabled)',
+  'label: "利用規約", href: t("/terms-of-service", previewModeEnabled)',
+  'label: "プライバシーポリシー", href: t("/privacy-policy", previewModeEnabled)',
+  'label: "EULA", href: t("/eula", previewModeEnabled)',
+];
 
 test("site footer legal links point to local legal redirect endpoints", () => {
   const siteFooter = readFileSync(siteFooterPath, "utf8");
 
-  assert.match(siteFooter, /label: "Cookie設定", href: t\("\/cookie-preference", previewModeEnabled\)/);
-  assert.match(siteFooter, /label: "プライバシーポリシー", href: t\("\/privacy-policy", previewModeEnabled\)/);
-  assert.match(siteFooter, /label: "EULA", href: t\("\/eula", previewModeEnabled\)/);
-
-  for (const { label, href } of expectedStaticLinks) {
-    assert.match(siteFooter, new RegExp(`label: "${label}", href: "${href}"`));
+  for (const expected of expectedLinks) {
+    assert.match(siteFooter, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
 
   assert.doesNotMatch(siteFooter, /label: "Cookie設定", href: "#"/);
