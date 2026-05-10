@@ -7,9 +7,9 @@ const routeDir = new URL("../src/app/t/privacy-policy/", import.meta.url);
 const contentDir = new URL("../src/content/privacy-policy/", import.meta.url);
 const pagePath = "src/app/t/privacy-policy/page.tsx";
 const versionPagePath = "src/app/t/privacy-policy/[slug]/page.tsx";
-const documentPath = "src/app/t/privacy-policy/privacy-policy-document.tsx";
-const selectorPath = "src/app/t/privacy-policy/privacy-policy-version-selector.tsx";
-const sourcesPath = "src/app/t/privacy-policy/privacy-policy-sources.ts";
+const documentPath = "src/components/sections/privacy-policy-document-page.tsx";
+const selectorPath = "src/components/sections/privacy-policy-version-selector.tsx";
+const sourcesPath = "src/lib/privacy-policy/records.ts";
 const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
 
 const expectedVersionSlugs = [
@@ -64,6 +64,9 @@ test("privacy policy preview scans shared content filenames instead of keeping a
   assert.match(sourcesSource, /readdir\(PRIVACY_POLICY_CONTENT_DIR, \{ withFileTypes: true \}\)/);
   assert.match(sourcesSource, /filter\(\(entry\) => entry\.isFile\(\) && PRIVACY_POLICY_FILE_PATTERN\.test\(entry\.name\)\)/);
   assert.match(sourcesSource, /sort\(\)/);
+  assert.equal(existsSync(new URL("privacy-policy-document.tsx", routeDir)), false);
+  assert.equal(existsSync(new URL("privacy-policy-version-selector.tsx", routeDir)), false);
+  assert.equal(existsSync(new URL("privacy-policy-sources.ts", routeDir)), false);
   assert.equal(existsSync(new URL("privacy-policy-versions.ts", routeDir)), false);
 });
 
