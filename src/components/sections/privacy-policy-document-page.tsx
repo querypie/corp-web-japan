@@ -17,12 +17,12 @@ import {
   CtaTitle,
   SimpleCtaSection,
 } from "@/components/sections/simple-cta-section";
-import { publicationBodyClassName } from "@/components/sections/publication-post-page";
 import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
+import { hasPrivacyPolicySlug, listPrivacyPolicySlugs } from "@/lib/privacy-policy/records";
 import { buildPublicationMdxComponents } from "@/lib/publications/mdx/components";
 import { slugifyHeadingText } from "@/lib/publications/mdx/headings";
+import { publicationBodyClassName } from "./publication-post-page";
 import { PrivacyPolicyVersionSelector } from "./privacy-policy-version-selector";
-import { hasPrivacyPolicySlug, listPrivacyPolicySlugs } from "./privacy-policy-sources";
 
 type PrivacyPolicyFrontmatter = {
   title: string;

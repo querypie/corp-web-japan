@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { PrivacyPolicyDocumentPage, generatePrivacyPolicyMetadata } from "./privacy-policy-document";
-import { getLatestPrivacyPolicySlug } from "./privacy-policy-sources";
+import { PrivacyPolicyDocumentPage, generatePrivacyPolicyMetadata } from "@/components/sections/privacy-policy-document-page";
+import { getLatestPrivacyPolicySlug } from "@/lib/privacy-policy/records";
 
 export async function generateMetadata(): Promise<Metadata> {
   const latestSlug = await getLatestPrivacyPolicySlug();
