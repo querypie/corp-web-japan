@@ -23,4 +23,9 @@ test("about-us preview page keeps copy/composition in the route and UI primitive
   assert.match(sectionSource, /export function AboutUsTimelineItem/);
   assert.match(sectionSource, /export function AboutUsLeaderCard/);
   assert.match(sectionSource, /export function AboutUsLocationCard/);
+
+  assert.match(sectionSource, /inline-flex w-fit self-start items-center justify-center border border-slate-200\/70 bg-white leading-none/);
+  assert.match(sectionSource, /className="block h-\[17px\] w-\[23px\]"/);
+  assert.doesNotMatch(sectionSource, /h-\[35px\] w-\[35px\]/);
+  assert.doesNotMatch(sectionSource, /rounded-\[4px\]/);
 });

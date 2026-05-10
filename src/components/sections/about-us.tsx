@@ -160,8 +160,8 @@ export function AboutUsLocationCard({
 }) {
   return (
     <div className="flex h-full flex-col">
-      <div className="inline-flex h-[35px] w-[35px] items-center justify-center rounded-[4px] border border-[#D0D7DE] bg-white">
-        <Image src={iconSrc} alt={iconAlt} width={23} height={17} className="h-[17px] w-[23px]" />
+      <div className="inline-flex w-fit self-start items-center justify-center border border-slate-200/70 bg-white leading-none">
+        <Image src={iconSrc} alt={iconAlt} width={23} height={17} className="block h-[17px] w-[23px]" />
       </div>
       {children}
     </div>
