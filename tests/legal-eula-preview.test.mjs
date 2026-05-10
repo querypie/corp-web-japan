@@ -49,9 +49,12 @@ test("eula preview keeps adjacent source content and preview-aware footer link",
   const footerSource = readFileSync(footerPath, "utf8");
 
   assert.match(contentSource, /^PLEASE READ THIS END USER LICENSE AGREEMENT/m);
-  assert.match(contentSource, /# PART I: GENERAL TERMS/);
-  assert.match(contentSource, /## \(1\) GENERAL LICENSE TERMS, RESTRICTIONS AND ORDER OF PRECEDENCE/);
-  assert.match(contentSource, /### \(1\.1\) General License Terms/);
+  assert.match(contentSource, /^# PART I: GENERAL TERMS/m);
+  assert.match(contentSource, /^## \(1\) GENERAL LICENSE TERMS, RESTRICTIONS AND ORDER OF PRECEDENCE/m);
+  assert.match(contentSource, /^### \(1\.1\) General License Terms/m);
+  assert.doesNotMatch(contentSource, /^[ \t]+#/m);
+  assert.doesNotMatch(contentSource, /^[ \t]+### \(/m);
+  assert.doesNotMatch(contentSource, /<br\s*\/?>/);
   assert.match(contentSource, /www\.querypie\.com/);
   assert.match(footerSource, /label: "EULA", href: t\("\/eula", previewModeEnabled\)/);
 });
