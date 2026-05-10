@@ -1,145 +1,171 @@
 ---
 name: privacy-policy-version-archive
-description: Maintain a versioned corp-web-japan privacy-policy preview archive using dated MDX files under src/content/privacy-policy, with /t/privacy-policy as the latest alias and /t/privacy-policy/[slug] for dated versions.
+description: Migrate QueryPie privacy-policy revision history into corp-web-japan as local MDX files, render `/t/privacy-policy` plus `/t/privacy-policy/[slug]`, and derive version navigation from content filenames instead of a duplicated registry.
+version: 1.0.0
+author: Hermes Agent
+license: MIT
 ---
 
 # Privacy policy version archive
 
-Use this when working on the corp-web-japan privacy policy preview flow and the page must support multiple historical versions.
+Use this when `../corp-web-contents/pages/privacy-policy-en/*/en/content.mdx` contains multiple historical revisions and the user wants them migrated into local corp-web-japan preview routes.
 
-## When to use
-- The user wants all upstream privacy policy versions migrated locally
-- The preview must support both:
-  - `/t/privacy-policy` for the latest version
-  - `/t/privacy-policy/yyyy-mm-dd` for a specific historical version
-- The user wants content stored as dated MDX files under `src/content/privacy-policy/`
-- The user explicitly prefers filenames like `src/content/privacy-policy/2019-11-29.mdx`
+## Goal
 
-## Canonical file layout
+Implement a local privacy-policy revision archive with:
+- latest alias route: `/t/privacy-policy`
+- version detail route: `/t/privacy-policy/[slug]`
+- one local MDX file per revision under `src/content/privacy-policy/*.mdx`
+- version navigation derived from actual content filenames, not from a duplicated hardcoded TypeScript registry
 
-Routes:
-- `src/app/t/privacy-policy/page.tsx`
-- `src/app/t/privacy-policy/[slug]/page.tsx`
-- `src/app/t/privacy-policy/privacy-policy-document.tsx`
-- `src/app/t/privacy-policy/privacy-policy-version-selector.tsx`
-- `src/app/t/privacy-policy/privacy-policy-versions.ts`
+## Preferred final file layout
 
-Content:
 - `src/content/privacy-policy/2019-11-29.mdx`
 - `src/content/privacy-policy/2021-03-30.mdx`
 - ...
 - `src/content/privacy-policy/2026-01-15.mdx`
+- `src/app/t/privacy-policy/page.tsx`
+- `src/app/t/privacy-policy/[slug]/page.tsx`
+- `src/app/t/privacy-policy/privacy-policy-document.tsx`
+- `src/app/t/privacy-policy/privacy-policy-version-selector.tsx`
+- `src/app/t/privacy-policy/privacy-policy-sources.ts`
 
-Do not keep the dated MDX files route-adjacent under `src/app/t/privacy-policy/` once the user has asked for `src/content/privacy-policy/*.mdx`.
+Do not keep the MDX files route-adjacent once the user explicitly asks for `src/content/privacy-policy/*.mdx`.
+Do not keep a duplicated `privacy-policy-versions.ts` registry when all slugs are already encoded in the filenames.
 
-## Route contract
+## Source discovery
 
-### Latest alias
-- `/t/privacy-policy` should render the latest version from `LATEST_PRIVACY_POLICY_VERSION`.
-- Keep this page thin: it should delegate to the shared document renderer.
-
-### Historical detail route
-- `/t/privacy-policy/[slug]` should render the exact requested version.
-- Use `generateStaticParams()` from the version registry.
-- Treat the slug as the ISO date string, e.g. `2025-06-05`.
-
-## Content registry
-Create and maintain a route-local version registry file:
-- `src/app/t/privacy-policy/privacy-policy-versions.ts`
-
-Recommended shape:
-- `slug`: `yyyy-mm-dd`
-- `title`: display title
-- `date`: `yyyy-mm-dd`
-- `label`: version selector label
-
-Also export:
-- `PRIVACY_POLICY_VERSIONS`
-- `LATEST_PRIVACY_POLICY_VERSION`
-- `getPrivacyPolicyVersion(slug)`
-
-Keep the array in descending order so index `0` is the latest version.
-
-## Loader pattern
-In `privacy-policy-document.tsx`:
-- use `join(process.cwd(), "src/content/privacy-policy", `${version.slug}.mdx`)`
-- read via `readFile`
-- evaluate via `next-mdx-remote-client/rsc`
-- enable `parseFrontmatter: true`
-
-Recommended frontmatter fields in each MDX file:
-- `title`
-- `description`
-- `date`
-- `version`
-
-## MDX migration pattern
-When migrating from `../corp-web-contents/pages/privacy-policy-en/<yy-mm-dd>/en/content.mdx`:
-
-1. Convert source folder date `yy-mm-dd` to slug `yyyy-mm-dd`
+1. Inspect upstream files under:
+   - `../corp-web-contents/pages/privacy-policy-en/*/en/content.mdx`
+2. Treat directory names like `26-01-15` as the upstream revision key.
+3. Convert those to local canonical slugs in `yyyy-mm-dd` form:
    - `26-01-15` -> `2026-01-15`
-2. Name the file exactly:
-   - `src/content/privacy-policy/2026-01-15.mdx`
-3. Add frontmatter with:
-   - title
-   - description
-   - date
-   - version
-4. Strip old page-only wrapper markup from the body, including:
-   - route title wrapper
-   - language selector
-   - version selector
-   - old route-scaffolding components such as `StaticH3` or equivalent page header wrappers
-5. Keep only the legal article body in the MDX file
+   - `25-06-05` -> `2025-06-05`
+4. Sort local slugs descending so the newest file is the latest alias target.
 
-## Page composition pattern
-Keep these in the route-rendering layer, not in the MDX body:
-- page hero/title/description
-- effective date display
-- language selector
-- version selector
-- footer/header/CTA
+## MDX migration rules
 
-The shared document renderer should:
-- load the selected MDX file
-- render frontmatter-driven hero content
-- render the route-local version selector
-- render the legal body below
+For each upstream revision:
+1. create `src/content/privacy-policy/<yyyy-mm-dd>.mdx`
+2. add frontmatter:
+   - `title`
+   - `description`
+   - `date`
+   - `version`
+3. strip upstream wrapper-only chrome from the body:
+   - `StaticH3`
+   - `PrivacySelectorBox`
+   - `PrivacyPolicyLanguageSelector`
+   - `PrivacyPolicyVersionSelector`
+   - page-level wrapper boxes/centering wrappers when they only exist for layout
+4. keep the actual legal content body only
+
+### Important body-cleanup nuance
+
+Upstream privacy-policy MDX mixes:
+- real prose/heading lines that should become normal Markdown
+- JSX table blocks where indentation still matters visually/readability-wise
+
+When normalizing indentation after migration:
+- remove leading indentation from headings and ordinary paragraph lines
+- do **not** blindly left-trim every indented line in the file
+- especially do not flatten text nested inside JSX table blocks just because it starts with spaces
+
+A safe practical heuristic:
+- strip indentation for lines that are clearly top-level Markdown prose such as:
+  - `# ...`, `## ...`
+  - ordinary English paragraph lines
+  - effective-date bullet lines like `* Effective from ...`
+- keep indentation inside lines that remain structurally nested under JSX tags like `<Table>`, `<Table.Tr>`, `<Table.Td>`, or JSX expressions
+
+If a first pass accidentally drags table-cell text left (for example `QueryPie Homepage` suddenly aligns at column 0 inside `<Table.Td>`), restore and redo the cleanup more narrowly.
+
+## Route implementation pattern
+
+### `page.tsx`
+- keep this as the latest alias route only
+- compute the newest slug from the scanned content files
+- render `PrivacyPolicyDocumentPage` with that slug
+- generate metadata from that same slug
+
+### `[slug]/page.tsx`
+- use the slug literally as the route parameter
+- generate static params from the scanned content files
+- render `PrivacyPolicyDocumentPage` with the requested slug
+- let metadata use `/t/privacy-policy/${slug}` as canonical
+
+### `privacy-policy-document.tsx`
+This is the shared renderer for the privacy-policy route family.
+It should:
+- verify slug existence from scanned filenames
+- read `src/content/privacy-policy/${slug}.mdx`
+- evaluate MDX with `parseFrontmatter: true`
+- render:
+  - hero/date/title/description
+  - language selector
+  - version selector
+  - MDX body
+  - existing CTA/footer shell
+
+Keep this renderer route-local unless the user explicitly wants a broader legal-page abstraction.
+
+## Filename-scanning implementation
+
+Create a small route-local helper such as `privacy-policy-sources.ts`.
+Preferred responsibilities:
+- `listPrivacyPolicySlugs()`
+- `getLatestPrivacyPolicySlug()`
+- `hasPrivacyPolicySlug(slug)`
+
+Recommended implementation shape:
+- scan `src/content/privacy-policy`
+- keep only files matching `/^\d{4}-\d{2}-\d{2}\.mdx$/`
+- remove `.mdx`
+- sort descending
+
+Why this matters:
+- avoids duplicated version metadata lists
+- keeps content filenames as the single source of truth for available revisions
+- makes future addition of a new revision a content-only change when the route behavior stays the same
 
 ## Selector behavior
-For the English preview archive selector:
-- push to local preview routes:
-  - `/t/privacy-policy/${nextSlug}`
-- do not navigate to upstream `querypie.com` English privacy-policy version URLs once the local archive exists
 
-For the Korean language link:
-- keep the current external/upstream behavior unless the user explicitly asks for a local Korean archive too
+`privacy-policy-version-selector.tsx` should:
+- accept `currentSlug`
+- accept `slugs`
+- navigate to `/t/privacy-policy/${nextSlug}` on change
 
-## Testing expectations
-Add or update a narrow source-structure test such as:
-- `tests/legal-privacy-policy-preview.test.mjs`
+Do not import a duplicated hardcoded version registry into the selector.
+Pass the scanned slug list from the server renderer instead.
+
+## Testing
+
+Add/update a narrow test such as `tests/legal-privacy-policy-preview.test.mjs`.
 
 Verify:
-1. `src/app/t/privacy-policy/page.tsx` exists
-2. `src/app/t/privacy-policy/[slug]/page.tsx` exists
-3. `privacy-policy-document.tsx` reads from `src/content/privacy-policy/${version.slug}.mdx`
-4. `parseFrontmatter: true` is enabled
-5. `generateStaticParams()` exists on the `[slug]` route
-6. `src/content/privacy-policy/*.mdx` matches the full expected version set
-7. old route-adjacent files such as `privacy-policy-content.mdx` no longer exist
-8. old shared selector file `src/components/sections/legal-privacy-policy-version-selector.tsx` no longer exists if the selector has been made route-local
-9. footer legal links remain preview-aware
+1. `/t/privacy-policy` uses latest-slug discovery, not a hardcoded registry constant
+2. `/t/privacy-policy/[slug]` uses scanned slugs for `generateStaticParams()`
+3. `privacy-policy-document.tsx` reads `src/content/privacy-policy/${slug}.mdx`
+4. slug existence is validated from scanned filenames
+5. no `privacy-policy-versions.ts` file remains
+6. each migrated content file still contains frontmatter `date` and `version`
+7. migrated content no longer contains old page-level selector/header wrapper components
+8. footer legal links remain preview-aware if that behavior already exists
 
-## Important lesson from this task
-There are two distinct valid layouts for large legal preview content in corp-web-japan:
-- route-adjacent MDX for a single self-contained legal page
-- `src/content/privacy-policy/*.mdx` for a versioned archive with many dated documents
+## Pitfalls
 
-Do not force the route-adjacent pattern when the user explicitly asks for a shared content root and dated filenames.
+- keeping MDX under `src/app/t/privacy-policy/*.mdx` after the user asks for `src/content/privacy-policy/*.mdx`
+- keeping a duplicated `privacy-policy-versions.ts` registry after switching to content filenames as source of truth
+- normalizing indentation too broadly and breaking table-cell formatting
+- moving the route renderer into a broad shared area too early; this page family is still route-specific
+- hardcoding the latest slug in `page.tsx`
 
 ## Done criteria
-- All privacy policy versions exist as `src/content/privacy-policy/yyyy-mm-dd.mdx`
-- `/t/privacy-policy` renders the latest version
-- `/t/privacy-policy/[slug]` renders historical versions
-- the English version selector uses the local dated preview routes
-- tests cover the new content root and route structure
+
+- each revision lives at `src/content/privacy-policy/<yyyy-mm-dd>.mdx`
+- `/t/privacy-policy` resolves the newest file automatically
+- `/t/privacy-policy/[slug]` resolves each historical revision
+- version navigation is derived from scanned content filenames
+- no duplicated TypeScript version registry remains
+- heading/paragraph indentation cleanup does not flatten JSX table content
+- narrow tests pass

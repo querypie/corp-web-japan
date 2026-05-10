@@ -54,7 +54,10 @@ Current skills:
   - Purpose: maintain corp-web-japan resource-list pages while keeping hero/CTA authoring route-local, centralizing only repeated sidebar markup, handling preview/public sidebar link differences, and preserving sticky behavior
 - `privacy-policy-version-archive`
   - Path: `.agents/skills/privacy-policy-version-archive/SKILL.md`
-  - Purpose: maintain the corp-web-japan privacy-policy preview as a dated MDX archive under `src/content/privacy-policy/*.mdx`, with `/t/privacy-policy` as the latest alias and `/t/privacy-policy/[slug]` for versioned rendering
+  - Purpose: migrate privacy-policy revision history into local `src/content/privacy-policy/*.mdx`, implement `/t/privacy-policy` plus `/t/privacy-policy/[slug]`, derive version navigation from content filenames, and avoid duplicated TypeScript version registries
+- `lost-fix-recovery-from-git-objects`
+  - Path: `.agents/skills/lost-fix-recovery-from-git-objects/SKILL.md`
+  - Purpose: recover a fix that was described in a PR or remembered by the user but is missing from latest main because the final merged tree came from a different branch lineage; verify current rendered state, inspect PR/body/history, scan unreachable commits, prove ancestry mismatch, and restore the behavior with a regression test
 
 ## QueryPie Japan webpage migration skill stack (MECE)
 

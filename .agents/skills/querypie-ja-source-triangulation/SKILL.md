@@ -242,9 +242,22 @@ Practical legal-page authoring rule confirmed during `/t/eula` follow-up work:
 - if imported source MDX still contains layout wrappers such as top-level `Box`, `CenterSection`, or `StaticH1`, remove them instead of preserving a pseudo-page shell inside MDX
 - after stripping those wrappers, render the page title directly in `page.tsx` and let the MDX begin with the opening legal paragraph/body
 - treat numbered clause labels such as `(1.1) ...` as real subheadings in source, not as plain paragraph text; promote them to markdown `###` headings and map that heading level explicitly in the route's MDX renderer
+- remove formatting-only spacer lines like `<br />` from imported legal MDX when the body-spacing contract can express the same section/paragraph rhythm
+- after removing those spacer lines, verify the route-level body class restores the intended heading/paragraph spacing explicitly instead of relying on source-file HTML breaks
 - for this EULA pattern, a good ownership split is:
   - `page.tsx`: H1/title, outer section spacing, width container, CTA/footer/header, MDX heading-level mapping
   - adjacent MDX: legal paragraphs and markdown heading content for section/subsection/clause structure
+
+Practical versioned-legal-page rule confirmed during `/t/privacy-policy` follow-up work:
+- if the preview route has both a latest alias page and dated archive detail pages, keep the whole versioned document system route-adjacent under `src/app/t/<route>/`
+- route files such as `page.tsx` and `[slug]/page.tsx` should own the visible page shell directly: header/footer, effective-date line, title, description, selector placement, body render call, and CTA
+- keep route-adjacent helper files only for data loading and small route-local UI helpers, for example:
+  - metadata generation from frontmatter
+  - loading `content.<date>.mdx` by slug
+  - version registry arrays
+  - selector primitives and route-local shared body class names
+- avoid hiding the full page shell behind a broad helper like `*DocumentPage` once the route has stabilized; helpers should provide document data and tiny UI building blocks, while the route files remain the readable implementation surface
+- for versioned legal archives, dated content files like `content.2026-01-15.mdx` under the route subtree are preferred over generic `src/content/legal-preview/**` placement
 
 ### 3. Decide the target route and scope
 
