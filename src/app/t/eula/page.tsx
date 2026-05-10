@@ -42,13 +42,8 @@ type LinkProps = {
   [key: string]: unknown;
 };
 
-type BoxProps = SharedChildrenProps & {
-  direction?: "row" | "column";
-  center?: boolean;
-};
-
 const legalBodyClassName = [
-  "text-[15px] leading-[1.75] text-[#24292f]",
+  "mt-[26px] text-[15px] leading-[1.75] text-[#24292f]",
   "[&_a]:font-inherit [&_a]:text-slate-950 [&_a]:underline [&_a]:decoration-[1px] [&_a]:underline-offset-[3px] hover:[&_a]:text-slate-950",
   "[&_h2]:mt-20 [&_h2]:text-[32px] [&_h2]:font-normal [&_h2]:leading-[1.375] [&_h2]:tracking-[-0.01em] [&_h2]:text-slate-950",
   "[&_h3]:mt-10 [&_h3]:text-[22px] [&_h3]:font-normal [&_h3]:leading-[1.455] [&_h3]:tracking-[-0.01em] [&_h3]:text-slate-950",
@@ -71,15 +66,7 @@ function legalHeadingId(children: ReactNode) {
   return slugifyHeadingText(childrenToText(children));
 }
 
-function Box({ children, direction = "column", center = false }: BoxProps) {
-  return <div className={`${direction === "column" ? "flex flex-col" : "flex flex-row"}${center ? " items-center" : ""}`}>{children}</div>;
-}
-
-function CenterSection({ children }: SharedChildrenProps) {
-  return <div className="mx-auto max-w-[920px] [&>*+*]:mt-8">{children}</div>;
-}
-
-function StaticH1({ children }: SharedChildrenProps) {
+function LegalPageTitle({ children }: SharedChildrenProps) {
   return (
     <h1
       id={legalHeadingId(children)}
@@ -117,10 +104,7 @@ async function renderEulaPreviewMdx() {
   return evaluate({
     source,
     components: {
-      Box,
-      CenterSection,
       Link: EulaMdxLink,
-      StaticH1,
       h1: LegalSectionHeading,
       h2: LegalSubsectionHeading,
     },
@@ -141,6 +125,7 @@ export default async function PreviewEulaPage() {
       <SiteHeader />
       <section className="bg-white px-[30px] pb-[200px] pt-20">
         <div className="mx-auto max-w-[920px]">
+          <LegalPageTitle>End User License Agreement</LegalPageTitle>
           <div className={legalBodyClassName}>{evaluation.content}</div>
         </div>
       </section>

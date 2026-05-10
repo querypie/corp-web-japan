@@ -18,28 +18,35 @@ test("eula preview page exists with noindex metadata and preview canonical path"
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(source, /const legalBodyClassName = \[/);
   assert.match(source, /src\/app\/t\/eula\/eula-content\.mdx/);
+  assert.match(source, /<LegalPageTitle>End User License Agreement<\/LegalPageTitle>/);
   assert.match(source, /<SiteHeader \/>/);
   assert.match(source, /<SiteFooter \/>/);
   assert.match(source, /まずは小さく、失敗しないAXを始めよう/);
   assert.match(source, /<BrandGradientCtaButton href="https:\/\/app\.querypie\.com\/">無料で試してみる<\/BrandGradientCtaButton>/);
 });
 
-test("eula preview uses legal-specific mdx mapping instead of publication article styling", () => {
-  const source = readSource(pagePath);
+test("eula preview keeps legal structure ownership in page.tsx and mdx body free of layout wrappers", () => {
+  const pageSource = readSource(pagePath);
+  const contentSource = readSource(contentPath);
 
-  assert.match(source, /function LegalSectionHeading/);
-  assert.match(source, /function LegalSubsectionHeading/);
-  assert.match(source, /h1: LegalSectionHeading/);
-  assert.match(source, /h2: LegalSubsectionHeading/);
-  assert.doesNotMatch(source, /publicationBodyClassName/);
-  assert.doesNotMatch(source, /buildPublicationMdxComponents/);
+  assert.match(pageSource, /function LegalPageTitle/);
+  assert.match(pageSource, /function LegalSectionHeading/);
+  assert.match(pageSource, /function LegalSubsectionHeading/);
+  assert.match(pageSource, /h1: LegalSectionHeading/);
+  assert.match(pageSource, /h2: LegalSubsectionHeading/);
+  assert.doesNotMatch(pageSource, /CenterSection/);
+  assert.doesNotMatch(pageSource, /StaticH1/);
+  assert.doesNotMatch(pageSource, /<Box/);
+  assert.doesNotMatch(contentSource, /StaticH1/);
+  assert.doesNotMatch(contentSource, /CenterSection/);
+  assert.doesNotMatch(contentSource, /<Box/);
 });
 
 test("eula preview keeps adjacent source content and preview-aware footer link", () => {
   const contentSource = readSource(contentPath);
   const footerSource = readFileSync(footerPath, "utf8");
 
-  assert.match(contentSource, /StaticH1>\{'End User License Agreement'\}/);
+  assert.match(contentSource, /^PLEASE READ THIS END USER LICENSE AGREEMENT/m);
   assert.match(contentSource, /# PART I: GENERAL TERMS/);
   assert.match(contentSource, /## \(1\) GENERAL LICENSE TERMS, RESTRICTIONS AND ORDER OF PRECEDENCE/);
   assert.match(contentSource, /www\.querypie\.com/);
