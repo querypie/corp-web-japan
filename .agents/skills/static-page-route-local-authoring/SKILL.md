@@ -45,6 +45,13 @@ Do not use it for:
 - publication list/detail routes
 - CMS/data-backed routes unless the user explicitly asks
 - pages whose main complexity is backend/data logic rather than static authoring
+- widget / application-contract pages whose upstream implementation already depends on a meaningful compound-component chain, tab/visibility state contract, or data-matrix renderer contract
+
+Important anti-misuse rule:
+- this skill helps static marketing routes stay readable; it is **not** permission to redesign every migrated page into route-local arrays/objects
+- if the upstream page is already authored clearly through JSX compound components, keep that authoring model unless you have a concrete reason to change it
+- do not convert an upstream widget page into a fresh local `const cards = [...]`, `const sections = [...]`, or `products={[...]}` API merely because those props look route-local
+- preserve the upstream page's authoring boundary first, then apply route-local cleanup only where it is truly presentation-only
 
 ## Inputs you should gather first
 

@@ -138,6 +138,28 @@ Important rule:
 - do not treat visual structure as separate from behavior when the structure is already encoded in the upstream component chain
 - if the upstream page already renders through a concrete component such as `CookiePreferenceSwitch -> CookieSwitch -> Switch`, inspect that chain completely before redesigning the local markup
 
+### 2a. Classify the page before applying route-local authoring patterns
+
+Before you reuse this repo's route-local authoring patterns, explicitly classify the source page into one of these buckets:
+
+1. **static marketing page**
+   - mostly prose, images, and section composition
+   - limited interaction
+   - examples: `/ja/about-us`, `/ja/certifications`
+
+2. **widget / application-contract page**
+   - tabs, toggles, comparison tables, visibility gates, interactive cards, query-string-controlled state, or compound components that already encode behavior
+   - examples: `/ja/cookie-preference`, `/ja/plans`
+
+Critical rule:
+- do **not** apply the static-page route-local authoring pattern blindly to a widget / application-contract page
+- for widget pages, the first priority is preserving the upstream component and behavior contract; route-local readability is secondary
+- if upstream already has a clear JSX/compound-component authoring model, preserve that model locally instead of re-expressing the page through new data registries, generic renderers, or JSON-like props
+
+Failure mode to avoid:
+- reading an upstream page that is already declarative in JSX and then rewriting it into `const cards = [...]`, `const groups = [...]`, or `products={[...]}` structures just because this repo often prefers route-local copy ownership
+- if the upstream page itself intentionally avoided complex JSON structures, treat that as an implementation contract worth preserving
+
 ### 3. the live page answers “what actually shipped?”
 
 Open the exact live page in the browser:
@@ -217,7 +239,33 @@ Examples:
 - `getBoundingClientRect()` for control, label, and description
 - computed `display`, `justify-content`, `align-items`, and gap values on the immediate row wrapper
 
-### 2b. Decide whether the existing PR branch should survive or be rewritten
+### 2b. Inspect the upstream authoring model, not only the surface page file
+
+For pages sourced from `corp-web-app`, do not stop after reading `src/app/.../page.tsx`.
+Trace the imported rendering chain far enough to answer these questions before you design the local file layout:
+
+- is the page authored through direct JSX composition?
+- is it authored through compound components?
+- is it already intentionally avoiding JSON/data registries?
+- which parts are truly data-driven APIs versus which parts are JSX-authored content?
+
+For example, a page can contain a data-driven subcomponent such as a comparison table while still being, overall, a JSX-authored compound-component page.
+Do not misclassify the whole page as "data-driven" just because one helper takes arrays.
+
+Minimum inspection rule:
+- read the top-level page file
+- read every imported component that materially shapes layout or interaction for the target area
+- classify which imported pieces are:
+  - layout shell
+  - visibility/state contract
+  - card/list primitives
+  - data-matrix renderer
+
+Specific anti-pattern learned from `/ja/plans`:
+- `CompareTable(rows, columns)` being data-driven does **not** justify converting the surrounding `PricingContextProvider`, `ProductTabs`, `PlanVisibility`, and `Plan.Card` authoring into a new local `products={[...]}` API
+- preserve the upstream authoring boundary: keep the page-level JSX contract where upstream uses JSX, and keep data matrices only where upstream already uses them
+
+### 2c. Decide whether the existing PR branch should survive or be rewritten
 
 If the work is already on an open PR branch, do not assume a mechanical rebase is the correct next step.
 Classify the branch first:

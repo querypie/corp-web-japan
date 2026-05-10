@@ -140,6 +140,12 @@ Reason:
 
 For static marketing migrations, `page.tsx` is the main authoring surface.
 
+Important guardrail:
+- this rule is for **static marketing migrations** and must not be misapplied to widget / application-contract pages
+- if the upstream page is driven by tabs, visibility gates, comparison tables, query-string state, toggles, or a compound-component contract, do not redesign it into a new local data API just to make it look more route-local
+- preserve the upstream authoring model first; only move copy/data into route-local literals when that move does not change the upstream component boundary
+- if upstream already authors the page directly in JSX with compound components, prefer keeping that JSX/compound shape locally rather than converting it into `const cards = [...]`, `const groups = [...]`, or `products={[...]}` props for a new section renderer
+
 You must follow the route-local authoring direction from `static-page-route-local-authoring` and `docs/code-location-conventions.md`:
 - keep the page primarily understandable from its own `page.tsx`
 - put the real marketing copy, section order, and page-specific structure directly in `page.tsx`
@@ -157,6 +163,7 @@ Bad extracted pieces:
 - a giant page-specific content object that hides the full page structure
 - a page-specific wrapper that turns `page.tsx` into a thin shell for a static marketing page
 - moving the old content registry into top-level constants without making the route materially easier to read
+- building a fresh local section API that reinterprets an upstream widget page's existing compound-component contract
 
 Large-document exception:
 - this skill still prefers route-local readability, but do not read it as "every migrated page body must be fully inlined into `page.tsx` no matter what"
