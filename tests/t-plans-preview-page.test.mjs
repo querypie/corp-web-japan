@@ -2,36 +2,42 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
-test("/t/plans preview page keeps pricing copy/data in the route and interactive rendering in the section module", () => {
+test("/t/plans preserves upstream JSX / compound-component authoring instead of introducing a new local data renderer API", () => {
   const routeSource = readSource("src/app/t/plans/page.tsx");
   const sectionSource = readSource("src/components/sections/plans-page.tsx");
 
   assert.match(routeSource, /from "@\/components\/sections\/plans-page"/);
-  assert.match(routeSource, /const aipPlans: readonly PlanCardData\[] = \[/);
-  assert.match(routeSource, /title: "スターター"/);
-  assert.match(routeSource, /title: "チーム"/);
-  assert.match(routeSource, /title: "コミュニティ"/);
-  assert.match(routeSource, /const aipComparisonGroups: readonly ComparisonGroup\[] = \[/);
-  assert.match(routeSource, /title: "プラットフォーム機能"/);
-  assert.match(routeSource, /label: "AIエージェント作成数"/);
-  assert.match(routeSource, /canonical: "\/t\/plans"/);
-  assert.match(routeSource, /<PlansProductSwitcher/);
-  assert.match(routeSource, /name: "QueryPie AIP"/);
-  assert.match(routeSource, /name: "QueryPie ACP"/);
-  assert.match(routeSource, /https:\/\/app\.querypie\.com/);
-  assert.match(routeSource, /https:\/\/docs\.querypie\.com\/ja\/installation\/querypie-acp-community-edition/);
+  assert.match(routeSource, /<Pricing>/);
+  assert.match(routeSource, /<Pricing\.Header>/);
+  assert.match(routeSource, /<PricingContextProvider defaultActiveTab="aip">/);
+  assert.match(routeSource, /<ProductTabs>/);
+  assert.match(routeSource, /<ProductTab name="aip">/);
+  assert.match(routeSource, /<ProductTab name="acp">/);
+  assert.match(routeSource, /<PlanVisibility id="aip">/);
+  assert.match(routeSource, /<PlanVisibility id="acp">/);
+  assert.match(routeSource, /<Plan\.Card type="primary">/);
+  assert.match(routeSource, /<Plan\.Card type="black">/);
+  assert.match(routeSource, /<Plan\.Feature supported=\{true\}>月間800クレジット<\/Plan\.Feature>/);
+  assert.match(routeSource, /<CompareTable/);
+  assert.match(routeSource, /rows=\{\[/);
+  assert.match(routeSource, /columns=\{\[/);
+  assert.match(routeSource, /href="\/contact-us\?inquiry=quote-request&product=acp"/);
 
-  assert.doesNotMatch(routeSource, /const products =/);
-  assert.doesNotMatch(routeSource, /function PlansProductSwitcher\(/);
-  assert.doesNotMatch(routeSource, /Preview Plans/);
+  assert.doesNotMatch(routeSource, /const aipPlans\s*:/);
+  assert.doesNotMatch(routeSource, /const acpPlans\s*:/);
+  assert.doesNotMatch(routeSource, /const aipComparisonGroups\s*:/);
+  assert.doesNotMatch(routeSource, /products=\{\[/);
+  assert.doesNotMatch(routeSource, /PlansProductSwitcher/);
 
-  assert.match(sectionSource, /export type PlanCardData = \{/);
-  assert.match(sectionSource, /export type ComparisonGroup = \{/);
-  assert.match(sectionSource, /export function PlansPageSection\(/);
-  assert.match(sectionSource, /export function PlansHeroTitle\(/);
-  assert.match(sectionSource, /export function PlansProductSwitcher\(/);
-  assert.match(sectionSource, /const \[activeProduct, setActiveProduct\] = useState<ProductKey>\(products\[0\]\.key\)/);
-  assert.match(sectionSource, /rounded-\[24px\] border px-6 py-7/);
-  assert.match(sectionSource, /rounded-\[28px\] border border-slate-200 bg-white/);
-  assert.match(sectionSource, /<Check className="h-4 w-4" strokeWidth=\{2\.75\} \/>/);
+  assert.match(sectionSource, /export const Pricing = Object\.assign\(PricingRoot, \{/);
+  assert.match(sectionSource, /export function PricingContextProvider/);
+  assert.match(sectionSource, /searchParams\.has\("acp"\)/);
+  assert.match(sectionSource, /export const Plan = Object\.assign\(PlanRoot, \{/);
+  assert.match(sectionSource, /export function PlanVisibility/);
+  assert.match(sectionSource, /export function CompareTable/);
+  assert.match(sectionSource, /cloneElement\(child as ReactElement<ProductTabProps>, \{/);
+
+  assert.doesNotMatch(sectionSource, /export function PlansProductSwitcher/);
+  assert.doesNotMatch(sectionSource, /type PlansProductSwitcherProps/);
+  assert.doesNotMatch(sectionSource, /products: readonly \[ProductPanel, ProductPanel\]/);
 });
