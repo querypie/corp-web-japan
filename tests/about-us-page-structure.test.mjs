@@ -23,4 +23,21 @@ test("about-us preview page keeps copy/composition in the route and UI primitive
   assert.match(sectionSource, /export function AboutUsTimelineItem/);
   assert.match(sectionSource, /export function AboutUsLeaderCard/);
   assert.match(sectionSource, /export function AboutUsLocationCard/);
+
+  assert.match(sectionSource, /mt-\[56px\] flex flex-col gap-\[37\.5px\] border-l border-slate-300 pl-\[28\.125px\]/);
+  assert.match(sectionSource, /className="flex gap-\[18\.75px\]"/);
+  assert.match(sectionSource, /list-disc space-y-1 pl-5/);
+  assert.doesNotMatch(sectionSource, /border-l border-slate-200 pl-\[28px\]/);
+
+  assert.match(sectionSource, /grid grid-cols-1 gap-y-\[56\.25px\] md:grid-cols-2 md:justify-between md:gap-x-6 xl:grid-cols-\[repeat\(3,320px\)\] xl:justify-between xl:gap-x-0/);
+  assert.match(sectionSource, /article className="flex w-full max-w-\[320px\] flex-col gap-5"/);
+  assert.match(sectionSource, /className="flex items-start justify-between"/);
+  assert.match(sectionSource, /className=\{`block \$\{secondaryCopyClass\} transition hover:text-slate-950`\}/);
+  assert.doesNotMatch(sectionSource, /mt-4 flex w-full justify-end/);
+  assert.doesNotMatch(sectionSource, /rounded-\[24px\]/);
+
+  assert.match(sectionSource, /inline-flex w-fit self-start items-center justify-center border border-slate-200\/70 bg-white leading-none/);
+  assert.match(sectionSource, /className="block h-\[17px\] w-\[23px\]"/);
+  assert.doesNotMatch(sectionSource, /h-\[35px\] w-\[35px\]/);
+  assert.doesNotMatch(sectionSource, /rounded-\[4px\]/);
 });
