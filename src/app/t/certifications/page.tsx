@@ -3,7 +3,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
   CertificationCard,
-  CertificationCardImage,
+  type CertificationItem,
   CertificationsGrid,
   CertificationsPageSection,
   CertificationsTrialCtaAction,
@@ -34,6 +34,81 @@ export const metadata: Metadata = {
   },
 };
 
+const certifications: readonly CertificationItem[] = [
+  {
+    title: "SOC 2 Type II",
+    description: ["System and Organization Controls 2", "Type II"],
+    src: "/certifications/soc-2-type-2.png",
+    alt: "SOC 2 Type II",
+  },
+  {
+    title: "CSA-STAR",
+    description: ["Security, Trust, Assurance and Risk", "(Level 1 - Bronze)"],
+    src: "/certifications/csa-star-level-1.png",
+    alt: "CSA-STAR",
+  },
+  {
+    title: "CSA-STAR",
+    description: ["Security, Trust, Assurance and Risk", "(Level 2 - Gold)"],
+    src: "/certifications/csa-star-level-2.png",
+    alt: "CSA-STAR",
+  },
+  {
+    title: "PCI DSS",
+    description: ["Payment Card Industry Data", "Security Standard"],
+    src: "/certifications/pci-dss.png",
+    alt: "PCI DSS",
+  },
+  {
+    title: "ISO/IEC 27001",
+    description: ["Information Security", "Management Systems"],
+    src: "/certifications/iso-iec-27001.png",
+    alt: "ISO/IEC 27001",
+  },
+  {
+    title: "ISO 27701",
+    description: ["Privacy Information", "Management System"],
+    src: "/certifications/iso-iec-27701.png",
+    alt: "ISO 27701",
+  },
+  {
+    title: "ISO 27017",
+    description: ["Information Security controls", "within a Cloud environment"],
+    src: "/certifications/iso-iec-27017.png",
+    alt: "ISO 27017",
+  },
+  {
+    title: "ISO 27018",
+    description: ["Privacy controls", "within a Cloud environment"],
+    src: "/certifications/iso-iec-27018.png",
+    alt: "ISO 27018",
+  },
+  {
+    title: "ISO 22301",
+    description: ["Business Continuity", "Management"],
+    src: "/certifications/iso-22301.png",
+    alt: "ISO 22301",
+  },
+  {
+    title: "ISMS-P",
+    description: ["Business Continuity", "Management"],
+    src: "/certifications/isms-p.png",
+    alt: "ISMS-P",
+  },
+  {
+    title: "GOOD Software",
+    description: ["Good Software", "Level 1"],
+    src: "/certifications/good-software-level-1.png",
+    alt: "GOOD Software",
+  },
+  {
+    title: "KSEL",
+    description: ["Korea Security Evaluation Lab.", "Security Functionality Certificate"],
+    src: "/certifications/ksel.png",
+    alt: "KSEL",
+  },
+] as const;
+
 export default function CertificationsPreviewPage() {
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
@@ -54,137 +129,9 @@ export default function CertificationsPreviewPage() {
         </div>
 
         <CertificationsGrid>
-          <CertificationCard>
-            <CertificationCardImage src="/certifications/soc-2-type-2.png" alt="SOC 2 Type II" />
-            <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
-              <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">SOC 2 Type II</h2>
-              <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
-                <p>System and Organization Controls 2</p>
-                <p>Type II</p>
-              </div>
-            </div>
-          </CertificationCard>
-
-          <CertificationCard>
-            <CertificationCardImage src="/certifications/csa-star-level-1.png" alt="CSA-STAR" />
-            <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
-              <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">CSA-STAR</h2>
-              <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
-                <p>Security, Trust, Assurance and Risk</p>
-                <p>(Level 1 - Bronze)</p>
-              </div>
-            </div>
-          </CertificationCard>
-
-          <CertificationCard>
-            <CertificationCardImage src="/certifications/csa-star-level-2.png" alt="CSA-STAR" />
-            <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
-              <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">CSA-STAR</h2>
-              <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
-                <p>Security, Trust, Assurance and Risk</p>
-                <p>(Level 2 - Gold)</p>
-              </div>
-            </div>
-          </CertificationCard>
-
-          <CertificationCard>
-            <CertificationCardImage src="/certifications/pci-dss.png" alt="PCI DSS" />
-            <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
-              <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">PCI DSS</h2>
-              <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
-                <p>Payment Card Industry Data</p>
-                <p>Security Standard</p>
-              </div>
-            </div>
-          </CertificationCard>
-
-          <CertificationCard>
-            <CertificationCardImage src="/certifications/iso-iec-27001.png" alt="ISO/IEC 27001" />
-            <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
-              <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">ISO/IEC 27001</h2>
-              <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
-                <p>Information Security</p>
-                <p>Management Systems</p>
-              </div>
-            </div>
-          </CertificationCard>
-
-          <CertificationCard>
-            <CertificationCardImage src="/certifications/iso-iec-27701.png" alt="ISO 27701" />
-            <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
-              <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">ISO 27701</h2>
-              <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
-                <p>Privacy Information</p>
-                <p>Management System</p>
-              </div>
-            </div>
-          </CertificationCard>
-
-          <CertificationCard>
-            <CertificationCardImage src="/certifications/iso-iec-27017.png" alt="ISO 27017" />
-            <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
-              <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">ISO 27017</h2>
-              <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
-                <p>Information Security controls</p>
-                <p>within a Cloud environment</p>
-              </div>
-            </div>
-          </CertificationCard>
-
-          <CertificationCard>
-            <CertificationCardImage src="/certifications/iso-iec-27018.png" alt="ISO 27018" />
-            <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
-              <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">ISO 27018</h2>
-              <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
-                <p>Privacy controls</p>
-                <p>within a Cloud environment</p>
-              </div>
-            </div>
-          </CertificationCard>
-
-          <CertificationCard>
-            <CertificationCardImage src="/certifications/iso-22301.png" alt="ISO 22301" />
-            <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
-              <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">ISO 22301</h2>
-              <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
-                <p>Business Continuity</p>
-                <p>Management</p>
-              </div>
-            </div>
-          </CertificationCard>
-
-          <CertificationCard>
-            <CertificationCardImage src="/certifications/isms-p.png" alt="ISMS-P" />
-            <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
-              <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">ISMS-P</h2>
-              <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
-                <p>Business Continuity</p>
-                <p>Management</p>
-              </div>
-            </div>
-          </CertificationCard>
-
-          <CertificationCard>
-            <CertificationCardImage src="/certifications/good-software-level-1.png" alt="GOOD Software" />
-            <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
-              <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">GOOD Software</h2>
-              <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
-                <p>Good Software</p>
-                <p>Level 1</p>
-              </div>
-            </div>
-          </CertificationCard>
-
-          <CertificationCard>
-            <CertificationCardImage src="/certifications/ksel.png" alt="KSEL" />
-            <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
-              <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">KSEL</h2>
-              <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
-                <p>Korea Security Evaluation Lab.</p>
-                <p>Security Functionality Certificate</p>
-              </div>
-            </div>
-          </CertificationCard>
+          {certifications.map((item, index) => (
+            <CertificationCard key={`${item.title}-${item.src}-${index}`} {...item} />
+          ))}
         </CertificationsGrid>
 
         <CertificationsTrustCenterSection>
