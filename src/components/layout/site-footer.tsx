@@ -104,7 +104,7 @@ export async function SiteFooter() {
     { label: "Cookie設定", href: t("/cookie-preference", previewModeEnabled) },
     { label: "利用規約", href: "/terms-of-service" },
     { label: "プライバシーポリシー", href: t("/privacy-policy", previewModeEnabled) },
-    { label: "EULA", href: "/eula" },
+    { label: "EULA", href: t("/eula", previewModeEnabled) },
   ] as const;
 
   const addresses = [
