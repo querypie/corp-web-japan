@@ -32,8 +32,10 @@ test("eula preview keeps legal structure ownership in page.tsx and mdx body free
   assert.match(pageSource, /function LegalPageTitle/);
   assert.match(pageSource, /function LegalSectionHeading/);
   assert.match(pageSource, /function LegalSubsectionHeading/);
+  assert.match(pageSource, /function LegalClauseHeading/);
   assert.match(pageSource, /h1: LegalSectionHeading/);
   assert.match(pageSource, /h2: LegalSubsectionHeading/);
+  assert.match(pageSource, /h3: LegalClauseHeading/);
   assert.doesNotMatch(pageSource, /CenterSection/);
   assert.doesNotMatch(pageSource, /StaticH1/);
   assert.doesNotMatch(pageSource, /<Box/);
@@ -49,6 +51,7 @@ test("eula preview keeps adjacent source content and preview-aware footer link",
   assert.match(contentSource, /^PLEASE READ THIS END USER LICENSE AGREEMENT/m);
   assert.match(contentSource, /# PART I: GENERAL TERMS/);
   assert.match(contentSource, /## \(1\) GENERAL LICENSE TERMS, RESTRICTIONS AND ORDER OF PRECEDENCE/);
+  assert.match(contentSource, /### \(1\.1\) General License Terms/);
   assert.match(contentSource, /www\.querypie\.com/);
   assert.match(footerSource, /label: "EULA", href: t\("\/eula", previewModeEnabled\)/);
 });

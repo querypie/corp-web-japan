@@ -47,6 +47,7 @@ const legalBodyClassName = [
   "[&_a]:font-inherit [&_a]:text-slate-950 [&_a]:underline [&_a]:decoration-[1px] [&_a]:underline-offset-[3px] hover:[&_a]:text-slate-950",
   "[&_h2]:mt-20 [&_h2]:text-[32px] [&_h2]:font-normal [&_h2]:leading-[1.375] [&_h2]:tracking-[-0.01em] [&_h2]:text-slate-950",
   "[&_h3]:mt-10 [&_h3]:text-[22px] [&_h3]:font-normal [&_h3]:leading-[1.455] [&_h3]:tracking-[-0.01em] [&_h3]:text-slate-950",
+  "[&_h4]:mt-[26px] [&_h4]:text-[15px] [&_h4]:font-medium [&_h4]:leading-[1.75] [&_h4]:text-slate-950",
   "[&_p]:mt-[1.3125rem] [&_p]:text-[15px] [&_p]:leading-[1.75] [&_p]:text-[#24292f]",
   "[&_strong]:font-medium [&_strong]:text-slate-950 [&_a_strong]:font-inherit [&_a_strong]:text-inherit",
 ].join(" ");
@@ -85,6 +86,10 @@ function LegalSubsectionHeading({ children }: SharedChildrenProps) {
   return <h3 id={legalHeadingId(children)}>{children}</h3>;
 }
 
+function LegalClauseHeading({ children }: SharedChildrenProps) {
+  return <h4 id={legalHeadingId(children)}>{children}</h4>;
+}
+
 function EulaMdxLink({ href, children }: LinkProps) {
   if (/^https?:\/\//.test(href)) {
     return (
@@ -107,6 +112,7 @@ async function renderEulaPreviewMdx() {
       Link: EulaMdxLink,
       h1: LegalSectionHeading,
       h2: LegalSubsectionHeading,
+      h3: LegalClauseHeading,
     },
     options: {
       parseFrontmatter: false,
