@@ -163,6 +163,20 @@ Large-document exception:
 - if the page is a very large legal/policy document, it can be better to keep the route self-contained under `src/app/t/<route>/...` and let `page.tsx` render an adjacent route-local source file
 - in that case, `page.tsx` should still own metadata, the page shell, selector/CTA composition, and the rendering call site
 - avoid broad generic indirection such as repo-wide `src/content/legal-preview/**` plus `src/lib/legal-preview/**` when the real goal is a reviewable one-page preview migration
+- important legal-page pitfall: do not automatically reuse publication/article MDX renderers or shared article body class stacks for legal pages just because the source is long-form text
+- first inspect the live page's actual heading hierarchy and typography contract
+- if the source uses route-local JSX wrappers plus markdown headings (for example `StaticH1` with `#` and `##` inside the adjacent MDX file), map only the needed components route-locally so the legal page keeps its real semantic levels and spacing
+- in practice, broad publication helpers can flatten the hierarchy or apply article-specific heading sizes (`h1`/`h2`/`h3`) that visibly diverge from the live legal page
+- prefer a route-local legal body class and explicit heading mapping over `publicationBodyClassName` / `buildPublicationMdxComponents()` when those shared article helpers do not match the live legal contract
+- additional route-local ownership rule for adjacent legal MDX files: if the imported MDX still contains outer layout/title wrappers such as `Box`, `CenterSection`, or `StaticH1`, remove those wrappers from the MDX body and move that responsibility into `page.tsx`
+- preferred final split for legal previews with adjacent MDX:
+  - `page.tsx` owns the page title, centering/max-width wrapper, top spacing, and the render call site
+  - the adjacent MDX file owns only the legal body content and markdown heading structure
+- preferred adjacent-source naming for these route-local legal pages:
+  - use `src/app/t/<route>/content.mdx` as the default route-adjacent source filename
+  - avoid verbose page-specific names like `eula-content.mdx` when the file already lives inside the dedicated route directory
+  - keep the route subtree readable so reviewers can immediately infer that `page.tsx` renders `content.mdx`
+- do not keep upstream layout wrappers inside the MDX file just because they existed in `corp-web-contents`; in this repo that hides page ownership and makes the route fail the intended route-local authoring standard
 
 ## Recommended implementation shape
 

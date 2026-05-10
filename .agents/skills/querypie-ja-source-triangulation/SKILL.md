@@ -236,6 +236,16 @@ That usually means:
 - the long-form source sits adjacent under the same route subtree
 - old generic `src/content/legal-preview/**` plus `src/lib/legal-preview/**` indirection is removed
 
+Practical legal-page authoring rule confirmed during `/t/eula` follow-up work:
+- keep page-level layout wrappers, centering, and the document title/H1 in `page.tsx`
+- keep the adjacent MDX file focused on the legal body content only
+- if imported source MDX still contains layout wrappers such as top-level `Box`, `CenterSection`, or `StaticH1`, remove them instead of preserving a pseudo-page shell inside MDX
+- after stripping those wrappers, render the page title directly in `page.tsx` and let the MDX begin with the opening legal paragraph/body
+- treat numbered clause labels such as `(1.1) ...` as real subheadings in source, not as plain paragraph text; promote them to markdown `###` headings and map that heading level explicitly in the route's MDX renderer
+- for this EULA pattern, a good ownership split is:
+  - `page.tsx`: H1/title, outer section spacing, width container, CTA/footer/header, MDX heading-level mapping
+  - adjacent MDX: legal paragraphs and markdown heading content for section/subsection/clause structure
+
 ### 3. Decide the target route and scope
 
 For preview-first migration:

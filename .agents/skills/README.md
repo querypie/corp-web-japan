@@ -52,6 +52,9 @@ Current skills:
 - `resource-list-sidebar-pattern`
   - Path: `.agents/skills/resource-list-sidebar-pattern/SKILL.md`
   - Purpose: maintain corp-web-japan resource-list pages while keeping hero/CTA authoring route-local, centralizing only repeated sidebar markup, handling preview/public sidebar link differences, and preserving sticky behavior
+- `privacy-policy-version-archive`
+  - Path: `.agents/skills/privacy-policy-version-archive/SKILL.md`
+  - Purpose: maintain the corp-web-japan privacy-policy preview as a dated MDX archive under `src/content/privacy-policy/*.mdx`, with `/t/privacy-policy` as the latest alias and `/t/privacy-policy/[slug]` for versioned rendering
 
 ## QueryPie Japan webpage migration skill stack (MECE)
 
