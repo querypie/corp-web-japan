@@ -10,7 +10,6 @@ import {
 } from "@/lib/publications/gating";
 import {
   getWhitepaperPublicationPdfHref,
-  getWhitepaperPublicationHref,
   getWhitepaperPublicationRecord,
   listWhitepaperPublicationPdfParams,
 } from "@/lib/publications/whitepapers/get-post";
