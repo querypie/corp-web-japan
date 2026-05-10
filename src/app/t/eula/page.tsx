@@ -103,7 +103,7 @@ function EulaMdxLink({ href, children }: LinkProps) {
 }
 
 async function renderEulaPreviewMdx() {
-  const sourcePath = join(process.cwd(), "src/app/t/eula/eula-content.mdx");
+  const sourcePath = join(process.cwd(), "src/app/t/eula/content.mdx");
   const source = await readFile(sourcePath, "utf8");
 
   return evaluate({

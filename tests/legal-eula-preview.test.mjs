@@ -4,7 +4,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 
 const pagePath = "src/app/t/eula/page.tsx";
-const contentPath = "src/app/t/eula/eula-content.mdx";
+const contentPath = "src/app/t/eula/content.mdx";
 const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
 
 test("eula preview page exists with noindex metadata and preview canonical path", () => {
@@ -17,7 +17,7 @@ test("eula preview page exists with noindex metadata and preview canonical path"
   assert.match(source, /canonical: "\/t\/eula"/);
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(source, /const legalBodyClassName = \[/);
-  assert.match(source, /src\/app\/t\/eula\/eula-content\.mdx/);
+  assert.match(source, /src\/app\/t\/eula\/content\.mdx/);
   assert.match(source, /<LegalPageTitle>End User License Agreement<\/LegalPageTitle>/);
   assert.match(source, /<SiteHeader \/>/);
   assert.match(source, /<SiteFooter \/>/);
