@@ -1,14 +1,26 @@
 import type { Metadata } from "next";
 import { PrivacyPolicyDocumentPage, generatePrivacyPolicyMetadata } from "./privacy-policy-document";
-import { LATEST_PRIVACY_POLICY_VERSION } from "./privacy-policy-versions";
+import { getLatestPrivacyPolicySlug } from "./privacy-policy-sources";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const latestSlug = await getLatestPrivacyPolicySlug();
+
+  if (!latestSlug) {
+    throw new Error("No privacy policy versions found in src/content/privacy-policy");
+  }
+
   return generatePrivacyPolicyMetadata({
     canonicalPath: "/t/privacy-policy",
-    slug: LATEST_PRIVACY_POLICY_VERSION.slug,
+    slug: latestSlug,
   });
 }
 
 export default async function PreviewPrivacyPolicyPage() {
-  return <PrivacyPolicyDocumentPage slug={LATEST_PRIVACY_POLICY_VERSION.slug} />;
+  const latestSlug = await getLatestPrivacyPolicySlug();
+
+  if (!latestSlug) {
+    throw new Error("No privacy policy versions found in src/content/privacy-policy");
+  }
+
+  return <PrivacyPolicyDocumentPage slug={latestSlug} />;
 }

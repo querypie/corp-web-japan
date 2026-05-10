@@ -9,7 +9,7 @@ const pagePath = "src/app/t/privacy-policy/page.tsx";
 const versionPagePath = "src/app/t/privacy-policy/[slug]/page.tsx";
 const documentPath = "src/app/t/privacy-policy/privacy-policy-document.tsx";
 const selectorPath = "src/app/t/privacy-policy/privacy-policy-version-selector.tsx";
-const versionsPath = "src/app/t/privacy-policy/privacy-policy-versions.ts";
+const sourcesPath = "src/app/t/privacy-policy/privacy-policy-sources.ts";
 const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
 
 const expectedVersionSlugs = [
@@ -40,26 +40,31 @@ test("privacy policy preview route keeps latest alias page and version detail ro
   const versionPageSource = readSource(versionPagePath);
 
   assert.match(pageSource, /canonicalPath: "\/t\/privacy-policy"/);
-  assert.match(pageSource, /LATEST_PRIVACY_POLICY_VERSION\.slug/);
+  assert.match(pageSource, /getLatestPrivacyPolicySlug\(\)/);
   assert.match(versionPageSource, /generateStaticParams\(\)/);
+  assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
   assert.match(versionPageSource, /canonicalPath: `\/t\/privacy-policy\/\$\{slug\}`/);
   assert.match(versionPageSource, /PrivacyPolicyDocumentPage slug=\{slug\}/);
 });
 
-test("privacy policy preview uses shared content directory, route-local selector, and preview-aware footer link", () => {
+test("privacy policy preview scans shared content filenames instead of keeping a duplicated versions registry", () => {
   const documentSource = readSource(documentPath);
   const selectorSource = readSource(selectorPath);
-  const versionsSource = readSource(versionsPath);
+  const sourcesSource = readSource(sourcesPath);
   const footerSource = readFileSync(footerPath, "utf8");
 
   assert.match(documentSource, /parseFrontmatter: true/);
-  assert.match(documentSource, /src\/content\/privacy-policy", `\$\{version\.slug\}\.mdx`/);
-  assert.match(documentSource, /<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} \/>/);
+  assert.match(documentSource, /src\/content\/privacy-policy", `\$\{slug\}\.mdx`/);
+  assert.match(documentSource, /hasPrivacyPolicySlug\(slug\)/);
+  assert.match(documentSource, /listPrivacyPolicySlugs\(\)/);
+  assert.match(documentSource, /<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/);
   assert.match(documentSource, /Effective date: \{frontmatter\.date\}/);
-  assert.match(selectorSource, /router\.push\(`\/t\/privacy-policy\/\$\{nextSlug\}`\)/);
+  assert.match(selectorSource, /window\.location\.assign\(`\/t\/privacy-policy\/\$\{nextSlug\}`\)/);
   assert.match(footerSource, /label: "プライバシーポリシー", href: t\("\/privacy-policy", previewModeEnabled\)/);
-  assert.match(versionsSource, /export const PRIVACY_POLICY_VERSIONS: PrivacyPolicyVersion\[] = \[/);
-  assert.match(versionsSource, /slug: "2026-01-15"/);
+  assert.match(sourcesSource, /readdir\(PRIVACY_POLICY_CONTENT_DIR, \{ withFileTypes: true \}\)/);
+  assert.match(sourcesSource, /filter\(\(entry\) => entry\.isFile\(\) && PRIVACY_POLICY_FILE_PATTERN\.test\(entry\.name\)\)/);
+  assert.match(sourcesSource, /sort\(\)/);
+  assert.equal(existsSync(new URL("privacy-policy-versions.ts", routeDir)), false);
 });
 
 test("privacy policy preview migrates every upstream English version into src/content/privacy-policy dated MDX files", () => {

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PrivacyPolicyDocumentPage, generatePrivacyPolicyMetadata } from "../privacy-policy-document";
-import { PRIVACY_POLICY_VERSIONS } from "../privacy-policy-versions";
+import { listPrivacyPolicySlugs } from "../privacy-policy-sources";
 
 type PrivacyPolicyVersionPageProps = {
   params: Promise<{
@@ -8,8 +8,9 @@ type PrivacyPolicyVersionPageProps = {
   }>;
 };
 
-export function generateStaticParams() {
-  return PRIVACY_POLICY_VERSIONS.map(({ slug }) => ({ slug }));
+export async function generateStaticParams() {
+  const slugs = await listPrivacyPolicySlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PrivacyPolicyVersionPageProps): Promise<Metadata> {

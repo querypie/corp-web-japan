@@ -22,7 +22,7 @@ import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-butto
 import { buildPublicationMdxComponents } from "@/lib/publications/mdx/components";
 import { slugifyHeadingText } from "@/lib/publications/mdx/headings";
 import { PrivacyPolicyVersionSelector } from "./privacy-policy-version-selector";
-import { getPrivacyPolicyVersion } from "./privacy-policy-versions";
+import { hasPrivacyPolicySlug, listPrivacyPolicySlugs } from "./privacy-policy-sources";
 
 type PrivacyPolicyFrontmatter = {
   title: string;
@@ -110,12 +110,12 @@ function PrivacyPolicyLanguageSelector({ language }: PrivacyLanguageProps) {
 }
 
 async function renderPrivacyPolicyVersion(slug: string) {
-  const version = getPrivacyPolicyVersion(slug);
-  if (!version) {
+  const versionExists = await hasPrivacyPolicySlug(slug);
+  if (!versionExists) {
     notFound();
   }
 
-  const sourcePath = join(process.cwd(), "src/content/privacy-policy", `${version.slug}.mdx`);
+  const sourcePath = join(process.cwd(), "src/content/privacy-policy", `${slug}.mdx`);
   const source = await readFile(sourcePath, "utf8");
 
   return evaluate<PrivacyPolicyFrontmatter>({
@@ -159,7 +159,7 @@ export async function generatePrivacyPolicyMetadata({
 }
 
 export async function PrivacyPolicyDocumentPage({ slug }: { slug: string }) {
-  const evaluation = await renderPrivacyPolicyVersion(slug);
+  const [evaluation, slugs] = await Promise.all([renderPrivacyPolicyVersion(slug), listPrivacyPolicySlugs()]);
   const { frontmatter } = evaluation;
 
   return (
@@ -175,7 +175,7 @@ export async function PrivacyPolicyDocumentPage({ slug }: { slug: string }) {
             </div>
             <PrivacySelectorBox>
               <PrivacyPolicyLanguageSelector language="en" />
-              <PrivacyPolicyVersionSelector currentSlug={frontmatter.version} />
+              <PrivacyPolicyVersionSelector currentSlug={frontmatter.version} slugs={slugs} />
             </PrivacySelectorBox>
           </div>
           <div className={`${publicationBodyClassName} [&_h2:first-child]:mt-0`}>{evaluation.content}</div>
