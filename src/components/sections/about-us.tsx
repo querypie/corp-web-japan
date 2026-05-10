@@ -87,22 +87,20 @@ export function AboutUsInvestorLogo({
 }
 
 export function AboutUsTimeline({ children }: { children: ReactNode }) {
-  return <div className="mt-[90px] space-y-6">{children}</div>;
+  return <div className="mt-[56px] flex flex-col gap-[37.5px] border-l border-slate-300 pl-[28.125px]">{children}</div>;
 }
 
 export function AboutUsTimelineItem({ year, children }: { year: string; children: ReactNode }) {
   return (
-    <div className="grid gap-4 px-[29px] py-[6px] md:grid-cols-[94px_minmax(0,1fr)] md:gap-[56px]">
-      <h3 className="text-[30px] font-medium leading-[39.375px] tracking-[-0.03em] text-slate-950">{year}</h3>
-      <div className="border-l border-slate-200 pl-[28px]">
-        <ul className={`list-none space-y-1 pl-0 ${secondaryCopyClass}`}>{children}</ul>
-      </div>
+    <div className="flex gap-[18.75px]">
+      <h3 className="w-[93.75px] shrink-0 text-[30px] font-medium leading-[39.375px] tracking-[-0.03em] text-slate-950">{year}</h3>
+      <ul className={`list-disc space-y-1 pl-5 ${secondaryCopyClass}`}>{children}</ul>
     </div>
   );
 }
 
 export function AboutUsLeaderGrid({ children }: { children: ReactNode }) {
-  return <div className="mt-[36px] grid gap-x-10 gap-y-[42px] md:grid-cols-2 xl:grid-cols-3">{children}</div>;
+  return <div className="mt-[36px] grid grid-cols-1 gap-y-[56.25px] md:grid-cols-2 md:justify-between md:gap-x-6 xl:grid-cols-[repeat(3,320px)] xl:justify-between xl:gap-x-0">{children}</div>;
 }
 
 export function AboutUsLeaderCard({
@@ -117,21 +115,25 @@ export function AboutUsLeaderCard({
   children: ReactNode;
 }) {
   return (
-    <article className="flex h-full flex-col">
-      <div className="relative aspect-square w-full overflow-hidden rounded-[24px] bg-[#F6F8FA]">
+    <article className="flex w-full max-w-[320px] flex-col gap-5">
+      <div className="relative aspect-square w-full overflow-hidden rounded-[20px] bg-[#F6F8FA]">
         <Image src={imageSrc} alt={imageAlt} fill sizes="(min-width: 1280px) 320px, (min-width: 768px) 50vw, 100vw" className="object-cover object-top" />
       </div>
-      <div className="w-full pt-[19px]">
-        {children}
-        <Link
-          href={linkedinUrl}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={`${imageAlt} LinkedIn`}
-          className={`mt-4 flex w-full justify-end ${secondaryCopyClass} transition hover:text-slate-950`}
-        >
-          <Image src="/about-us/linkedin.svg" alt="LinkedIn" width={34} height={34} className="h-[34px] w-[34px]" />
-        </Link>
+      <div className="flex items-start justify-between">
+        <div className="flex flex-col gap-[4px]">
+          {children}
+        </div>
+        <div className="shrink-0">
+          <Link
+            href={linkedinUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`${imageAlt} LinkedIn`}
+            className={`block ${secondaryCopyClass} transition hover:text-slate-950`}
+          >
+            <Image src="/about-us/linkedin.svg" alt="LinkedIn" width={34} height={34} className="block h-[34px] w-[34px]" />
+          </Link>
+        </div>
       </div>
     </article>
   );
@@ -142,7 +144,7 @@ export function AboutUsLeaderName({ children }: { children: ReactNode }) {
 }
 
 export function AboutUsLeaderRole({ children }: { children: ReactNode }) {
-  return <p className={`mt-1 text-[13.125px] leading-[20.625px] ${secondaryCopyClass}`}>{children}</p>;
+  return <p className={`text-[13.125px] leading-[20.625px] ${secondaryCopyClass}`}>{children}</p>;
 }
 
 export function AboutUsLocationGrid({ children }: { children: ReactNode }) {
