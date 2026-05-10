@@ -15,22 +15,12 @@ export function CertificationCard({ children }: { children: ReactNode }) {
   return <article className="flex h-[375px] flex-col items-center justify-start rounded-[9.375px] bg-[#f5f7fa] px-8 pb-8 pt-10 text-center">{children}</article>;
 }
 
-export function CertificationCardImage({
-  src,
-  alt,
-  width,
-  height,
-  className,
-}: {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  className: string;
-}) {
+export function CertificationCardImage({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="flex min-h-[148px] items-center justify-center">
-      <Image src={src} alt={alt} width={width} height={height} className={className} />
+      <div className="relative h-[130px] w-full max-w-[180px] sm:max-w-[238px]">
+        <Image src={src} alt={alt} fill className="object-contain" sizes="(min-width: 640px) 238px, 180px" />
+      </div>
     </div>
   );
 }

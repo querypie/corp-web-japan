@@ -55,7 +55,7 @@ export default function CertificationsPreviewPage() {
 
         <CertificationsGrid>
           <CertificationCard>
-            <CertificationCardImage src="/certifications/soc-2-type-2.png" alt="SOC 2 Type II" width={120} height={120} className="w-[120px]" />
+            <CertificationCardImage src="/certifications/soc-2-type-2.png" alt="SOC 2 Type II" />
             <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
               <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">SOC 2 Type II</h2>
               <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
@@ -66,7 +66,7 @@ export default function CertificationsPreviewPage() {
           </CertificationCard>
 
           <CertificationCard>
-            <CertificationCardImage src="/certifications/csa-star-level-1.png" alt="CSA-STAR" width={120} height={120} className="w-[120px]" />
+            <CertificationCardImage src="/certifications/csa-star-level-1.png" alt="CSA-STAR" />
             <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
               <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">CSA-STAR</h2>
               <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
@@ -77,7 +77,7 @@ export default function CertificationsPreviewPage() {
           </CertificationCard>
 
           <CertificationCard>
-            <CertificationCardImage src="/certifications/csa-star-level-2.png" alt="CSA-STAR" width={120} height={120} className="w-[120px]" />
+            <CertificationCardImage src="/certifications/csa-star-level-2.png" alt="CSA-STAR" />
             <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
               <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">CSA-STAR</h2>
               <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
@@ -88,7 +88,7 @@ export default function CertificationsPreviewPage() {
           </CertificationCard>
 
           <CertificationCard>
-            <CertificationCardImage src="/certifications/pci-dss.png" alt="PCI DSS" width={238} height={72} className="w-[180px] sm:w-[238px]" />
+            <CertificationCardImage src="/certifications/pci-dss.png" alt="PCI DSS" />
             <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
               <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">PCI DSS</h2>
               <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
@@ -99,7 +99,7 @@ export default function CertificationsPreviewPage() {
           </CertificationCard>
 
           <CertificationCard>
-            <CertificationCardImage src="/certifications/iso-iec-27001.png" alt="ISO/IEC 27001" width={200} height={127} className="w-[160px] sm:w-[200px]" />
+            <CertificationCardImage src="/certifications/iso-iec-27001.png" alt="ISO/IEC 27001" />
             <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
               <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">ISO/IEC 27001</h2>
               <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
@@ -110,7 +110,7 @@ export default function CertificationsPreviewPage() {
           </CertificationCard>
 
           <CertificationCard>
-            <CertificationCardImage src="/certifications/iso-iec-27701.png" alt="ISO 27701" width={200} height={127} className="w-[160px] sm:w-[200px]" />
+            <CertificationCardImage src="/certifications/iso-iec-27701.png" alt="ISO 27701" />
             <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
               <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">ISO 27701</h2>
               <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
@@ -121,7 +121,7 @@ export default function CertificationsPreviewPage() {
           </CertificationCard>
 
           <CertificationCard>
-            <CertificationCardImage src="/certifications/iso-iec-27017.png" alt="ISO 27017" width={120} height={130} className="w-[120px]" />
+            <CertificationCardImage src="/certifications/iso-iec-27017.png" alt="ISO 27017" />
             <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
               <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">ISO 27017</h2>
               <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
@@ -132,7 +132,7 @@ export default function CertificationsPreviewPage() {
           </CertificationCard>
 
           <CertificationCard>
-            <CertificationCardImage src="/certifications/iso-iec-27018.png" alt="ISO 27018" width={120} height={130} className="w-[120px]" />
+            <CertificationCardImage src="/certifications/iso-iec-27018.png" alt="ISO 27018" />
             <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
               <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">ISO 27018</h2>
               <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
@@ -143,7 +143,7 @@ export default function CertificationsPreviewPage() {
           </CertificationCard>
 
           <CertificationCard>
-            <CertificationCardImage src="/certifications/iso-22301.png" alt="ISO 22301" width={200} height={127} className="w-[160px] sm:w-[200px]" />
+            <CertificationCardImage src="/certifications/iso-22301.png" alt="ISO 22301" />
             <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
               <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">ISO 22301</h2>
               <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
@@ -154,7 +154,7 @@ export default function CertificationsPreviewPage() {
           </CertificationCard>
 
           <CertificationCard>
-            <CertificationCardImage src="/certifications/isms-p.png" alt="ISMS-P" width={173} height={120} className="w-[140px] sm:w-[173px]" />
+            <CertificationCardImage src="/certifications/isms-p.png" alt="ISMS-P" />
             <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
               <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">ISMS-P</h2>
               <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
@@ -165,7 +165,7 @@ export default function CertificationsPreviewPage() {
           </CertificationCard>
 
           <CertificationCard>
-            <CertificationCardImage src="/certifications/good-software-level-1.png" alt="GOOD Software" width={190} height={96} className="w-[160px] sm:w-[190px]" />
+            <CertificationCardImage src="/certifications/good-software-level-1.png" alt="GOOD Software" />
             <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
               <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">GOOD Software</h2>
               <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">
@@ -176,7 +176,7 @@ export default function CertificationsPreviewPage() {
           </CertificationCard>
 
           <CertificationCard>
-            <CertificationCardImage src="/certifications/ksel.png" alt="KSEL" width={120} height={120} className="w-[120px]" />
+            <CertificationCardImage src="/certifications/ksel.png" alt="KSEL" />
             <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
               <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">KSEL</h2>
               <div className="space-y-0 text-[13.125px] font-light leading-[20.625px] tracking-[0.2625px] text-slate-950">

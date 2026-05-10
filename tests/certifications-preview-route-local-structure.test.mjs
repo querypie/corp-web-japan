@@ -7,7 +7,7 @@ function readSource(path) {
   return readFileSync(fileURLToPath(new URL(`../${path}`, import.meta.url)), "utf8");
 }
 
-test("/t/certifications keeps visible page copy in page.tsx while the section file only exports the slimmer UI shell primitives", () => {
+test("/t/certifications keeps visible page copy in page.tsx and uses a shared image slot instead of per-item sizing props", () => {
   const pageSource = readSource("src/app/t/certifications/page.tsx");
   const sectionSource = readSource("src/components/sections/certifications-page.tsx");
 
@@ -21,21 +21,18 @@ test("/t/certifications keeps visible page copy in page.tsx while the section fi
   assert.doesNotMatch(pageSource, /const certifications = \[/);
   assert.doesNotMatch(pageSource, /function CertificationCard\(/);
   assert.doesNotMatch(pageSource, /function TrialCtaSection\(/);
+  assert.doesNotMatch(pageSource, /<CertificationCardImage[^>]*className=/);
+  assert.doesNotMatch(pageSource, /<CertificationCardImage[^>]*width=\{/);
+  assert.doesNotMatch(pageSource, /<CertificationCardImage[^>]*height=\{/);
 
   assert.match(sectionSource, /export function CertificationsPageSection\(/);
   assert.match(sectionSource, /export function CertificationsGrid\(/);
   assert.match(sectionSource, /export function CertificationCard\(/);
-  assert.match(sectionSource, /export function CertificationCardImage\(/);
+  assert.match(sectionSource, /export function CertificationCardImage\(\{ src, alt \}/);
+  assert.match(sectionSource, /<Image src=\{src\} alt=\{alt\} fill className="object-contain"/);
+  assert.match(sectionSource, /max-w-\[180px\] sm:max-w-\[238px\]/);
   assert.match(sectionSource, /export function CertificationsTrustCenterSection\(/);
   assert.match(sectionSource, /export function CertificationsTrustCenterAction\(/);
   assert.match(sectionSource, /export function CertificationsTrialCtaSection\(/);
   assert.match(sectionSource, /export function CertificationsTrialCtaAction\(/);
-
-  assert.doesNotMatch(sectionSource, /export function CertificationsPageTitle\(/);
-  assert.doesNotMatch(sectionSource, /export function CertificationsPageDescription\(/);
-  assert.doesNotMatch(sectionSource, /export function CertificationCardContent\(/);
-  assert.doesNotMatch(sectionSource, /export function CertificationCardDescription\(/);
-  assert.doesNotMatch(sectionSource, /export function CertificationCardDescriptionLine\(/);
-  assert.doesNotMatch(sectionSource, /export function CertificationsTrialCtaContent\(/);
-  assert.doesNotMatch(sectionSource, /export function CertificationsTrialCtaDescription\(/);
 });
