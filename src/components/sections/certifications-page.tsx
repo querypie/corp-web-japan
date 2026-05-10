@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { ArrowRight, ExternalLink } from "lucide-react";
 
 export type CertificationItem = {
+  id: string;
   title: string;
   description: readonly string[];
   src: string;
@@ -12,6 +13,14 @@ export type CertificationItem = {
 
 export function CertificationsPageSection({ children }: { children: ReactNode }) {
   return <section className="mx-auto max-w-[1200px] pb-24 pt-[86px] lg:pb-28 lg:pt-[108px]">{children}</section>;
+}
+
+export function CertificationsIntroSection({ children }: { children: ReactNode }) {
+  return <div className="text-left">{children}</div>;
+}
+
+export function CertificationsIntroDescription({ children }: { children: ReactNode }) {
+  return <div className="mt-5 text-[16.875px] font-light leading-[26.25px] tracking-[0.3375px] text-slate-500">{children}</div>;
 }
 
 export function CertificationsGrid({ children }: { children: ReactNode }) {
@@ -58,6 +67,10 @@ export function CertificationsTrustCenterAction({ href, children }: { href: stri
 
 export function CertificationsTrialCtaSection({ children }: { children: ReactNode }) {
   return <section className="bg-[#f5f7fa] px-6 py-16 lg:px-10 lg:py-20">{children}</section>;
+}
+
+export function CertificationsTrialCtaContent({ children }: { children: ReactNode }) {
+  return <div className="mx-auto flex max-w-[1200px] flex-col items-center text-center">{children}</div>;
 }
 
 export function CertificationsTrialCtaAction({ href, children }: { href: string; children: ReactNode }) {

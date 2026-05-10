@@ -7,21 +7,24 @@ function readSource(path) {
   return readFileSync(fileURLToPath(new URL(`../${path}`, import.meta.url)), "utf8");
 }
 
-test("/t/certifications keeps authored copy in the route, drives the card list from JSON data, and uses shared card and CTA UI from the section file", () => {
+test("/t/certifications keeps authored copy and JSON card data in the route while shared section UI owns the rendering shells", () => {
   const pageSource = readSource("src/app/t/certifications/page.tsx");
   const sectionSource = readSource("src/components/sections/certifications-page.tsx");
 
   assert.match(pageSource, /from "@\/components\/sections\/certifications-page"/);
   assert.match(pageSource, /const certifications: readonly CertificationItem\[] = \[/);
+  assert.match(pageSource, /id: "soc-2-type-ii"/);
   assert.match(pageSource, /title: "SOC 2 Type II"/);
   assert.match(pageSource, /title: "PCI DSS"/);
   assert.match(pageSource, /title: "ISO 22301"/);
-  assert.match(pageSource, /<h1 className=.*>認証<\/h1>/);
-  assert.match(pageSource, /<h2 className=.*>セキュリティ対策とコンプライアンスの詳細情報<\/h2>/);
-  assert.match(pageSource, /<h2 className=.*>まずは小さく、失敗しないAXを始めよう<\/h2>/);
-  assert.match(pageSource, /\{certifications\.map\(\(item, index\) => \(/);
-  assert.match(pageSource, /<CertificationCard key=\{`\$\{item\.title\}-\$\{item\.src\}-\$\{index\}`\} \{\.\.\.item\} \/>/);
+  assert.match(pageSource, /export default function CertificationsPage\(\)/);
+  assert.match(pageSource, /<CertificationsIntroSection>/);
+  assert.match(pageSource, /<CertificationsIntroDescription>/);
+  assert.match(pageSource, /<CertificationsTrialCtaContent>/);
+  assert.match(pageSource, /\{certifications\.map\(\(item\) => \(/);
+  assert.match(pageSource, /<CertificationCard key=\{item\.id\} \{\.\.\.item\} \/>/);
 
+  assert.doesNotMatch(pageSource, /CertificationsPreviewPage/);
   assert.doesNotMatch(pageSource, /className: "w-\[/);
   assert.doesNotMatch(pageSource, /width: \d+/);
   assert.doesNotMatch(pageSource, /height: \d+/);
@@ -29,10 +32,12 @@ test("/t/certifications keeps authored copy in the route, drives the card list f
   assert.doesNotMatch(pageSource, /function TrialCtaSection\(/);
 
   assert.match(sectionSource, /export type CertificationItem = \{/);
-  assert.match(sectionSource, /description: readonly string\[];/);
+  assert.match(sectionSource, /id: string;/);
+  assert.match(sectionSource, /export function CertificationsIntroSection\(/);
+  assert.match(sectionSource, /export function CertificationsIntroDescription\(/);
   assert.match(sectionSource, /export function CertificationCard\(\{ title, description, src, alt \}: CertificationItem\)/);
   assert.match(sectionSource, /<Image src=\{src\} alt=\{alt\} fill className="object-contain"/);
   assert.match(sectionSource, /max-w-\[180px\] sm:max-w-\[238px\]/);
-  assert.match(sectionSource, /export function CertificationsTrialCtaSection\(/);
+  assert.match(sectionSource, /export function CertificationsTrialCtaContent\(/);
   assert.match(sectionSource, /export function CertificationsTrialCtaAction\(/);
 });
