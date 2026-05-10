@@ -146,6 +146,7 @@ Good examples of valid second-stage cleanup:
 - replacing a single bundled card API with smaller primitives such as `CardHeader`, `CardIcon`, and `CardText`
 - keeping the visible copy in `page.tsx` but exposing more of the section's semantic composition there
 - removing layout hacks that became unnecessary after the primitive split
+- when a first-pass refactor over-corrects into dozens of page-specific thin wrappers or massive duplicated JSX blocks, rebalancing toward a clearer middle ground: route-local semantic data for repetitive homogeneous cards, plus one extracted shared card renderer that absorbs presentation-only concerns like image-slot sizing
 
 Review rule for this kind of PR:
 - ask whether the route becomes a clearer authoring surface after the change
@@ -297,8 +298,14 @@ Bad to keep extracted:
 - one big `homePageContent`/`<page>Content` object that still owns the target section's headings/body/CTA text after the migration
 - a top-level content registry copied from the old module into `page.tsx` with only the file location changed
 - the same giant registry merely split into many section-level top-level constants such as `const hero = { ... }`, `const roles = { ... }`, `const contact = { ... }` while the route still reads as `data blob first, JSX second`
-- JSON-like or object/array-based marketing copy declarations inside `page.tsx`, such as `const cards = [{ title, body }]`, `const section = { title, body, cta }`, or `const items = [...]`, when the main purpose is to store visible page copy rather than tiny incidental labels
+- JSON-like or object/array-based marketing copy declarations inside `page.tsx`, such as `const section = { title, body, cta }` or giant heterogeneous `const items = [...]`, when the main purpose is to store visible page copy rather than tiny incidental labels
 - prop-shaped copy APIs such as `intro={{ title: ..., body: ... }}`, `section={{ ... }}`, or large `items` arrays whose values are the real user-facing marketing sentences
+
+Important exception learned from `/t/certifications` follow-up work:
+- for a highly repetitive static grid of homogeneous cards, a small route-local JSON array can still be the more readable authoring surface than fully inlining dozens of near-identical JSX card bodies
+- this is acceptable only when the route still clearly owns the visible content entries (for example `title`, short `description` lines, `src`, and `alt`) and the extracted section component owns the actual card rendering/UI
+- do not let this exception regress into per-item presentation hacks in the route data; image sizing classes, width/height props, or variant-only-for-layout fields should move into a shared UI container inside the section component
+- preferred pattern for card/image-heavy grids: keep semantic item data in `page.tsx`, render through a dedicated section/card component under `src/components/sections/**`, and normalize logo/image presentation with one shared container using `object-contain` or equivalent layout rules instead of per-item `className` tuning
 - title/text emphasis that is inferred inside a section component by substring matching (for example detecting `AI Crew` and auto-wrapping it with highlight markup) instead of being authored explicitly at the route level
 - an external page-specific wrapper merely moved into the route and renamed as a local helper such as `function AICrewSections()` or `function HomeSections()` while it still hides most of the authored page structure
 - a large local section helper such as `function SupportSection()` or `function ReleaseFlowSection()` when it still owns that section's real headings, prose-heavy arrays, CTA text, and JSX structure together
