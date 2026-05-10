@@ -115,7 +115,7 @@ async function renderPrivacyPolicyVersion(slug: string) {
     notFound();
   }
 
-  const sourcePath = join(process.cwd(), "src/app/t/privacy-policy", `content.${version.slug}.mdx`);
+  const sourcePath = join(process.cwd(), "src/content/privacy-policy", `${version.slug}.mdx`);
   const source = await readFile(sourcePath, "utf8");
 
   return evaluate<PrivacyPolicyFrontmatter>({

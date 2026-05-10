@@ -4,6 +4,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 
 const routeDir = new URL("../src/app/t/privacy-policy/", import.meta.url);
+const contentDir = new URL("../src/content/privacy-policy/", import.meta.url);
 const pagePath = "src/app/t/privacy-policy/page.tsx";
 const versionPagePath = "src/app/t/privacy-policy/[slug]/page.tsx";
 const documentPath = "src/app/t/privacy-policy/privacy-policy-document.tsx";
@@ -45,14 +46,14 @@ test("privacy policy preview route keeps latest alias page and version detail ro
   assert.match(versionPageSource, /PrivacyPolicyDocumentPage slug=\{slug\}/);
 });
 
-test("privacy policy preview uses route-local version registry, route-local selector, and preview-aware footer link", () => {
+test("privacy policy preview uses shared content directory, route-local selector, and preview-aware footer link", () => {
   const documentSource = readSource(documentPath);
   const selectorSource = readSource(selectorPath);
   const versionsSource = readSource(versionsPath);
   const footerSource = readFileSync(footerPath, "utf8");
 
   assert.match(documentSource, /parseFrontmatter: true/);
-  assert.match(documentSource, /src\/app\/t\/privacy-policy", `content\.\$\{version\.slug\}\.mdx`/);
+  assert.match(documentSource, /src\/content\/privacy-policy", `\$\{version\.slug\}\.mdx`/);
   assert.match(documentSource, /<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} \/>/);
   assert.match(documentSource, /Effective date: \{frontmatter\.date\}/);
   assert.match(selectorSource, /router\.push\(`\/t\/privacy-policy\/\$\{nextSlug\}`\)/);
@@ -61,18 +62,18 @@ test("privacy policy preview uses route-local version registry, route-local sele
   assert.match(versionsSource, /slug: "2026-01-15"/);
 });
 
-test("privacy policy preview migrates every upstream English version into route-local dated MDX files", () => {
-  const contentFiles = readdirSync(routeDir)
-    .filter((name) => /^content\.\d{4}-\d{2}-\d{2}\.mdx$/.test(name))
+test("privacy policy preview migrates every upstream English version into src/content/privacy-policy dated MDX files", () => {
+  const contentFiles = readdirSync(contentDir)
+    .filter((name) => /^\d{4}-\d{2}-\d{2}\.mdx$/.test(name))
     .sort()
     .reverse();
 
-  assert.deepEqual(contentFiles.map((name) => name.replace(/^content\.|\.mdx$/g, "")), expectedVersionSlugs);
+  assert.deepEqual(contentFiles.map((name) => name.replace(/\.mdx$/g, "")), expectedVersionSlugs);
   assert.equal(existsSync(new URL("privacy-policy-content.mdx", routeDir)), false);
   assert.equal(existsSync(new URL("../src/components/sections/legal-privacy-policy-version-selector.tsx", import.meta.url)), false);
 
   for (const slug of expectedVersionSlugs) {
-    const contentSource = readFileSync(new URL(`content.${slug}.mdx`, routeDir), "utf8");
+    const contentSource = readFileSync(new URL(`${slug}.mdx`, contentDir), "utf8");
     assert.match(contentSource, new RegExp(`date: \"${slug}\"`));
     assert.match(contentSource, new RegExp(`version: \"${slug}\"`));
     assert.doesNotMatch(contentSource, /PrivacyPolicyVersionSelector/);
