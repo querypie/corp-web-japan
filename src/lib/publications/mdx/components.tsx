@@ -1,18 +1,31 @@
 import Link from "next/link";
 import { isValidElement } from "react";
-import type { ReactNode } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import type { MDXComponents } from "mdx/types";
 import { slugifyHeadingText } from "@/lib/publications/mdx/headings";
 
-type TableProps = {
+type MarginTopSize = "xxl" | "xl" | "lg" | "md" | "sm" | "xs";
+
+type TableProps = ComponentPropsWithoutRef<"table"> & {
   center?: boolean;
   width?: string;
+  marginTopSize?: MarginTopSize;
+  useMaxContent?: boolean;
   children?: ReactNode;
 };
 
-type TableCellProps = {
+type TableCellProps = ComponentPropsWithoutRef<"td"> & {
   children?: ReactNode;
   cellBackgroundColor?: string;
+  center?: boolean;
+  width?: string | number;
+};
+
+type TableHeaderCellProps = ComponentPropsWithoutRef<"th"> & {
+  children?: ReactNode;
+  cellBackgroundColor?: string;
+  center?: boolean;
+  width?: string | number;
 };
 
 type BoxProps = {
@@ -90,12 +103,32 @@ function slugifyHeading(children: ReactNode): string {
   return slugifyHeadingText(childrenToText(children));
 }
 
-function getTableCellClass(cellBackgroundColor?: string): string | undefined {
-  if (cellBackgroundColor === "gray") {
-    return "bg-[#f9f9fb]";
-  }
+function getTableCellClass(cellBackgroundColor?: string, center?: boolean): string | undefined {
+  const classes = [
+    "min-w-[100px] border border-slate-200 px-[10px] py-[9px] align-top",
+    center ? "text-center" : undefined,
+    cellBackgroundColor === "gray" ? "bg-[#f9f9fb]" : undefined,
+    cellBackgroundColor === "blue" ? "bg-[#e8f1ff]" : undefined,
+    cellBackgroundColor === "purple" ? "bg-purple-100" : undefined,
+    cellBackgroundColor === "green" ? "bg-emerald-100" : undefined,
+    cellBackgroundColor === "yellow" ? "bg-amber-100" : undefined,
+    cellBackgroundColor === "red" ? "bg-rose-100" : undefined,
+  ].filter(Boolean);
 
-  return undefined;
+  return classes.length > 0 ? classes.join(" ") : undefined;
+}
+
+function getTableMarginTopClass(marginTopSize: MarginTopSize = "sm"): string {
+  const classMap: Record<MarginTopSize, string> = {
+    xxl: "mt-12",
+    xl: "mt-10",
+    lg: "mt-8",
+    md: "mt-6",
+    sm: "mt-4",
+    xs: "mt-2",
+  };
+
+  return classMap[marginTopSize];
 }
 
 function normalizePublicFilepath(filepath: string) {
@@ -107,23 +140,50 @@ function isExternalHref(href: string) {
 }
 
 const Table = Object.assign(
-  ({ center, width, children }: TableProps) => (
+  ({ center, width, marginTopSize = "sm", useMaxContent, children, className, style, ...restProps }: TableProps) => (
     <div
-      className={center ? "flex justify-center overflow-x-auto" : "overflow-x-auto"}
+      className={[
+        getTableMarginTopClass(marginTopSize),
+        center ? "flex justify-center overflow-x-auto" : "overflow-x-auto",
+      ].join(" ")}
       style={width ? { width } : undefined}
     >
-      <table>{children}</table>
+      <table
+        className={[
+          "border-collapse border border-slate-200",
+          useMaxContent ? "w-max" : "min-w-full",
+          className,
+        ]
+          .filter(Boolean)
+          .join(" ")}
+        style={style}
+        {...restProps}
+      >
+        {children}
+      </table>
     </div>
   ),
   {
     Thead: ({ children }: { children?: ReactNode }) => <thead>{children}</thead>,
     Tbody: ({ children }: { children?: ReactNode }) => <tbody>{children}</tbody>,
-    Tr: ({ children }: { children?: ReactNode }) => <tr>{children}</tr>,
-    Th: ({ children, cellBackgroundColor }: TableCellProps) => (
-      <th className={getTableCellClass(cellBackgroundColor)}>{children}</th>
+    Tr: ({ children }: { children?: ReactNode }) => <tr className="border border-slate-200">{children}</tr>,
+    Th: ({ children, cellBackgroundColor = "gray", center, width, className, style, ...restProps }: TableHeaderCellProps) => (
+      <th
+        className={[getTableCellClass(cellBackgroundColor, center), className].filter(Boolean).join(" ")}
+        style={width ? { ...style, width } : style}
+        {...restProps}
+      >
+        {children}
+      </th>
     ),
-    Td: ({ children, cellBackgroundColor }: TableCellProps) => (
-      <td className={getTableCellClass(cellBackgroundColor)}>{children}</td>
+    Td: ({ children, cellBackgroundColor, center, width, className, style, ...restProps }: TableCellProps) => (
+      <td
+        className={[getTableCellClass(cellBackgroundColor, center), className].filter(Boolean).join(" ")}
+        style={width ? { ...style, width } : style}
+        {...restProps}
+      >
+        {children}
+      </td>
     ),
   },
 );
