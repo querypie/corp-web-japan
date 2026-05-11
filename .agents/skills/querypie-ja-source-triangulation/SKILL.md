@@ -72,6 +72,7 @@ Produce a local implementation that:
 - recreates the same page content and UI composition under `/t/**`
 - keeps marketing/legal copy route-local in `page.tsx` when that remains reviewable
 - for unusually large legal documents, keeps the preview implementation self-contained under the route subtree rather than hiding it behind broad repo-level registries
+- for unusually large legal documents that use route-adjacent MDX, keeps the source readable with 120-character, word-boundary prose wrapping rather than single-line paragraphs
 - extracts only UI implementation details and isolated client behavior into `src/components/sections/**`
 - preserves any real upstream behavior contract discovered in `corp-web-app`
 - stays safe for preview review by using non-indexed preview metadata
