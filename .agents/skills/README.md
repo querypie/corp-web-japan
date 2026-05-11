@@ -55,6 +55,10 @@ Current skills:
 - `lost-parity-commit-recovery`
   - Path: `.agents/skills/lost-parity-commit-recovery/SKILL.md`
   - Purpose: recover previously implemented UI/parity fixes that later disappeared from the current branch or merged tree by combining session recall, unreachable-commit forensics, ancestry checks, and latest-structure reapplication
+- `mdx-refactoring-formatting`
+  - Path: `.agents/skills/mdx-refactoring-formatting/SKILL.md`
+  - Purpose: normalize MDX formatting as an independent cross-cutting skill covering 80-column prose wrapping, indentation cleanup, and 2-space raw HTML table indentation
+  - Scope: formatting-only MDX refactors for route-adjacent legal/policy content and other existing MDX files
 
 ## QueryPie Japan webpage migration skill stack (MECE)
 
@@ -92,6 +96,12 @@ Use them by phase so responsibilities stay mutually exclusive and collectively e
   - Purpose: preserve visual parity when the source QueryPie page uses a 15px root and corp-web-japan keeps a 16px root
   - Use when: typography/spacing needs to be reconstructed from token intent rather than copied from computed px values
 
+6. Cross-cutting MDX formatting support
+- `mdx-refactoring-formatting`
+  - Path: `.agents/skills/mdx-refactoring-formatting/SKILL.md`
+  - Purpose: keep adjacent `content.mdx` and other existing MDX files readable with 80-column prose wrapping, indentation cleanup, and 2-space raw HTML table indentation
+  - Use when: the route shape is already settled and the remaining work is MDX formatting/refactoring rather than migration or content design
+
 Usage notes:
 
 - For any public MDX content maintenance task, load `mdx-publication-operations` first.
@@ -113,5 +123,6 @@ Usage notes:
   3. `static-page-route-local-authoring`
   4. `querypie-preview-root-rem-parity`
 - For an existing `/t/**` preview route that needs to be finished, replace step 2 with `querypie-ja-preview-route-parity`.
+- If the settled implementation uses adjacent MDX such as `src/app/t/<route>/content.mdx`, also load `mdx-refactoring-formatting` for wrapping and indentation cleanup.
 - For new publication work, do not put post-specific assets under `public/assets/...`; use the route-aligned per-post asset root instead.
 - Keep this index aligned with the actual skill directories.
