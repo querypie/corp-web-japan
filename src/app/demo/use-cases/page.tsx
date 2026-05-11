@@ -19,6 +19,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/demo/use-cases",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 type UseCasesPageProps = {

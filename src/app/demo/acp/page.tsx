@@ -18,6 +18,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/demo/acp",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default async function AcpDemoPage() {

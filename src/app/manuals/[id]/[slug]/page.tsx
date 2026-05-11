@@ -27,6 +27,10 @@ export async function generateMetadata({ params }: ManualsDetailPageProps): Prom
     alternates: {
       canonical: getManualPublicationHref(id, record.slug),
     },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 

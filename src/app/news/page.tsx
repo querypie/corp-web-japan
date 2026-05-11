@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/news",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function NewsPage() {

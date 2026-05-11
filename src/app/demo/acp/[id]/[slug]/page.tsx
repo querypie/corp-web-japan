@@ -52,8 +52,8 @@ export async function generateMetadata({ params }: AcpDemoDetailPageProps): Prom
       canonical: absoluteUrl(getAcpDemoPublicationHref(id, record.slug)),
     },
     robots: {
-      index: false,
-      follow: false,
+      index: true,
+      follow: true,
     },
   };
 }
