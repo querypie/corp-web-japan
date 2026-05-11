@@ -88,15 +88,24 @@ Rules:
 - preserve indentation required for:
   - nested bullet lists
   - nested numbered lists
+  - mixed nested lists where numbered lists and bullet lists are combined
   - blockquotes
   - fenced code blocks
   - JSX/MDX component children when indentation reflects the actual tree
+- when numbered lists, bullet lists, or mixed list types form a nested list,
+  apply the indentation required by valid Markdown syntax rather than visually
+  aligning items by ad hoc spacing
+- do not flatten or left-trim nested list items in a way that would detach them
+  from their parent list item
 - if an MDX body is route-adjacent content such as `src/app/t/<route>/content.mdx`,
   prefer a flat readable body instead of inherited wrapper-era indentation
 
 Practical rule:
 - if deleting leading spaces does not change the Markdown/MDX parse tree, that
   leading whitespace is usually unnecessary and should be removed
+- if a line belongs to a nested bullet list or nested numbered list, keep the
+  indentation required for that nesting level even if the line looks over-indented
+  in plain text at first glance
 
 ### 3. Raw HTML table normalization
 
@@ -169,6 +178,8 @@ Before finalizing:
 - re-read the edited MDX file in plain text
 - confirm paragraphs are wrapped at word boundaries near the 80-column target
 - confirm unnecessary leading whitespace is removed
+- confirm nested bullet lists, nested numbered lists, and mixed nested lists
+  still have the indentation required by valid Markdown syntax
 - confirm raw HTML `<table>` blocks follow the 2-space indentation rule
 - confirm the result is still valid-looking MDX with intact headings, lists,
   JSX/MDX tags, and code fences
@@ -180,6 +191,8 @@ Before finalizing:
 - each formatting edit fits exactly one MECE domain above
 - prose is wrapped to an 80-column target
 - unnecessary leading indentation is removed
+- nested numbered lists, nested bullet lists, and mixed nested lists keep valid
+  Markdown indentation
 - raw HTML `<table>` indentation follows the 2-space rule
 - MDX structure remains valid and readable
 - the diff remains a formatting refactor, not a hidden semantic rewrite
