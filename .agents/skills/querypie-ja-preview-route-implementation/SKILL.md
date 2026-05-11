@@ -177,7 +177,7 @@ Large-document exception:
 - prefer a route-local legal body class and explicit heading mapping over `publicationBodyClassName` / `buildPublicationMdxComponents()` when those shared article helpers do not match the live legal contract
 - additional route-local ownership rule for adjacent legal MDX files: if the imported MDX still contains outer layout/title wrappers such as `Box`, `CenterSection`, or `StaticH1`, remove those wrappers from the MDX body and move that responsibility into `page.tsx`
 - formatting rule for adjacent legal MDX files: do not leave long prose paragraphs as one physical line
-- wrap legal-body MDX prose to a 120-character target width
+- wrap legal-body MDX prose to an 80-character target width
 - only wrap at word boundaries; do not split words just to satisfy the width target
 - preserve valid MDX structure while reflowing, including frontmatter, headings, numbered lists, bullets, indentation, and inline MDX/JSX tags
 - preferred final split for legal previews with adjacent MDX:
