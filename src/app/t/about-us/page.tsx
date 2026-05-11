@@ -72,7 +72,9 @@ export default function AboutUsPreviewPage() {
                 カスタムエージェント、一元管理、従量課金モデルを提供し、月額40〜80ドルのサブスクリプションを90%コスト削減して置き換えます。
               </AboutUsBodyCopy>
               <AboutUsBodyCopy>
-                その結果、誰もが利用できるエンタープライズグレードのAIを実現しました。最先端のAIと合理的な予算、その両立が可能であることを証明しています。
+                その結果、誰もが利用できるエンタープライズグレードのAIを実現しました。
+                {" "}
+                最先端のAIと合理的な予算、その両立が可能であることを証明しています。
               </AboutUsBodyCopy>
             </AboutUsHeroCopy>
           </RevealOnScroll>
