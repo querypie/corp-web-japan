@@ -1,9 +1,15 @@
-import { Fragment } from "react";
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
   CompareTable,
+  CompareTableBooleanCell,
+  CompareTableCheckLabelCell,
+  CompareTableHead,
+  CompareTablePlanHead,
+  CompareTableRow,
+  CompareTableSection,
+  CompareTableTextCell,
   PlanButton,
   PlanCard,
   PlanDescription,
@@ -49,26 +55,13 @@ export const metadata: Metadata = {
   },
 };
 
-const Pricing = Object.assign(PricingRoot, { Header: PricingHeader });
-const Plan = Object.assign(PlanRoot, {
-  Card: PlanCard,
-  TitleContainer: PlanTitleContainer,
-  Title: PlanTitle,
-  Description: PlanDescription,
-  Price: PlanPrice,
-  Button: PlanButton,
-  Features: PlanFeatures,
-  Feature: PlanFeature,
-  Divider: PlanDivider,
-});
-
 export default function PlansPreviewPage() {
   return (
     <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
       <SiteHeader />
       <PlansPageSection>
         <PricingRoot>
-          <Pricing.Header>
+          <PricingHeader>
             <PlansHeroTitle>プラン</PlansHeroTitle>
             <PlansHeroDescription>
               <p>
@@ -77,7 +70,7 @@ export default function PlansPreviewPage() {
                 14日間の無料トライアルで今すぐ始められます。
               </p>
             </PlansHeroDescription>
-          </Pricing.Header>
+          </PricingHeader>
 
           <PricingContextProvider defaultActiveTab="aip">
             <ProductTabs>
@@ -92,239 +85,314 @@ export default function PlansPreviewPage() {
             </ProductTabs>
 
             <PlanVisibility id="aip">
-              <Plan num={3}>
-                <Plan.Card type="primary">
-                  <Plan.TitleContainer>
+              <PlanRoot num={3}>
+                <PlanCard type="primary">
+                  <PlanTitleContainer>
                     <div>
-                      <Plan.Title>スターター</Plan.Title>
-                      <Plan.Description>はじめての利用に最適</Plan.Description>
+                      <PlanTitle>スターター</PlanTitle>
+                      <PlanDescription>はじめての利用に最適</PlanDescription>
                     </div>
-                    <Plan.Price>$20/月</Plan.Price>
-                  </Plan.TitleContainer>
-                  <Plan.Button href="https://app.querypie.com" external={true} type="primary">
+                    <PlanPrice>$20/月</PlanPrice>
+                  </PlanTitleContainer>
+                  <PlanButton href="https://app.querypie.com" external={true} type="primary">
                     利用を開始する
-                  </Plan.Button>
-                  <Plan.Features>
-                    <Plan.Feature supported={true}>月間800クレジット</Plan.Feature>
-                    <Plan.Divider />
-                    <Plan.Feature supported={true}>カスタムAIエージェント（現在無制限）</Plan.Feature>
-                    <Plan.Feature supported={true}>社内文書学習 (RAG) 3つまで</Plan.Feature>
-                    <Plan.Divider />
-                    <Plan.Feature supported={true}>操作履歴の記録（最大30日間）</Plan.Feature>
-                    <Plan.Feature supported={true}>IPアドレス制限 (ACL)</Plan.Feature>
-                  </Plan.Features>
-                </Plan.Card>
+                  </PlanButton>
+                  <PlanFeatures>
+                    <PlanFeature supported={true}>月間800クレジット</PlanFeature>
+                    <PlanDivider />
+                    <PlanFeature supported={true}>カスタムAIエージェント（現在無制限）</PlanFeature>
+                    <PlanFeature supported={true}>社内文書学習 (RAG) 3つまで</PlanFeature>
+                    <PlanDivider />
+                    <PlanFeature supported={true}>操作履歴の記録（最大30日間）</PlanFeature>
+                    <PlanFeature supported={true}>IPアドレス制限 (ACL)</PlanFeature>
+                  </PlanFeatures>
+                </PlanCard>
 
-                <Plan.Card type="primary">
-                  <Plan.TitleContainer>
+                <PlanCard type="primary">
+                  <PlanTitleContainer>
                     <div>
-                      <Plan.Title>チーム</Plan.Title>
-                      <Plan.Description>チームでの協働作業に最適</Plan.Description>
+                      <PlanTitle>チーム</PlanTitle>
+                      <PlanDescription>チームでの協働作業に最適</PlanDescription>
                     </div>
-                    <Plan.Price>$500/月</Plan.Price>
-                  </Plan.TitleContainer>
-                  <Plan.Button href="https://app.querypie.com" external={true} type="primary">
+                    <PlanPrice>$500/月</PlanPrice>
+                  </PlanTitleContainer>
+                  <PlanButton href="https://app.querypie.com" external={true} type="primary">
                     利用を開始する
-                  </Plan.Button>
-                  <Plan.Features>
-                    <Plan.Feature supported={true}>月間20,000クレジット</Plan.Feature>
-                    <Plan.Divider />
-                    <Plan.Feature supported={true}>カスタムAIエージェント（現在無制限）</Plan.Feature>
-                    <Plan.Feature supported={true}>社内文書学習 (RAG) 10個まで</Plan.Feature>
-                    <Plan.Divider />
-                    <Plan.Feature supported={true}>操作履歴の記録（最大90日間）</Plan.Feature>
-                    <Plan.Feature supported={true}>データ漏洩防止 (DLP)</Plan.Feature>
-                    <Plan.Feature supported={true}>IPアドレス制限 (ACL)</Plan.Feature>
-                  </Plan.Features>
-                </Plan.Card>
+                  </PlanButton>
+                  <PlanFeatures>
+                    <PlanFeature supported={true}>月間20,000クレジット</PlanFeature>
+                    <PlanDivider />
+                    <PlanFeature supported={true}>カスタムAIエージェント（現在無制限）</PlanFeature>
+                    <PlanFeature supported={true}>社内文書学習 (RAG) 10個まで</PlanFeature>
+                    <PlanDivider />
+                    <PlanFeature supported={true}>操作履歴の記録（最大90日間）</PlanFeature>
+                    <PlanFeature supported={true}>データ漏洩防止 (DLP)</PlanFeature>
+                    <PlanFeature supported={true}>IPアドレス制限 (ACL)</PlanFeature>
+                  </PlanFeatures>
+                </PlanCard>
 
-                <Plan.Card type="black">
-                  <Plan.TitleContainer>
+                <PlanCard type="black">
+                  <PlanTitleContainer>
                     <div>
-                      <Plan.Title>エンタープライズ</Plan.Title>
-                      <Plan.Description>大規模組織向けの包括的プラン</Plan.Description>
+                      <PlanTitle>エンタープライズ</PlanTitle>
+                      <PlanDescription>大規模組織向けの包括的プラン</PlanDescription>
                     </div>
-                    <Plan.Price>個別見積もり</Plan.Price>
-                  </Plan.TitleContainer>
-                  <Plan.Button href="https://app.querypie.com" external={true} type="black">
+                    <PlanPrice>個別見積もり</PlanPrice>
+                  </PlanTitleContainer>
+                  <PlanButton href="https://app.querypie.com" external={true} type="black">
                     今すぐ試す
-                  </Plan.Button>
-                  <Plan.Features>
-                    <Plan.Feature supported={true}>カスタムクレジット</Plan.Feature>
-                    <Plan.Divider />
-                    <Plan.Feature supported={true}>カスタムAIエージェント 無制限</Plan.Feature>
-                    <Plan.Feature supported={true}>社内文書学習 (RAG) 無制限</Plan.Feature>
-                    <Plan.Divider />
-                    <Plan.Feature supported={true}>操作履歴の記録（最大180日間）</Plan.Feature>
-                    <Plan.Feature supported={true}>シングルサインオン (SSO)</Plan.Feature>
-                    <Plan.Feature supported={true}>データ漏洩防止 (DLP)</Plan.Feature>
-                    <Plan.Feature supported={true}>IPアドレス制限 (ACL)</Plan.Feature>
-                    <Plan.Divider />
-                    <Plan.Feature supported={true}>カスタムブランディング</Plan.Feature>
-                    <Plan.Feature supported={true}>高度なAIセキュリティ機能</Plan.Feature>
-                  </Plan.Features>
-                </Plan.Card>
-              </Plan>
+                  </PlanButton>
+                  <PlanFeatures>
+                    <PlanFeature supported={true}>カスタムクレジット</PlanFeature>
+                    <PlanDivider />
+                    <PlanFeature supported={true}>カスタムAIエージェント 無制限</PlanFeature>
+                    <PlanFeature supported={true}>社内文書学習 (RAG) 無制限</PlanFeature>
+                    <PlanDivider />
+                    <PlanFeature supported={true}>操作履歴の記録（最大180日間）</PlanFeature>
+                    <PlanFeature supported={true}>シングルサインオン (SSO)</PlanFeature>
+                    <PlanFeature supported={true}>データ漏洩防止 (DLP)</PlanFeature>
+                    <PlanFeature supported={true}>IPアドレス制限 (ACL)</PlanFeature>
+                    <PlanDivider />
+                    <PlanFeature supported={true}>カスタムブランディング</PlanFeature>
+                    <PlanFeature supported={true}>高度なAIセキュリティ機能</PlanFeature>
+                  </PlanFeatures>
+                </PlanCard>
+              </PlanRoot>
 
-              <CompareTable
-                rows={[
-                  {
-                    label: "一般",
-                    values: ["料金", "AI利用クレジット", "利用可能なAIモデル", "独自AIモデルの利用"],
-                  },
-                  {
-                    label: "プラットフォーム機能",
-                    values: [
-                      "Web検索",
-                      "データ可視化ウィジェット",
-                      "コード生成・実行",
-                      "外部ツール連携 (MCP)",
-                      "MCP連携設定の作成",
-                      "MCPプロンプト自動生成",
-                      "外部アプリでの連携利用",
-                      "AIエージェント作成数",
-                      "組み込みエージェント利用",
-                      "エージェント自動実行",
-                      "文書学習の登録数 (RAG)",
-                    ],
-                  },
-                  {
-                    label: "セキュリティ機能",
-                    values: ["シングルサインオン (SSO)", "操作履歴の保存期間", "データ漏洩防止 (DLP)", "IPアドレス制限 (ACL)"],
-                  },
-                  {
-                    label: "組織機能",
-                    values: ["組織共通の外部ツール連携設定", "組織共通の社内システム暗号化接続", "連携ツールのアクセス管理", "エージェントのアクセス管理"],
-                  },
-                  {
-                    label: "ブランディングとサポート",
-                    values: ["カスタムブランディング", "サポート体制"],
-                  },
-                ]}
-                columns={[
-                  {
-                    label: "スターター",
-                    values: [
-                      [{ primary: "$20/月", isBold: true }, { primary: "800クレジット/月" }, { primary: "Claude" }, false],
-                      [true, true, true, true, true, true, true, { primary: "一時的に無制限" }, true, true, { primary: "3" }],
-                      [false, { primary: "最大30日間", showIcon: true }, false, true],
-                      [false, false, false, false],
-                      [
-                        false,
-                        <Fragment key="starter-email-support">
-                          <span className="inline-flex flex-col items-center text-center">
-                            <span>48時間以内の</span>
-                            <span>メールサポート</span>
-                          </span>
-                        </Fragment>,
-                      ],
-                    ],
-                  },
-                  {
-                    label: "チーム",
-                    values: [
-                      [{ primary: "$500/月", isBold: true }, { primary: "20,000クレジット/月" }, { primary: "Claude / ChatGPT / Gemini" }, false],
-                      [true, true, true, true, true, true, true, { primary: "一時的に無制限" }, true, true, { primary: "10" }],
-                      [false, { primary: "最大90日間", showIcon: true }, true, true],
-                      [false, false, true, true],
-                      [
-                        false,
-                        <Fragment key="team-email-support">
-                          <span className="inline-flex flex-col items-center text-center">
-                            <span>24時間以内の</span>
-                            <span>メールサポート</span>
-                          </span>
-                        </Fragment>,
-                      ],
-                    ],
-                  },
-                  {
-                    label: "エンタープライズ",
-                    values: [
-                      [{ primary: "カスタム価格", secondary: "（年間契約）", isBold: true }, { primary: "カスタムクレジット" }, { primary: "主要LLMを自由に選択可" }, { primary: "(Add-on)", showIcon: true }],
-                      [true, true, true, true, true, true, true, { primary: "無制限" }, true, true, { primary: "無制限" }],
-                      [true, { primary: "最大180日間", showIcon: true }, true, true],
-                      [true, true, true, true],
-                      [true, { primary: "専任" }],
-                    ],
-                  },
-                ]}
-              />
+              <CompareTable>
+                <CompareTableHead>
+                  <CompareTablePlanHead>スターター</CompareTablePlanHead>
+                  <CompareTablePlanHead>チーム</CompareTablePlanHead>
+                  <CompareTablePlanHead>エンタープライズ</CompareTablePlanHead>
+                </CompareTableHead>
+
+                <CompareTableSection title="一般">
+                  <CompareTableRow label="料金">
+                    <CompareTableTextCell isBold>$20/月</CompareTableTextCell>
+                    <CompareTableTextCell isBold>$500/月</CompareTableTextCell>
+                    <CompareTableTextCell isBold secondary="（年間契約）">
+                      カスタム価格
+                    </CompareTableTextCell>
+                  </CompareTableRow>
+                  <CompareTableRow label="AI利用クレジット">
+                    <CompareTableTextCell>800クレジット/月</CompareTableTextCell>
+                    <CompareTableTextCell>20,000クレジット/月</CompareTableTextCell>
+                    <CompareTableTextCell>カスタムクレジット</CompareTableTextCell>
+                  </CompareTableRow>
+                  <CompareTableRow label="利用可能なAIモデル">
+                    <CompareTableTextCell>Claude</CompareTableTextCell>
+                    <CompareTableTextCell>Claude / ChatGPT / Gemini</CompareTableTextCell>
+                    <CompareTableTextCell>主要LLMを自由に選択可</CompareTableTextCell>
+                  </CompareTableRow>
+                  <CompareTableRow label="独自AIモデルの利用">
+                    <CompareTableBooleanCell supported={false} />
+                    <CompareTableBooleanCell supported={false} />
+                    <CompareTableCheckLabelCell>(Add-on)</CompareTableCheckLabelCell>
+                  </CompareTableRow>
+                </CompareTableSection>
+
+                <CompareTableSection title="プラットフォーム機能">
+                  <CompareTableRow label="Web検索">
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="データ可視化ウィジェット">
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="コード生成・実行">
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="外部ツール連携 (MCP)">
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="MCP連携設定の作成">
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="MCPプロンプト自動生成">
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="外部アプリでの連携利用">
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="AIエージェント作成数">
+                    <CompareTableTextCell>一時的に無制限</CompareTableTextCell>
+                    <CompareTableTextCell>一時的に無制限</CompareTableTextCell>
+                    <CompareTableTextCell>無制限</CompareTableTextCell>
+                  </CompareTableRow>
+                  <CompareTableRow label="組み込みエージェント利用">
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="エージェント自動実行">
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="文書学習の登録数 (RAG)">
+                    <CompareTableTextCell>3</CompareTableTextCell>
+                    <CompareTableTextCell>10</CompareTableTextCell>
+                    <CompareTableTextCell>無制限</CompareTableTextCell>
+                  </CompareTableRow>
+                </CompareTableSection>
+
+                <CompareTableSection title="セキュリティ機能">
+                  <CompareTableRow label="シングルサインオン (SSO)">
+                    <CompareTableBooleanCell supported={false} />
+                    <CompareTableBooleanCell supported={false} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="操作履歴の保存期間">
+                    <CompareTableCheckLabelCell>最大30日間</CompareTableCheckLabelCell>
+                    <CompareTableCheckLabelCell>最大90日間</CompareTableCheckLabelCell>
+                    <CompareTableCheckLabelCell>最大180日間</CompareTableCheckLabelCell>
+                  </CompareTableRow>
+                  <CompareTableRow label="データ漏洩防止 (DLP)">
+                    <CompareTableBooleanCell supported={false} />
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="IPアドレス制限 (ACL)">
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                </CompareTableSection>
+
+                <CompareTableSection title="組織機能">
+                  <CompareTableRow label="組織共通の外部ツール連携設定">
+                    <CompareTableBooleanCell supported={false} />
+                    <CompareTableBooleanCell supported={false} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="組織共通の社内システム暗号化接続">
+                    <CompareTableBooleanCell supported={false} />
+                    <CompareTableBooleanCell supported={false} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="連携ツールのアクセス管理">
+                    <CompareTableBooleanCell supported={false} />
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="エージェントのアクセス管理">
+                    <CompareTableBooleanCell supported={false} />
+                    <CompareTableBooleanCell supported={true} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                </CompareTableSection>
+
+                <CompareTableSection title="ブランディングとサポート">
+                  <CompareTableRow label="カスタムブランディング">
+                    <CompareTableBooleanCell supported={false} />
+                    <CompareTableBooleanCell supported={false} />
+                    <CompareTableBooleanCell supported={true} />
+                  </CompareTableRow>
+                  <CompareTableRow label="サポート体制">
+                    <CompareTableTextCell>
+                      <span className="inline-flex flex-col items-center text-center">
+                        <span>48時間以内の</span>
+                        <span>メールサポート</span>
+                      </span>
+                    </CompareTableTextCell>
+                    <CompareTableTextCell>
+                      <span className="inline-flex flex-col items-center text-center">
+                        <span>24時間以内の</span>
+                        <span>メールサポート</span>
+                      </span>
+                    </CompareTableTextCell>
+                    <CompareTableTextCell>専任</CompareTableTextCell>
+                  </CompareTableRow>
+                </CompareTableSection>
+              </CompareTable>
             </PlanVisibility>
 
             <PlanVisibility id="acp">
-              <Plan num={3}>
-                <Plan.Card type="primary">
-                  <Plan.TitleContainer>
+              <PlanRoot num={3}>
+                <PlanCard type="primary">
+                  <PlanTitleContainer>
                     <div>
-                      <Plan.Title>コミュニティ</Plan.Title>
-                      <Plan.Description>同じ品質のCommunity版の無料ライセンスをダウンロードして取得</Plan.Description>
+                      <PlanTitle>コミュニティ</PlanTitle>
+                      <PlanDescription>同じ品質のCommunity版の無料ライセンスをダウンロードして取得</PlanDescription>
                     </div>
-                    <Plan.Price>$0/月</Plan.Price>
-                  </Plan.TitleContainer>
-                  <Plan.Button href="https://docs.querypie.com/ja/installation/querypie-acp-community-edition" external={true} type="primary">
+                    <PlanPrice>$0/月</PlanPrice>
+                  </PlanTitleContainer>
+                  <PlanButton href="https://docs.querypie.com/ja/installation/querypie-acp-community-edition" external={true} type="primary">
                     今すぐダウンロード
-                  </Plan.Button>
-                  <Plan.Features>
-                    <Plan.Feature supported={true}>最大5ユーザーまで利用可能</Plan.Feature>
-                    <Plan.Feature supported={true}>データベースアクセス制御</Plan.Feature>
-                    <Plan.Feature supported={true}>システムアクセス制御</Plan.Feature>
-                    <Plan.Feature supported={true}>Kubernetesアクセス制御</Plan.Feature>
-                    <Plan.Feature supported={true}>Webアクセス制御</Plan.Feature>
-                    <Plan.Feature supported={true}>申請・承認ワークフロー</Plan.Feature>
-                  </Plan.Features>
-                </Plan.Card>
+                  </PlanButton>
+                  <PlanFeatures>
+                    <PlanFeature supported={true}>最大5ユーザーまで利用可能</PlanFeature>
+                    <PlanFeature supported={true}>データベースアクセス制御</PlanFeature>
+                    <PlanFeature supported={true}>システムアクセス制御</PlanFeature>
+                    <PlanFeature supported={true}>Kubernetesアクセス制御</PlanFeature>
+                    <PlanFeature supported={true}>Webアクセス制御</PlanFeature>
+                    <PlanFeature supported={true}>申請・承認ワークフロー</PlanFeature>
+                  </PlanFeatures>
+                </PlanCard>
 
-                <Plan.Card type="primary">
-                  <Plan.TitleContainer>
+                <PlanCard type="primary">
+                  <PlanTitleContainer>
                     <div>
-                      <Plan.Title>スタンダード</Plan.Title>
-                      <Plan.Description>コミュニティ版にご満足の利用者に限定して提供。年間契約のみ。</Plan.Description>
+                      <PlanTitle>スタンダード</PlanTitle>
+                      <PlanDescription>コミュニティ版にご満足の利用者に限定して提供。年間契約のみ。</PlanDescription>
                     </div>
-                    <Plan.Price>$50/人・月</Plan.Price>
-                  </Plan.TitleContainer>
-                  <Plan.Button href="/contact-us?inquiry=quote-request&product=acp" type="primary">
+                    <PlanPrice>$50/人・月</PlanPrice>
+                  </PlanTitleContainer>
+                  <PlanButton href="/contact-us?inquiry=quote-request&product=acp" type="primary">
                     お問い合わせ
-                  </Plan.Button>
-                  <Plan.Features>
-                    <Plan.Feature supported={true}>10ユーザー以上</Plan.Feature>
-                    <Plan.Feature supported={true}>データベースアクセス制御</Plan.Feature>
-                    <Plan.Feature supported={true}>システムアクセス制御</Plan.Feature>
-                    <Plan.Feature supported={true}>Kubernetesアクセス制御</Plan.Feature>
-                    <Plan.Feature supported={false}>Webアクセス制御</Plan.Feature>
-                    <Plan.Feature supported={true}>申請・承認ワークフロー</Plan.Feature>
-                    <Plan.Divider />
-                    <Plan.Feature supported={true}>オンラインテクニカルサポート</Plan.Feature>
-                    <Plan.Feature supported={false}>導入サポート・オンボーディング</Plan.Feature>
-                    <Plan.Feature supported={false}>アップデートサポート</Plan.Feature>
-                  </Plan.Features>
-                </Plan.Card>
+                  </PlanButton>
+                  <PlanFeatures>
+                    <PlanFeature supported={true}>10ユーザー以上</PlanFeature>
+                    <PlanFeature supported={true}>データベースアクセス制御</PlanFeature>
+                    <PlanFeature supported={true}>システムアクセス制御</PlanFeature>
+                    <PlanFeature supported={true}>Kubernetesアクセス制御</PlanFeature>
+                    <PlanFeature supported={false}>Webアクセス制御</PlanFeature>
+                    <PlanFeature supported={true}>申請・承認ワークフロー</PlanFeature>
+                    <PlanDivider />
+                    <PlanFeature supported={true}>オンラインテクニカルサポート</PlanFeature>
+                    <PlanFeature supported={false}>導入サポート・オンボーディング</PlanFeature>
+                    <PlanFeature supported={false}>アップデートサポート</PlanFeature>
+                  </PlanFeatures>
+                </PlanCard>
 
-                <Plan.Card type="black">
-                  <Plan.TitleContainer>
+                <PlanCard type="black">
+                  <PlanTitleContainer>
                     <div>
-                      <Plan.Title>エンタープライズ</Plan.Title>
-                      <Plan.Description>プロフェッショナルな導入サポートとサービスを求めるチームにおすすめ</Plan.Description>
+                      <PlanTitle>エンタープライズ</PlanTitle>
+                      <PlanDescription>プロフェッショナルな導入サポートとサービスを求めるチームにおすすめ</PlanDescription>
                     </div>
-                    <Plan.Price>個別見積もり</Plan.Price>
-                  </Plan.TitleContainer>
-                  <Plan.Button href="/contact-us?inquiry=quote-request&product=acp" type="black">
+                    <PlanPrice>個別見積もり</PlanPrice>
+                  </PlanTitleContainer>
+                  <PlanButton href="/contact-us?inquiry=quote-request&product=acp" type="black">
                     お問い合わせ
-                  </Plan.Button>
-                  <Plan.Features>
-                    <Plan.Feature supported={true}>柔軟なユーザー数の設定</Plan.Feature>
-                    <Plan.Feature supported={true}>データベースアクセス制御</Plan.Feature>
-                    <Plan.Feature supported={true}>システムアクセス制御</Plan.Feature>
-                    <Plan.Feature supported={true}>Kubernetesアクセス制御</Plan.Feature>
-                    <Plan.Feature supported={true}>Webアクセス制御</Plan.Feature>
-                    <Plan.Feature supported={true}>申請・承認ワークフロー</Plan.Feature>
-                    <Plan.Divider />
-                    <Plan.Feature supported={true}>テクニカルサポート</Plan.Feature>
-                    <Plan.Feature supported={true}>導入サポート・オンボーディング</Plan.Feature>
-                    <Plan.Feature supported={true}>アップデートサポート</Plan.Feature>
-                  </Plan.Features>
-                </Plan.Card>
-              </Plan>
+                  </PlanButton>
+                  <PlanFeatures>
+                    <PlanFeature supported={true}>柔軟なユーザー数の設定</PlanFeature>
+                    <PlanFeature supported={true}>データベースアクセス制御</PlanFeature>
+                    <PlanFeature supported={true}>システムアクセス制御</PlanFeature>
+                    <PlanFeature supported={true}>Kubernetesアクセス制御</PlanFeature>
+                    <PlanFeature supported={true}>Webアクセス制御</PlanFeature>
+                    <PlanFeature supported={true}>申請・承認ワークフロー</PlanFeature>
+                    <PlanDivider />
+                    <PlanFeature supported={true}>テクニカルサポート</PlanFeature>
+                    <PlanFeature supported={true}>導入サポート・オンボーディング</PlanFeature>
+                    <PlanFeature supported={true}>アップデートサポート</PlanFeature>
+                  </PlanFeatures>
+                </PlanCard>
+              </PlanRoot>
             </PlanVisibility>
           </PricingContextProvider>
         </PricingRoot>
