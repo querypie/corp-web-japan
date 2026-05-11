@@ -19,16 +19,9 @@ import {
 import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 import { slugifyHeadingText } from "@/lib/publications/mdx/headings";
 
-export const metadata: Metadata = {
-  title: "QueryPie EULA",
-  description: "Preview of the current QueryPie End User License Agreement for the Japan site.",
-  alternates: {
-    canonical: "/t/eula",
-  },
-  robots: {
-    index: false,
-    follow: false,
-  },
+type EulaFrontmatter = {
+  title: string;
+  description: string;
 };
 
 type SharedChildrenProps = {
@@ -107,7 +100,7 @@ async function renderEulaPreviewMdx() {
   const sourcePath = join(process.cwd(), "src/app/t/eula/content.mdx");
   const source = await readFile(sourcePath, "utf8");
 
-  return evaluate({
+  return evaluate<EulaFrontmatter>({
     source,
     components: {
       Link: EulaMdxLink,
@@ -116,12 +109,28 @@ async function renderEulaPreviewMdx() {
       h3: LegalClauseHeading,
     },
     options: {
-      parseFrontmatter: false,
+      parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [remarkGfm],
       },
     },
   });
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { frontmatter } = await renderEulaPreviewMdx();
+
+  return {
+    title: frontmatter.title,
+    description: frontmatter.description,
+    alternates: {
+      canonical: "/t/eula",
+    },
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
 }
 
 export default async function PreviewEulaPage() {
