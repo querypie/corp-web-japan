@@ -11,18 +11,24 @@ test("eula preview page exists with noindex metadata and preview canonical path"
   assert.equal(existsSync(new URL(`../${pagePath}`, import.meta.url)), true, `${pagePath} should exist`);
 
   const source = readSource(pagePath);
+  const contentSource = readSource(contentPath);
 
-  assert.match(source, /export const metadata: Metadata = \{/);
-  assert.match(source, /title: "QueryPie EULA"/);
+  assert.match(source, /export async function generateMetadata\(\): Promise<Metadata>/);
+  assert.match(source, /const \{ frontmatter \} = await renderEulaPreviewMdx\(\);/);
+  assert.match(source, /title: frontmatter\.title,/);
+  assert.match(source, /description: frontmatter\.description,/);
   assert.match(source, /canonical: "\/t\/eula"/);
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(source, /const legalBodyClassName = \[/);
   assert.match(source, /src\/app\/t\/eula\/content\.mdx/);
+  assert.match(source, /parseFrontmatter: true,/);
   assert.match(source, /<LegalPageTitle>End User License Agreement<\/LegalPageTitle>/);
   assert.match(source, /<SiteHeader \/>/);
   assert.match(source, /<SiteFooter \/>/);
   assert.match(source, /まずは小さく、失敗しないAXを始めよう/);
   assert.match(source, /<BrandGradientCtaButton href="https:\/\/app\.querypie\.com\/">無料で試してみる<\/BrandGradientCtaButton>/);
+  assert.match(contentSource, /^---\ntitle: "QueryPie EULA"\ndescription: "End User License Agreement for QueryPie/m);
+  assert.doesNotMatch(source, /export const metadata: Metadata = \{/);
 });
 
 test("eula preview keeps legal structure ownership in page.tsx and mdx body free of layout wrappers", () => {
