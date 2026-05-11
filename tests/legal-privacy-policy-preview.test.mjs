@@ -58,6 +58,10 @@ test("privacy policy preview scans shared content filenames instead of keeping a
   assert.match(documentSource, /hasPrivacyPolicySlug\(slug\)/);
   assert.match(documentSource, /listPrivacyPolicySlugs\(\)/);
   assert.match(documentSource, /<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/);
+  assert.match(documentSource, /変更履歴/);
+  assert.doesNotMatch(documentSource, /PrivacyPolicyLanguageSelector/);
+  assert.doesNotMatch(documentSource, /Korean/);
+  assert.doesNotMatch(documentSource, /English/);
   assert.match(documentSource, /Effective date: \{frontmatter\.date\}/);
   assert.match(selectorSource, /window\.location\.assign\(`\/t\/privacy-policy\/\$\{nextSlug\}`\)/);
   assert.match(footerSource, /label: "プライバシーポリシー", href: t\("\/privacy-policy", previewModeEnabled\)/);
@@ -86,6 +90,8 @@ test("privacy policy preview migrates every upstream English version into src/co
     assert.match(contentSource, new RegExp(`version: \"${slug}\"`));
     assert.doesNotMatch(contentSource, /PrivacyPolicyVersionSelector/);
     assert.doesNotMatch(contentSource, /PrivacyPolicyLanguageSelector/);
+    assert.doesNotMatch(contentSource, /Korean/);
+    assert.doesNotMatch(contentSource, /English/);
     assert.doesNotMatch(contentSource, /StaticH3 as=\"h1\"/);
   }
 });
