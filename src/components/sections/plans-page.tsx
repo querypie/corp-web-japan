@@ -66,17 +66,13 @@ export function PlansPageSection({ children }: { children: ReactNode }) {
   return <section className="mx-auto flex w-full max-w-[1200px] flex-col px-6 pb-24 pt-[72px] sm:pb-28 lg:px-8 xl:px-0">{children}</section>;
 }
 
-function PricingRoot({ children }: { children: ReactNode }) {
+export function PricingRoot({ children }: { children: ReactNode }) {
   return <div className="flex flex-col gap-10 sm:gap-12">{children}</div>;
 }
 
-function PricingHeader({ children }: { children: ReactNode }) {
+export function PricingHeader({ children }: { children: ReactNode }) {
   return <div className="flex flex-col gap-5">{children}</div>;
 }
-
-export const Pricing = Object.assign(PricingRoot, {
-  Header: PricingHeader,
-});
 
 export function PlansHeroTitle({ children }: { children: ReactNode }) {
   return <h1 className="text-[42px] font-medium leading-[1.1] tracking-[-0.03em] text-slate-950 sm:text-[52px]">{children}</h1>;
@@ -136,7 +132,7 @@ type ProductTabProps = {
   children: ReactNode;
 } & ProductTabInjectedProps;
 
-function ProductTab({ name, children, isActive, onTabClick }: ProductTabProps) {
+export function ProductTab({ name, children, isActive, onTabClick }: ProductTabProps) {
   return (
     <button
       type="button"
@@ -152,16 +148,15 @@ function ProductTab({ name, children, isActive, onTabClick }: ProductTabProps) {
   );
 }
 
-function ProductName({ children }: { children: ReactNode }) {
+export function ProductName({ children }: { children: ReactNode }) {
   return <div className="text-[20px] font-semibold leading-tight sm:text-[22px]">{children}</div>;
 }
 
-function ProductDescription({ children }: { children: ReactNode }) {
+export function ProductDescription({ children }: { children: ReactNode }) {
   return <div className="text-sm leading-6 text-slate-500 group-hover:text-slate-500">{children}</div>;
 }
 
 export const ProductTabs = ProductTabsRoot;
-export { ProductTab, ProductName, ProductDescription };
 
 export function PlanVisibility({ id, children }: { id: string; children: ReactNode }) {
   const { activeTab } = usePricingContext();
@@ -173,11 +168,11 @@ export function PlanVisibility({ id, children }: { id: string; children: ReactNo
   return <>{children}</>;
 }
 
-function PlanRoot({ children, num = 3 }: { children: ReactNode; num?: number }) {
+export function PlanRoot({ children, num = 3 }: { children: ReactNode; num?: number }) {
   return <ul className={joinClasses("grid gap-5", num === 3 && "lg:grid-cols-3")}>{children}</ul>;
 }
 
-function PlanCard({ type, children }: { type: "primary" | "black"; children: ReactNode }) {
+export function PlanCard({ type, children }: { type: "primary" | "black"; children: ReactNode }) {
   return (
     <PlanToneContext.Provider value={type}>
       <li
@@ -194,25 +189,25 @@ function PlanCard({ type, children }: { type: "primary" | "black"; children: Rea
   );
 }
 
-function PlanTitleContainer({ children }: { children: ReactNode }) {
+export function PlanTitleContainer({ children }: { children: ReactNode }) {
   return <div className="flex flex-col gap-3">{children}</div>;
 }
 
-function PlanTitle({ children }: { children: ReactNode }) {
+export function PlanTitle({ children }: { children: ReactNode }) {
   return <h2 className="text-[22px] font-semibold leading-tight text-inherit">{children}</h2>;
 }
 
-function PlanDescription({ children }: { children: ReactNode }) {
+export function PlanDescription({ children }: { children: ReactNode }) {
   const tone = useContext(PlanToneContext);
 
   return <div className={joinClasses("mt-2 text-[15px] leading-6", tone === "black" ? "text-slate-300" : "text-slate-500")}>{children}</div>;
 }
 
-function PlanPrice({ children }: { children: ReactNode }) {
+export function PlanPrice({ children }: { children: ReactNode }) {
   return <div className="text-[38px] font-semibold leading-none tracking-[-0.03em] text-inherit sm:text-[42px]">{children}</div>;
 }
 
-function PlanButton({ href, external = false, type = "primary", children }: { href: string; external?: boolean; type?: "primary" | "black"; children: ReactNode }) {
+export function PlanButton({ href, external = false, type = "primary", children }: { href: string; external?: boolean; type?: "primary" | "black"; children: ReactNode }) {
   return (
     <Link
       href={href}
@@ -228,11 +223,11 @@ function PlanButton({ href, external = false, type = "primary", children }: { hr
   );
 }
 
-function PlanFeatures({ children }: { children: ReactNode }) {
+export function PlanFeatures({ children }: { children: ReactNode }) {
   return <ul className="mt-6 flex flex-1 flex-col gap-3 border-t border-slate-200/80 pt-6 text-[15px] leading-6 text-slate-700">{children}</ul>;
 }
 
-function PlanFeature({ supported = true, children }: { supported?: boolean; children: ReactNode }) {
+export function PlanFeature({ supported = true, children }: { supported?: boolean; children: ReactNode }) {
   return (
     <li className={joinClasses("flex gap-3", supported ? "text-inherit" : "text-slate-400")}> 
       {supported ? <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" strokeWidth={2.5} /> : <Minus className="mt-0.5 h-4 w-4 shrink-0 text-slate-300" strokeWidth={2.5} />}
@@ -241,23 +236,11 @@ function PlanFeature({ supported = true, children }: { supported?: boolean; chil
   );
 }
 
-function PlanDivider() {
+export function PlanDivider() {
   const tone = useContext(PlanToneContext);
 
   return <li aria-hidden className={joinClasses("my-1 h-px w-full list-none", tone === "black" ? "bg-white/10" : "bg-slate-200")} />;
 }
-
-export const Plan = Object.assign(PlanRoot, {
-  Card: PlanCard,
-  TitleContainer: PlanTitleContainer,
-  Title: PlanTitle,
-  Description: PlanDescription,
-  Price: PlanPrice,
-  Button: PlanButton,
-  Features: PlanFeatures,
-  Feature: PlanFeature,
-  Divider: PlanDivider,
-});
 
 function renderCompareTableCell(value: FeatureValue) {
   if (typeof value === "boolean") {

@@ -7,7 +7,9 @@ test("/t/plans preserves upstream JSX / compound-component authoring instead of 
   const sectionSource = readSource("src/components/sections/plans-page.tsx");
 
   assert.match(routeSource, /from "@\/components\/sections\/plans-page"/);
-  assert.match(routeSource, /<Pricing>/);
+  assert.match(routeSource, /const Pricing = Object\.assign\(PricingRoot, \{ Header: PricingHeader \}\)/);
+  assert.match(routeSource, /const Plan = Object\.assign\(PlanRoot, \{/);
+  assert.match(routeSource, /<PricingRoot>/);
   assert.match(routeSource, /<Pricing\.Header>/);
   assert.match(routeSource, /<PricingContextProvider defaultActiveTab="aip">/);
   assert.match(routeSource, /<ProductTabs>/);
@@ -29,15 +31,16 @@ test("/t/plans preserves upstream JSX / compound-component authoring instead of 
   assert.doesNotMatch(routeSource, /products=\{\[/);
   assert.doesNotMatch(routeSource, /PlansProductSwitcher/);
 
-  assert.match(sectionSource, /export const Pricing = Object\.assign\(PricingRoot, \{/);
+  assert.match(sectionSource, /export function PricingRoot\(/);
+  assert.match(sectionSource, /export function PricingHeader\(/);
   assert.match(sectionSource, /export function PricingContextProvider/);
   assert.match(sectionSource, /searchParams\.has\("acp"\)/);
-  assert.match(sectionSource, /export const Plan = Object\.assign\(PlanRoot, \{/);
+  assert.match(sectionSource, /export function PlanRoot\(/);
+  assert.match(sectionSource, /export function PlanCard\(/);
   assert.match(sectionSource, /export function PlanVisibility/);
   assert.match(sectionSource, /export function CompareTable/);
   assert.match(sectionSource, /cloneElement\(child as ReactElement<ProductTabProps>, \{/);
 
-  assert.doesNotMatch(sectionSource, /export function PlansProductSwitcher/);
-  assert.doesNotMatch(sectionSource, /type PlansProductSwitcherProps/);
-  assert.doesNotMatch(sectionSource, /products: readonly \[ProductPanel, ProductPanel\]/);
+  assert.doesNotMatch(sectionSource, /export const Pricing = Object\.assign/);
+  assert.doesNotMatch(sectionSource, /export const Plan = Object\.assign/);
 });

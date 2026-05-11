@@ -4,13 +4,23 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
   CompareTable,
-  Plan,
+  PlanButton,
+  PlanCard,
+  PlanDescription,
+  PlanDivider,
+  PlanFeature,
+  PlanFeatures,
+  PlanPrice,
+  PlanRoot,
+  PlanTitle,
+  PlanTitleContainer,
   PlanVisibility,
   PlansHeroDescription,
   PlansHeroTitle,
   PlansPageSection,
-  Pricing,
   PricingContextProvider,
+  PricingHeader,
+  PricingRoot,
   ProductDescription,
   ProductName,
   ProductTab,
@@ -39,12 +49,25 @@ export const metadata: Metadata = {
   },
 };
 
+const Pricing = Object.assign(PricingRoot, { Header: PricingHeader });
+const Plan = Object.assign(PlanRoot, {
+  Card: PlanCard,
+  TitleContainer: PlanTitleContainer,
+  Title: PlanTitle,
+  Description: PlanDescription,
+  Price: PlanPrice,
+  Button: PlanButton,
+  Features: PlanFeatures,
+  Feature: PlanFeature,
+  Divider: PlanDivider,
+});
+
 export default function PlansPreviewPage() {
   return (
     <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
       <SiteHeader />
       <PlansPageSection>
-        <Pricing>
+        <PricingRoot>
           <Pricing.Header>
             <PlansHeroTitle>プラン</PlansHeroTitle>
             <PlansHeroDescription>
@@ -304,7 +327,7 @@ export default function PlansPreviewPage() {
               </Plan>
             </PlanVisibility>
           </PricingContextProvider>
-        </Pricing>
+        </PricingRoot>
       </PlansPageSection>
       <SiteFooter />
     </main>
