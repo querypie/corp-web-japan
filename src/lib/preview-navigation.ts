@@ -24,7 +24,7 @@ export function getPreviewNavigationState(cookieValue?: string | null) {
 }
 
 export function t(path: string, previewModeEnabled: boolean) {
-  if (!previewModeEnabled || path === "/" || path.startsWith("/t")) {
+  if (!previewModeEnabled || path === "/" || path === "/t" || path.startsWith("/t/")) {
     return path;
   }
 
