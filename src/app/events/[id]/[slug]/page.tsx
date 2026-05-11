@@ -52,8 +52,8 @@ export async function generateMetadata({ params }: EventDetailPageProps): Promis
       canonical: absoluteUrl(getEventPublicationHref(id, record.slug)),
     },
     robots: {
-      index: false,
-      follow: false,
+      index: true,
+      follow: true,
     },
   };
 }

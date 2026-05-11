@@ -52,8 +52,8 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
       canonical: absoluteUrl(getBlogPublicationHref(id, record.slug)),
     },
     robots: {
-      index: false,
-      follow: false,
+      index: true,
+      follow: true,
     },
   };
 }

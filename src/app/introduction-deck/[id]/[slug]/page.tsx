@@ -33,6 +33,10 @@ export async function generateMetadata({ params }: IntroductionDeckDetailPagePro
     alternates: {
       canonical: getIntroductionDeckPublicationHref(id, record.slug),
     },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 

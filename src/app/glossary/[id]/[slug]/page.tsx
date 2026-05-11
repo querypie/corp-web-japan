@@ -27,6 +27,10 @@ export async function generateMetadata({ params }: GlossaryDetailPageProps): Pro
     alternates: {
       canonical: getGlossaryPublicationHref(id, record.slug),
     },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 

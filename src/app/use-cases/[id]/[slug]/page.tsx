@@ -52,8 +52,8 @@ export async function generateMetadata({ params }: UseCaseDetailPageProps): Prom
       canonical: absoluteUrl(getUseCasePublicationHref(id, record.slug)),
     },
     robots: {
-      index: false,
-      follow: false,
+      index: true,
+      follow: true,
     },
   };
 }
