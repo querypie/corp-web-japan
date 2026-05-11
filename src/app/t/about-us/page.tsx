@@ -73,7 +73,6 @@ export default function AboutUsPreviewPage() {
               </AboutUsBodyCopy>
               <AboutUsBodyCopy>
                 その結果、誰もが利用できるエンタープライズグレードのAIを実現しました。
-                <br />
                 最先端のAIと合理的な予算、その両立が可能であることを証明しています。
               </AboutUsBodyCopy>
             </AboutUsHeroCopy>
