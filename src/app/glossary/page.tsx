@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/glossary",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function GlossaryPage() {

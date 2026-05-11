@@ -18,6 +18,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/demo/aip",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default async function AipDemoPage() {

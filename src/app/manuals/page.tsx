@@ -21,6 +21,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/manuals",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function ManualsPage() {

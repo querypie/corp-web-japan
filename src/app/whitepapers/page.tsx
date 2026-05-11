@@ -18,6 +18,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/whitepapers",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 type WhitepaperPageProps = {

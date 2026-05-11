@@ -24,6 +24,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/events",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 type EventsPageProps = {

@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/introduction-deck",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function IntroductionDeckPage() {

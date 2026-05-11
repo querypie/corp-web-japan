@@ -17,8 +17,34 @@ const publicIndexableDetailRoutes = [
   "src/app/manuals/[id]/[slug]/page.tsx",
 ];
 
+const publicIndexableListRoutes = [
+  "src/app/resources/page.tsx",
+  "src/app/blog/page.tsx",
+  "src/app/whitepapers/page.tsx",
+  "src/app/news/page.tsx",
+  "src/app/events/page.tsx",
+  "src/app/introduction-deck/page.tsx",
+  "src/app/glossary/page.tsx",
+  "src/app/manuals/page.tsx",
+  "src/app/demo/use-cases/page.tsx",
+  "src/app/demo/aip/page.tsx",
+  "src/app/demo/acp/page.tsx",
+];
+
 test("public MDX-backed detail routes are indexable for search engines", () => {
   for (const routePath of publicIndexableDetailRoutes) {
+    const source = read(routePath);
+
+    assert.match(
+      source,
+      /robots:\s*\{\s*index:\s*true,\s*follow:\s*true,\s*\}/s,
+      `${routePath} should explicitly allow indexing`,
+    );
+  }
+});
+
+test("public MDX-backed list routes are indexable for search engines", () => {
+  for (const routePath of publicIndexableListRoutes) {
     const source = read(routePath);
 
     assert.match(
