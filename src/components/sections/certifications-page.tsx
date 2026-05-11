@@ -9,6 +9,8 @@ export type CertificationItem = {
   description: readonly string[];
   src: string;
   alt: string;
+  width: number;
+  height: number;
 };
 
 export function CertificationsPageSection({ children }: { children: ReactNode }) {
@@ -27,13 +29,17 @@ export function CertificationsGrid({ children }: { children: ReactNode }) {
   return <div className="mt-[44px] grid gap-x-7 gap-y-9 md:grid-cols-2 xl:grid-cols-3">{children}</div>;
 }
 
-export function CertificationCard({ title, description, src, alt }: CertificationItem) {
+export function CertificationCard({ title, description, src, alt, width, height }: CertificationItem) {
   return (
     <article className="flex h-[375px] flex-col items-center justify-start rounded-[9.375px] bg-[#f5f7fa] px-8 pb-8 pt-10 text-center">
       <div className="flex min-h-[148px] items-center justify-center">
-        <div className="relative h-[130px] w-full max-w-[180px] sm:max-w-[238px]">
-          <Image src={src} alt={alt} fill className="object-contain" sizes="(min-width: 640px) 238px, 180px" />
-        </div>
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          className="h-auto max-h-[130px] w-auto max-w-[180px] object-contain sm:max-w-[238px]"
+        />
       </div>
       <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">
         <h2 className="text-[18.75px] font-medium leading-[26.25px] text-slate-950">{title}</h2>

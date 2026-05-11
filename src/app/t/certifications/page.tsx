@@ -44,6 +44,8 @@ const certifications: readonly CertificationItem[] = [
     description: ["System and Organization Controls 2", "Type II"],
     src: "/certifications/soc-2-type-2.png",
     alt: "SOC 2 Type II",
+    width: 120,
+    height: 120,
   },
   {
     id: "csa-star-level-1",
@@ -51,6 +53,8 @@ const certifications: readonly CertificationItem[] = [
     description: ["Security, Trust, Assurance and Risk", "(Level 1 - Bronze)"],
     src: "/certifications/csa-star-level-1.png",
     alt: "CSA-STAR",
+    width: 120,
+    height: 120,
   },
   {
     id: "csa-star-level-2",
@@ -58,6 +62,8 @@ const certifications: readonly CertificationItem[] = [
     description: ["Security, Trust, Assurance and Risk", "(Level 2 - Gold)"],
     src: "/certifications/csa-star-level-2.png",
     alt: "CSA-STAR",
+    width: 120,
+    height: 120,
   },
   {
     id: "pci-dss",
@@ -65,6 +71,8 @@ const certifications: readonly CertificationItem[] = [
     description: ["Payment Card Industry Data", "Security Standard"],
     src: "/certifications/pci-dss.png",
     alt: "PCI DSS",
+    width: 238,
+    height: 72,
   },
   {
     id: "iso-iec-27001",
@@ -72,6 +80,8 @@ const certifications: readonly CertificationItem[] = [
     description: ["Information Security", "Management Systems"],
     src: "/certifications/iso-iec-27001.png",
     alt: "ISO/IEC 27001",
+    width: 200,
+    height: 127,
   },
   {
     id: "iso-27701",
@@ -79,6 +89,8 @@ const certifications: readonly CertificationItem[] = [
     description: ["Privacy Information", "Management System"],
     src: "/certifications/iso-iec-27701.png",
     alt: "ISO 27701",
+    width: 200,
+    height: 127,
   },
   {
     id: "iso-27017",
@@ -86,6 +98,8 @@ const certifications: readonly CertificationItem[] = [
     description: ["Information Security controls", "within a Cloud environment"],
     src: "/certifications/iso-iec-27017.png",
     alt: "ISO 27017",
+    width: 120,
+    height: 130,
   },
   {
     id: "iso-27018",
@@ -93,6 +107,8 @@ const certifications: readonly CertificationItem[] = [
     description: ["Privacy controls", "within a Cloud environment"],
     src: "/certifications/iso-iec-27018.png",
     alt: "ISO 27018",
+    width: 120,
+    height: 130,
   },
   {
     id: "iso-22301",
@@ -100,6 +116,8 @@ const certifications: readonly CertificationItem[] = [
     description: ["Business Continuity", "Management"],
     src: "/certifications/iso-22301.png",
     alt: "ISO 22301",
+    width: 200,
+    height: 127,
   },
   {
     id: "isms-p",
@@ -107,6 +125,8 @@ const certifications: readonly CertificationItem[] = [
     description: ["Business Continuity", "Management"],
     src: "/certifications/isms-p.png",
     alt: "ISMS-P",
+    width: 173,
+    height: 120,
   },
   {
     id: "good-software-level-1",
@@ -114,6 +134,8 @@ const certifications: readonly CertificationItem[] = [
     description: ["Good Software", "Level 1"],
     src: "/certifications/good-software-level-1.png",
     alt: "GOOD Software",
+    width: 190,
+    height: 96,
   },
   {
     id: "ksel",
@@ -121,6 +143,8 @@ const certifications: readonly CertificationItem[] = [
     description: ["Korea Security Evaluation Lab.", "Security Functionality Certificate"],
     src: "/certifications/ksel.png",
     alt: "KSEL",
+    width: 120,
+    height: 120,
   },
 ] as const;
 
