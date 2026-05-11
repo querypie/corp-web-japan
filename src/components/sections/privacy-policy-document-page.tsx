@@ -150,7 +150,7 @@ export async function PrivacyPolicyDocumentPage({ slug }: { slug: string }) {
               <p className="text-[15px] leading-7 text-slate-600">{frontmatter.description}</p>
             </div>
             <PrivacySelectorBox>
-              <p className="text-sm text-slate-500">変更履歴</p>
+              <p className="text-sm text-slate-500">Change history</p>
               <PrivacyPolicyVersionSelector currentSlug={frontmatter.version} slugs={slugs} />
             </PrivacySelectorBox>
           </div>
