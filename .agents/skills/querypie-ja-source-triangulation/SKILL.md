@@ -25,6 +25,7 @@ Load and follow these first:
 - `.agents/skills/querypie-ja-preview-route-implementation/SKILL.md`
 - `.agents/skills/static-page-route-local-authoring/SKILL.md`
 - `.agents/skills/querypie-preview-root-rem-parity/SKILL.md`
+- `.agents/skills/mdx-refactoring-formatting/SKILL.md` when route-adjacent MDX formatting is part of the target shape
 - `docs/code-location-conventions.md`
 
 This skill is not a replacement for those files.
@@ -72,7 +73,7 @@ Produce a local implementation that:
 - recreates the same page content and UI composition under `/t/**`
 - keeps marketing/legal copy route-local in `page.tsx` when that remains reviewable
 - for unusually large legal documents, keeps the preview implementation self-contained under the route subtree rather than hiding it behind broad repo-level registries
-- for unusually large legal documents that use route-adjacent MDX, keeps the source readable with 80-character, word-boundary prose wrapping rather than single-line paragraphs
+- when route-adjacent MDX is part of the target shape, delegates formatting cleanup to `mdx-refactoring-formatting`
 - extracts only UI implementation details and isolated client behavior into `src/components/sections/**`
 - preserves any real upstream behavior contract discovered in `corp-web-app`
 - stays safe for preview review by using non-indexed preview metadata
