@@ -1,9 +1,8 @@
-import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { evaluate } from "next-mdx-remote-client/rsc";
-import { isValidElement } from "react";
+import { cache, isValidElement } from "react";
 import type { ReactNode } from "react";
 import remarkGfm from "remark-gfm";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -17,6 +16,7 @@ import {
   SimpleCtaSection,
 } from "@/components/sections/simple-cta-section";
 import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
+import { readCachedLegalMdxSource } from "@/lib/legal-mdx-source";
 import { slugifyHeadingText } from "@/lib/publications/mdx/headings";
 
 type EulaFrontmatter = {
@@ -96,9 +96,9 @@ function EulaMdxLink({ href, children }: LinkProps) {
   return <Link href={href}>{children}</Link>;
 }
 
-async function renderEulaPreviewMdx() {
+const renderEulaPreviewMdx = cache(async function renderEulaPreviewMdx() {
   const sourcePath = join(process.cwd(), "src/app/t/eula/content.mdx");
-  const source = await readFile(sourcePath, "utf8");
+  const source = await readCachedLegalMdxSource(sourcePath);
 
   return evaluate<EulaFrontmatter>({
     source,
@@ -115,7 +115,7 @@ async function renderEulaPreviewMdx() {
       },
     },
   });
-}
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const { frontmatter } = await renderEulaPreviewMdx();

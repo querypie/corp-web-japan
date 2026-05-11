@@ -1,11 +1,11 @@
-import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import Link from "next/link";
 import { evaluate } from "next-mdx-remote-client/rsc";
-import { isValidElement } from "react";
+import { cache, isValidElement } from "react";
 import type { ReactNode } from "react";
 import remarkGfm from "remark-gfm";
 import { publicationBodyClassName } from "@/components/sections/publication-post-page";
+import { readCachedLegalMdxSource } from "@/lib/legal-mdx-source";
 import { buildPublicationMdxComponents } from "@/lib/publications/mdx/components";
 import { slugifyHeadingText } from "@/lib/publications/mdx/headings";
 
@@ -57,9 +57,9 @@ function TermsMdxLink({ href, children }: TermsLinkProps) {
   return <Link href={href}>{children}</Link>;
 }
 
-export async function renderTermsOfServiceContent() {
+const renderTermsOfServiceContentCached = cache(async function renderTermsOfServiceContentCached() {
   const sourcePath = join(process.cwd(), "src/app/t/terms-of-service/content.mdx");
-  const source = await readFile(sourcePath, "utf8");
+  const source = await readCachedLegalMdxSource(sourcePath);
 
   return evaluate<TermsFrontmatter>({
     source,
@@ -75,6 +75,10 @@ export async function renderTermsOfServiceContent() {
       },
     },
   });
+});
+
+export async function renderTermsOfServiceContent() {
+  return renderTermsOfServiceContentCached();
 }
 
 export function TermsOfServiceHero({ frontmatter }: { frontmatter: TermsFrontmatter }) {

@@ -1,10 +1,9 @@
-import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { evaluate } from "next-mdx-remote-client/rsc";
-import { isValidElement } from "react";
+import { cache, isValidElement } from "react";
 import type { ReactNode } from "react";
 import remarkGfm from "remark-gfm";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -18,6 +17,7 @@ import {
   SimpleCtaSection,
 } from "@/components/sections/simple-cta-section";
 import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
+import { readCachedLegalMdxSource } from "@/lib/legal-mdx-source";
 import { hasPrivacyPolicySlug, listPrivacyPolicySlugs } from "@/lib/privacy-policy/records";
 import { buildPublicationMdxComponents } from "@/lib/publications/mdx/components";
 import { slugifyHeadingText } from "@/lib/publications/mdx/headings";
@@ -40,6 +40,10 @@ type LinkProps = {
   href: string;
   children?: ReactNode;
   [key: string]: unknown;
+};
+
+type PrivacyLanguageProps = {
+  language: "en" | "ko";
 };
 
 function childrenToText(children: ReactNode): string {
@@ -85,14 +89,34 @@ function PrivacySelectorBox({ children }: { children?: ReactNode }) {
   return <div className="flex flex-wrap items-center gap-3 rounded-[10px] bg-[#f9f9fb] px-4 py-3">{children}</div>;
 }
 
-async function renderPrivacyPolicyVersion(slug: string) {
+function PrivacyPolicyLanguageSelector({ language }: PrivacyLanguageProps) {
+  return (
+    <div className="text-sm text-slate-500">
+      <a
+        href="https://www.querypie.com/ja/privacy-policy-ko"
+        className={language === "ko" ? "font-medium text-slate-950" : undefined}
+      >
+        Korean
+      </a>
+      <span className="px-2">/</span>
+      <a
+        href="https://www.querypie.com/ja/privacy-policy-en"
+        className={language === "en" ? "font-medium text-slate-950" : undefined}
+      >
+        English
+      </a>
+    </div>
+  );
+}
+
+const renderPrivacyPolicyVersion = cache(async function renderPrivacyPolicyVersion(slug: string) {
   const versionExists = await hasPrivacyPolicySlug(slug);
   if (!versionExists) {
     notFound();
   }
 
   const sourcePath = join(process.cwd(), "src/content/privacy-policy", `${slug}.mdx`);
-  const source = await readFile(sourcePath, "utf8");
+  const source = await readCachedLegalMdxSource(sourcePath);
 
   return evaluate<PrivacyPolicyFrontmatter>({
     source,
@@ -110,7 +134,7 @@ async function renderPrivacyPolicyVersion(slug: string) {
       },
     },
   });
-}
+});
 
 export async function generatePrivacyPolicyMetadata({
   canonicalPath,
@@ -150,7 +174,7 @@ export async function PrivacyPolicyDocumentPage({ slug }: { slug: string }) {
               <p className="text-[15px] leading-7 text-slate-600">{frontmatter.description}</p>
             </div>
             <PrivacySelectorBox>
-              <p className="text-sm text-slate-500">Change history</p>
+              <PrivacyPolicyLanguageSelector language="en" />
               <PrivacyPolicyVersionSelector currentSlug={frontmatter.version} slugs={slugs} />
             </PrivacySelectorBox>
           </div>
