@@ -5,7 +5,6 @@ import {
   Children,
   cloneElement,
   createContext,
-  Fragment,
   isValidElement,
   type ReactElement,
   type ReactNode,
@@ -24,25 +23,6 @@ type PlanTone = "primary" | "black";
 type ProductTabInjectedProps = {
   isActive?: boolean;
   onTabClick?: () => void;
-};
-
-type FeatureValue = string | boolean | ReactNode | CompareTableCellContent;
-
-type CompareTableCellContent = {
-  primary: string;
-  secondary?: string;
-  isBold?: boolean;
-  showIcon?: boolean;
-};
-
-export type CompareTableRowGroup = {
-  label: string;
-  values: string[];
-};
-
-export type CompareTableColumn = {
-  label: string;
-  values: FeatureValue[][];
 };
 
 const pricingContext = createContext<PricingContextValue | null>(null);
@@ -172,7 +152,7 @@ export function PlanRoot({ children, num = 3 }: { children: ReactNode; num?: num
   return <ul className={joinClasses("grid gap-5", num === 3 && "lg:grid-cols-3")}>{children}</ul>;
 }
 
-export function PlanCard({ type, children }: { type: "primary" | "black"; children: ReactNode }) {
+export function PlanCard({ type, children }: { type: PlanTone; children: ReactNode }) {
   return (
     <PlanToneContext.Provider value={type}>
       <li
@@ -207,7 +187,7 @@ export function PlanPrice({ children }: { children: ReactNode }) {
   return <div className="text-[38px] font-semibold leading-none tracking-[-0.03em] text-inherit sm:text-[42px]">{children}</div>;
 }
 
-export function PlanButton({ href, external = false, type = "primary", children }: { href: string; external?: boolean; type?: "primary" | "black"; children: ReactNode }) {
+export function PlanButton({ href, external = false, type = "primary", children }: { href: string; external?: boolean; type?: PlanTone; children: ReactNode }) {
   return (
     <Link
       href={href}
@@ -229,7 +209,7 @@ export function PlanFeatures({ children }: { children: ReactNode }) {
 
 export function PlanFeature({ supported = true, children }: { supported?: boolean; children: ReactNode }) {
   return (
-    <li className={joinClasses("flex gap-3", supported ? "text-inherit" : "text-slate-400")}> 
+    <li className={joinClasses("flex gap-3", supported ? "text-inherit" : "text-slate-400")}>
       {supported ? <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" strokeWidth={2.5} /> : <Minus className="mt-0.5 h-4 w-4 shrink-0 text-slate-300" strokeWidth={2.5} />}
       <div>{children}</div>
     </li>
@@ -242,80 +222,91 @@ export function PlanDivider() {
   return <li aria-hidden className={joinClasses("my-1 h-px w-full list-none", tone === "black" ? "bg-white/10" : "bg-slate-200")} />;
 }
 
-function renderCompareTableCell(value: FeatureValue) {
-  if (typeof value === "boolean") {
-    return value ? (
-      <span className="inline-flex justify-center text-[#1d4ed8]">
-        <Check className="h-4 w-4" strokeWidth={2.75} />
-      </span>
-    ) : (
-      <span className="inline-flex justify-center text-slate-300">
-        <Minus className="h-4 w-4" strokeWidth={2.75} />
-      </span>
-    );
-  }
-
-  if (typeof value === "object" && value !== null && "primary" in value) {
-    const cellValue = value as CompareTableCellContent;
-
-    if (cellValue.showIcon) {
-      return (
-        <div className="inline-flex items-center gap-2">
-          <Check className="h-4 w-4 text-[#1d4ed8]" strokeWidth={2.75} />
-          <span className={joinClasses(cellValue.isBold && "font-semibold")}>{cellValue.primary}</span>
-        </div>
-      );
-    }
-
-    return (
-      <div className="inline-flex flex-col items-center text-center">
-        <span className={joinClasses(cellValue.isBold && "font-semibold")}>{cellValue.primary}</span>
-        {cellValue.secondary ? <span className="text-xs text-slate-500">{cellValue.secondary}</span> : null}
-      </div>
-    );
-  }
-
-  return value;
-}
-
-export function CompareTable({ rows, columns }: { rows: CompareTableRowGroup[]; columns: CompareTableColumn[] }) {
+export function CompareTable({ children }: { children: ReactNode }) {
   return (
     <div className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_14px_40px_rgba(15,23,42,0.08)]">
       <div className="overflow-x-auto">
-        <table className="min-w-full border-collapse text-left text-sm leading-6 text-slate-700">
-          <thead>
-            <tr className="border-b border-slate-200 bg-white text-slate-950">
-              <th className="min-w-[220px] px-5 py-4 font-medium sm:px-6">&nbsp;</th>
-              {columns.map((column) => (
-                <th key={column.label} className="min-w-[180px] px-5 py-4 text-center font-medium sm:px-6">
-                  {column.label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, rowIndex) => (
-              <Fragment key={row.label}>
-                <tr className="bg-slate-900 text-white">
-                  <th colSpan={columns.length + 1} className="px-5 py-3 text-left text-sm font-medium sm:px-6">
-                    {row.label}
-                  </th>
-                </tr>
-                {row.values.map((valueLabel, valueIndex) => (
-                  <tr key={`${row.label}-${valueLabel}`} className="border-b border-slate-200 last:border-b-0">
-                    <th className="bg-white px-5 py-4 font-medium text-slate-950 sm:px-6">{valueLabel}</th>
-                    {columns.map((column) => (
-                      <td key={`${column.label}-${valueLabel}`} className="px-5 py-4 text-center align-middle sm:px-6">
-                        {renderCompareTableCell(column.values[rowIndex][valueIndex])}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </Fragment>
-            ))}
-          </tbody>
-        </table>
+        <table className="min-w-full border-collapse text-left text-sm leading-6 text-slate-700">{children}</table>
       </div>
     </div>
+  );
+}
+
+export function CompareTableHead({ children }: { children: ReactNode }) {
+  return (
+    <thead>
+      <tr className="border-b border-slate-200 bg-white text-slate-950">
+        <th className="min-w-[220px] px-5 py-4 font-medium sm:px-6">&nbsp;</th>
+        {children}
+      </tr>
+    </thead>
+  );
+}
+
+export function CompareTablePlanHead({ children }: { children: ReactNode }) {
+  return <th className="min-w-[180px] px-5 py-4 text-center font-medium sm:px-6">{children}</th>;
+}
+
+export function CompareTableSection({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <tbody>
+      <tr className="bg-slate-900 text-white">
+        <th colSpan={4} className="px-5 py-3 text-left text-sm font-medium sm:px-6">
+          {title}
+        </th>
+      </tr>
+      {children}
+    </tbody>
+  );
+}
+
+export function CompareTableRow({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <tr className="border-b border-slate-200 last:border-b-0">
+      <th className="bg-white px-5 py-4 font-medium text-slate-950 sm:px-6">{label}</th>
+      {children}
+    </tr>
+  );
+}
+
+function CompareTableCell({ children }: { children: ReactNode }) {
+  return <td className="px-5 py-4 text-center align-middle sm:px-6">{children}</td>;
+}
+
+export function CompareTableTextCell({ children, secondary, isBold = false }: { children: ReactNode; secondary?: ReactNode; isBold?: boolean }) {
+  return (
+    <CompareTableCell>
+      <div className="inline-flex flex-col items-center text-center">
+        <span className={joinClasses(isBold && "font-semibold")}>{children}</span>
+        {secondary ? <span className="text-xs text-slate-500">{secondary}</span> : null}
+      </div>
+    </CompareTableCell>
+  );
+}
+
+export function CompareTableBooleanCell({ supported }: { supported: boolean }) {
+  return (
+    <CompareTableCell>
+      {supported ? (
+        <span className="inline-flex justify-center text-[#1d4ed8]">
+          <Check className="h-4 w-4" strokeWidth={2.75} />
+        </span>
+      ) : (
+        <span className="inline-flex justify-center text-slate-300">
+          <Minus className="h-4 w-4" strokeWidth={2.75} />
+        </span>
+      )}
+    </CompareTableCell>
+  );
+}
+
+export function CompareTableCheckLabelCell({ children }: { children: ReactNode }) {
+  return (
+    <CompareTableCell>
+      <div className="inline-flex items-center gap-2">
+        <Check className="h-4 w-4 text-[#1d4ed8]" strokeWidth={2.75} />
+        <span>{children}</span>
+      </div>
+    </CompareTableCell>
   );
 }
