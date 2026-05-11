@@ -57,12 +57,11 @@ test("privacy policy preview scans shared content filenames instead of keeping a
   assert.match(documentSource, /src\/content\/privacy-policy", `\$\{slug\}\.mdx`/);
   assert.match(documentSource, /hasPrivacyPolicySlug\(slug\)/);
   assert.match(documentSource, /listPrivacyPolicySlugs\(\)/);
+  assert.match(documentSource, /<PrivacyPolicyLanguageSelector language="en" \/>/);
   assert.match(documentSource, /<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/);
-  assert.match(documentSource, /Change history/);
-  assert.doesNotMatch(documentSource, /PrivacyPolicyLanguageSelector/);
-  assert.doesNotMatch(documentSource, /Korean/);
-  assert.doesNotMatch(documentSource, /English/);
+  assert.doesNotMatch(documentSource, /Change history/);
   assert.match(documentSource, /Effective date: \{frontmatter\.date\}/);
+
   assert.match(selectorSource, /window\.location\.assign\(`\/t\/privacy-policy\/\$\{nextSlug\}`\)/);
   assert.match(footerSource, /label: "プライバシーポリシー", href: t\("\/privacy-policy", previewModeEnabled\)/);
   assert.match(sourcesSource, /readdir\(PRIVACY_POLICY_CONTENT_DIR, \{ withFileTypes: true \}\)/);
