@@ -27,6 +27,7 @@ test("/t/plans keeps copy and comparison composition in the route while the sect
   assert.match(routeSource, /<CompareTableCheckLabelCell>最大30日間<\/CompareTableCheckLabelCell>/);
   assert.match(routeSource, /href="\/contact-us\?inquiry=quote-request&product=acp"/);
 
+  assert.doesNotMatch(routeSource, /PlansPreviewPage/);
   assert.doesNotMatch(routeSource, /const Pricing = Object\.assign/);
   assert.doesNotMatch(routeSource, /const Plan = Object\.assign/);
   assert.doesNotMatch(routeSource, /rows=\{\[/);
