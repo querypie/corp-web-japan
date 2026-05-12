@@ -104,7 +104,7 @@ const matchers = {
     /^tests\/src\/app\/solutions\/ai-(crew|dashi)\/cta-links\.test\.mjs$/,
     /^tests\/src\/app\/t\/(about-us|certifications|cookie-preference|eula|events|plans|privacy-policy|terms-of-service)\/page\.test\.mjs$/,
     /^tests\/src\/app\/t\/services\//,
-    /^tests\/src\/app\/t\/solutions\/aip\/usage-based-llm\/page\.test\.mjs$/,
+    /^tests\/src\/app\/t\/solutions\//,
     /^tests\/src\/lib\/legal-mdx-source\.test\.mjs$/,
     /^tests\/src\/components\/sections\/internal-events-demo-(empty-state|hero-toggle)\.test\.mjs$/,
   ],
