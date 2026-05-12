@@ -25,6 +25,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(sectionSource, /export function AboutUsLeaderCard/);
   assert.match(sectionSource, /export function AboutUsLocationCard/);
 
+  assert.match(sectionSource, /export function AboutUsSectionIntro[\s\S]*mt-4 max-w-\[1200px\]/);
   assert.match(sectionSource, /mt-\[56px\] flex flex-col gap-\[37\.5px\] border-l border-slate-300 pl-\[28\.125px\]/);
   assert.match(sectionSource, /className="flex gap-\[18\.75px\]"/);
   assert.match(sectionSource, /list-disc space-y-1 pl-5/);

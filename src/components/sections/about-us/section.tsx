@@ -54,7 +54,7 @@ export function AboutUsSectionHeading({ children }: { children: ReactNode }) {
 }
 
 export function AboutUsSectionIntro({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <div className={`mt-4${className ? ` ${className}` : ""}`}>{children}</div>;
+  return <div className={`mt-4 max-w-[1200px]${className ? ` ${className}` : ""}`}>{children}</div>;
 }
 
 export function AboutUsInvestorLogoRow({ children }: { children: ReactNode }) {
