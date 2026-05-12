@@ -1,15 +1,9 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 
 type NavItemProps = {
   href: string;
   active?: boolean;
-  children: ReactNode;
-};
-
-type ActionProps = {
-  href: string;
   children: ReactNode;
 };
 
@@ -72,28 +66,4 @@ export function NewsPageLead({ children }: { children: ReactNode }) {
 
 export function NewsPageListArea({ children }: { children: ReactNode }) {
   return <div className="mt-[44px] lg:mt-[80px]">{children}</div>;
-}
-
-export function NewsFinalCtaSection({ children }: { children: ReactNode }) {
-  return <section className="bg-[#F6F8FA] px-[22px] py-[72px] lg:px-[30px] lg:py-[104px]">{children}</section>;
-}
-
-export function NewsFinalCtaShell({ children }: { children: ReactNode }) {
-  return <div className="mx-auto flex max-w-[1200px] flex-col items-center text-center">{children}</div>;
-}
-
-export function NewsFinalCtaTitle({ children }: { children: ReactNode }) {
-  return <h2 className="text-[30px] font-medium leading-[1.35] tracking-[-0.03em] text-slate-950 sm:text-[38px] lg:text-[40px]">{children}</h2>;
-}
-
-export function NewsFinalCtaBody({ children }: { children: ReactNode }) {
-  return <p className="mt-4 text-[16px] leading-8 text-slate-500">{children}</p>;
-}
-
-export function NewsFinalCtaAction({ href, children }: ActionProps) {
-  return (
-    <BrandGradientCtaButton href={href} className="mt-8">
-      {children}
-    </BrandGradientCtaButton>
-  );
 }
