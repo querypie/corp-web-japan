@@ -18,5 +18,8 @@ test("AI Crew CTA links match the intended targets", () => {
     aiCrewDataSource,
     /secondaryCta: \{ label: "活用事例を見る", href: demoUseCasesUrl \}|<AICrewHeroSecondaryAction href=\{demoUseCasesUrl\}>/,
   );
-  assert.match(aiCrewDataSource, /floatingCta: \{ label: "業務に合うAI活用を相談する", href: aiCrewFloatingCtaUrl \}/);
+  assert.match(
+    aiCrewDataSource,
+    /const aiCrewFloatingCtaUrl = "\/contact-us\?product=ai-crew"|<FloatingConversionCta href=\{aiCrewFloatingCtaUrl\} \/>/,
+  );
 });

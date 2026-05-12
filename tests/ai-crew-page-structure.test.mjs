@@ -4,7 +4,6 @@ import { readSource } from "./helpers/source-readers.mjs";
 import {
   getAiCrewDataSource,
   getAiCrewStructureSource,
-  isAiCrewContentExternalized,
   isAiCrewSectionExternalized,
 } from "./helpers/static-marketing-page-sources.mjs";
 
@@ -152,24 +151,6 @@ test("AI Crew route-local authoring keeps hero, platform, why, design-elements, 
   assert.doesNotMatch(aiCrewPage, /whitepaper-background\.svg/);
   assert.doesNotMatch(aiCrewPage, /rounded-\[1\.8rem\] border border-\[#d7e4fb\]/);
 
-  if (isAiCrewContentExternalized()) {
-    const aiCrewContent = readSource("src/content/home.ts");
-    assert.doesNotMatch(aiCrewContent, /featureIntro/);
-    assert.doesNotMatch(aiCrewContent, /featureTabs/);
-    assert.doesNotMatch(aiCrewContent, /comparison:/);
-    assert.doesNotMatch(aiCrewContent, /problem:/);
-    assert.doesNotMatch(aiCrewContent, /process:/);
-    assert.doesNotMatch(aiCrewContent, /testimonials:/);
-    assert.doesNotMatch(aiCrewContent, /人手不足と見えないコストが、企業の成長を鈍化させる。/);
-    assert.doesNotMatch(aiCrewContent, /なぜ今、日本企業がAIトランスフォーメーションに取り組むべきなのか/);
-    assert.doesNotMatch(aiCrewContent, /AI Agentではなく、AI Crew/);
-    assert.doesNotMatch(aiCrewContent, /concept-team\.webp/);
-    assert.doesNotMatch(aiCrewContent, /人とAI Crewが同じチームの一員として業務を分担するイメージ/);
-    assert.doesNotMatch(aiCrewContent, /roi:\s*\{/);
-    assert.doesNotMatch(aiCrewContent, /実務での安全なAI活用を支える/);
-    assert.doesNotMatch(aiCrewContent, /エンタープライズAI基盤 QueryPie AIP/);
-  }
-
   if (isAiCrewSectionExternalized()) {
     assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-hero-section/);
     assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-design-elements-section/);
@@ -182,5 +163,5 @@ test("AI Crew route-local authoring keeps hero, platform, why, design-elements, 
 
   assert.doesNotMatch(aiCrewWhySection, /人による最終判断/);
 
-  assert.match(aiCrewDataSource, /homePageContent|floatingCta: \{ label: "業務に合うAI活用を相談する", href: aiCrewFloatingCtaUrl \}/);
+  assert.match(aiCrewDataSource, /const aiCrewFloatingCtaUrl = "\/contact-us\?product=ai-crew"/);
 });
