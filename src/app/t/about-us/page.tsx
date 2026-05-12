@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   keywords: ["QueryPie AIについて", "QueryPie AI 投資家", "QueryPie AI 履歴", "QueryPie AI チーム", "QueryPie AI 所在地"],
 };
 
-export default function AboutUsPreviewPage() {
+export default function AboutUsPage() {
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
