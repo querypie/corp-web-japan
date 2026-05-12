@@ -1,15 +1,15 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
-import { readSource } from "./helpers/source-readers.mjs";
+import { existsSync } from "node:fs";
+import { readSource } from "../../../../helpers/source-readers.mjs";
 
 const pagePath = "src/app/t/terms-of-service/page.tsx";
-const contentPath = new URL("../src/app/t/terms-of-service/content.mdx", import.meta.url);
+
 const sectionPath = "src/components/sections/terms-of-service/section.tsx";
-const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
+
 
 test("terms of service page derives metadata and hero copy from content.mdx frontmatter", () => {
-  assert.equal(existsSync(new URL(`../${pagePath}`, import.meta.url)), true, `${pagePath} should exist`);
+  assert.equal(existsSync(new URL(`../../../../../${pagePath}`, import.meta.url)), true, `${pagePath} should exist`);
 
   const source = readSource(pagePath);
 
@@ -28,11 +28,11 @@ test("terms of service page derives metadata and hero copy from content.mdx fron
 });
 
 test("terms of service page keeps title, description, and date in content.mdx frontmatter with legal body below", () => {
-  const footerSource = readFileSync(footerPath, "utf8");
-  const contentSource = readFileSync(contentPath, "utf8");
+  const footerSource = readSource("src/components/layout/site-footer.tsx");
+  const contentSource = readSource("src/app/t/terms-of-service/content.mdx");
   const sectionSource = readSource(sectionPath);
 
-  assert.equal(existsSync(contentPath), true, "terms of service MDX content file should exist");
+  assert.equal(existsSync(new URL("../../../../../src/app/t/terms-of-service/content.mdx", import.meta.url)), true, "terms of service MDX content file should exist");
   assert.match(contentSource, /^---\ntitle: "QueryPie Terms of Service"\ndescription: "Terms of service for QueryPie AIP/m);
   assert.match(contentSource, /\ndate: "2025-06-05"\n/);
   assert.match(contentSource, /Article 1 \(Purpose\)/);
