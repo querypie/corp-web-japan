@@ -215,23 +215,25 @@ Typical symptoms of a partial result:
 
 ### Typical pre-refactor anti-pattern
 
-The following shape is wrong because `page.tsx` becomes only a shell:
+The following shape is wrong because `page.tsx` becomes only a shell.
+These snippets are intentionally historical pseudo-code examples, not current-file references on latest `main`.
 
 ```tsx
-import { aiCrewFloatingCtaUrl, homePageContent } from "@/content/home";
-import { HomePageSections } from "@/components/sections/home-page-sections";
+// Historical pseudo-code example only.
+import { pageFloatingCtaUrl, pageContent } from "@/content/<page>";
+import { PageSections } from "@/components/sections/<page>-sections";
 
 export const metadata: Metadata = {
   title: "作業を減らし、成果を増やす。| AI Crew | QueryPie AI",
-  description: homePageContent.metadata.description,
+  description: pageContent.metadata.description,
 };
 
-export default function AICrewPage() {
+export default function ExamplePage() {
   return (
     <main>
       <SiteHeader />
-      <FloatingConversionCta href={aiCrewFloatingCtaUrl} />
-      <HomePageSections />
+      <FloatingConversionCta href={pageFloatingCtaUrl} />
+      <PageSections />
       <SiteFooter />
     </main>
   );
@@ -241,7 +243,8 @@ export default function AICrewPage() {
 And the hidden content registry looks like this:
 
 ```ts
-export const homePageContent = {
+// Historical pseudo-code example only.
+export const pageContent = {
   metadata: {
     title: "作業を減らし、成果を増やす。",
     description: "調査、データ整理、下書きなど...",
@@ -257,7 +260,8 @@ export const homePageContent = {
 And the hidden wrapper starts like this:
 
 ```tsx
-export function HomePageSections() {
+// Historical pseudo-code example only.
+export function PageSections() {
   const {
     hero,
     lostSection,
@@ -271,7 +275,7 @@ export function HomePageSections() {
     process,
     testimonials,
     contact,
-  } = homePageContent;
+  } = pageContent;
 
   return (
     <>
