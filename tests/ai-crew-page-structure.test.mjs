@@ -9,8 +9,8 @@ import {
 
 test("AI Crew route-local authoring keeps hero, platform, why, design-elements, process, use-cases, and results copy in the route while shared UI stays extracted", () => {
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
-  const aiCrewWhySection = readSource("src/components/sections/ai-crew-why-section.tsx");
-  const aiCrewUseCasesSection = readSource("src/components/sections/ai-crew-use-cases-section.tsx");
+  const aiCrewWhySection = readSource("src/components/sections/ai-crew/why-section.tsx");
+  const aiCrewUseCasesSection = readSource("src/components/sections/ai-crew/use-cases-section.tsx");
   const aiCrewDataSource = getAiCrewDataSource();
   const aiCrewStructureSource = getAiCrewStructureSource();
 
@@ -152,13 +152,13 @@ test("AI Crew route-local authoring keeps hero, platform, why, design-elements, 
   assert.doesNotMatch(aiCrewPage, /rounded-\[1\.8rem\] border border-\[#d7e4fb\]/);
 
   if (isAiCrewSectionExternalized()) {
-    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-hero-section/);
-    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-design-elements-section/);
-    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-platform-section/);
-    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-process-section/);
-    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-results-section/);
-    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-use-cases-section/);
-    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew-why-section/);
+    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew\/hero-section/);
+    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew\/design-elements-section/);
+    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew\/platform-section/);
+    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew\/process-section/);
+    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew\/results-section/);
+    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew\/use-cases-section/);
+    assert.match(aiCrewPage, /@\/components\/sections\/ai-crew\/why-section/);
   }
 
   assert.doesNotMatch(aiCrewWhySection, /人による最終判断/);

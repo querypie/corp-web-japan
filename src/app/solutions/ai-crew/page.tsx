@@ -26,7 +26,7 @@ import {
   AICrewAboutSection,
   AICrewAboutShell,
   AICrewAboutTitle,
-} from "@/components/sections/ai-crew-about-section";
+} from "@/components/sections/ai-crew/about-section";
 import {
   AICrewLostProblemBody,
   AICrewLostProblemCard,
@@ -39,7 +39,7 @@ import {
   AICrewLostWhitepaperContent,
   AICrewLostWhitepaperEyebrow,
   AICrewLostWhitepaperTitle,
-} from "@/components/sections/ai-crew-lost-section";
+} from "@/components/sections/ai-crew/lost-section";
 import {
   AICrewContactActionGroup,
   AICrewContactBody,
@@ -64,7 +64,7 @@ import {
   AICrewDashiPromoTitle,
   AICrewDashiPromoVisual,
   AICrewDashiPromoVisualOrb,
-} from "@/components/sections/ai-crew-contact-section";
+} from "@/components/sections/ai-crew/contact-section";
 import {
   AICrewWhyAfterCard,
   AICrewWhyAfterCardSubtitle,
@@ -83,7 +83,7 @@ import {
   AICrewWhyTaskColumn,
   AICrewWhyTaskItem,
   AICrewWhyTitle,
-} from "@/components/sections/ai-crew-why-section";
+} from "@/components/sections/ai-crew/why-section";
 import {
   AICrewHeroActions,
   AICrewHeroBody,
@@ -97,7 +97,7 @@ import {
   AICrewHeroTitle,
   AICrewHeroTitleLine,
   AICrewHeroVisual,
-} from "@/components/sections/ai-crew-hero-section";
+} from "@/components/sections/ai-crew/hero-section";
 import {
   AICrewPlatformAccent,
   AICrewPlatformBody,
@@ -117,7 +117,7 @@ import {
   AICrewPlatformHeader,
   AICrewPlatformSection,
   AICrewPlatformTitle,
-} from "@/components/sections/ai-crew-platform-section";
+} from "@/components/sections/ai-crew/platform-section";
 import {
   AICrewResultsBody,
   AICrewResultsCard,
@@ -142,7 +142,7 @@ import {
   AICrewResultsPricingTitle,
   AICrewResultsSection,
   AICrewResultsTitle,
-} from "@/components/sections/ai-crew-results-section";
+} from "@/components/sections/ai-crew/results-section";
 import {
   AICrewProcessActionGroup,
   AICrewProcessBody,
@@ -163,7 +163,7 @@ import {
   AICrewProcessStepIcon,
   AICrewProcessStepTitle,
   AICrewProcessTitle,
-} from "@/components/sections/ai-crew-process-section";
+} from "@/components/sections/ai-crew/process-section";
 import {
   AICrewDesignElementBody,
   AICrewDesignElementCard,
@@ -171,7 +171,7 @@ import {
   AICrewDesignElementsGrid,
   AICrewDesignElementsSection,
   AICrewDesignElementsTitle,
-} from "@/components/sections/ai-crew-design-elements-section";
+} from "@/components/sections/ai-crew/design-elements-section";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import {
   AICrewUseCaseCard,
@@ -190,7 +190,7 @@ import {
   AICrewUseCasesTitle,
   AICrewUseCaseTab,
   AICrewUseCaseTabbedCard,
-} from "@/components/sections/ai-crew-use-cases-section";
+} from "@/components/sections/ai-crew/use-cases-section";
 
 const aiCrewPageDescription =
   "調査、データ整理、下書きなど、時間のかかる下準備をAIに任せて効率化。人員を増やすことなく、企業の生産性・利益率の向上を実現します。";
