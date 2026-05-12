@@ -9,7 +9,7 @@ import {
   CookiePreferenceHeroTitle,
   CookiePreferenceSettingsSection,
 } from "@/components/sections/cookie-preference-page";
-import { FreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
   title: "クッキー設定 | QueryPie AI",
@@ -97,7 +97,7 @@ export default function CookiePreferencePage() {
         </CookiePreferenceHeroContent>
       </CookiePreferenceHeroSection>
 
-      <FreeTrialCtaSection />
+      <AipFreeTrialCtaSection />
 
       <SiteFooter />
     </main>

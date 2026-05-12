@@ -29,7 +29,7 @@ test("/t/services/acp keeps route-local copy/composition while the interactive f
   assert.match(routeSource, /<AcpFeatureItemBody>/);
   assert.match(routeSource, /利用可能なACP統合機能をすべて見る/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(routeSource, /<FreeTrialCtaSection \/>/);
+  assert.match(routeSource, /<AipFreeTrialCtaSection \/>/);
   assert.doesNotMatch(routeSource, /<AcpFeatureCategory label=/);
   assert.doesNotMatch(routeSource, /<AcpFeatureItem\s+title=/);
   assert.doesNotMatch(routeSource, /type AcpFeatureItem =/);

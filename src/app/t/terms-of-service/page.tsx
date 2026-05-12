@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { FreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 import {
   TermsOfServiceBody,
   TermsOfServiceHero,
@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 function TrialCtaSection() {
-  return <FreeTrialCtaSection />;
+  return <AipFreeTrialCtaSection />;
 }
 
 export default async function TermsOfServicePage() {

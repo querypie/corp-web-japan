@@ -83,7 +83,7 @@ export function CtaButton({
   );
 }
 
-export function FreeTrialCtaSection() {
+export function AipFreeTrialCtaSection() {
   return (
     <SimpleCtaSection>
       <CtaContent>

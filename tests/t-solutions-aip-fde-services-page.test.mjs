@@ -31,7 +31,7 @@ test("/t/solutions/aip/fde-services exists as a noindex page with route-local se
   assert.match(pageSource, /カスタムAIエージェントの構築/);
   assert.match(pageSource, /AI実用化を支援/);
   assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(pageSource, /<FreeTrialCtaSection \/>/);
+  assert.match(pageSource, /<AipFreeTrialCtaSection \/>/);
   assert.doesNotMatch(pageSource, /AipFdeServicesPreviewPage/);
 
   assert.match(sectionSource, /export function AipFdeHeroTitle/);

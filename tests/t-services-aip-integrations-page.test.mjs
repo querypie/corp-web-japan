@@ -23,7 +23,7 @@ test("AIP integrations preview page keeps authored hero copy and CTA in page.tsx
   assert.match(pageSource, /AIPインテグレーション/);
   assert.match(pageSource, /MCPサーバーを介してお使いのビジネスツールに接続/);
   assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(pageSource, /<FreeTrialCtaSection \/>/);
+  assert.match(pageSource, /<AipFreeTrialCtaSection \/>/);
 });
 
 test("AIP integrations preview page keeps category and product catalog route-local with keyword-based filters", () => {

@@ -33,7 +33,7 @@ import {
   AcpServicePageShell,
 } from "@/components/sections/acp-service-page";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import { FreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
   title: "QueryPie アクセス制御プラットフォーム (ACP) | QueryPie AI",
@@ -378,7 +378,7 @@ export default function AcpServicePage() {
         </AcpIntegrationsInner>
       </AcpIntegrationsSection>
 
-      <FreeTrialCtaSection />
+      <AipFreeTrialCtaSection />
 
       <SiteFooter />
     </AcpServicePageShell>

@@ -9,7 +9,7 @@ import remarkGfm from "remark-gfm";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  FreeTrialCtaSection,
+  AipFreeTrialCtaSection,
 } from "@/components/sections/simple-cta-section";
 import { readCachedLegalMdxSource } from "@/lib/legal-mdx-source";
 import { hasPrivacyPolicySlug, listPrivacyPolicySlugs } from "@/lib/privacy-policy/records";
@@ -175,7 +175,7 @@ export async function PrivacyPolicyDocumentPage({ slug }: { slug: string }) {
           <div className={`${publicationBodyClassName} [&_h2:first-child]:mt-0`}>{evaluation.content}</div>
         </div>
       </section>
-      <FreeTrialCtaSection />
+      <AipFreeTrialCtaSection />
       <SiteFooter />
     </main>
   );

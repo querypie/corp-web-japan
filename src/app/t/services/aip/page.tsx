@@ -32,7 +32,7 @@ import {
   AipServiceValueTitle,
 } from "@/components/sections/aip-service-page";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import { FreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
   title: "QueryPie AIプラットフォーム (AIP) | QueryPie AI",
@@ -306,7 +306,7 @@ export default function AipServicePage() {
         </AipServiceFeatureInner>
       </AipServiceFeatureSection>
 
-      <FreeTrialCtaSection />
+      <AipFreeTrialCtaSection />
 
       <SiteFooter />
     </AipServicePageShell>
