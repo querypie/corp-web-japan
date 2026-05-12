@@ -32,7 +32,7 @@ const expectedVersionSlugs = [
   "2019-11-29",
 ];
 
-test("privacy policy preview route keeps latest alias page and version detail route with noindex metadata", () => {
+test("privacy policy route keeps latest alias page and version detail route with noindex metadata", () => {
   assert.equal(existsSync(new URL(`../${pagePath}`, import.meta.url)), true, `${pagePath} should exist`);
   assert.equal(existsSync(new URL(`../${versionPagePath}`, import.meta.url)), true, `${versionPagePath} should exist`);
 
@@ -40,6 +40,7 @@ test("privacy policy preview route keeps latest alias page and version detail ro
   const versionPageSource = readSource(versionPagePath);
 
   assert.match(pageSource, /canonicalPath: "\/t\/privacy-policy"/);
+  assert.doesNotMatch(pageSource, /PreviewPrivacyPolicyPage/);
   assert.match(pageSource, /getLatestPrivacyPolicySlug\(\)/);
   assert.match(versionPageSource, /generateStaticParams\(\)/);
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);

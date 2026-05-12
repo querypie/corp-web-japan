@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-export default async function PreviewPrivacyPolicyPage() {
+export default async function PrivacyPolicyPage() {
   const latestSlug = await getLatestPrivacyPolicySlug();
 
   if (!latestSlug) {
