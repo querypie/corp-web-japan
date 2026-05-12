@@ -6,7 +6,7 @@ test("usage-based-llm page keeps route-local copy/composition and preserves the 
   assert.equal(sourceExists("src/app/t/solutions/aip/usage-based-llm/page.tsx"), true);
 
   const routeSource = readSource("src/app/t/solutions/aip/usage-based-llm/page.tsx");
-  const sectionSource = readSource("src/components/sections/aip-usage-based-llm.tsx");
+  const sectionSource = readSource("src/components/sections/usage-based-llm/section.tsx");
   const redirectSource = readSource("src/app/platform/ai/aip/usage-based-llm/route.ts");
 
   assert.match(routeSource, /canonical: "\/t\/solutions\/aip\/usage-based-llm"/);

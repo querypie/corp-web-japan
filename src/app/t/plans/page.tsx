@@ -31,7 +31,7 @@ import {
   ProductName,
   ProductTab,
   ProductTabs,
-} from "@/components/sections/plans-page";
+} from "@/components/sections/plans/section";
 
 export const metadata: Metadata = {
   title: "プラン | QueryPie AI",

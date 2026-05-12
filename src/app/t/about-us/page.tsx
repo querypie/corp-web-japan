@@ -25,7 +25,7 @@ import {
   AboutUsSectionIntro,
   AboutUsTimeline,
   AboutUsTimelineItem,
-} from "@/components/sections/about-us";
+} from "@/components/sections/about-us/section";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 

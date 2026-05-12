@@ -4,7 +4,7 @@ import { existsSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 
 const pageFile = "src/app/t/solutions/aip/fde-services/page.tsx";
-const sectionFile = "src/components/sections/aip-fde-services-page.tsx";
+const sectionFile = "src/components/sections/fde-services/section.tsx";
 const assetFiles = [
   "public/solutions/aip/fde-services/hero.svg",
   "public/solutions/aip/fde-services/find-problems.png",

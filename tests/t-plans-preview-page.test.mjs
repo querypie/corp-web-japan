@@ -4,9 +4,9 @@ import { readSource } from "./helpers/source-readers.mjs";
 
 test("/t/plans keeps copy and comparison composition in the route while the section module only provides pricing UI primitives", () => {
   const routeSource = readSource("src/app/t/plans/page.tsx");
-  const sectionSource = readSource("src/components/sections/plans-page.tsx");
+  const sectionSource = readSource("src/components/sections/plans/section.tsx");
 
-  assert.match(routeSource, /from "@\/components\/sections\/plans-page"/);
+  assert.match(routeSource, /from "@\/components\/sections\/plans\/section"/);
   assert.match(routeSource, /<PricingRoot>/);
   assert.match(routeSource, /<PricingHeader>/);
   assert.match(routeSource, /<PricingContextProvider defaultActiveTab="aip">/);

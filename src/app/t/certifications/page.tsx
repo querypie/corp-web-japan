@@ -10,7 +10,7 @@ import {
   CertificationsPageSection,
   CertificationsTrustCenterAction,
   CertificationsTrustCenterSection,
-} from "@/components/sections/certifications-page";
+} from "@/components/sections/certifications/section";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {

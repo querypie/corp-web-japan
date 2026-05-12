@@ -15,7 +15,7 @@ import {
   McpGatewayHeroHeading,
   McpGatewayHeroSection,
   McpGatewayHeroVisual,
-} from "@/components/sections/mcp-gateway-page";
+} from "@/components/sections/mcp-gateway/section";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {

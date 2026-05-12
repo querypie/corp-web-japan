@@ -19,7 +19,7 @@ import {
   AipFdeHeroTitle,
   AipFdeHeroVisual,
   AipFdeServicesPageShell,
-} from "@/components/sections/aip-fde-services-page";
+} from "@/components/sections/fde-services/section";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 

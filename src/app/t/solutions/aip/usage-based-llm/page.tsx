@@ -17,7 +17,7 @@ import {
   AipUsageBasedLlmHeroTitle,
   AipUsageBasedLlmLineBreak,
   AipUsageBasedLlmPageShell,
-} from "@/components/sections/aip-usage-based-llm";
+} from "@/components/sections/usage-based-llm/section";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
