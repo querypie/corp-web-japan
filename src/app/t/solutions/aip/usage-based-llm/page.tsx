@@ -19,7 +19,7 @@ import {
   AipUsageBasedLlmPageShell,
 } from "@/components/sections/aip-usage-based-llm";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import { CanonicalTypeACtaSection } from "@/components/sections/simple-cta-section";
+import { FreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
   title: "QueryPie AIP：実際使用量ベースエンタープライズAI | QueryPie AI",
@@ -156,7 +156,7 @@ export default function AipUsageBasedLlmPage() {
         </RevealOnScroll>
       </AipUsageBasedLlmComparisonSection>
 
-      <CanonicalTypeACtaSection />
+      <FreeTrialCtaSection />
 
       <SiteFooter />
     </AipUsageBasedLlmPageShell>

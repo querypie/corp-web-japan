@@ -19,7 +19,7 @@ test("usage-based-llm page keeps route-local copy/composition and preserves the 
   assert.match(routeSource, /シングルサインオン\(SSO\) で一元管理/);
   assert.match(routeSource, /最高のパフォーマンスを、最適なコストで！/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(routeSource, /<CanonicalTypeACtaSection \/>/);
+  assert.match(routeSource, /<FreeTrialCtaSection \/>/);
   assert.doesNotMatch(routeSource, /AipUsageBasedLlmPreviewPage/);
 
   assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection/);

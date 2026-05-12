@@ -12,7 +12,7 @@ import {
   AipIntegrationsProductCard,
   AipIntegrationsProductList,
 } from "@/components/sections/aip-integrations-page";
-import { CanonicalTypeACtaSection } from "@/components/sections/simple-cta-section";
+import { FreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
   title: "QueryPie AI: インテグレーション",
@@ -164,7 +164,7 @@ export default async function AipIntegrationsPage({ searchParams }: Integrations
         </AipIntegrationsContent>
       </AipIntegrationsHeroSection>
 
-      <CanonicalTypeACtaSection />
+      <FreeTrialCtaSection />
 
       <SiteFooter />
     </main>

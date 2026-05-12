@@ -8,7 +8,7 @@ import remarkGfm from "remark-gfm";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  CanonicalTypeACtaSection,
+  FreeTrialCtaSection,
 } from "@/components/sections/simple-cta-section";
 import { readCachedLegalMdxSource } from "@/lib/legal-mdx-source";
 import { slugifyHeadingText } from "@/lib/publications/mdx/headings";
@@ -139,7 +139,7 @@ export default async function EulaPage() {
           <div className={legalBodyClassName}>{evaluation.content}</div>
         </div>
       </section>
-      <CanonicalTypeACtaSection />
+      <FreeTrialCtaSection />
       <SiteFooter />
     </main>
   );

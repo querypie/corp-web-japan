@@ -14,7 +14,7 @@ test("mcp gateway route keeps authored copy in the route and rendering primitive
   assert.match(routeSource, /src="\/solutions\/aip\/mcp-gateway\/tunneling\.gif"/);
   assert.match(routeSource, /src="\/solutions\/aip\/mcp-gateway\/dlp\.gif"/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(routeSource, /<CanonicalTypeACtaSection \/>/);
+  assert.match(routeSource, /<FreeTrialCtaSection \/>/);
 
   assert.doesNotMatch(routeSource, /const features =/);
   assert.doesNotMatch(routeSource, /const featureCards =/);

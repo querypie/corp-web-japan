@@ -16,7 +16,7 @@ import {
   McpGatewayHeroSection,
   McpGatewayHeroVisual,
 } from "@/components/sections/mcp-gateway-page";
-import { CanonicalTypeACtaSection } from "@/components/sections/simple-cta-section";
+import { FreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
   title: "QueryPie AIP：すべてを接続するMCPハブ",
@@ -183,7 +183,7 @@ export default function McpGatewayPage() {
         </McpGatewayFeatureLayout>
       </McpGatewayFeatureBand>
 
-      <CanonicalTypeACtaSection />
+      <FreeTrialCtaSection />
 
       <SiteFooter />
     </main>

@@ -28,7 +28,7 @@ test("eula page exists with noindex metadata and preview canonical path", () => 
   assert.match(source, /<SiteHeader \/>/);
   assert.match(source, /<SiteFooter \/>/);
   assert.match(source, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(source, /<CanonicalTypeACtaSection \/>/);
+  assert.match(source, /<FreeTrialCtaSection \/>/);
   assert.match(contentSource, /^---\ntitle: "QueryPie EULA"\ndescription: "End User License Agreement for QueryPie/m);
   assert.doesNotMatch(source, /export const metadata: Metadata = \{/);
 });

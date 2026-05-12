@@ -21,7 +21,7 @@ import {
   ServiceFdePageShell,
 } from "@/components/sections/service-fde-page";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import { CanonicalTypeACtaSection } from "@/components/sections/simple-cta-section";
+import { FreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
   title: "QueryPie AIP：あなたのためのAI変革エキスパート | QueryPie AI",
@@ -160,7 +160,7 @@ export default function ServiceFdePage() {
         </ServiceFdeFeatureSection>
       </ServiceFdeFeatureInner>
 
-      <CanonicalTypeACtaSection />
+      <FreeTrialCtaSection />
 
       <SiteFooter />
     </ServiceFdePageShell>

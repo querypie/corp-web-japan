@@ -20,7 +20,7 @@ test("/t/services/fde keeps route-local copy/composition while the layout primit
   assert.match(routeSource, /カスタムAIエージェントの構築/);
   assert.match(routeSource, /AI実用化を支援/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(routeSource, /<CanonicalTypeACtaSection \/>/);
+  assert.match(routeSource, /<FreeTrialCtaSection \/>/);
   assert.doesNotMatch(routeSource, /ServiceFdePreviewPage/);
   assert.doesNotMatch(routeSource, /PREVIEW SERVICE/);
   assert.doesNotMatch(routeSource, /preview で事前確認できます/);

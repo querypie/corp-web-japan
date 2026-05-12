@@ -32,7 +32,7 @@ test("cookie preference preview page keeps route-local copy while shared page/la
   assert.match(pageSource, /<CookiePreferenceItem\s+id="analysis"/s);
   assert.match(pageSource, /<CookiePreferenceItem\s+id="marketing"/s);
   assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(pageSource, /<CanonicalTypeACtaSection \/>/);
+  assert.match(pageSource, /<FreeTrialCtaSection \/>/);
   assert.doesNotMatch(pageSource, /from "next\/link"/);
   assert.doesNotMatch(pageSource, /<section className="mx-auto max-w-\[1920px\] bg-white px-\[30px\]/);
   assert.doesNotMatch(pageSource, /src\/content\//);

@@ -27,7 +27,7 @@ import {
   AboutUsTimelineItem,
 } from "@/components/sections/about-us";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import { CanonicalTypeACtaSection } from "@/components/sections/simple-cta-section";
+import { FreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
   title: "会社概要 | QueryPie AI",
@@ -280,7 +280,7 @@ export default function AboutUsPage() {
         </RevealOnScroll>
       </AboutUsSection>
 
-      <CanonicalTypeACtaSection />
+      <FreeTrialCtaSection />
 
       <SiteFooter />
     </main>
