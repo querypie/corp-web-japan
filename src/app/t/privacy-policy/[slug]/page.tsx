@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PrivacyPolicyDocumentPage, generatePrivacyPolicyMetadata } from "@/components/sections/privacy-policy-document-page";
+import { PrivacyPolicyDocumentPage, generatePrivacyPolicyMetadata } from "@/components/sections/privacy-policy/document-page";
 import { listPrivacyPolicySlugs } from "@/lib/privacy-policy/records";
 
 type PrivacyPolicyVersionPageProps = {

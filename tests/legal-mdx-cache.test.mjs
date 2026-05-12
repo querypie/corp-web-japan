@@ -3,9 +3,9 @@ import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
 const legalMdxSourcePath = "src/lib/legal-mdx-source.ts";
-const termsSourcePath = "src/components/sections/legal-terms-of-service.tsx";
+const termsSourcePath = "src/components/sections/terms-of-service/section.tsx";
 const eulaSourcePath = "src/app/t/eula/page.tsx";
-const privacyDocumentPath = "src/components/sections/privacy-policy-document-page.tsx";
+const privacyDocumentPath = "src/components/sections/privacy-policy/document-page.tsx";
 const privacyRecordsPath = "src/lib/privacy-policy/records.ts";
 
 test("legal MDX routes share a cached source reader like publication loaders", () => {

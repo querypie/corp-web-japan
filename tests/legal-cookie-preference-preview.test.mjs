@@ -4,9 +4,9 @@ import { readFileSync } from "node:fs";
 import { readSource, sourceExists } from "./helpers/source-readers.mjs";
 
 const pagePath = "src/app/t/cookie-preference/page.tsx";
-const sectionPath = "src/components/sections/cookie-preference.tsx";
-const pageSectionPath = "src/components/sections/cookie-preference-page.tsx";
-const togglePath = "src/components/sections/cookie-preference-toggle.tsx";
+const sectionPath = "src/components/sections/cookie-preference/list.tsx";
+const pageSectionPath = "src/components/sections/cookie-preference/page.tsx";
+const togglePath = "src/components/sections/cookie-preference/toggle.tsx";
 const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
 
 test("cookie preference preview page keeps route-local copy while shared page/layout primitives own the rendering shells", () => {
@@ -21,7 +21,7 @@ test("cookie preference preview page keeps route-local copy while shared page/la
   assert.match(pageSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(pageSource, /<SiteHeader \/>/);
   assert.match(pageSource, /<SiteFooter \/>/);
-  assert.match(pageSource, /from "@\/components\/sections\/cookie-preference-page"/);
+  assert.match(pageSource, /from "@\/components\/sections\/cookie-preference\/page"/);
   assert.match(pageSource, /<CookiePreferenceHeroSection>/);
   assert.match(pageSource, /<CookiePreferenceHeroTitle>クッキー設定<\/CookiePreferenceHeroTitle>/);
   assert.match(pageSource, /<CookiePreferenceSettingsSection>/);

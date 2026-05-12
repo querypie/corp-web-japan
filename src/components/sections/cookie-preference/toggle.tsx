@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { CookiePreferenceKey } from "./cookie-preference";
+import type { CookiePreferenceKey } from "./list";
 
 type MutableCookiePreferenceKey = Exclude<CookiePreferenceKey, "necessary">;
 

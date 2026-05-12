@@ -7,8 +7,8 @@ const routeDir = new URL("../src/app/t/privacy-policy/", import.meta.url);
 const contentDir = new URL("../src/content/privacy-policy/", import.meta.url);
 const pagePath = "src/app/t/privacy-policy/page.tsx";
 const versionPagePath = "src/app/t/privacy-policy/[slug]/page.tsx";
-const documentPath = "src/components/sections/privacy-policy-document-page.tsx";
-const selectorPath = "src/components/sections/privacy-policy-version-selector.tsx";
+const documentPath = "src/components/sections/privacy-policy/document-page.tsx";
+const selectorPath = "src/components/sections/privacy-policy/version-selector.tsx";
 const sourcesPath = "src/lib/privacy-policy/records.ts";
 const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
 
