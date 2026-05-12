@@ -54,7 +54,7 @@ export function AboutUsSectionHeading({ children }: { children: ReactNode }) {
 }
 
 export function AboutUsSectionIntro({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <div className={`mt-4${className ? ` ${className}` : ""}`}>{children}</div>;
+  return <div className={`mt-4 max-w-[1200px]${className ? ` ${className}` : ""}`}>{children}</div>;
 }
 
 export function AboutUsInvestorLogoRow({ children }: { children: ReactNode }) {
@@ -140,7 +140,7 @@ export function AboutUsLeaderCard({
 }
 
 export function AboutUsLeaderName({ children }: { children: ReactNode }) {
-  return <h3 className="text-[18.75px] font-medium leading-[26.25px] tracking-[-0.02em] text-slate-950">{children}</h3>;
+  return <p className="text-[18.75px] font-medium leading-[26.25px] tracking-[-0.02em] text-slate-950">{children}</p>;
 }
 
 export function AboutUsLeaderRole({ children }: { children: ReactNode }) {
@@ -173,7 +173,7 @@ export function AboutUsLocationCard({
 export function AboutUsLocationName({ children }: { children: ReactNode }) {
   return (
     <div className="mt-4">
-      <h3 className="text-[18.75px] font-medium leading-[26.25px] tracking-[-0.02em] text-slate-950">{children}</h3>
+      <p className="text-[18.75px] font-medium leading-[26.25px] tracking-[-0.02em] text-slate-950">{children}</p>
     </div>
   );
 }

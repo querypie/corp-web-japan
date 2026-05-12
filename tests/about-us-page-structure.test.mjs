@@ -25,6 +25,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(sectionSource, /export function AboutUsLeaderCard/);
   assert.match(sectionSource, /export function AboutUsLocationCard/);
 
+  assert.match(sectionSource, /export function AboutUsSectionIntro[\s\S]*mt-4 max-w-\[1200px\]/);
   assert.match(sectionSource, /mt-\[56px\] flex flex-col gap-\[37\.5px\] border-l border-slate-300 pl-\[28\.125px\]/);
   assert.match(sectionSource, /className="flex gap-\[18\.75px\]"/);
   assert.match(sectionSource, /list-disc space-y-1 pl-5/);
@@ -36,6 +37,9 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(sectionSource, /className=\{`block \$\{secondaryCopyClass\} transition hover:text-slate-950`\}/);
   assert.doesNotMatch(sectionSource, /mt-4 flex w-full justify-end/);
   assert.doesNotMatch(sectionSource, /rounded-\[24px\]/);
+  assert.match(sectionSource, /<h3 className="w-\[93\.75px\] shrink-0 text-\[30px\] font-medium leading-\[39\.375px\] tracking-\[-0\.03em\] text-slate-950">\{year\}<\/h3>/);
+  assert.match(sectionSource, /export function AboutUsLeaderName[\s\S]*return <p className="text-\[18\.75px\] font-medium leading-\[26\.25px\] tracking-\[-0\.02em\] text-slate-950">\{children\}<\/p>;/);
+  assert.match(sectionSource, /export function AboutUsLocationName[\s\S]*<p className="text-\[18\.75px\] font-medium leading-\[26\.25px\] tracking-\[-0\.02em\] text-slate-950">\{children\}<\/p>/);
 
   assert.match(sectionSource, /inline-flex w-fit self-start items-center justify-center border border-slate-200\/70 bg-white leading-none/);
   assert.match(sectionSource, /className="block h-\[17px\] w-\[23px\]"/);
