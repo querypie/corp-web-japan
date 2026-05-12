@@ -2,6 +2,7 @@ name: CI
 
 permissions:
   contents: read
+  pull-requests: read
 
 on:
   pull_request:
@@ -10,6 +11,8 @@ on:
       - "README.md"
       - "AGENTS.md"
       - "docs/**"
+      - "ops/**/*.md"
+      - "public/**/*.md"
       - ".agents/skills/**/*.md"
   push:
     branches:
@@ -18,6 +21,8 @@ on:
       - "README.md"
       - "AGENTS.md"
       - "docs/**"
+      - "ops/**/*.md"
+      - "public/**/*.md"
       - ".agents/skills/**/*.md"
   workflow_dispatch:
 
@@ -26,9 +31,229 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  verify:
-    name: Verify
+  changes:
+    name: Detect changed scope
     runs-on: ubuntu-latest
+    outputs:
+      ci: ${{ steps.filter.outputs.ci || steps.alltrue.outputs.ci }}
+      publications: ${{ steps.filter.outputs.publications || steps.alltrue.outputs.publications }}
+      forms: ${{ steps.filter.outputs.forms || steps.alltrue.outputs.forms }}
+      routing_seo: ${{ steps.filter.outputs.routing_seo || steps.alltrue.outputs.routing_seo }}
+      static_pages: ${{ steps.filter.outputs.static_pages || steps.alltrue.outputs.static_pages }}
+      assets_shell: ${{ steps.filter.outputs.assets_shell || steps.alltrue.outputs.assets_shell }}
+      cross_cutting: ${{ steps.filter.outputs.cross_cutting || steps.alltrue.outputs.cross_cutting }}
+      build: ${{ steps.filter.outputs.build || steps.alltrue.outputs.build }}
+    steps:
+      - name: Mark all scopes dirty outside pull requests
+        if: github.event_name != 'pull_request'
+        id: alltrue
+        run: |
+          {
+            echo 'ci=true'
+            echo 'publications=true'
+            echo 'forms=true'
+            echo 'routing_seo=true'
+            echo 'static_pages=true'
+            echo 'assets_shell=true'
+            echo 'cross_cutting=true'
+            echo 'build=true'
+          } >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        if: github.event_name == 'pull_request'
+
+      - name: Detect pull request file scope
+        if: github.event_name == 'pull_request'
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            ci:
+              - '.github/workflows/ci.yml'
+              - 'scripts/ci/**'
+              - 'package.json'
+              - 'package-lock.json'
+            publications:
+              - 'src/content/**'
+              - 'src/lib/publications/**'
+              - 'src/lib/resources/**'
+              - 'src/lib/resource-list-load-more.ts'
+              - 'src/app/blog/**'
+              - 'src/app/whitepapers/**'
+              - 'src/app/news/**'
+              - 'src/app/events/**'
+              - 'src/app/demo/**'
+              - 'src/app/use-cases/**'
+              - 'src/app/introduction-deck/**'
+              - 'src/app/glossary/**'
+              - 'src/app/manuals/**'
+              - 'src/app/resources/**'
+              - 'src/components/sections/featured-event-hero.tsx'
+              - 'src/components/sections/resource-list-section.tsx'
+              - 'src/components/ui/progressive-load-more.tsx'
+              - 'tests/blog/**'
+              - 'tests/news/**'
+              - 'tests/acp-demo-*.test.mjs'
+              - 'tests/aip-demo-*.test.mjs'
+              - 'tests/events-*.test.mjs'
+              - 'tests/use-cases-*.test.mjs'
+              - 'tests/src/app/events/**'
+              - 'tests/src/app/whitepapers/**'
+              - 'tests/src/app/t/whitepapers/page.test.mjs'
+              - 'tests/src/lib/publications/whitepapers/frontmatter-and-redirect.test.mjs'
+              - 'tests/src/lib/publications/whitepapers/gating-source.test.mjs'
+              - 'tests/whitepaper-imported-ja-corpus.test.mjs'
+              - 'tests/mdx-redirect-contract.test.mjs'
+              - 'tests/introduction-deck-download-cta.test.mjs'
+              - 'tests/button-link-external-prop.test.mjs'
+              - 'tests/publication-post-button-spacing.test.mjs'
+              - 'tests/publication-post-inline-link-styles.test.mjs'
+              - 'tests/resource-list-page-structure.test.mjs'
+              - 'tests/ja-locale-content-priority.test.mjs'
+              - 'tests/src/app/blog/page.test.mjs'
+              - 'tests/src/app/demo/**'
+              - 'tests/src/app/whitepapers/page.test.mjs'
+              - 'tests/src/components/sections/featured-event-hero.test.mjs'
+              - 'tests/src/components/sections/resource-list-section.test.mjs'
+              - 'tests/src/components/ui/progressive-load-more.test.mjs'
+              - 'tests/src/lib/publications/**'
+              - 'tests/src/lib/resources/architecture.test.mjs'
+              - 'tests/src/lib/resource-list-load-more.test.mjs'
+            forms:
+              - 'src/app/contact-us/**'
+              - 'src/app/api/gating-form/**'
+              - 'src/lib/contact-us*.ts'
+              - 'src/lib/gating-form*.ts'
+              - 'src/lib/forms/server/**'
+              - 'tests/src/app/contact-us/**'
+              - 'tests/src/app/api/gating-form/**'
+              - 'tests/src/lib/contact-us-submit.test.mjs'
+              - 'tests/src/lib/gating-form-submit.test.mjs'
+              - 'tests/src/lib/request-uri-salesforce-body.test.mjs'
+              - 'tests/src/lib/forms/server/**'
+            routing_seo:
+              - 'src/app/sitemap.ts'
+              - 'src/app/robots.ts'
+              - 'src/app/[...missing]/page.tsx'
+              - 'src/app/ja/**'
+              - 'src/app/ko/**'
+              - 'src/app/company/news/route.ts'
+              - 'src/app/resources/discover/**'
+              - 'src/app/services/**/route.ts'
+              - 'src/app/platform/**/route.ts'
+              - 'src/lib/querypie-content-redirect.ts'
+              - 'src/lib/publications/redirectable-publication-request.ts'
+              - 'src/app/blog/[id]/**'
+              - 'src/app/whitepapers/[id]/**'
+              - 'src/app/news/[id]/**'
+              - 'src/app/events/[id]/**'
+              - 'src/app/use-cases/[id]/**'
+              - 'src/app/demo/aip/[id]/**'
+              - 'src/app/demo/acp/[id]/**'
+              - 'tests/canonical-endpoints.test.mjs'
+              - 'tests/legal-redirect-endpoints.test.mjs'
+              - 'tests/legacy-whitepaper-redirects.test.mjs'
+              - 'tests/link-and-metadata-integrity.test.mjs'
+              - 'tests/mdx-sitemap-coverage.test.mjs'
+              - 'tests/news-seo-and-sitemap.test.mjs'
+              - 'tests/not-found-page.test.mjs'
+              - 'tests/preview-navigation-path-helper.test.mjs'
+              - 'tests/publication-detail-indexability.test.mjs'
+              - 'tests/querypie-content-redirect.test.mjs'
+              - 'tests/redirect-endpoints.test.mjs'
+              - 'tests/redirectable-publication-bot-handling.test.mjs'
+              - 'tests/runtime-404-logging.test.mjs'
+              - 'tests/seo-metadata.test.mjs'
+              - 'tests/services-preview-routes.test.mjs'
+              - 'tests/sitemap-hidden-redirect-rules.test.mjs'
+              - 'tests/typecheck-tsconfig-contract.test.mjs'
+            static_pages:
+              - 'src/app/page.tsx'
+              - 'src/app/solutions/**'
+              - 'src/app/t/**'
+              - 'src/app/internal/**'
+              - 'src/components/sections/**'
+              - 'tests/about-us-page-structure.test.mjs'
+              - 'tests/ai-crew-page-structure.test.mjs'
+              - 'tests/ai-dashi-page-structure.test.mjs'
+              - 'tests/certifications-image-rendering.test.mjs'
+              - 'tests/font-and-mobile-layout.test.mjs'
+              - 'tests/internal-page.test.mjs'
+              - 'tests/legal-privacy-policy-preview.test.mjs'
+              - 'tests/legal-terms-of-service.test.mjs'
+              - 'tests/t-plans-preview-page.test.mjs'
+              - 'tests/t-solutions-aip-fde-services-page.test.mjs'
+              - 'tests/top-page-structure.test.mjs'
+              - 'tests/t/solutions/**'
+              - 'tests/src/app/page.test.mjs'
+              - 'tests/src/app/solutions/ai-crew/page.test.mjs'
+              - 'tests/src/app/solutions/ai-dashi/page.test.mjs'
+              - 'tests/src/app/internal/**'
+              - 'tests/src/app/solutions/ai-crew/cta-links.test.mjs'
+              - 'tests/src/app/solutions/ai-dashi/cta-links.test.mjs'
+              - 'tests/src/app/t/about-us/page.test.mjs'
+              - 'tests/src/app/t/certifications/page.test.mjs'
+              - 'tests/src/app/t/cookie-preference/page.test.mjs'
+              - 'tests/src/app/t/eula/page.test.mjs'
+              - 'tests/src/app/t/events/page.test.mjs'
+              - 'tests/src/app/t/plans/page.test.mjs'
+              - 'tests/src/app/t/privacy-policy/page.test.mjs'
+              - 'tests/src/app/t/services/**'
+              - 'tests/src/app/t/solutions/aip/usage-based-llm/page.test.mjs'
+              - 'tests/src/app/t/terms-of-service/page.test.mjs'
+              - 'tests/src/lib/legal-mdx-source.test.mjs'
+              - 'tests/src/components/sections/internal-events-demo-empty-state.test.mjs'
+              - 'tests/src/components/sections/internal-events-demo-hero-toggle.test.mjs'
+            assets_shell:
+              - 'public/**'
+              - 'src/app/favicon.ico'
+              - 'src/app/icon.png'
+              - 'src/app/apple-icon.png'
+              - 'src/components/layout/**'
+              - 'src/components/sections/ai-crew-avatar.tsx'
+              - 'src/components/sections/role-slides.tsx'
+              - 'tests/author-profile-image-paths.test.mjs'
+              - 'tests/crew-role-assets.test.mjs'
+              - 'tests/favicon-assets.test.mjs'
+              - 'tests/footer-addresses.test.mjs'
+              - 'tests/footer-legal-links.test.mjs'
+              - 'tests/footer-preview-navigation.test.mjs'
+              - 'tests/whitepaper-asset-filename-prefix-cleanup.test.mjs'
+              - 'tests/whitepaper-route-aligned-assets.test.mjs'
+            cross_cutting:
+              - 'src/app/page.tsx'
+              - 'src/app/solutions/**'
+              - 'src/app/contact-us/**'
+              - 'src/app/events/**'
+              - 'src/app/sitemap.ts'
+              - 'src/app/robots.ts'
+              - 'src/components/sections/ai-dashi-faq.tsx'
+              - 'src/components/sections/publication-post-page.tsx'
+              - 'src/components/sections/top-page-security-section.tsx'
+              - 'tests/launch-readiness-coverage.test.mjs'
+            build:
+              - '.github/workflows/ci.yml'
+              - 'scripts/ci/**'
+              - 'scripts/deploy/**'
+              - 'vercel.json'
+              - 'src/app/**'
+              - 'src/components/**'
+              - 'src/lib/**'
+              - 'src/content/**'
+              - 'public/**'
+              - 'package.json'
+              - 'package-lock.json'
+              - 'tsconfig.json'
+              - 'next.config.*'
+              - 'next-env.d.ts'
+              - 'postcss.config.mjs'
+              - 'eslint.config.mjs'
+              - 'tailwind.config.*'
+
+  smoke:
+    name: Smoke
+    runs-on: ubuntu-latest
+    needs: changes
     steps:
       - uses: actions/checkout@v4
 
@@ -41,8 +266,163 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run CI tests
-        run: npm run test:ci
+      - name: Run smoke checks
+        run: npm run test:smoke
+
+  test-publications:
+    name: Test publications
+    runs-on: ubuntu-latest
+    needs: [changes, smoke]
+    if: ${{ needs.smoke.result == 'success' && (needs.changes.outputs.ci == 'true' || needs.changes.outputs.publications == 'true') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run publication tests
+        run: npm run test:publications
+
+  test-forms:
+    name: Test forms
+    runs-on: ubuntu-latest
+    needs: [changes, smoke]
+    if: ${{ needs.smoke.result == 'success' && (needs.changes.outputs.ci == 'true' || needs.changes.outputs.forms == 'true') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run form tests
+        run: npm run test:forms
+
+  test-routing-seo:
+    name: Test routing and SEO
+    runs-on: ubuntu-latest
+    needs: [changes, smoke]
+    if: ${{ needs.smoke.result == 'success' && (needs.changes.outputs.ci == 'true' || needs.changes.outputs.routing_seo == 'true') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run routing and SEO tests
+        run: npm run test:routing-seo
+
+  test-static-pages:
+    name: Test static pages
+    runs-on: ubuntu-latest
+    needs: [changes, smoke]
+    if: ${{ needs.smoke.result == 'success' && (needs.changes.outputs.ci == 'true' || needs.changes.outputs.static_pages == 'true') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run static page tests
+        run: npm run test:static-pages
+
+  test-assets-shell:
+    name: Test assets and shell
+    runs-on: ubuntu-latest
+    needs: [changes, smoke]
+    if: ${{ needs.smoke.result == 'success' && (needs.changes.outputs.ci == 'true' || needs.changes.outputs.assets_shell == 'true') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run asset and shell tests
+        run: npm run test:assets-shell
+
+  test-cross-cutting:
+    name: Test cross-cutting contracts
+    runs-on: ubuntu-latest
+    needs: [changes, smoke]
+    if: ${{ needs.smoke.result == 'success' && (needs.changes.outputs.ci == 'true' || needs.changes.outputs.cross_cutting == 'true') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run cross-cutting tests
+        run: npm run test:cross-cutting
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs:
+      - changes
+      - smoke
+      - test-publications
+      - test-forms
+      - test-routing-seo
+      - test-static-pages
+      - test-assets-shell
+      - test-cross-cutting
+    if: >-
+      ${{
+        needs.changes.outputs.build == 'true' &&
+        needs.smoke.result == 'success' &&
+        (needs.test-publications.result == 'success' || needs.test-publications.result == 'skipped') &&
+        (needs.test-forms.result == 'success' || needs.test-forms.result == 'skipped') &&
+        (needs.test-routing-seo.result == 'success' || needs.test-routing-seo.result == 'skipped') &&
+        (needs.test-static-pages.result == 'success' || needs.test-static-pages.result == 'skipped') &&
+        (needs.test-assets-shell.result == 'success' || needs.test-assets-shell.result == 'skipped') &&
+        (needs.test-cross-cutting.result == 'success' || needs.test-cross-cutting.result == 'skipped')
+      }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Build
         run: npm run build
