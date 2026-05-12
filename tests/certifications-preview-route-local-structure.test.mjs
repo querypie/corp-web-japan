@@ -25,9 +25,21 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
   assert.match(pageSource, /<CertificationCard key=\{item\.id\} \{\.\.\.item\} \/>/);
 
   assert.doesNotMatch(pageSource, /CertificationsPreviewPage/);
-  assert.doesNotMatch(pageSource, /className: "w-\[/);
-  assert.doesNotMatch(pageSource, /width: \d+/);
-  assert.doesNotMatch(pageSource, /height: \d+/);
+  assert.match(pageSource, /src: "\/certifications\/csa-star-level-1\.svg"/);
+  assert.match(pageSource, /src: "\/certifications\/csa-star-level-2\.svg"/);
+  assert.match(pageSource, /src: "\/certifications\/pci-dss\.svg"/);
+  assert.match(pageSource, /imageWidth: 120/);
+  assert.match(pageSource, /imageHeight: 120/);
+  assert.match(pageSource, /displayWidth: "112\.5px"/);
+  assert.match(pageSource, /displayHeight: "112\.5px"/);
+  assert.match(pageSource, /imageWidth: 238/);
+  assert.match(pageSource, /imageHeight: 72/);
+  assert.match(pageSource, /displayWidth: "222\.9px"/);
+  assert.match(pageSource, /displayHeight: "67\.42px"/);
+  assert.match(pageSource, /displayWidth: "119\.84px"/);
+  assert.match(pageSource, /displayHeight: "82\.86px"/);
+  assert.match(pageSource, /displayWidth: "177\.89px"/);
+  assert.match(pageSource, /displayHeight: "89\.63px"/);
   assert.doesNotMatch(pageSource, /function CertificationCard\(/);
   assert.doesNotMatch(pageSource, /function TrialCtaSection\(/);
 
@@ -35,9 +47,10 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
   assert.match(sectionSource, /id: string;/);
   assert.match(sectionSource, /export function CertificationsIntroSection\(/);
   assert.match(sectionSource, /export function CertificationsIntroDescription\(/);
-  assert.match(sectionSource, /export function CertificationCard\(\{ title, description, src, alt \}: CertificationItem\)/);
-  assert.match(sectionSource, /<Image src=\{src\} alt=\{alt\} fill className="object-contain"/);
-  assert.match(sectionSource, /max-w-\[180px\] sm:max-w-\[238px\]/);
+  assert.match(sectionSource, /export function CertificationCard\(\{ title, description, src, alt, imageWidth, imageHeight, displayWidth, displayHeight \}: CertificationItem\)/);
+  assert.match(sectionSource, /<Image[\s\S]*width=\{imageWidth\}[\s\S]*height=\{imageHeight\}/);
+  assert.match(sectionSource, /style=\{\{ width: displayWidth, height: displayHeight \}\}/);
+  assert.doesNotMatch(sectionSource, /<Image[^>]*\sfill\s/);
   assert.match(sectionSource, /export function CertificationsTrialCtaContent\(/);
   assert.match(sectionSource, /export function CertificationsTrialCtaAction\(/);
 });
