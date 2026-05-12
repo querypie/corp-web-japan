@@ -20,7 +20,11 @@ test("/t/certifications uses original-source display dimensions together with in
   assert.match(pageSource, /src: "\/certifications\/csa-star-level-2\.svg"/);
   assert.match(pageSource, /src: "\/certifications\/pci-dss\.svg"/);
   assert.match(pageSource, /displayWidth: "112\.5px"/);
-  assert.match(pageSource, /displayHeight: "67\.5px"/);
+  assert.match(pageSource, /displayHeight: "67\.42px"/);
   assert.match(pageSource, /displayWidth: "187\.5px"/);
   assert.match(pageSource, /displayHeight: "121\.88px"/);
+  assert.match(pageSource, /displayWidth: "119\.84px"/);
+  assert.match(pageSource, /displayHeight: "82\.86px"/);
+  assert.match(pageSource, /displayWidth: "177\.89px"/);
+  assert.match(pageSource, /displayHeight: "89\.63px"/);
 });

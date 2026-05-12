@@ -35,7 +35,11 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
   assert.match(pageSource, /imageWidth: 238/);
   assert.match(pageSource, /imageHeight: 72/);
   assert.match(pageSource, /displayWidth: "222\.9px"/);
-  assert.match(pageSource, /displayHeight: "67\.5px"/);
+  assert.match(pageSource, /displayHeight: "67\.42px"/);
+  assert.match(pageSource, /displayWidth: "119\.84px"/);
+  assert.match(pageSource, /displayHeight: "82\.86px"/);
+  assert.match(pageSource, /displayWidth: "177\.89px"/);
+  assert.match(pageSource, /displayHeight: "89\.63px"/);
   assert.doesNotMatch(pageSource, /function CertificationCard\(/);
   assert.doesNotMatch(pageSource, /function TrialCtaSection\(/);
 

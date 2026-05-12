@@ -80,7 +80,7 @@ const certifications: readonly CertificationItem[] = [
     imageWidth: 238,
     imageHeight: 72,
     displayWidth: "222.9px",
-    displayHeight: "67.5px",
+    displayHeight: "67.42px",
   },
   {
     id: "iso-iec-27001",
@@ -91,7 +91,7 @@ const certifications: readonly CertificationItem[] = [
     imageWidth: 200,
     imageHeight: 127,
     displayWidth: "187.5px",
-    displayHeight: "119.06px",
+    displayHeight: "119.38px",
   },
   {
     id: "iso-27701",
@@ -102,7 +102,7 @@ const certifications: readonly CertificationItem[] = [
     imageWidth: 200,
     imageHeight: 127,
     displayWidth: "187.5px",
-    displayHeight: "119.06px",
+    displayHeight: "119.38px",
   },
   {
     id: "iso-27017",
@@ -135,7 +135,7 @@ const certifications: readonly CertificationItem[] = [
     imageWidth: 200,
     imageHeight: 127,
     displayWidth: "187.5px",
-    displayHeight: "119.06px",
+    displayHeight: "120.11px",
   },
   {
     id: "isms-p",
@@ -145,8 +145,8 @@ const certifications: readonly CertificationItem[] = [
     alt: "ISMS-P",
     imageWidth: 173,
     imageHeight: 120,
-    displayWidth: "119.85px",
-    displayHeight: "112.5px",
+    displayWidth: "119.84px",
+    displayHeight: "82.86px",
   },
   {
     id: "good-software-level-1",
@@ -156,8 +156,8 @@ const certifications: readonly CertificationItem[] = [
     alt: "GOOD Software",
     imageWidth: 190,
     imageHeight: 96,
-    displayWidth: "177.9px",
-    displayHeight: "90px",
+    displayWidth: "177.89px",
+    displayHeight: "89.63px",
   },
   {
     id: "ksel",
