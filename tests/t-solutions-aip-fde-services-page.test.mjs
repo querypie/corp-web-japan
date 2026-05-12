@@ -13,7 +13,7 @@ const assetFiles = [
   "public/solutions/aip/fde-services/make-ai-work.png",
 ];
 
-test("/t/solutions/aip/fde-services exists as a noindex preview page with route-local section composition", () => {
+test("/t/solutions/aip/fde-services exists as a noindex page with route-local section composition", () => {
   assert.equal(existsSync(new URL(`../${pageFile}`, import.meta.url)), true, `${pageFile} should exist`);
   assert.equal(existsSync(new URL(`../${sectionFile}`, import.meta.url)), true, `${sectionFile} should exist`);
 
@@ -31,6 +31,7 @@ test("/t/solutions/aip/fde-services exists as a noindex preview page with route-
   assert.match(pageSource, /カスタムAIエージェントの構築/);
   assert.match(pageSource, /AI実用化を支援/);
   assert.match(pageSource, /BrandGradientCtaButton href="https:\/\/app\.querypie\.com"/);
+  assert.doesNotMatch(pageSource, /AipFdeServicesPreviewPage/);
 
   assert.match(sectionSource, /export function AipFdeHeroTitle/);
   assert.match(sectionSource, /export function AipFdeFeatureRow/);
