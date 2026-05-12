@@ -15,8 +15,8 @@ import { readCachedLegalMdxSource } from "@/lib/legal-mdx-source";
 import { hasPrivacyPolicySlug, listPrivacyPolicySlugs } from "@/lib/privacy-policy/records";
 import { buildPublicationMdxComponents } from "@/lib/publications/mdx/components";
 import { slugifyHeadingText } from "@/lib/publications/mdx/headings";
-import { publicationBodyClassName } from "./publication-post-page";
-import { PrivacyPolicyVersionSelector } from "./privacy-policy-version-selector";
+import { publicationBodyClassName } from "@/components/sections/publication-post-page";
+import { PrivacyPolicyVersionSelector } from "./version-selector";
 
 type PrivacyPolicyFrontmatter = {
   title: string;

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { CookiePreferenceItem, CookiePreferenceList } from "@/components/sections/cookie-preference";
+import { CookiePreferenceItem, CookiePreferenceList } from "@/components/sections/cookie-preference/list";
 import {
   CookiePreferenceHeroContent,
   CookiePreferenceHeroDescription,
   CookiePreferenceHeroSection,
   CookiePreferenceHeroTitle,
   CookiePreferenceSettingsSection,
-} from "@/components/sections/cookie-preference-page";
+} from "@/components/sections/cookie-preference/page";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {

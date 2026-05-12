@@ -5,7 +5,7 @@ import { readSource } from "./helpers/source-readers.mjs";
 
 const pagePath = "src/app/t/terms-of-service/page.tsx";
 const contentPath = new URL("../src/app/t/terms-of-service/content.mdx", import.meta.url);
-const sectionPath = "src/components/sections/legal-terms-of-service.tsx";
+const sectionPath = "src/components/sections/terms-of-service/section.tsx";
 const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
 
 test("terms of service page derives metadata and hero copy from content.mdx frontmatter", () => {

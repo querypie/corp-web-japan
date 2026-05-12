@@ -6,7 +6,7 @@ import {
   TermsOfServiceBody,
   TermsOfServiceHero,
   renderTermsOfServiceContent,
-} from "@/components/sections/legal-terms-of-service";
+} from "@/components/sections/terms-of-service/section";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { frontmatter } = await renderTermsOfServiceContent();

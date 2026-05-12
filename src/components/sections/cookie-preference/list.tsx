@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { CookiePreferenceToggle } from "./cookie-preference-toggle";
+import { CookiePreferenceToggle } from "./toggle";
 
 export type CookiePreferenceKey = "necessary" | "performance" | "functional" | "analysis" | "marketing";
 
