@@ -140,7 +140,7 @@ Pass the scanned slug list from the server renderer instead.
 
 ## Testing
 
-Add/update a narrow test such as `tests/legal-privacy-policy-preview.test.mjs`.
+Add/update a narrow test such as `tests/src/app/t/privacy-policy/page.test.mjs`.
 
 Verify:
 1. `/t/privacy-policy` uses latest-slug discovery, not a hardcoded registry constant
