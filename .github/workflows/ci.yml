@@ -10,6 +10,8 @@ on:
       - "README.md"
       - "AGENTS.md"
       - "docs/**"
+      - "ops/**/*.md"
+      - "public/**/*.md"
       - ".agents/skills/**/*.md"
   push:
     branches:
@@ -18,6 +20,8 @@ on:
       - "README.md"
       - "AGENTS.md"
       - "docs/**"
+      - "ops/**/*.md"
+      - "public/**/*.md"
       - ".agents/skills/**/*.md"
   workflow_dispatch:
 
