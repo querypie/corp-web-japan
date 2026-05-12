@@ -1,23 +1,22 @@
 import { existsSync, readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 
-export function repoUrl(relativePath) {
-  return new URL(`../../${relativePath}`, import.meta.url);
+const repoRootUrl = new URL("../../", import.meta.url);
+
+export function sourceUrl(relativePath) {
+  return new URL(relativePath, repoRootUrl);
 }
 
-export function readRepoText(relativePath) {
-  return readFileSync(repoUrl(relativePath), "utf8");
-}
-
-export function repoExists(relativePath) {
-  return existsSync(repoUrl(relativePath));
+export function sourcePath(relativePath) {
+  return fileURLToPath(sourceUrl(relativePath));
 }
 
 export function readSource(relativePath) {
-  return readRepoText(relativePath);
+  return readFileSync(sourcePath(relativePath), "utf8");
 }
 
 export function sourceExists(relativePath) {
-  return repoExists(relativePath);
+  return existsSync(sourcePath(relativePath));
 }
 
 export function readFirstExistingSource(relativePaths) {

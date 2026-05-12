@@ -1,13 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
 test("FeaturedEventHero separates box-link focus from CTA hover/focus behavior while keeping box-focus image scale", () => {
   const file = "src/components/sections/featured-event-hero.tsx";
   const source = readSource(file);
 
-  assert.equal(existsSync(new URL("../../../../src/components/sections/featured-event-hero.tsx", import.meta.url)), true);
+  assert.equal(sourceExists("src/components/sections/featured-event-hero.tsx"), true);
   assert.match(source, /type FeaturedEventHeroProps = \{/);
   assert.match(source, /href: string;/);
   assert.match(source, /imageSrc: string;/);

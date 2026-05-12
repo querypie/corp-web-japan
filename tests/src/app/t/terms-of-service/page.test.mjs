@@ -1,15 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readRepoText, readSource, repoExists } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
 const pagePath = "src/app/t/terms-of-service/page.tsx";
-const contentPath = "src/app/t/terms-of-service/content.mdx";
-const footerPath = "src/components/layout/site-footer.tsx";
+
 const sectionPath = "src/components/sections/terms-of-service/section.tsx";
 
 
 test("terms of service page derives metadata and hero copy from content.mdx frontmatter", () => {
-  assert.equal(repoExists(pagePath), true, `${pagePath} should exist`);
+  assert.equal(sourceExists(pagePath), true, `${pagePath} should exist`);
 
   const source = readSource(pagePath);
 
@@ -28,11 +27,11 @@ test("terms of service page derives metadata and hero copy from content.mdx fron
 });
 
 test("terms of service page keeps title, description, and date in content.mdx frontmatter with legal body below", () => {
-  const footerSource = readRepoText(footerPath);
-  const contentSource = readRepoText(contentPath);
+  const footerSource = readSource("src/components/layout/site-footer.tsx");
+  const contentSource = readSource("src/app/t/terms-of-service/content.mdx");
   const sectionSource = readSource(sectionPath);
 
-  assert.equal(repoExists("src/app/t/terms-of-service/content.mdx"), true, "terms of service MDX content file should exist");
+  assert.equal(sourceExists("src/app/t/terms-of-service/content.mdx"), true, "terms of service MDX content file should exist");
   assert.match(contentSource, /^---\ntitle: "QueryPie Terms of Service"\ndescription: "Terms of service for QueryPie AIP/m);
   assert.match(contentSource, /\ndate: "2025-06-05"\n/);
   assert.match(contentSource, /Article 1 \(Purpose\)/);

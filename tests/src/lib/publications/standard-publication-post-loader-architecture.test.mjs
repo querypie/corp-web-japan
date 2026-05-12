@@ -1,7 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
 const sharedLoaderPath = "src/lib/publications/create-standard-publication-post-loader.ts";
 const standardLoaderFiles = [
@@ -14,7 +13,7 @@ const standardLoaderFiles = [
 ];
 
 test("use-case, AIP demo, ACP demo, event, news, and blog post loaders share a common standard publication post loader helper", () => {
-  assert.equal(existsSync(new URL("../../../../src/lib/publications/create-standard-publication-post-loader.ts", import.meta.url)), true);
+  assert.equal(sourceExists("src/lib/publications/create-standard-publication-post-loader.ts"), true);
 
   const sharedLoader = readSource(sharedLoaderPath);
   assert.match(sharedLoader, /export function createStandardPublicationPostLoader/);

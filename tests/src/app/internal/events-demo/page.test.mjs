@@ -1,13 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
 test("/internal/events-demo delegates demo hero-state resolution to the event publication helper", () => {
   const file = "src/app/internal/events-demo/page.tsx";
   const source = readSource(file);
 
-  assert.equal(existsSync(new URL("../../../../../src/app/internal/events-demo/page.tsx", import.meta.url)), true);
+  assert.equal(sourceExists("src/app/internal/events-demo/page.tsx"), true);
   assert.match(source, /title:\s*"Internal Events Demo \| QueryPie AI"/);
   assert.match(source, /canonical:\s*"\/internal\/events-demo"/);
   assert.match(source, /index:\s*false/);

@@ -1,7 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
 test("AIP demo public list page and canonical routes are driven by AIP demo MDX publication records", () => {
   const listPage = readSource("src/app/demo/aip/page.tsx");
@@ -12,11 +11,11 @@ test("AIP demo public list page and canonical routes are driven by AIP demo MDX 
   const hrefs = readSource("src/lib/publications/get-publication-href.ts");
   const categories = readSource("src/lib/publications/types.ts");
 
-  assert.equal(existsSync(new URL("../../../../../src/app/demo/aip/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../../../../../src/app/t/demo/aip/page.tsx", import.meta.url)), false);
-  assert.equal(existsSync(new URL("../../../../../src/app/demo/aip/[id]/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../../../../../src/lib/publications/demo/aip/records.ts", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../../../../../src/lib/publications/demo/aip/get-post.ts", import.meta.url)), true);
+  assert.equal(sourceExists("src/app/demo/aip/page.tsx"), true);
+  assert.equal(sourceExists("src/app/t/demo/aip/page.tsx"), false);
+  assert.equal(sourceExists("src/app/demo/aip/[id]/page.tsx"), true);
+  assert.equal(sourceExists("src/lib/publications/demo/aip/records.ts"), true);
+  assert.equal(sourceExists("src/lib/publications/demo/aip/get-post.ts"), true);
 
   assert.match(listPage, /listAipDemoPublicationItems\(\)/);
   assert.match(listPage, /canonical: "\/demo\/aip"/);

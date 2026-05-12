@@ -1,11 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { readSource } from "../../../../helpers/source-readers.mjs";
 
-function readSource(path) {
-  return readFileSync(fileURLToPath(new URL(`../../../../../${path}`, import.meta.url)), "utf8");
-}
 
 test("/t/certifications keeps authored copy and JSON card data in the route while shared section UI owns the rendering shells", () => {
   const pageSource = readSource("src/app/t/certifications/page.tsx");

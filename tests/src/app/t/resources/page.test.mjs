@@ -1,14 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
 test("resources now uses only the canonical public route and does not keep a /t/resources preview route", () => {
   const canonicalFile = "src/app/resources/page.tsx";
   const previewFile = "src/app/t/resources/page.tsx";
 
-  assert.equal(existsSync(new URL(`../../../../../${canonicalFile}`, import.meta.url)), true, `${canonicalFile} should exist`);
-  assert.equal(existsSync(new URL(`../../../../../${previewFile}`, import.meta.url)), false, `${previewFile} should be removed`);
+  assert.equal(sourceExists(canonicalFile), true, `${canonicalFile} should exist`);
+  assert.equal(sourceExists(previewFile), false, `${previewFile} should be removed`);
 
   const canonicalSource = readSource(canonicalFile);
   assert.match(canonicalSource, /canonical: "\/resources"/);

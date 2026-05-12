@@ -1,7 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
 const sharedRepositoryPath = "src/lib/publications/create-standard-records-repository.ts";
 
@@ -41,7 +40,7 @@ const standardRecordFiles = [
 ];
 
 test("all current records-helper adopters on main share the common standard publication records repository helper", () => {
-  assert.equal(existsSync(new URL("../../../../src/lib/publications/create-standard-records-repository.ts", import.meta.url)), true);
+  assert.equal(sourceExists("src/lib/publications/create-standard-records-repository.ts"), true);
 
   const sharedRepository = readSource(sharedRepositoryPath);
   assert.match(sharedRepository, /export function createStandardPublicationRecordsRepository/);

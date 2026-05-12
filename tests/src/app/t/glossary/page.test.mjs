@@ -1,7 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
 test("glossary now uses only canonical public routes and does not keep a /t/glossary preview route family", () => {
   const canonicalIdPage = "src/app/glossary/[id]/page.tsx";
@@ -13,11 +12,11 @@ test("glossary now uses only canonical public routes and does not keep a /t/glos
   const contentFile = "src/content/glossary/1-querypie-ai-glossary.mdx";
 
   for (const file of [canonicalIdPage, canonicalSlugPage, contentFile]) {
-    assert.equal(existsSync(new URL(`../../../../../${file}`, import.meta.url)), true, `${file} should exist`);
+    assert.equal(sourceExists(file), true, `${file} should exist`);
   }
 
   for (const file of [previewListPage, previewIdPage, previewSlugPage]) {
-    assert.equal(existsSync(new URL(`../../../../../${file}`, import.meta.url)), false, `${file} should be removed`);
+    assert.equal(sourceExists(file), false, `${file} should be removed`);
   }
 
   const canonicalSlugSource = readSource(canonicalSlugPage);

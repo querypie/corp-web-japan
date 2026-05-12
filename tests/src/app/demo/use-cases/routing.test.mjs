@@ -1,7 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
 test("use-case public list page and canonical routes are driven by use-case MDX publication records", () => {
   const listPage = readSource("src/app/demo/use-cases/page.tsx");
@@ -12,11 +11,11 @@ test("use-case public list page and canonical routes are driven by use-case MDX 
   const hrefs = readSource("src/lib/publications/get-publication-href.ts");
   const categories = readSource("src/lib/publications/types.ts");
 
-  assert.equal(existsSync(new URL("../../../../../src/app/demo/use-cases/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../../../../../src/app/t/use-cases/page.tsx", import.meta.url)), false);
-  assert.equal(existsSync(new URL("../../../../../src/app/use-cases/[id]/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../../../../../src/lib/publications/use-cases/records.ts", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../../../../../src/lib/publications/use-cases/get-post.ts", import.meta.url)), true);
+  assert.equal(sourceExists("src/app/demo/use-cases/page.tsx"), true);
+  assert.equal(sourceExists("src/app/t/use-cases/page.tsx"), false);
+  assert.equal(sourceExists("src/app/use-cases/[id]/page.tsx"), true);
+  assert.equal(sourceExists("src/lib/publications/use-cases/records.ts"), true);
+  assert.equal(sourceExists("src/lib/publications/use-cases/get-post.ts"), true);
 
   assert.match(listPage, /listUseCasePublicationItems\(\)/);
   assert.match(listPage, /canonical: "\/demo\/use-cases"/);

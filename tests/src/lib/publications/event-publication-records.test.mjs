@@ -1,13 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
 test("event publication records expose eventDate-aware timeline helpers and a dedicated internal events demo resolver", () => {
   const file = "src/lib/publications/events/records.ts";
   const source = readSource(file);
 
-  assert.equal(existsSync(new URL("../../../../src/lib/publications/events/records.ts", import.meta.url)), true);
+  assert.equal(sourceExists("src/lib/publications/events/records.ts"), true);
   assert.match(source, /eventDate\?: string;/);
   assert.match(source, /const EVENT_DATE_PATTERN = \/\^\\d\{4\}-\\d\{2\}-\\d\{2\}\$\//);
   assert.match(source, /function parseIsoCalendarDate\(value: string\)/);

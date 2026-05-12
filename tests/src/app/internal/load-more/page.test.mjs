@@ -1,11 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
 test("/internal/load-more page exists as a noindex demo route and opts into load-more state", () => {
   const file = "src/app/internal/load-more/page.tsx";
-  assert.equal(existsSync(new URL(`../../../../../${file}`, import.meta.url)), true, `${file} should exist`);
+  assert.equal(sourceExists(file), true, `${file} should exist`);
 
   const source = readSource(file);
   assert.match(source, /canonical: "\/internal\/load-more"/);

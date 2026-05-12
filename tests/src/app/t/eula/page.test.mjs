@@ -1,13 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
 const pagePath = "src/app/t/eula/page.tsx";
 const contentPath = "src/app/t/eula/content.mdx";
 
 test("eula page exists with noindex metadata and preview canonical path", () => {
-  assert.equal(existsSync(new URL(`../../../../../${pagePath}`, import.meta.url)), true, `${pagePath} should exist`);
+  assert.equal(sourceExists(pagePath), true, `${pagePath} should exist`);
 
   const source = readSource(pagePath);
   const contentSource = readSource(contentPath);
