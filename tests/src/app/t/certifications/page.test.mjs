@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 function readSource(path) {
-  return readFileSync(fileURLToPath(new URL(`../${path}`, import.meta.url)), "utf8");
+  return readFileSync(fileURLToPath(new URL(`../../../../../${path}`, import.meta.url)), "utf8");
 }
 
 test("/t/certifications keeps authored copy and JSON card data in the route while shared section UI owns the rendering shells", () => {

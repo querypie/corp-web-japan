@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../../../helpers/source-readers.mjs";
 
 test("contact-us page owns the section intro copy", () => {
   const pageSource = readSource("src/app/contact-us/page.tsx");
