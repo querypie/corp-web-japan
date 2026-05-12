@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "find tests -name '*.test.mjs' -print | sort | xargs node --test",
+    "test": "find tests -type f -name '*.test.mjs' -print | sort | xargs node --test",
     "test:ci": "npm run lint && npm run typecheck && npm run test",
     "e2e:stage": "npx playwright test tests-local/src/app --config=playwright.local.config.mjs",
     "e2e:local:contact-us:stage": "npx playwright test tests-local/src/app/contact-us/page.e2e.mjs --config=playwright.local.config.mjs",
