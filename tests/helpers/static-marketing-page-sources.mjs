@@ -14,15 +14,15 @@ export function getTopPageDataSource() {
 export function getTopPageStructureSource() {
   return readCombinedExistingSources([
     "src/app/page.tsx",
-    "src/components/sections/top-page-hero-section.tsx",
-    "src/components/sections/top-page-core-value-section.tsx",
-    "src/components/sections/top-page-roadmap-section.tsx",
-    "src/components/sections/top-page-platform-requirements-section.tsx",
-    "src/components/sections/top-page-security-section.tsx",
-    "src/components/sections/top-page-whitepapers-section.tsx",
-    "src/components/sections/top-page-final-cta-section.tsx",
-    "src/components/sections/top-page-solution-overview-section.tsx",
-    "src/components/sections/top-page-solution-choice-card.tsx",
+    "src/components/sections/home/hero-section.tsx",
+    "src/components/sections/home/core-value-section.tsx",
+    "src/components/sections/home/roadmap-section.tsx",
+    "src/components/sections/home/platform-requirements-section.tsx",
+    "src/components/sections/home/security-section.tsx",
+    "src/components/sections/home/whitepapers-section.tsx",
+    "src/components/sections/home/final-cta-section.tsx",
+    "src/components/sections/home/solution-overview-section.tsx",
+    "src/components/sections/home/solution-choice-card.tsx",
   ]);
 }
 
@@ -67,15 +67,15 @@ export function isAiCrewContentExternalized() {
 
 export function isTopPageSectionExternalized() {
   return [
-    "src/components/sections/top-page-hero-section.tsx",
-    "src/components/sections/top-page-core-value-section.tsx",
-    "src/components/sections/top-page-roadmap-section.tsx",
-    "src/components/sections/top-page-platform-requirements-section.tsx",
-    "src/components/sections/top-page-security-section.tsx",
-    "src/components/sections/top-page-whitepapers-section.tsx",
-    "src/components/sections/top-page-final-cta-section.tsx",
-    "src/components/sections/top-page-solution-overview-section.tsx",
-    "src/components/sections/top-page-solution-choice-card.tsx",
+    "src/components/sections/home/hero-section.tsx",
+    "src/components/sections/home/core-value-section.tsx",
+    "src/components/sections/home/roadmap-section.tsx",
+    "src/components/sections/home/platform-requirements-section.tsx",
+    "src/components/sections/home/security-section.tsx",
+    "src/components/sections/home/whitepapers-section.tsx",
+    "src/components/sections/home/final-cta-section.tsx",
+    "src/components/sections/home/solution-overview-section.tsx",
+    "src/components/sections/home/solution-choice-card.tsx",
   ].some((path) => sourceExists(path));
 }
 

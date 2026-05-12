@@ -16,7 +16,7 @@ import {
   HeroSubcopy,
   HeroTitle,
   HeroTitleLine,
-} from "@/components/sections/top-page-hero-section";
+} from "@/components/sections/home/hero-section";
 import {
   FinalCtaAction,
   FinalCtaActionGroup,
@@ -25,7 +25,7 @@ import {
   FinalCtaSection,
   FinalCtaShell,
   FinalCtaTitle,
-} from "@/components/sections/top-page-final-cta-section";
+} from "@/components/sections/home/final-cta-section";
 import {
   CoreValueBody,
   CoreValueBullet,
@@ -40,7 +40,7 @@ import {
   CoreValueIntro,
   CoreValueSection,
   CoreValueTitle,
-} from "@/components/sections/top-page-core-value-section";
+} from "@/components/sections/home/core-value-section";
 import {
   RoadmapBody,
   RoadmapCallout,
@@ -57,7 +57,7 @@ import {
   RoadmapTab,
   RoadmapTabs,
   RoadmapTitle,
-} from "@/components/sections/top-page-roadmap-section";
+} from "@/components/sections/home/roadmap-section";
 import {
   PlatformRequirementsBlock,
   PlatformRequirementsBlockBody,
@@ -71,14 +71,14 @@ import {
   PlatformRequirementsSection,
   PlatformRequirementsTitle,
   PlatformRequirementsVideo,
-} from "@/components/sections/top-page-platform-requirements-section";
+} from "@/components/sections/home/platform-requirements-section";
 import {
   SecurityAction,
   SecurityCertificationCard,
   SecurityCertificationGrid,
   SecurityIntro,
   SecuritySection,
-} from "@/components/sections/top-page-security-section";
+} from "@/components/sections/home/security-section";
 import {
   WhitepaperAction,
   WhitepaperCard,
@@ -96,7 +96,7 @@ import {
   WhitepaperTagGroup,
   WhitepaperToc,
   WhitepaperTocItem,
-} from "@/components/sections/top-page-whitepapers-section";
+} from "@/components/sections/home/whitepapers-section";
 import {
   SolutionChoiceContent,
   SolutionChoiceGroup,
@@ -106,7 +106,7 @@ import {
   SolutionOverviewLeadGroup,
   SolutionOverviewSection,
   SolutionOverviewTitle,
-} from "@/components/sections/top-page-solution-overview-section";
+} from "@/components/sections/home/solution-overview-section";
 import {
   SolutionChoiceAction,
   SolutionChoiceBadge,
@@ -115,7 +115,7 @@ import {
   SolutionChoiceHeader,
   SolutionChoiceSubtitle,
   SolutionChoiceTitle,
-} from "@/components/sections/top-page-solution-choice-card";
+} from "@/components/sections/home/solution-choice-card";
 export const metadata: Metadata = {
   title: "信頼できるAIが、現場を動かす｜QueryPie AI",
   description:

@@ -26,7 +26,7 @@ test("whitepaper hero thumbnails use route-aligned /whitepapers/{id}/thumbnail.p
 test("whitepaper supporting surfaces do not reference the legacy /assets/image/whitepapers path", () => {
   const topPage = getTopPageDataSource();
   const topPagePage = readSource("src/app/page.tsx");
-  const topPageWhitepapersSection = readSource("src/components/sections/top-page-whitepapers-section.tsx");
+  const topPageWhitepapersSection = readSource("src/components/sections/home/whitepapers-section.tsx");
   const gatingDemo = readSource("src/content/internal/whitepaper-gating-demo.mdx");
 
   assert.match(`${topPage}\n${topPagePage}\n${topPageWhitepapersSection}`, /src: "\/whitepapers\/24\/thumbnail\.png"|<WhitepaperCardImage src="\/whitepapers\/24\/thumbnail\.png"/);
