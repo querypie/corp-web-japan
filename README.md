@@ -40,7 +40,6 @@ Additional notes:
 - Blog and whitepaper detail pages are rendered from local MDX under `src/content/blog/` and `src/content/whitepapers/`.
 - Whitepaper detail pages can use the current MDX gating contract.
 - The `/events` list page is not publicly launched yet. It remains query-gated and is intentionally excluded from the top-level sitemap entry set.
-- The legacy `/posts/:category/:slug` surface remains only for event compatibility and should not be reused for blog or whitepaper content.
 - Public resource hubs now include local `/resources`, `/introduction-deck`, `/glossary`, and `/manuals` pages backed by the local content loaders.
 - Some other top-level paths such as `/about-us` and legal endpoints remain redirect routes to upstream QueryPie destinations.
 - The catch-all missing-route flow only redirects paths that match the maintained QueryPie allowlist; other unmatched paths are logged and resolve to the local not-found flow.

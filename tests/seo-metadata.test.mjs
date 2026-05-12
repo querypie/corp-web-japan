@@ -21,7 +21,6 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   const introductionDeckPage = read("src/app/introduction-deck/page.tsx");
   const glossaryPage = read("src/app/glossary/page.tsx");
   const manualsPage = read("src/app/manuals/page.tsx");
-  const postPage = read("src/app/posts/[category]/[slug]/page.tsx");
   const eventsPage = read("src/app/events/page.tsx");
 
   assert.match(layout, /metadataBase:\s*siteUrl/);
@@ -42,7 +41,6 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.match(introductionDeckPage, /canonical:\s*"\/introduction-deck"/);
   assert.match(glossaryPage, /canonical:\s*"\/glossary"/);
   assert.match(manualsPage, /canonical:\s*"\/manuals"/);
-  assert.match(postPage, /canonical:/);
   assert.match(eventsPage, /title: "イベント \| QueryPie AI"/);
   assert.match(eventsPage, /canonical:\s*"\/events"/);
 
