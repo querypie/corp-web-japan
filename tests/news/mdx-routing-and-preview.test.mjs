@@ -26,10 +26,12 @@ test("news public page and canonical routes are driven by news MDX publication r
   assert.doesNotMatch(publicPage, /robots:\s*\{[\s\S]*index: false,[\s\S]*follow: false,[\s\S]*\}/);
   assert.match(publicPage, /NewsArticleList/);
   assert.match(publicPage, /NewsPageSection/);
+  assert.match(publicPage, /AipFreeTrialCtaSection/);
   assert.match(publicPage, />\s*News\s*</);
-  assert.match(publicPage, /まずは小さく、失敗しないAXを始めよう/);
-  assert.match(publicPage, /簡単サインアップで、14日間の無料トライアルをお試しください/);
-  assert.match(publicPage, /https:\/\/app\.querypie\.com\//);
+  assert.doesNotMatch(publicPage, /まずは小さく、失敗しないAXを始めよう/);
+  assert.doesNotMatch(publicPage, /簡単サインアップで、14日間の無料トライアルをお試しください/);
+  assert.doesNotMatch(publicPage, /https:\/\/app\.querypie\.com\//);
+  assert.doesNotMatch(publicPage, /NewsFinalCta/);
   assert.doesNotMatch(publicPage, /プレビュー一覧/);
   assert.doesNotMatch(publicPage, /ローカル MDX/);
   assert.doesNotMatch(publicPage, /description=\{|description:\s*</);
@@ -42,8 +44,8 @@ test("news public page and canonical routes are driven by news MDX publication r
 
   assert.match(sectionComponents, /export function NewsPageSection/);
   assert.match(sectionComponents, /export function NewsPageNavItem/);
-  assert.match(sectionComponents, /export function NewsFinalCtaSection/);
-  assert.match(sectionComponents, /export function NewsFinalCtaAction/);
+  assert.doesNotMatch(sectionComponents, /export function NewsFinalCtaSection/);
+  assert.doesNotMatch(sectionComponents, /export function NewsFinalCtaAction/);
 
   assert.match(canonicalRoute, /getNewsPublicationRecord\(id\)/);
   assert.match(canonicalRoute, /shouldRedirectHumanVisitorFromRedirectablePublication/);

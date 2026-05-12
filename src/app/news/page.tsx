@@ -2,16 +2,8 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { NewsArticleList } from "@/components/sections/news-list-page";
-import {
-  NewsFinalCtaAction,
-  NewsFinalCtaBody,
-  NewsFinalCtaSection,
-  NewsFinalCtaShell,
-  NewsFinalCtaTitle,
-  NewsPageListArea,
-  NewsPageSection,
-  NewsPageTitle,
-} from "@/components/sections/news-page-section";
+import { NewsPageListArea, NewsPageSection, NewsPageTitle } from "@/components/sections/news-page-section";
+import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 import { listNewsPublicationItems } from "@/lib/publications/news/records";
 
 export const metadata: Metadata = {
@@ -28,7 +20,6 @@ export const metadata: Metadata = {
 
 export default function NewsPage() {
   const newsItems = listNewsPublicationItems();
-  const newsTrialUrl = "https://app.querypie.com/";
 
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
@@ -43,15 +34,7 @@ export default function NewsPage() {
         </div>
       </NewsPageSection>
 
-      <NewsFinalCtaSection>
-        <NewsFinalCtaShell>
-          <NewsFinalCtaTitle>まずは小さく、失敗しないAXを始めよう</NewsFinalCtaTitle>
-          <NewsFinalCtaBody>
-            簡単サインアップで、14日間の無料トライアルをお試しください
-          </NewsFinalCtaBody>
-          <NewsFinalCtaAction href={newsTrialUrl}>無料で試してみる</NewsFinalCtaAction>
-        </NewsFinalCtaShell>
-      </NewsFinalCtaSection>
+      <AipFreeTrialCtaSection />
 
       <SiteFooter />
     </main>
