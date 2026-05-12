@@ -11,7 +11,7 @@ import {
   AipIntegrationsHeroSection,
   AipIntegrationsProductCard,
   AipIntegrationsProductList,
-} from "@/components/sections/aip-integrations-page";
+} from "@/components/sections/aip/integrations-page";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {

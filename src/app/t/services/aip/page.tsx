@@ -30,7 +30,7 @@ import {
   AipServiceValueIntro,
   AipServiceValueSection,
   AipServiceValueTitle,
-} from "@/components/sections/aip-service-page";
+} from "@/components/sections/aip/service-page";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
