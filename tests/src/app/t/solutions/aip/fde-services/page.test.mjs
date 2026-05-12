@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../../../../../../helpers/source-readers.mjs";
 
 const pageFile = "src/app/t/solutions/aip/fde-services/page.tsx";
 const sectionFile = "src/components/sections/fde-services/section.tsx";
@@ -14,8 +14,8 @@ const assetFiles = [
 ];
 
 test("/t/solutions/aip/fde-services exists as a noindex page with route-local section composition", () => {
-  assert.equal(existsSync(new URL(`../${pageFile}`, import.meta.url)), true, `${pageFile} should exist`);
-  assert.equal(existsSync(new URL(`../${sectionFile}`, import.meta.url)), true, `${sectionFile} should exist`);
+  assert.equal(existsSync(new URL(`../../../../../../../${pageFile}`, import.meta.url)), true, `${pageFile} should exist`);
+  assert.equal(existsSync(new URL(`../../../../../../../${sectionFile}`, import.meta.url)), true, `${sectionFile} should exist`);
 
   const pageSource = readSource(pageFile);
   const sectionSource = readSource(sectionFile);
@@ -44,7 +44,7 @@ test("/t/solutions/aip/fde-services uses route-aligned local assets", () => {
   const sectionSource = readSource(sectionFile);
 
   for (const assetFile of assetFiles) {
-    assert.equal(existsSync(new URL(`../${assetFile}`, import.meta.url)), true, `${assetFile} should exist`);
+    assert.equal(existsSync(new URL(`../../../../../../../${assetFile}`, import.meta.url)), true, `${assetFile} should exist`);
   }
 
   const combinedSource = `${pageSource}\n${sectionSource}`;
