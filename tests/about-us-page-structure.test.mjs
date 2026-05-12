@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
-test("about-us preview page keeps copy/composition in the route and UI primitives in the section module", () => {
+test("about-us page keeps copy/composition in the route and UI primitives in the section module", () => {
   const routeSource = readSource("src/app/t/about-us/page.tsx");
   const sectionSource = readSource("src/components/sections/about-us.tsx");
 
@@ -12,6 +12,7 @@ test("about-us preview page keeps copy/composition in the route and UI primitive
   assert.match(routeSource, /<AboutUsLeaderCard imageSrc="\/about-us\/crew\/brant\.png"/);
   assert.match(routeSource, /<AboutUsLocationCard iconSrc="\/about-us\/location\/japan-cu\.svg"/);
 
+  assert.doesNotMatch(routeSource, /AboutUsPreviewPage/);
   assert.doesNotMatch(routeSource, /const investors =/);
   assert.doesNotMatch(routeSource, /const timeline =/);
   assert.doesNotMatch(routeSource, /const leaders =/);
