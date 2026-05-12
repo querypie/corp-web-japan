@@ -2,7 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
-import { getAiCrewStructureSource, getTopPageStructureSource } from "./helpers/static-marketing-page-sources.mjs";
+import { getTopPageStructureSource } from "./src/app/page-sources.mjs";
+import { getAiCrewStructureSource } from "./src/app/solutions/ai-crew/page-sources.mjs";
 
 test("app font setup keeps Mona Sans on html while preloading the representative JP semibold weight from layout", () => {
   const layout = readSource("src/app/layout.tsx");

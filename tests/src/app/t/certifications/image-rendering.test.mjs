@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 function readSource(path) {
-  return readFileSync(fileURLToPath(new URL(`../${path}`, import.meta.url)), "utf8");
+  return readFileSync(fileURLToPath(new URL(`../../../../../${path}`, import.meta.url)), "utf8");
 }
 
 test("/t/certifications uses original-source display dimensions together with intrinsic image dimensions for certification logos", () => {

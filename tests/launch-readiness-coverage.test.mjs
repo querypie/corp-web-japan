@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
-import { getAiCrewDataSource, getTopPageDataSource, getTopPageStructureSource } from "./helpers/static-marketing-page-sources.mjs";
+import { getTopPageDataSource, getTopPageStructureSource } from "./src/app/page-sources.mjs";
+import { getAiCrewDataSource } from "./src/app/solutions/ai-crew/page-sources.mjs";
 
 test("launch-risk CTA targets resolve to explicit anchors or real destinations", () => {
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");

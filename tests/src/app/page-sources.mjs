@@ -1,4 +1,4 @@
-import { readSource, sourceExists } from "./source-readers.mjs";
+import { readSource, sourceExists } from "../../helpers/source-readers.mjs";
 
 function readCombinedExistingSources(paths) {
   return paths
@@ -26,43 +26,8 @@ export function getTopPageStructureSource() {
   ]);
 }
 
-export function getAiCrewDataSource() {
-  return readCombinedExistingSources(["src/app/solutions/ai-crew/page.tsx"]);
-}
-
-export function getAiCrewStructureSource() {
-  return readCombinedExistingSources([
-    "src/app/solutions/ai-crew/page.tsx",
-    "src/components/sections/ai-crew/hero-section.tsx",
-    "src/components/sections/ai-crew/about-section.tsx",
-    "src/components/sections/ai-crew/design-elements-section.tsx",
-    "src/components/sections/ai-crew/lost-section.tsx",
-    "src/components/sections/ai-crew/platform-section.tsx",
-    "src/components/sections/ai-crew/process-section.tsx",
-    "src/components/sections/ai-crew/results-section.tsx",
-    "src/components/sections/ai-crew/why-section.tsx",
-    "src/components/sections/ai-crew/contact-section.tsx",
-    "src/components/sections/ai-crew/use-cases-section.tsx",
-  ]);
-}
-
-export function getAiDashiStructureSource() {
-  return readCombinedExistingSources([
-    "src/app/solutions/ai-dashi/page.tsx",
-    "src/components/sections/ai-dashi/enterprise-ready-section.tsx",
-    "src/components/sections/ai-dashi/support-section.tsx",
-    "src/components/sections/ai-dashi/release-flow-section.tsx",
-    "src/components/sections/ai-dashi/risk-section.tsx",
-    "src/components/sections/ai-dashi/wall-cards-section.tsx",
-  ]);
-}
-
 export function isTopPageContentExternalized() {
   return sourceExists("src/content/top-page.ts");
-}
-
-export function isAiCrewContentExternalized() {
-  return false;
 }
 
 export function isTopPageSectionExternalized() {
@@ -77,8 +42,4 @@ export function isTopPageSectionExternalized() {
     "src/components/sections/home/solution-overview-section.tsx",
     "src/components/sections/home/solution-choice-card.tsx",
   ].some((path) => sourceExists(path));
-}
-
-export function isAiCrewSectionExternalized() {
-  return sourceExists("src/components/sections/ai-crew/hero-section.tsx");
 }

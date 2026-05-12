@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { readSource } from "./helpers/source-readers.mjs";
-import { getTopPageDataSource } from "./helpers/static-marketing-page-sources.mjs";
+import { getTopPageDataSource } from "./src/app/page-sources.mjs";
 
 const whitepapersDir = path.join(process.cwd(), "src/content/whitepapers");
 

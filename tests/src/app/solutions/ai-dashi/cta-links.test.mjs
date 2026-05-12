@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../../../../helpers/source-readers.mjs";
 
 test("AI Dashi CTA links match the intended targets", () => {
   const source = readSource("src/app/solutions/ai-dashi/page.tsx");

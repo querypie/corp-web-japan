@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../../../../helpers/source-readers.mjs";
 
 test("/t/plans keeps copy and comparison composition in the route while the section module only provides pricing UI primitives", () => {
   const routeSource = readSource("src/app/t/plans/page.tsx");

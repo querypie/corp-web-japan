@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "./helpers/source-readers.mjs";
-import { getAiDashiStructureSource } from "./helpers/static-marketing-page-sources.mjs";
+import { readSource } from "../../../../helpers/source-readers.mjs";
+import { getAiDashiStructureSource } from "./page-sources.mjs";
 
 test("AI Dashi release flow section follows route-local authoring", () => {
   const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");

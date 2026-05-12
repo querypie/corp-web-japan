@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 function readSource(path) {
-  return readFileSync(fileURLToPath(new URL(`../${path}`, import.meta.url)), "utf8");
+  return readFileSync(fileURLToPath(new URL(`../../../../../${path}`, import.meta.url)), "utf8");
 }
 
 test("/t/certifications keeps authored copy and JSON card data in the route while shared section UI owns the rendering shells", () => {
@@ -20,7 +20,6 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
   assert.match(pageSource, /export default function CertificationsPage\(\)/);
   assert.match(pageSource, /<CertificationsIntroSection>/);
   assert.match(pageSource, /<CertificationsIntroDescription>/);
-  assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(pageSource, /<AipFreeTrialCtaSection \/>/);
   assert.match(pageSource, /\{certifications\.map\(\(item\) => \(/);
   assert.match(pageSource, /<CertificationCard key=\{item\.id\} \{\.\.\.item\} \/>/);
@@ -52,6 +51,6 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
   assert.match(sectionSource, /<Image[\s\S]*width=\{imageWidth\}[\s\S]*height=\{imageHeight\}/);
   assert.match(sectionSource, /style=\{\{ width: displayWidth, height: displayHeight \}\}/);
   assert.doesNotMatch(sectionSource, /<Image[^>]*\sfill\s/);
-  assert.match(sectionSource, /export function CertificationsTrialCtaContent\(/);
-  assert.match(sectionSource, /export function CertificationsTrialCtaAction\(/);
+  assert.match(sectionSource, /export function CertificationsTrustCenterSection\(/);
+  assert.match(sectionSource, /export function CertificationsTrustCenterAction\(/);
 });

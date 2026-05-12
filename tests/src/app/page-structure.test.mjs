@@ -1,12 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../../helpers/source-readers.mjs";
 import {
   getTopPageDataSource,
   getTopPageStructureSource,
   isTopPageContentExternalized,
   isTopPageSectionExternalized,
-} from "./helpers/static-marketing-page-sources.mjs";
+} from "./page-sources.mjs";
 
 test("top page remains readable whether static marketing content is externalized or route-local", () => {
   const topPage = readSource("src/app/page.tsx");

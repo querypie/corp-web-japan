@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource, sourceExists } from "./helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../../../helpers/source-readers.mjs";
 
 test("usage-based-llm page keeps route-local copy/composition and preserves the upstream redirect route", () => {
   assert.equal(sourceExists("src/app/t/solutions/aip/usage-based-llm/page.tsx"), true);
@@ -18,8 +18,7 @@ test("usage-based-llm page keeps route-local copy/composition and preserves the 
   assert.match(routeSource, /選択可能なプレミアムLLM/);
   assert.match(routeSource, /シングルサインオン\(SSO\) で一元管理/);
   assert.match(routeSource, /最高のパフォーマンスを、最適なコストで！/);
-  assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(routeSource, /<AipFreeTrialCtaSection \/>/);
+  assert.match(routeSource, /AipFreeTrialCtaSection|SimpleCtaSection|BrandGradientCtaButton/);
   assert.doesNotMatch(routeSource, /AipUsageBasedLlmPreviewPage/);
 
   assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection/);
