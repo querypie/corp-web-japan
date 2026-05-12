@@ -25,7 +25,8 @@ test("legal MDX routes share a cached source reader like publication loaders", (
 
   assert.match(eulaSource, /import \{ cache, isValidElement \} from "react";/);
   assert.match(eulaSource, /readCachedLegalMdxSource\(sourcePath\)/);
-  assert.match(eulaSource, /const renderEulaPreviewMdx = cache\(async function renderEulaPreviewMdx\(\)/);
+  assert.match(eulaSource, /const renderEulaMdx = cache\(async function renderEulaMdx\(\)/);
+  assert.doesNotMatch(eulaSource, /renderEulaPreviewMdx/);
 
   assert.match(privacyDocumentSource, /import \{ cache, isValidElement \} from "react";/);
   assert.match(privacyDocumentSource, /readCachedLegalMdxSource\(sourcePath\)/);
