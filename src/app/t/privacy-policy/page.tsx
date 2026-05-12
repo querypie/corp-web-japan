@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import { PrivacyPolicyDocumentPage, generatePrivacyPolicyMetadata } from "@/components/sections/privacy-policy/document-page";
+import {
+  generatePrivacyPolicyMetadata,
+  renderPrivacyPolicyVersionPage,
+} from "./[slug]/page";
 import { getLatestPrivacyPolicySlug } from "@/lib/privacy-policy/records";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -22,5 +25,5 @@ export default async function PrivacyPolicyPage() {
     throw new Error("No privacy policy versions found in src/content/privacy-policy");
   }
 
-  return <PrivacyPolicyDocumentPage slug={latestSlug} />;
+  return renderPrivacyPolicyVersionPage(latestSlug);
 }

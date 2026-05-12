@@ -5,14 +5,16 @@ import { readSource } from "./helpers/source-readers.mjs";
 const legalMdxSourcePath = "src/lib/legal-mdx-source.ts";
 const termsSourcePath = "src/components/sections/terms-of-service/section.tsx";
 const eulaSourcePath = "src/app/t/eula/page.tsx";
-const privacyDocumentPath = "src/components/sections/privacy-policy/document-page.tsx";
+const privacyVersionPagePath = "src/app/t/privacy-policy/[slug]/page.tsx";
+const privacyDocumentBodyComponentsPath = "src/components/sections/privacy-policy/document-body-components.tsx";
 const privacyRecordsPath = "src/lib/privacy-policy/records.ts";
 
 test("legal MDX routes share a cached source reader like publication loaders", () => {
   const helperSource = readSource(legalMdxSourcePath);
   const termsSource = readSource(termsSourcePath);
   const eulaSource = readSource(eulaSourcePath);
-  const privacyDocumentSource = readSource(privacyDocumentPath);
+  const privacyVersionPageSource = readSource(privacyVersionPagePath);
+  const privacyDocumentBodyComponentsSource = readSource(privacyDocumentBodyComponentsPath);
 
   assert.match(helperSource, /const legalMdxSourceCache = new Map<string, Promise<string>>\(\);/);
   assert.match(helperSource, /export async function readCachedLegalMdxSource\(sourcePath: string\)/);
@@ -28,9 +30,8 @@ test("legal MDX routes share a cached source reader like publication loaders", (
   assert.match(eulaSource, /const renderEulaMdx = cache\(async function renderEulaMdx\(\)/);
   assert.doesNotMatch(eulaSource, /renderEulaPreviewMdx/);
 
-  assert.match(privacyDocumentSource, /import \{ cache, isValidElement \} from "react";/);
-  assert.match(privacyDocumentSource, /readCachedLegalMdxSource\(sourcePath\)/);
-  assert.match(privacyDocumentSource, /const renderPrivacyPolicyVersion = cache\(async function renderPrivacyPolicyVersion\(slug: string\)/);
+  assert.match(privacyVersionPageSource, /const renderPrivacyPolicyVersion = cache\(async function renderPrivacyPolicyVersion\(slug: string\)/);
+  assert.match(privacyDocumentBodyComponentsSource, /export function buildPrivacyPolicyDocumentComponents\(/);
 });
 
 test("privacy policy version discovery is cached alongside MDX reads", () => {
