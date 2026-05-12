@@ -2,13 +2,6 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  McpGatewayCtaActions,
-  McpGatewayCtaButton,
-  McpGatewayCtaContent,
-  McpGatewayCtaCopy,
-  McpGatewayCtaDescription,
-  McpGatewayCtaSection,
-  McpGatewayCtaTitle,
   McpGatewayFeatureBand,
   McpGatewayFeatureChecklist,
   McpGatewayFeatureCopy,
@@ -23,6 +16,7 @@ import {
   McpGatewayHeroSection,
   McpGatewayHeroVisual,
 } from "@/components/sections/mcp-gateway/section";
+import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
   title: "QueryPie AIP：すべてを接続するMCPハブ",
@@ -189,17 +183,7 @@ export default function McpGatewayPage() {
         </McpGatewayFeatureLayout>
       </McpGatewayFeatureBand>
 
-      <McpGatewayCtaSection>
-        <McpGatewayCtaContent>
-          <McpGatewayCtaCopy>
-            <McpGatewayCtaTitle>まずは小さく、失敗しないAXを始めよう</McpGatewayCtaTitle>
-            <McpGatewayCtaDescription>簡単サインアップで、14日間の無料トライアルをお試しください</McpGatewayCtaDescription>
-          </McpGatewayCtaCopy>
-          <McpGatewayCtaActions>
-            <McpGatewayCtaButton href="https://app.querypie.com">無料で試してみる</McpGatewayCtaButton>
-          </McpGatewayCtaActions>
-        </McpGatewayCtaContent>
-      </McpGatewayCtaSection>
+      <AipFreeTrialCtaSection />
 
       <SiteFooter />
     </main>
