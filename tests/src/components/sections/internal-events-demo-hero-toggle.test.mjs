@@ -1,13 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
 test("InternalEventsDemoHeroToggle renders two rectangular selectable buttons and syncs hero mode through the URL query", () => {
   const file = "src/components/sections/internal-events-demo-hero-toggle.tsx";
   const source = readSource(file);
 
-  assert.equal(existsSync(new URL("../../../../src/components/sections/internal-events-demo-hero-toggle.tsx", import.meta.url)), true);
+  assert.equal(sourceExists("src/components/sections/internal-events-demo-hero-toggle.tsx"), true);
   assert.match(source, /usePathname/);
   assert.match(source, /useRouter/);
   assert.match(source, /useSearchParams/);

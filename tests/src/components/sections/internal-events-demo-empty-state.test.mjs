@@ -1,13 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
 test("InternalEventsDemoEmptyState renders a sharp-corner bordered box with corner-to-corner diagonal X lines", () => {
   const file = "src/components/sections/internal-events-demo-empty-state.tsx";
   const source = readSource(file);
 
-  assert.equal(existsSync(new URL("../../../../src/components/sections/internal-events-demo-empty-state.tsx", import.meta.url)), true);
+  assert.equal(sourceExists("src/components/sections/internal-events-demo-empty-state.tsx"), true);
   assert.match(source, /min-h-\[240px\]/);
   assert.match(source, /overflow-hidden border bg-white/);
   assert.doesNotMatch(source, /rounded-lg/);

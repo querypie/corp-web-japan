@@ -1,7 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
 const sharedHelperPath = "src/lib/publications/build-related-publication-items.ts";
 const sharedLoaderFiles = [
@@ -17,7 +16,7 @@ const thinWrapperFiles = [
 
 test("all publication post loaders share one common related-items helper with explicit-related passthrough and same-category recent fallback", () => {
   assert.equal(
-    existsSync(new URL("../../../../src/lib/publications/build-related-publication-items.ts", import.meta.url)),
+    sourceExists("src/lib/publications/build-related-publication-items.ts"),
     true,
   );
 

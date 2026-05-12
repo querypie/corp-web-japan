@@ -1,12 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
 const gatedLoaderPath = "src/lib/publications/create-gated-publication-post-loader.ts";
 
 test("whitepaper post loading isolates gating-specific rendering behind a dedicated gated publication post loader helper", () => {
-  assert.equal(existsSync(new URL("../../../../src/lib/publications/create-gated-publication-post-loader.ts", import.meta.url)), true);
+  assert.equal(sourceExists("src/lib/publications/create-gated-publication-post-loader.ts"), true);
 
   const gatedLoader = readSource(gatedLoaderPath);
   const whitepaperLoader = readSource("src/lib/publications/whitepapers/get-post.ts");

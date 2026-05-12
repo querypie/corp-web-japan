@@ -1,14 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
 test("manuals now uses only canonical public routes and does not keep a /t preview route family", () => {
   const canonicalFile = "src/app/manuals/page.tsx";
   const previewFile = "src/app/t/manuals/page.tsx";
   const previewItemsFile = "src/lib/resources/resource-preview-items.ts";
-  assert.equal(existsSync(new URL(`../../../../../${canonicalFile}`, import.meta.url)), true, `${canonicalFile} should exist`);
-  assert.equal(existsSync(new URL(`../../../../../${previewFile}`, import.meta.url)), false, `${previewFile} should be removed`);
+  assert.equal(sourceExists(canonicalFile), true, `${canonicalFile} should exist`);
+  assert.equal(sourceExists(previewFile), false, `${previewFile} should be removed`);
 
   const canonicalSource = readSource(canonicalFile);
   const previewItemsSource = readSource(previewItemsFile);
@@ -39,11 +38,11 @@ test("manual detail route family now uses only canonical public paths and no /t 
   ];
 
   for (const file of [canonicalIdPage, canonicalSlugPage, ...contentFiles]) {
-    assert.equal(existsSync(new URL(`../../../../../${file}`, import.meta.url)), true, `${file} should exist`);
+    assert.equal(sourceExists(file), true, `${file} should exist`);
   }
 
   for (const file of [previewIdPage, previewSlugPage]) {
-    assert.equal(existsSync(new URL(`../../../../../${file}`, import.meta.url)), false, `${file} should be removed`);
+    assert.equal(sourceExists(file), false, `${file} should be removed`);
   }
 
   const canonicalSlugSource = readSource(canonicalSlugPage);

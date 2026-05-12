@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
+import { sourceExists } from "../../../helpers/source-readers.mjs";
 
 const newCategoryLocalPaths = [
   "src/lib/publications/blog/records.ts",
@@ -40,10 +40,10 @@ const oldFlatPaths = [
 
 test("publication category-specific records and post loaders live under category-local directories", () => {
   for (const relativePath of newCategoryLocalPaths) {
-    assert.equal(existsSync(new URL(`../../../../${relativePath}`, import.meta.url)), true, `${relativePath} should exist`);
+    assert.equal(sourceExists(relativePath), true, `${relativePath} should exist`);
   }
 
   for (const relativePath of oldFlatPaths) {
-    assert.equal(existsSync(new URL(`../../../../${relativePath}`, import.meta.url)), false, `${relativePath} should be removed`);
+    assert.equal(sourceExists(relativePath), false, `${relativePath} should be removed`);
   }
 });
