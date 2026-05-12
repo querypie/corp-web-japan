@@ -154,6 +154,21 @@ Good examples of valid second-stage cleanup:
 - keeping the visible copy in `page.tsx` but exposing more of the section's semantic composition there
 - removing layout hacks that became unnecessary after the primitive split
 - when a first-pass refactor over-corrects into dozens of page-specific thin wrappers or massive duplicated JSX blocks, rebalancing toward a clearer middle ground: route-local semantic data for repetitive homogeneous cards, plus one extracted shared card renderer that absorbs presentation-only concerns like image-slot sizing
+- when a first-pass route already moved most copy into `page.tsx` but still hides meaningful structure behind local compound aliases such as `const Pricing = Object.assign(...)`, `const Plan = Object.assign(...)`, or big prop blobs like `<CompareTable rows={[...]} columns={[...]} />`, flattening those back into direct route-authored JSX primitives such as `<PricingHeader>`, `<PlanCard>`, `<CompareTableSection>`, `<CompareTableRow>`, and explicit cell components
+
+Practical pattern confirmed on `/t/plans` follow-up work:
+- a route can look "already route-local" at first glance because the visible copy lives in `page.tsx`, yet still fall short of the intended readability standard if the route keeps:
+  - local compound-component alias wrappers created with `Object.assign(...)`
+  - large comparison-table prop blobs where real labels/values are still packed into `rows` / `columns` arrays
+- in that situation, a valid follow-up refactor is:
+  - remove the local alias wrappers and import/render the real primitives directly in `page.tsx`
+  - replace data-blob table props with direct JSX composition in the route, using reusable section primitives like `CompareTableHead`, `CompareTableSection`, `CompareTableRow`, `CompareTableTextCell`, and boolean/check-label cell helpers
+  - keep the section module responsible only for reusable pricing/table UI behavior and styling, not for decoding authored comparison content structures
+- good outcome:
+  - the route no longer defines `const Pricing = Object.assign(...)` / `const Plan = Object.assign(...)`
+  - the route no longer passes giant semantic content blobs such as `rows={[...]}` and `columns={[...]}` into a generic renderer
+  - reviewers can read the actual plan-table composition directly from `page.tsx`
+  - the structure test explicitly locks both sides of the contract: direct primitive composition remains in the route, and the section module stays limited to exported UI primitives
 
 Review rule for this kind of PR:
 - ask whether the route becomes a clearer authoring surface after the change
