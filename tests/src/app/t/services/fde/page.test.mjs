@@ -21,6 +21,7 @@ test("/t/services/fde keeps route-local copy/composition while the layout primit
   assert.match(routeSource, /AI実用化を支援/);
   assert.match(routeSource, /簡単サインアップで、14日間の無料トライアルをお試しください/);
   assert.match(routeSource, /BrandGradientCtaButton/);
+  assert.doesNotMatch(routeSource, /ServiceFdePreviewPage/);
   assert.doesNotMatch(routeSource, /PREVIEW SERVICE/);
   assert.doesNotMatch(routeSource, /preview で事前確認できます/);
 

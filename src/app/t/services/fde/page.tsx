@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ServiceFdePreviewPage() {
+export default function ServiceFdePage() {
   return (
     <ServiceFdePageShell>
       <SiteHeader />
