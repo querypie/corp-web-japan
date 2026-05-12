@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
+import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 
 type ClassNameProps = {
   className?: string;
@@ -9,6 +10,7 @@ type ClassNameProps = {
 type SectionWithContentProps = ClassNameProps & {
   contentClassName?: string;
 };
+
 
 export function SimpleCtaSection({
   children,
@@ -78,5 +80,21 @@ export function CtaButton({
     >
       {children}
     </Link>
+  );
+}
+
+export function AipFreeTrialCtaSection() {
+  return (
+    <SimpleCtaSection>
+      <CtaContent>
+        <CtaCopy>
+          <CtaTitle>まずは小さく、失敗しないAXを始めよう</CtaTitle>
+          <CtaDescription>簡単サインアップで、14日間の無料トライアルをお試しください</CtaDescription>
+        </CtaCopy>
+        <CtaActions>
+          <BrandGradientCtaButton href="https://app.querypie.com/">無料で試してみる</BrandGradientCtaButton>
+        </CtaActions>
+      </CtaContent>
+    </SimpleCtaSection>
   );
 }

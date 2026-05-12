@@ -12,8 +12,7 @@ import {
   AipIntegrationsProductCard,
   AipIntegrationsProductList,
 } from "@/components/sections/aip-integrations-page";
-import { CtaContent, CtaCopy, CtaTitle, SimpleCtaSection } from "@/components/sections/simple-cta-section";
-import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
+import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
   title: "QueryPie AI: インテグレーション",
@@ -165,19 +164,7 @@ export default async function AipIntegrationsPage({ searchParams }: Integrations
         </AipIntegrationsContent>
       </AipIntegrationsHeroSection>
 
-      <SimpleCtaSection style={{ padding: "120px 24px" }}>
-        <CtaContent className="gap-[40px]">
-          <CtaCopy>
-            <CtaTitle>まずは小さく、失敗しないAXを始めよう</CtaTitle>
-            <p className="mt-[20px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#24292F]">
-              簡単サインアップで、14日間の無料トライアルをお試しください
-            </p>
-          </CtaCopy>
-          <div className="flex justify-center">
-            <BrandGradientCtaButton href="https://app.querypie.com/">無料で試してみる</BrandGradientCtaButton>
-          </div>
-        </CtaContent>
-      </SimpleCtaSection>
+      <AipFreeTrialCtaSection />
 
       <SiteFooter />
     </main>

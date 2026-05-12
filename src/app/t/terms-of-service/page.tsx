@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { CtaActions, CtaContent, CtaCopy, CtaDescription, CtaTitle, SimpleCtaSection } from "@/components/sections/simple-cta-section";
+import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 import {
   TermsOfServiceBody,
   TermsOfServiceHero,
   renderTermsOfServiceContent,
 } from "@/components/sections/legal-terms-of-service";
-import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
-
-const trialHref = "https://app.querypie.com/";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { frontmatter } = await renderTermsOfServiceContent();
@@ -28,19 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 function TrialCtaSection() {
-  return (
-    <SimpleCtaSection>
-      <CtaContent>
-        <CtaCopy>
-          <CtaTitle>まずは小さく、失敗しないAXを始めよう</CtaTitle>
-          <CtaDescription>簡単サインアップで、14日間の無料トライアルをお試しください</CtaDescription>
-        </CtaCopy>
-        <CtaActions>
-          <BrandGradientCtaButton href={trialHref}>無料で試してみる</BrandGradientCtaButton>
-        </CtaActions>
-      </CtaContent>
-    </SimpleCtaSection>
-  );
+  return <AipFreeTrialCtaSection />;
 }
 
 export default async function TermsOfServicePage() {

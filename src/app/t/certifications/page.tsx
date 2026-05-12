@@ -8,12 +8,10 @@ import {
   CertificationsIntroDescription,
   CertificationsIntroSection,
   CertificationsPageSection,
-  CertificationsTrialCtaAction,
-  CertificationsTrialCtaContent,
-  CertificationsTrialCtaSection,
   CertificationsTrustCenterAction,
   CertificationsTrustCenterSection,
 } from "@/components/sections/certifications-page";
+import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
   title: "認証 | QueryPie AI",
@@ -203,13 +201,7 @@ export default function CertificationsPage() {
         </CertificationsTrustCenterSection>
       </CertificationsPageSection>
 
-      <CertificationsTrialCtaSection>
-        <CertificationsTrialCtaContent>
-          <h2 className="text-[32px] font-medium leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[40px]">まずは小さく、失敗しないAXを始めよう</h2>
-          <p className="mt-4 text-base leading-7 text-slate-500">簡単サインアップで、14日間の無料トライアルをお試しください</p>
-          <CertificationsTrialCtaAction href="https://app.querypie.com">無料で試してみる</CertificationsTrialCtaAction>
-        </CertificationsTrialCtaContent>
-      </CertificationsTrialCtaSection>
+      <AipFreeTrialCtaSection />
 
       <SiteFooter />
     </main>

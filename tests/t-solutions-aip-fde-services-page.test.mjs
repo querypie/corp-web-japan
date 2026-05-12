@@ -30,7 +30,8 @@ test("/t/solutions/aip/fde-services exists as a noindex page with route-local se
   assert.match(pageSource, /戦略とロードマップの策定/);
   assert.match(pageSource, /カスタムAIエージェントの構築/);
   assert.match(pageSource, /AI実用化を支援/);
-  assert.match(pageSource, /BrandGradientCtaButton href="https:\/\/app\.querypie\.com"/);
+  assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
+  assert.match(pageSource, /<AipFreeTrialCtaSection \/>/);
   assert.doesNotMatch(pageSource, /AipFdeServicesPreviewPage/);
 
   assert.match(sectionSource, /export function AipFdeHeroTitle/);
