@@ -8,7 +8,7 @@ import {
   AcpFeatureItem,
   AcpFeatureItemBody,
   AcpFeatureItemTitle,
-} from "@/components/sections/acp-feature-browser";
+} from "@/components/sections/acp/feature-browser";
 import {
   AcpEasyUseImage,
   AcpEasyUseInner,
@@ -31,7 +31,7 @@ import {
   AcpSectionBody,
   AcpSectionTitle,
   AcpServicePageShell,
-} from "@/components/sections/acp-service-page";
+} from "@/components/sections/acp/service-page";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 

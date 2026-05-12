@@ -4,10 +4,10 @@ import { readSource, sourceExists } from "../../../../../helpers/source-readers.
 
 test("/t/services/aip keeps route-local copy/composition while the layout primitives live in the service section module", () => {
   assert.equal(sourceExists("src/app/t/services/aip/page.tsx"), true);
-  assert.equal(sourceExists("src/components/sections/aip-service-page.tsx"), true);
+  assert.equal(sourceExists("src/components/sections/aip/service-page.tsx"), true);
 
   const routeSource = readSource("src/app/t/services/aip/page.tsx");
-  const sectionSource = readSource("src/components/sections/aip-service-page.tsx");
+  const sectionSource = readSource("src/components/sections/aip/service-page.tsx");
 
   assert.match(routeSource, /canonical: "\/t\/services\/aip"/);
   assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);

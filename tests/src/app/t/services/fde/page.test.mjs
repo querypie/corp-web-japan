@@ -4,10 +4,10 @@ import { readSource, sourceExists } from "../../../../../helpers/source-readers.
 
 test("/t/services/fde keeps route-local copy/composition while the layout primitives live in the service section module", () => {
   assert.equal(sourceExists("src/app/t/services/fde/page.tsx"), true);
-  assert.equal(sourceExists("src/components/sections/service-fde-page.tsx"), true);
+  assert.equal(sourceExists("src/components/sections/fde/service-page.tsx"), true);
 
   const routeSource = readSource("src/app/t/services/fde/page.tsx");
-  const sectionSource = readSource("src/components/sections/service-fde-page.tsx");
+  const sectionSource = readSource("src/components/sections/fde/service-page.tsx");
 
   assert.match(routeSource, /canonical: "\/t\/services\/fde"/);
   assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
