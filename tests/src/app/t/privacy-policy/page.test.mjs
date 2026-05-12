@@ -1,16 +1,20 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readdirSync } from "node:fs";
+import {
+  readRepoText,
+  readSource,
+  repoExists,
+  repoUrl,
+} from "../../../../helpers/source-readers.mjs";
 
-const routeDir = new URL("../src/app/t/privacy-policy/", import.meta.url);
-const contentDir = new URL("../src/content/privacy-policy/", import.meta.url);
+const contentDir = repoUrl("src/content/privacy-policy/");
 const pagePath = "src/app/t/privacy-policy/page.tsx";
 const versionPagePath = "src/app/t/privacy-policy/[slug]/page.tsx";
 const documentPath = "src/components/sections/privacy-policy/document-page.tsx";
 const selectorPath = "src/components/sections/privacy-policy/version-selector.tsx";
 const sourcesPath = "src/lib/privacy-policy/records.ts";
-const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
+
 
 const expectedVersionSlugs = [
   "2026-01-15",
@@ -33,8 +37,8 @@ const expectedVersionSlugs = [
 ];
 
 test("privacy policy route keeps latest alias page and version detail route with noindex metadata", () => {
-  assert.equal(existsSync(new URL(`../${pagePath}`, import.meta.url)), true, `${pagePath} should exist`);
-  assert.equal(existsSync(new URL(`../${versionPagePath}`, import.meta.url)), true, `${versionPagePath} should exist`);
+  assert.equal(repoExists(pagePath), true, `${pagePath} should exist`);
+  assert.equal(repoExists(versionPagePath), true, `${versionPagePath} should exist`);
 
   const pageSource = readSource(pagePath);
   const versionPageSource = readSource(versionPagePath);
@@ -52,7 +56,7 @@ test("privacy policy preview scans shared content filenames instead of keeping a
   const documentSource = readSource(documentPath);
   const selectorSource = readSource(selectorPath);
   const sourcesSource = readSource(sourcesPath);
-  const footerSource = readFileSync(footerPath, "utf8");
+  const footerSource = readSource("src/components/layout/site-footer.tsx");
 
   assert.match(documentSource, /parseFrontmatter: true/);
   assert.match(documentSource, /src\/content\/privacy-policy", `\$\{slug\}\.mdx`/);
@@ -68,10 +72,10 @@ test("privacy policy preview scans shared content filenames instead of keeping a
   assert.match(sourcesSource, /readdir\(PRIVACY_POLICY_CONTENT_DIR, \{ withFileTypes: true \}\)/);
   assert.match(sourcesSource, /filter\(\(entry\) => entry\.isFile\(\) && PRIVACY_POLICY_FILE_PATTERN\.test\(entry\.name\)\)/);
   assert.match(sourcesSource, /sort\(\)/);
-  assert.equal(existsSync(new URL("privacy-policy-document.tsx", routeDir)), false);
-  assert.equal(existsSync(new URL("privacy-policy-version-selector.tsx", routeDir)), false);
-  assert.equal(existsSync(new URL("privacy-policy-sources.ts", routeDir)), false);
-  assert.equal(existsSync(new URL("privacy-policy-versions.ts", routeDir)), false);
+  assert.equal(repoExists("src/app/t/privacy-policy/privacy-policy-document.tsx"), false);
+  assert.equal(repoExists("src/app/t/privacy-policy/privacy-policy-version-selector.tsx"), false);
+  assert.equal(repoExists("src/app/t/privacy-policy/privacy-policy-sources.ts"), false);
+  assert.equal(repoExists("src/app/t/privacy-policy/privacy-policy-versions.ts"), false);
 });
 
 test("privacy policy preview migrates every upstream English version into src/content/privacy-policy dated MDX files", () => {
@@ -81,11 +85,11 @@ test("privacy policy preview migrates every upstream English version into src/co
     .reverse();
 
   assert.deepEqual(contentFiles.map((name) => name.replace(/\.mdx$/g, "")), expectedVersionSlugs);
-  assert.equal(existsSync(new URL("privacy-policy-content.mdx", routeDir)), false);
-  assert.equal(existsSync(new URL("../src/components/sections/legal-privacy-policy-version-selector.tsx", import.meta.url)), false);
+  assert.equal(repoExists("src/app/t/privacy-policy/privacy-policy-content.mdx"), false);
+  assert.equal(repoExists("src/components/sections/legal-privacy-policy-version-selector.tsx"), false);
 
   for (const slug of expectedVersionSlugs) {
-    const contentSource = readFileSync(new URL(`${slug}.mdx`, contentDir), "utf8");
+    const contentSource = readRepoText(`src/content/privacy-policy/${slug}.mdx`);
     assert.match(contentSource, new RegExp(`date: \"${slug}\"`));
     assert.match(contentSource, new RegExp(`version: \"${slug}\"`));
     assert.doesNotMatch(contentSource, /PrivacyPolicyVersionSelector/);
