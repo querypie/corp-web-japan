@@ -35,6 +35,8 @@ test("/t/services/acp keeps route-local copy/composition while the interactive f
   assert.doesNotMatch(routeSource, /type AcpFeatureItem =/);
   assert.doesNotMatch(routeSource, /type AcpFeatureCategory =/);
   assert.doesNotMatch(routeSource, /const categories =/);
+  assert.doesNotMatch(routeSource, /AcpServicePreviewPage/);
+  assert.doesNotMatch(routeSource, /プレビューです/);
   assert.doesNotMatch(routeSource, /PREVIEW SERVICE/);
   assert.doesNotMatch(routeSource, /現在の upstream ページで案内している代表機能/);
 

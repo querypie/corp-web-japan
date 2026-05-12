@@ -39,7 +39,7 @@ import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-butto
 export const metadata: Metadata = {
   title: "QueryPie アクセス制御プラットフォーム (ACP) | QueryPie AI",
   description:
-    "ゼロトラスト型の統合アクセス制御により、データベース、サーバー、Kubernetes、Webアプリケーション、ワークフロー全体を一元管理する QueryPie ACP のプレビューです。",
+    "ゼロトラスト型の統合アクセス制御により、データベース、サーバー、Kubernetes、Webアプリケーション、ワークフロー全体を一元管理する QueryPie ACP のページです。",
   alternates: {
     canonical: "/t/services/acp",
   },
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AcpServicePreviewPage() {
+export default function AcpServicePage() {
   return (
     <AcpServicePageShell>
       <SiteHeader />
