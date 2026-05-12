@@ -7,14 +7,16 @@ const pagePath = "src/app/t/eula/page.tsx";
 const contentPath = "src/app/t/eula/content.mdx";
 const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
 
-test("eula preview page exists with noindex metadata and preview canonical path", () => {
+test("eula page exists with noindex metadata and preview canonical path", () => {
   assert.equal(existsSync(new URL(`../${pagePath}`, import.meta.url)), true, `${pagePath} should exist`);
 
   const source = readSource(pagePath);
   const contentSource = readSource(contentPath);
 
   assert.match(source, /export async function generateMetadata\(\): Promise<Metadata>/);
-  assert.match(source, /const \{ frontmatter \} = await renderEulaPreviewMdx\(\);/);
+  assert.match(source, /const \{ frontmatter \} = await renderEulaMdx\(\);/);
+  assert.doesNotMatch(source, /PreviewEulaPage/);
+  assert.doesNotMatch(source, /renderEulaPreviewMdx/);
   assert.match(source, /title: frontmatter\.title,/);
   assert.match(source, /description: frontmatter\.description,/);
   assert.match(source, /canonical: "\/t\/eula"/);

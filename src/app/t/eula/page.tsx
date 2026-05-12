@@ -96,7 +96,7 @@ function EulaMdxLink({ href, children }: LinkProps) {
   return <Link href={href}>{children}</Link>;
 }
 
-const renderEulaPreviewMdx = cache(async function renderEulaPreviewMdx() {
+const renderEulaMdx = cache(async function renderEulaMdx() {
   const sourcePath = join(process.cwd(), "src/app/t/eula/content.mdx");
   const source = await readCachedLegalMdxSource(sourcePath);
 
@@ -118,7 +118,7 @@ const renderEulaPreviewMdx = cache(async function renderEulaPreviewMdx() {
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { frontmatter } = await renderEulaPreviewMdx();
+  const { frontmatter } = await renderEulaMdx();
 
   return {
     title: frontmatter.title,
@@ -133,8 +133,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function PreviewEulaPage() {
-  const evaluation = await renderEulaPreviewMdx();
+export default async function EulaPage() {
+  const evaluation = await renderEulaMdx();
 
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
