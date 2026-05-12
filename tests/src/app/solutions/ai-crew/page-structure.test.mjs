@@ -5,7 +5,7 @@ import {
   getAiCrewDataSource,
   getAiCrewStructureSource,
   isAiCrewSectionExternalized,
-} from "../../../../helpers/static-marketing-page-sources.mjs";
+} from "./page-sources.mjs";
 
 test("AI Crew route-local authoring keeps hero, platform, why, design-elements, process, use-cases, and results copy in the route while shared UI stays extracted", () => {
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
