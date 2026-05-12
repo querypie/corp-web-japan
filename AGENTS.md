@@ -136,9 +136,8 @@ Use `.agents/skills/README.md` as the first local index, then load the specific 
 - Blog detail pages are currently local canonical routes under `/blog/:id/:slug`.
 - Whitepaper detail pages are currently local canonical routes under `/whitepapers/:id/:slug`.
 - For every public detail route with an `id`, keep the `id` as the lookup key and redirect `/section/:id` or mismatched slugs to the canonical `/section/:id/:slug` route.
-- Do not introduce or preserve generic `/posts/...` routes for blog or whitepaper content in `corp-web-japan`.
-- The only remaining `/posts/...` usage should be explicit legacy event compatibility unless the user requests a broader cleanup.
-- Event content may continue to use local detail routes, upstream links, or both depending on launch readiness.
+- Do not introduce or preserve generic `/posts/...` routes in `corp-web-japan`; use canonical resource detail routes such as `/blog/:id/:slug`, `/whitepapers/:id/:slug`, and `/events/:id/:slug`.
+- Event content should use canonical `/events` routes rather than legacy `/posts/...` compatibility surfaces.
 
 ### ID-based detail route canonicalization
 

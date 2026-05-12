@@ -75,7 +75,6 @@ test("public route metadata titles use the final QueryPie AI branding", () => {
   const whitepapersPage = readSource("src/app/whitepapers/page.tsx");
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
   const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
-  const resourcePostRoute = readSource("src/app/posts/[category]/[slug]/page.tsx");
   const resourcesPage = readSource("src/app/resources/page.tsx");
   const introductionDeckPage = readSource("src/app/introduction-deck/page.tsx");
   const glossaryPage = readSource("src/app/glossary/page.tsx");
@@ -90,10 +89,8 @@ test("public route metadata titles use the final QueryPie AI branding", () => {
   assert.match(introductionDeckPage, /title: "紹介資料 \| QueryPie AI"/);
   assert.match(glossaryPage, /title: "用語集 \| QueryPie AI"/);
   assert.match(manualsPage, /title: "マニュアル \| QueryPie AI"/);
-  assert.match(resourcePostRoute, /title: `\$\{post\.title\} \| QueryPie AI`/);
 
   assert.doesNotMatch(eventsPage, /title: ".*AI Staff"/);
-  assert.doesNotMatch(resourcePostRoute, /title: `\$\{.*\} \| AI Staff`/);
 });
 
 test("public route files expose metadata or generateMetadata for user-facing pages", () => {
@@ -107,7 +104,6 @@ test("public route files expose metadata or generateMetadata for user-facing pag
   const introductionDeckPage = readSource("src/app/introduction-deck/page.tsx");
   const glossaryPage = readSource("src/app/glossary/page.tsx");
   const manualsPage = readSource("src/app/manuals/page.tsx");
-  const resourcePostRoute = readSource("src/app/posts/[category]/[slug]/page.tsx");
 
   for (const source of [homePage, blogPage, whitepapersPage, eventsPage, aiCrewPage, aiDashiPage, resourcesPage, introductionDeckPage, glossaryPage, manualsPage]) {
     assert.match(source, /export const metadata: Metadata = \{/);
@@ -115,6 +111,4 @@ test("public route files expose metadata or generateMetadata for user-facing pag
     assert.match(source, /description:/);
   }
 
-  assert.match(resourcePostRoute, /export async function generateMetadata/);
-  assert.match(resourcePostRoute, /description:/);
 });
