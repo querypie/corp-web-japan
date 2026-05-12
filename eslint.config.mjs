@@ -12,6 +12,7 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     ".vercel/**",
+    ".worktrees/**",
     "next-env.d.ts",
     "corp-web-japan-preview/**",
     "querypie-web-v2/**",
