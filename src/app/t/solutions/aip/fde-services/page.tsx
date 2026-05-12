@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AipFdeServicesPreviewPage() {
+export default function AipFdeServicesPage() {
   return (
     <AipFdeServicesPageShell>
       <SiteHeader />
