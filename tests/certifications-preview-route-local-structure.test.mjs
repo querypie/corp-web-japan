@@ -25,6 +25,9 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
   assert.match(pageSource, /<CertificationCard key=\{item\.id\} \{\.\.\.item\} \/>/);
 
   assert.doesNotMatch(pageSource, /CertificationsPreviewPage/);
+  assert.match(pageSource, /src: "\/certifications\/csa-star-level-1\.svg"/);
+  assert.match(pageSource, /src: "\/certifications\/csa-star-level-2\.svg"/);
+  assert.match(pageSource, /src: "\/certifications\/pci-dss\.svg"/);
   assert.match(pageSource, /imageWidth: 120/);
   assert.match(pageSource, /imageHeight: 120/);
   assert.match(pageSource, /displayWidth: "112\.5px"/);

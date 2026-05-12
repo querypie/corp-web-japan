@@ -16,6 +16,9 @@ test("/t/certifications uses original-source display dimensions together with in
   assert.match(sectionSource, /<Image[\s\S]*src=\{src\}[\s\S]*alt=\{alt\}[\s\S]*width=\{imageWidth\}[\s\S]*height=\{imageHeight\}[\s\S]*style=\{\{ width: displayWidth, height: displayHeight \}\}/);
   assert.doesNotMatch(sectionSource, /<Image[^>]*\sfill\s/);
 
+  assert.match(pageSource, /src: "\/certifications\/csa-star-level-1\.svg"/);
+  assert.match(pageSource, /src: "\/certifications\/csa-star-level-2\.svg"/);
+  assert.match(pageSource, /src: "\/certifications\/pci-dss\.svg"/);
   assert.match(pageSource, /displayWidth: "112\.5px"/);
   assert.match(pageSource, /displayHeight: "67\.5px"/);
   assert.match(pageSource, /displayWidth: "187\.5px"/);
