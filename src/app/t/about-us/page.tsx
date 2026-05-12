@@ -86,7 +86,7 @@ export default function AboutUsPage() {
       <AboutUsSection className="mx-auto max-w-[1200px] px-6 pb-[92px] pt-[94px] lg:px-0">
         <RevealOnScroll>
           <AboutUsSectionHeading>出資企業</AboutUsSectionHeading>
-          <AboutUsSectionIntro className="max-w-[760px]">
+          <AboutUsSectionIntro className="max-w-[1200px]">
             <AboutUsBodyCopy>
               総資金調達額：3,000万ドル以上（2025年現在）
               <br />
@@ -112,7 +112,7 @@ export default function AboutUsPage() {
         <AboutUsSectionInner>
           <RevealOnScroll>
             <AboutUsSectionHeading>私たちの歩み</AboutUsSectionHeading>
-            <AboutUsSectionIntro className="max-w-[760px]">
+            <AboutUsSectionIntro className="max-w-[1200px]">
               <AboutUsBodyCopy>
                 AIが次のフロンティアになったとき、多くの企業が「莫大なコストと複雑な実装」という2つの壁に直面しました。
                 <br />
