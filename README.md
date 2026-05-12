@@ -1,6 +1,6 @@
-# AI Staff Japan Website
+# QueryPie AI Japan Website
 
-This repository contains the Japan-facing AI Staff website.
+This repository contains the Japan-facing QueryPie AI website.
 
 README.md is the human-facing project guide. AI agents should read this file first for context, then follow `AGENTS.md` for execution rules.
 
