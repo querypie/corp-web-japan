@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../../../../helpers/source-readers.mjs";
 
 test("about-us page keeps copy/composition in the route and UI primitives in the section module", () => {
   const routeSource = readSource("src/app/t/about-us/page.tsx");
