@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PlansPreviewPage() {
+export default function PlansPage() {
   return (
     <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
       <SiteHeader />
