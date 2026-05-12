@@ -18,7 +18,7 @@ import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-butto
 export const metadata: Metadata = {
   title: "QueryPie AI: インテグレーション",
   description:
-    "MCPサーバーを介して業務ツールへ接続し、ワークフローを自動化する QueryPie AIP インテグレーション preview ページ。",
+    "MCPサーバーを介して業務ツールへ接続し、ワークフローを自動化する QueryPie AIP インテグレーションページ。",
   alternates: {
     canonical: "/t/services/aip/integrations",
   },
@@ -114,7 +114,7 @@ function getCategoryCount(categoryKey: string) {
   return products.filter((product) => product.categoryKeys.includes(categoryKey)).length;
 }
 
-export default async function AipIntegrationsPreviewPage({ searchParams }: IntegrationsPageProps) {
+export default async function AipIntegrationsPage({ searchParams }: IntegrationsPageProps) {
   const resolvedSearchParams = (await searchParams) ?? {};
   const currentCategory = readCurrentCategory(resolvedSearchParams);
   const filteredProducts = products

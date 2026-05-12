@@ -10,11 +10,13 @@ const pageSource = fs.readFileSync(pagePath, "utf8");
 const sectionSource = fs.readFileSync(sectionPath, "utf8");
 const cssSource = fs.readFileSync(cssPath, "utf8");
 
-test("AIP integrations preview page exports noindex metadata for the /t/services/aip/integrations route", () => {
+test("AIP integrations page exports noindex metadata for the /t/services/aip/integrations route", () => {
   assert.match(pageSource, /canonical:\s*"\/t\/services\/aip\/integrations"/);
   assert.match(pageSource, /index:\s*false/);
   assert.match(pageSource, /follow:\s*false/);
   assert.match(pageSource, /title:\s*"QueryPie AI: インテグレーション"/);
+  assert.doesNotMatch(pageSource, /AipIntegrationsPreviewPage/);
+  assert.doesNotMatch(pageSource, /preview ページ/);
 });
 
 test("AIP integrations preview page keeps authored hero copy and CTA in page.tsx", () => {
