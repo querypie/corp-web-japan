@@ -1,10 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { readSource } from "../../../../../../helpers/source-readers.mjs";
+import { readFirstExistingSource, readSource, repoExists } from "../../../../../../helpers/source-readers.mjs";
 
 const pageFile = "src/app/t/solutions/aip/fde-services/page.tsx";
-const sectionFile = "src/components/sections/fde-services/section.tsx";
+const sectionFiles = ["src/components/sections/fde-services/section.tsx", "src/components/sections/aip-fde-services-page.tsx"];
 const assetFiles = [
   "public/solutions/aip/fde-services/hero.svg",
   "public/solutions/aip/fde-services/find-problems.png",
@@ -14,11 +13,11 @@ const assetFiles = [
 ];
 
 test("/t/solutions/aip/fde-services exists as a noindex page with route-local section composition", () => {
-  assert.equal(existsSync(new URL(`../../../../../../../${pageFile}`, import.meta.url)), true, `${pageFile} should exist`);
-  assert.equal(existsSync(new URL(`../../../../../../../${sectionFile}`, import.meta.url)), true, `${sectionFile} should exist`);
+  assert.equal(repoExists(pageFile), true, `${pageFile} should exist`);
+  assert.equal(sectionFiles.some((file) => repoExists(file)), true, `${sectionFiles.join(" or ")} should exist`);
 
   const pageSource = readSource(pageFile);
-  const sectionSource = readSource(sectionFile);
+  const sectionSource = readFirstExistingSource(sectionFiles);
 
   assert.match(pageSource, /canonical:\s*"\/t\/solutions\/aip\/fde-services"/);
   assert.match(pageSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
@@ -40,10 +39,10 @@ test("/t/solutions/aip/fde-services exists as a noindex page with route-local se
 
 test("/t/solutions/aip/fde-services uses route-aligned local assets", () => {
   const pageSource = readSource(pageFile);
-  const sectionSource = readSource(sectionFile);
+  const sectionSource = readFirstExistingSource(sectionFiles);
 
   for (const assetFile of assetFiles) {
-    assert.equal(existsSync(new URL(`../../../../../../../${assetFile}`, import.meta.url)), true, `${assetFile} should exist`);
+    assert.equal(repoExists(assetFile), true, `${assetFile} should exist`);
   }
 
   const combinedSource = `${pageSource}\n${sectionSource}`;
