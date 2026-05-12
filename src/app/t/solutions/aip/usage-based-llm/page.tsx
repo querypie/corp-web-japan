@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AipUsageBasedLlmPreviewPage() {
+export default function AipUsageBasedLlmPage() {
   return (
     <AipUsageBasedLlmPageShell>
       <SiteHeader />
