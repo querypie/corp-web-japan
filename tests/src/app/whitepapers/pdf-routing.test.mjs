@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../../../helpers/source-readers.mjs";
 
 test("whitepaper loader rewrites article download CTAs to canonical local pdf pages while preserving asset hrefs in frontmatter", () => {
   const getPost = readSource("src/lib/publications/whitepapers/get-post.ts");

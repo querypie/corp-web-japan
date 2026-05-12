@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../../../../helpers/source-readers.mjs";
 
 test("ACP demo public list page and canonical routes are driven by ACP demo MDX publication records", () => {
   const listPage = readSource("src/app\/demo\/acp/page.tsx");
@@ -13,11 +13,11 @@ test("ACP demo public list page and canonical routes are driven by ACP demo MDX 
   const categories = readSource("src/lib/publications/types.ts");
   const mdxComponents = readSource("src/lib/publications/mdx/components.tsx");
 
-  assert.equal(existsSync(new URL("../src/app\/demo\/acp/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/app/t\/demo\/acp/page.tsx", import.meta.url)), false);
-  assert.equal(existsSync(new URL("../src/app\/demo\/acp/[id]/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/lib/publications/demo/acp/records.ts", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/lib/publications/demo/acp/get-post.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../../../../src/app\/demo\/acp/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../../../../src/app/t\/demo\/acp/page.tsx", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../../../../../src/app\/demo\/acp/[id]/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../../../../src/lib/publications/demo/acp/records.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../../../../src/lib/publications/demo/acp/get-post.ts", import.meta.url)), true);
 
   assert.match(listPage, /listAcpDemoPublicationItems\(\)/);
   assert.match(listPage, /canonical: "\/demo\/acp"/);

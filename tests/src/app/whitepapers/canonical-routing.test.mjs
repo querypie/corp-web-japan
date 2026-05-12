@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../../../helpers/source-readers.mjs";
 
 test("whitepaper canonical routing keeps the local MDX-backed detail flow and preserves hidden redirect records", () => {
   const whitepaper25 = readSource("src/content/whitepapers/25-ai-transformation-japan.mdx");
@@ -9,9 +9,9 @@ test("whitepaper canonical routing keeps the local MDX-backed detail flow and pr
   const gatedLoader = readSource("src/lib/publications/create-gated-publication-post-loader.ts");
   const publicationRecords = readSource("src/lib/publications/whitepapers/records.ts");
 
-  assert.equal(existsSync(new URL("../src/content/whitepapers/25-ai-transformation-japan.mdx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/lib/publications/whitepapers/records.ts", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/app/t/whitepapers/page.tsx", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../../../../src/content/whitepapers/25-ai-transformation-japan.mdx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../../../src/lib/publications/whitepapers/records.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../../../src/app/t/whitepapers/page.tsx", import.meta.url)), false);
 
   assert.match(whitepaper25, /hidden:\s*true/);
   assert.match(whitepaper25, /redirectUrl:\s*"\/whitepapers\/24\/ai-transformation-japan"/);

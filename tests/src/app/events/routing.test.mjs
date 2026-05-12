@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readSource } from "../../../helpers/source-readers.mjs";
 
 test("event canonical list and detail routes are driven by event MDX publication records", () => {
   const listPage = readSource("src/app/events/page.tsx");
@@ -13,12 +13,12 @@ test("event canonical list and detail routes are driven by event MDX publication
   const records = readSource("src/lib/publications/events/records.ts");
   const postPage = readSource("src/components/sections/publication-post-page.tsx");
 
-  assert.equal(existsSync(new URL("../src/app/t/events/page.tsx", import.meta.url)), false);
-  assert.equal(existsSync(new URL("../src/app/events/[id]/page.tsx", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/app/features/demo/webinars/[id]/route.ts", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/app/features/demo/webinars/[id]/[slug]/route.ts", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/lib/publications/events/records.ts", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../src/lib/publications/events/get-post.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../../../src/app/t/events/page.tsx", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../../../../src/app/events/[id]/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../../../src/app/features/demo/webinars/[id]/route.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../../../src/app/features/demo/webinars/[id]/[slug]/route.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../../../src/lib/publications/events/records.ts", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../../../src/lib/publications/events/get-post.ts", import.meta.url)), true);
 
   assert.match(listPage, /resolveEventTimeline\(resolvedSearchParams\?\.asof\)/);
   assert.match(listPage, /searchParams\?: Promise<\{/);
