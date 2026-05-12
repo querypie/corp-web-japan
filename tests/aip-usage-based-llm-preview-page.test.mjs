@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource, sourceExists } from "./helpers/source-readers.mjs";
 
-test("usage-based-llm preview page keeps route-local copy/composition and preserves the upstream redirect route", () => {
+test("usage-based-llm page keeps route-local copy/composition and preserves the upstream redirect route", () => {
   assert.equal(sourceExists("src/app/t/solutions/aip/usage-based-llm/page.tsx"), true);
 
   const routeSource = readSource("src/app/t/solutions/aip/usage-based-llm/page.tsx");
@@ -20,6 +20,7 @@ test("usage-based-llm preview page keeps route-local copy/composition and preser
   assert.match(routeSource, /最高のパフォーマンスを、最適なコストで！/);
   assert.match(routeSource, /まずは小さく、失敗しないAXを始めよう/);
   assert.match(routeSource, /BrandGradientCtaButton/);
+  assert.doesNotMatch(routeSource, /AipUsageBasedLlmPreviewPage/);
 
   assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection/);
   assert.match(sectionSource, /export function AipUsageBasedLlmFeatureRow/);
