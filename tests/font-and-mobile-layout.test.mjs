@@ -49,7 +49,7 @@ test("mobile-only fallback layout exists for the AI Crew after diagram", () => {
 
 test("AI Dashi comparison cells allow long copy to wrap on narrow screens", () => {
   const pageSource = readSource("src/app/solutions/ai-dashi/page.tsx");
-  const comparisonSectionSource = readSource("src/components/sections/ai-dashi-comparison-section.tsx");
+  const comparisonSectionSource = readSource("src/components/sections/ai-dashi/comparison-section.tsx");
   const source = `${pageSource}\n${comparisonSectionSource}`;
 
   assert.match(source, /max-w-\[380px\]/);

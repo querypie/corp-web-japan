@@ -27,7 +27,7 @@ import {
   AIDashiHeroTitle,
   AIDashiHeroTitleAccent,
   AIDashiHeroTitleLine,
-} from "@/components/sections/ai-dashi-hero-section";
+} from "@/components/sections/ai-dashi/hero-section";
 import {
   AIDashiAboutBody,
   AIDashiAboutHighlight,
@@ -36,7 +36,7 @@ import {
   AIDashiAboutShell,
   AIDashiAboutTitle,
   AIDashiAboutVisual,
-} from "@/components/sections/ai-dashi-about-section";
+} from "@/components/sections/ai-dashi/about-section";
 import {
   AIDashiValuesDiagram,
   AIDashiValueBadge,
@@ -51,7 +51,7 @@ import {
   AIDashiValuesSection,
   AIDashiValuesShell,
   AIDashiValuesTitle,
-} from "@/components/sections/ai-dashi-values-section";
+} from "@/components/sections/ai-dashi/values-section";
 import {
   AIDashiWhitepaperAction,
   AIDashiWhitepaperBody,
@@ -67,7 +67,7 @@ import {
   AIDashiWhitepaperTag,
   AIDashiWhitepaperTags,
   AIDashiWhitepaperTitle,
-} from "@/components/sections/ai-dashi-whitepaper-section";
+} from "@/components/sections/ai-dashi/whitepaper-section";
 import {
   AIDashiContactActions,
   AIDashiContactBody,
@@ -77,7 +77,7 @@ import {
   AIDashiContactSection,
   AIDashiContactShell,
   AIDashiContactTitle,
-} from "@/components/sections/ai-dashi-contact-section";
+} from "@/components/sections/ai-dashi/contact-section";
 import {
   AIDashiComparisonBody,
   AIDashiComparisonCallout,
@@ -97,7 +97,7 @@ import {
   AIDashiComparisonTable,
   AIDashiComparisonTitle,
   AIDashiComparisonIntro,
-} from "@/components/sections/ai-dashi-comparison-section";
+} from "@/components/sections/ai-dashi/comparison-section";
 import {
   AIDashiSupportBody,
   AIDashiSupportCard,
@@ -115,7 +115,7 @@ import {
   AIDashiSupportIntro,
   AIDashiSupportSection,
   AIDashiSupportTitle,
-} from "@/components/sections/ai-dashi-support-section";
+} from "@/components/sections/ai-dashi/support-section";
 import {
   AIDashiReleaseFlowBody,
   AIDashiReleaseFlowCard,
@@ -128,13 +128,13 @@ import {
   AIDashiReleaseFlowSection,
   AIDashiReleaseFlowStepBadge,
   AIDashiReleaseFlowTitle,
-} from "@/components/sections/ai-dashi-release-flow-section";
+} from "@/components/sections/ai-dashi/release-flow-section";
 import {
   AIDashiRiskBody,
   AIDashiRiskLead,
   AIDashiRiskSection,
   AIDashiRiskTitle,
-} from "@/components/sections/ai-dashi-risk-section";
+} from "@/components/sections/ai-dashi/risk-section";
 import {
   AIDashiEnterpriseReadyBody,
   AIDashiEnterpriseReadyCard,
@@ -145,7 +145,7 @@ import {
   AIDashiEnterpriseReadyIntro,
   AIDashiEnterpriseReadySection,
   AIDashiEnterpriseReadyTitle,
-} from "@/components/sections/ai-dashi-enterprise-ready-section";
+} from "@/components/sections/ai-dashi/enterprise-ready-section";
 import {
   AIDashiWallCardsBody,
   AIDashiWallCardsCard,
@@ -156,7 +156,7 @@ import {
   AIDashiWallCardsIntro,
   AIDashiWallCardsSection,
   AIDashiWallCardsTitle,
-} from "@/components/sections/ai-dashi-wall-cards-section";
+} from "@/components/sections/ai-dashi/wall-cards-section";
 export const metadata: Metadata = {
   title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
   description:
