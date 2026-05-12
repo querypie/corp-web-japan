@@ -29,6 +29,7 @@ test("/t/services/aip keeps route-local copy/composition while the layout primit
   assert.match(routeSource, /QueryPie AIPと接続可能な連携ツールの一覧はこちら/);
   assert.match(routeSource, /簡単サインアップで、14日間の無料トライアルをお試しください/);
   assert.match(routeSource, /BrandGradientCtaButton/);
+  assert.doesNotMatch(routeSource, /AipServicePreviewPage/);
   assert.doesNotMatch(routeSource, /Preview Service/i);
   assert.doesNotMatch(routeSource, /preview でローカル確認できるように移しています/);
 
