@@ -155,12 +155,11 @@ Some files are part of the current implementation, but their locations should be
 
 ### Known mismatches
 
-- Page- or domain-specific composed UI that currently lives outside `src/components/sections/**`:
-  - `src/components/PublicationPostPage.tsx`
-  - `src/components/ResourceListPage.tsx`
+There are no currently confirmed path-specific exceptions listed here.
+If a future cleanup target is added to this section, verify that the file path still exists on latest `main` and that the exception is still real before treating it as active guidance.
 
 ### Guidance for future work
 
-- Do not copy these exception locations as the default pattern for new code.
+- Do not treat older or deleted file locations as reusable patterns for new code.
 - Keep publication loader and adaptor code under `src/lib/publications/**` so `src/content/**` remains focused on source content.
 - New code should follow the preferred locations in section 1 or section 2 so that humans and AI agents do not extend the same location drift.
