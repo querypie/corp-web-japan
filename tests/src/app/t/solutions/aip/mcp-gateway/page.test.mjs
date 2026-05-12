@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "../../../../helpers/source-readers.mjs";
+import { readSource } from "../../../../../../helpers/source-readers.mjs";
 
 test("mcp gateway route keeps authored copy in the route and rendering primitives in the section module", () => {
   const routeSource = readSource("src/app/t/solutions/aip/mcp-gateway/page.tsx");
