@@ -27,8 +27,7 @@ import {
   AboutUsTimelineItem,
 } from "@/components/sections/about-us";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import { CtaActions, CtaContent, CtaCopy, CtaDescription, CtaTitle, SimpleCtaSection } from "@/components/sections/simple-cta-section";
-import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
+import { CanonicalTypeACtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
   title: "会社概要 | QueryPie AI",
@@ -281,21 +280,7 @@ export default function AboutUsPage() {
         </RevealOnScroll>
       </AboutUsSection>
 
-      <SimpleCtaSection>
-        <RevealOnScroll>
-          <CtaContent>
-            <CtaCopy>
-              <CtaTitle>まずは小さく、失敗しないAXを始めよう</CtaTitle>
-              <CtaDescription className="mx-auto max-w-[560px] tracking-normal">
-                簡単サインアップで、14日間の無料トライアルをお試しください
-              </CtaDescription>
-            </CtaCopy>
-            <CtaActions>
-              <BrandGradientCtaButton href="https://app.querypie.com/">無料で試してみる</BrandGradientCtaButton>
-            </CtaActions>
-          </CtaContent>
-        </RevealOnScroll>
-      </SimpleCtaSection>
+      <CanonicalTypeACtaSection />
 
       <SiteFooter />
     </main>

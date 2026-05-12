@@ -13,7 +13,8 @@ test("mcp gateway route keeps authored copy in the route and rendering primitive
   assert.match(routeSource, /<McpGatewayFeatureTitle>外部ツールとの連携<\/McpGatewayFeatureTitle>/);
   assert.match(routeSource, /src="\/solutions\/aip\/mcp-gateway\/tunneling\.gif"/);
   assert.match(routeSource, /src="\/solutions\/aip\/mcp-gateway\/dlp\.gif"/);
-  assert.match(routeSource, /<McpGatewayCtaButton href="https:\/\/app\.querypie\.com">/);
+  assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
+  assert.match(routeSource, /<CanonicalTypeACtaSection \/>/);
 
   assert.doesNotMatch(routeSource, /const features =/);
   assert.doesNotMatch(routeSource, /const featureCards =/);

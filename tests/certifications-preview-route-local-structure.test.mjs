@@ -20,7 +20,8 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
   assert.match(pageSource, /export default function CertificationsPage\(\)/);
   assert.match(pageSource, /<CertificationsIntroSection>/);
   assert.match(pageSource, /<CertificationsIntroDescription>/);
-  assert.match(pageSource, /<CertificationsTrialCtaContent>/);
+  assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
+  assert.match(pageSource, /<CanonicalTypeACtaSection \/>/);
   assert.match(pageSource, /\{certifications\.map\(\(item\) => \(/);
   assert.match(pageSource, /<CertificationCard key=\{item\.id\} \{\.\.\.item\} \/>/);
 

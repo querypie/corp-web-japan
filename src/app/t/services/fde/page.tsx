@@ -2,11 +2,6 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  ServiceFdeCtaActions,
-  ServiceFdeCtaCopy,
-  ServiceFdeCtaDescription,
-  ServiceFdeCtaSection,
-  ServiceFdeCtaTitle,
   ServiceFdeFeatureBody,
   ServiceFdeFeatureChecklist,
   ServiceFdeFeatureCopy,
@@ -26,7 +21,7 @@ import {
   ServiceFdePageShell,
 } from "@/components/sections/service-fde-page";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
+import { CanonicalTypeACtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
   title: "QueryPie AIP：あなたのためのAI変革エキスパート | QueryPie AI",
@@ -165,20 +160,7 @@ export default function ServiceFdePage() {
         </ServiceFdeFeatureSection>
       </ServiceFdeFeatureInner>
 
-      <ServiceFdeCtaSection>
-        <RevealOnScroll>
-          <ServiceFdeCtaCopy>
-            <ServiceFdeCtaTitle>まずは小さく、失敗しないAXを始めよう</ServiceFdeCtaTitle>
-            <ServiceFdeCtaDescription>簡単サインアップで、14日間の無料トライアルをお試しください</ServiceFdeCtaDescription>
-          </ServiceFdeCtaCopy>
-        </RevealOnScroll>
-
-        <RevealOnScroll delayMs={80}>
-          <ServiceFdeCtaActions>
-            <BrandGradientCtaButton href="https://app.querypie.com">無料で試してみる</BrandGradientCtaButton>
-          </ServiceFdeCtaActions>
-        </RevealOnScroll>
-      </ServiceFdeCtaSection>
+      <CanonicalTypeACtaSection />
 
       <SiteFooter />
     </ServiceFdePageShell>

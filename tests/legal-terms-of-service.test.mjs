@@ -18,10 +18,10 @@ test("terms of service page derives metadata and hero copy from content.mdx fron
   assert.match(source, /description: frontmatter\.description,/);
   assert.match(source, /canonical: "\/t\/terms-of-service"/);
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
-  assert.match(source, /const trialHref = "https:\/\/app\.querypie\.com\/";/);
   assert.match(source, /<TermsOfServiceHero frontmatter=\{frontmatter\} \/>/);
   assert.match(source, /<TermsOfServiceBody content=\{evaluation\.content\} \/>/);
-  assert.match(source, /<BrandGradientCtaButton href=\{trialHref\}>無料で試してみる<\/BrandGradientCtaButton>/);
+  assert.match(source, /from "@\/components\/sections\/simple-cta-section"/);
+  assert.match(source, /<CanonicalTypeACtaSection \/>/);
   assert.doesNotMatch(source, /export const metadata: Metadata = \{/);
   assert.doesNotMatch(source, /function LegalBodyH1/);
   assert.doesNotMatch(source, /corp-web-contents \/ corp-web-app/);
