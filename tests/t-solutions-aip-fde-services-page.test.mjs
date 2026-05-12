@@ -4,7 +4,7 @@ import { existsSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 
 const pageFile = "src/app/t/solutions/aip/fde-services/page.tsx";
-const sectionFile = "src/components/sections/aip-fde-services-page.tsx";
+const sectionFile = "src/components/sections/fde-services/section.tsx";
 const assetFiles = [
   "public/solutions/aip/fde-services/hero.svg",
   "public/solutions/aip/fde-services/find-problems.png",
@@ -30,8 +30,7 @@ test("/t/solutions/aip/fde-services exists as a noindex page with route-local se
   assert.match(pageSource, /戦略とロードマップの策定/);
   assert.match(pageSource, /カスタムAIエージェントの構築/);
   assert.match(pageSource, /AI実用化を支援/);
-  assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(pageSource, /<AipFreeTrialCtaSection \/>/);
+  assert.match(pageSource, /BrandGradientCtaButton href="https:\/\/app\.querypie\.com"/);
   assert.doesNotMatch(pageSource, /AipFdeServicesPreviewPage/);
 
   assert.match(sectionSource, /export function AipFdeHeroTitle/);

@@ -7,9 +7,14 @@ import {
   CookiePreferenceHeroDescription,
   CookiePreferenceHeroSection,
   CookiePreferenceHeroTitle,
+  CookiePreferenceCtaActions,
+  CookiePreferenceCtaContent,
+  CookiePreferenceCtaDescription,
+  CookiePreferenceCtaLink,
+  CookiePreferenceCtaSection,
+  CookiePreferenceCtaTitle,
   CookiePreferenceSettingsSection,
 } from "@/components/sections/cookie-preference-page";
-import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
   title: "クッキー設定 | QueryPie AI",
@@ -97,7 +102,17 @@ export default function CookiePreferencePage() {
         </CookiePreferenceHeroContent>
       </CookiePreferenceHeroSection>
 
-      <AipFreeTrialCtaSection />
+      <CookiePreferenceCtaSection>
+        <CookiePreferenceCtaContent>
+          <CookiePreferenceCtaTitle>まずは小さく、失敗しないAXを始めよう</CookiePreferenceCtaTitle>
+          <CookiePreferenceCtaDescription>
+            簡単サインアップで、14日間の無料トライアルをお試しください
+          </CookiePreferenceCtaDescription>
+          <CookiePreferenceCtaActions>
+            <CookiePreferenceCtaLink href="https://app.querypie.com">無料で試してみる</CookiePreferenceCtaLink>
+          </CookiePreferenceCtaActions>
+        </CookiePreferenceCtaContent>
+      </CookiePreferenceCtaSection>
 
       <SiteFooter />
     </main>

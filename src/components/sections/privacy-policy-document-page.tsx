@@ -9,8 +9,14 @@ import remarkGfm from "remark-gfm";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  AipFreeTrialCtaSection,
+  CtaActions,
+  CtaContent,
+  CtaCopy,
+  CtaDescription,
+  CtaTitle,
+  SimpleCtaSection,
 } from "@/components/sections/simple-cta-section";
+import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 import { readCachedLegalMdxSource } from "@/lib/legal-mdx-source";
 import { hasPrivacyPolicySlug, listPrivacyPolicySlugs } from "@/lib/privacy-policy/records";
 import { buildPublicationMdxComponents } from "@/lib/publications/mdx/components";
@@ -175,7 +181,17 @@ export async function PrivacyPolicyDocumentPage({ slug }: { slug: string }) {
           <div className={`${publicationBodyClassName} [&_h2:first-child]:mt-0`}>{evaluation.content}</div>
         </div>
       </section>
-      <AipFreeTrialCtaSection />
+      <SimpleCtaSection>
+        <CtaContent>
+          <CtaCopy>
+            <CtaTitle>まずは小さく、失敗しないAXを始めよう</CtaTitle>
+            <CtaDescription>簡単サインアップで、14日間の無料トライアルをお試しください</CtaDescription>
+          </CtaCopy>
+          <CtaActions>
+            <BrandGradientCtaButton href="https://app.querypie.com/">無料で試してみる</BrandGradientCtaButton>
+          </CtaActions>
+        </CtaContent>
+      </SimpleCtaSection>
       <SiteFooter />
     </main>
   );

@@ -4,9 +4,9 @@ import { readSource } from "./helpers/source-readers.mjs";
 
 test("about-us page keeps copy/composition in the route and UI primitives in the section module", () => {
   const routeSource = readSource("src/app/t/about-us/page.tsx");
-  const sectionSource = readSource("src/components/sections/about-us.tsx");
+  const sectionSource = readSource("src/components/sections/about-us/section.tsx");
 
-  assert.match(routeSource, /from "@\/components\/sections\/about-us"/);
+  assert.match(routeSource, /from "@\/components\/sections\/about-us\/section"/);
   assert.match(routeSource, /<AboutUsHeroSection>/);
   assert.match(routeSource, /<AboutUsTimelineItem year="2024">/);
   assert.match(routeSource, /<AboutUsLeaderCard imageSrc="\/about-us\/crew\/brant\.png"/);

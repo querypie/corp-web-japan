@@ -6,7 +6,7 @@ test("usage-based-llm page keeps route-local copy/composition and preserves the 
   assert.equal(sourceExists("src/app/t/solutions/aip/usage-based-llm/page.tsx"), true);
 
   const routeSource = readSource("src/app/t/solutions/aip/usage-based-llm/page.tsx");
-  const sectionSource = readSource("src/components/sections/aip-usage-based-llm.tsx");
+  const sectionSource = readSource("src/components/sections/usage-based-llm/section.tsx");
   const redirectSource = readSource("src/app/platform/ai/aip/usage-based-llm/route.ts");
 
   assert.match(routeSource, /canonical: "\/t\/solutions\/aip\/usage-based-llm"/);
@@ -18,8 +18,8 @@ test("usage-based-llm page keeps route-local copy/composition and preserves the 
   assert.match(routeSource, /選択可能なプレミアムLLM/);
   assert.match(routeSource, /シングルサインオン\(SSO\) で一元管理/);
   assert.match(routeSource, /最高のパフォーマンスを、最適なコストで！/);
-  assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(routeSource, /<AipFreeTrialCtaSection \/>/);
+  assert.match(routeSource, /まずは小さく、失敗しないAXを始めよう/);
+  assert.match(routeSource, /BrandGradientCtaButton/);
   assert.doesNotMatch(routeSource, /AipUsageBasedLlmPreviewPage/);
 
   assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection/);

@@ -9,9 +9,9 @@ function readSource(path) {
 
 test("/t/certifications keeps authored copy and JSON card data in the route while shared section UI owns the rendering shells", () => {
   const pageSource = readSource("src/app/t/certifications/page.tsx");
-  const sectionSource = readSource("src/components/sections/certifications-page.tsx");
+  const sectionSource = readSource("src/components/sections/certifications/section.tsx");
 
-  assert.match(pageSource, /from "@\/components\/sections\/certifications-page"/);
+  assert.match(pageSource, /from "@\/components\/sections\/certifications\/section"/);
   assert.match(pageSource, /const certifications: readonly CertificationItem\[] = \[/);
   assert.match(pageSource, /id: "soc-2-type-ii"/);
   assert.match(pageSource, /title: "SOC 2 Type II"/);
@@ -20,8 +20,7 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
   assert.match(pageSource, /export default function CertificationsPage\(\)/);
   assert.match(pageSource, /<CertificationsIntroSection>/);
   assert.match(pageSource, /<CertificationsIntroDescription>/);
-  assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(pageSource, /<AipFreeTrialCtaSection \/>/);
+  assert.match(pageSource, /<CertificationsTrialCtaContent>/);
   assert.match(pageSource, /\{certifications\.map\(\(item\) => \(/);
   assert.match(pageSource, /<CertificationCard key=\{item\.id\} \{\.\.\.item\} \/>/);
 

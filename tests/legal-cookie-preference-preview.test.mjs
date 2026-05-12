@@ -31,8 +31,9 @@ test("cookie preference preview page keeps route-local copy while shared page/la
   assert.match(pageSource, /<CookiePreferenceItem\s+id="functional"/s);
   assert.match(pageSource, /<CookiePreferenceItem\s+id="analysis"/s);
   assert.match(pageSource, /<CookiePreferenceItem\s+id="marketing"/s);
-  assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(pageSource, /<AipFreeTrialCtaSection \/>/);
+  assert.match(pageSource, /CookiePreferenceCtaLink href="https:\/\/app\.querypie\.com"/);
+  assert.match(pageSource, /まずは小さく、失敗しないAXを始めよう/);
+  assert.match(pageSource, /簡単サインアップで、14日間の無料トライアルをお試しください/);
   assert.doesNotMatch(pageSource, /from "next\/link"/);
   assert.doesNotMatch(pageSource, /<section className="mx-auto max-w-\[1920px\] bg-white px-\[30px\]/);
   assert.doesNotMatch(pageSource, /src\/content\//);

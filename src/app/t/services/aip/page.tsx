@@ -32,7 +32,8 @@ import {
   AipServiceValueTitle,
 } from "@/components/sections/aip/service-page";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import { CtaActions, CtaContent, CtaCopy, CtaDescription, CtaTitle, SimpleCtaSection } from "@/components/sections/simple-cta-section";
+import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 
 export const metadata: Metadata = {
   title: "QueryPie AIプラットフォーム (AIP) | QueryPie AI",
@@ -306,7 +307,19 @@ export default function AipServicePage() {
         </AipServiceFeatureInner>
       </AipServiceFeatureSection>
 
-      <AipFreeTrialCtaSection />
+      <SimpleCtaSection>
+        <RevealOnScroll>
+          <CtaContent className="gap-0">
+            <CtaCopy>
+              <CtaTitle>まずは小さく、失敗しないAXを始めよう</CtaTitle>
+              <CtaDescription>簡単サインアップで、14日間の無料トライアルをお試しください</CtaDescription>
+              <CtaActions className="mt-[40px]">
+                <BrandGradientCtaButton href="https://app.querypie.com/">無料で試してみる</BrandGradientCtaButton>
+              </CtaActions>
+            </CtaCopy>
+          </CtaContent>
+        </RevealOnScroll>
+      </SimpleCtaSection>
 
       <SiteFooter />
     </AipServicePageShell>

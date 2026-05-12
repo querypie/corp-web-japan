@@ -5,6 +5,8 @@ import {
   AipUsageBasedLlmComparisonImage,
   AipUsageBasedLlmComparisonSection,
   AipUsageBasedLlmComparisonTitle,
+  AipUsageBasedLlmCtaButtonWrap,
+  AipUsageBasedLlmCtaDescription,
   AipUsageBasedLlmFeatureBand,
   AipUsageBasedLlmFeatureBody,
   AipUsageBasedLlmFeatureCopy,
@@ -17,9 +19,10 @@ import {
   AipUsageBasedLlmHeroTitle,
   AipUsageBasedLlmLineBreak,
   AipUsageBasedLlmPageShell,
-} from "@/components/sections/aip-usage-based-llm";
+} from "@/components/sections/usage-based-llm/section";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import { CtaContent, CtaCopy, CtaTitle, SimpleCtaSection } from "@/components/sections/simple-cta-section";
+import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 
 export const metadata: Metadata = {
   title: "QueryPie AIP：実際使用量ベースエンタープライズAI | QueryPie AI",
@@ -156,7 +159,21 @@ export default function AipUsageBasedLlmPage() {
         </RevealOnScroll>
       </AipUsageBasedLlmComparisonSection>
 
-      <AipFreeTrialCtaSection />
+      <SimpleCtaSection>
+        <RevealOnScroll>
+          <CtaContent className="gap-0">
+            <CtaCopy>
+              <CtaTitle>まずは小さく、失敗しないAXを始めよう</CtaTitle>
+              <AipUsageBasedLlmCtaDescription>簡単サインアップで、14日間の無料トライアルをお試しください</AipUsageBasedLlmCtaDescription>
+              <AipUsageBasedLlmCtaButtonWrap>
+                <BrandGradientCtaButton href="https://app.querypie.com/">
+                  無料で試してみる
+                </BrandGradientCtaButton>
+              </AipUsageBasedLlmCtaButtonWrap>
+            </CtaCopy>
+          </CtaContent>
+        </RevealOnScroll>
+      </SimpleCtaSection>
 
       <SiteFooter />
     </AipUsageBasedLlmPageShell>
