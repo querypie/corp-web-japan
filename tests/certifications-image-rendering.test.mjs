@@ -7,11 +7,17 @@ function readSource(path) {
   return readFileSync(fileURLToPath(new URL(`../${path}`, import.meta.url)), "utf8");
 }
 
-test("/t/certifications uses intrinsic image dimensions instead of fill-only sizing for certification logos", () => {
+test("/t/certifications uses original-source display dimensions together with intrinsic image dimensions for certification logos", () => {
+  const pageSource = readSource("src/app/t/certifications/page.tsx");
   const sectionSource = readSource("src/components/sections/certifications-page.tsx");
 
-  assert.match(sectionSource, /type CertificationItem = \{[\s\S]*width: number;[\s\S]*height: number;/);
-  assert.match(sectionSource, /export function CertificationCard\(\{ title, description, src, alt, width, height \}: CertificationItem\)/);
-  assert.match(sectionSource, /<Image[\s\S]*src=\{src\}[\s\S]*alt=\{alt\}[\s\S]*width=\{width\}[\s\S]*height=\{height\}/);
+  assert.match(sectionSource, /type CertificationItem = \{[\s\S]*imageWidth: number;[\s\S]*imageHeight: number;[\s\S]*displayWidth: string;[\s\S]*displayHeight: string;/);
+  assert.match(sectionSource, /export function CertificationCard\(\{ title, description, src, alt, imageWidth, imageHeight, displayWidth, displayHeight \}: CertificationItem\)/);
+  assert.match(sectionSource, /<Image[\s\S]*src=\{src\}[\s\S]*alt=\{alt\}[\s\S]*width=\{imageWidth\}[\s\S]*height=\{imageHeight\}[\s\S]*style=\{\{ width: displayWidth, height: displayHeight \}\}/);
   assert.doesNotMatch(sectionSource, /<Image[^>]*\sfill\s/);
+
+  assert.match(pageSource, /displayWidth: "112\.5px"/);
+  assert.match(pageSource, /displayHeight: "67\.5px"/);
+  assert.match(pageSource, /displayWidth: "187\.5px"/);
+  assert.match(pageSource, /displayHeight: "121\.88px"/);
 });

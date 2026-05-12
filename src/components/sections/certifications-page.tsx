@@ -9,8 +9,10 @@ export type CertificationItem = {
   description: readonly string[];
   src: string;
   alt: string;
-  width: number;
-  height: number;
+  imageWidth: number;
+  imageHeight: number;
+  displayWidth: string;
+  displayHeight: string;
 };
 
 export function CertificationsPageSection({ children }: { children: ReactNode }) {
@@ -29,16 +31,17 @@ export function CertificationsGrid({ children }: { children: ReactNode }) {
   return <div className="mt-[44px] grid gap-x-7 gap-y-9 md:grid-cols-2 xl:grid-cols-3">{children}</div>;
 }
 
-export function CertificationCard({ title, description, src, alt, width, height }: CertificationItem) {
+export function CertificationCard({ title, description, src, alt, imageWidth, imageHeight, displayWidth, displayHeight }: CertificationItem) {
   return (
     <article className="flex h-[375px] flex-col items-center justify-start rounded-[9.375px] bg-[#f5f7fa] px-8 pb-8 pt-10 text-center">
       <div className="flex min-h-[148px] items-center justify-center">
         <Image
           src={src}
           alt={alt}
-          width={width}
-          height={height}
-          className="h-auto max-h-[130px] w-auto max-w-[180px] object-contain sm:max-w-[238px]"
+          width={imageWidth}
+          height={imageHeight}
+          className="h-auto w-auto object-contain"
+          style={{ width: displayWidth, height: displayHeight }}
         />
       </div>
       <div className="mt-7 flex flex-1 flex-col items-center justify-start gap-[20px]">

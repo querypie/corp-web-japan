@@ -25,10 +25,14 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
   assert.match(pageSource, /<CertificationCard key=\{item\.id\} \{\.\.\.item\} \/>/);
 
   assert.doesNotMatch(pageSource, /CertificationsPreviewPage/);
-  assert.match(pageSource, /width: 120/);
-  assert.match(pageSource, /height: 120/);
-  assert.match(pageSource, /width: 238/);
-  assert.match(pageSource, /height: 72/);
+  assert.match(pageSource, /imageWidth: 120/);
+  assert.match(pageSource, /imageHeight: 120/);
+  assert.match(pageSource, /displayWidth: "112\.5px"/);
+  assert.match(pageSource, /displayHeight: "112\.5px"/);
+  assert.match(pageSource, /imageWidth: 238/);
+  assert.match(pageSource, /imageHeight: 72/);
+  assert.match(pageSource, /displayWidth: "222\.9px"/);
+  assert.match(pageSource, /displayHeight: "67\.5px"/);
   assert.doesNotMatch(pageSource, /function CertificationCard\(/);
   assert.doesNotMatch(pageSource, /function TrialCtaSection\(/);
 
@@ -36,9 +40,9 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
   assert.match(sectionSource, /id: string;/);
   assert.match(sectionSource, /export function CertificationsIntroSection\(/);
   assert.match(sectionSource, /export function CertificationsIntroDescription\(/);
-  assert.match(sectionSource, /export function CertificationCard\(\{ title, description, src, alt, width, height \}: CertificationItem\)/);
-  assert.match(sectionSource, /<Image[\s\S]*width=\{width\}[\s\S]*height=\{height\}/);
-  assert.match(sectionSource, /max-w-\[180px\] object-contain sm:max-w-\[238px\]/);
+  assert.match(sectionSource, /export function CertificationCard\(\{ title, description, src, alt, imageWidth, imageHeight, displayWidth, displayHeight \}: CertificationItem\)/);
+  assert.match(sectionSource, /<Image[\s\S]*width=\{imageWidth\}[\s\S]*height=\{imageHeight\}/);
+  assert.match(sectionSource, /style=\{\{ width: displayWidth, height: displayHeight \}\}/);
   assert.doesNotMatch(sectionSource, /<Image[^>]*\sfill\s/);
   assert.match(sectionSource, /export function CertificationsTrialCtaContent\(/);
   assert.match(sectionSource, /export function CertificationsTrialCtaAction\(/);
