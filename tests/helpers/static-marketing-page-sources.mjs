@@ -27,10 +27,7 @@ export function getTopPageStructureSource() {
 }
 
 export function getAiCrewDataSource() {
-  return readCombinedExistingSources([
-    "src/content/home.ts",
-    "src/app/solutions/ai-crew/page.tsx",
-  ]);
+  return readCombinedExistingSources(["src/app/solutions/ai-crew/page.tsx"]);
 }
 
 export function getAiCrewStructureSource() {
@@ -65,7 +62,7 @@ export function isTopPageContentExternalized() {
 }
 
 export function isAiCrewContentExternalized() {
-  return sourceExists("src/content/home.ts");
+  return false;
 }
 
 export function isTopPageSectionExternalized() {
