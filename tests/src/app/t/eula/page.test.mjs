@@ -1,14 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
-import { readSource } from "./helpers/source-readers.mjs";
+import { existsSync } from "node:fs";
+import { readSource } from "../../../../helpers/source-readers.mjs";
 
 const pagePath = "src/app/t/eula/page.tsx";
 const contentPath = "src/app/t/eula/content.mdx";
-const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
 
 test("eula page exists with noindex metadata and preview canonical path", () => {
-  assert.equal(existsSync(new URL(`../${pagePath}`, import.meta.url)), true, `${pagePath} should exist`);
+  assert.equal(existsSync(new URL(`../../../../../${pagePath}`, import.meta.url)), true, `${pagePath} should exist`);
 
   const source = readSource(pagePath);
   const contentSource = readSource(contentPath);
@@ -54,7 +53,7 @@ test("eula preview keeps legal structure ownership in page.tsx and mdx body free
 
 test("eula preview keeps adjacent source content and preview-aware footer link", () => {
   const contentSource = readSource(contentPath);
-  const footerSource = readFileSync(footerPath, "utf8");
+  const footerSource = readSource("src/components/layout/site-footer.tsx");
 
   assert.match(contentSource, /^PLEASE READ THIS END USER LICENSE AGREEMENT/m);
   assert.match(contentSource, /^# PART I: GENERAL TERMS/m);

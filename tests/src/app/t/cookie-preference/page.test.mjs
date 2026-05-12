@@ -1,13 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
-import { readSource, sourceExists } from "./helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
 const pagePath = "src/app/t/cookie-preference/page.tsx";
 const sectionPath = "src/components/sections/cookie-preference/list.tsx";
 const pageSectionPath = "src/components/sections/cookie-preference/page.tsx";
 const togglePath = "src/components/sections/cookie-preference/toggle.tsx";
-const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
 
 test("cookie preference preview page keeps route-local copy while shared page/layout primitives own the rendering shells", () => {
   assert.equal(sourceExists(pagePath), true, `${pagePath} should exist`);
@@ -42,7 +40,7 @@ test("cookie preference shared section modules separate server-side layout primi
   const sectionSource = readSource(sectionPath);
   const pageSectionSource = readSource(pageSectionPath);
   const toggleSource = readSource(togglePath);
-  const footerSource = readFileSync(footerPath, "utf8");
+  const footerSource = readSource("src/components/layout/site-footer.tsx");
 
   assert.doesNotMatch(sectionSource, /^"use client";/m);
   assert.match(sectionSource, /export type CookiePreferenceKey/);

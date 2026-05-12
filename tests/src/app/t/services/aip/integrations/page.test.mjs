@@ -2,9 +2,9 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 
-const pagePath = new URL("../src/app/t/services/aip/integrations/page.tsx", import.meta.url);
-const sectionPath = new URL("../src/components/sections/aip/integrations-page.tsx", import.meta.url);
-const cssPath = new URL("../src/components/sections/aip/integrations-page.module.css", import.meta.url);
+const pagePath = new URL("../../../../../../../src/app/t/services/aip/integrations/page.tsx", import.meta.url);
+const sectionPath = new URL("../../../../../../../src/components/sections/aip/integrations-page.tsx", import.meta.url);
+const cssPath = new URL("../../../../../../../src/components/sections/aip/integrations-page.module.css", import.meta.url);
 
 const pageSource = fs.readFileSync(pagePath, "utf8");
 const sectionSource = fs.readFileSync(sectionPath, "utf8");
