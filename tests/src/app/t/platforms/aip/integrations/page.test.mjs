@@ -2,12 +2,12 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { readSource } from "../../../../../../helpers/source-readers.mjs";
 
-const pageSource = readSource("src/app/t/services/aip/integrations/page.tsx");
+const pageSource = readSource("src/app/t/platforms/aip/integrations/page.tsx");
 const sectionSource = readSource("src/components/sections/aip/integrations-page.tsx");
 const cssSource = readSource("src/components/sections/aip/integrations-page.module.css");
 
-test("AIP integrations page exports noindex metadata for the /t/services/aip/integrations route", () => {
-  assert.match(pageSource, /canonical:\s*"\/t\/services\/aip\/integrations"/);
+test("AIP integrations page exports noindex metadata for the /t/platforms/aip/integrations route", () => {
+  assert.match(pageSource, /canonical:\s*"\/t\/platforms\/aip\/integrations"/);
   assert.match(pageSource, /index:\s*false/);
   assert.match(pageSource, /follow:\s*false/);
   assert.match(pageSource, /title:\s*"QueryPie AI: インテグレーション"/);
@@ -15,14 +15,14 @@ test("AIP integrations page exports noindex metadata for the /t/services/aip/int
   assert.doesNotMatch(pageSource, /preview ページ/);
 });
 
-test("AIP integrations preview page keeps authored hero copy and CTA in page.tsx", () => {
+test("AIP integrations platform preview page keeps authored hero copy and CTA in page.tsx", () => {
   assert.match(pageSource, /AIPインテグレーション/);
   assert.match(pageSource, /MCPサーバーを介してお使いのビジネスツールに接続/);
   assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(pageSource, /<AipFreeTrialCtaSection \/>/);
 });
 
-test("AIP integrations preview page keeps category and product catalog route-local with keyword-based filters", () => {
+test("AIP integrations platform preview page keeps category and product catalog route-local with keyword-based filters", () => {
   const categoryMatches = pageSource.match(/label: ".*?"/g) ?? [];
   assert.ok(categoryMatches.length >= 55, `expected category and product label entries, got ${categoryMatches.length}`);
   assert.match(pageSource, /const categories:/);
@@ -37,7 +37,7 @@ test("AIP integrations preview page keeps category and product catalog route-loc
   assert.doesNotMatch(pageSource, /categoryIds:/);
 });
 
-test("AIP integrations preview section primitives define the integration filter and grid UI", () => {
+test("AIP integrations platform preview section primitives define the integration filter and grid UI", () => {
   assert.match(sectionSource, /AipIntegrationsCategoryLink/);
   assert.match(sectionSource, /AipIntegrationsProductCard/);
   assert.match(cssSource, /grid-template-columns: repeat\(7, minmax\(0, 1fr\)\)/);

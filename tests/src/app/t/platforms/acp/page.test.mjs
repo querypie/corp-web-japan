@@ -2,16 +2,16 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource, sourceExists } from "../../../../../helpers/source-readers.mjs";
 
-test("/t/services/acp keeps route-local copy/composition while the interactive feature browser lives in a dedicated client section module", () => {
-  assert.equal(sourceExists("src/app/t/services/acp/page.tsx"), true);
+test("/t/platforms/acp keeps route-local copy/composition while the interactive feature browser lives in a dedicated client section module", () => {
+  assert.equal(sourceExists("src/app/t/platforms/acp/page.tsx"), true);
   assert.equal(sourceExists("src/components/sections/acp/service-page.tsx"), true);
   assert.equal(sourceExists("src/components/sections/acp/feature-browser.tsx"), true);
 
-  const routeSource = readSource("src/app/t/services/acp/page.tsx");
+  const routeSource = readSource("src/app/t/platforms/acp/page.tsx");
   const sectionSource = readSource("src/components/sections/acp/service-page.tsx");
   const browserSource = readSource("src/components/sections/acp/feature-browser.tsx");
 
-  assert.match(routeSource, /canonical: "\/t\/services\/acp"/);
+  assert.match(routeSource, /canonical: "\/t\/platforms\/acp"/);
   assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);

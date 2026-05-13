@@ -3,13 +3,13 @@ import assert from "node:assert/strict";
 import { readSource, sourceExists } from "../../../../../../helpers/source-readers.mjs";
 
 test("usage-based-llm page keeps route-local copy/composition and preserves the upstream redirect route", () => {
-  assert.equal(sourceExists("src/app/t/solutions/aip/usage-based-llm/page.tsx"), true);
+  assert.equal(sourceExists("src/app/t/platforms/aip/usage-based-llm/page.tsx"), true);
 
-  const routeSource = readSource("src/app/t/solutions/aip/usage-based-llm/page.tsx");
+  const routeSource = readSource("src/app/t/platforms/aip/usage-based-llm/page.tsx");
   const sectionSource = readSource("src/components/sections/usage-based-llm/section.tsx");
   const redirectSource = readSource("src/app/platform/ai/aip/usage-based-llm/route.ts");
 
-  assert.match(routeSource, /canonical: "\/t\/solutions\/aip\/usage-based-llm"/);
+  assert.match(routeSource, /canonical: "\/t\/platforms\/aip\/usage-based-llm"/);
   assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
