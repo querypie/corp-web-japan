@@ -10,6 +10,12 @@ test("/internal/demo-sections exists as a noindex UI demo route for preserved or
   assert.match(source, /title:\s*"Internal Demo Sections \| QueryPie AI"/);
   assert.match(source, /canonical:\s*"\/internal\/demo-sections"/);
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
+  assert.match(source, /@\/components\/sections\/internal-demo\/role-slides/);
+  assert.match(source, /@\/components\/sections\/internal-demo\/use-case-showcase/);
+  assert.equal(sourceExists("src/components/sections/internal-demo/role-slides.tsx"), true);
+  assert.equal(sourceExists("src/components/sections/internal-demo/use-case-showcase.tsx"), true);
+  assert.equal(sourceExists("src/components/sections/role-slides.tsx"), false);
+  assert.equal(sourceExists("src/components/sections/use-case-showcase.tsx"), false);
   assert.match(source, /RoleSlides/);
   assert.match(source, /UseCaseShowcase/);
   assert.match(source, /roleSlidesDemoProps/);
