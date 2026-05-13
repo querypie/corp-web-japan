@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { ContactUsForm } from "@/components/sections/contact-us-form";
+import { ContactUsForm } from "@/components/sections/contact-us/form";
 import {
   ContactUsChecklist,
   ContactUsChecklistItem,
@@ -10,7 +10,7 @@ import {
   ContactUsLead,
   ContactUsSection,
   ContactUsTitle,
-} from "@/components/sections/contact-us-page-section";
+} from "@/components/sections/contact-us/page-section";
 import { getPrefilledContactUsFormState } from "@/lib/contact-us";
 
 export const metadata: Metadata = {

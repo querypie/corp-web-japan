@@ -5,8 +5,8 @@ import { readSource } from "../helpers/source-readers.mjs";
 
 test("news public page and canonical routes are driven by news MDX publication records", () => {
   const publicPage = readSource("src/app/news/page.tsx");
-  const listPage = readSource("src/components/sections/news-list-page.tsx");
-  const sectionComponents = readSource("src/components/sections/news-page-section.tsx");
+  const listPage = readSource("src/components/sections/news/list-page.tsx");
+  const sectionComponents = readSource("src/components/sections/news/page-section.tsx");
   const canonicalRoute = readSource("src/app/news/[id]/[slug]/page.tsx");
   const idRoute = readSource("src/app/news/[id]/page.tsx");
   const loader = readSource("src/lib/publications/news/get-post.ts");
@@ -19,7 +19,7 @@ test("news public page and canonical routes are driven by news MDX publication r
   assert.equal(existsSync(new URL("../../src/app/news/[id]/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../../src/lib/publications/news/records.ts", import.meta.url)), true);
   assert.equal(existsSync(new URL("../../src/lib/publications/news/get-post.ts", import.meta.url)), true);
-  assert.equal(existsSync(new URL("../../src/components/sections/news-page-section.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../src/components/sections/news/page-section.tsx", import.meta.url)), true);
 
   assert.match(publicPage, /listNewsPublicationItems\(\)/);
   assert.match(publicPage, /canonical: "\/news"/);
