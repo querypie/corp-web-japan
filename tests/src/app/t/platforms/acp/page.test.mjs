@@ -10,6 +10,7 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   const routeSource = readSource("src/app/t/platforms/acp/page.tsx");
   const sectionSource = readSource("src/components/sections/acp/service-page.tsx");
   const browserSource = readSource("src/components/sections/acp/feature-browser.tsx");
+  const browserClientSource = readSource("src/components/sections/acp/feature-browser-client.tsx");
 
   assert.match(routeSource, /canonical: "\/t\/platforms\/acp"/);
   assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
@@ -18,7 +19,7 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   assert.match(routeSource, /AcpHeroVideo/);
   assert.match(routeSource, /簡単インストール、簡単使用/);
   assert.match(routeSource, /QueryPie ACPができること/);
-  assert.match(routeSource, /データベース、システム、Kubernetes、Web、ワークフロー全体にまたがる代表機能をカテゴリごとに確認できます。/);
+  assert.doesNotMatch(routeSource, /データベース、システム、Kubernetes、Web、ワークフロー全体にまたがる代表機能をカテゴリごとに確認できます。/);
   assert.match(routeSource, /<AcpFeatureCategoryLabel>データベースアクセス制御<\/AcpFeatureCategoryLabel>/);
   assert.match(routeSource, /<AcpFeatureCategoryLabel>システムアクセス制御<\/AcpFeatureCategoryLabel>/);
   assert.match(routeSource, /<AcpFeatureCategoryLabel>Kubernetesアクセス制御<\/AcpFeatureCategoryLabel>/);
@@ -46,7 +47,6 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   assert.match(sectionSource, /export function AcpHeroVideo/);
   assert.doesNotMatch(sectionSource, /^"use client";/m);
 
-  assert.match(browserSource, /^"use client";/m);
   assert.match(browserSource, /export function AcpFeatureBrowser/);
   assert.match(browserSource, /export function AcpFeatureCategory/);
   assert.match(browserSource, /export function AcpFeatureCategoryLabel/);
@@ -57,8 +57,14 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   assert.match(browserSource, /node\.type === AcpFeatureItemTitle/);
   assert.match(browserSource, /node\.type === AcpFeatureItemBody/);
   assert.match(browserSource, /Children\.toArray/);
-  assert.match(browserSource, /useState/);
-  assert.match(browserSource, /Learn More/);
-  assert.match(browserSource, /Previous feature/);
-  assert.match(browserSource, /Next feature/);
+  assert.match(browserSource, /AcpFeatureBrowserClient/);
+  assert.match(browserSource, /toBodyLines/);
+
+  assert.match(browserClientSource, /^"use client";/m);
+  assert.match(browserClientSource, /useState/);
+  assert.match(browserClientSource, /Learn More/);
+  assert.match(browserClientSource, /Previous feature/);
+  assert.match(browserClientSource, /Next feature/);
+  assert.match(browserClientSource, /Show feature/);
+  assert.match(browserClientSource, /grid w-full gap-\[60px\] lg:grid-cols-\[380px_1fr\]/);
 });
