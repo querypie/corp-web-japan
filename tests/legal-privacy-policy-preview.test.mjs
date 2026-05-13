@@ -9,6 +9,7 @@ const pagePath = "src/app/t/privacy-policy/page.tsx";
 const versionPagePath = "src/app/t/privacy-policy/[slug]/page.tsx";
 const selectorPath = "src/components/sections/privacy-policy/version-selector.tsx";
 const documentBodyComponentsPath = "src/components/sections/privacy-policy/document-body-components.tsx";
+const legalMdxPath = "src/components/sections/legal/mdx.tsx";
 const documentHeaderControlsPath = "src/components/sections/privacy-policy/document-header-controls.tsx";
 const sourcesPath = "src/lib/privacy-policy/records.ts";
 const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
@@ -66,6 +67,7 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   const versionPageSource = readSource(versionPagePath);
   const selectorSource = readSource(selectorPath);
   const documentBodyComponentsSource = readSource(documentBodyComponentsPath);
+  const legalMdxSource = readSource(legalMdxPath);
   const documentHeaderControlsSource = readSource(documentHeaderControlsPath);
   const sourcesSource = readSource(sourcesPath);
   const footerSource = readFileSync(footerPath, "utf8");
@@ -78,11 +80,13 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   assert.doesNotMatch(versionPageSource, /function PrivacyPolicyLanguageSelector/);
   assert.doesNotMatch(versionPageSource, /function PrivacySelectorBox/);
 
-  assert.match(documentBodyComponentsSource, /export function LegalBodyH1/);
-  assert.match(documentBodyComponentsSource, /export function LegalBodyH2/);
-  assert.match(documentBodyComponentsSource, /export function LegalBodyH3/);
-  assert.match(documentBodyComponentsSource, /export function PrivacyMdxLink/);
+  assert.match(documentBodyComponentsSource, /buildLegalDocumentMdxComponents/);
   assert.match(documentBodyComponentsSource, /export function buildPrivacyPolicyDocumentComponents\(/);
+  assert.match(legalMdxSource, /export function LegalBodyH1/);
+  assert.match(legalMdxSource, /export function LegalBodyH2/);
+  assert.match(legalMdxSource, /export function LegalBodyH3/);
+  assert.match(legalMdxSource, /export function LegalMdxLink/);
+  assert.match(legalMdxSource, /export function buildLegalDocumentMdxComponents\(/);
 
   assert.match(documentHeaderControlsSource, /export function PrivacySelectorBox/);
   assert.match(documentHeaderControlsSource, /export function PrivacyPolicyLanguageSelector/);
