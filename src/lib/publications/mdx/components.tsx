@@ -40,6 +40,10 @@ type ButtonLinkProps = {
   external?: boolean;
 };
 
+type ArticleCtaProps = {
+  children?: ReactNode;
+};
+
 type MdxLinkProps = {
   href: string;
   children?: ReactNode;
@@ -50,6 +54,8 @@ type ArticleFileImageProps = {
   filepath: string;
   alt?: string;
   caption?: string;
+  className?: string;
+  imageClassName?: string;
 };
 
 type InfoNoteProps = {
@@ -208,6 +214,10 @@ function ButtonLink({ href, children, external = false }: ButtonLinkProps) {
   );
 }
 
+function ArticleCta({ children }: ArticleCtaProps) {
+  return <div className="mt-6">{children}</div>;
+}
+
 function MdxLink({ href, children, external = false }: MdxLinkProps) {
   if (external || isExternalHref(href)) {
     return (
@@ -220,13 +230,13 @@ function MdxLink({ href, children, external = false }: MdxLinkProps) {
   return <Link href={href}>{children}</Link>;
 }
 
-function ArticleFileImage({ filepath, alt = "", caption }: ArticleFileImageProps) {
+function ArticleFileImage({ filepath, alt = "", caption, className, imageClassName }: ArticleFileImageProps) {
   const src = normalizePublicFilepath(filepath);
 
   return (
-    <figure className="wp-figure">
+    <figure className={["wp-figure", className].filter(Boolean).join(" ")}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="wp-figure_img" src={src} alt={alt} />
+      <img className={["wp-figure_img", imageClassName].filter(Boolean).join(" ")} src={src} alt={alt} />
       {caption ? <figcaption className="wp-figure_figcaption">{caption}</figcaption> : null}
     </figure>
   );
@@ -318,6 +328,7 @@ export function buildPublicationMdxComponents(): MDXComponents {
     Table,
     Box,
     ButtonLink,
+    ArticleCta,
     Link: MdxLink,
     ArticleFileImage,
     InfoNote,
