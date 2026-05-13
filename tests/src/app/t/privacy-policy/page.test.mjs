@@ -46,6 +46,7 @@ test("privacy policy route keeps latest alias page and version detail route with
   assert.match(versionPageSource, /canonicalPath: `\/t\/privacy-policy\/\$\{slug\}`/);
   assert.match(versionPageSource, /return renderPrivacyPolicyVersionPage\(slug\)/);
   assert.match(versionPageSource, /<PrivacySelectorBox>/);
+  assert.match(versionPageSource, /max-w-\[1200px\]/);
   assert.match(versionPageSource, /<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/);
 });
 

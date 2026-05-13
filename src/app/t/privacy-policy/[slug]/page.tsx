@@ -94,7 +94,7 @@ export async function renderPrivacyPolicyVersionPage(slug: string) {
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[120px] pt-[112px] lg:px-[30px] lg:pb-[160px] lg:pt-[144px]">
-        <div className="mx-auto max-w-[920px]">
+        <div className="mx-auto max-w-[1200px]">
           <div className="mb-8 flex flex-col gap-4 lg:mb-10">
             <div className="flex flex-col gap-3">
               <p className="text-sm text-slate-500">Effective date: {frontmatter.date}</p>

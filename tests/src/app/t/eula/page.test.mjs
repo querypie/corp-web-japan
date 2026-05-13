@@ -19,7 +19,7 @@ test("eula page exists with noindex metadata and preview canonical path", () => 
   assert.match(source, /description: frontmatter\.description,/);
   assert.match(source, /canonical: "\/t\/eula"/);
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
-  assert.match(source, /const legalBodyClassName = \[/);
+  assert.match(source, /max-w-\[1200px\]/);
   assert.match(source, /src\/app\/t\/eula\/content\.mdx/);
   assert.match(source, /parseFrontmatter: true,/);
   assert.match(source, /<LegalPageTitle>End User License Agreement<\/LegalPageTitle>/);
