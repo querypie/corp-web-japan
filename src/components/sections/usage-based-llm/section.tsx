@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { MarketingPageSection } from "@/components/sections/marketing-section-primitives";
+import { MarketingPageSection } from "@/components/sections/home/primitives";
 
 type ClassNameProps = {
   className?: string;

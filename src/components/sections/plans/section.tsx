@@ -12,7 +12,7 @@ import {
   useState,
 } from "react";
 import { Check, Minus } from "lucide-react";
-import { MarketingPageSection } from "@/components/sections/marketing-section-primitives";
+import { MarketingPageSection } from "@/components/sections/home/primitives";
 
 type PricingContextValue = {
   activeTab: string;

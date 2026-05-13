@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRight, ExternalLink } from "lucide-react";
-import { MarketingPageSection } from "@/components/sections/marketing-section-primitives";
+import { MarketingPageSection } from "@/components/sections/home/primitives";
 
 export type CertificationItem = {
   id: string;
