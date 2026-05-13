@@ -53,7 +53,7 @@ export default async function ContactUsPage({
       <SiteHeader />
       <CompanyPageSection padding="compactFooter">
         <CompanyPageLayout preset="equalColumns">
-          <CompanyPageIntro className="gap-10 pt-[10px] lg:gap-[50px] lg:pt-0">
+          <CompanyPageIntro>
             <CompanyPageTitle>お問い合わせ</CompanyPageTitle>
             <CompanyPageLead>
               製品導入のご相談、デモのご依頼、資料ダウンロード、技術的なご質問などを受け付けています。
