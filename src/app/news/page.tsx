@@ -27,7 +27,7 @@ export default function NewsPage() {
 
       <NewsPageSection>
         <NewsPageIntro>
-          <NewsPageTitle>News</NewsPageTitle>
+          <NewsPageTitle>ニュース</NewsPageTitle>
         </NewsPageIntro>
         <NewsListSection>
           <NewsArticleList items={newsItems} />
