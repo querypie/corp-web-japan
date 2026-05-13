@@ -8,7 +8,7 @@ type NavItemProps = {
 };
 
 export function NewsPageSection({ children }: { children: ReactNode }) {
-  return <section className="mx-auto max-w-[1440px] bg-white px-[30px] pb-[96px] pt-[92px] lg:pb-[128px] lg:pt-[116px]">{children}</section>;
+  return <section className="mx-auto max-w-[1440px] bg-white px-[30px] pb-[96px] pt-[112px] lg:pb-[128px] lg:pt-[144px]">{children}</section>;
 }
 
 export function NewsPageLayout({ children }: { children: ReactNode }) {
@@ -53,17 +53,17 @@ export function NewsPageContent({ children }: { children: ReactNode }) {
 }
 
 export function NewsPageIntro({ children }: { children: ReactNode }) {
-  return <div className="text-left">{children}</div>;
+  return <div className="mx-auto max-w-[1200px] text-left">{children}</div>;
 }
 
 export function NewsPageTitle({ children }: { children: ReactNode }) {
-  return <h1 className="text-[44px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[52px] lg:text-[60px]">{children}</h1>;
+  return <h1 className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">{children}</h1>;
 }
 
 export function NewsPageLead({ children }: { children: ReactNode }) {
   return <p className="mt-5 max-w-[760px] text-base leading-7 text-slate-500">{children}</p>;
 }
 
-export function NewsPageListArea({ children }: { children: ReactNode }) {
-  return <div className="mt-[44px] lg:mt-[80px]">{children}</div>;
+export function NewsListSection({ children }: { children: ReactNode }) {
+  return <div className="mx-auto mt-[44px] max-w-[1200px] lg:mt-[80px]">{children}</div>;
 }

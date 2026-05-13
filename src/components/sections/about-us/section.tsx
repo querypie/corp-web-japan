@@ -12,12 +12,16 @@ export function AboutUsBodyCopy({ children, className = "" }: { children: ReactN
 }
 
 export function AboutUsHeroSection({ children }: { children: ReactNode }) {
-  return <section className="mx-auto max-w-[1440px] bg-white px-[30px] pb-[84px] pt-[92px] lg:pb-[84px] lg:pt-[116px]">{children}</section>;
+  return <section className="w-full bg-white px-[30px] pb-[84px] pt-[112px] lg:pb-[84px] lg:pt-[144px]">{children}</section>;
+}
+
+export function AboutUsHeroIntro({ children }: { children: ReactNode }) {
+  return <div className="mx-auto max-w-[1200px]">{children}</div>;
 }
 
 export function AboutUsHeroHeading({ children }: { children: ReactNode }) {
   return (
-    <h1 className="text-[44px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[52px] lg:text-[60px]">
+    <h1 className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">
       {children}
     </h1>
   );
@@ -43,10 +47,6 @@ export function AboutUsSection({ children, muted = false, className = "" }: { ch
   const backgroundClass = muted ? "bg-[#F6F8FA]" : "bg-white";
 
   return <section className={`${backgroundClass}${className ? ` ${className}` : ""}`}>{children}</section>;
-}
-
-export function AboutUsSectionInner({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <div className={`mx-auto max-w-[1200px] px-6 lg:px-0${className ? ` ${className}` : ""}`}>{children}</div>;
 }
 
 export function AboutUsSectionHeading({ children }: { children: ReactNode }) {

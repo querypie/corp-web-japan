@@ -16,11 +16,15 @@ export type CertificationItem = {
 };
 
 export function CertificationsPageSection({ children }: { children: ReactNode }) {
-  return <section className="mx-auto max-w-[1200px] pb-24 pt-[86px] lg:pb-28 lg:pt-[108px]">{children}</section>;
+  return <section className="mx-auto max-w-[1200px] px-6 pb-24 pt-[112px] lg:pb-28 lg:pt-[144px] lg:px-0">{children}</section>;
 }
 
 export function CertificationsIntroSection({ children }: { children: ReactNode }) {
   return <div className="text-left">{children}</div>;
+}
+
+export function CertificationsTitle({ children }: { children: ReactNode }) {
+  return <h1 className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">{children}</h1>;
 }
 
 export function CertificationsIntroDescription({ children }: { children: ReactNode }) {
@@ -57,7 +61,7 @@ export function CertificationCard({ title, description, src, alt, imageWidth, im
 }
 
 export function CertificationsTrustCenterSection({ children }: { children: ReactNode }) {
-  return <section className="flex flex-col items-center px-6 pb-2 pt-20 text-center lg:px-0 lg:pt-24">{children}</section>;
+  return <section className="flex flex-col items-center pb-2 pt-20 text-center lg:pt-24">{children}</section>;
 }
 
 export function CertificationsTrustCenterAction({ href, children }: { href: string; children: ReactNode }) {

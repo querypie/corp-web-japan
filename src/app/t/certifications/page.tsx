@@ -8,6 +8,7 @@ import {
   CertificationsIntroDescription,
   CertificationsIntroSection,
   CertificationsPageSection,
+  CertificationsTitle,
   CertificationsTrustCenterAction,
   CertificationsTrustCenterSection,
 } from "@/components/sections/certifications/section";
@@ -177,7 +178,7 @@ export default function CertificationsPage() {
 
       <CertificationsPageSection>
         <CertificationsIntroSection>
-          <h1 className="text-[44px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[52px] sm:leading-[1.15]">認証</h1>
+          <CertificationsTitle>認証</CertificationsTitle>
           <CertificationsIntroDescription>
             <p>
               QueryPie AIは、数々の最高レベルの国際および国内セキュリティ認証を取得しています。
