@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { marketingBodyTextClassName } from "@/components/ui/text-tokens";
+import { companyBodyTextClassName } from "@/components/ui/text-tokens";
 
 const sectionHeadingClass =
   "text-[48.75px] font-normal leading-[58.125px] tracking-[-0.035em] text-slate-950";
-const bodyCopyClass = marketingBodyTextClassName;
-const secondaryCopyClass = marketingBodyTextClassName;
+const bodyCopyClass = companyBodyTextClassName;
+const secondaryCopyClass = companyBodyTextClassName;
 
 export function AboutUsBodyCopy({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <p className={`${bodyCopyClass}${className ? ` ${className}` : ""}`}>{children}</p>;

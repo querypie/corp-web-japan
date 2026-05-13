@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { MarketingPageSection } from "@/components/sections/home/primitives";
-import { marketingBodyTextClassName } from "@/components/ui/text-tokens";
+import { companyBodyTextClassName } from "@/components/ui/text-tokens";
 
 export type CertificationItem = {
   id: string;
@@ -30,7 +30,7 @@ export function CertificationsTitle({ children }: { children: ReactNode }) {
 }
 
 export function CertificationsIntroDescription({ children }: { children: ReactNode }) {
-  return <div className={marketingBodyTextClassName}>{children}</div>;
+  return <div className={companyBodyTextClassName}>{children}</div>;
 }
 
 export function CertificationsGrid({ children }: { children: ReactNode }) {
