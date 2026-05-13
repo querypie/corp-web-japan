@@ -2,14 +2,14 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource, sourceExists } from "../../../../../helpers/source-readers.mjs";
 
-test("/t/services/aip keeps route-local copy/composition while the layout primitives live in the service section module", () => {
-  assert.equal(sourceExists("src/app/t/services/aip/page.tsx"), true);
+test("/t/platforms/aip keeps route-local copy/composition while the layout primitives live in the service section module", () => {
+  assert.equal(sourceExists("src/app/t/platforms/aip/page.tsx"), true);
   assert.equal(sourceExists("src/components/sections/aip/service-page.tsx"), true);
 
-  const routeSource = readSource("src/app/t/services/aip/page.tsx");
+  const routeSource = readSource("src/app/t/platforms/aip/page.tsx");
   const sectionSource = readSource("src/components/sections/aip/service-page.tsx");
 
-  assert.match(routeSource, /canonical: "\/t\/services\/aip"/);
+  assert.match(routeSource, /canonical: "\/t\/platforms\/aip"/);
   assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);

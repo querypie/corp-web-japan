@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description:
     "MCPサーバーを介して業務ツールへ接続し、ワークフローを自動化する QueryPie AIP インテグレーションページ。",
   alternates: {
-    canonical: "/t/services/aip/integrations",
+    canonical: "/t/platforms/aip/integrations",
   },
   robots: {
     index: false,
@@ -136,13 +136,13 @@ export default async function AipIntegrationsPage({ searchParams }: Integrations
 
         <AipIntegrationsContent>
           <AipIntegrationsCategoryList>
-            <AipIntegrationsCategoryLink href="/t/services/aip/integrations?category=all" active={currentCategory === "all"}>
+            <AipIntegrationsCategoryLink href="/t/platforms/aip/integrations?category=all" active={currentCategory === "all"}>
               全て ({products.length})
             </AipIntegrationsCategoryLink>
             {categories.map((category) => (
               <AipIntegrationsCategoryLink
                 key={category.key}
-                href={`/t/services/aip/integrations?category=${category.key}`}
+                href={`/t/platforms/aip/integrations?category=${category.key}`}
                 active={currentCategory === category.key}
               >
                 {category.label} ({getCategoryCount(category.key)})

@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   description:
     "経済的でエンタープライズ対応のソリューションを通じてエンタープライズAI変革を実現するプラットフォーム—使用量ベースのLLM導入と包括的なMCPゲートウェイを特徴とする。カスタマイズされたAIエージェントを提供するフォワードデプロイドエンジニア（FDE）による完全な変革。",
   alternates: {
-    canonical: "/t/services/aip",
+    canonical: "/t/platforms/aip",
   },
   robots: {
     index: false,
@@ -94,7 +94,7 @@ export default function AipServicePage() {
                   <AipServiceLineBreak />
                   プレミアムLLMを必要な時だけ利用でき、月額固定費の無駄から解放されます。
                 </AipServiceValueCardBody>
-                <AipServiceInlineLink href="/t/solutions/aip/usage-based-llm">詳細を見る</AipServiceInlineLink>
+                <AipServiceInlineLink href="/t/platforms/aip/usage-based-llm">詳細を見る</AipServiceInlineLink>
               </AipServiceValueCard>
             </RevealOnScroll>
 
@@ -109,7 +109,7 @@ export default function AipServicePage() {
                   <AipServiceLineBreak />
                   バラバラだったシステムが、1つのプラットフォームで統合されたAIワークフローに変わります。
                 </AipServiceValueCardBody>
-                <AipServiceInlineLink href="/t/solutions/aip/mcp-gateway">詳細を見る</AipServiceInlineLink>
+                <AipServiceInlineLink href="/t/platforms/aip/mcp-gateway">詳細を見る</AipServiceInlineLink>
               </AipServiceValueCard>
             </RevealOnScroll>
 

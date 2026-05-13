@@ -60,8 +60,8 @@ A preview page still needs parity follow-up if any of these remain:
 If the user asks for several service pages in one request, create separate branches/worktrees/PRs unless they explicitly ask for one combined PR.
 
 Recommended default:
-- one PR for `/t/services/aip`
-- one PR for `/t/services/acp`
+- one PR for `/t/platforms/aip`
+- one PR for `/t/platforms/acp`
 - one PR for `/t/services/fde`
 
 Reason:
@@ -80,7 +80,7 @@ For each page, gather evidence in this order:
 
 ## Page-specific heuristics
 
-### `/t/services/aip`
+### `/t/platforms/aip`
 
 Required parity elements:
 - hero title + body copy
@@ -91,8 +91,8 @@ Required parity elements:
 
 Link strategy:
 - if a corresponding deeper preview page already exists locally, use it
-  - `/t/solutions/aip/usage-based-llm`
-  - `/t/solutions/aip/mcp-gateway`
+  - `/t/platforms/aip/usage-based-llm`
+  - `/t/platforms/aip/mcp-gateway`
   - `/t/solutions/aip/fde-services`
 - if no local equivalent exists yet, keep the upstream destination instead of inventing a broken local path
 
@@ -108,7 +108,7 @@ Required parity shape:
 - 4 alternating feature bands
 - final CTA using the standard trial wording
 
-### `/t/services/acp`
+### `/t/platforms/acp`
 
 Do not reduce ACP to a flat feature-card page.
 
@@ -156,8 +156,8 @@ For parity work, copy only the assets actually needed by the route.
 At minimum:
 1. keep or update `tests/services-preview-routes.test.mjs`
 2. add a page-specific structure test under a mirrored path such as:
-   - `tests/src/app/t/services/aip/page.test.mjs`
-   - `tests/src/app/t/services/acp/page.test.mjs`
+   - `tests/src/app/t/platforms/aip/page.test.mjs`
+   - `tests/src/app/t/platforms/acp/page.test.mjs`
    - `tests/src/app/t/services/fde/page.test.mjs`
 
 What those tests should guard:

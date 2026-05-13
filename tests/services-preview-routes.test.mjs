@@ -5,13 +5,13 @@ import { readSource } from "./helpers/source-readers.mjs";
 
 const previewPages = [
   {
-    file: "src/app/t/services/aip/page.tsx",
-    canonical: 'canonical: "/t/services/aip"',
+    file: "src/app/t/platforms/aip/page.tsx",
+    canonical: 'canonical: "/t/platforms/aip"',
     title: 'QueryPie AIプラットフォーム (AIP)',
   },
   {
-    file: "src/app/t/services/acp/page.tsx",
-    canonical: 'canonical: "/t/services/acp"',
+    file: "src/app/t/platforms/acp/page.tsx",
+    canonical: 'canonical: "/t/platforms/acp"',
     title: 'QueryPie アクセス制御プラットフォーム (ACP)',
   },
   {
@@ -19,6 +19,15 @@ const previewPages = [
     canonical: 'canonical: "/t/services/fde"',
     title: 'QueryPie AIP：あなたのためのAI変革エキスパート',
   },
+];
+
+
+const removedPreviewRoutes = [
+  "src/app/t/services/aip/page.tsx",
+  "src/app/t/services/aip/integrations/page.tsx",
+  "src/app/t/services/acp/page.tsx",
+  "src/app/t/solutions/aip/usage-based-llm/page.tsx",
+  "src/app/t/solutions/aip/mcp-gateway/page.tsx",
 ];
 
 const redirectRoutes = [
@@ -35,7 +44,7 @@ const redirectRoutes = [
     destination: 'const destination = "https://www.querypie.com/ja/solutions/aip/fde-services";',
   },
 ];
-test("/t/services preview pages exist with noindex metadata and canonical preview paths", () => {
+test("/t platform preview pages exist with noindex metadata and canonical preview paths", () => {
   for (const page of previewPages) {
     assert.equal(existsSync(new URL(`../${page.file}`, import.meta.url)), true, `${page.file} should exist`);
 
@@ -47,6 +56,12 @@ test("/t/services preview pages exist with noindex metadata and canonical previe
     assert.match(source, new RegExp(page.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
     assert.match(source, /<SiteHeader \/>/);
     assert.match(source, /<SiteFooter \/>/);
+  }
+});
+
+test("old AIP and ACP preview routes are removed without compatibility redirects", () => {
+  for (const routePath of removedPreviewRoutes) {
+    assert.equal(existsSync(new URL(`../${routePath}`, import.meta.url)), false, `${routePath} should be removed`);
   }
 });
 

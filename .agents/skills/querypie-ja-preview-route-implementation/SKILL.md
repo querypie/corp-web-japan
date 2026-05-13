@@ -95,7 +95,7 @@ Mapping rule:
 Examples:
 - preview URL `/t/about-us` -> `src/app/t/about-us/page.tsx`
 - preview URL `/t/certifications` -> `src/app/t/certifications/page.tsx`
-- preview URL `/t/services/aip` -> `src/app/t/services/aip/page.tsx`
+- preview URL `/t/platforms/aip` -> `src/app/t/platforms/aip/page.tsx`
 - preview URL `/t/path/page` -> `src/app/t/path/page/page.tsx`
 
 Important clarification:
@@ -108,7 +108,7 @@ Important clarification:
 When migrating an upstream public path, mirror the intended public route shape beneath `/t`.
 
 Examples:
-- intended future public route `/services/aip` -> preview route `/t/services/aip`
+- intended future public route `/services/aip` -> preview route `/t/platforms/aip`
 - intended future public route `/about-us` -> preview route `/t/about-us`
 - intended future public route `/solutions/foo` -> preview route `/t/solutions/foo`
 
@@ -127,7 +127,7 @@ Examples confirmed in this repo:
 
 Rules:
 - preview page `/t/about-us` -> page-specific assets under `public/about-us/...`
-- preview page `/t/services/aip` -> page-specific assets under `public/services/aip/...`
+- preview page `/t/platforms/aip` -> page-specific assets under `public/services/aip/...`
 - preview page `/t/path/page` -> page-specific assets under `public/path/page/...` when those assets belong only to that page
 - shared family assets may stay under `public/<family>/...` if they are genuinely shared by several sibling pages in that family
 - do not create new page-specific files under `public/assets/...`
@@ -208,7 +208,7 @@ Common imports seen in aligned pages:
 Preview pages should be explicitly non-indexed.
 
 Default metadata expectations:
-- set `alternates.canonical` to the preview route itself, e.g. `"/t/services/aip"`
+- set `alternates.canonical` to the preview route itself, e.g. `"/t/platforms/aip"`
 - set `robots.index = false`
 - set `robots.follow = false`
 
@@ -252,7 +252,7 @@ Preferred pattern, as seen in PR #182:
 
 Examples:
 - existing `src/app/services/aip/route.ts` may keep redirect behavior
-- preview implementation lives separately at `src/app/t/services/aip/page.tsx`
+- preview implementation lives separately at `src/app/t/platforms/aip/page.tsx`
 
 Additional follow-up rule learned from service-page parity work:
 - an existing preview route may still need a later parity pass if it was first implemented as a placeholder or simplified surface
@@ -272,8 +272,8 @@ Read these first:
   - `src/app/t/about-us/page.tsx`
   - `src/app/t/certifications/page.tsx`
 - if relevant, PR #182 preview pages:
-  - `src/app/t/services/aip/page.tsx`
-  - `src/app/t/services/acp/page.tsx`
+  - `src/app/t/platforms/aip/page.tsx`
+  - `src/app/t/platforms/acp/page.tsx`
   - `src/app/t/services/fde/page.tsx`
 
 ### 2. Choose the preview path and file path
@@ -281,7 +281,7 @@ Read these first:
 Decide the exact preview URI first, then create the matching route file.
 
 Examples:
-- `/t/services/acp` -> `src/app/t/services/acp/page.tsx`
+- `/t/platforms/acp` -> `src/app/t/platforms/acp/page.tsx`
 - `/t/path/page` -> `src/app/t/path/page/page.tsx`
 
 ### 3. Gather and place assets

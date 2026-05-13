@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   description:
     "ゼロトラスト型の統合アクセス制御により、データベース、サーバー、Kubernetes、Webアプリケーション、ワークフロー全体を一元管理する QueryPie ACP のページです。",
   alternates: {
-    canonical: "/t/services/acp",
+    canonical: "/t/platforms/acp",
   },
   robots: {
     index: false,

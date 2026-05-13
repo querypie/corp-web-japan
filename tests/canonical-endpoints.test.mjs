@@ -4,8 +4,8 @@ import { existsSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 
 const expectedHeaderLinks = [
-  'label: "AIプラットフォーム｜AIP", href: t("/services/aip", previewModeEnabled)',
-  'label: "アクセス制御プラットフォーム｜ACP", href: t("/services/acp", previewModeEnabled)',
+  'label: "AIプラットフォーム｜AIP", href: t("/platforms/aip", previewModeEnabled)',
+  'label: "アクセス制御プラットフォーム｜ACP", href: t("/platforms/acp", previewModeEnabled)',
   'label: "AI専門家伴走支援｜FDE", href: t("/services/fde", previewModeEnabled)',
   'label: "活用事例", href: "/demo/use-cases"',
   'label: "AIP機能", href: "/demo/aip"',
@@ -22,8 +22,8 @@ const expectedHeaderLinks = [
 ];
 
 const expectedFooterLinks = [
-  'label: "AIプラットフォーム｜AIP", href: t("/services/aip", previewModeEnabled)',
-  'label: "アクセス制御プラットフォーム｜ACP", href: t("/services/acp", previewModeEnabled)',
+  'label: "AIプラットフォーム｜AIP", href: t("/platforms/aip", previewModeEnabled)',
+  'label: "アクセス制御プラットフォーム｜ACP", href: t("/platforms/acp", previewModeEnabled)',
   'label: "AI専門家伴走支援｜FDE", href: t("/services/fde", previewModeEnabled)',
   'label: "活用事例", href: "/demo/use-cases"',
   'label: "AIP 機能", href: "/demo/aip"',
