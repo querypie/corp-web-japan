@@ -29,7 +29,7 @@ test("news public page and canonical routes are driven by news MDX publication r
   assert.match(publicPage, /NewsPageIntro/);
   assert.match(publicPage, /NewsListSection/);
   assert.match(publicPage, /AipFreeTrialCtaSection/);
-  assert.match(publicPage, />\s*News\s*</);
+  assert.match(publicPage, />\s*ニュース\s*</);
   assert.doesNotMatch(publicPage, /まずは小さく、失敗しないAXを始めよう/);
   assert.doesNotMatch(publicPage, /簡単サインアップで、14日間の無料トライアルをお試しください/);
   assert.doesNotMatch(publicPage, /https:\/\/app\.querypie\.com\//);
