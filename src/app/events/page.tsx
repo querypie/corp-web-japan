@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { FeaturedEventHero } from "@/components/sections/featured-event-hero";
-import { InternalEventsDemoEmptyState } from "@/components/sections/internal-events-demo-empty-state";
+import { FeaturedEventHero } from "@/components/sections/events/hero";
+import { InternalEventsDemoEmptyState } from "@/components/sections/events/empty-state";
 import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
 import {
   ResourceListContentSection,
