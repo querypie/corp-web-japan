@@ -33,11 +33,11 @@ export const metadata: Metadata = {
   title: "会社概要 | QueryPie AI",
   description: "QueryPie AIは、お客様のビジネスを前進させるエンタープライズAI企業です。",
   alternates: {
-    canonical: "/t/about-us",
+    canonical: "/about-us",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
   keywords: ["QueryPie AIについて", "QueryPie AI 投資家", "QueryPie AI 履歴", "QueryPie AI チーム", "QueryPie AI 所在地"],
 };

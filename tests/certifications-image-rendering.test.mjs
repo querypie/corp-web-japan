@@ -7,8 +7,8 @@ function readSource(path) {
   return readFileSync(fileURLToPath(new URL(`../${path}`, import.meta.url)), "utf8");
 }
 
-test("/t/certifications uses original-source display dimensions together with intrinsic image dimensions for certification logos", () => {
-  const pageSource = readSource("src/app/t/certifications/page.tsx");
+test("/certifications uses original-source display dimensions together with intrinsic image dimensions for certification logos", () => {
+  const pageSource = readSource("src/app/certifications/page.tsx");
   const sectionSource = readSource("src/components/sections/certifications/section.tsx");
 
   assert.match(sectionSource, /type CertificationItem = \{[\s\S]*imageWidth: number;[\s\S]*imageHeight: number;[\s\S]*displayWidth: string;[\s\S]*displayHeight: string;/);

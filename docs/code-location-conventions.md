@@ -67,7 +67,7 @@ Do not collapse every static or informational route into one universal primitive
 For current `/t/**` preview pages, keep these family boundaries explicit:
 
 - Legal / document family: `/t/eula`, `/t/privacy-policy`, `/t/privacy-policy/[slug]`, and `/t/terms-of-service`. These routes use legal document wrappers and legal body primitives.
-- Company-intro / company family: `/t/about-us` and `/t/certifications`. These routes describe company identity and trust context and may reuse marketing page shells where the layout contract actually matches.
+- Company-intro / company family: `/about-us` and `/certifications`. These routes describe company identity and trust context and may reuse marketing page shells where the layout contract actually matches.
 
 Classify adjacent routes such as `/t/cookie-preference` and `/t/plans` by their own interaction or pricing semantics before grouping them into either family.
 

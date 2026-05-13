@@ -68,8 +68,8 @@ export async function SiteFooter() {
       title: "会社情報",
       mobileLayout: "compact",
       links: [
-        { label: "私たちについて", href: t("/about-us", previewModeEnabled) },
-        { label: "認証情報", href: t("/certifications", previewModeEnabled) },
+        { label: "私たちについて", href: "/about-us" },
+        { label: "認証情報", href: "/certifications" },
         { label: "ニュース", href: "/news" },
         { label: "お問い合わせ", href: "/contact-us" },
       ],
