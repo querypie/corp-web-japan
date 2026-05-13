@@ -85,7 +85,7 @@ test("gating pages bypass the form when preview navigation is enabled", () => {
 });
 
 test("client gating UI re-syncs when preview toggle refreshes the server prop", () => {
-  const gatedClient = readSource("src/components/sections/resource-post-gated.tsx");
+  const gatedClient = readSource("src/components/sections/publication/gated-content.tsx");
 
   assert.match(gatedClient, /import \{ useEffect, useState \} from "react"/);
   assert.match(gatedClient, /useEffect\(\(\) => \{\s*setUnlocked\(initiallyUnlocked\);\s*\}, \[initiallyUnlocked\]\);/s);

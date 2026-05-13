@@ -4,7 +4,7 @@ import { readSource } from "../helpers/source-readers.mjs";
 
 test("news detail UX uses client-side share actions and supports direct external related links", () => {
   const postPage = readSource("src/components/sections/publication-post-page.tsx");
-  const shareButtons = readSource("src/components/sections/publication-share-buttons.tsx");
+  const shareButtons = readSource("src/components/sections/publication/share-buttons.tsx");
 
   assert.match(postPage, /PublicationShareButtons/);
   assert.match(postPage, /const isExternalHref =/);
