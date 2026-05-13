@@ -56,11 +56,15 @@ export function AipServiceHeroVideo() {
 }
 
 export function AipServiceValueSection({ children }: { children: ReactNode }) {
-  return <section className="flex justify-center px-6 pb-[120px] lg:px-0">{children}</section>;
+  return (
+    <section className="flex justify-center bg-[linear-gradient(291deg,#C5D6E6_0%,#FFF_100%)] px-6 py-[120px] lg:px-0">
+      {children}
+    </section>
+  );
 }
 
 export function AipServiceValueInner({ children }: { children: ReactNode }) {
-  return <div className="flex w-full max-w-[1200px] flex-col gap-[80px]">{children}</div>;
+  return <div className="flex w-full max-w-[1200px] flex-col gap-[40px]">{children}</div>;
 }
 
 export function AipServiceValueIntro({ children }: { children: ReactNode }) {
@@ -80,19 +84,38 @@ export function AipServiceValueGrid({ children }: { children: ReactNode }) {
 }
 
 export function AipServiceValueCard({ children }: { children: ReactNode }) {
-  return <article className="flex flex-col items-start">{children}</article>;
+  return (
+    <article className="flex flex-col overflow-hidden rounded-[20px] bg-white shadow-[0_30px_30px_0_rgba(47,110,168,0.05)]">
+      {children}
+    </article>
+  );
 }
 
-export function AipServiceValueImage({ src, alt }: { src: string; alt: string }) {
-  return <Image src={src} alt={alt} width={373} height={188} className="h-auto w-full max-w-[373px]" />;
+export function AipServiceValueImage({ src, alt, children }: { src: string; alt: string; children: ReactNode }) {
+  return (
+    <div className="relative w-full">
+      <Image src={src} alt={alt} width={373} height={188} className="h-auto w-full" />
+      <div className="absolute inset-0 flex items-center justify-start px-[40px] text-left text-white">{children}</div>
+    </div>
+  );
 }
 
 export function AipServiceValueCardTitle({ children }: { children: ReactNode }) {
-  return <h3 className="mt-[32px] text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F]">{children}</h3>;
+  return <h3 className="whitespace-pre-line text-[32px] font-medium leading-[42px] tracking-normal">{children}</h3>;
 }
 
 export function AipServiceValueCardBody({ children }: { children: ReactNode }) {
-  return <p className="mt-[20px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+  return <p className="px-[30px] pt-[40px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+}
+
+export function AipServiceValueCardLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <div className="mt-auto flex items-center justify-start px-[40px] pb-[40px] pt-[20px]">
+      <Link href={href} className="inline-flex text-[15px] font-normal leading-[16px] text-[#24292F] underline-offset-4 hover:underline">
+        {children}
+      </Link>
+    </div>
+  );
 }
 
 export function AipServiceInlineLink({ href, children }: { href: string; children: ReactNode }) {
@@ -137,7 +160,7 @@ export function AipServiceFeatureBody({ children }: { children: ReactNode }) {
 
 export function AipServiceFeatureImage({ src, alt, width, height }: FeatureImageProps) {
   return (
-    <div className="max-w-full overflow-hidden rounded-[8px] shadow-[0_8px_20px_rgba(0,0,0,0.15)]">
+    <div className="max-w-full flex-none overflow-hidden rounded-[8px] shadow-[0_8px_20px_rgba(0,0,0,0.15)]" style={{ width }}>
       <Image src={src} alt={alt} width={width} height={height} unoptimized className="h-auto w-full" />
     </div>
   );

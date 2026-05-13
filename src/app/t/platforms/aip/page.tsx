@@ -22,6 +22,7 @@ import {
   AipServicePageShell,
   AipServiceValueCard,
   AipServiceValueCardBody,
+  AipServiceValueCardLink,
   AipServiceValueCardTitle,
   AipServiceValueDescription,
   AipServiceValueGrid,
@@ -85,8 +86,13 @@ export default function AipServicePage() {
           <AipServiceValueGrid>
             <RevealOnScroll>
               <AipServiceValueCard>
-                <AipServiceValueImage src="/services/aip/value-usage-based-llm.png" alt="従量課金型の AIモデル" />
-                <AipServiceValueCardTitle>従量課金型の AIモデル</AipServiceValueCardTitle>
+                <AipServiceValueImage src="/services/aip/value-usage-based-llm.png" alt="従量課金型の AIモデル">
+                  <AipServiceValueCardTitle>
+                    従量課金型の
+                    <AipServiceLineBreak />
+                    AIモデル
+                  </AipServiceValueCardTitle>
+                </AipServiceValueImage>
                 <AipServiceValueCardBody>
                   全社員分のライセンス購入を経営層にどう説明する？使われなかったら？
                   <AipServiceLineBreak />
@@ -94,14 +100,19 @@ export default function AipServicePage() {
                   <AipServiceLineBreak />
                   プレミアムLLMを必要な時だけ利用でき、月額固定費の無駄から解放されます。
                 </AipServiceValueCardBody>
-                <AipServiceInlineLink href="/t/platforms/aip/usage-based-llm">詳細を見る</AipServiceInlineLink>
+                <AipServiceValueCardLink href="/t/platforms/aip/usage-based-llm">詳細を見る</AipServiceValueCardLink>
               </AipServiceValueCard>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={80}>
               <AipServiceValueCard>
-                <AipServiceValueImage src="/services/aip/value-mcp-gateway.png" alt="統合型 AIゲートウェイ" />
-                <AipServiceValueCardTitle>統合型 AIゲートウェイ</AipServiceValueCardTitle>
+                <AipServiceValueImage src="/services/aip/value-mcp-gateway.png" alt="統合型 AIゲートウェイ">
+                  <AipServiceValueCardTitle>
+                    統合型
+                    <AipServiceLineBreak />
+                    AIゲートウェイ
+                  </AipServiceValueCardTitle>
+                </AipServiceValueImage>
                 <AipServiceValueCardBody>
                   既存システムに「つなぐだけ」で、大規模なシステム改修は不要です。
                   <AipServiceLineBreak />
@@ -109,20 +120,25 @@ export default function AipServicePage() {
                   <AipServiceLineBreak />
                   バラバラだったシステムが、1つのプラットフォームで統合されたAIワークフローに変わります。
                 </AipServiceValueCardBody>
-                <AipServiceInlineLink href="/t/platforms/aip/mcp-gateway">詳細を見る</AipServiceInlineLink>
+                <AipServiceValueCardLink href="/t/platforms/aip/mcp-gateway">詳細を見る</AipServiceValueCardLink>
               </AipServiceValueCard>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={160}>
               <AipServiceValueCard>
-                <AipServiceValueImage src="/services/aip/value-fde-services.png" alt="AI専門家伴走 サービス" />
-                <AipServiceValueCardTitle>AI専門家伴走 サービス</AipServiceValueCardTitle>
+                <AipServiceValueImage src="/services/aip/value-fde-services.png" alt="AI専門家伴走 サービス">
+                  <AipServiceValueCardTitle>
+                    AI専門家伴走
+                    <AipServiceLineBreak />
+                    サービス
+                  </AipServiceValueCardTitle>
+                </AipServiceValueImage>
                 <AipServiceValueCardBody>
                   ビジネスとテクノロジーの両方を理解する専門家、フォワードデプロイドエンジニア(FDE)が、あなたのチームに入り込みます。
                   <AipServiceLineBreak />
                   課題発見から構築、本番稼働まで伴走し、確実に成果を出すAI導入を実現します。
                 </AipServiceValueCardBody>
-                <AipServiceInlineLink href="/t/services/fde">詳細を見る</AipServiceInlineLink>
+                <AipServiceValueCardLink href="/t/services/fde">詳細を見る</AipServiceValueCardLink>
               </AipServiceValueCard>
             </RevealOnScroll>
           </AipServiceValueGrid>
@@ -176,7 +192,7 @@ export default function AipServicePage() {
                   <AipServiceLineBreak />
                   ニーズに合わせたビジネスワークフロー自動化を実現します。
                 </AipServiceFeatureBody>
-                <AipServiceInlineLink href="https://www.querypie.com/ja/solutions/aip/integrations">
+                <AipServiceInlineLink href="/t/platforms/aip/integrations">
                   QueryPie AIPと接続可能な連携ツールの一覧はこちら
                 </AipServiceInlineLink>
               </AipServiceFeatureCopy>

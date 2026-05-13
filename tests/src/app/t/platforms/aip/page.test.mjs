@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource, sourceExists } from "../../../../../helpers/source-readers.mjs";
 
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 test("/t/platforms/aip keeps route-local copy/composition while the layout primitives live in the service section module", () => {
   assert.equal(sourceExists("src/app/t/platforms/aip/page.tsx"), true);
   assert.equal(sourceExists("src/components/sections/aip/service-page.tsx"), true);
@@ -14,11 +16,12 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
   assert.match(routeSource, /AipServiceHeroVideo/);
+  assert.match(routeSource, /AipServiceValueCardLink/);
   assert.match(routeSource, /成果にこだわるエンタープライズAI/);
   assert.match(routeSource, /AI導入を、ワンストップで実現する３つの価値/);
-  assert.match(routeSource, /従量課金型の AIモデル/);
-  assert.match(routeSource, /統合型 AIゲートウェイ/);
-  assert.match(routeSource, /AI専門家伴走 サービス/);
+  assert.match(routeSource, /従量課金型の\s*<AipServiceLineBreak \/>\s*AIモデル/);
+  assert.match(routeSource, /統合型\s*<AipServiceLineBreak \/>\s*AIゲートウェイ/);
+  assert.match(routeSource, /AI専門家伴走\s*<AipServiceLineBreak \/>\s*サービス/);
   assert.match(routeSource, /href="\/t\/services\/fde"/);
   assert.doesNotMatch(routeSource, /href="\/t\/solutions\/aip\/fde-services"/);
   assert.match(routeSource, /QueryPie AIPができること/);
@@ -28,6 +31,8 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
   assert.match(routeSource, /カスタムエージェント作成/);
   assert.match(routeSource, /ビジュアルレポート作成/);
   assert.match(routeSource, /エージェントスケジューリング/);
+  assert.match(routeSource, /href="\/t\/platforms\/aip\/integrations"/);
+  assert.doesNotMatch(routeSource, /href="https:\/\/www\.querypie\.com\/ja\/solutions\/aip\/integrations"/);
   assert.match(routeSource, /QueryPie AIPと接続可能な連携ツールの一覧はこちら/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(routeSource, /<AipFreeTrialCtaSection \/>/);
@@ -37,8 +42,33 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
 
   assert.match(sectionSource, /export function AipServiceHeroSection/);
   assert.match(sectionSource, /export function AipServiceHeroVideo/);
+  assert.match(sectionSource, /bg-\[linear-gradient\(291deg,#C5D6E6_0%,#FFF_100%\)\]/);
   assert.match(sectionSource, /export function AipServiceValueGrid/);
+  assert.match(sectionSource, /export function AipServiceValueCardLink/);
+  assert.match(sectionSource, /absolute inset-0 flex items-center/);
   assert.match(sectionSource, /export function AipServiceFeatureSection/);
   assert.match(sectionSource, /export function AipServiceFeatureRow/);
   assert.match(sectionSource, /export function AipServiceFeatureImage/);
+  assert.match(sectionSource, /style=\{\{ width \}\}/);
+});
+
+test("/t/platforms/aip guards the route-aligned assets required for visual parity", () => {
+  const routeSource = readSource("src/app/t/platforms/aip/page.tsx");
+
+  for (const asset of [
+    "value-usage-based-llm.png",
+    "value-mcp-gateway.png",
+    "value-fde-services.png",
+    "prompt.gif",
+    "integration.gif",
+    "knowledge.gif",
+    "custom-agent.gif",
+    "visual-report.gif",
+    "scheduling.gif",
+  ]) {
+    const publicPath = `/services/aip/${asset}`;
+
+    assert.match(routeSource, new RegExp(escapeRegExp(publicPath)));
+    assert.equal(sourceExists(`public${publicPath}`), true, `public${publicPath} should exist`);
+  }
 });
