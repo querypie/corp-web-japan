@@ -40,6 +40,10 @@ type ButtonLinkProps = {
   external?: boolean;
 };
 
+type ArticleCtaProps = {
+  children?: ReactNode;
+};
+
 type MdxLinkProps = {
   href: string;
   children?: ReactNode;
@@ -208,6 +212,10 @@ function ButtonLink({ href, children, external = false }: ButtonLinkProps) {
   );
 }
 
+function ArticleCta({ children }: ArticleCtaProps) {
+  return <div className="mt-6">{children}</div>;
+}
+
 function MdxLink({ href, children, external = false }: MdxLinkProps) {
   if (external || isExternalHref(href)) {
     return (
@@ -318,6 +326,7 @@ export function buildPublicationMdxComponents(): MDXComponents {
     Table,
     Box,
     ButtonLink,
+    ArticleCta,
     Link: MdxLink,
     ArticleFileImage,
     InfoNote,
