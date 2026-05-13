@@ -43,6 +43,7 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
 
   assert.match(sectionSource, /export type CertificationItem = \{/);
   assert.match(sectionSource, /id: string;/);
+  assert.match(sectionSource, /export function CertificationsPageSection[\s\S]*max-w-\[1200px\] px-6 pb-24 pt-\[112px\] lg:pb-28 lg:pt-\[144px\] lg:px-0/);
   assert.match(sectionSource, /export function CertificationsIntroSection\(/);
   assert.match(sectionSource, /export function CertificationsTitle\(/);
   assert.match(sectionSource, /export function CertificationsIntroDescription\(/);
@@ -50,6 +51,7 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
   assert.match(sectionSource, /<Image[\s\S]*width=\{imageWidth\}[\s\S]*height=\{imageHeight\}/);
   assert.match(sectionSource, /style=\{\{ width: displayWidth, height: displayHeight \}\}/);
   assert.doesNotMatch(sectionSource, /<Image[^>]*\sfill\s/);
+  assert.match(sectionSource, /export function CertificationsTrustCenterSection[\s\S]*flex flex-col items-center pb-2 pt-20 text-center lg:pt-24/);
   assert.match(sectionSource, /export function CertificationsTrialCtaContent\(/);
   assert.match(sectionSource, /export function CertificationsTrialCtaAction\(/);
 });
