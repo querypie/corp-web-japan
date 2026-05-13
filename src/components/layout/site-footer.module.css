@@ -84,10 +84,21 @@
   letter-spacing: -0.01em;
 }
 
-.linkColumn ul {
+.linkList {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.linkListCompact {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 16px;
+  row-gap: 8px;
+}
+
+.linkListCompact li {
+  min-width: 0;
 }
 
 .linkColumn a {
@@ -140,6 +151,12 @@
 @media (min-width: 768px) {
   .footerLinks {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .linkListCompact {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 }
 

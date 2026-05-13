@@ -27,6 +27,7 @@ export async function SiteFooter() {
   const footerColumns = [
     {
       title: "サービス",
+      mobileLayout: "single",
       links: [
         { label: "AIプラットフォーム｜AIP", href: t("/services/aip", previewModeEnabled) },
         { label: "アクセス制御プラットフォーム｜ACP", href: t("/services/acp", previewModeEnabled) },
@@ -35,6 +36,7 @@ export async function SiteFooter() {
     },
     {
       title: "ソリューション",
+      mobileLayout: "compact",
       links: [
         { label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew" },
         { label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi" },
@@ -42,6 +44,7 @@ export async function SiteFooter() {
     },
     {
       title: "デモ",
+      mobileLayout: "compact",
       links: [
         { label: "活用事例", href: "/demo/use-cases" },
         { label: "AIP 機能", href: "/demo/aip" },
@@ -50,6 +53,7 @@ export async function SiteFooter() {
     },
     {
       title: "リソース",
+      mobileLayout: "compact",
       links: [
         { label: "全て", href: "/resources" },
         { label: "紹介資料", href: "/introduction-deck" },
@@ -62,6 +66,7 @@ export async function SiteFooter() {
     },
     {
       title: "会社情報",
+      mobileLayout: "compact",
       links: [
         { label: "私たちについて", href: t("/about-us", previewModeEnabled) },
         { label: "認証情報", href: t("/certifications", previewModeEnabled) },
@@ -69,7 +74,7 @@ export async function SiteFooter() {
         { label: "お問い合わせ", href: "/contact-us" },
       ],
     },
-    ...(previewModeEnabled ? [internalFooterColumn] : []),
+    ...(previewModeEnabled ? [{ ...internalFooterColumn, mobileLayout: "single" as const }] : []),
   ] as const;
 
   const socialLinks = [
@@ -143,7 +148,11 @@ export async function SiteFooter() {
           {footerColumns.map((column) => (
             <div key={column.title} className={styles.linkColumn}>
               <h4>{column.title}</h4>
-              <ul>
+              <ul
+                className={
+                  column.mobileLayout === "compact" ? `${styles.linkList} ${styles.linkListCompact}` : styles.linkList
+                }
+              >
                 {column.links.map((link) => (
                   <li key={link.label}>
                     <Link href={link.href}>{link.label}</Link>
