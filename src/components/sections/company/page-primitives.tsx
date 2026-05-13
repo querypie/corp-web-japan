@@ -9,8 +9,8 @@ type CompanyPageSectionProps = {
 };
 
 const companyPageSectionPaddingClassNames = {
-  default: "pb-[50px] pt-[100px] lg:pb-[78px] lg:pt-[120px]",
-  compactHero: "pb-[50px] pt-[100px] lg:pb-[84px] lg:pt-[120px]",
+  default: "pb-[50px] pt-[100px] lg:pb-[66px] lg:pt-[120px]",
+  compactHero: "pb-[50px] pt-[100px] lg:pb-[72px] lg:pt-[120px]",
 } satisfies Record<CompanyPageSectionPadding, string>;
 
 export function CompanyPageSection({ children, padding = "default" }: CompanyPageSectionProps) {
