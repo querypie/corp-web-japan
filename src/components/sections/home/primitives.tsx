@@ -65,23 +65,28 @@ export function MarketingSurface<T extends ElementType = "div">({
 }
 
 
-type MarketingPageSectionProps = {
+type MarketingPageSectionProps<T extends ElementType = "section"> = {
+  as?: T;
   children: ReactNode;
   className?: string;
   contentClassName?: string;
   contentWidthClassName?: string;
-};
+} & Omit<ComponentPropsWithoutRef<T>, "as" | "children" | "className">;
 
-export function MarketingPageSection({
+export function MarketingPageSection<T extends ElementType = "section">({
+  as,
   children,
   className,
   contentClassName,
   contentWidthClassName = "max-w-[1200px]",
-}: MarketingPageSectionProps) {
+  ...props
+}: MarketingPageSectionProps<T>) {
+  const Component = (as ?? "section") as ElementType;
+
   return (
-    <section className={cn("mx-auto w-full px-6 lg:px-0", className)}>
+    <Component className={cn("mx-auto w-full px-6 lg:px-0", className)} {...props}>
       <div className={cn("mx-auto w-full", contentWidthClassName, contentClassName)}>{children}</div>
-    </section>
+    </Component>
   );
 }
 

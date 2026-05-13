@@ -43,7 +43,8 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
 
   assert.match(sectionSource, /export type CertificationItem = \{/);
   assert.match(sectionSource, /id: string;/);
-  assert.match(sectionSource, /export function CertificationsPageSection[\s\S]*max-w-\[1200px\] px-6 pb-24 pt-\[112px\] lg:pb-28 lg:pt-\[144px\] lg:px-0/);
+  assert.match(sectionSource, /import \{ MarketingPageSection \} from "@\/components\/sections\/marketing-section-primitives"/);
+  assert.match(sectionSource, /export function CertificationsPageSection[\s\S]*<MarketingPageSection className="pb-24 pt-\[112px\] lg:pb-28 lg:pt-\[144px\]"/);
   assert.match(sectionSource, /export function CertificationsIntroSection\(/);
   assert.match(sectionSource, /export function CertificationsTitle\(/);
   assert.match(sectionSource, /export function CertificationsIntroDescription\(/);

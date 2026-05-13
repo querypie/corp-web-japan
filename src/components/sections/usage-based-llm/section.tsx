@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { MarketingPageSection } from "@/components/sections/marketing-section-primitives";
 
 type ClassNameProps = {
   className?: string;
@@ -11,7 +12,7 @@ export function AipUsageBasedLlmPageShell({ children }: { children: ReactNode })
 }
 
 export function AipUsageBasedLlmHeroSection({ children }: { children: ReactNode }) {
-  return <section className="mx-auto max-w-[1200px] px-6 pb-[187px] pt-[76px] lg:px-0">{children}</section>;
+  return <MarketingPageSection className="pb-[187px] pt-[76px]">{children}</MarketingPageSection>;
 }
 
 export function AipUsageBasedLlmHeroTitle({ children }: { children: ReactNode }) {
@@ -44,14 +45,16 @@ export function AipUsageBasedLlmFeatureBand({ muted = false, children }: { muted
 
 export function AipUsageBasedLlmFeatureRow({ reverse = false, children }: { reverse?: boolean; children: ReactNode }) {
   return (
-    <div
-      className={cn(
-        "mx-auto grid max-w-[1200px] items-center gap-x-[75px] px-6 py-[75px] lg:min-h-[458px] lg:grid-cols-[1fr_1fr] lg:px-0",
+    <MarketingPageSection
+      as="div"
+      className="py-[75px]"
+      contentClassName={cn(
+        "grid items-center gap-x-[75px] lg:min-h-[458px] lg:grid-cols-[1fr_1fr]",
         reverse && "lg:[&>*:first-child]:col-start-2 lg:[&>*:last-child]:row-start-1",
       )}
     >
       {children}
-    </div>
+    </MarketingPageSection>
   );
 }
 
@@ -76,7 +79,7 @@ export function AipUsageBasedLlmFeatureImage({ src, alt, width, height, classNam
 }
 
 export function AipUsageBasedLlmComparisonSection({ children }: { children: ReactNode }) {
-  return <section className="mx-auto max-w-[1200px] px-6 pb-[120px] pt-[94px] lg:px-0">{children}</section>;
+  return <MarketingPageSection className="pb-[120px] pt-[94px]">{children}</MarketingPageSection>;
 }
 
 export function AipUsageBasedLlmComparisonTitle({ children }: { children: ReactNode }) {
