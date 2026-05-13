@@ -45,6 +45,7 @@ test("news public page and canonical routes are driven by news MDX publication r
 
   assert.match(sectionComponents, /export function NewsPageSection/);
   assert.match(sectionComponents, /export function NewsPageIntro/);
+  assert.match(sectionComponents, /export function NewsPageListArea[\s\S]*mx-auto mt-\[44px\] max-w-\[1200px\] lg:mt-\[80px\]/);
   assert.match(sectionComponents, /export function NewsPageNavItem/);
   assert.doesNotMatch(sectionComponents, /export function NewsFinalCtaSection/);
   assert.doesNotMatch(sectionComponents, /export function NewsFinalCtaAction/);

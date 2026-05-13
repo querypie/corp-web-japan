@@ -65,5 +65,5 @@ export function NewsPageLead({ children }: { children: ReactNode }) {
 }
 
 export function NewsPageListArea({ children }: { children: ReactNode }) {
-  return <div className="mt-[44px] lg:mt-[80px]">{children}</div>;
+  return <div className="mx-auto mt-[44px] max-w-[1200px] lg:mt-[80px]">{children}</div>;
 }
