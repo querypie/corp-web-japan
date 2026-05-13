@@ -5,6 +5,20 @@ import { readSource, sourceExists } from "../../../../../helpers/source-readers.
 test("/t/services/fde keeps route-local copy/composition while the layout primitives live in the service section module", () => {
   assert.equal(sourceExists("src/app/t/services/fde/page.tsx"), true);
   assert.equal(sourceExists("src/components/sections/fde/service-page.tsx"), true);
+  assert.equal(sourceExists("src/app/t/solutions/aip/fde-services/page.tsx"), false);
+  assert.equal(sourceExists("src/components/sections/fde-services/section.tsx"), false);
+
+  for (const assetPath of [
+    "public/services/fde/hero.svg",
+    "public/services/fde/find-problems.png",
+    "public/services/fde/make-plans.png",
+    "public/services/fde/build-custom-ai-agents.png",
+    "public/services/fde/make-ai-work.png",
+  ]) {
+    assert.equal(sourceExists(assetPath), true, `${assetPath} should exist`);
+  }
+
+  assert.equal(sourceExists("public/solutions/aip/fde-services/hero.svg"), false);
 
   const routeSource = readSource("src/app/t/services/fde/page.tsx");
   const sectionSource = readSource("src/components/sections/fde/service-page.tsx");

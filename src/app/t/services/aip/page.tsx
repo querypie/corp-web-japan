@@ -122,7 +122,7 @@ export default function AipServicePage() {
                   <AipServiceLineBreak />
                   課題発見から構築、本番稼働まで伴走し、確実に成果を出すAI導入を実現します。
                 </AipServiceValueCardBody>
-                <AipServiceInlineLink href="/t/solutions/aip/fde-services">詳細を見る</AipServiceInlineLink>
+                <AipServiceInlineLink href="/t/services/fde">詳細を見る</AipServiceInlineLink>
               </AipServiceValueCard>
             </RevealOnScroll>
           </AipServiceValueGrid>

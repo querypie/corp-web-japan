@@ -19,6 +19,8 @@ test("/t/services/aip keeps route-local copy/composition while the layout primit
   assert.match(routeSource, /従量課金型の AIモデル/);
   assert.match(routeSource, /統合型 AIゲートウェイ/);
   assert.match(routeSource, /AI専門家伴走 サービス/);
+  assert.match(routeSource, /href="\/t\/services\/fde"/);
+  assert.doesNotMatch(routeSource, /href="\/t\/solutions\/aip\/fde-services"/);
   assert.match(routeSource, /QueryPie AIPができること/);
   assert.match(routeSource, /プロンプト自動生成/);
   assert.match(routeSource, /シンプルな統合/);
