@@ -24,7 +24,10 @@ test("news public page and canonical routes are driven by news MDX publication r
   assert.match(publicPage, /listNewsPublicationItems\(\)/);
   assert.match(publicPage, /canonical: "\/news"/);
   assert.doesNotMatch(publicPage, /robots:\s*\{[\s\S]*index: false,[\s\S]*follow: false,[\s\S]*\}/);
-  assert.match(publicPage, /NewsArticleList/);
+  assert.match(publicPage, /NewsArticleLoadMore/);
+  assert.match(publicPage, /resolveResourceListVisibleCount\(newsItems, resolvedSearchParams\?\.until\)/);
+  assert.match(publicPage, /<NewsArticleLoadMore[\s\S]*items=\{newsItems\}[\s\S]*initialVisibleCount=\{initialVisibleCount\}/);
+  assert.doesNotMatch(publicPage, /<NewsArticleList items=\{newsItems\} \/>/);
   assert.match(publicPage, /NewsPageSection/);
   assert.match(publicPage, /NewsPageIntro/);
   assert.match(publicPage, /NewsListSection/);

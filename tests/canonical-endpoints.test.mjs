@@ -128,7 +128,9 @@ test("events is a canonical public resource list route and is included in the si
   assert.match(eventsPage, /resolveEventTimeline\(resolvedSearchParams\?\.asof\)/);
   assert.match(eventsPage, /<ResourceCategorySidebar activeLabel="イベント" \/>/);
   assert.match(eventsPage, /<FeaturedEventHero/);
-  assert.match(eventsPage, /<ResourceListItems items=\{pastEvents\} \/>/);
+  assert.match(eventsPage, /resolveResourceListVisibleCount\(pastEvents, resolvedSearchParams\?\.until\)/);
+  assert.match(eventsPage, /<ResourceListLoadMore[\s\S]*items=\{pastEvents\}[\s\S]*initialVisibleCount=\{initialVisibleCount\}/);
+  assert.doesNotMatch(eventsPage, /<ResourceListItems items=\{pastEvents\} \/>/);
   assert.doesNotMatch(eventsPage, /return notFound\(\);/);
   assert.match(sitemap, /absoluteUrl\("\/events"\)/);
 });

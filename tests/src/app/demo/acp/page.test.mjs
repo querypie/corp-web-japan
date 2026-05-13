@@ -9,3 +9,13 @@ test("/demo/acp uses the dedicated demo sidebar with the active ACP label", () =
   assert.match(source, /<DemoCategorySidebar activeLabel="ACP機能"/);
   assert.match(source, /canonical: "\/demo\/acp"/);
 });
+
+
+test("/demo/acp opts into the shared load-more flow with URL-restored visible counts", () => {
+  const source = readSource("src/app/demo/acp/page.tsx");
+
+  assert.match(source, /resolveResourceListVisibleCount/);
+  assert.match(source, /<ResourceListLoadMore/);
+  assert.match(source, /key={`acp:\$\{initialVisibleCount\}`}/);
+  assert.doesNotMatch(source, /<ResourceListItems items=\{acpDemoItems\} \/>/);
+});

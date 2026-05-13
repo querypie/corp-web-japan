@@ -28,7 +28,10 @@ test("event canonical list and detail routes are driven by event MDX publication
   assert.match(listPage, /Past Events/);
   assert.match(listPage, /過去のイベント/);
   assert.match(listPage, /<ResourceCategorySidebar activeLabel="イベント" \/>/);
-  assert.match(listPage, /<ResourceListItems items=\{pastEvents\} \/>/);
+  assert.match(listPage, /until\?: string \| string\[];/);
+  assert.match(listPage, /resolveResourceListVisibleCount\(pastEvents, resolvedSearchParams\?\.until\)/);
+  assert.match(listPage, /<ResourceListLoadMore[\s\S]*items=\{pastEvents\}[\s\S]*initialVisibleCount=\{initialVisibleCount\}/);
+  assert.doesNotMatch(listPage, /<ResourceListItems items=\{pastEvents\} \/>/);
   assert.doesNotMatch(listPage, /canonical: "\/t\/events"/);
   assert.doesNotMatch(listPage, /index: false/);
   assert.doesNotMatch(listPage, /follow: false/);

@@ -5,14 +5,15 @@ import {
   resourceCategorySidebarLinks,
   ResourceCategorySidebar,
 } from "@/components/sections/resource-category-sidebar";
+import { ResourceListLoadMore } from "@/components/sections/resource-list-load-more";
 import {
   ResourceListContentSection,
   ResourceListHeroDescription,
   ResourceListHeroSection,
   ResourceListHeroTitle,
-  ResourceListItems,
 } from "@/components/sections/resource-list-section";
 import { listResourcePreviewItems } from "@/lib/resources/resource-preview-items";
+import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
 export const metadata: Metadata = {
   title: "ドキュメント | QueryPie AI",
@@ -27,8 +28,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ResourcesPage() {
-  const items = listResourcePreviewItems();
+type ResourcesPageProps = {
+  searchParams?: Promise<{
+    until?: string | string[];
+  }>;
+};
+
+export default async function ResourcesPage({ searchParams }: ResourcesPageProps) {
+  const [items, resolvedSearchParams] = await Promise.all([listResourcePreviewItems(), searchParams]);
+  const initialVisibleCount = resolveResourceListVisibleCount(items, resolvedSearchParams?.until);
 
   return (
     <main className="relative bg-white text-slate-950">
@@ -46,7 +54,11 @@ export default function ResourcesPage() {
       <ResourceListContentSection>
         <ResourceCategorySidebar links={resourceCategorySidebarLinks} activeLabel="全て" />
 
-        <ResourceListItems items={items} />
+        <ResourceListLoadMore
+          key={`resources:${initialVisibleCount}`}
+          items={items}
+          initialVisibleCount={initialVisibleCount}
+        />
       </ResourceListContentSection>
 
       <SiteFooter />
