@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { WhitepaperDownloadGatePage } from "@/components/sections/whitepapers/whitepaper-download-gate-page";
+import { WhitepaperDownloadGatePage } from "@/components/sections/whitepapers/download-gate-page";
 import {
   buildGatingContentKey,
   buildGatingCookieName,

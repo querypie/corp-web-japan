@@ -26,7 +26,7 @@ test("whitepaper canonical pdf routes exist and use a dedicated gating-form page
   const idPage = readSource("src/app/whitepapers/[id]/pdf/page.tsx");
   const slugPage = readSource("src/app/whitepapers/[id]/[slug]/pdf/page.tsx");
   const legacyDownloadRoute = readSource("src/app/whitepapers/[id]/[slug]/download/route.ts");
-  const gatePage = readSource("src/components/sections/whitepapers/whitepaper-download-gate-page.tsx");
+  const gatePage = readSource("src/components/sections/whitepapers/download-gate-page.tsx");
   const previewUnlockRoute = readSource("src/app/api/gating-form/preview-unlock/route.ts");
 
   assert.match(idPage, /getWhitepaperPublicationPdfHref/);
