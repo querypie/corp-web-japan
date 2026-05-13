@@ -3,10 +3,10 @@ import assert from "node:assert/strict";
 import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
 test("InternalEventsDemoEmptyState renders a sharp-corner bordered box with corner-to-corner diagonal X lines", () => {
-  const file = "src/components/sections/internal-events-demo-empty-state.tsx";
+  const file = "src/components/sections/events/internal-events-demo-empty-state.tsx";
   const source = readSource(file);
 
-  assert.equal(sourceExists("src/components/sections/internal-events-demo-empty-state.tsx"), true);
+  assert.equal(sourceExists("src/components/sections/events/internal-events-demo-empty-state.tsx"), true);
   assert.match(source, /min-h-\[240px\]/);
   assert.match(source, /overflow-hidden border bg-white/);
   assert.doesNotMatch(source, /rounded-lg/);
