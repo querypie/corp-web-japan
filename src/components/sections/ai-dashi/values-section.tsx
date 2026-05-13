@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import { ZoomableFigure } from "@/components/sections/zoomable-figure";
+import { ZoomableFigure } from "@/components/sections/ai-dashi/zoomable-figure";
 
 export function AIDashiValuesSection({ children }: { children: ReactNode }) {
   return <section id="ai-dashi-values" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">{children}</section>;

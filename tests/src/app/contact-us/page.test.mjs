@@ -4,7 +4,7 @@ import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
 test("/contact-us is the public form page and keeps production-ready form wiring", () => {
   const page = readSource("src/app/contact-us/page.tsx");
-  const formComponent = readSource("src/components/sections/contact-us-form.tsx");
+  const formComponent = readSource("src/components/sections/contact-us/contact-us-form.tsx");
   const contactUsLib = readSource("src/lib/contact-us.ts");
 
   assert.equal(sourceExists("src/app/contact-us/page.tsx"), true);

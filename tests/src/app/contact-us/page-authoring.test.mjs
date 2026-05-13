@@ -12,7 +12,7 @@ test("contact-us page owns the section intro copy", () => {
 });
 
 test("contact-us form component no longer hardcodes the page intro copy", () => {
-  const formSource = readSource("src/components/sections/contact-us-form.tsx");
+  const formSource = readSource("src/components/sections/contact-us/contact-us-form.tsx");
 
   assert.doesNotMatch(formSource, /製品導入のご相談、デモのご依頼、資料ダウンロード、技術的なご質問などを受け付けています。/);
   assert.doesNotMatch(formSource, /担当チームより1〜2営業日以内にご連絡いたします。/);
