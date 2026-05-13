@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { marketingBodyTextClassName } from "@/components/ui/text-tokens";
 
 export function ContactUsSection({ children }: { children: ReactNode }) {
   return (
@@ -23,7 +24,7 @@ export function ContactUsTitle({ children }: { children: ReactNode }) {
 }
 
 export function ContactUsLead({ children }: { children: ReactNode }) {
-  return <p className="max-w-[680px] text-base leading-7 text-slate-500">{children}</p>;
+  return <p className={`max-w-[680px] ${marketingBodyTextClassName}`}>{children}</p>;
 }
 
 export function ContactUsChecklist({ children }: { children: ReactNode }) {
