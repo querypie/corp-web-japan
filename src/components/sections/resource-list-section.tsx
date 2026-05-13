@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import type { ResourceItem } from "@/content/resources";
 
-export { ResourceListMobileSidebarDrawer } from "@/components/sections/resource-list-mobile-sidebar-drawer";
+export { ResourceListMobileSidebarDrawer } from "@/components/sections/resource-list/mobile-sidebar-drawer";
 
 export type ResourceCategoryLink = {
   label: string;
