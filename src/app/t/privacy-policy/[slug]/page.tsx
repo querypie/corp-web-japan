@@ -14,7 +14,14 @@ import {
   PrivacySelectorBox,
 } from "@/components/sections/privacy-policy/document-header-controls";
 import { PrivacyPolicyVersionSelector } from "@/components/sections/privacy-policy/version-selector";
-import { publicationBodyClassName } from "@/components/sections/publication-post-page";
+import {
+  LegalDocumentBody,
+  LegalDocumentDescription,
+  LegalDocumentHeader,
+  LegalDocumentMeta,
+  LegalDocumentPageSection,
+  LegalDocumentTitle,
+} from "@/components/sections/legal/document";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 import { readCachedLegalMdxSource } from "@/lib/legal-mdx-source";
 import {
@@ -93,26 +100,20 @@ export async function renderPrivacyPolicyVersionPage(slug: string) {
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
-      <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[120px] pt-[112px] lg:px-[30px] lg:pb-[160px] lg:pt-[144px]">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="mb-8 flex flex-col gap-4 lg:mb-10">
-            <div className="flex flex-col gap-3">
-              <p className="text-sm text-slate-500">Effective date: {frontmatter.date}</p>
-              <h1 className="text-[34px] font-normal leading-[1.2] text-slate-950 lg:text-[40px]">
-                {frontmatter.title}
-              </h1>
-              <p className="text-[15px] leading-7 text-slate-600">{frontmatter.description}</p>
-            </div>
-            <PrivacySelectorBox>
-              <PrivacyPolicyLanguageSelector language="en" />
-              <PrivacyPolicyVersionSelector currentSlug={frontmatter.version} slugs={slugs} />
-            </PrivacySelectorBox>
+      <LegalDocumentPageSection>
+        <LegalDocumentHeader className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
+            <LegalDocumentMeta>Effective date: {frontmatter.date}</LegalDocumentMeta>
+            <LegalDocumentTitle variant="compact">{frontmatter.title}</LegalDocumentTitle>
+            <LegalDocumentDescription>{frontmatter.description}</LegalDocumentDescription>
           </div>
-          <div className={`${publicationBodyClassName} [&_h2:first-child]:mt-0`}>
-            {evaluation.content}
-          </div>
-        </div>
-      </section>
+          <PrivacySelectorBox>
+            <PrivacyPolicyLanguageSelector language="en" />
+            <PrivacyPolicyVersionSelector currentSlug={frontmatter.version} slugs={slugs} />
+          </PrivacySelectorBox>
+        </LegalDocumentHeader>
+        <LegalDocumentBody className="[&_h2:first-child]:mt-0">{evaluation.content}</LegalDocumentBody>
+      </LegalDocumentPageSection>
       <AipFreeTrialCtaSection />
       <SiteFooter />
     </main>

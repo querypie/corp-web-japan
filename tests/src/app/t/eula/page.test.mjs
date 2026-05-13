@@ -4,12 +4,14 @@ import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs
 
 const pagePath = "src/app/t/eula/page.tsx";
 const contentPath = "src/app/t/eula/content.mdx";
+const legalDocumentPath = "src/components/sections/legal/document.tsx";
 
 test("eula page exists with noindex metadata and preview canonical path", () => {
   assert.equal(sourceExists(pagePath), true, `${pagePath} should exist`);
 
   const source = readSource(pagePath);
   const contentSource = readSource(contentPath);
+  const legalDocumentSource = readSource(legalDocumentPath);
 
   assert.match(source, /export async function generateMetadata\(\): Promise<Metadata>/);
   assert.match(source, /const \{ frontmatter \} = await renderEulaMdx\(\);/);
@@ -19,10 +21,13 @@ test("eula page exists with noindex metadata and preview canonical path", () => 
   assert.match(source, /description: frontmatter\.description,/);
   assert.match(source, /canonical: "\/t\/eula"/);
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
-  assert.match(source, /max-w-\[1200px\]/);
+  assert.match(source, /from "@\/components\/sections\/legal\/document"/);
   assert.match(source, /src\/app\/t\/eula\/content\.mdx/);
   assert.match(source, /parseFrontmatter: true,/);
-  assert.match(source, /<LegalPageTitle>End User License Agreement<\/LegalPageTitle>/);
+  assert.match(source, /<LegalDocumentHeader>/);
+  assert.match(source, /<LegalDocumentTitle>End User License Agreement<\/LegalDocumentTitle>/);
+  assert.match(source, /<LegalDocumentBody>\{evaluation\.content\}<\/LegalDocumentBody>/);
+  assert.match(legalDocumentSource, /export function LegalDocumentTitle/);
   assert.match(source, /<SiteHeader \/>/);
   assert.match(source, /<SiteFooter \/>/);
   assert.match(source, /from "@\/components\/sections\/simple-cta-section"/);
@@ -34,14 +39,16 @@ test("eula page exists with noindex metadata and preview canonical path", () => 
 test("eula preview keeps legal structure ownership in page.tsx and mdx body free of layout wrappers", () => {
   const pageSource = readSource(pagePath);
   const contentSource = readSource(contentPath);
+  const legalDocumentSource = readSource(legalDocumentPath);
 
-  assert.match(pageSource, /function LegalPageTitle/);
-  assert.match(pageSource, /function LegalSectionHeading/);
-  assert.match(pageSource, /function LegalSubsectionHeading/);
-  assert.match(pageSource, /function LegalClauseHeading/);
   assert.match(pageSource, /h1: LegalSectionHeading/);
   assert.match(pageSource, /h2: LegalSubsectionHeading/);
   assert.match(pageSource, /h3: LegalClauseHeading/);
+  assert.match(pageSource, /<LegalDocumentPageSection>/);
+  assert.doesNotMatch(pageSource, /<LegalDocumentSection>/);
+  assert.doesNotMatch(pageSource, /<LegalDocumentShell>/);
+  assert.match(pageSource, /from "@\/components\/sections\/legal\/document"/);
+  assert.match(legalDocumentSource, /export const legalDocumentBodyClassName = \[/);
   assert.doesNotMatch(pageSource, /CenterSection/);
   assert.doesNotMatch(pageSource, /StaticH1/);
   assert.doesNotMatch(pageSource, /<Box/);

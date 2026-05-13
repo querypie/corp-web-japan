@@ -4,7 +4,11 @@ import { evaluate } from "next-mdx-remote-client/rsc";
 import { cache, isValidElement } from "react";
 import type { ReactNode } from "react";
 import remarkGfm from "remark-gfm";
-import { publicationBodyClassName } from "@/components/sections/publication-post-page";
+import {
+  LegalDocumentBody,
+  LegalDocumentHeader,
+  LegalDocumentTitle,
+} from "@/components/sections/legal/document";
 import { readCachedLegalMdxSource } from "@/lib/legal-mdx-source";
 import { buildPublicationMdxComponents } from "@/lib/publications/mdx/components";
 import { slugifyHeadingText } from "@/lib/publications/mdx/headings";
@@ -83,14 +87,12 @@ export async function renderTermsOfServiceContent() {
 
 export function TermsOfServiceHero({ frontmatter }: { frontmatter: TermsFrontmatter }) {
   return (
-    <header className="mb-12 border-b border-slate-200 pb-8">
-      <p className="text-sm leading-6 text-slate-500">{frontmatter.date}</p>
-      <h1 className="mt-2 text-[34px] font-normal leading-[1.2] text-slate-950 lg:text-[40px]">{frontmatter.title}</h1>
-      <p className="mt-4 max-w-[760px] text-base leading-7 text-slate-500">{frontmatter.description}</p>
-    </header>
+    <LegalDocumentHeader divider>
+      <LegalDocumentTitle>{frontmatter.title}</LegalDocumentTitle>
+    </LegalDocumentHeader>
   );
 }
 
 export function TermsOfServiceBody({ content }: { content: ReactNode }) {
-  return <div className={`${publicationBodyClassName} [&_h1:first-child]:mt-0`}>{content}</div>;
+  return <LegalDocumentBody className="[&_h1:first-child]:mt-0">{content}</LegalDocumentBody>;
 }

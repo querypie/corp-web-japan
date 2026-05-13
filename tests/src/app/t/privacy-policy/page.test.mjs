@@ -45,8 +45,8 @@ test("privacy policy route keeps latest alias page and version detail route with
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
   assert.match(versionPageSource, /canonicalPath: `\/t\/privacy-policy\/\$\{slug\}`/);
   assert.match(versionPageSource, /return renderPrivacyPolicyVersionPage\(slug\)/);
-  assert.match(versionPageSource, /<PrivacySelectorBox>/);
-  assert.match(versionPageSource, /max-w-\[1200px\]/);
+  assert.match(versionPageSource, /<LegalDocumentPageSection>/);
+  assert.match(versionPageSource, /from "@\/components\/sections\/legal\/document"/);
   assert.match(versionPageSource, /<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/);
 });
 
@@ -60,10 +60,13 @@ test("privacy policy preview scans shared content filenames instead of keeping a
 
   assert.match(versionPageSource, /parseFrontmatter: true/);
   assert.match(versionPageSource, /src\/content\/privacy-policy", `\$\{slug\}\.mdx`/);
+  assert.match(versionPageSource, /from "@\/components\/sections\/legal\/document"/);
   assert.match(versionPageSource, /hasPrivacyPolicySlug\(slug\)/);
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
   assert.match(versionPageSource, /<PrivacyPolicyLanguageSelector language="en" \/>/);
   assert.match(versionPageSource, /<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/);
+  assert.match(versionPageSource, /<LegalDocumentHeader className="flex flex-col gap-4">/);
+  assert.match(versionPageSource, /<LegalDocumentBody className="\[&_h2:first-child\]:mt-0">\{evaluation\.content\}<\/LegalDocumentBody>/);
   assert.match(versionPageSource, /Effective date: \{frontmatter\.date\}/);
   assert.doesNotMatch(versionPageSource, /function PrivacyMdxLink/);
   assert.doesNotMatch(versionPageSource, /function PrivacyPolicyLanguageSelector/);
