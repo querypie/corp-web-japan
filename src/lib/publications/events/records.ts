@@ -16,6 +16,7 @@ export type EventPublicationFrontmatter = {
   heroImageSrc: string;
   eventLabel?: string;
   hideHeroImageOnDetail?: boolean;
+  hideTocOnDetail?: boolean;
   author?: string | string[];
   hidden?: boolean;
   redirectUrl?: string;

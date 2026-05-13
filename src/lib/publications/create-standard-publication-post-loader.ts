@@ -13,6 +13,7 @@ type StandardPublicationPostFrontmatter = {
   date: string;
   heroImageSrc: string;
   hideHeroImageOnDetail?: boolean;
+  hideTocOnDetail?: boolean;
 };
 
 type StandardPublicationPostRecord = {
@@ -103,7 +104,7 @@ export function createStandardPublicationPostLoader<
         getHref: config.getHref,
         formatDate: config.formatDate,
       }),
-      toc: extractHeadingsFromMdx(bodySource),
+      toc: frontmatter.hideTocOnDetail === true ? [] : extractHeadingsFromMdx(bodySource),
     };
   };
 }
