@@ -32,6 +32,13 @@ const internalDemoCards = [
     description:
       "공개 blog / whitepapers 동작을 건드리지 않고, internal 라우트에서만 load-more 버튼과 URL 복원 동작을 별도로 확인할 수 있는 데모입니다.",
   },
+  {
+    eyebrow: "Sections",
+    title: "Demo Sections",
+    href: "/internal/demo-sections",
+    description:
+      "삭제 대신 보존한 orphan section component 들을 internal 경로에서 단독 렌더링해, card / slider / modal UI 디자인을 빠르게 확인할 수 있는 데모입니다.",
+  },
 ] as const;
 
 export const metadata: Metadata = {

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { MarketingIconFrame, MarketingPill, MarketingSurface } from "@/components/sections/marketing-section-primitives";
+import { MarketingIconFrame, MarketingPill, MarketingSurface } from "@/components/sections/home/primitives";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 
 export function CoreValueSection({ children }: { children: ReactNode }) {

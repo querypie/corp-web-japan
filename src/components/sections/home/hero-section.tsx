@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { MarketingPill } from "@/components/sections/marketing-section-primitives";
+import { MarketingPill } from "@/components/sections/home/primitives";
 
 export function HeroSection({ imageSrc, imageAlt, children }: { imageSrc: string; imageAlt: string; children: ReactNode }) {
   return (

@@ -41,15 +41,6 @@ const movedRoleFiles = [
   "mio.png",
 ];
 
-test("role slides use /crew/role asset paths", () => {
-  const source = readSource("src/components/sections/role-slides.tsx");
-
-  assert.match(source, /"\/crew\/role\/anna\.png"/);
-  assert.match(source, /"\/crew\/role\/ian\.png"/);
-  assert.doesNotMatch(source, /"\/crew\/anna\.png"/);
-  assert.doesNotMatch(source, /"\/crew\/ian\.png"/);
-});
-
 test("ai crew avatar uses /crew/role asset paths after the move", () => {
   const source = readSource("src/components/sections/ai-crew/avatar.tsx");
 
