@@ -16,7 +16,7 @@ export function ContactUsIntro({ children }: { children: ReactNode }) {
 
 export function ContactUsTitle({ children }: { children: ReactNode }) {
   return (
-    <h1 className="mb-6 text-[34px] font-medium leading-[1.25] tracking-[-0.03em] text-slate-950 lg:text-[44px]">
+    <h1 className="mb-6 text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">
       {children}
     </h1>
   );

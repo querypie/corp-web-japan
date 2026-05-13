@@ -16,11 +16,15 @@ export type CertificationItem = {
 };
 
 export function CertificationsPageSection({ children }: { children: ReactNode }) {
-  return <section className="mx-auto max-w-[1200px] pb-24 pt-[86px] lg:pb-28 lg:pt-[108px]">{children}</section>;
+  return <section className="mx-auto max-w-[1200px] pb-24 pt-[112px] lg:pb-28 lg:pt-[144px]">{children}</section>;
 }
 
 export function CertificationsIntroSection({ children }: { children: ReactNode }) {
   return <div className="text-left">{children}</div>;
+}
+
+export function CertificationsTitle({ children }: { children: ReactNode }) {
+  return <h1 className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">{children}</h1>;
 }
 
 export function CertificationsIntroDescription({ children }: { children: ReactNode }) {

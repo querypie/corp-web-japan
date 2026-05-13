@@ -8,6 +8,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
 
   assert.match(routeSource, /from "@\/components\/sections\/about-us\/section"/);
   assert.match(routeSource, /<AboutUsHeroSection>/);
+  assert.match(routeSource, /<AboutUsHeroIntro>/);
   assert.match(routeSource, /<AboutUsTimelineItem year="2024">/);
   assert.match(routeSource, /<AboutUsLeaderCard imageSrc="\/about-us\/crew\/brant\.png"/);
   assert.match(routeSource, /<AboutUsLocationCard iconSrc="\/about-us\/location\/japan-cu\.svg"/);
@@ -20,6 +21,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.doesNotMatch(routeSource, /from "next\/link"/);
 
   assert.match(sectionSource, /export function AboutUsHeroSection/);
+  assert.match(sectionSource, /export function AboutUsHeroIntro/);
   assert.match(sectionSource, /export function AboutUsInvestorLogo/);
   assert.match(sectionSource, /export function AboutUsTimelineItem/);
   assert.match(sectionSource, /export function AboutUsLeaderCard/);

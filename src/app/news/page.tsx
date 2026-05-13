@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { NewsArticleList } from "@/components/sections/news-list-page";
-import { NewsPageListArea, NewsPageSection, NewsPageTitle } from "@/components/sections/news-page-section";
+import { NewsPageIntro, NewsPageListArea, NewsPageSection, NewsPageTitle } from "@/components/sections/news-page-section";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 import { listNewsPublicationItems } from "@/lib/publications/news/records";
 
@@ -26,12 +26,12 @@ export default function NewsPage() {
       <SiteHeader />
 
       <NewsPageSection>
-        <div className="mx-auto max-w-[1200px]">
+        <NewsPageIntro>
           <NewsPageTitle>News</NewsPageTitle>
-          <NewsPageListArea>
-            <NewsArticleList items={newsItems} />
-          </NewsPageListArea>
-        </div>
+        </NewsPageIntro>
+        <NewsPageListArea>
+          <NewsArticleList items={newsItems} />
+        </NewsPageListArea>
       </NewsPageSection>
 
       <AipFreeTrialCtaSection />

@@ -6,6 +6,7 @@ import {
   AboutUsBodyCopy,
   AboutUsHeroCopy,
   AboutUsHeroHeading,
+  AboutUsHeroIntro,
   AboutUsHeroImage,
   AboutUsHeroLayout,
   AboutUsHeroSection,
@@ -21,7 +22,6 @@ import {
   AboutUsLocationName,
   AboutUsSection,
   AboutUsSectionHeading,
-  AboutUsSectionInner,
   AboutUsSectionIntro,
   AboutUsTimeline,
   AboutUsTimelineItem,
@@ -49,13 +49,13 @@ export default function AboutUsPage() {
 
       <AboutUsHeroSection>
         <RevealOnScroll>
-          <div className="mx-auto max-w-[1200px]">
+          <AboutUsHeroIntro>
             <AboutUsHeroHeading>
               エンタープライズAIを、すべての企業に
               <br />
               90%のコスト削減、妥協なしのパフォーマンス
             </AboutUsHeroHeading>
-          </div>
+          </AboutUsHeroIntro>
         </RevealOnScroll>
 
         <AboutUsHeroLayout>
@@ -109,7 +109,7 @@ export default function AboutUsPage() {
       </AboutUsSection>
 
       <AboutUsSection muted className="py-[112.5px]">
-        <AboutUsSectionInner>
+        <div className="mx-auto max-w-[1200px] px-6 lg:px-0">
           <RevealOnScroll>
             <AboutUsSectionHeading>私たちの歩み</AboutUsSectionHeading>
             <AboutUsSectionIntro>
@@ -170,7 +170,7 @@ export default function AboutUsPage() {
               </AboutUsTimelineItem>
             </RevealOnScroll>
           </AboutUsTimeline>
-        </AboutUsSectionInner>
+        </div>
       </AboutUsSection>
 
       <AboutUsSection className="mx-auto max-w-[1200px] px-6 pb-[75px] pt-[76px] lg:px-0">

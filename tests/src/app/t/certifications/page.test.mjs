@@ -15,6 +15,7 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
   assert.match(pageSource, /title: "ISO 22301"/);
   assert.match(pageSource, /export default function CertificationsPage\(\)/);
   assert.match(pageSource, /<CertificationsIntroSection>/);
+  assert.match(pageSource, /<CertificationsTitle>認証<\/CertificationsTitle>/);
   assert.match(pageSource, /<CertificationsIntroDescription>/);
   assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(pageSource, /<AipFreeTrialCtaSection \/>/);
@@ -43,6 +44,7 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
   assert.match(sectionSource, /export type CertificationItem = \{/);
   assert.match(sectionSource, /id: string;/);
   assert.match(sectionSource, /export function CertificationsIntroSection\(/);
+  assert.match(sectionSource, /export function CertificationsTitle\(/);
   assert.match(sectionSource, /export function CertificationsIntroDescription\(/);
   assert.match(sectionSource, /export function CertificationCard\(\{ title, description, src, alt, imageWidth, imageHeight, displayWidth, displayHeight \}: CertificationItem\)/);
   assert.match(sectionSource, /<Image[\s\S]*width=\{imageWidth\}[\s\S]*height=\{imageHeight\}/);
