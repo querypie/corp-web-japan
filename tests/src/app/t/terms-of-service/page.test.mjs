@@ -19,7 +19,7 @@ test("terms of service page derives metadata and hero copy from content.mdx fron
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(source, /<TermsOfServiceHero frontmatter=\{frontmatter\} \/>/);
   assert.match(source, /<TermsOfServiceBody content=\{evaluation\.content\} \/>/);
-  assert.match(source, /max-w-\[1200px\]/);
+  assert.match(source, /<LegalDocumentPageSection>/);
   assert.match(source, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(source, /<AipFreeTrialCtaSection \/>/);
   assert.doesNotMatch(source, /export const metadata: Metadata = \{/);
@@ -43,7 +43,8 @@ test("terms of service page keeps title, description, and date in content.mdx fr
   assert.doesNotMatch(contentSource, /まずは小さく、失敗しないAXを始めよう/);
   assert.match(sectionSource, /export async function renderTermsOfServiceContent\(\)/);
   assert.match(sectionSource, /parseFrontmatter: true,/);
-  assert.match(sectionSource, /export function TermsOfServiceHero/);
-  assert.match(sectionSource, /export function TermsOfServiceBody/);
+  assert.match(sectionSource, /<LegalDocumentHeader divider>/);
+  assert.match(sectionSource, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>/);
+  assert.match(sectionSource, /<LegalDocumentBody className="\[&_h1:first-child\]:mt-0">\{content\}<\/LegalDocumentBody>/);
   assert.match(footerSource, /label: "利用規約", href: t\("\/terms-of-service", previewModeEnabled\)/);
 });
