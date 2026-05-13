@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import Image from "next/image";
-import { ResourceLeadForm } from "@/components/sections/resource-lead-form";
+import { ResourceLeadForm } from "@/components/sections/publication/lead-form";
 import {
   defaultGatingFormState,
   isGatingFormValid,

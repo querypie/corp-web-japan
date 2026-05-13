@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AuthorBox } from "@/components/AuthorBox";
-import { PublicationShareButtons } from "@/components/sections/publication-share-buttons";
-import { ResourcePostGated } from "@/components/sections/resource-post-gated";
-import { ResourcePostToc } from "@/components/sections/resource-post-toc";
+import { PublicationShareButtons } from "@/components/sections/publication/share-buttons";
+import { ResourcePostGated } from "@/components/sections/publication/gated-content";
+import { ResourcePostToc } from "@/components/sections/publication/toc";
 import type { PublicationPost, PublicationPostDownloadCta } from "@/lib/publications/types";
 
 const publicationPostContactUrl = "/contact-us";

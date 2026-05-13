@@ -7,7 +7,7 @@ import type { PublicationPostDownloadCta } from "@/lib/publications/types";
 import {
   ResourceLeadForm,
   type ResourceLeadFormState,
-} from "@/components/sections/resource-lead-form";
+} from "@/components/sections/publication/lead-form";
 import {
   defaultGatingFormState,
   isGatingFormValid,

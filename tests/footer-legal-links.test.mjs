@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const siteFooterPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
-const resourceLeadFormPath = new URL("../src/components/sections/resource-lead-form.tsx", import.meta.url);
+const resourceLeadFormPath = new URL("../src/components/sections/publication/lead-form.tsx", import.meta.url);
 
 const expectedLinks = [
   'label: "Cookie設定", href: t("/cookie-preference", previewModeEnabled)',

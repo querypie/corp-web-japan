@@ -17,7 +17,7 @@ test("resource publication loaders parse and expose downloadCta for introduction
   const resourceRepo = readSource("src/lib/resources/base-resource-publication.ts");
   const resourcePostLoader = readSource("src/lib/resources/base-resource-publication-post-loader.ts");
   const publicationPage = readSource("src/components/sections/publication-post-page.tsx");
-  const gated = readSource("src/components/sections/resource-post-gated.tsx");
+  const gated = readSource("src/components/sections/publication/gated-content.tsx");
 
   assert.match(resourceTypes, /downloadCta\?: \{/);
   assert.match(resourceRepo, /const downloadCtaValue = frontmatter\.downloadCta/);

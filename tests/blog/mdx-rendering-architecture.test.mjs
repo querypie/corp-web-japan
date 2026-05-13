@@ -27,7 +27,7 @@ test("blog detail page and publication page consume structured MDX toc data", ()
   const publicationTypes = readSource("src/lib/publications/types.ts");
   const standardPublicationLoader = readSource("src/lib/publications/create-standard-publication-post-loader.ts");
   const publicationPage = readSource("src/components/sections/publication-post-page.tsx");
-  const tocComponent = readSource("src/components/sections/resource-post-toc.tsx");
+  const tocComponent = readSource("src/components/sections/publication/toc.tsx");
 
   assert.match(publicationTypes, /toc: PublicationTocItem\[\]/);
   assert.match(standardPublicationLoader, /extractHeadingsFromMdx/);
