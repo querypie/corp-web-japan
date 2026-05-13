@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 type LegalDocumentPageSectionProps = {
   children?: ReactNode;
@@ -7,6 +8,16 @@ type LegalDocumentPageSectionProps = {
 type LegalDocumentHeaderProps = {
   children?: ReactNode;
   divider?: boolean;
+  className?: string;
+};
+
+type LegalDocumentHeroProps = {
+  title: ReactNode;
+  meta?: ReactNode;
+  description?: ReactNode;
+  children?: ReactNode;
+  divider?: boolean;
+  titleVariant?: "hero" | "compact";
   className?: string;
 };
 
@@ -57,15 +68,31 @@ export function LegalDocumentPageSection({ children }: LegalDocumentPageSectionP
 export function LegalDocumentHeader({ children, divider = false, className }: LegalDocumentHeaderProps) {
   return (
     <header
-      className={[
-        divider ? "mb-12 border-b border-slate-200 pb-8" : "mb-8 lg:mb-10",
-        className,
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      className={cn(divider ? "mb-12 border-b border-slate-200 pb-8" : "mb-8 lg:mb-10", className)}
     >
       {children}
     </header>
+  );
+}
+
+export function LegalDocumentHero({
+  title,
+  meta,
+  description,
+  children,
+  divider = false,
+  titleVariant = "hero",
+  className,
+}: LegalDocumentHeroProps) {
+  return (
+    <LegalDocumentHeader divider={divider} className={cn(children && "flex flex-col gap-4", className)}>
+      <div className="flex flex-col gap-3">
+        {meta ? <LegalDocumentMeta>{meta}</LegalDocumentMeta> : null}
+        <LegalDocumentTitle variant={titleVariant}>{title}</LegalDocumentTitle>
+        {description ? <LegalDocumentDescription>{description}</LegalDocumentDescription> : null}
+      </div>
+      {children}
+    </LegalDocumentHeader>
   );
 }
 
@@ -92,5 +119,5 @@ export function LegalDocumentDescription({ children }: LegalDocumentPageSectionP
 }
 
 export function LegalDocumentBody({ children, className }: LegalDocumentBodyProps) {
-  return <div className={[legalDocumentBodyClassName, className].filter(Boolean).join(" ")}>{children}</div>;
+  return <div className={cn(legalDocumentBodyClassName, className)}>{children}</div>;
 }

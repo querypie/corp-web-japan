@@ -5,7 +5,7 @@ import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs
 const pagePath = "src/app/t/eula/page.tsx";
 const contentPath = "src/app/t/eula/content.mdx";
 const legalDocumentPath = "src/components/sections/legal/document.tsx";
-const legalMdxPath = "src/components/sections/legal/mdx.tsx";
+const legalMdxSourcePath = "src/lib/legal-mdx-source.ts";
 
 test("eula page exists with noindex metadata and preview canonical path", () => {
   assert.equal(sourceExists(pagePath), true, `${pagePath} should exist`);
@@ -13,7 +13,7 @@ test("eula page exists with noindex metadata and preview canonical path", () => 
   const source = readSource(pagePath);
   const contentSource = readSource(contentPath);
   const legalDocumentSource = readSource(legalDocumentPath);
-  const legalMdxSource = readSource(legalMdxPath);
+  const legalMdxHelperSource = readSource(legalMdxSourcePath);
 
   assert.match(source, /export async function generateMetadata\(\): Promise<Metadata>/);
   assert.match(source, /const \{ frontmatter \} = await renderEulaMdx\(\);/);
@@ -24,15 +24,14 @@ test("eula page exists with noindex metadata and preview canonical path", () => 
   assert.match(source, /canonical: "\/t\/eula"/);
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(source, /from "@\/components\/sections\/legal\/document"/);
-  assert.match(source, /from "@\/components\/sections\/legal\/mdx"/);
   assert.match(source, /src\/app\/t\/eula\/content\.mdx/);
-  assert.match(source, /parseFrontmatter: true,/);
-  assert.match(source, /buildLegalDocumentMdxComponents\(\)/);
-  assert.match(source, /<LegalDocumentHeader>/);
-  assert.match(source, /<LegalDocumentTitle>End User License Agreement<\/LegalDocumentTitle>/);
+  assert.match(source, /renderLegalMdx<EulaFrontmatter>\(\{ sourcePath \}\)/);
+  assert.match(source, /<LegalDocumentHero title=\{frontmatter\.title\} \/>/);
   assert.match(source, /<LegalDocumentBody>\{evaluation\.content\}<\/LegalDocumentBody>/);
-  assert.match(legalDocumentSource, /export function LegalDocumentTitle/);
-  assert.match(legalMdxSource, /export function buildLegalDocumentMdxComponents\(\)/);
+  assert.match(legalDocumentSource, /export function LegalDocumentHero/);
+  assert.match(legalMdxHelperSource, /export async function renderLegalMdx<Frontmatter extends Record<string, unknown>>/);
+  assert.match(legalMdxHelperSource, /parseFrontmatter: true,/);
+  assert.match(legalMdxHelperSource, /buildLegalDocumentMdxComponents\(\)/);
   assert.match(source, /<SiteHeader \/>/);
   assert.match(source, /<SiteFooter \/>/);
   assert.match(source, /from "@\/components\/sections\/simple-cta-section"/);
@@ -45,9 +44,8 @@ test("eula preview keeps legal structure ownership in page.tsx and mdx body free
   const pageSource = readSource(pagePath);
   const contentSource = readSource(contentPath);
   const legalDocumentSource = readSource(legalDocumentPath);
-  const legalMdxSource = readSource(legalMdxPath);
 
-  assert.match(pageSource, /buildLegalDocumentMdxComponents\(\)/);
+  assert.match(pageSource, /renderLegalMdx<EulaFrontmatter>/);
   assert.doesNotMatch(pageSource, /function LegalPageTitle/);
   assert.doesNotMatch(pageSource, /function EulaMdxLink/);
   assert.doesNotMatch(pageSource, /function LegalSectionHeading/);
@@ -58,9 +56,8 @@ test("eula preview keeps legal structure ownership in page.tsx and mdx body free
   assert.doesNotMatch(pageSource, /<LegalDocumentShell>/);
   assert.match(pageSource, /from "@\/components\/sections\/legal\/document"/);
   assert.match(legalDocumentSource, /export const legalDocumentBodyClassName = \[/);
-  assert.match(legalMdxSource, /export function LegalBodyH1/);
-  assert.match(legalMdxSource, /export function LegalBodyH2/);
-  assert.match(legalMdxSource, /export function LegalBodyH3/);
+  assert.match(legalDocumentSource, /export function LegalDocumentHero/);
+  assert.match(legalDocumentSource, /export function LegalDocumentTitle/);
   assert.doesNotMatch(pageSource, /CenterSection/);
   assert.doesNotMatch(pageSource, /StaticH1/);
   assert.doesNotMatch(pageSource, /<Box/);
