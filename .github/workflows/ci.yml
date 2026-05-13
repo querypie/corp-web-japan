@@ -430,3 +430,59 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  ci-result:
+    name: CI result
+    runs-on: ubuntu-latest
+    needs:
+      - changes
+      - smoke
+      - test-publications
+      - test-forms
+      - test-routing-seo
+      - test-static-pages
+      - test-assets-shell
+      - test-cross-cutting
+      - build
+    if: ${{ always() }}
+    steps:
+      - name: Verify CI dependency results
+        env:
+          CHANGES_RESULT: ${{ needs.changes.result }}
+          SMOKE_RESULT: ${{ needs.smoke.result }}
+          TEST_PUBLICATIONS_RESULT: ${{ needs.test-publications.result }}
+          TEST_FORMS_RESULT: ${{ needs.test-forms.result }}
+          TEST_ROUTING_SEO_RESULT: ${{ needs.test-routing-seo.result }}
+          TEST_STATIC_PAGES_RESULT: ${{ needs.test-static-pages.result }}
+          TEST_ASSETS_SHELL_RESULT: ${{ needs.test-assets-shell.result }}
+          TEST_CROSS_CUTTING_RESULT: ${{ needs.test-cross-cutting.result }}
+          BUILD_RESULT: ${{ needs.build.result }}
+        run: |
+          failed=0
+
+          check_result() {
+            local name="$1"
+            local result="$2"
+
+            case "$result" in
+              success|skipped)
+                printf '%s: %s\n' "$name" "$result"
+                ;;
+              *)
+                printf '%s: %s\n' "$name" "$result"
+                failed=1
+                ;;
+            esac
+          }
+
+          check_result 'Detect changed scope' "$CHANGES_RESULT"
+          check_result 'Smoke' "$SMOKE_RESULT"
+          check_result 'Test publications' "$TEST_PUBLICATIONS_RESULT"
+          check_result 'Test forms' "$TEST_FORMS_RESULT"
+          check_result 'Test routing and SEO' "$TEST_ROUTING_SEO_RESULT"
+          check_result 'Test static pages' "$TEST_STATIC_PAGES_RESULT"
+          check_result 'Test assets and shell' "$TEST_ASSETS_SHELL_RESULT"
+          check_result 'Test cross-cutting contracts' "$TEST_CROSS_CUTTING_RESULT"
+          check_result 'Build' "$BUILD_RESULT"
+
+          exit "$failed"
