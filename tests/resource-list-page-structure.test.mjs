@@ -101,7 +101,7 @@ test("mobile sidebar drawer pattern uses a dedicated client sheet trigger and ke
   const sectionSource = readSource("src/components/sections/resource-list-section.tsx");
   const resourceSidebarSource = readSource("src/components/sections/resource-category-sidebar.tsx");
   const demoSidebarSource = readSource("src/components/sections/demo-category-sidebar.tsx");
-  const drawerSource = readSource("src/components/sections/resource-list-mobile-sidebar-drawer.tsx");
+  const drawerSource = readSource("src/components/sections/resource-list/mobile-sidebar-drawer.tsx");
 
   assert.match(drawerSource, /"use client"/);
   assert.match(drawerSource, /useState/);
