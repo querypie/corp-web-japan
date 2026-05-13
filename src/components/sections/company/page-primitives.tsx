@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { companyBodyTextClassName } from "@/components/ui/text-tokens";
 
-type CompanyPageSectionPadding = "default" | "compactHero" | "compactFooter";
+type CompanyPageSectionPadding = "default" | "compactHero";
 
 type CompanyPageSectionProps = {
   children: ReactNode;
@@ -9,9 +9,8 @@ type CompanyPageSectionProps = {
 };
 
 const companyPageSectionPaddingClassNames = {
-  default: "pb-[60px] pt-[100px] lg:pb-[80px] lg:pt-[130px]",
+  default: "pb-[60px] pt-[100px] lg:pb-[78px] lg:pt-[130px]",
   compactHero: "pb-[60px] pt-[100px] lg:pb-[84px] lg:pt-[130px]",
-  compactFooter: "pb-[60px] pt-[100px] lg:pb-[78px] lg:pt-[130px]",
 } satisfies Record<CompanyPageSectionPadding, string>;
 
 export function CompanyPageSection({ children, padding = "default" }: CompanyPageSectionProps) {

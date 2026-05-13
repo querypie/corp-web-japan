@@ -51,7 +51,7 @@ export default async function ContactUsPage({
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
-      <CompanyPageSection padding="compactFooter">
+      <CompanyPageSection>
         <CompanyPageLayout preset="equalColumns">
           <CompanyPageIntro>
             <CompanyPageTitle>お問い合わせ</CompanyPageTitle>
