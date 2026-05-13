@@ -64,6 +64,27 @@ export function MarketingSurface<T extends ElementType = "div">({
   );
 }
 
+
+type MarketingPageSectionProps = {
+  children: ReactNode;
+  className?: string;
+  contentClassName?: string;
+  contentWidthClassName?: string;
+};
+
+export function MarketingPageSection({
+  children,
+  className,
+  contentClassName,
+  contentWidthClassName = "max-w-[1200px]",
+}: MarketingPageSectionProps) {
+  return (
+    <section className={cn("mx-auto w-full px-6 lg:px-0", className)}>
+      <div className={cn("mx-auto w-full", contentWidthClassName, contentClassName)}>{children}</div>
+    </section>
+  );
+}
+
 type MarketingSectionIntroProps = {
   eyebrow?: ReactNode;
   title: ReactNode;
