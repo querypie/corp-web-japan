@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
-const primitiveSource = () => readSource("src/components/sections/marketing-section-primitives.tsx");
+const primitiveSource = () => readSource("src/components/sections/home/primitives.tsx");
 
 const directContractFiles = [
   "src/components/sections/certifications/section.tsx",
