@@ -30,7 +30,7 @@ export function CertificationsTitle({ children }: { children: ReactNode }) {
 }
 
 export function CertificationsIntroDescription({ children }: { children: ReactNode }) {
-  return <div className={`mt-5 ${marketingBodyTextClassName}`}>{children}</div>;
+  return <div className={marketingBodyTextClassName}>{children}</div>;
 }
 
 export function CertificationsGrid({ children }: { children: ReactNode }) {

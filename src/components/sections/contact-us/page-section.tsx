@@ -24,7 +24,7 @@ export function ContactUsTitle({ children }: { children: ReactNode }) {
 }
 
 export function ContactUsLead({ children }: { children: ReactNode }) {
-  return <p className={`max-w-[680px] ${marketingBodyTextClassName}`}>{children}</p>;
+  return <p className={marketingBodyTextClassName}>{children}</p>;
 }
 
 export function ContactUsChecklist({ children }: { children: ReactNode }) {
