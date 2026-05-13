@@ -18,11 +18,11 @@ export type CertificationItem = {
 };
 
 export function CertificationsPageSection({ children }: { children: ReactNode }) {
-  return <MarketingPageSection className="pb-24 pt-[112px] lg:pb-28 lg:pt-[144px]">{children}</MarketingPageSection>;
+  return <MarketingPageSection className="pb-24 pt-[100px] lg:pb-28 lg:pt-[130px]">{children}</MarketingPageSection>;
 }
 
 export function CertificationsIntroSection({ children }: { children: ReactNode }) {
-  return <div className="text-left">{children}</div>;
+  return <div className="flex flex-col gap-[50px] text-left">{children}</div>;
 }
 
 export function CertificationsTitle({ children }: { children: ReactNode }) {

@@ -3,7 +3,7 @@ import { companyBodyTextClassName } from "@/components/ui/text-tokens";
 
 export function ContactUsSection({ children }: { children: ReactNode }) {
   return (
-    <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-20 pt-[112px] lg:pb-[120px] lg:pt-[144px]">
+    <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-20 pt-[100px] lg:pb-[120px] lg:pt-[130px]">
       <div className="mx-auto grid max-w-[1200px] gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-14">
         {children}
       </div>
@@ -12,15 +12,11 @@ export function ContactUsSection({ children }: { children: ReactNode }) {
 }
 
 export function ContactUsIntro({ children }: { children: ReactNode }) {
-  return <div>{children}</div>;
+  return <div className="flex flex-col gap-[50px]">{children}</div>;
 }
 
 export function ContactUsTitle({ children }: { children: ReactNode }) {
-  return (
-    <h1 className="mb-6 text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">
-      {children}
-    </h1>
-  );
+  return <h1 className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">{children}</h1>;
 }
 
 export function ContactUsLead({ children }: { children: ReactNode }) {
@@ -28,7 +24,7 @@ export function ContactUsLead({ children }: { children: ReactNode }) {
 }
 
 export function ContactUsChecklist({ children }: { children: ReactNode }) {
-  return <ul className={`mt-8 list-disc space-y-3 pl-5 marker:text-slate-600 ${companyBodyTextClassName}`}>{children}</ul>;
+  return <ul className={`list-disc space-y-3 pl-5 marker:text-slate-600 ${companyBodyTextClassName}`}>{children}</ul>;
 }
 
 export function ContactUsChecklistItem({ children }: { children: ReactNode }) {
