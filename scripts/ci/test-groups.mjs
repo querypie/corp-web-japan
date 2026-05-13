@@ -93,6 +93,7 @@ const matchers = {
     /^tests\/ai-crew-page-structure\.test\.mjs$/,
     /^tests\/ai-dashi-page-structure\.test\.mjs$/,
     /^tests\/certifications-image-rendering\.test\.mjs$/,
+    /^tests\/company-page-primitives\.test\.mjs$/,
     /^tests\/font-and-mobile-layout\.test\.mjs$/,
     /^tests\/internal-page\.test\.mjs$/,
     /^tests\/legal-privacy-policy-preview\.test\.mjs$/,
