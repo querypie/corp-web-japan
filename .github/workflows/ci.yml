@@ -7,13 +7,6 @@ permissions:
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    paths-ignore:
-      - "README.md"
-      - "AGENTS.md"
-      - "docs/**"
-      - "ops/**/*.md"
-      - "public/**/*.md"
-      - ".agents/skills/**/*.md"
   push:
     branches:
       - "main"
@@ -254,6 +247,17 @@ jobs:
     name: Smoke
     runs-on: ubuntu-latest
     needs: changes
+    if: >-
+      ${{
+        needs.changes.outputs.ci == 'true' ||
+        needs.changes.outputs.publications == 'true' ||
+        needs.changes.outputs.forms == 'true' ||
+        needs.changes.outputs.routing_seo == 'true' ||
+        needs.changes.outputs.static_pages == 'true' ||
+        needs.changes.outputs.assets_shell == 'true' ||
+        needs.changes.outputs.cross_cutting == 'true' ||
+        needs.changes.outputs.build == 'true'
+      }}
     steps:
       - uses: actions/checkout@v4
 
