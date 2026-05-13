@@ -1,16 +1,11 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { companyBodyTextClassName } from "@/components/ui/text-tokens";
 
 type NavItemProps = {
   href: string;
   active?: boolean;
   children: ReactNode;
 };
-
-export function NewsPageSection({ children }: { children: ReactNode }) {
-  return <section className="mx-auto max-w-[1440px] bg-white px-[30px] pb-[96px] pt-[100px] lg:pb-[128px] lg:pt-[130px]">{children}</section>;
-}
 
 export function NewsPageLayout({ children }: { children: ReactNode }) {
   return <div className="mx-auto flex max-w-[1200px] flex-col gap-[34px] lg:flex-row lg:items-start lg:gap-[60px]">{children}</div>;
@@ -51,18 +46,6 @@ export function NewsPageNavItem({ href, active = false, children }: NavItemProps
 
 export function NewsPageContent({ children }: { children: ReactNode }) {
   return <div className="min-w-0 flex-1">{children}</div>;
-}
-
-export function NewsPageIntro({ children }: { children: ReactNode }) {
-  return <div className="mx-auto flex max-w-[1200px] flex-col gap-[50px] text-left">{children}</div>;
-}
-
-export function NewsPageTitle({ children }: { children: ReactNode }) {
-  return <h1 className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">{children}</h1>;
-}
-
-export function NewsPageLead({ children }: { children: ReactNode }) {
-  return <p className={companyBodyTextClassName}>{children}</p>;
 }
 
 export function NewsListSection({ children }: { children: ReactNode }) {

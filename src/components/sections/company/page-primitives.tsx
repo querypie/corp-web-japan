@@ -1,81 +1,63 @@
 import type { ReactNode } from "react";
-import { cn } from "@/lib/utils";
 import { companyBodyTextClassName } from "@/components/ui/text-tokens";
+
+type CompanyPageSectionPadding = "default" | "compactHero";
 
 type CompanyPageSectionProps = {
   children: ReactNode;
-  className?: string;
-  contentClassName?: string;
-  contentWidthClassName?: string;
+  padding?: CompanyPageSectionPadding;
 };
 
-export function CompanyPageSection({
-  children,
-  className,
-  contentClassName,
-  contentWidthClassName = "max-w-[1200px]",
-}: CompanyPageSectionProps) {
+const companyPageSectionPaddingClassNames = {
+  default: "pb-[96px] pt-[100px] lg:pb-[120px] lg:pt-[130px]",
+  compactHero: "pb-[84px] pt-[100px] lg:pb-[84px] lg:pt-[130px]",
+} satisfies Record<CompanyPageSectionPadding, string>;
+
+export function CompanyPageSection({ children, padding = "default" }: CompanyPageSectionProps) {
   return (
-    <section
-      className={cn(
-        "mx-auto w-full max-w-[1920px] bg-white px-[30px] pb-[96px] pt-[100px] lg:pb-[120px] lg:pt-[130px]",
-        className,
-      )}
-    >
-      <div className={cn("mx-auto w-full", contentWidthClassName, contentClassName)}>{children}</div>
+    <section className={`mx-auto w-full max-w-[1920px] bg-white px-[30px] ${companyPageSectionPaddingClassNames[padding]}`}>
+      <div className="mx-auto w-full max-w-[1200px]">{children}</div>
     </section>
   );
 }
 
 type CompanyPageIntroProps = {
   children: ReactNode;
-  className?: string;
 };
 
-export function CompanyPageIntro({ children, className }: CompanyPageIntroProps) {
-  return <div className={cn("flex flex-col gap-[50px] text-left", className)}>{children}</div>;
+export function CompanyPageIntro({ children }: CompanyPageIntroProps) {
+  return <div className="flex flex-col gap-[50px] text-left">{children}</div>;
 }
 
 type CompanyPageTitleProps = {
   children: ReactNode;
-  className?: string;
 };
 
-export function CompanyPageTitle({ children, className }: CompanyPageTitleProps) {
-  return (
-    <h1 className={cn("text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]", className)}>
-      {children}
-    </h1>
-  );
+export function CompanyPageTitle({ children }: CompanyPageTitleProps) {
+  return <h1 className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">{children}</h1>;
 }
 
 type CompanyPageLeadProps = {
   children: ReactNode;
-  className?: string;
 };
 
-export function CompanyPageLead({ children, className }: CompanyPageLeadProps) {
-  return <div className={cn(companyBodyTextClassName, className)}>{children}</div>;
+export function CompanyPageLead({ children }: CompanyPageLeadProps) {
+  return <div className={companyBodyTextClassName}>{children}</div>;
 }
 
-type CompanyPageBodyLayoutProps = {
+type CompanyPageLayoutPreset = "single" | "equalColumns" | "aboutUsHero";
+
+type CompanyPageLayoutProps = {
   children: ReactNode;
-  columns?: 1 | 2;
-  layoutPreset?: "single" | "equal" | "about-us";
-  className?: string;
+  preset?: CompanyPageLayoutPreset;
 };
 
-const bodyLayoutClassNames = {
+const companyPageLayoutClassNames = {
   single: "flex w-full flex-col",
-  equal: "grid w-full items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-14",
-  "about-us": "grid w-full items-start gap-16 lg:grid-cols-[504px_640px] lg:gap-14",
-} satisfies Record<NonNullable<CompanyPageBodyLayoutProps["layoutPreset"]>, string>;
+  equalColumns: "grid w-full items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-14",
+  aboutUsHero: "grid w-full items-start gap-16 lg:grid-cols-[504px_640px] lg:gap-14",
+} satisfies Record<CompanyPageLayoutPreset, string>;
 
-export function CompanyPageBodyLayout({
-  children,
-  columns = 1,
-  layoutPreset = columns === 2 ? "equal" : "single",
-  className,
-}: CompanyPageBodyLayoutProps) {
-  return <div className={cn(bodyLayoutClassNames[layoutPreset], className)}>{children}</div>;
+export function CompanyPageLayout({ children, preset = "single" }: CompanyPageLayoutProps) {
+  return <div className={companyPageLayoutClassNames[preset]}>{children}</div>;
 }

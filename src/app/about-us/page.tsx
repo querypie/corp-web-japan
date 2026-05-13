@@ -5,11 +5,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import {
   AboutUsBodyCopy,
   AboutUsHeroCopy,
-  AboutUsHeroHeading,
-  AboutUsHeroIntro,
   AboutUsHeroImage,
-  AboutUsHeroLayout,
-  AboutUsHeroSection,
   AboutUsInvestorLogo,
   AboutUsInvestorLogoRow,
   AboutUsLeaderCard,
@@ -26,6 +22,12 @@ import {
   AboutUsTimeline,
   AboutUsTimelineItem,
 } from "@/components/sections/about-us/section";
+import {
+  CompanyPageLayout,
+  CompanyPageIntro,
+  CompanyPageSection,
+  CompanyPageTitle,
+} from "@/components/sections/company/page-primitives";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
@@ -47,17 +49,17 @@ export default function AboutUsPage() {
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
-      <AboutUsHeroSection>
-        <AboutUsHeroIntro>
+      <CompanyPageSection padding="compactHero">
+        <CompanyPageIntro>
           <RevealOnScroll>
-            <AboutUsHeroHeading>
+            <CompanyPageTitle>
               エンタープライズAIを、すべての企業に
               <br />
               90%のコスト削減、妥協なしのパフォーマンス
-            </AboutUsHeroHeading>
+            </CompanyPageTitle>
           </RevealOnScroll>
 
-          <AboutUsHeroLayout>
+          <CompanyPageLayout preset="aboutUsHero">
             <RevealOnScroll>
               <AboutUsHeroCopy>
                 <AboutUsBodyCopy>
@@ -79,9 +81,9 @@ export default function AboutUsPage() {
             <RevealOnScroll delayMs={120}>
               <AboutUsHeroImage />
             </RevealOnScroll>
-          </AboutUsHeroLayout>
-        </AboutUsHeroIntro>
-      </AboutUsHeroSection>
+          </CompanyPageLayout>
+        </CompanyPageIntro>
+      </CompanyPageSection>
 
       <AboutUsSection className="mx-auto max-w-[1200px] px-6 pb-[92px] pt-[94px] lg:px-0">
         <RevealOnScroll>

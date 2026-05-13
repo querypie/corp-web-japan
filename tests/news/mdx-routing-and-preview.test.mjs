@@ -28,8 +28,8 @@ test("news public page and canonical routes are driven by news MDX publication r
   assert.match(publicPage, /resolveResourceListVisibleCount\(newsItems, resolvedSearchParams\?\.until\)/);
   assert.match(publicPage, /<NewsArticleLoadMore[\s\S]*items=\{newsItems\}[\s\S]*initialVisibleCount=\{initialVisibleCount\}/);
   assert.doesNotMatch(publicPage, /<NewsArticleList items=\{newsItems\} \/>/);
-  assert.match(publicPage, /NewsPageSection/);
-  assert.match(publicPage, /NewsPageIntro/);
+  assert.match(publicPage, /CompanyPageSection/);
+  assert.match(publicPage, /CompanyPageIntro/);
   assert.match(publicPage, /NewsListSection/);
   assert.match(publicPage, /AipFreeTrialCtaSection/);
   assert.match(publicPage, />\s*ニュース\s*</);
@@ -47,8 +47,10 @@ test("news public page and canonical routes are driven by news MDX publication r
   assert.doesNotMatch(listPage, /簡単サインアップで、14日間の無料トライアルをお試しください/);
   assert.doesNotMatch(listPage, />\s*News\s*</);
 
-  assert.match(sectionComponents, /export function NewsPageSection/);
-  assert.match(sectionComponents, /export function NewsPageIntro/);
+  assert.doesNotMatch(sectionComponents, /export function NewsPageSection/);
+  assert.doesNotMatch(sectionComponents, /export function NewsPageIntro/);
+  assert.doesNotMatch(sectionComponents, /export function NewsPageTitle/);
+  assert.doesNotMatch(sectionComponents, /export function NewsPageLead/);
   assert.match(sectionComponents, /export function NewsListSection[\s\S]*mx-auto mt-\[44px\] max-w-\[1200px\] lg:mt-\[80px\]/);
   assert.match(sectionComponents, /export function NewsPageNavItem/);
   assert.doesNotMatch(sectionComponents, /export function NewsFinalCtaSection/);

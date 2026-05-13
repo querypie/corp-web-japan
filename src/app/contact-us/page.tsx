@@ -6,11 +6,14 @@ import {
   ContactUsChecklist,
   ContactUsChecklistItem,
   ContactUsFormPanel,
-  ContactUsIntro,
-  ContactUsLead,
-  ContactUsSection,
-  ContactUsTitle,
 } from "@/components/sections/contact-us/page-section";
+import {
+  CompanyPageLayout,
+  CompanyPageIntro,
+  CompanyPageLead,
+  CompanyPageSection,
+  CompanyPageTitle,
+} from "@/components/sections/company/page-primitives";
 import { getPrefilledContactUsFormState } from "@/lib/contact-us";
 
 export const metadata: Metadata = {
@@ -48,24 +51,26 @@ export default async function ContactUsPage({
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
-      <ContactUsSection>
-        <ContactUsIntro>
-          <ContactUsTitle>お問い合わせ</ContactUsTitle>
-          <ContactUsLead>
-            製品導入のご相談、デモのご依頼、資料ダウンロード、技術的なご質問などを受け付けています。
-            下記フォームに必要事項をご入力ください。内容を確認のうえ、担当チームより1〜2営業日以内にご連絡いたします。
-          </ContactUsLead>
-          <ContactUsChecklist>
-            <ContactUsChecklistItem>製品や導入フェーズに応じて適切な担当が対応します。</ContactUsChecklistItem>
-            <ContactUsChecklistItem>お問い合わせ内容に応じてデモ、資料送付、個別相談をご案内します。</ContactUsChecklistItem>
-            <ContactUsChecklistItem>送信内容は確認後、順次メールにて返信いたします。</ContactUsChecklistItem>
-          </ContactUsChecklist>
-        </ContactUsIntro>
+      <CompanyPageSection>
+        <CompanyPageLayout preset="equalColumns">
+          <CompanyPageIntro>
+            <CompanyPageTitle>お問い合わせ</CompanyPageTitle>
+            <CompanyPageLead>
+              製品導入のご相談、デモのご依頼、資料ダウンロード、技術的なご質問などを受け付けています。
+              下記フォームに必要事項をご入力ください。内容を確認のうえ、担当チームより1〜2営業日以内にご連絡いたします。
+            </CompanyPageLead>
+            <ContactUsChecklist>
+              <ContactUsChecklistItem>製品や導入フェーズに応じて適切な担当が対応します。</ContactUsChecklistItem>
+              <ContactUsChecklistItem>お問い合わせ内容に応じてデモ、資料送付、個別相談をご案内します。</ContactUsChecklistItem>
+              <ContactUsChecklistItem>送信内容は確認後、順次メールにて返信いたします。</ContactUsChecklistItem>
+            </ContactUsChecklist>
+          </CompanyPageIntro>
 
-        <ContactUsFormPanel>
-          <ContactUsForm initialPrefills={initialPrefills} />
-        </ContactUsFormPanel>
-      </ContactUsSection>
+          <ContactUsFormPanel>
+            <ContactUsForm initialPrefills={initialPrefills} />
+          </ContactUsFormPanel>
+        </CompanyPageLayout>
+      </CompanyPageSection>
       <SiteFooter />
     </main>
   );

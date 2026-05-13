@@ -9,8 +9,8 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(routeSource, /from "@\/components\/sections\/about-us\/section"/);
   assert.match(routeSource, /canonical: "\/about-us"/);
   assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
-  assert.match(routeSource, /<AboutUsHeroSection>/);
-  assert.match(routeSource, /<AboutUsHeroIntro>/);
+  assert.match(routeSource, /<CompanyPageSection padding="compactHero">/);
+  assert.match(routeSource, /<CompanyPageIntro>/);
   assert.match(routeSource, /<AboutUsTimelineItem year="2024">/);
   assert.match(routeSource, /<AboutUsLeaderCard imageSrc="\/about-us\/crew\/brant\.png"/);
   assert.match(routeSource, /<AboutUsLocationCard iconSrc="\/about-us\/location\/japan-cu\.svg"/);
@@ -23,8 +23,14 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.doesNotMatch(routeSource, /const locations =/);
   assert.doesNotMatch(routeSource, /from "next\/link"/);
 
-  assert.match(sectionSource, /export function AboutUsHeroSection/);
-  assert.match(sectionSource, /export function AboutUsHeroIntro/);
+  assert.match(routeSource, /<CompanyPageTitle>/);
+  assert.match(routeSource, /<CompanyPageLayout preset="aboutUsHero">/);
+  assert.match(routeSource, /from "@\/components\/sections\/company\/page-primitives"/);
+
+  assert.doesNotMatch(sectionSource, /export function AboutUsHeroSection/);
+  assert.doesNotMatch(sectionSource, /export function AboutUsHeroIntro/);
+  assert.doesNotMatch(sectionSource, /export function AboutUsHeroHeading/);
+  assert.doesNotMatch(sectionSource, /export function AboutUsHeroLayout/);
   assert.match(sectionSource, /export function AboutUsInvestorLogo/);
   assert.match(sectionSource, /export function AboutUsTimelineItem/);
   assert.match(sectionSource, /export function AboutUsLeaderCard/);

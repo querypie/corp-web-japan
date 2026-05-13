@@ -14,7 +14,11 @@ test("/contact-us is the public form page and keeps production-ready form wiring
   assert.match(page, /canonical:\s*"\/contact-us"/);
   assert.doesNotMatch(page, /robots:\s*\{/);
   assert.match(page, /getPrefilledContactUsFormState\(urlSearchParams\)/);
-  assert.match(page, /<ContactUsSection>/);
+  assert.match(page, /<CompanyPageSection>/);
+  assert.match(page, /<CompanyPageIntro>/);
+  assert.match(page, /<CompanyPageTitle>お問い合わせ<\/CompanyPageTitle>/);
+  assert.match(page, /<CompanyPageLead>/);
+  assert.match(page, /<CompanyPageLayout preset="equalColumns">/);
   assert.match(page, /<ContactUsFormPanel>/);
   assert.match(page, /<ContactUsForm initialPrefills=\{initialPrefills\} \/>/);
   assert.match(page, /お問い合わせ/);

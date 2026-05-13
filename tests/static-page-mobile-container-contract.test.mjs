@@ -5,7 +5,6 @@ import { readSource } from "./helpers/source-readers.mjs";
 const primitiveSource = () => readSource("src/components/sections/home/primitives.tsx");
 
 const migratedContractFiles = [
-  "src/components/sections/certifications/section.tsx",
   "src/components/sections/plans/section.tsx",
   "src/components/sections/usage-based-llm/section.tsx",
 ];

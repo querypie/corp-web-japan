@@ -12,26 +12,6 @@ export function AboutUsBodyCopy({ children, className = "" }: { children: ReactN
   return <p className={`${bodyCopyClass}${className ? ` ${className}` : ""}`}>{children}</p>;
 }
 
-export function AboutUsHeroSection({ children }: { children: ReactNode }) {
-  return <section className="w-full bg-white px-[30px] pb-[84px] pt-[100px] lg:pb-[84px] lg:pt-[130px]">{children}</section>;
-}
-
-export function AboutUsHeroIntro({ children }: { children: ReactNode }) {
-  return <div className="mx-auto flex max-w-[1200px] flex-col gap-[50px]">{children}</div>;
-}
-
-export function AboutUsHeroHeading({ children }: { children: ReactNode }) {
-  return (
-    <h1 className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">
-      {children}
-    </h1>
-  );
-}
-
-export function AboutUsHeroLayout({ children }: { children: ReactNode }) {
-  return <div className="grid w-full items-start gap-16 lg:grid-cols-[504px_640px] lg:gap-14">{children}</div>;
-}
-
 export function AboutUsHeroCopy({ children }: { children: ReactNode }) {
   return <div className="max-w-[504px] space-y-6">{children}</div>;
 }
