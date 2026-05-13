@@ -70,7 +70,7 @@
 
 .footerLinks {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 32px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.16);
   padding-bottom: 16px;
