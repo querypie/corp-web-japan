@@ -4,24 +4,24 @@ import { readSource, sourceExists } from "../../../../../helpers/source-readers.
 
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-test("/t/platforms/aip keeps route-local copy/composition while the layout primitives live in the service section module", () => {
+test("/t/platforms/aip keeps route-local copy/composition while the layout primitives live in the AIP section module", () => {
   assert.equal(sourceExists("src/app/t/platforms/aip/page.tsx"), true);
-  assert.equal(sourceExists("src/components/sections/aip/service-page.tsx"), true);
+  assert.equal(sourceExists("src/components/sections/aip/page.tsx"), true);
 
   const routeSource = readSource("src/app/t/platforms/aip/page.tsx");
-  const sectionSource = readSource("src/components/sections/aip/service-page.tsx");
+  const sectionSource = readSource("src/components/sections/aip/page.tsx");
 
   assert.match(routeSource, /canonical: "\/t\/platforms\/aip"/);
   assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
-  assert.match(routeSource, /AipServiceHeroVideo/);
-  assert.match(routeSource, /AipServiceValueCardLink/);
+  assert.match(routeSource, /AipHeroVideo/);
+  assert.match(routeSource, /AipValueCardLink/);
   assert.match(routeSource, /成果にこだわるエンタープライズAI/);
   assert.match(routeSource, /AI導入を、ワンストップで実現する３つの価値/);
-  assert.match(routeSource, /従量課金型の\s*<AipServiceLineBreak \/>\s*AIモデル/);
-  assert.match(routeSource, /統合型\s*<AipServiceLineBreak \/>\s*AIゲートウェイ/);
-  assert.match(routeSource, /AI専門家伴走\s*<AipServiceLineBreak \/>\s*サービス/);
+  assert.match(routeSource, /従量課金型の\s*<AipLineBreak \/>\s*AIモデル/);
+  assert.match(routeSource, /統合型\s*<AipLineBreak \/>\s*AIゲートウェイ/);
+  assert.match(routeSource, /AI専門家伴走\s*<AipLineBreak \/>\s*サービス/);
   assert.match(routeSource, /href="\/t\/services\/fde"/);
   assert.doesNotMatch(routeSource, /href="\/t\/solutions\/aip\/fde-services"/);
   assert.match(routeSource, /QueryPie AIPができること/);
@@ -36,19 +36,19 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
   assert.match(routeSource, /QueryPie AIPと接続可能な連携ツールの一覧はこちら/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(routeSource, /<AipFreeTrialCtaSection \/>/);
-  assert.doesNotMatch(routeSource, /AipServicePreviewPage/);
+  assert.doesNotMatch(routeSource, /AipPreviewPage/);
   assert.doesNotMatch(routeSource, /Preview Service/i);
   assert.doesNotMatch(routeSource, /preview でローカル確認できるように移しています/);
 
-  assert.match(sectionSource, /export function AipServiceHeroSection/);
-  assert.match(sectionSource, /export function AipServiceHeroVideo/);
+  assert.match(sectionSource, /export function AipHeroSection/);
+  assert.match(sectionSource, /export function AipHeroVideo/);
   assert.match(sectionSource, /bg-\[linear-gradient\(291deg,#C5D6E6_0%,#FFF_100%\)\]/);
-  assert.match(sectionSource, /export function AipServiceValueGrid/);
-  assert.match(sectionSource, /export function AipServiceValueCardLink/);
+  assert.match(sectionSource, /export function AipValueGrid/);
+  assert.match(sectionSource, /export function AipValueCardLink/);
   assert.match(sectionSource, /absolute inset-0 flex items-center/);
-  assert.match(sectionSource, /export function AipServiceFeatureSection/);
-  assert.match(sectionSource, /export function AipServiceFeatureRow/);
-  assert.match(sectionSource, /export function AipServiceFeatureImage/);
+  assert.match(sectionSource, /export function AipFeatureSection/);
+  assert.match(sectionSource, /export function AipFeatureRow/);
+  assert.match(sectionSource, /export function AipFeatureImage/);
   assert.match(sectionSource, /style=\{\{ width \}\}/);
 });
 
