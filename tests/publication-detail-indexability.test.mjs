@@ -18,6 +18,8 @@ const publicIndexableDetailRoutes = [
 ];
 
 const publicIndexableListRoutes = [
+  "src/app/about-us/page.tsx",
+  "src/app/certifications/page.tsx",
   "src/app/resources/page.tsx",
   "src/app/blog/page.tsx",
   "src/app/whitepapers/page.tsx",
@@ -62,8 +64,6 @@ test("internal, preview, and whitepaper pdf-only routes stay non-indexable", () 
     "src/app/internal/load-more/page.tsx",
     "src/app/internal/mdx-list-demo/page.tsx",
     "src/app/internal/whitepaper-gating-demo/page.tsx",
-    "src/app/t/about-us/page.tsx",
-    "src/app/t/certifications/page.tsx",
     "src/app/t/cookie-preference/page.tsx",
     "src/app/t/eula/page.tsx",
     "src/app/t/plans/page.tsx",

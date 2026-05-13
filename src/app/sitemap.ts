@@ -76,6 +76,16 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
     priority: 0.7,
   },
   {
+    url: absoluteUrl("/about-us"),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  },
+  {
+    url: absoluteUrl("/certifications"),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  },
+  {
     url: absoluteUrl("/contact-us"),
     changeFrequency: "weekly",
     priority: 0.7,

@@ -30,6 +30,8 @@ The current public structure is:
 - `/news/:id/:slug` — local MDX-backed news detail, with `/news/:id` redirecting to the canonical slug route
 - `/events/:id/:slug` — local event detail route
 - `/contact-us` — local contact form page with stable query-string prefills and a local submit flow
+- `/about-us` — local company overview page
+- `/certifications` — local certifications page
 - `/resources` — local resource index
 - `/introduction-deck` — local introduction deck index and detail routes
 - `/glossary` — local glossary index and detail routes
@@ -41,7 +43,7 @@ Additional notes:
 - Whitepaper detail pages can use the current MDX gating contract.
 - The `/events` list page is not publicly launched yet. It remains query-gated and is intentionally excluded from the top-level sitemap entry set.
 - Public resource hubs now include local `/resources`, `/introduction-deck`, `/glossary`, and `/manuals` pages backed by the local content loaders.
-- Some other top-level paths such as `/about-us` and legal endpoints remain redirect routes to upstream QueryPie destinations.
+- Some other top-level paths such as legal endpoints remain redirect routes to upstream QueryPie destinations.
 - The catch-all missing-route flow only redirects paths that match the maintained QueryPie allowlist; other unmatched paths are logged and resolve to the local not-found flow.
 
 ## Shared principles

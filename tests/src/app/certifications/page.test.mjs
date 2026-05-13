@@ -1,13 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { readSource } from "../../../../helpers/source-readers.mjs";
+import { readSource } from "../../../helpers/source-readers.mjs";
 
-
-test("/t/certifications keeps authored copy and JSON card data in the route while shared section UI owns the rendering shells", () => {
-  const pageSource = readSource("src/app/t/certifications/page.tsx");
+test("/certifications keeps authored copy and JSON card data in the route while shared section UI owns the rendering shells", () => {
+  const pageSource = readSource("src/app/certifications/page.tsx");
   const sectionSource = readSource("src/components/sections/certifications/section.tsx");
 
   assert.match(pageSource, /from "@\/components\/sections\/certifications\/section"/);
+  assert.match(pageSource, /canonical: "\/certifications"/);
+  assert.match(pageSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(pageSource, /const certifications: readonly CertificationItem\[] = \[/);
   assert.match(pageSource, /id: "soc-2-type-ii"/);
   assert.match(pageSource, /title: "SOC 2 Type II"/);
@@ -23,6 +24,7 @@ test("/t/certifications keeps authored copy and JSON card data in the route whil
   assert.match(pageSource, /<CertificationCard key=\{item\.id\} \{\.\.\.item\} \/>/);
 
   assert.doesNotMatch(pageSource, /CertificationsPreviewPage/);
+  assert.doesNotMatch(pageSource, /canonical: "\/t\/certifications"/);
   assert.match(pageSource, /src: "\/certifications\/csa-star-level-1\.svg"/);
   assert.match(pageSource, /src: "\/certifications\/csa-star-level-2\.svg"/);
   assert.match(pageSource, /src: "\/certifications\/pci-dss\.svg"/);

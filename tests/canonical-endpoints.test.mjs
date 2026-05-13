@@ -15,8 +15,8 @@ const expectedHeaderLinks = [
   'label: "用語集", href: "/glossary"',
   'label: "マニュアル", href: "/manuals"',
   'label: "イベント", href: "/events"',
-  'label: "私たちについて", href: t("/about-us", previewModeEnabled)',
-  'label: "認証情報", href: t("/certifications", previewModeEnabled)',
+  'label: "私たちについて", href: "/about-us"',
+  'label: "認証情報", href: "/certifications"',
   'label: "ニュース", href: "/news"',
   'label: "お問い合わせ", href: "/contact-us"',
 ];
@@ -33,8 +33,8 @@ const expectedFooterLinks = [
   'label: "用語集", href: "/glossary"',
   'label: "マニュアル", href: "/manuals"',
   'label: "イベント", href: "/events"',
-  'label: "私たちについて", href: t("/about-us", previewModeEnabled)',
-  'label: "認証情報", href: t("/certifications", previewModeEnabled)',
+  'label: "私たちについて", href: "/about-us"',
+  'label: "認証情報", href: "/certifications"',
   'label: "ニュース", href: "/news"',
   'label: "お問い合わせ", href: "/contact-us"',
 ];
@@ -48,10 +48,7 @@ const expectedSidebarLinks = [
   'label: "ブログ", href: "/blog"',
 ];
 
-const expectedRedirectFiles = [
-  "src/app/about-us/route.ts",
-  "src/app/certifications/route.ts",
-];
+const expectedRedirectFiles = [];
 
 test("navigation surfaces point to the canonical local and redirect endpoints", () => {
   const siteHeader = readSource("src/components/layout/site-header-client.tsx");
@@ -72,6 +69,8 @@ test("navigation surfaces point to the canonical local and redirect endpoints", 
 });
 
 test("public resource rollout replaced the old redirect endpoints with page routes and sitemap entries", () => {
+  const aboutUsPage = readSource("src/app/about-us/page.tsx");
+  const certificationsPage = readSource("src/app/certifications/page.tsx");
   const sitemap = readSource("src/app/sitemap.ts");
   const contactUsPage = readSource("src/app/contact-us/page.tsx");
   const newsPage = readSource("src/app/news/page.tsx");
@@ -101,11 +100,15 @@ test("public resource rollout replaced the old redirect endpoints with page rout
     assert.equal(existsSync(new URL(`../${removedRoutePath}`, import.meta.url)), false, `${removedRoutePath} should be removed`);
   }
 
+  assert.match(aboutUsPage, /canonical:\s*"\/about-us"/);
+  assert.match(certificationsPage, /canonical:\s*"\/certifications"/);
   assert.match(contactUsPage, /canonical:\s*"\/contact-us"/);
   assert.match(newsPage, /canonical:\s*"\/news"/);
   assert.match(useCasesPage, /canonical:\s*"\/demo\/use-cases"/);
   assert.match(aipPage, /canonical:\s*"\/demo\/aip"/);
   assert.match(acpPage, /canonical:\s*"\/demo\/acp"/);
+  assert.match(sitemap, /absoluteUrl\("\/about-us"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/certifications"\)/);
   assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
   assert.match(sitemap, /absoluteUrl\("\/news"\)/);
   assert.match(sitemap, /absoluteUrl\("\/resources"\)/);
@@ -116,6 +119,8 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.match(sitemap, /absoluteUrl\("\/demo\/aip"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/acp"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/use-cases"\)/);
+  assert.equal(existsSync(new URL("../src/app/about-us/route.ts", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/app/certifications/route.ts", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/news/route.ts", import.meta.url)), false);
 });
 

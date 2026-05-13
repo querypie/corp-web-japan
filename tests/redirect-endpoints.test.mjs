@@ -20,16 +20,6 @@ const expectedRedirectRules = [
     destination: "https://www.querypie.com/ja/solutions/aip/fde-services",
   },
   {
-    requestPath: "/about-us",
-    file: "src/app/about-us/route.ts",
-    destination: "https://www.querypie.com/ja/company/about-us",
-  },
-  {
-    requestPath: "/certifications",
-    file: "src/app/certifications/route.ts",
-    destination: "https://www.querypie.com/ja/company/certifications",
-  },
-  {
     requestPath: "/api-docs.html",
     file: "src/app/api-docs.html/route.ts",
     destination: "https://docs.querypie.com/ja/api-reference",
@@ -92,7 +82,7 @@ const expectedRedirectRules = [
 ];
 
 test("remaining redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 17);
+  assert.equal(expectedRedirectRules.length, 15);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
@@ -140,6 +130,11 @@ test("/t/contact-us route is fully removed after public rollout", () => {
 
 test("/t/news preview entrypoint has been removed after public rollout", () => {
   assert.equal(existsSync(new URL("../src/app/t/news/page.tsx", import.meta.url)), false);
+});
+
+test("/t/about-us and /t/certifications preview entrypoints are removed after public rollout", () => {
+  assert.equal(existsSync(new URL("../src/app/t/about-us/page.tsx", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/app/t/certifications/page.tsx", import.meta.url)), false);
 });
 
 test("rolled-out demo list pages replace preview entrypoints without redirects", () => {

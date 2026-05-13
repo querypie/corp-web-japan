@@ -40,7 +40,7 @@ When reviewing `src/app/t/**` preview routes, keep at least these families disti
   - uses legal document wrappers and legal MDX/body primitives
   - optimized for versioned policy content, document headers, long-form legal copy, and stable reading width
 - Company-intro / company family
-  - representative routes: `/t/about-us`, `/t/certifications`
+  - representative routes: `/about-us`, `/certifications`
   - presents company identity, trust proof, certifications, offices, leadership, or similar company context
   - may share static-page shells such as `MarketingPageSection` where appropriate, but should not automatically inherit legal document primitives
 

@@ -18,11 +18,11 @@ export const metadata: Metadata = {
   title: "認証 | QueryPie AI",
   description: "QueryPie AIは、数々の最高レベルの国際および国内セキュリティ認証を取得しています。",
   alternates: {
-    canonical: "/t/certifications",
+    canonical: "/certifications",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
   openGraph: {
     title: "認証 | QueryPie AI",
