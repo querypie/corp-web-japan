@@ -15,9 +15,9 @@ test("/certifications keeps authored copy and JSON card data in the route while 
   assert.match(pageSource, /title: "PCI DSS"/);
   assert.match(pageSource, /title: "ISO 22301"/);
   assert.match(pageSource, /export default function CertificationsPage\(\)/);
-  assert.match(pageSource, /<CertificationsIntroSection>/);
-  assert.match(pageSource, /<CertificationsTitle>認証<\/CertificationsTitle>/);
-  assert.match(pageSource, /<CertificationsIntroDescription>/);
+  assert.match(pageSource, /<CompanyPageIntro>/);
+  assert.match(pageSource, /<CompanyPageTitle>認証<\/CompanyPageTitle>/);
+  assert.match(pageSource, /<CompanyPageLead>/);
   assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(pageSource, /<AipFreeTrialCtaSection \/>/);
   assert.match(pageSource, /\{certifications\.map\(\(item\) => \(/);
@@ -45,11 +45,14 @@ test("/certifications keeps authored copy and JSON card data in the route while 
 
   assert.match(sectionSource, /export type CertificationItem = \{/);
   assert.match(sectionSource, /id: string;/);
-  assert.match(sectionSource, /import \{ MarketingPageSection \} from "@\/components\/sections\/home\/primitives"/);
-  assert.match(sectionSource, /export function CertificationsPageSection[\s\S]*<MarketingPageSection className="pb-24 pt-\[100px\] lg:pb-28 lg:pt-\[130px\]"/);
-  assert.match(sectionSource, /export function CertificationsIntroSection\(/);
-  assert.match(sectionSource, /export function CertificationsTitle\(/);
-  assert.match(sectionSource, /export function CertificationsIntroDescription\(/);
+  assert.match(pageSource, /from "@\/components\/sections\/company\/page-primitives"/);
+  assert.match(pageSource, /<CompanyPageSection>/);
+  assert.match(pageSource, /<CompanyPageBodyLayout columns=\{1\}>/);
+  assert.doesNotMatch(sectionSource, /MarketingPageSection/);
+  assert.doesNotMatch(sectionSource, /export function CertificationsPageSection/);
+  assert.doesNotMatch(sectionSource, /export function CertificationsIntroSection/);
+  assert.doesNotMatch(sectionSource, /export function CertificationsTitle/);
+  assert.doesNotMatch(sectionSource, /export function CertificationsIntroDescription/);
   assert.match(sectionSource, /export function CertificationCard\(\{ title, description, src, alt, imageWidth, imageHeight, displayWidth, displayHeight \}: CertificationItem\)/);
   assert.match(sectionSource, /<Image[\s\S]*width=\{imageWidth\}[\s\S]*height=\{imageHeight\}/);
   assert.match(sectionSource, /style=\{\{ width: displayWidth, height: displayHeight \}\}/);

@@ -5,11 +5,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import {
   AboutUsBodyCopy,
   AboutUsHeroCopy,
-  AboutUsHeroHeading,
-  AboutUsHeroIntro,
   AboutUsHeroImage,
-  AboutUsHeroLayout,
-  AboutUsHeroSection,
   AboutUsInvestorLogo,
   AboutUsInvestorLogoRow,
   AboutUsLeaderCard,
@@ -26,6 +22,12 @@ import {
   AboutUsTimeline,
   AboutUsTimelineItem,
 } from "@/components/sections/about-us/section";
+import {
+  CompanyPageBodyLayout,
+  CompanyPageIntro,
+  CompanyPageSection,
+  CompanyPageTitle,
+} from "@/components/sections/company/page-primitives";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
@@ -47,41 +49,41 @@ export default function AboutUsPage() {
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
-      <AboutUsHeroSection>
-        <AboutUsHeroIntro>
+      <CompanyPageSection>
+        <CompanyPageIntro>
           <RevealOnScroll>
-            <AboutUsHeroHeading>
+            <CompanyPageTitle>
               エンタープライズAIを、すべての企業に
               <br />
               90%のコスト削減、妥協なしのパフォーマンス
-            </AboutUsHeroHeading>
+            </CompanyPageTitle>
+          </RevealOnScroll>
+        </CompanyPageIntro>
+
+        <CompanyPageBodyLayout columns={2} layoutPreset="about-us">
+          <RevealOnScroll>
+            <AboutUsHeroCopy>
+              <AboutUsBodyCopy>
+                QueryPie AIは、他社が解決できない課題、すなわち、莫大なコスト、セキュリティリスク、イノベーションを妨げる複雑さを解決することで、企業のAI活用方法を変革します。
+              </AboutUsBodyCopy>
+              <AboutUsBodyCopy>
+                2017年にシリコンバレーで創業して以来、QueryPie AIはデータ保護のリーダーから、包括的なAIプラットフォームへと進化しました。
+              </AboutUsBodyCopy>
+              <AboutUsBodyCopy>
+                カスタムエージェント、一元管理、従量課金モデルを提供し、月額40〜80ドルのサブスクリプションを90%コスト削減して置き換えます。
+              </AboutUsBodyCopy>
+              <AboutUsBodyCopy>
+                その結果、誰もが利用できるエンタープライズグレードのAIを実現しました。
+                最先端のAIと合理的な予算、その両立が可能であることを証明しています。
+              </AboutUsBodyCopy>
+            </AboutUsHeroCopy>
           </RevealOnScroll>
 
-          <AboutUsHeroLayout>
-            <RevealOnScroll>
-              <AboutUsHeroCopy>
-                <AboutUsBodyCopy>
-                  QueryPie AIは、他社が解決できない課題、すなわち、莫大なコスト、セキュリティリスク、イノベーションを妨げる複雑さを解決することで、企業のAI活用方法を変革します。
-                </AboutUsBodyCopy>
-                <AboutUsBodyCopy>
-                  2017年にシリコンバレーで創業して以来、QueryPie AIはデータ保護のリーダーから、包括的なAIプラットフォームへと進化しました。
-                </AboutUsBodyCopy>
-                <AboutUsBodyCopy>
-                  カスタムエージェント、一元管理、従量課金モデルを提供し、月額40〜80ドルのサブスクリプションを90%コスト削減して置き換えます。
-                </AboutUsBodyCopy>
-                <AboutUsBodyCopy>
-                  その結果、誰もが利用できるエンタープライズグレードのAIを実現しました。
-                  最先端のAIと合理的な予算、その両立が可能であることを証明しています。
-                </AboutUsBodyCopy>
-              </AboutUsHeroCopy>
-            </RevealOnScroll>
-
-            <RevealOnScroll delayMs={120}>
-              <AboutUsHeroImage />
-            </RevealOnScroll>
-          </AboutUsHeroLayout>
-        </AboutUsHeroIntro>
-      </AboutUsHeroSection>
+          <RevealOnScroll delayMs={120}>
+            <AboutUsHeroImage />
+          </RevealOnScroll>
+        </CompanyPageBodyLayout>
+      </CompanyPageSection>
 
       <AboutUsSection className="mx-auto max-w-[1200px] px-6 pb-[92px] pt-[94px] lg:px-0">
         <RevealOnScroll>

@@ -2,8 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRight, ExternalLink } from "lucide-react";
-import { MarketingPageSection } from "@/components/sections/home/primitives";
-import { companyBodyTextClassName } from "@/components/ui/text-tokens";
 
 export type CertificationItem = {
   id: string;
@@ -16,22 +14,6 @@ export type CertificationItem = {
   displayWidth: string;
   displayHeight: string;
 };
-
-export function CertificationsPageSection({ children }: { children: ReactNode }) {
-  return <MarketingPageSection className="pb-24 pt-[100px] lg:pb-28 lg:pt-[130px]">{children}</MarketingPageSection>;
-}
-
-export function CertificationsIntroSection({ children }: { children: ReactNode }) {
-  return <div className="flex flex-col gap-[50px] text-left">{children}</div>;
-}
-
-export function CertificationsTitle({ children }: { children: ReactNode }) {
-  return <h1 className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">{children}</h1>;
-}
-
-export function CertificationsIntroDescription({ children }: { children: ReactNode }) {
-  return <div className={companyBodyTextClassName}>{children}</div>;
-}
 
 export function CertificationsGrid({ children }: { children: ReactNode }) {
   return <div className="mt-[44px] grid gap-x-7 gap-y-9 md:grid-cols-2 xl:grid-cols-3">{children}</div>;

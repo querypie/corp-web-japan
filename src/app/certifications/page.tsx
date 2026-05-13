@@ -5,13 +5,16 @@ import {
   CertificationCard,
   type CertificationItem,
   CertificationsGrid,
-  CertificationsIntroDescription,
-  CertificationsIntroSection,
-  CertificationsPageSection,
-  CertificationsTitle,
   CertificationsTrustCenterAction,
   CertificationsTrustCenterSection,
 } from "@/components/sections/certifications/section";
+import {
+  CompanyPageBodyLayout,
+  CompanyPageIntro,
+  CompanyPageLead,
+  CompanyPageSection,
+  CompanyPageTitle,
+} from "@/components/sections/company/page-primitives";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
@@ -176,10 +179,10 @@ export default function CertificationsPage() {
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
-      <CertificationsPageSection>
-        <CertificationsIntroSection>
-          <CertificationsTitle>認証</CertificationsTitle>
-          <CertificationsIntroDescription>
+      <CompanyPageSection>
+        <CompanyPageIntro>
+          <CompanyPageTitle>認証</CompanyPageTitle>
+          <CompanyPageLead>
             <p>
               QueryPie AIは、数々の最高レベルの国際および国内セキュリティ認証を取得しています。
               <br />
@@ -187,20 +190,22 @@ export default function CertificationsPage() {
               <br />
               お客様のデータを、最高水準のセキュリティで保護することをお約束します。
             </p>
-          </CertificationsIntroDescription>
-        </CertificationsIntroSection>
+          </CompanyPageLead>
+        </CompanyPageIntro>
 
-        <CertificationsGrid>
-          {certifications.map((item) => (
-            <CertificationCard key={item.id} {...item} />
-          ))}
-        </CertificationsGrid>
+        <CompanyPageBodyLayout columns={1}>
+          <CertificationsGrid>
+            {certifications.map((item) => (
+              <CertificationCard key={item.id} {...item} />
+            ))}
+          </CertificationsGrid>
 
-        <CertificationsTrustCenterSection>
-          <h2 className="text-[37.5px] font-normal leading-[45px] text-slate-950">セキュリティ対策とコンプライアンスの詳細情報</h2>
-          <CertificationsTrustCenterAction href="https://trust.querypie.com">Trust Center を見る</CertificationsTrustCenterAction>
-        </CertificationsTrustCenterSection>
-      </CertificationsPageSection>
+          <CertificationsTrustCenterSection>
+            <h2 className="text-[37.5px] font-normal leading-[45px] text-slate-950">セキュリティ対策とコンプライアンスの詳細情報</h2>
+            <CertificationsTrustCenterAction href="https://trust.querypie.com">Trust Center を見る</CertificationsTrustCenterAction>
+          </CertificationsTrustCenterSection>
+        </CompanyPageBodyLayout>
+      </CompanyPageSection>
 
       <AipFreeTrialCtaSection />
 
