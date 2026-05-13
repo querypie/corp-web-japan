@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { companyBodyTextClassName } from "@/components/ui/text-tokens";
+import { cn } from "@/lib/utils";
 
 type CompanyPageSectionPadding = "default" | "compactHero" | "compactFooter";
 
@@ -24,10 +25,11 @@ export function CompanyPageSection({ children, padding = "default" }: CompanyPag
 
 type CompanyPageIntroProps = {
   children: ReactNode;
+  className?: string;
 };
 
-export function CompanyPageIntro({ children }: CompanyPageIntroProps) {
-  return <div className="flex flex-col gap-[50px] text-left">{children}</div>;
+export function CompanyPageIntro({ children, className }: CompanyPageIntroProps) {
+  return <div className={cn("flex flex-col gap-[50px] text-left", className)}>{children}</div>;
 }
 
 type CompanyPageTitleProps = {
