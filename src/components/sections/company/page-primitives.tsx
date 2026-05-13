@@ -9,7 +9,7 @@ type CompanyPageSectionProps = {
 };
 
 const companyPageSectionPaddingClassNames = {
-  default: "pb-[96px] pt-[100px] lg:pb-[120px] lg:pt-[130px]",
+  default: "pb-[96px] pt-[100px] lg:pb-[80px] lg:pt-[130px]",
   compactHero: "pb-[84px] pt-[100px] lg:pb-[84px] lg:pt-[130px]",
   compactFooter: "pb-[78px] pt-[100px] lg:pb-[78px] lg:pt-[130px]",
 } satisfies Record<CompanyPageSectionPadding, string>;
