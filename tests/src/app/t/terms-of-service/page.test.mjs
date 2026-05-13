@@ -3,9 +3,8 @@ import assert from "node:assert/strict";
 import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
 const pagePath = "src/app/t/terms-of-service/page.tsx";
-
 const sectionPath = "src/components/sections/terms-of-service/section.tsx";
-
+const legalMdxPath = "src/components/sections/legal/mdx.tsx";
 
 test("terms of service page derives metadata and hero copy from content.mdx frontmatter", () => {
   assert.equal(sourceExists(pagePath), true, `${pagePath} should exist`);
@@ -31,6 +30,7 @@ test("terms of service page keeps title, description, and date in content.mdx fr
   const footerSource = readSource("src/components/layout/site-footer.tsx");
   const contentSource = readSource("src/app/t/terms-of-service/content.mdx");
   const sectionSource = readSource(sectionPath);
+  const legalMdxSource = readSource(legalMdxPath);
 
   assert.equal(sourceExists("src/app/t/terms-of-service/content.mdx"), true, "terms of service MDX content file should exist");
   assert.match(contentSource, /^---\ntitle: "QueryPie Terms of Service"\ndescription: "Terms of service for QueryPie AIP/m);
@@ -43,8 +43,13 @@ test("terms of service page keeps title, description, and date in content.mdx fr
   assert.doesNotMatch(contentSource, /まずは小さく、失敗しないAXを始めよう/);
   assert.match(sectionSource, /export async function renderTermsOfServiceContent\(\)/);
   assert.match(sectionSource, /parseFrontmatter: true,/);
+  assert.match(sectionSource, /buildLegalDocumentMdxComponents\(\)/);
   assert.match(sectionSource, /<LegalDocumentHeader divider>/);
   assert.match(sectionSource, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>/);
   assert.match(sectionSource, /<LegalDocumentBody className="\[&_h1:first-child\]:mt-0">\{content\}<\/LegalDocumentBody>/);
+  assert.match(sectionSource, /export function TermsOfServiceHero/);
+  assert.match(sectionSource, /export function TermsOfServiceBody/);
+  assert.doesNotMatch(sectionSource, /function TermsMdxLink/);
+  assert.match(legalMdxSource, /export function buildLegalDocumentMdxComponents\(\)/);
   assert.match(footerSource, /label: "利用規約", href: t\("\/terms-of-service", previewModeEnabled\)/);
 });

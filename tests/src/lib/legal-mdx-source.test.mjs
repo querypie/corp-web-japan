@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readSource } from "../../helpers/source-readers.mjs";
 
 const legalMdxSourcePath = "src/lib/legal-mdx-source.ts";
+const legalMdxComponentsPath = "src/components/sections/legal/mdx.tsx";
 const termsSourcePath = "src/components/sections/terms-of-service/section.tsx";
 const eulaSourcePath = "src/app/t/eula/page.tsx";
 const privacyVersionPagePath = "src/app/t/privacy-policy/[slug]/page.tsx";
@@ -11,6 +12,7 @@ const privacyRecordsPath = "src/lib/privacy-policy/records.ts";
 
 test("legal MDX routes share a cached source reader like publication loaders", () => {
   const helperSource = readSource(legalMdxSourcePath);
+  const legalMdxComponentsSource = readSource(legalMdxComponentsPath);
   const termsSource = readSource(termsSourcePath);
   const eulaSource = readSource(eulaSourcePath);
   const privacyVersionPageSource = readSource(privacyVersionPagePath);
@@ -21,17 +23,25 @@ test("legal MDX routes share a cached source reader like publication loaders", (
   assert.match(helperSource, /const cachedSource = legalMdxSourceCache\.get\(sourcePath\);/);
   assert.match(helperSource, /legalMdxSourceCache\.set\(sourcePath, sourcePromise\);/);
 
-  assert.match(termsSource, /import \{ cache, isValidElement \} from "react";/);
+  assert.match(legalMdxComponentsSource, /export function buildLegalDocumentMdxComponents\(\)/);
+  assert.match(legalMdxComponentsSource, /export function LegalBodyH1/);
+  assert.match(legalMdxComponentsSource, /export function LegalBodyH2/);
+  assert.match(legalMdxComponentsSource, /export function LegalBodyH3/);
+
+  assert.match(termsSource, /import \{ cache \} from "react";/);
   assert.match(termsSource, /readCachedLegalMdxSource\(sourcePath\)/);
   assert.match(termsSource, /const renderTermsOfServiceContentCached = cache\(async function renderTermsOfServiceContentCached\(\)/);
+  assert.match(termsSource, /buildLegalDocumentMdxComponents\(\)/);
 
-  assert.match(eulaSource, /import \{ cache, isValidElement \} from "react";/);
+  assert.match(eulaSource, /import \{ cache \} from "react";/);
   assert.match(eulaSource, /readCachedLegalMdxSource\(sourcePath\)/);
   assert.match(eulaSource, /const renderEulaMdx = cache\(async function renderEulaMdx\(\)/);
+  assert.match(eulaSource, /buildLegalDocumentMdxComponents\(\)/);
+  assert.doesNotMatch(eulaSource, /function EulaMdxLink/);
   assert.doesNotMatch(eulaSource, /renderEulaPreviewMdx/);
 
   assert.match(privacyVersionPageSource, /const renderPrivacyPolicyVersion = cache\(async function renderPrivacyPolicyVersion\(slug: string\)/);
-  assert.match(privacyDocumentBodyComponentsSource, /export function buildPrivacyPolicyDocumentComponents\(/);
+  assert.match(privacyDocumentBodyComponentsSource, /return buildLegalDocumentMdxComponents\(\);/);
 });
 
 test("privacy policy version discovery is cached alongside MDX reads", () => {

@@ -72,9 +72,10 @@ test("privacy policy preview scans shared content filenames instead of keeping a
   assert.doesNotMatch(versionPageSource, /function PrivacyPolicyLanguageSelector/);
   assert.doesNotMatch(versionPageSource, /function PrivacySelectorBox/);
 
-  assert.match(documentBodyComponentsSource, /export function LegalBodyH1/);
-  assert.match(documentBodyComponentsSource, /export function PrivacyMdxLink/);
-  assert.match(documentBodyComponentsSource, /export function buildPrivacyPolicyDocumentComponents\(/);
+  assert.match(documentBodyComponentsSource, /buildLegalDocumentMdxComponents\(\)/);
+  assert.match(documentBodyComponentsSource, /buildPrivacyPolicyDocumentComponents\(\)/);
+  assert.doesNotMatch(documentBodyComponentsSource, /export function LegalBodyH1/);
+  assert.doesNotMatch(documentBodyComponentsSource, /export function PrivacyMdxLink/);
   assert.match(documentHeaderControlsSource, /export function PrivacySelectorBox/);
   assert.match(documentHeaderControlsSource, /export function PrivacyPolicyLanguageSelector/);
 
