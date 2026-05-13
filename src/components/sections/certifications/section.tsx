@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRight, ExternalLink } from "lucide-react";
+import { MarketingPageSection } from "@/components/sections/home/primitives";
 
 export type CertificationItem = {
   id: string;
@@ -16,7 +17,7 @@ export type CertificationItem = {
 };
 
 export function CertificationsPageSection({ children }: { children: ReactNode }) {
-  return <section className="mx-auto max-w-[1200px] px-6 pb-24 pt-[112px] lg:pb-28 lg:pt-[144px] lg:px-0">{children}</section>;
+  return <MarketingPageSection className="pb-24 pt-[112px] lg:pb-28 lg:pt-[144px]">{children}</MarketingPageSection>;
 }
 
 export function CertificationsIntroSection({ children }: { children: ReactNode }) {

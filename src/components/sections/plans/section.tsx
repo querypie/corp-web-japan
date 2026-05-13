@@ -12,6 +12,7 @@ import {
   useState,
 } from "react";
 import { Check, Minus } from "lucide-react";
+import { MarketingPageSection } from "@/components/sections/home/primitives";
 
 type PricingContextValue = {
   activeTab: string;
@@ -43,7 +44,11 @@ function usePricingContext() {
 }
 
 export function PlansPageSection({ children }: { children: ReactNode }) {
-  return <section className="mx-auto flex w-full max-w-[1200px] flex-col px-6 pb-24 pt-[72px] sm:pb-28 lg:px-8 xl:px-0">{children}</section>;
+  return (
+    <MarketingPageSection className="pb-24 pt-[72px] sm:pb-28 lg:px-8 xl:px-0" contentClassName="flex flex-col">
+      {children}
+    </MarketingPageSection>
+  );
 }
 
 export function PricingRoot({ children }: { children: ReactNode }) {
