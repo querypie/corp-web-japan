@@ -1,9 +1,7 @@
 import { join } from "node:path";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { evaluate } from "next-mdx-remote-client/rsc";
 import { cache } from "react";
-import remarkGfm from "remark-gfm";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
@@ -16,14 +14,11 @@ import {
 import { PrivacyPolicyVersionSelector } from "@/components/sections/privacy-policy/version-selector";
 import {
   LegalDocumentBody,
-  LegalDocumentDescription,
-  LegalDocumentHeader,
-  LegalDocumentMeta,
+  LegalDocumentHero,
   LegalDocumentPageSection,
-  LegalDocumentTitle,
 } from "@/components/sections/legal/document";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
-import { readCachedLegalMdxSource } from "@/lib/legal-mdx-source";
+import { renderLegalMdx } from "@/lib/legal-mdx-source";
 import {
   hasPrivacyPolicySlug,
   listPrivacyPolicySlugs,
@@ -49,17 +44,9 @@ const renderPrivacyPolicyVersion = cache(async function renderPrivacyPolicyVersi
   }
 
   const sourcePath = join(process.cwd(), "src/content/privacy-policy", `${slug}.mdx`);
-  const source = await readCachedLegalMdxSource(sourcePath);
-
-  return evaluate<PrivacyPolicyFrontmatter>({
-    source,
+  return renderLegalMdx<PrivacyPolicyFrontmatter>({
+    sourcePath,
     components: buildPrivacyPolicyDocumentComponents(),
-    options: {
-      parseFrontmatter: true,
-      mdxOptions: {
-        remarkPlugins: [remarkGfm],
-      },
-    },
   });
 });
 
@@ -101,17 +88,17 @@ export async function renderPrivacyPolicyVersionPage(slug: string) {
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <LegalDocumentPageSection>
-        <LegalDocumentHeader className="flex flex-col gap-4">
-          <div className="flex flex-col gap-3">
-            <LegalDocumentMeta>Effective date: {frontmatter.date}</LegalDocumentMeta>
-            <LegalDocumentTitle variant="compact">{frontmatter.title}</LegalDocumentTitle>
-            <LegalDocumentDescription>{frontmatter.description}</LegalDocumentDescription>
-          </div>
+        <LegalDocumentHero
+          meta={`Effective date: ${frontmatter.date}`}
+          title={frontmatter.title}
+          titleVariant="compact"
+          description={frontmatter.description}
+        >
           <PrivacySelectorBox>
             <PrivacyPolicyLanguageSelector language="en" />
             <PrivacyPolicyVersionSelector currentSlug={frontmatter.version} slugs={slugs} />
           </PrivacySelectorBox>
-        </LegalDocumentHeader>
+        </LegalDocumentHero>
         <LegalDocumentBody className="[&_h2:first-child]:mt-0">{evaluation.content}</LegalDocumentBody>
       </LegalDocumentPageSection>
       <AipFreeTrialCtaSection />

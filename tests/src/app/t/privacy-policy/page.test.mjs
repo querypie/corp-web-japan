@@ -9,6 +9,8 @@ const versionPagePath = "src/app/t/privacy-policy/[slug]/page.tsx";
 const selectorPath = "src/components/sections/privacy-policy/version-selector.tsx";
 const documentBodyComponentsPath = "src/components/sections/privacy-policy/document-body-components.tsx";
 const documentHeaderControlsPath = "src/components/sections/privacy-policy/document-header-controls.tsx";
+const legalDocumentPath = "src/components/sections/legal/document.tsx";
+const legalMdxSourcePath = "src/lib/legal-mdx-source.ts";
 const sourcesPath = "src/lib/privacy-policy/records.ts";
 
 const expectedVersionSlugs = [
@@ -50,24 +52,30 @@ test("privacy policy route keeps latest alias page and version detail route with
   assert.match(versionPageSource, /<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/);
 });
 
-test("privacy policy preview scans shared content filenames instead of keeping a duplicated versions registry", () => {
+test("privacy policy preview scans shared content filenames and uses the shared legal document contract", () => {
   const versionPageSource = readSource(versionPagePath);
   const documentBodyComponentsSource = readSource(documentBodyComponentsPath);
   const documentHeaderControlsSource = readSource(documentHeaderControlsPath);
   const selectorSource = readSource(selectorPath);
+  const legalDocumentSource = readSource(legalDocumentPath);
+  const legalMdxHelperSource = readSource(legalMdxSourcePath);
   const sourcesSource = readSource(sourcesPath);
   const footerSource = readSource("src/components/layout/site-footer.tsx");
 
-  assert.match(versionPageSource, /parseFrontmatter: true/);
+  assert.match(versionPageSource, /renderLegalMdx<PrivacyPolicyFrontmatter>\(\{/);
   assert.match(versionPageSource, /src\/content\/privacy-policy", `\$\{slug\}\.mdx`/);
+  assert.match(versionPageSource, /components: buildPrivacyPolicyDocumentComponents\(\),/);
   assert.match(versionPageSource, /from "@\/components\/sections\/legal\/document"/);
   assert.match(versionPageSource, /hasPrivacyPolicySlug\(slug\)/);
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
   assert.match(versionPageSource, /<PrivacyPolicyLanguageSelector language="en" \/>/);
   assert.match(versionPageSource, /<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/);
-  assert.match(versionPageSource, /<LegalDocumentHeader className="flex flex-col gap-4">/);
+  assert.match(versionPageSource, /<LegalDocumentHero/);
+  assert.match(versionPageSource, /meta=\{`Effective date: \$\{frontmatter\.date\}`\}/);
+  assert.match(versionPageSource, /title=\{frontmatter\.title\}/);
+  assert.match(versionPageSource, /titleVariant="compact"/);
+  assert.match(versionPageSource, /description=\{frontmatter\.description\}/);
   assert.match(versionPageSource, /<LegalDocumentBody className="\[&_h2:first-child\]:mt-0">\{evaluation\.content\}<\/LegalDocumentBody>/);
-  assert.match(versionPageSource, /Effective date: \{frontmatter\.date\}/);
   assert.doesNotMatch(versionPageSource, /function PrivacyMdxLink/);
   assert.doesNotMatch(versionPageSource, /function PrivacyPolicyLanguageSelector/);
   assert.doesNotMatch(versionPageSource, /function PrivacySelectorBox/);
@@ -78,6 +86,9 @@ test("privacy policy preview scans shared content filenames instead of keeping a
   assert.doesNotMatch(documentBodyComponentsSource, /export function PrivacyMdxLink/);
   assert.match(documentHeaderControlsSource, /export function PrivacySelectorBox/);
   assert.match(documentHeaderControlsSource, /export function PrivacyPolicyLanguageSelector/);
+  assert.match(legalDocumentSource, /export function LegalDocumentHero/);
+  assert.match(legalMdxHelperSource, /export async function renderLegalMdx<Frontmatter extends Record<string, unknown>>/);
+  assert.match(legalMdxHelperSource, /parseFrontmatter: true,/);
 
   assert.match(selectorSource, /window\.location\.assign\(`\/t\/privacy-policy\/\$\{nextSlug\}`\)/);
   assert.match(footerSource, /label: "プライバシーポリシー", href: t\("\/privacy-policy", previewModeEnabled\)/);
@@ -104,12 +115,12 @@ test("privacy policy preview migrates every upstream English version into src/co
 
   for (const slug of expectedVersionSlugs) {
     const contentSource = readSource(`src/content/privacy-policy/${slug}.mdx`);
-    assert.match(contentSource, new RegExp(`date: \"${slug}\"`));
-    assert.match(contentSource, new RegExp(`version: \"${slug}\"`));
+    assert.match(contentSource, new RegExp(`date: "${slug}"`));
+    assert.match(contentSource, new RegExp(`version: "${slug}"`));
     assert.doesNotMatch(contentSource, /PrivacyPolicyVersionSelector/);
     assert.doesNotMatch(contentSource, /PrivacyPolicyLanguageSelector/);
     assert.doesNotMatch(contentSource, /Korean/);
     assert.doesNotMatch(contentSource, /English/);
-    assert.doesNotMatch(contentSource, /StaticH3 as=\"h1\"/);
+    assert.doesNotMatch(contentSource, /StaticH3 as="h1"/);
   }
 });
