@@ -47,7 +47,7 @@ test("/certifications keeps authored copy and JSON card data in the route while 
   assert.match(sectionSource, /id: string;/);
   assert.match(pageSource, /from "@\/components\/sections\/company\/page-primitives"/);
   assert.match(pageSource, /<CompanyPageSection>/);
-  assert.match(pageSource, /<CompanyPageBodyLayout columns=\{1\}>/);
+  assert.match(pageSource, /<CompanyPageLayout>/);
   assert.doesNotMatch(sectionSource, /MarketingPageSection/);
   assert.doesNotMatch(sectionSource, /export function CertificationsPageSection/);
   assert.doesNotMatch(sectionSource, /export function CertificationsIntroSection/);

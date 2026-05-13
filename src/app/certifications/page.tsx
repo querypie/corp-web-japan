@@ -9,7 +9,7 @@ import {
   CertificationsTrustCenterSection,
 } from "@/components/sections/certifications/section";
 import {
-  CompanyPageBodyLayout,
+  CompanyPageLayout,
   CompanyPageIntro,
   CompanyPageLead,
   CompanyPageSection,
@@ -193,7 +193,7 @@ export default function CertificationsPage() {
           </CompanyPageLead>
         </CompanyPageIntro>
 
-        <CompanyPageBodyLayout columns={1}>
+        <CompanyPageLayout>
           <CertificationsGrid>
             {certifications.map((item) => (
               <CertificationCard key={item.id} {...item} />
@@ -204,7 +204,7 @@ export default function CertificationsPage() {
             <h2 className="text-[37.5px] font-normal leading-[45px] text-slate-950">セキュリティ対策とコンプライアンスの詳細情報</h2>
             <CertificationsTrustCenterAction href="https://trust.querypie.com">Trust Center を見る</CertificationsTrustCenterAction>
           </CertificationsTrustCenterSection>
-        </CompanyPageBodyLayout>
+        </CompanyPageLayout>
       </CompanyPageSection>
 
       <AipFreeTrialCtaSection />

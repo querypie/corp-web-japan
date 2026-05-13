@@ -18,7 +18,7 @@ test("/contact-us is the public form page and keeps production-ready form wiring
   assert.match(page, /<CompanyPageIntro>/);
   assert.match(page, /<CompanyPageTitle>お問い合わせ<\/CompanyPageTitle>/);
   assert.match(page, /<CompanyPageLead>/);
-  assert.match(page, /<CompanyPageBodyLayout columns=\{2\} layoutPreset="equal">/);
+  assert.match(page, /<CompanyPageLayout preset="equalColumns">/);
   assert.match(page, /<ContactUsFormPanel>/);
   assert.match(page, /<ContactUsForm initialPrefills=\{initialPrefills\} \/>/);
   assert.match(page, /お問い合わせ/);

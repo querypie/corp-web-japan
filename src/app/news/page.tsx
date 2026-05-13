@@ -4,7 +4,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { NewsArticleLoadMore } from "@/components/sections/news/list-load-more";
 import { NewsListSection } from "@/components/sections/news/page-section";
 import {
-  CompanyPageBodyLayout,
+  CompanyPageLayout,
   CompanyPageIntro,
   CompanyPageLead,
   CompanyPageSection,
@@ -48,7 +48,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
             QueryPie AIの公式発表、プレスリリース、メディア掲載情報を集約し、事業や製品に関する最新ニュースをお届けします。
           </CompanyPageLead>
         </CompanyPageIntro>
-        <CompanyPageBodyLayout columns={1}>
+        <CompanyPageLayout>
           <NewsListSection>
             <NewsArticleLoadMore
               key={`news:${initialVisibleCount}`}
@@ -56,7 +56,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
               initialVisibleCount={initialVisibleCount}
             />
           </NewsListSection>
-        </CompanyPageBodyLayout>
+        </CompanyPageLayout>
       </CompanyPageSection>
 
       <AipFreeTrialCtaSection />
