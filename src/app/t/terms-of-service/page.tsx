@@ -36,7 +36,7 @@ export default async function TermsOfServicePage() {
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[120px] pt-[112px] lg:px-[30px] lg:pb-[160px] lg:pt-[144px]">
-        <div className="mx-auto max-w-[920px]">
+        <div className="mx-auto max-w-[1200px]">
           <TermsOfServiceHero frontmatter={frontmatter} />
           <TermsOfServiceBody content={evaluation.content} />
         </div>

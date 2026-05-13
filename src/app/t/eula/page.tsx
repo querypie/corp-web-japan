@@ -133,8 +133,8 @@ export default async function EulaPage() {
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
-      <section className="bg-white px-[30px] pb-[200px] pt-20">
-        <div className="mx-auto max-w-[920px]">
+      <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[120px] pt-[112px] lg:px-[30px] lg:pb-[160px] lg:pt-[144px]">
+        <div className="mx-auto max-w-[1200px]">
           <LegalPageTitle>End User License Agreement</LegalPageTitle>
           <div className={legalBodyClassName}>{evaluation.content}</div>
         </div>
