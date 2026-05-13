@@ -70,7 +70,6 @@ test("internal, preview, and whitepaper pdf-only routes stay non-indexable", () 
     "src/app/t/services/acp/page.tsx",
     "src/app/t/services/aip/page.tsx",
     "src/app/t/services/fde/page.tsx",
-    "src/app/t/solutions/aip/fde-services/page.tsx",
     "src/app/t/solutions/aip/usage-based-llm/page.tsx",
     "src/app/t/terms-of-service/page.tsx",
     "src/app/whitepapers/[id]/[slug]/pdf/page.tsx",
