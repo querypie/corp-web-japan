@@ -19,7 +19,7 @@ test("header exposes the preview toggle UI and preview-navigation API route agai
 test("footer keeps the preview-only Internal section when preview mode is enabled", () => {
   const footer = readSource("src/components/layout/site-footer.tsx");
 
-  assert.match(footer, /previewModeEnabled\s*\?\s*\[internalFooterColumn\]/);
+  assert.match(footer, /previewModeEnabled\s*\?\s*\[(?:internalFooterColumn|\{\s*\.\.\.internalFooterColumn,\s*mobileLayout:\s*"single"\s+as\s+const\s*\})\]/);
   assert.match(footer, /title:\s*"Internal"/);
   assert.match(footer, /label:\s*"Internal Hub"/);
   assert.match(footer, /label:\s*"Whitepaper Gating Demo"/);
