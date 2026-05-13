@@ -4,6 +4,7 @@ import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
 test("/contact-us is the public form page and keeps production-ready form wiring", () => {
   const page = readSource("src/app/contact-us/page.tsx");
+  const pageSection = readSource("src/components/sections/contact-us/page-section.tsx");
   const formComponent = readSource("src/components/sections/contact-us/form.tsx");
   const contactUsLib = readSource("src/lib/contact-us.ts");
 
@@ -23,6 +24,8 @@ test("/contact-us is the public form page and keeps production-ready form wiring
   assert.match(page, /<ContactUsForm initialPrefills=\{initialPrefills\} \/>/);
   assert.match(page, /お問い合わせ/);
   assert.match(page, /1〜2営業日以内にご連絡いたします/);
+
+  assert.match(pageSection, /lg:mt-\[10px\]/);
 
   assert.match(formComponent, /fetch\("\/contact-us\/submit"/);
   assert.doesNotMatch(formComponent, /fetch\("\/t\/contact-us\/submit"/);

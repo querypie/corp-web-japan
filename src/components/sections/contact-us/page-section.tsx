@@ -11,7 +11,7 @@ export function ContactUsChecklistItem({ children }: { children: ReactNode }) {
 
 export function ContactUsFormPanel({ children }: { children: ReactNode }) {
   return (
-    <div className="rounded-[12px] border border-[#E5E7EB] bg-white px-6 py-8 shadow-[0_2px_12px_rgba(0,0,0,0.06)] lg:px-10 lg:py-9">
+    <div className="rounded-[12px] border border-[#E5E7EB] bg-white px-6 py-8 shadow-[0_2px_12px_rgba(0,0,0,0.06)] lg:mt-[10px] lg:px-10 lg:py-9">
       {children}
     </div>
   );
