@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { MarketingSectionIntro, MarketingSurface } from "@/components/sections/marketing-section-primitives";
+import { MarketingSectionIntro, MarketingSurface } from "@/components/sections/home/primitives";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 
 export function SecuritySection({ children }: { children: ReactNode }) {

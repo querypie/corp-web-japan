@@ -8,7 +8,7 @@ import {
   MarketingIconFrame,
   MarketingPill,
   MarketingSurface,
-} from "@/components/sections/marketing-section-primitives";
+} from "@/components/sections/home/primitives";
 import { cn } from "@/lib/utils";
 
 type Tone = "crew" | "dashi";
