@@ -10,6 +10,7 @@ test("internal hub page exists and links to each internal demo route", () => {
     "src/app/internal/mdx-list-demo/page.tsx",
     "src/app/internal/events-demo/page.tsx",
     "src/app/internal/load-more/page.tsx",
+    "src/app/internal/demo-sections/page.tsx",
   ];
 
   assert.equal(existsSync(new URL(`../${file}`, import.meta.url)), true, `${file} should exist`);
@@ -32,4 +33,5 @@ test("internal hub page exists and links to each internal demo route", () => {
   assert.match(source, /\/internal\/mdx-list-demo/);
   assert.match(source, /\/internal\/events-demo/);
   assert.match(source, /\/internal\/load-more/);
+  assert.match(source, /\/internal\/demo-sections/);
 });
