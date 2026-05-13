@@ -4,12 +4,12 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { FeaturedEventHero } from "@/components/sections/events/hero";
 import { InternalEventsDemoEmptyState } from "@/components/sections/events/empty-state";
 import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
+import { ResourceListLoadMore } from "@/components/sections/resource-list-load-more";
 import {
   ResourceListContentSection,
   ResourceListHeroDescription,
   ResourceListHeroSection,
   ResourceListHeroTitle,
-  ResourceListItems,
   ResourceListSectionDescription,
   ResourceListSectionEyebrow,
   ResourceListSectionHeading,
@@ -17,6 +17,7 @@ import {
   ResourceListSectionTitleRow,
 } from "@/components/sections/resource-list-section";
 import { resolveEventTimeline } from "@/lib/publications/events/records";
+import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
 export const metadata: Metadata = {
   title: "イベント | QueryPie AI",
@@ -33,12 +34,14 @@ export const metadata: Metadata = {
 type EventsPageProps = {
   searchParams?: Promise<{
     asof?: string | string[];
+    until?: string | string[];
   }>;
 };
 
 export default async function EventsPage({ searchParams }: EventsPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const { heroEvent, pastEvents } = resolveEventTimeline(resolvedSearchParams?.asof);
+  const initialVisibleCount = resolveResourceListVisibleCount(pastEvents, resolvedSearchParams?.until);
 
   return (
     <main className="relative bg-white text-slate-950">
@@ -82,7 +85,11 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
               </ResourceListSectionTitleRow>
             </ResourceListSectionHeading>
 
-            <ResourceListItems items={pastEvents} />
+            <ResourceListLoadMore
+              key={`events:${initialVisibleCount}`}
+              items={pastEvents}
+              initialVisibleCount={initialVisibleCount}
+            />
           </section>
         </div>
       </ResourceListContentSection>

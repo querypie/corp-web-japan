@@ -13,6 +13,12 @@ test("resource preview loaders are split into an abstract base plus category-spe
   assert.match(basePublication, /export abstract class BaseResourcePublicationRepository/);
   assert.match(basePostLoader, /export abstract class BaseResourcePublicationPostLoader/);
   assert.match(previewItems, /listResourcePreviewItems/);
+  assert.match(previewItems, /withResourceListIds\("introduction-deck", listIntroductionDeckPublicationItems\(\)\)/);
+  assert.match(previewItems, /withResourceListIds\("glossary", listGlossaryPublicationItems\(\)\)/);
+  assert.match(previewItems, /withResourceListIds\("manuals", listManualPublicationItems\(\)\)/);
+  assert.match(previewItems, /withResourceListIds\("whitepapers", getResourceItems\("whitepaper"\)\)/);
+  assert.match(previewItems, /withResourceListIds\("blog", getResourceItems\("blog"\)\)/);
+  assert.match(previewItems, /id: `\$\{prefix\}:\$\{item\.id\}`/);
   assert.match(previewItems, /listManualPreviewItems/);
   assert.doesNotMatch(previewItems, /documentation-publications/);
   assert.match(introPublications, /extends BaseResourcePublicationRepository/);

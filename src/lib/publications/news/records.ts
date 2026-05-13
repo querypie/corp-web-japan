@@ -21,6 +21,7 @@ export type NewsPublicationFrontmatter = {
 export type NewsPublicationRecord = StandardPublicationRecord<NewsPublicationFrontmatter>;
 
 export type NewsPublicationListItem = {
+  id: string;
   href: string;
   imageSrc: string;
   badge: string;
@@ -77,6 +78,7 @@ const newsPublicationRepository = createStandardPublicationRecordsRepository<
   badge: "ニュース",
   normalizeFrontmatter: normalizeNewsPublicationFrontmatter,
   createListItem: (record, href) => ({
+    id: record.id,
     href,
     imageSrc: record.heroImageSrc,
     badge: "ニュース",

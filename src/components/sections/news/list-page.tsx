@@ -48,7 +48,7 @@ export function NewsArticleList({ items }: NewsArticleListProps) {
   return (
     <ul className="space-y-20 lg:space-y-[80px]">
       {items.map((item) => (
-        <li key={`${item.href}-${item.title}`}>
+        <li key={item.id}>
           <NewsCard item={item} />
         </li>
       ))}
