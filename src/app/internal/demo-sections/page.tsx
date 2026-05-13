@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import type { ComponentProps } from "react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { RoleSlides } from "@/components/sections/role-slides";
-import { UseCaseShowcase } from "@/components/sections/use-case-showcase";
+import { RoleSlides } from "@/components/sections/internal-demo/role-slides";
+import { UseCaseShowcase } from "@/components/sections/internal-demo/use-case-showcase";
 
 const roleSlidesDemoProps: ComponentProps<typeof RoleSlides> = {
   items: [
