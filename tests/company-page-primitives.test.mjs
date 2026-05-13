@@ -14,10 +14,11 @@ test("company page primitives define shared section, intro, title, lead, and lay
   assert.match(primitives, /export function CompanyPageLayout/);
 
   assert.match(primitives, /<div className="mx-auto w-full max-w-\[1200px\]">/);
-  assert.match(primitives, /type CompanyPageSectionPadding = "default" \| "compactHero"/);
+  assert.match(primitives, /type CompanyPageSectionPadding = "default" \| "compactHero" \| "compactFooter"/);
   assert.match(primitives, /padding\?: CompanyPageSectionPadding/);
   assert.match(primitives, /default: "pb-\[96px\] pt-\[100px\] lg:pb-\[120px\] lg:pt-\[130px\]"/);
   assert.match(primitives, /compactHero: "pb-\[84px\] pt-\[100px\] lg:pb-\[84px\] lg:pt-\[130px\]"/);
+  assert.match(primitives, /compactFooter: "pb-\[78px\] pt-\[100px\] lg:pb-\[78px\] lg:pt-\[130px\]"/);
   assert.match(primitives, /mx-auto w-full max-w-\[1920px\] bg-white px-\[30px\]/);
   assert.match(primitives, /flex flex-col gap-\[50px\] text-left/);
   assert.match(primitives, /text-\[40px\] font-medium leading-\[1\.2\] tracking-\[-0\.03em\] text-slate-950/);
