@@ -28,11 +28,11 @@ export function ContactUsLead({ children }: { children: ReactNode }) {
 }
 
 export function ContactUsChecklist({ children }: { children: ReactNode }) {
-  return <ul className="mt-8 grid gap-3 text-sm leading-6 text-slate-500">{children}</ul>;
+  return <ul className={`mt-8 list-disc space-y-3 pl-5 marker:text-slate-600 ${companyBodyTextClassName}`}>{children}</ul>;
 }
 
 export function ContactUsChecklistItem({ children }: { children: ReactNode }) {
-  return <li>• {children}</li>;
+  return <li>{children}</li>;
 }
 
 export function ContactUsFormPanel({ children }: { children: ReactNode }) {
