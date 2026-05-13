@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { companyBodyTextClassName } from "@/components/ui/text-tokens";
 
 export function ContactUsSection({ children }: { children: ReactNode }) {
   return (
@@ -23,15 +24,15 @@ export function ContactUsTitle({ children }: { children: ReactNode }) {
 }
 
 export function ContactUsLead({ children }: { children: ReactNode }) {
-  return <p className="max-w-[680px] text-base leading-7 text-slate-500">{children}</p>;
+  return <p className={companyBodyTextClassName}>{children}</p>;
 }
 
 export function ContactUsChecklist({ children }: { children: ReactNode }) {
-  return <ul className="mt-8 grid gap-3 text-sm leading-6 text-slate-500">{children}</ul>;
+  return <ul className={`mt-8 list-disc space-y-3 pl-5 marker:text-slate-600 ${companyBodyTextClassName}`}>{children}</ul>;
 }
 
 export function ContactUsChecklistItem({ children }: { children: ReactNode }) {
-  return <li>• {children}</li>;
+  return <li>{children}</li>;
 }
 
 export function ContactUsFormPanel({ children }: { children: ReactNode }) {

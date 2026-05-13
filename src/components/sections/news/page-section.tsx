@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { marketingBodyTextClassName } from "@/components/ui/text-tokens";
 
 type NavItemProps = {
   href: string;
@@ -61,7 +62,7 @@ export function NewsPageTitle({ children }: { children: ReactNode }) {
 }
 
 export function NewsPageLead({ children }: { children: ReactNode }) {
-  return <p className="mt-5 max-w-[760px] text-base leading-7 text-slate-500">{children}</p>;
+  return <p className={`mt-5 max-w-[760px] ${marketingBodyTextClassName}`}>{children}</p>;
 }
 
 export function NewsListSection({ children }: { children: ReactNode }) {
