@@ -139,7 +139,10 @@ test("privacy policy public keeps version discovery in records.ts while componen
   assert.match(legalMdxHelperSource, /export async function renderLegalMdx<Frontmatter extends Record<string, unknown>>/);
   assert.match(legalMdxHelperSource, /parseFrontmatter: true,/);
 
-  assert.match(selectorSource, /window\.location\.assign\(`\/privacy-policy\/\$\{nextSlug\}`\)/);
+  assert.match(selectorSource, /import \{ useRouter \} from "next\/navigation";/);
+  assert.match(selectorSource, /const router = useRouter\(\);/);
+  assert.match(selectorSource, /router\.push\(`\/privacy-policy\/\$\{nextSlug\}`\)/);
+  assert.doesNotMatch(selectorSource, /window\.location\.assign/);
   assert.match(footerSource, /label: "プライバシーポリシー", href: "\/privacy-policy"/);
   assert.match(sourcesSource, /readdir\(PRIVACY_POLICY_CONTENT_DIR, \{ withFileTypes: true \}\)/);
   assert.match(sourcesSource, /filter\(\(entry\) => entry\.isFile\(\) && PRIVACY_POLICY_FILE_PATTERN\.test\(entry\.name\)\)/);
