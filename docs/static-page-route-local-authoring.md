@@ -40,9 +40,10 @@ When reviewing `src/app/t/**` preview routes, keep at least these families disti
   - uses legal document wrappers and legal MDX/body primitives
   - optimized for versioned policy content, document headers, long-form legal copy, and stable reading width
 - Company-intro / company family
-  - representative routes: `/about-us`, `/certifications`
-  - presents company identity, trust proof, certifications, offices, leadership, or similar company context
-  - may share static-page shells such as `MarketingPageSection` where appropriate, but should not automatically inherit legal document primitives
+  - representative routes: `/about-us`, `/certifications`, `/news`, `/contact-us`
+  - presents company identity, trust proof, certifications, press/news context, inquiry context, offices, leadership, or similar company context
+  - uses the company-page shell and body-layout contract documented in `docs/company-page-layout-contract.md`
+  - should not automatically inherit legal document primitives
 
 Adjacent informational routes such as `/t/cookie-preference` or `/t/plans` should be classified by their own semantics before being grouped into either family.
 `/t/cookie-preference` has a settings/interaction contract, while `/t/plans` is a pricing/comparison surface.

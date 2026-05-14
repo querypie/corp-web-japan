@@ -114,7 +114,7 @@ shared shell에서 중간 section만 빼다가 순서를 바꾸면 잘못된 리
 예를 들어:
 
 - top page / solution page: 마케팅 카피 중심
-- about-us / certifications: company-intro family
+- about-us / certifications / news / contact-us: `docs/company-page-layout-contract.md`의 shared shell/layout contract를 따르는 company-page family
 - privacy-policy / eula / terms: legal document family
 - plans / feature browser: interaction contract가 있는 informational page
 

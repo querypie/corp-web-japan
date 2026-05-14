@@ -117,7 +117,7 @@ Not every static page should be treated the same way.
 For example:
 
 - top page / solution pages: marketing-copy-heavy routes
-- about-us / certifications: company-intro family
+- about-us / certifications / news / contact-us: company-page family, with the shared shell and layout contract in `docs/company-page-layout-contract.md`
 - privacy-policy / eula / terms: legal document family
 - plans / feature browser pages: informational routes with interaction contracts
 
