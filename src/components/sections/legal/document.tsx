@@ -8,16 +8,6 @@ type LegalDocumentSectionProps = {
 
 type LegalDocumentIntroProps = {
   children?: ReactNode;
-  divider?: boolean;
-  className?: string;
-};
-
-type LegalDocumentHeroProps = {
-  title: ReactNode;
-  meta?: ReactNode;
-  description?: ReactNode;
-  children?: ReactNode;
-  divider?: boolean;
   className?: string;
 };
 
@@ -90,40 +80,6 @@ export function LegalDocumentTitleActions({ children }: LegalDocumentTitleAction
   return <div className="flex flex-wrap items-center gap-4">{children}</div>;
 }
 
-export function LegalDocumentPageSection({ children }: LegalDocumentSectionProps) {
-  return <LegalDocumentSection>{children}</LegalDocumentSection>;
-}
-
-export function LegalDocumentHeader({ children, divider = false, className }: LegalDocumentIntroProps) {
-  return (
-    <LegalDocumentIntro divider={divider} className={className}>
-      {children}
-    </LegalDocumentIntro>
-  );
-}
-
-export function LegalDocumentHero({
-  title,
-  meta,
-  description,
-  children,
-  divider = false,
-  className,
-}: LegalDocumentHeroProps) {
-  return (
-    <LegalDocumentIntro divider={divider} className={className}>
-      {meta ? <LegalDocumentMeta>{meta}</LegalDocumentMeta> : null}
-      <LegalDocumentTitle>{title}</LegalDocumentTitle>
-      {description ? <LegalDocumentLead>{description}</LegalDocumentLead> : null}
-      {children}
-    </LegalDocumentIntro>
-  );
-}
-
-export function LegalDocumentMeta({ children }: LegalDocumentSectionProps) {
-  return <p className="text-sm leading-6 text-slate-500">{children}</p>;
-}
-
 export function LegalDocumentTitle({ children }: LegalDocumentTitleProps) {
   return (
     <h1 className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">
@@ -134,10 +90,6 @@ export function LegalDocumentTitle({ children }: LegalDocumentTitleProps) {
 
 export function LegalDocumentLead({ children }: LegalDocumentSectionProps) {
   return <div className={companyBodyTextClassName}>{children}</div>;
-}
-
-export function LegalDocumentDescription({ children }: LegalDocumentSectionProps) {
-  return <LegalDocumentLead>{children}</LegalDocumentLead>;
 }
 
 export function LegalDocumentBody({ children, className }: LegalDocumentBodyProps) {

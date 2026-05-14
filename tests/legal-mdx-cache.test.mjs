@@ -37,7 +37,7 @@ test("legal MDX routes share a cached source reader and evaluator like publicati
   assert.match(legalDocumentSource, /pb-\[50px\] pt-\[100px\] lg:pb-\[72px\] lg:pt-\[120px\]/);
   assert.match(legalDocumentSource, /flex flex-col gap-10 pt-\[10px\] text-left lg:gap-\[50px\] lg:pt-0/);
   assert.match(legalDocumentSource, /text-\[40px\] font-medium leading-\[1\.2\] tracking-\[-0\.03em\] text-slate-950 sm:text-\[48px\] lg:text-\[52px\]/);
-  assert.match(legalDocumentSource, /export function LegalDocumentPageSection/);
+  assert.doesNotMatch(legalDocumentSource, /export function LegalDocumentPageSection/);
   assert.match(legalDocumentSource, /export function LegalDocumentBody/);
   assert.match(legalMdxComponentsSource, /export function buildLegalDocumentMdxComponents\(\)/);
   assert.match(legalMdxComponentsSource, /export function LegalBodyH1/);
