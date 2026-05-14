@@ -28,6 +28,30 @@ Preferred end state:
 - only small reusable UI primitives or isolated interactive helpers remain extracted
 - tests are updated so they validate the new route-local section ownership instead of the removed file layout
 
+## File-location contract
+
+Route-local authoring is an ownership/readability rule, not a component-colocation rule.
+
+Default locations:
+- `src/app/<route>/page.tsx` owns route entry, metadata, visible copy, section order, and composition.
+- `src/components/sections/**` owns section/UI component implementations, layout classes, styling details, visual primitives, and isolated client-side behavior.
+
+Do not interpret "route-local" as "put UI component files beside `page.tsx`."
+For normal static marketing and internal demo pages, `src/app/<route>/` should not accumulate files like `hero-section.tsx`, `faq.tsx`, `role-slides.tsx`, or `use-case-showcase.tsx` unless the user explicitly asks for a route-adjacent exception.
+
+Allowed route-adjacent exceptions are narrow and content-oriented:
+- App Router required files such as `page.tsx`, `layout.tsx`, `loading.tsx`, `not-found.tsx`, and `route.ts`.
+- Route-local long-form source files such as `content.mdx` for legal/document pages when that route intentionally owns the document source.
+- Small route-only helpers only when keeping them in `page.tsx` would clearly hurt readability and they are not reusable UI section components.
+
+When extracting UI from `page.tsx`, choose a section/component path under `src/components/sections/**`, usually grouped by page family or ownership, for example:
+- `src/components/sections/home/*`
+- `src/components/sections/ai-crew/*`
+- `src/components/sections/ai-dashi/*`
+- `src/components/sections/internal-demo/*`
+
+If you are about to create `src/app/<route>/<component-name>.tsx`, stop and re-check whether it is actually one of the route-adjacent exceptions above. If not, put it under `src/components/sections/**` instead.
+
 Important nuance from PRs 155–158:
 - the intended workflow is usually **section-scoped migration**, not one giant whole-page rewrite
 - a PR can be fully correct even if the page still keeps a temporary shared shell such as `TopPageSections`, as long as the target section's marketing copy now clearly lives in `page.tsx`
@@ -314,8 +338,11 @@ Good to keep extracted:
 - a temporary shared page shell/orchestrator when you are intentionally migrating one section at a time and the shell still provides the surrounding layout for untouched sections
 - section component files that have been reduced to UI-only structure/styling wrappers while the moved section's marketing copy now lives in `page.tsx`
 - section-level primitives or semantic wrapper components under `src/components/sections/**` that are composed directly from `page.tsx`
+- internal demo widgets under `src/components/sections/internal-demo/**` when they are intentionally rendered from a noindex internal route
 
 Bad to keep extracted:
+- UI component files colocated under `src/app/<route>/` merely because the route is "route-local"; route-local authoring does not mean route-adjacent component placement
+- route-adjacent files such as `src/app/<route>/hero-section.tsx`, `src/app/<route>/faq.tsx`, or `src/app/internal/demo-sections/role-slides.tsx` unless they are explicitly approved exceptions
 - one big `HomePageSections`/`AiCrewSections`-style wrapper that still owns the target section's marketing copy after the migration
 - one big `homePageContent`/`<page>Content` object that still owns the target section's headings/body/CTA text after the migration
 - a top-level content registry copied from the old module into `page.tsx` with only the file location changed
