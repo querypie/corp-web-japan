@@ -379,3 +379,219 @@ The real principle is:
 
 For static marketing pages, that usually means JSX in `page.tsx`.
 For publications and legal documents, that usually means route-aligned MDX plus a thin route wrapper.
+
+## 13. Current MDX content-management capabilities in this repository
+
+The route-aligned MDX pattern in `corp-web-japan` is not only a file-placement rule.
+It is also a content-management contract implemented through loaders, frontmatter, shared shells, and route behavior.
+
+### 13.1 Supported content families
+
+The current public MDX-backed families include:
+
+- publications under `src/lib/publications/**`
+  - blog
+  - whitepapers
+  - news
+  - events
+  - use cases
+  - AIP demos
+  - ACP demos
+- resource-style families under `src/lib/resources/**`
+  - introduction deck
+  - glossary
+  - manuals
+- route-adjacent or versioned document families
+  - `src/app/t/eula/content.mdx`
+  - `src/app/t/terms-of-service/content.mdx`
+  - `src/content/privacy-policy/*.mdx`
+
+So the practical pattern is broader than “blog posts in MDX.”
+The repository already uses MDX as the authoring layer for multiple public content families with shared route and rendering rules.
+
+### 13.2 Content lists are frontmatter-driven and pre-indexed
+
+For publication-style families, list pages are built from frontmatter records rather than by rendering the full MDX body first.
+
+The core repository shape is visible in:
+
+- `src/lib/publications/create-standard-records-repository.ts`
+- `src/lib/publications/blog/records.ts`
+- `src/lib/publications/whitepapers/records.ts`
+- `src/lib/publications/events/records.ts`
+
+Current behavior includes:
+
+- reading every `*.mdx` file under the family content root
+- parsing the frontmatter block once per source file
+- normalizing that frontmatter into typed records
+- sorting records by descending numeric `id`
+- filtering `hidden: true` records out of visible list items
+- resolving list-card hrefs through `redirectUrl` when a shadow record should point elsewhere
+- generating `listParams()` and `listIds()` for static route generation
+
+This means a list page can answer “what content exists?” and “which cards should be visible?” from the record index alone, without eagerly rendering every full post body.
+
+### 13.3 Detail loaders cache file reads for faster repeat access
+
+The detail loaders add another layer of runtime efficiency.
+The current implementations are:
+
+- `src/lib/publications/create-standard-publication-post-loader.ts`
+- `src/lib/publications/create-gated-publication-post-loader.ts`
+- `src/lib/resources/base-resource-publication-post-loader.ts`
+
+The important behavior is that each loader keeps an in-memory body-source cache keyed by `sourcePath`.
+That gives the current implementation these benefits:
+
+- repeated requests for the same post do not need to re-read the MDX file from disk every time
+- metadata, table-of-contents extraction, related-item wiring, and rendering can all reuse the same cached source text
+- list-page loading and detail-page loading stay separated, so list responses remain lightweight while detail routes still get the full rendered MDX output
+
+In practice, the repository uses two complementary optimizations:
+
+- frontmatter-indexed list repositories for fast list and route-param resolution
+- per-source body caching for repeated detail-page reads
+
+### 13.4 Frontmatter controls more than titles and dates
+
+In this repository, frontmatter is a behavior surface, not just a descriptive header.
+It currently drives list visibility, redirects, shared imagery, metadata, event timeline behavior, and gating flows.
+
+#### Common identity and presentation fields
+
+The common baseline fields across the major families are:
+
+- `id`
+- `slug`
+- `title`
+- `description`
+- `date`
+- `heroImageSrc`
+- `relatedIds` or family-equivalent related-item metadata
+- `author` where supported
+
+These fields feed the canonical route, the page header, the list card, metadata generation, and related-item rendering.
+
+#### List and detail behavior fields
+
+The current implementation also uses frontmatter for route and list behavior:
+
+- `hidden: true`
+  - keep a record out of visible list pages
+- `redirectUrl`
+  - preserve a local record identity while sending human visitors and list cards to another destination
+- `hideHeroImageOnDetail: true`
+  - suppress the hero image on the detail page while keeping the list image metadata
+- `hideTocOnDetail: true`
+  - suppress automatic heading-based table-of-contents output where that UI should not appear
+
+This is why frontmatter quality must be reviewed as application behavior, not only as content copy.
+
+#### Family-specific fields already supported
+
+The current repo also supports family-specific frontmatter features such as:
+
+- `listDescription`
+  - lets whitepapers use a list-specific summary instead of the full detail description
+- `eventDate`
+  - lets events use the actual event date for timeline placement instead of only the publish date
+- `eventLabel`
+  - lets events override the default badge label
+- `gated: true`
+  - enables the gated-content path for supported families
+- `downloadCta`
+  - defines the CTA label and download destination contract
+- `downloadCoverImageSrc`
+  - lets whitepapers show a dedicated portrait cover on the PDF gating page instead of the article thumbnail
+
+### 13.5 SEO and canonical route behavior are frontmatter-backed
+
+The MDX layer also feeds SEO and canonical routing behavior.
+Representative route files include:
+
+- `src/app/blog/[id]/[slug]/page.tsx`
+- `src/app/whitepapers/[id]/[slug]/page.tsx`
+- `src/app/events/[id]/[slug]/page.tsx`
+
+The current route contract is:
+
+- resolve content by `id`
+- treat `slug` as the canonical display segment
+- redirect `/section/:id` or mismatched slugs to `/section/:id/:slug`
+- build page metadata from the record/frontmatter values
+- preserve redirect-aware behavior where a record intentionally points to another route or destination
+
+So frontmatter is already part of the repository’s SEO and canonicalization layer, not just the visible page body.
+
+### 13.6 Event pages support both archive and upcoming-event UX
+
+The event family shows how frontmatter-backed MDX content can power richer list behavior.
+The main implementation lives in:
+
+- `src/lib/publications/events/records.ts`
+- `src/app/events/page.tsx`
+
+Current event-page capabilities include:
+
+- preserving a visible archive of past events
+- computing `heroEvent` from the nearest visible upcoming event
+- using `eventDate` when present, and falling back to `date` otherwise
+- rendering the selected upcoming item in the hero with the `Upcoming Event` eyebrow and a CTA button
+- rendering the remaining timeline as `Past Events`
+- keeping that past-event list available even when the hero item changes over time
+
+In other words, the event page is not a hard-coded landing page.
+It is a frontmatter-driven timeline view over the MDX event corpus.
+
+### 13.7 CTA buttons and gating forms are part of the authoring contract
+
+The current MDX system also supports conversion-oriented behavior without moving that logic into each route file.
+Representative implementation files include:
+
+- `src/components/sections/publication-post-page.tsx`
+- `src/components/sections/publication/gated-content.tsx`
+- `src/lib/publications/gating.ts`
+- `src/lib/gating-form.ts`
+- `src/app/whitepapers/[id]/[slug]/pdf/page.tsx`
+
+Current capabilities include:
+
+- article-body CTA buttons driven by `downloadCta`
+- gated preview/body splitting through `<GatingCut />`
+- gated-content unlocking through `/api/gating-form/unlock`
+- per-content gating cookies derived from the content key
+- preview-mode bypass for internal review flows
+- whitepaper-specific PDF gate pages that can use `downloadCoverImageSrc` instead of the regular article thumbnail
+
+The practical authoring rule is:
+
+- if a resource is gated, the MDX file must declare `gated: true`
+- the body must include `<GatingCut />`
+- the route and shared shell can then render preview content, a gating form, and the unlocked content without route-specific reimplementation
+
+## 14. Practical authoring checklist for a new MDX-backed entry
+
+When adding or reviewing a new MDX-backed content item in this repository, the minimum checklist is:
+
+1. Choose the correct content root for the family.
+2. Use a file name that keeps `id` and route-readable slug aligned where that family expects it.
+3. Set the required identity and metadata fields: `id`, `slug`, `title`, `description`, `date`, and `heroImageSrc`.
+4. Add relationship and behavior fields only when they are intentionally needed:
+   - `relatedIds`
+   - `hidden`
+   - `redirectUrl`
+   - `listDescription`
+   - `eventDate`
+   - `eventLabel`
+   - `hideHeroImageOnDetail`
+   - `hideTocOnDetail`
+   - `gated`
+   - `downloadCta`
+   - `downloadCoverImageSrc`
+5. Keep route-aligned assets under the matching public family/id path.
+6. If the content is gated, include `<GatingCut />` and verify the unlock flow.
+7. Verify that the canonical route, list visibility, redirect behavior, and metadata all match the intended contract.
+
+That is the key extension to the original PR 471 guidance:
+route-aligned MDX authoring in this repository already includes a substantial content-management feature set, not only a file-layout convention.

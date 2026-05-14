@@ -106,7 +106,7 @@ This is the pattern demonstrated by the top-page refactor sequence in PR 155, 15
 
 This section covers feature-oriented implementation such as Contact Us, blog, whitepapers, news, legal documents, and gating flows.
 
-The detailed source of truth for route-aligned long-form MDX content is:
+The detailed source of truth for route-aligned long-form MDX content and frontmatter-driven content-management behavior is:
 
 - `docs/route-aligned-mdx-authoring-for-developers.md`
 
