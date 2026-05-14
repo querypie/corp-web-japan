@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import type { ComponentProps } from "react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { AICrewAvatar } from "@/components/sections/internal-demo/ai-crew-avatar";
+import { AIDashiFaq } from "@/components/sections/internal-demo/ai-dashi-faq";
+import { RoleSlides } from "@/components/sections/internal-demo/role-slides";
+import { UseCaseShowcase } from "@/components/sections/internal-demo/use-case-showcase";
 import { aiDashiConsultUrl } from "@/content/ai-dashi-links";
-import { AICrewAvatar } from "./ai-crew-avatar";
-import { AIDashiFaq } from "./ai-dashi-faq";
-import { RoleSlides } from "./role-slides";
-import { UseCaseShowcase } from "./use-case-showcase";
 
 const roleSlidesDemoProps: ComponentProps<typeof RoleSlides> = {
   items: [
@@ -176,7 +176,7 @@ export default function InternalDemoSectionsPage() {
             Demo Sections
           </h1>
           <p className="mt-6 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
-            PR 439 / issue 395 で orphan として残っていた section component を削除せず、internal 専用デモルートの route-local code として単独の見た目を確認できるように保持したページです。
+            PR 439 / issue 395 で orphan として残っていた section component を削除せず、internal 専用デモルートから明示的に接続し、単独の見た目を確認できるように保持したページです。
           </p>
           <div className="mt-6 inline-flex rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-600">
             このページは UI デザイン確認用の internal demo であり、検索エンジンのインデックス対象外です。
@@ -229,7 +229,7 @@ export default function InternalDemoSectionsPage() {
                   <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">AI Crew avatar</p>
                   <h3 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950">AICrewAvatar component demo</h3>
                   <p className="mt-4 text-[15px] leading-7 text-slate-600">
-                    `src/app/internal/demo-sections/ai-crew-avatar.tsx` は crew role asset 契約を持つ route-local visual primitive です。現時点では canonical route へ戻さず、internal demo で tone / size の描画確認対象として保持します。
+                    `src/components/sections/internal-demo/ai-crew-avatar.tsx` は crew role asset 契約を持つ internal demo 専用 visual primitive です。現時点では canonical route へ戻さず、internal demo で tone / size の描画確認対象として保持します。
                   </p>
                 </div>
                 <div className="shrink-0 rounded-[24px] bg-white p-4 shadow-sm">
@@ -251,7 +251,7 @@ export default function InternalDemoSectionsPage() {
                 <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">AI Dashi FAQ</p>
                 <h3 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950">AIDashiFaq component demo</h3>
                 <p className="mt-4 text-[15px] leading-7 text-slate-600">
-                  `src/app/internal/demo-sections/ai-dashi-faq.tsx` は accordion interaction を持つ route-local client component です。FAQ の文言と CTA は page.tsx が直接所有し、削除せず canonical route への再配置判断までは internal demo で挙動確認対象として保持します。
+                  `src/components/sections/internal-demo/ai-dashi-faq.tsx` は accordion interaction を持つ internal demo 専用 client component です。FAQ の文言と CTA は page.tsx が直接所有し、削除せず canonical route への再配置判断までは internal demo で挙動確認対象として保持します。
                 </p>
               </div>
               <AIDashiFaq items={aiDashiFaqItems} ctaHref={aiDashiConsultUrl} ctaLabel="お問い合わせ" />
