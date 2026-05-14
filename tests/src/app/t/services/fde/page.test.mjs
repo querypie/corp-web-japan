@@ -43,5 +43,6 @@ test("/t/services/fde keeps route-local copy/composition while the layout primit
   assert.match(sectionSource, /export function ServiceFdeHeroVisual/);
   assert.match(sectionSource, /export function ServiceFdeFeatureSection/);
   assert.match(sectionSource, /export function ServiceFdeFeatureRow/);
+  assert.match(sectionSource, /<h4 className="text-\[32px\]/);
   assert.match(sectionSource, /export function ServiceFdeCtaSection/);
 });
