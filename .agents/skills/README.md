@@ -82,6 +82,7 @@ Use them by phase so responsibilities stay mutually exclusive and collectively e
   - Path: `.agents/skills/querypie-ja-preview-route-parity/SKILL.md`
   - Purpose: bring an already-existing `/t/**` preview route up to live parity
   - Use when: the preview route exists already, but still contains placeholder or simplified structure that needs a parity pass
+  - Browser-rendering guide: `docs/querypie-ja-preview-render-parity.md`
   - Includes: page-family-specific heuristics for `/t/services/{aip,acp,fde}`
 
 4. Cross-cutting route authoring support

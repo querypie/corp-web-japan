@@ -20,6 +20,7 @@ Before using this skill, also read:
 - `.agents/skills/querypie-ja-preview-route-implementation/SKILL.md`
 - `.agents/skills/static-page-route-local-authoring/SKILL.md`
 - `.agents/skills/querypie-preview-root-rem-parity/SKILL.md`
+- `docs/querypie-ja-preview-render-parity.md`
 - `docs/code-location-conventions.md`
 
 Role split:
@@ -86,6 +87,7 @@ Required parity elements:
 - hero title + body copy
 - hero embedded YouTube video
 - 3-card value section with real image + title + body + `詳細を見る`
+- value-card row height parity: on the live page, the three value card wrappers render as equal-height cards; the preview must not let each visible card shrink to its own content length
 - alternating feature bands instead of a generic 2-column card grid
 - upstream CTA wording restored exactly
 
