@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import { PlatformContentSection, PlatformFeatureSection, PlatformHeroSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
+import { PlatformContentSection, PlatformFeatureSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 
 type FeatureSectionProps = {
   children: ReactNode;
@@ -20,7 +20,7 @@ export function AipPageShell({ children }: { children: ReactNode }) {
 }
 
 export function AipHeroSection({ children }: { children: ReactNode }) {
-  return <PlatformHeroSection>{children}</PlatformHeroSection>;
+  return <PlatformContentSection className="pb-[120px] pt-[134px] lg:pt-[144px]">{children}</PlatformContentSection>;
 }
 
 export function AipHeroInner({ children }: { children: ReactNode }) {
