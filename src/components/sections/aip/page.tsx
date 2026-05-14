@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { PlatformContentSection, PlatformFeatureSection, PlatformHeroSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 
 type FeatureSectionProps = {
@@ -32,11 +32,11 @@ export function AipHeroCopy({ children }: { children: ReactNode }) {
 }
 
 export function AipHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 className="text-[60px] font-normal leading-[72px] tracking-normal text-[#24292F]">{children}</h1>;
+  return <h1 className="text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h1>;
 }
 
 export function AipHeroLead({ children }: { children: ReactNode }) {
-  return <p className="max-w-[746px] text-[18px] font-light leading-[28px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+  return <p className="max-w-[746px] text-[16px] font-light leading-[25px] tracking-[0.36px] text-[#57606A] lg:text-[18px] lg:leading-[28px]">{children}</p>;
 }
 
 export function AipHeroVideo() {
@@ -73,11 +73,11 @@ export function AipValueIntro({ children }: { children: ReactNode }) {
 }
 
 export function AipValueTitle({ children }: { children: ReactNode }) {
-  return <h2 className="text-[52px] font-normal leading-[62px] tracking-normal text-[#24292F]">{children}</h2>;
+  return <h2 className="text-[32px] font-normal leading-[40px] tracking-normal text-[#24292F] lg:text-[52px] lg:leading-[62px]">{children}</h2>;
 }
 
 export function AipValueDescription({ children }: { children: ReactNode }) {
-  return <p className="text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+  return <p className="text-[14px] font-light leading-[23px] tracking-[0.36px] text-[#57606A] lg:text-[16px] lg:leading-[26px]">{children}</p>;
 }
 
 export function AipValueGrid({ children }: { children: ReactNode }) {
@@ -86,7 +86,7 @@ export function AipValueGrid({ children }: { children: ReactNode }) {
 
 export function AipValueCard({ children }: { children: ReactNode }) {
   return (
-    <article className="flex flex-col overflow-hidden rounded-[20px] bg-white shadow-[0_30px_30px_0_rgba(47,110,168,0.05)]">
+    <article className="flex h-full flex-col overflow-hidden rounded-[20px] bg-white shadow-[0_30px_30px_0_rgba(47,110,168,0.05)]">
       {children}
     </article>
   );
@@ -102,11 +102,11 @@ export function AipValueImage({ src, alt, children }: { src: string; alt: string
 }
 
 export function AipValueCardTitle({ children }: { children: ReactNode }) {
-  return <h3 className="whitespace-pre-line text-[32px] font-medium leading-[42px] tracking-normal">{children}</h3>;
+  return <h3 className="whitespace-pre-line text-[20px] font-medium leading-[28px] tracking-normal lg:text-[32px] lg:leading-[42px]">{children}</h3>;
 }
 
 export function AipValueCardBody({ children }: { children: ReactNode }) {
-  return <p className="px-[30px] pt-[40px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+  return <p className="px-[30px] pt-[40px] text-[14px] font-light leading-[23px] tracking-[0.36px] text-[#57606A] lg:text-[16px] lg:leading-[26px]">{children}</p>;
 }
 
 export function AipValueCardLink({ href, children }: { href: string; children: ReactNode }) {
@@ -140,28 +140,33 @@ export function AipFeatureHeader({ children }: { children: ReactNode }) {
 }
 
 export function AipFeatureHeaderTitle({ children }: { children: ReactNode }) {
-  return <h2 className="text-center text-[52px] font-normal leading-[62px] tracking-normal text-[#24292F]">{children}</h2>;
+  return <h2 className="text-center text-[32px] font-normal leading-[40px] tracking-normal text-[#24292F] lg:text-[52px] lg:leading-[62px]">{children}</h2>;
 }
 
 export function AipFeatureRow({ children, reverse = false }: { children: ReactNode; reverse?: boolean }) {
-  return <div className={`flex items-center justify-center gap-[80px] ${reverse ? "flex-row-reverse" : "flex-row"}`}>{children}</div>;
+  return <div className={`flex w-full flex-col items-center justify-center gap-[40px] lg:gap-[80px] ${reverse ? "lg:flex-row-reverse" : "lg:flex-row"}`}>{children}</div>;
 }
 
 export function AipFeatureCopy({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <div className={["flex flex-col gap-[20px]", className].filter(Boolean).join(" ")}>{children}</div>;
+  return <div className={["flex w-full flex-col gap-[20px]", className].filter(Boolean).join(" ")}>{children}</div>;
 }
 
 export function AipFeatureTitle({ children }: { children: ReactNode }) {
-  return <h3 className="text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F]">{children}</h3>;
+  return <h3 className="text-[20px] font-medium leading-[28px] tracking-normal text-[#24292F] lg:text-[32px] lg:leading-[42px]">{children}</h3>;
 }
 
 export function AipFeatureBody({ children }: { children: ReactNode }) {
-  return <p className="text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+  return <p className="text-[14px] font-light leading-[23px] tracking-[0.36px] text-[#57606A] lg:text-[16px] lg:leading-[26px]">{children}</p>;
 }
 
 export function AipFeatureImage({ src, alt, width, height }: FeatureImageProps) {
+  const featureImageStyle = { "--aip-feature-image-width": `${width}px` } as CSSProperties;
+
   return (
-    <div className="max-w-full flex-none overflow-hidden rounded-[8px] shadow-[0_8px_20px_rgba(0,0,0,0.15)]" style={{ width }}>
+    <div
+      className="w-full max-w-full flex-none overflow-hidden rounded-[8px] shadow-[0_8px_20px_rgba(0,0,0,0.15)] lg:w-[var(--aip-feature-image-width)]"
+      style={featureImageStyle}
+    >
       <Image src={src} alt={alt} width={width} height={height} unoptimized className="h-auto w-full" />
     </div>
   );

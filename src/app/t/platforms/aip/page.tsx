@@ -84,7 +84,7 @@ export default function AipPage() {
           </RevealOnScroll>
 
           <AipValueGrid>
-            <RevealOnScroll>
+            <RevealOnScroll className="h-full">
               <AipValueCard>
                 <AipValueImage src="/services/aip/value-usage-based-llm.png" alt="従量課金型の AIモデル">
                   <AipValueCardTitle>
@@ -104,7 +104,7 @@ export default function AipPage() {
               </AipValueCard>
             </RevealOnScroll>
 
-            <RevealOnScroll delayMs={80}>
+            <RevealOnScroll delayMs={80} className="h-full">
               <AipValueCard>
                 <AipValueImage src="/services/aip/value-mcp-gateway.png" alt="統合型 AIゲートウェイ">
                   <AipValueCardTitle>
@@ -124,7 +124,7 @@ export default function AipPage() {
               </AipValueCard>
             </RevealOnScroll>
 
-            <RevealOnScroll delayMs={160}>
+            <RevealOnScroll delayMs={160} className="h-full">
               <AipValueCard>
                 <AipValueImage src="/services/aip/value-fde-services.png" alt="AI専門家伴走 サービス">
                   <AipValueCardTitle>
@@ -154,8 +154,8 @@ export default function AipPage() {
           </RevealOnScroll>
 
           <AipFeatureRow>
-            <RevealOnScroll>
-              <AipFeatureCopy className="max-w-[417px]">
+            <RevealOnScroll className="w-full lg:w-auto">
+              <AipFeatureCopy className="max-w-[476px]">
                 <AipFeatureTitle>プロンプト自動生成</AipFeatureTitle>
                 <AipFeatureBody>
                   プリセットされた簡単な指示文（プロンプト）から始めれば
@@ -167,7 +167,7 @@ export default function AipPage() {
               </AipFeatureCopy>
             </RevealOnScroll>
 
-            <RevealOnScroll delayMs={80}>
+            <RevealOnScroll delayMs={80} className="w-full lg:w-auto">
               <AipFeatureImage
                 src="/services/aip/prompt.gif"
                 alt="プロンプト自動生成"
@@ -182,8 +182,8 @@ export default function AipPage() {
       <AipFeatureSection>
         <AipFeatureInner>
           <AipFeatureRow reverse>
-            <RevealOnScroll>
-              <AipFeatureCopy className="max-w-[380px]">
+            <RevealOnScroll className="w-full lg:w-auto">
+              <AipFeatureCopy className="max-w-[538px]">
                 <AipFeatureTitle>シンプルな統合</AipFeatureTitle>
                 <AipFeatureBody>
                   OAuth認証でお使いのツール（Slack、Googleなど）を簡単に接続。
@@ -198,7 +198,7 @@ export default function AipPage() {
               </AipFeatureCopy>
             </RevealOnScroll>
 
-            <RevealOnScroll delayMs={80}>
+            <RevealOnScroll delayMs={80} className="w-full lg:w-auto">
               <AipFeatureImage
                 src="/services/aip/integration.gif"
                 alt="シンプルな統合"
@@ -213,8 +213,8 @@ export default function AipPage() {
       <AipFeatureSection muted>
         <AipFeatureInner>
           <AipFeatureRow>
-            <RevealOnScroll>
-              <AipFeatureCopy className="max-w-[407px]">
+            <RevealOnScroll className="w-full lg:w-auto">
+              <AipFeatureCopy className="max-w-[553px]">
                 <AipFeatureTitle>社内文書の学習機能</AipFeatureTitle>
                 <AipFeatureBody>
                   社内文書をアップロードして知識ベース化。
@@ -224,7 +224,7 @@ export default function AipPage() {
               </AipFeatureCopy>
             </RevealOnScroll>
 
-            <RevealOnScroll delayMs={80}>
+            <RevealOnScroll delayMs={80} className="w-full lg:w-auto">
               <AipFeatureImage
                 src="/services/aip/knowledge.gif"
                 alt="社内文書の学習機能"
@@ -239,7 +239,7 @@ export default function AipPage() {
       <AipFeatureSection>
         <AipFeatureInner>
           <AipFeatureRow reverse>
-            <RevealOnScroll>
+            <RevealOnScroll className="w-full lg:w-auto">
               <AipFeatureCopy className="max-w-[420px]">
                 <AipFeatureTitle>カスタムエージェント作成</AipFeatureTitle>
                 <AipFeatureBody>
@@ -252,7 +252,7 @@ export default function AipPage() {
               </AipFeatureCopy>
             </RevealOnScroll>
 
-            <RevealOnScroll delayMs={80}>
+            <RevealOnScroll delayMs={80} className="w-full lg:w-auto">
               <AipFeatureImage
                 src="/services/aip/custom-agent.gif"
                 alt="カスタムエージェント作成"
@@ -267,7 +267,7 @@ export default function AipPage() {
       <AipFeatureSection muted>
         <AipFeatureInner>
           <AipFeatureRow>
-            <RevealOnScroll>
+            <RevealOnScroll className="w-full lg:w-auto">
               <AipFeatureCopy className="max-w-[418px]">
                 <AipFeatureTitle>ビジュアルレポート作成</AipFeatureTitle>
                 <AipFeatureBody>
@@ -280,7 +280,7 @@ export default function AipPage() {
               </AipFeatureCopy>
             </RevealOnScroll>
 
-            <RevealOnScroll delayMs={80}>
+            <RevealOnScroll delayMs={80} className="w-full lg:w-auto">
               <AipFeatureImage
                 src="/services/aip/visual-report.gif"
                 alt="ビジュアルレポート作成"
@@ -295,7 +295,7 @@ export default function AipPage() {
       <AipFeatureSection>
         <AipFeatureInner>
           <AipFeatureRow reverse>
-            <RevealOnScroll>
+            <RevealOnScroll className="w-full lg:w-auto">
               <AipFeatureCopy className="max-w-[420px]">
                 <AipFeatureTitle>エージェントスケジューリング</AipFeatureTitle>
                 <AipFeatureBody>
@@ -310,7 +310,7 @@ export default function AipPage() {
               </AipFeatureCopy>
             </RevealOnScroll>
 
-            <RevealOnScroll delayMs={80}>
+            <RevealOnScroll delayMs={80} className="w-full lg:w-auto">
               <AipFeatureImage
                 src="/services/aip/scheduling.gif"
                 alt="エージェントスケジューリング"

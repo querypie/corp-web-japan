@@ -55,8 +55,16 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
   assert.match(sectionSource, /export function AipFeatureSection/);
   assert.match(sectionSource, /export function AipFeatureSection[\s\S]*<PlatformFeatureSection muted=\{muted\}>/);
   assert.match(sectionSource, /export function AipFeatureRow/);
+  assert.match(sectionSource, /flex w-full flex-col items-center/);
+  assert.match(sectionSource, /lg:flex-row-reverse/);
   assert.match(sectionSource, /export function AipFeatureImage/);
-  assert.match(sectionSource, /style=\{\{ width \}\}/);
+  assert.match(sectionSource, /--aip-feature-image-width/);
+  assert.match(sectionSource, /lg:w-\[var\(--aip-feature-image-width\)\]/);
+  assert.match(sectionSource, /export function AipFeatureTitle[\s\S]*text-\[20px\][\s\S]*lg:text-\[32px\]/);
+  assert.match(sectionSource, /export function AipValueCard[\s\S]*flex h-full flex-col/);
+  assert.match(routeSource, /<RevealOnScroll className="h-full">/);
+  assert.match(routeSource, /<AipFeatureCopy className="max-w-\[538px\]">/);
+  assert.match(routeSource, /<RevealOnScroll className="w-full lg:w-auto">/);
 
   assert.match(platformSource, /export function PlatformPageShell/);
   assert.match(platformSource, /export function PlatformContentSection/);
