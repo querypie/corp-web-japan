@@ -120,9 +120,20 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   assert.match(legalDocumentSource, /mb-10 flex flex-col gap-10 pt-\[10px\] text-left lg:mb-\[50px\] lg:gap-\[50px\] lg:pt-0/);
   assert.match(legalDocumentSource, /text-\[40px\] font-medium leading-\[1\.2\] tracking-\[-0\.03em\] text-slate-950 sm:text-\[48px\] lg:text-\[52px\]/);
   assert.doesNotMatch(legalDocumentSource, /export function LegalDocumentPageSection/);
-  assert.match(legalDocumentSource, /text-\[16px\] leading-\[26px\] text-slate-600/);
-  assert.match(legalDocumentSource, /\[&_p\]:text-\[16px\] \[&_p\]:leading-\[26px\] \[&_p\]:text-slate-600/);
-  assert.match(legalDocumentSource, /\[&_blockquote_p\]:mt-0 \[&_blockquote_p\]:text-\[16px\] \[&_blockquote_p\]:leading-\[26px\] \[&_blockquote_p\]:text-slate-600/);
+  assert.match(legalDocumentSource, /"leading-6 text-slate-600"/);
+  assert.match(legalDocumentSource, /\[&_p\]:mt-\[1\.3125rem\] \[&_p\]:leading-6 \[&_p\]:text-slate-600/);
+  assert.match(legalDocumentSource, /\[&_li>ul\]:mt-2 \[&_li>ol\]:mt-2/);
+  assert.match(legalDocumentSource, /\[&_li>ul>li:last-child\]:mb-0 \[&_li>ol>li:last-child\]:mb-0/);
+  assert.match(legalDocumentSource, /\[&_blockquote_p\]:mt-0 \[&_blockquote_p\]:leading-6 \[&_blockquote_p\]:text-slate-600/);
+  assert.match(legalDocumentSource, /\[&_table\]:my-\[34px\] \[&_table\]:w-full \[&_table\]:border-collapse/);
+  assert.doesNotMatch(legalDocumentSource, /text-\[16px\] leading-\[26px\] text-slate-600/);
+  assert.doesNotMatch(legalDocumentSource, /\[&_p\]:text-\[16px\]/);
+  assert.doesNotMatch(legalDocumentSource, /\[&_blockquote_p\]:mt-0 \[&_blockquote_p\]:text-\[16px\]/);
+  assert.doesNotMatch(legalDocumentSource, /\[&_li\]:mb-2 \[&_li\]:text-\[15px\]/);
+  assert.doesNotMatch(legalDocumentSource, /\[&_table\]:text-sm/);
+  assert.doesNotMatch(legalDocumentSource, /\[&_li>ul\]:mt-\[1\.3125rem\]/);
+  assert.doesNotMatch(legalDocumentSource, /\[&_li>ol\]:mt-\[1\.3125rem\]/);
+  assert.doesNotMatch(legalMdxSource, /className="mt-6 text-\[15px\]/);
   assert.match(legalMdxHelperSource, /export async function renderLegalMdx<Frontmatter extends Record<string, unknown>>/);
   assert.match(legalMdxHelperSource, /parseFrontmatter: true,/);
 

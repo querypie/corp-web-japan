@@ -40,14 +40,7 @@ export function LegalBodyH2({ children }: LegalBodyHeadingProps) {
 }
 
 export function LegalBodyH3({ children }: LegalBodyHeadingProps) {
-  return (
-    <h4
-      id={legalHeadingId(children)}
-      className="mt-6 text-[15px] font-medium leading-[1.5] text-slate-950"
-    >
-      {children}
-    </h4>
-  );
+  return <h4 id={legalHeadingId(children)}>{children}</h4>;
 }
 
 export function LegalMdxLink({ href, children }: LegalMdxLinkProps) {
