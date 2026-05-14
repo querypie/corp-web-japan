@@ -61,7 +61,7 @@ test("public interaction surfaces do not ship bare hash broken links", () => {
   const siteHeader = readSource("src/components/layout/site-header-client.tsx");
   const siteFooter = readSource("src/components/layout/site-footer.tsx");
   const resourcePostPage = readSource("src/components/sections/publication-post-page.tsx");
-  const aiDashiFaq = readSource("src/components/sections/ai-dashi/faq.tsx");
+  const aiDashiFaq = readSource("src/components/sections/internal-demo/ai-dashi-faq.tsx");
 
   assert.doesNotMatch(siteHeader, /href:\s*"#"/);
   assert.doesNotMatch(siteFooter, /href:\s*"#"/);

@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Children, isValidElement, type ReactElement, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, BarChart3, BriefcaseBusiness, Building2, ChevronDown, ClipboardCheck, Code2, FileText, Handshake, Headset, Megaphone, MessageCircleHeart, Palette, PencilLine, Scale, SearchCheck, ShieldCheck, ShoppingCart, UserRoundCog, Wallet } from "lucide-react";
 
-type RoleSlide = {
+type RoleSlideData = {
   department: string;
   firstName: string;
   displayName: string;
@@ -19,14 +19,48 @@ type RoleSlide = {
   accent: "blue" | "orange" | "violet" | "emerald" | "rose" | "amber";
 };
 
-type RoleSlidesProps = {
-  items: readonly RoleSlide[];
-  note: string;
-  customCta: {
-    label: string;
-    href: string;
-  };
+type RoleSlideProps = Omit<RoleSlideData, "painPoint" | "catchCopy" | "summary"> & {
+  children: ReactNode;
 };
+
+type RoleSlidesProps = {
+  note: string;
+  ctaLabel: string;
+  ctaHref: string;
+  children: ReactNode;
+};
+
+type RoleSlideTextSlotProps = {
+  children: ReactNode;
+};
+
+export function RoleSlide(_props: RoleSlideProps) {
+  void _props;
+  return null;
+}
+
+export function RolePainPoint(_props: RoleSlideTextSlotProps) {
+  void _props;
+  return null;
+}
+
+export function RoleCatchCopy(_props: RoleSlideTextSlotProps) {
+  void _props;
+  return null;
+}
+
+export function RoleSummary(_props: RoleSlideTextSlotProps) {
+  void _props;
+  return null;
+}
+
+function readTextSlot(children: ReactNode, slotType: typeof RolePainPoint | typeof RoleCatchCopy | typeof RoleSummary) {
+  const slot = Children.toArray(children).find(
+    (child): child is ReactElement<RoleSlideTextSlotProps> => isValidElement(child) && child.type === slotType,
+  );
+
+  return typeof slot?.props.children === "string" ? slot.props.children : "";
+}
 
 const departmentThemeMap: Record<string, { shell: string; badge: string; portraitBg: string }> = {
   "営業・事業開発": {
@@ -136,11 +170,31 @@ const portraitAdjustments: Partial<
   Victor: { position: "center 8%", scale: 1.08, fit: "cover", offsetY: -3 },
 };
 
-export function RoleSlides({ items, note, customCta }: RoleSlidesProps) {
+export function RoleSlides({ children, note, ctaLabel, ctaHref }: RoleSlidesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+
+  const items = useMemo(
+    () =>
+      Children.toArray(children)
+        .filter((child): child is ReactElement<RoleSlideProps> => isValidElement(child) && child.type === RoleSlide)
+        .map(({ props }) => ({
+          department: props.department,
+          firstName: props.firstName,
+          displayName: props.displayName,
+          titleEn: props.titleEn,
+          titleJa: props.titleJa,
+          ctaLabel: props.ctaLabel,
+          ctaHref: props.ctaHref,
+          accent: props.accent,
+          painPoint: readTextSlot(props.children, RolePainPoint),
+          catchCopy: readTextSlot(props.children, RoleCatchCopy),
+          summary: readTextSlot(props.children, RoleSummary),
+        })),
+    [children],
+  );
 
   const categories = useMemo(() => Array.from(new Set(items.map((item) => item.department))), [items]);
   const filteredItems = useMemo(
@@ -351,8 +405,8 @@ export function RoleSlides({ items, note, customCta }: RoleSlidesProps) {
       <div className="mt-10 text-center">
         <p className="mx-auto max-w-[860px] text-sm leading-7 text-[#667085]">
           {note}
-          <Link href={customCta.href} className="ml-2 inline-flex items-center font-semibold text-[#2f3a49] hover:text-[#ED602E]">
-            {customCta.label}
+          <Link href={ctaHref} className="ml-2 inline-flex items-center font-semibold text-[#2f3a49] hover:text-[#ED602E]">
+            {ctaLabel}
           </Link>
         </p>
       </div>
