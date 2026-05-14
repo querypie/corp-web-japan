@@ -242,6 +242,27 @@ Concrete `/t/platforms/aip` example:
 - the narrower copy wrappers shifted the columns inward and changed paragraph wrapping/height
 - this is a parity defect in the copy wrapper sizing/placement, not a media-width issue
 
+For rows where the live media starts at the content area's left edge, also compare occupied row width:
+
+- live `シンプルな統合` row:
+  - row left: about `120px`
+  - media left: about `121.19px`
+  - media width: `580px`
+  - copy left: about `781.19px`
+  - copy width: about `537.61px`
+  - right edge of copy: about `1318.8px`
+  - the media/copy group nearly fills the `1200px` content row, leaving only about `1px` side slack
+- stage `シンプルな統合` row:
+  - row left: `120px`
+  - media left: `200px`
+  - media width: `580px`
+  - copy left: `860px`
+  - copy width: `380px`
+  - right edge of copy: `1240px`
+  - the media/copy group occupies only `1040px`, so `justify-center` leaves `80px` side slack on both sides
+
+This explains the visible issue where the stage image starts too far from the content area's left edge even though the row direction, media width, and `80px` media-to-copy gap match live.
+
 Implementation warning:
 
 - avoid guessing route-local `max-w-*` values for `AipFeatureCopy`
