@@ -62,7 +62,8 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
   assert.match(platformSource, /export function PlatformHeroSection/);
   assert.match(platformSource, /export function PlatformFeatureSection/);
   assert.match(platformSource, /relative overflow-x-hidden bg-white text-slate-950/);
-  assert.match(platformSource, /flex justify-center px-6 lg:px-0/);
+  assert.match(platformSource, /paddingClassName = "px-6 lg:px-0"/);
+  assert.match(platformSource, /joinClassNames\("flex justify-center", paddingClassName, className\)/);
 });
 
 test("/t/platforms/aip guards the route-aligned assets required for visual parity", () => {

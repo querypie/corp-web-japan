@@ -1,18 +1,22 @@
 import Image from "next/image";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { MarketingPageSection } from "@/components/sections/home/primitives";
+import { PlatformPageSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 
 type ClassNameProps = {
   className?: string;
 };
 
 export function AipUsageBasedLlmPageShell({ children }: { children: ReactNode }) {
-  return <main className="relative overflow-x-hidden bg-white text-slate-950">{children}</main>;
+  return <PlatformPageShell>{children}</PlatformPageShell>;
 }
 
 export function AipUsageBasedLlmHeroSection({ children }: { children: ReactNode }) {
-  return <MarketingPageSection className="pb-[187px] pt-[76px]">{children}</MarketingPageSection>;
+  return (
+    <PlatformPageSection className="pb-[187px] pt-[76px]" contentWidthClassName="max-w-[1200px]">
+      {children}
+    </PlatformPageSection>
+  );
 }
 
 export function AipUsageBasedLlmHeroTitle({ children }: { children: ReactNode }) {
@@ -45,7 +49,7 @@ export function AipUsageBasedLlmFeatureBand({ muted = false, children }: { muted
 
 export function AipUsageBasedLlmFeatureRow({ reverse = false, children }: { reverse?: boolean; children: ReactNode }) {
   return (
-    <MarketingPageSection
+    <PlatformPageSection
       as="div"
       className="py-[80px]"
       contentClassName={cn(
@@ -54,7 +58,7 @@ export function AipUsageBasedLlmFeatureRow({ reverse = false, children }: { reve
       )}
     >
       {children}
-    </MarketingPageSection>
+    </PlatformPageSection>
   );
 }
 
@@ -79,7 +83,11 @@ export function AipUsageBasedLlmFeatureImage({ src, alt, width, height, classNam
 }
 
 export function AipUsageBasedLlmComparisonSection({ children }: { children: ReactNode }) {
-  return <MarketingPageSection className="pb-[120px] pt-[94px]">{children}</MarketingPageSection>;
+  return (
+    <PlatformPageSection className="pb-[120px] pt-[94px]" contentWidthClassName="max-w-[1200px]">
+      {children}
+    </PlatformPageSection>
+  );
 }
 
 export function AipUsageBasedLlmComparisonTitle({ children }: { children: ReactNode }) {

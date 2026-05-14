@@ -56,7 +56,8 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   assert.match(platformSource, /export function PlatformPageShell/);
   assert.match(platformSource, /export function PlatformPageSection/);
   assert.match(platformSource, /export function PlatformHeroSection/);
-  assert.match(platformSource, /flex justify-center px-6 lg:px-0/);
+  assert.match(platformSource, /paddingClassName = "px-6 lg:px-0"/);
+  assert.match(platformSource, /joinClassNames\("flex justify-center", paddingClassName, className\)/);
 
   assert.match(browserSource, /export function AcpFeatureBrowser/);
   assert.match(browserSource, /export function AcpFeatureCategory/);

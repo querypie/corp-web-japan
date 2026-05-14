@@ -40,6 +40,9 @@ test("AIP integrations platform preview page keeps category and product catalog 
 test("AIP integrations platform preview section primitives define the integration filter and grid UI", () => {
   assert.match(sectionSource, /AipIntegrationsCategoryLink/);
   assert.match(sectionSource, /AipIntegrationsProductCard/);
+  assert.doesNotMatch(sectionSource, /components\/sections\/platform\/page-primitives/);
+  assert.match(cssSource, /\.content \{/);
+  assert.match(cssSource, /max-width: 1200px/);
   assert.match(cssSource, /grid-template-columns: repeat\(7, minmax\(0, 1fr\)\)/);
   assert.match(cssSource, /padding: 12px 32px/);
   assert.match(cssSource, /padding: 30px/);

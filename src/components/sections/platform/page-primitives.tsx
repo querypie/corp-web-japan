@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 
 const joinClassNames = (...classNames: Array<string | false | null | undefined>) => classNames.filter(Boolean).join(" ");
 
@@ -6,20 +6,43 @@ type ChildrenProps = {
   children: ReactNode;
 };
 
-type PlatformPageSectionProps = ChildrenProps & {
+type PlatformPageSectionProps<T extends ElementType = "section"> = ChildrenProps & {
+  as?: T;
   className?: string;
-};
+  contentClassName?: string;
+  contentWidthClassName?: string;
+  paddingClassName?: string;
+} & Omit<ComponentPropsWithoutRef<T>, "as" | "children" | "className">;
 
 type PlatformFeatureSectionProps = ChildrenProps & {
   muted?: boolean;
+};
+
+type PlatformCtaSectionProps = ChildrenProps & {
+  className?: string;
 };
 
 export function PlatformPageShell({ children }: ChildrenProps) {
   return <main className="relative overflow-x-hidden bg-white text-slate-950">{children}</main>;
 }
 
-export function PlatformPageSection({ children, className }: PlatformPageSectionProps) {
-  return <section className={joinClassNames("flex justify-center px-6 lg:px-0", className)}>{children}</section>;
+export function PlatformPageSection<T extends ElementType = "section">({
+  as,
+  children,
+  className,
+  contentClassName,
+  contentWidthClassName,
+  paddingClassName = "px-6 lg:px-0",
+  ...props
+}: PlatformPageSectionProps<T>) {
+  const Component = (as ?? "section") as ElementType;
+  const contentClassNames = joinClassNames("w-full", contentWidthClassName ?? "max-w-[1200px]", contentClassName);
+
+  return (
+    <Component className={joinClassNames("flex justify-center", paddingClassName, className)} {...props}>
+      {contentClassName || contentWidthClassName ? <div className={contentClassNames}>{children}</div> : children}
+    </Component>
+  );
 }
 
 export function PlatformHeroSection({ children }: ChildrenProps) {
@@ -30,6 +53,6 @@ export function PlatformFeatureSection({ children, muted = false }: PlatformFeat
   return <PlatformPageSection className={joinClassNames("py-[80px]", muted ? "bg-[#F6F8FA]" : "bg-white")}>{children}</PlatformPageSection>;
 }
 
-export function PlatformCtaSection({ children }: ChildrenProps) {
-  return <section className="flex w-full flex-col items-center gap-[40px] bg-[#F6F8FA] px-[24px] py-[120px]">{children}</section>;
+export function PlatformCtaSection({ children, className }: PlatformCtaSectionProps) {
+  return <section className={joinClassNames("flex w-full flex-col items-center gap-[40px] bg-[#F6F8FA] px-[24px] py-[120px]", className)}>{children}</section>;
 }
