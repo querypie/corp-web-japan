@@ -16,7 +16,7 @@ test("company page primitives define shared section, intro, title, lead, and lay
   assert.match(primitives, /<div className="mx-auto w-full max-w-\[1200px\]">/);
   assert.match(primitives, /type CompanyPageSectionPadding = "default" \| "compactHero"/);
   assert.match(primitives, /padding\?: CompanyPageSectionPadding/);
-  assert.match(primitives, /default: "pb-\[50px\] pt-\[100px\] lg:pb-\[66px\] lg:pt-\[120px\]"/);
+  assert.match(primitives, /default: "pb-\[50px\] pt-\[100px\] lg:pb-\[72px\] lg:pt-\[120px\]"/);
   assert.match(primitives, /compactHero: "pb-\[50px\] pt-\[100px\] lg:pb-\[72px\] lg:pt-\[120px\]"/);
   assert.match(primitives, /mx-auto w-full max-w-\[1920px\] bg-white px-\[30px\]/);
   assert.match(primitives, /flex flex-col gap-10 pt-\[10px\] text-left lg:gap-\[50px\] lg:pt-0/);
