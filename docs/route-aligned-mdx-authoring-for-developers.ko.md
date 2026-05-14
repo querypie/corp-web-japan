@@ -381,3 +381,223 @@ PR 470이 정적 마케팅 페이지의 기본 route-local refactoring 방향을
 
 정적 마케팅 페이지라면 대개 `page.tsx`의 JSX가 맞고,
 publication과 legal document라면 대개 route-aligned MDX + thin route wrapper가 더 적합합니다.
+
+## 13. 이 저장소의 현재 MDX 기반 content-management 기능
+
+`corp-web-japan`의 route-aligned MDX 패턴은 단순한 파일 배치 규칙이 아닙니다.
+loader, frontmatter, shared shell, route behavior를 통해 구현된 content-management contract이기도 합니다.
+
+### 13.1 현재 지원하는 content family
+
+현재 public MDX-backed family는 다음을 포함합니다.
+
+- `src/lib/publications/**` 기반 publication family
+  - blog
+  - whitepapers
+  - news
+  - events
+  - use cases
+  - AIP demos
+  - ACP demos
+- `src/lib/resources/**` 기반 resource-style family
+  - introduction deck
+  - glossary
+  - manuals
+- route-adjacent 또는 versioned document family
+  - `src/app/t/eula/content.mdx`
+  - `src/app/t/terms-of-service/content.mdx`
+  - `src/content/privacy-policy/*.mdx`
+
+즉, 이 패턴은 “blog를 MDX로 관리한다” 수준보다 훨씬 넓습니다.
+이 저장소는 이미 여러 public content family에서 MDX를 authoring layer로 사용하고 있고,
+그 위에 shared route/rendering rule을 얹고 있습니다.
+
+### 13.2 Content list는 frontmatter 기반으로 미리 인덱싱된다
+
+publication 계열 family에서는 list page를 만들 때 먼저 full MDX body를 모두 렌더링하지 않습니다.
+우선 frontmatter record를 인덱싱해서 list를 구성합니다.
+
+핵심 구현은 다음에서 확인할 수 있습니다.
+
+- `src/lib/publications/create-standard-records-repository.ts`
+- `src/lib/publications/blog/records.ts`
+- `src/lib/publications/whitepapers/records.ts`
+- `src/lib/publications/events/records.ts`
+
+현재 동작은 대략 다음과 같습니다.
+
+- family content root 아래의 모든 `*.mdx` 파일을 읽는다
+- 각 source file의 frontmatter block을 한 번 파싱한다
+- frontmatter를 typed record로 normalize한다
+- numeric `id` 기준 내림차순 정렬한다
+- `hidden: true` record는 visible list item에서 제외한다
+- shadow record가 다른 목적지로 가야 할 때는 `redirectUrl`로 list-card href를 바꾼다
+- static route generation을 위해 `listParams()`와 `listIds()`를 제공한다
+
+즉, list page는 full body 렌더링 없이도 “어떤 컨텐츠가 존재하는가?”와
+“어떤 card를 노출해야 하는가?”를 record index만으로 빠르게 답할 수 있습니다.
+
+### 13.3 Detail loader는 file read를 캐시해서 반복 접근을 빠르게 한다
+
+detail loader에는 또 다른 런타임 최적화가 있습니다.
+현재 핵심 구현은 다음입니다.
+
+- `src/lib/publications/create-standard-publication-post-loader.ts`
+- `src/lib/publications/create-gated-publication-post-loader.ts`
+- `src/lib/resources/base-resource-publication-post-loader.ts`
+
+핵심 포인트는 각 loader가 `sourcePath` 기준 in-memory body-source cache를 유지한다는 점입니다.
+이로 인해 현재 구현은 다음 장점을 가집니다.
+
+- 같은 post에 대한 반복 요청 때마다 MDX 파일을 다시 디스크에서 읽지 않아도 된다
+- metadata, TOC 추출, related item 구성, rendering이 모두 같은 cached source text를 재사용할 수 있다
+- list page loading과 detail page loading이 분리되어 있어 list 응답은 가볍게 유지하고, detail route에서만 full rendered MDX를 사용한다
+
+실제로 이 저장소는 두 층의 최적화를 함께 사용합니다.
+
+- frontmatter-indexed list repository로 list/route-param resolution을 빠르게 처리
+- per-source body cache로 반복 detail read를 빠르게 처리
+
+### 13.4 Frontmatter는 제목/날짜 이상의 동작을 제어한다
+
+이 저장소에서 frontmatter는 단순 설명 헤더가 아니라 behavior surface입니다.
+현재는 list visibility, redirect, shared imagery, metadata, event timeline behavior, gating flow까지 frontmatter가 제어합니다.
+
+#### 공통 identity / presentation 필드
+
+주요 family 전반의 공통 baseline 필드는 다음과 같습니다.
+
+- `id`
+- `slug`
+- `title`
+- `description`
+- `date`
+- `heroImageSrc`
+- `relatedIds` 또는 family별 동등한 related-item metadata
+- 지원되는 family의 `author`
+
+이 필드들은 canonical route, page header, list card, metadata generation, related-item rendering에 연결됩니다.
+
+#### List / detail behavior 필드
+
+현재 구현은 route/list behavior도 frontmatter로 제어합니다.
+
+- `hidden: true`
+  - visible list page에서는 제외
+- `redirectUrl`
+  - local record identity는 유지하면서 human visitor와 list card 목적지를 다른 곳으로 전환
+- `hideHeroImageOnDetail: true`
+  - list image metadata는 유지하면서 detail page의 hero image만 숨김
+- `hideTocOnDetail: true`
+  - 자동 heading 기반 TOC UI를 숨겨야 하는 경우 해당 출력 억제
+
+즉, frontmatter 품질은 copy 품질만이 아니라 application behavior 품질로도 리뷰되어야 합니다.
+
+#### 이미 지원되는 family-specific 필드
+
+현재 저장소는 다음과 같은 family-specific frontmatter 기능도 지원합니다.
+
+- `listDescription`
+  - whitepaper list에서 detail description 대신 list 전용 summary를 사용
+- `eventDate`
+  - publish date만이 아니라 실제 event date를 timeline 배치 기준으로 사용
+- `eventLabel`
+  - event badge label을 기본값 대신 개별 override
+- `gated: true`
+  - 지원되는 family에서 gated-content 경로 활성화
+- `downloadCta`
+  - CTA label과 download destination contract 정의
+- `downloadCoverImageSrc`
+  - whitepaper PDF gating page에서 article thumbnail 대신 전용 portrait cover 사용
+
+### 13.5 SEO와 canonical route behavior도 frontmatter 기반이다
+
+MDX layer는 SEO와 canonical routing behavior에도 직접 연결됩니다.
+대표 route file 예시는 다음과 같습니다.
+
+- `src/app/blog/[id]/[slug]/page.tsx`
+- `src/app/whitepapers/[id]/[slug]/page.tsx`
+- `src/app/events/[id]/[slug]/page.tsx`
+
+현재 route contract는 다음과 같습니다.
+
+- content는 `id` 기준으로 resolve한다
+- `slug`는 canonical display segment로 취급한다
+- `/section/:id` 또는 mismatched slug는 `/section/:id/:slug`로 redirect한다
+- page metadata는 record/frontmatter 값으로 생성한다
+- record가 의도적으로 다른 route나 목적지를 가리키는 경우 redirect-aware behavior를 유지한다
+
+즉, frontmatter는 visible page body만이 아니라 SEO/canonicalization layer의 일부이기도 합니다.
+
+### 13.6 Event page는 archive와 upcoming-event UX를 함께 지원한다
+
+event family는 frontmatter-backed MDX가 더 풍부한 list behavior를 만들 수 있음을 잘 보여줍니다.
+주요 구현은 다음에 있습니다.
+
+- `src/lib/publications/events/records.ts`
+- `src/app/events/page.tsx`
+
+현재 event-page 기능은 다음을 포함합니다.
+
+- past event archive를 계속 노출한다
+- 가장 가까운 visible upcoming event를 `heroEvent`로 계산한다
+- `eventDate`가 있으면 그것을 우선 사용하고, 없으면 `date`로 fallback한다
+- 선택된 upcoming item을 hero에 `Upcoming Event` eyebrow와 CTA button으로 강조한다
+- 나머지 timeline은 `Past Events` 섹션으로 렌더링한다
+- hero item이 시간에 따라 바뀌어도 past-event list archive는 유지한다
+
+즉, event page는 하드코딩된 landing page가 아니라,
+MDX event corpus를 frontmatter 기반 timeline view로 표현한 것입니다.
+
+### 13.7 CTA button과 gating form도 authoring contract의 일부다
+
+현재 MDX 시스템은 각 route file에 conversion logic을 직접 넣지 않고도 CTA/gating behavior를 지원합니다.
+대표 구현 파일은 다음과 같습니다.
+
+- `src/components/sections/publication-post-page.tsx`
+- `src/components/sections/publication/gated-content.tsx`
+- `src/lib/publications/gating.ts`
+- `src/lib/gating-form.ts`
+- `src/app/whitepapers/[id]/[slug]/pdf/page.tsx`
+
+현재 지원 기능은 다음과 같습니다.
+
+- `downloadCta` 기반 article-body CTA button
+- `<GatingCut />`를 통한 gated preview/body 분리
+- `/api/gating-form/unlock`를 통한 gated-content unlock
+- content key 기반 per-content gating cookie
+- internal review용 preview-mode bypass
+- whitepaper에서 일반 article thumbnail 대신 `downloadCoverImageSrc`를 사용할 수 있는 PDF gate page
+
+실무 authoring rule로 정리하면:
+
+- resource가 gated라면 MDX file에 `gated: true`를 선언해야 하고
+- body 안에 `<GatingCut />`가 있어야 하며
+- 그러면 route와 shared shell이 route-specific 재구현 없이 preview content, gating form, unlocked content를 렌더링할 수 있습니다
+
+## 14. 새 MDX-backed entry를 위한 실무 authoring 체크리스트
+
+이 저장소에서 새 MDX-backed content item을 추가하거나 리뷰할 때의 최소 체크리스트는 다음과 같습니다.
+
+1. family에 맞는 올바른 content root를 선택한다.
+2. 그 family가 기대하는 경우 `id`와 route-readable slug가 유지되는 파일명을 사용한다.
+3. 필수 identity/metadata 필드를 설정한다: `id`, `slug`, `title`, `description`, `date`, `heroImageSrc`.
+4. 관계/동작 필드는 정말 필요할 때만 넣는다:
+   - `relatedIds`
+   - `hidden`
+   - `redirectUrl`
+   - `listDescription`
+   - `eventDate`
+   - `eventLabel`
+   - `hideHeroImageOnDetail`
+   - `hideTocOnDetail`
+   - `gated`
+   - `downloadCta`
+   - `downloadCoverImageSrc`
+5. route-aligned asset은 해당 public family/id path 아래에 둔다.
+6. gated content라면 `<GatingCut />`를 넣고 unlock flow를 검증한다.
+7. canonical route, list visibility, redirect behavior, metadata가 의도한 contract와 일치하는지 확인한다.
+
+이것이 PR 471 문서에 대한 핵심 보완점입니다.
+이 저장소의 route-aligned MDX authoring은 단순한 file-layout convention이 아니라,
+이미 상당한 수준의 content-management feature set을 포함하고 있습니다.
