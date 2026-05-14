@@ -11,13 +11,13 @@ type CookiePreferenceItemProps = {
   children: ReactNode;
 };
 
-type CookiePreferenceItemHeaderProps = {
+type CookiePreferenceToggleFieldProps = {
   id: CookiePreferenceKey;
   children: ReactNode;
   disabled?: boolean;
 };
 
-type CookiePreferenceItemDescriptionProps = {
+type CookiePreferenceToggleDescriptionProps = {
   children: ReactNode;
 };
 
@@ -29,19 +29,17 @@ export function CookiePreferenceItem({ children }: CookiePreferenceItemProps) {
   return <li className="flex flex-col gap-[20px]">{children}</li>;
 }
 
-export function CookiePreferenceItemHeader({ id, children, disabled = false }: CookiePreferenceItemHeaderProps) {
+export function CookiePreferenceToggleField({ id, children, disabled = false }: CookiePreferenceToggleFieldProps) {
   const switchId = `cookie-preference-${id}`;
 
   return (
     <div className="flex items-center gap-[15px]">
       <CookiePreferenceToggle preference={id} id={switchId} disabled={disabled} />
-      <label htmlFor={switchId} className="text-[18.75px] font-medium leading-[26.25px] text-[#24292F]">
-        {children}
-      </label>
+      <label htmlFor={switchId}>{children}</label>
     </div>
   );
 }
 
-export function CookiePreferenceItemDescription({ children }: CookiePreferenceItemDescriptionProps) {
-  return <p className="text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-[#57606A]">{children}</p>;
+export function CookiePreferenceToggleDescription({ children }: CookiePreferenceToggleDescriptionProps) {
+  return <p>{children}</p>;
 }

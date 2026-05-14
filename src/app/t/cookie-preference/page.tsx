@@ -3,8 +3,8 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
   CookiePreferenceItem,
-  CookiePreferenceItemDescription,
-  CookiePreferenceItemHeader,
+  CookiePreferenceToggleDescription,
+  CookiePreferenceToggleField,
   CookiePreferenceList,
 } from "@/components/sections/cookie-preference/list";
 import { CookiePreferenceSettingsSection } from "@/components/sections/cookie-preference/page";
@@ -49,48 +49,48 @@ export default function CookiePreferencePage() {
         <CookiePreferenceSettingsSection>
           <CookiePreferenceList>
             <CookiePreferenceItem>
-              <CookiePreferenceItemHeader id="necessary" disabled>
+              <CookiePreferenceToggleField id="necessary" disabled>
                 必須 Cookie
-              </CookiePreferenceItemHeader>
-              <CookiePreferenceItemDescription>
+              </CookiePreferenceToggleField>
+              <CookiePreferenceToggleDescription>
                 これらの Cookie は、Web サイトのコア機能を有効にするために必要であり、サイトを使用すると自動的に有効になります。これらには、ショッピングバッグやチェックアウトのプロセスを可能にする Cookie のほか、セキュリティ問題の解決や規制への準拠に役立つ Cookie が含まれます。
-              </CookiePreferenceItemDescription>
+              </CookiePreferenceToggleDescription>
             </CookiePreferenceItem>
 
             <CookiePreferenceItem>
-              <CookiePreferenceItemHeader id="performance">
+              <CookiePreferenceToggleField id="performance">
                 パフォーマンス Cookie
-              </CookiePreferenceItemHeader>
-              <CookiePreferenceItemDescription>
+              </CookiePreferenceToggleField>
+              <CookiePreferenceToggleDescription>
                 これらの Cookie は、当ウェブサイトの利用状況を追跡することで、サイトの機能性を向上させます。場合によっては、これらの Cookie を使用することで、お客様のリクエストを処理する速度が向上したり、お客様が選択したサイト設定を記憶できるようになります。これらの Cookie を無効にすると、カスタマイズされた推奨情報が表示されず、サイトのパフォーマンスが低下することがあります。
-              </CookiePreferenceItemDescription>
+              </CookiePreferenceToggleDescription>
             </CookiePreferenceItem>
 
             <CookiePreferenceItem>
-              <CookiePreferenceItemHeader id="functional">
+              <CookiePreferenceToggleField id="functional">
                 機能 Cookie
-              </CookiePreferenceItemHeader>
-              <CookiePreferenceItemDescription>
+              </CookiePreferenceToggleField>
+              <CookiePreferenceToggleDescription>
                 これらの Cookie は、ウェブサイトがお客様の選択を記憶し、より強化されたパーソナルな機能を提供することを可能にします。これらの Cookie が収集する情報は匿名化されており、他のウェブサイトでの閲覧状況を追跡することはありません。
-              </CookiePreferenceItemDescription>
+              </CookiePreferenceToggleDescription>
             </CookiePreferenceItem>
 
             <CookiePreferenceItem>
-              <CookiePreferenceItemHeader id="analysis">
+              <CookiePreferenceToggleField id="analysis">
                 分析 Cookie
-              </CookiePreferenceItemHeader>
-              <CookiePreferenceItemDescription>
+              </CookiePreferenceToggleField>
+              <CookiePreferenceToggleDescription>
                 これらの Cookie を使用することで、訪問者数とトラフィックソースをカウントし、サイトのパフォーマンスを測定および改善することができます。これらの Cookie は、どのページが最も人気があり、最も人気がないかを把握し、訪問者がサイト内をどのように移動しているかを確認するのに役立ちます。これらの Cookie が収集する情報はすべて集計されるため、匿名となります。これらの Cookie を許可しない場合、弊社はお客様がいつ弊社サイトを訪れたかを知ることができず、そのパフォーマンスを監視することができません。
-              </CookiePreferenceItemDescription>
+              </CookiePreferenceToggleDescription>
             </CookiePreferenceItem>
 
             <CookiePreferenceItem>
-              <CookiePreferenceItemHeader id="marketing">
+              <CookiePreferenceToggleField id="marketing">
                 マーケティング Cookie
-              </CookiePreferenceItemHeader>
-              <CookiePreferenceItemDescription>
+              </CookiePreferenceToggleField>
+              <CookiePreferenceToggleDescription>
                 マーケティング Cookie は、ユーザーが特定の広告を経由して当サイトにアクセスしたかどうかを識別し、Google 広告などのキャンペーンのパフォーマンスを測定することで、効果的な広告の計画と実行に役立ちます。これらの非必須 Cookie は、お客様の同意を必要とし、特定の個人を識別するために使用されることはありません。
-              </CookiePreferenceItemDescription>
+              </CookiePreferenceToggleDescription>
             </CookiePreferenceItem>
           </CookiePreferenceList>
         </CookiePreferenceSettingsSection>
