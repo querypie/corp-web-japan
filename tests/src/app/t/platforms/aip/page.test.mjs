@@ -45,7 +45,7 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
   assert.match(sectionSource, /export function AipHeroSection/);
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
   assert.match(sectionSource, /export function AipPageShell[\s\S]*<PlatformPageShell>/);
-  assert.match(sectionSource, /export function AipHeroSection[\s\S]*<PlatformHeroSection>/);
+  assert.match(sectionSource, /export function AipHeroSection[\s\S]*<PlatformContentSection className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]">/);
   assert.match(sectionSource, /export function AipHeroVideo/);
   assert.match(sectionSource, /bg-\[linear-gradient\(291deg,#C5D6E6_0%,#FFF_100%\)\]/);
   assert.match(sectionSource, /export function AipValueGrid/);
