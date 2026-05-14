@@ -8,7 +8,6 @@ const pagePath = "src/app/t/privacy-policy/page.tsx";
 const versionPagePath = "src/app/t/privacy-policy/[slug]/page.tsx";
 const selectorPath = "src/components/sections/privacy-policy/version-selector.tsx";
 const documentBodyComponentsPath = "src/components/sections/privacy-policy/document-body-components.tsx";
-const documentHeaderControlsPath = "src/components/sections/privacy-policy/document-header-controls.tsx";
 const legalDocumentPath = "src/components/sections/legal/document.tsx";
 const legalMdxSourcePath = "src/lib/legal-mdx-source.ts";
 const sourcesPath = "src/lib/privacy-policy/records.ts";
@@ -54,9 +53,8 @@ test("privacy policy route keeps latest alias page and version detail route with
 
 test("privacy policy preview scans shared content filenames and uses the shared legal document contract", () => {
   const versionPageSource = readSource(versionPagePath);
-  const documentBodyComponentsSource = readSource(documentBodyComponentsPath);
-  const documentHeaderControlsSource = readSource(documentHeaderControlsPath);
   const selectorSource = readSource(selectorPath);
+  const documentBodyComponentsSource = readSource(documentBodyComponentsPath);
   const legalDocumentSource = readSource(legalDocumentPath);
   const legalMdxHelperSource = readSource(legalMdxSourcePath);
   const sourcesSource = readSource(sourcesPath);
@@ -68,12 +66,13 @@ test("privacy policy preview scans shared content filenames and uses the shared 
   assert.match(versionPageSource, /from "@\/components\/sections\/legal\/document"/);
   assert.match(versionPageSource, /hasPrivacyPolicySlug\(slug\)/);
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
-  assert.match(versionPageSource, /<PrivacyPolicyLanguageSelector language="en" \/>/);
+  assert.doesNotMatch(versionPageSource, /PrivacyPolicyLanguageSelector/);
   assert.match(versionPageSource, /<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/);
   assert.match(versionPageSource, /<LegalDocumentIntro className="flex flex-col gap-4">/);
-  assert.match(versionPageSource, /<LegalDocumentMeta>\{`Effective date: \$\{frontmatter\.date\}`\}<\/LegalDocumentMeta>/);
+  assert.match(versionPageSource, /<div className="flex flex-wrap items-center gap-4">/);
+  assert.doesNotMatch(versionPageSource, /<LegalDocumentMeta>\{`Effective date: \$\{frontmatter\.date\}`\}<\/LegalDocumentMeta>/);
   assert.match(versionPageSource, /<LegalDocumentTitle variant="compact">\{frontmatter\.title\}<\/LegalDocumentTitle>/);
-  assert.match(versionPageSource, /<LegalDocumentLead>\{frontmatter\.description\}<\/LegalDocumentLead>/);
+  assert.doesNotMatch(versionPageSource, /<LegalDocumentLead>\{frontmatter\.description\}<\/LegalDocumentLead>/);
   assert.match(versionPageSource, /<LegalDocumentLayout>/);
   assert.match(versionPageSource, /<LegalDocumentBody className="\[&_h2:first-child\]:mt-0">\{evaluation\.content\}<\/LegalDocumentBody>/);
   assert.doesNotMatch(versionPageSource, /function PrivacyMdxLink/);
@@ -84,8 +83,6 @@ test("privacy policy preview scans shared content filenames and uses the shared 
   assert.match(documentBodyComponentsSource, /buildPrivacyPolicyDocumentComponents\(\)/);
   assert.doesNotMatch(documentBodyComponentsSource, /export function LegalBodyH1/);
   assert.doesNotMatch(documentBodyComponentsSource, /export function PrivacyMdxLink/);
-  assert.match(documentHeaderControlsSource, /export function PrivacySelectorBox/);
-  assert.match(documentHeaderControlsSource, /export function PrivacyPolicyLanguageSelector/);
   assert.match(legalDocumentSource, /export function LegalDocumentIntro/);
   assert.match(legalDocumentSource, /export function LegalDocumentSection/);
   assert.match(legalDocumentSource, /export function LegalDocumentLayout/);
@@ -105,6 +102,8 @@ test("privacy policy preview scans shared content filenames and uses the shared 
   assert.equal(sourceExists("src/app/t/privacy-policy/privacy-policy-versions.ts"), false);
   assert.equal(sourceExists("src/app/t/privacy-policy/document-renderer.tsx"), false);
   assert.equal(sourceExists("src/app/t/privacy-policy/version-selector.tsx"), false);
+  assert.equal(sourceExists("src/components/sections/privacy-policy/document-header-controls.tsx"), false);
+  assert.equal(sourceExists("src/components/sections/privacy-policy/version-selector.tsx"), true);
 });
 
 test("privacy policy preview migrates every upstream English version into src/content/privacy-policy dated MDX files", () => {

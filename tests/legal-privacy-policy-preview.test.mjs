@@ -12,7 +12,6 @@ const documentBodyComponentsPath = "src/components/sections/privacy-policy/docum
 const legalMdxPath = "src/components/sections/legal/mdx.tsx";
 const legalDocumentPath = "src/components/sections/legal/document.tsx";
 const legalMdxSourcePath = "src/lib/legal-mdx-source.ts";
-const documentHeaderControlsPath = "src/components/sections/privacy-policy/document-header-controls.tsx";
 const sourcesPath = "src/lib/privacy-policy/records.ts";
 const footerPath = new URL("../src/components/layout/site-footer.tsx", import.meta.url);
 
@@ -39,9 +38,7 @@ const expectedVersionSlugs = [
 test("privacy policy route keeps a latest alias page while [slug]/page.tsx owns rendering and noindex metadata", () => {
   assert.equal(existsSync(new URL(`../${pagePath}`, import.meta.url)), true, `${pagePath} should exist`);
   assert.equal(existsSync(new URL(`../${versionPagePath}`, import.meta.url)), true, `${versionPagePath} should exist`);
-  assert.equal(existsSync(new URL(`../${selectorPath}`, import.meta.url)), true, `${selectorPath} should exist`);
   assert.equal(existsSync(new URL(`../${documentBodyComponentsPath}`, import.meta.url)), true, `${documentBodyComponentsPath} should exist`);
-  assert.equal(existsSync(new URL(`../${documentHeaderControlsPath}`, import.meta.url)), true, `${documentHeaderControlsPath} should exist`);
 
   const pageSource = readSource(pagePath);
   const versionPageSource = readSource(versionPagePath);
@@ -54,16 +51,17 @@ test("privacy policy route keeps a latest alias page while [slug]/page.tsx owns 
   assert.match(versionPageSource, /generateStaticParams\(\)/);
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
   assert.match(versionPageSource, /<LegalDocumentIntro className="flex flex-col gap-4">/);
-  assert.match(versionPageSource, /<LegalDocumentMeta>\{`Effective date: \$\{frontmatter\.date\}`\}<\/LegalDocumentMeta>/);
+  assert.match(versionPageSource, /<div className="flex flex-wrap items-center gap-4">/);
+  assert.doesNotMatch(versionPageSource, /<LegalDocumentMeta>\{`Effective date: \$\{frontmatter\.date\}`\}<\/LegalDocumentMeta>/);
   assert.match(versionPageSource, /<LegalDocumentTitle variant="compact">\{frontmatter\.title\}<\/LegalDocumentTitle>/);
-  assert.match(versionPageSource, /<LegalDocumentLead>\{frontmatter\.description\}<\/LegalDocumentLead>/);
+  assert.doesNotMatch(versionPageSource, /<LegalDocumentLead>\{frontmatter\.description\}<\/LegalDocumentLead>/);
   assert.match(versionPageSource, /export async function generatePrivacyPolicyMetadata\(/);
   assert.match(versionPageSource, /export async function renderPrivacyPolicyVersionPage\(slug: string\)/);
   assert.match(versionPageSource, /canonicalPath: `\/t\/privacy-policy\/\$\{slug\}`/);
   assert.match(versionPageSource, /return renderPrivacyPolicyVersionPage\(slug\)/);
   assert.match(versionPageSource, /<SiteHeader \/>/);
-  assert.match(versionPageSource, /<PrivacySelectorBox>/);
-  assert.match(versionPageSource, /<PrivacyPolicyLanguageSelector language="en" \/>/);
+  assert.doesNotMatch(versionPageSource, /PrivacySelectorBox/);
+  assert.doesNotMatch(versionPageSource, /PrivacyPolicyLanguageSelector/);
   assert.match(versionPageSource, /<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/);
   assert.match(versionPageSource, /<AipFreeTrialCtaSection \/>/);
   assert.match(versionPageSource, /<SiteFooter \/>/);
@@ -76,7 +74,6 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   const legalMdxSource = readSource(legalMdxPath);
   const legalDocumentSource = readSource(legalDocumentPath);
   const legalMdxHelperSource = readSource(legalMdxSourcePath);
-  const documentHeaderControlsSource = readSource(documentHeaderControlsPath);
   const sourcesSource = readSource(sourcesPath);
   const footerSource = readFileSync(footerPath, "utf8");
 
@@ -86,9 +83,10 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   assert.match(versionPageSource, /hasPrivacyPolicySlug\(slug\)/);
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
   assert.match(versionPageSource, /<LegalDocumentIntro className="flex flex-col gap-4">/);
-  assert.match(versionPageSource, /<LegalDocumentMeta>\{`Effective date: \$\{frontmatter\.date\}`\}<\/LegalDocumentMeta>/);
+  assert.match(versionPageSource, /<div className="flex flex-wrap items-center gap-4">/);
+  assert.doesNotMatch(versionPageSource, /<LegalDocumentMeta>\{`Effective date: \$\{frontmatter\.date\}`\}<\/LegalDocumentMeta>/);
   assert.match(versionPageSource, /<LegalDocumentTitle variant="compact">\{frontmatter\.title\}<\/LegalDocumentTitle>/);
-  assert.match(versionPageSource, /<LegalDocumentLead>\{frontmatter\.description\}<\/LegalDocumentLead>/);
+  assert.doesNotMatch(versionPageSource, /<LegalDocumentLead>\{frontmatter\.description\}<\/LegalDocumentLead>/);
   assert.doesNotMatch(versionPageSource, /function PrivacyMdxLink/);
   assert.doesNotMatch(versionPageSource, /function PrivacyPolicyLanguageSelector/);
   assert.doesNotMatch(versionPageSource, /function PrivacySelectorBox/);
@@ -111,10 +109,6 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   assert.match(legalMdxHelperSource, /export async function renderLegalMdx<Frontmatter extends Record<string, unknown>>/);
   assert.match(legalMdxHelperSource, /parseFrontmatter: true,/);
 
-  assert.match(documentHeaderControlsSource, /export function PrivacySelectorBox/);
-  assert.match(documentHeaderControlsSource, /export function PrivacyPolicyLanguageSelector/);
-  assert.doesNotMatch(documentHeaderControlsSource, /window\.location\.assign/);
-
   assert.match(selectorSource, /window\.location\.assign\(`\/t\/privacy-policy\/\$\{nextSlug\}`\)/);
   assert.match(footerSource, /label: "プライバシーポリシー", href: t\("\/privacy-policy", previewModeEnabled\)/);
   assert.match(sourcesSource, /readdir\(PRIVACY_POLICY_CONTENT_DIR, \{ withFileTypes: true \}\)/);
@@ -125,6 +119,8 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   assert.equal(existsSync(new URL("privacy-policy-versions.ts", routeDir)), false);
   assert.equal(existsSync(new URL("../src/app/t/privacy-policy/document-renderer.tsx", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/t/privacy-policy/version-selector.tsx", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/components/sections/privacy-policy/document-header-controls.tsx", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/components/sections/privacy-policy/version-selector.tsx", import.meta.url)), true);
 });
 
 test("privacy policy preview migrates every upstream English version into src/content/privacy-policy dated MDX files", () => {

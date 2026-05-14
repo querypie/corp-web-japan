@@ -11,7 +11,7 @@ export function PrivacyPolicyVersionSelector({ currentSlug, slugs }: PrivacyPoli
       <span className="sr-only">Change history</span>
       <select
         defaultValue={currentSlug}
-        className="h-10 rounded-[6px] border border-[#d1d5db] bg-white px-3 text-sm text-slate-950"
+        className="h-10 min-w-[160px] rounded-[6px] border border-[#d1d5db] bg-white px-3 text-sm text-slate-950"
         onChange={(event) => {
           const nextSlug = event.target.value;
           if (!nextSlug || nextSlug === currentSlug || typeof window === "undefined") {
