@@ -86,14 +86,16 @@ export async function renderPrivacyPolicyVersionPage(slug: string) {
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <LegalDocumentSection>
-        <LegalDocumentIntro className="flex flex-col gap-4">
-          <div className="flex flex-wrap items-center gap-4">
-            <LegalDocumentTitle variant="compact">{frontmatter.title}</LegalDocumentTitle>
-            <PrivacyPolicyVersionSelector currentSlug={frontmatter.version} slugs={slugs} />
+        <LegalDocumentIntro>
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-wrap items-center gap-4">
+              <LegalDocumentTitle>{frontmatter.title}</LegalDocumentTitle>
+              <PrivacyPolicyVersionSelector currentSlug={frontmatter.version} slugs={slugs} />
+            </div>
           </div>
         </LegalDocumentIntro>
         <LegalDocumentLayout>
-          <LegalDocumentBody className="[&_h2:first-child]:mt-0">{evaluation.content}</LegalDocumentBody>
+          <LegalDocumentBody>{evaluation.content}</LegalDocumentBody>
         </LegalDocumentLayout>
       </LegalDocumentSection>
       <AipFreeTrialCtaSection />

@@ -50,10 +50,14 @@ test("privacy policy route keeps a latest alias page while [slug]/page.tsx owns 
 
   assert.match(versionPageSource, /generateStaticParams\(\)/);
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
-  assert.match(versionPageSource, /<LegalDocumentIntro className="flex flex-col gap-4">/);
+  assert.match(versionPageSource, /<LegalDocumentIntro>/);
+  assert.doesNotMatch(versionPageSource, /<LegalDocumentIntro className=/);
+  assert.doesNotMatch(versionPageSource, /<LegalDocumentMeta>/);
+  assert.doesNotMatch(versionPageSource, /frontmatter\.date/);
   assert.match(versionPageSource, /<div className="flex flex-wrap items-center gap-4">/);
-  assert.doesNotMatch(versionPageSource, /<LegalDocumentMeta>\{`Effective date: \$\{frontmatter\.date\}`\}<\/LegalDocumentMeta>/);
-  assert.match(versionPageSource, /<LegalDocumentTitle variant="compact">\{frontmatter\.title\}<\/LegalDocumentTitle>/);
+  assert.match(versionPageSource, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>\s*<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/s);
+  assert.doesNotMatch(versionPageSource, /LegalDocumentTitle variant=/);
+  assert.match(versionPageSource, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>\s*<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>\s*<\/div>\s*<\/div>\s*<\/LegalDocumentIntro>/s);
   assert.doesNotMatch(versionPageSource, /<LegalDocumentLead>\{frontmatter\.description\}<\/LegalDocumentLead>/);
   assert.match(versionPageSource, /export async function generatePrivacyPolicyMetadata\(/);
   assert.match(versionPageSource, /export async function renderPrivacyPolicyVersionPage\(slug: string\)/);
@@ -82,10 +86,14 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   assert.match(versionPageSource, /src\/content\/privacy-policy", `\$\{slug\}\.mdx`/);
   assert.match(versionPageSource, /hasPrivacyPolicySlug\(slug\)/);
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
-  assert.match(versionPageSource, /<LegalDocumentIntro className="flex flex-col gap-4">/);
+  assert.match(versionPageSource, /<LegalDocumentIntro>/);
+  assert.doesNotMatch(versionPageSource, /<LegalDocumentIntro className=/);
+  assert.doesNotMatch(versionPageSource, /<LegalDocumentMeta>/);
+  assert.doesNotMatch(versionPageSource, /frontmatter\.date/);
   assert.match(versionPageSource, /<div className="flex flex-wrap items-center gap-4">/);
-  assert.doesNotMatch(versionPageSource, /<LegalDocumentMeta>\{`Effective date: \$\{frontmatter\.date\}`\}<\/LegalDocumentMeta>/);
-  assert.match(versionPageSource, /<LegalDocumentTitle variant="compact">\{frontmatter\.title\}<\/LegalDocumentTitle>/);
+  assert.match(versionPageSource, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>\s*<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/s);
+  assert.doesNotMatch(versionPageSource, /LegalDocumentTitle variant=/);
+  assert.match(versionPageSource, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>\s*<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>\s*<\/div>\s*<\/div>\s*<\/LegalDocumentIntro>/s);
   assert.doesNotMatch(versionPageSource, /<LegalDocumentLead>\{frontmatter\.description\}<\/LegalDocumentLead>/);
   assert.doesNotMatch(versionPageSource, /function PrivacyMdxLink/);
   assert.doesNotMatch(versionPageSource, /function PrivacyPolicyLanguageSelector/);
@@ -102,6 +110,10 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   assert.match(legalDocumentSource, /export function LegalDocumentSection/);
   assert.match(legalDocumentSource, /export function LegalDocumentLayout/);
   assert.match(legalDocumentSource, /export function LegalDocumentLead/);
+  assert.match(legalDocumentSource, /companyBodyTextClassName/);
+  assert.match(legalDocumentSource, /pb-\[50px\] pt-\[100px\] lg:pb-\[72px\] lg:pt-\[120px\]/);
+  assert.match(legalDocumentSource, /flex flex-col gap-10 pt-\[10px\] text-left lg:gap-\[50px\] lg:pt-0/);
+  assert.match(legalDocumentSource, /text-\[40px\] font-medium leading-\[1\.2\] tracking-\[-0\.03em\] text-slate-950 sm:text-\[48px\] lg:text-\[52px\]/);
   assert.match(legalDocumentSource, /export function LegalDocumentPageSection/);
   assert.match(legalDocumentSource, /text-\[16px\] leading-\[26px\] text-slate-600/);
   assert.match(legalDocumentSource, /\[&_p\]:text-\[16px\] \[&_p\]:leading-\[26px\] \[&_p\]:text-slate-600/);
