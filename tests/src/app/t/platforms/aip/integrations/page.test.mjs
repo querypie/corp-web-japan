@@ -22,18 +22,18 @@ test("AIP integrations platform preview page keeps authored hero copy and CTA in
   assert.match(pageSource, /<AipFreeTrialCtaSection \/>/);
 });
 
-test("AIP integrations platform preview page keeps category and product catalog route-local with keyword-based filters", () => {
+test("AIP integrations platform preview page keeps category and product catalog route-local with live-compatible numeric filters", () => {
   const categoryMatches = pageSource.match(/label: ".*?"/g) ?? [];
   assert.ok(categoryMatches.length >= 55, `expected category and product label entries, got ${categoryMatches.length}`);
   assert.match(pageSource, /const categories:/);
   assert.match(pageSource, /const products:/);
   assert.match(pageSource, /products\.length/);
-  assert.match(pageSource, /workflow-automation/);
-  assert.match(pageSource, /google-workspace/);
-  assert.match(pageSource, /project-management/);
-  assert.match(pageSource, /search-navigation/);
+  assert.match(pageSource, /key: "0", label: "ワークフロー自動化"/);
+  assert.match(pageSource, /key: "3", label: "Googleサービス"/);
+  assert.match(pageSource, /key: "5", label: "プロジェクト管理"/);
+  assert.match(pageSource, /key: "8", label: "検索 & ナビゲーション"/);
   assert.match(pageSource, /currentCategory === "all" \|\| product.categoryKeys.includes\(currentCategory\)/);
-  assert.doesNotMatch(pageSource, /href=\{`\/t\/services\/aip\/integrations\?category=\$\{category\.id\}`\}/);
+  assert.match(pageSource, /href=\{`\/t\/platforms\/aip\/integrations\?category=\$\{category\.key\}`\}/);
   assert.doesNotMatch(pageSource, /categoryIds:/);
 });
 
