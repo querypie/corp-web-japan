@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { PlatformContentSection, PlatformHeroSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
+import { PlatformContentSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 
 export function AcpServicePageShell({ children }: { children: ReactNode }) {
   return <PlatformPageShell>{children}</PlatformPageShell>;
 }
 
 export function AcpHeroSection({ children }: { children: ReactNode }) {
-  return <PlatformHeroSection>{children}</PlatformHeroSection>;
+  return <PlatformContentSection className="pb-[120px] pt-[134px] lg:pt-[144px]">{children}</PlatformContentSection>;
 }
 
 export function AcpHeroInner({ children }: { children: ReactNode }) {
@@ -20,7 +20,7 @@ export function AcpHeroCopy({ children }: { children: ReactNode }) {
 }
 
 export function AcpHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 className="text-[60px] font-normal leading-[72px] tracking-normal text-[#24292F]">{children}</h1>;
+  return <h1 className="text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h1>;
 }
 
 export function AcpHeroLead({ children }: { children: ReactNode }) {

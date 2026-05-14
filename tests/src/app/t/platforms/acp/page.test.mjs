@@ -46,7 +46,8 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   assert.match(sectionSource, /export function AcpFeatureSection/);
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
   assert.match(sectionSource, /export function AcpServicePageShell[\s\S]*<PlatformPageShell>/);
-  assert.match(sectionSource, /export function AcpHeroSection[\s\S]*<PlatformHeroSection>/);
+  assert.match(sectionSource, /export function AcpHeroSection[\s\S]*<PlatformContentSection className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]">/);
+  assert.match(sectionSource, /export function AcpHeroTitle[\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
   assert.match(sectionSource, /export function AcpFeatureSection[\s\S]*<PlatformContentSection className="pb-\[80px\]">/);
   assert.match(sectionSource, /export function AcpFeatureIntro/);
   assert.match(sectionSource, /export function AcpIntegrationsLink/);
