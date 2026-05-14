@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { PlatformFeatureSection, PlatformHeroSection, PlatformPageSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
+import { PlatformContentSection, PlatformFeatureSection, PlatformHeroSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 
 type FeatureSectionProps = {
   children: ReactNode;
@@ -58,9 +58,9 @@ export function AipHeroVideo() {
 
 export function AipValueSection({ children }: { children: ReactNode }) {
   return (
-    <PlatformPageSection className="bg-[linear-gradient(291deg,#C5D6E6_0%,#FFF_100%)] py-[120px]">
+    <PlatformContentSection className="bg-[linear-gradient(291deg,#C5D6E6_0%,#FFF_100%)] py-[120px]">
       {children}
-    </PlatformPageSection>
+    </PlatformContentSection>
   );
 }
 

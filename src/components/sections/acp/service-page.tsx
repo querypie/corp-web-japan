@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { PlatformHeroSection, PlatformPageSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
+import { PlatformContentSection, PlatformHeroSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 
 export function AcpServicePageShell({ children }: { children: ReactNode }) {
   return <PlatformPageShell>{children}</PlatformPageShell>;
@@ -45,7 +45,7 @@ export function AcpHeroVideo() {
 }
 
 export function AcpEasyUseSection({ children }: { children: ReactNode }) {
-  return <PlatformPageSection className="pb-[160px]">{children}</PlatformPageSection>;
+  return <PlatformContentSection className="pb-[160px]">{children}</PlatformContentSection>;
 }
 
 export function AcpEasyUseInner({ children }: { children: ReactNode }) {
@@ -53,7 +53,7 @@ export function AcpEasyUseInner({ children }: { children: ReactNode }) {
 }
 
 export function AcpFeatureSection({ children }: { children: ReactNode }) {
-  return <PlatformPageSection className="pb-[80px]">{children}</PlatformPageSection>;
+  return <PlatformContentSection className="pb-[80px]">{children}</PlatformContentSection>;
 }
 
 export function AcpFeatureInner({ children }: { children: ReactNode }) {
@@ -81,7 +81,7 @@ export function AcpEasyUseImage() {
 }
 
 export function AcpIntegrationsSection({ children }: { children: ReactNode }) {
-  return <PlatformPageSection className="bg-[#F6F8FA] py-[80px]">{children}</PlatformPageSection>;
+  return <PlatformContentSection className="bg-[#F6F8FA] py-[80px]">{children}</PlatformContentSection>;
 }
 
 export function AcpIntegrationsInner({ children }: { children: ReactNode }) {

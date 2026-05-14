@@ -25,7 +25,7 @@ test("mcp gateway route keeps authored copy in the route and rendering primitive
   assert.match(sectionSource, /export function McpGatewayHeroSection/);
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
   assert.match(sectionSource, /mt-\[10px\]/);
-  assert.match(sectionSource, /<PlatformPageSection[\s\S]*className=\{cx\("w-full py-\[80px\]"/);
+  assert.match(sectionSource, /<PlatformContentSection[\s\S]*className=\{cx\("w-full py-\[80px\]"/);
   assert.match(sectionSource, /contentClassName="px-10 lg:px-10"/);
   assert.match(sectionSource, /paddingClassName=""/);
   assert.match(sectionSource, /<h4 className=\{cx\("text-\[32px\]/);

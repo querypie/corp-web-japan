@@ -51,6 +51,7 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
   assert.match(sectionSource, /export function AipValueGrid/);
   assert.match(sectionSource, /export function AipValueCardLink/);
   assert.match(sectionSource, /absolute inset-0 flex items-center/);
+  assert.match(sectionSource, /export function AipValueSection[\s\S]*<PlatformContentSection/);
   assert.match(sectionSource, /export function AipFeatureSection/);
   assert.match(sectionSource, /export function AipFeatureSection[\s\S]*<PlatformFeatureSection muted=\{muted\}>/);
   assert.match(sectionSource, /export function AipFeatureRow/);
@@ -58,9 +59,10 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
   assert.match(sectionSource, /style=\{\{ width \}\}/);
 
   assert.match(platformSource, /export function PlatformPageShell/);
-  assert.match(platformSource, /export function PlatformPageSection/);
-  assert.match(platformSource, /export function PlatformHeroSection/);
-  assert.match(platformSource, /export function PlatformFeatureSection/);
+  assert.match(platformSource, /export function PlatformContentSection/);
+  assert.match(platformSource, /export function PlatformPageSection[\s\S]*pt-\[120px\][\s\S]*lg:pt-\[144px\]/);
+  assert.match(platformSource, /export function PlatformHeroSection[\s\S]*<PlatformPageSection>/);
+  assert.match(platformSource, /export function PlatformFeatureSection[\s\S]*<PlatformContentSection/);
   assert.match(platformSource, /relative overflow-x-hidden bg-white text-slate-950/);
   assert.match(platformSource, /paddingClassName = "px-6 lg:px-0"/);
   assert.match(platformSource, /joinClassNames\("flex justify-center", paddingClassName, className\)/);

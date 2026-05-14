@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { PlatformPageSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
+import { PlatformContentSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 
 type ClassNameProps = {
   className?: string;
@@ -13,9 +13,9 @@ export function AipUsageBasedLlmPageShell({ children }: { children: ReactNode })
 
 export function AipUsageBasedLlmHeroSection({ children }: { children: ReactNode }) {
   return (
-    <PlatformPageSection className="pb-[187px] pt-[76px]" contentWidthClassName="max-w-[1200px]">
+    <PlatformContentSection className="pb-[187px] pt-[76px]" contentWidthClassName="max-w-[1200px]">
       {children}
-    </PlatformPageSection>
+    </PlatformContentSection>
   );
 }
 
@@ -49,7 +49,7 @@ export function AipUsageBasedLlmFeatureBand({ muted = false, children }: { muted
 
 export function AipUsageBasedLlmFeatureRow({ reverse = false, children }: { reverse?: boolean; children: ReactNode }) {
   return (
-    <PlatformPageSection
+    <PlatformContentSection
       as="div"
       className="py-[80px]"
       contentClassName={cn(
@@ -58,7 +58,7 @@ export function AipUsageBasedLlmFeatureRow({ reverse = false, children }: { reve
       )}
     >
       {children}
-    </PlatformPageSection>
+    </PlatformContentSection>
   );
 }
 
@@ -84,9 +84,9 @@ export function AipUsageBasedLlmFeatureImage({ src, alt, width, height, classNam
 
 export function AipUsageBasedLlmComparisonSection({ children }: { children: ReactNode }) {
   return (
-    <PlatformPageSection className="pb-[120px] pt-[94px]" contentWidthClassName="max-w-[1200px]">
+    <PlatformContentSection className="pb-[120px] pt-[94px]" contentWidthClassName="max-w-[1200px]">
       {children}
-    </PlatformPageSection>
+    </PlatformContentSection>
   );
 }
 

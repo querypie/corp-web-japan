@@ -54,8 +54,9 @@ test("/t/services/fde keeps route-local copy/composition while the layout primit
   assert.match(sectionSource, /export function ServiceFdeCtaSection[\s\S]*<PlatformCtaSection>/);
 
   assert.match(platformSource, /export function PlatformPageShell/);
-  assert.match(platformSource, /export function PlatformPageSection/);
-  assert.match(platformSource, /export function PlatformHeroSection/);
-  assert.match(platformSource, /export function PlatformFeatureSection/);
+  assert.match(platformSource, /export function PlatformContentSection/);
+  assert.match(platformSource, /export function PlatformPageSection[\s\S]*pt-\[120px\][\s\S]*lg:pt-\[144px\]/);
+  assert.match(platformSource, /export function PlatformHeroSection[\s\S]*<PlatformPageSection>/);
+  assert.match(platformSource, /export function PlatformFeatureSection[\s\S]*<PlatformContentSection/);
   assert.match(platformSource, /export function PlatformCtaSection/);
 });

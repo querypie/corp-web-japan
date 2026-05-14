@@ -6,7 +6,7 @@ type ChildrenProps = {
   children: ReactNode;
 };
 
-type PlatformPageSectionProps<T extends ElementType = "section"> = ChildrenProps & {
+type PlatformContentSectionProps<T extends ElementType = "section"> = ChildrenProps & {
   as?: T;
   className?: string;
   contentClassName?: string;
@@ -26,7 +26,7 @@ export function PlatformPageShell({ children }: ChildrenProps) {
   return <main className="relative overflow-x-hidden bg-white text-slate-950">{children}</main>;
 }
 
-export function PlatformPageSection<T extends ElementType = "section">({
+export function PlatformContentSection<T extends ElementType = "section">({
   as,
   children,
   className,
@@ -34,7 +34,7 @@ export function PlatformPageSection<T extends ElementType = "section">({
   contentWidthClassName,
   paddingClassName = "px-6 lg:px-0",
   ...props
-}: PlatformPageSectionProps<T>) {
+}: PlatformContentSectionProps<T>) {
   const Component = (as ?? "section") as ElementType;
   const contentClassNames = joinClassNames("w-full", contentWidthClassName ?? "max-w-[1200px]", contentClassName);
 
@@ -45,12 +45,16 @@ export function PlatformPageSection<T extends ElementType = "section">({
   );
 }
 
+export function PlatformPageSection({ children }: ChildrenProps) {
+  return <PlatformContentSection className="pb-[120px] pt-[120px] lg:pt-[144px]">{children}</PlatformContentSection>;
+}
+
 export function PlatformHeroSection({ children }: ChildrenProps) {
-  return <PlatformPageSection className="pb-[120px] pt-[80px]">{children}</PlatformPageSection>;
+  return <PlatformPageSection>{children}</PlatformPageSection>;
 }
 
 export function PlatformFeatureSection({ children, muted = false }: PlatformFeatureSectionProps) {
-  return <PlatformPageSection className={joinClassNames("py-[80px]", muted ? "bg-[#F6F8FA]" : "bg-white")}>{children}</PlatformPageSection>;
+  return <PlatformContentSection className={joinClassNames("py-[80px]", muted ? "bg-[#F6F8FA]" : "bg-white")}>{children}</PlatformContentSection>;
 }
 
 export function PlatformCtaSection({ children, className }: PlatformCtaSectionProps) {

@@ -26,10 +26,10 @@ test("usage-based-llm page keeps route-local copy/composition and preserves the 
   assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection/);
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
   assert.match(sectionSource, /export function AipUsageBasedLlmPageShell[\s\S]*<PlatformPageShell>/);
-  assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection[\s\S]*<PlatformPageSection className="pb-\[187px\] pt-\[76px\]" contentWidthClassName="max-w-\[1200px\]">/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection[\s\S]*<PlatformContentSection className="pb-\[187px\] pt-\[76px\]" contentWidthClassName="max-w-\[1200px\]">/);
   assert.match(sectionSource, /max-w-\[800px\]/);
   assert.match(sectionSource, /className="py-\[80px\]"/);
-  assert.match(sectionSource, /<PlatformPageSection[\s\S]*as="div"[\s\S]*contentClassName=\{cn\(/);
+  assert.match(sectionSource, /<PlatformContentSection[\s\S]*as="div"[\s\S]*contentClassName=\{cn\(/);
   assert.doesNotMatch(sectionSource, /MarketingPageSection/);
   assert.doesNotMatch(sectionSource, /lg:min-h-\[458px\]/);
   assert.match(sectionSource, /export function AipUsageBasedLlmFeatureRow/);
