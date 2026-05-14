@@ -7,9 +7,11 @@ const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 test("/t/platforms/aip keeps route-local copy/composition while the layout primitives live in the AIP section module", () => {
   assert.equal(sourceExists("src/app/t/platforms/aip/page.tsx"), true);
   assert.equal(sourceExists("src/components/sections/aip/page.tsx"), true);
+  assert.equal(sourceExists("src/components/sections/platform/page-primitives.tsx"), true);
 
   const routeSource = readSource("src/app/t/platforms/aip/page.tsx");
   const sectionSource = readSource("src/components/sections/aip/page.tsx");
+  const platformSource = readSource("src/components/sections/platform/page-primitives.tsx");
 
   assert.match(routeSource, /canonical: "\/t\/platforms\/aip"/);
   assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
@@ -41,15 +43,26 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
   assert.doesNotMatch(routeSource, /preview でローカル確認できるように移しています/);
 
   assert.match(sectionSource, /export function AipHeroSection/);
+  assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
+  assert.match(sectionSource, /export function AipPageShell[\s\S]*<PlatformPageShell>/);
+  assert.match(sectionSource, /export function AipHeroSection[\s\S]*<PlatformHeroSection>/);
   assert.match(sectionSource, /export function AipHeroVideo/);
   assert.match(sectionSource, /bg-\[linear-gradient\(291deg,#C5D6E6_0%,#FFF_100%\)\]/);
   assert.match(sectionSource, /export function AipValueGrid/);
   assert.match(sectionSource, /export function AipValueCardLink/);
   assert.match(sectionSource, /absolute inset-0 flex items-center/);
   assert.match(sectionSource, /export function AipFeatureSection/);
+  assert.match(sectionSource, /export function AipFeatureSection[\s\S]*<PlatformFeatureSection muted=\{muted\}>/);
   assert.match(sectionSource, /export function AipFeatureRow/);
   assert.match(sectionSource, /export function AipFeatureImage/);
   assert.match(sectionSource, /style=\{\{ width \}\}/);
+
+  assert.match(platformSource, /export function PlatformPageShell/);
+  assert.match(platformSource, /export function PlatformPageSection/);
+  assert.match(platformSource, /export function PlatformHeroSection/);
+  assert.match(platformSource, /export function PlatformFeatureSection/);
+  assert.match(platformSource, /relative overflow-x-hidden bg-white text-slate-950/);
+  assert.match(platformSource, /flex justify-center px-6 lg:px-0/);
 });
 
 test("/t/platforms/aip guards the route-aligned assets required for visual parity", () => {

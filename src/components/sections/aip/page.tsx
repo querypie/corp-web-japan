@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { PlatformFeatureSection, PlatformHeroSection, PlatformPageSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 
 type FeatureSectionProps = {
   children: ReactNode;
@@ -15,11 +16,11 @@ type FeatureImageProps = {
 };
 
 export function AipPageShell({ children }: { children: ReactNode }) {
-  return <main className="relative overflow-x-hidden bg-white text-slate-950">{children}</main>;
+  return <PlatformPageShell>{children}</PlatformPageShell>;
 }
 
 export function AipHeroSection({ children }: { children: ReactNode }) {
-  return <section className="flex justify-center px-6 pb-[120px] pt-[80px] lg:px-0">{children}</section>;
+  return <PlatformHeroSection>{children}</PlatformHeroSection>;
 }
 
 export function AipHeroInner({ children }: { children: ReactNode }) {
@@ -57,9 +58,9 @@ export function AipHeroVideo() {
 
 export function AipValueSection({ children }: { children: ReactNode }) {
   return (
-    <section className="flex justify-center bg-[linear-gradient(291deg,#C5D6E6_0%,#FFF_100%)] px-6 py-[120px] lg:px-0">
+    <PlatformPageSection className="bg-[linear-gradient(291deg,#C5D6E6_0%,#FFF_100%)] py-[120px]">
       {children}
-    </section>
+    </PlatformPageSection>
   );
 }
 
@@ -127,7 +128,7 @@ export function AipInlineLink({ href, children }: { href: string; children: Reac
 }
 
 export function AipFeatureSection({ children, muted = false }: FeatureSectionProps) {
-  return <section className={`flex justify-center px-6 py-[80px] lg:px-0${muted ? " bg-[#F6F8FA]" : " bg-white"}`}>{children}</section>;
+  return <PlatformFeatureSection muted={muted}>{children}</PlatformFeatureSection>;
 }
 
 export function AipFeatureInner({ children }: { children: ReactNode }) {

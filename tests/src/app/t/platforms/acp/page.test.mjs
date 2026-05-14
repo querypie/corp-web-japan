@@ -5,10 +5,12 @@ import { readSource, sourceExists } from "../../../../../helpers/source-readers.
 test("/t/platforms/acp keeps route-local copy/composition while the interactive feature browser lives in a dedicated client section module", () => {
   assert.equal(sourceExists("src/app/t/platforms/acp/page.tsx"), true);
   assert.equal(sourceExists("src/components/sections/acp/service-page.tsx"), true);
+  assert.equal(sourceExists("src/components/sections/platform/page-primitives.tsx"), true);
   assert.equal(sourceExists("src/components/sections/acp/feature-browser.tsx"), true);
 
   const routeSource = readSource("src/app/t/platforms/acp/page.tsx");
   const sectionSource = readSource("src/components/sections/acp/service-page.tsx");
+  const platformSource = readSource("src/components/sections/platform/page-primitives.tsx");
   const browserSource = readSource("src/components/sections/acp/feature-browser.tsx");
   const browserClientSource = readSource("src/components/sections/acp/feature-browser-client.tsx");
 
@@ -42,10 +44,19 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   assert.doesNotMatch(routeSource, /現在の upstream ページで案内している代表機能/);
 
   assert.match(sectionSource, /export function AcpFeatureSection/);
+  assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
+  assert.match(sectionSource, /export function AcpServicePageShell[\s\S]*<PlatformPageShell>/);
+  assert.match(sectionSource, /export function AcpHeroSection[\s\S]*<PlatformHeroSection>/);
+  assert.match(sectionSource, /export function AcpFeatureSection[\s\S]*<PlatformPageSection className="pb-\[80px\]">/);
   assert.match(sectionSource, /export function AcpFeatureIntro/);
   assert.match(sectionSource, /export function AcpIntegrationsLink/);
   assert.match(sectionSource, /export function AcpHeroVideo/);
   assert.doesNotMatch(sectionSource, /^"use client";/m);
+
+  assert.match(platformSource, /export function PlatformPageShell/);
+  assert.match(platformSource, /export function PlatformPageSection/);
+  assert.match(platformSource, /export function PlatformHeroSection/);
+  assert.match(platformSource, /flex justify-center px-6 lg:px-0/);
 
   assert.match(browserSource, /export function AcpFeatureBrowser/);
   assert.match(browserSource, /export function AcpFeatureCategory/);

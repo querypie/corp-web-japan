@@ -1,13 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { PlatformHeroSection, PlatformPageSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 
 export function AcpServicePageShell({ children }: { children: ReactNode }) {
-  return <main className="relative overflow-x-hidden bg-white text-slate-950">{children}</main>;
+  return <PlatformPageShell>{children}</PlatformPageShell>;
 }
 
 export function AcpHeroSection({ children }: { children: ReactNode }) {
-  return <section className="flex justify-center px-6 pb-[120px] pt-[80px] lg:px-0">{children}</section>;
+  return <PlatformHeroSection>{children}</PlatformHeroSection>;
 }
 
 export function AcpHeroInner({ children }: { children: ReactNode }) {
@@ -44,7 +45,7 @@ export function AcpHeroVideo() {
 }
 
 export function AcpEasyUseSection({ children }: { children: ReactNode }) {
-  return <section className="flex justify-center px-6 pb-[160px] lg:px-0">{children}</section>;
+  return <PlatformPageSection className="pb-[160px]">{children}</PlatformPageSection>;
 }
 
 export function AcpEasyUseInner({ children }: { children: ReactNode }) {
@@ -52,7 +53,7 @@ export function AcpEasyUseInner({ children }: { children: ReactNode }) {
 }
 
 export function AcpFeatureSection({ children }: { children: ReactNode }) {
-  return <section className="flex justify-center px-6 pb-[80px] lg:px-0">{children}</section>;
+  return <PlatformPageSection className="pb-[80px]">{children}</PlatformPageSection>;
 }
 
 export function AcpFeatureInner({ children }: { children: ReactNode }) {
@@ -80,7 +81,7 @@ export function AcpEasyUseImage() {
 }
 
 export function AcpIntegrationsSection({ children }: { children: ReactNode }) {
-  return <section className="flex justify-center bg-[#F6F8FA] px-6 py-[80px] lg:px-0">{children}</section>;
+  return <PlatformPageSection className="bg-[#F6F8FA] py-[80px]">{children}</PlatformPageSection>;
 }
 
 export function AcpIntegrationsInner({ children }: { children: ReactNode }) {
