@@ -7,10 +7,10 @@ import {
   CookiePreferenceToggleField,
   CookiePreferenceList,
 } from "@/components/sections/cookie-preference/list";
-import { CookiePreferenceSettingsSection } from "@/components/sections/cookie-preference/page";
 import {
   LegalDocumentIntro,
   LegalDocumentLead,
+  LegalDocumentLayout,
   LegalDocumentSection,
   LegalDocumentTitle,
 } from "@/components/sections/legal/document";
@@ -46,7 +46,7 @@ export default function CookiePreferencePage() {
           </LegalDocumentLead>
         </LegalDocumentIntro>
 
-        <CookiePreferenceSettingsSection>
+        <LegalDocumentLayout>
           <CookiePreferenceList>
             <CookiePreferenceItem>
               <CookiePreferenceToggleField id="necessary" disabled>
@@ -93,7 +93,7 @@ export default function CookiePreferencePage() {
               </CookiePreferenceToggleDescription>
             </CookiePreferenceItem>
           </CookiePreferenceList>
-        </CookiePreferenceSettingsSection>
+        </LegalDocumentLayout>
       </LegalDocumentSection>
 
       <AipFreeTrialCtaSection />

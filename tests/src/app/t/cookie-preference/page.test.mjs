@@ -4,14 +4,12 @@ import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs
 
 const pagePath = "src/app/t/cookie-preference/page.tsx";
 const sectionPath = "src/components/sections/cookie-preference/list.tsx";
-const pageSectionPath = "src/components/sections/cookie-preference/page.tsx";
 const togglePath = "src/components/sections/cookie-preference/toggle.tsx";
 const legalDocumentPath = "src/components/sections/legal/document.tsx";
 
 test("cookie preference preview page keeps route-local copy while shared page/layout primitives own the rendering shells", () => {
   assert.equal(sourceExists(pagePath), true, `${pagePath} should exist`);
   assert.equal(sourceExists(sectionPath), true, `${sectionPath} should exist`);
-  assert.equal(sourceExists(pageSectionPath), true, `${pageSectionPath} should exist`);
   assert.equal(sourceExists(togglePath), true, `${togglePath} should exist`);
 
   const pageSource = readSource(pagePath);
@@ -20,13 +18,14 @@ test("cookie preference preview page keeps route-local copy while shared page/la
   assert.match(pageSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(pageSource, /<SiteHeader \/>/);
   assert.match(pageSource, /<SiteFooter \/>/);
-  assert.match(pageSource, /from "@\/components\/sections\/cookie-preference\/page"/);
+  assert.doesNotMatch(pageSource, /from "@\/components\/sections\/cookie-preference\/page"/);
   assert.match(pageSource, /from "@\/components\/sections\/legal\/document"/);
   assert.match(pageSource, /<LegalDocumentSection>/);
   assert.match(pageSource, /<LegalDocumentIntro>/);
   assert.match(pageSource, /<LegalDocumentTitle>クッキー設定<\/LegalDocumentTitle>/);
   assert.match(pageSource, /<LegalDocumentLead>\s*<p>/s);
-  assert.match(pageSource, /<CookiePreferenceSettingsSection>/);
+  assert.match(pageSource, /<LegalDocumentLayout>/);
+  assert.doesNotMatch(pageSource, /<CookiePreferenceSettingsSection>/);
   assert.doesNotMatch(pageSource, /CookiePreferenceHeroTitle/);
   assert.doesNotMatch(pageSource, /CookiePreferenceHeroDescription/);
   assert.match(pageSource, /<CookiePreferenceList>/);
@@ -51,35 +50,30 @@ test("cookie preference preview page keeps route-local copy while shared page/la
 
 test("cookie preference shared section modules separate server-side layout primitives from client-side toggle state", () => {
   const sectionSource = readSource(sectionPath);
-  const pageSectionSource = readSource(pageSectionPath);
   const toggleSource = readSource(togglePath);
   const footerSource = readSource("src/components/layout/site-footer.tsx");
 
+  assert.equal(sourceExists("src/components/sections/cookie-preference/page.tsx"), false);
   assert.doesNotMatch(sectionSource, /^"use client";/m);
+  assert.match(sectionSource, /import \{ companyBodyTextClassName \} from "@\/components\/ui\/text-tokens";/);
   assert.match(sectionSource, /export type CookiePreferenceKey/);
   assert.match(sectionSource, /export function CookiePreferenceList/);
   assert.match(sectionSource, /export function CookiePreferenceItem/);
   assert.match(sectionSource, /export function CookiePreferenceToggleField/);
   assert.match(sectionSource, /export function CookiePreferenceToggleDescription/);
-  assert.match(sectionSource, /return <p>\{children\}<\/p>;/);
+  assert.match(sectionSource, /return <p className=\{companyBodyTextClassName\}>\{children\}<\/p>;/);
   assert.doesNotMatch(sectionSource, /text-\[/);
-  assert.doesNotMatch(sectionSource, /font-/);
   assert.doesNotMatch(sectionSource, /leading-\[/);
   assert.doesNotMatch(sectionSource, /tracking-\[/);
   assert.doesNotMatch(sectionSource, /text-\[#/);
+  assert.doesNotMatch(sectionSource, /gap-\[/);
   assert.match(sectionSource, /<CookiePreferenceToggle preference=\{id\} id=\{switchId\} disabled=\{disabled\} \/>/);
-  assert.match(sectionSource, /<label htmlFor=\{switchId\}/);
-  assert.match(sectionSource, /<ul className="flex flex-col gap-\[40px\]">/);
-  assert.match(sectionSource, /<li className="flex flex-col gap-\[20px\]">/);
+  assert.match(sectionSource, /<label htmlFor=\{switchId\} className="font-medium text-slate-950">/);
+  assert.match(sectionSource, /<ul className="flex flex-col gap-10">/);
+  assert.match(sectionSource, /<li className="flex flex-col gap-5">/);
+  assert.match(sectionSource, /<div className="flex items-center gap-4">/);
   assert.doesNotMatch(sectionSource, /label: string/);
   assert.doesNotMatch(sectionSource, /description: ReactNode/);
-
-  assert.doesNotMatch(pageSectionSource, /export function CookiePreferenceHeroSection/);
-  assert.doesNotMatch(pageSectionSource, /export function CookiePreferenceHeroTitle/);
-  assert.doesNotMatch(pageSectionSource, /export function CookiePreferenceHeroDescription/);
-  assert.match(pageSectionSource, /return <div className="max-w-\[1200px\]">\{children\}<\/div>;/);
-  assert.doesNotMatch(pageSectionSource, /CookiePreferenceCta/);
-  assert.doesNotMatch(pageSectionSource, /mt-\[52\.5px\]/);
 
   assert.match(toggleSource, /^"use client";/m);
   assert.match(toggleSource, /cookie-preference-set/);
