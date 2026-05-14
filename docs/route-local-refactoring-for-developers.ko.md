@@ -120,139 +120,39 @@ shared shell에서 중간 section만 빼다가 순서를 바꾸면 잘못된 리
 
 즉, route-local refactoring은 모든 페이지를 똑같이 만드는 작업이 아니라, 페이지 family에 맞는 가장 읽기 좋은 authoring 구조를 만드는 작업입니다.
 
-## 3. Before - After 비교 사례 3건
+## 3. Before - After 비교 사례 요약
+
+이 문서에서는 개념만 요약하고, 실제 코드가 길게 포함된 사례는 별도 문서로 분리했습니다.
+
+상세 사례 문서:
+
+- [docs/route-local-refactoring-examples.ko.md](./route-local-refactoring-examples.ko.md)
+- [docs/route-local-refactoring-examples.md](./route-local-refactoring-examples.md)
+
+상세 사례 문서의 특징:
+
+- 실제 before / after 코드를 30~50라인 이상 단위로 발췌
+- `page.tsx`뿐 아니라 `page.tsx`가 참조하는 module 구조까지 함께 정리
+- `src/components/**`에서 UI와 마케팅 copy가 뒤섞이는 사례 포함
+- Big JSON Props / compound alias / top-level data blob 사례 포함
+- 모든 코드 파일 링크를 commit SHA 기반 GitHub 링크로 고정
+
+여기서는 세 가지 대표 사례만 짧게 요약합니다.
 
 ### 사례 1. Top page
 
-#### Before
+- before: route shell인 [`src/app/page.tsx`](https://github.com/querypie/corp-web-japan/blob/1550dc0673a11992e7fa5551cdbb6a4a43e2712d/src/app/page.tsx), content registry인 [`src/content/top-page.ts`](https://github.com/querypie/corp-web-japan/blob/1550dc0673a11992e7fa5551cdbb6a4a43e2712d/src/content/top-page.ts), giant wrapper인 [`src/components/sections/top-page-sections.tsx`](https://github.com/querypie/corp-web-japan/blob/1550dc0673a11992e7fa5551cdbb6a4a43e2712d/src/components/sections/top-page-sections.tsx)로 의미가 분산됨
+- after: [`src/app/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/page.tsx)에서 실제 hero/CTA/section order가 직접 보이고, [`src/components/sections/home/hero-section.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/components/sections/home/hero-section.tsx) 등은 UI primitive 역할로 정리됨
 
-- `src/content/home.ts` 같은 페이지별 content registry에 카피가 모여 있음
-- `page.tsx`는 `TopPageSections` 같은 wrapper를 호출하는 shell에 가까움
-- reviewer는 카피, 순서, CTA를 이해하려고 여러 파일을 왕복해야 함
+### 사례 2. About Us
 
-예시 이미지:
+- before: [`src/app/t/about-us/page.tsx`](https://github.com/querypie/corp-web-japan/blob/c03333672e4e4ed5d21cb7d004ea9be2df1f3c9d/src/app/t/about-us/page.tsx) 상단에 `timeline`, `leaders`, `locations` 같은 큰 data blob이 먼저 나와 route readability를 해침
+- after: [`src/app/about-us/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/about-us/page.tsx)에서 실제 JSX authoring으로 timeline/leader/location copy를 직접 보여주고, [`src/components/sections/about-us/section.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/components/sections/about-us/section.tsx)는 layout primitive에 집중함
 
-```tsx
-import { topPageContent } from "@/content/home";
-import { TopPageSections } from "@/components/sections/top-page-sections";
+### 사례 3. Plans
 
-export default function HomePage() {
-  return <TopPageSections content={topPageContent} />;
-}
-```
-
-#### After
-
-현재 `src/app/page.tsx`는 다음 특성을 가집니다.
-
-- hero copy가 route file에 직접 보임
-- section order가 route file에 직접 보임
-- CTA intent가 route file에 직접 보임
-- `src/components/sections/home/*`는 UI primitive와 section implementation을 담당함
-
-대표적인 현재 구조:
-
-- `src/app/page.tsx`
-- `src/components/sections/home/hero-section.tsx`
-- `src/components/sections/home/solution-overview-section.tsx`
-- `src/components/sections/home/core-value-section.tsx`
-
-핵심 개선점:
-
-- route file만 열어도 페이지 narrative를 이해할 수 있음
-- section component는 "보여주는 방법"을 담당하고, route는 "무엇을 말하는지"를 담당함
-
-### 사례 2. About Us page
-
-#### Before
-
-route file 안에 있더라도 아래처럼 큰 top-level data array가 남아 있으면 완성형 route-local이라고 보기 어렵습니다.
-
-```tsx
-const timeline = [...];
-const leaders = [...];
-const locations = [...];
-```
-
-이 패턴의 문제는 다음과 같습니다.
-
-- 카피가 JSX에서 분리되어 읽힘
-- reviewer가 실제 렌더 결과를 상상해야 함
-- route가 페이지 문서라기보다 data container처럼 보임
-
-#### After
-
-현재 `src/app/about-us/page.tsx`는 다음처럼 더 나은 방향의 예시입니다.
-
-- timeline entry를 `AboutUsTimelineItem` JSX로 직접 authoring
-- leader name / role을 card children으로 직접 authoring
-- section heading과 body copy가 route에서 바로 보임
-- `src/components/sections/about-us/section.tsx`는 card, grid, image, primitive 역할에 집중
-
-대표적인 현재 구조:
-
-- `src/app/about-us/page.tsx`
-- `src/components/sections/about-us/section.tsx`
-- `src/components/sections/company/page-primitives.tsx`
-
-핵심 개선점:
-
-- company-intro family의 실제 메시지가 route에서 보임
-- extracted section file은 레이아웃 primitive에 집중함
-
-### 사례 3. ACP feature browser page
-
-#### Before
-
-interactive section에서 흔한 안 좋은 패턴은 다음과 같습니다.
-
-```tsx
-const categories = [
-  {
-    label: "데이터베이스 접근 제어",
-    items: [
-      { title: "...", body: "...", imageSrc: "..." },
-    ],
-  },
-];
-
-<AcpFeatureBrowser categories={categories} />
-```
-
-문제점:
-
-- 실제 마케팅 카피가 JSON-like structure에 갇힘
-- interactive widget 때문에 copy ownership까지 data blob으로 밀려남
-- route가 semantic page authoring surface가 되지 못함
-
-#### After
-
-현재 `src/app/t/platforms/acp/page.tsx`는 children-based composition을 사용합니다.
-
-- `AcpFeatureBrowser`
-- `AcpFeatureCategory`
-- `AcpFeatureItem`
-- `AcpFeatureItemTitle`
-- `AcpFeatureItemBody`
-
-즉, 구조화된 interactive section이 필요해도 아래처럼 route-local JSX authoring을 유지할 수 있습니다.
-
-```tsx
-<AcpFeatureBrowser>
-  <AcpFeatureCategory>
-    <AcpFeatureCategoryLabel>데이터베이스 접근 제어</AcpFeatureCategoryLabel>
-    <AcpFeatureItem imageSrc="...">
-      <AcpFeatureItemTitle>에이전트리스 클라우드</AcpFeatureItemTitle>
-      <AcpFeatureItemBody>...</AcpFeatureItemBody>
-    </AcpFeatureItem>
-  </AcpFeatureCategory>
-</AcpFeatureBrowser>
-```
-
-핵심 개선점:
-
-- 인터랙션이 있는 UI도 route-local authoring을 유지할 수 있음
-- section file은 widget behavior를 담당하고, route는 실제 feature copy를 소유함
+- before: [`src/app/t/plans/page.tsx`](https://github.com/querypie/corp-web-japan/blob/4ab11fc40bf3e0f622a08d30a2ffebb44c5d9255/src/app/t/plans/page.tsx)에서 `Object.assign(...)` alias와 giant `rows` / `columns` prop blob이 함께 사용되어 작은 copy 변경도 여러 배열 계약을 동시에 맞춰야 했음
+- after: [`src/app/t/plans/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/plans/page.tsx)에서 `CompareTableSection`, `CompareTableRow`, `CompareTableTextCell` 같은 JSX primitive를 직접 조합하여 label과 cell value를 같은 authoring surface에서 읽을 수 있게 됨
 
 ## 4. 이 구현의 장단점
 
@@ -360,27 +260,31 @@ ACP feature browser는 data blob prop 패턴 대신 children-based route-local J
 
 ### Repo-local skill
 
-- `.agents/skills/static-page-route-local-authoring/SKILL.md`
+- [`.agents/skills/static-page-route-local-authoring/SKILL.md`](../.agents/skills/static-page-route-local-authoring/SKILL.md)
   - static marketing route에서 `page.tsx`를 primary authoring surface로 유지하는 방법
   - section-scoped refactor, render-order preservation, follow-up cleanup 규칙 포함
 
 ### Repository docs
 
-- `docs/static-page-route-local-authoring.md`
+- [`docs/static-page-route-local-authoring.md`](./static-page-route-local-authoring.md)
   - 현재 저장소의 route-local authoring 상세 가이드
-- `docs/code-location-conventions.md`
+- [`docs/code-location-conventions.md`](./code-location-conventions.md)
   - 짧은 버전의 code location convention
-- `docs/route-local-refactoring-for-developers.ko.md`
+- [`docs/route-local-refactoring-for-developers.ko.md`](./route-local-refactoring-for-developers.ko.md)
   - 이 문서의 한국어판
-- `docs/route-local-refactoring-for-developers.md`
+- [`docs/route-local-refactoring-for-developers.md`](./route-local-refactoring-for-developers.md)
   - 이 문서의 영어판
+- [`docs/route-local-refactoring-examples.ko.md`](./route-local-refactoring-examples.ko.md)
+  - 실제 before / after 코드 사례를 길게 담은 한국어 상세 사례집
+- [`docs/route-local-refactoring-examples.md`](./route-local-refactoring-examples.md)
+  - 실제 before / after 코드 사례를 길게 담은 영어 상세 사례집
 
 ### 읽는 순서 추천
 
-1. `docs/code-location-conventions.md`
-2. `docs/static-page-route-local-authoring.md`
-3. `.agents/skills/static-page-route-local-authoring/SKILL.md`
-4. 실제 reference route file (`src/app/page.tsx`, `src/app/about-us/page.tsx`, `src/app/t/platforms/acp/page.tsx`)
+1. [`docs/code-location-conventions.md`](./code-location-conventions.md)
+2. [`docs/static-page-route-local-authoring.md`](./static-page-route-local-authoring.md)
+3. [`.agents/skills/static-page-route-local-authoring/SKILL.md`](../.agents/skills/static-page-route-local-authoring/SKILL.md)
+4. 실제 reference route file인 [`src/app/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/page.tsx), [`src/app/about-us/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/about-us/page.tsx), [`src/app/t/platforms/acp/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/platforms/acp/page.tsx)
 
 ## 8. 잘 알려진 레퍼런스
 
@@ -395,9 +299,9 @@ ACP feature browser는 data blob prop 패턴 대신 children-based route-local J
 
 추가로 이 저장소 내부에서는 다음이 사실상 더 직접적인 reference입니다.
 
-- `src/app/page.tsx`
-- `src/app/about-us/page.tsx`
-- `src/app/t/platforms/acp/page.tsx`
+- [`src/app/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/page.tsx)
+- [`src/app/about-us/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/about-us/page.tsx)
+- [`src/app/t/platforms/acp/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/platforms/acp/page.tsx)
 - PR 155, 156, 157, 158에서 확립된 section-scoped route-local authoring 방향
 
 ---
