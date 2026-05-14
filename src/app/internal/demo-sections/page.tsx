@@ -4,20 +4,20 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { AICrewAvatar } from "@/components/sections/internal-demo/ai-crew-avatar";
 import { AIDashiFaq, AIDashiFaqQuestion } from "@/components/sections/internal-demo/ai-dashi-faq";
 import {
-  InternalDemoAvatarFrame,
-  InternalDemoAvatarSwatch,
-  InternalDemoAvatarSwatches,
-  InternalDemoBody,
-  InternalDemoCard,
-  InternalDemoCardGrid,
-  InternalDemoCardHeader,
-  InternalDemoEyebrow,
-  InternalDemoIntro,
-  InternalDemoNotice,
-  InternalDemoSection,
-  InternalDemoSplitHeader,
-  InternalDemoTitle,
-} from "@/components/sections/internal-demo/page-primitives";
+  SectionShowcaseAvatarFrame,
+  SectionShowcaseAvatarSwatch,
+  SectionShowcaseAvatarSwatches,
+  SectionShowcaseBody,
+  SectionShowcaseCard,
+  SectionShowcaseCardGrid,
+  SectionShowcaseCardHeader,
+  SectionShowcaseEyebrow,
+  SectionShowcaseIntro,
+  SectionShowcaseNotice,
+  SectionShowcaseSection,
+  SectionShowcaseSplitHeader,
+  SectionShowcaseTitle,
+} from "@/components/sections/internal-demo/section-showcase-primitives";
 import { RoleCatchCopy, RolePainPoint, RoleSlide, RoleSlides, RoleSummary } from "@/components/sections/internal-demo/role-slides";
 import { UseCaseBody, UseCaseCard, UseCaseShowcase, UseCaseTab } from "@/components/sections/internal-demo/use-case-showcase";
 import { aiDashiConsultUrl } from "@/content/ai-dashi-links";
@@ -33,30 +33,30 @@ export const metadata: Metadata = {
   },
 };
 
-export default function InternalDemoSectionsPage() {
+export default function DemoSectionsPage() {
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
-      <InternalDemoSection compactBottom>
-        <InternalDemoEyebrow wide>Internal</InternalDemoEyebrow>
-        <InternalDemoTitle level={1}>Demo Sections</InternalDemoTitle>
-        <InternalDemoBody lead>
+      <SectionShowcaseSection compactBottom>
+        <SectionShowcaseEyebrow wide>Internal</SectionShowcaseEyebrow>
+        <SectionShowcaseTitle level={1}>Demo Sections</SectionShowcaseTitle>
+        <SectionShowcaseBody lead>
           PR 439 / issue 395 で orphan として残っていた section component を削除せず、internal 専用デモルートから明示的に接続し、単独の見た目を確認できるように保持したページです。
-        </InternalDemoBody>
-        <InternalDemoNotice>
+        </SectionShowcaseBody>
+        <SectionShowcaseNotice>
           このページは UI デザイン確認用の internal demo であり、検索エンジンのインデックス対象外です。
-        </InternalDemoNotice>
-      </InternalDemoSection>
+        </SectionShowcaseNotice>
+      </SectionShowcaseSection>
 
-      <InternalDemoSection>
-        <InternalDemoIntro>
-          <InternalDemoEyebrow>Role slider</InternalDemoEyebrow>
-          <InternalDemoTitle>RoleSlides component demo</InternalDemoTitle>
-          <InternalDemoBody>
+      <SectionShowcaseSection>
+        <SectionShowcaseIntro>
+          <SectionShowcaseEyebrow>Role slider</SectionShowcaseEyebrow>
+          <SectionShowcaseTitle>RoleSlides component demo</SectionShowcaseTitle>
+          <SectionShowcaseBody>
             部署フィルター chip、横スクロール slider、portrait crop、expandable details、CTA row の組み合わせを確認できます。
-          </InternalDemoBody>
-        </InternalDemoIntro>
+          </SectionShowcaseBody>
+        </SectionShowcaseIntro>
 
         <RoleSlides
           note="この role slider は home / solutions からは切り離したデモ用表示です。カード密度、 portrait crop、 category chip、 details disclosure の UI を internal route で単独確認できます。"
@@ -120,16 +120,16 @@ export default function InternalDemoSectionsPage() {
             </RoleSummary>
           </RoleSlide>
         </RoleSlides>
-      </InternalDemoSection>
+      </SectionShowcaseSection>
 
-      <InternalDemoSection bordered>
-        <InternalDemoIntro>
-          <InternalDemoEyebrow>Use-case cards</InternalDemoEyebrow>
-          <InternalDemoTitle>UseCaseShowcase component demo</InternalDemoTitle>
-          <InternalDemoBody>
+      <SectionShowcaseSection bordered>
+        <SectionShowcaseIntro>
+          <SectionShowcaseEyebrow>Use-case cards</SectionShowcaseEyebrow>
+          <SectionShowcaseTitle>UseCaseShowcase component demo</SectionShowcaseTitle>
+          <SectionShowcaseBody>
             カード型 video teaser、tabbed copy、modal overlay、footer CTA の構成を internal demo として分離して確認できます。
-          </InternalDemoBody>
-        </InternalDemoIntro>
+          </SectionShowcaseBody>
+        </SectionShowcaseIntro>
 
         <UseCaseShowcase
           note="この use-case showcase も公開導線とは分離した internal UI demo です。カード hover、 tab 切替、 modal video overlay、 CTA footer の構成を単独で確認できます。"
@@ -196,50 +196,50 @@ export default function InternalDemoSectionsPage() {
             </UseCaseBody>
           </UseCaseCard>
         </UseCaseShowcase>
-      </InternalDemoSection>
+      </SectionShowcaseSection>
 
-      <InternalDemoSection bordered>
-        <InternalDemoIntro>
-          <InternalDemoEyebrow>Issue 395 survivors</InternalDemoEyebrow>
-          <InternalDemoTitle>Source-inspection test survivor demos</InternalDemoTitle>
-          <InternalDemoBody>
+      <SectionShowcaseSection bordered>
+        <SectionShowcaseIntro>
+          <SectionShowcaseEyebrow>Issue 395 survivors</SectionShowcaseEyebrow>
+          <SectionShowcaseTitle>Source-inspection test survivor demos</SectionShowcaseTitle>
+          <SectionShowcaseBody>
             Issue 395 で残っていた source-inspection test 参照のみの section component 候補を、削除ではなく internal demo route に明示的に再接続した例です。canonical route へ戻す判断が出るまでは、このページで表示契約を確認します。
-          </InternalDemoBody>
-        </InternalDemoIntro>
+          </SectionShowcaseBody>
+        </SectionShowcaseIntro>
 
-        <InternalDemoCardGrid>
-          <InternalDemoCard muted>
-            <InternalDemoSplitHeader>
+        <SectionShowcaseCardGrid>
+          <SectionShowcaseCard muted>
+            <SectionShowcaseSplitHeader>
               <div>
-                <InternalDemoEyebrow>AI Crew avatar</InternalDemoEyebrow>
-                <InternalDemoTitle level={3}>AICrewAvatar component demo</InternalDemoTitle>
-                <InternalDemoBody>
+                <SectionShowcaseEyebrow>AI Crew avatar</SectionShowcaseEyebrow>
+                <SectionShowcaseTitle level={3}>AICrewAvatar component demo</SectionShowcaseTitle>
+                <SectionShowcaseBody>
                   `src/components/sections/internal-demo/ai-crew-avatar.tsx` は crew role asset 契約を持つ internal demo 専用 visual primitive です。現時点では canonical route へ戻さず、internal demo で tone / size の描画確認対象として保持します。
-                </InternalDemoBody>
+                </SectionShowcaseBody>
               </div>
-              <InternalDemoAvatarFrame>
+              <SectionShowcaseAvatarFrame>
                 <AICrewAvatar tone="gray" />
-              </InternalDemoAvatarFrame>
-            </InternalDemoSplitHeader>
+              </SectionShowcaseAvatarFrame>
+            </SectionShowcaseSplitHeader>
 
-            <InternalDemoAvatarSwatches>
-              <InternalDemoAvatarSwatch>
+            <SectionShowcaseAvatarSwatches>
+              <SectionShowcaseAvatarSwatch>
                 <AICrewAvatar size="mobile" tone="gray" alt="AI Crew mobile avatar demo" />
-              </InternalDemoAvatarSwatch>
-              <InternalDemoAvatarSwatch dark>
+              </SectionShowcaseAvatarSwatch>
+              <SectionShowcaseAvatarSwatch dark>
                 <AICrewAvatar size="mobile" tone="white" alt="AI Crew white avatar demo" />
-              </InternalDemoAvatarSwatch>
-            </InternalDemoAvatarSwatches>
-          </InternalDemoCard>
+              </SectionShowcaseAvatarSwatch>
+            </SectionShowcaseAvatarSwatches>
+          </SectionShowcaseCard>
 
-          <InternalDemoCard>
-            <InternalDemoCardHeader>
-              <InternalDemoEyebrow>AI Dashi FAQ</InternalDemoEyebrow>
-              <InternalDemoTitle level={3}>AIDashiFaq component demo</InternalDemoTitle>
-              <InternalDemoBody>
+          <SectionShowcaseCard>
+            <SectionShowcaseCardHeader>
+              <SectionShowcaseEyebrow>AI Dashi FAQ</SectionShowcaseEyebrow>
+              <SectionShowcaseTitle level={3}>AIDashiFaq component demo</SectionShowcaseTitle>
+              <SectionShowcaseBody>
                 `src/components/sections/internal-demo/ai-dashi-faq.tsx` は accordion interaction を持つ internal demo 専用 client component です。FAQ の文言と CTA は page.tsx が直接所有し、削除せず canonical route への再配置判断までは internal demo で挙動確認対象として保持します。
-              </InternalDemoBody>
-            </InternalDemoCardHeader>
+              </SectionShowcaseBody>
+            </SectionShowcaseCardHeader>
 
             <AIDashiFaq ctaHref={aiDashiConsultUrl} ctaLabel="お問い合わせ">
               <AIDashiFaqQuestion question="「データの所有権は？」">
@@ -258,9 +258,9 @@ export default function InternalDemoSectionsPage() {
                 料金体系は、想定ユーザー数や利用量、必要なサポート範囲に応じて個別に設計します。詳細はお問い合わせいただければ、最適なプランをご案内します。
               </AIDashiFaqQuestion>
             </AIDashiFaq>
-          </InternalDemoCard>
-        </InternalDemoCardGrid>
-      </InternalDemoSection>
+          </SectionShowcaseCard>
+        </SectionShowcaseCardGrid>
+      </SectionShowcaseSection>
 
       <SiteFooter />
     </main>

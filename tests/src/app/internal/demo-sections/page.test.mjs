@@ -30,8 +30,11 @@ test("/internal/demo-sections exists as a noindex UI demo route for preserved or
   assert.equal(sourceExists("src/components/sections/internal-demo/use-case-showcase.tsx"), true);
   assert.equal(sourceExists("src/components/sections/internal-demo/ai-crew-avatar.tsx"), true);
   assert.equal(sourceExists("src/components/sections/internal-demo/ai-dashi-faq.tsx"), true);
+  assert.equal(sourceExists("src/components/sections/internal-demo/section-showcase-primitives.tsx"), true);
+  assert.equal(sourceExists("src/components/sections/internal-demo/page-primitives.tsx"), false);
   assert.equal(sourceExists("src/components/sections/role-slides.tsx"), false);
   assert.equal(sourceExists("src/components/sections/use-case-showcase.tsx"), false);
+  assert.doesNotMatch(source, /InternalDemo/);
   assert.match(source, /RoleSlides/);
   assert.match(source, /RoleSlide/);
   assert.match(source, /RolePainPoint/);
@@ -50,9 +53,9 @@ test("/internal/demo-sections exists as a noindex UI demo route for preserved or
   assert.doesNotMatch(source, /aiDashiFaqItems/);
   assert.doesNotMatch(source, /<section className=/);
   assert.doesNotMatch(source, /<article className=/);
-  assert.match(source, /InternalDemoSection/);
-  assert.match(source, /InternalDemoIntro/);
-  assert.match(source, /InternalDemoCardGrid/);
+  assert.match(source, /SectionShowcaseSection/);
+  assert.match(source, /SectionShowcaseIntro/);
+  assert.match(source, /SectionShowcaseCardGrid/);
   assert.match(source, /section component を削除せず/);
   assert.match(source, /internal 専用デモルートから明示的に接続/);
   assert.match(source, /RoleSlides component demo/);

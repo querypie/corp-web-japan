@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 
-type InternalDemoSectionProps = {
+type SectionShowcaseSectionProps = {
   children: ReactNode;
   bordered?: boolean;
   compactBottom?: boolean;
 };
 
-export function InternalDemoSection({ children, bordered = false, compactBottom = false }: InternalDemoSectionProps) {
+export function SectionShowcaseSection({ children, bordered = false, compactBottom = false }: SectionShowcaseSectionProps) {
   const paddingClass = compactBottom ? "pb-8 pt-20 lg:pb-10 lg:pt-24" : bordered ? "py-18" : "pb-18";
 
   return (
@@ -16,11 +16,11 @@ export function InternalDemoSection({ children, bordered = false, compactBottom 
   );
 }
 
-export function InternalDemoIntro({ children }: { children: ReactNode }) {
+export function SectionShowcaseIntro({ children }: { children: ReactNode }) {
   return <div className="mb-8 max-w-3xl">{children}</div>;
 }
 
-export function InternalDemoEyebrow({ children, wide = false }: { children: ReactNode; wide?: boolean }) {
+export function SectionShowcaseEyebrow({ children, wide = false }: { children: ReactNode; wide?: boolean }) {
   return (
     <p className={`text-sm font-semibold uppercase text-slate-500 ${wide ? "tracking-[0.24em]" : "tracking-[0.18em]"}`}>
       {children}
@@ -28,7 +28,7 @@ export function InternalDemoEyebrow({ children, wide = false }: { children: Reac
   );
 }
 
-export function InternalDemoTitle({ children, level = 2 }: { children: ReactNode; level?: 1 | 2 | 3 }) {
+export function SectionShowcaseTitle({ children, level = 2 }: { children: ReactNode; level?: 1 | 2 | 3 }) {
   if (level === 1) {
     return <h1 className="mt-4 text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">{children}</h1>;
   }
@@ -40,7 +40,7 @@ export function InternalDemoTitle({ children, level = 2 }: { children: ReactNode
   return <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">{children}</h2>;
 }
 
-export function InternalDemoBody({ children, lead = false }: { children: ReactNode; lead?: boolean }) {
+export function SectionShowcaseBody({ children, lead = false }: { children: ReactNode; lead?: boolean }) {
   if (lead) {
     return <p className="mt-6 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">{children}</p>;
   }
@@ -48,15 +48,15 @@ export function InternalDemoBody({ children, lead = false }: { children: ReactNo
   return <p className="mt-4 text-[15px] leading-7 text-slate-600">{children}</p>;
 }
 
-export function InternalDemoNotice({ children }: { children: ReactNode }) {
+export function SectionShowcaseNotice({ children }: { children: ReactNode }) {
   return <div className="mt-6 inline-flex rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-600">{children}</div>;
 }
 
-export function InternalDemoCardGrid({ children }: { children: ReactNode }) {
+export function SectionShowcaseCardGrid({ children }: { children: ReactNode }) {
   return <div className="grid gap-6 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)]">{children}</div>;
 }
 
-export function InternalDemoCard({ children, muted = false }: { children: ReactNode; muted?: boolean }) {
+export function SectionShowcaseCard({ children, muted = false }: { children: ReactNode; muted?: boolean }) {
   return (
     <article className={`rounded-[28px] border border-slate-200 ${muted ? "bg-slate-50" : "bg-white"} p-6 shadow-sm sm:p-8`}>
       {children}
@@ -64,22 +64,22 @@ export function InternalDemoCard({ children, muted = false }: { children: ReactN
   );
 }
 
-export function InternalDemoCardHeader({ children }: { children: ReactNode }) {
+export function SectionShowcaseCardHeader({ children }: { children: ReactNode }) {
   return <div className="mb-8 max-w-2xl">{children}</div>;
 }
 
-export function InternalDemoSplitHeader({ children }: { children: ReactNode }) {
+export function SectionShowcaseSplitHeader({ children }: { children: ReactNode }) {
   return <div className="flex items-start justify-between gap-6">{children}</div>;
 }
 
-export function InternalDemoAvatarFrame({ children }: { children: ReactNode }) {
+export function SectionShowcaseAvatarFrame({ children }: { children: ReactNode }) {
   return <div className="shrink-0 rounded-[24px] bg-white p-4 shadow-sm">{children}</div>;
 }
 
-export function InternalDemoAvatarSwatches({ children }: { children: ReactNode }) {
+export function SectionShowcaseAvatarSwatches({ children }: { children: ReactNode }) {
   return <div className="mt-8 grid grid-cols-2 gap-4 rounded-[22px] bg-white p-5">{children}</div>;
 }
 
-export function InternalDemoAvatarSwatch({ children, dark = false }: { children: ReactNode; dark?: boolean }) {
+export function SectionShowcaseAvatarSwatch({ children, dark = false }: { children: ReactNode; dark?: boolean }) {
   return <div className={`flex min-h-36 items-center justify-center rounded-[18px] ${dark ? "bg-slate-900" : "bg-slate-100"}`}>{children}</div>;
 }
