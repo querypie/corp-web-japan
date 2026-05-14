@@ -43,6 +43,8 @@ test("eula page exists with noindex metadata and preview canonical path", () => 
   assert.match(source, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(source, /<AipFreeTrialCtaSection \/>/);
   assert.match(contentSource, /^---\ntitle: "QueryPie EULA"\ndescription: "End User License Agreement for QueryPie/m);
+  assert.match(contentSource, /^effectiveDate: "2025-07-17"$/m);
+  assert.match(source, /effectiveDate: string;/);
   assert.doesNotMatch(source, /export const metadata: Metadata = \{/);
 });
 
@@ -80,6 +82,15 @@ test("eula preview keeps adjacent source content and preview-aware footer link",
   const footerSource = readSource("src/components/layout/site-footer.tsx");
 
   assert.match(contentSource, /^PLEASE READ THIS END USER LICENSE AGREEMENT/m);
+  assert.match(contentSource, /^\*\*Effective from Jul 17, 2025\*\*$/m);
+  assert.ok(
+    contentSource.indexOf("**Effective from Jul 17, 2025**") >
+      contentSource.indexOf("REFERENCES TO \"Licensee\", \"you\", or \"your\" WILL MEAN YOUR COMPANY."),
+  );
+  assert.ok(
+    contentSource.indexOf("**Effective from Jul 17, 2025**") <
+      contentSource.indexOf("# PART I: GENERAL TERMS"),
+  );
   assert.match(contentSource, /^# PART I: GENERAL TERMS/m);
   assert.match(contentSource, /^## \(1\) GENERAL LICENSE TERMS, RESTRICTIONS AND ORDER OF PRECEDENCE/m);
   assert.match(contentSource, /^### \(1\.1\) General License Terms/m);

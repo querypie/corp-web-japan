@@ -16,6 +16,7 @@ import { renderLegalMdx } from "@/lib/legal-mdx-source";
 type EulaFrontmatter = {
   title: string;
   description: string;
+  effectiveDate: string;
 };
 
 const renderEulaMdx = cache(async function renderEulaMdx() {
