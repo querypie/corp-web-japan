@@ -1,31 +1,79 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Children, isValidElement, type ReactElement, type ReactNode, useEffect, useMemo, useState } from "react";
 import { Blocks, Brain, ChartColumnIncreasing, FileSearch, Play, Search, Wallet, X } from "lucide-react";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 
-type UseCaseTab = {
+type UseCaseTabData = {
   label: string;
   body: string;
   videoHref: string;
   detailHref: string;
 };
 
-type UseCaseCard = {
+type UseCaseCardData = {
   category: string;
   title: string;
   body: string;
   videoHref?: string;
   detailHref?: string;
-  tabs?: readonly UseCaseTab[];
+  tabs?: readonly UseCaseTabData[];
 };
 
 type UseCaseShowcaseProps = {
   note: string;
-  primaryCta: { label: string; href: string };
-  secondaryCta: { label: string; href: string };
-  cards: readonly UseCaseCard[];
+  primaryCtaLabel: string;
+  primaryCtaHref: string;
+  secondaryCtaLabel: string;
+  secondaryCtaHref: string;
+  children: ReactNode;
 };
+
+type UseCaseCardProps = Omit<UseCaseCardData, "body" | "tabs"> & {
+  children: ReactNode;
+};
+
+type UseCaseBodyProps = {
+  children: ReactNode;
+};
+
+type UseCaseTabProps = Omit<UseCaseTabData, "body"> & {
+  children: ReactNode;
+};
+
+export function UseCaseCard(_props: UseCaseCardProps) {
+  void _props;
+  return null;
+}
+
+export function UseCaseBody(_props: UseCaseBodyProps) {
+  void _props;
+  return null;
+}
+
+export function UseCaseTab(_props: UseCaseTabProps) {
+  void _props;
+  return null;
+}
+
+function readUseCaseBody(children: ReactNode) {
+  const body = Children.toArray(children).find(
+    (child): child is ReactElement<UseCaseBodyProps> => isValidElement(child) && child.type === UseCaseBody,
+  );
+
+  return typeof body?.props.children === "string" ? body.props.children : "";
+}
+
+function readUseCaseTabs(children: ReactNode) {
+  return Children.toArray(children)
+    .filter((child): child is ReactElement<UseCaseTabProps> => isValidElement(child) && child.type === UseCaseTab)
+    .map(({ props }) => ({
+      label: props.label,
+      body: typeof props.children === "string" ? props.children : "",
+      videoHref: props.videoHref,
+      detailHref: props.detailHref,
+    }));
+}
 
 const icons = [Search, Wallet, Brain, ChartColumnIncreasing, FileSearch, Blocks] as const;
 
@@ -50,9 +98,31 @@ function getYouTubeEmbed(url: string) {
   return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0` : "";
 }
 
-export function UseCaseShowcase({ note, primaryCta, secondaryCta, cards }: UseCaseShowcaseProps) {
+export function UseCaseShowcase({
+  note,
+  primaryCtaLabel,
+  primaryCtaHref,
+  secondaryCtaLabel,
+  secondaryCtaHref,
+  children,
+}: UseCaseShowcaseProps) {
   const [activeTabs, setActiveTabs] = useState<Record<string, number>>({});
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+
+  const cards = useMemo(
+    () =>
+      Children.toArray(children)
+        .filter((child): child is ReactElement<UseCaseCardProps> => isValidElement(child) && child.type === UseCaseCard)
+        .map(({ props }) => ({
+          category: props.category,
+          title: props.title,
+          body: readUseCaseBody(props.children),
+          videoHref: props.videoHref,
+          detailHref: props.detailHref,
+          tabs: readUseCaseTabs(props.children),
+        })),
+    [children],
+  );
 
   useEffect(() => {
     if (!activeVideo) {
@@ -181,16 +251,16 @@ export function UseCaseShowcase({ note, primaryCta, secondaryCta, cards }: UseCa
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <a
-            href={primaryCta.href}
+            href={primaryCtaHref}
             className={aiCrewPrimaryButtonClass}
           >
-            {primaryCta.label}
+            {primaryCtaLabel}
           </a>
           <a
-            href={secondaryCta.href}
+            href={secondaryCtaHref}
             className={aiCrewSecondaryButtonClass}
           >
-            {secondaryCta.label}
+            {secondaryCtaLabel}
           </a>
         </div>
       </div>

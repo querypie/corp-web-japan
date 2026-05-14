@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { Children, isValidElement, type ReactElement, type ReactNode, useMemo, useState } from "react";
 import { Minus, Plus } from "lucide-react";
 
 export type AIDashiFaqItem = {
@@ -10,13 +10,34 @@ export type AIDashiFaqItem = {
 };
 
 type AIDashiFaqProps = {
-  items: readonly AIDashiFaqItem[];
   ctaHref: string;
   ctaLabel: string;
+  children: ReactNode;
 };
 
-export function AIDashiFaq({ items, ctaHref, ctaLabel }: AIDashiFaqProps) {
+type AIDashiFaqQuestionProps = {
+  question: string;
+  children: ReactNode;
+};
+
+export function AIDashiFaqQuestion(_props: AIDashiFaqQuestionProps) {
+  void _props;
+  return null;
+}
+
+export function AIDashiFaq({ children, ctaHref, ctaLabel }: AIDashiFaqProps) {
   const [openIndex, setOpenIndex] = useState<number>(-1);
+
+  const items = useMemo(
+    () =>
+      Children.toArray(children)
+        .filter((child): child is ReactElement<AIDashiFaqQuestionProps> => isValidElement(child) && child.type === AIDashiFaqQuestion)
+        .map(({ props }) => ({
+          question: props.question,
+          answer: typeof props.children === "string" ? props.children : "",
+        })),
+    [children],
+  );
 
   return (
     <div className="w-full max-w-[1120px] space-y-4">
