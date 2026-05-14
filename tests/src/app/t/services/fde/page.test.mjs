@@ -5,6 +5,7 @@ import { readSource, sourceExists } from "../../../../../helpers/source-readers.
 test("/t/services/fde keeps route-local copy/composition while the layout primitives live in the service section module", () => {
   assert.equal(sourceExists("src/app/t/services/fde/page.tsx"), true);
   assert.equal(sourceExists("src/components/sections/fde/service-page.tsx"), true);
+  assert.equal(sourceExists("src/components/sections/platform/page-primitives.tsx"), true);
   assert.equal(sourceExists("src/app/t/solutions/aip/fde-services/page.tsx"), false);
   assert.equal(sourceExists("src/components/sections/fde-services/section.tsx"), false);
 
@@ -22,6 +23,7 @@ test("/t/services/fde keeps route-local copy/composition while the layout primit
 
   const routeSource = readSource("src/app/t/services/fde/page.tsx");
   const sectionSource = readSource("src/components/sections/fde/service-page.tsx");
+  const platformSource = readSource("src/components/sections/platform/page-primitives.tsx");
 
   assert.match(routeSource, /canonical: "\/t\/services\/fde"/);
   assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
@@ -40,9 +42,20 @@ test("/t/services/fde keeps route-local copy/composition while the layout primit
   assert.doesNotMatch(routeSource, /preview で事前確認できます/);
 
   assert.match(sectionSource, /export function ServiceFdeHeroSection/);
+  assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
+  assert.match(sectionSource, /export function ServiceFdePageShell[\s\S]*<PlatformPageShell>/);
+  assert.match(sectionSource, /export function ServiceFdeHeroSection[\s\S]*<PlatformHeroSection>/);
   assert.match(sectionSource, /export function ServiceFdeHeroVisual/);
   assert.match(sectionSource, /export function ServiceFdeFeatureSection/);
+  assert.match(sectionSource, /export function ServiceFdeFeatureSection[\s\S]*<PlatformFeatureSection muted=\{muted\}>/);
   assert.match(sectionSource, /export function ServiceFdeFeatureRow/);
   assert.match(sectionSource, /<h4 className="text-\[32px\]/);
   assert.match(sectionSource, /export function ServiceFdeCtaSection/);
+  assert.match(sectionSource, /export function ServiceFdeCtaSection[\s\S]*<PlatformCtaSection>/);
+
+  assert.match(platformSource, /export function PlatformPageShell/);
+  assert.match(platformSource, /export function PlatformPageSection/);
+  assert.match(platformSource, /export function PlatformHeroSection/);
+  assert.match(platformSource, /export function PlatformFeatureSection/);
+  assert.match(platformSource, /export function PlatformCtaSection/);
 });

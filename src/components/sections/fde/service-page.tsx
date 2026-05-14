@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
+import { PlatformCtaSection, PlatformFeatureSection, PlatformHeroSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 
 const headingBodyClass = "text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]";
 
@@ -23,11 +24,11 @@ type FeatureImageFrameProps = {
 };
 
 export function ServiceFdePageShell({ children }: { children: ReactNode }) {
-  return <main className="relative overflow-x-hidden bg-white text-slate-950">{children}</main>;
+  return <PlatformPageShell>{children}</PlatformPageShell>;
 }
 
 export function ServiceFdeHeroSection({ children }: { children: ReactNode }) {
-  return <section className="flex justify-center px-6 pb-[120px] pt-[80px] lg:px-0">{children}</section>;
+  return <PlatformHeroSection>{children}</PlatformHeroSection>;
 }
 
 export function ServiceFdeHeroInner({ children }: { children: ReactNode }) {
@@ -65,7 +66,7 @@ export function ServiceFdeHeroVisual() {
 }
 
 export function ServiceFdeFeatureSection({ children, muted = false }: FeatureSectionProps) {
-  return <section className={`flex justify-center px-6 py-[80px] lg:px-0${muted ? " bg-[#F6F8FA]" : " bg-white"}`}>{children}</section>;
+  return <PlatformFeatureSection muted={muted}>{children}</PlatformFeatureSection>;
 }
 
 export function ServiceFdeFeatureInner({ children }: { children: ReactNode }) {
@@ -111,7 +112,7 @@ export function ServiceFdeFeatureImage({ src, alt }: { src: string; alt: string 
 }
 
 export function ServiceFdeCtaSection({ children }: { children: ReactNode }) {
-  return <section className="flex w-full flex-col items-center gap-[40px] bg-[#F6F8FA] px-[24px] py-[120px]">{children}</section>;
+  return <PlatformCtaSection>{children}</PlatformCtaSection>;
 }
 
 export function ServiceFdeCtaCopy({ children }: { children: ReactNode }) {
