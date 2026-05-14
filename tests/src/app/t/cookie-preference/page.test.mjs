@@ -5,12 +5,14 @@ import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs
 const pagePath = "src/app/t/cookie-preference/page.tsx";
 const sectionPath = "src/components/sections/cookie-preference/list.tsx";
 const togglePath = "src/components/sections/cookie-preference/toggle.tsx";
+const preferencePath = "src/lib/cookie-preferences.ts";
 const legalDocumentPath = "src/components/sections/legal/document.tsx";
 
 test("cookie preference preview page keeps route-local copy while shared page/layout primitives own the rendering shells", () => {
   assert.equal(sourceExists(pagePath), true, `${pagePath} should exist`);
   assert.equal(sourceExists(sectionPath), true, `${sectionPath} should exist`);
   assert.equal(sourceExists(togglePath), true, `${togglePath} should exist`);
+  assert.equal(sourceExists(preferencePath), true, `${preferencePath} should exist`);
 
   const pageSource = readSource(pagePath);
 
@@ -28,14 +30,19 @@ test("cookie preference preview page keeps route-local copy while shared page/la
   assert.doesNotMatch(pageSource, /<CookiePreferenceSettingsSection>/);
   assert.doesNotMatch(pageSource, /CookiePreferenceHeroTitle/);
   assert.doesNotMatch(pageSource, /CookiePreferenceHeroDescription/);
+  assert.match(pageSource, /import \{ cookies \} from "next\/headers";/);
+  assert.match(pageSource, /getCookiePreferenceState/);
+  assert.match(pageSource, /const cookieStore = await cookies\(\);/);
+  assert.match(pageSource, /export default async function CookiePreferencePage/);
+  assert.match(pageSource, /const cookiePreferences = await getCookiePreferenceState\(\);/);
   assert.match(pageSource, /<CookiePreferenceList>/);
   assert.match(pageSource, /CookiePreferenceToggleField,/);
   assert.match(pageSource, /CookiePreferenceToggleDescription,/);
   assert.match(pageSource, /<CookiePreferenceItem>\s*<CookiePreferenceToggleField id="necessary" disabled>\s*必須 Cookie/s);
-  assert.match(pageSource, /<CookiePreferenceToggleField id="performance">\s*パフォーマンス Cookie/s);
-  assert.match(pageSource, /<CookiePreferenceToggleField id="functional">\s*機能 Cookie/s);
-  assert.match(pageSource, /<CookiePreferenceToggleField id="analysis">\s*分析 Cookie/s);
-  assert.match(pageSource, /<CookiePreferenceToggleField id="marketing">\s*マーケティング Cookie/s);
+  assert.match(pageSource, /<CookiePreferenceToggleField id="performance" initialChecked=\{cookiePreferences\.performance\}>\s*パフォーマンス Cookie/s);
+  assert.match(pageSource, /<CookiePreferenceToggleField id="functional" initialChecked=\{cookiePreferences\.functional\}>\s*機能 Cookie/s);
+  assert.match(pageSource, /<CookiePreferenceToggleField id="analysis" initialChecked=\{cookiePreferences\.analysis\}>\s*分析 Cookie/s);
+  assert.match(pageSource, /<CookiePreferenceToggleField id="marketing" initialChecked=\{cookiePreferences\.marketing\}>\s*マーケティング Cookie/s);
   assert.match(pageSource, /<CookiePreferenceToggleDescription>\s*これらの Cookie/s);
   assert.doesNotMatch(pageSource, /<CookiePreferenceToggleDescription>\s*<p>/s);
   assert.doesNotMatch(pageSource, /<\/p>\s*<\/CookiePreferenceToggleDescription>/s);
@@ -51,12 +58,13 @@ test("cookie preference preview page keeps route-local copy while shared page/la
 test("cookie preference shared section modules separate server-side layout primitives from client-side toggle state", () => {
   const sectionSource = readSource(sectionPath);
   const toggleSource = readSource(togglePath);
+  const preferenceSource = readSource(preferencePath);
   const footerSource = readSource("src/components/layout/site-footer.tsx");
 
   assert.equal(sourceExists("src/components/sections/cookie-preference/page.tsx"), false);
   assert.doesNotMatch(sectionSource, /^"use client";/m);
   assert.match(sectionSource, /import \{ companyBodyTextClassName \} from "@\/components\/ui\/text-tokens";/);
-  assert.match(sectionSource, /export type CookiePreferenceKey/);
+  assert.match(sectionSource, /import type \{ CookiePreferenceKey \} from "@\/lib\/cookie-preferences";/);
   assert.match(sectionSource, /export function CookiePreferenceList/);
   assert.match(sectionSource, /export function CookiePreferenceItem/);
   assert.match(sectionSource, /export function CookiePreferenceToggleField/);
@@ -67,7 +75,7 @@ test("cookie preference shared section modules separate server-side layout primi
   assert.doesNotMatch(sectionSource, /tracking-\[/);
   assert.doesNotMatch(sectionSource, /text-\[#/);
   assert.doesNotMatch(sectionSource, /gap-\[/);
-  assert.match(sectionSource, /<CookiePreferenceToggle preference=\{id\} id=\{switchId\} disabled=\{disabled\} \/>/);
+  assert.match(sectionSource, /<CookiePreferenceToggle preference=\{id\} id=\{switchId\} disabled=\{disabled\} initialChecked=\{initialChecked\} \/>/);
   assert.match(sectionSource, /<label htmlFor=\{switchId\} className="font-medium text-slate-950">/);
   assert.match(sectionSource, /<ul className="flex flex-col gap-10">/);
   assert.match(sectionSource, /<li className="flex flex-col gap-5">/);
@@ -76,13 +84,23 @@ test("cookie preference shared section modules separate server-side layout primi
   assert.doesNotMatch(sectionSource, /description: ReactNode/);
 
   assert.match(toggleSource, /^"use client";/m);
-  assert.match(toggleSource, /cookie-preference-set/);
-  assert.match(toggleSource, /cookie-preference-performance/);
-  assert.match(toggleSource, /cookie-preference-functional/);
-  assert.match(toggleSource, /cookie-preference-event/);
-  assert.match(toggleSource, /cookie-preference-marketing/);
+  assert.match(preferenceSource, /export type CookiePreferenceKey/);
+  assert.match(preferenceSource, /export type MutableCookiePreferenceKey/);
+  assert.match(preferenceSource, /export const COOKIE_PREFERENCE_COOKIE_KEYS/);
+  assert.match(preferenceSource, /export const COOKIE_PREFERENCE_MAX_AGE/);
+  assert.match(preferenceSource, /export function isCookiePreferenceEnabled/);
+  assert.match(preferenceSource, /cookie-preference-set/);
+  assert.match(preferenceSource, /cookie-preference-performance/);
+  assert.match(preferenceSource, /cookie-preference-functional/);
+  assert.match(preferenceSource, /cookie-preference-event/);
+  assert.match(preferenceSource, /cookie-preference-marketing/);
+  assert.match(toggleSource, /type CookiePreferenceKey/);
+  assert.match(toggleSource, /initialChecked\?: boolean/);
+  assert.match(toggleSource, /useState\(isNecessary \? true : initialChecked\)/);
+  assert.doesNotMatch(toggleSource, /useState\(\(\) =>/);
+  assert.doesNotMatch(toggleSource, /getCookieValue/);
+  assert.doesNotMatch(toggleSource, /readCheckedState/);
   assert.match(toggleSource, /document\.cookie/);
-  assert.match(toggleSource, /useState/);
   assert.match(toggleSource, /role="switch"/);
   assert.match(toggleSource, /opacity-50/);
   assert.match(toggleSource, /translate-x-\[19px\]/);

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
@@ -15,6 +16,11 @@ import {
   LegalDocumentTitle,
 } from "@/components/sections/legal/document";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import {
+  COOKIE_PREFERENCE_COOKIE_KEYS,
+  isCookiePreferenceEnabled,
+  type CookiePreferenceState,
+} from "@/lib/cookie-preferences";
 
 export const metadata: Metadata = {
   title: "クッキー設定 | QueryPie AI",
@@ -28,7 +34,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CookiePreferencePage() {
+async function getCookiePreferenceState(): Promise<CookiePreferenceState> {
+  const cookieStore = await cookies();
+
+  return {
+    performance: isCookiePreferenceEnabled(cookieStore.get(COOKIE_PREFERENCE_COOKIE_KEYS.performance)?.value),
+    functional: isCookiePreferenceEnabled(cookieStore.get(COOKIE_PREFERENCE_COOKIE_KEYS.functional)?.value),
+    analysis: isCookiePreferenceEnabled(cookieStore.get(COOKIE_PREFERENCE_COOKIE_KEYS.analysis)?.value),
+    marketing: isCookiePreferenceEnabled(cookieStore.get(COOKIE_PREFERENCE_COOKIE_KEYS.marketing)?.value),
+  };
+}
+
+export default async function CookiePreferencePage() {
+  const cookiePreferences = await getCookiePreferenceState();
+
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
@@ -58,7 +77,7 @@ export default function CookiePreferencePage() {
             </CookiePreferenceItem>
 
             <CookiePreferenceItem>
-              <CookiePreferenceToggleField id="performance">
+              <CookiePreferenceToggleField id="performance" initialChecked={cookiePreferences.performance}>
                 パフォーマンス Cookie
               </CookiePreferenceToggleField>
               <CookiePreferenceToggleDescription>
@@ -67,7 +86,7 @@ export default function CookiePreferencePage() {
             </CookiePreferenceItem>
 
             <CookiePreferenceItem>
-              <CookiePreferenceToggleField id="functional">
+              <CookiePreferenceToggleField id="functional" initialChecked={cookiePreferences.functional}>
                 機能 Cookie
               </CookiePreferenceToggleField>
               <CookiePreferenceToggleDescription>
@@ -76,7 +95,7 @@ export default function CookiePreferencePage() {
             </CookiePreferenceItem>
 
             <CookiePreferenceItem>
-              <CookiePreferenceToggleField id="analysis">
+              <CookiePreferenceToggleField id="analysis" initialChecked={cookiePreferences.analysis}>
                 分析 Cookie
               </CookiePreferenceToggleField>
               <CookiePreferenceToggleDescription>
@@ -85,7 +104,7 @@ export default function CookiePreferencePage() {
             </CookiePreferenceItem>
 
             <CookiePreferenceItem>
-              <CookiePreferenceToggleField id="marketing">
+              <CookiePreferenceToggleField id="marketing" initialChecked={cookiePreferences.marketing}>
                 マーケティング Cookie
               </CookiePreferenceToggleField>
               <CookiePreferenceToggleDescription>
