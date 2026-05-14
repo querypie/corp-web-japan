@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { companyBodyTextClassName } from "@/components/ui/text-tokens";
 import { CookiePreferenceToggle } from "./toggle";
 
 export type CookiePreferenceKey = "necessary" | "performance" | "functional" | "analysis" | "marketing";
@@ -8,28 +9,38 @@ type CookiePreferenceListProps = {
 };
 
 type CookiePreferenceItemProps = {
+  children: ReactNode;
+};
+
+type CookiePreferenceToggleFieldProps = {
   id: CookiePreferenceKey;
-  label: string;
-  description: ReactNode;
+  children: ReactNode;
   disabled?: boolean;
 };
 
+type CookiePreferenceToggleDescriptionProps = {
+  children: ReactNode;
+};
+
 export function CookiePreferenceList({ children }: CookiePreferenceListProps) {
-  return <ul className="flex flex-col gap-[40px]">{children}</ul>;
+  return <ul className="flex flex-col gap-10">{children}</ul>;
 }
 
-export function CookiePreferenceItem({ id, label, description, disabled = false }: CookiePreferenceItemProps) {
+export function CookiePreferenceItem({ children }: CookiePreferenceItemProps) {
+  return <li className="flex flex-col gap-5">{children}</li>;
+}
+
+export function CookiePreferenceToggleField({ id, children, disabled = false }: CookiePreferenceToggleFieldProps) {
   const switchId = `cookie-preference-${id}`;
 
   return (
-    <li className="flex flex-col gap-[20px]">
-      <div className="flex items-center gap-[15px]">
-        <CookiePreferenceToggle preference={id} id={switchId} disabled={disabled} />
-        <label htmlFor={switchId} className="text-[18.75px] font-medium leading-[26.25px] text-[#24292F]">
-          {label}
-        </label>
-      </div>
-      <div className="text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-[#57606A]">{description}</div>
-    </li>
+    <div className="flex items-center gap-4">
+      <CookiePreferenceToggle preference={id} id={switchId} disabled={disabled} />
+      <label htmlFor={switchId} className="font-medium text-slate-950">{children}</label>
+    </div>
   );
+}
+
+export function CookiePreferenceToggleDescription({ children }: CookiePreferenceToggleDescriptionProps) {
+  return <p className={companyBodyTextClassName}>{children}</p>;
 }

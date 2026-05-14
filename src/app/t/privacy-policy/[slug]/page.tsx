@@ -14,6 +14,7 @@ import {
   LegalDocumentLayout,
   LegalDocumentSection,
   LegalDocumentTitle,
+  LegalDocumentTitleActions,
 } from "@/components/sections/legal/document";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 import { renderLegalMdx } from "@/lib/legal-mdx-source";
@@ -87,12 +88,10 @@ export async function renderPrivacyPolicyVersionPage(slug: string) {
       <SiteHeader />
       <LegalDocumentSection>
         <LegalDocumentIntro>
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-wrap items-center gap-4">
-              <LegalDocumentTitle>{frontmatter.title}</LegalDocumentTitle>
-              <PrivacyPolicyVersionSelector currentSlug={frontmatter.version} slugs={slugs} />
-            </div>
-          </div>
+          <LegalDocumentTitleActions>
+            <LegalDocumentTitle>{frontmatter.title}</LegalDocumentTitle>
+            <PrivacyPolicyVersionSelector currentSlug={frontmatter.version} slugs={slugs} />
+          </LegalDocumentTitleActions>
         </LegalDocumentIntro>
         <LegalDocumentLayout>
           <LegalDocumentBody>{evaluation.content}</LegalDocumentBody>

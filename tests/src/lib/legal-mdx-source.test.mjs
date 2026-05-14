@@ -35,9 +35,15 @@ test("legal MDX routes share a cached source reader and evaluator like publicati
   assert.match(legalDocumentSource, /export function LegalDocumentLead/);
   assert.match(legalDocumentSource, /companyBodyTextClassName/);
   assert.match(legalDocumentSource, /pb-\[50px\] pt-\[100px\] lg:pb-\[72px\] lg:pt-\[120px\]/);
-  assert.match(legalDocumentSource, /flex flex-col gap-10 pt-\[10px\] text-left lg:gap-\[50px\] lg:pt-0/);
+  assert.match(legalDocumentSource, /mb-10 flex flex-col gap-10 pt-\[10px\] text-left lg:mb-\[50px\] lg:gap-\[50px\] lg:pt-0/);
   assert.match(legalDocumentSource, /text-\[40px\] font-medium leading-\[1\.2\] tracking-\[-0\.03em\] text-slate-950 sm:text-\[48px\] lg:text-\[52px\]/);
-  assert.match(legalDocumentSource, /export function LegalDocumentPageSection/);
+  assert.doesNotMatch(legalDocumentSource, /divider\?:/);
+  assert.doesNotMatch(legalDocumentSource, /export function LegalDocumentPageSection/);
+  assert.doesNotMatch(legalDocumentSource, /export function LegalDocumentHeader/);
+  assert.doesNotMatch(legalDocumentSource, /export function LegalDocumentHero/);
+  assert.doesNotMatch(legalDocumentSource, /export function LegalDocumentMeta/);
+  assert.doesNotMatch(legalDocumentSource, /export function LegalDocumentDescription/);
+  assert.match(legalDocumentSource, /\[&_h1:first-child\]:mt-0 \[&_h2:first-child\]:mt-0 \[&_h3:first-child\]:mt-0 \[&_h4:first-child\]:mt-0 \[&_p:first-child\]:mt-0 \[&_ul:first-child\]:mt-0 \[&_ol:first-child\]:mt-0/);
   assert.match(legalDocumentSource, /export function LegalDocumentBody/);
   assert.match(legalMdxComponentsSource, /export function buildLegalDocumentMdxComponents\(\)/);
   assert.match(legalMdxComponentsSource, /export function LegalBodyH1/);

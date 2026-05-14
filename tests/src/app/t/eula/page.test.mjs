@@ -34,7 +34,7 @@ test("eula page exists with noindex metadata and preview canonical path", () => 
   assert.match(legalDocumentSource, /export function LegalDocumentSection/);
   assert.match(legalDocumentSource, /export function LegalDocumentLayout/);
   assert.match(legalDocumentSource, /export function LegalDocumentLead/);
-  assert.match(legalDocumentSource, /export function LegalDocumentPageSection/);
+  assert.doesNotMatch(legalDocumentSource, /export function LegalDocumentPageSection/);
   assert.match(legalMdxHelperSource, /export async function renderLegalMdx<Frontmatter extends Record<string, unknown>>/);
   assert.match(legalMdxHelperSource, /parseFrontmatter: true,/);
   assert.match(legalMdxHelperSource, /buildLegalDocumentMdxComponents\(\)/);
@@ -65,7 +65,7 @@ test("eula preview keeps legal structure ownership in page.tsx and mdx body free
   assert.match(legalDocumentSource, /export function LegalDocumentSection/);
   assert.match(legalDocumentSource, /export function LegalDocumentLayout/);
   assert.match(legalDocumentSource, /export function LegalDocumentLead/);
-  assert.match(legalDocumentSource, /export function LegalDocumentPageSection/);
+  assert.doesNotMatch(legalDocumentSource, /export function LegalDocumentPageSection/);
   assert.match(legalDocumentSource, /export function LegalDocumentTitle/);
   assert.doesNotMatch(pageSource, /CenterSection/);
   assert.doesNotMatch(pageSource, /StaticH1/);
