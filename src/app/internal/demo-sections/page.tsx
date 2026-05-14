@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import type { ComponentProps } from "react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { RoleSlides } from "@/components/sections/internal-demo/role-slides";
-import { UseCaseShowcase } from "@/components/sections/internal-demo/use-case-showcase";
+import { aiDashiConsultUrl } from "@/content/ai-dashi-links";
+import { AICrewAvatar } from "./ai-crew-avatar";
+import { AIDashiFaq } from "./ai-dashi-faq";
+import { RoleSlides } from "./role-slides";
+import { UseCaseShowcase } from "./use-case-showcase";
 
 const roleSlidesDemoProps: ComponentProps<typeof RoleSlides> = {
   items: [
@@ -122,6 +125,34 @@ const useCaseShowcaseDemoProps: ComponentProps<typeof UseCaseShowcase> = {
   ],
 };
 
+const aiDashiFaqItems: ComponentProps<typeof AIDashiFaq>["items"] = [
+  {
+    question: "「データの所有権は？」",
+    answer:
+      "お預かりしたデータの所有権は、常にお客様に帰属します。AI Dashi はお客様のブランドと運用方針に合わせて提供され、学習データや利用データの取り扱いについても、導入時に要件に応じた運用設計をご案内します。",
+  },
+  {
+    question: "「LLMのモデルは選べるか？」",
+    answer:
+      "はい。ご要件や運用方針に合わせて、利用モデルや構成方針をご相談いただけます。精度・コスト・応答速度のバランスを踏まえて、最適な選択肢をご提案します。",
+  },
+  {
+    question: "「既存システムとの連携は？」",
+    answer:
+      "既存の業務システムやデータ基盤との連携を前提に設計可能です。導入時には、API や認証、データフローを含めた現行環境との接続方法をご一緒に整理します。",
+  },
+  {
+    question: "「SLAはどうなるか？」",
+    answer:
+      "ご利用形態やサポートレベルに応じて、必要な SLA や運用条件をご相談いただけます。商用提供を前提とした安定運用のため、個別要件に合わせた体制設計が可能です。",
+  },
+  {
+    question: "「エンドユーザー数に応じた従量課金か？」",
+    answer:
+      "料金体系は、想定ユーザー数や利用量、必要なサポート範囲に応じて個別に設計します。詳細はお問い合わせいただければ、最適なプランをご案内します。",
+  },
+] as const;
+
 export const metadata: Metadata = {
   title: "Internal Demo Sections | QueryPie AI",
   alternates: {
@@ -145,7 +176,7 @@ export default function InternalDemoSectionsPage() {
             Demo Sections
           </h1>
           <p className="mt-6 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
-            PR 439 で orphan として残っていた section component を削除せず、internal 専用デモルートで単独の見た目を確認できるように保持したページです。
+            PR 439 / issue 395 で orphan として残っていた section component を削除せず、internal 専用デモルートの route-local code として単独の見た目を確認できるように保持したページです。
           </p>
           <div className="mt-6 inline-flex rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-600">
             このページは UI デザイン確認用の internal demo であり、検索エンジンのインデックス対象外です。
@@ -176,6 +207,56 @@ export default function InternalDemoSectionsPage() {
               </p>
           </div>
           <UseCaseShowcase {...useCaseShowcaseDemoProps} />
+        </div>
+      </section>
+
+      <section className="border-t border-slate-200 px-6 py-18 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-8 max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Issue 395 survivors</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
+              Source-inspection test survivor demos
+            </h2>
+            <p className="mt-4 text-[15px] leading-7 text-slate-600">
+              Issue 395 で残っていた source-inspection test 参照のみの section component 候補を、削除ではなく internal demo route に明示的に再接続した例です。canonical route へ戻す判断が出るまでは、このページで表示契約を確認します。
+            </p>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)]">
+            <article className="rounded-[28px] border border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
+              <div className="flex items-start justify-between gap-6">
+                <div>
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">AI Crew avatar</p>
+                  <h3 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950">AICrewAvatar component demo</h3>
+                  <p className="mt-4 text-[15px] leading-7 text-slate-600">
+                    `src/app/internal/demo-sections/ai-crew-avatar.tsx` は crew role asset 契約を持つ route-local visual primitive です。現時点では canonical route へ戻さず、internal demo で tone / size の描画確認対象として保持します。
+                  </p>
+                </div>
+                <div className="shrink-0 rounded-[24px] bg-white p-4 shadow-sm">
+                  <AICrewAvatar tone="gray" />
+                </div>
+              </div>
+              <div className="mt-8 grid grid-cols-2 gap-4 rounded-[22px] bg-white p-5">
+                <div className="flex min-h-36 items-center justify-center rounded-[18px] bg-slate-100">
+                  <AICrewAvatar size="mobile" tone="gray" alt="AI Crew mobile avatar demo" />
+                </div>
+                <div className="flex min-h-36 items-center justify-center rounded-[18px] bg-slate-900">
+                  <AICrewAvatar size="mobile" tone="white" alt="AI Crew white avatar demo" />
+                </div>
+              </div>
+            </article>
+
+            <article className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <div className="mb-8 max-w-2xl">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">AI Dashi FAQ</p>
+                <h3 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950">AIDashiFaq component demo</h3>
+                <p className="mt-4 text-[15px] leading-7 text-slate-600">
+                  `src/app/internal/demo-sections/ai-dashi-faq.tsx` は accordion interaction を持つ route-local client component です。FAQ の文言と CTA は page.tsx が直接所有し、削除せず canonical route への再配置判断までは internal demo で挙動確認対象として保持します。
+                </p>
+              </div>
+              <AIDashiFaq items={aiDashiFaqItems} ctaHref={aiDashiConsultUrl} ctaLabel="お問い合わせ" />
+            </article>
+          </div>
         </div>
       </section>
 
