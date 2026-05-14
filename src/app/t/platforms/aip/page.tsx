@@ -2,35 +2,36 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  AipServiceFeatureBody,
-  AipServiceFeatureCopy,
-  AipServiceFeatureHeader,
-  AipServiceFeatureHeaderTitle,
-  AipServiceFeatureImage,
-  AipServiceFeatureInner,
-  AipServiceFeatureRow,
-  AipServiceFeatureSection,
-  AipServiceFeatureTitle,
-  AipServiceHeroCopy,
-  AipServiceHeroInner,
-  AipServiceHeroLead,
-  AipServiceHeroSection,
-  AipServiceHeroTitle,
-  AipServiceHeroVideo,
-  AipServiceInlineLink,
-  AipServiceLineBreak,
-  AipServicePageShell,
-  AipServiceValueCard,
-  AipServiceValueCardBody,
-  AipServiceValueCardTitle,
-  AipServiceValueDescription,
-  AipServiceValueGrid,
-  AipServiceValueImage,
-  AipServiceValueInner,
-  AipServiceValueIntro,
-  AipServiceValueSection,
-  AipServiceValueTitle,
-} from "@/components/sections/aip/service-page";
+  AipFeatureBody,
+  AipFeatureCopy,
+  AipFeatureHeader,
+  AipFeatureHeaderTitle,
+  AipFeatureImage,
+  AipFeatureInner,
+  AipFeatureRow,
+  AipFeatureSection,
+  AipFeatureTitle,
+  AipHeroCopy,
+  AipHeroInner,
+  AipHeroLead,
+  AipHeroSection,
+  AipHeroTitle,
+  AipHeroVideo,
+  AipInlineLink,
+  AipLineBreak,
+  AipPageShell,
+  AipValueCard,
+  AipValueCardBody,
+  AipValueCardLink,
+  AipValueCardTitle,
+  AipValueDescription,
+  AipValueGrid,
+  AipValueImage,
+  AipValueInner,
+  AipValueIntro,
+  AipValueSection,
+  AipValueTitle,
+} from "@/components/sections/aip/page";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
@@ -47,268 +48,283 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AipServicePage() {
+export default function AipPage() {
   return (
-    <AipServicePageShell>
+    <AipPageShell>
       <SiteHeader />
 
-      <AipServiceHeroSection>
-        <AipServiceHeroInner>
+      <AipHeroSection>
+        <AipHeroInner>
           <RevealOnScroll>
-            <AipServiceHeroCopy>
-              <AipServiceHeroTitle>QueryPie AIプラットフォーム (AIP)</AipServiceHeroTitle>
-              <AipServiceHeroLead>
+            <AipHeroCopy>
+              <AipHeroTitle>QueryPie AIプラットフォーム (AIP)</AipHeroTitle>
+              <AipHeroLead>
                 QueryPie AIPは、既存の業務システムとつながり、実務で使えるAIを実現します。
-                <AipServiceLineBreak />
+                <AipLineBreak />
                 従量課金でコストを最適化。大規模なシステム改修も不要。
-                <AipServiceLineBreak />
+                <AipLineBreak />
                 専門家が伴走するので、確実に成果が出るAIプラットフォームです。
-              </AipServiceHeroLead>
-            </AipServiceHeroCopy>
+              </AipHeroLead>
+            </AipHeroCopy>
           </RevealOnScroll>
 
           <RevealOnScroll delayMs={120} className="w-full">
-            <AipServiceHeroVideo />
+            <AipHeroVideo />
           </RevealOnScroll>
-        </AipServiceHeroInner>
-      </AipServiceHeroSection>
+        </AipHeroInner>
+      </AipHeroSection>
 
-      <AipServiceValueSection>
-        <AipServiceValueInner>
+      <AipValueSection>
+        <AipValueInner>
           <RevealOnScroll>
-            <AipServiceValueIntro>
-              <AipServiceValueTitle>成果にこだわるエンタープライズAI</AipServiceValueTitle>
-              <AipServiceValueDescription>AI導入を、ワンストップで実現する３つの価値</AipServiceValueDescription>
-            </AipServiceValueIntro>
+            <AipValueIntro>
+              <AipValueTitle>成果にこだわるエンタープライズAI</AipValueTitle>
+              <AipValueDescription>AI導入を、ワンストップで実現する３つの価値</AipValueDescription>
+            </AipValueIntro>
           </RevealOnScroll>
 
-          <AipServiceValueGrid>
+          <AipValueGrid>
             <RevealOnScroll>
-              <AipServiceValueCard>
-                <AipServiceValueImage src="/services/aip/value-usage-based-llm.png" alt="従量課金型の AIモデル" />
-                <AipServiceValueCardTitle>従量課金型の AIモデル</AipServiceValueCardTitle>
-                <AipServiceValueCardBody>
+              <AipValueCard>
+                <AipValueImage src="/services/aip/value-usage-based-llm.png" alt="従量課金型の AIモデル">
+                  <AipValueCardTitle>
+                    従量課金型の
+                    <AipLineBreak />
+                    AIモデル
+                  </AipValueCardTitle>
+                </AipValueImage>
+                <AipValueCardBody>
                   全社員分のライセンス購入を経営層にどう説明する？使われなかったら？
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   QueryPie AIPは使った分だけ支払う従量課金型。小さく始めて効果を見ながら段階的に拡大できます。
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   プレミアムLLMを必要な時だけ利用でき、月額固定費の無駄から解放されます。
-                </AipServiceValueCardBody>
-                <AipServiceInlineLink href="/t/platforms/aip/usage-based-llm">詳細を見る</AipServiceInlineLink>
-              </AipServiceValueCard>
+                </AipValueCardBody>
+                <AipValueCardLink href="/t/platforms/aip/usage-based-llm">詳細を見る</AipValueCardLink>
+              </AipValueCard>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={80}>
-              <AipServiceValueCard>
-                <AipServiceValueImage src="/services/aip/value-mcp-gateway.png" alt="統合型 AIゲートウェイ" />
-                <AipServiceValueCardTitle>統合型 AIゲートウェイ</AipServiceValueCardTitle>
-                <AipServiceValueCardBody>
+              <AipValueCard>
+                <AipValueImage src="/services/aip/value-mcp-gateway.png" alt="統合型 AIゲートウェイ">
+                  <AipValueCardTitle>
+                    統合型
+                    <AipLineBreak />
+                    AIゲートウェイ
+                  </AipValueCardTitle>
+                </AipValueImage>
+                <AipValueCardBody>
                   既存システムに「つなぐだけ」で、大規模なシステム改修は不要です。
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   複雑な接続処理はQueryPie AIPが担当。
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   バラバラだったシステムが、1つのプラットフォームで統合されたAIワークフローに変わります。
-                </AipServiceValueCardBody>
-                <AipServiceInlineLink href="/t/platforms/aip/mcp-gateway">詳細を見る</AipServiceInlineLink>
-              </AipServiceValueCard>
+                </AipValueCardBody>
+                <AipValueCardLink href="/t/platforms/aip/mcp-gateway">詳細を見る</AipValueCardLink>
+              </AipValueCard>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={160}>
-              <AipServiceValueCard>
-                <AipServiceValueImage src="/services/aip/value-fde-services.png" alt="AI専門家伴走 サービス" />
-                <AipServiceValueCardTitle>AI専門家伴走 サービス</AipServiceValueCardTitle>
-                <AipServiceValueCardBody>
+              <AipValueCard>
+                <AipValueImage src="/services/aip/value-fde-services.png" alt="AI専門家伴走 サービス">
+                  <AipValueCardTitle>
+                    AI専門家伴走
+                    <AipLineBreak />
+                    サービス
+                  </AipValueCardTitle>
+                </AipValueImage>
+                <AipValueCardBody>
                   ビジネスとテクノロジーの両方を理解する専門家、フォワードデプロイドエンジニア(FDE)が、あなたのチームに入り込みます。
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   課題発見から構築、本番稼働まで伴走し、確実に成果を出すAI導入を実現します。
-                </AipServiceValueCardBody>
-                <AipServiceInlineLink href="/t/services/fde">詳細を見る</AipServiceInlineLink>
-              </AipServiceValueCard>
+                </AipValueCardBody>
+                <AipValueCardLink href="/t/services/fde">詳細を見る</AipValueCardLink>
+              </AipValueCard>
             </RevealOnScroll>
-          </AipServiceValueGrid>
-        </AipServiceValueInner>
-      </AipServiceValueSection>
+          </AipValueGrid>
+        </AipValueInner>
+      </AipValueSection>
 
-      <AipServiceFeatureSection muted>
-        <AipServiceFeatureInner>
+      <AipFeatureSection muted>
+        <AipFeatureInner>
           <RevealOnScroll>
-            <AipServiceFeatureHeader>
-              <AipServiceFeatureHeaderTitle>QueryPie AIPができること</AipServiceFeatureHeaderTitle>
-            </AipServiceFeatureHeader>
+            <AipFeatureHeader>
+              <AipFeatureHeaderTitle>QueryPie AIPができること</AipFeatureHeaderTitle>
+            </AipFeatureHeader>
           </RevealOnScroll>
 
-          <AipServiceFeatureRow>
+          <AipFeatureRow>
             <RevealOnScroll>
-              <AipServiceFeatureCopy className="max-w-[417px]">
-                <AipServiceFeatureTitle>プロンプト自動生成</AipServiceFeatureTitle>
-                <AipServiceFeatureBody>
+              <AipFeatureCopy className="max-w-[417px]">
+                <AipFeatureTitle>プロンプト自動生成</AipFeatureTitle>
+                <AipFeatureBody>
                   プリセットされた簡単な指示文（プロンプト）から始めれば
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   包括的かつ最適化されたプロンプトを自動生成します。
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   専門知識がなくてもAIエージェントの効果を最大限に引き出せます。
-                </AipServiceFeatureBody>
-              </AipServiceFeatureCopy>
+                </AipFeatureBody>
+              </AipFeatureCopy>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={80}>
-              <AipServiceFeatureImage
+              <AipFeatureImage
                 src="/services/aip/prompt.gif"
                 alt="プロンプト自動生成"
                 width={540}
                 height={304}
               />
             </RevealOnScroll>
-          </AipServiceFeatureRow>
-        </AipServiceFeatureInner>
-      </AipServiceFeatureSection>
+          </AipFeatureRow>
+        </AipFeatureInner>
+      </AipFeatureSection>
 
-      <AipServiceFeatureSection>
-        <AipServiceFeatureInner>
-          <AipServiceFeatureRow reverse>
+      <AipFeatureSection>
+        <AipFeatureInner>
+          <AipFeatureRow reverse>
             <RevealOnScroll>
-              <AipServiceFeatureCopy className="max-w-[380px]">
-                <AipServiceFeatureTitle>シンプルな統合</AipServiceFeatureTitle>
-                <AipServiceFeatureBody>
+              <AipFeatureCopy className="max-w-[380px]">
+                <AipFeatureTitle>シンプルな統合</AipFeatureTitle>
+                <AipFeatureBody>
                   OAuth認証でお使いのツール（Slack、Googleなど）を簡単に接続。
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   提供されている統合機能に加えて、カスタムツールや内部ツールも追加でき、
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   ニーズに合わせたビジネスワークフロー自動化を実現します。
-                </AipServiceFeatureBody>
-                <AipServiceInlineLink href="https://www.querypie.com/ja/solutions/aip/integrations">
+                </AipFeatureBody>
+                <AipInlineLink href="/t/platforms/aip/integrations">
                   QueryPie AIPと接続可能な連携ツールの一覧はこちら
-                </AipServiceInlineLink>
-              </AipServiceFeatureCopy>
+                </AipInlineLink>
+              </AipFeatureCopy>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={80}>
-              <AipServiceFeatureImage
+              <AipFeatureImage
                 src="/services/aip/integration.gif"
                 alt="シンプルな統合"
                 width={580}
                 height={326}
               />
             </RevealOnScroll>
-          </AipServiceFeatureRow>
-        </AipServiceFeatureInner>
-      </AipServiceFeatureSection>
+          </AipFeatureRow>
+        </AipFeatureInner>
+      </AipFeatureSection>
 
-      <AipServiceFeatureSection muted>
-        <AipServiceFeatureInner>
-          <AipServiceFeatureRow>
+      <AipFeatureSection muted>
+        <AipFeatureInner>
+          <AipFeatureRow>
             <RevealOnScroll>
-              <AipServiceFeatureCopy className="max-w-[407px]">
-                <AipServiceFeatureTitle>社内文書の学習機能</AipServiceFeatureTitle>
-                <AipServiceFeatureBody>
+              <AipFeatureCopy className="max-w-[407px]">
+                <AipFeatureTitle>社内文書の学習機能</AipFeatureTitle>
+                <AipFeatureBody>
                   社内文書をアップロードして知識ベース化。
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   AIが組織の情報を瞬時に取得し、貴社のビジネスに合った正確な回答をします。
-                </AipServiceFeatureBody>
-              </AipServiceFeatureCopy>
+                </AipFeatureBody>
+              </AipFeatureCopy>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={80}>
-              <AipServiceFeatureImage
+              <AipFeatureImage
                 src="/services/aip/knowledge.gif"
                 alt="社内文書の学習機能"
                 width={520}
                 height={293}
               />
             </RevealOnScroll>
-          </AipServiceFeatureRow>
-        </AipServiceFeatureInner>
-      </AipServiceFeatureSection>
+          </AipFeatureRow>
+        </AipFeatureInner>
+      </AipFeatureSection>
 
-      <AipServiceFeatureSection>
-        <AipServiceFeatureInner>
-          <AipServiceFeatureRow reverse>
+      <AipFeatureSection>
+        <AipFeatureInner>
+          <AipFeatureRow reverse>
             <RevealOnScroll>
-              <AipServiceFeatureCopy className="max-w-[420px]">
-                <AipServiceFeatureTitle>カスタムエージェント作成</AipServiceFeatureTitle>
-                <AipServiceFeatureBody>
+              <AipFeatureCopy className="max-w-[420px]">
+                <AipFeatureTitle>カスタムエージェント作成</AipFeatureTitle>
+                <AipFeatureBody>
                   包括的なライブラリから構築済みのエージェントをインストール、
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   または特定の運用要件に合わせて各エージェントの機能を
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   カスタマイズした独自のソリューションを作成できます。
-                </AipServiceFeatureBody>
-              </AipServiceFeatureCopy>
+                </AipFeatureBody>
+              </AipFeatureCopy>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={80}>
-              <AipServiceFeatureImage
+              <AipFeatureImage
                 src="/services/aip/custom-agent.gif"
                 alt="カスタムエージェント作成"
                 width={600}
                 height={338}
               />
             </RevealOnScroll>
-          </AipServiceFeatureRow>
-        </AipServiceFeatureInner>
-      </AipServiceFeatureSection>
+          </AipFeatureRow>
+        </AipFeatureInner>
+      </AipFeatureSection>
 
-      <AipServiceFeatureSection muted>
-        <AipServiceFeatureInner>
-          <AipServiceFeatureRow>
+      <AipFeatureSection muted>
+        <AipFeatureInner>
+          <AipFeatureRow>
             <RevealOnScroll>
-              <AipServiceFeatureCopy className="max-w-[418px]">
-                <AipServiceFeatureTitle>ビジュアルレポート作成</AipServiceFeatureTitle>
-                <AipServiceFeatureBody>
+              <AipFeatureCopy className="max-w-[418px]">
+                <AipFeatureTitle>ビジュアルレポート作成</AipFeatureTitle>
+                <AipFeatureBody>
                   AIの回答をグラフや表、インタラクティブな図で表示。
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   複雑な分析結果を視覚的にわかりやすく整理し、
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   そのままエクスポートして会議に活用できます。
-                </AipServiceFeatureBody>
-              </AipServiceFeatureCopy>
+                </AipFeatureBody>
+              </AipFeatureCopy>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={80}>
-              <AipServiceFeatureImage
+              <AipFeatureImage
                 src="/services/aip/visual-report.gif"
                 alt="ビジュアルレポート作成"
                 width={520}
                 height={293}
               />
             </RevealOnScroll>
-          </AipServiceFeatureRow>
-        </AipServiceFeatureInner>
-      </AipServiceFeatureSection>
+          </AipFeatureRow>
+        </AipFeatureInner>
+      </AipFeatureSection>
 
-      <AipServiceFeatureSection>
-        <AipServiceFeatureInner>
-          <AipServiceFeatureRow reverse>
+      <AipFeatureSection>
+        <AipFeatureInner>
+          <AipFeatureRow reverse>
             <RevealOnScroll>
-              <AipServiceFeatureCopy className="max-w-[420px]">
-                <AipServiceFeatureTitle>エージェントスケジューリング</AipServiceFeatureTitle>
-                <AipServiceFeatureBody>
+              <AipFeatureCopy className="max-w-[420px]">
+                <AipFeatureTitle>エージェントスケジューリング</AipFeatureTitle>
+                <AipFeatureBody>
                   指定した間隔でAIエージェントをスケジュール設定し、
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   定型タスクを自動化。
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   簡単なエージェント会話を通じて定期的な操作を設定でき、
-                  <AipServiceLineBreak />
+                  <AipLineBreak />
                   手動作業を削減しながら一貫した実行を保証します。
-                </AipServiceFeatureBody>
-              </AipServiceFeatureCopy>
+                </AipFeatureBody>
+              </AipFeatureCopy>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={80}>
-              <AipServiceFeatureImage
+              <AipFeatureImage
                 src="/services/aip/scheduling.gif"
                 alt="エージェントスケジューリング"
                 width={600}
                 height={338}
               />
             </RevealOnScroll>
-          </AipServiceFeatureRow>
-        </AipServiceFeatureInner>
-      </AipServiceFeatureSection>
+          </AipFeatureRow>
+        </AipFeatureInner>
+      </AipFeatureSection>
 
       <AipFreeTrialCtaSection />
 
       <SiteFooter />
-    </AipServicePageShell>
+    </AipPageShell>
   );
 }
