@@ -29,6 +29,6 @@ test("simple static preview sections use the shared mobile container primitive",
 test("usage-based LLM keeps feature rows as non-section content wrappers", () => {
   const source = readSource("src/components/sections/usage-based-llm/section.tsx");
 
-  assert.match(source, /<PlatformPageSection[\s\S]*as="div"[\s\S]*contentClassName=\{cn\(/);
+  assert.match(source, /<PlatformContentSection[\s\S]*as="div"[\s\S]*contentClassName=\{cn\(/);
   assert.doesNotMatch(source, /MarketingPageSection/);
 });

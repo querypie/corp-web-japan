@@ -47,15 +47,16 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
   assert.match(sectionSource, /export function AcpServicePageShell[\s\S]*<PlatformPageShell>/);
   assert.match(sectionSource, /export function AcpHeroSection[\s\S]*<PlatformHeroSection>/);
-  assert.match(sectionSource, /export function AcpFeatureSection[\s\S]*<PlatformPageSection className="pb-\[80px\]">/);
+  assert.match(sectionSource, /export function AcpFeatureSection[\s\S]*<PlatformContentSection className="pb-\[80px\]">/);
   assert.match(sectionSource, /export function AcpFeatureIntro/);
   assert.match(sectionSource, /export function AcpIntegrationsLink/);
   assert.match(sectionSource, /export function AcpHeroVideo/);
   assert.doesNotMatch(sectionSource, /^"use client";/m);
 
   assert.match(platformSource, /export function PlatformPageShell/);
-  assert.match(platformSource, /export function PlatformPageSection/);
-  assert.match(platformSource, /export function PlatformHeroSection/);
+  assert.match(platformSource, /export function PlatformContentSection/);
+  assert.match(platformSource, /export function PlatformPageSection[\s\S]*pt-\[120px\][\s\S]*lg:pt-\[144px\]/);
+  assert.match(platformSource, /export function PlatformHeroSection[\s\S]*<PlatformPageSection>/);
   assert.match(platformSource, /paddingClassName = "px-6 lg:px-0"/);
   assert.match(platformSource, /joinClassNames\("flex justify-center", paddingClassName, className\)/);
 

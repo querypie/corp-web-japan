@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import { PlatformCtaSection, PlatformPageSection } from "@/components/sections/platform/page-primitives";
+import { PlatformContentSection, PlatformCtaSection } from "@/components/sections/platform/page-primitives";
 
 function cx(...values: Array<string | false | null | undefined>) {
   return values.filter(Boolean).join(" ");
@@ -52,14 +52,14 @@ export function McpGatewayFeatureBand({
   style,
 }: { children: ReactNode; muted?: boolean } & ClassNameProps) {
   return (
-    <PlatformPageSection
+    <PlatformContentSection
       className={cx("w-full py-[80px]", muted && "bg-[#F6F8FA]", className)}
       contentClassName="px-10 lg:px-10"
       paddingClassName=""
       style={style}
     >
       {children}
-    </PlatformPageSection>
+    </PlatformContentSection>
   );
 }
 
