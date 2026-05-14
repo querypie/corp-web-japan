@@ -1,60 +1,34 @@
 "use client";
 
 import { useState } from "react";
-import type { CookiePreferenceKey } from "./list";
-
-type MutableCookiePreferenceKey = Exclude<CookiePreferenceKey, "necessary">;
+import {
+  COOKIE_PREFERENCE_COOKIE_KEYS,
+  COOKIE_PREFERENCE_MAX_AGE,
+  type CookiePreferenceKey,
+} from "@/lib/cookie-preferences";
 
 type CookiePreferenceToggleProps = {
   preference: CookiePreferenceKey;
   id: string;
   disabled?: boolean;
+  initialChecked?: boolean;
 };
 
-const COOKIE_PREFERENCE_COOKIE_KEYS = {
-  set: "cookie-preference-set",
-  performance: "cookie-preference-performance",
-  functional: "cookie-preference-functional",
-  analysis: "cookie-preference-event",
-  marketing: "cookie-preference-marketing",
-} as const;
-
-const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
-
-function getCookieValue(name: string) {
-  if (typeof document === "undefined") {
-    return null;
-  }
-
-  const cookie = document.cookie
-    .split("; ")
-    .find((entry) => entry.startsWith(`${name}=`));
-
-  if (!cookie) {
-    return null;
-  }
-
-  return decodeURIComponent(cookie.slice(name.length + 1));
-}
-
 function setCookieValue(name: string, value: string) {
-  if (typeof document === "undefined") {
-    return;
-  }
-
-  document.cookie = `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${COOKIE_MAX_AGE}; SameSite=Lax`;
+  document.cookie = `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${COOKIE_PREFERENCE_MAX_AGE}; SameSite=Lax`;
 }
 
-function readCheckedState(preference: MutableCookiePreferenceKey) {
-  return getCookieValue(COOKIE_PREFERENCE_COOKIE_KEYS[preference]) === "1";
-}
-
-export function CookiePreferenceToggle({ preference, disabled = false, id }: CookiePreferenceToggleProps) {
+export function CookiePreferenceToggle({
+  preference,
+  disabled = false,
+  id,
+  initialChecked = false,
+}: CookiePreferenceToggleProps) {
   const isNecessary = preference === "necessary";
-  const [checked, setChecked] = useState(() => (isNecessary ? true : readCheckedState(preference)));
+  const [checked, setChecked] = useState(isNecessary ? true : initialChecked);
 
   function handleToggle() {
-    if (isNecessary || disabled) {
+    if (preference === "necessary" || disabled) {
       return;
     }
 
