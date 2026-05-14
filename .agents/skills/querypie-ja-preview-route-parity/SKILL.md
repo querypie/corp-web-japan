@@ -89,6 +89,7 @@ Required parity elements:
 - 3-card value section with real image + title + body + `詳細を見る`
 - value-card row height parity: on the live page, the three value card wrappers render as equal-height cards; the preview must not let each visible card shrink to its own content length
 - alternating feature bands instead of a generic 2-column card grid
+- feature copy-column parity: verify each `AipFeatureCopy` wrapper's rendered left/top/width/height against live; media width and 80px gap alone are not enough because narrow route-local `max-w-*` values can shift copy inward and change wrapping
 - upstream CTA wording restored exactly
 
 Link strategy:

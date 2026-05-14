@@ -156,6 +156,98 @@ Concrete `/t/platforms/aip` example:
 
 This is a visible parity issue because the card bottoms and link rows no longer align.
 
+## Feature row and copy-column parity checks
+
+For alternating feature rows, compare the copy column as its own layout object.
+Do not only check that the media width, row direction, and row gap match.
+
+Check:
+
+- row wrapper width, height, display mode, direction, alignment, and gap
+- copy wrapper left/top/width/height
+- media wrapper left/top/width/height
+- relation: copy-left/media-right vs media-left/copy-right
+- heading width, font size, line height, and line count
+- paragraph width, line height, and rendered line count
+- row-relative vertical centering of the copy wrapper against the media wrapper
+- whether a reveal/animation wrapper is the measured copy wrapper instead of the semantic copy component
+
+Use a measurement like this:
+
+```js
+(() => {
+  const titles = [
+    "プロンプト自動生成",
+    "シンプルな統合",
+    "社内文書の学習機能",
+    "カスタムエージェント作成",
+    "ビジュアルレポート作成",
+    "エージェントスケジューリング",
+  ];
+  const norm = (value) => (value || "").replace(/\s+/g, " ").trim();
+  const rect = (el) => {
+    const r = el.getBoundingClientRect();
+    return {
+      left: Math.round(r.left),
+      top: Math.round(r.top + scrollY),
+      width: Math.round(r.width),
+      height: Math.round(r.height),
+      right: Math.round(r.right),
+      bottom: Math.round(r.bottom + scrollY),
+    };
+  };
+
+  return titles.map((title) => {
+    const heading = Array.from(document.querySelectorAll("main h2, main h3, main h4")).find(
+      (node) => norm(node.textContent) === title
+    );
+    if (!heading) return { title, missing: true };
+
+    let node = heading;
+    const chain = [];
+    for (let depth = 0; node && depth < 8; depth += 1, node = node.parentElement) {
+      const box = node.getBoundingClientRect();
+      if (box.width > 100 && box.height > 20) {
+        chain.push({ depth, node, hasImage: Boolean(node.querySelector("img")), rect: rect(node) });
+      }
+    }
+
+    const row = chain.find(
+      (item) => item.hasImage && item.rect.width >= 900 && item.rect.width <= 1220 && item.rect.height >= 250
+    )?.node;
+    const image = row?.querySelector("img");
+    const copy = row ? Array.from(row.children).find((child) => child.contains(heading)) : null;
+    const media = row && image ? Array.from(row.children).find((child) => child.contains(image)) : null;
+
+    return {
+      title,
+      row: row ? rect(row) : null,
+      copy: copy ? rect(copy) : null,
+      media: media ? rect(media) : null,
+      heading: rect(heading),
+      paragraph: copy?.querySelector("p") ? rect(copy.querySelector("p")) : null,
+    };
+  });
+})()
+```
+
+Concrete `/t/platforms/aip` example:
+
+- stage URL: `https://stage.querypie.ai/t/platforms/aip`
+- live URL: `https://www.querypie.com/ja/solutions/aip`
+- the media widths and row gap can match while the copy wrapper still differs materially
+- live copy widths on desktop included about `475.97px`, `537.61px`, and `552.77px` for the first three feature rows
+- stage copy widths for those same rows were about `417px`, `380px`, and `407px`
+- this made the stage copy columns narrower by about `59px`, `158px`, and `146px`
+- the narrower copy wrappers shifted the columns inward and changed paragraph wrapping/height
+- this is a parity defect in the copy wrapper sizing/placement, not a media-width issue
+
+Implementation warning:
+
+- avoid guessing route-local `max-w-*` values for `AipFeatureCopy`
+- derive or verify the copy wrapper width from the live/source component's actual layout
+- if a reveal wrapper is the direct flex child, make sure the semantic copy component still owns the intended width or that the reveal wrapper inherits it correctly
+
 ## Root font-size and rem normalization
 
 Live `querypie.com/ja` pages may use a `15px` root font size, while this repo keeps a standard `16px` root.
