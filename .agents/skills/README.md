@@ -87,7 +87,7 @@ Use them by phase so responsibilities stay mutually exclusive and collectively e
 4. Cross-cutting route authoring support
 - `static-page-route-local-authoring`
   - Path: `.agents/skills/static-page-route-local-authoring/SKILL.md`
-  - Purpose: keep static marketing routes readable by making `page.tsx` the primary authoring surface and extracted sections UI-only
+  - Purpose: keep static marketing routes readable by making `page.tsx` the primary authoring surface and extracted sections UI-only under `src/components/sections/**`
   - Use when: copy/composition ownership needs to remain route-local during any migration phase
 
 5. Cross-cutting visual parity support
