@@ -29,7 +29,7 @@ export function AboutUsSection({ children, muted = false }: { children: ReactNod
 
   return (
     <section className={backgroundClass}>
-      <div className="mx-auto max-w-[1200px] px-6 py-[112.5px] lg:px-0">{children}</div>
+      <div className="mx-auto max-w-[1200px] px-6 py-[100px] lg:px-0">{children}</div>
     </section>
   );
 }
