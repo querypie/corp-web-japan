@@ -6,7 +6,6 @@ const primitiveSource = () => readSource("src/components/sections/home/primitive
 
 const migratedContractFiles = [
   "src/components/sections/plans/section.tsx",
-  "src/components/sections/usage-based-llm/section.tsx",
 ];
 
 test("shared marketing page section owns the default mobile container contract", () => {
@@ -30,5 +29,6 @@ test("simple static preview sections use the shared mobile container primitive",
 test("usage-based LLM keeps feature rows as non-section content wrappers", () => {
   const source = readSource("src/components/sections/usage-based-llm/section.tsx");
 
-  assert.match(source, /<MarketingPageSection[\s\S]*as="div"[\s\S]*contentClassName=\{cn\(/);
+  assert.match(source, /<PlatformPageSection[\s\S]*as="div"[\s\S]*contentClassName=\{cn\(/);
+  assert.doesNotMatch(source, /MarketingPageSection/);
 });

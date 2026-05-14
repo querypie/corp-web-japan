@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
+import { PlatformCtaSection, PlatformPageSection } from "@/components/sections/platform/page-primitives";
 
 function cx(...values: Array<string | false | null | undefined>) {
   return values.filter(Boolean).join(" ");
@@ -51,9 +52,14 @@ export function McpGatewayFeatureBand({
   style,
 }: { children: ReactNode; muted?: boolean } & ClassNameProps) {
   return (
-    <section className={cx("w-full py-[80px]", muted && "bg-[#F6F8FA]", className)} style={style}>
-      <div className="mx-auto max-w-[1200px] px-10 lg:px-10">{children}</div>
-    </section>
+    <PlatformPageSection
+      className={cx("w-full py-[80px]", muted && "bg-[#F6F8FA]", className)}
+      contentClassName="px-10 lg:px-10"
+      paddingClassName=""
+      style={style}
+    >
+      {children}
+    </PlatformPageSection>
   );
 }
 
@@ -110,7 +116,7 @@ export function McpGatewayFeatureImage({
 }
 
 export function McpGatewayCtaSection({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <section className={cx("bg-[#F6F8FA] px-[24px] pb-[120px] pt-[120px]", className)}>{children}</section>;
+  return <PlatformCtaSection className={className}>{children}</PlatformCtaSection>;
 }
 
 export function McpGatewayCtaContent({ children, className }: { children: ReactNode } & ClassNameProps) {
