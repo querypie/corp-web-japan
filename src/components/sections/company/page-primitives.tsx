@@ -1,21 +1,13 @@
 import type { ReactNode } from "react";
 import { companyBodyTextClassName } from "@/components/ui/text-tokens";
 
-type CompanyPageSectionPadding = "default" | "compactHero";
-
 type CompanyPageSectionProps = {
   children: ReactNode;
-  padding?: CompanyPageSectionPadding;
 };
 
-const companyPageSectionPaddingClassNames = {
-  default: "pb-[96px] pt-[100px] lg:pb-[120px] lg:pt-[130px]",
-  compactHero: "pb-[84px] pt-[100px] lg:pb-[84px] lg:pt-[130px]",
-} satisfies Record<CompanyPageSectionPadding, string>;
-
-export function CompanyPageSection({ children, padding = "default" }: CompanyPageSectionProps) {
+export function CompanyPageSection({ children }: CompanyPageSectionProps) {
   return (
-    <section className={`mx-auto w-full max-w-[1920px] bg-white px-[30px] ${companyPageSectionPaddingClassNames[padding]}`}>
+    <section className="mx-auto w-full max-w-[1920px] bg-white px-[30px] pb-[50px] pt-[100px] lg:pb-[72px] lg:pt-[120px]">
       <div className="mx-auto w-full max-w-[1200px]">{children}</div>
     </section>
   );
@@ -26,7 +18,7 @@ type CompanyPageIntroProps = {
 };
 
 export function CompanyPageIntro({ children }: CompanyPageIntroProps) {
-  return <div className="flex flex-col gap-[50px] text-left">{children}</div>;
+  return <div className="flex flex-col gap-10 pt-[10px] text-left lg:gap-[50px] lg:pt-0">{children}</div>;
 }
 
 type CompanyPageTitleProps = {
