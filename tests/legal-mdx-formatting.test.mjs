@@ -5,8 +5,8 @@ import path from "node:path";
 import { readSource, sourceExists } from "./helpers/source-readers.mjs";
 
 const legalMdxPaths = [
-  "src/app/t/eula/content.mdx",
-  "src/app/t/terms-of-service/content.mdx",
+  "src/app/eula/content.mdx",
+  "src/app/terms-of-service/content.mdx",
   ...readdirSync(path.resolve("src/content/privacy-policy"))
     .filter((entry) => entry.endsWith(".mdx"))
     .sort()
@@ -86,5 +86,18 @@ test("legal MDX source follows the documented refactoring rules", () => {
       /^\s*\{["'][^{}<>]+["']\}\s*$/m,
       `${mdxPath} should avoid unnecessary JSX string expressions for plain text`,
     );
+
+    if (mdxPath.startsWith("src/content/privacy-policy/")) {
+      assert.match(
+        body,
+        /^\*\*Effective from .+\*\*$/m,
+        `${mdxPath} should expose its effective date as a bold body line`,
+      );
+      assert.doesNotMatch(
+        body,
+        /^[-*] Effective from/m,
+        `${mdxPath} should not render the effective date as a bullet list item`,
+      );
+    }
   }
 });
