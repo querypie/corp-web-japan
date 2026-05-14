@@ -85,7 +85,7 @@ export default function AboutUsPage() {
         </CompanyPageIntro>
       </CompanyPageSection>
 
-      <AboutUsSection className="mx-auto max-w-[1200px] px-6 pb-[92px] pt-[94px] lg:px-0">
+      <AboutUsSection>
         <RevealOnScroll>
           <AboutUsSectionHeading>出資企業</AboutUsSectionHeading>
           <AboutUsSectionIntro>
@@ -110,72 +110,70 @@ export default function AboutUsPage() {
         </AboutUsInvestorLogoRow>
       </AboutUsSection>
 
-      <AboutUsSection muted className="py-[112.5px]">
-        <div className="mx-auto max-w-[1200px] px-6 lg:px-0">
-          <RevealOnScroll>
-            <AboutUsSectionHeading>私たちの歩み</AboutUsSectionHeading>
-            <AboutUsSectionIntro>
-              <AboutUsBodyCopy>
-                AIが次のフロンティアになったとき、多くの企業が「莫大なコストと複雑な実装」という2つの壁に直面しました。
-                <br />
-                そこで私たちは、その両方を解決するために進化を続けてきました。
-                <br />
-                誰もが使えるアクセシビリティを保ちながら、AI変革の専門性を構築しています。
-              </AboutUsBodyCopy>
-            </AboutUsSectionIntro>
-          </RevealOnScroll>
+      <AboutUsSection muted>
+        <RevealOnScroll>
+          <AboutUsSectionHeading>私たちの歩み</AboutUsSectionHeading>
+          <AboutUsSectionIntro>
+            <AboutUsBodyCopy>
+              AIが次のフロンティアになったとき、多くの企業が「莫大なコストと複雑な実装」という2つの壁に直面しました。
+              <br />
+              そこで私たちは、その両方を解決するために進化を続けてきました。
+              <br />
+              誰もが使えるアクセシビリティを保ちながら、AI変革の専門性を構築しています。
+            </AboutUsBodyCopy>
+          </AboutUsSectionIntro>
+        </RevealOnScroll>
 
-          <AboutUsTimeline>
-            <RevealOnScroll>
-              <AboutUsTimelineItem year="2017">
-                <li>設立</li>
-              </AboutUsTimelineItem>
-            </RevealOnScroll>
-            <RevealOnScroll delayMs={50}>
-              <AboutUsTimelineItem year="2018">
-                <li>カカオインベストメントからの資金調達</li>
-              </AboutUsTimelineItem>
-            </RevealOnScroll>
-            <RevealOnScroll delayMs={100}>
-              <AboutUsTimelineItem year="2019">
-                <li>TechCrunch SF 2019 に参加</li>
-                <li>LG スタートアップコンペティション 2019 で優勝</li>
-              </AboutUsTimelineItem>
-            </RevealOnScroll>
-            <RevealOnScroll delayMs={150}>
-              <AboutUsTimelineItem year="2020">
-                <li>Y-Combinator からの資金調達</li>
-              </AboutUsTimelineItem>
-            </RevealOnScroll>
-            <RevealOnScroll delayMs={200}>
-              <AboutUsTimelineItem year="2021">
-                <li>QueryPie DAC（データベースアクセスコントローラー）提供開始</li>
-                <li>優先シードラウンドで 1,775万ドルを調達</li>
-              </AboutUsTimelineItem>
-            </RevealOnScroll>
-            <RevealOnScroll delayMs={250}>
-              <AboutUsTimelineItem year="2023">
-                <li>韓国信用保証基金から 581万ドルの資金を確保</li>
-                <li>QueryPie SAC（システムアクセスコントローラー）提供開始</li>
-              </AboutUsTimelineItem>
-            </RevealOnScroll>
-            <RevealOnScroll delayMs={300}>
-              <AboutUsTimelineItem year="2024">
-                <li>QueryPie KAC（Kubernetesアクセスコントローラー）/ WAC（Webアクセスコントローラー）提供開始</li>
-                <li>Salesforce Ventures、Z Venture Capital、Murex Partners、Shinhan Venture Investment からの戦略的投資</li>
-              </AboutUsTimelineItem>
-            </RevealOnScroll>
-            <RevealOnScroll delayMs={350}>
-              <AboutUsTimelineItem year="2025">
-                <li>QueryPie AIP（AIプラットフォーム）提供開始</li>
-                <li>FDE（フォワードデプロイエンジニア）サービス提供開始</li>
-              </AboutUsTimelineItem>
-            </RevealOnScroll>
-          </AboutUsTimeline>
-        </div>
+        <AboutUsTimeline>
+          <RevealOnScroll>
+            <AboutUsTimelineItem year="2017">
+              <li>設立</li>
+            </AboutUsTimelineItem>
+          </RevealOnScroll>
+          <RevealOnScroll delayMs={50}>
+            <AboutUsTimelineItem year="2018">
+              <li>カカオインベストメントからの資金調達</li>
+            </AboutUsTimelineItem>
+          </RevealOnScroll>
+          <RevealOnScroll delayMs={100}>
+            <AboutUsTimelineItem year="2019">
+              <li>TechCrunch SF 2019 に参加</li>
+              <li>LG スタートアップコンペティション 2019 で優勝</li>
+            </AboutUsTimelineItem>
+          </RevealOnScroll>
+          <RevealOnScroll delayMs={150}>
+            <AboutUsTimelineItem year="2020">
+              <li>Y-Combinator からの資金調達</li>
+            </AboutUsTimelineItem>
+          </RevealOnScroll>
+          <RevealOnScroll delayMs={200}>
+            <AboutUsTimelineItem year="2021">
+              <li>QueryPie DAC（データベースアクセスコントローラー）提供開始</li>
+              <li>優先シードラウンドで 1,775万ドルを調達</li>
+            </AboutUsTimelineItem>
+          </RevealOnScroll>
+          <RevealOnScroll delayMs={250}>
+            <AboutUsTimelineItem year="2023">
+              <li>韓国信用保証基金から 581万ドルの資金を確保</li>
+              <li>QueryPie SAC（システムアクセスコントローラー）提供開始</li>
+            </AboutUsTimelineItem>
+          </RevealOnScroll>
+          <RevealOnScroll delayMs={300}>
+            <AboutUsTimelineItem year="2024">
+              <li>QueryPie KAC（Kubernetesアクセスコントローラー）/ WAC（Webアクセスコントローラー）提供開始</li>
+              <li>Salesforce Ventures、Z Venture Capital、Murex Partners、Shinhan Venture Investment からの戦略的投資</li>
+            </AboutUsTimelineItem>
+          </RevealOnScroll>
+          <RevealOnScroll delayMs={350}>
+            <AboutUsTimelineItem year="2025">
+              <li>QueryPie AIP（AIプラットフォーム）提供開始</li>
+              <li>FDE（フォワードデプロイエンジニア）サービス提供開始</li>
+            </AboutUsTimelineItem>
+          </RevealOnScroll>
+        </AboutUsTimeline>
       </AboutUsSection>
 
-      <AboutUsSection className="mx-auto max-w-[1200px] px-6 pb-[75px] pt-[76px] lg:px-0">
+      <AboutUsSection>
         <RevealOnScroll>
           <AboutUsSectionHeading>私たちのチーム</AboutUsSectionHeading>
           <AboutUsSectionIntro>
@@ -227,7 +225,7 @@ export default function AboutUsPage() {
         </AboutUsLeaderGrid>
       </AboutUsSection>
 
-      <AboutUsSection className="mx-auto max-w-[1200px] px-6 pb-[188px] pt-[12px] lg:px-0">
+      <AboutUsSection>
         <RevealOnScroll>
           <AboutUsSectionHeading>グローバル拠点</AboutUsSectionHeading>
         </RevealOnScroll>

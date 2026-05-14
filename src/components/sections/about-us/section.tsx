@@ -24,10 +24,14 @@ export function AboutUsHeroImage() {
   );
 }
 
-export function AboutUsSection({ children, muted = false, className = "" }: { children: ReactNode; muted?: boolean; className?: string }) {
+export function AboutUsSection({ children, muted = false }: { children: ReactNode; muted?: boolean }) {
   const backgroundClass = muted ? "bg-[#F6F8FA]" : "bg-white";
 
-  return <section className={`${backgroundClass}${className ? ` ${className}` : ""}`}>{children}</section>;
+  return (
+    <section className={backgroundClass}>
+      <div className="mx-auto max-w-[1200px] px-6 py-[100px] lg:px-0">{children}</div>
+    </section>
+  );
 }
 
 export function AboutUsSectionHeading({ children }: { children: ReactNode }) {
