@@ -86,5 +86,18 @@ test("legal MDX source follows the documented refactoring rules", () => {
       /^\s*\{["'][^{}<>]+["']\}\s*$/m,
       `${mdxPath} should avoid unnecessary JSX string expressions for plain text`,
     );
+
+    if (mdxPath.startsWith("src/content/privacy-policy/")) {
+      assert.match(
+        body,
+        /^\*\*Effective from .+\*\*$/m,
+        `${mdxPath} should expose its effective date as a bold body line`,
+      );
+      assert.doesNotMatch(
+        body,
+        /^[-*] Effective from/m,
+        `${mdxPath} should not render the effective date as a bullet list item`,
+      );
+    }
   }
 });
