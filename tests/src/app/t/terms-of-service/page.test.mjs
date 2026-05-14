@@ -17,10 +17,12 @@ test("terms of service page derives metadata and hero copy from content.mdx fron
   assert.match(source, /description: frontmatter\.description,/);
   assert.match(source, /canonical: "\/t\/terms-of-service"/);
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
-  assert.match(source, /<LegalDocumentIntro divider>/);
+  assert.match(source, /<LegalDocumentIntro>/);
+  assert.doesNotMatch(source, /<LegalDocumentIntro divider>/);
   assert.match(source, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>/);
   assert.match(source, /<LegalDocumentLayout>/);
-  assert.match(source, /<LegalDocumentBody className="\[&_h1:first-child\]:mt-0">\{evaluation\.content\}<\/LegalDocumentBody>/);
+  assert.match(source, /<LegalDocumentBody>\{evaluation\.content\}<\/LegalDocumentBody>/);
+  assert.doesNotMatch(source, /LegalDocumentBody className=/);
   assert.match(source, /<LegalDocumentSection>/);
   assert.match(source, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(source, /<AipFreeTrialCtaSection \/>/);
@@ -57,6 +59,10 @@ test("terms of service page keeps title, description, and date in content.mdx fr
   assert.match(legalDocumentSource, /export function LegalDocumentSection/);
   assert.match(legalDocumentSource, /export function LegalDocumentLayout/);
   assert.match(legalDocumentSource, /export function LegalDocumentLead/);
+  assert.match(legalDocumentSource, /companyBodyTextClassName/);
+  assert.match(legalDocumentSource, /pb-\[50px\] pt-\[100px\] lg:pb-\[72px\] lg:pt-\[120px\]/);
+  assert.match(legalDocumentSource, /flex flex-col gap-10 pt-\[10px\] text-left lg:gap-\[50px\] lg:pt-0/);
+  assert.match(legalDocumentSource, /text-\[40px\] font-medium leading-\[1\.2\] tracking-\[-0\.03em\] text-slate-950 sm:text-\[48px\] lg:text-\[52px\]/);
   assert.match(legalDocumentSource, /export function LegalDocumentPageSection/);
   assert.match(legalMdxSource, /export function buildLegalDocumentMdxComponents\(\)/);
   assert.match(footerSource, /label: "利用規約", href: t\("\/terms-of-service", previewModeEnabled\)/);

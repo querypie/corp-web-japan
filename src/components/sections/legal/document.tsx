@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { companyBodyTextClassName } from "@/components/ui/text-tokens";
 import { cn } from "@/lib/utils";
 
 type LegalDocumentSectionProps = {
@@ -39,6 +40,7 @@ type LegalDocumentBodyProps = {
 export const legalDocumentBodyClassName = [
   "text-[16px] leading-[26px] text-slate-600",
   "[&_a]:font-inherit [&_a]:text-slate-950 [&_a]:underline [&_a]:decoration-[1px] [&_a]:underline-offset-[3px] hover:[&_a]:text-slate-950",
+  "[&_h1:first-child]:mt-0 [&_h2:first-child]:mt-0",
   "[&_h2]:mt-20 [&_h2]:text-[32px] [&_h2]:font-normal [&_h2]:leading-[1.375] [&_h2]:tracking-[-0.01em] [&_h2]:text-slate-950",
   "[&_h3]:mt-10 [&_h3]:text-[22px] [&_h3]:font-normal [&_h3]:leading-[1.455] [&_h3]:tracking-[-0.01em] [&_h3]:text-slate-950",
   "[&_h4]:mt-10 [&_h4]:text-[15px] [&_h4]:font-medium [&_h4]:leading-7 [&_h4]:text-slate-950",
@@ -64,17 +66,15 @@ export const legalDocumentBodyClassName = [
 
 export function LegalDocumentSection({ children }: LegalDocumentSectionProps) {
   return (
-    <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[120px] pt-[112px] lg:px-[30px] lg:pb-[160px] lg:pt-[144px]">
-      <div className="mx-auto max-w-[1200px]">{children}</div>
+    <section className="mx-auto w-full max-w-[1920px] bg-white px-[30px] pb-[50px] pt-[100px] lg:pb-[72px] lg:pt-[120px]">
+      <div className="mx-auto w-full max-w-[1200px]">{children}</div>
     </section>
   );
 }
 
-export function LegalDocumentIntro({ children, divider = false, className }: LegalDocumentIntroProps) {
+export function LegalDocumentIntro({ children, className }: LegalDocumentIntroProps) {
   return (
-    <header
-      className={cn(divider ? "mb-12 border-b border-slate-200 pb-8" : "mb-8 lg:mb-10", className)}
-    >
+    <header className={cn("flex flex-col gap-10 pt-[10px] text-left lg:gap-[50px] lg:pt-0", className)}>
       {children}
     </header>
   );
@@ -121,22 +121,16 @@ export function LegalDocumentMeta({ children }: LegalDocumentSectionProps) {
   return <p className="text-sm leading-6 text-slate-500">{children}</p>;
 }
 
-export function LegalDocumentTitle({ children, variant = "hero" }: LegalDocumentTitleProps) {
+export function LegalDocumentTitle({ children }: LegalDocumentTitleProps) {
   return (
-    <h1
-      className={
-        variant === "compact"
-          ? "text-[34px] font-normal leading-[1.2] text-slate-950 lg:text-[40px]"
-          : "text-[60px] font-normal leading-[1.2] tracking-[-0.02em] text-slate-950"
-      }
-    >
+    <h1 className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">
       {children}
     </h1>
   );
 }
 
 export function LegalDocumentLead({ children }: LegalDocumentSectionProps) {
-  return <p className="text-[15px] leading-7 text-slate-600">{children}</p>;
+  return <div className={companyBodyTextClassName}>{children}</div>;
 }
 
 export function LegalDocumentDescription({ children }: LegalDocumentSectionProps) {

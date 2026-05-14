@@ -48,11 +48,11 @@ export default async function TermsOfServicePage() {
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <LegalDocumentSection>
-        <LegalDocumentIntro divider>
+        <LegalDocumentIntro>
           <LegalDocumentTitle>{frontmatter.title}</LegalDocumentTitle>
         </LegalDocumentIntro>
         <LegalDocumentLayout>
-          <LegalDocumentBody className="[&_h1:first-child]:mt-0">{evaluation.content}</LegalDocumentBody>
+          <LegalDocumentBody>{evaluation.content}</LegalDocumentBody>
         </LegalDocumentLayout>
       </LegalDocumentSection>
       <AipFreeTrialCtaSection />
