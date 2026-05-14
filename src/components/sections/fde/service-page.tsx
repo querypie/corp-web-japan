@@ -81,7 +81,7 @@ export function ServiceFdeFeatureCopy({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeFeatureTitle({ children }: { children: ReactNode }) {
-  return <h2 className="text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F]">{children}</h2>;
+  return <h4 className="text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F]">{children}</h4>;
 }
 
 export function ServiceFdeFeatureBody({ children }: { children: ReactNode }) {
