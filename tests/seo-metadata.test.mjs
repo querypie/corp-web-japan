@@ -22,11 +22,16 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   const glossaryPage = read("src/app/glossary/page.tsx");
   const manualsPage = read("src/app/manuals/page.tsx");
   const eventsPage = read("src/app/events/page.tsx");
+  const cookiePreferencePage = read("src/app/cookie-preference/page.tsx");
+  const termsOfServicePage = read("src/app/terms-of-service/page.tsx");
+  const privacyPolicyPage = read("src/app/privacy-policy/page.tsx");
+  const eulaPage = read("src/app/eula/page.tsx");
 
   assert.match(layout, /metadataBase:\s*siteUrl/);
 
   assert.match(robots, /sitemap:\s*`\$\{siteUrl\.toString\(\)\}sitemap\.xml`/);
   assert.match(robots, /host:\s*siteUrl\.toString\(\)/);
+  assert.match(robots, /disallow:\s*\["\/privacy-policy", "\/terms-of-service"\]/);
 
   assert.match(homePage, /canonical:\s*"\/"/);
   assert.match(blogPage, /canonical:\s*"\/blog"/);
@@ -43,6 +48,10 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.match(manualsPage, /canonical:\s*"\/manuals"/);
   assert.match(eventsPage, /title: "イベント \| QueryPie AI"/);
   assert.match(eventsPage, /canonical:\s*"\/events"/);
+  assert.match(cookiePreferencePage, /canonical:\s*"\/cookie-preference"/);
+  assert.match(termsOfServicePage, /canonical:\s*"\/terms-of-service"/);
+  assert.match(privacyPolicyPage, /canonicalPath: "\/privacy-policy"/);
+  assert.match(eulaPage, /canonical:\s*"\/eula"/);
 
   assert.match(sitemap, /absoluteUrl\("\/whitepapers"\)/);
   assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
@@ -60,4 +69,8 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.match(sitemap, /absoluteUrl\("\/demo\/acp"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/use-cases"\)/);
   assert.match(sitemap, /absoluteUrl\("\/events"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/cookie-preference"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/terms-of-service"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/privacy-policy"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/eula"\)/);
 });

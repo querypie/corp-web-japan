@@ -106,10 +106,10 @@ export async function SiteFooter() {
   ] as const;
 
   const legalLinks = [
-    { label: "Cookie設定", href: t("/cookie-preference", previewModeEnabled) },
-    { label: "利用規約", href: t("/terms-of-service", previewModeEnabled) },
-    { label: "プライバシーポリシー", href: t("/privacy-policy", previewModeEnabled) },
-    { label: "EULA", href: t("/eula", previewModeEnabled) },
+    { label: "Cookie設定", href: "/cookie-preference" },
+    { label: "利用規約", href: "/terms-of-service" },
+    { label: "プライバシーポリシー", href: "/privacy-policy" },
+    { label: "EULA", href: "/eula" },
   ] as const;
 
   const addresses = [

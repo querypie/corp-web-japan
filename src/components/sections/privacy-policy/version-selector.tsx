@@ -18,7 +18,7 @@ export function PrivacyPolicyVersionSelector({ currentSlug, slugs }: PrivacyPoli
             return;
           }
 
-          window.location.assign(`/t/privacy-policy/${nextSlug}`);
+          window.location.assign(`/privacy-policy/${nextSlug}`);
         }}
       >
         {slugs.map((slug) => (

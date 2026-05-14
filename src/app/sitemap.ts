@@ -91,6 +91,16 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
     priority: 0.7,
   },
   {
+    url: absoluteUrl("/cookie-preference"),
+    changeFrequency: "yearly",
+    priority: 0.4,
+  },
+  {
+    url: absoluteUrl("/eula"),
+    changeFrequency: "yearly",
+    priority: 0.4,
+  },
+  {
     url: absoluteUrl("/demo/use-cases"),
     changeFrequency: "weekly",
     priority: 0.8,

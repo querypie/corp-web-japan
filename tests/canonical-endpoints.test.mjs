@@ -77,6 +77,10 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   const useCasesPage = readSource("src/app/demo/use-cases/page.tsx");
   const aipPage = readSource("src/app/demo/aip/page.tsx");
   const acpPage = readSource("src/app/demo/acp/page.tsx");
+  const cookiePreferencePage = readSource("src/app/cookie-preference/page.tsx");
+  const termsOfServicePage = readSource("src/app/terms-of-service/page.tsx");
+  const privacyPolicyPage = readSource("src/app/privacy-policy/page.tsx");
+  const eulaPage = readSource("src/app/eula/page.tsx");
 
   for (const relativePath of expectedRedirectFiles) {
     assert.equal(existsSync(new URL(`../${relativePath}`, import.meta.url)), true, `${relativePath} should exist`);
@@ -107,6 +111,10 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.match(useCasesPage, /canonical:\s*"\/demo\/use-cases"/);
   assert.match(aipPage, /canonical:\s*"\/demo\/aip"/);
   assert.match(acpPage, /canonical:\s*"\/demo\/acp"/);
+  assert.match(cookiePreferencePage, /canonical:\s*"\/cookie-preference"/);
+  assert.match(termsOfServicePage, /canonical:\s*"\/terms-of-service"/);
+  assert.match(privacyPolicyPage, /canonicalPath: "\/privacy-policy"/);
+  assert.match(eulaPage, /canonical:\s*"\/eula"/);
   assert.match(sitemap, /absoluteUrl\("\/about-us"\)/);
   assert.match(sitemap, /absoluteUrl\("\/certifications"\)/);
   assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
@@ -118,10 +126,18 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.match(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/aip"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/acp"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/cookie-preference"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/terms-of-service"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/privacy-policy"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/eula"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/use-cases"\)/);
   assert.equal(existsSync(new URL("../src/app/about-us/route.ts", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/certifications/route.ts", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/news/route.ts", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/app/cookie-preference/route.ts", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/app/terms-of-service/route.ts", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/app/privacy-policy/route.ts", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/app/eula/route.ts", import.meta.url)), false);
 });
 
 test("events is a canonical public resource list route and is included in the sitemap", () => {

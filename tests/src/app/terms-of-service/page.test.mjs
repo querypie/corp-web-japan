@@ -1,8 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
-const pagePath = "src/app/t/terms-of-service/page.tsx";
+const pagePath = "src/app/terms-of-service/page.tsx";
 const legalDocumentPath = "src/components/sections/legal/document.tsx";
 const legalMdxPath = "src/components/sections/legal/mdx.tsx";
 const legalMdxSourcePath = "src/lib/legal-mdx-source.ts";
@@ -15,8 +15,8 @@ test("terms of service page derives metadata and hero copy from content.mdx fron
   assert.match(source, /export async function generateMetadata\(\): Promise<Metadata>/);
   assert.match(source, /title: `\$\{frontmatter\.title\} \| QueryPie AI`,/);
   assert.match(source, /description: frontmatter\.description,/);
-  assert.match(source, /canonical: "\/t\/terms-of-service"/);
-  assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
+  assert.match(source, /canonical: "\/terms-of-service"/);
+  assert.match(source, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(source, /<LegalDocumentIntro>/);
   assert.doesNotMatch(source, /<LegalDocumentIntro divider>/);
   assert.match(source, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>/);
@@ -34,13 +34,13 @@ test("terms of service page derives metadata and hero copy from content.mdx fron
 
 test("terms of service page keeps title, description, and date in content.mdx frontmatter with legal body below", () => {
   const footerSource = readSource("src/components/layout/site-footer.tsx");
-  const contentSource = readSource("src/app/t/terms-of-service/content.mdx");
+  const contentSource = readSource("src/app/terms-of-service/content.mdx");
   const pageSource = readSource(pagePath);
   const legalDocumentSource = readSource(legalDocumentPath);
   const legalMdxSource = readSource(legalMdxPath);
   const legalMdxHelperSource = readSource(legalMdxSourcePath);
 
-  assert.equal(sourceExists("src/app/t/terms-of-service/content.mdx"), true, "terms of service MDX content file should exist");
+  assert.equal(sourceExists("src/app/terms-of-service/content.mdx"), true, "terms of service MDX content file should exist");
   assert.equal(sourceExists("src/components/sections/terms-of-service/section.tsx"), false);
   assert.match(contentSource, /^---\ntitle: "QueryPie Terms of Service"\ndescription: "Terms of service for QueryPie AIP/m);
   assert.match(contentSource, /\ndate: "2025-06-05"\n/);
@@ -65,5 +65,5 @@ test("terms of service page keeps title, description, and date in content.mdx fr
   assert.match(legalDocumentSource, /text-\[40px\] font-medium leading-\[1\.2\] tracking-\[-0\.03em\] text-slate-950 sm:text-\[48px\] lg:text-\[52px\]/);
   assert.doesNotMatch(legalDocumentSource, /export function LegalDocumentPageSection/);
   assert.match(legalMdxSource, /export function buildLegalDocumentMdxComponents\(\)/);
-  assert.match(footerSource, /label: "利用規約", href: t\("\/terms-of-service", previewModeEnabled\)/);
+  assert.match(footerSource, /label: "利用規約", href: "\/terms-of-service"/);
 });

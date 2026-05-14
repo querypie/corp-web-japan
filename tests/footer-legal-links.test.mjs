@@ -6,13 +6,13 @@ const siteFooterPath = new URL("../src/components/layout/site-footer.tsx", impor
 const resourceLeadFormPath = new URL("../src/components/sections/publication/lead-form.tsx", import.meta.url);
 
 const expectedLinks = [
-  'label: "Cookie設定", href: t("/cookie-preference", previewModeEnabled)',
-  'label: "利用規約", href: t("/terms-of-service", previewModeEnabled)',
-  'label: "プライバシーポリシー", href: t("/privacy-policy", previewModeEnabled)',
-  'label: "EULA", href: t("/eula", previewModeEnabled)',
+  'label: "Cookie設定", href: "/cookie-preference"',
+  'label: "利用規約", href: "/terms-of-service"',
+  'label: "プライバシーポリシー", href: "/privacy-policy"',
+  'label: "EULA", href: "/eula"',
 ];
 
-test("site footer legal links point to local legal redirect endpoints", () => {
+test("site footer legal links point to published local legal pages", () => {
   const siteFooter = readFileSync(siteFooterPath, "utf8");
 
   for (const expected of expectedLinks) {
@@ -26,7 +26,7 @@ test("site footer legal links point to local legal redirect endpoints", () => {
   assert.doesNotMatch(siteFooter, /label: "Cookie設定", href: "https:\/\/www\.querypie\.com\/ja\/cookie-preference"/);
 });
 
-test("resource lead form legal links also point to local legal redirect endpoints", () => {
+test("resource lead form legal links point to published local legal pages", () => {
   const resourceLeadForm = readFileSync(resourceLeadFormPath, "utf8");
 
   assert.match(resourceLeadForm, /href="\/terms-of-service"/);

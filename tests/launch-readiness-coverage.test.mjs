@@ -84,6 +84,7 @@ test("robots and sitemap metadata files exist and cover the core public routes",
 
   assert.match(robots, /sitemap: `\$\{siteUrl\.toString\(\)\}sitemap\.xml`/);
   assert.match(robots, /host: siteUrl\.toString\(\)/);
+  assert.match(robots, /disallow: \["\/privacy-policy", "\/terms-of-service"\]/);
 
   assert.match(sitemap, /absoluteUrl\("\/"\)/);
   assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-crew"\)/);
@@ -95,6 +96,10 @@ test("robots and sitemap metadata files exist and cover the core public routes",
   assert.match(sitemap, /absoluteUrl\("\/glossary"\)/);
   assert.match(sitemap, /absoluteUrl\("\/manuals"\)/);
   assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/cookie-preference"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/terms-of-service"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/privacy-policy"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/eula"\)/);
   assert.match(sitemap, /eventPostRecords/);
   assert.match(sitemap, /getEventPostHref/);
 });

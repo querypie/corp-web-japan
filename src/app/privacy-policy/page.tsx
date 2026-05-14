@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   return generatePrivacyPolicyMetadata({
-    canonicalPath: "/t/privacy-policy",
+    canonicalPath: "/privacy-policy",
     slug: latestSlug,
   });
 }

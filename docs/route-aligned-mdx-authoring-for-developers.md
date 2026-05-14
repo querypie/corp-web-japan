@@ -73,9 +73,9 @@ Good fits in this repo:
 - `/events/:id/:slug`
 - `/demo/aip/:id/:slug`
 - `/demo/acp/:id/:slug`
-- `/t/eula`
-- `/t/terms-of-service`
-- `/t/privacy-policy/[slug]`
+- `/eula`
+- `/terms-of-service`
+- `/privacy-policy/[slug]`
 
 Not the default fit:
 
@@ -98,9 +98,9 @@ Examples from the current repo shape:
 - [src/app/blog/\[id\]/\[slug\]/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/blog/%5Bid%5D/%5Bslug%5D/page.tsx) -> [src/content/blog](https://github.com/querypie/corp-web-japan/tree/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/content/blog) (MDX files named `<id>-<slug>.mdx`)
 - [src/app/whitepapers/\[id\]/\[slug\]/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/whitepapers/%5Bid%5D/%5Bslug%5D/page.tsx) -> [src/content/whitepapers](https://github.com/querypie/corp-web-japan/tree/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/content/whitepapers) (MDX files named `<id>-<slug>.mdx`)
 - [src/app/news/\[id\]/\[slug\]/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/news/%5Bid%5D/%5Bslug%5D/page.tsx) -> [src/content/news](https://github.com/querypie/corp-web-japan/tree/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/content/news) (MDX files named `<id>-<slug>.mdx`)
-- [src/app/t/terms-of-service/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/terms-of-service/page.tsx) -> [src/app/t/terms-of-service/content.mdx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/terms-of-service/content.mdx)
-- [src/app/t/eula/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/eula/page.tsx) -> [src/app/t/eula/content.mdx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/eula/content.mdx)
-- [src/app/t/privacy-policy/\[slug\]/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/privacy-policy/%5Bslug%5D/page.tsx) -> [src/content/privacy-policy](https://github.com/querypie/corp-web-japan/tree/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/content/privacy-policy) (versioned MDX files such as [src/content/privacy-policy/2026-01-15.mdx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/content/privacy-policy/2026-01-15.mdx))
+- [src/app/terms-of-service/page.tsx](../src/app/terms-of-service/page.tsx) -> [src/app/terms-of-service/content.mdx](../src/app/terms-of-service/content.mdx)
+- [src/app/eula/page.tsx](../src/app/eula/page.tsx) -> [src/app/eula/content.mdx](../src/app/eula/content.mdx)
+- [src/app/privacy-policy/\[slug\]/page.tsx](../src/app/privacy-policy/%5Bslug%5D/page.tsx) -> [src/content/privacy-policy](https://github.com/querypie/corp-web-japan/tree/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/content/privacy-policy) (versioned MDX files such as [src/content/privacy-policy/2026-01-15.mdx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/content/privacy-policy/2026-01-15.mdx))
 
 That mapping is especially valuable for reviewers, content editors, and AI agents.
 
@@ -188,8 +188,8 @@ Use route-adjacent `content.mdx` when the route itself is the clearest owner of 
 
 Current examples:
 
-- [src/app/t/eula/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/eula/page.tsx) + [src/app/t/eula/content.mdx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/eula/content.mdx)
-- [src/app/t/terms-of-service/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/terms-of-service/page.tsx) + [src/app/t/terms-of-service/content.mdx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/terms-of-service/content.mdx)
+- [src/app/eula/page.tsx](../src/app/eula/page.tsx) + [src/app/eula/content.mdx](../src/app/eula/content.mdx)
+- [src/app/terms-of-service/page.tsx](../src/app/terms-of-service/page.tsx) + [src/app/terms-of-service/content.mdx](../src/app/terms-of-service/content.mdx)
 
 This is a good fit when:
 
@@ -203,7 +203,7 @@ A versioned document family often fits best in a dedicated content root keyed by
 
 Current example:
 
-- [src/app/t/privacy-policy/\[slug\]/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/privacy-policy/%5Bslug%5D/page.tsx)
+- [src/app/privacy-policy/\[slug\]/page.tsx](../src/app/privacy-policy/%5Bslug%5D/page.tsx)
 - [src/content/privacy-policy](https://github.com/querypie/corp-web-japan/tree/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/content/privacy-policy) (for example [src/content/privacy-policy/2026-01-15.mdx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/content/privacy-policy/2026-01-15.mdx))
 
 This is a good fit when:
@@ -239,8 +239,8 @@ Preferred pattern:
 
 Examples:
 
-- [src/app/t/eula/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/eula/page.tsx)
-- [src/app/t/eula/content.mdx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/eula/content.mdx)
+- [src/app/eula/page.tsx](../src/app/eula/page.tsx)
+- [src/app/eula/content.mdx](../src/app/eula/content.mdx)
 
 ### 6.3 For versioned document families
 
@@ -251,7 +251,7 @@ Preferred pattern:
 
 Examples:
 
-- [src/app/t/privacy-policy/\[slug\]/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/privacy-policy/%5Bslug%5D/page.tsx)
+- [src/app/privacy-policy/\[slug\]/page.tsx](../src/app/privacy-policy/%5Bslug%5D/page.tsx)
 - [src/content/privacy-policy/2026-01-15.mdx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/content/privacy-policy/2026-01-15.mdx)
 
 ## 7. What the thin wrapper should do
@@ -268,9 +268,9 @@ Representative current shapes in this repo:
 
 - [src/app/blog/\[id\]/\[slug\]/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/blog/%5Bid%5D/%5Bslug%5D/page.tsx)
 - [src/app/news/\[id\]/\[slug\]/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/news/%5Bid%5D/%5Bslug%5D/page.tsx)
-- [src/app/t/eula/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/eula/page.tsx)
-- [src/app/t/terms-of-service/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/terms-of-service/page.tsx)
-- [src/app/t/privacy-policy/\[slug\]/page.tsx](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/privacy-policy/%5Bslug%5D/page.tsx)
+- [src/app/eula/page.tsx](../src/app/eula/page.tsx)
+- [src/app/terms-of-service/page.tsx](../src/app/terms-of-service/page.tsx)
+- [src/app/privacy-policy/\[slug\]/page.tsx](../src/app/privacy-policy/%5Bslug%5D/page.tsx)
 
 A route of this kind should not also become a giant content registry or a page-specific prose container.
 
@@ -402,8 +402,8 @@ The current public MDX-backed families include:
   - glossary
   - manuals
 - route-adjacent or versioned document families
-  - `src/app/t/eula/content.mdx`
-  - `src/app/t/terms-of-service/content.mdx`
+  - `src/app/eula/content.mdx`
+  - `src/app/terms-of-service/content.mdx`
   - `src/content/privacy-policy/*.mdx`
 
 So the practical pattern is broader than “blog posts in MDX.”
