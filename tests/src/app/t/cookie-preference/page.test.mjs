@@ -61,6 +61,8 @@ test("cookie preference shared section modules separate server-side layout primi
   assert.doesNotMatch(pageSectionSource, /export function CookiePreferenceHeroTitle/);
   assert.doesNotMatch(pageSectionSource, /export function CookiePreferenceHeroDescription/);
   assert.match(pageSectionSource, /export function CookiePreferenceCtaSection/);
+  assert.match(pageSectionSource, /return <div className="max-w-\[1200px\]">\{children\}<\/div>;/);
+  assert.doesNotMatch(pageSectionSource, /mt-\[52\.5px\]/);
   assert.match(pageSectionSource, /export function CookiePreferenceCtaLink/);
   assert.match(pageSectionSource, /inline-flex min-h-\[47px\] items-center justify-center gap-\[10px\]/);
 
@@ -89,7 +91,7 @@ test("shared legal document intro matches company family typography and spacing"
   );
   assert.match(legalDocumentSource, /return <div className=\{companyBodyTextClassName\}>\{children\}<\/div>;/);
   assert.match(legalDocumentSource, /export function LegalDocumentTitleActions/);
-  assert.match(legalDocumentSource, /flex flex-col gap-10 pt-\[10px\] text-left lg:gap-\[50px\] lg:pt-0/);
+  assert.match(legalDocumentSource, /mb-10 flex flex-col gap-10 pt-\[10px\] text-left lg:mb-\[50px\] lg:gap-\[50px\] lg:pt-0/);
   assert.doesNotMatch(legalDocumentSource, /titleVariant/);
   assert.doesNotMatch(legalDocumentSource, /<div className="flex flex-col gap-3">/);
 });

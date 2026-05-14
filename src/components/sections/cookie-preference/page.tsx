@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 export function CookiePreferenceSettingsSection({ children }: { children: ReactNode }) {
-  return <div className="mt-[52.5px] max-w-[1200px]">{children}</div>;
+  return <div className="max-w-[1200px]">{children}</div>;
 }
 
 export function CookiePreferenceCtaSection({ children }: { children: ReactNode }) {
