@@ -16,7 +16,7 @@ export function AipUsageBasedLlmHeroSection({ children }: { children: ReactNode 
 }
 
 export function AipUsageBasedLlmHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 className="mx-auto max-w-[738px] text-center text-[64px] font-normal leading-[72px] text-slate-950">{children}</h1>;
+  return <h1 className="mx-auto max-w-[800px] text-center text-[64px] font-normal leading-[72px] text-slate-950">{children}</h1>;
 }
 
 export function AipUsageBasedLlmHeroDescription({ children }: { children: ReactNode }) {
@@ -47,9 +47,9 @@ export function AipUsageBasedLlmFeatureRow({ reverse = false, children }: { reve
   return (
     <MarketingPageSection
       as="div"
-      className="py-[75px]"
+      className="py-[80px]"
       contentClassName={cn(
-        "grid items-center gap-x-[75px] lg:min-h-[458px] lg:grid-cols-[1fr_1fr]",
+        "grid items-center gap-x-[75px] lg:grid-cols-[1fr_1fr]",
         reverse && "lg:[&>*:first-child]:col-start-2 lg:[&>*:last-child]:row-start-1",
       )}
     >

@@ -23,6 +23,9 @@ test("usage-based-llm page keeps route-local copy/composition and preserves the 
   assert.doesNotMatch(routeSource, /AipUsageBasedLlmPreviewPage/);
 
   assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection/);
+  assert.match(sectionSource, /max-w-\[800px\]/);
+  assert.match(sectionSource, /className="py-\[80px\]"/);
+  assert.doesNotMatch(sectionSource, /lg:min-h-\[458px\]/);
   assert.match(sectionSource, /export function AipUsageBasedLlmFeatureRow/);
   assert.match(sectionSource, /export function AipUsageBasedLlmComparisonSection/);
   assert.match(sectionSource, /export function AipUsageBasedLlmCtaButtonWrap/);
