@@ -56,7 +56,7 @@ export default function McpGatewayPage() {
 
       <McpGatewayFeatureBand muted>
         <McpGatewayFeatureLayout>
-          <McpGatewayFeatureCopy className="w-[422px]">
+          <McpGatewayFeatureCopy className="w-[450px]">
             <McpGatewayFeatureTitle>
               セキュアな社内システム接続
               <br />
@@ -85,7 +85,7 @@ export default function McpGatewayPage() {
 
       <McpGatewayFeatureBand>
         <McpGatewayFeatureLayout reverse>
-          <McpGatewayFeatureCopy className="w-[388px]">
+          <McpGatewayFeatureCopy className="w-[413px]">
             <McpGatewayFeatureTitle>外部ツールとの連携</McpGatewayFeatureTitle>
             <McpGatewayFeatureDescription>
               安全なローカルプロキシサーバーを介して、
@@ -112,7 +112,7 @@ export default function McpGatewayPage() {
 
       <McpGatewayFeatureBand muted>
         <McpGatewayFeatureLayout>
-          <McpGatewayFeatureCopy className="w-[418px]">
+          <McpGatewayFeatureCopy className="w-[445px]">
             <McpGatewayFeatureTitle>組織全体を一元管理</McpGatewayFeatureTitle>
             <McpGatewayFeatureDescription>
               詳細な権限設定で、誰がどのツールにアクセスできるかを制御。
@@ -135,7 +135,7 @@ export default function McpGatewayPage() {
 
       <McpGatewayFeatureBand>
         <McpGatewayFeatureLayout reverse>
-          <McpGatewayFeatureCopy className="w-[366px]">
+          <McpGatewayFeatureCopy className="w-[390px]">
             <McpGatewayFeatureTitle>
               組織全体のすべての操作を、
               <br />
@@ -162,7 +162,7 @@ export default function McpGatewayPage() {
 
       <McpGatewayFeatureBand muted>
         <McpGatewayFeatureLayout>
-          <McpGatewayFeatureCopy className="w-[500px]">
+          <McpGatewayFeatureCopy className="w-[533px]">
             <McpGatewayFeatureTitle>データ漏洩防止（DLP）</McpGatewayFeatureTitle>
             <McpGatewayFeatureDescription>
               機密データがAIチャットに入り込むことを自動的にブロック。
