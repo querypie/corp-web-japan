@@ -10,6 +10,8 @@ const eulaSourcePath = "src/app/eula/page.tsx";
 const privacyVersionPagePath = "src/app/privacy-policy/[slug]/page.tsx";
 const privacyDocumentBodyComponentsPath = "src/components/sections/privacy-policy/document-body-components.tsx";
 const privacyRecordsPath = "src/lib/privacy-policy/records.ts";
+const standardPublicationPostLoaderPath = "src/lib/publications/create-standard-publication-post-loader.ts";
+const gatedPublicationPostLoaderPath = "src/lib/publications/create-gated-publication-post-loader.ts";
 
 test("legal MDX routes share a cached source reader and evaluator like publication loaders", () => {
   const helperSource = readSource(legalMdxSourcePath);
@@ -19,6 +21,15 @@ test("legal MDX routes share a cached source reader and evaluator like publicati
   const eulaSource = readSource(eulaSourcePath);
   const privacyVersionPageSource = readSource(privacyVersionPagePath);
   const privacyDocumentBodyComponentsSource = readSource(privacyDocumentBodyComponentsPath);
+  const standardPublicationPostLoaderSource = readSource(standardPublicationPostLoaderPath);
+  const gatedPublicationPostLoaderSource = readSource(gatedPublicationPostLoaderPath);
+
+  assert.match(standardPublicationPostLoaderSource, /const bodySourceCache = new Map<string, string>\(\);/);
+  assert.match(standardPublicationPostLoaderSource, /const cachedSource = bodySourceCache\.get\(sourcePath\);/);
+  assert.match(standardPublicationPostLoaderSource, /bodySourceCache\.set\(sourcePath, source\);/);
+  assert.match(gatedPublicationPostLoaderSource, /const bodySourceCache = new Map<string, string>\(\);/);
+  assert.match(gatedPublicationPostLoaderSource, /const cachedSource = bodySourceCache\.get\(sourcePath\);/);
+  assert.match(gatedPublicationPostLoaderSource, /bodySourceCache\.set\(sourcePath, source\);/);
 
   assert.match(helperSource, /const legalMdxSourceCache = new Map<string, Promise<string>>\(\);/);
   assert.match(helperSource, /export async function readCachedLegalMdxSource\(sourcePath: string\)/);
@@ -55,6 +66,7 @@ test("legal MDX routes share a cached source reader and evaluator like publicati
   assert.doesNotMatch(eulaSource, /function EulaMdxLink/);
   assert.doesNotMatch(eulaSource, /renderEulaPreviewMdx/);
 
+  assert.match(privacyVersionPageSource, /const sourcePath = join\(process\.cwd\(\), "src\/content\/privacy-policy", `\$\{slug\}\.mdx`\);/);
   assert.match(privacyVersionPageSource, /const renderPrivacyPolicyVersion = cache\(async function renderPrivacyPolicyVersion\(slug: string\)/);
   assert.match(privacyVersionPageSource, /renderLegalMdx<PrivacyPolicyFrontmatter>\(\{/);
   assert.match(privacyDocumentBodyComponentsSource, /return buildLegalDocumentMdxComponents\(\);/);
