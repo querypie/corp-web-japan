@@ -92,8 +92,8 @@ export default function PlansPage() {
                       <PlanTitle>スターター</PlanTitle>
                       <PlanDescription>はじめての利用に最適</PlanDescription>
                     </div>
-                    <PlanPrice>$20/月</PlanPrice>
                   </PlanTitleContainer>
+                  <PlanPrice>$20/月</PlanPrice>
                   <PlanButton href="https://app.querypie.com" external={true} type="primary">
                     利用を開始する
                   </PlanButton>
@@ -114,8 +114,8 @@ export default function PlansPage() {
                       <PlanTitle>チーム</PlanTitle>
                       <PlanDescription>チームでの協働作業に最適</PlanDescription>
                     </div>
-                    <PlanPrice>$500/月</PlanPrice>
                   </PlanTitleContainer>
+                  <PlanPrice>$500/月</PlanPrice>
                   <PlanButton href="https://app.querypie.com" external={true} type="primary">
                     利用を開始する
                   </PlanButton>
@@ -137,8 +137,8 @@ export default function PlansPage() {
                       <PlanTitle>エンタープライズ</PlanTitle>
                       <PlanDescription>大規模組織向けの包括的プラン</PlanDescription>
                     </div>
-                    <PlanPrice>個別見積もり</PlanPrice>
                   </PlanTitleContainer>
+                  <PlanPrice>個別見積もり</PlanPrice>
                   <PlanButton href="https://app.querypie.com" external={true} type="black">
                     今すぐ試す
                   </PlanButton>
@@ -328,8 +328,8 @@ export default function PlansPage() {
                       <PlanTitle>コミュニティ</PlanTitle>
                       <PlanDescription>同じ品質のCommunity版の無料ライセンスをダウンロードして取得</PlanDescription>
                     </div>
-                    <PlanPrice>$0/月</PlanPrice>
                   </PlanTitleContainer>
+                  <PlanPrice>$0/月</PlanPrice>
                   <PlanButton href="https://docs.querypie.com/ja/installation/querypie-acp-community-edition" external={true} type="primary">
                     今すぐダウンロード
                   </PlanButton>
@@ -349,8 +349,8 @@ export default function PlansPage() {
                       <PlanTitle>スタンダード</PlanTitle>
                       <PlanDescription>コミュニティ版にご満足の利用者に限定して提供。年間契約のみ。</PlanDescription>
                     </div>
-                    <PlanPrice>$50/人・月</PlanPrice>
                   </PlanTitleContainer>
+                  <PlanPrice>$50/人・月</PlanPrice>
                   <PlanButton href="/contact-us?inquiry=quote-request&product=acp" type="primary">
                     お問い合わせ
                   </PlanButton>
@@ -374,8 +374,8 @@ export default function PlansPage() {
                       <PlanTitle>エンタープライズ</PlanTitle>
                       <PlanDescription>プロフェッショナルな導入サポートとサービスを求めるチームにおすすめ</PlanDescription>
                     </div>
-                    <PlanPrice>個別見積もり</PlanPrice>
                   </PlanTitleContainer>
+                  <PlanPrice>個別見積もり</PlanPrice>
                   <PlanButton href="/contact-us?inquiry=quote-request&product=acp" type="black">
                     お問い合わせ
                   </PlanButton>

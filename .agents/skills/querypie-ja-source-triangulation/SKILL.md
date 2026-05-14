@@ -162,6 +162,12 @@ Failure mode to avoid:
 - reading an upstream page that is already declarative in JSX and then rewriting it into `const cards = [...]`, `const groups = [...]`, or `products={[...]}` structures just because this repo often prefers route-local copy ownership
 - if the upstream page itself intentionally avoided complex JSON structures, treat that as an implementation contract worth preserving
 
+Plans-page-specific parity rule:
+- for `/ja/plans` / `/t/plans`, preserve the upstream pricing widget's visual contract, not only its route-local JSX authoring shape
+- inspect `../corp-web-app/src/components/widget/pricing/{pricing,product,plan-card}.module.css` and `../corp-web-app/src/components/widget/compare-table/compare-table.module.css` before judging the local route complete
+- required body anchors include: 50/50 product tabs with the dark active underline, 80px-level section rhythm, centered gradient plan cards with top-only radius and no generic border/shadow card chrome, plan feature lists centered at the upstream width, and the flat fixed-width comparison table without a rounded/shadow outer panel
+- if a local `/t/plans` implementation passes text/route-local structure tests but uses generic Tailwind cards, rounded table panels, narrow tabs, or reduced vertical gaps, classify it as a widget-contract parity defect; add tests for those visual contracts rather than only asserting that copy lives in `page.tsx`
+
 ### 3. the live page answers “what actually shipped?”
 
 Open the exact live page in the browser:
