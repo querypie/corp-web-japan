@@ -43,5 +43,5 @@ export function CookiePreferenceItemHeader({ id, children, disabled = false }: C
 }
 
 export function CookiePreferenceItemDescription({ children }: CookiePreferenceItemDescriptionProps) {
-  return <div className="text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-[#57606A]">{children}</div>;
+  return <p className="text-[15px] font-light leading-[24.375px] tracking-[0.3375px] text-[#57606A]">{children}</p>;
 }

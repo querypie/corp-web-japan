@@ -37,7 +37,9 @@ test("cookie preference preview page keeps route-local copy while shared page/la
   assert.match(pageSource, /<CookiePreferenceItemHeader id="functional">\s*機能 Cookie/s);
   assert.match(pageSource, /<CookiePreferenceItemHeader id="analysis">\s*分析 Cookie/s);
   assert.match(pageSource, /<CookiePreferenceItemHeader id="marketing">\s*マーケティング Cookie/s);
-  assert.match(pageSource, /<CookiePreferenceItemDescription>\s*<p>/s);
+  assert.match(pageSource, /<CookiePreferenceItemDescription>\s*これらの Cookie/s);
+  assert.doesNotMatch(pageSource, /<CookiePreferenceItemDescription>\s*<p>/s);
+  assert.doesNotMatch(pageSource, /<\/p>\s*<\/CookiePreferenceItemDescription>/s);
   assert.doesNotMatch(pageSource, /label="/);
   assert.doesNotMatch(pageSource, /description=\{/);
   assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
@@ -59,6 +61,7 @@ test("cookie preference shared section modules separate server-side layout primi
   assert.match(sectionSource, /export function CookiePreferenceItem/);
   assert.match(sectionSource, /export function CookiePreferenceItemHeader/);
   assert.match(sectionSource, /export function CookiePreferenceItemDescription/);
+  assert.match(sectionSource, /return <p className="text-\[15px\] font-light leading-\[24\.375px\] tracking-\[0\.3375px\] text-\[#57606A\]">\{children\}<\/p>;/);
   assert.match(sectionSource, /<CookiePreferenceToggle preference=\{id\} id=\{switchId\} disabled=\{disabled\} \/>/);
   assert.match(sectionSource, /<label htmlFor=\{switchId\}/);
   assert.match(sectionSource, /<ul className="flex flex-col gap-\[40px\]">/);

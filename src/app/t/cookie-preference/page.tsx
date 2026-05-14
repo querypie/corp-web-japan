@@ -53,9 +53,7 @@ export default function CookiePreferencePage() {
                 必須 Cookie
               </CookiePreferenceItemHeader>
               <CookiePreferenceItemDescription>
-                <p>
-                  これらの Cookie は、Web サイトのコア機能を有効にするために必要であり、サイトを使用すると自動的に有効になります。これらには、ショッピングバッグやチェックアウトのプロセスを可能にする Cookie のほか、セキュリティ問題の解決や規制への準拠に役立つ Cookie が含まれます。
-                </p>
+                これらの Cookie は、Web サイトのコア機能を有効にするために必要であり、サイトを使用すると自動的に有効になります。これらには、ショッピングバッグやチェックアウトのプロセスを可能にする Cookie のほか、セキュリティ問題の解決や規制への準拠に役立つ Cookie が含まれます。
               </CookiePreferenceItemDescription>
             </CookiePreferenceItem>
 
@@ -64,9 +62,7 @@ export default function CookiePreferencePage() {
                 パフォーマンス Cookie
               </CookiePreferenceItemHeader>
               <CookiePreferenceItemDescription>
-                <p>
-                  これらの Cookie は、当ウェブサイトの利用状況を追跡することで、サイトの機能性を向上させます。場合によっては、これらの Cookie を使用することで、お客様のリクエストを処理する速度が向上したり、お客様が選択したサイト設定を記憶できるようになります。これらの Cookie を無効にすると、カスタマイズされた推奨情報が表示されず、サイトのパフォーマンスが低下することがあります。
-                </p>
+                これらの Cookie は、当ウェブサイトの利用状況を追跡することで、サイトの機能性を向上させます。場合によっては、これらの Cookie を使用することで、お客様のリクエストを処理する速度が向上したり、お客様が選択したサイト設定を記憶できるようになります。これらの Cookie を無効にすると、カスタマイズされた推奨情報が表示されず、サイトのパフォーマンスが低下することがあります。
               </CookiePreferenceItemDescription>
             </CookiePreferenceItem>
 
@@ -75,9 +71,7 @@ export default function CookiePreferencePage() {
                 機能 Cookie
               </CookiePreferenceItemHeader>
               <CookiePreferenceItemDescription>
-                <p>
-                  これらの Cookie は、ウェブサイトがお客様の選択を記憶し、より強化されたパーソナルな機能を提供することを可能にします。これらの Cookie が収集する情報は匿名化されており、他のウェブサイトでの閲覧状況を追跡することはありません。
-                </p>
+                これらの Cookie は、ウェブサイトがお客様の選択を記憶し、より強化されたパーソナルな機能を提供することを可能にします。これらの Cookie が収集する情報は匿名化されており、他のウェブサイトでの閲覧状況を追跡することはありません。
               </CookiePreferenceItemDescription>
             </CookiePreferenceItem>
 
@@ -86,9 +80,7 @@ export default function CookiePreferencePage() {
                 分析 Cookie
               </CookiePreferenceItemHeader>
               <CookiePreferenceItemDescription>
-                <p>
-                  これらの Cookie を使用することで、訪問者数とトラフィックソースをカウントし、サイトのパフォーマンスを測定および改善することができます。これらの Cookie は、どのページが最も人気があり、最も人気がないかを把握し、訪問者がサイト内をどのように移動しているかを確認するのに役立ちます。これらの Cookie が収集する情報はすべて集計されるため、匿名となります。これらの Cookie を許可しない場合、弊社はお客様がいつ弊社サイトを訪れたかを知ることができず、そのパフォーマンスを監視することができません。
-                </p>
+                これらの Cookie を使用することで、訪問者数とトラフィックソースをカウントし、サイトのパフォーマンスを測定および改善することができます。これらの Cookie は、どのページが最も人気があり、最も人気がないかを把握し、訪問者がサイト内をどのように移動しているかを確認するのに役立ちます。これらの Cookie が収集する情報はすべて集計されるため、匿名となります。これらの Cookie を許可しない場合、弊社はお客様がいつ弊社サイトを訪れたかを知ることができず、そのパフォーマンスを監視することができません。
               </CookiePreferenceItemDescription>
             </CookiePreferenceItem>
 
@@ -97,9 +89,7 @@ export default function CookiePreferencePage() {
                 マーケティング Cookie
               </CookiePreferenceItemHeader>
               <CookiePreferenceItemDescription>
-                <p>
-                  マーケティング Cookie は、ユーザーが特定の広告を経由して当サイトにアクセスしたかどうかを識別し、Google 広告などのキャンペーンのパフォーマンスを測定することで、効果的な広告の計画と実行に役立ちます。これらの非必須 Cookie は、お客様の同意を必要とし、特定の個人を識別するために使用されることはありません。
-                </p>
+                マーケティング Cookie は、ユーザーが特定の広告を経由して当サイトにアクセスしたかどうかを識別し、Google 広告などのキャンペーンのパフォーマンスを測定することで、効果的な広告の計画と実行に役立ちます。これらの非必須 Cookie は、お客様の同意を必要とし、特定の個人を識別するために使用されることはありません。
               </CookiePreferenceItemDescription>
             </CookiePreferenceItem>
           </CookiePreferenceList>
