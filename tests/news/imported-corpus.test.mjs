@@ -4,8 +4,11 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 const newsDir = path.join(process.cwd(), "src/content/news");
+const blogDir = path.join(process.cwd(), "src/content/blog");
 const expectedIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"];
 const migratedExternalIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+const markdownLinkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
+const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 const newsFilesById = new Map(
   readdirSync(newsDir)
     .filter((file) => file.endsWith(".mdx"))
@@ -15,6 +18,18 @@ const newsFilesById = new Map(
 function listNewsIds() {
   return [...newsFilesById.keys()]
     .sort((left, right) => Number(left) - Number(right));
+}
+
+function assertMarkdownEmailLinksUseMailto(source, label) {
+  for (const match of source.matchAll(markdownLinkPattern)) {
+    const [, linkText, href] = match;
+    const hasEmailText = emailPattern.test(linkText);
+    const hasEmailHref = emailPattern.test(href);
+
+    if (hasEmailText || hasEmailHref) {
+      assert.match(href, /^mailto:/, `${label} has email Markdown link without mailto: ${match[0]}`);
+    }
+  }
 }
 
 test("news corpus includes every imported news record as a local MDX file", () => {
@@ -43,5 +58,35 @@ test("formerly redirect-backed external news posts now render local article bodi
     assert.doesNotMatch(source, /## 掲載情報/);
     assert.doesNotMatch(source, /区分: ニュース/);
     assert.match(source, /> (Source article|Original source): /);
+  }
+});
+
+test("email links in news and related blog shadow records do not use relative Markdown hrefs", () => {
+  const files = [
+    ...readdirSync(newsDir).map((file) => path.join(newsDir, file)),
+    path.join(blogDir, "25-terrasky-mitoco-buddy.mdx"),
+    path.join(blogDir, "26-mitoco-buddy-release.mdx"),
+  ];
+
+  for (const filePath of files) {
+    const source = readFileSync(filePath, "utf8");
+
+    assertMarkdownEmailLinksUseMailto(source, path.relative(process.cwd(), filePath));
+  }
+});
+
+test("former blog-backed news contact emails use the shared EmailLink component", () => {
+  const files = [
+    path.join(newsDir, "13-terrasky-mitoco-buddy-announcement.mdx"),
+    path.join(newsDir, "14-mitoco-buddy-official-launch.mdx"),
+    path.join(blogDir, "25-terrasky-mitoco-buddy.mdx"),
+    path.join(blogDir, "26-mitoco-buddy-release.mdx"),
+  ];
+
+  for (const filePath of files) {
+    const source = readFileSync(filePath, "utf8");
+
+    assert.match(source, /<EmailLink email="pr@querypie\.com" \/>/);
+    assert.doesNotMatch(source, /\[pr@querypie\.com\]\((mailto:)?pr@querypie\.com\)/);
   }
 });
