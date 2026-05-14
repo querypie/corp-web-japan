@@ -24,6 +24,71 @@ This is especially useful when:
 - reviewers have to jump across many files to understand one page
 - AI agents cannot tell which file is the real source of truth
 
+### 1.1 What are these layers called in more general terms?
+
+This document uses the concrete names `page.tsx` and `src/components/sections/**`, but the broader architectural vocabulary is more general.
+
+#### The `page.tsx` layer
+
+The closest generic terms are:
+
+- route-level component
+- page component / page-level component
+- screen component
+- the page UI entry inside a page slice
+- page composition layer
+
+More specifically:
+
+- Next.js describes `page` as the file that defines UI that is unique to a route.
+- Feature-Sliced Design describes `Pages` as the units that make up websites and applications, and explicitly notes that they are also known as screens or activities.
+- In more general React language, this layer is closest to the top-level component in a local component hierarchy.
+
+So in broader terms, the `page.tsx` discussed in this document is best understood as a route-level page composition component, not merely as a filename.
+
+#### The `src/components/sections/**` layer
+
+The closest generic terms are:
+
+- section component
+- presentational component
+- shared UI component
+- widget / self-sufficient UI block
+- UI primitive
+- atoms / molecules / organisms in Atomic Design terms
+
+This layer also has internal sub-levels:
+
+- small pieces like buttons, cards, and heading wrappers are closer to UI primitives or Atomic Design atoms / molecules
+- larger blocks like a hero section, feature block, or pricing block are closer to section components or widgets
+- when the code focuses on rendering responsibility without owning business logic, the term presentational component fits well
+
+#### The layout / shell layer
+
+There are also nearby terms that matter when explaining route-local refactoring:
+
+- layout component
+- page shell
+- shared layout
+- route shell
+- composition root
+
+In particular, Next.js `layout.tsx` is a framework-level layout concept, while the `page.tsx` in this document is closer to the leaf page composition that sits inside that layout hierarchy.
+
+#### Recommended default wording for this document
+
+To reduce confusion, these are the best default terms to use here:
+
+- `page.tsx` -> route-level page component or page composition layer
+- `src/components/sections/**` -> section component layer
+- smaller shared building blocks under that -> shared UI primitives or presentational primitives
+
+In other words, the important split is not just "is it in `page.tsx`?" but rather:
+
+- route-level page composition
+- section-level UI implementation
+- shared UI primitives
+
 ## 2. Concrete design principles and implementation approach
 
 ### 2.1 Core principles
@@ -290,16 +355,74 @@ The key route-local-refactoring references in this repository are:
 3. [`.agents/skills/static-page-route-local-authoring/SKILL.md`](../.agents/skills/static-page-route-local-authoring/SKILL.md)
 4. real reference routes such as [`src/app/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/page.tsx), [`src/app/about-us/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/about-us/page.tsx), and [`src/app/t/platforms/acp/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/platforms/acp/page.tsx)
 
-## 8. Well-known references
+## 8. References and terminology for page-layer / UI-layer separation
 
-The following references are helpful for the broader ideas behind route-local refactoring:
+For this topic, the more important references are not generic refactoring references, but references about how web UIs split page-level composition from lower UI component layers.
 
-- [Next.js App Router Documentation](https://nextjs.org/docs/app)
-  - useful for route-level file structure and server/client boundaries
-- [htmx: Locality of Behaviour](https://htmx.org/essays/locality-of-behaviour/)
-  - useful as a thinking model for keeping behavior close to authored structure
-- [Refactoring.Guru - Refactoring](https://refactoring.guru/refactoring)
-  - useful for general refactoring principles and code-structure improvement
+### 8.1 References for the route-level page component
+
+- [Next.js - page.js](https://nextjs.org/docs/app/api-reference/file-conventions/page)
+  - defines `page` as the file for UI that is unique to a route
+  - explicitly says that a `page` is the leaf of the route subtree and the innermost file convention in the component hierarchy
+  - this is the most direct framework-level reference for the `page.tsx` role described in this document
+- [Next.js - Project structure and organization](https://nextjs.org/docs/app/getting-started/project-structure)
+  - explains that `page` exposes a route, while `layout` handles shared UI such as header, nav, or footer
+  - useful for vocabulary such as route segment, layout, template, private folder, and split-by-feature-or-route organization
+- [Feature-Sliced Design - Layers](https://feature-sliced.design/docs/reference/layers)
+  - describes `Pages` as the units that make up websites and applications, and explicitly notes that they are also known as screens or activities
+  - this is a strong reference for using broader terms like page component, screen component, or pages layer
+
+### 8.2 References for the UI component layer
+
+- [React - Thinking in React](https://react.dev/learn/thinking-in-react)
+  - explains how to break a UI into a component hierarchy and think in terms of top-level and child components
+  - this is the most fundamental reference for reasoning about page composition versus lower-level UI building blocks
+- [Patterns.dev - Container/Presentational Pattern](https://www.patterns.dev/react/presentational-container-pattern/)
+  - a classic separation-of-concerns reference for separating the view from application logic
+  - useful when explaining terms like presentational component in relation to route-local refactoring
+- [Feature-Sliced Design - Slices and segments](https://feature-sliced.design/docs/reference/slices-segments)
+  - describes the `ui` segment as the place for code grouped by technical UI nature
+  - useful when talking about shared UI, page UI, and feature UI as separate layers
+- [Atomic Design by Brad Frost - Chapter 2](https://atomicdesign.bradfrost.com/chapter-2/)
+  - provides the layered vocabulary of atoms, molecules, organisms, templates, and pages
+  - useful when connecting section components and UI primitives to a broader design-system vocabulary
+
+### 8.3 Generalized terminology you can use in this document
+
+#### Terms closest to `page.tsx`
+
+- route-level component
+- page component / page-level component
+- screen component
+- page composition layer
+- page UI entry
+
+Recommended wording:
+
+- route-level page component
+- page composition layer
+
+#### Terms closest to `src/components/sections/**`
+
+- section component
+- presentational component
+- widget
+- shared UI component
+- UI primitive
+
+Recommended wording:
+
+- section component layer
+- shared UI primitives
+
+#### Terms for smaller shared UI pieces
+
+- presentational primitive
+- shared UI primitive
+- atom / molecule / organism
+- design system component
+
+### 8.4 Direct references inside this repository
 
 Within this repository, the most direct practical references are:
 
