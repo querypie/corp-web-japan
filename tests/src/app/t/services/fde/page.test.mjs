@@ -44,11 +44,15 @@ test("/t/services/fde keeps route-local copy/composition while the layout primit
   assert.match(sectionSource, /export function ServiceFdeHeroSection/);
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
   assert.match(sectionSource, /export function ServiceFdePageShell[\s\S]*<PlatformPageShell>/);
-  assert.match(sectionSource, /export function ServiceFdeHeroSection[\s\S]*<PlatformHeroSection>/);
+  assert.match(sectionSource, /export function ServiceFdeHeroSection[\s\S]*<PlatformContentSection className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]">/);
+  assert.match(sectionSource, /export function ServiceFdeHeroTitle[\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
   assert.match(sectionSource, /export function ServiceFdeHeroVisual/);
   assert.match(sectionSource, /export function ServiceFdeFeatureSection/);
   assert.match(sectionSource, /export function ServiceFdeFeatureSection[\s\S]*<PlatformFeatureSection muted=\{muted\}>/);
   assert.match(sectionSource, /export function ServiceFdeFeatureRow/);
+  assert.match(sectionSource, /flex flex-col items-center[\s\S]*lg:flex-row/);
+  assert.match(sectionSource, /--fde-feature-image-width/);
+  assert.match(sectionSource, /lg:w-\[var\(--fde-feature-image-width\)\]/);
   assert.match(sectionSource, /<h4 className="text-\[32px\]/);
   assert.match(sectionSource, /export function ServiceFdeCtaSection/);
   assert.match(sectionSource, /export function ServiceFdeCtaSection[\s\S]*<PlatformCtaSection>/);

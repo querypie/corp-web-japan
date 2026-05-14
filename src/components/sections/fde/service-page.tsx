@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
-import { PlatformCtaSection, PlatformFeatureSection, PlatformHeroSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
+import { PlatformContentSection, PlatformCtaSection, PlatformFeatureSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 
 const headingBodyClass = "text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]";
 
@@ -28,7 +28,7 @@ export function ServiceFdePageShell({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeHeroSection({ children }: { children: ReactNode }) {
-  return <PlatformHeroSection>{children}</PlatformHeroSection>;
+  return <PlatformContentSection className="pb-[120px] pt-[134px] lg:pt-[144px]">{children}</PlatformContentSection>;
 }
 
 export function ServiceFdeHeroInner({ children }: { children: ReactNode }) {
@@ -40,7 +40,7 @@ export function ServiceFdeHeroCopy({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 className="text-[60px] font-normal leading-[72px] tracking-normal text-[#24292F]">{children}</h1>;
+  return <h1 className="text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h1>;
 }
 
 export function ServiceFdeHeroLead({ children }: { children: ReactNode }) {
@@ -74,11 +74,11 @@ export function ServiceFdeFeatureInner({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeFeatureRow({ children, reverse = false }: FeatureRowProps) {
-  return <div className={`flex items-center justify-center gap-[80px] ${reverse ? "flex-row-reverse" : "flex-row"}`}>{children}</div>;
+  return <div className={`flex flex-col items-center justify-center gap-[40px] lg:gap-[80px] ${reverse ? "lg:flex-row-reverse" : "lg:flex-row"}`}>{children}</div>;
 }
 
 export function ServiceFdeFeatureCopy({ children }: { children: ReactNode }) {
-  return <div className="flex flex-col gap-[20px]">{children}</div>;
+  return <div className="flex w-full max-w-full flex-col gap-[20px]">{children}</div>;
 }
 
 export function ServiceFdeFeatureTitle({ children }: { children: ReactNode }) {
@@ -98,10 +98,10 @@ export function ServiceFdeFeatureMedia({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeFeatureImageFrame({ children, width }: FeatureImageFrameProps) {
-  const style = { width: `${width}px`, boxShadow: "0 8px 20px rgba(0, 0, 0, 0.15)" } satisfies CSSProperties;
+  const style = { "--fde-feature-image-width": `${width}px`, boxShadow: "0 8px 20px rgba(0, 0, 0, 0.15)" } as CSSProperties;
 
   return (
-    <div className="max-w-full overflow-hidden rounded-[8px]" style={style}>
+    <div className="w-full max-w-full overflow-hidden rounded-[8px] lg:w-[var(--fde-feature-image-width)]" style={style}>
       {children}
     </div>
   );
