@@ -10,6 +10,10 @@ The detailed source of truth for this topic is:
 
 - `docs/static-page-route-local-authoring.md`
 
+For the company-page shell and layout primitives used by `/about-us`, `/certifications`, `/news`, and `/contact-us`, also use:
+
+- `docs/company-page-layout-contract.md`
+
 This document records the short version of the convention.
 
 ### Core rule
