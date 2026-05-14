@@ -52,6 +52,9 @@ Current skills:
 - `resource-list-sidebar-pattern`
   - Path: `.agents/skills/resource-list-sidebar-pattern/SKILL.md`
   - Purpose: maintain corp-web-japan resource-list pages while keeping hero/CTA authoring route-local, centralizing only repeated sidebar markup, handling preview/public sidebar link differences, and preserving sticky behavior
+- `browser-render-parity-comparison`
+  - Path: `.agents/skills/browser-render-parity-comparison/SKILL.md`
+  - Purpose: compare two pages by actual browser rendering, using screenshots, DOM geometry, computed styles, lazy-media checks, and the guide in `docs/browser-render-parity-comparison.md`
 - `lost-parity-commit-recovery`
   - Path: `.agents/skills/lost-parity-commit-recovery/SKILL.md`
   - Purpose: recover previously implemented UI/parity fixes that later disappeared from the current branch or merged tree by combining session recall, unreachable-commit forensics, ancestry checks, and latest-structure reapplication
