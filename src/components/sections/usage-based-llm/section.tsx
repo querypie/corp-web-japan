@@ -13,14 +13,14 @@ export function AipUsageBasedLlmPageShell({ children }: { children: ReactNode })
 
 export function AipUsageBasedLlmHeroSection({ children }: { children: ReactNode }) {
   return (
-    <PlatformContentSection className="pb-[187px] pt-[76px]" contentWidthClassName="max-w-[1200px]">
+    <PlatformContentSection className="pb-[187px] pt-[134px] lg:pt-[144px]" contentWidthClassName="max-w-[1200px]">
       {children}
     </PlatformContentSection>
   );
 }
 
 export function AipUsageBasedLlmHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 className="mx-auto max-w-[800px] text-center text-[64px] font-normal leading-[72px] text-slate-950">{children}</h1>;
+  return <h1 className="mx-auto max-w-[800px] text-center text-[48px] font-normal leading-[56px] text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h1>;
 }
 
 export function AipUsageBasedLlmHeroDescription({ children }: { children: ReactNode }) {
