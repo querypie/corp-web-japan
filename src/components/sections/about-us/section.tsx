@@ -27,7 +27,11 @@ export function AboutUsHeroImage() {
 export function AboutUsSection({ children, muted = false, className = "" }: { children: ReactNode; muted?: boolean; className?: string }) {
   const backgroundClass = muted ? "bg-[#F6F8FA]" : "bg-white";
 
-  return <section className={`${backgroundClass}${className ? ` ${className}` : ""}`}>{children}</section>;
+  return (
+    <section className={backgroundClass}>
+      <div className={`mx-auto max-w-[1200px] px-6 lg:px-0${className ? ` ${className}` : ""}`}>{children}</div>
+    </section>
+  );
 }
 
 export function AboutUsSectionHeading({ children }: { children: ReactNode }) {

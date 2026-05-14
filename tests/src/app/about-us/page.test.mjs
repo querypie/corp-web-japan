@@ -36,6 +36,9 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(sectionSource, /export function AboutUsLeaderCard/);
   assert.match(sectionSource, /export function AboutUsLocationCard/);
 
+  assert.match(sectionSource, /export function AboutUsSection[\s\S]*<section className=\{backgroundClass\}>[\s\S]*mx-auto max-w-\[1200px\] px-6 lg:px-0/);
+  assert.doesNotMatch(routeSource, /<AboutUsSection className="mx-auto max-w-\[1200px\] px-6/);
+  assert.doesNotMatch(routeSource, /<div className="mx-auto max-w-\[1200px\] px-6 lg:px-0">/);
   assert.match(sectionSource, /export function AboutUsSectionIntro[\s\S]*mt-4 max-w-\[1200px\]/);
   assert.match(sectionSource, /mt-\[56px\] flex flex-col gap-\[37\.5px\] border-l border-slate-300 pl-\[28\.125px\]/);
   assert.match(sectionSource, /className="flex gap-\[18\.75px\]"/);
