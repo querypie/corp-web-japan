@@ -7,17 +7,11 @@ import { SiteHeader } from "@/components/layout/site-header";
 import {
   buildPrivacyPolicyDocumentComponents,
 } from "@/components/sections/privacy-policy/document-body-components";
-import {
-  PrivacyPolicyLanguageSelector,
-  PrivacySelectorBox,
-} from "@/components/sections/privacy-policy/document-header-controls";
 import { PrivacyPolicyVersionSelector } from "@/components/sections/privacy-policy/version-selector";
 import {
   LegalDocumentBody,
   LegalDocumentIntro,
   LegalDocumentLayout,
-  LegalDocumentLead,
-  LegalDocumentMeta,
   LegalDocumentSection,
   LegalDocumentTitle,
 } from "@/components/sections/legal/document";
@@ -93,15 +87,10 @@ export async function renderPrivacyPolicyVersionPage(slug: string) {
       <SiteHeader />
       <LegalDocumentSection>
         <LegalDocumentIntro className="flex flex-col gap-4">
-          <div className="flex flex-col gap-3">
-            <LegalDocumentMeta>{`Effective date: ${frontmatter.date}`}</LegalDocumentMeta>
+          <div className="flex flex-wrap items-center gap-4">
             <LegalDocumentTitle variant="compact">{frontmatter.title}</LegalDocumentTitle>
-            <LegalDocumentLead>{frontmatter.description}</LegalDocumentLead>
-          </div>
-          <PrivacySelectorBox>
-            <PrivacyPolicyLanguageSelector language="en" />
             <PrivacyPolicyVersionSelector currentSlug={frontmatter.version} slugs={slugs} />
-          </PrivacySelectorBox>
+          </div>
         </LegalDocumentIntro>
         <LegalDocumentLayout>
           <LegalDocumentBody className="[&_h2:first-child]:mt-0">{evaluation.content}</LegalDocumentBody>
