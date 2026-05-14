@@ -85,7 +85,7 @@ export default function AboutUsPage() {
         </CompanyPageIntro>
       </CompanyPageSection>
 
-      <AboutUsSection className="pb-[92px] pt-[94px]">
+      <AboutUsSection>
         <RevealOnScroll>
           <AboutUsSectionHeading>出資企業</AboutUsSectionHeading>
           <AboutUsSectionIntro>
@@ -110,7 +110,7 @@ export default function AboutUsPage() {
         </AboutUsInvestorLogoRow>
       </AboutUsSection>
 
-      <AboutUsSection muted className="py-[112.5px]">
+      <AboutUsSection muted>
         <RevealOnScroll>
           <AboutUsSectionHeading>私たちの歩み</AboutUsSectionHeading>
           <AboutUsSectionIntro>
@@ -173,7 +173,7 @@ export default function AboutUsPage() {
         </AboutUsTimeline>
       </AboutUsSection>
 
-      <AboutUsSection className="pb-[75px] pt-[76px]">
+      <AboutUsSection>
         <RevealOnScroll>
           <AboutUsSectionHeading>私たちのチーム</AboutUsSectionHeading>
           <AboutUsSectionIntro>
@@ -225,7 +225,7 @@ export default function AboutUsPage() {
         </AboutUsLeaderGrid>
       </AboutUsSection>
 
-      <AboutUsSection className="pb-[188px] pt-[12px]">
+      <AboutUsSection>
         <RevealOnScroll>
           <AboutUsSectionHeading>グローバル拠点</AboutUsSectionHeading>
         </RevealOnScroll>
