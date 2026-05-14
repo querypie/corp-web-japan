@@ -135,6 +135,7 @@ Each category includes multiple tutorial items with:
 Implementation rule for ACP:
 - keep category/item data route-local in `page.tsx`
 - implement the tab/previous/next interaction in a dedicated client section component under `src/components/sections/**`
+- if the route authors categories/items as JSX marker components, parse those markers in a server component first and pass only serializable feature data into the client widget; do not put the marker components and parser entirely inside a `"use client"` module, because server-authored marker children can render to `null` before the client parser sees them
 - keep tutorial assets route-aligned under `public/services/acp/*`
 - keep docs links external when no local migrated equivalent exists
 

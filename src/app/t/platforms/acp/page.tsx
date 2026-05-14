@@ -96,9 +96,6 @@ export default function AcpServicePage() {
           <RevealOnScroll>
             <AcpFeatureIntro>
               <AcpSectionTitle>QueryPie ACPができること</AcpSectionTitle>
-              <AcpSectionBody>
-                データベース、システム、Kubernetes、Web、ワークフロー全体にまたがる代表機能をカテゴリごとに確認できます。
-              </AcpSectionBody>
             </AcpFeatureIntro>
           </RevealOnScroll>
 

@@ -88,7 +88,7 @@ export function AcpIntegrationsInner({ children }: { children: ReactNode }) {
 }
 
 export function AcpIntegrationsTitle({ children }: { children: ReactNode }) {
-  return <h3 className="text-[30px] font-medium leading-[39.375px] tracking-normal text-[#24292F]">{children}</h3>;
+  return <h4 className="text-[30px] font-medium leading-[39.375px] tracking-normal text-[#24292F]">{children}</h4>;
 }
 
 export function AcpIntegrationsBody({ children }: { children: ReactNode }) {
