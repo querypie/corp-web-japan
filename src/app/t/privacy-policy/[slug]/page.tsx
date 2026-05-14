@@ -14,8 +14,12 @@ import {
 import { PrivacyPolicyVersionSelector } from "@/components/sections/privacy-policy/version-selector";
 import {
   LegalDocumentBody,
-  LegalDocumentHero,
-  LegalDocumentPageSection,
+  LegalDocumentIntro,
+  LegalDocumentLayout,
+  LegalDocumentLead,
+  LegalDocumentMeta,
+  LegalDocumentSection,
+  LegalDocumentTitle,
 } from "@/components/sections/legal/document";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 import { renderLegalMdx } from "@/lib/legal-mdx-source";
@@ -87,20 +91,22 @@ export async function renderPrivacyPolicyVersionPage(slug: string) {
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
-      <LegalDocumentPageSection>
-        <LegalDocumentHero
-          meta={`Effective date: ${frontmatter.date}`}
-          title={frontmatter.title}
-          titleVariant="compact"
-          description={frontmatter.description}
-        >
+      <LegalDocumentSection>
+        <LegalDocumentIntro className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
+            <LegalDocumentMeta>{`Effective date: ${frontmatter.date}`}</LegalDocumentMeta>
+            <LegalDocumentTitle variant="compact">{frontmatter.title}</LegalDocumentTitle>
+            <LegalDocumentLead>{frontmatter.description}</LegalDocumentLead>
+          </div>
           <PrivacySelectorBox>
             <PrivacyPolicyLanguageSelector language="en" />
             <PrivacyPolicyVersionSelector currentSlug={frontmatter.version} slugs={slugs} />
           </PrivacySelectorBox>
-        </LegalDocumentHero>
-        <LegalDocumentBody className="[&_h2:first-child]:mt-0">{evaluation.content}</LegalDocumentBody>
-      </LegalDocumentPageSection>
+        </LegalDocumentIntro>
+        <LegalDocumentLayout>
+          <LegalDocumentBody className="[&_h2:first-child]:mt-0">{evaluation.content}</LegalDocumentBody>
+        </LegalDocumentLayout>
+      </LegalDocumentSection>
       <AipFreeTrialCtaSection />
       <SiteFooter />
     </main>

@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type LegalDocumentPageSectionProps = {
+type LegalDocumentSectionProps = {
   children?: ReactNode;
 };
 
-type LegalDocumentHeaderProps = {
+type LegalDocumentIntroProps = {
   children?: ReactNode;
   divider?: boolean;
   className?: string;
@@ -24,6 +24,11 @@ type LegalDocumentHeroProps = {
 type LegalDocumentTitleProps = {
   children?: ReactNode;
   variant?: "hero" | "compact";
+};
+
+type LegalDocumentLayoutProps = {
+  children?: ReactNode;
+  className?: string;
 };
 
 type LegalDocumentBodyProps = {
@@ -57,7 +62,7 @@ export const legalDocumentBodyClassName = [
   "[&>br]:hidden",
 ].join(" ");
 
-export function LegalDocumentPageSection({ children }: LegalDocumentPageSectionProps) {
+export function LegalDocumentSection({ children }: LegalDocumentSectionProps) {
   return (
     <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[120px] pt-[112px] lg:px-[30px] lg:pb-[160px] lg:pt-[144px]">
       <div className="mx-auto max-w-[1200px]">{children}</div>
@@ -65,13 +70,29 @@ export function LegalDocumentPageSection({ children }: LegalDocumentPageSectionP
   );
 }
 
-export function LegalDocumentHeader({ children, divider = false, className }: LegalDocumentHeaderProps) {
+export function LegalDocumentIntro({ children, divider = false, className }: LegalDocumentIntroProps) {
   return (
     <header
       className={cn(divider ? "mb-12 border-b border-slate-200 pb-8" : "mb-8 lg:mb-10", className)}
     >
       {children}
     </header>
+  );
+}
+
+export function LegalDocumentLayout({ children, className }: LegalDocumentLayoutProps) {
+  return <div className={cn("flex w-full flex-col", className)}>{children}</div>;
+}
+
+export function LegalDocumentPageSection({ children }: LegalDocumentSectionProps) {
+  return <LegalDocumentSection>{children}</LegalDocumentSection>;
+}
+
+export function LegalDocumentHeader({ children, divider = false, className }: LegalDocumentIntroProps) {
+  return (
+    <LegalDocumentIntro divider={divider} className={className}>
+      {children}
+    </LegalDocumentIntro>
   );
 }
 
@@ -85,18 +106,18 @@ export function LegalDocumentHero({
   className,
 }: LegalDocumentHeroProps) {
   return (
-    <LegalDocumentHeader divider={divider} className={cn(children && "flex flex-col gap-4", className)}>
+    <LegalDocumentIntro divider={divider} className={cn(children && "flex flex-col gap-4", className)}>
       <div className="flex flex-col gap-3">
         {meta ? <LegalDocumentMeta>{meta}</LegalDocumentMeta> : null}
         <LegalDocumentTitle variant={titleVariant}>{title}</LegalDocumentTitle>
-        {description ? <LegalDocumentDescription>{description}</LegalDocumentDescription> : null}
+        {description ? <LegalDocumentLead>{description}</LegalDocumentLead> : null}
       </div>
       {children}
-    </LegalDocumentHeader>
+    </LegalDocumentIntro>
   );
 }
 
-export function LegalDocumentMeta({ children }: LegalDocumentPageSectionProps) {
+export function LegalDocumentMeta({ children }: LegalDocumentSectionProps) {
   return <p className="text-sm leading-6 text-slate-500">{children}</p>;
 }
 
@@ -114,8 +135,12 @@ export function LegalDocumentTitle({ children, variant = "hero" }: LegalDocument
   );
 }
 
-export function LegalDocumentDescription({ children }: LegalDocumentPageSectionProps) {
+export function LegalDocumentLead({ children }: LegalDocumentSectionProps) {
   return <p className="text-[15px] leading-7 text-slate-600">{children}</p>;
+}
+
+export function LegalDocumentDescription({ children }: LegalDocumentSectionProps) {
+  return <LegalDocumentLead>{children}</LegalDocumentLead>;
 }
 
 export function LegalDocumentBody({ children, className }: LegalDocumentBodyProps) {

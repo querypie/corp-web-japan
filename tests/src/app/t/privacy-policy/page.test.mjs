@@ -47,7 +47,7 @@ test("privacy policy route keeps latest alias page and version detail route with
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
   assert.match(versionPageSource, /canonicalPath: `\/t\/privacy-policy\/\$\{slug\}`/);
   assert.match(versionPageSource, /return renderPrivacyPolicyVersionPage\(slug\)/);
-  assert.match(versionPageSource, /<LegalDocumentPageSection>/);
+  assert.match(versionPageSource, /<LegalDocumentSection>/);
   assert.match(versionPageSource, /from "@\/components\/sections\/legal\/document"/);
   assert.match(versionPageSource, /<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/);
 });
@@ -70,11 +70,11 @@ test("privacy policy preview scans shared content filenames and uses the shared 
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
   assert.match(versionPageSource, /<PrivacyPolicyLanguageSelector language="en" \/>/);
   assert.match(versionPageSource, /<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/);
-  assert.match(versionPageSource, /<LegalDocumentHero/);
-  assert.match(versionPageSource, /meta=\{`Effective date: \$\{frontmatter\.date\}`\}/);
-  assert.match(versionPageSource, /title=\{frontmatter\.title\}/);
-  assert.match(versionPageSource, /titleVariant="compact"/);
-  assert.match(versionPageSource, /description=\{frontmatter\.description\}/);
+  assert.match(versionPageSource, /<LegalDocumentIntro className="flex flex-col gap-4">/);
+  assert.match(versionPageSource, /<LegalDocumentMeta>\{`Effective date: \$\{frontmatter\.date\}`\}<\/LegalDocumentMeta>/);
+  assert.match(versionPageSource, /<LegalDocumentTitle variant="compact">\{frontmatter\.title\}<\/LegalDocumentTitle>/);
+  assert.match(versionPageSource, /<LegalDocumentLead>\{frontmatter\.description\}<\/LegalDocumentLead>/);
+  assert.match(versionPageSource, /<LegalDocumentLayout>/);
   assert.match(versionPageSource, /<LegalDocumentBody className="\[&_h2:first-child\]:mt-0">\{evaluation\.content\}<\/LegalDocumentBody>/);
   assert.doesNotMatch(versionPageSource, /function PrivacyMdxLink/);
   assert.doesNotMatch(versionPageSource, /function PrivacyPolicyLanguageSelector/);
@@ -86,7 +86,11 @@ test("privacy policy preview scans shared content filenames and uses the shared 
   assert.doesNotMatch(documentBodyComponentsSource, /export function PrivacyMdxLink/);
   assert.match(documentHeaderControlsSource, /export function PrivacySelectorBox/);
   assert.match(documentHeaderControlsSource, /export function PrivacyPolicyLanguageSelector/);
-  assert.match(legalDocumentSource, /export function LegalDocumentHero/);
+  assert.match(legalDocumentSource, /export function LegalDocumentIntro/);
+  assert.match(legalDocumentSource, /export function LegalDocumentSection/);
+  assert.match(legalDocumentSource, /export function LegalDocumentLayout/);
+  assert.match(legalDocumentSource, /export function LegalDocumentLead/);
+  assert.match(legalDocumentSource, /export function LegalDocumentPageSection/);
   assert.match(legalMdxHelperSource, /export async function renderLegalMdx<Frontmatter extends Record<string, unknown>>/);
   assert.match(legalMdxHelperSource, /parseFrontmatter: true,/);
 

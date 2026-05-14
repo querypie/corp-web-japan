@@ -17,9 +17,11 @@ test("terms of service page derives metadata and hero copy from content.mdx fron
   assert.match(source, /description: frontmatter\.description,/);
   assert.match(source, /canonical: "\/t\/terms-of-service"/);
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
-  assert.match(source, /<LegalDocumentHero title=\{frontmatter\.title\} divider \/>/);
+  assert.match(source, /<LegalDocumentIntro divider>/);
+  assert.match(source, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>/);
+  assert.match(source, /<LegalDocumentLayout>/);
   assert.match(source, /<LegalDocumentBody className="\[&_h1:first-child\]:mt-0">\{evaluation\.content\}<\/LegalDocumentBody>/);
-  assert.match(source, /<LegalDocumentPageSection>/);
+  assert.match(source, /<LegalDocumentSection>/);
   assert.match(source, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(source, /<AipFreeTrialCtaSection \/>/);
   assert.doesNotMatch(source, /export const metadata: Metadata = \{/);
@@ -51,7 +53,11 @@ test("terms of service page keeps title, description, and date in content.mdx fr
   assert.match(legalMdxHelperSource, /export async function renderLegalMdx<Frontmatter extends Record<string, unknown>>/);
   assert.match(legalMdxHelperSource, /parseFrontmatter: true,/);
   assert.match(legalMdxHelperSource, /buildLegalDocumentMdxComponents\(\)/);
-  assert.match(legalDocumentSource, /export function LegalDocumentHero/);
+  assert.match(legalDocumentSource, /export function LegalDocumentIntro/);
+  assert.match(legalDocumentSource, /export function LegalDocumentSection/);
+  assert.match(legalDocumentSource, /export function LegalDocumentLayout/);
+  assert.match(legalDocumentSource, /export function LegalDocumentLead/);
+  assert.match(legalDocumentSource, /export function LegalDocumentPageSection/);
   assert.match(legalMdxSource, /export function buildLegalDocumentMdxComponents\(\)/);
   assert.match(footerSource, /label: "利用規約", href: t\("\/terms-of-service", previewModeEnabled\)/);
 });
