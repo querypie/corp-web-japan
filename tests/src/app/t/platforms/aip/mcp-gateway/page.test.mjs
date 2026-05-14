@@ -10,6 +10,7 @@ test("mcp gateway route keeps authored copy in the route and rendering primitive
   assert.match(routeSource, /canonical: "\/t\/platforms\/aip\/mcp-gateway"/);
   assert.match(routeSource, /<McpGatewayHeroHeading>/);
   assert.match(routeSource, /統合型AIゲートウェイ/);
+  assert.match(routeSource, /<McpGatewayFeatureCopy className="w-\[450px\]">/);
   assert.match(routeSource, /<McpGatewayFeatureTitle>外部ツールとの連携<\/McpGatewayFeatureTitle>/);
   assert.match(routeSource, /src="\/solutions\/aip\/mcp-gateway\/tunneling\.gif"/);
   assert.match(routeSource, /src="\/solutions\/aip\/mcp-gateway\/dlp\.gif"/);
@@ -21,6 +22,9 @@ test("mcp gateway route keeps authored copy in the route and rendering primitive
   assert.doesNotMatch(routeSource, /const hero =/);
 
   assert.match(sectionSource, /export function McpGatewayHeroSection/);
+  assert.match(sectionSource, /mt-\[10px\]/);
+  assert.match(sectionSource, /w-full py-\[80px\]/);
+  assert.match(sectionSource, /<h4 className=\{cx\("text-\[32px\]/);
   assert.match(sectionSource, /export function McpGatewayFeatureBand/);
   assert.match(sectionSource, /export function McpGatewayFeatureImage/);
   assert.match(sectionSource, /export function McpGatewayCtaSection/);

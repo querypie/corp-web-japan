@@ -29,7 +29,7 @@ export function McpGatewayHeroBody({ children, className }: { children: ReactNod
 
 export function McpGatewayHeroVisual({ className = "", imageClassName = "" }: { className?: string; imageClassName?: string }) {
   return (
-    <div className={cx("mt-[75px] flex justify-center", className)}>
+    <div className={cx("mt-[10px] flex justify-center", className)}>
       <div className="w-[1200px] max-w-[1200px]">
         <Image
           src="/solutions/aip/mcp-gateway/hero.svg"
@@ -51,7 +51,7 @@ export function McpGatewayFeatureBand({
   style,
 }: { children: ReactNode; muted?: boolean } & ClassNameProps) {
   return (
-    <section className={cx("w-full py-[75px]", muted && "bg-[#F6F8FA]", className)} style={style}>
+    <section className={cx("w-full py-[80px]", muted && "bg-[#F6F8FA]", className)} style={style}>
       <div className="mx-auto max-w-[1200px] px-10 lg:px-10">{children}</div>
     </section>
   );
@@ -74,7 +74,7 @@ export function McpGatewayFeatureCopy({ children, className }: { children: React
 }
 
 export function McpGatewayFeatureTitle({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <h2 className={cx("text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F]", className)}>{children}</h2>;
+  return <h4 className={cx("text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F]", className)}>{children}</h4>;
 }
 
 export function McpGatewayFeatureDescription({ children, className }: { children: ReactNode } & ClassNameProps) {
