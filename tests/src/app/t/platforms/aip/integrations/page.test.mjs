@@ -47,4 +47,7 @@ test("AIP integrations platform preview section primitives define the integratio
   assert.match(cssSource, /padding: 12px 32px/);
   assert.match(cssSource, /padding: 30px/);
   assert.match(cssSource, /background: #f6f8fa/);
+  assert.match(cssSource, /@media \(max-width: 500px\)[\s\S]*padding-top: 120px/);
+  assert.match(cssSource, /@media \(max-width: 500px\)[\s\S]*\.icon[\s\S]*width: 60px/);
+  assert.match(cssSource, /@media \(max-width: 500px\)[\s\S]*\.iconImage[\s\S]*width: 60px/);
 });
