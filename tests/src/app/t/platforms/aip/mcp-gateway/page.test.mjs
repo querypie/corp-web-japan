@@ -11,7 +11,7 @@ test("mcp gateway route keeps authored copy in the route and rendering primitive
   assert.match(routeSource, /canonical: "\/t\/platforms\/aip\/mcp-gateway"/);
   assert.match(routeSource, /<McpGatewayHeroHeading>/);
   assert.match(routeSource, /統合型AIゲートウェイ/);
-  assert.match(routeSource, /<McpGatewayFeatureCopy className="w-\[450px\]">/);
+  assert.match(routeSource, /<McpGatewayFeatureCopy className="w-full lg:w-\[450px\]">/);
   assert.match(routeSource, /<McpGatewayFeatureTitle>外部ツールとの連携<\/McpGatewayFeatureTitle>/);
   assert.match(routeSource, /src="\/solutions\/aip\/mcp-gateway\/tunneling\.gif"/);
   assert.match(routeSource, /src="\/solutions\/aip\/mcp-gateway\/dlp\.gif"/);
@@ -25,6 +25,9 @@ test("mcp gateway route keeps authored copy in the route and rendering primitive
   assert.match(sectionSource, /export function McpGatewayHeroSection/);
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
   assert.match(sectionSource, /mt-\[10px\]/);
+  assert.match(sectionSource, /max-w-\[620px\][\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
+  assert.match(sectionSource, /flex flex-col items-center[\s\S]*lg:flex-row/);
+  assert.match(sectionSource, /w-full max-w-full shrink-0/);
   assert.match(sectionSource, /<PlatformContentSection[\s\S]*className=\{cx\("w-full py-\[80px\]"/);
   assert.match(sectionSource, /contentClassName="px-10 lg:px-10"/);
   assert.match(sectionSource, /paddingClassName=""/);

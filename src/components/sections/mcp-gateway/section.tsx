@@ -21,7 +21,7 @@ export function McpGatewayHeroCopy({ children, className }: { children: ReactNod
 }
 
 export function McpGatewayHeroHeading({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <h1 className={cx("text-center text-[60px] font-normal leading-[72px] tracking-normal text-[#24292F]", className)}>{children}</h1>;
+  return <h1 className={cx("mx-auto max-w-[620px] text-center text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]", className)}>{children}</h1>;
 }
 
 export function McpGatewayHeroBody({ children, className }: { children: ReactNode } & ClassNameProps) {
@@ -31,14 +31,14 @@ export function McpGatewayHeroBody({ children, className }: { children: ReactNod
 export function McpGatewayHeroVisual({ className = "", imageClassName = "" }: { className?: string; imageClassName?: string }) {
   return (
     <div className={cx("mt-[10px] flex justify-center", className)}>
-      <div className="w-[1200px] max-w-[1200px]">
+      <div className="w-full max-w-[1200px]">
         <Image
           src="/solutions/aip/mcp-gateway/hero.svg"
           alt="MCP Gateway"
           width={1200}
           height={638}
           priority
-          className={cx("h-auto w-[1200px] max-w-none", imageClassName)}
+          className={cx("h-auto w-full max-w-full", imageClassName)}
         />
       </div>
     </div>
@@ -69,14 +69,14 @@ export function McpGatewayFeatureLayout({
   className,
 }: { children: ReactNode; reverse?: boolean } & ClassNameProps) {
   return (
-    <div className={cx("flex items-center justify-between gap-[74px]", reverse && "flex-row-reverse", className)}>
+    <div className={cx("flex flex-col items-center justify-between gap-[40px] lg:gap-[74px]", reverse ? "lg:flex-row-reverse" : "lg:flex-row", className)}>
       {children}
     </div>
   );
 }
 
 export function McpGatewayFeatureCopy({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <div className={cx("shrink-0", className)}>{children}</div>;
+  return <div className={cx("w-full max-w-full shrink-0", className)}>{children}</div>;
 }
 
 export function McpGatewayFeatureTitle({ children, className }: { children: ReactNode } & ClassNameProps) {
@@ -92,7 +92,7 @@ export function McpGatewayFeatureChecklist({ className }: ClassNameProps) {
 }
 
 export function McpGatewayFeatureVisual({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <div className={cx("shrink-0", className)}>{children}</div>;
+  return <div className={cx("w-full max-w-full shrink-0", className)}>{children}</div>;
 }
 
 export function McpGatewayFeatureImage({
