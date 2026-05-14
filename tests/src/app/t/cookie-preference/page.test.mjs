@@ -30,11 +30,16 @@ test("cookie preference preview page keeps route-local copy while shared page/la
   assert.doesNotMatch(pageSource, /CookiePreferenceHeroTitle/);
   assert.doesNotMatch(pageSource, /CookiePreferenceHeroDescription/);
   assert.match(pageSource, /<CookiePreferenceList>/);
-  assert.match(pageSource, /<CookiePreferenceItem\s+id="necessary"/s);
-  assert.match(pageSource, /<CookiePreferenceItem\s+id="performance"/s);
-  assert.match(pageSource, /<CookiePreferenceItem\s+id="functional"/s);
-  assert.match(pageSource, /<CookiePreferenceItem\s+id="analysis"/s);
-  assert.match(pageSource, /<CookiePreferenceItem\s+id="marketing"/s);
+  assert.match(pageSource, /CookiePreferenceItemHeader,/);
+  assert.match(pageSource, /CookiePreferenceItemDescription,/);
+  assert.match(pageSource, /<CookiePreferenceItem>\s*<CookiePreferenceItemHeader id="necessary" disabled>\s*必須 Cookie/s);
+  assert.match(pageSource, /<CookiePreferenceItemHeader id="performance">\s*パフォーマンス Cookie/s);
+  assert.match(pageSource, /<CookiePreferenceItemHeader id="functional">\s*機能 Cookie/s);
+  assert.match(pageSource, /<CookiePreferenceItemHeader id="analysis">\s*分析 Cookie/s);
+  assert.match(pageSource, /<CookiePreferenceItemHeader id="marketing">\s*マーケティング Cookie/s);
+  assert.match(pageSource, /<CookiePreferenceItemDescription>\s*<p>/s);
+  assert.doesNotMatch(pageSource, /label="/);
+  assert.doesNotMatch(pageSource, /description=\{/);
   assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(pageSource, /<AipFreeTrialCtaSection \/>/);
   assert.doesNotMatch(pageSource, /from "next\/link"/);
@@ -52,10 +57,14 @@ test("cookie preference shared section modules separate server-side layout primi
   assert.match(sectionSource, /export type CookiePreferenceKey/);
   assert.match(sectionSource, /export function CookiePreferenceList/);
   assert.match(sectionSource, /export function CookiePreferenceItem/);
+  assert.match(sectionSource, /export function CookiePreferenceItemHeader/);
+  assert.match(sectionSource, /export function CookiePreferenceItemDescription/);
   assert.match(sectionSource, /<CookiePreferenceToggle preference=\{id\} id=\{switchId\} disabled=\{disabled\} \/>/);
   assert.match(sectionSource, /<label htmlFor=\{switchId\}/);
   assert.match(sectionSource, /<ul className="flex flex-col gap-\[40px\]">/);
   assert.match(sectionSource, /<li className="flex flex-col gap-\[20px\]">/);
+  assert.doesNotMatch(sectionSource, /label: string/);
+  assert.doesNotMatch(sectionSource, /description: ReactNode/);
 
   assert.doesNotMatch(pageSectionSource, /export function CookiePreferenceHeroSection/);
   assert.doesNotMatch(pageSectionSource, /export function CookiePreferenceHeroTitle/);
