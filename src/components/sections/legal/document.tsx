@@ -18,18 +18,20 @@ type LegalDocumentHeroProps = {
   description?: ReactNode;
   children?: ReactNode;
   divider?: boolean;
-  titleVariant?: "hero" | "compact";
   className?: string;
 };
 
 type LegalDocumentTitleProps = {
   children?: ReactNode;
-  variant?: "hero" | "compact";
 };
 
 type LegalDocumentLayoutProps = {
   children?: ReactNode;
   className?: string;
+};
+
+type LegalDocumentTitleActionsProps = {
+  children?: ReactNode;
 };
 
 type LegalDocumentBodyProps = {
@@ -84,6 +86,10 @@ export function LegalDocumentLayout({ children, className }: LegalDocumentLayout
   return <div className={cn("flex w-full flex-col", className)}>{children}</div>;
 }
 
+export function LegalDocumentTitleActions({ children }: LegalDocumentTitleActionsProps) {
+  return <div className="flex flex-wrap items-center gap-4">{children}</div>;
+}
+
 export function LegalDocumentPageSection({ children }: LegalDocumentSectionProps) {
   return <LegalDocumentSection>{children}</LegalDocumentSection>;
 }
@@ -102,16 +108,13 @@ export function LegalDocumentHero({
   description,
   children,
   divider = false,
-  titleVariant = "hero",
   className,
 }: LegalDocumentHeroProps) {
   return (
-    <LegalDocumentIntro divider={divider} className={cn(children && "flex flex-col gap-4", className)}>
-      <div className="flex flex-col gap-3">
-        {meta ? <LegalDocumentMeta>{meta}</LegalDocumentMeta> : null}
-        <LegalDocumentTitle variant={titleVariant}>{title}</LegalDocumentTitle>
-        {description ? <LegalDocumentLead>{description}</LegalDocumentLead> : null}
-      </div>
+    <LegalDocumentIntro divider={divider} className={className}>
+      {meta ? <LegalDocumentMeta>{meta}</LegalDocumentMeta> : null}
+      <LegalDocumentTitle>{title}</LegalDocumentTitle>
+      {description ? <LegalDocumentLead>{description}</LegalDocumentLead> : null}
       {children}
     </LegalDocumentIntro>
   );

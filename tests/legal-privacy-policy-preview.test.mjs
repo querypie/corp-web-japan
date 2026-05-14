@@ -54,10 +54,12 @@ test("privacy policy route keeps a latest alias page while [slug]/page.tsx owns 
   assert.doesNotMatch(versionPageSource, /<LegalDocumentIntro className=/);
   assert.doesNotMatch(versionPageSource, /<LegalDocumentMeta>/);
   assert.doesNotMatch(versionPageSource, /frontmatter\.date/);
-  assert.match(versionPageSource, /<div className="flex flex-wrap items-center gap-4">/);
+  assert.match(versionPageSource, /<LegalDocumentTitleActions>/);
   assert.match(versionPageSource, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>\s*<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/s);
   assert.doesNotMatch(versionPageSource, /LegalDocumentTitle variant=/);
-  assert.match(versionPageSource, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>\s*<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>\s*<\/div>\s*<\/div>\s*<\/LegalDocumentIntro>/s);
+  assert.match(versionPageSource, /<LegalDocumentTitleActions>\s*<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>\s*<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>\s*<\/LegalDocumentTitleActions>\s*<\/LegalDocumentIntro>/s);
+  assert.doesNotMatch(versionPageSource, /<div className="flex flex-col gap-3">/);
+  assert.doesNotMatch(versionPageSource, /<div className="flex flex-wrap items-center gap-4">/);
   assert.doesNotMatch(versionPageSource, /<LegalDocumentLead>\{frontmatter\.description\}<\/LegalDocumentLead>/);
   assert.match(versionPageSource, /export async function generatePrivacyPolicyMetadata\(/);
   assert.match(versionPageSource, /export async function renderPrivacyPolicyVersionPage\(slug: string\)/);
@@ -90,10 +92,12 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   assert.doesNotMatch(versionPageSource, /<LegalDocumentIntro className=/);
   assert.doesNotMatch(versionPageSource, /<LegalDocumentMeta>/);
   assert.doesNotMatch(versionPageSource, /frontmatter\.date/);
-  assert.match(versionPageSource, /<div className="flex flex-wrap items-center gap-4">/);
+  assert.match(versionPageSource, /<LegalDocumentTitleActions>/);
   assert.match(versionPageSource, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>\s*<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>/s);
   assert.doesNotMatch(versionPageSource, /LegalDocumentTitle variant=/);
-  assert.match(versionPageSource, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>\s*<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>\s*<\/div>\s*<\/div>\s*<\/LegalDocumentIntro>/s);
+  assert.match(versionPageSource, /<LegalDocumentTitleActions>\s*<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>\s*<PrivacyPolicyVersionSelector currentSlug=\{frontmatter\.version\} slugs=\{slugs\} \/>\s*<\/LegalDocumentTitleActions>\s*<\/LegalDocumentIntro>/s);
+  assert.doesNotMatch(versionPageSource, /<div className="flex flex-col gap-3">/);
+  assert.doesNotMatch(versionPageSource, /<div className="flex flex-wrap items-center gap-4">/);
   assert.doesNotMatch(versionPageSource, /<LegalDocumentLead>\{frontmatter\.description\}<\/LegalDocumentLead>/);
   assert.doesNotMatch(versionPageSource, /function PrivacyMdxLink/);
   assert.doesNotMatch(versionPageSource, /function PrivacyPolicyLanguageSelector/);
@@ -109,6 +113,7 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   assert.match(legalDocumentSource, /export function LegalDocumentIntro/);
   assert.match(legalDocumentSource, /export function LegalDocumentSection/);
   assert.match(legalDocumentSource, /export function LegalDocumentLayout/);
+  assert.match(legalDocumentSource, /export function LegalDocumentTitleActions/);
   assert.match(legalDocumentSource, /export function LegalDocumentLead/);
   assert.match(legalDocumentSource, /companyBodyTextClassName/);
   assert.match(legalDocumentSource, /pb-\[50px\] pt-\[100px\] lg:pb-\[72px\] lg:pt-\[120px\]/);

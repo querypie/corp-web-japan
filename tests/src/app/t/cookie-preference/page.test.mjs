@@ -6,6 +6,7 @@ const pagePath = "src/app/t/cookie-preference/page.tsx";
 const sectionPath = "src/components/sections/cookie-preference/list.tsx";
 const pageSectionPath = "src/components/sections/cookie-preference/page.tsx";
 const togglePath = "src/components/sections/cookie-preference/toggle.tsx";
+const legalDocumentPath = "src/components/sections/legal/document.tsx";
 
 test("cookie preference preview page keeps route-local copy while shared page/layout primitives own the rendering shells", () => {
   assert.equal(sourceExists(pagePath), true, `${pagePath} should exist`);
@@ -20,9 +21,14 @@ test("cookie preference preview page keeps route-local copy while shared page/la
   assert.match(pageSource, /<SiteHeader \/>/);
   assert.match(pageSource, /<SiteFooter \/>/);
   assert.match(pageSource, /from "@\/components\/sections\/cookie-preference\/page"/);
-  assert.match(pageSource, /<CookiePreferenceHeroSection>/);
-  assert.match(pageSource, /<CookiePreferenceHeroTitle>クッキー設定<\/CookiePreferenceHeroTitle>/);
+  assert.match(pageSource, /from "@\/components\/sections\/legal\/document"/);
+  assert.match(pageSource, /<LegalDocumentSection>/);
+  assert.match(pageSource, /<LegalDocumentIntro>/);
+  assert.match(pageSource, /<LegalDocumentTitle>クッキー設定<\/LegalDocumentTitle>/);
+  assert.match(pageSource, /<LegalDocumentLead>\s*<p>/s);
   assert.match(pageSource, /<CookiePreferenceSettingsSection>/);
+  assert.doesNotMatch(pageSource, /CookiePreferenceHeroTitle/);
+  assert.doesNotMatch(pageSource, /CookiePreferenceHeroDescription/);
   assert.match(pageSource, /<CookiePreferenceList>/);
   assert.match(pageSource, /<CookiePreferenceItem\s+id="necessary"/s);
   assert.match(pageSource, /<CookiePreferenceItem\s+id="performance"/s);
@@ -51,8 +57,9 @@ test("cookie preference shared section modules separate server-side layout primi
   assert.match(sectionSource, /<ul className="flex flex-col gap-\[40px\]">/);
   assert.match(sectionSource, /<li className="flex flex-col gap-\[20px\]">/);
 
-  assert.match(pageSectionSource, /export function CookiePreferenceHeroSection/);
-  assert.match(pageSectionSource, /export function CookiePreferenceHeroTitle/);
+  assert.doesNotMatch(pageSectionSource, /export function CookiePreferenceHeroSection/);
+  assert.doesNotMatch(pageSectionSource, /export function CookiePreferenceHeroTitle/);
+  assert.doesNotMatch(pageSectionSource, /export function CookiePreferenceHeroDescription/);
   assert.match(pageSectionSource, /export function CookiePreferenceCtaSection/);
   assert.match(pageSectionSource, /export function CookiePreferenceCtaLink/);
   assert.match(pageSectionSource, /inline-flex min-h-\[47px\] items-center justify-center gap-\[10px\]/);
@@ -70,4 +77,19 @@ test("cookie preference shared section modules separate server-side layout primi
   assert.match(toggleSource, /translate-x-\[19px\]/);
 
   assert.match(footerSource, /label: "Cookie設定", href: t\("\/cookie-preference", previewModeEnabled\)/);
+});
+
+
+test("shared legal document intro matches company family typography and spacing", () => {
+  const legalDocumentSource = readSource(legalDocumentPath);
+
+  assert.match(
+    legalDocumentSource,
+    /<h1 className="text-\[40px\] font-medium leading-\[1\.2\] tracking-\[-0\.03em\] text-slate-950 sm:text-\[48px\] lg:text-\[52px\]">/,
+  );
+  assert.match(legalDocumentSource, /return <div className=\{companyBodyTextClassName\}>\{children\}<\/div>;/);
+  assert.match(legalDocumentSource, /export function LegalDocumentTitleActions/);
+  assert.match(legalDocumentSource, /flex flex-col gap-10 pt-\[10px\] text-left lg:gap-\[50px\] lg:pt-0/);
+  assert.doesNotMatch(legalDocumentSource, /titleVariant/);
+  assert.doesNotMatch(legalDocumentSource, /<div className="flex flex-col gap-3">/);
 });
