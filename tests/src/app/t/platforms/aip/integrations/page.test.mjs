@@ -37,6 +37,18 @@ test("AIP integrations platform preview page keeps category and product catalog 
   assert.doesNotMatch(pageSource, /categoryIds:/);
 });
 
+test("AIP integrations preview normalizes live numeric category query values to semantic keyword keys", () => {
+  assert.match(pageSource, /legacyQueryValue: "0"/);
+  assert.match(pageSource, /legacyQueryValue: "9"/);
+  assert.match(pageSource, /category\.key === value \|\| category\.legacyQueryValue === value/);
+  assert.match(pageSource, /return matchedCategory\?\.key \?\? "all"/);
+  assert.match(pageSource, /\?category=\$\{category\.key\}/);
+  assert.match(pageSource, /categoryKeys: \["workflow-automation"\]/);
+  assert.match(pageSource, /categoryKeys: \["google-workspace"\]/);
+  assert.match(pageSource, /categoryKeys: \["devops", "local-tools"\]/);
+  assert.doesNotMatch(pageSource, /categoryKeys: \["0"\]/);
+});
+
 test("AIP integrations platform preview section primitives define the integration filter and grid UI", () => {
   assert.match(sectionSource, /AipIntegrationsCategoryLink/);
   assert.match(sectionSource, /AipIntegrationsProductCard/);

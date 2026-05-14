@@ -34,6 +34,7 @@ type IntegrationsPageProps = {
 type IntegrationCategory = {
   key: string;
   label: string;
+  legacyQueryValue: string;
 };
 
 type IntegrationProduct = {
@@ -43,16 +44,16 @@ type IntegrationProduct = {
 };
 
 const categories: readonly IntegrationCategory[] = [
-  { key: "workflow-automation", label: "ワークフロー自動化" },
-  { key: "collaboration", label: "コミュニケーション & コラボレーション" },
-  { key: "crm", label: "顧客関係管理" },
-  { key: "google-workspace", label: "Googleサービス" },
-  { key: "microsoft-365", label: "Microsoftサービス" },
-  { key: "project-management", label: "プロジェクト管理" },
-  { key: "devops", label: "開発 & DevOps" },
-  { key: "databases", label: "データベース接続" },
-  { key: "search-navigation", label: "検索 & ナビゲーション" },
-  { key: "local-tools", label: "ローカル統合" },
+  { key: "workflow-automation", label: "ワークフロー自動化", legacyQueryValue: "0" },
+  { key: "collaboration", label: "コミュニケーション & コラボレーション", legacyQueryValue: "1" },
+  { key: "crm", label: "顧客関係管理", legacyQueryValue: "2" },
+  { key: "google-workspace", label: "Googleサービス", legacyQueryValue: "3" },
+  { key: "microsoft-365", label: "Microsoftサービス", legacyQueryValue: "4" },
+  { key: "project-management", label: "プロジェクト管理", legacyQueryValue: "5" },
+  { key: "devops", label: "開発 & DevOps", legacyQueryValue: "6" },
+  { key: "databases", label: "データベース接続", legacyQueryValue: "7" },
+  { key: "search-navigation", label: "検索 & ナビゲーション", legacyQueryValue: "8" },
+  { key: "local-tools", label: "ローカル統合", legacyQueryValue: "9" },
 ] as const;
 
 const products: readonly IntegrationProduct[] = [
@@ -106,7 +107,14 @@ const products: readonly IntegrationProduct[] = [
 function readCurrentCategory(searchParams: Record<string, string | string[] | undefined> | undefined) {
   const raw = searchParams?.category;
   const value = Array.isArray(raw) ? raw[0] : raw;
-  return value && (value === "all" || categories.some((category) => category.key === value)) ? value : "all";
+
+  if (!value || value === "all") {
+    return "all";
+  }
+
+  const matchedCategory = categories.find((category) => category.key === value || category.legacyQueryValue === value);
+
+  return matchedCategory?.key ?? "all";
 }
 
 function getCategoryCount(categoryKey: string) {
