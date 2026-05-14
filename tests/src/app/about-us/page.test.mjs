@@ -9,7 +9,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(routeSource, /from "@\/components\/sections\/about-us\/section"/);
   assert.match(routeSource, /canonical: "\/about-us"/);
   assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
-  assert.match(routeSource, /<CompanyPageSection padding="compactHero">/);
+  assert.match(routeSource, /<CompanyPageSection>/);
   assert.match(routeSource, /<CompanyPageIntro>/);
   assert.match(routeSource, /<AboutUsTimelineItem year="2024">/);
   assert.match(routeSource, /<AboutUsLeaderCard imageSrc="\/about-us\/crew\/brant\.png"/);

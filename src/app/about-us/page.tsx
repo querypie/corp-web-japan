@@ -49,7 +49,7 @@ export default function AboutUsPage() {
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
-      <CompanyPageSection padding="compactHero">
+      <CompanyPageSection>
         <CompanyPageIntro>
           <RevealOnScroll>
             <CompanyPageTitle>

@@ -1,21 +1,13 @@
 import type { ReactNode } from "react";
 import { companyBodyTextClassName } from "@/components/ui/text-tokens";
 
-type CompanyPageSectionPadding = "default" | "compactHero";
-
 type CompanyPageSectionProps = {
   children: ReactNode;
-  padding?: CompanyPageSectionPadding;
 };
 
-const companyPageSectionPaddingClassNames = {
-  default: "pb-[50px] pt-[100px] lg:pb-[72px] lg:pt-[120px]",
-  compactHero: "pb-[50px] pt-[100px] lg:pb-[72px] lg:pt-[120px]",
-} satisfies Record<CompanyPageSectionPadding, string>;
-
-export function CompanyPageSection({ children, padding = "default" }: CompanyPageSectionProps) {
+export function CompanyPageSection({ children }: CompanyPageSectionProps) {
   return (
-    <section className={`mx-auto w-full max-w-[1920px] bg-white px-[30px] ${companyPageSectionPaddingClassNames[padding]}`}>
+    <section className="mx-auto w-full max-w-[1920px] bg-white px-[30px] pb-[50px] pt-[100px] lg:pb-[72px] lg:pt-[120px]">
       <div className="mx-auto w-full max-w-[1200px]">{children}</div>
     </section>
   );
