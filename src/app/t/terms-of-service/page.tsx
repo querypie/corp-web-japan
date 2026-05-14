@@ -5,8 +5,10 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
   LegalDocumentBody,
-  LegalDocumentHero,
-  LegalDocumentPageSection,
+  LegalDocumentIntro,
+  LegalDocumentLayout,
+  LegalDocumentSection,
+  LegalDocumentTitle,
 } from "@/components/sections/legal/document";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 import { renderLegalMdx } from "@/lib/legal-mdx-source";
@@ -45,10 +47,14 @@ export default async function TermsOfServicePage() {
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
-      <LegalDocumentPageSection>
-        <LegalDocumentHero title={frontmatter.title} divider />
-        <LegalDocumentBody className="[&_h1:first-child]:mt-0">{evaluation.content}</LegalDocumentBody>
-      </LegalDocumentPageSection>
+      <LegalDocumentSection>
+        <LegalDocumentIntro divider>
+          <LegalDocumentTitle>{frontmatter.title}</LegalDocumentTitle>
+        </LegalDocumentIntro>
+        <LegalDocumentLayout>
+          <LegalDocumentBody className="[&_h1:first-child]:mt-0">{evaluation.content}</LegalDocumentBody>
+        </LegalDocumentLayout>
+      </LegalDocumentSection>
       <AipFreeTrialCtaSection />
       <SiteFooter />
     </main>

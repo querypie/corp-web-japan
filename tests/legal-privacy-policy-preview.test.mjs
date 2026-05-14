@@ -53,10 +53,10 @@ test("privacy policy route keeps a latest alias page while [slug]/page.tsx owns 
 
   assert.match(versionPageSource, /generateStaticParams\(\)/);
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
-  assert.match(versionPageSource, /<LegalDocumentHero/);
-  assert.match(versionPageSource, /meta=\{`Effective date: \$\{frontmatter\.date\}`\}/);
-  assert.match(versionPageSource, /title=\{frontmatter\.title\}/);
-  assert.match(versionPageSource, /description=\{frontmatter\.description\}/);
+  assert.match(versionPageSource, /<LegalDocumentIntro className="flex flex-col gap-4">/);
+  assert.match(versionPageSource, /<LegalDocumentMeta>\{`Effective date: \$\{frontmatter\.date\}`\}<\/LegalDocumentMeta>/);
+  assert.match(versionPageSource, /<LegalDocumentTitle variant="compact">\{frontmatter\.title\}<\/LegalDocumentTitle>/);
+  assert.match(versionPageSource, /<LegalDocumentLead>\{frontmatter\.description\}<\/LegalDocumentLead>/);
   assert.match(versionPageSource, /export async function generatePrivacyPolicyMetadata\(/);
   assert.match(versionPageSource, /export async function renderPrivacyPolicyVersionPage\(slug: string\)/);
   assert.match(versionPageSource, /canonicalPath: `\/t\/privacy-policy\/\$\{slug\}`/);
@@ -85,10 +85,10 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   assert.match(versionPageSource, /src\/content\/privacy-policy", `\$\{slug\}\.mdx`/);
   assert.match(versionPageSource, /hasPrivacyPolicySlug\(slug\)/);
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
-  assert.match(versionPageSource, /<LegalDocumentHero/);
-  assert.match(versionPageSource, /meta=\{`Effective date: \$\{frontmatter\.date\}`\}/);
-  assert.match(versionPageSource, /title=\{frontmatter\.title\}/);
-  assert.match(versionPageSource, /description=\{frontmatter\.description\}/);
+  assert.match(versionPageSource, /<LegalDocumentIntro className="flex flex-col gap-4">/);
+  assert.match(versionPageSource, /<LegalDocumentMeta>\{`Effective date: \$\{frontmatter\.date\}`\}<\/LegalDocumentMeta>/);
+  assert.match(versionPageSource, /<LegalDocumentTitle variant="compact">\{frontmatter\.title\}<\/LegalDocumentTitle>/);
+  assert.match(versionPageSource, /<LegalDocumentLead>\{frontmatter\.description\}<\/LegalDocumentLead>/);
   assert.doesNotMatch(versionPageSource, /function PrivacyMdxLink/);
   assert.doesNotMatch(versionPageSource, /function PrivacyPolicyLanguageSelector/);
   assert.doesNotMatch(versionPageSource, /function PrivacySelectorBox/);
@@ -100,7 +100,11 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   assert.match(legalMdxSource, /export function LegalBodyH3/);
   assert.match(legalMdxSource, /export function LegalMdxLink/);
   assert.match(legalMdxSource, /export function buildLegalDocumentMdxComponents\(/);
-  assert.match(legalDocumentSource, /export function LegalDocumentHero/);
+  assert.match(legalDocumentSource, /export function LegalDocumentIntro/);
+  assert.match(legalDocumentSource, /export function LegalDocumentSection/);
+  assert.match(legalDocumentSource, /export function LegalDocumentLayout/);
+  assert.match(legalDocumentSource, /export function LegalDocumentLead/);
+  assert.match(legalDocumentSource, /export function LegalDocumentPageSection/);
   assert.match(legalMdxHelperSource, /export async function renderLegalMdx<Frontmatter extends Record<string, unknown>>/);
   assert.match(legalMdxHelperSource, /parseFrontmatter: true,/);
 

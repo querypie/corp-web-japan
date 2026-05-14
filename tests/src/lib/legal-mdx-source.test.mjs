@@ -29,7 +29,11 @@ test("legal MDX routes share a cached source reader and evaluator like publicati
   assert.match(helperSource, /parseFrontmatter: true,/);
   assert.match(helperSource, /remarkPlugins: \[remarkGfm\]/);
 
-  assert.match(legalDocumentSource, /export function LegalDocumentHero/);
+  assert.match(legalDocumentSource, /export function LegalDocumentIntro/);
+  assert.match(legalDocumentSource, /export function LegalDocumentSection/);
+  assert.match(legalDocumentSource, /export function LegalDocumentLayout/);
+  assert.match(legalDocumentSource, /export function LegalDocumentLead/);
+  assert.match(legalDocumentSource, /export function LegalDocumentPageSection/);
   assert.match(legalDocumentSource, /export function LegalDocumentBody/);
   assert.match(legalMdxComponentsSource, /export function buildLegalDocumentMdxComponents\(\)/);
   assert.match(legalMdxComponentsSource, /export function LegalBodyH1/);
