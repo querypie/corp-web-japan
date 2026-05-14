@@ -105,6 +105,9 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   assert.match(legalDocumentSource, /export function LegalDocumentLayout/);
   assert.match(legalDocumentSource, /export function LegalDocumentLead/);
   assert.match(legalDocumentSource, /export function LegalDocumentPageSection/);
+  assert.match(legalDocumentSource, /text-\[16px\] leading-\[26px\] text-slate-600/);
+  assert.match(legalDocumentSource, /\[&_p\]:text-\[16px\] \[&_p\]:leading-\[26px\] \[&_p\]:text-slate-600/);
+  assert.match(legalDocumentSource, /\[&_blockquote_p\]:mt-0 \[&_blockquote_p\]:text-\[16px\] \[&_blockquote_p\]:leading-\[26px\] \[&_blockquote_p\]:text-slate-600/);
   assert.match(legalMdxHelperSource, /export async function renderLegalMdx<Frontmatter extends Record<string, unknown>>/);
   assert.match(legalMdxHelperSource, /parseFrontmatter: true,/);
 
