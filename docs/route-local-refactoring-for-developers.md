@@ -40,9 +40,9 @@ The closest generic terms are:
 
 More specifically:
 
-- Next.js describes `page` as the file that defines UI that is unique to a route.
-- Feature-Sliced Design describes `Pages` as the units that make up websites and applications, and explicitly notes that they are also known as screens or activities.
-- In more general React language, this layer is closest to the top-level component in a local component hierarchy.
+- Next.js describes [`page`](https://nextjs.org/docs/app/api-reference/file-conventions/page) as the file that defines [UI that is unique to a route](https://nextjs.org/docs/app/api-reference/file-conventions/page).
+- Feature-Sliced Design describes [`Pages`](https://feature-sliced.design/docs/reference/layers#pages) as the units that make up websites and applications, and explicitly notes that they are also known as [`screens` or `activities`](https://feature-sliced.design/docs/reference/layers#pages).
+- In more general React language, this layer is closest to the top-level component in a local [component hierarchy](https://react.dev/learn/thinking-in-react#step-1-break-the-ui-into-a-component-hierarchy).
 
 So in broader terms, the `page.tsx` discussed in this document is best understood as a route-level page composition component, not merely as a filename.
 
@@ -59,9 +59,9 @@ The closest generic terms are:
 
 This layer also has internal sub-levels:
 
-- small pieces like buttons, cards, and heading wrappers are closer to UI primitives or Atomic Design atoms / molecules
-- larger blocks like a hero section, feature block, or pricing block are closer to section components or widgets
-- when the code focuses on rendering responsibility without owning business logic, the term presentational component fits well
+- small pieces like buttons, cards, and heading wrappers are closer to UI primitives or [Atomic Design atoms / molecules](https://atomicdesign.bradfrost.com/chapter-2/)
+- larger blocks like a hero section, feature block, or pricing block are closer to [section components or widgets](https://feature-sliced.design/docs/reference/layers#widgets)
+- when the code focuses on rendering responsibility without owning business logic, the term [presentational component](https://www.patterns.dev/react/presentational-container-pattern/) fits well
 
 #### The layout / shell layer
 
@@ -73,7 +73,7 @@ There are also nearby terms that matter when explaining route-local refactoring:
 - route shell
 - composition root
 
-In particular, Next.js `layout.tsx` is a framework-level layout concept, while the `page.tsx` in this document is closer to the leaf page composition that sits inside that layout hierarchy.
+In particular, Next.js [`layout.tsx`](https://nextjs.org/docs/app/api-reference/file-conventions/layout) is a framework-level layout concept, while the `page.tsx` in this document is closer to the leaf page composition that sits inside that layout hierarchy.
 
 #### Recommended default wording for this document
 
