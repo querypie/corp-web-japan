@@ -3,10 +3,10 @@ import assert from "node:assert/strict";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 
-const routeDir = new URL("../src/app/t/privacy-policy/", import.meta.url);
+const routeDir = new URL("../src/app/privacy-policy/", import.meta.url);
 const contentDir = new URL("../src/content/privacy-policy/", import.meta.url);
-const pagePath = "src/app/t/privacy-policy/page.tsx";
-const versionPagePath = "src/app/t/privacy-policy/[slug]/page.tsx";
+const pagePath = "src/app/privacy-policy/page.tsx";
+const versionPagePath = "src/app/privacy-policy/[slug]/page.tsx";
 const selectorPath = "src/components/sections/privacy-policy/version-selector.tsx";
 const documentBodyComponentsPath = "src/components/sections/privacy-policy/document-body-components.tsx";
 const legalMdxPath = "src/components/sections/legal/mdx.tsx";
@@ -35,7 +35,7 @@ const expectedVersionSlugs = [
   "2019-11-29",
 ];
 
-test("privacy policy route keeps a latest alias page while [slug]/page.tsx owns rendering and noindex metadata", () => {
+test("privacy policy route keeps a latest alias page while [slug]/page.tsx owns rendering and public metadata", () => {
   assert.equal(existsSync(new URL(`../${pagePath}`, import.meta.url)), true, `${pagePath} should exist`);
   assert.equal(existsSync(new URL(`../${versionPagePath}`, import.meta.url)), true, `${versionPagePath} should exist`);
   assert.equal(existsSync(new URL(`../${documentBodyComponentsPath}`, import.meta.url)), true, `${documentBodyComponentsPath} should exist`);
@@ -43,12 +43,14 @@ test("privacy policy route keeps a latest alias page while [slug]/page.tsx owns 
   const pageSource = readSource(pagePath);
   const versionPageSource = readSource(versionPagePath);
 
-  assert.match(pageSource, /canonicalPath: "\/t\/privacy-policy"/);
+  assert.match(pageSource, /canonicalPath: "\/privacy-policy"/);
   assert.match(pageSource, /getLatestPrivacyPolicySlug\(\)/);
+  assert.match(pageSource, /generatePrivacyPolicyMetadata\(\{/);
   assert.match(pageSource, /renderPrivacyPolicyVersionPage\(latestSlug\)/);
   assert.match(pageSource, /from "\.\/\[slug\]\/page"/);
 
   assert.match(versionPageSource, /generateStaticParams\(\)/);
+  assert.match(versionPageSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
   assert.match(versionPageSource, /<LegalDocumentIntro>/);
   assert.doesNotMatch(versionPageSource, /<LegalDocumentIntro className=/);
@@ -63,7 +65,7 @@ test("privacy policy route keeps a latest alias page while [slug]/page.tsx owns 
   assert.doesNotMatch(versionPageSource, /<LegalDocumentLead>\{frontmatter\.description\}<\/LegalDocumentLead>/);
   assert.match(versionPageSource, /export async function generatePrivacyPolicyMetadata\(/);
   assert.match(versionPageSource, /export async function renderPrivacyPolicyVersionPage\(slug: string\)/);
-  assert.match(versionPageSource, /canonicalPath: `\/t\/privacy-policy\/\$\{slug\}`/);
+  assert.match(versionPageSource, /canonicalPath: `\/privacy-policy\/\$\{slug\}`/);
   assert.match(versionPageSource, /return renderPrivacyPolicyVersionPage\(slug\)/);
   assert.match(versionPageSource, /<SiteHeader \/>/);
   assert.doesNotMatch(versionPageSource, /PrivacySelectorBox/);
@@ -73,7 +75,7 @@ test("privacy policy route keeps a latest alias page while [slug]/page.tsx owns 
   assert.match(versionPageSource, /<SiteFooter \/>/);
 });
 
-test("privacy policy preview keeps version discovery in records.ts while component definitions live under src/components/sections/privacy-policy", () => {
+test("privacy policy public keeps version discovery in records.ts while component definitions live under src/components/sections/privacy-policy", () => {
   const versionPageSource = readSource(versionPagePath);
   const selectorSource = readSource(selectorPath);
   const documentBodyComponentsSource = readSource(documentBodyComponentsPath);
@@ -137,21 +139,21 @@ test("privacy policy preview keeps version discovery in records.ts while compone
   assert.match(legalMdxHelperSource, /export async function renderLegalMdx<Frontmatter extends Record<string, unknown>>/);
   assert.match(legalMdxHelperSource, /parseFrontmatter: true,/);
 
-  assert.match(selectorSource, /window\.location\.assign\(`\/t\/privacy-policy\/\$\{nextSlug\}`\)/);
-  assert.match(footerSource, /label: "プライバシーポリシー", href: t\("\/privacy-policy", previewModeEnabled\)/);
+  assert.match(selectorSource, /window\.location\.assign\(`\/privacy-policy\/\$\{nextSlug\}`\)/);
+  assert.match(footerSource, /label: "プライバシーポリシー", href: "\/privacy-policy"/);
   assert.match(sourcesSource, /readdir\(PRIVACY_POLICY_CONTENT_DIR, \{ withFileTypes: true \}\)/);
   assert.match(sourcesSource, /filter\(\(entry\) => entry\.isFile\(\) && PRIVACY_POLICY_FILE_PATTERN\.test\(entry\.name\)\)/);
   assert.match(sourcesSource, /sort\(\)/);
   assert.equal(existsSync(new URL("privacy-policy-document.tsx", routeDir)), false);
   assert.equal(existsSync(new URL("privacy-policy-sources.ts", routeDir)), false);
   assert.equal(existsSync(new URL("privacy-policy-versions.ts", routeDir)), false);
-  assert.equal(existsSync(new URL("../src/app/t/privacy-policy/document-renderer.tsx", import.meta.url)), false);
-  assert.equal(existsSync(new URL("../src/app/t/privacy-policy/version-selector.tsx", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/app/privacy-policy/document-renderer.tsx", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/app/privacy-policy/version-selector.tsx", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/components/sections/privacy-policy/document-header-controls.tsx", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/components/sections/privacy-policy/version-selector.tsx", import.meta.url)), true);
 });
 
-test("privacy policy preview migrates every upstream English version into src/content/privacy-policy dated MDX files", () => {
+test("privacy policy public migrates every upstream English version into src/content/privacy-policy dated MDX files", () => {
   const contentFiles = readdirSync(contentDir)
     .filter((name) => /^\d{4}-\d{2}-\d{2}\.mdx$/.test(name))
     .sort()

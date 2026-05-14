@@ -31,6 +31,10 @@ const publicIndexableListRoutes = [
   "src/app/demo/use-cases/page.tsx",
   "src/app/demo/aip/page.tsx",
   "src/app/demo/acp/page.tsx",
+  "src/app/cookie-preference/page.tsx",
+  "src/app/eula/page.tsx",
+  "src/app/privacy-policy/[slug]/page.tsx",
+  "src/app/terms-of-service/page.tsx",
 ];
 
 test("public MDX-backed detail routes are indexable for search engines", () => {
@@ -64,8 +68,6 @@ test("internal, preview, and whitepaper pdf-only routes stay non-indexable", () 
     "src/app/internal/load-more/page.tsx",
     "src/app/internal/mdx-list-demo/page.tsx",
     "src/app/internal/whitepaper-gating-demo/page.tsx",
-    "src/app/t/cookie-preference/page.tsx",
-    "src/app/t/eula/page.tsx",
     "src/app/t/plans/page.tsx",
     "src/app/t/platforms/acp/page.tsx",
     "src/app/t/platforms/aip/page.tsx",
@@ -73,7 +75,6 @@ test("internal, preview, and whitepaper pdf-only routes stay non-indexable", () 
     "src/app/t/platforms/aip/integrations/page.tsx",
     "src/app/t/platforms/aip/mcp-gateway/page.tsx",
     "src/app/t/platforms/aip/usage-based-llm/page.tsx",
-    "src/app/t/terms-of-service/page.tsx",
     "src/app/whitepapers/[id]/[slug]/pdf/page.tsx",
   ];
 

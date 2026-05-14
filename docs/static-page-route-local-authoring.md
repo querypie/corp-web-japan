@@ -33,10 +33,10 @@ This guide does not define the preferred structure for:
 ## Static page family boundaries
 
 Route-local authoring does not mean every static or informational page belongs to one universal primitive family.
-When reviewing `src/app/t/**` preview routes, keep at least these families distinct:
+When reviewing static routes and remaining `src/app/t/**` preview routes, keep at least these families distinct:
 
 - Legal / document family
-  - representative routes: `/t/eula`, `/t/privacy-policy`, `/t/privacy-policy/[slug]`, `/t/terms-of-service`
+  - representative routes: `/eula`, `/privacy-policy`, `/privacy-policy/[slug]`, `/terms-of-service`
   - uses legal document wrappers and legal MDX/body primitives
   - optimized for versioned policy content, document headers, long-form legal copy, and stable reading width
 - Company-intro / company family
@@ -45,8 +45,8 @@ When reviewing `src/app/t/**` preview routes, keep at least these families disti
   - uses the company-page shell and body-layout contract documented in `docs/company-page-layout-contract.md`
   - should not automatically inherit legal document primitives
 
-Adjacent informational routes such as `/t/cookie-preference` or `/t/plans` should be classified by their own semantics before being grouped into either family.
-`/t/cookie-preference` has a settings/interaction contract, while `/t/plans` is a pricing/comparison surface.
+Adjacent informational routes such as `/cookie-preference` or `/t/plans` should be classified by their own semantics before being grouped into either family.
+`/cookie-preference` has a settings/interaction contract, while `/t/plans` is a pricing/comparison surface.
 Do not treat those routes as unfinished company-intro commonization merely because they are static or informational.
 
 The useful review question is therefore not "can all static/info pages share one intro primitive?" but "which family is this page actually in, and does that family have a real shared layout or interaction contract?"

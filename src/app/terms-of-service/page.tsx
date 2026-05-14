@@ -13,35 +13,35 @@ import {
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 import { renderLegalMdx } from "@/lib/legal-mdx-source";
 
-type EulaFrontmatter = {
+type TermsFrontmatter = {
   title: string;
   description: string;
-  effectiveDate: string;
+  date: string;
 };
 
-const renderEulaMdx = cache(async function renderEulaMdx() {
-  const sourcePath = join(process.cwd(), "src/app/t/eula/content.mdx");
-  return renderLegalMdx<EulaFrontmatter>({ sourcePath });
+const renderTermsOfServiceContent = cache(async function renderTermsOfServiceContent() {
+  const sourcePath = join(process.cwd(), "src/app/terms-of-service/content.mdx");
+  return renderLegalMdx<TermsFrontmatter>({ sourcePath });
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { frontmatter } = await renderEulaMdx();
+  const { frontmatter } = await renderTermsOfServiceContent();
 
   return {
-    title: frontmatter.title,
+    title: `${frontmatter.title} | QueryPie AI`,
     description: frontmatter.description,
     alternates: {
-      canonical: "/t/eula",
+      canonical: "/terms-of-service",
     },
     robots: {
-      index: false,
-      follow: false,
+      index: true,
+      follow: true,
     },
   };
 }
 
-export default async function EulaPage() {
-  const evaluation = await renderEulaMdx();
+export default async function TermsOfServicePage() {
+  const evaluation = await renderTermsOfServiceContent();
   const { frontmatter } = evaluation;
 
   return (

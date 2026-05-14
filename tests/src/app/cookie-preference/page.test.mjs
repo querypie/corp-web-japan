@@ -1,14 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
-const pagePath = "src/app/t/cookie-preference/page.tsx";
+const pagePath = "src/app/cookie-preference/page.tsx";
 const sectionPath = "src/components/sections/cookie-preference/list.tsx";
 const togglePath = "src/components/sections/cookie-preference/toggle.tsx";
 const preferencePath = "src/lib/cookie-preferences.ts";
 const legalDocumentPath = "src/components/sections/legal/document.tsx";
 
-test("cookie preference preview page keeps route-local copy while shared page/layout primitives own the rendering shells", () => {
+test("cookie preference public page keeps route-local copy while shared page/layout primitives own the rendering shells", () => {
   assert.equal(sourceExists(pagePath), true, `${pagePath} should exist`);
   assert.equal(sourceExists(sectionPath), true, `${sectionPath} should exist`);
   assert.equal(sourceExists(togglePath), true, `${togglePath} should exist`);
@@ -16,8 +16,8 @@ test("cookie preference preview page keeps route-local copy while shared page/la
 
   const pageSource = readSource(pagePath);
 
-  assert.match(pageSource, /canonical: "\/t\/cookie-preference"/);
-  assert.match(pageSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
+  assert.match(pageSource, /canonical: "\/cookie-preference"/);
+  assert.match(pageSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(pageSource, /<SiteHeader \/>/);
   assert.match(pageSource, /<SiteFooter \/>/);
   assert.doesNotMatch(pageSource, /from "@\/components\/sections\/cookie-preference\/page"/);
@@ -105,7 +105,7 @@ test("cookie preference shared section modules separate server-side layout primi
   assert.match(toggleSource, /opacity-50/);
   assert.match(toggleSource, /translate-x-\[19px\]/);
 
-  assert.match(footerSource, /label: "Cookie設定", href: t\("\/cookie-preference", previewModeEnabled\)/);
+  assert.match(footerSource, /label: "Cookie設定", href: "\/cookie-preference"/);
 });
 
 

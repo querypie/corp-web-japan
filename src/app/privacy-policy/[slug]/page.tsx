@@ -70,8 +70,8 @@ export async function generatePrivacyPolicyMetadata({
       canonical: canonicalPath,
     },
     robots: {
-      index: false,
-      follow: false,
+      index: true,
+      follow: true,
     },
   };
 }
@@ -107,7 +107,7 @@ export async function generateMetadata({ params }: PrivacyPolicyVersionPageProps
   const { slug } = await params;
 
   return generatePrivacyPolicyMetadata({
-    canonicalPath: `/t/privacy-policy/${slug}`,
+    canonicalPath: `/privacy-policy/${slug}`,
     slug,
   });
 }

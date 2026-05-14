@@ -26,11 +26,11 @@ export const metadata: Metadata = {
   title: "クッキー設定 | QueryPie AI",
   description: "QueryPieのクッキー設定を管理します。",
   alternates: {
-    canonical: "/t/cookie-preference",
+    canonical: "/cookie-preference",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 

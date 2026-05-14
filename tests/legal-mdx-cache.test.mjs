@@ -5,9 +5,9 @@ import { readSource } from "./helpers/source-readers.mjs";
 const legalMdxSourcePath = "src/lib/legal-mdx-source.ts";
 const legalMdxComponentsPath = "src/components/sections/legal/mdx.tsx";
 const legalDocumentPath = "src/components/sections/legal/document.tsx";
-const termsSourcePath = "src/app/t/terms-of-service/page.tsx";
-const eulaSourcePath = "src/app/t/eula/page.tsx";
-const privacyVersionPagePath = "src/app/t/privacy-policy/[slug]/page.tsx";
+const termsSourcePath = "src/app/terms-of-service/page.tsx";
+const eulaSourcePath = "src/app/eula/page.tsx";
+const privacyVersionPagePath = "src/app/privacy-policy/[slug]/page.tsx";
 const privacyDocumentBodyComponentsPath = "src/components/sections/privacy-policy/document-body-components.tsx";
 const privacyRecordsPath = "src/lib/privacy-policy/records.ts";
 

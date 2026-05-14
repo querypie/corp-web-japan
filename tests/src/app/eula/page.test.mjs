@@ -1,13 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
-const pagePath = "src/app/t/eula/page.tsx";
-const contentPath = "src/app/t/eula/content.mdx";
+const pagePath = "src/app/eula/page.tsx";
+const contentPath = "src/app/eula/content.mdx";
 const legalDocumentPath = "src/components/sections/legal/document.tsx";
 const legalMdxSourcePath = "src/lib/legal-mdx-source.ts";
 
-test("eula page exists with noindex metadata and preview canonical path", () => {
+test("eula page exists with public metadata and canonical path", () => {
   assert.equal(sourceExists(pagePath), true, `${pagePath} should exist`);
 
   const source = readSource(pagePath);
@@ -21,10 +21,10 @@ test("eula page exists with noindex metadata and preview canonical path", () => 
   assert.doesNotMatch(source, /renderEulaPreviewMdx/);
   assert.match(source, /title: frontmatter\.title,/);
   assert.match(source, /description: frontmatter\.description,/);
-  assert.match(source, /canonical: "\/t\/eula"/);
-  assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
+  assert.match(source, /canonical: "\/eula"/);
+  assert.match(source, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(source, /from "@\/components\/sections\/legal\/document"/);
-  assert.match(source, /src\/app\/t\/eula\/content\.mdx/);
+  assert.match(source, /src\/app\/eula\/content\.mdx/);
   assert.match(source, /renderLegalMdx<EulaFrontmatter>\(\{ sourcePath \}\)/);
   assert.match(source, /<LegalDocumentIntro>/);
   assert.match(source, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>/);
@@ -48,7 +48,7 @@ test("eula page exists with noindex metadata and preview canonical path", () => 
   assert.doesNotMatch(source, /export const metadata: Metadata = \{/);
 });
 
-test("eula preview keeps legal structure ownership in page.tsx and mdx body free of layout wrappers", () => {
+test("eula public keeps legal structure ownership in page.tsx and mdx body free of layout wrappers", () => {
   const pageSource = readSource(pagePath);
   const contentSource = readSource(contentPath);
   const legalDocumentSource = readSource(legalDocumentPath);
@@ -77,7 +77,7 @@ test("eula preview keeps legal structure ownership in page.tsx and mdx body free
   assert.doesNotMatch(contentSource, /<Box/);
 });
 
-test("eula preview keeps adjacent source content and preview-aware footer link", () => {
+test("eula public keeps adjacent source content and canonical footer link", () => {
   const contentSource = readSource(contentPath);
   const footerSource = readSource("src/components/layout/site-footer.tsx");
 
@@ -98,5 +98,5 @@ test("eula preview keeps adjacent source content and preview-aware footer link",
   assert.doesNotMatch(contentSource, /^[ \t]+### \(/m);
   assert.doesNotMatch(contentSource, /<br\s*\/?>/);
   assert.match(contentSource, /www\.querypie\.com/);
-  assert.match(footerSource, /label: "EULA", href: t\("\/eula", previewModeEnabled\)/);
+  assert.match(footerSource, /label: "EULA", href: "\/eula"/);
 });
