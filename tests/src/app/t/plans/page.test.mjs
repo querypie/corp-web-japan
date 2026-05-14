@@ -53,6 +53,20 @@ test("/t/plans keeps copy and comparison composition in the route while the sect
   assert.match(sectionSource, /export function CompareTableBooleanCell\(/);
   assert.match(sectionSource, /export function CompareTableCheckLabelCell\(/);
   assert.match(sectionSource, /cloneElement\(child as ReactElement<ProductTabProps>, \{/);
+  assert.match(sectionSource, /border-b-2 border-\[#dae1e7\]/);
+  assert.match(sectionSource, /flex-1 cursor-pointer/);
+  assert.match(sectionSource, /gap-20/);
+  assert.match(sectionSource, /bg-\[linear-gradient\(180deg,#edf0f7_0%,#edf0f7_26\.89%,rgba\(255,255,255,0\)_60%\)\]/);
+  assert.match(sectionSource, /radial-gradient\(126\.36%_70\.17%_at_50%_86\.97%,#fff_0%,rgba\(255,255,255,0\)_100%\)/);
+  assert.match(sectionSource, /rounded-t-\[20px\]/);
+  assert.match(sectionSource, /w-\[230px\]/);
+  assert.match(sectionSource, /w-\[1200px\]/);
+  assert.match(sectionSource, /h-11 border-b border-\[#dae1e7\]/);
+
+  assert.doesNotMatch(sectionSource, /rounded-\[28px\] border border-slate-200/);
+  assert.doesNotMatch(sectionSource, /shadow-\[0_14px_40px/);
+  assert.doesNotMatch(sectionSource, /bg-slate-50 text-slate-950/);
+  assert.doesNotMatch(sectionSource, /lg:grid-cols-3/);
 
   assert.doesNotMatch(sectionSource, /export const Pricing = Object\.assign/);
   assert.doesNotMatch(sectionSource, /export const Plan = Object\.assign/);
