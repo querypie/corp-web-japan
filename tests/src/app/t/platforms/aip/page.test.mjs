@@ -7,17 +7,19 @@ const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 test("/t/platforms/aip keeps route-local copy/composition while the layout primitives live in the AIP section module", () => {
   assert.equal(sourceExists("src/app/t/platforms/aip/page.tsx"), true);
   assert.equal(sourceExists("src/components/sections/aip/page.tsx"), true);
+  assert.equal(sourceExists("src/components/sections/aip/thumbnail-youtube.tsx"), true);
   assert.equal(sourceExists("src/components/sections/platform/page-primitives.tsx"), true);
 
   const routeSource = readSource("src/app/t/platforms/aip/page.tsx");
   const sectionSource = readSource("src/components/sections/aip/page.tsx");
+  const thumbnailYoutubeSource = readSource("src/components/sections/aip/thumbnail-youtube.tsx");
   const platformSource = readSource("src/components/sections/platform/page-primitives.tsx");
 
   assert.match(routeSource, /canonical: "\/t\/platforms\/aip"/);
   assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
-  assert.match(routeSource, /AipHeroVideo/);
+  assert.match(routeSource, /<AipHeroVideo\s+videoId="nJGSCd6itUE"\s+thumbnailSrc="\/services\/aip\/aip-video-thumb-jp\.png"\s+\/>/);
   assert.match(routeSource, /AipValueCardLink/);
   assert.match(routeSource, /成果にこだわるエンタープライズAI/);
   assert.match(routeSource, /AI導入を、ワンストップで実現する３つの価値/);
@@ -47,9 +49,18 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
   assert.match(sectionSource, /export function AipPageShell[\s\S]*<PlatformPageShell>/);
   assert.match(sectionSource, /export function AipHeroSection[\s\S]*<PlatformContentSection className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]">/);
   assert.match(sectionSource, /export function AipHeroVideo/);
+  assert.match(sectionSource, /AipThumbnailYoutube/);
+  assert.doesNotMatch(sectionSource, /rounded-\[12px\]/);
+  assert.doesNotMatch(sectionSource, /shadow-\[0_24px_80px_-55px_rgba\(15,23,42,0\.45\)\]/);
   assert.match(sectionSource, /bg-\[linear-gradient\(291deg,#C5D6E6_0%,#FFF_100%\)\]/);
   assert.match(sectionSource, /export function AipValueGrid/);
   assert.match(sectionSource, /export function AipValueCardLink/);
+  assert.match(sectionSource, /function AipTextButtonArrowIcon/);
+  assert.match(sectionSource, /viewBox="0 0 7 12"/);
+  assert.match(sectionSource, /M7 6L0\.865033 12L0 11\.154L5\.26381 6L0 0\.846L0\.865033 0L7 6Z/);
+  assert.match(sectionSource, /export function AipValueCardLink[\s\S]*gap-\[10px\][\s\S]*<AipTextButtonArrowIcon \/>/);
+  assert.match(sectionSource, /export function AipInlineLink[\s\S]*gap-\[10px\][\s\S]*<AipTextButtonArrowIcon \/>/);
+  assert.match(sectionSource, /export function AipValueCardBody[\s\S]*pb-\[60px\]/);
   assert.match(sectionSource, /absolute inset-0 flex items-center/);
   assert.match(sectionSource, /export function AipValueSection[\s\S]*<PlatformContentSection/);
   assert.match(sectionSource, /export function AipFeatureSection/);
@@ -74,6 +85,13 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
   assert.match(platformSource, /relative overflow-x-hidden bg-white text-slate-950/);
   assert.match(platformSource, /paddingClassName = "px-6 lg:px-0"/);
   assert.match(platformSource, /joinClassNames\("flex justify-center", paddingClassName, className\)/);
+
+  assert.match(thumbnailYoutubeSource, /"use client"/);
+  assert.match(thumbnailYoutubeSource, /useState/);
+  assert.match(thumbnailYoutubeSource, /alt="YouTube video player"/);
+  assert.match(thumbnailYoutubeSource, /aria-label="Play YouTube video"/);
+  assert.match(thumbnailYoutubeSource, /const autoplay = isPlaying \? "1" : "0"/);
+  assert.match(thumbnailYoutubeSource, /autoplay=\$\{autoplay\}/);
 });
 
 test("/t/platforms/aip guards the route-aligned assets required for visual parity", () => {
@@ -83,6 +101,7 @@ test("/t/platforms/aip guards the route-aligned assets required for visual parit
     "value-usage-based-llm.png",
     "value-mcp-gateway.png",
     "value-fde-services.png",
+    "aip-video-thumb-jp.png",
     "prompt.gif",
     "integration.gif",
     "knowledge.gif",
