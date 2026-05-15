@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Children,
   cloneElement,
@@ -89,7 +90,16 @@ export function PricingContextProvider({ children, defaultActiveTab }: { childre
   return <pricingContext.Provider value={{ activeTab, setActiveTab }}>{children}</pricingContext.Provider>;
 }
 
+function getPlansProductHref(pathname: string, product: string) {
+  const segments = pathname.split("/").filter(Boolean);
+  const lastSegment = segments.at(-1);
+  const baseSegments = lastSegment === "aip" || lastSegment === "acp" ? segments.slice(0, -1) : segments;
+
+  return `/${[...baseSegments, product].join("/")}`;
+}
+
 function ProductTabsRoot({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
   const { activeTab, setActiveTab } = usePricingContext();
 
   return (
@@ -102,6 +112,7 @@ function ProductTabsRoot({ children }: { children: ReactNode }) {
         const name = String(child.props.name);
 
         return cloneElement(child as ReactElement<ProductTabProps>, {
+          href: getPlansProductHref(pathname, name),
           isActive: activeTab === name,
           onTabClick: () => setActiveTab(name),
         });
@@ -112,13 +123,14 @@ function ProductTabsRoot({ children }: { children: ReactNode }) {
 
 type ProductTabProps = {
   name: string;
+  href?: string;
   children: ReactNode;
 } & ProductTabInjectedProps;
 
-export function ProductTab({ name, children, isActive, onTabClick }: ProductTabProps) {
+export function ProductTab({ name, href, children, isActive, onTabClick }: ProductTabProps) {
   return (
-    <button
-      type="button"
+    <Link
+      href={href ?? name}
       aria-label={name}
       onClick={onTabClick}
       className={joinClasses(
@@ -127,7 +139,7 @@ export function ProductTab({ name, children, isActive, onTabClick }: ProductTabP
       )}
     >
       {children}
-    </button>
+    </Link>
   );
 }
 
