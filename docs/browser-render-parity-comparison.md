@@ -80,12 +80,48 @@ A useful comparison combines:
 1. exact URLs requested by the user
 2. same viewport sizes on both pages
 3. full-page screenshots
-4. DOM geometry from `getBoundingClientRect()`
-5. computed styles from `getComputedStyle()`
-6. lazy media checks after scrolling
-7. source-code inspection only after the rendered difference is identified
+4. screenshot pixel-diff summaries for quick hotspot detection
+5. DOM geometry from `getBoundingClientRect()`
+6. computed styles from `getComputedStyle()`
+7. lazy media checks after scrolling
+8. source-code inspection only after the rendered difference is identified
 
 Do not jump directly from "it looks different" to a CSS change. First identify whether the rendered difference is caused by typography, root font size, wrapper width, flex/grid direction, media scaling, spacing tokens, header offset, or external chrome.
+
+### Treat screenshots as detection, not proof by themselves
+
+Screenshots and pixel diffs are effective at finding visible drift quickly. They are especially good at revealing section rhythm, card/table sizing, button chrome, icon placement, text wrapping, background-band, mobile overflow, and total page-height differences.
+
+However, screenshots alone are not enough to approve or reject a migration. They cannot reliably explain whether a delta comes from root font-size policy, a header/banner offset, lazy media timing, font loading, animation state, or a broken component contract. Use screenshots to locate the suspicious region, then use DOM geometry and computed styles to prove the specific element-level difference.
+
+Preferred evidence chain:
+
+1. screenshot or pixel diff identifies the visual hotspot
+2. DOM geometry quantifies the element or section delta
+3. computed style identifies the property-level difference
+4. source/component inspection names the contract or file that should change
+
+If a report only says "the screenshots look different" without element measurements and a source target, the investigation is incomplete.
+
+### Add source-contract checks for source-backed widget pages
+
+Some QueryPie pages are not ordinary static marketing pages. If the reference implementation exists in `../corp-web-app` and is built from widget/application components, treat the upstream component and CSS contract as part of the parity target.
+
+For these source-backed widget pages, do not rebuild the body from generic local Tailwind primitives until you have explicitly decided why a direct port is not feasible. First inspect:
+
+- the upstream route file
+- the full upstream component chain
+- adjacent CSS modules
+- upstream design tokens and root/rem assumptions
+- button, icon, tab, card, table, and overflow primitives
+- interaction state and responsive behavior
+
+Then choose one strategy and document it in the issue or PR body:
+
+1. **Direct-port strategy**: port the upstream component structure and CSS-module visual contract as closely as possible, adding a small compatibility layer for local tokens, buttons, icons, or layout wrappers when needed.
+2. **Measured-rebuild strategy**: keep local primitives, but require screenshot, DOM geometry, computed-style, and source-contract evidence that the rebuilt UI is visually equivalent enough.
+
+For example, `/t/plans` should be treated as a source-backed pricing widget migration because the upstream page is built from pricing and compare-table widget components in `../corp-web-app`. In that case, text presence and route-local authorship are not sufficient. The audit must check plan cards, product tabs, buttons/icons, and comparison-table structure against the upstream widget/CSS contract.
 
 ## Required viewport set
 
@@ -123,7 +159,7 @@ For each URL:
 
 If a banner blocks page-body measurement, capture its presence first, then dismiss or hide it only for a second body-focused measurement pass. State which pass each measurement came from.
 
-### 3. Capture full-page screenshots
+### 3. Capture full-page screenshots and pixel diffs
 
 Capture full-page screenshots for every viewport and page label.
 
@@ -134,7 +170,15 @@ Save screenshots outside the repository, for example:
 - `/tmp/render-parity/<task>/stage-390x844.png`
 - `/tmp/render-parity/<task>/live-390x844.png`
 
-Screenshots are useful for human review, but they are not sufficient by themselves. Pair them with DOM geometry.
+When practical, also save diff artifacts:
+
+- `/tmp/render-parity/<task>/diff-1440x900.png`
+- `/tmp/render-parity/<task>/diff-390x844.png`
+- `/tmp/render-parity/<task>/diff-summary.json`
+
+A useful diff summary includes changed-pixel count, changed-pixel ratio, and the bounding box of changed pixels. Full-page diff ratio can be exaggerated by a top offset that shifts the entire lower page, so also inspect section-level screenshots or section-level geometry before calling the whole page defective.
+
+Screenshots are useful for human review and fast hotspot detection, but they are not sufficient by themselves. Pair them with DOM geometry and computed styles.
 
 ### 4. Force lazy media to load
 
@@ -200,6 +244,8 @@ Examples:
 - row alignment mismatch -> parent flex/grid width, child max widths, gap, justify/align settings
 - mobile overflow -> breakpoint classes, fixed widths, nowrap, min-width, media parent width
 - top offset mismatch -> header/banner accounting, section padding, hero wrapper spacing
+
+For source-backed widget pages, this step must include the upstream implementation as well as the local implementation. Inspect `../corp-web-app` route files, widget components, and CSS modules before deciding whether a local Tailwind rebuild is acceptable. If the local code replaces a concrete upstream widget contract with generic cards, tables, tabs, buttons, or icons, classify that as a likely root cause rather than continuing to tune individual pixels blindly.
 
 Avoid broad opportunistic refactors during a parity investigation.
 
@@ -352,6 +398,30 @@ When typography differs, check:
 - whether the local site intentionally keeps a 16px root
 
 If the live page uses a different root size, do not blindly copy computed px values. Recover the apparent rem/token intent first and convert it for the local root.
+
+Before fixing typography or spacing, explicitly decide which contract applies:
+
+- **final visible pixel parity**: match the actual browser-rendered sizes the user sees on the reference page
+- **token intent parity**: preserve the source site's authored rem/token relationship and normalize it for corp-web-japan's 16px root
+
+Record this decision in the report or PR body. Without that decision, pages with a 15px live root and a 16px local root can look "close" in source review while still rendering visibly different.
+
+### 10. Source-backed widget contract
+
+When the reference page is backed by a concrete upstream widget implementation, collect a source-contract inventory in addition to screenshots and DOM measurements.
+
+Record:
+
+- upstream route path
+- upstream widget/component files
+- upstream CSS module files
+- local route path
+- local section/component files
+- whether the local implementation directly ports the upstream contract or rebuilds it
+- which local compatibility layers exist for upstream buttons, icons, tabs, cards, tables, and tokens
+- which remaining visual differences are caused by intentional local policy versus missing contract porting
+
+For pricing, plan, table, tab, or application-like widgets, route-local copy ownership does not prove visual parity. The rendered browser result and the upstream component/CSS contract both need to agree.
 
 ## Recommended Playwright collection script
 
@@ -594,8 +664,9 @@ Report in this order:
 5. mobile body parity findings
 6. measured evidence for each important difference
 7. suspected root causes, backed by rendered measurements
-8. what to inspect next in source code
-9. classification: defect, intentional local adaptation, external live-site artifact, environment artifact, or needs decision
+8. source-contract findings, when the reference page has upstream widget/component source
+9. what to inspect next in source code
+10. classification: defect, intentional local adaptation, external live-site artifact, environment artifact, or needs decision
 
 For each finding, use a compact structure:
 
@@ -608,6 +679,7 @@ Evidence:
 - live: <measurement>
 Interpretation: <why the difference matters>
 Likely source area: <file/component/style to inspect next>
+Source contract: <direct port | measured rebuild | not source-backed | unknown>
 ```
 
 ## Example: AIP stage vs live comparison anchors
@@ -680,6 +752,7 @@ This is the preferred diagnostic pattern for media+copy rows: measure row, media
 
 ## Common pitfalls
 
+- Treating screenshot diff as final proof without DOM geometry and computed styles
 - Trusting screenshots without measuring DOM geometry
 - Treating live cookie or language banners as migrated body defects
 - Comparing absolute document top positions without accounting for different header heights
@@ -688,7 +761,8 @@ This is the preferred diagnostic pattern for media+copy rows: measure row, media
 - Classifying lazy images as broken before scrolling to them
 - Forgetting to check parent rects when media itself appears to have the correct intrinsic width
 - Fixing source code before identifying whether the problem is typography, wrapper width, flex/grid direction, or external chrome
-- Copying computed px values from a live page that uses a different root size without recovering rem/token intent
+- Rebuilding a source-backed widget page from generic local Tailwind primitives without first checking the upstream component and CSS contract
+- Copying computed px values from a live page that uses a different root size without recovering rem/token intent or deciding final-pixel parity
 - Reporting every small delta as a defect without classifying whether it is intentional, external, or material
 
 ## Done criteria
@@ -699,9 +773,11 @@ A render comparison is complete when:
 - requested and final URLs were recorded
 - desktop and mobile were both measured
 - screenshots and JSON-style geometry were captured
+- screenshot diff artifacts or an explicit reason for skipping pixel diff were recorded
 - lazy media was forced to load by scrolling
 - chrome/banner differences were separated from body differences
 - horizontal overflow was checked on mobile
 - every reported defect has a rendered measurement or screenshot observation behind it
 - each finding has a classification
 - the next source-code inspection target is named precisely
+- source-backed widget pages include an upstream component/CSS contract check and an explicit direct-port versus measured-rebuild strategy
