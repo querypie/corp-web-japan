@@ -72,4 +72,30 @@ describe("ACP static preview route migration", () => {
     assert.match(integrationsPage, /legacyCategoryMap/);
     assert.match(integrationsPage, /\/platforms\/acp\/integrations\/icons/);
   });
+
+  it("keeps controller preview pages as route-authored JSX instead of section data blobs", () => {
+    for (const route of staticRoutes.filter((route) => route !== "integrations")) {
+      const page = read(`src/app/t/platforms/acp/${route}/page.tsx`);
+      assert.doesNotMatch(page, /const heroDescription =/);
+      assert.doesNotMatch(page, /const featureIntro =/);
+      assert.doesNotMatch(page, /const keyFeatures =/);
+      assert.doesNotMatch(page, /const worksBody =/);
+      assert.doesNotMatch(page, /const capabilityImages =/);
+      assert.match(page, /<AcpHeroTitle>/);
+      assert.match(page, /<AcpFeatureCardTitle>/);
+      assert.match(page, /<AcpCapabilityImage src=/);
+      assert.match(page, /<AcpPageCtaTitle>QueryPie ACPを無料でお試しください<\/AcpPageCtaTitle>/);
+    }
+  });
+
+  it("keeps ACP static section primitives UI-only", () => {
+    const staticPageSection = read("src/components/sections/acp/static-page.tsx");
+    assert.doesNotMatch(staticPageSection, /QueryPie ACPを無料でお試しください/);
+    assert.doesNotMatch(staticPageSection, /デモを依頼/);
+    assert.doesNotMatch(staticPageSection, /features\.map/);
+    assert.doesNotMatch(staticPageSection, /description\.map/);
+    assert.match(staticPageSection, /export function AcpFeatureCard/);
+    assert.match(staticPageSection, /export function AcpCapabilityImage/);
+    assert.match(staticPageSection, /export function AcpPageCtaTitle/);
+  });
 });

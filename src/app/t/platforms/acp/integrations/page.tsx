@@ -12,7 +12,12 @@ import {
   AipIntegrationsProductCard,
   AipIntegrationsProductList,
 } from "@/components/sections/aip/integrations-page";
-import { AcpPageCta } from "@/components/sections/acp/static-page";
+import {
+  AcpPageCta,
+  AcpPageCtaDescription,
+  AcpPageCtaLink,
+  AcpPageCtaTitle,
+} from "@/components/sections/acp/static-page";
 
 export const metadata: Metadata = {
   title: "QueryPie: インテグレーション | QueryPie AI",
@@ -600,7 +605,13 @@ export default async function AcpIntegrationsPage({ searchParams }: Integrations
           </AipIntegrationsProductList>
         </AipIntegrationsContent>
       </AipIntegrationsHeroSection>
-      <AcpPageCta />
+      <AcpPageCta>
+        <AcpPageCtaTitle>QueryPie ACPを無料でお試しください</AcpPageCtaTitle>
+        <AcpPageCtaDescription>
+          アクセス制御、監査、統合管理をひとつのプラットフォームで確認できます。
+        </AcpPageCtaDescription>
+        <AcpPageCtaLink>デモを依頼</AcpPageCtaLink>
+      </AcpPageCta>
       <SiteFooter />
     </main>
   );
