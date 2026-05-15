@@ -11,13 +11,13 @@ test("/t/plans routes keep pricing copy in route pages while the section module 
   assert.equal(sourceExists("src/app/t/plans/plans-page-content.tsx"), false);
   assert.equal(sourceExists("src/app/t/plans/[product]/page.tsx"), false);
 
-  assert.match(routeSource, /import \{ AipPlansContent \} from "\.\/aip\/page"/);
-  assert.match(routeSource, /<AipPlansContent \/>/);
+  assert.match(routeSource, /import PlansAIPPage from "\.\/aip\/page"/);
+  assert.match(routeSource, /return <PlansAIPPage \/>/);
   assert.match(routeSource, /redirect\(redirectTarget\)/);
   assert.match(routeSource, /return `plans\/\$\{product\}/);
 
   assert.match(aipRouteSource, /canonical: "\/t\/plans\/aip"/);
-  assert.match(aipRouteSource, /export function AipPlansContent\(\)/);
+  assert.doesNotMatch(aipRouteSource, /export function AipPlansContent\(\)/);
   assert.match(aipRouteSource, /<PricingRoot>/);
   assert.match(aipRouteSource, /<PricingHeader>/);
   assert.match(aipRouteSource, /<PricingContextProvider defaultActiveTab="aip">/);
@@ -50,6 +50,7 @@ test("/t/plans routes keep pricing copy in route pages while the section module 
   for (const source of [routeSource, aipRouteSource, acpRouteSource, sectionSource]) {
     assert.doesNotMatch(source, /PlansContentShell/);
     assert.doesNotMatch(source, /PlansPageContent/);
+    assert.doesNotMatch(source, /AipPlansContent/);
   }
 
   assert.doesNotMatch(aipRouteSource, /href="\/t\/plans\//);
