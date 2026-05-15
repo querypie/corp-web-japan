@@ -128,6 +128,7 @@ const matchers = {
   ],
   crossCutting: [
     /^tests\/launch-readiness-coverage\.test\.mjs$/,
+    /^tests\/skill-frontmatter-validity\.test\.mjs$/,
   ],
 };
 
