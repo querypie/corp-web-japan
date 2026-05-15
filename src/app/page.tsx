@@ -141,7 +141,7 @@ export default function HomePage() {
   const topPageFloatingCtaUrl = "/contact-us";
   const topPageHeroContactUrl = "/contact-us?inquiry=ai-consulting";
   const topPageDownloadUrl =
-    "https://www.querypie.com/ja/features/documentation/aip-introduction-download";
+    "/introduction-deck/1/querypie-aip";
   const topPageFinalDemoUrl = "/contact-us?inquiry=demo-request";
   const topPageFinalConsultUrl = "/contact-us?inquiry=ai-consulting";
 
@@ -447,7 +447,7 @@ export default function HomePage() {
                     <WhitepaperTocItem>付録：AI導入準備度チェックリスト</WhitepaperTocItem>
                     <WhitepaperTocItem>参考サイト</WhitepaperTocItem>
                   </WhitepaperToc>
-                  <WhitepaperAction href="https://www.querypie.com/ja/features/documentation/white-paper/24/ai-tranformation-japan">無料ダウンロード</WhitepaperAction>
+                  <WhitepaperAction href="/whitepapers/24/ai-transformation-japan/pdf">無料ダウンロード</WhitepaperAction>
                 </WhitepaperCardBody>
               </WhitepaperCard>
 
@@ -471,7 +471,7 @@ export default function HomePage() {
                     <WhitepaperTocItem>QueryPie AIの変革 ― 自らの「SaaSの死」を乗り越えた実録</WhitepaperTocItem>
                     <WhitepaperTocItem>まとめ</WhitepaperTocItem>
                   </WhitepaperToc>
-                  <WhitepaperAction href="https://www.querypie.com/ja/features/documentation/white-paper/30/saas-end-or-evolution">無料ダウンロード</WhitepaperAction>
+                  <WhitepaperAction href="/whitepapers/30/saas-end-or-evolution/pdf">無料ダウンロード</WhitepaperAction>
                 </WhitepaperCardBody>
               </WhitepaperCard>
             </WhitepaperGrid>
