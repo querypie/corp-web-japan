@@ -105,7 +105,7 @@ function ProductTabsRoot({ children }: { children: ReactNode }) {
   const { activeTab, setActiveTab } = usePricingContext();
 
   return (
-    <div className="flex w-full gap-5 border-b-2 border-[#dae1e7] md:gap-10 lg:gap-[60px]">
+    <div className="flex w-full gap-3 border-b-2 border-[#dae1e7] min-[481px]:gap-5 min-[769px]:gap-10 min-[1025px]:gap-[60px]">
       {Children.map(children, (child) => {
         if (!isValidElement<{ name: string }>(child) || !("name" in child.props)) {
           return child;
@@ -136,8 +136,8 @@ export function ProductTab({ name, href, children, isActive, onTabClick }: Produ
       aria-label={name}
       onClick={onTabClick}
       className={joinClasses(
-        "group -mb-0.5 flex min-h-11 flex-1 cursor-pointer flex-col items-start gap-1.5 pb-4 text-left font-[inherit] transition md:pb-5",
-        isActive ? "border-b-2 border-slate-950 text-[#1d4ed8]" : "text-slate-950 hover:opacity-80",
+        "group -mb-0.5 flex min-h-11 flex-1 cursor-pointer flex-col items-start gap-1.5 pb-4 text-left font-[inherit] transition min-[769px]:pb-5",
+        isActive ? "border-b-2 border-[#353c45] text-[#0762d4]" : "text-slate-950 hover:opacity-80",
       )}
     >
       {children}
@@ -146,11 +146,11 @@ export function ProductTab({ name, href, children, isActive, onTabClick }: Produ
 }
 
 export function ProductName({ children }: { children: ReactNode }) {
-  return <div className="whitespace-nowrap text-[20px] font-medium leading-7 text-inherit md:text-[26px] md:leading-[34px]">{children}</div>;
+  return <div className="whitespace-nowrap text-[20px] font-medium leading-7 text-inherit min-[481px]:text-[22px] min-[481px]:leading-[30px] min-[769px]:text-[26px] min-[769px]:leading-[34px]">{children}</div>;
 }
 
 export function ProductDescription({ children }: { children: ReactNode }) {
-  return <div className="whitespace-nowrap text-xs font-normal leading-[18px] tracking-[0.02em] text-slate-600 md:text-sm md:leading-[22px]">{children}</div>;
+  return <div className="whitespace-nowrap text-xs font-normal leading-[18px] tracking-[0.02em] text-slate-600 min-[481px]:text-[13px] min-[481px]:leading-[20px] min-[769px]:text-sm min-[769px]:leading-[22px]">{children}</div>;
 }
 
 export const ProductTabs = ProductTabsRoot;
@@ -268,7 +268,7 @@ export function PlanFeature({ supported = true, children }: { supported?: boolea
 export function PlanDivider() {
   return (
     <li aria-hidden role="separator" className="block h-0 w-full list-none self-start">
-      <span className="block h-px w-full origin-top-left bg-[#dae1e7]" />
+      <span className="block h-[2px] w-full origin-top-left bg-[#dae1e7] [transform:scaleY(0.5)]" />
     </li>
   );
 }
