@@ -74,7 +74,7 @@ export function ServiceFdeFeatureInner({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeFeatureRow({ children, reverse = false }: FeatureRowProps) {
-  return <div className={`flex flex-col items-center justify-center gap-[40px] lg:gap-[80px] ${reverse ? "lg:flex-row-reverse" : "lg:flex-row"}`}>{children}</div>;
+  return <div className={`flex flex-col items-center justify-center gap-[60px] lg:gap-[80px] ${reverse ? "lg:flex-row-reverse" : "lg:flex-row"}`}>{children}</div>;
 }
 
 export function ServiceFdeFeatureCopy({ children }: { children: ReactNode }) {
@@ -82,7 +82,7 @@ export function ServiceFdeFeatureCopy({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeFeatureTitle({ children }: { children: ReactNode }) {
-  return <h4 className="text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F]">{children}</h4>;
+  return <h4 className="text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F] max-[480px]:text-[20px] max-[480px]:leading-[28px]">{children}</h4>;
 }
 
 export function ServiceFdeFeatureBody({ children }: { children: ReactNode }) {
@@ -98,10 +98,10 @@ export function ServiceFdeFeatureMedia({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeFeatureImageFrame({ children, width }: FeatureImageFrameProps) {
-  const style = { "--fde-feature-image-width": `${width}px`, boxShadow: "0 8px 20px rgba(0, 0, 0, 0.15)" } as CSSProperties;
+  const style = { "--fde-feature-image-width": `${width}px` } as CSSProperties;
 
   return (
-    <div className="w-full max-w-full overflow-hidden rounded-[8px] lg:w-[var(--fde-feature-image-width)]" style={style}>
+    <div className="w-full max-w-full overflow-hidden rounded-[8px] shadow-[0_4px_12px_rgba(0,0,0,0.1)] lg:w-[var(--fde-feature-image-width)] lg:shadow-[0_8px_20px_rgba(0,0,0,0.15)]" style={style}>
       {children}
     </div>
   );
