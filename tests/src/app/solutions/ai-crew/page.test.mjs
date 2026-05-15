@@ -74,6 +74,12 @@ test("AI Crew route-local authoring keeps hero, platform, why, design-elements, 
   assert.match(aiCrewPage, /videoAriaLabel="SEO分析の動画を見る"/);
   assert.match(aiCrewPage, /videoAriaLabel="見積分析の動画を見る"/);
   assert.match(aiCrewPage, /videoAriaLabel="見積書作成の動画を見る"/);
+  assert.match(aiCrewPage, /detailHref="\/use-cases\/29\/seo-analyst"/);
+  assert.match(aiCrewPage, /detailHref="\/use-cases\/28\/quotation-analyze-ai-agent"/);
+  assert.match(aiCrewPage, /detailHref="\/use-cases\/27\/quotation-ai-agent"/);
+  assert.match(aiCrewPage, /detailHref="\/use-cases\/16\/dev-insight-ai-agent"/);
+  assert.match(aiCrewPage, /detailHref="\/use-cases\/7\/data-analytics-agent"/);
+  assert.doesNotMatch(aiCrewPage, /https:\/\/www\.querypie\.com\/ja\/features\/demo\/use-cases/);
   assert.match(aiCrewPage, /ctaLabel="詳しく見る"/);
   assert.match(aiCrewPage, /AICrewUseCaseTabbedCard icon="wallet"/);
   assert.match(aiCrewPage, /見積関連文書の確認から、複雑な見積ロジックに基づく出力までを支援。属人化しやすい見積業務を効率化します。/);
