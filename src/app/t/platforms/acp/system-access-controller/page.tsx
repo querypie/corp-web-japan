@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  AcpCapabilityGallery,
-  AcpCapabilityGrid,
-  AcpCapabilityImage,
   AcpFeatureCard,
   AcpFeatureCardDescription,
   AcpFeatureCardTitle,
@@ -21,6 +18,9 @@ import {
   AcpSectionHeading,
   AcpSectionIntro,
   AcpSectionLeadGroup,
+  AcpSplitFeatureBody,
+  AcpSplitFeatureSection,
+  AcpSplitFeatureTitle,
   AcpStaticPageShell,
   AcpWorksSection,
 } from "@/components/sections/acp/static-page";
@@ -117,24 +117,56 @@ export default function SystemAccessControllerPage() {
           </AcpSectionLeadGroup>
         </AcpSectionIntro>
       </AcpWorksSection>
-      <AcpCapabilityGallery>
-        <AcpSectionHeading>主な機能</AcpSectionHeading>
-        <AcpCapabilityGrid>
-          <AcpCapabilityImage src="/platforms/acp/system-access-controller/easy-use-jp.png" alt="easy use jp" />
-          <AcpCapabilityImage src="/platforms/acp/system-access-controller/web-client.png" alt="web client" />
-          <AcpCapabilityImage src="/platforms/acp/system-access-controller/access-control.png" alt="access control" />
-          <AcpCapabilityImage src="/platforms/acp/system-access-controller/tag-based-management.png" alt="tag based management" />
-          <AcpCapabilityImage src="/platforms/acp/system-access-controller/session-replay.png" alt="session replay" />
-          <AcpCapabilityImage src="/platforms/acp/system-access-controller/iac.png" alt="iac" />
-          <AcpCapabilityImage src="/platforms/acp/system-access-controller/protocol.png" alt="protocol" />
-        </AcpCapabilityGrid>
-      </AcpCapabilityGallery>
+      <AcpWorksSection imageSrc="/platforms/acp/system-access-controller/easy-use-jp.png" imageAlt="簡単インストール、簡単操作" imageWidth={1000} imageHeight={440}>
+        <AcpSectionIntro>
+          <AcpSectionHeading>簡単インストール、簡単操作</AcpSectionHeading>
+          <AcpSectionLeadGroup>
+            <p>QueryPie はクラウドネイティブ技術と Web ベースのインターフェースを組み合わせ、さまざまなオペレーティングシステムで簡単にインストールおよび運用できるよう設計されています。Docker パッケージングにより容易に配布可能で、オンプレミスのセキュリティとSaaS のような利便性の高いアップデート方式を組み合わせたハイブリッドアプローチをサポートしています。この設計により、金融、医療、公共部門などでのコンプライアンスを支援するとともに、問題が発生した際には即座にロールバックする機能も提供します。QueryPie は、SaaS の利便性とオンプレミスソリューションの強固なセキュリティを融合させることで、顧客に大きな価値を提供することを目指しています。</p>
+          </AcpSectionLeadGroup>
+        </AcpSectionIntro>
+      </AcpWorksSection>
+      <AcpSplitFeatureSection gray imageSrc="/platforms/acp/system-access-controller/web-client.png" imageAlt="Web Terminal & SFTP Client" imageWidth={640} imageHeight={680}>
+        <AcpSplitFeatureTitle>{"Webターミナル &\nSFTPクライアント"}</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>Web ターミナルと SFTPクライアントを使用することで、サーバーへの簡単な接続が可能です。コマンドを実行したりファイルを転送したりできるため、オペレーティングシステムを問わず、ブラウザ上で迅速に作業を完了することができます。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection reverse imageSrc="/platforms/acp/system-access-controller/access-control.png" imageAlt="Command Right Access Control & Management" imageWidth={600} imageHeight={600} imageWidthClassName="lg:basis-1/2">
+        <AcpSplitFeatureTitle>コマンド権限のアクセス制御と管理</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>サーバーグループまたは個別のサーバーに対して、危険レベルに応じたSSH コマンドの権限設定および管理が可能です。ブロックされたコマンドは通知され、疑わしいアクティビティを迅速に検出する手助けとなります。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection gray imageSrc="/platforms/acp/system-access-controller/tag-based-management.png" imageAlt="Tag-based resource management functionality" imageWidth={640} imageHeight={570}>
+        <AcpSplitFeatureTitle>タグベースのリソース管理機能</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>個々のサーバーにタグを付け、それらをグループ化して、権限をすばやく適用できます。 クラウド サービス プロバイダーと同期する際、タグが自動的に同期され、クラウド環境でリソースを簡単に管理できます。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection reverse imageSrc="/platforms/acp/system-access-controller/session-replay.png" imageAlt="Real-time Monitoring & Session Replay" imageWidth={600} imageHeight={530} imageWidthClassName="lg:basis-1/2">
+        <AcpSplitFeatureTitle>{"リアルタイムモニタリング &\nセッションリプレイ"}</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>リアルタイムでのモニタリングとセッションの再生により、ユーザーの活動を同じ画面で簡単に確認することができます。また、異常な兆候が検出された場合には、即座にセッションを終了し、リソースを安全に保護することが可能です。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection gray imageSrc="/platforms/acp/system-access-controller/iac.png" imageAlt="IaC-based Access Control" imageWidth={620} imageHeight={480} imageWidthClassName="lg:basis-[51.7%]">
+        <AcpSplitFeatureTitle>IaC ベースのアクセス制御</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>ユーザーフレンドリーなGUI とIaC の編集機能により、IAMポリシーを簡単に管理することができます。これにより、一元管理されたポリシーを使用して、リソースや特定のアイテムへのアクセス権を迅速に制御することが可能です。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection reverse last imageSrc="/platforms/acp/system-access-controller/protocol.png" imageAlt="Support for Various Protocols" imageWidth={600} imageHeight={540} imageWidthClassName="lg:basis-1/2">
+        <AcpSplitFeatureTitle>様々なプロトコルをサポート</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>SSH、SFTP、RDP、VNC などを使用して安全に接続します。これらのプロトコルは、柔軟なリモートアクセス、ファイル転送、リモートデスクトップ操作をサポートし、セキュリティは徹底的に維持されます。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
       <AcpPageCta>
-        <AcpPageCtaTitle>QueryPie ACPを無料でお試しください</AcpPageCtaTitle>
+        <AcpPageCtaTitle>まずは小さく、失敗しないAXを始めよう</AcpPageCtaTitle>
         <AcpPageCtaDescription>
-          アクセス制御、監査、統合管理をひとつのプラットフォームで確認できます。
+          簡単サインアップで、14日間の無料トライアルをお試しください
         </AcpPageCtaDescription>
-        <AcpPageCtaLink>デモを依頼</AcpPageCtaLink>
+        <AcpPageCtaLink>無料で試してみる</AcpPageCtaLink>
       </AcpPageCta>
       <SiteFooter />
     </AcpStaticPageShell>

@@ -4,7 +4,6 @@ import { SiteHeader } from "@/components/layout/site-header";
 import {
   AipIntegrationsCategoryLink,
   AipIntegrationsCategoryList,
-  AipIntegrationsContent,
   AipIntegrationsHeroCopy,
   AipIntegrationsHeroHeading,
   AipIntegrationsHeroLead,
@@ -566,7 +565,7 @@ export default async function AcpIntegrationsPage({ searchParams }: Integrations
   return (
     <main className="bg-white text-slate-950">
       <SiteHeader />
-      <AipIntegrationsHeroSection>
+      <AipIntegrationsHeroSection variant="acp">
         <AipIntegrationsHeroCopy>
           <AipIntegrationsHeroHeading>ACP統合機能</AipIntegrationsHeroHeading>
           <AipIntegrationsHeroLead>
@@ -577,40 +576,36 @@ export default async function AcpIntegrationsPage({ searchParams }: Integrations
             データベース、サーバー、Kubernetes、Webアプリケーションなど、幅広く対応しています。
           </AipIntegrationsHeroLead>
         </AipIntegrationsHeroCopy>
-        <AipIntegrationsContent>
-          <AipIntegrationsCategoryList>
-            <AipIntegrationsCategoryLink href="/t/platforms/acp/integrations?category=all" active={currentCategory === "all"}>
-              すべて ({products.length})
+        <AipIntegrationsCategoryList>
+          <AipIntegrationsCategoryLink href="/t/platforms/acp/integrations?category=all" active={currentCategory === "all"}>
+            すべて ({products.length})
+          </AipIntegrationsCategoryLink>
+          {categories.map((category) => (
+            <AipIntegrationsCategoryLink
+              key={category.key}
+              href={`/t/platforms/acp/integrations?category=${category.key}`}
+              active={currentCategory === category.key}
+            >
+              {category.label} ({getCategoryCount(category.key)})
             </AipIntegrationsCategoryLink>
-            {categories.map((category) => (
-              <AipIntegrationsCategoryLink
-                key={category.key}
-                href={`/t/platforms/acp/integrations?category=${category.key}`}
-                active={currentCategory === category.key}
-              >
-                {category.label} ({getCategoryCount(category.key)})
-              </AipIntegrationsCategoryLink>
-            ))}
-          </AipIntegrationsCategoryList>
-        </AipIntegrationsContent>
-        <AipIntegrationsContent>
-          <AipIntegrationsProductList>
-            {filteredProducts.map((product) => (
-              <AipIntegrationsProductCard
-                key={`${product.label}-${product.svgFilename}`}
-                iconSrc={`/platforms/acp/integrations/icons/${product.svgFilename}.svg`}
-                label={product.label}
-              />
-            ))}
-          </AipIntegrationsProductList>
-        </AipIntegrationsContent>
+          ))}
+        </AipIntegrationsCategoryList>
+        <AipIntegrationsProductList>
+          {filteredProducts.map((product) => (
+            <AipIntegrationsProductCard
+              key={`${product.label}-${product.svgFilename}`}
+              iconSrc={`/platforms/acp/integrations/icons/${product.svgFilename}.svg`}
+              label={product.label}
+            />
+          ))}
+        </AipIntegrationsProductList>
       </AipIntegrationsHeroSection>
       <AcpPageCta>
-        <AcpPageCtaTitle>QueryPie ACPを無料でお試しください</AcpPageCtaTitle>
+        <AcpPageCtaTitle>まずは小さく、失敗しないAXを始めよう</AcpPageCtaTitle>
         <AcpPageCtaDescription>
-          アクセス制御、監査、統合管理をひとつのプラットフォームで確認できます。
+          簡単サインアップで、14日間の無料トライアルをお試しください
         </AcpPageCtaDescription>
-        <AcpPageCtaLink>デモを依頼</AcpPageCtaLink>
+        <AcpPageCtaLink>無料で試してみる</AcpPageCtaLink>
       </AcpPageCta>
       <SiteFooter />
     </main>

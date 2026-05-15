@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  AcpCapabilityGallery,
-  AcpCapabilityGrid,
-  AcpCapabilityImage,
   AcpFeatureCard,
   AcpFeatureCardDescription,
   AcpFeatureCardTitle,
@@ -21,6 +18,9 @@ import {
   AcpSectionHeading,
   AcpSectionIntro,
   AcpSectionLeadGroup,
+  AcpSplitFeatureBody,
+  AcpSplitFeatureSection,
+  AcpSplitFeatureTitle,
   AcpStaticPageShell,
   AcpWorksSection,
 } from "@/components/sections/acp/static-page";
@@ -95,41 +95,83 @@ export default function DatabaseAccessControllerPage() {
           </AcpFeatureCard>
         </AcpFeatureGrid>
       </AcpFeatureSection>
-      <AcpWorksSection imageSrc="/platforms/acp/database-access-controller/works.png" imageAlt="QueryPie DACの仕組み">
+      <AcpWorksSection imageSrc="/platforms/acp/database-access-controller/works.png" imageAlt="QueryPie DACの仕組み" imageWidth={1000} imageHeight={400}>
         <AcpSectionIntro>
           <AcpSectionHeading>QueryPie DACの仕組み</AcpSectionHeading>
           <AcpSectionLeadGroup>
+            <p>
+              QueryPieは、お客様の固有の環境に合わせて柔軟なワークスペースを提供し、セキュリティを一層強化します。
+            </p>
             <p>
               ブラウザベースのWeb SQLエディタにより、データ漏洩制御を簡単に管理できるだけでなく、
             </p>
             <p>
               サードパーティーツールの使用を可能にするエージェントまたはエージェントレス(URLプロキシ)方式をサポートします。
             </p>
+          </AcpSectionLeadGroup>
+        </AcpSectionIntro>
+      </AcpWorksSection>
+      <AcpWorksSection imageSrc="/platforms/acp/database-access-controller/analyzer.png" imageAlt="QueryPie Universal Analyzer" imageWidth={1000} imageHeight={420}>
+        <AcpSectionIntro>
+          <AcpSectionHeading>{"QueryPie ユニバーサルアナライザー:\nあらゆるクエリ言語に対応"}</AcpSectionHeading>
+          <AcpSectionLeadGroup>
+            <p>QueryPie ならではの武器、クエリーアナライザーによって様々なデータソース間の差違を解消します。</p>
+            <p>いかなる複雑なクエリもQueryPie アナライザーが分析して解析し、シンプルな形式に変換します。</p>
+          </AcpSectionLeadGroup>
+        </AcpSectionIntro>
+      </AcpWorksSection>
+      <AcpWorksSection imageSrc="/platforms/acp/database-access-controller/easy-use-jp.png" imageAlt="簡単インストール、簡単操作" imageWidth={1000} imageHeight={440}>
+        <AcpSectionIntro>
+          <AcpSectionHeading>簡単インストール、簡単操作</AcpSectionHeading>
+          <AcpSectionLeadGroup>
             <p>
-              QueryPieは、お客様の固有の環境に合わせて柔軟なワークスペースを提供し、セキュリティを一層強化します。
+              QueryPie はクラウドネイティブ技術とWebベースのインターフェースを組み合わせ、さまざまなオペレーティングシステムで簡単にインストールおよび運用できるよう設計されています。Docker パッケージングにより容易に配布可能で、オンプレミスのセキュリティとSaaS のような利便性の高いアップデート方式を組み合わせたハイブリッドアプローチをサポートしています。この設計により、金融、医療、公共部門などでのコンプライアンスを支援するとともに、問題が発生した際には即座にロールバックする機能も提供します。QueryPie は、SaaS の利便性とオンプレミスソリューションの強固なセキュリティを融合させることで、顧客に大きな価値を提供することを目指しています。
             </p>
           </AcpSectionLeadGroup>
         </AcpSectionIntro>
       </AcpWorksSection>
-      <AcpCapabilityGallery>
-        <AcpSectionHeading>主な機能</AcpSectionHeading>
-        <AcpCapabilityGrid>
-          <AcpCapabilityImage src="/platforms/acp/database-access-controller/analyzer.png" alt="analyzer" />
-          <AcpCapabilityImage src="/platforms/acp/database-access-controller/easy-use-jp.png" alt="easy use jp" />
-          <AcpCapabilityImage src="/platforms/acp/database-access-controller/sql-editor.png" alt="sql editor" />
-          <AcpCapabilityImage src="/platforms/acp/database-access-controller/third-party-tools.png" alt="third party tools" />
-          <AcpCapabilityImage src="/platforms/acp/database-access-controller/db-control.png" alt="db control" />
-          <AcpCapabilityImage src="/platforms/acp/database-access-controller/data-masking.png" alt="data masking" />
-          <AcpCapabilityImage src="/platforms/acp/database-access-controller/ledger.png" alt="ledger" />
-          <AcpCapabilityImage src="/platforms/acp/database-access-controller/workflow.png" alt="workflow" />
-        </AcpCapabilityGrid>
-      </AcpCapabilityGallery>
+      <AcpSplitFeatureSection gray imageSrc="/platforms/acp/database-access-controller/sql-editor.png" imageAlt="ユーザーフレンドリーなWeb SQL エディタ" imageWidth={620} imageHeight={530} imageWidthClassName="lg:basis-[51.7%]">
+        <AcpSplitFeatureTitle>{"ユーザーフレンドリーな\nWeb SQLエディタ"}</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>もう、IDE を個別に用意する必要ありません！ QueryPie のWeb SQL エディタを使用すれば、使用するOS に関係なく、ブラウザ上で簡単にクエリの実行、インポート、エクスポート、およびさまざまなタスクを実行できます。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection reverse imageSrc="/platforms/acp/database-access-controller/third-party-tools.png" imageAlt="サードパーティー ツールのための安全なプロキシ接続をサポート" imageWidth={600} imageHeight={380} imageWidthClassName="lg:basis-1/2">
+        <AcpSplitFeatureTitle>{"サードパーティー ツールのための\n安全なプロキシ接続をサポート"}</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>これまで利用していたツールをそのままデータベースに接続する必要がある場合のために、QueryPie は安全なプロキシサーバでのアプローチをサポートします。 エージェント及びエージェントレス方式をすべてサポートし、QueryPie と同様の強力なアクセス制御とポリシーをご利用いただけます。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection gray imageSrc="/platforms/acp/database-access-controller/db-control.png" imageAlt="データベースを統合した構文制御支援" imageWidth={640} imageHeight={760}>
+        <AcpSplitFeatureTitle>{"データベースを\n統合した構文制御支援"}</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>標準SQLに基づいてデータベースを統合した構文制御が可能です。RDBMS、データウェアハウス、NoSQL などを一貫した権限ポリシーで管理し、Redis は200以上のコマンドを、MongoDB Shell は標準SQL に対応して構文統制をサポートします。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection reverse imageSrc="/platforms/acp/database-access-controller/data-masking.png" imageAlt="重要データのマスキング処理と保護" imageWidth={640} imageHeight={660}>
+        <AcpSplitFeatureTitle>重要データのマスキング処理と保護</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>事前定義されたパターンと正規形式で機密情報データのマスキング処理をサポートします。 カスタムパターン設定を通じて柔軟なマスキングポリシーを構成し、ビュー作成および関数使用時にデータを遮断し、ポリシーに従って個人情報を安全に保護します。 単一カラムだけでなく、JSON 形式のデータも処理します。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection gray imageSrc="/platforms/acp/database-access-controller/ledger.png" imageAlt="元帳テーブルのアクセス制御" imageWidth={640} imageHeight={670}>
+        <AcpSplitFeatureTitle>元帳テーブルのアクセス制御</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>重要なテーブルへの変更を承認するワークフローを備えており、データを簡単に管理できます。 元帳テーブルポリシー(Ledger Table Policy) に検出された場合、事前定義された承認プロセスが自動的に行われます。 変更前後の結果を追跡し、スムーズな構成管理を実現します！</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection reverse last imageSrc="/platforms/acp/database-access-controller/workflow.png" imageAlt="権限付与とSQL承認のプロセスの自動化" imageWidth={620} imageHeight={670} imageWidthClassName="lg:basis-[51.7%]">
+        <AcpSplitFeatureTitle>{"権限付与とSQL承認の\nプロセスの自動化"}</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>管理者が承認プロセスを設定できるカスタマイズ可能なテンプレートを使用して、ワークフローをシンプルにします！権限のないユーザーがデータベースへのアクセスや変更を要求した場合、自動化されたワークフローがすべてをスムーズに実行されるようにします。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
       <AcpPageCta>
-        <AcpPageCtaTitle>QueryPie ACPを無料でお試しください</AcpPageCtaTitle>
+        <AcpPageCtaTitle>まずは小さく、失敗しないAXを始めよう</AcpPageCtaTitle>
         <AcpPageCtaDescription>
-          アクセス制御、監査、統合管理をひとつのプラットフォームで確認できます。
+          簡単サインアップで、14日間の無料トライアルをお試しください
         </AcpPageCtaDescription>
-        <AcpPageCtaLink>デモを依頼</AcpPageCtaLink>
+        <AcpPageCtaLink>無料で試してみる</AcpPageCtaLink>
       </AcpPageCta>
       <SiteFooter />
     </AcpStaticPageShell>

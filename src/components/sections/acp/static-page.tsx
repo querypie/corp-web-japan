@@ -2,8 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+function joinClasses(...classes: Array<string | false | null | undefined>) {
+  return classes.filter(Boolean).join(" ");
+}
+
 export function AcpStaticPageShell({ children }: { children: ReactNode }) {
-  return <main className="bg-white text-slate-950">{children}</main>;
+  return <main className="bg-white text-[#24292f]">{children}</main>;
 }
 
 export function AcpHeroSection({
@@ -16,22 +20,22 @@ export function AcpHeroSection({
   mediaTitle: string;
 }) {
   return (
-    <section className="bg-slate-50 px-6 pb-20 pt-28 md:pb-24 md:pt-36">
-      <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-12 text-center">
-        <div className="flex max-w-[920px] flex-col items-center gap-6">{children}</div>
+    <section className="px-6 pb-0 pt-[70px] md:pt-20">
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-20 text-center max-[480px]:gap-[70px]">
+        <div className="flex max-w-[920px] flex-col items-center gap-5">{children}</div>
         {media.kind === "youtube" ? (
-          <div className="aspect-video w-full overflow-hidden rounded-[28px] bg-slate-900 shadow-2xl shadow-slate-200">
+          <div className="aspect-video w-full max-w-[1024px]">
             <iframe
               className="h-full w-full"
-              src={media.src}
+              src={`${media.src}&modestbranding=0`}
               title={mediaTitle}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             />
           </div>
         ) : (
-          <div className="w-full overflow-hidden rounded-[28px] bg-white p-6 shadow-2xl shadow-slate-200">
-            <Image src={media.src} alt={media.alt} width={1000} height={520} className="h-auto w-full" />
+          <div className="w-full max-w-[1000px]">
+            <Image src={media.src} alt={media.alt} width={1000} height={520} className="h-auto w-full" style={{ height: "auto", width: "100%" }} priority />
           </div>
         )}
       </div>
@@ -40,77 +44,84 @@ export function AcpHeroSection({
 }
 
 export function AcpHeroEyebrow({ children }: { children: ReactNode }) {
-  return <p className="text-sm font-semibold uppercase tracking-[0.24em] text-indigo-600">{children}</p>;
+  void children;
+  return null;
 }
 
 export function AcpHeroTitle({ children }: { children: ReactNode }) {
-  return (
-    <h1 className="text-4xl font-semibold leading-tight tracking-[-0.03em] text-slate-950 md:text-[60px] md:leading-[1.12]">
-      {children}
-    </h1>
-  );
+  return <h1 className="text-[60px] font-normal leading-[72px] tracking-normal text-[#24292f] max-[480px]:text-[48px] max-[480px]:leading-[56px]">{children}</h1>;
 }
 
 export function AcpHeroLeadGroup({ children }: { children: ReactNode }) {
-  return <div className="space-y-2 text-base font-light leading-8 text-slate-600 md:text-lg">{children}</div>;
+  return <div className="text-lg font-light leading-7 text-[#57606a] max-[480px]:text-base max-[480px]:leading-7">{children}</div>;
 }
 
-export function AcpFeatureSection({ children }: { children: ReactNode }) {
+export function AcpFeatureSection({
+  children,
+  topPadding = "ultra",
+}: {
+  children: ReactNode;
+  topPadding?: "mega" | "ultra";
+}) {
   return (
-    <section className="px-6 py-20 md:py-28">
-      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-12">{children}</div>
+    <section className={joinClasses("px-6 pb-[100px]", topPadding === "mega" ? "pt-[140px]" : "pt-[200px]")}>
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-[100px] max-[480px]:gap-[70px]">{children}</div>
     </section>
   );
 }
 
 export function AcpSectionIntro({ children }: { children: ReactNode }) {
-  return <div className="max-w-[900px] space-y-5">{children}</div>;
+  return <div className="flex w-full max-w-[1200px] flex-col gap-5">{children}</div>;
 }
 
 export function AcpSectionHeading({ children }: { children: ReactNode }) {
-  return <h2 className="text-3xl font-semibold tracking-[-0.03em] text-slate-950 md:text-5xl">{children}</h2>;
+  return <h2 className="whitespace-pre-line text-[52px] font-normal leading-[62px] tracking-normal text-[#24292f] max-[480px]:text-[36px] max-[480px]:leading-[44px]">{children}</h2>;
 }
 
 export function AcpSectionLeadGroup({ children }: { children: ReactNode }) {
-  return <div className="space-y-2 text-base font-light leading-8 text-slate-600 md:text-lg">{children}</div>;
+  return <div className="text-lg font-light leading-7 text-[#57606a] max-[480px]:text-base max-[480px]:leading-7">{children}</div>;
 }
 
 export function AcpFeatureGrid({ children }: { children: ReactNode }) {
-  return <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{children}</div>;
+  return <ul className="grid gap-[30px] md:grid-cols-2 lg:grid-cols-3 max-[480px]:gap-5">{children}</ul>;
 }
 
 export function AcpFeatureCard({ icon, children }: { icon: string; children: ReactNode }) {
   return (
-    <article className="rounded-[24px] border border-slate-200 bg-white p-8 shadow-sm">
-      <Image src={icon} alt="" width={44} height={44} className="mb-7 h-11 w-11" />
+    <li className="flex flex-col gap-5 rounded-[20px] bg-[#f6f8fa] px-10 py-[60px] max-[480px]:px-[30px] max-[480px]:py-10">
+      <Image src={icon} alt="" width={40} height={40} className="h-10 w-10" />
       {children}
-    </article>
+    </li>
   );
 }
 
 export function AcpFeatureCardTitle({ children }: { children: ReactNode }) {
-  return <h3 className="text-xl font-semibold leading-7 text-slate-950">{children}</h3>;
+  return <h3 className="text-[26px] font-normal leading-[34px] text-[#24292f] max-[480px]:text-[22px] max-[480px]:leading-[30px]">{children}</h3>;
 }
 
 export function AcpFeatureCardDescription({ children }: { children: ReactNode }) {
-  return <p className="mt-4 text-sm font-light leading-7 text-slate-600">{children}</p>;
+  return <p className="text-base font-light leading-7 text-[#57606a] max-[480px]:text-sm max-[480px]:leading-[22px]">{children}</p>;
 }
 
 export function AcpWorksSection({
   children,
   imageSrc,
   imageAlt,
+  imageWidth = 1000,
+  imageHeight = 520,
 }: {
   children: ReactNode;
   imageSrc: string;
   imageAlt: string;
+  imageWidth?: number;
+  imageHeight?: number;
 }) {
   return (
-    <section className="bg-slate-50 px-6 py-20 md:py-28">
-      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-12">
+    <section className="px-6 py-[100px]">
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-20 max-[480px]:gap-[70px]">
         {children}
-        <div className="overflow-hidden rounded-[28px] bg-white p-6 shadow-xl shadow-slate-200/70">
-          <Image src={imageSrc} alt={imageAlt} width={1000} height={520} className="h-auto w-full" />
+        <div className="mx-auto w-full max-w-[1000px]">
+          <Image src={imageSrc} alt={imageAlt} width={imageWidth} height={imageHeight} className="h-auto w-full" style={{ height: "auto", width: "100%" }} />
         </div>
       </div>
     </section>
@@ -119,16 +130,16 @@ export function AcpWorksSection({
 
 export function AcpCapabilityGallery({ children }: { children: ReactNode }) {
   return (
-    <section className="px-6 py-20 md:py-28">
-      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-10">{children}</div>
+    <section className="px-6 py-[100px]">
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-20">{children}</div>
     </section>
   );
 }
 
 export function AcpCapabilityImage({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-50 p-4">
-      <Image src={src} alt={alt} width={640} height={360} className="h-auto w-full rounded-[18px]" />
+    <div>
+      <Image src={src} alt={alt} width={640} height={360} className="h-auto w-full" style={{ height: "auto", width: "100%" }} />
     </div>
   );
 }
@@ -137,10 +148,55 @@ export function AcpCapabilityGrid({ children }: { children: ReactNode }) {
   return <div className="grid gap-6 md:grid-cols-2">{children}</div>;
 }
 
+export function AcpSplitFeatureSection({
+  children,
+  imageSrc,
+  imageAlt,
+  imageWidth = 640,
+  imageHeight = 520,
+  imageWidthClassName = "lg:basis-[53.3%]",
+  reverse = false,
+  gray = false,
+  last = false,
+}: {
+  children: ReactNode;
+  imageSrc: string;
+  imageAlt: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageWidthClassName?: string;
+  reverse?: boolean;
+  gray?: boolean;
+  last?: boolean;
+}) {
+  return (
+    <section className={joinClasses("px-6 py-[60px]", gray && "bg-[#f6f8fa]", last && "pb-20 md:pb-[80px]")}>
+      <div className={joinClasses("mx-auto flex w-full max-w-[1200px] flex-col items-center gap-20 lg:flex-row", reverse && "lg:flex-row-reverse")}>
+        <div className="flex flex-1 flex-col gap-5">{children}</div>
+        <div className={joinClasses("w-full flex-none", imageWidthClassName)}>
+          <Image src={imageSrc} alt={imageAlt} width={imageWidth} height={imageHeight} className="h-auto w-full" style={{ height: "auto", width: "100%" }} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function AcpSplitFeatureTitle({ children }: { children: ReactNode }) {
+  return <h4 className="whitespace-pre-line text-[32px] font-medium leading-[42px] text-[#24292f] max-[480px]:text-[26px] max-[480px]:leading-[34px]">{children}</h4>;
+}
+
+export function AcpSplitFeatureBadge({ children }: { children: ReactNode }) {
+  return <span className="w-fit rounded-[20px] bg-[#24292f] px-4 py-2 text-sm font-medium leading-none text-white">{children}</span>;
+}
+
+export function AcpSplitFeatureBody({ children }: { children: ReactNode }) {
+  return <div className="text-lg font-light leading-7 text-[#57606a] max-[480px]:text-base max-[480px]:leading-7">{children}</div>;
+}
+
 export function AcpPageCta({ children }: { children: ReactNode }) {
   return (
-    <section className="px-6 py-20 md:py-28">
-      <div className="mx-auto flex max-w-[960px] flex-col items-center gap-7 rounded-[32px] bg-slate-950 px-8 py-14 text-center text-white md:px-16">
+    <section className="bg-[#f6f8fa] px-6 py-[120px] max-[480px]:py-[105px]">
+      <div className="mx-auto flex max-w-[960px] flex-col items-center gap-10 text-center">
         {children}
       </div>
     </section>
@@ -148,18 +204,18 @@ export function AcpPageCta({ children }: { children: ReactNode }) {
 }
 
 export function AcpPageCtaTitle({ children }: { children: ReactNode }) {
-  return <h2 className="text-3xl font-semibold tracking-[-0.03em] md:text-5xl">{children}</h2>;
+  return <h2 className="text-[52px] font-normal leading-[62px] text-[#24292f] max-[480px]:text-[32px] max-[480px]:leading-10">{children}</h2>;
 }
 
 export function AcpPageCtaDescription({ children }: { children: ReactNode }) {
-  return <p className="text-base font-light leading-8 text-slate-200 md:text-lg">{children}</p>;
+  return <p className="text-lg font-light leading-7 text-[#57606a] max-[480px]:text-base max-[480px]:leading-7">{children}</p>;
 }
 
 export function AcpPageCtaLink({ children }: { children: ReactNode }) {
   return (
     <Link
-      href="/contact-us?inquiry=demo-request&product=acp"
-      className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-7 text-sm font-semibold text-slate-950 transition hover:bg-slate-100"
+      href="https://app.querypie.com"
+      className="inline-flex h-[50px] items-center justify-center rounded-[6px] bg-[#0762d4] px-7 text-base font-medium leading-4 text-[#f6f6f6] transition hover:bg-[#2f81f7] max-[480px]:h-[44px] max-[480px]:text-sm"
     >
       {children}
     </Link>

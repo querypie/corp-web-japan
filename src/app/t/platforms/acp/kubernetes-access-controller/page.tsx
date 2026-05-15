@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  AcpCapabilityGallery,
-  AcpCapabilityGrid,
-  AcpCapabilityImage,
   AcpFeatureCard,
   AcpFeatureCardDescription,
   AcpFeatureCardTitle,
@@ -21,6 +18,9 @@ import {
   AcpSectionHeading,
   AcpSectionIntro,
   AcpSectionLeadGroup,
+  AcpSplitFeatureBody,
+  AcpSplitFeatureSection,
+  AcpSplitFeatureTitle,
   AcpStaticPageShell,
   AcpWorksSection,
 } from "@/components/sections/acp/static-page";
@@ -98,7 +98,7 @@ export default function KubernetesAccessControllerPage() {
           </AcpFeatureCard>
         </AcpFeatureGrid>
       </AcpFeatureSection>
-      <AcpWorksSection imageSrc="/platforms/acp/kubernetes-access-controller/works.png" imageAlt="QueryPie KAC の仕組み">
+      <AcpWorksSection imageSrc="/platforms/acp/kubernetes-access-controller/works.png" imageAlt="QueryPie KAC の仕組み" imageWidth={1000} imageHeight={400}>
         <AcpSectionIntro>
           <AcpSectionHeading>QueryPie KAC の仕組み</AcpSectionHeading>
           <AcpSectionLeadGroup>
@@ -114,24 +114,58 @@ export default function KubernetesAccessControllerPage() {
           </AcpSectionLeadGroup>
         </AcpSectionIntro>
       </AcpWorksSection>
-      <AcpCapabilityGallery>
-        <AcpSectionHeading>主な機能</AcpSectionHeading>
-        <AcpCapabilityGrid>
-          <AcpCapabilityImage src="/platforms/acp/kubernetes-access-controller/protect-k8s.png" alt="protect k8s" />
-          <AcpCapabilityImage src="/platforms/acp/kubernetes-access-controller/cloud-sync.png" alt="cloud sync" />
-          <AcpCapabilityImage src="/platforms/acp/kubernetes-access-controller/management-env.png" alt="management env" />
-          <AcpCapabilityImage src="/platforms/acp/kubernetes-access-controller/management-policy.png" alt="management policy" />
-          <AcpCapabilityImage src="/platforms/acp/kubernetes-access-controller/logging-api.png" alt="logging api" />
-          <AcpCapabilityImage src="/platforms/acp/kubernetes-access-controller/session-replay.png" alt="session replay" />
-          <AcpCapabilityImage src="/platforms/acp/kubernetes-access-controller/auto-setup.png" alt="auto setup" />
-        </AcpCapabilityGrid>
-      </AcpCapabilityGallery>
+      <AcpWorksSection imageSrc="/platforms/acp/kubernetes-access-controller/protect-k8s.png" imageAlt="クバネティスを完全に保護する" imageWidth={1000} imageHeight={440}>
+        <AcpSectionIntro>
+          <AcpSectionHeading>クバネティスを完全に保護する</AcpSectionHeading>
+          <AcpSectionLeadGroup>
+            <p>QueryPie は、クバネティス環境のセキュリティを強化し、ネームスペース内外を問わず、すべての環境を安全に保護します。</p>
+            <p>SAC（System Access Controller） は、厳密なアクセス制御とノードのSSH 接続に関する監査機能を担当し、KAC（Kubernetes Access Controller） はクバネティス リソースにおけるすべてのAPIインタラクションを管理・監視する役割を果たします。</p>
+            <p>これにより、すべてのタスクがシームレスかつ安全に実行されるよう、包括的なセキュリティを提供いたします。</p>
+          </AcpSectionLeadGroup>
+        </AcpSectionIntro>
+      </AcpWorksSection>
+      <AcpSplitFeatureSection gray imageSrc="/platforms/acp/kubernetes-access-controller/cloud-sync.png" imageAlt="簡単で高速なクラウド同期" imageWidth={620} imageHeight={530} imageWidthClassName="lg:basis-[51.7%]">
+        <AcpSplitFeatureTitle>簡単で高速なクラウド同期</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>QueryPie でクラウドリソースを簡単に同期！クラウド環境に最適化され、クバネティス統合をシンプル化し、スマートなスケジューリング機能でリソース同期を自動化し、変更を簡単に追跡できます。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection reverse imageSrc="/platforms/acp/kubernetes-access-controller/management-env.png" imageAlt="Multi-K8S 環境統合管理" imageWidth={640} imageHeight={610}>
+        <AcpSplitFeatureTitle>Multi-K8S 環境統合管理</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>単一のコンソールで権限を管理することで、クバネティス クラスタごとにロールベースアクセス制御（RBAC） 設定を個別に構成する必要がなくなります。ワイルドカードを使用して、複数のクラスタに同じ権限ポリシーを適用してアクセス制御をシンプル化します。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection gray imageSrc="/platforms/acp/kubernetes-access-controller/management-policy.png" imageAlt="きめ細かいK8S リソースユニットのポリシー管理" imageWidth={580} imageHeight={460} imageWidthClassName="lg:basis-[48.3%]">
+        <AcpSplitFeatureTitle>きめ細かいK8Sリソースユニットのポリシー管理</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>ワイルドカードと正規表現のサポートにより、リソースへのアクセス制御をシンプル化し、ユーザー権限に応じて応答をフィルタリングし、変数名に適応できます。 API グループ、アクション、リソースタイプ、名前空間、およびリソース名の詳細なポリシー管理により、正確な制御が可能です。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection reverse imageSrc="/platforms/acp/kubernetes-access-controller/logging-api.png" imageAlt="クバネティスAPI 実行履歴のログ記録" imageWidth={610} imageHeight={760} imageWidthClassName="lg:basis-[50.8%]">
+        <AcpSplitFeatureTitle>クバネティスAPI 実行履歴のログ記録</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>クバネティスAPI 監査ログの混乱にさよならを言いましょう！ QueryPie のプロキシは、複数のクラスタにわたるすべてのAPI リクエストを記録し、効率的な追跡に必要なアクションに焦点を当てながら、マスターサーバーへの不要な負荷を軽減します。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection gray imageSrc="/platforms/acp/kubernetes-access-controller/session-replay.png" imageAlt="コンテナシェルコマンドの実行履歴" imageWidth={600} imageHeight={590} imageWidthClassName="lg:basis-1/2">
+        <AcpSplitFeatureTitle>コンテナシェルコマンドの実行履歴</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>ユーザーがポッドに接続した後に実行したすべてのタスクを再生できるセッション記録を使用して、コンテナ内で発生したユーザーアクティビティを徹底的に追跡します。この機能は、ユーザーが実行したコマンド、API リクエスト、およびタスクを細かく記録し、全体の監査と制御を強化し、問題が発生したときに迅速に対応できるようにします。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection reverse last imageSrc="/platforms/acp/kubernetes-access-controller/auto-setup.png" imageAlt="クバネティスアクセス権の自動設定" imageWidth={580} imageHeight={510} imageWidthClassName="lg:basis-[48.3%]">
+        <AcpSplitFeatureTitle>クバネティスアクセス権の自動設定</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>各ユーザーに割り当てられたロールに基づいて、kubeconfig ファイルを自動的に生成します。ユーザーはQueryPie エージェントを通じてこれらのファイルに簡単にアクセスでき、kubectx などの既存のクバネティス ツールを使用してアクセス可能なクラスターを選択できます。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
       <AcpPageCta>
-        <AcpPageCtaTitle>QueryPie ACPを無料でお試しください</AcpPageCtaTitle>
+        <AcpPageCtaTitle>まずは小さく、失敗しないAXを始めよう</AcpPageCtaTitle>
         <AcpPageCtaDescription>
-          アクセス制御、監査、統合管理をひとつのプラットフォームで確認できます。
+          簡単サインアップで、14日間の無料トライアルをお試しください
         </AcpPageCtaDescription>
-        <AcpPageCtaLink>デモを依頼</AcpPageCtaLink>
+        <AcpPageCtaLink>無料で試してみる</AcpPageCtaLink>
       </AcpPageCta>
       <SiteFooter />
     </AcpStaticPageShell>
