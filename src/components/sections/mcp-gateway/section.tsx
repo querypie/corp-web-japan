@@ -54,8 +54,7 @@ export function McpGatewayFeatureBand({
   return (
     <PlatformContentSection
       className={cx("w-full py-[80px]", muted && "bg-[#F6F8FA]", className)}
-      contentClassName="px-10 lg:px-10"
-      paddingClassName=""
+      contentWidthClassName="max-w-[1200px]"
       style={style}
     >
       {children}
@@ -69,26 +68,26 @@ export function McpGatewayFeatureLayout({
   className,
 }: { children: ReactNode; reverse?: boolean } & ClassNameProps) {
   return (
-    <div className={cx("flex flex-col items-center justify-between gap-[40px] lg:gap-[74px]", reverse ? "lg:flex-row-reverse" : "lg:flex-row", className)}>
+    <div className={cx("flex flex-col items-center justify-center gap-[60px] lg:gap-[80px]", reverse ? "lg:flex-row-reverse" : "lg:flex-row", className)}>
       {children}
     </div>
   );
 }
 
 export function McpGatewayFeatureCopy({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <div className={cx("w-full max-w-full shrink-0", className)}>{children}</div>;
+  return <div className={cx("flex w-full max-w-full shrink-0 flex-col gap-[20px]", className)}>{children}</div>;
 }
 
 export function McpGatewayFeatureTitle({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <h4 className={cx("text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F]", className)}>{children}</h4>;
+  return <h4 className={cx("text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F] max-[480px]:text-[20px] max-[480px]:leading-[28px]", className)}>{children}</h4>;
 }
 
 export function McpGatewayFeatureDescription({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <p className={cx("mt-[19px] text-[16px] font-light leading-[26px] tracking-normal text-[#57606A]", className)}>{children}</p>;
+  return <p className={cx("text-[16px] font-light leading-[26px] tracking-normal text-[#57606A]", className)}>{children}</p>;
 }
 
 export function McpGatewayFeatureChecklist({ className }: ClassNameProps) {
-  return <ul aria-hidden="true" className={cx("mt-[18px] min-h-[24px]", className)} />;
+  return <ul aria-hidden="true" className={cx("min-h-0", className)} />;
 }
 
 export function McpGatewayFeatureVisual({ children, className }: { children: ReactNode } & ClassNameProps) {
@@ -109,7 +108,7 @@ export function McpGatewayFeatureImage({
   className?: string;
 }) {
   return (
-    <div className={cx("overflow-hidden rounded-none shadow-[0_22px_55px_-45px_rgba(15,23,42,0.45)]", className)}>
+    <div className={cx("overflow-hidden rounded-[8px] shadow-[0_4px_12px_rgba(0,0,0,0.1)] lg:shadow-[0_8px_20px_rgba(0,0,0,0.15)]", className)}>
       <Image src={src} alt={alt} width={width} height={height} unoptimized className="h-auto w-full" />
     </div>
   );
