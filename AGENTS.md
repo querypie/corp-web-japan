@@ -76,6 +76,8 @@ Use `.agents/skills/README.md` as the first local index, then load the specific 
 
 - Follow surrounding file style and existing component patterns.
 - Keep pages thin: route files should compose content and shared sections, while reusable logic stays in `src/lib/` or `src/components/`.
+- Do not introduce `src/features/**` as a new implementation convention; use `src/lib/**`, `src/components/ui/**`,
+  `src/components/sections/**`, or route-local `src/app/**` according to responsibility.
 - Prefer the smallest wrapper surface that clearly expresses responsibility. Avoid overlapping wrapper layers unless each layer has a proven, distinct responsibility in current use.
 - Do not split a layout into multiple always-paired wrappers like `LegalDocumentSection` + `LegalDocumentShell` unless the separation is truly necessary and materially simplifies reuse or variation.
 - Favor clearer component/layer ownership and simpler `page.tsx` composition over speculative abstraction. If two wrappers are effectively inseparable, prefer a single component that owns the combined structure.

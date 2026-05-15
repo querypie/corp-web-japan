@@ -121,6 +121,8 @@ The detailed source of truth for route-aligned long-form MDX content and frontma
 - Reusable non-UI logic should primarily live under `src/lib/**`.
 - Reusable UX primitive components should primarily live under `src/components/ui/**`.
 - Page- or domain-specific composed UI should primarily live under `src/components/sections/**`.
+- Do not introduce `src/features/**` as a new convention for feature or domain implementation.
+  Choose `src/lib/**`, `src/components/ui/**`, `src/components/sections/**`, or route-local `src/app/**` placement based on the responsibility split above.
 
 ### Shared UI text rule
 
