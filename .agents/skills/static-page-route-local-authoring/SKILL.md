@@ -39,6 +39,12 @@ Default locations:
 Do not interpret "route-local" as "put UI component files beside `page.tsx`."
 For normal static marketing and internal demo pages, `src/app/<route>/` should not accumulate files like `hero-section.tsx`, `faq.tsx`, `role-slides.tsx`, or `use-case-showcase.tsx` unless the user explicitly asks for a route-adjacent exception.
 
+Do not hide a route-specific caller sequence behind a new shell/content wrapper just to remove repeated JSX.
+A wrapper such as `PlansPageContent`, `AipPlansContent`, or `PlansContentShell` is invalid when it merely bundles the route's hero, tabs, section order, pricing cards, comparison table, or other page composition.
+That kind of wrapper violates route-local readability even if the visible copy still exists somewhere nearby.
+Prefer direct primitive calls in each `page.tsx`; duplicate small caller sequences when needed rather than extracting a whole-page or route-specific composition shortcut.
+Only extract when the component is a genuine UI primitive or isolated behavior with a distinct responsibility beyond hiding route composition.
+
 Allowed route-adjacent exceptions are narrow and content-oriented:
 - App Router required files such as `page.tsx`, `layout.tsx`, `loading.tsx`, `not-found.tsx`, and `route.ts`.
 - Route-local long-form source files such as `content.mdx` for legal/document pages when that route intentionally owns the document source.
