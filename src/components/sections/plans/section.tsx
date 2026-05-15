@@ -63,7 +63,7 @@ export function PricingHeader({ children }: { children: ReactNode }) {
 }
 
 export function PlansHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 className="text-[46px] font-normal leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[60px]">{children}</h1>;
+  return <h1 className="text-[46px] font-normal leading-[1.2] tracking-normal text-slate-950 sm:text-[60px]">{children}</h1>;
 }
 
 export function PlansHeroDescription({ children }: { children: ReactNode }) {
@@ -184,7 +184,7 @@ export function PlanCard({ type, children }: { type: PlanTone; children: ReactNo
     <PlanToneContext.Provider value={type}>
       <li
         className={joinClasses(
-          "relative flex min-w-[280px] flex-col items-center gap-10 overflow-hidden rounded-t-[20px] px-6 pb-0 pt-[60px] text-center [container-name:plan-card] [container-type:inline-size] min-[1201px]:px-6",
+          "relative flex min-w-[280px] flex-col items-center gap-10 rounded-t-[20px] px-6 pb-0 pt-[60px] text-center [container-name:plan-card] [container-type:inline-size] min-[1201px]:px-6",
           type === "black"
             ? "bg-[radial-gradient(126.36%_70.17%_at_50%_86.97%,#fff_0%,rgba(255,255,255,0)_100%),linear-gradient(180deg,#141920_0%,rgba(255,255,255,0)_70.46%)]"
             : "bg-[linear-gradient(180deg,#edf0f7_0%,#edf0f7_26.89%,rgba(255,255,255,0)_60%)]",
@@ -234,11 +234,11 @@ export function PlanButton({ href, external = false, type = "primary", children 
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer" : undefined}
       className={joinClasses(
-        "relative inline-flex items-center justify-center gap-2.5 rounded-md px-5 py-2.5 text-[15px] font-medium leading-[22px] transition",
-        type === "black" ? "bg-slate-950 text-white hover:bg-slate-800" : "bg-[#1d4ed8] text-white hover:bg-[#1e40af]",
+        "relative inline-flex items-center justify-center gap-2.5 rounded-[6px] px-5 py-2.5 text-[15px] font-medium leading-[16px] text-[#f6f6f6] transition",
+        type === "black" ? "bg-[#141920] hover:bg-[#2f3a49]" : "bg-[#0762d4] hover:bg-[#2f81f7]",
       )}
     >
-      <span>{children}</span>
+      <span className="leading-[22px]">{children}</span>
       <ButtonChevronIcon />
     </Link>
   );
