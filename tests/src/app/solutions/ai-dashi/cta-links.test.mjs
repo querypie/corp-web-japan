@@ -8,8 +8,9 @@ test("AI Dashi CTA links match the intended targets", () => {
 
   assert.match(
     links,
-    /export const aiDashiWhitepaperUrl =\s*"https:\/\/www\.querypie\.com\/ja\/features\/documentation\/white-paper\/30\/saas-end-or-evolution"/,
+    /export const aiDashiWhitepaperUrl =\s*"\/whitepapers\/30\/saas-end-or-evolution\/pdf"/,
   );
+  assert.doesNotMatch(links, /https:\/\/www\.querypie\.com\/ja\/features\/documentation/);
   assert.match(links, /export const aiDashiFloatingUrl = "\/contact-us\?product=ai-dashi"/);
   assert.match(links, /export const aiDashiConsultUrl = "\/contact-us\?inquiry=ai-consulting&product=ai-dashi"/);
   assert.doesNotMatch(source, /href="#contact"/);
