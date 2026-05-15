@@ -262,6 +262,15 @@ JK's later review. Do not implement that promotion in this goal.
   - Keep route-specific assets route-aligned under `public/<route-family>/**`.
   - Keep preview metadata non-indexed and canonicalized to the `/t/**` preview
     route.
+  - For `src/app/t/platforms/acp/page.tsx`, preserve JK's intentional latest-main
+    copy edits to the ACP hero and metadata instead of reverting them to live or
+    `corp-web-contents` wording:
+    - metadata `title`: `QueryPie アクセス制御 (ACP) | QueryPie AI`
+    - metadata `description`: keep the version that begins with
+      `アクセス制御プラットフォーム（ACP）は、`.
+    - `<AcpHeroTitle>`: `QueryPie アクセス制御 (ACP)`
+    - `<AcpHeroLead>`: keep the version that begins with
+      `アクセス制御プラットフォーム（ACP）は、`.
   - Do not update `src/app/sitemap.ts` for preview-only work unless an existing
     test requires documenting why the preview route is intentionally excluded.
   - Do not rewrite local header/footer or public CTA links away from existing
@@ -295,6 +304,10 @@ JK's later review. Do not implement that promotion in this goal.
     root font-size evidence.
   - Classify differences as `defect`, `intentional adaptation`,
     `external live artifact`, `environment artifact`, or `needs decision`.
+  - Exclude the intentional `src/app/t/platforms/acp/page.tsx` hero title,
+    `<AcpHeroLead>`, and metadata description wording from parity defects. They
+    are product-copy decisions on latest main, not regressions to be corrected
+    back to the live or `corp-web-contents` strings.
   - Fix all `defect` differences before marking the route done.
 
 - [ ] **Step 10: Verify and ship each PR**
@@ -605,6 +618,15 @@ PR 처리에는 아래 skill을 사용한다.
     둔다.
   - preview metadata는 noindex로 유지하고 canonical은 `/t/**` preview route를
     가리키게 한다.
+  - `src/app/t/platforms/acp/page.tsx`에서는 live 또는 `corp-web-contents`
+    wording으로 되돌리지 말고, JK가 latest main에서 의도적으로 수정한 ACP hero와
+    metadata copy를 보존한다.
+    - metadata `title`: `QueryPie アクセス制御 (ACP) | QueryPie AI`
+    - metadata `description`: `アクセス制御プラットフォーム（ACP）は、`로 시작하는
+      버전을 유지한다.
+    - `<AcpHeroTitle>`: `QueryPie アクセス制御 (ACP)`
+    - `<AcpHeroLead>`: `アクセス制御プラットフォーム（ACP）は、`로 시작하는 버전을
+      유지한다.
   - preview-only 작업에서는 기존 테스트가 의도적인 제외를 문서화하도록 요구하지
     않는 한 `src/app/sitemap.ts`를 수정하지 않는다.
   - `/t/**` page family 내부 preview navigation에 필요한 경우를 제외하고,
@@ -638,6 +660,10 @@ PR 처리에는 아래 skill을 사용한다.
     root font-size evidence를 수집한다.
   - 차이는 `defect`, `intentional adaptation`, `external live artifact`,
     `environment artifact`, `needs decision`으로 분류한다.
+  - `src/app/t/platforms/acp/page.tsx`의 의도적인 hero title,
+    `<AcpHeroLead>`, metadata description wording은 parity defect에서 제외한다.
+    이 항목들은 latest main의 product-copy 결정이며 live 또는
+    `corp-web-contents` 문자열로 되돌릴 대상이 아니다.
   - route를 완료 처리하기 전 모든 `defect` 차이를 수정한다.
 
 - [ ] **Step 10: 각 PR 검증 및 제출**
