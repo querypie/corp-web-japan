@@ -180,6 +180,8 @@ A useful diff summary includes changed-pixel count, changed-pixel ratio, and the
 
 Screenshots are useful for human review and fast hotspot detection, but they are not sufficient by themselves. Pair them with DOM geometry and computed styles.
 
+Do not treat screenshot review as only a layout/spacing pass. While reviewing screenshots, explicitly zoom into interactive controls, buttons, card CTAs, tab labels, badges, and icon-bearing links. Small glyph-level differences such as an external-link arrow (`↗`) versus a chevron (`>`) are real visual parity findings when the reference uses a specific icon contract.
+
 ### 4. Force lazy media to load
 
 Before final media measurements:
@@ -383,8 +385,10 @@ Compare:
 - mid-page card links
 - deep links for migrated sibling pages
 - final CTA section title, body, button label, button size, and href
+- every visible CTA icon or glyph, including whether the reference uses an SVG icon, text glyph, external-link marker, chevron, arrow direction, or no icon
+- icon position, size, color, and gap from the label
 
-For preview routes, local sibling preview links may intentionally replace live public links. Record that as an implementation choice rather than a visual defect.
+For preview routes, local sibling preview links may intentionally replace live public links. Record that as an implementation choice rather than a visual defect. Do not classify icon substitutions as intentional unless the local policy explicitly requires that different icon. For example, `↗` versus a right chevron (`>`) is a defect if the source-backed widget uses a chevron SVG.
 
 ### 9. Font loading and root/rem parity
 
@@ -419,9 +423,23 @@ Record:
 - local section/component files
 - whether the local implementation directly ports the upstream contract or rebuilds it
 - which local compatibility layers exist for upstream buttons, icons, tabs, cards, tables, and tokens
+- which upstream icon components or SVG paths are used inside CTAs, feature cards, tabs, badges, table cells, and status markers
+- which upstream selectors create behavior through cascade rather than through the JSX node itself, such as `td:first-of-type`, `tbody > tr`, `asChild` typography wrappers, pseudo-elements, inherited CSS variables, and table border-collapse rules
 - which remaining visual differences are caused by intentional local policy versus missing contract porting
 
 For pricing, plan, table, tab, or application-like widgets, route-local copy ownership does not prove visual parity. The rendered browser result and the upstream component/CSS contract both need to agree.
+
+Widget parity is not only about layout geometry. If the upstream source renders an icon component such as a button chevron SVG, the local page should not replace it with a text glyph, an external-link marker, a different arrow direction, or a visually similar character unless that substitution is explicitly approved. After a screenshot reveals a small control-level difference, inspect the upstream component source to verify whether the difference is a text node, pseudo-element, SVG path, icon component, or CSS background.
+
+When rebuilding a CSS-module widget into Tailwind or local primitives, do not copy only the obvious class attached to the JSX element. CSS-module widgets often rely on surrounding selectors and cascade. For example, a comparison-table section row may look like a simple `<td colSpan>一般</td>`, but its left padding can come from a broad `.table td:first-of-type` rule and its typography can come from an `asChild` text primitive such as `StaticBadge`. If the local rebuild only ports the `.heading` row class, it can silently drop the inherited/cascade-derived padding and text rhythm.
+
+Safe rule for source-backed widget migrations:
+
+1. inspect the JSX/component chain
+2. inspect every CSS selector that can match the rendered element, not only the class named in JSX
+3. inspect typography wrappers using `asChild` or slot composition
+4. measure the rendered reference element's computed style in the browser
+5. encode the resulting local contract in tests when the rebuild is not a direct source port
 
 ## Recommended Playwright collection script
 
@@ -562,6 +580,32 @@ async function collect(page, label, viewport) {
         rect: rect(a),
         style: style(a, ["fontSize", "lineHeight", "paddingTop", "paddingRight", "paddingBottom", "paddingLeft"]),
       })),
+      controlIcons: Array.from(document.querySelectorAll("main a, main button")).map((control, i) => ({
+        i,
+        text: text(control),
+        tag: control.tagName.toLowerCase(),
+        href: control instanceof HTMLAnchorElement ? control.href : null,
+        rect: rect(control),
+        style: style(control, ["display", "gap", "color", "fontSize", "lineHeight", "paddingTop", "paddingRight", "paddingBottom", "paddingLeft"]),
+        textGlyphs: (control.textContent || "").match(/[↗→›>←‹↓↑]/g) || [],
+        svgIcons: Array.from(control.querySelectorAll("svg")).map((svg, svgIndex) => ({
+          svgIndex,
+          viewBox: svg.getAttribute("viewBox"),
+          rect: rect(svg),
+          paths: Array.from(svg.querySelectorAll("path")).map((path) => path.getAttribute("d")).filter(Boolean),
+          ariaHidden: svg.getAttribute("aria-hidden"),
+        })),
+      })).filter((item) => item.text || item.svgIcons.length || item.textGlyphs.length),
+      tableCells: Array.from(document.querySelectorAll("main table th, main table td")).map((cell, i) => ({
+        i,
+        tag: cell.tagName.toLowerCase(),
+        text: text(cell),
+        colSpan: cell instanceof HTMLTableCellElement ? cell.colSpan : null,
+        rowSpan: cell instanceof HTMLTableCellElement ? cell.rowSpan : null,
+        rect: rect(cell),
+        rowRect: rect(cell.closest("tr")),
+        style: style(cell, ["fontSize", "lineHeight", "fontWeight", "letterSpacing", "textAlign", "color", "backgroundColor", "paddingTop", "paddingRight", "paddingBottom", "paddingLeft", "borderBottomWidth", "borderBottomColor"]),
+      })),
     };
   }, { requestedUrl });
 
@@ -621,6 +665,76 @@ When Playwright is not convenient, run targeted snippets in the browser console.
 })();
 ```
 
+### Inspect table cells and cascade-derived spacing
+
+Use this when a comparison table, pricing matrix, or feature matrix has subtle spacing differences around row headers, section headers, or first-column labels.
+
+```js
+(() =>
+  [...document.querySelectorAll("main table th, main table td")].map((cell, i) => {
+    const r = cell.getBoundingClientRect();
+    const row = cell.closest("tr");
+    const rr = row?.getBoundingClientRect();
+    const cs = getComputedStyle(cell);
+    return {
+      i,
+      tag: cell.tagName.toLowerCase(),
+      text: (cell.innerText || cell.textContent || "").replace(/\s+/g, " ").trim(),
+      colSpan: cell instanceof HTMLTableCellElement ? cell.colSpan : null,
+      rect: { left: r.left, top: r.top + scrollY, width: r.width, height: r.height },
+      rowRect: rr && { left: rr.left, top: rr.top + scrollY, width: rr.width, height: rr.height },
+      style: {
+        fontSize: cs.fontSize,
+        lineHeight: cs.lineHeight,
+        fontWeight: cs.fontWeight,
+        letterSpacing: cs.letterSpacing,
+        textAlign: cs.textAlign,
+        paddingLeft: cs.paddingLeft,
+        paddingTop: cs.paddingTop,
+        paddingBottom: cs.paddingBottom,
+        color: cs.color,
+        backgroundColor: cs.backgroundColor,
+      },
+    };
+  }).filter((item) => item.text)
+)();
+```
+
+If a first-column or section-header cell differs, inspect whether the upstream style comes from a broad table selector such as `td:first-of-type` or from a typography wrapper rather than from the row class itself.
+
+### Inspect CTA icons and glyphs
+
+Use this when a screenshot suggests a button or card CTA differs even though the label and href match.
+
+```js
+(() =>
+  [...document.querySelectorAll("main a, main button")].map((control, i) => {
+    const r = control.getBoundingClientRect();
+    const cs = getComputedStyle(control);
+    return {
+      i,
+      text: (control.innerText || control.textContent || "").replace(/\s+/g, " ").trim(),
+      tag: control.tagName.toLowerCase(),
+      href: control instanceof HTMLAnchorElement ? control.href : null,
+      rect: { left: r.left, top: r.top + scrollY, width: r.width, height: r.height },
+      style: { display: cs.display, gap: cs.gap, color: cs.color, fontSize: cs.fontSize },
+      textGlyphs: (control.textContent || "").match(/[↗→›>←‹↓↑]/g) || [],
+      svgIcons: [...control.querySelectorAll("svg")].map((svg, svgIndex) => ({
+        svgIndex,
+        viewBox: svg.getAttribute("viewBox"),
+        rect: (() => {
+          const sr = svg.getBoundingClientRect();
+          return { left: sr.left, top: sr.top + scrollY, width: sr.width, height: sr.height };
+        })(),
+        paths: [...svg.querySelectorAll("path")].map((path) => path.getAttribute("d")),
+      })),
+    };
+  }).filter((item) => item.text || item.textGlyphs.length || item.svgIcons.length)
+)();
+```
+
+Compare this output between the reference and target pages before declaring CTA parity. If the reference has an SVG chevron and the target has a text `↗`, the source-contract difference should be recorded even if the button size and label match.
+
 ### Measure row occupied width
 
 Use this when an image has the right width but appears too far left or right.
@@ -665,8 +779,9 @@ Report in this order:
 6. measured evidence for each important difference
 7. suspected root causes, backed by rendered measurements
 8. source-contract findings, when the reference page has upstream widget/component source
-9. what to inspect next in source code
-10. classification: defect, intentional local adaptation, external live-site artifact, environment artifact, or needs decision
+9. CTA/control icon findings, including glyph versus SVG differences
+10. what to inspect next in source code
+11. classification: defect, intentional local adaptation, external live-site artifact, environment artifact, or needs decision
 
 For each finding, use a compact structure:
 
