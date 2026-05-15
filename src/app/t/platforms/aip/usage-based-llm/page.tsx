@@ -84,24 +84,13 @@ export default function AipUsageBasedLlmPage() {
               alt="利用量に応じた課金モデル"
               width={540}
               height={304}
-              className="justify-end"
             />
           </RevealOnScroll>
         </AipUsageBasedLlmFeatureRow>
       </AipUsageBasedLlmFeatureBand>
 
       <AipUsageBasedLlmFeatureBand>
-        <AipUsageBasedLlmFeatureRow>
-          <RevealOnScroll delayMs={80}>
-            <AipUsageBasedLlmFeatureImage
-              src="/solutions/aip/usage-based-llm/premium-llm.gif"
-              alt="選択可能なプレミアムLLM (大規模言語モデル)"
-              width={580}
-              height={326}
-              className="justify-start"
-            />
-          </RevealOnScroll>
-
+        <AipUsageBasedLlmFeatureRow reverse>
           <RevealOnScroll>
             <AipUsageBasedLlmFeatureCopy className="ml-auto">
               <AipUsageBasedLlmFeatureTitle>
@@ -115,6 +104,15 @@ export default function AipUsageBasedLlmPage() {
                 ニーズに適したAIを選択し、チームの生産性を瞬時に向上します。
               </AipUsageBasedLlmFeatureBody>
             </AipUsageBasedLlmFeatureCopy>
+          </RevealOnScroll>
+
+          <RevealOnScroll delayMs={80}>
+            <AipUsageBasedLlmFeatureImage
+              src="/solutions/aip/usage-based-llm/premium-llm.gif"
+              alt="選択可能なプレミアムLLM (大規模言語モデル)"
+              width={580}
+              height={326}
+            />
           </RevealOnScroll>
         </AipUsageBasedLlmFeatureRow>
       </AipUsageBasedLlmFeatureBand>
@@ -140,7 +138,6 @@ export default function AipUsageBasedLlmPage() {
               alt="シングルサインオン(SSO) で一元管理"
               width={520}
               height={293}
-              className="justify-end"
             />
           </RevealOnScroll>
         </AipUsageBasedLlmFeatureRow>

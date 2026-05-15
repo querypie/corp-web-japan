@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import type { ComponentPropsWithoutRef, CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { PlatformContentSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 
@@ -53,8 +53,8 @@ export function AipUsageBasedLlmFeatureRow({ reverse = false, children }: { reve
       as="div"
       className="py-[80px]"
       contentClassName={cn(
-        "grid items-center gap-x-[75px] lg:grid-cols-[1fr_1fr]",
-        reverse && "lg:[&>*:first-child]:col-start-2 lg:[&>*:last-child]:row-start-1",
+        "flex flex-col items-center justify-center gap-[60px] lg:gap-[80px]",
+        reverse ? "lg:flex-row-reverse" : "lg:flex-row",
       )}
     >
       {children}
@@ -63,21 +63,29 @@ export function AipUsageBasedLlmFeatureRow({ reverse = false, children }: { reve
 }
 
 export function AipUsageBasedLlmFeatureCopy({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <div className={cn("max-w-[501px]", className)}>{children}</div>;
+  return <div className={cn("flex w-full max-w-full flex-col gap-[20px]", className)}>{children}</div>;
 }
 
 export function AipUsageBasedLlmFeatureTitle({ children }: { children: ReactNode }) {
-  return <h4 className="text-[32px] font-medium leading-[42px] text-slate-950">{children}</h4>;
+  return <h4 className="text-[32px] font-medium leading-[42px] text-slate-950 max-[480px]:text-[20px] max-[480px]:leading-[28px]">{children}</h4>;
 }
 
 export function AipUsageBasedLlmFeatureBody({ children }: { children: ReactNode }) {
-  return <p className="mt-[18px] text-[16px] font-light leading-[26px] text-[#57606A]">{children}</p>;
+  return <p className="text-[16px] font-light leading-[26px] text-[#57606A]">{children}</p>;
 }
 
 export function AipUsageBasedLlmFeatureImage({ src, alt, width, height, className = "" }: { src: string; alt: string; width: number; height: number } & ClassNameProps) {
+  const style = { "--usage-feature-image-width": `${width}px` } as CSSProperties;
+
   return (
-    <div className={cn("flex justify-center", className)}>
-      <Image src={src} alt={alt} width={width} height={height} unoptimized className="h-auto max-w-full" />
+    <div
+      className={cn(
+        "w-full max-w-full overflow-hidden rounded-[8px] shadow-[0_4px_12px_rgba(0,0,0,0.1)] lg:w-[var(--usage-feature-image-width)] lg:shadow-[0_8px_20px_rgba(0,0,0,0.15)]",
+        className,
+      )}
+      style={style}
+    >
+      <Image src={src} alt={alt} width={width} height={height} unoptimized className="h-auto w-full" />
     </div>
   );
 }

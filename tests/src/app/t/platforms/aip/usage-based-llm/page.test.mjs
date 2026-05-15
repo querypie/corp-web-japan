@@ -30,9 +30,18 @@ test("usage-based-llm page keeps route-local copy/composition and preserves the 
   assert.match(sectionSource, /max-w-\[800px\][\s\S]*text-\[48px\][\s\S]*text-\[#24292F\][\s\S]*lg:text-\[60px\]/);
   assert.match(sectionSource, /className="py-\[80px\]"/);
   assert.match(sectionSource, /<PlatformContentSection[\s\S]*as="div"[\s\S]*contentClassName=\{cn\(/);
+  assert.match(sectionSource, /flex flex-col items-center justify-center gap-\[60px\] lg:gap-\[80px\]/);
+  assert.match(sectionSource, /reverse \? "lg:flex-row-reverse" : "lg:flex-row"/);
+  assert.doesNotMatch(sectionSource, /grid items-center gap-x-\[75px\]/);
   assert.doesNotMatch(sectionSource, /MarketingPageSection/);
   assert.doesNotMatch(sectionSource, /lg:min-h-\[458px\]/);
   assert.match(sectionSource, /export function AipUsageBasedLlmFeatureRow/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmFeatureCopy[\s\S]*flex w-full max-w-full flex-col gap-\[20px\]/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmFeatureTitle[\s\S]*max-\[480px\]:text-\[20px\][\s\S]*max-\[480px\]:leading-\[28px\]/);
+  assert.match(sectionSource, /--usage-feature-image-width/);
+  assert.match(sectionSource, /shadow-\[0_4px_12px_rgba\(0,0,0,0\.1\)\]/);
+  assert.match(sectionSource, /lg:shadow-\[0_8px_20px_rgba\(0,0,0,0\.15\)\]/);
+  assert.match(routeSource, /<AipUsageBasedLlmFeatureRow reverse>/);
   assert.match(sectionSource, /export function AipUsageBasedLlmComparisonSection/);
   assert.match(sectionSource, /export function AipUsageBasedLlmCtaButtonWrap/);
 
