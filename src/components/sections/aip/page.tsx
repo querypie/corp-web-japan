@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { PlatformContentSection, PlatformFeatureSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
+import { AipThumbnailYoutube } from "@/components/sections/aip/thumbnail-youtube";
 
 type FeatureSectionProps = {
   children: ReactNode;
@@ -13,6 +14,11 @@ type FeatureImageProps = {
   alt: string;
   width: number;
   height: number;
+};
+
+type HeroVideoProps = {
+  videoId: string;
+  thumbnailSrc: string;
 };
 
 export function AipPageShell({ children }: { children: ReactNode }) {
@@ -39,21 +45,8 @@ export function AipHeroLead({ children }: { children: ReactNode }) {
   return <p className="max-w-[746px] text-[16px] font-light leading-[25px] tracking-[0.36px] text-[#57606A] lg:text-[18px] lg:leading-[28px]">{children}</p>;
 }
 
-export function AipHeroVideo() {
-  return (
-    <div className="mx-auto w-full max-w-[1024px] overflow-hidden rounded-[12px] shadow-[0_24px_80px_-55px_rgba(15,23,42,0.45)]">
-      <div className="relative aspect-video w-full bg-black">
-        <iframe
-          src="https://www.youtube.com/embed/nJGSCd6itUE"
-          title="QueryPie AIP - Secure Enterprise Agentic AI Platform"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-          className="absolute inset-0 h-full w-full border-0"
-        />
-      </div>
-    </div>
-  );
+export function AipHeroVideo({ videoId, thumbnailSrc }: HeroVideoProps) {
+  return <AipThumbnailYoutube videoId={videoId} thumbnailSrc={thumbnailSrc} />;
 }
 
 export function AipValueSection({ children }: { children: ReactNode }) {
@@ -106,14 +99,15 @@ export function AipValueCardTitle({ children }: { children: ReactNode }) {
 }
 
 export function AipValueCardBody({ children }: { children: ReactNode }) {
-  return <p className="px-[30px] pt-[40px] text-[14px] font-light leading-[23px] tracking-[0.36px] text-[#57606A] lg:text-[16px] lg:leading-[26px]">{children}</p>;
+  return <p className="px-[30px] pb-[60px] pt-[40px] text-[14px] font-light leading-[23px] tracking-[0.36px] text-[#57606A] lg:text-[16px] lg:leading-[26px]">{children}</p>;
 }
 
 export function AipValueCardLink({ href, children }: { href: string; children: ReactNode }) {
   return (
     <div className="mt-auto flex items-center justify-start px-[40px] pb-[40px] pt-[20px]">
-      <Link href={href} className="inline-flex text-[15px] font-normal leading-[16px] text-[#24292F] underline-offset-4 hover:underline">
+      <Link href={href} className="inline-flex items-center gap-[10px] text-[15px] font-normal leading-[16px] text-[#24292F] underline-offset-4 hover:underline">
         {children}
+        <AipTextButtonArrowIcon />
       </Link>
     </div>
   );
@@ -121,9 +115,20 @@ export function AipValueCardLink({ href, children }: { href: string; children: R
 
 export function AipInlineLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="mt-[20px] inline-flex text-[15px] font-normal leading-[16px] text-[#24292F] underline-offset-4 hover:underline">
+    <Link href={href} className="mt-[20px] inline-flex items-center gap-[10px] text-[15px] font-normal leading-[16px] text-[#24292F] underline-offset-4 hover:underline">
       {children}
+      <AipTextButtonArrowIcon />
     </Link>
+  );
+}
+
+function AipTextButtonArrowIcon() {
+  return (
+    <span className="inline-flex h-[16px] items-center justify-center leading-[16px]" aria-hidden="true">
+      <svg viewBox="0 0 7 12" className="h-[12px] w-[7px]">
+        <path d="M7 6L0.865033 12L0 11.154L5.26381 6L0 0.846L0.865033 0L7 6Z" fill="#24292F" />
+      </svg>
+    </span>
   );
 }
 

@@ -69,7 +69,7 @@ export default function AipPage() {
           </RevealOnScroll>
 
           <RevealOnScroll delayMs={120} className="w-full">
-            <AipHeroVideo />
+            <AipHeroVideo videoId="nJGSCd6itUE" thumbnailSrc="/services/aip/aip-video-thumb-jp.png" />
           </RevealOnScroll>
         </AipHeroInner>
       </AipHeroSection>
