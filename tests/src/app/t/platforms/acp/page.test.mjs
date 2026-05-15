@@ -19,6 +19,10 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
   assert.match(routeSource, /AcpHeroVideo/);
+  assert.match(routeSource, /<AcpHeroTitle>QueryPie アクセス制御 \(ACP\)<\/AcpHeroTitle>/);
+  assert.match(routeSource, /アクセス制御プラットフォーム（ACP）は、データベースとインフラ全体にわたる包括的なアクセス管理を提供するプラットフォームです。/);
+  assert.match(routeSource, /AIエージェントによるデータベース接続やインフラへのアクセスを最適化し、複雑なインフラをAIエージェントがアクセス可能なエコシステムに転換します。/);
+  assert.doesNotMatch(routeSource, /<AcpHeroTitle>QueryPie アクセス制御プラットフォーム \(ACP\)<\/AcpHeroTitle>/);
   assert.match(routeSource, /簡単インストール、簡単使用/);
   assert.match(routeSource, /QueryPie ACPができること/);
   assert.doesNotMatch(routeSource, /データベース、システム、Kubernetes、Web、ワークフロー全体にまたがる代表機能をカテゴリごとに確認できます。/);
