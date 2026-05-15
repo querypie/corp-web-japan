@@ -12,7 +12,7 @@ const previewPages = [
   {
     file: "src/app/t/platforms/acp/page.tsx",
     canonical: 'canonical: "/t/platforms/acp"',
-    title: 'QueryPie アクセス制御プラットフォーム (ACP)',
+    title: 'QueryPie アクセス制御 (ACP)',
   },
   {
     file: "src/app/t/services/fde/page.tsx",
