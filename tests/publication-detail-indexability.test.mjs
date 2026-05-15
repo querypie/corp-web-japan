@@ -69,6 +69,8 @@ test("internal, preview, and whitepaper pdf-only routes stay non-indexable", () 
     "src/app/internal/mdx-list-demo/page.tsx",
     "src/app/internal/whitepaper-gating-demo/page.tsx",
     "src/app/t/plans/page.tsx",
+    "src/app/t/plans/aip/page.tsx",
+    "src/app/t/plans/acp/page.tsx",
     "src/app/t/platforms/acp/page.tsx",
     "src/app/t/platforms/aip/page.tsx",
     "src/app/t/services/fde/page.tsx",

@@ -1,53 +1,85 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
-test("/t/plans keeps copy and comparison composition in the route while the section module only provides pricing UI primitives", () => {
+test("/t/plans routes keep pricing copy in route pages while the section module only provides pricing UI primitives", () => {
   const routeSource = readSource("src/app/t/plans/page.tsx");
+  const aipRouteSource = readSource("src/app/t/plans/aip/page.tsx");
+  const acpRouteSource = readSource("src/app/t/plans/acp/page.tsx");
   const sectionSource = readSource("src/components/sections/plans/section.tsx");
 
-  assert.match(routeSource, /from "@\/components\/sections\/plans\/section"/);
-  assert.match(routeSource, /<PricingRoot>/);
-  assert.match(routeSource, /<PricingHeader>/);
-  assert.match(routeSource, /<PricingContextProvider defaultActiveTab="aip">/);
-  assert.match(routeSource, /<ProductTabs>/);
-  assert.match(routeSource, /<ProductTab name="aip">/);
-  assert.match(routeSource, /<ProductTab name="acp">/);
-  assert.match(routeSource, /<PlanVisibility id="aip">/);
-  assert.match(routeSource, /<PlanVisibility id="acp">/);
-  assert.match(routeSource, /<PlanCard type="primary">/);
-  assert.match(routeSource, /<PlanCard type="black">/);
-  assert.match(routeSource, /<PlanFeature supported=\{true\}>月間800クレジット<\/PlanFeature>/);
-  assert.match(routeSource, /<CompareTable>/);
-  assert.match(routeSource, /<CompareTableHead>/);
-  assert.match(routeSource, /<CompareTableSection title="一般">/);
-  assert.match(routeSource, /<CompareTableRow label="料金">/);
-  assert.match(routeSource, /<CompareTableTextCell isBold>\$20\/月<\/CompareTableTextCell>/);
-  assert.match(routeSource, /<CompareTableBooleanCell supported=\{false\} \/>/);
-  assert.match(routeSource, /<CompareTableCheckLabelCell>最大30日間<\/CompareTableCheckLabelCell>/);
-  assert.match(routeSource, /href="\/contact-us\?inquiry=quote-request&product=acp"/);
+  assert.equal(sourceExists("src/app/t/plans/plans-page-content.tsx"), false);
+  assert.equal(sourceExists("src/app/t/plans/[product]/page.tsx"), false);
 
-  assert.doesNotMatch(routeSource, /PlansPreviewPage/);
-  assert.doesNotMatch(routeSource, /const Pricing = Object\.assign/);
-  assert.doesNotMatch(routeSource, /const Plan = Object\.assign/);
-  assert.doesNotMatch(routeSource, /rows=\{\[/);
-  assert.doesNotMatch(routeSource, /columns=\{\[/);
-  assert.doesNotMatch(routeSource, /const aipPlans\s*:/);
-  assert.doesNotMatch(routeSource, /const acpPlans\s*:/);
-  assert.doesNotMatch(routeSource, /const aipComparisonGroups\s*:/);
-  assert.doesNotMatch(routeSource, /products=\{\[/);
-  assert.doesNotMatch(routeSource, /PlansProductSwitcher/);
+  assert.match(routeSource, /import PlansAIPPage from "\.\/aip\/page"/);
+  assert.match(routeSource, /return <PlansAIPPage \/>/);
+  assert.match(routeSource, /redirect\(redirectTarget\)/);
+  assert.match(routeSource, /return `plans\/\$\{product\}/);
+
+  assert.match(aipRouteSource, /canonical: "\/t\/plans\/aip"/);
+  assert.doesNotMatch(aipRouteSource, /export function AipPlansContent\(\)/);
+  assert.match(aipRouteSource, /<PricingRoot>/);
+  assert.match(aipRouteSource, /<PricingHeader>/);
+  assert.match(aipRouteSource, /<PricingContextProvider defaultActiveTab="aip">/);
+  assert.match(aipRouteSource, /<ProductTabs>/);
+  assert.match(aipRouteSource, /<ProductTab name="aip">/);
+  assert.match(aipRouteSource, /<ProductTab name="acp">/);
+  assert.match(aipRouteSource, /<PlanCard type="primary">/);
+  assert.match(aipRouteSource, /<PlanCard type="black">/);
+  assert.match(aipRouteSource, /<PlanFeature supported=\{true\}>月間800クレジット<\/PlanFeature>/);
+  assert.match(aipRouteSource, /<CompareTable>/);
+  assert.match(aipRouteSource, /<CompareTableHead>/);
+  assert.match(aipRouteSource, /<CompareTableSection title="一般">/);
+  assert.match(aipRouteSource, /<CompareTableRow label="料金">/);
+  assert.match(aipRouteSource, /<CompareTableTextCell isBold>\$20\/月<\/CompareTableTextCell>/);
+  assert.match(aipRouteSource, /<CompareTableBooleanCell supported=\{false\} \/>/);
+  assert.match(aipRouteSource, /<CompareTableCheckLabelCell>最大30日間<\/CompareTableCheckLabelCell>/);
+
+  assert.match(acpRouteSource, /canonical: "\/t\/plans\/acp"/);
+  assert.match(acpRouteSource, /<PricingRoot>/);
+  assert.match(acpRouteSource, /<PricingHeader>/);
+  assert.match(acpRouteSource, /<PricingContextProvider defaultActiveTab="acp">/);
+  assert.match(acpRouteSource, /<ProductTabs>/);
+  assert.match(acpRouteSource, /<ProductTab name="aip">/);
+  assert.match(acpRouteSource, /<ProductTab name="acp">/);
+  assert.match(acpRouteSource, /<PlanCard type="primary">/);
+  assert.match(acpRouteSource, /<PlanCard type="black">/);
+  assert.match(acpRouteSource, /<PlanTitle>コミュニティ<\/PlanTitle>/);
+  assert.match(acpRouteSource, /href="\/contact-us\?inquiry=quote-request&product=acp"/);
+
+  for (const source of [routeSource, aipRouteSource, acpRouteSource, sectionSource]) {
+    assert.doesNotMatch(source, /PlansContentShell/);
+    assert.doesNotMatch(source, /PlansPageContent/);
+    assert.doesNotMatch(source, /AipPlansContent/);
+  }
+
+  assert.doesNotMatch(aipRouteSource, /href="\/t\/plans\//);
+  assert.doesNotMatch(acpRouteSource, /href="\/t\/plans\//);
+  assert.doesNotMatch(aipRouteSource, /PlansPreviewPage/);
+  assert.doesNotMatch(aipRouteSource, /const Pricing = Object\.assign/);
+  assert.doesNotMatch(aipRouteSource, /const Plan = Object\.assign/);
+  assert.doesNotMatch(aipRouteSource, /rows=\{\[/);
+  assert.doesNotMatch(aipRouteSource, /columns=\{\[/);
+  assert.doesNotMatch(aipRouteSource, /const aipPlans\s*:/);
+  assert.doesNotMatch(acpRouteSource, /const acpPlans\s*:/);
+  assert.doesNotMatch(aipRouteSource, /const aipComparisonGroups\s*:/);
+  assert.doesNotMatch(aipRouteSource, /products=\{\[/);
+  assert.doesNotMatch(aipRouteSource, /PlansProductSwitcher/);
 
   assert.match(sectionSource, /export function PricingRoot\(/);
   assert.match(sectionSource, /export function PricingHeader\(/);
   assert.match(sectionSource, /export function PricingContextProvider/);
   assert.match(sectionSource, /searchParams\.has\("acp"\)/);
+  assert.match(sectionSource, /usePathname\(\)/);
+  assert.match(sectionSource, /function getPlansProductHref\(pathname: string, product: string\)/);
+  assert.match(sectionSource, /lastSegment === "aip" \|\| lastSegment === "acp"/);
+  assert.match(sectionSource, /href: getPlansProductHref\(pathname, name\)/);
+  assert.doesNotMatch(sectionSource, /href=\{`\/t\/plans/);
   assert.match(sectionSource, /export function PlanRoot\(/);
   assert.match(sectionSource, /export function PlanCard\(/);
   assert.match(sectionSource, /function ButtonChevronIcon\(/);
   assert.match(sectionSource, /viewBox="0 0 7 12"/);
   assert.match(sectionSource, /M7 6L0\.865033 12L0 11\.154L5\.26381 6L0 0\.846L0\.865033 0L7 6Z/);
-  assert.match(sectionSource, /export function PlanVisibility/);
   assert.match(sectionSource, /export function CompareTable\(/);
   assert.match(sectionSource, /export function CompareTableHead\(/);
   assert.match(sectionSource, /export function CompareTableSection\(/);
@@ -75,7 +107,6 @@ test("/t/plans keeps copy and comparison composition in the route while the sect
   assert.doesNotMatch(sectionSource, />\s*↗\s*</);
   assert.doesNotMatch(sectionSource, /bg-slate-50 text-slate-950/);
   assert.doesNotMatch(sectionSource, /lg:grid-cols-3/);
-
   assert.doesNotMatch(sectionSource, /export const Pricing = Object\.assign/);
   assert.doesNotMatch(sectionSource, /export const Plan = Object\.assign/);
   assert.doesNotMatch(sectionSource, /type CompareTableColumn =/);
