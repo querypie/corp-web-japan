@@ -5,6 +5,7 @@ import { getAiDashiStructureSource } from "../../../../helpers/static-marketing-
 
 test("AI Dashi release flow section follows route-local authoring", () => {
   const aiDashiPage = readSource("src/app/solutions/ai-dashi/page.tsx");
+  const aiDashiLinks = readSource("src/content/ai-dashi-links.ts");
   const aiDashiStructureSource = getAiDashiStructureSource();
 
   assert.match(aiDashiPage, /AIDashiReleaseFlowSection/);
@@ -15,6 +16,8 @@ test("AI Dashi release flow section follows route-local authoring", () => {
   assert.match(aiDashiPage, /ヒアリング・要件定義/);
   assert.match(aiDashiPage, /本番リリース・運用開始/);
   assert.match(aiDashiPage, /最短1〜3ヶ月/);
+  assert.match(aiDashiLinks, /export const aiDashiWhitepaperUrl =\n\s+"\/whitepapers\/30\/saas-end-or-evolution\/pdf";/);
+  assert.doesNotMatch(aiDashiLinks, /https:\/\/www\.querypie\.com\/ja\/features\/documentation/);
   assert.doesNotMatch(aiDashiPage, /const releaseFlow = \[/);
 
   assert.match(aiDashiStructureSource, /export function AIDashiReleaseFlowSection/);
