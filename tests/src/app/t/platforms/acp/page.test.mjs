@@ -19,6 +19,7 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
   assert.match(routeSource, /AcpHeroVideo/);
+  assert.match(routeSource, /title: "QueryPie アクセス制御 \(ACP\) \| QueryPie AI"/);
   assert.match(routeSource, /<AcpHeroTitle>QueryPie アクセス制御 \(ACP\)<\/AcpHeroTitle>/);
   assert.match(routeSource, /アクセス制御プラットフォーム（ACP）は、データベースとインフラ全体にわたる包括的なアクセス管理を提供するプラットフォームです。/);
   assert.match(routeSource, /AIエージェントによるデータベース接続やインフラへのアクセスを最適化し、複雑なインフラをAIエージェントがアクセス可能なエコシステムに転換します。/);
@@ -54,6 +55,13 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   assert.match(sectionSource, /export function AcpServicePageShell[\s\S]*<PlatformPageShell>/);
   assert.match(sectionSource, /export function AcpHeroSection[\s\S]*<PlatformContentSection className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]">/);
   assert.match(sectionSource, /export function AcpHeroTitle[\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
+  assert.match(sectionSource, /src="https:\/\/www\.youtube\.com\/embed\/AWnknC76Jpo\?si=5M5QNi83zyyHD2V3&modestbranding=0"/);
+  assert.match(sectionSource, /title="YouTube video player"/);
+  assert.match(sectionSource, /<div className="mx-auto w-full max-w-\[1024px\]">/);
+  assert.match(sectionSource, /<div className="relative aspect-video w-full">/);
+  assert.doesNotMatch(sectionSource, /rounded-\[12px\]/);
+  assert.doesNotMatch(sectionSource, /shadow-\[0_24px_80px_-55px_rgba/);
+  assert.doesNotMatch(sectionSource, /bg-black/);
   assert.match(sectionSource, /export function AcpFeatureSection[\s\S]*<PlatformContentSection className="pb-\[80px\]">/);
   assert.match(sectionSource, /export function AcpFeatureIntro/);
   assert.match(sectionSource, /export function AcpIntegrationsLink/);
