@@ -35,6 +35,8 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   assert.match(routeSource, /<AcpFeatureItemTitle>簡単なログストリーミング<\/AcpFeatureItemTitle>/);
   assert.match(routeSource, /<AcpFeatureItemBody>/);
   assert.match(routeSource, /利用可能なACP統合機能をすべて見る/);
+  assert.match(routeSource, /<AcpIntegrationsLink href="\/t\/platforms\/acp\/integrations">/);
+  assert.doesNotMatch(routeSource, /href="https:\/\/www\.querypie\.com\/ja\/solutions\/acp\/integrations"/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(routeSource, /<AipFreeTrialCtaSection \/>/);
   assert.doesNotMatch(routeSource, /<AcpFeatureCategory label=/);

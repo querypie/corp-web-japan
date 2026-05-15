@@ -363,7 +363,7 @@ export default function AcpServicePage() {
               <AcpIntegrationsBody>
                 データベース、サーバー、Kubernetes、Webアプリケーション、アイデンティティプロバイダ、セキュリティツールなど50以上のシステムとシームレスに統合し、インフラエコシステム全体で統一された権限制御を実現しています。
               </AcpIntegrationsBody>
-              <AcpIntegrationsLink href="https://www.querypie.com/ja/solutions/acp/integrations">
+              <AcpIntegrationsLink href="/t/platforms/acp/integrations">
                 利用可能なACP統合機能をすべて見る &gt;
               </AcpIntegrationsLink>
             </div>
