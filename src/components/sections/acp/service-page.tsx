@@ -29,11 +29,11 @@ export function AcpHeroLead({ children }: { children: ReactNode }) {
 
 export function AcpHeroVideo() {
   return (
-    <div className="mx-auto w-full max-w-[1024px] overflow-hidden rounded-[12px] shadow-[0_24px_80px_-55px_rgba(15,23,42,0.45)]">
-      <div className="relative aspect-video w-full bg-black">
+    <div className="mx-auto w-full max-w-[1024px]">
+      <div className="relative aspect-video w-full">
         <iframe
-          src="https://www.youtube.com/embed/AWnknC76Jpo?si=5M5QNi83zyyHD2V3"
-          title="QueryPie Web DAC Quick Demo"
+          src="https://www.youtube.com/embed/AWnknC76Jpo?si=5M5QNi83zyyHD2V3&modestbranding=0"
+          title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
