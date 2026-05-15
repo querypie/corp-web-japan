@@ -1,6 +1,6 @@
 ---
 name: mdx-publication-operations
-description: Maintain corp-web-japan MDX publication families reliably: add new posts, edit existing files, hide list entries safely, and use redirect shadow records only where the current loaders support them.
+description: Use when maintaining public MDX publication content in corp-web-japan across blog, whitepaper, news, event, use-case, and demo families.
 version: 1.0.0
 author: Hermes Agent
 license: MIT
