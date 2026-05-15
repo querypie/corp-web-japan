@@ -33,6 +33,13 @@ const internalDemoCards = [
       "공개 blog / whitepapers 동작을 건드리지 않고, internal 라우트에서만 load-more 버튼과 URL 복원 동작을 별도로 확인할 수 있는 데모입니다.",
   },
   {
+    eyebrow: "Video",
+    title: "Video Playback Demo",
+    href: "/internal/video",
+    description:
+      "public 디렉터리의 MP4 파일을 native video player 로 재생하면서, 이후 CDN 기반 media URL 로 바꿀 수 있는 self-hosted video 계약을 확인하는 데모입니다.",
+  },
+  {
     eyebrow: "Sections",
     title: "Demo Sections",
     href: "/internal/demo-sections",
