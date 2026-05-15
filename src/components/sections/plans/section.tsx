@@ -225,10 +225,16 @@ export function PlanButton({ href, external = false, type = "primary", children 
       )}
     >
       <span>{children}</span>
-      <span aria-hidden="true" className="text-sm leading-none">
-        ↗
-      </span>
+      <ButtonChevronIcon />
     </Link>
+  );
+}
+
+function ButtonChevronIcon() {
+  return (
+    <svg aria-hidden="true" className="h-3 w-[7px] shrink-0" viewBox="0 0 7 12" fill="none" focusable="false">
+      <path d="M7 6L0.865033 12L0 11.154L5.26381 6L0 0.846L0.865033 0L7 6Z" fill="currentColor" />
+    </svg>
   );
 }
 
@@ -255,7 +261,7 @@ export function PlanDivider() {
 
 export function CompareTable({ children }: { children: ReactNode }) {
   return (
-    <div className="w-[calc(100%+60px)] overflow-x-auto px-[30px] sm:w-[calc(100%+80px)] sm:px-10">
+    <div className="-mx-6 w-[calc(100%+48px)] overflow-x-auto px-6 sm:-mx-10 sm:w-[calc(100%+80px)] sm:px-10">
       <table className="w-[1200px] border-collapse text-left text-[15px] text-slate-950">{children}</table>
     </div>
   );
@@ -279,8 +285,8 @@ export function CompareTablePlanHead({ children }: { children: ReactNode }) {
 export function CompareTableSection({ title, children }: { title: string; children: ReactNode }) {
   return (
     <tbody>
-      <tr className="h-8 bg-slate-900 text-white">
-        <td colSpan={4} className="text-left text-sm font-medium leading-5">
+      <tr className="h-8 bg-[#24292f] text-white">
+        <td colSpan={4} className="pl-5 text-left text-xs font-medium leading-[17px] tracking-[0.24px]">
           {title}
         </td>
       </tr>

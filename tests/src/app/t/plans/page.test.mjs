@@ -44,6 +44,9 @@ test("/t/plans keeps copy and comparison composition in the route while the sect
   assert.match(sectionSource, /searchParams\.has\("acp"\)/);
   assert.match(sectionSource, /export function PlanRoot\(/);
   assert.match(sectionSource, /export function PlanCard\(/);
+  assert.match(sectionSource, /function ButtonChevronIcon\(/);
+  assert.match(sectionSource, /viewBox="0 0 7 12"/);
+  assert.match(sectionSource, /M7 6L0\.865033 12L0 11\.154L5\.26381 6L0 0\.846L0\.865033 0L7 6Z/);
   assert.match(sectionSource, /export function PlanVisibility/);
   assert.match(sectionSource, /export function CompareTable\(/);
   assert.match(sectionSource, /export function CompareTableHead\(/);
@@ -61,10 +64,15 @@ test("/t/plans keeps copy and comparison composition in the route while the sect
   assert.match(sectionSource, /rounded-t-\[20px\]/);
   assert.match(sectionSource, /w-\[230px\]/);
   assert.match(sectionSource, /w-\[1200px\]/);
+  assert.match(sectionSource, /-mx-6 w-\[calc\(100%\+48px\)\] overflow-x-auto px-6/);
+  assert.match(sectionSource, /sm:-mx-10 sm:w-\[calc\(100%\+80px\)\] sm:px-10/);
+  assert.match(sectionSource, /h-8 bg-\[#24292f\] text-white/);
+  assert.match(sectionSource, /pl-5 text-left text-xs font-medium leading-\[17px\] tracking-\[0\.24px\]/);
   assert.match(sectionSource, /h-11 border-b border-\[#dae1e7\]/);
 
   assert.doesNotMatch(sectionSource, /rounded-\[28px\] border border-slate-200/);
   assert.doesNotMatch(sectionSource, /shadow-\[0_14px_40px/);
+  assert.doesNotMatch(sectionSource, />\s*↗\s*</);
   assert.doesNotMatch(sectionSource, /bg-slate-50 text-slate-950/);
   assert.doesNotMatch(sectionSource, /lg:grid-cols-3/);
 
