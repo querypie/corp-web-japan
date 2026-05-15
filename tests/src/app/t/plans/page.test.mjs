@@ -4,17 +4,20 @@ import { readSource } from "../../../../helpers/source-readers.mjs";
 
 test("/t/plans keeps copy and comparison composition in the route while the section module only provides pricing UI primitives", () => {
   const routeSource = readSource("src/app/t/plans/page.tsx");
-  const productRouteSource = readSource("src/app/t/plans/[product]/page.tsx");
+  const aipRouteSource = readSource("src/app/t/plans/aip/page.tsx");
+  const acpRouteSource = readSource("src/app/t/plans/acp/page.tsx");
   const contentSource = readSource("src/app/t/plans/plans-page-content.tsx");
   const sectionSource = readSource("src/components/sections/plans/section.tsx");
 
   assert.match(routeSource, /return <PlansPageContent activeProduct="aip" \/>/);
   assert.match(routeSource, /redirect\(redirectTarget\)/);
   assert.match(routeSource, /return `plans\/\$\{product\}/);
-  assert.match(productRouteSource, /const plansProducts = \["aip", "acp"\]/);
-  assert.match(productRouteSource, /generateStaticParams\(\)/);
-  assert.match(productRouteSource, /notFound\(\)/);
-  assert.match(productRouteSource, /return <PlansPageContent activeProduct=\{product\} \/>/);
+  assert.match(aipRouteSource, /canonical: "\/t\/plans\/aip"/);
+  assert.match(aipRouteSource, /return <PlansPageContent activeProduct="aip" \/>/);
+  assert.match(acpRouteSource, /canonical: "\/t\/plans\/acp"/);
+  assert.match(acpRouteSource, /return <PlansPageContent activeProduct="acp" \/>/);
+  assert.doesNotMatch(aipRouteSource, /<PricingRoot>|<PlanCard|<CompareTable>/);
+  assert.doesNotMatch(acpRouteSource, /<PricingRoot>|<PlanCard|<CompareTable>/);
 
   assert.match(contentSource, /from "@\/components\/sections\/plans\/section"/);
   assert.match(contentSource, /<PricingRoot>/);
