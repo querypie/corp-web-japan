@@ -107,7 +107,8 @@
   font-size: 14px;
   font-weight: 400;
   transition: color 0.15s ease;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .linkColumn a:hover {

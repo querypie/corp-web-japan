@@ -39,3 +39,10 @@ test("footer demo links point to the rolled-out canonical list routes", () => {
   assert.doesNotMatch(footer, /t\("\/demo\/aip", previewModeEnabled\)/);
   assert.doesNotMatch(footer, /t\("\/demo\/acp", previewModeEnabled\)/);
 });
+
+test("footer links can wrap on narrow mobile widths", () => {
+  const footerStyles = readSource("src/components/layout/site-footer.module.css");
+
+  assert.match(footerStyles, /\.linkColumn a\s*\{[^}]*white-space:\s*normal;/s);
+  assert.match(footerStyles, /\.linkColumn a\s*\{[^}]*overflow-wrap:\s*anywhere;/s);
+});

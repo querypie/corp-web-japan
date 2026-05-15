@@ -83,14 +83,71 @@ describe("ACP static preview route migration", () => {
       assert.doesNotMatch(page, /const capabilityImages =/);
       assert.match(page, /<AcpHeroTitle>/);
       assert.match(page, /<AcpFeatureCardTitle>/);
-      assert.match(page, /<AcpCapabilityImage src=/);
-      assert.match(page, /<AcpPageCtaTitle>QueryPie ACPを無料でお試しください<\/AcpPageCtaTitle>/);
+      assert.match(page, /<AcpSplitFeatureSection/);
+      assert.match(page, /<AcpPageCtaTitle>まずは小さく、失敗しないAXを始めよう<\/AcpPageCtaTitle>/);
     }
+  });
+
+  it("keeps controller pages structured like the shipped ACP static pages instead of a compressed image gallery", () => {
+    const expectedRouteSections = {
+      "database-access-controller": [
+        "QueryPie ユニバーサルアナライザー",
+        "ユーザーフレンドリーな",
+        "元帳テーブルのアクセス制御",
+      ],
+      "system-access-controller": [
+        "Webターミナル",
+        "コマンド権限のアクセス制御と管理",
+        "様々なプロトコルをサポート",
+      ],
+      "kubernetes-access-controller": [
+        "簡単で高速なクラウド同期",
+        "Multi-K8S 環境統合管理",
+        "クバネティスアクセス権の自動設定",
+      ],
+      "web-access-controller": [
+        "集中管理",
+        "ロールと属性ベース",
+        "Coming Soon",
+        "URLパスの管理",
+      ],
+    };
+
+    for (const [route, sectionTexts] of Object.entries(expectedRouteSections)) {
+      const page = read(`src/app/t/platforms/acp/${route}/page.tsx`);
+
+      assert.match(page, /<AcpSplitFeatureSection/);
+      assert.doesNotMatch(page, /<AcpCapabilityGallery>/);
+      assert.match(page, /<AcpPageCtaTitle>まずは小さく、失敗しないAXを始めよう<\/AcpPageCtaTitle>/);
+      assert.match(page, /<AcpPageCtaLink>無料で試してみる<\/AcpPageCtaLink>/);
+
+      for (const sectionText of sectionTexts) {
+        assert.match(page, new RegExp(sectionText));
+      }
+    }
+  });
+
+  it("uses the upstream ACP static visual contract for hero, feature cards, split sections, and CTA", () => {
+    const staticPageSection = read("src/components/sections/acp/static-page.tsx");
+
+    assert.match(staticPageSection, /max-w-\[1024px\]/);
+    assert.match(staticPageSection, /text-\[60px\] font-normal leading-\[72px\]/);
+    assert.match(staticPageSection, /text-\[52px\] font-normal leading-\[62px\]/);
+    assert.match(staticPageSection, /max-w-\[1200px\] flex-col gap-5/);
+    assert.match(staticPageSection, /max-\[480px\]:text-\[48px\] max-\[480px\]:leading-\[56px\]/);
+    assert.match(staticPageSection, /rounded-\[20px\] bg-\[#f6f8fa\] px-10 py-\[60px\]/);
+    assert.match(staticPageSection, /width=\{40\} height=\{40\}/);
+    assert.match(staticPageSection, /font-medium leading-\[42px\]/);
+    assert.match(staticPageSection, /export function AcpSplitFeatureSection/);
+    assert.match(staticPageSection, /bg-\[#f6f8fa\]/);
+    assert.match(staticPageSection, /https:\/\/app\.querypie\.com/);
+    assert.doesNotMatch(staticPageSection, /rounded-\[24px\] border border-slate-200 bg-white p-8 shadow-sm/);
+    assert.doesNotMatch(staticPageSection, /rounded-\[32px\] bg-slate-950/);
+    assert.doesNotMatch(staticPageSection, /\/contact-us\?inquiry=demo-request&product=acp/);
   });
 
   it("keeps ACP static section primitives UI-only", () => {
     const staticPageSection = read("src/components/sections/acp/static-page.tsx");
-    assert.doesNotMatch(staticPageSection, /QueryPie ACPを無料でお試しください/);
     assert.doesNotMatch(staticPageSection, /デモを依頼/);
     assert.doesNotMatch(staticPageSection, /features\.map/);
     assert.doesNotMatch(staticPageSection, /description\.map/);

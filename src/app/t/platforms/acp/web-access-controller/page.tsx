@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  AcpCapabilityGallery,
-  AcpCapabilityGrid,
-  AcpCapabilityImage,
   AcpFeatureCard,
   AcpFeatureCardDescription,
   AcpFeatureCardTitle,
@@ -21,6 +18,10 @@ import {
   AcpSectionHeading,
   AcpSectionIntro,
   AcpSectionLeadGroup,
+  AcpSplitFeatureBadge,
+  AcpSplitFeatureBody,
+  AcpSplitFeatureSection,
+  AcpSplitFeatureTitle,
   AcpStaticPageShell,
   AcpWorksSection,
 } from "@/components/sections/acp/static-page";
@@ -59,7 +60,7 @@ export default function WebAccessControllerPage() {
           </p>
         </AcpHeroLeadGroup>
       </AcpHeroSection>
-      <AcpFeatureSection>
+      <AcpFeatureSection topPadding="mega">
         <AcpSectionIntro>
           <AcpSectionHeading>WACの注目機能</AcpSectionHeading>
           <AcpSectionLeadGroup>
@@ -95,7 +96,7 @@ export default function WebAccessControllerPage() {
           </AcpFeatureCard>
         </AcpFeatureGrid>
       </AcpFeatureSection>
-      <AcpWorksSection imageSrc="/platforms/acp/web-access-controller/works.png" imageAlt="WACの仕組み">
+      <AcpWorksSection imageSrc="/platforms/acp/web-access-controller/works.png" imageAlt="WACの仕組み" imageWidth={1000} imageHeight={400}>
         <AcpSectionIntro>
           <AcpSectionHeading>WACの仕組み</AcpSectionHeading>
           <AcpSectionLeadGroup>
@@ -114,25 +115,55 @@ export default function WebAccessControllerPage() {
           </AcpSectionLeadGroup>
         </AcpSectionIntro>
       </AcpWorksSection>
-      <AcpCapabilityGallery>
-        <AcpSectionHeading>主な機能</AcpSectionHeading>
-        <AcpCapabilityGrid>
-          <AcpCapabilityImage src="/platforms/acp/web-access-controller/main.png" alt="main" />
-          <AcpCapabilityImage src="/platforms/acp/web-access-controller/management.png" alt="management" />
-          <AcpCapabilityImage src="/platforms/acp/web-access-controller/pac.png" alt="pac" />
-          <AcpCapabilityImage src="/platforms/acp/web-access-controller/monitoring.png" alt="monitoring" />
-          <AcpCapabilityImage src="/platforms/acp/web-access-controller/tracking.png" alt="tracking" />
-          <AcpCapabilityImage src="/platforms/acp/web-access-controller/siem.png" alt="siem" />
-          <AcpCapabilityImage src="/platforms/acp/web-access-controller/url-path-management.png" alt="url path management" />
-          <AcpCapabilityImage src="/platforms/acp/web-access-controller/data-masking.png" alt="data masking" />
-        </AcpCapabilityGrid>
-      </AcpCapabilityGallery>
+      <AcpSplitFeatureSection gray imageSrc="/platforms/acp/web-access-controller/management.png" imageAlt="Centralized Management" imageWidth={640} imageHeight={530}>
+        <AcpSplitFeatureTitle>集中管理</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>Web プロキシとChrome 拡張機能を通じて、社内Web アプリケーション（SaaS、社内アプリケーションなど）をシームレスに管理します。 セキュリティレベルが低いSaaS アプリケーションでも、一貫したアクセス制御とログ記録を確保します。同時に、社内GUI コンソールにも同じ制御を適用することで、セキュリティ上の盲点を排除します。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection reverse imageSrc="/platforms/acp/web-access-controller/pac.png" imageAlt="RBAC & ABAC-Based Permission Control" imageWidth={640} imageHeight={470}>
+        <AcpSplitFeatureTitle>{"ロールと属性ベースの\nアクセス制御"}</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>ユーザーロール（RBAC）に基づいてWebアプリケーションのアクセス権とポリシーを管理し、SaaS と社内アプリケーションの両方に対してログイン認証とアクセス制御をシームレスに統合します。セキュリティ機能が制限されたSaaS アプリケーションに対しても承認とロギングを提供し、最も必要な場所でセキュリティを強化します。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection gray imageSrc="/platforms/acp/web-access-controller/monitoring.png" imageAlt="Timeline-Based Browser Monitoring" imageWidth={640} imageHeight={490}>
+        <AcpSplitFeatureTitle>{"タイムラインベースの\nブラウザ監視"}</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>Web アプリケーションにおけるユーザーの行動をタイムラインベースで追跡します。QueryPie は、ユーザーのアクティビティをスクリーンショットとしてキャプチャし、権限の管理を行い、すべての対話をリアルタイムで明確に確認できるようにします。リアルタイムでのタイムラインモニタリングにより、管理者は異常の兆候を迅速に把握し、社内アプリケーションとSaaS アプリケーションの両方において優れたセキュリティを維持することができます。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection reverse imageSrc="/platforms/acp/web-access-controller/tracking.png" imageAlt="Event and Content-Based User Activity Tracking" imageWidth={640} imageHeight={590}>
+        <AcpSplitFeatureTitle>{"イベントとコンテンツベースの\nユーザーアクティビティの追跡"}</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>Web アプリケーションは、ユーザーのクリック、スクロール、入力など、すべてのアクティビティをリアルタイムで追跡し、URL の閲覧からファイル転送に至るまで、ユーザーの行動を完全に把握します。これにより、機密性の高いやりとりに対して、完全な可視性を確保することができます。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection gray imageSrc="/platforms/acp/web-access-controller/siem.png" imageAlt="One-Click SIEM Integration" imageWidth={640} imageHeight={630}>
+        <AcpSplitFeatureTitle>ワンクリック SIEM 連動</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>QueryPie では、記録されたすべてのイベントのログストリーミングをシンプル化し、Web アクセス、監査、ユーザーアクティビティなどのデータをリアルタイムで監視することができます。これにより、管理者は重要なイベントを追跡し、ユーザーの行動を分析して、アクセスパターンを確認することができ、セキュリティを強化するための貴重な洞察を提供します。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection reverse imageSrc="/platforms/acp/web-access-controller/url-path-management.png" imageAlt="URL Path Management" imageWidth={640} imageHeight={460}>
+        <AcpSplitFeatureTitle>URLパスの管理</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>タグベースのRBAC およびABAC ルールを使用して、サブURLへのアクセスを制御します。管理者はWeb アプリケーションのアクセスを制限し、ユーザーが自分の役割に基づいて許可されたページやコンテンツのみにアクセスできるように設定します。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
+      <AcpSplitFeatureSection gray last imageSrc="/platforms/acp/web-access-controller/data-masking.png" imageAlt="Data Masking in Web Applications" imageWidth={600} imageHeight={450} imageWidthClassName="lg:basis-1/2">
+        <AcpSplitFeatureBadge>Coming Soon</AcpSplitFeatureBadge>
+        <AcpSplitFeatureTitle>{"Web アプリケーションでの\nデータマスキング"}</AcpSplitFeatureTitle>
+        <AcpSplitFeatureBody>
+          <p>Web アプリケーションから機密情報をマスキングすることで、不正アクセスや情報漏洩を防ぎます。マスキング技術を適用することにより、インプレッションへのリスクを軽減し、データセキュリティ規制に準拠するとともに、ユーザーのプライバシーを保護することができます。</p>
+        </AcpSplitFeatureBody>
+      </AcpSplitFeatureSection>
       <AcpPageCta>
-        <AcpPageCtaTitle>QueryPie ACPを無料でお試しください</AcpPageCtaTitle>
+        <AcpPageCtaTitle>まずは小さく、失敗しないAXを始めよう</AcpPageCtaTitle>
         <AcpPageCtaDescription>
-          アクセス制御、監査、統合管理をひとつのプラットフォームで確認できます。
+          簡単サインアップで、14日間の無料トライアルをお試しください
         </AcpPageCtaDescription>
-        <AcpPageCtaLink>デモを依頼</AcpPageCtaLink>
+        <AcpPageCtaLink>無料で試してみる</AcpPageCtaLink>
       </AcpPageCta>
       <SiteFooter />
     </AcpStaticPageShell>

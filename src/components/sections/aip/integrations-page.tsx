@@ -19,9 +19,16 @@ export function AipIntegrationsContent({ children, className }: { children: Reac
   return <div className={cx(styles.content, className)}>{children}</div>;
 }
 
-export function AipIntegrationsHeroSection({ children, className }: { children: ReactNode } & ClassNameProps) {
+export function AipIntegrationsHeroSection({
+  children,
+  className,
+  variant = "aip",
+}: {
+  children: ReactNode;
+  variant?: "aip" | "acp";
+} & ClassNameProps) {
   return (
-    <AipIntegrationsSection className={cx(styles.heroSection, className)}>
+    <AipIntegrationsSection className={cx(styles.heroSection, variant === "acp" && styles.acpHeroSection, className)}>
       <AipIntegrationsContent>
         <div className={styles.heroContent}>{children}</div>
       </AipIntegrationsContent>

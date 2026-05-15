@@ -4,7 +4,6 @@ import { SiteHeader } from "@/components/layout/site-header";
 import {
   AipIntegrationsCategoryLink,
   AipIntegrationsCategoryList,
-  AipIntegrationsContent,
   AipIntegrationsHeroCopy,
   AipIntegrationsHeroHeading,
   AipIntegrationsHeroLead,
@@ -134,34 +133,30 @@ export default async function AipIntegrationsPage({ searchParams }: Integrations
           </AipIntegrationsHeroLead>
         </AipIntegrationsHeroCopy>
 
-        <AipIntegrationsContent>
-          <AipIntegrationsCategoryList>
-            <AipIntegrationsCategoryLink href="/t/platforms/aip/integrations?category=all" active={currentCategory === "all"}>
-              全て ({products.length})
+        <AipIntegrationsCategoryList>
+          <AipIntegrationsCategoryLink href="/t/platforms/aip/integrations?category=all" active={currentCategory === "all"}>
+            全て ({products.length})
+          </AipIntegrationsCategoryLink>
+          {categories.map((category) => (
+            <AipIntegrationsCategoryLink
+              key={category.key}
+              href={`/t/platforms/aip/integrations?category=${category.key}`}
+              active={currentCategory === category.key}
+            >
+              {category.label} ({getCategoryCount(category.key)})
             </AipIntegrationsCategoryLink>
-            {categories.map((category) => (
-              <AipIntegrationsCategoryLink
-                key={category.key}
-                href={`/t/platforms/aip/integrations?category=${category.key}`}
-                active={currentCategory === category.key}
-              >
-                {category.label} ({getCategoryCount(category.key)})
-              </AipIntegrationsCategoryLink>
-            ))}
-          </AipIntegrationsCategoryList>
-        </AipIntegrationsContent>
+          ))}
+        </AipIntegrationsCategoryList>
 
-        <AipIntegrationsContent>
-          <AipIntegrationsProductList>
-            {filteredProducts.map((product) => (
-              <AipIntegrationsProductCard
-                key={`${product.label}-${product.svgFilename}`}
-                iconSrc={`/services/aip/integrations/icons/${product.svgFilename}.svg`}
-                label={product.label}
-              />
-            ))}
-          </AipIntegrationsProductList>
-        </AipIntegrationsContent>
+        <AipIntegrationsProductList>
+          {filteredProducts.map((product) => (
+            <AipIntegrationsProductCard
+              key={`${product.label}-${product.svgFilename}`}
+              iconSrc={`/services/aip/integrations/icons/${product.svgFilename}.svg`}
+              label={product.label}
+            />
+          ))}
+        </AipIntegrationsProductList>
       </AipIntegrationsHeroSection>
 
       <AipFreeTrialCtaSection />
