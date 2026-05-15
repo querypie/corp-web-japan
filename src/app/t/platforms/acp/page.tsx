@@ -36,9 +36,9 @@ import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
-  title: "QueryPie アクセス制御プラットフォーム (ACP) | QueryPie AI",
+  title: "QueryPie アクセス制御 (ACP) | QueryPie AI",
   description:
-    "ゼロトラスト型の統合アクセス制御により、データベース、サーバー、Kubernetes、Webアプリケーション、ワークフロー全体を一元管理する QueryPie ACP のページです。",
+    "アクセス制御プラットフォーム（ACP）は、データベースとインフラ全体にわたる包括的なアクセス管理を提供するプラットフォームです。AIエージェントによるデータベース接続やインフラへのアクセスを最適化し、複雑なインフラをAIエージェントがアクセス可能なエコシステムに転換します。",
   alternates: {
     canonical: "/t/platforms/acp",
   },
@@ -57,9 +57,9 @@ export default function AcpServicePage() {
         <AcpHeroInner>
           <RevealOnScroll>
             <AcpHeroCopy>
-              <AcpHeroTitle>QueryPie アクセス制御プラットフォーム (ACP)</AcpHeroTitle>
+              <AcpHeroTitle>QueryPie アクセス制御 (ACP)</AcpHeroTitle>
               <AcpHeroLead>
-                アクセス制御プラットフォームはデータベースとインフラ全体にわたる包括的なアクセス管理を提供するプラットフォームです。
+                アクセス制御プラットフォーム（ACP）は、データベースとインフラ全体にわたる包括的なアクセス管理を提供するプラットフォームです。
                 <br />
                 AIエージェントによるデータベース接続やインフラへのアクセスを最適化し、複雑なインフラをAIエージェントがアクセス可能なエコシステムに転換します。
               </AcpHeroLead>
