@@ -20,6 +20,8 @@ type PricingContextValue = {
   setActiveTab: (tab: string) => void;
 };
 
+export type PlansProduct = "aip" | "acp";
+
 type PlanTone = "primary" | "black";
 
 type ProductTabInjectedProps = {

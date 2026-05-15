@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { PlansPageContent, type PlansProduct } from "./plans-page-content";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { SiteHeader } from "@/components/layout/site-header";
+import type { PlansProduct } from "@/components/sections/plans/section";
+import { AipPlansContent } from "./aip/page";
 
 export const metadata: Metadata = {
   title: "プラン | QueryPie AI",
@@ -61,5 +64,11 @@ export default async function PlansPage({ searchParams }: PageProps) {
     redirect(redirectTarget);
   }
 
-  return <PlansPageContent activeProduct="aip" />;
+  return (
+    <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
+      <SiteHeader />
+      <AipPlansContent />
+      <SiteFooter />
+    </main>
+  );
 }
