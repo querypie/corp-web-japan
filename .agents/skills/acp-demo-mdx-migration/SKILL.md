@@ -66,7 +66,7 @@ id: "4"
 slug: "connect-kubernetes-agent"
 title: "How to Connect to Kubernetes via the QueryPie Agent"
 description: "How to Connect to Kubernetes via the QueryPie Agent | QueryPie ACP demo"
-date: "2024年11月29日"
+date: "2024-11-29"
 heroImageSrc: "/demo/acp/4/thumbnail.png"
 relatedIds:
   - "6"
@@ -76,7 +76,7 @@ relatedIds:
 ```
 
 Rules:
-- convert source `date: "YYYY-MM-DD"` into Japanese date format like `2024年11月29日`
+- preserve source `date: "YYYY-MM-DD"` as ISO frontmatter; the website loaders format ISO dates as Japanese display dates
 - convert source `relatedPosts` legacy URLs into `relatedIds`
 - drop source-only fields such as `layout`, `category`, `ogImage`, `hideOgImage`, and `hideTableOfContents`
 - if source `description` is blank, fill it with a minimal useful local description instead of leaving an empty string

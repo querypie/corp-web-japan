@@ -82,13 +82,13 @@ test("eula public keeps adjacent source content and canonical footer link", () =
   const footerSource = readSource("src/components/layout/site-footer.tsx");
 
   assert.match(contentSource, /^PLEASE READ THIS END USER LICENSE AGREEMENT/m);
-  assert.match(contentSource, /^\*\*Effective from Jul 17, 2025\*\*$/m);
+  assert.match(contentSource, /^\*\*Effective from 2025-07-17\*\*$/m);
   assert.ok(
-    contentSource.indexOf("**Effective from Jul 17, 2025**") >
+    contentSource.indexOf("**Effective from 2025-07-17**") >
       contentSource.indexOf("REFERENCES TO \"Licensee\", \"you\", or \"your\" WILL MEAN YOUR COMPANY."),
   );
   assert.ok(
-    contentSource.indexOf("**Effective from Jul 17, 2025**") <
+    contentSource.indexOf("**Effective from 2025-07-17**") <
       contentSource.indexOf("# PART I: GENERAL TERMS"),
   );
   assert.match(contentSource, /^# PART I: GENERAL TERMS/m);

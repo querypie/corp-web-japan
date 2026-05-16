@@ -1,4 +1,5 @@
 import * as path from "node:path";
+import { formatJapaneseDateFromIsoDate } from "@/lib/publications/format-japanese-date";
 import {
   createStandardPublicationRecordsRepository,
   type StandardPublicationRecord,
@@ -84,7 +85,7 @@ const newsPublicationRepository = createStandardPublicationRecordsRepository<
     badge: "ニュース",
     title: record.title,
     description: record.description,
-    date: record.date,
+    date: formatJapaneseDateFromIsoDate(record.date),
     sourceLabel: record.sourceLabel ?? (record.redirectUrl ? "メディア掲載" : "公式発表"),
     opensExternal: false,
   }),
