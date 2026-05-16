@@ -1,9 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-const destination = "https://www.querypie.com/ja/solutions/aip";
-
-export function GET() {
-  return NextResponse.redirect(destination, 307);
+export function GET(request: NextRequest) {
+  return NextResponse.redirect(new URL("/platforms/aip", request.url), 307);
 }
 
 export const HEAD = GET;

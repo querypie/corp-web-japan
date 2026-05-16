@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readSource } from "./helpers/source-readers.mjs";
 
 const headerExpectedLinks = [
-  'label: "AIプラットフォーム｜AIP", href: t("/platforms/aip", previewModeEnabled)',
+  'label: "AIプラットフォーム｜AIP", href: "/platforms/aip"',
   'label: "アクセス制御プラットフォーム｜ACP", href: t("/platforms/acp", previewModeEnabled)',
   'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
   'label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew"',
@@ -22,7 +22,7 @@ const headerExpectedLinks = [
 ];
 
 const footerExpectedLinks = [
-  'label: "AIプラットフォーム｜AIP", href: t("/platforms/aip", previewModeEnabled)',
+  'label: "AIプラットフォーム｜AIP", href: "/platforms/aip"',
   'label: "アクセス制御プラットフォーム｜ACP", href: t("/platforms/acp", previewModeEnabled)',
   'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
   'label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew"',

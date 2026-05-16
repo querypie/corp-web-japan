@@ -1,22 +1,24 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource, sourceExists } from "../../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-test("/t/platforms/aip keeps route-local copy/composition while the layout primitives live in the AIP section module", () => {
-  assert.equal(sourceExists("src/app/t/platforms/aip/page.tsx"), true);
+test("/platforms/aip keeps route-local copy/composition while the layout primitives live in the AIP section module", () => {
+  assert.equal(sourceExists("src/app/platforms/aip/page.tsx"), true);
+  assert.equal(sourceExists("src/app/platforms/aip/route.ts"), false);
+  assert.equal(sourceExists("src/app/t/platforms/aip/page.tsx"), false);
   assert.equal(sourceExists("src/components/sections/aip/page.tsx"), true);
   assert.equal(sourceExists("src/components/sections/aip/thumbnail-youtube.tsx"), true);
   assert.equal(sourceExists("src/components/sections/platform/page-primitives.tsx"), true);
 
-  const routeSource = readSource("src/app/t/platforms/aip/page.tsx");
+  const routeSource = readSource("src/app/platforms/aip/page.tsx");
   const sectionSource = readSource("src/components/sections/aip/page.tsx");
   const thumbnailYoutubeSource = readSource("src/components/sections/aip/thumbnail-youtube.tsx");
   const platformSource = readSource("src/components/sections/platform/page-primitives.tsx");
 
-  assert.match(routeSource, /canonical: "\/t\/platforms\/aip"/);
-  assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
+  assert.match(routeSource, /canonical: "\/platforms\/aip"/);
+  assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
   assert.match(routeSource, /<AipHeroVideo\s+videoId="nJGSCd6itUE"\s+thumbnailSrc="\/services\/aip\/aip-video-thumb-jp\.png"\s+\/>/);
@@ -26,7 +28,7 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
   assert.match(routeSource, /従量課金型の\s*<AipLineBreak \/>\s*AIモデル/);
   assert.match(routeSource, /統合型\s*<AipLineBreak \/>\s*AIゲートウェイ/);
   assert.match(routeSource, /AI専門家伴走\s*<AipLineBreak \/>\s*サービス/);
-  assert.match(routeSource, /href="\/t\/services\/fde"/);
+  assert.match(routeSource, /href="\/services\/fde"/);
   assert.doesNotMatch(routeSource, /href="\/t\/solutions\/aip\/fde-services"/);
   assert.match(routeSource, /QueryPie AIPができること/);
   assert.match(routeSource, /プロンプト自動生成/);
@@ -94,8 +96,8 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
   assert.match(thumbnailYoutubeSource, /autoplay=\$\{autoplay\}/);
 });
 
-test("/t/platforms/aip guards the route-aligned assets required for visual parity", () => {
-  const routeSource = readSource("src/app/t/platforms/aip/page.tsx");
+test("/platforms/aip guards the route-aligned assets required for visual parity", () => {
+  const routeSource = readSource("src/app/platforms/aip/page.tsx");
 
   for (const asset of [
     "value-usage-based-llm.png",
