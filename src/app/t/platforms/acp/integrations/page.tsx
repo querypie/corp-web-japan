@@ -46,496 +46,461 @@ type IntegrationProduct = {
 };
 
 const categories: readonly IntegrationCategory[] = [
-  {
-    "key": "category-0",
-    "label": "データソース"
-  },
-  {
-    "key": "category-1",
-    "label": "コンテナとクラウドサービス"
-  },
-  {
-    "key": "category-2",
-    "label": "シングルサインオンとアイデンティティプロバイダー"
-  },
-  {
-    "key": "category-3",
-    "label": "SQL および BI ツール"
-  },
-  {
-    "key": "category-4",
-    "label": "通知"
-  },
-  {
-    "key": "category-5",
-    "label": "SIEM / SOAR"
-  },
-  {
-    "key": "category-6",
-    "label": "モニタリング"
-  },
-  {
-    "key": "category-7",
-    "label": "シークレットストア"
-  }
+  { key: "data-sources", label: "データソース" },
+  { key: "cloud-containers", label: "コンテナとクラウドサービス" },
+  { key: "identity-providers", label: "シングルサインオンとアイデンティティプロバイダー" },
+  { key: "sql-bi-tools", label: "SQL および BI ツール" },
+  { key: "notifications", label: "通知" },
+  { key: "siem-soar", label: "SIEM / SOAR" },
+  { key: "monitoring", label: "モニタリング" },
+  { key: "secret-stores", label: "シークレットストア" },
 ] as const;
-
-const legacyCategoryMap: Record<string, string> = {
-  "0": "category-0",
-  "1": "category-1",
-  "2": "category-2",
-  "3": "category-3",
-  "4": "category-4",
-  "5": "category-5",
-  "6": "category-6",
-  "7": "category-7"
-};
 
 const products: readonly IntegrationProduct[] = [
   {
     "categoryKeys": [
-      "category-4"
+      "notifications"
     ],
     "label": "Agit",
     "svgFilename": "agit-icon"
   },
   {
     "categoryKeys": [
-      "category-1"
+      "cloud-containers"
     ],
     "label": "AKS",
     "svgFilename": "aks-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "Athena",
     "svgFilename": "athena-icon"
   },
   {
     "categoryKeys": [
-      "category-2"
+      "identity-providers"
     ],
     "label": "Auth0",
     "svgFilename": "auth0-icon"
   },
   {
     "categoryKeys": [
-      "category-1"
+      "cloud-containers"
     ],
     "label": "AWS",
     "svgFilename": "aws-icon"
   },
   {
     "categoryKeys": [
-      "category-1"
+      "cloud-containers"
     ],
     "label": "Azure",
     "svgFilename": "azure-icon"
   },
   {
     "categoryKeys": [
-      "category-2"
+      "identity-providers"
     ],
     "label": "Azure AD",
     "svgFilename": "azure-ad-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "Azure SQL",
     "svgFilename": "azure-sql-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "BigQuery",
     "svgFilename": "big-query-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "Cassandra",
     "svgFilename": "cassandra-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "ClickHouse",
     "svgFilename": "clickhouse"
   },
   {
     "categoryKeys": [
-      "category-1"
+      "cloud-containers"
     ],
     "label": "Cloud SQL",
     "svgFilename": "cloud-sql-icon"
   },
   {
     "categoryKeys": [
-      "category-6"
+      "monitoring"
     ],
     "label": "CloudWatch",
     "svgFilename": "cloud-watch-icon"
   },
   {
     "categoryKeys": [
-      "category-3"
+      "sql-bi-tools"
     ],
     "label": "Databricks",
     "svgFilename": "databricks-icon"
   },
   {
     "categoryKeys": [
-      "category-3"
+      "sql-bi-tools"
     ],
     "label": "DataGrip",
     "svgFilename": "datagrip-icon"
   },
   {
     "categoryKeys": [
-      "category-1"
+      "cloud-containers"
     ],
     "label": "DigitalOcean",
     "svgFilename": "digital-ocean-icon"
   },
   {
     "categoryKeys": [
-      "category-1"
+      "cloud-containers"
     ],
     "label": "Docker",
     "svgFilename": "docker-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "DocumentDB",
     "svgFilename": "document-db-icon"
   },
   {
     "categoryKeys": [
-      "category-3"
+      "sql-bi-tools"
     ],
     "label": "Dr.Sum",
     "svgFilename": "dr-sum-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "DynamoDB",
     "svgFilename": "dynamo-db-icon"
   },
   {
     "categoryKeys": [
-      "category-1"
+      "cloud-containers"
     ],
     "label": "ECS",
     "svgFilename": "ecs-icon"
   },
   {
     "categoryKeys": [
-      "category-1"
+      "cloud-containers"
     ],
     "label": "EKS",
     "svgFilename": "eks-icon"
   },
   {
     "categoryKeys": [
-      "category-1"
+      "cloud-containers"
     ],
     "label": "GCP",
     "svgFilename": "gcp-icon"
   },
   {
     "categoryKeys": [
-      "category-1"
+      "cloud-containers"
     ],
     "label": "GKE",
     "svgFilename": "gke-icon"
   },
   {
     "categoryKeys": [
-      "category-2"
+      "identity-providers"
     ],
     "label": "Gsuite",
     "svgFilename": "gsuite-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "HBase",
     "svgFilename": "h-base-icon"
   },
   {
     "categoryKeys": [
-      "category-7"
+      "secret-stores"
     ],
     "label": "HashiCorp Vault",
     "svgFilename": "hashicorp-vault-icon"
   },
   {
     "categoryKeys": [
-      "category-1"
+      "cloud-containers"
     ],
     "label": "Heroku",
     "svgFilename": "heroku-icon"
   },
   {
     "categoryKeys": [
-      "category-3"
+      "sql-bi-tools"
     ],
     "label": "Hive",
     "svgFilename": "hive-icon"
   },
   {
     "categoryKeys": [
-      "category-4"
+      "notifications"
     ],
     "label": "HTTP",
     "svgFilename": "http-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "Impala",
     "svgFilename": "impala-icon"
   },
   {
     "categoryKeys": [
-      "category-1"
+      "cloud-containers"
     ],
     "label": "Kubernetes",
     "svgFilename": "kubernetes-icon"
   },
   {
     "categoryKeys": [
-      "category-3"
+      "sql-bi-tools"
     ],
     "label": "Looker",
     "svgFilename": "looker-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "MariaDB",
     "svgFilename": "maria-db-icon"
   },
   {
     "categoryKeys": [
-      "category-3"
+      "sql-bi-tools"
     ],
     "label": "Mode",
     "svgFilename": "mode-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "MongoDB",
     "svgFilename": "mongodb-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "MySQL",
     "svgFilename": "mysql-icon"
   },
   {
     "categoryKeys": [
-      "category-2"
+      "identity-providers"
     ],
     "label": "Okta",
     "svgFilename": "okta-icon"
   },
   {
     "categoryKeys": [
-      "category-2"
+      "identity-providers"
     ],
     "label": "OneLogin",
     "svgFilename": "one-login-icon"
   },
   {
     "categoryKeys": [
-      "category-2"
+      "identity-providers"
     ],
     "label": "OpenLDAP",
     "svgFilename": "open-ldap-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "Oracle",
     "svgFilename": "oracle-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "PostgreSQL",
     "svgFilename": "postgresql-icon"
   },
   {
     "categoryKeys": [
-      "category-3"
+      "sql-bi-tools"
     ],
     "label": "Power BI",
     "svgFilename": "power-bi-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "Presto",
     "svgFilename": "presto-icon"
   },
   {
     "categoryKeys": [
-      "category-6"
+      "monitoring"
     ],
     "label": "Prometheus",
     "svgFilename": "prometheus-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "Redis",
     "svgFilename": "redis-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "Redshift",
     "svgFilename": "redshift-icon"
   },
   {
     "categoryKeys": [
-      "category-2"
+      "identity-providers"
     ],
     "label": "SAML",
     "svgFilename": "saml-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "SAP HANA",
     "svgFilename": "sap-hana-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "ScyllaDB",
     "svgFilename": "scylla-db-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "SingleStore",
     "svgFilename": "single-store-icon"
   },
   {
     "categoryKeys": [
-      "category-4"
+      "notifications"
     ],
     "label": "Slack",
     "svgFilename": "slack-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "Snowflake",
     "svgFilename": "snowflake-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "Spanner",
     "svgFilename": "spanner-icon"
   },
   {
     "categoryKeys": [
-      "category-5"
+      "siem-soar"
     ],
     "label": "Splunk",
     "svgFilename": "splunk-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "SQL Server",
     "svgFilename": "sql-server-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "SwivelSecure",
     "svgFilename": "swivel-secure-icon"
   },
   {
     "categoryKeys": [
-      "category-5"
+      "siem-soar"
     ],
     "label": "Syslog",
     "svgFilename": "syslog-icon"
   },
   {
     "categoryKeys": [
-      "category-3"
+      "sql-bi-tools"
     ],
     "label": "Tableau",
     "svgFilename": "tableau-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "TmaxTibero",
     "svgFilename": "tmax-tibero-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "Trino",
     "svgFilename": "trino-icon"
   },
   {
     "categoryKeys": [
-      "category-0"
+      "data-sources"
     ],
     "label": "Vertica",
     "svgFilename": "vertica-icon"
   },
   {
     "categoryKeys": [
-      "category-3"
+      "sql-bi-tools"
     ],
     "label": "Workbench",
     "svgFilename": "workbench-icon"
   },
   {
     "categoryKeys": [
-      "category-3"
+      "sql-bi-tools"
     ],
     "label": "Zeppelin",
     "svgFilename": "zeppelin-icon"
@@ -545,10 +510,7 @@ const products: readonly IntegrationProduct[] = [
 function readCurrentCategory(searchParams: Record<string, string | string[] | undefined> | undefined) {
   const raw = searchParams?.category;
   const value = Array.isArray(raw) ? raw[0] : raw;
-  const normalizedValue = value ? (legacyCategoryMap[value] ?? value) : undefined;
-  return normalizedValue && (normalizedValue === "all" || categories.some((category) => category.key === normalizedValue))
-    ? normalizedValue
-    : "all";
+  return value && (value === "all" || categories.some((category) => category.key === value)) ? value : "all";
 }
 
 function getCategoryCount(categoryKey: string) {
