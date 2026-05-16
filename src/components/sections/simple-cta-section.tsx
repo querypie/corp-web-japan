@@ -9,18 +9,25 @@ type ClassNameProps = {
 
 type SectionWithContentProps = ClassNameProps & {
   contentClassName?: string;
+  background?: "muted" | "white";
 };
+
+const simpleCtaBackgroundClass = {
+  muted: "bg-[#F6F8FA]",
+  white: "bg-white",
+} as const;
 
 
 export function SimpleCtaSection({
   children,
+  background = "muted",
   className = "",
   contentClassName = "",
   style,
 }: { children: ReactNode } & SectionWithContentProps) {
   return (
     <section
-      className={`mx-auto max-w-[1920px] bg-[#F6F8FA] px-[22.5px] pb-[112.5px] pt-[112.5px] text-center lg:px-[22.5px] lg:pb-[112.5px] lg:pt-[112.5px] ${className}`.trim()}
+      className={`mx-auto max-w-[1920px] ${simpleCtaBackgroundClass[background]} px-[22.5px] pb-[112.5px] pt-[112.5px] text-center lg:px-[22.5px] lg:pb-[112.5px] lg:pt-[112.5px] ${className}`.trim()}
       style={style}
     >
       <div className={`mx-auto max-w-[1200px] ${contentClassName}`.trim()}>{children}</div>
@@ -83,9 +90,9 @@ export function CtaButton({
   );
 }
 
-export function AipFreeTrialCtaSection() {
+export function AipFreeTrialCtaSection({ background = "muted" }: Pick<SectionWithContentProps, "background">) {
   return (
-    <SimpleCtaSection>
+    <SimpleCtaSection background={background}>
       <CtaContent>
         <CtaCopy>
           <CtaTitle>まずは小さく、失敗しないAXを始めよう</CtaTitle>
