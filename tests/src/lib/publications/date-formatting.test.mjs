@@ -77,12 +77,12 @@ test("publication and resource loaders render ISO source dates as Japanese displ
   assert.match(newsRecordsSource, /date: formatJapaneseDateFromIsoDate\(record\.date\)/);
 });
 
-test("legal MDX pages keep visible effective dates in ISO format", () => {
+test("legal MDX pages keep frontmatter dates as ISO source data while preserving body copy dates", () => {
   const eulaSource = readSource("src/app/eula/content.mdx");
   const termsSource = readSource("src/app/terms-of-service/content.mdx");
 
   assert.match(eulaSource, isoDateFieldPattern);
-  assert.match(eulaSource, /^\*\*Effective from 2025-07-17\*\*$/m);
+  assert.match(eulaSource, /^\*\*Effective from Jul 17, 2025\*\*$/m);
   assert.match(termsSource, isoDateFieldPattern);
-  assert.match(termsSource, /^\*\*Effective from 2025-06-05\*\*$/m);
+  assert.match(termsSource, /^\*\*Effective from Jun 5, 2025\*\*$/m);
 });

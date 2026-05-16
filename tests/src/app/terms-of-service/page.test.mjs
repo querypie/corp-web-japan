@@ -44,6 +44,7 @@ test("terms of service page keeps title, description, and date in content.mdx fr
   assert.equal(sourceExists("src/components/sections/terms-of-service/section.tsx"), false);
   assert.match(contentSource, /^---\ntitle: "QueryPie Terms of Service"\ndescription: "Terms of service for QueryPie AIP/m);
   assert.match(contentSource, /\ndate: "2025-06-05"\n/);
+  assert.match(contentSource, /^\*\*Effective from Jun 5, 2025\*\*$/m);
   assert.match(contentSource, /Article 1 \(Purpose\)/);
   assert.match(contentSource, /Article 17 \(Governing Law and Jurisdiction\)/);
   assert.doesNotMatch(contentSource, /StaticH1/);
