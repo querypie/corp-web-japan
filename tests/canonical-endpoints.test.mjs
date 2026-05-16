@@ -6,7 +6,7 @@ import { readSource } from "./helpers/source-readers.mjs";
 const expectedHeaderLinks = [
   'label: "AIプラットフォーム｜AIP", href: t("/platforms/aip", previewModeEnabled)',
   'label: "アクセス制御プラットフォーム｜ACP", href: t("/platforms/acp", previewModeEnabled)',
-  'label: "AI専門家伴走支援｜FDE", href: t("/services/fde", previewModeEnabled)',
+  'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
   'label: "活用事例", href: "/use-cases"',
   'label: "AIP機能", href: "/demo/aip"',
   'label: "ACP機能", href: "/demo/acp"',
@@ -24,7 +24,7 @@ const expectedHeaderLinks = [
 const expectedFooterLinks = [
   'label: "AIプラットフォーム｜AIP", href: t("/platforms/aip", previewModeEnabled)',
   'label: "アクセス制御プラットフォーム｜ACP", href: t("/platforms/acp", previewModeEnabled)',
-  'label: "AI専門家伴走支援｜FDE", href: t("/services/fde", previewModeEnabled)',
+  'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
   'label: "活用事例", href: "/use-cases"',
   'label: "AIP 機能", href: "/demo/aip"',
   'label: "ACP 機能", href: "/demo/acp"',
@@ -126,6 +126,7 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.match(sitemap, /absoluteUrl\("\/use-cases"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/aip"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/acp"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/services\/fde"\)/);
   assert.match(sitemap, /absoluteUrl\("\/cookie-preference"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/terms-of-service"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/privacy-policy"\)/);

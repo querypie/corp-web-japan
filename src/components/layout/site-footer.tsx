@@ -31,7 +31,7 @@ export async function SiteFooter() {
       links: [
         { label: "AIプラットフォーム｜AIP", href: t("/platforms/aip", previewModeEnabled) },
         { label: "アクセス制御プラットフォーム｜ACP", href: t("/platforms/acp", previewModeEnabled) },
-        { label: "AI専門家伴走支援｜FDE", href: t("/services/fde", previewModeEnabled) },
+        { label: "AI専門家伴走支援｜FDE", href: "/services/fde" },
       ],
     },
     {

@@ -113,6 +113,7 @@ const matchers = {
     /^tests\/src\/app\/t\/(events|plans)\/page\.test\.mjs$/,
     /^tests\/src\/app\/t\/platforms\//,
     /^tests\/src\/app\/platforms\//,
+    /^tests\/src\/app\/services\//,
     /^tests\/src\/app\/t\/services\//,
     /^tests\/src\/app\/t\/solutions\//,
     /^tests\/src\/lib\/legal-mdx-source\.test\.mjs$/,

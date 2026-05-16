@@ -125,6 +125,11 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
     changeFrequency: "weekly",
     priority: 0.8,
   },
+  {
+    url: absoluteUrl("/services/fde"),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  },
 ];
 
 function shouldIncludeRedirectableRecordInSitemap(record: { hidden?: boolean; redirectUrl?: string }) {

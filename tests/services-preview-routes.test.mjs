@@ -14,11 +14,6 @@ const previewPages = [
     canonical: 'canonical: "/t/platforms/acp"',
     title: 'QueryPie アクセス制御 (ACP)',
   },
-  {
-    file: "src/app/t/services/fde/page.tsx",
-    canonical: 'canonical: "/t/services/fde"',
-    title: 'QueryPie AIP：あなたのためのAI変革エキスパート',
-  },
 ];
 
 
@@ -40,10 +35,6 @@ const redirectRoutes = [
   {
     file: "src/app/services/acp/route.ts",
     destination: 'const destination = "https://www.querypie.com/ja/solutions/acp";',
-  },
-  {
-    file: "src/app/services/fde/route.ts",
-    destination: 'const destination = "https://www.querypie.com/ja/solutions/aip/fde-services";',
   },
 ];
 test("/t platform preview pages exist with noindex metadata and canonical preview paths", () => {

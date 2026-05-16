@@ -28,11 +28,11 @@ export const metadata: Metadata = {
   description:
     "組織に組み込まれたフォワードデプロイドエンジニア（FDE）が、戦略と開発から本番運用まで包括的なAI変革を提供し、AIイニシアチブの成功を保証。",
   alternates: {
-    canonical: "/t/services/fde",
+    canonical: "/services/fde",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 
