@@ -3,6 +3,7 @@ import { getDisplayableArticleAuthors, resolveArticleAuthors } from "@/lib/autho
 import { buildRelatedPublicationItems } from "@/lib/publications/build-related-publication-items";
 import { buildGatingContentKey, splitMdxSourceAtGatingCut, stripFrontmatterBlock } from "@/lib/publications/gating";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
+import { formatJapaneseDateFromIsoDate } from "@/lib/publications/format-japanese-date";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
 import type { PublicationCategory, PublicationPost, PublicationPostAuthor, PublicationPostDownloadCta } from "@/lib/publications/types";
 
@@ -129,7 +130,7 @@ export function createGatedPublicationPostLoader<
       categoryLabel: config.categoryLabel,
       title: frontmatter.title,
       description: frontmatter.description,
-      date: frontmatter.date,
+      date: formatJapaneseDateFromIsoDate(frontmatter.date),
       heroImageSrc: frontmatter.heroImageSrc,
       hideHeroImageOnDetail: frontmatter.hideHeroImageOnDetail === true,
       author: buildPublicationAuthor(frontmatter.author, config.defaultAuthorAvatarSrc),
@@ -149,6 +150,7 @@ export function createGatedPublicationPostLoader<
         id,
         relatedIds: frontmatter.relatedIds ?? record.relatedIds,
         getHref: config.getHref,
+        formatDate: formatJapaneseDateFromIsoDate,
       }),
       toc: extractHeadingsFromMdx(isGated ? splitSource.previewSource : bodySource),
     };

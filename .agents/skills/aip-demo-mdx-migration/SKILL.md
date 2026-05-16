@@ -63,7 +63,7 @@ id: "1"
 slug: "google-oauth-demo"
 title: "AIP Google OAuth デモ"
 description: "QueryPie AIP Google OAuth デモ"
-date: "2025年9月23日"
+date: "2025-09-23"
 heroImageSrc: "/demo/aip/1/thumbnail.png"
 relatedIds:
   - "7"
@@ -73,7 +73,7 @@ relatedIds:
 ```
 
 Rules:
-- convert source `date: "YYYY-MM-DD"` into Japanese date format like `2025年9月23日`
+- preserve source `date: "YYYY-MM-DD"` as ISO frontmatter; the website loaders format ISO dates as Japanese display dates
 - convert source `relatedPosts` legacy URLs into `relatedIds`
 - drop source-only fields such as `layout`, `category`, `ogImage`, `hideOgImage`, and `hideTableOfContents`
 - if source `description` is blank, fill it with a minimal useful local description instead of leaving an empty string

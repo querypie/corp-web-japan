@@ -1,6 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { parse as parseYaml } from "yaml";
+import { formatJapaneseDateFromIsoDate } from "@/lib/publications/format-japanese-date";
 import { getPublicationHref } from "@/lib/publications/get-publication-href";
 import type {
   ResourcePublicationCategory,
@@ -131,7 +132,7 @@ export abstract class BaseResourcePublicationRepository {
       badge: this.badge,
       title: record.title,
       description: record.description,
-      date: record.date,
+      date: record.date ? formatJapaneseDateFromIsoDate(record.date) : undefined,
     }));
   }
 

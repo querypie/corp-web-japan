@@ -2,6 +2,7 @@ import * as fs from "node:fs";
 import { getDisplayableArticleAuthors, resolveArticleAuthors } from "@/lib/authors/resolve-authors";
 import { buildRelatedPublicationItems } from "@/lib/publications/build-related-publication-items";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
+import { formatJapaneseDateFromIsoDate } from "@/lib/publications/format-japanese-date";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
 import type { PublicationCategory, PublicationPost, PublicationPostAuthor } from "@/lib/publications/types";
 
@@ -81,13 +82,14 @@ export function createStandardPublicationPostLoader<
 
     const bodySource = readBodySource(record.sourcePath);
     const { content, frontmatter } = await renderPublicationMdx<TFrontmatter>(bodySource);
+    const formatDate = config.formatDate ?? formatJapaneseDateFromIsoDate;
 
     return {
       category: config.category,
       categoryLabel: config.categoryLabel,
       title: frontmatter.title,
       description: frontmatter.description,
-      date: config.formatDate ? config.formatDate(frontmatter.date) : frontmatter.date,
+      date: formatDate(frontmatter.date),
       heroImageSrc: frontmatter.heroImageSrc,
       hideHeroImageOnDetail: frontmatter.hideHeroImageOnDetail === true,
       author: buildPublicationAuthor(frontmatter.author, config.defaultAuthorAvatarSrc),
@@ -102,7 +104,7 @@ export function createStandardPublicationPostLoader<
         id,
         relatedIds: frontmatter.relatedIds ?? record.relatedIds,
         getHref: config.getHref,
-        formatDate: config.formatDate,
+        formatDate,
       }),
       toc: frontmatter.hideTocOnDetail === true ? [] : extractHeadingsFromMdx(bodySource),
     };

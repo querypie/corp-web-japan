@@ -74,6 +74,7 @@ Do not treat internal support content as a normal public posting family unless t
    - `/section/:id` redirects to `/section/:id/:slug`
    - mismatched slug redirects to the canonical slug
 8. Only use `hidden` / `redirectUrl` on families that actually support those fields in code.
+9. Keep all `date` / `eventDate` frontmatter values as ISO `YYYY-MM-DD`; the website loaders convert ISO source dates to Japanese display dates such as `2024年11月22日`.
 
 ## Frontmatter contracts
 
@@ -116,7 +117,7 @@ slug: "example-whitepaper"
 title: "ホワイトペーパータイトル"
 description: "詳細ページ導入とメタデータ用の説明"
 listDescription: "一覧カード向けの短い説明"
-date: "2026年5月1日"
+date: "2026-05-01"
 heroImageSrc: "/whitepapers/29/thumbnail.png"
 author: "kenny"
 relatedIds:
@@ -142,7 +143,7 @@ id: "13"
 slug: "terrasky-mitoco-buddy-announcement"
 title: "ニュースタイトル"
 description: "ニュース説明"
-date: "2025年11月7日"
+date: "2025-11-07"
 heroImageSrc: "/news/13/thumbnail.png"
 sourceLabel: "公式発表"
 author: "querypie"

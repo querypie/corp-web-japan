@@ -1,4 +1,5 @@
 import * as fs from "node:fs";
+import { formatJapaneseDateFromIsoDate } from "@/lib/publications/format-japanese-date";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
 import { buildGatingContentKey, splitMdxSourceAtGatingCut, stripFrontmatterBlock } from "@/lib/publications/gating";
@@ -66,7 +67,7 @@ export abstract class BaseResourcePublicationPostLoader {
         categoryLabel: badge,
         title: previewEvaluation.frontmatter.title,
         description: previewEvaluation.frontmatter.description,
-        date: previewEvaluation.frontmatter.date ?? "",
+        date: formatJapaneseDateFromIsoDate(previewEvaluation.frontmatter.date ?? ""),
         heroImageSrc: previewEvaluation.frontmatter.heroImageSrc,
         author: null,
         bodyHtml: null,
@@ -82,7 +83,7 @@ export abstract class BaseResourcePublicationPostLoader {
           href: item.href,
           imageSrc: item.imageSrc,
           title: item.title,
-          date: item.date ?? "",
+          date: formatJapaneseDateFromIsoDate(item.date ?? ""),
         })) ?? [],
         toc: extractHeadingsFromMdx(splitSource.previewSource),
       };
@@ -95,7 +96,7 @@ export abstract class BaseResourcePublicationPostLoader {
       categoryLabel: badge,
       title: evaluation.frontmatter.title,
       description: evaluation.frontmatter.description,
-      date: evaluation.frontmatter.date ?? "",
+      date: formatJapaneseDateFromIsoDate(evaluation.frontmatter.date ?? ""),
       heroImageSrc: evaluation.frontmatter.heroImageSrc,
       author: null,
       bodyHtml: null,
@@ -108,7 +109,7 @@ export abstract class BaseResourcePublicationPostLoader {
         href: item.href,
         imageSrc: item.imageSrc,
         title: item.title,
-        date: item.date ?? "",
+        date: formatJapaneseDateFromIsoDate(item.date ?? ""),
       })) ?? [],
       toc: extractHeadingsFromMdx(bodySource),
     };
