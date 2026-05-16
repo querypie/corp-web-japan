@@ -15,7 +15,9 @@ import {
   McpGatewayHeroHeading,
   McpGatewayHeroSection,
   McpGatewayHeroVisual,
+  McpGatewayPageShell,
 } from "@/components/sections/mcp-gateway/section";
+import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 
 export const metadata: Metadata = {
@@ -33,16 +35,21 @@ export const metadata: Metadata = {
 
 export default function McpGatewayPage() {
   return (
-    <main className="bg-white text-slate-950">
+    <McpGatewayPageShell>
       <SiteHeader />
 
       <McpGatewayHeroSection>
-        <McpGatewayHeroCopy>
-          <McpGatewayHeroHeading>
-            QueryPie AIP
-            <br />
-            統合型AIゲートウェイ
-          </McpGatewayHeroHeading>
+        <RevealOnScroll>
+          <McpGatewayHeroCopy>
+            <McpGatewayHeroHeading>
+              QueryPie AIP
+              <br />
+              統合型AIゲートウェイ
+            </McpGatewayHeroHeading>
+          </McpGatewayHeroCopy>
+        </RevealOnScroll>
+
+        <RevealOnScroll delayMs={60}>
           <McpGatewayHeroBody>
             AIによる業務最適化には、既存システムとの連携が必須。でも、大規模なシステム再構築は不要です。
             <br />
@@ -50,8 +57,11 @@ export default function McpGatewayPage() {
             <br />
             複雑な接続処理はプラットフォームが担当し、既存システム全体のAIワークフローを効率化します。
           </McpGatewayHeroBody>
-        </McpGatewayHeroCopy>
-        <McpGatewayHeroVisual />
+        </RevealOnScroll>
+
+        <RevealOnScroll delayMs={120}>
+          <McpGatewayHeroVisual />
+        </RevealOnScroll>
       </McpGatewayHeroSection>
 
       <McpGatewayFeatureBand muted>
@@ -186,6 +196,6 @@ export default function McpGatewayPage() {
       <AipFreeTrialCtaSection />
 
       <SiteFooter />
-    </main>
+    </McpGatewayPageShell>
   );
 }

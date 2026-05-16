@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import { PlatformContentSection, PlatformCtaSection } from "@/components/sections/platform/page-primitives";
+import { PlatformContentSection, PlatformCtaSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 
 function cx(...values: Array<string | false | null | undefined>) {
   return values.filter(Boolean).join(" ");
@@ -13,15 +13,19 @@ type ClassNameProps = {
 };
 
 export function McpGatewayHeroSection({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <section className={cx("w-full pb-[120px] pt-[75px]", className)}>{children}</section>;
+  return (
+    <PlatformContentSection className={cx("pb-[120px] pt-[134px] lg:pt-[144px]", className)} contentWidthClassName="max-w-[1200px]">
+      {children}
+    </PlatformContentSection>
+  );
 }
 
 export function McpGatewayHeroCopy({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <div className={cx("mx-auto max-w-[1200px] px-6 pt-[55px] lg:px-10 lg:pt-[167px]", className)}>{children}</div>;
+  return <div className={className}>{children}</div>;
 }
 
 export function McpGatewayHeroHeading({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <h1 className={cx("mx-auto max-w-[620px] text-center text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]", className)}>{children}</h1>;
+  return <h1 className={cx("mx-auto max-w-[800px] text-center text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]", className)}>{children}</h1>;
 }
 
 export function McpGatewayHeroBody({ children, className }: { children: ReactNode } & ClassNameProps) {
@@ -30,7 +34,7 @@ export function McpGatewayHeroBody({ children, className }: { children: ReactNod
 
 export function McpGatewayHeroVisual({ className = "", imageClassName = "" }: { className?: string; imageClassName?: string }) {
   return (
-    <div className={cx("mt-[68px] flex justify-center lg:mt-[80px]", className)}>
+    <div className={cx("mx-auto mt-[80px] flex max-w-[1200px] justify-center", className)}>
       <div className="w-full max-w-[1200px]">
         <Image
           src="/solutions/aip/mcp-gateway/hero.svg"
@@ -43,6 +47,10 @@ export function McpGatewayHeroVisual({ className = "", imageClassName = "" }: { 
       </div>
     </div>
   );
+}
+
+export function McpGatewayPageShell({ children }: { children: ReactNode }) {
+  return <PlatformPageShell>{children}</PlatformPageShell>;
 }
 
 export function McpGatewayFeatureBand({

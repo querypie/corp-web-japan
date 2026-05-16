@@ -8,7 +8,9 @@ test("mcp gateway route keeps authored copy in the route and rendering primitive
   const platformSource = readSource("src/components/sections/platform/page-primitives.tsx");
 
   assert.match(routeSource, /from "@\/components\/sections\/mcp-gateway\/section"/);
+  assert.match(routeSource, /from "@\/components\/sections\/reveal-on-scroll"/);
   assert.match(routeSource, /canonical: "\/t\/platforms\/aip\/mcp-gateway"/);
+  assert.match(routeSource, /<McpGatewayPageShell>/);
   assert.match(routeSource, /<McpGatewayHeroHeading>/);
   assert.match(routeSource, /統合型AIゲートウェイ/);
   assert.match(routeSource, /<McpGatewayFeatureCopy className="w-full lg:w-\[450px\]">/);
@@ -24,11 +26,14 @@ test("mcp gateway route keeps authored copy in the route and rendering primitive
 
   assert.match(sectionSource, /export function McpGatewayHeroSection/);
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
-  assert.match(sectionSource, /pb-\[120px\] pt-\[75px\]/);
-  assert.match(sectionSource, /px-6 pt-\[55px\][\s\S]*lg:px-10 lg:pt-\[167px\]/);
-  assert.match(sectionSource, /max-w-\[620px\][\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
+  assert.match(sectionSource, /PlatformPageShell/);
+  assert.match(sectionSource, /pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]/);
+  assert.match(sectionSource, /contentWidthClassName="max-w-\[1200px\]"/);
+  assert.doesNotMatch(sectionSource, /pt-\[55px\]/);
+  assert.doesNotMatch(sectionSource, /lg:pt-\[167px\]/);
+  assert.match(sectionSource, /max-w-\[800px\][\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
   assert.match(sectionSource, /mt-\[20px\][\s\S]*max-w-\[1000px\]/);
-  assert.match(sectionSource, /mt-\[68px\][\s\S]*lg:mt-\[80px\]/);
+  assert.match(sectionSource, /mx-auto mt-\[80px\] flex max-w-\[1200px\] justify-center/);
   assert.match(sectionSource, /flex flex-col items-center[\s\S]*gap-\[60px\][\s\S]*lg:gap-\[80px\][\s\S]*lg:flex-row/);
   assert.match(sectionSource, /w-full max-w-full shrink-0/);
   assert.match(sectionSource, /<PlatformContentSection[\s\S]*className=\{cx\("w-full py-\[80px\]"/);
