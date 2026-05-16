@@ -15,11 +15,6 @@ const expectedRedirectRules = [
     destination: "https://www.querypie.com/ja/solutions/acp",
   },
   {
-    requestPath: "/platforms/aip",
-    file: "src/app/platforms/aip/route.ts",
-    destination: "https://www.querypie.com/ja/solutions/aip",
-  },
-  {
     requestPath: "/platforms/acp",
     file: "src/app/platforms/acp/route.ts",
     destination: "https://www.querypie.com/ja/solutions/acp",
@@ -42,7 +37,7 @@ const expectedRedirectRules = [
   {
     requestPath: "/platform/ai/aip",
     file: "src/app/platform/ai/aip/route.ts",
-    destination: "https://www.querypie.com/ja/solutions/aip",
+    destination: "/platforms/aip",
   },
   {
     requestPath: "/platform/ai/aip/usage-based-llm",
@@ -52,7 +47,7 @@ const expectedRedirectRules = [
   {
     requestPath: "/platform/ai/aip/fde-services",
     file: "src/app/platform/ai/aip/fde-services/route.ts",
-    destination: "https://www.querypie.com/ja/solutions/aip/fde-services",
+    destination: "/services/fde",
   },
   {
     requestPath: "/platform/ai/aip/mcp-gateway",
@@ -82,7 +77,7 @@ const expectedRedirectRules = [
 ];
 
 test("remaining redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 15);
+  assert.equal(expectedRedirectRules.length, 14);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
@@ -154,6 +149,12 @@ test("rolled-out demo list pages replace preview entrypoints without redirects",
   assert.equal(existsSync(new URL("../src/app/t/demo/aip/page.tsx", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/t/demo/acp/page.tsx", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/demo/aip/route.ts", import.meta.url)), false);
+});
+
+test("/platforms/aip is now a local public page and replaces preview plus public redirect", () => {
+  assert.equal(existsSync(new URL("../src/app/platforms/aip/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/app/platforms/aip/route.ts", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/app/t/platforms/aip/page.tsx", import.meta.url)), false);
 });
 
 test("platforms/aip/integrations replaces legacy redirect with local public page", () => {

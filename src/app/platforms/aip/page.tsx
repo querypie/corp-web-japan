@@ -40,11 +40,11 @@ export const metadata: Metadata = {
   description:
     "経済的でエンタープライズ対応のソリューションを通じてエンタープライズAI変革を実現するプラットフォーム—使用量ベースのLLM導入と包括的なMCPゲートウェイを特徴とする。カスタマイズされたAIエージェントを提供するフォワードデプロイドエンジニア（FDE）による完全な変革。",
   alternates: {
-    canonical: "/t/platforms/aip",
+    canonical: "/platforms/aip",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 
@@ -138,7 +138,7 @@ export default function AipPage() {
                   <AipLineBreak />
                   課題発見から構築、本番稼働まで伴走し、確実に成果を出すAI導入を実現します。
                 </AipValueCardBody>
-                <AipValueCardLink href="/t/services/fde">詳細を見る</AipValueCardLink>
+                <AipValueCardLink href="/services/fde">詳細を見る</AipValueCardLink>
               </AipValueCard>
             </RevealOnScroll>
           </AipValueGrid>

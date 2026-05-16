@@ -16,8 +16,8 @@ issue #522.
 ## Current baseline
 
 - Repository: `querypie/corp-web-japan`
-- Source baseline: `origin/main` at `247c20f107862b61d2cb25bf6f9639b98c3402d0`
-- Refreshed at: `2026-05-15 07:05 UTC`
+- Source baseline: this PR branch after `/platforms/aip` rollout
+- Refreshed at: `2026-05-16 15:31 UTC`
 - Verification type: static source scan only; no local build, browser run, or
   live HTTP validation was performed for this document update.
 - Parent issue: https://github.com/querypie/corp-web-japan/issues/521
@@ -52,22 +52,22 @@ Excluded:
 
 | Metric | Count |
 | --- | ---: |
-| Scanned source files | 439 |
-| QueryPie-owned URL occurrences | 108 |
-| Files containing QueryPie-owned URLs | 57 |
-| Distinct QueryPie-owned URLs | 48 |
+| Scanned source files | 444 |
+| QueryPie-owned URL occurrences | 99 |
+| Files containing QueryPie-owned URLs | 53 |
+| Distinct QueryPie-owned URLs | 46 |
 | Distinct QueryPie-owned hosts | 8 |
-| QueryPie-owned occurrences in code files | 46 |
-| QueryPie-owned occurrences in MDX files | 62 |
+| QueryPie-owned occurrences in code files | 42 |
+| QueryPie-owned occurrences in MDX files | 57 |
 
 Host breakdown:
 
 | Host | Occurrences | Review meaning |
 | --- | ---: | --- |
 | `docs.querypie.com` | 48 | Product documentation host; usually intentional when the target is product docs. |
-| `www.querypie.com` | 22 | Legacy public site host; highest migration priority when the path is `/ja/**`. |
-| `app.querypie.com` | 18 | Product app host; usually intentional app/action CTA. |
-| `www.querypie.ai` | 12 | Current Japan public site host; prefer relative links for same-site navigation unless the context is a quoted/company-information block. |
+| `app.querypie.com` | 19 | Product app host; usually intentional app/action CTA. |
+| `www.querypie.com` | 16 | Legacy public site host; highest migration priority when the path is `/ja/**`. |
+| `www.querypie.ai` | 8 | Current Japan public site host; prefer relative links for same-site navigation unless the context is a quoted/company-information block. |
 | `aip-docs.app.querypie.com` | 4 | Product documentation/app host; usually intentional. |
 | `trust.querypie.com` | 2 | Trust Center host; usually intentional. |
 | `dl.querypie.com` | 1 | QueryPie download host; review only as a download/security dependency. |
@@ -77,10 +77,10 @@ Migration-priority breakdown:
 
 | Category | Occurrences | Current status |
 | --- | ---: | --- |
-| Legacy `www.querypie.com/ja/**` | 13 | Only redirect route files remain; no MDX/content body occurrences remain in this snapshot. |
-| `www.querypie.com` non-`/ja` | 9 | Locale catch-all redirects, missing-path forwarding base, and historical privacy-policy text. |
-| Current `querypie.ai` / `www.querypie.ai` | 13 | Mostly company-information blocks in blog/news/event MDX plus the canonical site URL helper. |
-| QueryPie subdomains | 73 | Docs/app/trust/download destinations; generally not local-route migration defects. |
+| Legacy `www.querypie.com/ja/**` | 8 | Only redirect route files remain; no MDX/content body occurrences remain in this snapshot. |
+| `www.querypie.com` non-`/ja` | 8 | Locale catch-all redirects, missing-path forwarding base, and historical privacy-policy text. |
+| Current `querypie.ai` / `www.querypie.ai` | 9 | Mostly company-information blocks in blog/news/event MDX plus the canonical site URL helper. |
+| QueryPie subdomains | 74 | Docs/app/trust/download destinations; generally not local-route migration defects. |
 
 ## Quick status: `querypie.com/ja` links
 
@@ -96,20 +96,18 @@ grep -R "https://www.querypie.com/ja" -n src \
   --include='*.ts' --include='*.tsx' --include='*.mdx'
 ```
 
-Expected current result: only the 10 route files below.
+Expected current result: only the 8 route files below.
 
 | Local route file | Current external target | Local replacement candidate | Completion note |
 | --- | --- | --- | --- |
-| `src/app/platform/ai/aihub/route.ts` | `https://www.querypie.com/ja/solutions/aip` | `/t/platforms/aip`, later `/platforms/aip` | Legacy redirect still external. Replace only when public route policy is settled. |
-| `src/app/platform/ai/aip/route.ts` | `https://www.querypie.com/ja/solutions/aip` | `/t/platforms/aip`, later `/platforms/aip` | Legacy redirect still external. |
-| `src/app/platform/ai/aip/fde-services/route.ts` | `https://www.querypie.com/ja/solutions/aip/fde-services` | `/t/services/fde`, later `/services/fde` | Legacy redirect still external. |
+| `src/app/platform/ai/aihub/route.ts` | `https://www.querypie.com/ja/solutions/aip` | `/platforms/aip` | Legacy redirect still external. |
 | `src/app/platform/security/database-access-controller/route.ts` | `https://www.querypie.com/ja/solutions/acp/database-access-controller` | `/t/platforms/acp/database-access-controller`, later `/platforms/acp/database-access-controller` | Legacy redirect still external. |
 | `src/app/platform/security/kubernetes-access-controller/route.ts` | `https://www.querypie.com/ja/solutions/acp/kubernetes-access-controller` | `/t/platforms/acp/kubernetes-access-controller`, later `/platforms/acp/kubernetes-access-controller` | Legacy redirect still external. |
 | `src/app/platform/security/system-access-controller/route.ts` | `https://www.querypie.com/ja/solutions/acp/system-access-controller` | `/t/platforms/acp/system-access-controller`, later `/platforms/acp/system-access-controller` | Legacy redirect still external. |
 | `src/app/platform/security/web-access-controller/route.ts` | `https://www.querypie.com/ja/solutions/acp/web-access-controller` | `/t/platforms/acp/web-access-controller`, later `/platforms/acp/web-access-controller` | Legacy redirect still external. |
+| `src/app/platforms/acp/route.ts` | `https://www.querypie.com/ja/solutions/acp` | `/t/platforms/acp`, later `/platforms/acp` | Legacy redirect still external. |
 | `src/app/services/acp/route.ts` | `https://www.querypie.com/ja/solutions/acp` | `/t/platforms/acp`, later `/platforms/acp` | Legacy redirect still external. |
-| `src/app/services/aip/route.ts` | `https://www.querypie.com/ja/solutions/aip` | `/t/platforms/aip`, later `/platforms/aip` | Legacy redirect still external. |
-| `src/app/services/fde/route.ts` | `https://www.querypie.com/ja/solutions/aip/fde-services` | `/t/services/fde`, later `/services/fde` | Legacy redirect still external. |
+| `src/app/services/aip/route.ts` | `https://www.querypie.com/ja/solutions/aip` | `/platforms/aip` | Legacy redirect still external. |
 
 Do not rewrite these automatically just because preview `/t/**` routes exist.
 The current repository policy is that promoted public routes should remove the
@@ -184,7 +182,7 @@ Use this checklist when checking whether issue #521 is still complete or whether
 a new PR reintroduced stale links.
 
 1. Re-run the scan from latest `origin/main`.
-2. Confirm `https://www.querypie.com/ja` appears only in the 13 known redirect
+2. Confirm `https://www.querypie.com/ja` appears only in the 8 known redirect
    route files above.
 3. Confirm no `src/content/**/*.mdx` file contains `https://www.querypie.com/ja`.
 4. Confirm `www.querypie.com` non-`/ja` entries are limited to catch-all redirect

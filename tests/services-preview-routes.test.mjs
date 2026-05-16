@@ -5,11 +5,6 @@ import { readSource } from "./helpers/source-readers.mjs";
 
 const previewPages = [
   {
-    file: "src/app/t/platforms/aip/page.tsx",
-    canonical: 'canonical: "/t/platforms/aip"',
-    title: 'QueryPie AIプラットフォーム (AIP)',
-  },
-  {
     file: "src/app/t/platforms/acp/page.tsx",
     canonical: 'canonical: "/t/platforms/acp"',
     title: 'QueryPie アクセス制御 (ACP)',
@@ -18,6 +13,7 @@ const previewPages = [
 
 
 const removedPreviewRoutes = [
+  "src/app/t/platforms/aip/page.tsx",
   "src/app/t/services/aip/page.tsx",
   "src/app/t/services/aip/integrations/page.tsx",
   "src/app/t/services/acp/page.tsx",
