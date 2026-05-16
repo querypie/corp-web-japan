@@ -1,13 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource, sourceExists } from "../../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
-test("/t/services/fde keeps route-local copy/composition while the layout primitives live in the service section module", () => {
-  assert.equal(sourceExists("src/app/t/services/fde/page.tsx"), true);
+test("/services/fde is a public page with indexable metadata and canonical path", () => {
+  assert.equal(sourceExists("src/app/services/fde/page.tsx"), true);
+  assert.equal(sourceExists("src/app/services/fde/route.ts"), false);
+  assert.equal(sourceExists("src/app/t/services/fde/page.tsx"), false);
   assert.equal(sourceExists("src/components/sections/fde/service-page.tsx"), true);
   assert.equal(sourceExists("src/components/sections/platform/page-primitives.tsx"), true);
-  assert.equal(sourceExists("src/app/t/solutions/aip/fde-services/page.tsx"), false);
-  assert.equal(sourceExists("src/components/sections/fde-services/section.tsx"), false);
 
   for (const assetPath of [
     "public/services/fde/hero.svg",
@@ -19,14 +19,12 @@ test("/t/services/fde keeps route-local copy/composition while the layout primit
     assert.equal(sourceExists(assetPath), true, `${assetPath} should exist`);
   }
 
-  assert.equal(sourceExists("public/solutions/aip/fde-services/hero.svg"), false);
-
-  const routeSource = readSource("src/app/t/services/fde/page.tsx");
+  const routeSource = readSource("src/app/services/fde/page.tsx");
   const sectionSource = readSource("src/components/sections/fde/service-page.tsx");
   const platformSource = readSource("src/components/sections/platform/page-primitives.tsx");
 
-  assert.match(routeSource, /canonical: "\/t\/services\/fde"/);
-  assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
+  assert.match(routeSource, /canonical: "\/services\/fde"/);
+  assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
   assert.match(routeSource, /QueryPie FDE/);
@@ -37,9 +35,6 @@ test("/t/services/fde keeps route-local copy/composition while the layout primit
   assert.match(routeSource, /AI実用化を支援/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(routeSource, /<AipFreeTrialCtaSection \/>/);
-  assert.doesNotMatch(routeSource, /ServiceFdePreviewPage/);
-  assert.doesNotMatch(routeSource, /PREVIEW SERVICE/);
-  assert.doesNotMatch(routeSource, /preview で事前確認できます/);
 
   assert.match(sectionSource, /export function ServiceFdeHeroSection/);
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
