@@ -132,7 +132,7 @@ export abstract class BaseResourcePublicationRepository {
       badge: this.badge,
       title: record.title,
       description: record.description,
-      date: formatJapaneseDateFromIsoDate(record.date),
+      date: record.date ? formatJapaneseDateFromIsoDate(record.date) : undefined,
     }));
   }
 

@@ -72,7 +72,7 @@ test("publication and resource loaders render ISO source dates as Japanese displ
   assert.match(standardPostSource, /const formatDate = config\.formatDate \?\? formatJapaneseDateFromIsoDate/);
   assert.match(standardPostSource, /date: formatDate\(frontmatter\.date\)/);
   assert.match(gatedPostSource, /date: formatJapaneseDateFromIsoDate\(frontmatter\.date\)/);
-  assert.match(resourceRecordsSource, /date: formatJapaneseDateFromIsoDate\(record\.date\)/);
+  assert.match(resourceRecordsSource, /date: record\.date \? formatJapaneseDateFromIsoDate\(record\.date\) : undefined/);
   assert.match(resourcePostSource, /date: formatJapaneseDateFromIsoDate\(evaluation\.frontmatter\.date \?\? ""\)/);
   assert.match(newsRecordsSource, /date: formatJapaneseDateFromIsoDate\(record\.date\)/);
 });
