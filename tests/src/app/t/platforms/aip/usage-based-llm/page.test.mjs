@@ -26,8 +26,12 @@ test("usage-based-llm page keeps route-local copy/composition and preserves the 
   assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection/);
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
   assert.match(sectionSource, /export function AipUsageBasedLlmPageShell[\s\S]*<PlatformPageShell>/);
-  assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection[\s\S]*<PlatformContentSection className="pb-\[187px\] pt-\[134px\] lg:pt-\[144px\]" contentWidthClassName="max-w-\[1200px\]">/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection[\s\S]*<PlatformContentSection className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]" contentWidthClassName="max-w-\[1200px\]">/);
   assert.match(sectionSource, /max-w-\[800px\][\s\S]*text-\[48px\][\s\S]*text-\[#24292F\][\s\S]*lg:text-\[60px\]/);
+  assert.match(sectionSource, /max-w-\[1000px\]/);
+  assert.match(sectionSource, /mt-\[20px\]/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmHeroFootnote[\s\S]*<small className="text-\[10px\] font-light leading-\[28px\] tracking-\[0\.36px\] text-\[#57606A\]">/);
+  assert.match(routeSource, /<AipUsageBasedLlmHeroFootnote>\*ユーザーの利用量により異なります<\/AipUsageBasedLlmHeroFootnote>/);
   assert.match(sectionSource, /className="py-\[80px\]"/);
   assert.match(sectionSource, /<PlatformContentSection[\s\S]*as="div"[\s\S]*contentClassName=\{cn\(/);
   assert.match(sectionSource, /flex flex-col items-center justify-center gap-\[60px\] lg:gap-\[80px\]/);
@@ -42,7 +46,11 @@ test("usage-based-llm page keeps route-local copy/composition and preserves the 
   assert.match(sectionSource, /shadow-\[0_4px_12px_rgba\(0,0,0,0\.1\)\]/);
   assert.match(sectionSource, /lg:shadow-\[0_8px_20px_rgba\(0,0,0,0\.15\)\]/);
   assert.match(routeSource, /<AipUsageBasedLlmFeatureRow reverse>/);
-  assert.match(sectionSource, /export function AipUsageBasedLlmComparisonSection/);
+  assert.match(routeSource, /className="lg:w-\[445px\] lg:max-w-\[445px\]"/);
+  assert.match(routeSource, /className="ml-auto lg:w-\[534px\] lg:max-w-\[534px\]"/);
+  assert.match(routeSource, /className="lg:w-\[518px\] lg:max-w-\[518px\]"/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmComparisonSection[\s\S]*className="py-\[160px\]"/);
+  assert.match(sectionSource, /mt-\[80px\]/);
   assert.match(sectionSource, /export function AipUsageBasedLlmCtaButtonWrap/);
 
   assert.match(platformSource, /contentClassName\?: string/);
