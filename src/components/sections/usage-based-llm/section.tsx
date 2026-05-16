@@ -13,7 +13,7 @@ export function AipUsageBasedLlmPageShell({ children }: { children: ReactNode })
 
 export function AipUsageBasedLlmHeroSection({ children }: { children: ReactNode }) {
   return (
-    <PlatformContentSection className="pb-[187px] pt-[134px] lg:pt-[144px]" contentWidthClassName="max-w-[1200px]">
+    <PlatformContentSection className="pb-[120px] pt-[134px] lg:pt-[144px]" contentWidthClassName="max-w-[1200px]">
       {children}
     </PlatformContentSection>
   );
@@ -24,12 +24,16 @@ export function AipUsageBasedLlmHeroTitle({ children }: { children: ReactNode })
 }
 
 export function AipUsageBasedLlmHeroDescription({ children }: { children: ReactNode }) {
-  return <p className="mx-auto mt-[18px] max-w-[895px] text-center text-[18px] font-light leading-[28px] text-[#57606A]">{children}</p>;
+  return <p className="mx-auto mt-[20px] max-w-[1000px] text-center text-[18px] font-light leading-[28px] text-[#57606A]">{children}</p>;
+}
+
+export function AipUsageBasedLlmHeroFootnote({ children }: { children: ReactNode }) {
+  return <small className="text-[10px] font-light leading-[28px] tracking-[0.36px] text-[#57606A]">{children}</small>;
 }
 
 export function AipUsageBasedLlmHeroImage() {
   return (
-    <section className="mx-auto mt-[75px] flex max-w-[1200px] justify-center">
+    <section className="mx-auto mt-[80px] flex max-w-[1200px] justify-center">
       <Image
         src="/solutions/aip/usage-based-llm/hero.svg"
         alt="Usage-based LLM Deployment"
@@ -92,7 +96,7 @@ export function AipUsageBasedLlmFeatureImage({ src, alt, width, height, classNam
 
 export function AipUsageBasedLlmComparisonSection({ children }: { children: ReactNode }) {
   return (
-    <PlatformContentSection className="pb-[120px] pt-[94px]" contentWidthClassName="max-w-[1200px]">
+    <PlatformContentSection className="py-[160px]" contentWidthClassName="max-w-[1200px]">
       {children}
     </PlatformContentSection>
   );
@@ -104,7 +108,7 @@ export function AipUsageBasedLlmComparisonTitle({ children }: { children: ReactN
 
 export function AipUsageBasedLlmComparisonImage() {
   return (
-    <div className="mt-[75px] flex justify-center">
+    <div className="mt-[80px] flex justify-center">
       <Image
         src="/solutions/aip/usage-based-llm/platform-comparison.svg"
         alt="Platform Comparison"

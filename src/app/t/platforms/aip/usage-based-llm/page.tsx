@@ -12,6 +12,7 @@ import {
   AipUsageBasedLlmFeatureRow,
   AipUsageBasedLlmFeatureTitle,
   AipUsageBasedLlmHeroDescription,
+  AipUsageBasedLlmHeroFootnote,
   AipUsageBasedLlmHeroImage,
   AipUsageBasedLlmHeroSection,
   AipUsageBasedLlmHeroTitle,
@@ -54,7 +55,8 @@ export default function AipUsageBasedLlmPage() {
             <AipUsageBasedLlmLineBreak />
             固定費用なしで使った分だけ支払う従量課金型だから、ChatGPTと比較して最大90%*のコスト削減を実現。
             <AipUsageBasedLlmLineBreak />
-            小さく始めて効果を見ながら段階的に拡大できます。*ユーザーの利用量により異なります
+            小さく始めて効果を見ながら段階的に拡大できます。
+            <AipUsageBasedLlmHeroFootnote>*ユーザーの利用量により異なります</AipUsageBasedLlmHeroFootnote>
           </AipUsageBasedLlmHeroDescription>
         </RevealOnScroll>
 
@@ -66,7 +68,7 @@ export default function AipUsageBasedLlmPage() {
       <AipUsageBasedLlmFeatureBand muted>
         <AipUsageBasedLlmFeatureRow>
           <RevealOnScroll>
-            <AipUsageBasedLlmFeatureCopy className="max-w-[417px]">
+            <AipUsageBasedLlmFeatureCopy className="lg:w-[445px] lg:max-w-[445px]">
               <AipUsageBasedLlmFeatureTitle>利用量に応じた課金モデル</AipUsageBasedLlmFeatureTitle>
               <AipUsageBasedLlmFeatureBody>
                 使った分だけ支払う従量課金型。
@@ -92,7 +94,7 @@ export default function AipUsageBasedLlmPage() {
       <AipUsageBasedLlmFeatureBand>
         <AipUsageBasedLlmFeatureRow reverse>
           <RevealOnScroll>
-            <AipUsageBasedLlmFeatureCopy className="ml-auto">
+            <AipUsageBasedLlmFeatureCopy className="ml-auto lg:w-[534px] lg:max-w-[534px]">
               <AipUsageBasedLlmFeatureTitle>
                 選択可能なプレミアムLLM
                 <br />
@@ -120,7 +122,7 @@ export default function AipUsageBasedLlmPage() {
       <AipUsageBasedLlmFeatureBand muted>
         <AipUsageBasedLlmFeatureRow>
           <RevealOnScroll>
-            <AipUsageBasedLlmFeatureCopy className="max-w-[485px]">
+            <AipUsageBasedLlmFeatureCopy className="lg:w-[518px] lg:max-w-[518px]">
               <AipUsageBasedLlmFeatureTitle>シングルサインオン(SSO) で一元管理</AipUsageBasedLlmFeatureTitle>
               <AipUsageBasedLlmFeatureBody>
                 既存のアイデンティティプロバイダーとSSO連携し、
