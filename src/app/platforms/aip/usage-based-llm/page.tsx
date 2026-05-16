@@ -27,11 +27,11 @@ export const metadata: Metadata = {
   description:
     "固定費なしで使った分だけ支払える QueryPie AIP の従量課金型エンタープライズAIページ。プレミアムLLM、SSO、コスト最適化を一体で提供します。",
   alternates: {
-    canonical: "/t/platforms/aip/usage-based-llm",
+    canonical: "/platforms/aip/usage-based-llm",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 

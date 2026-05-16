@@ -57,7 +57,7 @@ const expectedRedirectRules = [
   {
     requestPath: "/platform/ai/aip/usage-based-llm",
     file: "src/app/platform/ai/aip/usage-based-llm/route.ts",
-    destination: "https://www.querypie.com/ja/solutions/aip/usage-based-llm",
+    destination: "/platforms/aip/usage-based-llm",
   },
   {
     requestPath: "/platform/ai/aip/fde-services",
