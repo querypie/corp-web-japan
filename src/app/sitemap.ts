@@ -101,6 +101,11 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
     priority: 0.4,
   },
   {
+    url: absoluteUrl("/platforms/aip/integrations"),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  },
+  {
     url: absoluteUrl("/platforms/aip/usage-based-llm"),
     changeFrequency: "weekly",
     priority: 0.7,

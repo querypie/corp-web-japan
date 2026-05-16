@@ -35,7 +35,7 @@ test("/t/platforms/aip keeps route-local copy/composition while the layout primi
   assert.match(routeSource, /カスタムエージェント作成/);
   assert.match(routeSource, /ビジュアルレポート作成/);
   assert.match(routeSource, /エージェントスケジューリング/);
-  assert.match(routeSource, /href="\/t\/platforms\/aip\/integrations"/);
+  assert.match(routeSource, /href="\/platforms\/aip\/integrations"/);
   assert.doesNotMatch(routeSource, /href="https:\/\/www\.querypie\.com\/ja\/solutions\/aip\/integrations"/);
   assert.match(routeSource, /QueryPie AIPと接続可能な連携ツールの一覧はこちら/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
