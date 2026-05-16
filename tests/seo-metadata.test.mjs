@@ -11,7 +11,7 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   const homePage = read("src/app/page.tsx");
   const blogPage = read("src/app/blog/page.tsx");
   const whitepapersPage = read("src/app/whitepapers/page.tsx");
-  const useCasesPage = read("src/app/demo/use-cases/page.tsx");
+  const useCasesPage = read("src/app/use-cases/page.tsx");
   const aipPage = read("src/app/demo/aip/page.tsx");
   const acpPage = read("src/app/demo/acp/page.tsx");
   const aiCrewPage = read("src/app/solutions/ai-crew/page.tsx");
@@ -36,7 +36,7 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.match(homePage, /canonical:\s*"\/"/);
   assert.match(blogPage, /canonical:\s*"\/blog"/);
   assert.match(whitepapersPage, /canonical:\s*"\/whitepapers"/);
-  assert.match(useCasesPage, /canonical:\s*"\/demo\/use-cases"/);
+  assert.match(useCasesPage, /canonical:\s*"\/use-cases"/);
   assert.match(aipPage, /canonical:\s*"\/demo\/aip"/);
   assert.match(acpPage, /canonical:\s*"\/demo\/acp"/);
   assert.match(aiCrewPage, /canonical:\s*"\/solutions\/ai-crew"/);
@@ -64,10 +64,10 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.match(sitemap, /getWhitepaperPublicationHref/);
   assert.match(sitemap, /getNewsPublicationHref/);
   assert.match(sitemap, /getEventPostHref/);
-  assert.match(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/use-cases"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/aip"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/acp"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/use-cases"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
   assert.match(sitemap, /absoluteUrl\("\/events"\)/);
   assert.match(sitemap, /absoluteUrl\("\/cookie-preference"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/terms-of-service"\)/);

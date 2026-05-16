@@ -28,7 +28,7 @@ const publicIndexableListRoutes = [
   "src/app/introduction-deck/page.tsx",
   "src/app/glossary/page.tsx",
   "src/app/manuals/page.tsx",
-  "src/app/demo/use-cases/page.tsx",
+  "src/app/use-cases/page.tsx",
   "src/app/demo/aip/page.tsx",
   "src/app/demo/acp/page.tsx",
   "src/app/platforms/aip/usage-based-llm/page.tsx",

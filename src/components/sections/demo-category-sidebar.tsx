@@ -15,13 +15,13 @@ import {
 } from "@/components/sections/resource-list-section";
 
 export const publicDemoCategorySidebarLinks: readonly ResourceCategoryLink[] = [
-  { label: "活用事例", href: "/demo/use-cases" },
+  { label: "活用事例", href: "/use-cases" },
   { label: "AIP機能", href: "/demo/aip" },
   { label: "ACP機能", href: "/demo/acp" },
 ] as const;
 
 export const previewDemoCategorySidebarLinks: readonly ResourceCategoryLink[] = [
-  { label: "活用事例", href: "/demo/use-cases" },
+  { label: "活用事例", href: "/use-cases" },
   { label: "AIP機能", href: "/demo/aip" },
   { label: "ACP機能", href: "/demo/acp" },
 ] as const;

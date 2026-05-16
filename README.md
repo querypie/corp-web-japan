@@ -24,7 +24,7 @@ The current public structure is:
 - `/whitepapers` — local whitepaper index
 - `/whitepapers/:id/:slug` — local MDX-backed whitepaper detail, with `/whitepapers/:id` redirecting to the canonical slug route
 - `/news` — local news index
-- `/demo/use-cases` — local use-case index
+- `/use-cases` — local use-case index
 - `/demo/aip` — local AIP demo index
 - `/demo/acp` — local ACP demo index
 - `/news/:id/:slug` — local MDX-backed news detail, with `/news/:id` redirecting to the canonical slug route

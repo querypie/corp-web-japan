@@ -66,6 +66,6 @@ test("/internal/demo-sections exists as a noindex UI demo route for preserved or
   assert.match(source, /internal demo 専用 visual primitive/);
   assert.match(source, /FAQ の文言と CTA は page\.tsx が直接所有/);
   assert.match(source, /canonical route へ戻す判断/);
-  assert.match(source, /\/demo\/use-cases/);
+  assert.match(source, /\/use-cases/);
   assert.match(source, /\/contact-us\?inquiry=ai-consulting&product=ai-crew/);
 });

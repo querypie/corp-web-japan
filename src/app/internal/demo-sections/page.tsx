@@ -70,7 +70,7 @@ export default function DemoSectionsPage() {
             titleEn="Business Development"
             titleJa="事業開発担当"
             ctaLabel="営業ユースケースを見る"
-            ctaHref="/demo/use-cases"
+            ctaHref="/use-cases"
             accent="blue"
           >
             <RolePainPoint>
@@ -136,13 +136,13 @@ export default function DemoSectionsPage() {
           primaryCtaLabel="AI Crew の相談をする"
           primaryCtaHref="/contact-us?inquiry=ai-consulting&product=ai-crew"
           secondaryCtaLabel="ユースケース一覧を見る"
-          secondaryCtaHref="/demo/use-cases"
+          secondaryCtaHref="/use-cases"
         >
           <UseCaseCard
             category="営業"
             title="営業提案の事前調査を短時間で終える"
             videoHref="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-            detailHref="/demo/use-cases"
+            detailHref="/use-cases"
           >
             <UseCaseBody>
               顧客サイト、公開IR、競合情報を横断して要点をまとめ、提案資料の最初の構成案まで準備します。
@@ -150,14 +150,14 @@ export default function DemoSectionsPage() {
             <UseCaseTab
               label="初回商談"
               videoHref="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-              detailHref="/demo/use-cases"
+              detailHref="/use-cases"
             >
               初回商談前に企業概要、最近のニュース、想定課題をまとめて、ヒアリング項目のたたき台を作成します。
             </UseCaseTab>
             <UseCaseTab
               label="提案書準備"
               videoHref="https://www.youtube.com/watch?v=oHg5SJYRHA0"
-              detailHref="/demo/use-cases"
+              detailHref="/use-cases"
             >
               RFPや打ち合わせメモから構成案を生成し、提案書作成に入る前の準備時間を短縮します。
             </UseCaseTab>
@@ -167,7 +167,7 @@ export default function DemoSectionsPage() {
             category="バックオフィス"
             title="社内問い合わせの一次回答を任せる"
             videoHref="https://www.youtube.com/watch?v=oHg5SJYRHA0"
-            detailHref="/demo/use-cases"
+            detailHref="/use-cases"
           >
             <UseCaseBody>
               規程、申請手順、FAQ を横断して、社内メンバーへの一次回答を整え、担当者の反復対応を減らします。
@@ -178,7 +178,7 @@ export default function DemoSectionsPage() {
             category="開発"
             title="障害調査の初動を早める"
             videoHref="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-            detailHref="/demo/use-cases"
+            detailHref="/use-cases"
           >
             <UseCaseBody>
               エラーログ、監視アラート、関連Issueをまとめて、原因候補と確認順序を一覧化します。
@@ -189,7 +189,7 @@ export default function DemoSectionsPage() {
             category="マーケティング"
             title="コンテンツ企画の材料を先に集める"
             videoHref="https://www.youtube.com/watch?v=oHg5SJYRHA0"
-            detailHref="/demo/use-cases"
+            detailHref="/use-cases"
           >
             <UseCaseBody>
               市場トレンド、競合発信、既存コンテンツのギャップを整理して、次に作るべきテーマ候補を提示します。

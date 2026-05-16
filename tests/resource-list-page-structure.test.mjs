@@ -13,7 +13,7 @@ const routeFiles = [
   "src/app/introduction-deck/page.tsx",
   "src/app/glossary/page.tsx",
   "src/app/manuals/page.tsx",
-  "src/app/demo/use-cases/page.tsx",
+  "src/app/use-cases/page.tsx",
   "src/app/demo/aip/page.tsx",
   "src/app/demo/acp/page.tsx",
 ];
@@ -44,8 +44,8 @@ test("public resource-list routes use the concrete public sidebar component", ()
   }
 });
 
-test("public demo list routes use the dedicated demo sidebar component", () => {
-  for (const path of ["src/app/demo/use-cases/page.tsx", "src/app/demo/aip/page.tsx", "src/app/demo/acp/page.tsx"]) {
+test("use-case and demo list routes use the dedicated demo sidebar component", () => {
+  for (const path of ["src/app/use-cases/page.tsx", "src/app/demo/aip/page.tsx", "src/app/demo/acp/page.tsx"]) {
     const source = readSource(path);
     assert.match(source, /DemoCategorySidebar/);
     assert.doesNotMatch(source, /ResourceCategorySidebar/);
@@ -82,11 +82,11 @@ test("demo category sidebar owns both public and preview demo links and sidebar 
   const source = readSource("src/components/sections/demo-category-sidebar.tsx");
 
   assert.match(source, /export const publicDemoCategorySidebarLinks/);
-  assert.match(source, /\{ label: "活用事例", href: "\/demo\/use-cases" \}/);
+  assert.match(source, /\{ label: "活用事例", href: "\/use-cases" \}/);
   assert.match(source, /\{ label: "AIP機能", href: "\/demo\/aip" \}/);
   assert.match(source, /\{ label: "ACP機能", href: "\/demo\/acp" \}/);
   assert.match(source, /export const previewDemoCategorySidebarLinks/);
-  assert.match(source, /\{ label: "活用事例", href: "\/demo\/use-cases" \}/);
+  assert.match(source, /\{ label: "活用事例", href: "\/use-cases" \}/);
   assert.match(source, /\{ label: "AIP機能", href: "\/demo\/aip" \}/);
   assert.match(source, /\{ label: "ACP機能", href: "\/demo\/acp" \}/);
   assert.match(source, /getDefaultDemoCategorySidebarLinks\(previewModeEnabled\)/);

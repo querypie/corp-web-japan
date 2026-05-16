@@ -115,7 +115,7 @@ Use `.agents/skills/README.md` as the first local index, then load the specific 
   - AI Crew: `/solutions/ai-crew`
   - AI Dashi: `/solutions/ai-dashi`
 - Demo / redirect surfaces:
-  - Use cases redirect: `/demo/use-cases`
+  - Use cases index: `/use-cases`
 - Resource indexes:
   - Blog index: `/blog`
   - Whitepaper index: `/whitepapers`

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description:
     "QueryPie AIがお客様のためにできることを見つけることができます。ライブデモを視聴し、実際のユースケースをご覧になってください。AIPとACP機能の実際の動作を確認したり、インタラクティブなショーケースを通じて全体像を把握することができます。",
   alternates: {
-    canonical: "/demo/use-cases",
+    canonical: "/use-cases",
   },
   robots: {
     index: true,
@@ -31,7 +31,7 @@ type UseCasesPageProps = {
   }>;
 };
 
-export default async function DemoUseCasesPage({ searchParams }: UseCasesPageProps) {
+export default async function UseCasesPage({ searchParams }: UseCasesPageProps) {
   const [useCaseItems, resolvedSearchParams] = await Promise.all([listUseCasePublicationItems(), searchParams]);
   const initialVisibleCount = resolveResourceListVisibleCount(useCaseItems, resolvedSearchParams?.until);
 
