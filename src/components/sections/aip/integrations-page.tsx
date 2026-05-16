@@ -22,13 +22,11 @@ export function AipIntegrationsContent({ children, className }: { children: Reac
 export function AipIntegrationsHeroSection({
   children,
   className,
-  variant = "aip",
 }: {
   children: ReactNode;
-  variant?: "aip" | "acp";
 } & ClassNameProps) {
   return (
-    <AipIntegrationsSection className={cx(styles.heroSection, variant === "acp" && styles.acpHeroSection, className)}>
+    <AipIntegrationsSection className={cx(styles.heroSection, className)}>
       <AipIntegrationsContent>
         <div className={styles.heroContent}>{children}</div>
       </AipIntegrationsContent>

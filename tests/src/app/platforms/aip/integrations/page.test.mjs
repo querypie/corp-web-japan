@@ -52,6 +52,7 @@ test("AIP integrations platform section primitives define the integration filter
   assert.match(cssSource, /padding-left: 24px/);
   assert.match(cssSource, /padding-right: 24px/);
   assert.match(cssSource, /@media \(max-width: 500px\)[\s\S]*padding-top: 120px/);
+  assert.doesNotMatch(cssSource, /acpHeroSection/);
   assert.match(cssSource, /@media \(max-width: 500px\)[\s\S]*\.icon[\s\S]*width: 60px/);
   assert.match(cssSource, /@media \(max-width: 500px\)[\s\S]*\.iconImage[\s\S]*width: 60px/);
 });

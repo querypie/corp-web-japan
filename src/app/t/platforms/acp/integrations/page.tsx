@@ -527,7 +527,7 @@ export default async function AcpIntegrationsPage({ searchParams }: Integrations
   return (
     <main className="bg-white text-slate-950">
       <SiteHeader />
-      <AipIntegrationsHeroSection variant="acp">
+      <AipIntegrationsHeroSection>
         <AipIntegrationsHeroCopy>
           <AipIntegrationsHeroHeading>ACP統合機能</AipIntegrationsHeroHeading>
           <AipIntegrationsHeroLead>
