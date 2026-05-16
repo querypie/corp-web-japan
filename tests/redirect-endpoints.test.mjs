@@ -12,12 +12,7 @@ const expectedRedirectRules = [
   {
     requestPath: "/services/acp",
     file: "src/app/services/acp/route.ts",
-    destination: "https://www.querypie.com/ja/solutions/acp",
-  },
-  {
-    requestPath: "/platforms/acp",
-    file: "src/app/platforms/acp/route.ts",
-    destination: "https://www.querypie.com/ja/solutions/acp",
+    destination: "/platforms/acp",
   },
   {
     requestPath: "/api-docs.html",
@@ -77,7 +72,7 @@ const expectedRedirectRules = [
 ];
 
 test("remaining redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 14);
+  assert.equal(expectedRedirectRules.length, 13);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
@@ -134,6 +129,17 @@ test("/t/services/fde preview entrypoint has been removed after public rollout",
 test("/services/fde is now a local public page and replaces the old redirect", () => {
   assert.equal(existsSync(new URL("../src/app/services/fde/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/services/fde/route.ts", import.meta.url)), false);
+});
+
+test("/platforms/acp is now a local public page and replaces the old preview route", () => {
+  assert.equal(existsSync(new URL("../src/app/platforms/acp/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/app/platforms/acp/route.ts", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/app/t/platforms/acp/page.tsx", import.meta.url)), false);
+});
+
+test("/platforms/acp/integrations is now a local public page and replaces the old preview route", () => {
+  assert.equal(existsSync(new URL("../src/app/platforms/acp/integrations/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/app/t/platforms/acp/integrations/page.tsx", import.meta.url)), false);
 });
 
 test("/t/about-us and /t/certifications preview entrypoints are removed after public rollout", () => {

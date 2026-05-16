@@ -22,11 +22,11 @@ export const metadata: Metadata = {
   title: "QueryPie: インテグレーション | QueryPie AI",
   description: "データソースに直接接続し、すべてのシステム、アプリケーション、およびサービスを完全に把握することが可能です。",
   alternates: {
-    canonical: "/t/platforms/acp/integrations",
+    canonical: "/platforms/acp/integrations",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 
@@ -539,13 +539,13 @@ export default async function AcpIntegrationsPage({ searchParams }: Integrations
           </AipIntegrationsHeroLead>
         </AipIntegrationsHeroCopy>
         <AipIntegrationsCategoryList>
-          <AipIntegrationsCategoryLink href="/t/platforms/acp/integrations?category=all" active={currentCategory === "all"}>
+          <AipIntegrationsCategoryLink href="/platforms/acp/integrations?category=all" active={currentCategory === "all"}>
             すべて ({products.length})
           </AipIntegrationsCategoryLink>
           {categories.map((category) => (
             <AipIntegrationsCategoryLink
               key={category.key}
-              href={`/t/platforms/acp/integrations?category=${category.key}`}
+              href={`/platforms/acp/integrations?category=${category.key}`}
               active={currentCategory === category.key}
             >
               {category.label} ({getCategoryCount(category.key)})

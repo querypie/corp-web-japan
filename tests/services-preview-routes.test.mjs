@@ -3,14 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readSource } from "./helpers/source-readers.mjs";
 
-const previewPages = [
-  {
-    file: "src/app/t/platforms/acp/page.tsx",
-    canonical: 'canonical: "/t/platforms/acp"',
-    title: 'QueryPie アクセス制御 (ACP)',
-  },
-];
-
+const previewPages = [];
 
 const removedPreviewRoutes = [
   "src/app/t/platforms/aip/page.tsx",
@@ -22,6 +15,8 @@ const removedPreviewRoutes = [
   "src/app/t/solutions/aip/mcp-gateway/page.tsx",
   "src/app/t/platforms/aip/mcp-gateway/page.tsx",
   "src/app/t/platforms/aip/integrations/page.tsx",
+  "src/app/t/platforms/acp/page.tsx",
+  "src/app/t/platforms/acp/integrations/page.tsx",
 ];
 
 const redirectRoutes = [
@@ -31,7 +26,7 @@ const redirectRoutes = [
   },
   {
     file: "src/app/services/acp/route.ts",
-    destination: 'const destination = "https://www.querypie.com/ja/solutions/acp";',
+    destination: 'new URL("/platforms/acp", request.url)',
   },
 ];
 test("/t platform preview pages exist with noindex metadata and canonical preview paths", () => {
@@ -55,14 +50,14 @@ test("old AIP and ACP preview routes are removed without compatibility redirects
   }
 });
 
-test("/services redirect routes remain unchanged upstream redirects while preview pages exist separately", () => {
+test("remaining /services redirect routes point at their intended upstream or local canonical destinations", () => {
   for (const route of redirectRoutes) {
     const source = readSource(route.file);
 
     assert.doesNotMatch(source, /import isProduction from "@\/lib\/is-production";/);
     assert.match(source, new RegExp(route.destination.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-    assert.match(source, /export function GET\(\) \{/);
-    assert.match(source, /return NextResponse\.redirect\(destination, 307\);/);
+    assert.match(source, /export function GET\(/);
+    assert.match(source, /return NextResponse\.redirect\(/);
     assert.match(source, /export const HEAD = GET;/);
   }
 });

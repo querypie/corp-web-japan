@@ -5,7 +5,7 @@ import { readSource } from "./helpers/source-readers.mjs";
 
 const expectedHeaderLinks = [
   'label: "AIプラットフォーム｜AIP", href: "/platforms/aip"',
-  'label: "アクセス制御プラットフォーム｜ACP", href: t("/platforms/acp", previewModeEnabled)',
+  'label: "アクセス制御プラットフォーム｜ACP", href: "/platforms/acp"',
   'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
   'label: "活用事例", href: "/use-cases"',
   'label: "AIP機能", href: "/demo/aip"',
@@ -23,7 +23,7 @@ const expectedHeaderLinks = [
 
 const expectedFooterLinks = [
   'label: "AIプラットフォーム｜AIP", href: "/platforms/aip"',
-  'label: "アクセス制御プラットフォーム｜ACP", href: t("/platforms/acp", previewModeEnabled)',
+  'label: "アクセス制御プラットフォーム｜ACP", href: "/platforms/acp"',
   'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
   'label: "活用事例", href: "/use-cases"',
   'label: "AIP 機能", href: "/demo/aip"',
@@ -81,6 +81,8 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   const termsOfServicePage = readSource("src/app/terms-of-service/page.tsx");
   const privacyPolicyPage = readSource("src/app/privacy-policy/page.tsx");
   const eulaPage = readSource("src/app/eula/page.tsx");
+  const acpPlatformPage = readSource("src/app/platforms/acp/page.tsx");
+  const acpIntegrationsPage = readSource("src/app/platforms/acp/integrations/page.tsx");
 
   for (const relativePath of expectedRedirectFiles) {
     assert.equal(existsSync(new URL(`../${relativePath}`, import.meta.url)), true, `${relativePath} should exist`);
@@ -115,6 +117,8 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.match(termsOfServicePage, /canonical:\s*"\/terms-of-service"/);
   assert.match(privacyPolicyPage, /canonicalPath: "\/privacy-policy"/);
   assert.match(eulaPage, /canonical:\s*"\/eula"/);
+  assert.match(acpPlatformPage, /canonical:\s*"\/platforms\/acp"/);
+  assert.match(acpIntegrationsPage, /canonical:\s*"\/platforms\/acp\/integrations"/);
   assert.match(sitemap, /absoluteUrl\("\/about-us"\)/);
   assert.match(sitemap, /absoluteUrl\("\/certifications"\)/);
   assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
@@ -127,6 +131,8 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.match(sitemap, /absoluteUrl\("\/demo\/aip"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/acp"\)/);
   assert.match(sitemap, /absoluteUrl\("\/services\/fde"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/platforms\/acp"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/platforms\/acp\/integrations"\)/);
   assert.match(sitemap, /absoluteUrl\("\/cookie-preference"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/terms-of-service"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/privacy-policy"\)/);
@@ -139,6 +145,9 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.equal(existsSync(new URL("../src/app/terms-of-service/route.ts", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/privacy-policy/route.ts", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/eula/route.ts", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/app/platforms/acp/route.ts", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/app/t/platforms/acp/page.tsx", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/app/t/platforms/acp/integrations/page.tsx", import.meta.url)), false);
 });
 
 test("events is a canonical public resource list route and is included in the sitemap", () => {

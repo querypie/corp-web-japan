@@ -1,21 +1,23 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource, sourceExists } from "../../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
-test("/t/platforms/acp keeps route-local copy/composition while the interactive feature browser lives in a dedicated client section module", () => {
-  assert.equal(sourceExists("src/app/t/platforms/acp/page.tsx"), true);
+test("/platforms/acp keeps route-local copy/composition while the interactive feature browser lives in a dedicated client section module", () => {
+  assert.equal(sourceExists("src/app/platforms/acp/page.tsx"), true);
+  assert.equal(sourceExists("src/app/platforms/acp/route.ts"), false);
+  assert.equal(sourceExists("src/app/t/platforms/acp/page.tsx"), false);
   assert.equal(sourceExists("src/components/sections/acp/service-page.tsx"), true);
   assert.equal(sourceExists("src/components/sections/platform/page-primitives.tsx"), true);
   assert.equal(sourceExists("src/components/sections/acp/feature-browser.tsx"), true);
 
-  const routeSource = readSource("src/app/t/platforms/acp/page.tsx");
+  const routeSource = readSource("src/app/platforms/acp/page.tsx");
   const sectionSource = readSource("src/components/sections/acp/service-page.tsx");
   const platformSource = readSource("src/components/sections/platform/page-primitives.tsx");
   const browserSource = readSource("src/components/sections/acp/feature-browser.tsx");
   const browserClientSource = readSource("src/components/sections/acp/feature-browser-client.tsx");
 
-  assert.match(routeSource, /canonical: "\/t\/platforms\/acp"/);
-  assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
+  assert.match(routeSource, /canonical: "\/platforms\/acp"/);
+  assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
   assert.match(routeSource, /AcpHeroVideo/);
@@ -36,7 +38,7 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   assert.match(routeSource, /<AcpFeatureItemTitle>簡単なログストリーミング<\/AcpFeatureItemTitle>/);
   assert.match(routeSource, /<AcpFeatureItemBody>/);
   assert.match(routeSource, /利用可能なACP統合機能をすべて見る/);
-  assert.match(routeSource, /<AcpIntegrationsLink href="\/t\/platforms\/acp\/integrations">/);
+  assert.match(routeSource, /<AcpIntegrationsLink href="\/platforms\/acp\/integrations">/);
   assert.doesNotMatch(routeSource, /href="https:\/\/www\.querypie\.com\/ja\/solutions\/acp\/integrations"/);
   assert.match(sectionSource, /export function AcpIntegrationsLink/);
   assert.match(sectionSource, /<Link href=\{href\}/);
@@ -49,7 +51,7 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   assert.doesNotMatch(routeSource, /type AcpFeatureItem =/);
   assert.doesNotMatch(routeSource, /type AcpFeatureCategory =/);
   assert.doesNotMatch(routeSource, /const categories =/);
-  assert.doesNotMatch(routeSource, /AcpServicePreviewPage/);
+  assert.doesNotMatch(routeSource, /AcpPreviewPage/);
   assert.doesNotMatch(routeSource, /プレビューです/);
   assert.doesNotMatch(routeSource, /PREVIEW SERVICE/);
   assert.doesNotMatch(routeSource, /現在の upstream ページで案内している代表機能/);
