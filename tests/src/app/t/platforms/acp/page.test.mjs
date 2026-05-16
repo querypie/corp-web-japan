@@ -39,7 +39,7 @@ test("/t/platforms/acp keeps route-local copy/composition while the interactive 
   assert.match(routeSource, /<AcpIntegrationsLink href="\/t\/platforms\/acp\/integrations">/);
   assert.doesNotMatch(routeSource, /href="https:\/\/www\.querypie\.com\/ja\/solutions\/acp\/integrations"/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(routeSource, /<AipFreeTrialCtaSection \/>/);
+  assert.match(routeSource, /<AipFreeTrialCtaSection background="white" \/>/);
   assert.doesNotMatch(routeSource, /<AcpFeatureCategory label=/);
   assert.doesNotMatch(routeSource, /<AcpFeatureItem\s+title=/);
   assert.doesNotMatch(routeSource, /type AcpFeatureItem =/);

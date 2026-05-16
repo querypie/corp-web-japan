@@ -375,7 +375,7 @@ export default function AcpServicePage() {
         </AcpIntegrationsInner>
       </AcpIntegrationsSection>
 
-      <AipFreeTrialCtaSection />
+      <AipFreeTrialCtaSection background="white" />
 
       <SiteFooter />
     </AcpServicePageShell>
