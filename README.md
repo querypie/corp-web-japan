@@ -36,6 +36,8 @@ The current public structure is:
 - `/introduction-deck` — local introduction deck index and detail routes
 - `/glossary` — local glossary index and detail routes
 - `/manuals` — local manuals index and detail routes
+- `/platforms/acp` — local ACP platform page
+- `/platforms/acp/integrations` — local ACP integrations page
 
 Additional notes:
 

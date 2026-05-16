@@ -10,7 +10,6 @@ const staticRoutes = [
   "system-access-controller",
   "kubernetes-access-controller",
   "web-access-controller",
-  "integrations"
 ];
 
 const sourceStaticPages = [
@@ -54,10 +53,11 @@ describe("ACP static preview route migration", () => {
     });
   }
 
-  it("preserves the existing public ACP redirect endpoints for a later rollout", () => {
+  it("keeps remaining ACP child public redirect endpoints for a later rollout", () => {
     const redirect = read("src/app/platform/security/database-access-controller/route.ts");
     assert.match(redirect, /https:\/\/www\.querypie\.com\/ja\/solutions\/acp\/database-access-controller/);
     assert.match(redirect, /NextResponse\.redirect\(destination, 307\)/);
+    assert.throws(() => read("src/app/platforms/acp/route.ts"));
   });
 
   it("keeps ACP copy and assets route-aligned", () => {
@@ -66,7 +66,7 @@ describe("ACP static preview route migration", () => {
     assert.match(dacPage, /RBAC \/ ABAC ベースのアクセス制御/);
     assert.match(dacPage, /\/platforms\/acp\/database-access-controller\/works\.png/);
 
-    const integrationsPage = read("src/app/t/platforms/acp/integrations/page.tsx");
+    const integrationsPage = read("src/app/platforms/acp/integrations/page.tsx");
     assert.match(integrationsPage, /ACP統合機能/);
     assert.match(integrationsPage, /データソース/);
     assert.match(integrationsPage, /key: "data-sources"/);
@@ -75,6 +75,9 @@ describe("ACP static preview route migration", () => {
     assert.doesNotMatch(integrationsPage, /category-\d/);
     assert.doesNotMatch(integrationsPage, /variant="acp"/);
     assert.match(integrationsPage, /\/platforms\/acp\/integrations\/icons/);
+    assert.match(integrationsPage, /canonical: "\/platforms\/acp\/integrations"/);
+    assert.match(integrationsPage, /index: true/);
+    assert.match(integrationsPage, /follow: true/);
   });
 
   it("keeps controller preview pages as route-authored JSX instead of section data blobs", () => {

@@ -40,15 +40,15 @@ export const metadata: Metadata = {
   description:
     "アクセス制御プラットフォーム（ACP）は、データベースとインフラ全体にわたる包括的なアクセス管理を提供するプラットフォームです。AIエージェントによるデータベース接続やインフラへのアクセスを最適化し、複雑なインフラをAIエージェントがアクセス可能なエコシステムに転換します。",
   alternates: {
-    canonical: "/t/platforms/acp",
+    canonical: "/platforms/acp",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 
-export default function AcpServicePage() {
+export default function AcpPage() {
   return (
     <AcpServicePageShell>
       <SiteHeader />
@@ -363,7 +363,7 @@ export default function AcpServicePage() {
               <AcpIntegrationsBody>
                 データベース、サーバー、Kubernetes、Webアプリケーション、アイデンティティプロバイダ、セキュリティツールなど50以上のシステムとシームレスに統合し、インフラエコシステム全体で統一された権限制御を実現しています。
               </AcpIntegrationsBody>
-              <AcpIntegrationsLink href="/t/platforms/acp/integrations">
+              <AcpIntegrationsLink href="/platforms/acp/integrations">
                 利用可能なACP統合機能をすべて見る &gt;
               </AcpIntegrationsLink>
             </div>

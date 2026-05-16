@@ -4,7 +4,7 @@ import { readSource } from "./helpers/source-readers.mjs";
 
 const headerExpectedLinks = [
   'label: "AIプラットフォーム｜AIP", href: "/platforms/aip"',
-  'label: "アクセス制御プラットフォーム｜ACP", href: t("/platforms/acp", previewModeEnabled)',
+  'label: "アクセス制御プラットフォーム｜ACP", href: "/platforms/acp"',
   'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
   'label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew"',
   'label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi"',
@@ -23,7 +23,7 @@ const headerExpectedLinks = [
 
 const footerExpectedLinks = [
   'label: "AIプラットフォーム｜AIP", href: "/platforms/aip"',
-  'label: "アクセス制御プラットフォーム｜ACP", href: t("/platforms/acp", previewModeEnabled)',
+  'label: "アクセス制御プラットフォーム｜ACP", href: "/platforms/acp"',
   'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
   'label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew"',
   'label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi"',
