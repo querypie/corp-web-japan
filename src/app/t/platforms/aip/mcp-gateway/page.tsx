@@ -193,7 +193,7 @@ export default function McpGatewayPage() {
         </McpGatewayFeatureLayout>
       </McpGatewayFeatureBand>
 
-      <AipFreeTrialCtaSection />
+      <AipFreeTrialCtaSection background="white" />
 
       <SiteFooter />
     </McpGatewayPageShell>

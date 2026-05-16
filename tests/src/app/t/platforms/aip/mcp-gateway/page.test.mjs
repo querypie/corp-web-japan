@@ -5,6 +5,7 @@ import { readSource } from "../../../../../../helpers/source-readers.mjs";
 test("mcp gateway route keeps authored copy in the route and rendering primitives in the section module", () => {
   const routeSource = readSource("src/app/t/platforms/aip/mcp-gateway/page.tsx");
   const sectionSource = readSource("src/components/sections/mcp-gateway/section.tsx");
+  const simpleCtaSource = readSource("src/components/sections/simple-cta-section.tsx");
   const platformSource = readSource("src/components/sections/platform/page-primitives.tsx");
 
   assert.match(routeSource, /from "@\/components\/sections\/mcp-gateway\/section"/);
@@ -18,7 +19,7 @@ test("mcp gateway route keeps authored copy in the route and rendering primitive
   assert.match(routeSource, /src="\/solutions\/aip\/mcp-gateway\/tunneling\.gif"/);
   assert.match(routeSource, /src="\/solutions\/aip\/mcp-gateway\/dlp\.gif"/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(routeSource, /<AipFreeTrialCtaSection \/>/);
+  assert.match(routeSource, /<AipFreeTrialCtaSection background="white" \/>/);
 
   assert.doesNotMatch(routeSource, /const features =/);
   assert.doesNotMatch(routeSource, /const featureCards =/);
@@ -49,6 +50,13 @@ test("mcp gateway route keeps authored copy in the route and rendering primitive
   assert.match(sectionSource, /export function McpGatewayFeatureImage/);
   assert.match(sectionSource, /export function McpGatewayCtaSection/);
   assert.match(sectionSource, /export function McpGatewayCtaSection[\s\S]*<PlatformCtaSection className=\{className\}>/);
+
+  assert.match(simpleCtaSource, /background\?: "muted" \| "white"/);
+  assert.match(simpleCtaSource, /const simpleCtaBackgroundClass = \{/);
+  assert.match(simpleCtaSource, /muted: "bg-\[#F6F8FA\]"/);
+  assert.match(simpleCtaSource, /white: "bg-white"/);
+  assert.match(simpleCtaSource, /background = "muted"/);
+  assert.match(simpleCtaSource, /<SimpleCtaSection background=\{background\}>/);
 
   assert.match(platformSource, /paddingClassName\?: string/);
   assert.match(platformSource, /export function PlatformCtaSection/);
