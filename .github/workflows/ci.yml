@@ -26,7 +26,7 @@ concurrency:
 jobs:
   changes:
     name: Detect changed scope
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     outputs:
       ci: ${{ steps.filter.outputs.ci || steps.alltrue.outputs.ci }}
       publications: ${{ steps.filter.outputs.publications || steps.alltrue.outputs.publications }}
@@ -245,7 +245,7 @@ jobs:
 
   smoke:
     name: Smoke
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     needs: changes
     if: >-
       ${{
@@ -275,7 +275,7 @@ jobs:
 
   test-publications:
     name: Test publications
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     needs: [changes, smoke]
     if: ${{ needs.smoke.result == 'success' && (needs.changes.outputs.ci == 'true' || needs.changes.outputs.publications == 'true') }}
     steps:
@@ -295,7 +295,7 @@ jobs:
 
   test-forms:
     name: Test forms
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     needs: [changes, smoke]
     if: ${{ needs.smoke.result == 'success' && (needs.changes.outputs.ci == 'true' || needs.changes.outputs.forms == 'true') }}
     steps:
@@ -315,7 +315,7 @@ jobs:
 
   test-routing-seo:
     name: Test routing and SEO
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     needs: [changes, smoke]
     if: ${{ needs.smoke.result == 'success' && (needs.changes.outputs.ci == 'true' || needs.changes.outputs.routing_seo == 'true') }}
     steps:
@@ -335,7 +335,7 @@ jobs:
 
   test-static-pages:
     name: Test static pages
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     needs: [changes, smoke]
     if: ${{ needs.smoke.result == 'success' && (needs.changes.outputs.ci == 'true' || needs.changes.outputs.static_pages == 'true') }}
     steps:
@@ -355,7 +355,7 @@ jobs:
 
   test-assets-shell:
     name: Test assets and shell
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     needs: [changes, smoke]
     if: ${{ needs.smoke.result == 'success' && (needs.changes.outputs.ci == 'true' || needs.changes.outputs.assets_shell == 'true') }}
     steps:
@@ -375,7 +375,7 @@ jobs:
 
   test-cross-cutting:
     name: Test cross-cutting contracts
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     needs: [changes, smoke]
     if: ${{ needs.smoke.result == 'success' && (needs.changes.outputs.ci == 'true' || needs.changes.outputs.cross_cutting == 'true') }}
     steps:
@@ -395,7 +395,7 @@ jobs:
 
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     needs:
       - changes
       - smoke
@@ -433,7 +433,7 @@ jobs:
 
   ci-result:
     name: CI result
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     needs:
       - changes
       - smoke
