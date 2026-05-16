@@ -69,7 +69,10 @@ describe("ACP static preview route migration", () => {
     const integrationsPage = read("src/app/t/platforms/acp/integrations/page.tsx");
     assert.match(integrationsPage, /ACP統合機能/);
     assert.match(integrationsPage, /データソース/);
-    assert.match(integrationsPage, /legacyCategoryMap/);
+    assert.match(integrationsPage, /key: "data-sources"/);
+    assert.match(integrationsPage, /key: "identity-providers"/);
+    assert.doesNotMatch(integrationsPage, /legacyCategoryMap/);
+    assert.doesNotMatch(integrationsPage, /category-\d/);
     assert.match(integrationsPage, /\/platforms\/acp\/integrations\/icons/);
   });
 
