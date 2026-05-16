@@ -7,7 +7,7 @@ const expectedHeaderLinks = [
   'label: "AIプラットフォーム｜AIP", href: t("/platforms/aip", previewModeEnabled)',
   'label: "アクセス制御プラットフォーム｜ACP", href: t("/platforms/acp", previewModeEnabled)',
   'label: "AI専門家伴走支援｜FDE", href: t("/services/fde", previewModeEnabled)',
-  'label: "活用事例", href: "/demo/use-cases"',
+  'label: "活用事例", href: "/use-cases"',
   'label: "AIP機能", href: "/demo/aip"',
   'label: "ACP機能", href: "/demo/acp"',
   'label: "全て", href: "/resources"',
@@ -25,7 +25,7 @@ const expectedFooterLinks = [
   'label: "AIプラットフォーム｜AIP", href: t("/platforms/aip", previewModeEnabled)',
   'label: "アクセス制御プラットフォーム｜ACP", href: t("/platforms/acp", previewModeEnabled)',
   'label: "AI専門家伴走支援｜FDE", href: t("/services/fde", previewModeEnabled)',
-  'label: "活用事例", href: "/demo/use-cases"',
+  'label: "活用事例", href: "/use-cases"',
   'label: "AIP 機能", href: "/demo/aip"',
   'label: "ACP 機能", href: "/demo/acp"',
   'label: "全て", href: "/resources"',
@@ -74,7 +74,7 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   const sitemap = readSource("src/app/sitemap.ts");
   const contactUsPage = readSource("src/app/contact-us/page.tsx");
   const newsPage = readSource("src/app/news/page.tsx");
-  const useCasesPage = readSource("src/app/demo/use-cases/page.tsx");
+  const useCasesPage = readSource("src/app/use-cases/page.tsx");
   const aipPage = readSource("src/app/demo/aip/page.tsx");
   const acpPage = readSource("src/app/demo/acp/page.tsx");
   const cookiePreferencePage = readSource("src/app/cookie-preference/page.tsx");
@@ -108,7 +108,7 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.match(certificationsPage, /canonical:\s*"\/certifications"/);
   assert.match(contactUsPage, /canonical:\s*"\/contact-us"/);
   assert.match(newsPage, /canonical:\s*"\/news"/);
-  assert.match(useCasesPage, /canonical:\s*"\/demo\/use-cases"/);
+  assert.match(useCasesPage, /canonical:\s*"\/use-cases"/);
   assert.match(aipPage, /canonical:\s*"\/demo\/aip"/);
   assert.match(acpPage, /canonical:\s*"\/demo\/acp"/);
   assert.match(cookiePreferencePage, /canonical:\s*"\/cookie-preference"/);
@@ -123,14 +123,14 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.match(sitemap, /absoluteUrl\("\/introduction-deck"\)/);
   assert.match(sitemap, /absoluteUrl\("\/glossary"\)/);
   assert.match(sitemap, /absoluteUrl\("\/manuals"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/use-cases"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/aip"\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/acp"\)/);
   assert.match(sitemap, /absoluteUrl\("\/cookie-preference"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/terms-of-service"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/privacy-policy"\)/);
   assert.match(sitemap, /absoluteUrl\("\/eula"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/use-cases"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
   assert.equal(existsSync(new URL("../src/app/about-us/route.ts", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/certifications/route.ts", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/news/route.ts", import.meta.url)), false);

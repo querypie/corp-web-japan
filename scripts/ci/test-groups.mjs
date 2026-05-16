@@ -51,6 +51,7 @@ const matchers = {
     /^tests\/ja-locale-content-priority\.test\.mjs$/,
     /^tests\/src\/app\/blog\/page\.test\.mjs$/,
     /^tests\/src\/app\/demo\//,
+    /^tests\/src\/app\/use-cases\//,
     /^tests\/src\/app\/whitepapers\/page\.test\.mjs$/,
     /^tests\/src\/app\/t\/(glossary|introduction-deck|manuals|resources)\/page\.test\.mjs$/,
     /^tests\/src\/components\/sections\/(resource-list-section)\.test\.mjs$/,

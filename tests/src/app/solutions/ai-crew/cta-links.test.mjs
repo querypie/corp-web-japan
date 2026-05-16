@@ -7,7 +7,7 @@ test("AI Crew CTA links match the intended targets", () => {
 
   assert.match(
     aiCrewDataSource,
-    /const demoUseCasesUrl = "\/demo\/use-cases"|export const demoUseCasesUrl = "\/demo\/use-cases"/,
+    /const demoUseCasesUrl = "\/use-cases"|export const demoUseCasesUrl = "\/use-cases"/,
   );
   assert.match(
     aiCrewDataSource,

@@ -32,7 +32,7 @@ test("footer keeps the preview-only Internal section when preview mode is enable
 test("footer demo links point to the rolled-out canonical list routes", () => {
   const footer = readSource("src/components/layout/site-footer.tsx");
 
-  assert.match(footer, /label:\s*"活用事例", href:\s*"\/demo\/use-cases"/);
+  assert.match(footer, /label:\s*"活用事例", href:\s*"\/use-cases"/);
   assert.match(footer, /label:\s*"AIP 機能", href:\s*"\/demo\/aip"/);
   assert.match(footer, /label:\s*"ACP 機能", href:\s*"\/demo\/acp"/);
   assert.doesNotMatch(footer, /t\("\/use-cases", previewModeEnabled\)/);

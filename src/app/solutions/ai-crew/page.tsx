@@ -194,7 +194,7 @@ import {
 
 const aiCrewPageDescription =
   "調査、データ整理、下書きなど、時間のかかる下準備をAIに任せて効率化。人員を増やすことなく、企業の生産性・利益率の向上を実現します。";
-const demoUseCasesUrl = "/demo/use-cases";
+const demoUseCasesUrl = "/use-cases";
 const aiCrewWhitepaperUrl = "/whitepapers/24/ai-transformation-japan";
 const aiCrewFloatingCtaUrl = "/contact-us?product=ai-crew";
 const aiCrewConsultUrl = "/contact-us?inquiry=ai-consulting&product=ai-crew";

@@ -48,7 +48,7 @@ function getNavItems(previewModeEnabled: boolean): readonly NavItem[] {
       label: "デモ",
       description: "QueryPie AIを体験する",
       children: [
-        { label: "活用事例", href: "/demo/use-cases" },
+        { label: "活用事例", href: "/use-cases" },
         { label: "AIP機能", href: "/demo/aip" },
         { label: "ACP機能", href: "/demo/acp" },
       ],

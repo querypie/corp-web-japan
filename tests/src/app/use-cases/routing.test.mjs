@@ -1,24 +1,30 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
 test("use-case public list page and canonical routes are driven by use-case MDX publication records", () => {
-  const listPage = readSource("src/app/demo/use-cases/page.tsx");
+  const listPage = readSource("src/app/use-cases/page.tsx");
   const canonicalRoute = readSource("src/app/use-cases/[id]/[slug]/page.tsx");
   const idRoute = readSource("src/app/use-cases/[id]/page.tsx");
+  const legacyListRoute = readSource("src/app/demo/use-cases/route.ts");
+  const legacyIdRoute = readSource("src/app/demo/use-cases/[id]/route.ts");
+  const legacySlugRoute = readSource("src/app/demo/use-cases/[id]/[slug]/route.ts");
   const loader = readSource("src/lib/publications/use-cases/get-post.ts");
   const records = readSource("src/lib/publications/use-cases/records.ts");
   const hrefs = readSource("src/lib/publications/get-publication-href.ts");
   const categories = readSource("src/lib/publications/types.ts");
 
-  assert.equal(sourceExists("src/app/demo/use-cases/page.tsx"), true);
+  assert.equal(sourceExists("src/app/use-cases/page.tsx"), true);
   assert.equal(sourceExists("src/app/t/use-cases/page.tsx"), false);
   assert.equal(sourceExists("src/app/use-cases/[id]/page.tsx"), true);
+  assert.equal(sourceExists("src/app/demo/use-cases/route.ts"), true);
+  assert.equal(sourceExists("src/app/demo/use-cases/[id]/route.ts"), true);
+  assert.equal(sourceExists("src/app/demo/use-cases/[id]/[slug]/route.ts"), true);
   assert.equal(sourceExists("src/lib/publications/use-cases/records.ts"), true);
   assert.equal(sourceExists("src/lib/publications/use-cases/get-post.ts"), true);
 
   assert.match(listPage, /listUseCasePublicationItems\(\)/);
-  assert.match(listPage, /canonical: "\/demo\/use-cases"/);
+  assert.match(listPage, /canonical: "\/use-cases"/);
   assert.doesNotMatch(listPage, /index: false/);
 
   assert.match(canonicalRoute, /getUseCasePublicationRecord\(id\)/);
@@ -28,6 +34,17 @@ test("use-case public list page and canonical routes are driven by use-case MDX 
 
   assert.match(idRoute, /listUseCasePublicationIds\(\)/);
   assert.match(idRoute, /redirect\(getUseCasePublicationHref\(id, record\.slug\)\)/);
+
+  assert.match(legacyListRoute, /new URL\("\/use-cases", request\.url\)/);
+  assert.match(legacyListRoute, /destination\.search = request\.nextUrl\.search/);
+  assert.match(legacyListRoute, /NextResponse\.redirect\(destination, 308\)/);
+
+  for (const legacyRoute of [legacyIdRoute, legacySlugRoute]) {
+    assert.match(legacyRoute, /getUseCasePublicationRecord\(id\)/);
+    assert.match(legacyRoute, /getUseCasePublicationHref\(id, record\.slug\)/);
+    assert.match(legacyRoute, /destination\.search = request\.nextUrl\.search/);
+    assert.match(legacyRoute, /NextResponse\.redirect\(destination, 308\)/);
+  }
 
   assert.match(loader, /createStandardPublicationPostLoader/);
   assert.match(loader, /createStandardPublicationPostLoader/);

@@ -40,7 +40,7 @@ They support:
 | Whitepapers | `src/content/whitepapers/*.mdx` | `/whitepapers/:id/:slug` | `/whitepapers` | `public/whitepapers/<id>/...` | `listDescription`, `gated` |
 | News | `src/content/news/*.mdx` | `/news/:id/:slug` | `/news` | `public/news/<id>/...` | `sourceLabel` |
 | Events | `src/content/events/*.mdx` | `/events/:id/:slug` | `/events` (launch-gated list) | `public/events/<id>/...` | `eventDate`, `eventLabel`, `hideHeroImageOnDetail` |
-| Use cases | `src/content/use-cases/*.mdx` | `/use-cases/:id/:slug` | `/demo/use-cases` | `public/use-cases/<id>/...` | none beyond shared fields |
+| Use cases | `src/content/use-cases/*.mdx` | `/use-cases/:id/:slug` | `/use-cases` | `public/use-cases/<id>/...` | none beyond shared fields |
 | AIP demo | `src/content/demo/aip/*.mdx` | `/demo/aip/:id/:slug` | `/demo/aip` | `public/demo/aip/<id>/...` | none beyond shared fields |
 | ACP demo | `src/content/demo/acp/*.mdx` | `/demo/acp/:id/:slug` | `/demo/acp` | `public/demo/acp/<id>/...` | none beyond shared fields |
 

@@ -148,7 +148,7 @@ test("/t/about-us and /t/certifications preview entrypoints are removed after pu
 });
 
 test("rolled-out demo list pages replace preview entrypoints without redirects", () => {
-  assert.equal(existsSync(new URL("../src/app/demo/use-cases/page.tsx", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../src/app/use-cases/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/demo/aip/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/demo/acp/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/t/use-cases/page.tsx", import.meta.url)), false);
