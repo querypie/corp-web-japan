@@ -67,7 +67,7 @@ const expectedRedirectRules = [
   {
     requestPath: "/platform/ai/aip/mcp-gateway",
     file: "src/app/platform/ai/aip/mcp-gateway/route.ts",
-    destination: "https://www.querypie.com/ja/solutions/aip/mcp-gateway",
+    destination: "/platforms/aip/mcp-gateway",
   },
   {
     requestPath: "/platform/security/database-access-controller",

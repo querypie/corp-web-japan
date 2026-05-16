@@ -29,6 +29,7 @@ const removedPreviewRoutes = [
   "src/app/t/solutions/aip/usage-based-llm/page.tsx",
   "src/app/t/platforms/aip/usage-based-llm/page.tsx",
   "src/app/t/solutions/aip/mcp-gateway/page.tsx",
+  "src/app/t/platforms/aip/mcp-gateway/page.tsx",
 ];
 
 const redirectRoutes = [

@@ -25,11 +25,11 @@ export const metadata: Metadata = {
   description:
     "既存システムとAIツールを安全につなぎ、社内接続・権限制御・監査・DLPまで一元化する QueryPie AIP の統合型AIゲートウェイページ。",
   alternates: {
-    canonical: "/t/platforms/aip/mcp-gateway",
+    canonical: "/platforms/aip/mcp-gateway",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 

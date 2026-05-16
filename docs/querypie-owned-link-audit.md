@@ -96,7 +96,7 @@ grep -R "https://www.querypie.com/ja" -n src \
   --include='*.ts' --include='*.tsx' --include='*.mdx'
 ```
 
-Expected current result: only the 12 route files below.
+Expected current result: only the 11 route files below.
 
 | Local route file | Current external target | Local replacement candidate | Completion note |
 | --- | --- | --- | --- |
@@ -104,7 +104,6 @@ Expected current result: only the 12 route files below.
 | `src/app/platform/ai/aip/route.ts` | `https://www.querypie.com/ja/solutions/aip` | `/t/platforms/aip`, later `/platforms/aip` | Legacy redirect still external. |
 | `src/app/platform/ai/aip/fde-services/route.ts` | `https://www.querypie.com/ja/solutions/aip/fde-services` | `/t/services/fde`, later `/services/fde` | Legacy redirect still external. |
 | `src/app/platform/ai/aip/integrations/route.ts` | `https://www.querypie.com/ja/solutions/aip/integrations` | `/t/platforms/aip/integrations`, later `/platforms/aip/integrations` | Legacy redirect still external. |
-| `src/app/platform/ai/aip/mcp-gateway/route.ts` | `https://www.querypie.com/ja/solutions/aip/mcp-gateway` | `/t/platforms/aip/mcp-gateway`, later `/platforms/aip/mcp-gateway` | Legacy redirect still external. |
 | `src/app/platform/security/database-access-controller/route.ts` | `https://www.querypie.com/ja/solutions/acp/database-access-controller` | `/t/platforms/acp/database-access-controller`, later `/platforms/acp/database-access-controller` | Legacy redirect still external. |
 | `src/app/platform/security/kubernetes-access-controller/route.ts` | `https://www.querypie.com/ja/solutions/acp/kubernetes-access-controller` | `/t/platforms/acp/kubernetes-access-controller`, later `/platforms/acp/kubernetes-access-controller` | Legacy redirect still external. |
 | `src/app/platform/security/system-access-controller/route.ts` | `https://www.querypie.com/ja/solutions/acp/system-access-controller` | `/t/platforms/acp/system-access-controller`, later `/platforms/acp/system-access-controller` | Legacy redirect still external. |

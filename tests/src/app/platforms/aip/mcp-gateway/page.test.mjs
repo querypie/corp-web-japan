@@ -1,16 +1,20 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "../../../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../../helpers/source-readers.mjs";
 
-test("mcp gateway route keeps authored copy in the route and rendering primitives in the section module", () => {
-  const routeSource = readSource("src/app/t/platforms/aip/mcp-gateway/page.tsx");
+test("published mcp gateway page keeps authored copy in the route and rendering primitives in the section module", () => {
+  assert.equal(sourceExists("src/app/platforms/aip/mcp-gateway/page.tsx"), true);
+  assert.equal(sourceExists("src/app/t/platforms/aip/mcp-gateway/page.tsx"), false);
+
+  const routeSource = readSource("src/app/platforms/aip/mcp-gateway/page.tsx");
   const sectionSource = readSource("src/components/sections/mcp-gateway/section.tsx");
   const simpleCtaSource = readSource("src/components/sections/simple-cta-section.tsx");
   const platformSource = readSource("src/components/sections/platform/page-primitives.tsx");
 
   assert.match(routeSource, /from "@\/components\/sections\/mcp-gateway\/section"/);
   assert.match(routeSource, /from "@\/components\/sections\/reveal-on-scroll"/);
-  assert.match(routeSource, /canonical: "\/t\/platforms\/aip\/mcp-gateway"/);
+  assert.match(routeSource, /canonical: "\/platforms\/aip\/mcp-gateway"/);
+  assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(routeSource, /<McpGatewayPageShell>/);
   assert.match(routeSource, /<McpGatewayHeroHeading>/);
   assert.match(routeSource, /統合型AIゲートウェイ/);
