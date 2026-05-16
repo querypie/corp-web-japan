@@ -13,7 +13,7 @@ defaults:
 jobs:
   delete-deploy:
     name: Delete Deploy
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     if: github.event.ref_type == 'branch'
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
