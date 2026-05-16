@@ -73,6 +73,7 @@ describe("ACP static preview route migration", () => {
     assert.match(integrationsPage, /key: "identity-providers"/);
     assert.doesNotMatch(integrationsPage, /legacyCategoryMap/);
     assert.doesNotMatch(integrationsPage, /category-\d/);
+    assert.doesNotMatch(integrationsPage, /variant="acp"/);
     assert.match(integrationsPage, /\/platforms\/acp\/integrations\/icons/);
   });
 

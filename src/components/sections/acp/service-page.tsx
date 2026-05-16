@@ -98,12 +98,7 @@ export function AcpIntegrationsBody({ children }: { children: ReactNode }) {
 
 export function AcpIntegrationsLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="mt-[20px] inline-flex text-[15px] font-normal leading-normal text-[#24292F] underline-offset-4 hover:underline"
-    >
+    <Link href={href} className="mt-[20px] inline-flex text-[15px] font-normal leading-normal text-[#24292F] underline-offset-4 hover:underline">
       {children}
     </Link>
   );
