@@ -20,7 +20,8 @@ import {
 
 export const metadata: Metadata = {
   title: "QueryPie: インテグレーション | QueryPie AI",
-  description: "データソースに直接接続し、すべてのシステム、アプリケーション、およびサービスを完全に把握することが可能です。",
+  description:
+    "データソースに直接接続し、すべてのシステム、アプリケーション、およびサービスを完全に把握することが可能です。",
   alternates: {
     canonical: "/platforms/acp/integrations",
   },
@@ -48,7 +49,10 @@ type IntegrationProduct = {
 const categories: readonly IntegrationCategory[] = [
   { key: "data-sources", label: "データソース" },
   { key: "cloud-containers", label: "コンテナとクラウドサービス" },
-  { key: "identity-providers", label: "シングルサインオンとアイデンティティプロバイダー" },
+  {
+    key: "identity-providers",
+    label: "シングルサインオンとアイデンティティプロバイダー",
+  },
   { key: "sql-bi-tools", label: "SQL および BI ツール" },
   { key: "notifications", label: "通知" },
   { key: "siem-soar", label: "SIEM / SOAR" },
@@ -58,470 +62,355 @@ const categories: readonly IntegrationCategory[] = [
 
 const products: readonly IntegrationProduct[] = [
   {
-    "categoryKeys": [
-      "notifications"
-    ],
-    "label": "Agit",
-    "svgFilename": "agit-icon"
+    categoryKeys: ["notifications"],
+    label: "Agit",
+    svgFilename: "agit-icon",
   },
   {
-    "categoryKeys": [
-      "cloud-containers"
-    ],
-    "label": "AKS",
-    "svgFilename": "aks-icon"
+    categoryKeys: ["cloud-containers"],
+    label: "AKS",
+    svgFilename: "aks-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "Athena",
-    "svgFilename": "athena-icon"
+    categoryKeys: ["data-sources"],
+    label: "Athena",
+    svgFilename: "athena-icon",
   },
   {
-    "categoryKeys": [
-      "identity-providers"
-    ],
-    "label": "Auth0",
-    "svgFilename": "auth0-icon"
+    categoryKeys: ["identity-providers"],
+    label: "Auth0",
+    svgFilename: "auth0-icon",
   },
   {
-    "categoryKeys": [
-      "cloud-containers"
-    ],
-    "label": "AWS",
-    "svgFilename": "aws-icon"
+    categoryKeys: ["cloud-containers"],
+    label: "AWS",
+    svgFilename: "aws-icon",
   },
   {
-    "categoryKeys": [
-      "cloud-containers"
-    ],
-    "label": "Azure",
-    "svgFilename": "azure-icon"
+    categoryKeys: ["cloud-containers"],
+    label: "Azure",
+    svgFilename: "azure-icon",
   },
   {
-    "categoryKeys": [
-      "identity-providers"
-    ],
-    "label": "Azure AD",
-    "svgFilename": "azure-ad-icon"
+    categoryKeys: ["identity-providers"],
+    label: "Azure AD",
+    svgFilename: "azure-ad-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "Azure SQL",
-    "svgFilename": "azure-sql-icon"
+    categoryKeys: ["data-sources"],
+    label: "Azure SQL",
+    svgFilename: "azure-sql-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "BigQuery",
-    "svgFilename": "big-query-icon"
+    categoryKeys: ["data-sources"],
+    label: "BigQuery",
+    svgFilename: "big-query-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "Cassandra",
-    "svgFilename": "cassandra-icon"
+    categoryKeys: ["data-sources"],
+    label: "Cassandra",
+    svgFilename: "cassandra-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "ClickHouse",
-    "svgFilename": "clickhouse"
+    categoryKeys: ["data-sources"],
+    label: "ClickHouse",
+    svgFilename: "clickhouse",
   },
   {
-    "categoryKeys": [
-      "cloud-containers"
-    ],
-    "label": "Cloud SQL",
-    "svgFilename": "cloud-sql-icon"
+    categoryKeys: ["cloud-containers"],
+    label: "Cloud SQL",
+    svgFilename: "cloud-sql-icon",
   },
   {
-    "categoryKeys": [
-      "monitoring"
-    ],
-    "label": "CloudWatch",
-    "svgFilename": "cloud-watch-icon"
+    categoryKeys: ["monitoring"],
+    label: "CloudWatch",
+    svgFilename: "cloud-watch-icon",
   },
   {
-    "categoryKeys": [
-      "sql-bi-tools"
-    ],
-    "label": "Databricks",
-    "svgFilename": "databricks-icon"
+    categoryKeys: ["sql-bi-tools"],
+    label: "Databricks",
+    svgFilename: "databricks-icon",
   },
   {
-    "categoryKeys": [
-      "sql-bi-tools"
-    ],
-    "label": "DataGrip",
-    "svgFilename": "datagrip-icon"
+    categoryKeys: ["sql-bi-tools"],
+    label: "DataGrip",
+    svgFilename: "datagrip-icon",
   },
   {
-    "categoryKeys": [
-      "cloud-containers"
-    ],
-    "label": "DigitalOcean",
-    "svgFilename": "digital-ocean-icon"
+    categoryKeys: ["cloud-containers"],
+    label: "DigitalOcean",
+    svgFilename: "digital-ocean-icon",
   },
   {
-    "categoryKeys": [
-      "cloud-containers"
-    ],
-    "label": "Docker",
-    "svgFilename": "docker-icon"
+    categoryKeys: ["cloud-containers"],
+    label: "Docker",
+    svgFilename: "docker-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "DocumentDB",
-    "svgFilename": "document-db-icon"
+    categoryKeys: ["data-sources"],
+    label: "DocumentDB",
+    svgFilename: "document-db-icon",
   },
   {
-    "categoryKeys": [
-      "sql-bi-tools"
-    ],
-    "label": "Dr.Sum",
-    "svgFilename": "dr-sum-icon"
+    categoryKeys: ["sql-bi-tools"],
+    label: "Dr.Sum",
+    svgFilename: "dr-sum-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "DynamoDB",
-    "svgFilename": "dynamo-db-icon"
+    categoryKeys: ["data-sources"],
+    label: "DynamoDB",
+    svgFilename: "dynamo-db-icon",
   },
   {
-    "categoryKeys": [
-      "cloud-containers"
-    ],
-    "label": "ECS",
-    "svgFilename": "ecs-icon"
+    categoryKeys: ["cloud-containers"],
+    label: "ECS",
+    svgFilename: "ecs-icon",
   },
   {
-    "categoryKeys": [
-      "cloud-containers"
-    ],
-    "label": "EKS",
-    "svgFilename": "eks-icon"
+    categoryKeys: ["cloud-containers"],
+    label: "EKS",
+    svgFilename: "eks-icon",
   },
   {
-    "categoryKeys": [
-      "cloud-containers"
-    ],
-    "label": "GCP",
-    "svgFilename": "gcp-icon"
+    categoryKeys: ["cloud-containers"],
+    label: "GCP",
+    svgFilename: "gcp-icon",
   },
   {
-    "categoryKeys": [
-      "cloud-containers"
-    ],
-    "label": "GKE",
-    "svgFilename": "gke-icon"
+    categoryKeys: ["cloud-containers"],
+    label: "GKE",
+    svgFilename: "gke-icon",
   },
   {
-    "categoryKeys": [
-      "identity-providers"
-    ],
-    "label": "Gsuite",
-    "svgFilename": "gsuite-icon"
+    categoryKeys: ["identity-providers"],
+    label: "Gsuite",
+    svgFilename: "gsuite-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "HBase",
-    "svgFilename": "h-base-icon"
+    categoryKeys: ["data-sources"],
+    label: "HBase",
+    svgFilename: "h-base-icon",
   },
   {
-    "categoryKeys": [
-      "secret-stores"
-    ],
-    "label": "HashiCorp Vault",
-    "svgFilename": "hashicorp-vault-icon"
+    categoryKeys: ["secret-stores"],
+    label: "HashiCorp Vault",
+    svgFilename: "hashicorp-vault-icon",
   },
   {
-    "categoryKeys": [
-      "cloud-containers"
-    ],
-    "label": "Heroku",
-    "svgFilename": "heroku-icon"
+    categoryKeys: ["cloud-containers"],
+    label: "Heroku",
+    svgFilename: "heroku-icon",
   },
   {
-    "categoryKeys": [
-      "sql-bi-tools"
-    ],
-    "label": "Hive",
-    "svgFilename": "hive-icon"
+    categoryKeys: ["sql-bi-tools"],
+    label: "Hive",
+    svgFilename: "hive-icon",
   },
   {
-    "categoryKeys": [
-      "notifications"
-    ],
-    "label": "HTTP",
-    "svgFilename": "http-icon"
+    categoryKeys: ["notifications"],
+    label: "HTTP",
+    svgFilename: "http-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "Impala",
-    "svgFilename": "impala-icon"
+    categoryKeys: ["data-sources"],
+    label: "Impala",
+    svgFilename: "impala-icon",
   },
   {
-    "categoryKeys": [
-      "cloud-containers"
-    ],
-    "label": "Kubernetes",
-    "svgFilename": "kubernetes-icon"
+    categoryKeys: ["cloud-containers"],
+    label: "Kubernetes",
+    svgFilename: "kubernetes-icon",
   },
   {
-    "categoryKeys": [
-      "sql-bi-tools"
-    ],
-    "label": "Looker",
-    "svgFilename": "looker-icon"
+    categoryKeys: ["sql-bi-tools"],
+    label: "Looker",
+    svgFilename: "looker-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "MariaDB",
-    "svgFilename": "maria-db-icon"
+    categoryKeys: ["data-sources"],
+    label: "MariaDB",
+    svgFilename: "maria-db-icon",
   },
   {
-    "categoryKeys": [
-      "sql-bi-tools"
-    ],
-    "label": "Mode",
-    "svgFilename": "mode-icon"
+    categoryKeys: ["sql-bi-tools"],
+    label: "Mode",
+    svgFilename: "mode-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "MongoDB",
-    "svgFilename": "mongodb-icon"
+    categoryKeys: ["data-sources"],
+    label: "MongoDB",
+    svgFilename: "mongodb-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "MySQL",
-    "svgFilename": "mysql-icon"
+    categoryKeys: ["data-sources"],
+    label: "MySQL",
+    svgFilename: "mysql-icon",
   },
   {
-    "categoryKeys": [
-      "identity-providers"
-    ],
-    "label": "Okta",
-    "svgFilename": "okta-icon"
+    categoryKeys: ["identity-providers"],
+    label: "Okta",
+    svgFilename: "okta-icon",
   },
   {
-    "categoryKeys": [
-      "identity-providers"
-    ],
-    "label": "OneLogin",
-    "svgFilename": "one-login-icon"
+    categoryKeys: ["identity-providers"],
+    label: "OneLogin",
+    svgFilename: "one-login-icon",
   },
   {
-    "categoryKeys": [
-      "identity-providers"
-    ],
-    "label": "OpenLDAP",
-    "svgFilename": "open-ldap-icon"
+    categoryKeys: ["identity-providers"],
+    label: "OpenLDAP",
+    svgFilename: "open-ldap-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "Oracle",
-    "svgFilename": "oracle-icon"
+    categoryKeys: ["data-sources"],
+    label: "Oracle",
+    svgFilename: "oracle-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "PostgreSQL",
-    "svgFilename": "postgresql-icon"
+    categoryKeys: ["data-sources"],
+    label: "PostgreSQL",
+    svgFilename: "postgresql-icon",
   },
   {
-    "categoryKeys": [
-      "sql-bi-tools"
-    ],
-    "label": "Power BI",
-    "svgFilename": "power-bi-icon"
+    categoryKeys: ["sql-bi-tools"],
+    label: "Power BI",
+    svgFilename: "power-bi-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "Presto",
-    "svgFilename": "presto-icon"
+    categoryKeys: ["data-sources"],
+    label: "Presto",
+    svgFilename: "presto-icon",
   },
   {
-    "categoryKeys": [
-      "monitoring"
-    ],
-    "label": "Prometheus",
-    "svgFilename": "prometheus-icon"
+    categoryKeys: ["monitoring"],
+    label: "Prometheus",
+    svgFilename: "prometheus-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "Redis",
-    "svgFilename": "redis-icon"
+    categoryKeys: ["data-sources"],
+    label: "Redis",
+    svgFilename: "redis-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "Redshift",
-    "svgFilename": "redshift-icon"
+    categoryKeys: ["data-sources"],
+    label: "Redshift",
+    svgFilename: "redshift-icon",
   },
   {
-    "categoryKeys": [
-      "identity-providers"
-    ],
-    "label": "SAML",
-    "svgFilename": "saml-icon"
+    categoryKeys: ["identity-providers"],
+    label: "SAML",
+    svgFilename: "saml-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "SAP HANA",
-    "svgFilename": "sap-hana-icon"
+    categoryKeys: ["data-sources"],
+    label: "SAP HANA",
+    svgFilename: "sap-hana-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "ScyllaDB",
-    "svgFilename": "scylla-db-icon"
+    categoryKeys: ["data-sources"],
+    label: "ScyllaDB",
+    svgFilename: "scylla-db-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "SingleStore",
-    "svgFilename": "single-store-icon"
+    categoryKeys: ["data-sources"],
+    label: "SingleStore",
+    svgFilename: "single-store-icon",
   },
   {
-    "categoryKeys": [
-      "notifications"
-    ],
-    "label": "Slack",
-    "svgFilename": "slack-icon"
+    categoryKeys: ["notifications"],
+    label: "Slack",
+    svgFilename: "slack-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "Snowflake",
-    "svgFilename": "snowflake-icon"
+    categoryKeys: ["data-sources"],
+    label: "Snowflake",
+    svgFilename: "snowflake-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "Spanner",
-    "svgFilename": "spanner-icon"
+    categoryKeys: ["data-sources"],
+    label: "Spanner",
+    svgFilename: "spanner-icon",
   },
   {
-    "categoryKeys": [
-      "siem-soar"
-    ],
-    "label": "Splunk",
-    "svgFilename": "splunk-icon"
+    categoryKeys: ["siem-soar"],
+    label: "Splunk",
+    svgFilename: "splunk-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "SQL Server",
-    "svgFilename": "sql-server-icon"
+    categoryKeys: ["data-sources"],
+    label: "SQL Server",
+    svgFilename: "sql-server-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "SwivelSecure",
-    "svgFilename": "swivel-secure-icon"
+    categoryKeys: ["data-sources"],
+    label: "SwivelSecure",
+    svgFilename: "swivel-secure-icon",
   },
   {
-    "categoryKeys": [
-      "siem-soar"
-    ],
-    "label": "Syslog",
-    "svgFilename": "syslog-icon"
+    categoryKeys: ["siem-soar"],
+    label: "Syslog",
+    svgFilename: "syslog-icon",
   },
   {
-    "categoryKeys": [
-      "sql-bi-tools"
-    ],
-    "label": "Tableau",
-    "svgFilename": "tableau-icon"
+    categoryKeys: ["sql-bi-tools"],
+    label: "Tableau",
+    svgFilename: "tableau-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "TmaxTibero",
-    "svgFilename": "tmax-tibero-icon"
+    categoryKeys: ["data-sources"],
+    label: "TmaxTibero",
+    svgFilename: "tmax-tibero-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "Trino",
-    "svgFilename": "trino-icon"
+    categoryKeys: ["data-sources"],
+    label: "Trino",
+    svgFilename: "trino-icon",
   },
   {
-    "categoryKeys": [
-      "data-sources"
-    ],
-    "label": "Vertica",
-    "svgFilename": "vertica-icon"
+    categoryKeys: ["data-sources"],
+    label: "Vertica",
+    svgFilename: "vertica-icon",
   },
   {
-    "categoryKeys": [
-      "sql-bi-tools"
-    ],
-    "label": "Workbench",
-    "svgFilename": "workbench-icon"
+    categoryKeys: ["sql-bi-tools"],
+    label: "Workbench",
+    svgFilename: "workbench-icon",
   },
   {
-    "categoryKeys": [
-      "sql-bi-tools"
-    ],
-    "label": "Zeppelin",
-    "svgFilename": "zeppelin-icon"
-  }
+    categoryKeys: ["sql-bi-tools"],
+    label: "Zeppelin",
+    svgFilename: "zeppelin-icon",
+  },
 ] as const;
 
-function readCurrentCategory(searchParams: Record<string, string | string[] | undefined> | undefined) {
+function readCurrentCategory(
+  searchParams: Record<string, string | string[] | undefined> | undefined,
+) {
   const raw = searchParams?.category;
   const value = Array.isArray(raw) ? raw[0] : raw;
-  return value && (value === "all" || categories.some((category) => category.key === value)) ? value : "all";
+  return value &&
+    (value === "all" || categories.some((category) => category.key === value))
+    ? value
+    : "all";
 }
 
 function getCategoryCount(categoryKey: string) {
-  return products.filter((product) => product.categoryKeys.includes(categoryKey)).length;
+  return products.filter((product) =>
+    product.categoryKeys.includes(categoryKey),
+  ).length;
 }
 
-export default async function AcpIntegrationsPage({ searchParams }: IntegrationsPageProps) {
+export default async function AcpIntegrationsPage({
+  searchParams,
+}: IntegrationsPageProps) {
   const resolvedSearchParams = (await searchParams) ?? {};
   const currentCategory = readCurrentCategory(resolvedSearchParams);
   const filteredProducts = products
-    .filter((product) => currentCategory === "all" || product.categoryKeys.includes(currentCategory))
+    .filter(
+      (product) =>
+        currentCategory === "all" ||
+        product.categoryKeys.includes(currentCategory),
+    )
     .sort((left, right) => left.label.localeCompare(right.label));
 
   return (
@@ -539,7 +428,10 @@ export default async function AcpIntegrationsPage({ searchParams }: Integrations
           </AipIntegrationsHeroLead>
         </AipIntegrationsHeroCopy>
         <AipIntegrationsCategoryList>
-          <AipIntegrationsCategoryLink href="/platforms/acp/integrations?category=all" active={currentCategory === "all"}>
+          <AipIntegrationsCategoryLink
+            href="/platforms/acp/integrations?category=all"
+            active={currentCategory === "all"}
+          >
             すべて ({products.length})
           </AipIntegrationsCategoryLink>
           {categories.map((category) => (
