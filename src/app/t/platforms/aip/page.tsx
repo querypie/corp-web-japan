@@ -192,7 +192,7 @@ export default function AipPage() {
                   <AipLineBreak />
                   ニーズに合わせたビジネスワークフロー自動化を実現します。
                 </AipFeatureBody>
-                <AipInlineLink href="/t/platforms/aip/integrations">
+                <AipInlineLink href="/platforms/aip/integrations">
                   QueryPie AIPと接続可能な連携ツールの一覧はこちら
                 </AipInlineLink>
               </AipFeatureCopy>
