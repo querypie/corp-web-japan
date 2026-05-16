@@ -13,11 +13,11 @@ type ClassNameProps = {
 };
 
 export function McpGatewayHeroSection({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <section className={cx("w-full pb-[117px] pt-[75px]", className)}>{children}</section>;
+  return <section className={cx("w-full pb-[120px] pt-[75px]", className)}>{children}</section>;
 }
 
 export function McpGatewayHeroCopy({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <div className={cx("mx-auto max-w-[1200px] px-10 pt-[155px] lg:px-10", className)}>{children}</div>;
+  return <div className={cx("mx-auto max-w-[1200px] px-6 pt-[55px] lg:px-10 lg:pt-[167px]", className)}>{children}</div>;
 }
 
 export function McpGatewayHeroHeading({ children, className }: { children: ReactNode } & ClassNameProps) {
@@ -25,12 +25,12 @@ export function McpGatewayHeroHeading({ children, className }: { children: React
 }
 
 export function McpGatewayHeroBody({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <p className={cx("mx-auto mt-[18px] max-w-[743px] text-center text-[18px] font-light leading-[28px] tracking-normal text-[#57606A]", className)}>{children}</p>;
+  return <p className={cx("mx-auto mt-[20px] max-w-[1000px] text-center text-[18px] font-light leading-[28px] tracking-normal text-[#57606A]", className)}>{children}</p>;
 }
 
 export function McpGatewayHeroVisual({ className = "", imageClassName = "" }: { className?: string; imageClassName?: string }) {
   return (
-    <div className={cx("mt-[10px] flex justify-center", className)}>
+    <div className={cx("mt-[68px] flex justify-center lg:mt-[80px]", className)}>
       <div className="w-full max-w-[1200px]">
         <Image
           src="/solutions/aip/mcp-gateway/hero.svg"
