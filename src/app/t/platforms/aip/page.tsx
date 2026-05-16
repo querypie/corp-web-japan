@@ -100,7 +100,7 @@ export default function AipPage() {
                   <AipLineBreak />
                   プレミアムLLMを必要な時だけ利用でき、月額固定費の無駄から解放されます。
                 </AipValueCardBody>
-                <AipValueCardLink href="/t/platforms/aip/usage-based-llm">詳細を見る</AipValueCardLink>
+                <AipValueCardLink href="/platforms/aip/usage-based-llm">詳細を見る</AipValueCardLink>
               </AipValueCard>
             </RevealOnScroll>
 

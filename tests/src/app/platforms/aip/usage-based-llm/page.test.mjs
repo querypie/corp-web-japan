@@ -1,17 +1,17 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource, sourceExists } from "../../../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../../../helpers/source-readers.mjs";
 
-test("usage-based-llm page keeps route-local copy/composition and preserves the upstream redirect route", () => {
-  assert.equal(sourceExists("src/app/t/platforms/aip/usage-based-llm/page.tsx"), true);
+test("published usage-based-llm page keeps route-local copy/composition", () => {
+  assert.equal(sourceExists("src/app/platforms/aip/usage-based-llm/page.tsx"), true);
+  assert.equal(sourceExists("src/app/t/platforms/aip/usage-based-llm/page.tsx"), false);
 
-  const routeSource = readSource("src/app/t/platforms/aip/usage-based-llm/page.tsx");
+  const routeSource = readSource("src/app/platforms/aip/usage-based-llm/page.tsx");
   const sectionSource = readSource("src/components/sections/usage-based-llm/section.tsx");
   const platformSource = readSource("src/components/sections/platform/page-primitives.tsx");
-  const redirectSource = readSource("src/app/platform/ai/aip/usage-based-llm/route.ts");
 
-  assert.match(routeSource, /canonical: "\/t\/platforms\/aip\/usage-based-llm"/);
-  assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
+  assert.match(routeSource, /canonical: "\/platforms\/aip\/usage-based-llm"/);
+  assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
   assert.match(routeSource, /QueryPie AIP：実際使用量ベースエンタープライズAI/);
@@ -56,8 +56,4 @@ test("usage-based-llm page keeps route-local copy/composition and preserves the 
   assert.match(platformSource, /contentClassName\?: string/);
   assert.match(platformSource, /contentWidthClassName\?: string/);
   assert.match(platformSource, /paddingClassName\?: string/);
-
-  assert.match(redirectSource, /const destination = "https:\/\/www\.querypie\.com\/ja\/solutions\/aip\/usage-based-llm";/);
-  assert.match(redirectSource, /return NextResponse\.redirect\(destination, 307\);/);
-  assert.match(redirectSource, /export const HEAD = GET;/);
 });

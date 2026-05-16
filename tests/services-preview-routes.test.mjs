@@ -27,6 +27,7 @@ const removedPreviewRoutes = [
   "src/app/t/services/aip/integrations/page.tsx",
   "src/app/t/services/acp/page.tsx",
   "src/app/t/solutions/aip/usage-based-llm/page.tsx",
+  "src/app/t/platforms/aip/usage-based-llm/page.tsx",
   "src/app/t/solutions/aip/mcp-gateway/page.tsx",
 ];
 

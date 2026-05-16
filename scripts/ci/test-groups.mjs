@@ -111,6 +111,7 @@ const matchers = {
     /^tests\/src\/app\/(cookie-preference|eula|privacy-policy|terms-of-service)\/page\.test\.mjs$/,
     /^tests\/src\/app\/t\/(events|plans)\/page\.test\.mjs$/,
     /^tests\/src\/app\/t\/platforms\//,
+    /^tests\/src\/app\/platforms\//,
     /^tests\/src\/app\/t\/services\//,
     /^tests\/src\/app\/t\/solutions\//,
     /^tests\/src\/lib\/legal-mdx-source\.test\.mjs$/,
