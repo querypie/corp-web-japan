@@ -45,7 +45,8 @@ test("/t/services/fde keeps route-local copy/composition while the layout primit
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
   assert.match(sectionSource, /export function ServiceFdePageShell[\s\S]*<PlatformPageShell>/);
   assert.match(sectionSource, /export function ServiceFdeHeroSection[\s\S]*<PlatformContentSection className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]">/);
-  assert.match(sectionSource, /export function ServiceFdeHeroTitle[\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
+  assert.match(sectionSource, /export function ServiceFdeHeroTitle[\s\S]*mx-auto max-w-\[800px\][\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
+  assert.match(sectionSource, /export function ServiceFdeHeroLead[\s\S]*max-w-\[1000px\][\s\S]*text-\[18px\][\s\S]*leading-\[28px\]/);
   assert.match(sectionSource, /export function ServiceFdeHeroVisual/);
   assert.match(sectionSource, /export function ServiceFdeFeatureSection/);
   assert.match(sectionSource, /export function ServiceFdeFeatureSection[\s\S]*<PlatformFeatureSection muted=\{muted\}>/);
