@@ -120,7 +120,7 @@ export default function AipPage() {
                   <AipLineBreak />
                   バラバラだったシステムが、1つのプラットフォームで統合されたAIワークフローに変わります。
                 </AipValueCardBody>
-                <AipValueCardLink href="/t/platforms/aip/mcp-gateway">詳細を見る</AipValueCardLink>
+                <AipValueCardLink href="/platforms/aip/mcp-gateway">詳細を見る</AipValueCardLink>
               </AipValueCard>
             </RevealOnScroll>
 

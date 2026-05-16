@@ -106,6 +106,11 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
     priority: 0.7,
   },
   {
+    url: absoluteUrl("/platforms/aip/mcp-gateway"),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  },
+  {
     url: absoluteUrl("/use-cases"),
     changeFrequency: "weekly",
     priority: 0.8,
