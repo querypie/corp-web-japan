@@ -75,11 +75,6 @@ const expectedRedirectRules = [
     destination: "/whitepapers/${id}/${slug}",
   },
   {
-    requestPath: "/ko/features/documentation/white-paper/{id}/{slug}",
-    file: "src/app/ko/features/documentation/white-paper/[id]/[slug]/route.ts",
-    destination: "/whitepapers/${id}/${slug}",
-  },
-  {
     requestPath: "/features/documentation/white-paper/{id}/{slug}",
     file: "src/app/features/documentation/white-paper/[id]/[slug]/route.ts",
     destination: "/whitepapers/${id}/${slug}",
@@ -132,7 +127,7 @@ const expectedRedirectRules = [
 ];
 
 test("remaining redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 25);
+  assert.equal(expectedRedirectRules.length, 24);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
@@ -193,7 +188,6 @@ test("remaining redirect endpoints are defined in a single test-case table with 
       [
         "/features/documentation/white-paper/{id}/{slug}",
         "/ja/features/documentation/white-paper/{id}/{slug}",
-        "/ko/features/documentation/white-paper/{id}/{slug}",
       ].includes(rule.requestPath)
     ) {
       assert.doesNotMatch(source, /getWhitepaperPublicationRecord|getPost|getPublication/);
