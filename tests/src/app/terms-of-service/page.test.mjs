@@ -16,7 +16,7 @@ test("terms of service page derives metadata and hero copy from content.mdx fron
   assert.match(source, /title: `\$\{frontmatter\.title\} \| QueryPie AI`,/);
   assert.match(source, /description: frontmatter\.description,/);
   assert.match(source, /canonical: "\/terms-of-service"/);
-  assert.match(source, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
+  assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(source, /<LegalDocumentIntro>/);
   assert.doesNotMatch(source, /<LegalDocumentIntro divider>/);
   assert.match(source, /<LegalDocumentTitle>\{frontmatter\.title\}<\/LegalDocumentTitle>/);

@@ -19,6 +19,8 @@ import { listGlossaryPublicationParams } from "@/lib/resources/glossary-publicat
 import { listManualPublicationParams } from "@/lib/resources/manual-publications";
 import { absoluteUrl } from "@/lib/site-url";
 
+// `/privacy-policy` and `/terms-of-service` are public local legal pages,
+// but they are intentionally noindex and therefore omitted from the sitemap.
 const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
   {
     url: absoluteUrl("/"),
