@@ -233,11 +233,11 @@ Important pitfall: do not treat a section as visually equivalent just because it
 ACP child-page example:
 
 - `../corp-web-contents/pages/solutions/acp/{database-access-controller,system-access-controller,kubernetes-access-controller,web-access-controller}/ja/content.mdx` stores the source hero background variant on the first page-body wrapper as `background="dac"`, `background="sac"`, `background="kac"`, or `background="wac"`.
-- The live page renders that source contract as a `backgroundImage` gradient on the hero wrapper, not as a `backgroundColor`.
-- A screenshot-only pass can still describe the hero as “plain white” because the gradient begins after the white top stop and is subtle in the text band. Do not rely on visual inspection alone.
+- Do not stop at confirming that both pages have a non-`none` `backgroundImage`. The live ACP child hero uses the variant color at the 84% stop and then immediately returns to white at the same stop. In browser computed style this can appear as a malformed-looking sequence such as `linear-gradient(... rgb(223, 239, 242) 84%, rgb(255, 255, 255) 0px, rgb(255, 255, 255))`; CSS normalizes the later `0px` stop to the previous 84% stop, creating a hard white cut.
+- A local Tailwind rebuild that uses `from-white from-[30%] via-[#...] via-[84%] to-white` is not equivalent: it fades from the variant color at 84% to white at 100%, leaving a visible teal/blue/green wash behind the lower hero/media area.
 - For these pages, compare the exact requested URL first. If an old `/t/platforms/acp/...` URL now renders the local 404 page after route promotion, record that as a route-state finding and then compare the current public route such as `/platforms/acp/web-access-controller` separately.
-- The source-code check is: the route should pass the matching variant to `AcpHeroSection background="..."`, and the shared ACP static-page primitive should retain the gradient classes for all four variants.
-- The browser check is: inspect the H1 ancestor chain and verify the section wrapper has a non-`none` `backgroundImage` such as `linear-gradient(...)`; sample side-gutter pixels lower in the hero band when the gradient is visually too subtle at the top.
+- The source-code check is: the route should pass the matching variant to `AcpHeroSection background="..."`, and the shared ACP static-page primitive should retain both the variant stop and the hard white stop, for example `via-[#dfeff2] via-[84%] to-white to-[84%]` for WAC.
+- The browser check is: inspect the H1 ancestor chain and compare the full `backgroundImage` stop list, not just `backgroundImage !== "none"`; sample side-gutter pixels around the hero media/lower band where a smooth 84%→100% fade is most visible.
 
 ### 7. Classify each difference
 

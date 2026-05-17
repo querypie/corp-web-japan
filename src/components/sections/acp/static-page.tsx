@@ -22,10 +22,10 @@ export function AcpHeroSection({
   background?: "dac" | "sac" | "kac" | "wac";
 }) {
   const backgroundClassName = {
-    dac: "from-white from-[30%] via-[#dfe8f2] via-[84%] to-white",
-    sac: "from-white from-[30%] via-[#e2e9e1] via-[84%] to-white",
-    kac: "from-white from-[30%] via-[#e8eaf4] via-[84%] to-white",
-    wac: "from-white from-[30%] via-[#dfeff2] via-[84%] to-white",
+    dac: "from-white from-[30%] via-[#dfe8f2] via-[84%] to-white to-[84%]",
+    sac: "from-white from-[30%] via-[#e2e9e1] via-[84%] to-white to-[84%]",
+    kac: "from-white from-[30%] via-[#e8eaf4] via-[84%] to-white to-[84%]",
+    wac: "from-white from-[30%] via-[#dfeff2] via-[84%] to-white to-[84%]",
   }[background];
 
   return (
