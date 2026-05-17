@@ -30,7 +30,7 @@ export function AcpHeroSection({
   }[background];
 
   return (
-    <section className="px-6 pb-0 pt-[70px] md:pt-20" style={{ background: backgroundImage }}>
+    <section className="px-6 pb-0 pt-[134px] lg:pt-[144px]" style={{ background: backgroundImage }}>
       <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-20 text-center max-[480px]:gap-[70px]">
         {children}
         {media.kind === "youtube" ? (

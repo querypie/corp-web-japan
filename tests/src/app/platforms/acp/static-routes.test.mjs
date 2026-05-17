@@ -170,10 +170,13 @@ describe("ACP static public route rollout", () => {
     const heroPrimitives = read("src/components/sections/acp/hero-primitives.tsx");
     assert.match(staticPageSection, /AcpHeroCopy[\s\S]*AcpHeroLead[\s\S]*AcpHeroTitle/);
     assert.match(heroPrimitives, /export function AcpHeroCopy/);
-    assert.match(heroPrimitives, /flex max-w-\[1200px\] flex-col items-center gap-\[20px\] text-center/);
+    assert.match(heroPrimitives, /flex w-full max-w-\[1200px\] flex-col items-center gap-\[20px\] text-center/);
     assert.match(heroPrimitives, /text-\[48px\] font-normal leading-\[56px\] tracking-normal text-\[#24292F\] lg:text-\[60px\] lg:leading-\[72px\]/);
     assert.match(heroPrimitives, /export function AcpHeroLead/);
-    assert.match(heroPrimitives, /max-w-\[760px\] text-\[18px\] font-light leading-\[28px\] tracking-\[0\.36px\] text-\[#57606A\]/);
+    assert.match(heroPrimitives, /w-full max-w-\[1200px\] text-\[18px\] font-light leading-\[28px\] tracking-\[0\.36px\] text-\[#57606A\]/);
+    assert.doesNotMatch(heroPrimitives, /max-w-\[760px\]/);
+    assert.match(staticPageSection, /<section className="px-6 pb-0 pt-\[134px\] lg:pt-\[144px\]"/);
+    assert.doesNotMatch(staticPageSection, /pt-\[70px\] md:pt-20/);
     assert.doesNotMatch(staticPageSection, /export function AcpHeroLeadGroup/);
     assert.doesNotMatch(staticPageSection, /flex w-full max-w-\[1200px\] flex-col items-center gap-5/);
     assert.doesNotMatch(staticPageSection, /flex max-w-\[920px\] flex-col items-center gap-5/);
