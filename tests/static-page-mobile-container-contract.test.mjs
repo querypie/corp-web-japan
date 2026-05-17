@@ -4,8 +4,9 @@ import { readSource } from "./helpers/source-readers.mjs";
 
 const primitiveSource = () => readSource("src/components/sections/home/primitives.tsx");
 
-const migratedContractFiles = [
-  "src/components/sections/plans/section.tsx",
+const companySectionContractFiles = [
+  "src/app/t/plans/aip/page.tsx",
+  "src/app/t/plans/acp/page.tsx",
 ];
 
 test("shared marketing page section owns the default mobile container contract", () => {
@@ -18,11 +19,16 @@ test("shared marketing page section owns the default mobile container contract",
   assert.match(source, /mx-auto w-full/);
 });
 
-test("simple static preview sections use the shared mobile container primitive", () => {
-  for (const filePath of migratedContractFiles) {
+test("plans preview routes use the company page hero and container contract", () => {
+  for (const filePath of companySectionContractFiles) {
     const source = readSource(filePath);
 
-    assert.match(source, /MarketingPageSection/, `${filePath} should use the shared page section primitive`);
+    assert.match(source, /CompanyPageSection/, `${filePath} should use the company page section primitive`);
+    assert.match(source, /CompanyPageTitle/, `${filePath} should use the company page title primitive`);
+    assert.match(source, /CompanyPageLead/, `${filePath} should use the company page lead primitive`);
+    assert.doesNotMatch(source, /PlansPageSection/);
+    assert.doesNotMatch(source, /PlansHeroTitle/);
+    assert.doesNotMatch(source, /PlansHeroDescription/);
   }
 });
 
