@@ -148,6 +148,8 @@ describe("ACP static preview route migration", () => {
     assert.match(staticPageSection, /via-\[#e2e9e1\]/);
     assert.match(staticPageSection, /via-\[#e8eaf4\]/);
     assert.match(staticPageSection, /via-\[#dfeff2\]/);
+    assert.match(staticPageSection, /flex w-full max-w-\[1200px\] flex-col items-center gap-5/);
+    assert.doesNotMatch(staticPageSection, /flex max-w-\[920px\] flex-col items-center gap-5/);
     assert.match(staticPageSection, /text-\[60px\] font-normal leading-\[72px\]/);
     assert.match(staticPageSection, /text-\[52px\] font-normal leading-\[62px\]/);
     assert.match(staticPageSection, /max-w-\[1200px\] flex-col gap-5/);
