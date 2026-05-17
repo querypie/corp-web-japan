@@ -8,8 +8,8 @@ wrong.
 ## Current baseline
 
 - Repository: `querypie/corp-web-japan`
-- Source baseline: `origin/main` at `247c20f107862b61d2cb25bf6f9639b98c3402d0`
-- Refreshed at: `2026-05-15 07:05:23 UTC`
+- Source baseline: `origin/main` at `f3382958b0ce8c89c93d04ccf689606bc13f1948`
+- Refreshed at: `2026-05-17 13:50:51 UTC`
 - Verification type: static source scan only; no local build, browser run, or
   live HTTP validation was performed for this document update.
 - Parent issue: https://github.com/querypie/corp-web-japan/issues/522
@@ -49,11 +49,11 @@ cleanup targets here:
 
 | Metric | Count |
 | --- | ---: |
-| Scanned source files | 439 |
-| External URL occurrences, excluding npm package registry URLs | 924 |
+| Scanned source files | 446 |
+| External URL occurrences, excluding npm package registry URLs | 912 |
 | Third-party URL occurrences | 816 |
 | Files containing third-party URLs | 159 |
-| Distinct third-party URLs | 514 |
+| Distinct third-party URLs | 513 |
 | Distinct third-party hosts | 251 |
 | Third-party occurrences in code files | 38 |
 | Third-party occurrences in MDX content | 778 |
@@ -89,7 +89,7 @@ CTA behavior, embeds, or shared components.
 | `src/components/layout/site-footer.tsx` | Site footer | 5 | `kr.linkedin.com`, `www.youtube.com`, `x.com`, `www.facebook.com`, `www.instagram.com` | Shared social links. Review as site-wide navigation, not page-specific content. |
 | `src/components/sections/acp/service-page.tsx` | ACP shared section | 1 | `www.youtube.com` | Shared ACP media embed; check routes importing this component before changing. |
 | `src/components/sections/ai-crew/use-cases-section.tsx` | AI Crew section component | 2 | `img.youtube.com`, `www.youtube.com` | Dynamic YouTube thumbnail/embed templates based on `videoId`; scanner sees partial template strings. Validate by checking page-provided video IDs. |
-| `src/components/sections/aip/page.tsx` | AIP shared section | 1 | `www.youtube.com` | Shared AIP media embed; check routes importing this component before changing. |
+| `src/components/sections/aip/thumbnail-youtube.tsx` | AIP shared media component | 1 | `www.youtube.com` | Shared AIP media embed; check routes importing this component before changing. |
 | `src/components/sections/internal-demo/use-case-showcase.tsx` | Internal demo section component | 2 | `img.youtube.com`, `www.youtube.com` | Dynamic YouTube thumbnail/embed templates for internal demo cards. |
 | `src/components/sections/mcp-gateway/section.tsx` | MCP gateway section | 1 | `www.w3.org` | SVG namespace value. Not an external navigation or fetch dependency. |
 | `src/components/sections/publication/share-buttons.tsx` | Publication share buttons | 3 | `www.facebook.com`, `twitter.com`, `www.linkedin.com` | Intentional outbound share endpoints. Keep encoded current page URL behavior intact. |
@@ -105,8 +105,8 @@ local replacements exist.
 | Host | Occurrences | Review note |
 | --- | ---: | --- |
 | `docs.querypie.com` | 48 | Product documentation host. Keep when the target is product docs, not local marketing content. |
-| `www.querypie.com` | 22 | Legacy/current corporate site host. Check whether the local site now owns the page before leaving absolute links. |
-| `app.querypie.com` | 18 | Product app host. Usually intentional app CTA. |
+| `www.querypie.com` | 9 | Legacy/current corporate site host. Check whether the local site now owns the page before leaving absolute links. |
+| `app.querypie.com` | 19 | Product app host. Usually intentional app CTA. |
 | `www.querypie.ai` | 12 | Current Japan site host. Prefer relative links when linking within the same site. |
 | `aip-docs.app.querypie.com` | 4 | Product docs/app host. |
 | `trust.querypie.com` | 2 | Trust center host. Usually intentional external trust destination. |

@@ -16,23 +16,21 @@ issue #522.
 ## Current baseline
 
 - Repository: `querypie/corp-web-japan`
-- Source baseline: this PR branch after ACP child page rollout
-- Refreshed at: `2026-05-17 10:54 UTC`
+- Source baseline: `origin/main` at `f3382958b0ce8c89c93d04ccf689606bc13f1948`
+- Refreshed at: `2026-05-17 13:50:51 UTC`
 - Verification type: static source scan only; no local build, browser run, or
   live HTTP validation was performed for this document update.
 - Parent issue: https://github.com/querypie/corp-web-japan/issues/521
 
 Recent main changes reflected in this snapshot:
 
-- PR #523 kept the ACP preview integration link local.
-- PR #525 replaced homepage legacy QueryPie content links with local content
-  links.
-- PR #529 replaced the remaining blog-to-whitepaper legacy content links with
-  local whitepaper routes.
+- PR #557 promoted `/platforms/aip` to a local public page.
 - PR #559 promoted `/platforms/acp` and `/platforms/acp/integrations` to
   local public pages and retargeted `/services/acp` internally.
-- This PR promotes the four ACP child pages under `/platforms/acp/**` and
-  retargets their legacy `/platform/security/**` aliases internally.
+- PR #566 promoted the ACP child pages under `/platforms/acp/**` and retargeted
+  their legacy `/platform/security/**` aliases internally.
+- PR #571 retargeted the remaining legacy AIP aliases to the local
+  `/platforms/aip` page.
 
 ## Scan scope
 
@@ -56,12 +54,12 @@ Excluded:
 
 | Metric | Count |
 | --- | ---: |
-| Scanned source files | 443 |
-| QueryPie-owned URL occurrences | 98 |
-| Files containing QueryPie-owned URLs | 47 |
-| Distinct QueryPie-owned URLs | 39 |
+| Scanned source files | 446 |
+| QueryPie-owned URL occurrences | 96 |
+| Files containing QueryPie-owned URLs | 45 |
+| Distinct QueryPie-owned URLs | 38 |
 | Distinct QueryPie-owned hosts | 8 |
-| QueryPie-owned occurrences in code files | 36 |
+| QueryPie-owned occurrences in code files | 34 |
 | QueryPie-owned occurrences in MDX files | 62 |
 
 Host breakdown:
@@ -70,7 +68,7 @@ Host breakdown:
 | --- | ---: | --- |
 | `docs.querypie.com` | 48 | Product documentation host; usually intentional when the target is product docs. |
 | `app.querypie.com` | 19 | Product app host; usually intentional app/action CTA. |
-| `www.querypie.com` | 11 | Legacy public site host; highest migration priority when the path is `/ja/**`. |
+| `www.querypie.com` | 9 | Legacy public site host; highest migration priority when the path is `/ja/**`. |
 | `www.querypie.ai` | 12 | Current Japan public site host; prefer relative links for same-site navigation unless the context is a quoted/company-information block. |
 | `aip-docs.app.querypie.com` | 4 | Product documentation/app host; usually intentional. |
 | `trust.querypie.com` | 2 | Trust Center host; usually intentional. |
@@ -214,8 +212,8 @@ When rewriting or refreshing this document:
    versioned-document approval.
 9. Keep issue #522 and this document separate: issue #522 is for third-party
    external links; this document is only for QueryPie-owned hosts.
-10. If this document is updated by a PR that should replace issue #521, include
-    an auto-closing keyword in the PR body so the issue closes on merge.
+10. Reference issue #521 in the PR body, but do not use an auto-closing keyword
+    unless the maintainer explicitly wants the issue closed on merge.
 
 Minimal scan script:
 
@@ -272,7 +270,7 @@ PY
 
 ## Done criteria for issue #521
 
-Issue #521 can be considered replaced by this document when:
+Issue #521 can be considered covered by this document when:
 
 - This document exists under `docs/` and is linked from the resolving PR.
 - The current `www.querypie.com/ja/**` status is captured from latest
@@ -282,5 +280,5 @@ Issue #521 can be considered replaced by this document when:
 - The document explains which remaining entries are intentionally external and
   which entries still require route-policy decisions before they can be changed.
 - The document includes a repeatable scan/update procedure.
-- The resolving PR body includes `Closes #521`, so GitHub closes the issue when
-  the PR is merged.
+- The PR body references issue #521 without an auto-closing keyword unless the
+  maintainer explicitly wants the issue closed on merge.

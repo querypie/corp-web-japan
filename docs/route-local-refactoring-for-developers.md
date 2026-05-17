@@ -353,7 +353,7 @@ The key route-local-refactoring references in this repository are:
 1. [`docs/code-location-conventions.md`](./code-location-conventions.md)
 2. [`docs/static-page-route-local-authoring.md`](./static-page-route-local-authoring.md)
 3. [`.agents/skills/static-page-route-local-authoring/SKILL.md`](../.agents/skills/static-page-route-local-authoring/SKILL.md)
-4. real reference routes such as [`src/app/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/page.tsx), [`src/app/about-us/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/about-us/page.tsx), and [`src/app/t/platforms/acp/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/platforms/acp/page.tsx)
+4. real reference routes such as [`src/app/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/page.tsx), [`src/app/about-us/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/about-us/page.tsx), and [`src/app/platforms/acp/page.tsx`](https://github.com/querypie/corp-web-japan/blob/f3382958b0ce8c89c93d04ccf689606bc13f1948/src/app/platforms/acp/page.tsx)
 
 ## 8. References and terminology for page-layer / UI-layer separation
 
@@ -428,7 +428,7 @@ Within this repository, the most direct practical references are:
 
 - [`src/app/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/page.tsx)
 - [`src/app/about-us/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/about-us/page.tsx)
-- [`src/app/t/platforms/acp/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/platforms/acp/page.tsx)
+- [`src/app/platforms/acp/page.tsx`](https://github.com/querypie/corp-web-japan/blob/f3382958b0ce8c89c93d04ccf689606bc13f1948/src/app/platforms/acp/page.tsx)
 - the section-scoped route-local authoring direction established across PRs 155, 156, 157, and 158
 
 ---

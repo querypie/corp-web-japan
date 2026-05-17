@@ -1,6 +1,6 @@
 # MDX collection inventory
 
-This document summarizes the current MDX-backed content collections in this repository as of `origin/main` at commit `3a3a1b1`.
+This document summarizes the current MDX-backed content collections in this repository as of `origin/main` at commit `f3382958b0ce8c89c93d04ccf689606bc13f1948`.
 
 Scope:
 
@@ -15,7 +15,7 @@ Scope:
 | Blog | 29 | List: `/blog`<br>Detail: `/blog/:id/:slug`<br>ID redirect: `/blog/:id` | `src/content/blog/*.mdx` | `public/blog/<id>/...` | `src/lib/publications/blog/records.ts`<br>`src/lib/publications/blog/get-post.ts` | Standard publication family. Supports list hiding and detail redirects. |
 | Whitepapers | 30 | List: `/whitepapers`<br>Detail: `/whitepapers/:id/:slug`<br>ID redirect: `/whitepapers/:id`<br>PDF page: `/whitepapers/:id/:slug/pdf`<br>Legacy download route: `/whitepapers/:id/:slug/download` | `src/content/whitepapers/*.mdx` | `public/whitepapers/<id>/...` | `src/lib/publications/whitepapers/records.ts`<br>`src/lib/publications/whitepapers/get-post.ts` | Gated publication family. Supports whitepaper-specific download CTA, PDF cover image, and visible-list fallback description. |
 | News | 14 | List: `/news`<br>Detail: `/news/:id/:slug`<br>ID redirect: `/news/:id` | `src/content/news/*.mdx` | `public/news/<id>/...` | `src/lib/publications/news/records.ts`<br>`src/lib/publications/news/get-post.ts` | Standard publication family. Supports source labels and redirect-backed shadow records in code. |
-| Events | 27 | List: `/events`<br>Detail: `/events/:id/:slug`<br>ID redirect: `/events/:id` | `src/content/events/*.mdx` | `public/events/<id>/...` | `src/lib/publications/events/records.ts`<br>`src/lib/publications/events/get-post.ts` | Standard publication family with event timeline behavior. The list route exists but is launch/query-gated in current site policy. |
+| Events | 27 | List: `/events`<br>Detail: `/events/:id/:slug`<br>ID redirect: `/events/:id` | `src/content/events/*.mdx` | `public/events/<id>/...` | `src/lib/publications/events/records.ts`<br>`src/lib/publications/events/get-post.ts` | Standard publication family with event timeline behavior. The public list route is active and indexable. |
 | Use cases | 29 | List: `/use-cases`<br>Detail: `/use-cases/:id/:slug`<br>ID redirect: `/use-cases/:id` | `src/content/use-cases/*.mdx` | `public/use-cases/<id>/...` | `src/lib/publications/use-cases/records.ts`<br>`src/lib/publications/use-cases/get-post.ts` | Standard publication family. List and detail routes share the same top-level use-case prefix. |
 | AIP demo | 1 | List: `/demo/aip`<br>Detail: `/demo/aip/:id/:slug`<br>ID redirect: `/demo/aip/:id` | `src/content/demo/aip/*.mdx` | `public/demo/aip/<id>/...` | `src/lib/publications/demo/aip/records.ts`<br>`src/lib/publications/demo/aip/get-post.ts` | Standard publication family for AIP demo content. |
 | ACP demo | 26 | List: `/demo/acp`<br>Detail: `/demo/acp/:id/:slug`<br>ID redirect: `/demo/acp/:id` | `src/content/demo/acp/*.mdx` | `public/demo/acp/<id>/...` | `src/lib/publications/demo/acp/records.ts`<br>`src/lib/publications/demo/acp/get-post.ts` | Standard publication family for ACP demo content. |

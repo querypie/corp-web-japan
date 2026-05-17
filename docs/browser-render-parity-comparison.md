@@ -26,7 +26,7 @@ Use it when a task asks to compare pages such as:
 
 Typical examples:
 
-- `https://stage.querypie.ai/t/platforms/aip`
+- `https://stage.querypie.ai/platforms/aip`
 - `https://www.querypie.com/ja/solutions/aip`
 
 Do not use this guide as a replacement for implementation review. Use it first to identify the rendered difference, then inspect source code after the browser evidence is clear.
@@ -121,7 +121,7 @@ Then choose one strategy and document it in the issue or PR body:
 1. **Direct-port strategy**: port the upstream component structure and CSS-module visual contract as closely as possible, adding a small compatibility layer for local tokens, buttons, icons, or layout wrappers when needed.
 2. **Measured-rebuild strategy**: keep local primitives, but require screenshot, DOM geometry, computed-style, and source-contract evidence that the rebuilt UI is visually equivalent enough.
 
-For example, `/t/plans` should be treated as a source-backed pricing widget migration because the upstream page is built from pricing and compare-table widget components in `../corp-web-app`. In that case, text presence and route-local authorship are not sufficient. The audit must check plan cards, product tabs, buttons/icons, and comparison-table structure against the upstream widget/CSS contract.
+For example, `/plans` should be treated as a source-backed pricing widget migration because the upstream page is built from pricing and compare-table widget components in `../corp-web-app`. In that case, text presence and route-local authorship are not sufficient. The audit must check plan cards, product tabs, buttons/icons, and comparison-table structure against the upstream widget/CSS contract.
 
 ## Required viewport set
 
@@ -476,7 +476,7 @@ const fs = require("fs");
 const path = require("path");
 
 const urls = {
-  stage: "https://stage.querypie.ai/t/platforms/aip",
+  stage: "https://stage.querypie.ai/platforms/aip",
   live: "https://www.querypie.com/ja/solutions/aip",
 };
 
@@ -839,7 +839,7 @@ For the AIP comparison on 2026-05-14:
 
 Desktop `1440 x 900`:
 
-- Stage URL: `https://stage.querypie.ai/t/platforms/aip`
+- Stage URL: `https://stage.querypie.ai/platforms/aip`
 - Live URL: `https://www.querypie.com/ja/solutions/aip`
 - Stage root font size: `16px`
 - Live root font size: `16px`

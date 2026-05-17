@@ -1,6 +1,6 @@
 # MDX collection 현황
 
-이 문서는 `origin/main`의 `3a3a1b1` 커밋 기준으로, 현재 저장소에서 MDX 문서를 기반으로 동작하는 콘텐츠 collection 현황을 정리한다.
+이 문서는 `origin/main`의 `f3382958b0ce8c89c93d04ccf689606bc13f1948` 커밋 기준으로, 현재 저장소에서 MDX 문서를 기반으로 동작하는 콘텐츠 collection 현황을 정리한다.
 
 범위:
 
@@ -15,7 +15,7 @@
 | Blog | 29 | List: `/blog`<br>Detail: `/blog/:id/:slug`<br>ID redirect: `/blog/:id` | `src/content/blog/*.mdx` | `public/blog/<id>/...` | `src/lib/publications/blog/records.ts`<br>`src/lib/publications/blog/get-post.ts` | Standard publication family. list hide와 detail redirect를 지원한다. |
 | Whitepapers | 30 | List: `/whitepapers`<br>Detail: `/whitepapers/:id/:slug`<br>ID redirect: `/whitepapers/:id`<br>PDF page: `/whitepapers/:id/:slug/pdf`<br>Legacy download route: `/whitepapers/:id/:slug/download` | `src/content/whitepapers/*.mdx` | `public/whitepapers/<id>/...` | `src/lib/publications/whitepapers/records.ts`<br>`src/lib/publications/whitepapers/get-post.ts` | Gated publication family. whitepaper 전용 download CTA, PDF cover image, list fallback description을 지원한다. |
 | News | 14 | List: `/news`<br>Detail: `/news/:id/:slug`<br>ID redirect: `/news/:id` | `src/content/news/*.mdx` | `public/news/<id>/...` | `src/lib/publications/news/records.ts`<br>`src/lib/publications/news/get-post.ts` | Standard publication family. source label과 redirect-backed shadow record를 코드상 지원한다. |
-| Events | 27 | List: `/events`<br>Detail: `/events/:id/:slug`<br>ID redirect: `/events/:id` | `src/content/events/*.mdx` | `public/events/<id>/...` | `src/lib/publications/events/records.ts`<br>`src/lib/publications/events/get-post.ts` | Event timeline 동작이 추가된 standard publication family. list route는 존재하지만 현재 site policy상 launch/query-gated 상태다. |
+| Events | 27 | List: `/events`<br>Detail: `/events/:id/:slug`<br>ID redirect: `/events/:id` | `src/content/events/*.mdx` | `public/events/<id>/...` | `src/lib/publications/events/records.ts`<br>`src/lib/publications/events/get-post.ts` | Event timeline 동작이 추가된 standard publication family. 공개 list route는 현재 활성화되어 있고 indexable 상태다. |
 | Use cases | 29 | List: `/use-cases`<br>Detail: `/use-cases/:id/:slug`<br>ID redirect: `/use-cases/:id` | `src/content/use-cases/*.mdx` | `public/use-cases/<id>/...` | `src/lib/publications/use-cases/records.ts`<br>`src/lib/publications/use-cases/get-post.ts` | Standard publication family. list와 detail route는 같은 top-level use-case prefix를 공유한다. |
 | AIP demo | 1 | List: `/demo/aip`<br>Detail: `/demo/aip/:id/:slug`<br>ID redirect: `/demo/aip/:id` | `src/content/demo/aip/*.mdx` | `public/demo/aip/<id>/...` | `src/lib/publications/demo/aip/records.ts`<br>`src/lib/publications/demo/aip/get-post.ts` | AIP demo content용 standard publication family. |
 | ACP demo | 26 | List: `/demo/acp`<br>Detail: `/demo/acp/:id/:slug`<br>ID redirect: `/demo/acp/:id` | `src/content/demo/acp/*.mdx` | `public/demo/acp/<id>/...` | `src/lib/publications/demo/acp/records.ts`<br>`src/lib/publications/demo/acp/get-post.ts` | ACP demo content용 standard publication family. |
