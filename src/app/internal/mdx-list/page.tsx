@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function InternalMdxListDemoPage() {
+export default async function InternalMdxListPage() {
   const blogItems = await listBlogPublicationItems();
 
   return (

@@ -4,9 +4,9 @@ const sampleEmail = process.env.GATING_FORM_E2E_EMAIL ?? 'stage-e2e@querypie.ai'
 const sampleLastName = process.env.GATING_FORM_E2E_LAST_NAME ?? '테스트';
 const sampleFirstName = process.env.GATING_FORM_E2E_FIRST_NAME ?? '허메스';
 
-const routePath = '/internal/whitepaper-gating-demo';
+const routePath = '/internal/whitepaper-gating-form';
 const hiddenSectionHeading = 'Hidden section';
-const gatedCookieName = 'qp-gated-internal-whitepaper-gating-demo';
+const gatedCookieName = 'qp-gated-internal-whitepaper-gating-form';
 
 test('internal whitepaper gating demo renders the preview content and keeps gated content hidden by default', async ({
   page,
@@ -14,7 +14,7 @@ test('internal whitepaper gating demo renders the preview content and keeps gate
 }) => {
   await page.goto(`${baseURL}${routePath}`, { waitUntil: 'networkidle' });
 
-  await expect(page).toHaveTitle('Internal Whitepaper Gating Demo | QueryPie AI');
+  await expect(page).toHaveTitle('Internal Whitepaper Gating Form | QueryPie AI');
   await expect(page.getByRole('heading', { name: 'Gating form demo' })).toBeVisible();
   await expect(
     page.getByText('このページは whitepaper MDX 用 gating form の動作確認用です。ここまでは送信前でも表示されます。'),

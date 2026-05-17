@@ -27,7 +27,7 @@ test("whitepaper supporting surfaces do not reference the legacy /assets/image/w
   const topPage = getTopPageDataSource();
   const topPagePage = readSource("src/app/page.tsx");
   const topPageWhitepapersSection = readSource("src/components/sections/home/whitepapers-section.tsx");
-  const gatingDemo = readSource("src/content/internal/whitepaper-gating-demo.mdx");
+  const gatingDemo = readSource("src/content/internal/whitepaper-gating-form.mdx");
 
   assert.match(`${topPage}\n${topPagePage}\n${topPageWhitepapersSection}`, /src: "\/whitepapers\/24\/thumbnail\.png"|<WhitepaperCardImage src="\/whitepapers\/24\/thumbnail\.png"/);
   assert.match(gatingDemo, /\nheroImageSrc: "\/whitepapers\/24\/thumbnail\.png"\n/);

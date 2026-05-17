@@ -80,7 +80,7 @@ CTA behavior, embeds, or shared components.
 | File | Route / surface | Count | Hosts | Current status |
 | --- | --- | ---: | --- | --- |
 | `src/app/about-us/page.tsx` | `/about-us` | 6 | `www.linkedin.com` | Leadership profile links. Intentional external social links if profiles are current. |
-| `src/app/internal/demo-sections/page.tsx` | `/internal/demo-sections` | 6 | `www.youtube.com` | Internal demo only. Contains placeholder-like YouTube IDs; do not treat as public page links, but avoid copying them to production pages. |
+| `src/app/internal/sections/page.tsx` | `/internal/sections` | 6 | `www.youtube.com` | Internal demo only. Contains placeholder-like YouTube IDs; do not treat as public page links, but avoid copying them to production pages. |
 | `src/app/page.tsx` | `/` | 1 | `www.youtube.com` | Home page embedded YouTube video. Validate exact video availability when changing home media. |
 | `src/app/solutions/ai-crew/page.tsx` | `/solutions/ai-crew` | 5 | `youtu.be` | AI Crew use-case video links. Validate as public page media links. |
 | `src/app/platforms/acp/database-access-controller/page.tsx` | `/platforms/acp/database-access-controller` | 1 | `www.youtube.com` | Public ACP child-page embed. Validate exact video availability when changing page media. |
@@ -135,7 +135,7 @@ legal, or citation-heavy MDX files. Use this table to prioritize bulk review.
 
 | Host | Occurrences | Category | Files | First observed file |
 | --- | ---: | --- | ---: | --- |
-| `www.youtube.com` | 89 | Social/media | 83 | `src/app/internal/demo-sections/page.tsx` |
+| `www.youtube.com` | 89 | Social/media | 83 | `src/app/internal/sections/page.tsx` |
 | `bit.ly` | 13 | URL shortener | 1 | `src/content/blog/13-what-businesses-can-learn-from-sentiment-analysis.mdx` |
 | `air.co.jp` | 10 | Event/form/demo service | 7 | `src/content/events/16-air-company-querypie-zerotrust-webinar.mdx` |
 | `instruqt.com` | 10 | Event/form/demo service | 5 | `src/content/privacy-policy/2024-11-29.mdx` |
@@ -153,7 +153,7 @@ manual review, not confirmed defects.
 | --- | --- | --- | --- |
 | URL shorteners | `src/content/blog/13-what-businesses-can-learn-from-sentiment-analysis.mdx` lines 76-88 use `bit.ly` | Final destination is opaque, can expire, and is hard to audit. | Replace with final destination URLs, or document why the shortener is required. |
 | AI/source tracking parameters | `src/content/whitepapers/24-ai-transformation-japan.mdx` and `25-ai-transformation-japan.mdx` contain `utm_source=chatgpt.com` URLs | Looks like generated-source residue rather than intentional canonical citation. | Remove tracking parameters or replace with canonical source URLs after content review. |
-| Placeholder video IDs | `src/app/internal/demo-sections/page.tsx` uses `dQw4w9WgXcQ` and `oHg5SJYRHA0` | Acceptable only in internal demos; wrong if copied to public pages. | Keep internal-only or replace before public reuse. |
+| Placeholder video IDs | `src/app/internal/sections/page.tsx` uses `dQw4w9WgXcQ` and `oHg5SJYRHA0` | Acceptable only in internal demos; wrong if copied to public pages. | Keep internal-only or replace before public reuse. |
 | Event registration dependencies | `src/content/events/*` references `us02web.zoom.us` and `air.co.jp` | Event registration pages expire or close. | For past events, decide whether detail pages should keep archive links, remove registration CTAs, or link to a local event summary. |
 | External form services | `monday.com` / `forms.monday.com` references | Third-party form state can drift from local CTA expectations. | Check whether the local contact-us flow or a QueryPie-owned form should be used instead. |
 | Example unsafe domain | `src/content/whitepapers/8-secure-login-token-management.mdx` includes `https://vulerable-shop.com/api/purchase` | It appears to be an intentionally vulnerable/example domain, but the spelling itself looks suspicious. | Confirm it is intentionally illustrative; if not, replace with a reserved example domain. |

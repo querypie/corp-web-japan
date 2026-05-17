@@ -348,7 +348,7 @@ Good to keep extracted:
 
 Bad to keep extracted:
 - UI component files colocated under `src/app/<route>/` merely because the route is "route-local"; route-local authoring does not mean route-adjacent component placement
-- route-adjacent files such as `src/app/<route>/hero-section.tsx`, `src/app/<route>/faq.tsx`, or `src/app/internal/demo-sections/role-slides.tsx` unless they are explicitly approved exceptions
+- route-adjacent files such as `src/app/<route>/hero-section.tsx`, `src/app/<route>/faq.tsx`, or `src/app/internal/sections/role-slides.tsx` unless they are explicitly approved exceptions
 - one big `HomePageSections`/`AiCrewSections`-style wrapper that still owns the target section's marketing copy after the migration
 - one big `homePageContent`/`<page>Content` object that still owns the target section's headings/body/CTA text after the migration
 - a top-level content registry copied from the old module into `page.tsx` with only the file location changed

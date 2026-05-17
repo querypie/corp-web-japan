@@ -31,8 +31,8 @@ const storageSteps = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "Internal Video Demo | QueryPie AI",
-  description: "Internal self-hosted video playback demo for the QueryPie AI Japan website.",
+  title: "Internal Video | QueryPie AI",
+  description: "Internal self-hosted video playback page for the QueryPie AI Japan website.",
   alternates: {
     canonical: "/internal/video",
   },
@@ -63,7 +63,7 @@ export default function InternalVideoPage() {
               className="mt-[8px] inline-flex items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
               href="/internal"
             >
-              Back to internal demos
+              Back to internal pages
             </Link>
           </div>
 

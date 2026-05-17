@@ -20,7 +20,7 @@ test("/internal/video renders a noindex self-hosted video demo backed by the dow
   const routeSource = readSource(routeFile);
   const playerSource = readSource(playerFile);
 
-  assert.match(routeSource, /title:\s*"Internal Video Demo \| QueryPie AI"/);
+  assert.match(routeSource, /title:\s*"Internal Video \| QueryPie AI"/);
   assert.match(routeSource, /canonical:\s*"\/internal\/video"/);
   assert.match(routeSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(routeSource, /@\/components\/media\/self-hosted-video-player/);

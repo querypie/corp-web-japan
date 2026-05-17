@@ -100,7 +100,7 @@ Whitepaper gating contract:
 - Use frontmatter `gated: true` on gated whitepaper MDX files.
 - Use the `<GatingCut />` marker to split preview content from gated content.
 - The shared gating helpers live in `src/lib/publications/gating.ts`.
-- The internal reference route for the current pattern is `/internal/whitepaper-gating-demo`.
+- The internal reference route for the current pattern is `/internal/whitepaper-gating-form`.
 
 ## Human quick start
 

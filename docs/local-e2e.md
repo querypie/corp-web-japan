@@ -46,9 +46,9 @@ Current coverage intent:
 - those local-body news detail URIs render the local MDX body instead of redirecting away
 
 
-- Test file: `tests-local/src/app/internal/whitepaper-gating-demo/page.e2e.mjs`
+- Test file: `tests-local/src/app/internal/whitepaper-gating-form/page.e2e.mjs`
 - npm script: `npm run e2e:local:whitepaper-gating:stage`
-- Target page: `/internal/whitepaper-gating-demo` on the configured base URL
+- Target page: `/internal/whitepaper-gating-form` on the configured base URL
 
 Current coverage:
 - preview content is visible before unlock

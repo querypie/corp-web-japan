@@ -140,7 +140,7 @@ In this repo, resource-list pages with sticky sidebars should avoid:
 - `overflow-x-hidden` on the top-level `main` wrapping the sidebar/list layout
 
 Observed working contrast:
-- `/internal/mdx-list-demo` sticky worked because its `main` did not set `overflow-x-hidden`
+- `/internal/mdx-list` sticky worked because its `main` did not set `overflow-x-hidden`
 - `/blog` and `/whitepapers` lost expected sticky behavior when `main` had `overflow-x-hidden`, which computed into a non-visible overflow context in the browser
 
 Practical rule:

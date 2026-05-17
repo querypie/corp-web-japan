@@ -13,7 +13,7 @@ import { listBlogPublicationItems } from "@/lib/publications/blog/records";
 import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
 export const metadata: Metadata = {
-  title: "Internal Load More Demo | QueryPie AI",
+  title: "Internal Load More | QueryPie AI",
   robots: {
     index: false,
     follow: false,
@@ -38,7 +38,7 @@ export default async function InternalLoadMorePage({ searchParams }: InternalLoa
       <SiteHeader />
 
       <ResourceListHeroSection>
-        <ResourceListHeroTitle>Internal Load More Demo</ResourceListHeroTitle>
+        <ResourceListHeroTitle>Internal Load More</ResourceListHeroTitle>
         <ResourceListHeroDescription>既存の blog / whitepapers の公開リスト動作は変えずに、共通 Resource list UI の load-more ボタンだけを internal route で確認するためのデモページです。</ResourceListHeroDescription>
       </ResourceListHeroSection>
 

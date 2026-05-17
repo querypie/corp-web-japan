@@ -173,7 +173,7 @@ Use these rules when editing local blog or whitepaper content.
 - Blog list items are derived from MDX frontmatter through `src/lib/publications/blog/records.ts`.
 - Whitepaper list items are derived from MDX frontmatter through `src/lib/publications/whitepapers/records.ts`.
 - Whitepaper gating uses frontmatter `gated: true` plus the `<GatingCut />` marker instead of wrapper-style gated components.
-- Shared gating helpers live in `src/lib/publications/gating.ts`, and the current internal reference route is `/internal/whitepaper-gating-demo`.
+- Shared gating helpers live in `src/lib/publications/gating.ts`, and the current internal reference route is `/internal/whitepaper-gating-form`.
 - For local-only browser verification of contact-us and whitepaper gating flows, see `docs/local-e2e.md`.
 - Blog and whitepaper detail metadata currently set `robots.index = false` and `robots.follow = false`; keep doc changes aligned with that implementation unless the user explicitly changes the indexing policy.
 - For AI-agent execution, load `.agents/skills/mdx-publication-operations/SKILL.md` first for public MDX publication maintenance.

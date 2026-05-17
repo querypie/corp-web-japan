@@ -23,9 +23,9 @@ import { UseCaseBody, UseCaseCard, UseCaseShowcase, UseCaseTab } from "@/compone
 import { aiDashiConsultUrl } from "@/content/ai-dashi-links";
 
 export const metadata: Metadata = {
-  title: "Internal Demo Sections | QueryPie AI",
+  title: "Internal Sections | QueryPie AI",
   alternates: {
-    canonical: "/internal/demo-sections",
+    canonical: "/internal/sections",
   },
   robots: {
     index: false,
@@ -33,14 +33,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function DemoSectionsPage() {
+export default function SectionsPage() {
   return (
     <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
       <SectionShowcaseSection compactBottom>
         <SectionShowcaseEyebrow wide>Internal</SectionShowcaseEyebrow>
-        <SectionShowcaseTitle level={1}>Demo Sections</SectionShowcaseTitle>
+        <SectionShowcaseTitle level={1}>Sections</SectionShowcaseTitle>
         <SectionShowcaseBody lead>
           PR 439 / issue 395 で orphan として残っていた section component を削除せず、internal 専用デモルートから明示的に接続し、単独の見た目を確認できるように保持したページです。
         </SectionShowcaseBody>

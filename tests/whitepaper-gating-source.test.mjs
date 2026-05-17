@@ -64,17 +64,17 @@ test("whitepaper publication loader carries a dedicated gated MDX contract and b
 });
 
 test("internal gating demo page exists as an MDX-backed route under /internal", () => {
-  const internalPage = readSource("src/app/internal/whitepaper-gating-demo/page.tsx");
-  const internalMdx = readSource("src/content/internal/whitepaper-gating-demo.mdx");
+  const internalPage = readSource("src/app/internal/whitepaper-gating-form/page.tsx");
+  const internalMdx = readSource("src/content/internal/whitepaper-gating-form.mdx");
 
-  assert.match(internalPage, /whitepaper-gating-demo/);
+  assert.match(internalPage, /whitepaper-gating-form/);
   assert.match(internalMdx, /\ngated:\s*true\n/);
   assert.match(internalMdx, /<GatingCut\s*\/>/);
 });
 
 test("gating pages bypass the form when preview navigation is enabled", () => {
   const whitepaperDetailPage = readSource("src/app/whitepapers/[id]/[slug]/page.tsx");
-  const internalDemoPage = readSource("src/app/internal/whitepaper-gating-demo/page.tsx");
+  const internalDemoPage = readSource("src/app/internal/whitepaper-gating-form/page.tsx");
   const introductionDeckDetailPage = readSource("src/app/introduction-deck/[id]/[slug]/page.tsx");
 
   for (const source of [whitepaperDetailPage, internalDemoPage, introductionDeckDetailPage]) {
