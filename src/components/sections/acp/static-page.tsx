@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-export { AcpHeroCopy, AcpHeroLead, AcpHeroTitle } from "@/components/sections/acp/hero-primitives";
 
+import { AcpHeroCopy, AcpHeroLead, AcpHeroTitle } from "@/components/sections/acp/hero-primitives";
+import faqStyles from "@/components/sections/acp/acp-faq.module.css";
+
+export { AcpHeroCopy, AcpHeroLead, AcpHeroTitle };
 function joinClasses(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
@@ -198,8 +201,8 @@ export function AcpSplitFeatureBody({ children }: { children: ReactNode }) {
 
 export function AcpFaqSection({ children }: { children: ReactNode }) {
   return (
-    <section className="px-6 py-[100px] max-[480px]:py-[70px]">
-      <ul className="mx-auto flex w-full max-w-[1200px] flex-col divide-y divide-[#d0d7de] border-y border-[#d0d7de]">{children}</ul>
+    <section className={faqStyles.section}>
+      <ul className={faqStyles.list}>{children}</ul>
     </section>
   );
 }
@@ -212,10 +215,10 @@ export function AcpFaqItem({
   children: ReactNode;
 }) {
   return (
-    <li className="py-10 max-[480px]:py-[30px]">
-      <details open>
-        <summary className="cursor-pointer list-none text-[20px] font-medium leading-7 text-[#24292f] max-[480px]:text-base max-[480px]:leading-6">{question}</summary>
-        <div className="mt-5 text-base font-light leading-7 text-[#57606a] max-[480px]:text-sm max-[480px]:leading-[22px]">{children}</div>
+    <li className={faqStyles.item}>
+      <details>
+        <summary>{question}</summary>
+        <div className={faqStyles.answer}>{children}</div>
       </details>
     </li>
   );
