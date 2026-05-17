@@ -26,7 +26,7 @@ const removedPreviewRoutes = [
 const redirectRoutes = [
   {
     file: "src/app/services/aip/route.ts",
-    destination: 'const destination = "https://www.querypie.com/ja/solutions/aip";',
+    destination: 'new URL("/platforms/aip", request.url)',
   },
   {
     file: "src/app/services/acp/route.ts",

@@ -7,7 +7,7 @@ const expectedRedirectRules = [
   {
     requestPath: "/services/aip",
     file: "src/app/services/aip/route.ts",
-    destination: "https://www.querypie.com/ja/solutions/aip",
+    destination: "/platforms/aip",
   },
   {
     requestPath: "/services/acp",
@@ -32,7 +32,7 @@ const expectedRedirectRules = [
   {
     requestPath: "/platform/ai/aihub",
     file: "src/app/platform/ai/aihub/route.ts",
-    destination: "https://www.querypie.com/ja/solutions/aip",
+    destination: "/platforms/aip",
   },
   {
     requestPath: "/platform/ai/aip",
