@@ -32,11 +32,11 @@ export const metadata: Metadata = {
   title: "QueryPie ACP プラン | QueryPie AI",
   description,
   alternates: {
-    canonical: "/t/plans/acp",
+    canonical: "/plans/acp",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
   openGraph: {
     title: "QueryPie ACP プラン | QueryPie AI",
