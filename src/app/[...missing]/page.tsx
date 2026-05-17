@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { buildQueryPieContentRedirectUrl } from "@/lib/querypie-content-redirect";
-import { logRuntimeRedirect } from "@/lib/runtime-redirect-log";
+import { logRuntimeRedirectFromHeaders } from "@/lib/runtime-redirect-log";
 
 export const dynamic = "force-dynamic";
 
@@ -68,7 +68,7 @@ export default async function MissingRoutePage({ params, searchParams }: Missing
   });
 
   if (redirectTarget) {
-    logRuntimeRedirect({
+    logRuntimeRedirectFromHeaders({
       marker: "[runtime-missing-redirect]",
       requestedPath,
       redirectTarget,

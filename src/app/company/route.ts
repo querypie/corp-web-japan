@@ -8,14 +8,7 @@ export function GET(request: NextRequest) {
   const destination = new URL(destinationPath, request.url);
   destination.search = request.nextUrl.search;
 
-  logRuntimeRedirect({
-    requestedPath: request.nextUrl.pathname,
-    redirectTarget: destination,
-    requestUrl: request.url,
-    host: request.nextUrl.host,
-    referer: request.headers.get("referer"),
-    userAgent: request.headers.get("user-agent"),
-  });
+  logRuntimeRedirect(request, destination);
 
   return NextResponse.redirect(destination, 307);
 }

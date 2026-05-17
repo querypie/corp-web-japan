@@ -75,8 +75,9 @@ test("runtime redirect logging uses info for same-origin 307s and warning for ex
     "  const logs = { info: [], warn: [] };",
     "  console.info = (...args) => logs.info.push(args);",
     "  console.warn = (...args) => logs.warn.push(args);",
-    "  logRuntimeRedirect({ requestedPath: '/legacy', redirectTarget: 'https://stage.querypie.ai/blog/1/post', requestUrl: 'https://stage.querypie.ai/legacy', statusCode: 307, host: 'stage.querypie.ai' });",
-    "  logRuntimeRedirect({ requestedPath: '/features', redirectTarget: 'https://www.querypie.com/ja/features', requestUrl: 'https://stage.querypie.ai/features', statusCode: 307, host: 'stage.querypie.ai' });",
+    "  const request = { nextUrl: { pathname: '/legacy', host: 'stage.querypie.ai' }, url: 'https://stage.querypie.ai/legacy', headers: new Headers() };",
+    "  logRuntimeRedirect(request, 'https://stage.querypie.ai/blog/1/post');",
+    "  logRuntimeRedirect(request, 'https://www.querypie.com/ja/features');",
     "  console.log(JSON.stringify(logs));",
     "})",
   ].join(' ');
@@ -103,7 +104,7 @@ test("missing route logs external querypie.com redirects at warning level", () =
   const file = "src/app/[...missing]/page.tsx";
   const source = readSource(file);
 
-  assert.match(source, /logRuntimeRedirect\(\{/);
+  assert.match(source, /logRuntimeRedirectFromHeaders\(\{/);
   assert.match(source, /marker: "\[runtime-missing-redirect\]"/);
   assert.match(source, /requestUrl/);
   assert.doesNotMatch(source, /console\.log\(\s*"\[runtime-missing-redirect\]"/);
@@ -116,9 +117,8 @@ test("querypie locale catch-all sends non-local ja paths to querypie.com after c
   assert.match(source, /isCorpWebJapanInternalContentPath/);
   assert.match(source, /if \(isCorpWebJapanInternalContentPath\(strippedPath\)\)/);
   assert.match(source, /new URL\(request\.nextUrl\.pathname, querypieOrigin\)/);
-  assert.match(source, /logRuntimeRedirect\(\{/);
-  assert.match(source, /redirectTarget: redirectedUrl/);
-  assert.match(source, /redirectTarget: querypieRedirectedUrl/);
+  assert.match(source, /logRuntimeRedirect\(request, redirectedUrl\)/);
+  assert.match(source, /logRuntimeRedirect\(request, querypieRedirectedUrl\)/);
   assert.match(source, /NextResponse\.redirect\(querypieRedirectedUrl, 307\)/);
 });
 
@@ -129,7 +129,6 @@ test("querypie locale catch-all sends ko paths directly to querypie.com/ko", () 
   assert.match(source, /const querypieOrigin = "https:\/\/www\.querypie\.com"/);
   assert.match(source, /new URL\(request\.nextUrl\.pathname, querypieOrigin\)/);
   assert.match(source, /querypieRedirectedUrl\.search = request\.nextUrl\.search/);
-  assert.match(source, /logRuntimeRedirect\(\{/);
-  assert.match(source, /redirectTarget: querypieRedirectedUrl/);
+  assert.match(source, /logRuntimeRedirect\(request, querypieRedirectedUrl\)/);
   assert.match(source, /NextResponse\.redirect\(querypieRedirectedUrl, 307\)/);
 });

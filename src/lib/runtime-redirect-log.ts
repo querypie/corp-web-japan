@@ -1,15 +1,22 @@
+import type { NextRequest } from "next/server";
+
 type RuntimeRedirectLogMarker = "[runtime-redirect]" | "[runtime-missing-redirect]";
 
-type RuntimeRedirectLogEntry = {
+type RuntimeRedirectLogOptions = {
+  statusCode?: number;
+  marker?: RuntimeRedirectLogMarker;
+};
+
+type RuntimeRedirectLogEntry = RuntimeRedirectLogOptions & {
   requestedPath: string;
   redirectTarget: string | URL;
   requestUrl?: string | URL | null;
-  statusCode?: number;
-  marker?: RuntimeRedirectLogMarker;
   host?: string | null;
   referer?: string | null;
   userAgent?: string | null;
 };
+
+type RuntimeRedirectRequest = Pick<NextRequest, "headers" | "nextUrl" | "url">;
 
 function toUrl(value: string | URL | null | undefined) {
   if (!value) {
@@ -31,7 +38,7 @@ function getRedirectScope(redirectTarget: URL | null, requestUrl: URL | null) {
   return "external";
 }
 
-export function logRuntimeRedirect({
+function writeRuntimeRedirectLog({
   requestedPath,
   redirectTarget,
   requestUrl,
@@ -58,4 +65,24 @@ export function logRuntimeRedirect({
       userAgent,
     }),
   );
+}
+
+export function logRuntimeRedirect(
+  request: RuntimeRedirectRequest,
+  redirectTarget: string | URL,
+  options: RuntimeRedirectLogOptions = {},
+) {
+  writeRuntimeRedirectLog({
+    ...options,
+    requestedPath: request.nextUrl.pathname,
+    redirectTarget,
+    requestUrl: request.url,
+    host: request.nextUrl.host,
+    referer: request.headers.get("referer"),
+    userAgent: request.headers.get("user-agent"),
+  });
+}
+
+export function logRuntimeRedirectFromHeaders(entry: RuntimeRedirectLogEntry) {
+  writeRuntimeRedirectLog(entry);
 }

@@ -9,14 +9,7 @@ export function GET(request: NextRequest) {
 
   querypieRedirectedUrl.search = request.nextUrl.search;
 
-  logRuntimeRedirect({
-    requestedPath: request.nextUrl.pathname,
-    redirectTarget: querypieRedirectedUrl,
-    requestUrl: request.url,
-    host: request.nextUrl.host,
-    referer: request.headers.get("referer"),
-    userAgent: request.headers.get("user-agent"),
-  });
+  logRuntimeRedirect(request, querypieRedirectedUrl);
 
   return NextResponse.redirect(querypieRedirectedUrl, 307);
 }

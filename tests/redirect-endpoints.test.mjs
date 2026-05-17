@@ -164,8 +164,7 @@ test("remaining redirect endpoints are defined in a single test-case table with 
       assert.ok(source.includes("const { id, slug } = await params;"));
       assert.ok(source.includes("new URL(`/blog/${id}/${slug}`, request.url)"));
       assert.ok(source.includes("destination.search = request.nextUrl.search;"));
-      assert.match(source, /logRuntimeRedirect\(\{/);
-      assert.match(source, /requestUrl: request\.url/);
+      assert.match(source, /logRuntimeRedirect\(request, destination\);/);
       assert.match(source, /export const HEAD = GET;/);
     }
 
@@ -179,8 +178,7 @@ test("remaining redirect endpoints are defined in a single test-case table with 
       assert.ok(source.includes("const { id, slug } = await params;"));
       assert.ok(source.includes("new URL(`/use-cases/${id}/${slug}`, request.url)"));
       assert.ok(source.includes("destination.search = request.nextUrl.search;"));
-      assert.match(source, /logRuntimeRedirect\(\{/);
-      assert.match(source, /requestUrl: request\.url/);
+      assert.match(source, /logRuntimeRedirect\(request, destination\);/);
       assert.match(source, /export const HEAD = GET;/);
     }
 
@@ -194,8 +192,7 @@ test("remaining redirect endpoints are defined in a single test-case table with 
       assert.ok(source.includes("const { id, slug } = await params;"));
       assert.ok(source.includes("new URL(`/whitepapers/${id}/${slug}`, request.url)"));
       assert.ok(source.includes("destination.search = request.nextUrl.search;"));
-      assert.match(source, /logRuntimeRedirect\(\{/);
-      assert.match(source, /requestUrl: request\.url/);
+      assert.match(source, /logRuntimeRedirect\(request, destination\);/);
       assert.match(source, /export const HEAD = GET;/);
     }
 
@@ -210,8 +207,7 @@ test("remaining redirect endpoints are defined in a single test-case table with 
       assert.ok(source.includes(`const destinationPath = "${rule.destination}";`));
       assert.ok(source.includes("const destination = new URL(destinationPath, request.url);"));
       assert.ok(source.includes("destination.search = request.nextUrl.search;"));
-      assert.match(source, /logRuntimeRedirect\(\{/);
-      assert.match(source, /requestUrl: request\.url/);
+      assert.match(source, /logRuntimeRedirect\(request, destination\);/);
       assert.match(source, /export const HEAD = GET;/);
     }
   }
