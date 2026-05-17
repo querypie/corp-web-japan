@@ -349,7 +349,7 @@ ACP feature browser는 data blob prop 패턴 대신 children-based route-local J
 1. [`docs/code-location-conventions.md`](./code-location-conventions.md)
 2. [`docs/static-page-route-local-authoring.md`](./static-page-route-local-authoring.md)
 3. [`.agents/skills/static-page-route-local-authoring/SKILL.md`](../.agents/skills/static-page-route-local-authoring/SKILL.md)
-4. 실제 reference route file인 [`src/app/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/page.tsx), [`src/app/about-us/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/about-us/page.tsx), [`src/app/t/platforms/acp/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/platforms/acp/page.tsx)
+4. 실제 reference route file인 [`src/app/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/page.tsx), [`src/app/about-us/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/about-us/page.tsx), [`src/app/platforms/acp/page.tsx`](https://github.com/querypie/corp-web-japan/blob/f3382958b0ce8c89c93d04ccf689606bc13f1948/src/app/platforms/acp/page.tsx)
 
 ## 8. 웹페이지 계층 분리에 대한 레퍼런스와 용어
 
@@ -424,7 +424,7 @@ ACP feature browser는 data blob prop 패턴 대신 children-based route-local J
 
 - [`src/app/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/page.tsx)
 - [`src/app/about-us/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/about-us/page.tsx)
-- [`src/app/t/platforms/acp/page.tsx`](https://github.com/querypie/corp-web-japan/blob/87a7f583fdd2af747a624d83f4f81cc8a993b187/src/app/t/platforms/acp/page.tsx)
+- [`src/app/platforms/acp/page.tsx`](https://github.com/querypie/corp-web-japan/blob/f3382958b0ce8c89c93d04ccf689606bc13f1948/src/app/platforms/acp/page.tsx)
 - PR 155, 156, 157, 158에서 확립된 section-scoped route-local authoring 방향
 
 ---

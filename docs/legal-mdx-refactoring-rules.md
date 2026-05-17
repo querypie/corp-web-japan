@@ -6,8 +6,8 @@ It is based on the local files below and a comparison with the source MDX in
 
 Local legal MDX files:
 
-- `src/app/t/eula/content.mdx`
-- `src/app/t/terms-of-service/content.mdx`
+- `src/app/eula/content.mdx`
+- `src/app/terms-of-service/content.mdx`
 - `src/content/privacy-policy/*.mdx`
 
 Compared source MDX families:

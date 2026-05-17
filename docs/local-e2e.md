@@ -31,6 +31,19 @@ Current coverage:
 
 ### 2. Internal whitepaper gating demo on stage
 
+- Test file: `tests-local/src/app/internal/whitepaper-gating-form/page.e2e.mjs`
+- npm script: `npm run e2e:local:whitepaper-gating:stage`
+- Target page: `/internal/whitepaper-gating-form` on the configured base URL
+
+Current coverage:
+- preview content is visible before unlock
+- gated content remains hidden by default
+- required gating fields enable submit when completed
+- unlock succeeds against stage
+- unlock cookie is issued
+- unlocked content remains visible after reload because of cookie persistence
+
+
 ### 3. News stage flow
 
 - Test file: `tests-local/src/app/news/page.e2e.mjs`
@@ -45,20 +58,7 @@ Current coverage intent:
 - representative local-body news detail URIs (currently news 12, 13, and 14) redirect `/news/:id` and mismatched slugs to the canonical local slug route
 - those local-body news detail URIs render the local MDX body instead of redirecting away
 
-
-- Test file: `tests-local/src/app/internal/whitepaper-gating-form/page.e2e.mjs`
-- npm script: `npm run e2e:local:whitepaper-gating:stage`
-- Target page: `/internal/whitepaper-gating-form` on the configured base URL
-
-Current coverage:
-- preview content is visible before unlock
-- gated content remains hidden by default
-- required gating fields enable submit when completed
-- unlock succeeds against stage
-- unlock cookie is issued
-- unlocked content remains visible after reload because of cookie persistence
-
-### 3. Blog pages on stage
+### 4. Blog pages on stage
 
 - Test file: `tests-local/src/app/blog/page.e2e.mjs`
 - npm script: `npm run e2e:local:blog:stage`
@@ -72,7 +72,7 @@ Current coverage:
 - visible blog detail renders title, author metadata, body heading, and related posts section
 - hidden blog redirect-shadow records resolve to their canonical local target route while remaining excluded from the list
 
-### 4. Whitepaper pages on stage
+### 5. Whitepaper pages on stage
 
 - Test files:
   - `tests-local/src/app/whitepapers/page.e2e.mjs`
@@ -131,7 +131,7 @@ These checks remain separate from the default CI workflow.
 
 - They are not part of `npm run test:ci`.
 - They are not run by the default GitHub Actions CI workflow.
-- The dedicated manual workflow is `.github/workflows/e2e-stage.yml`.
+- The dedicated manual workflow is `.github/workflows/e2e-stage.yml`, currently running on `[self-hosted, Linux]`.
 - Use the manual E2E workflow when a maintainer wants a hosted full-suite regression run without pushing a dummy commit.
 
 ## When to use

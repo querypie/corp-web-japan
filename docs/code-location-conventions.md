@@ -4,7 +4,7 @@ This document records the current agreed code-location conventions for implement
 
 ## 1. Static page implementation
 
-This section covers static marketing pages such as the top page, solution landing pages, and mostly static preview pages under `src/app/t/**`.
+This section covers static marketing pages such as the top page, solution landing pages, and published static product/service/plans pages under `src/app/**`.
 
 The detailed source of truth for this topic is:
 
@@ -68,12 +68,12 @@ A good outcome is that a reviewer can open one `page.tsx` file and understand th
 ### Static page family boundaries
 
 Do not collapse every static or informational route into one universal primitive family.
-For current static pages and remaining `/t/**` preview pages, keep these family boundaries explicit:
+For current static pages and formerly previewed static pages that are now published under canonical routes, keep these family boundaries explicit:
 
 - Legal / document family: `/eula`, `/privacy-policy`, `/privacy-policy/[slug]`, and `/terms-of-service`. These routes use legal document wrappers and legal body primitives.
 - Company-intro / company family: `/about-us` and `/certifications`. These routes describe company identity and trust context and may reuse marketing page shells where the layout contract actually matches.
 
-Classify adjacent routes such as `/cookie-preference` and `/t/plans` by their own interaction or pricing semantics before grouping them into either family.
+Classify adjacent routes such as `/cookie-preference` and `/plans` by their own interaction or pricing semantics before grouping them into either family.
 
 ### Current examples
 

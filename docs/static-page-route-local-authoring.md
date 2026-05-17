@@ -22,7 +22,7 @@ This guide applies to static marketing routes such as:
 
 - `src/app/page.tsx`
 - `src/app/solutions/**/page.tsx`
-- mostly static preview pages under `src/app/t/**/page.tsx`
+- published static product/service/plans pages under `src/app/**/page.tsx`
 
 This guide does not define the preferred structure for:
 
@@ -33,7 +33,7 @@ This guide does not define the preferred structure for:
 ## Static page family boundaries
 
 Route-local authoring does not mean every static or informational page belongs to one universal primitive family.
-When reviewing static routes and remaining `src/app/t/**` preview routes, keep at least these families distinct:
+When reviewing static routes and formerly previewed static routes that are now published under canonical routes, keep at least these families distinct:
 
 - Legal / document family
   - representative routes: `/eula`, `/privacy-policy`, `/privacy-policy/[slug]`, `/terms-of-service`
@@ -45,8 +45,8 @@ When reviewing static routes and remaining `src/app/t/**` preview routes, keep a
   - uses the company-page shell and body-layout contract documented in `docs/company-page-layout-contract.md`
   - should not automatically inherit legal document primitives
 
-Adjacent informational routes such as `/cookie-preference` or `/t/plans` should be classified by their own semantics before being grouped into either family.
-`/cookie-preference` has a settings/interaction contract, while `/t/plans` is a pricing/comparison surface.
+Adjacent informational routes such as `/cookie-preference` or `/plans` should be classified by their own semantics before being grouped into either family.
+`/cookie-preference` has a settings/interaction contract, while `/plans` is a pricing/comparison surface.
 Do not treat those routes as unfinished company-intro commonization merely because they are static or informational.
 
 The useful review question is therefore not "can all static/info pages share one intro primitive?" but "which family is this page actually in, and does that family have a real shared layout or interaction contract?"
