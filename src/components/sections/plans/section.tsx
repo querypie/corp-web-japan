@@ -293,13 +293,13 @@ export function CompareTableHead({ children }: { children: ReactNode }) {
 }
 
 export function CompareTablePlanHead({ children }: { children: ReactNode }) {
-  return <th className="h-16 w-[130px] text-center text-sm font-normal leading-[22px] text-slate-950">{children}</th>;
+  return <th className="h-16 w-[130px] text-center text-sm font-normal leading-[22px] text-[#24292f]">{children}</th>;
 }
 
 export function CompareTableSection({ title, children }: { title: string; children: ReactNode }) {
   return (
     <tbody>
-      <tr className="h-8 bg-[#24292f] text-white">
+      <tr className="h-11 border-b border-[#dae1e7] bg-[#2f3a49] text-[#f6f6f6]">
         <td colSpan={4} className="pl-5 text-left text-xs font-medium leading-[17px] tracking-[0.24px]">
           {title}
         </td>
@@ -312,14 +312,14 @@ export function CompareTableSection({ title, children }: { title: string; childr
 export function CompareTableRow({ label, children }: { label: string; children: ReactNode }) {
   return (
     <tr className="h-11 border-b border-[#dae1e7]">
-      <td className="w-[420px] pl-5 text-left text-sm font-normal leading-[22px] text-slate-950">{label}</td>
+      <td className="w-[420px] pl-5 text-left text-sm font-light leading-[22px] text-[#24292f]">{label}</td>
       {children}
     </tr>
   );
 }
 
 function CompareTableCell({ children }: { children: ReactNode }) {
-  return <td className="w-[130px] text-center align-middle text-sm leading-[1.2] text-slate-950">{children}</td>;
+  return <td className="w-[130px] text-center align-middle text-sm leading-[1.2] text-[#24292f]">{children}</td>;
 }
 
 export function CompareTableTextCell({ children, secondary, isBold = false }: { children: ReactNode; secondary?: ReactNode; isBold?: boolean }) {
@@ -327,24 +327,44 @@ export function CompareTableTextCell({ children, secondary, isBold = false }: { 
     <CompareTableCell>
       <div className="inline-flex flex-col items-center gap-1 text-center">
         <span className={joinClasses(isBold && "font-semibold")}>{children}</span>
-        {secondary ? <span className="whitespace-pre-line text-[10px] leading-[1.4] text-slate-500">{secondary}</span> : null}
+        {secondary ? <span className="whitespace-pre-line text-[10px] leading-[1.4] text-[#24292f]">{secondary}</span> : null}
       </div>
     </CompareTableCell>
+  );
+}
+
+function CompareTableStatusIcon({ supported, className }: { supported: boolean; className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 32 32"
+      className={joinClasses("h-[15px] w-[15px] shrink-0", className)}
+      fill={supported ? "#0762d4" : "#d43823"}
+      focusable="false"
+    >
+      {supported ? (
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM9 16.41L14 21.41L23 12.42L21.58 11L14 18.59L10.42 15L9 16.41Z"
+        />
+      ) : (
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M2 16C2 8.28 8.28 2 16 2C23.72 2 30 8.28 30 16C30 23.72 23.72 30 16 30C8.28 30 2 23.72 2 16ZM9 10.4143L14.5858 16L9 21.5858L10.4142 23L16 17.4142L21.5858 23L23 21.5858L17.4142 16L23 10.4142L21.5858 9L16 14.5858L10.4143 9L9 10.4143Z"
+        />
+      )}
+    </svg>
   );
 }
 
 export function CompareTableBooleanCell({ supported }: { supported: boolean }) {
   return (
     <CompareTableCell>
-      {supported ? (
-        <span className="inline-flex justify-center text-[#1d4ed8]">
-          <Check className="h-4 w-4" strokeWidth={2.75} />
-        </span>
-      ) : (
-        <span className="inline-flex justify-center text-[#dc2626]">
-          <Minus className="h-4 w-4" strokeWidth={2.75} />
-        </span>
-      )}
+      <span className="inline-flex justify-center">
+        <CompareTableStatusIcon supported={supported} />
+      </span>
     </CompareTableCell>
   );
 }
@@ -353,7 +373,7 @@ export function CompareTableCheckLabelCell({ children }: { children: ReactNode }
   return (
     <CompareTableCell>
       <div className="inline-flex items-center justify-center gap-1">
-        <Check className="h-4 w-4 text-[#1d4ed8]" strokeWidth={2.75} />
+        <CompareTableStatusIcon supported={true} />
         <span>{children}</span>
       </div>
     </CompareTableCell>

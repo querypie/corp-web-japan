@@ -124,10 +124,18 @@ test("/t/plans routes keep pricing copy in route pages while the section module 
   assert.match(sectionSource, /w-\[1200px\]/);
   assert.match(sectionSource, /-mx-6 w-\[calc\(100%\+48px\)\] overflow-x-auto px-6/);
   assert.match(sectionSource, /sm:-mx-10 sm:w-\[calc\(100%\+80px\)\] sm:px-10/);
-  assert.match(sectionSource, /h-8 bg-\[#24292f\] text-white/);
+  assert.match(sectionSource, /h-11 border-b border-\[#dae1e7\] bg-\[#2f3a49\] text-\[#f6f6f6\]/);
   assert.match(sectionSource, /pl-5 text-left text-xs font-medium leading-\[17px\] tracking-\[0\.24px\]/);
   assert.match(sectionSource, /h-11 border-b border-\[#dae1e7\]/);
+  assert.match(sectionSource, /text-sm font-light leading-\[22px\] text-\[#24292f\]/);
+  assert.match(sectionSource, /function CompareTableStatusIcon\(/);
+  assert.match(sectionSource, /viewBox="0 0 32 32"/);
+  assert.match(sectionSource, /fill=\{supported \? "#0762d4" : "#d43823"\}/);
+  assert.match(sectionSource, /h-\[15px\] w-\[15px\]/);
+  assert.match(sectionSource, /M16 30C23\.732 30 30 23\.732 30 16C30 8\.26801/);
+  assert.match(sectionSource, /M2 16C2 8\.28 8\.28 2 16 2C23\.72 2 30 8\.28 30 16/);
 
+  assert.doesNotMatch(sectionSource, /h-8 bg-\[#24292f\] text-white/);
   assert.doesNotMatch(sectionSource, /rounded-\[28px\] border border-slate-200/);
   assert.doesNotMatch(sectionSource, /shadow-\[0_14px_40px/);
   assert.doesNotMatch(sectionSource, />\s*↗\s*</);
