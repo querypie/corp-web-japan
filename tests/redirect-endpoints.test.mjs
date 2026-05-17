@@ -45,6 +45,16 @@ const expectedRedirectRules = [
     destination: "/glossary",
   },
   {
+    requestPath: "/features/documentation/aip-introduction-download",
+    file: "src/app/features/documentation/aip-introduction-download/route.ts",
+    destination: "/introduction-deck/1/querypie-aip",
+  },
+  {
+    requestPath: "/features/documentation/acp-introduction-download",
+    file: "src/app/features/documentation/acp-introduction-download/route.ts",
+    destination: "/introduction-deck/2/querypie-acp",
+  },
+  {
     requestPath: "/ja/privacy-policy-en",
     file: "src/app/ja/privacy-policy-en/route.ts",
     destination: "/privacy-policy",
@@ -127,7 +137,7 @@ const expectedRedirectRules = [
 ];
 
 test("remaining redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 24);
+  assert.equal(expectedRedirectRules.length, 26);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
@@ -201,6 +211,8 @@ test("remaining redirect endpoints are defined in a single test-case table with 
         "/company",
         "/solutions/aip/integrations",
         "/features/documentation/glossary-items",
+        "/features/documentation/aip-introduction-download",
+        "/features/documentation/acp-introduction-download",
         "/ja/privacy-policy-en",
       ].includes(rule.requestPath)
     ) {
