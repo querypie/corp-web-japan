@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+export { AcpHeroCopy, AcpHeroLead, AcpHeroTitle } from "@/components/sections/acp/hero-primitives";
 
 function joinClasses(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -21,17 +22,17 @@ export function AcpHeroSection({
   mediaTitle: string;
   background?: "dac" | "sac" | "kac" | "wac";
 }) {
-  const backgroundClassName = {
-    dac: "from-white from-[30%] via-[#dfe8f2] via-[84%] to-white",
-    sac: "from-white from-[30%] via-[#e2e9e1] via-[84%] to-white",
-    kac: "from-white from-[30%] via-[#e8eaf4] via-[84%] to-white",
-    wac: "from-white from-[30%] via-[#dfeff2] via-[84%] to-white",
+  const backgroundImage = {
+    dac: "linear-gradient(180deg, #fff 30%, #dfe8f2 84%, #fff 84%, #fff 100%)",
+    sac: "linear-gradient(180deg, #fff 30%, #e2e9e1 84%, #fff 84%, #fff 100%)",
+    kac: "linear-gradient(180deg, #fff 30%, #e8eaf4 84%, #fff 84%, #fff 100%)",
+    wac: "linear-gradient(180deg, #fff 30%, #dfeff2 84%, #fff 84%, #fff 100%)",
   }[background];
 
   return (
-    <section className={joinClasses("bg-linear-to-b px-6 pb-0 pt-[70px] md:pt-20", backgroundClassName)}>
+    <section className="px-6 pb-0 pt-[70px] md:pt-20" style={{ background: backgroundImage }}>
       <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-20 text-center max-[480px]:gap-[70px]">
-        <div className="flex w-full max-w-[1200px] flex-col items-center gap-5">{children}</div>
+        {children}
         {media.kind === "youtube" ? (
           <div className="aspect-video w-full max-w-[1024px]">
             <iframe
@@ -57,13 +58,6 @@ export function AcpHeroEyebrow({ children }: { children: ReactNode }) {
   return null;
 }
 
-export function AcpHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 className="text-[60px] font-normal leading-[72px] tracking-normal text-[#24292f] max-[480px]:text-[48px] max-[480px]:leading-[56px]">{children}</h1>;
-}
-
-export function AcpHeroLeadGroup({ children }: { children: ReactNode }) {
-  return <div className="text-lg font-light leading-7 text-[#57606a] max-[480px]:text-base max-[480px]:leading-7">{children}</div>;
-}
 
 export function AcpFeatureSection({
   children,

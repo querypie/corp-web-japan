@@ -230,6 +230,15 @@ This prevents one large scroll-height difference from hiding multiple independen
 
 Important pitfall: do not treat a section as visually equivalent just because its text, foreground screenshots, and `backgroundColor` match. Hero sections and product intro sections can rely on gradient background images or decorative layers that live on wrapper CSS, pseudo-elements, or absolutely positioned children. A stage page with a plain white hero can look materially different from a live page even when DOM geometry and typography are close.
 
+ACP child-page example:
+
+- `../corp-web-contents/pages/solutions/acp/{database-access-controller,system-access-controller,kubernetes-access-controller,web-access-controller}/ja/content.mdx` stores only the source hero background variant on the first page-body wrapper as `background="dac"`, `background="sac"`, `background="kac"`, or `background="wac"`.
+- The concrete live rendering contract is in `../corp-web-app/src/components/foundation/layout/layout.module.css`, not in the MDX content file. For WAC it is exactly `background: linear-gradient(180deg, #fff 30%, #dfeff2 84%, #fff 84%, #fff 100%);`.
+- Do not replace that live CSS contract with an approximate utility-gradient rebuild. `from-white from-[30%] via-[#...] via-[84%] to-white` is not equivalent: it fades from the variant color at 84% to white at 100%, leaving a visible teal/blue/green wash behind the lower hero/media area instead of the clear horizontal white boundary shown by live.
+- For these pages, compare the exact requested URL first. If an old `/t/platforms/acp/...` URL now renders the local 404 page after route promotion, record that as a route-state finding and then compare the current public route such as `/platforms/acp/web-access-controller` separately.
+- The source-code check is two-step: first confirm the content route passes the matching variant to `AcpHeroSection background="..."`; then confirm the shared ACP static-page primitive copies the concrete `corp-web-app` gradient strings, including the duplicated white stop at `84%`.
+- The browser check is: inspect the H1 ancestor chain and compare the full `backgroundImage` stop list, not just `backgroundImage !== "none"`; crop/sample the left or right side of the hero media band where the live page shows a clear horizontal color-to-white boundary.
+
 ### 7. Classify each difference
 
 For each meaningful difference, classify it as one of:
@@ -522,6 +531,18 @@ async function collect(page, label, viewport) {
       const cs = getComputedStyle(el);
       return Object.fromEntries(props.map((p) => [p, cs[p]]));
     };
+    const backgroundLayerStyle = (el, pseudo) => {
+      if (!el) return null;
+      const cs = getComputedStyle(el, pseudo);
+      return {
+        backgroundColor: cs.backgroundColor,
+        backgroundImage: cs.backgroundImage,
+        backgroundSize: cs.backgroundSize,
+        backgroundPosition: cs.backgroundPosition,
+        backgroundRepeat: cs.backgroundRepeat,
+        content: pseudo ? cs.content : undefined,
+      };
+    };
     const text = (el) => (el?.innerText || el?.textContent || "").replace(/\s+/g, " ").trim();
 
     const main = document.querySelector("main");
@@ -551,7 +572,9 @@ async function collect(page, label, viewport) {
         i,
         text: text(el).slice(0, 160),
         rect: rect(el),
-        style: style(el, ["backgroundColor", "paddingTop", "paddingBottom", "overflow", "overflowX", "overflowY"]),
+        style: style(el, ["backgroundColor", "backgroundImage", "backgroundSize", "backgroundPosition", "backgroundRepeat", "paddingTop", "paddingBottom", "overflow", "overflowX", "overflowY"]),
+        before: backgroundLayerStyle(el, "::before"),
+        after: backgroundLayerStyle(el, "::after"),
       })),
       paragraphs: Array.from(document.querySelectorAll("main p")).slice(0, 60).map((el, i) => ({
         i,

@@ -88,7 +88,10 @@ describe("ACP static public route rollout", () => {
       assert.doesNotMatch(page, /const keyFeatures =/);
       assert.doesNotMatch(page, /const worksBody =/);
       assert.doesNotMatch(page, /const capabilityImages =/);
+      assert.match(page, /<AcpHeroCopy>/);
       assert.match(page, /<AcpHeroTitle>/);
+      assert.match(page, /<AcpHeroLead>/);
+      assert.doesNotMatch(page, /<AcpHeroLeadGroup>/);
       assert.match(page, /<AcpFeatureCardTitle>/);
       assert.match(page, /<AcpSplitFeatureSection/);
       assert.match(page, /<AcpFaqSection>/);
@@ -139,21 +142,43 @@ describe("ACP static public route rollout", () => {
     }
   });
 
+  it("keeps each ACP child hero background aligned with the corp-web-contents source variant", () => {
+    const expectedHeroBackgrounds = {
+      "database-access-controller": "dac",
+      "system-access-controller": "sac",
+      "kubernetes-access-controller": "kac",
+      "web-access-controller": "wac",
+    };
+
+    for (const [route, background] of Object.entries(expectedHeroBackgrounds)) {
+      const page = read(`src/app/platforms/acp/${route}/page.tsx`);
+      assert.match(page, /<AcpHeroSection/);
+      assert.match(page, new RegExp(`background="${background}"`));
+    }
+  });
+
   it("uses the upstream ACP static visual contract for hero, feature cards, split sections, and CTA", () => {
     const staticPageSection = read("src/components/sections/acp/static-page.tsx");
 
     assert.match(staticPageSection, /max-w-\[1024px\]/);
-    assert.match(staticPageSection, /bg-linear-to-b/);
-    assert.match(staticPageSection, /via-\[#dfe8f2\]/);
-    assert.match(staticPageSection, /via-\[#e2e9e1\]/);
-    assert.match(staticPageSection, /via-\[#e8eaf4\]/);
-    assert.match(staticPageSection, /via-\[#dfeff2\]/);
-    assert.match(staticPageSection, /flex w-full max-w-\[1200px\] flex-col items-center gap-5/);
+    assert.match(staticPageSection, /linear-gradient\(180deg, #fff 30%, #dfe8f2 84%, #fff 84%, #fff 100%\)/);
+    assert.match(staticPageSection, /linear-gradient\(180deg, #fff 30%, #e2e9e1 84%, #fff 84%, #fff 100%\)/);
+    assert.match(staticPageSection, /linear-gradient\(180deg, #fff 30%, #e8eaf4 84%, #fff 84%, #fff 100%\)/);
+    assert.match(staticPageSection, /linear-gradient\(180deg, #fff 30%, #dfeff2 84%, #fff 84%, #fff 100%\)/);
+    assert.doesNotMatch(staticPageSection, /bg-linear-to-b/);
+    assert.doesNotMatch(staticPageSection, /via-\[#/);
+    const heroPrimitives = read("src/components/sections/acp/hero-primitives.tsx");
+    assert.match(staticPageSection, /AcpHeroCopy[\s\S]*AcpHeroLead[\s\S]*AcpHeroTitle/);
+    assert.match(heroPrimitives, /export function AcpHeroCopy/);
+    assert.match(heroPrimitives, /flex max-w-\[1200px\] flex-col items-center gap-\[20px\] text-center/);
+    assert.match(heroPrimitives, /text-\[48px\] font-normal leading-\[56px\] tracking-normal text-\[#24292F\] lg:text-\[60px\] lg:leading-\[72px\]/);
+    assert.match(heroPrimitives, /export function AcpHeroLead/);
+    assert.match(heroPrimitives, /max-w-\[760px\] text-\[18px\] font-light leading-\[28px\] tracking-\[0\.36px\] text-\[#57606A\]/);
+    assert.doesNotMatch(staticPageSection, /export function AcpHeroLeadGroup/);
+    assert.doesNotMatch(staticPageSection, /flex w-full max-w-\[1200px\] flex-col items-center gap-5/);
     assert.doesNotMatch(staticPageSection, /flex max-w-\[920px\] flex-col items-center gap-5/);
-    assert.match(staticPageSection, /text-\[60px\] font-normal leading-\[72px\]/);
     assert.match(staticPageSection, /text-\[52px\] font-normal leading-\[62px\]/);
     assert.match(staticPageSection, /max-w-\[1200px\] flex-col gap-5/);
-    assert.match(staticPageSection, /max-\[480px\]:text-\[48px\] max-\[480px\]:leading-\[56px\]/);
     assert.match(staticPageSection, /rounded-\[20px\] bg-\[#f6f8fa\] px-10 py-\[60px\]/);
     assert.match(staticPageSection, /width=\{40\} height=\{40\}/);
     assert.match(staticPageSection, /font-medium leading-\[42px\]/);
