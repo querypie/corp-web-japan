@@ -3,7 +3,6 @@ import type { NextRequest } from "next/server";
 type RuntimeRedirectLogMarker = "[runtime-redirect]" | "[runtime-missing-redirect]";
 
 type RuntimeRedirectLogOptions = {
-  statusCode?: number;
   marker?: RuntimeRedirectLogMarker;
 };
 
@@ -11,6 +10,7 @@ type RuntimeRedirectLogEntry = RuntimeRedirectLogOptions & {
   requestedPath: string;
   redirectTarget: string | URL;
   requestUrl?: string | URL | null;
+  statusCode: number;
   host?: string | null;
   referer?: string | null;
   userAgent?: string | null;
@@ -70,6 +70,7 @@ function writeRuntimeRedirectLog({
 export function logRuntimeRedirect(
   request: RuntimeRedirectRequest,
   redirectTarget: string | URL,
+  statusCode: number,
   options: RuntimeRedirectLogOptions = {},
 ) {
   writeRuntimeRedirectLog({
@@ -77,6 +78,7 @@ export function logRuntimeRedirect(
     requestedPath: request.nextUrl.pathname,
     redirectTarget,
     requestUrl: request.url,
+    statusCode,
     host: request.nextUrl.host,
     referer: request.headers.get("referer"),
     userAgent: request.headers.get("user-agent"),

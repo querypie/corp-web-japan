@@ -73,6 +73,7 @@ export default async function MissingRoutePage({ params, searchParams }: Missing
       requestedPath,
       redirectTarget,
       requestUrl,
+      statusCode: 307,
       host,
       referer,
       userAgent,

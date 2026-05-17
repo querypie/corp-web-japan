@@ -9,7 +9,7 @@ export function GET(request: NextRequest) {
 
   querypieRedirectedUrl.search = request.nextUrl.search;
 
-  logRuntimeRedirect(request, querypieRedirectedUrl);
+  logRuntimeRedirect(request, querypieRedirectedUrl, 307);
 
   return NextResponse.redirect(querypieRedirectedUrl, 307);
 }

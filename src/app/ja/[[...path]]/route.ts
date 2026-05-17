@@ -13,7 +13,7 @@ export function GET(request: NextRequest) {
 
     redirectedUrl.search = request.nextUrl.search;
 
-    logRuntimeRedirect(request, redirectedUrl);
+    logRuntimeRedirect(request, redirectedUrl, 307);
 
     return NextResponse.redirect(redirectedUrl, 307);
   }
@@ -23,7 +23,7 @@ export function GET(request: NextRequest) {
 
     redirectedUrl.search = request.nextUrl.search;
 
-    logRuntimeRedirect(request, redirectedUrl);
+    logRuntimeRedirect(request, redirectedUrl, 307);
 
     return NextResponse.redirect(redirectedUrl, 307);
   }
@@ -32,7 +32,7 @@ export function GET(request: NextRequest) {
 
   querypieRedirectedUrl.search = request.nextUrl.search;
 
-  logRuntimeRedirect(request, querypieRedirectedUrl);
+  logRuntimeRedirect(request, querypieRedirectedUrl, 307);
 
   return NextResponse.redirect(querypieRedirectedUrl, 307);
 }

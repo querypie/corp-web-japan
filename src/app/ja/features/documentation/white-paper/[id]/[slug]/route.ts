@@ -14,7 +14,7 @@ export async function GET(request: NextRequest, { params }: LegacyWhitepaperRout
   const destination = new URL(`/whitepapers/${id}/${slug}`, request.url);
   destination.search = request.nextUrl.search;
 
-  logRuntimeRedirect(request, destination);
+  logRuntimeRedirect(request, destination, 307);
 
   return NextResponse.redirect(destination, 307);
 }
