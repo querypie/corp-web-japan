@@ -157,8 +157,9 @@ describe("ACP static public route rollout", () => {
     }
   });
 
-  it("uses the upstream ACP static visual contract for hero, feature cards, split sections, and CTA", () => {
+  it("uses the upstream ACP static visual contract for hero, feature cards, split sections, FAQ, and CTA", () => {
     const staticPageSection = read("src/components/sections/acp/static-page.tsx");
+    const faqModule = read("src/components/sections/acp/acp-faq.module.css");
 
     assert.match(staticPageSection, /max-w-\[1024px\]/);
     assert.match(staticPageSection, /linear-gradient\(180deg, #fff 30%, #dfe8f2 84%, #fff 84%, #fff 100%\)/);
@@ -188,6 +189,26 @@ describe("ACP static public route rollout", () => {
     assert.match(staticPageSection, /max-\[480px\]:text-\[20px\] max-\[480px\]:leading-7/);
     assert.match(staticPageSection, /export function AcpSplitFeatureSection/);
     assert.match(staticPageSection, /export function AcpFaqSection/);
+    assert.match(staticPageSection, /import faqStyles from "@\/components\/sections\/acp\/acp-faq\.module\.css"/);
+    assert.match(staticPageSection, /<section className=\{faqStyles\.section\}>/);
+    assert.match(staticPageSection, /<ul className=\{faqStyles\.list\}>/);
+    assert.match(staticPageSection, /<li className=\{faqStyles\.item\}>/);
+    assert.match(staticPageSection, /<details>/);
+    assert.doesNotMatch(staticPageSection, /<details open>/);
+    assert.match(staticPageSection, /<summary>\{question\}<\/summary>/);
+    assert.match(staticPageSection, /className=\{faqStyles\.answer\}/);
+    assert.match(faqModule, /padding: 120px 0 200px/);
+    assert.match(faqModule, /max-width: 1200px/);
+    assert.match(faqModule, /border-top: 1px solid #353c45/);
+    assert.match(faqModule, /border-bottom: 1px solid #dae1e7/);
+    assert.match(faqModule, /display: flex/);
+    assert.match(faqModule, /justify-content: space-between/);
+    assert.match(faqModule, /padding: 10px 20px 20px 0/);
+    assert.match(faqModule, /details\[open\] summary::after/);
+    assert.match(faqModule, /PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQi/);
+    assert.match(faqModule, /margin-top: 20px/);
+    assert.match(faqModule, /line-height: 26px/);
+    assert.doesNotMatch(faqModule, /border-y/);
     assert.match(staticPageSection, /export function AcpFaqItem/);
     assert.match(staticPageSection, /linear-gradient\(100deg, #0762d4 34\.93%, #875ac5 76\.81%, #c55a8c 99\.98%\)/);
     assert.match(staticPageSection, /bg-\[#f6f8fa\]/);

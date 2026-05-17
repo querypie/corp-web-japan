@@ -239,6 +239,14 @@ ACP child-page example:
 - The source-code check is two-step: first confirm the content route passes the matching variant to `AcpHeroSection background="..."`; then confirm the shared ACP static-page primitive copies the concrete `corp-web-app` gradient strings, including the duplicated white stop at `84%`.
 - The browser check is: inspect the H1 ancestor chain and compare the full `backgroundImage` stop list, not just `backgroundImage !== "none"`; crop/sample the left or right side of the hero media band where the live page shows a clear horizontal color-to-white boundary.
 
+ACP child-page FAQ example:
+
+- `../corp-web-contents/pages/solutions/acp/{database-access-controller,system-access-controller,kubernetes-access-controller,web-access-controller}/ja/content.mdx` only declares `layout: "WithFAQBottomLayout"`; it does not contain the FAQ markup or FAQ styling contract.
+- The concrete live rendering contract comes from `../corp-web-app/src/app/dynamic-page.tsx` wrapping the page body with `FAQBottom`, then from `../corp-web-app/src/components/layout/bottom/faq-bottom.component.tsx`, `faq-bottom.module.css`, `../corp-web-app/src/components/widget/qna/qna.component.tsx`, and `qna.module.css`.
+- Do not treat matching FAQ text as sufficient. The live FAQ is a closed-by-default `<details>` list with a flex `summary`, plus/minus `summary::after` icons, first-row dark top border, light row separators, and `120px 0 200px` bottom-section padding. A local always-open FAQ with plain summaries, `border-y`, or `100px` vertical padding is a real visual parity defect even if all four questions and answers match.
+- The source-code check is two-step: first confirm the MDX layout is `WithFAQBottomLayout`; then inspect the `FAQBottom` / `QnA` component and CSS module chain in `corp-web-app` for the rendered widget contract.
+- The browser check is: compare `details.open`, `summary::after` computed styles, `summary` display/padding, row border colors, and section padding. For closed live rows, avoid measuring the hidden answer as if it were rendered content; open one row explicitly only for a second answer-typography pass.
+
 ### 7. Classify each difference
 
 For each meaningful difference, classify it as one of:
