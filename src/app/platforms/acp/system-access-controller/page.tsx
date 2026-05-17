@@ -9,8 +9,9 @@ import {
   AcpFeatureCardTitle,
   AcpFeatureGrid,
   AcpFeatureSection,
+  AcpHeroCopy,
   AcpHeroEyebrow,
-  AcpHeroLeadGroup,
+  AcpHeroLead,
   AcpHeroSection,
   AcpHeroTitle,
   AcpPageCta,
@@ -44,19 +45,17 @@ export default function SystemAccessControllerPage() {
     <AcpStaticPageShell>
       <SiteHeader />
       <AcpHeroSection background="sac" media={{"kind": "youtube", "src": "https://www.youtube.com/embed/h1jlfwQFaiA?si=qvk_Mk0ryxXhwX51"}} mediaTitle="System Access Controller">
-        <AcpHeroEyebrow>QueryPie ACP</AcpHeroEyebrow>
-        <AcpHeroTitle>System Access Controller</AcpHeroTitle>
-        <AcpHeroLeadGroup>
-          <p>
+        <AcpHeroCopy>
+          <AcpHeroEyebrow>QueryPie ACP</AcpHeroEyebrow>
+          <AcpHeroTitle>System Access Controller</AcpHeroTitle>
+          <AcpHeroLead>
             QueryPie SAC は、クラウド環境とオンプレミスの複数のシステム、サーバー、ネットワーク機器など、
-          </p>
-          <p>
+            <br />
             SSH 接続が可能なすべてのリソースの権限を統合管理することができます。管理者は、ユーザー コマンドを監視し、
-          </p>
-          <p>
+            <br />
             コマンドが実行されたセッションを再生することで、すべてのプラットフォームでセキュリティと監視を強化できます。
-          </p>
-        </AcpHeroLeadGroup>
+          </AcpHeroLead>
+        </AcpHeroCopy>
       </AcpHeroSection>
       <AcpFeatureSection>
         <AcpSectionIntro>

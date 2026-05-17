@@ -9,8 +9,9 @@ import {
   AcpFeatureCardTitle,
   AcpFeatureGrid,
   AcpFeatureSection,
+  AcpHeroCopy,
   AcpHeroEyebrow,
-  AcpHeroLeadGroup,
+  AcpHeroLead,
   AcpHeroSection,
   AcpHeroTitle,
   AcpPageCta,
@@ -44,16 +45,15 @@ export default function DatabaseAccessControllerPage() {
     <AcpStaticPageShell>
       <SiteHeader />
       <AcpHeroSection background="dac" media={{"kind": "youtube", "src": "https://www.youtube.com/embed/SoACnHF6s3Y?si=1DSZJfMYeXjeT0kU"}} mediaTitle="Database Access Controller">
-        <AcpHeroEyebrow>QueryPie ACP</AcpHeroEyebrow>
-        <AcpHeroTitle>Database Access Controller</AcpHeroTitle>
-        <AcpHeroLeadGroup>
-          <p>
+        <AcpHeroCopy>
+          <AcpHeroEyebrow>QueryPie ACP</AcpHeroEyebrow>
+          <AcpHeroTitle>Database Access Controller</AcpHeroTitle>
+          <AcpHeroLead>
             QueryPie DAC は、クラウド環境とオンプレミス環境の両方をサポートするデータ保護およびアクセス制御ソリューションです。
-          </p>
-          <p>
+            <br />
             どこにいても、データセキュリティとアクセス制御を完全に管理できるQueryPie DAC から始めてみませんか？
-          </p>
-        </AcpHeroLeadGroup>
+          </AcpHeroLead>
+        </AcpHeroCopy>
       </AcpHeroSection>
       <AcpFeatureSection>
         <AcpSectionIntro>

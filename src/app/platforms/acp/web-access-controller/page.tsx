@@ -9,8 +9,9 @@ import {
   AcpFeatureCardTitle,
   AcpFeatureGrid,
   AcpFeatureSection,
+  AcpHeroCopy,
   AcpHeroEyebrow,
-  AcpHeroLeadGroup,
+  AcpHeroLead,
   AcpHeroSection,
   AcpHeroTitle,
   AcpPageCta,
@@ -45,22 +46,19 @@ export default function WebAccessControllerPage() {
     <AcpStaticPageShell>
       <SiteHeader />
       <AcpHeroSection background="wac" media={{"kind": "image", "src": "/platforms/acp/web-access-controller/main.png", "alt": "Web Access Controller"}} mediaTitle="Web Access Controller">
-        <AcpHeroEyebrow>QueryPie ACP</AcpHeroEyebrow>
-        <AcpHeroTitle>Web Access Controller</AcpHeroTitle>
-        <AcpHeroLeadGroup>
-          <p>
+        <AcpHeroCopy>
+          <AcpHeroEyebrow>QueryPie ACP</AcpHeroEyebrow>
+          <AcpHeroTitle>Web Access Controller</AcpHeroTitle>
+          <AcpHeroLead>
             QueryPie WAC（Web Access Controller） は、Web アプリケーションへのアクセスを保護するとともに、ユーザーの活動を記録する機能を
-          </p>
-          <p>
+            <br />
             備えています。オンプレミスの管理者向けサイトやSaaS プラットフォームを含むWebアプリケーションに対して、権限を持つユーザーのみが
-          </p>
-          <p>
+            <br />
             アクセスできるようにし、さらに、ログやスクリーンショットのキャプチャ、機密データのマスキング、ファイル転送といった操作の
-          </p>
-          <p>
+            <br />
             制御を通じて、セキュリティを強化します。
-          </p>
-        </AcpHeroLeadGroup>
+          </AcpHeroLead>
+        </AcpHeroCopy>
       </AcpHeroSection>
       <AcpFeatureSection topPadding="mega">
         <AcpSectionIntro>

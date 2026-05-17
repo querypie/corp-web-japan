@@ -9,8 +9,9 @@ import {
   AcpFeatureCardTitle,
   AcpFeatureGrid,
   AcpFeatureSection,
+  AcpHeroCopy,
   AcpHeroEyebrow,
-  AcpHeroLeadGroup,
+  AcpHeroLead,
   AcpHeroSection,
   AcpHeroTitle,
   AcpPageCta,
@@ -44,16 +45,15 @@ export default function KubernetesAccessControllerPage() {
     <AcpStaticPageShell>
       <SiteHeader />
       <AcpHeroSection background="kac" media={{"kind": "youtube", "src": "https://www.youtube.com/embed/OzxB0qqmCTQ?si=qbFYGIDUg2GPuzfU"}} mediaTitle="Kubernetes Access Controller">
-        <AcpHeroEyebrow>QueryPie ACP</AcpHeroEyebrow>
-        <AcpHeroTitle>Kubernetes Access Controller</AcpHeroTitle>
-        <AcpHeroLeadGroup>
-          <p>
+        <AcpHeroCopy>
+          <AcpHeroEyebrow>QueryPie ACP</AcpHeroEyebrow>
+          <AcpHeroTitle>Kubernetes Access Controller</AcpHeroTitle>
+          <AcpHeroLead>
             QueryPie KAC はクバネティスAPI保護ソリューションで、AWS EKS のようなクラウドインフラおよびオンプレミスクラスターの
-          </p>
-          <p>
+            <br />
             集中管理を可能にします。管理者はアクセス管理、API リクエストの監視、実行したコンテナコマンドの再生を行うことができます。
-          </p>
-        </AcpHeroLeadGroup>
+          </AcpHeroLead>
+        </AcpHeroCopy>
       </AcpHeroSection>
       <AcpFeatureSection>
         <AcpSectionIntro>
