@@ -18,8 +18,11 @@ test("/t/plans routes keep pricing copy in route pages while the section module 
 
   assert.match(aipRouteSource, /canonical: "\/t\/plans\/aip"/);
   assert.doesNotMatch(aipRouteSource, /export function AipPlansContent\(\)/);
-  assert.match(aipRouteSource, /<PricingRoot>/);
-  assert.match(aipRouteSource, /<PricingHeader>/);
+  assert.match(aipRouteSource, /from "@\/components\/sections\/company\/page-primitives"/);
+  assert.match(aipRouteSource, /<CompanyPageSection>/);
+  assert.match(aipRouteSource, /<CompanyPageIntro>/);
+  assert.match(aipRouteSource, /<CompanyPageTitle>プラン<\/CompanyPageTitle>/);
+  assert.match(aipRouteSource, /<CompanyPageLead>/);
   assert.match(aipRouteSource, /<PricingContextProvider defaultActiveTab="aip">/);
   assert.match(aipRouteSource, /<ProductTabs>/);
   assert.match(aipRouteSource, /<ProductTab name="aip">/);
@@ -36,8 +39,11 @@ test("/t/plans routes keep pricing copy in route pages while the section module 
   assert.match(aipRouteSource, /<CompareTableCheckLabelCell>最大30日間<\/CompareTableCheckLabelCell>/);
 
   assert.match(acpRouteSource, /canonical: "\/t\/plans\/acp"/);
-  assert.match(acpRouteSource, /<PricingRoot>/);
-  assert.match(acpRouteSource, /<PricingHeader>/);
+  assert.match(acpRouteSource, /from "@\/components\/sections\/company\/page-primitives"/);
+  assert.match(acpRouteSource, /<CompanyPageSection>/);
+  assert.match(acpRouteSource, /<CompanyPageIntro>/);
+  assert.match(acpRouteSource, /<CompanyPageTitle>プラン<\/CompanyPageTitle>/);
+  assert.match(acpRouteSource, /<CompanyPageLead>/);
   assert.match(acpRouteSource, /<PricingContextProvider defaultActiveTab="acp">/);
   assert.match(acpRouteSource, /<ProductTabs>/);
   assert.match(acpRouteSource, /<ProductTab name="aip">/);
@@ -66,8 +72,22 @@ test("/t/plans routes keep pricing copy in route pages while the section module 
   assert.doesNotMatch(aipRouteSource, /products=\{\[/);
   assert.doesNotMatch(aipRouteSource, /PlansProductSwitcher/);
 
+  assert.doesNotMatch(aipRouteSource, /<PlansPageSection>/);
+  assert.doesNotMatch(acpRouteSource, /<PlansPageSection>/);
+  assert.doesNotMatch(aipRouteSource, /<PricingHeader>/);
+  assert.doesNotMatch(acpRouteSource, /<PricingHeader>/);
+  assert.doesNotMatch(aipRouteSource, /<PlansHeroTitle>/);
+  assert.doesNotMatch(acpRouteSource, /<PlansHeroTitle>/);
+  assert.doesNotMatch(aipRouteSource, /<PlansHeroDescription>/);
+  assert.doesNotMatch(acpRouteSource, /<PlansHeroDescription>/);
+  assert.doesNotMatch(aipRouteSource, /pt-\[72px\]/);
+  assert.doesNotMatch(acpRouteSource, /pt-\[72px\]/);
+
   assert.match(sectionSource, /export function PricingRoot\(/);
-  assert.match(sectionSource, /export function PricingHeader\(/);
+  assert.doesNotMatch(sectionSource, /export function PricingHeader\(/);
+  assert.doesNotMatch(sectionSource, /export function PlansPageSection\(/);
+  assert.doesNotMatch(sectionSource, /export function PlansHeroTitle/);
+  assert.doesNotMatch(sectionSource, /export function PlansHeroDescription/);
   assert.match(sectionSource, /export function PricingContextProvider/);
   assert.match(sectionSource, /searchParams\.has\("acp"\)/);
   assert.match(sectionSource, /usePathname\(\)/);
@@ -77,8 +97,6 @@ test("/t/plans routes keep pricing copy in route pages while the section module 
   assert.doesNotMatch(sectionSource, /href=\{`\/t\/plans/);
   assert.match(sectionSource, /export function PlanRoot\(/);
   assert.match(sectionSource, /export function PlanCard\(/);
-  assert.match(sectionSource, /export function PlansHeroTitle[\s\S]*tracking-normal/);
-  assert.doesNotMatch(sectionSource, /export function PlansHeroTitle[\s\S]*tracking-\[-0\.03em\]/);
   assert.match(sectionSource, /export function PlanCard[\s\S]*rounded-t-\[20px\]/);
   assert.doesNotMatch(sectionSource, /export function PlanCard[\s\S]*overflow-hidden/);
   assert.match(sectionSource, /rounded-\[6px\]/);
