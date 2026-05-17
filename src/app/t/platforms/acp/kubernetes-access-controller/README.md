@@ -55,7 +55,25 @@
 - 모든 ACP child page가 동일한 production FAQ contract를 의도적으로 공유한다면 `src/components/sections/acp/static-page.tsx`에 좁은 shared FAQ primitive를 둘 수 있습니다.
 - page별 문구 소유권을 route-local로 유지해야 한다면 `src/app/t/platforms/acp/kubernetes-access-controller/page.tsx`에 FAQ content를 직접 두는 방향을 검토합니다.
 
-### 3. mobile typography scale이 다릅니다
+### 3. live hero에는 gradient background image가 있지만 stage에는 없습니다
+
+분류: defect candidate.
+
+근거:
+- Live page의 hero section 뒤에는 product page 공통의 gradient background image가 렌더링됩니다.
+- Stage preview의 hero section은 동일한 gradient background image layer 없이 흰 배경 위에 hero copy와 product screenshot만 배치됩니다.
+- 이 차이는 hero typography나 screenshot 크기 문제가 아니라 hero section의 background visual layer 자체가 누락된 차이입니다.
+
+해석:
+- live reference page의 첫인상은 gradient background image가 hero depth와 product-page visual identity를 형성합니다.
+- stage page에는 이 layer가 없어 hero가 더 평면적으로 보이고, live와 비교했을 때 상단 visual weight가 부족합니다.
+- ACP child page 전체가 같은 hero primitive를 사용하므로, 개별 route의 copy보다 공통 `AcpHeroSection` 배경 contract에서 먼저 확인하는 편이 안전합니다.
+
+다음에 확인할 source area:
+- `src/components/sections/acp/static-page.tsx`의 `AcpHeroSection` background 처리.
+- live source에서 사용하는 hero background asset 또는 CSS background contract.
+
+### 4. mobile typography scale이 다릅니다
 
 분류: defect candidate 또는 root-rem policy 결정 필요.
 
@@ -74,7 +92,7 @@
 - `src/components/sections/acp/static-page.tsx`의 responsive typography rule.
 - pixel 값을 바꾸기 전에 repo-local root-rem parity rule을 적용합니다.
 
-### 4. intro feature area 구조가 live production 처리와 다릅니다
+### 5. intro feature area 구조가 live production 처리와 다릅니다
 
 분류: defect candidate / measured-rebuild gap.
 
@@ -90,7 +108,7 @@
 다음에 확인할 source area:
 - `src/components/sections/acp/static-page.tsx`의 `AcpFeatureGrid`, `AcpFeatureCard`.
 
-### 5. feature-band rhythm이 production과 다릅니다
+### 6. feature-band rhythm이 production과 다릅니다
 
 분류: defect candidate.
 
@@ -110,7 +128,8 @@
 
 Stage page는 핵심 KAC story를 보여줄 만큼 content는 갖추고 있지만, live production page와 render-identical한 상태는 아닙니다. 가장 actionable한 차이는 다음입니다.
 
-1. live FAQ block을 추가할지, 또는 의도적으로 생략할지 결정해야 합니다.
-2. mobile root-rem / typography contract를 결정해야 합니다.
-3. 작은 spacing tweak 전에 intro feature-card와 split-feature wrapper contract를 먼저 비교해야 합니다.
-4. live에는 cookie/language UI가 나타날 수 있고 stage는 corp-web-japan header/footer를 쓰므로, chrome 차이와 page-body parity를 분리해서 봐야 합니다.
+1. live hero gradient background image를 stage hero에도 반영할지 결정해야 합니다.
+2. live FAQ block을 추가할지, 또는 의도적으로 생략할지 결정해야 합니다.
+3. mobile root-rem / typography contract를 결정해야 합니다.
+4. 작은 spacing tweak 전에 intro feature-card와 split-feature wrapper contract를 먼저 비교해야 합니다.
+5. live에는 cookie/language UI가 나타날 수 있고 stage는 corp-web-japan header/footer를 쓰므로, chrome 차이와 page-body parity를 분리해서 봐야 합니다.
