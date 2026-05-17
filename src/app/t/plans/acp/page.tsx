@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
+  CompanyPageIntro,
+  CompanyPageLead,
+  CompanyPageSection,
+  CompanyPageTitle,
+} from "@/components/sections/company/page-primitives";
+import {
   PlanButton,
   PlanCard,
   PlanDescription,
@@ -12,11 +18,7 @@ import {
   PlanRoot,
   PlanTitle,
   PlanTitleContainer,
-  PlansHeroDescription,
-  PlansHeroTitle,
-  PlansPageSection,
   PricingContextProvider,
-  PricingHeader,
   PricingRoot,
   ProductDescription,
   ProductName,
@@ -50,20 +52,20 @@ export const metadata: Metadata = {
 
 export default function PlansACPPage() {
   return (
-    <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
+    <main className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
-      <PlansPageSection>
+      <CompanyPageSection>
         <PricingRoot>
-          <PricingHeader>
-            <PlansHeroTitle>プラン</PlansHeroTitle>
-            <PlansHeroDescription>
+          <CompanyPageIntro>
+            <CompanyPageTitle>プラン</CompanyPageTitle>
+            <CompanyPageLead>
               <p>
                 あなたのチームに最適なプランを見つけよう。
                 <br />
                 14日間の無料トライアルで今すぐ始められます。
               </p>
-            </PlansHeroDescription>
-          </PricingHeader>
+            </CompanyPageLead>
+          </CompanyPageIntro>
 
           <PricingContextProvider defaultActiveTab="acp">
             <ProductTabs>
@@ -151,7 +153,7 @@ export default function PlansACPPage() {
           </PlanRoot>
           </PricingContextProvider>
         </PricingRoot>
-      </PlansPageSection>
+      </CompanyPageSection>
       <SiteFooter />
     </main>
   );
