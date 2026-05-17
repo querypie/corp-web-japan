@@ -78,10 +78,10 @@ test("public MDX-backed list routes are indexable for search engines", () => {
 test("internal, preview, and whitepaper pdf-only routes stay non-indexable", () => {
   const nonIndexableRoutes = [
     "src/app/internal/page.tsx",
-    "src/app/internal/events-demo/page.tsx",
+    "src/app/internal/events/page.tsx",
     "src/app/internal/load-more/page.tsx",
-    "src/app/internal/mdx-list-demo/page.tsx",
-    "src/app/internal/whitepaper-gating-demo/page.tsx",
+    "src/app/internal/mdx-list/page.tsx",
+    "src/app/internal/whitepaper-gating-form/page.tsx",
     "src/app/whitepapers/[id]/[slug]/pdf/page.tsx",
   ];
 

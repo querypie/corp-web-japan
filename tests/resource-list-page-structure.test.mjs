@@ -7,7 +7,7 @@ const routeFiles = [
   "src/app/blog/page.tsx",
   "src/app/whitepapers/page.tsx",
   "src/app/events/page.tsx",
-  "src/app/internal/events-demo/page.tsx",
+  "src/app/internal/events/page.tsx",
   "src/app/internal/load-more/page.tsx",
   "src/app/resources/page.tsx",
   "src/app/introduction-deck/page.tsx",
@@ -31,9 +31,9 @@ test("public resource-list routes use the concrete public sidebar component", ()
     "src/app/blog/page.tsx",
     "src/app/whitepapers/page.tsx",
     "src/app/events/page.tsx",
-    "src/app/internal/events-demo/page.tsx",
+    "src/app/internal/events/page.tsx",
     "src/app/internal/load-more/page.tsx",
-    "src/app/internal/mdx-list-demo/page.tsx",
+    "src/app/internal/mdx-list/page.tsx",
       "src/app/resources/page.tsx",
     "src/app/introduction-deck/page.tsx",
     "src/app/glossary/page.tsx",
@@ -128,7 +128,7 @@ test("shared ResourceListPage wrapper component has been removed", () => {
 });
 
 test("internal mdx list demo uses the generic CTA section primitives instead of resource-list-specific CTA names", () => {
-  const demoSource = readSource("src/app/internal/mdx-list-demo/page.tsx");
+  const demoSource = readSource("src/app/internal/mdx-list/page.tsx");
   const resourceListSectionSource = readSource("src/components/sections/resource-list-section.tsx");
   const ctaSectionSource = readSource("src/components/sections/simple-cta-section.tsx");
 

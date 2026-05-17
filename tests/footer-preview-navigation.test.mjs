@@ -22,10 +22,10 @@ test("footer keeps the preview-only Internal section when preview mode is enable
   assert.match(footer, /previewModeEnabled\s*\?\s*\[(?:internalFooterColumn|\{\s*\.\.\.internalFooterColumn,\s*mobileLayout:\s*"single"\s+as\s+const\s*\})\]/);
   assert.match(footer, /title:\s*"Internal"/);
   assert.match(footer, /label:\s*"Internal Hub"/);
-  assert.match(footer, /label:\s*"Whitepaper Gating Demo"/);
-  assert.match(footer, /label:\s*"MDX List Demo"/);
-  assert.match(footer, /label:\s*"Events Demo"/);
-  assert.match(footer, /label:\s*"Load More Demo"/);
+  assert.match(footer, /label:\s*"Whitepaper Gating Form"/);
+  assert.match(footer, /label:\s*"MDX List"/);
+  assert.match(footer, /label:\s*"Events"/);
+  assert.match(footer, /label:\s*"Load More"/);
   assert.match(footer, /footerLinksPreview/);
 });
 

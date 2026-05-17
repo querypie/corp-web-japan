@@ -18,18 +18,18 @@ import {
 } from "@/lib/preview-navigation";
 import type { PublicationPost } from "@/lib/publications/types";
 
-const sourcePath = path.join(process.cwd(), "src/content/internal/whitepaper-gating-demo.mdx");
-const contentKey = buildGatingContentKey("internal", "whitepaper-gating-demo");
+const sourcePath = path.join(process.cwd(), "src/content/internal/whitepaper-gating-form.mdx");
+const contentKey = buildGatingContentKey("internal", "whitepaper-gating-form");
 
 export const metadata: Metadata = {
-  title: "Internal Whitepaper Gating Demo | QueryPie AI",
+  title: "Internal Whitepaper Gating Form | QueryPie AI",
   robots: {
     index: false,
     follow: false,
   },
 };
 
-async function getInternalDemoPost(): Promise<PublicationPost> {
+async function getInternalGatingFormPost(): Promise<PublicationPost> {
   const source = fs.readFileSync(sourcePath, "utf8");
   const splitSource = splitMdxSourceAtGatingCut(source);
   const previewEvaluation = await renderPublicationMdx<{
@@ -42,7 +42,7 @@ async function getInternalDemoPost(): Promise<PublicationPost> {
   const frontmatter = previewEvaluation.frontmatter;
 
   if (!frontmatter.gated || !splitSource.gatedSource) {
-    throw new Error(`Internal gating demo must define gated: true and <GatingCut /> in ${sourcePath}`);
+    throw new Error(`Internal gating form must define gated: true and <GatingCut /> in ${sourcePath}`);
   }
 
   const gatedEvaluation = await renderPublicationMdx(stripFrontmatterBlock(splitSource.gatedSource), {
@@ -71,8 +71,8 @@ async function getInternalDemoPost(): Promise<PublicationPost> {
   };
 }
 
-export default async function InternalWhitepaperGatingDemoPage() {
-  const post = await getInternalDemoPost();
+export default async function InternalWhitepaperGatingFormPage() {
+  const post = await getInternalGatingFormPost();
   const cookieStore = await cookies();
   const previewCookieValue = cookieStore.get(PREVIEW_NAVIGATION_COOKIE)?.value;
   const { enabled: previewModeEnabled } = getPreviewNavigationState(previewCookieValue);

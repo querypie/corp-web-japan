@@ -20,9 +20,9 @@ import {
 import { resolveInternalEventsDemoState } from "@/lib/publications/events/records";
 
 export const metadata: Metadata = {
-  title: "Internal Events Demo | QueryPie AI",
+  title: "Internal Events | QueryPie AI",
   alternates: {
-    canonical: "/internal/events-demo",
+    canonical: "/internal/events",
   },
   robots: {
     index: false,
@@ -30,14 +30,14 @@ export const metadata: Metadata = {
   },
 };
 
-type InternalEventsDemoPageProps = {
+type InternalEventsPageProps = {
   searchParams?: Promise<{
     asof?: string | string[];
     upcoming?: string | string[];
   }>;
 };
 
-export default async function InternalEventsDemoPage({ searchParams }: InternalEventsDemoPageProps) {
+export default async function InternalEventsPage({ searchParams }: InternalEventsPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const { demoHeroEvent, showUpcomingEvent, visiblePastEvents } = resolveInternalEventsDemoState(resolvedSearchParams);
 
@@ -48,11 +48,11 @@ export default async function InternalEventsDemoPage({ searchParams }: InternalE
       <ResourceListHeroSection>
         <div className="flex flex-col items-center gap-5">
           <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-5">
-            <ResourceListHeroTitle className="whitespace-normal">Internal Events Demo</ResourceListHeroTitle>
+            <ResourceListHeroTitle className="whitespace-normal">Internal Events</ResourceListHeroTitle>
             <InternalEventsDemoHeroToggle showUpcomingEvent={showUpcomingEvent} disabled={!demoHeroEvent} />
           </div>
           <ResourceListHeroDescription className="max-w-[920px]">
-            This demo page lets you preview the list composition on an internal-only route using the real event publication data before updating the events index page.
+            This internal page lets you preview the list composition on an internal-only route using the real event publication data before updating the events index page.
           </ResourceListHeroDescription>
         </div>
       </ResourceListHeroSection>

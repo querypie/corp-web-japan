@@ -17,10 +17,10 @@ export async function SiteFooter() {
     title: "Internal",
     links: [
       { label: "Internal Hub", href: "/internal" },
-      { label: "Whitepaper Gating Demo", href: "/internal/whitepaper-gating-demo" },
-      { label: "MDX List Demo", href: "/internal/mdx-list-demo" },
-      { label: "Events Demo", href: "/internal/events-demo" },
-      { label: "Load More Demo", href: "/internal/load-more" },
+      { label: "Whitepaper Gating Form", href: "/internal/whitepaper-gating-form" },
+      { label: "MDX List", href: "/internal/mdx-list" },
+      { label: "Events", href: "/internal/events" },
+      { label: "Load More", href: "/internal/load-more" },
     ],
   } as const;
 

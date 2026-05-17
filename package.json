@@ -19,7 +19,7 @@
     "test:ci": "npm run test:smoke && npm run test:publications && npm run test:forms && npm run test:routing-seo && npm run test:static-pages && npm run test:assets-shell && npm run test:cross-cutting",
     "e2e:stage": "npx playwright test tests-local/src/app --config=playwright.local.config.mjs",
     "e2e:local:contact-us:stage": "npx playwright test tests-local/src/app/contact-us/page.e2e.mjs --config=playwright.local.config.mjs",
-    "e2e:local:whitepaper-gating:stage": "npx playwright test tests-local/src/app/internal/whitepaper-gating-demo/page.e2e.mjs --config=playwright.local.config.mjs",
+    "e2e:local:whitepaper-gating:stage": "npx playwright test tests-local/src/app/internal/whitepaper-gating-form/page.e2e.mjs --config=playwright.local.config.mjs",
     "e2e:local:blog:stage": "npx playwright test tests-local/src/app/blog/page.e2e.mjs --config=playwright.local.config.mjs",
     "e2e:local:whitepapers:stage": "npx playwright test tests-local/src/app/whitepapers/page.e2e.mjs --config=playwright.local.config.mjs",
     "e2e:local:whitepaper-pdf:stage": "npx playwright test tests-local/src/app/whitepapers/pdf-page.e2e.mjs --config=playwright.local.config.mjs",

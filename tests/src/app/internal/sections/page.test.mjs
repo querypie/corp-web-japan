@@ -2,13 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
-test("/internal/demo-sections exists as a noindex UI demo route for preserved orphan section components", () => {
-  const file = "src/app/internal/demo-sections/page.tsx";
+test("/internal/sections exists as a noindex UI demo route for preserved orphan section components", () => {
+  const file = "src/app/internal/sections/page.tsx";
   assert.equal(sourceExists(file), true, `${file} should exist`);
 
   const source = readSource(file);
-  assert.match(source, /title:\s*"Internal Demo Sections \| QueryPie AI"/);
-  assert.match(source, /canonical:\s*"\/internal\/demo-sections"/);
+  assert.match(source, /title:\s*"Internal Sections \| QueryPie AI"/);
+  assert.match(source, /canonical:\s*"\/internal\/sections"/);
   assert.match(source, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(source, /@\/components\/sections\/internal-demo\/role-slides/);
   assert.match(source, /@\/components\/sections\/internal-demo\/use-case-showcase/);
@@ -20,10 +20,10 @@ test("/internal/demo-sections exists as a noindex UI demo route for preserved or
   assert.doesNotMatch(source, /\.\/ai-dashi-faq/);
   assert.doesNotMatch(source, /@\/components\/sections\/ai-crew\/avatar/);
   assert.doesNotMatch(source, /@\/components\/sections\/ai-dashi\/faq/);
-  assert.equal(sourceExists("src/app/internal/demo-sections/role-slides.tsx"), false);
-  assert.equal(sourceExists("src/app/internal/demo-sections/use-case-showcase.tsx"), false);
-  assert.equal(sourceExists("src/app/internal/demo-sections/ai-crew-avatar.tsx"), false);
-  assert.equal(sourceExists("src/app/internal/demo-sections/ai-dashi-faq.tsx"), false);
+  assert.equal(sourceExists("src/app/internal/sections/role-slides.tsx"), false);
+  assert.equal(sourceExists("src/app/internal/sections/use-case-showcase.tsx"), false);
+  assert.equal(sourceExists("src/app/internal/sections/ai-crew-avatar.tsx"), false);
+  assert.equal(sourceExists("src/app/internal/sections/ai-dashi-faq.tsx"), false);
   assert.equal(sourceExists("src/components/sections/ai-crew/avatar.tsx"), false);
   assert.equal(sourceExists("src/components/sections/ai-dashi/faq.tsx"), false);
   assert.equal(sourceExists("src/components/sections/internal-demo/role-slides.tsx"), true);

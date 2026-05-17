@@ -2,13 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
-test("/internal/events-demo delegates demo hero-state resolution to the event publication helper", () => {
-  const file = "src/app/internal/events-demo/page.tsx";
+test("/internal/events delegates demo hero-state resolution to the event publication helper", () => {
+  const file = "src/app/internal/events/page.tsx";
   const source = readSource(file);
 
-  assert.equal(sourceExists("src/app/internal/events-demo/page.tsx"), true);
-  assert.match(source, /title:\s*"Internal Events Demo \| QueryPie AI"/);
-  assert.match(source, /canonical:\s*"\/internal\/events-demo"/);
+  assert.equal(sourceExists("src/app/internal/events/page.tsx"), true);
+  assert.match(source, /title:\s*"Internal Events \| QueryPie AI"/);
+  assert.match(source, /canonical:\s*"\/internal\/events"/);
   assert.match(source, /index:\s*false/);
   assert.match(source, /follow:\s*false/);
   assert.match(source, /searchParams\?: Promise<\{/);
