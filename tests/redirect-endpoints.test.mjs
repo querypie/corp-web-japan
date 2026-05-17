@@ -30,6 +30,66 @@ const expectedRedirectRules = [
     destination: "/",
   },
   {
+    requestPath: "/company",
+    file: "src/app/company/route.ts",
+    destination: "/about-us",
+  },
+  {
+    requestPath: "/solutions/aip/integrations",
+    file: "src/app/solutions/aip/integrations/route.ts",
+    destination: "/platforms/aip/integrations",
+  },
+  {
+    requestPath: "/features/documentation/glossary-items",
+    file: "src/app/features/documentation/glossary-items/route.ts",
+    destination: "/glossary",
+  },
+  {
+    requestPath: "/features/documentation/aip-introduction-download",
+    file: "src/app/features/documentation/aip-introduction-download/route.ts",
+    destination: "/introduction-deck/1/querypie-aip",
+  },
+  {
+    requestPath: "/features/documentation/acp-introduction-download",
+    file: "src/app/features/documentation/acp-introduction-download/route.ts",
+    destination: "/introduction-deck/2/querypie-acp",
+  },
+  {
+    requestPath: "/ja/privacy-policy-en",
+    file: "src/app/ja/privacy-policy-en/route.ts",
+    destination: "/privacy-policy",
+  },
+  {
+    requestPath: "/features/documentation/blog/{id}/{slug}",
+    file: "src/app/features/documentation/blog/[id]/[slug]/route.ts",
+    destination: "/blog/${id}/${slug}",
+  },
+  {
+    requestPath: "/ja/features/documentation/blog/{id}/{slug}",
+    file: "src/app/ja/features/documentation/blog/[id]/[slug]/route.ts",
+    destination: "/blog/${id}/${slug}",
+  },
+  {
+    requestPath: "/features/demo/use-cases/{id}/{slug}",
+    file: "src/app/features/demo/use-cases/[id]/[slug]/route.ts",
+    destination: "/use-cases/${id}/${slug}",
+  },
+  {
+    requestPath: "/ja/features/demo/use-cases/{id}/{slug}",
+    file: "src/app/ja/features/demo/use-cases/[id]/[slug]/route.ts",
+    destination: "/use-cases/${id}/${slug}",
+  },
+  {
+    requestPath: "/ja/features/documentation/white-paper/{id}/{slug}",
+    file: "src/app/ja/features/documentation/white-paper/[id]/[slug]/route.ts",
+    destination: "/whitepapers/${id}/${slug}",
+  },
+  {
+    requestPath: "/features/documentation/white-paper/{id}/{slug}",
+    file: "src/app/features/documentation/white-paper/[id]/[slug]/route.ts",
+    destination: "/whitepapers/${id}/${slug}",
+  },
+  {
     requestPath: "/platform/ai/aihub",
     file: "src/app/platform/ai/aihub/route.ts",
     destination: "/platforms/aip",
@@ -77,14 +137,14 @@ const expectedRedirectRules = [
 ];
 
 test("remaining redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 14);
+  assert.equal(expectedRedirectRules.length, 26);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
 
     const source = readSource(rule.file);
 
-    assert.match(source, /export function GET\(/);
+    assert.match(source, /export (?:async )?function GET\(/);
     assert.match(source, /307/);
     assert.ok(source.includes(rule.destination), `missing redirect destination: ${rule.destination}`);
 
@@ -102,6 +162,65 @@ test("remaining redirect endpoints are defined in a single test-case table with 
       assert.ok(source.includes("const strippedPath = request.nextUrl.pathname.replace(/^\\/ja(?=\\/|$)/, \"\") || \"/\";"));
       assert.ok(source.includes("new URL(strippedPath, request.url)"));
       assert.ok(source.includes("redirectedUrl.search = request.nextUrl.search;"));
+    }
+
+    if (
+      [
+        "/features/documentation/blog/{id}/{slug}",
+        "/ja/features/documentation/blog/{id}/{slug}",
+      ].includes(rule.requestPath)
+    ) {
+      assert.doesNotMatch(source, /getBlogPublicationRecord|getPost|getPublication/);
+      assert.ok(source.includes("const { id, slug } = await params;"));
+      assert.ok(source.includes("new URL(`/blog/${id}/${slug}`, request.url)"));
+      assert.ok(source.includes("destination.search = request.nextUrl.search;"));
+      assert.match(source, /logRuntimeRedirect\(request, destination, statusCode\);/);
+      assert.match(source, /export const HEAD = GET;/);
+    }
+
+    if (
+      [
+        "/features/demo/use-cases/{id}/{slug}",
+        "/ja/features/demo/use-cases/{id}/{slug}",
+      ].includes(rule.requestPath)
+    ) {
+      assert.doesNotMatch(source, /getUseCasePublicationRecord|getPost|getPublication/);
+      assert.ok(source.includes("const { id, slug } = await params;"));
+      assert.ok(source.includes("new URL(`/use-cases/${id}/${slug}`, request.url)"));
+      assert.ok(source.includes("destination.search = request.nextUrl.search;"));
+      assert.match(source, /logRuntimeRedirect\(request, destination, statusCode\);/);
+      assert.match(source, /export const HEAD = GET;/);
+    }
+
+    if (
+      [
+        "/features/documentation/white-paper/{id}/{slug}",
+        "/ja/features/documentation/white-paper/{id}/{slug}",
+      ].includes(rule.requestPath)
+    ) {
+      assert.doesNotMatch(source, /getWhitepaperPublicationRecord|getPost|getPublication/);
+      assert.ok(source.includes("const { id, slug } = await params;"));
+      assert.ok(source.includes("new URL(`/whitepapers/${id}/${slug}`, request.url)"));
+      assert.ok(source.includes("destination.search = request.nextUrl.search;"));
+      assert.match(source, /logRuntimeRedirect\(request, destination, statusCode\);/);
+      assert.match(source, /export const HEAD = GET;/);
+    }
+
+    if (
+      [
+        "/company",
+        "/solutions/aip/integrations",
+        "/features/documentation/glossary-items",
+        "/features/documentation/aip-introduction-download",
+        "/features/documentation/acp-introduction-download",
+        "/ja/privacy-policy-en",
+      ].includes(rule.requestPath)
+    ) {
+      assert.ok(source.includes(`const destinationPath = "${rule.destination}";`));
+      assert.ok(source.includes("const destination = new URL(destinationPath, request.url);"));
+      assert.ok(source.includes("destination.search = request.nextUrl.search;"));
+      assert.match(source, /logRuntimeRedirect\(request, destination, statusCode\);/);
+      assert.match(source, /export const HEAD = GET;/);
     }
   }
 });
