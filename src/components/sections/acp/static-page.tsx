@@ -31,7 +31,7 @@ export function AcpHeroSection({
   return (
     <section className={joinClasses("bg-linear-to-b px-6 pb-0 pt-[70px] md:pt-20", backgroundClassName)}>
       <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-20 text-center max-[480px]:gap-[70px]">
-        <div className="flex max-w-[920px] flex-col items-center gap-5">{children}</div>
+        <div className="flex w-full max-w-[1200px] flex-col items-center gap-5">{children}</div>
         {media.kind === "youtube" ? (
           <div className="aspect-video w-full max-w-[1024px]">
             <iframe
