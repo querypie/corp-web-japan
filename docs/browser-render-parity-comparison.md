@@ -232,12 +232,12 @@ Important pitfall: do not treat a section as visually equivalent just because it
 
 ACP child-page example:
 
-- `../corp-web-contents/pages/solutions/acp/{database-access-controller,system-access-controller,kubernetes-access-controller,web-access-controller}/ja/content.mdx` stores the source hero background variant on the first page-body wrapper as `background="dac"`, `background="sac"`, `background="kac"`, or `background="wac"`.
-- Do not stop at confirming that both pages have a non-`none` `backgroundImage`. The live ACP child hero uses the variant color at the 84% stop and then immediately returns to white at the same stop. In browser computed style this can appear as a malformed-looking sequence such as `linear-gradient(... rgb(223, 239, 242) 84%, rgb(255, 255, 255) 0px, rgb(255, 255, 255))`; CSS normalizes the later `0px` stop to the previous 84% stop, creating a hard white cut.
-- A local Tailwind rebuild that uses `from-white from-[30%] via-[#...] via-[84%] to-white` is not equivalent: it fades from the variant color at 84% to white at 100%, leaving a visible teal/blue/green wash behind the lower hero/media area.
+- `../corp-web-contents/pages/solutions/acp/{database-access-controller,system-access-controller,kubernetes-access-controller,web-access-controller}/ja/content.mdx` stores only the source hero background variant on the first page-body wrapper as `background="dac"`, `background="sac"`, `background="kac"`, or `background="wac"`.
+- The concrete live rendering contract is in `../corp-web-app/src/components/foundation/layout/layout.module.css`, not in the MDX content file. For WAC it is exactly `background: linear-gradient(180deg, #fff 30%, #dfeff2 84%, #fff 84%, #fff 100%);`.
+- Do not replace that live CSS contract with an approximate utility-gradient rebuild. `from-white from-[30%] via-[#...] via-[84%] to-white` is not equivalent: it fades from the variant color at 84% to white at 100%, leaving a visible teal/blue/green wash behind the lower hero/media area instead of the clear horizontal white boundary shown by live.
 - For these pages, compare the exact requested URL first. If an old `/t/platforms/acp/...` URL now renders the local 404 page after route promotion, record that as a route-state finding and then compare the current public route such as `/platforms/acp/web-access-controller` separately.
-- The source-code check is: the route should pass the matching variant to `AcpHeroSection background="..."`, and the shared ACP static-page primitive should retain both the variant stop and the hard white stop, for example `via-[#dfeff2] via-[84%] to-white to-[84%]` for WAC.
-- The browser check is: inspect the H1 ancestor chain and compare the full `backgroundImage` stop list, not just `backgroundImage !== "none"`; sample side-gutter pixels around the hero media/lower band where a smooth 84%→100% fade is most visible.
+- The source-code check is two-step: first confirm the content route passes the matching variant to `AcpHeroSection background="..."`; then confirm the shared ACP static-page primitive copies the concrete `corp-web-app` gradient strings, including the duplicated white stop at `84%`.
+- The browser check is: inspect the H1 ancestor chain and compare the full `backgroundImage` stop list, not just `backgroundImage !== "none"`; crop/sample the left or right side of the hero media band where the live page shows a clear horizontal color-to-white boundary.
 
 ### 7. Classify each difference
 

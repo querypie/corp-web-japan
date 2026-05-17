@@ -157,11 +157,12 @@ describe("ACP static public route rollout", () => {
     const staticPageSection = read("src/components/sections/acp/static-page.tsx");
 
     assert.match(staticPageSection, /max-w-\[1024px\]/);
-    assert.match(staticPageSection, /bg-linear-to-b/);
-    assert.match(staticPageSection, /via-\[#dfe8f2\] via-\[84%\] to-white to-\[84%\]/);
-    assert.match(staticPageSection, /via-\[#e2e9e1\] via-\[84%\] to-white to-\[84%\]/);
-    assert.match(staticPageSection, /via-\[#e8eaf4\] via-\[84%\] to-white to-\[84%\]/);
-    assert.match(staticPageSection, /via-\[#dfeff2\] via-\[84%\] to-white to-\[84%\]/);
+    assert.match(staticPageSection, /linear-gradient\(180deg, #fff 30%, #dfe8f2 84%, #fff 84%, #fff 100%\)/);
+    assert.match(staticPageSection, /linear-gradient\(180deg, #fff 30%, #e2e9e1 84%, #fff 84%, #fff 100%\)/);
+    assert.match(staticPageSection, /linear-gradient\(180deg, #fff 30%, #e8eaf4 84%, #fff 84%, #fff 100%\)/);
+    assert.match(staticPageSection, /linear-gradient\(180deg, #fff 30%, #dfeff2 84%, #fff 84%, #fff 100%\)/);
+    assert.doesNotMatch(staticPageSection, /bg-linear-to-b/);
+    assert.doesNotMatch(staticPageSection, /via-\[#/);
     assert.match(staticPageSection, /flex w-full max-w-\[1200px\] flex-col items-center gap-5/);
     assert.doesNotMatch(staticPageSection, /flex max-w-\[920px\] flex-col items-center gap-5/);
     assert.match(staticPageSection, /text-\[60px\] font-normal leading-\[72px\]/);

@@ -21,15 +21,15 @@ export function AcpHeroSection({
   mediaTitle: string;
   background?: "dac" | "sac" | "kac" | "wac";
 }) {
-  const backgroundClassName = {
-    dac: "from-white from-[30%] via-[#dfe8f2] via-[84%] to-white to-[84%]",
-    sac: "from-white from-[30%] via-[#e2e9e1] via-[84%] to-white to-[84%]",
-    kac: "from-white from-[30%] via-[#e8eaf4] via-[84%] to-white to-[84%]",
-    wac: "from-white from-[30%] via-[#dfeff2] via-[84%] to-white to-[84%]",
+  const backgroundImage = {
+    dac: "linear-gradient(180deg, #fff 30%, #dfe8f2 84%, #fff 84%, #fff 100%)",
+    sac: "linear-gradient(180deg, #fff 30%, #e2e9e1 84%, #fff 84%, #fff 100%)",
+    kac: "linear-gradient(180deg, #fff 30%, #e8eaf4 84%, #fff 84%, #fff 100%)",
+    wac: "linear-gradient(180deg, #fff 30%, #dfeff2 84%, #fff 84%, #fff 100%)",
   }[background];
 
   return (
-    <section className={joinClasses("bg-linear-to-b px-6 pb-0 pt-[70px] md:pt-20", backgroundClassName)}>
+    <section className="px-6 pb-0 pt-[70px] md:pt-20" style={{ background: backgroundImage }}>
       <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-20 text-center max-[480px]:gap-[70px]">
         <div className="flex w-full max-w-[1200px] flex-col items-center gap-5">{children}</div>
         {media.kind === "youtube" ? (
