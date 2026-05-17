@@ -33,4 +33,5 @@ Load this skill when the user asks to compare rendered pages, for example:
 
 1. Read `docs/browser-render-parity-comparison.md`.
 2. Follow that document exactly for collection, comparison, classification, and reporting.
-3. If the task is a QueryPie Japan preview migration, load any narrower route-specific skill only for repo-specific implementation context.
+3. Treat section background layers as first-class parity evidence. In particular, check hero `backgroundImage`, gradient backgrounds, pseudo-elements, and decorative absolute-positioned images before concluding that a route only differs in typography, spacing, cards, FAQ, or CTA rhythm.
+4. If the task is a QueryPie Japan preview migration, load any narrower route-specific skill only for repo-specific implementation context.

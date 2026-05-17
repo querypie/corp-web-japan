@@ -217,6 +217,9 @@ For each major section, compare:
 - top offset relative to nearby sections
 - section height
 - background color/band
+- background image / gradient / decorative visual layer
+- pseudo-element background layers (`::before`, `::after`)
+- absolutely positioned decorative images inside the section
 - content width
 - heading typography
 - paragraph width and line-height
@@ -224,6 +227,8 @@ For each major section, compare:
 - CTA size and position
 
 This prevents one large scroll-height difference from hiding multiple independent causes.
+
+Important pitfall: do not treat a section as visually equivalent just because its text, foreground screenshots, and `backgroundColor` match. Hero sections and product intro sections can rely on gradient background images or decorative layers that live on wrapper CSS, pseudo-elements, or absolutely positioned children. A stage page with a plain white hero can look materially different from a live page even when DOM geometry and typography are close.
 
 ### 7. Classify each difference
 
