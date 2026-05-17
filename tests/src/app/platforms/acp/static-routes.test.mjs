@@ -139,6 +139,20 @@ describe("ACP static public route rollout", () => {
     }
   });
 
+  it("keeps each ACP child hero background aligned with the corp-web-contents source variant", () => {
+    const expectedHeroBackgrounds = {
+      "database-access-controller": "dac",
+      "system-access-controller": "sac",
+      "kubernetes-access-controller": "kac",
+      "web-access-controller": "wac",
+    };
+
+    for (const [route, background] of Object.entries(expectedHeroBackgrounds)) {
+      const page = read(`src/app/platforms/acp/${route}/page.tsx`);
+      assert.match(page, new RegExp(`<AcpHeroSection background="${background}"`));
+    }
+  });
+
   it("uses the upstream ACP static visual contract for hero, feature cards, split sections, and CTA", () => {
     const staticPageSection = read("src/components/sections/acp/static-page.tsx");
 

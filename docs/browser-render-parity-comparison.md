@@ -230,6 +230,15 @@ This prevents one large scroll-height difference from hiding multiple independen
 
 Important pitfall: do not treat a section as visually equivalent just because its text, foreground screenshots, and `backgroundColor` match. Hero sections and product intro sections can rely on gradient background images or decorative layers that live on wrapper CSS, pseudo-elements, or absolutely positioned children. A stage page with a plain white hero can look materially different from a live page even when DOM geometry and typography are close.
 
+ACP child-page example:
+
+- `../corp-web-contents/pages/solutions/acp/{database-access-controller,system-access-controller,kubernetes-access-controller,web-access-controller}/ja/content.mdx` stores the source hero background variant on the first page-body wrapper as `background="dac"`, `background="sac"`, `background="kac"`, or `background="wac"`.
+- The live page renders that source contract as a `backgroundImage` gradient on the hero wrapper, not as a `backgroundColor`.
+- A screenshot-only pass can still describe the hero as “plain white” because the gradient begins after the white top stop and is subtle in the text band. Do not rely on visual inspection alone.
+- For these pages, compare the exact requested URL first. If an old `/t/platforms/acp/...` URL now renders the local 404 page after route promotion, record that as a route-state finding and then compare the current public route such as `/platforms/acp/web-access-controller` separately.
+- The source-code check is: the route should pass the matching variant to `AcpHeroSection background="..."`, and the shared ACP static-page primitive should retain the gradient classes for all four variants.
+- The browser check is: inspect the H1 ancestor chain and verify the section wrapper has a non-`none` `backgroundImage` such as `linear-gradient(...)`; sample side-gutter pixels lower in the hero band when the gradient is visually too subtle at the top.
+
 ### 7. Classify each difference
 
 For each meaningful difference, classify it as one of:
@@ -522,6 +531,18 @@ async function collect(page, label, viewport) {
       const cs = getComputedStyle(el);
       return Object.fromEntries(props.map((p) => [p, cs[p]]));
     };
+    const backgroundLayerStyle = (el, pseudo) => {
+      if (!el) return null;
+      const cs = getComputedStyle(el, pseudo);
+      return {
+        backgroundColor: cs.backgroundColor,
+        backgroundImage: cs.backgroundImage,
+        backgroundSize: cs.backgroundSize,
+        backgroundPosition: cs.backgroundPosition,
+        backgroundRepeat: cs.backgroundRepeat,
+        content: pseudo ? cs.content : undefined,
+      };
+    };
     const text = (el) => (el?.innerText || el?.textContent || "").replace(/\s+/g, " ").trim();
 
     const main = document.querySelector("main");
@@ -551,7 +572,9 @@ async function collect(page, label, viewport) {
         i,
         text: text(el).slice(0, 160),
         rect: rect(el),
-        style: style(el, ["backgroundColor", "paddingTop", "paddingBottom", "overflow", "overflowX", "overflowY"]),
+        style: style(el, ["backgroundColor", "backgroundImage", "backgroundSize", "backgroundPosition", "backgroundRepeat", "paddingTop", "paddingBottom", "overflow", "overflowX", "overflowY"]),
+        before: backgroundLayerStyle(el, "::before"),
+        after: backgroundLayerStyle(el, "::after"),
       })),
       paragraphs: Array.from(document.querySelectorAll("main p")).slice(0, 60).map((el, i) => ({
         i,
