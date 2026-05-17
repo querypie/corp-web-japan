@@ -1,12 +1,12 @@
-# Web Access Controller 렌더링 비교 메모
+# Database Access Controller 렌더링 비교 메모
 
 이 문서는 현재 stage preview route와 QueryPie Japan live reference page 사이의 브라우저 렌더링 차이를 기록합니다. 구현 변경 없이 조사 결과만 정리한 문서입니다.
 
 ## 범위
 
-- Stage URL: `https://stage.querypie.ai/t/platforms/acp/web-access-controller`
-- Live URL: `https://www.querypie.com/ja/solutions/acp/web-access-controller`
-- 로컬 route source: `src/app/t/platforms/acp/web-access-controller/page.tsx`
+- Stage URL: `https://stage.querypie.ai/platforms/acp/database-access-controller`
+- Live URL: `https://www.querypie.com/ja/solutions/acp/database-access-controller`
+- 로컬 route source: `src/app/platforms/acp/database-access-controller/page.tsx`
 - 공통 local section source: `src/components/sections/acp/static-page.tsx`
 - 수집 시각: `2026-05-17 15:07:03 KST`
 - 측정 viewport: desktop `1440 x 900`, mobile `390 x 844`
@@ -17,8 +17,8 @@
 
 | Viewport | root font size, stage / live | scroll height, stage / live | section count, stage / live | 첫 h2 크기, stage / live | 첫 h4 크기, stage / live |
 | --- | --- | ---: | ---: | --- | --- |
-| desktop | `16px / 16px` | `8313 / 9481` | `11 / 23` | `52px / 52px` | `32px / 32px` |
-| mobile | `16px / 14px` | `10173 / 8999` | `11 / 23` | `36px / 32px` | `26px / 20px` |
+| desktop | `16px / 16px` | `10466 / 11594` | `12 / 27` | `52px / 52px` | `32px / 32px` |
+| mobile | `16px / 14px` | `11839 / 10577` | `12 / 27` | `36px / 32px` | `26px / 20px` |
 
 ## 발견 사항
 
@@ -27,16 +27,16 @@
 분류: defect candidate / 구현 방향 결정 필요.
 
 근거:
-- Desktop scroll height는 stage `8313`, live `9481`입니다.
-- Mobile scroll height는 stage `10173`, live `8999`입니다.
-- Desktop 기준 stage는 major `main section/article` node를 `11`개 렌더링하지만, live는 `23`개를 노출합니다. live count에는 production page의 중첩 section wrapper도 포함되지만, 시각적으로도 stage에 없는 production FAQ block이 포함되어 있습니다.
+- Desktop scroll height는 stage `10466`, live `11594`입니다.
+- Mobile scroll height는 stage `11839`, live `10577`입니다.
+- Desktop 기준 stage는 major `main section/article` node를 `12`개 렌더링하지만, live는 `27`개를 노출합니다. live count에는 production page의 중첩 section wrapper도 포함되지만, 시각적으로도 stage에 없는 production FAQ block이 포함되어 있습니다.
 
 해석:
 - 현재 preview는 live page를 단순히 pixel만 다르게 복제한 상태가 아니라, local `AcpStaticPageShell`, `AcpFeatureSection`, `AcpWorksSection`, `AcpSplitFeatureSection` primitive로 재구성한 measured rebuild입니다.
 - live page에는 final CTA 앞에 FAQ accordion이 추가로 있습니다. stage page는 마지막 feature band에서 바로 CTA/footer로 넘어갑니다.
 
 다음에 확인할 source area:
-- route-local section composition: `src/app/t/platforms/acp/web-access-controller/page.tsx`
+- route-local section composition: `src/app/platforms/acp/database-access-controller/page.tsx`
 - reusable ACP static-page primitives: `src/components/sections/acp/static-page.tsx`
 
 ### 2. stage에는 마지막 FAQ block이 없습니다
@@ -44,7 +44,7 @@
 분류: defect candidate.
 
 근거:
-- Live desktop에는 document top 약 `7324` 위치에 FAQ block이 있습니다. 질문은 SaaS service 여부, authentication 처리 방식, security standards, 기존 security solutions와의 compatibility에 관한 내용입니다.
+- Live desktop에는 document top 약 `9437` 위치에 FAQ block이 있습니다. 질문은 SaaS service 여부, authentication 처리 방식, security standards, 기존 security solutions와의 compatibility에 관한 내용입니다.
 - Stage desktop/mobile 렌더링에서는 해당 FAQ section이 `main` body에 나타나지 않았습니다.
 
 해석:
@@ -53,7 +53,7 @@
 
 다음에 확인할 source area:
 - 모든 ACP child page가 동일한 production FAQ contract를 의도적으로 공유한다면 `src/components/sections/acp/static-page.tsx`에 좁은 shared FAQ primitive를 둘 수 있습니다.
-- page별 문구 소유권을 route-local로 유지해야 한다면 `src/app/t/platforms/acp/web-access-controller/page.tsx`에 FAQ content를 직접 두는 방향을 검토합니다.
+- page별 문구 소유권을 route-local로 유지해야 한다면 `src/app/platforms/acp/database-access-controller/page.tsx`에 FAQ content를 직접 두는 방향을 검토합니다.
 
 ### 3. live hero에는 gradient background image가 있지만 stage에는 없습니다
 
@@ -114,7 +114,7 @@
 
 근거:
 - Stage와 live 모두 intro section 이후 screenshot/text feature band를 교차 배치합니다.
-- 하지만 초반 intro block 이후 measured section top/height sequence가 달라집니다. 예를 들어 desktop에서 stage final CTA는 document top 약 `7324`에 도달하고, live final CTA는 FAQ block까지 포함한 뒤 document top 약 `8201`에 도달합니다.
+- 하지만 초반 intro block 이후 measured section top/height sequence가 달라집니다. 예를 들어 desktop에서 stage final CTA는 document top 약 `9477`에 도달하고, live final CTA는 FAQ block까지 포함한 뒤 document top 약 `10314`에 도달합니다.
 - Stage feature sections는 `AcpSplitFeatureSection`을 통해 local gray/white band를 교차 적용합니다. Live는 production page 고유의 nested wrapper와 spacing rhythm을 사용합니다.
 
 해석:
@@ -126,7 +126,7 @@
 
 ## 현재 결론
 
-Stage page는 핵심 WAC story를 보여줄 만큼 content는 갖추고 있지만, live production page와 render-identical한 상태는 아닙니다. 가장 actionable한 차이는 다음입니다.
+Stage page는 핵심 DAC story를 보여줄 만큼 content는 갖추고 있지만, live production page와 render-identical한 상태는 아닙니다. 가장 actionable한 차이는 다음입니다.
 
 1. live hero gradient background image를 stage hero에도 반영할지 결정해야 합니다.
 2. live FAQ block을 추가할지, 또는 의도적으로 생략할지 결정해야 합니다.

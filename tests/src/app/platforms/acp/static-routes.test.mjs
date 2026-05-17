@@ -30,7 +30,7 @@ const excludedSourcePages = [
 
 const read = (path) => readFileSync(join(repoRoot, path), "utf8");
 
-describe("ACP static preview route migration", () => {
+describe("ACP static public route rollout", () => {
   it("documents the static source inventory separately from non-static/publication pages", () => {
     assert.deepEqual(sourceStaticPages, [
       "solutions/acp/database-access-controller",
@@ -43,25 +43,25 @@ describe("ACP static preview route migration", () => {
   });
 
   for (const route of staticRoutes) {
-    it(`adds a noindex /t/platforms/acp/${route} preview route`, () => {
-      const page = read(`src/app/t/platforms/acp/${route}/page.tsx`);
-      assert.match(page, new RegExp(`canonical: "/t/platforms/acp/${route}"`));
-      assert.match(page, /index: false/);
-      assert.match(page, /follow: false/);
+    it(`publishes /platforms/acp/${route} as an indexable public route`, () => {
+      const page = read(`src/app/platforms/acp/${route}/page.tsx`);
+      assert.match(page, new RegExp(`canonical: "/platforms/acp/${route}"`));
+      assert.match(page, /index: true/);
+      assert.match(page, /follow: true/);
       assert.match(page, /<SiteHeader \/>/);
       assert.match(page, /<SiteFooter \/>/);
     });
   }
 
-  it("keeps remaining ACP child public redirect endpoints for a later rollout", () => {
+  it("retargets legacy ACP child public redirect endpoints to local canonical pages", () => {
     const redirect = read("src/app/platform/security/database-access-controller/route.ts");
-    assert.match(redirect, /https:\/\/www\.querypie\.com\/ja\/solutions\/acp\/database-access-controller/);
-    assert.match(redirect, /NextResponse\.redirect\(destination, 307\)/);
+    assert.match(redirect, /new URL\("\/platforms\/acp\/database-access-controller", request\.url\)/);
+    assert.match(redirect, /NextResponse\.redirect\(/);
     assert.throws(() => read("src/app/platforms/acp/route.ts"));
   });
 
   it("keeps ACP copy and assets route-aligned", () => {
-    const dacPage = read("src/app/t/platforms/acp/database-access-controller/page.tsx");
+    const dacPage = read("src/app/platforms/acp/database-access-controller/page.tsx");
     assert.match(dacPage, /Database Access Controller/);
     assert.match(dacPage, /RBAC \/ ABAC ベースのアクセス制御/);
     assert.match(dacPage, /\/platforms\/acp\/database-access-controller\/works\.png/);
@@ -80,9 +80,9 @@ describe("ACP static preview route migration", () => {
     assert.match(integrationsPage, /follow: true/);
   });
 
-  it("keeps controller preview pages as route-authored JSX instead of section data blobs", () => {
+  it("keeps controller public pages as route-authored JSX instead of section data blobs", () => {
     for (const route of staticRoutes.filter((route) => route !== "integrations")) {
-      const page = read(`src/app/t/platforms/acp/${route}/page.tsx`);
+      const page = read(`src/app/platforms/acp/${route}/page.tsx`);
       assert.doesNotMatch(page, /const heroDescription =/);
       assert.doesNotMatch(page, /const featureIntro =/);
       assert.doesNotMatch(page, /const keyFeatures =/);
@@ -126,7 +126,7 @@ describe("ACP static preview route migration", () => {
     };
 
     for (const [route, sectionTexts] of Object.entries(expectedRouteSections)) {
-      const page = read(`src/app/t/platforms/acp/${route}/page.tsx`);
+      const page = read(`src/app/platforms/acp/${route}/page.tsx`);
 
       assert.match(page, /<AcpSplitFeatureSection/);
       assert.doesNotMatch(page, /<AcpCapabilityGallery>/);

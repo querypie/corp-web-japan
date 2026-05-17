@@ -16,8 +16,8 @@ issue #522.
 ## Current baseline
 
 - Repository: `querypie/corp-web-japan`
-- Source baseline: this PR branch after `/platforms/acp` rollout
-- Refreshed at: `2026-05-16 16:15 UTC`
+- Source baseline: this PR branch after ACP child page rollout
+- Refreshed at: `2026-05-17 10:54 UTC`
 - Verification type: static source scan only; no local build, browser run, or
   live HTTP validation was performed for this document update.
 - Parent issue: https://github.com/querypie/corp-web-japan/issues/521
@@ -29,8 +29,10 @@ Recent main changes reflected in this snapshot:
   links.
 - PR #529 replaced the remaining blog-to-whitepaper legacy content links with
   local whitepaper routes.
-- This PR promotes `/platforms/acp` and `/platforms/acp/integrations` to
-  local public pages and retargets `/services/acp` internally.
+- PR #559 promoted `/platforms/acp` and `/platforms/acp/integrations` to
+  local public pages and retargeted `/services/acp` internally.
+- This PR promotes the four ACP child pages under `/platforms/acp/**` and
+  retargets their legacy `/platform/security/**` aliases internally.
 
 ## Scan scope
 
@@ -54,13 +56,13 @@ Excluded:
 
 | Metric | Count |
 | --- | ---: |
-| Scanned source files | 444 |
-| QueryPie-owned URL occurrences | 97 |
-| Files containing QueryPie-owned URLs | 51 |
-| Distinct QueryPie-owned URLs | 45 |
+| Scanned source files | 443 |
+| QueryPie-owned URL occurrences | 98 |
+| Files containing QueryPie-owned URLs | 47 |
+| Distinct QueryPie-owned URLs | 39 |
 | Distinct QueryPie-owned hosts | 8 |
-| QueryPie-owned occurrences in code files | 40 |
-| QueryPie-owned occurrences in MDX files | 57 |
+| QueryPie-owned occurrences in code files | 36 |
+| QueryPie-owned occurrences in MDX files | 62 |
 
 Host breakdown:
 
@@ -68,8 +70,8 @@ Host breakdown:
 | --- | ---: | --- |
 | `docs.querypie.com` | 48 | Product documentation host; usually intentional when the target is product docs. |
 | `app.querypie.com` | 19 | Product app host; usually intentional app/action CTA. |
-| `www.querypie.com` | 14 | Legacy public site host; highest migration priority when the path is `/ja/**`. |
-| `www.querypie.ai` | 8 | Current Japan public site host; prefer relative links for same-site navigation unless the context is a quoted/company-information block. |
+| `www.querypie.com` | 11 | Legacy public site host; highest migration priority when the path is `/ja/**`. |
+| `www.querypie.ai` | 12 | Current Japan public site host; prefer relative links for same-site navigation unless the context is a quoted/company-information block. |
 | `aip-docs.app.querypie.com` | 4 | Product documentation/app host; usually intentional. |
 | `trust.querypie.com` | 2 | Trust Center host; usually intentional. |
 | `dl.querypie.com` | 1 | QueryPie download host; review only as a download/security dependency. |
@@ -79,9 +81,9 @@ Migration-priority breakdown:
 
 | Category | Occurrences | Current status |
 | --- | ---: | --- |
-| Legacy `www.querypie.com/ja/**` | 6 | Only redirect route files remain; no MDX/content body occurrences remain in this snapshot. The ACP landing route is now local at `/platforms/acp`, and `/services/acp` redirects internally to it. |
-| `www.querypie.com` non-`/ja` | 8 | Locale catch-all redirects, missing-path forwarding base, and historical privacy-policy text. |
-| Current `querypie.ai` / `www.querypie.ai` | 9 | Mostly company-information blocks in blog/news/event MDX plus the canonical site URL helper. |
+| Legacy `www.querypie.com/ja/**` | 2 | Only the AIP legacy redirect route files remain; no MDX/content body occurrences remain in this snapshot. ACP platform pages and their legacy aliases are now local/internal. |
+| `www.querypie.com` non-`/ja` | 9 | Locale catch-all redirects, missing-path forwarding base, and historical privacy-policy text. |
+| Current `querypie.ai` / `www.querypie.ai` | 13 | Mostly company-information blocks in blog/news/event MDX plus the canonical site URL helper. |
 | QueryPie subdomains | 74 | Docs/app/trust/download destinations; generally not local-route migration defects. |
 
 ## Quick status: `querypie.com/ja` links
@@ -98,15 +100,11 @@ grep -R "https://www.querypie.com/ja" -n src \
   --include='*.ts' --include='*.tsx' --include='*.mdx'
 ```
 
-Expected current result: only the 6 route files below.
+Expected current result: only the 2 route files below.
 
 | Local route file | Current external target | Local replacement candidate | Completion note |
 | --- | --- | --- | --- |
 | `src/app/platform/ai/aihub/route.ts` | `https://www.querypie.com/ja/solutions/aip` | `/platforms/aip` | Legacy redirect still external. |
-| `src/app/platform/security/database-access-controller/route.ts` | `https://www.querypie.com/ja/solutions/acp/database-access-controller` | `/t/platforms/acp/database-access-controller`, later `/platforms/acp/database-access-controller` | Legacy redirect still external. |
-| `src/app/platform/security/kubernetes-access-controller/route.ts` | `https://www.querypie.com/ja/solutions/acp/kubernetes-access-controller` | `/t/platforms/acp/kubernetes-access-controller`, later `/platforms/acp/kubernetes-access-controller` | Legacy redirect still external. |
-| `src/app/platform/security/system-access-controller/route.ts` | `https://www.querypie.com/ja/solutions/acp/system-access-controller` | `/t/platforms/acp/system-access-controller`, later `/platforms/acp/system-access-controller` | Legacy redirect still external. |
-| `src/app/platform/security/web-access-controller/route.ts` | `https://www.querypie.com/ja/solutions/acp/web-access-controller` | `/t/platforms/acp/web-access-controller`, later `/platforms/acp/web-access-controller` | Legacy redirect still external. |
 | `src/app/services/aip/route.ts` | `https://www.querypie.com/ja/solutions/aip` | `/platforms/aip` | Legacy redirect still external. |
 
 Do not rewrite these automatically just because preview `/t/**` routes exist.

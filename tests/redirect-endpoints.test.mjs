@@ -57,22 +57,22 @@ const expectedRedirectRules = [
   {
     requestPath: "/platform/security/database-access-controller",
     file: "src/app/platform/security/database-access-controller/route.ts",
-    destination: "https://www.querypie.com/ja/solutions/acp/database-access-controller",
+    destination: "/platforms/acp/database-access-controller",
   },
   {
     requestPath: "/platform/security/system-access-controller",
     file: "src/app/platform/security/system-access-controller/route.ts",
-    destination: "https://www.querypie.com/ja/solutions/acp/system-access-controller",
+    destination: "/platforms/acp/system-access-controller",
   },
   {
     requestPath: "/platform/security/kubernetes-access-controller",
     file: "src/app/platform/security/kubernetes-access-controller/route.ts",
-    destination: "https://www.querypie.com/ja/solutions/acp/kubernetes-access-controller",
+    destination: "/platforms/acp/kubernetes-access-controller",
   },
   {
     requestPath: "/platform/security/web-access-controller",
     file: "src/app/platform/security/web-access-controller/route.ts",
-    destination: "https://www.querypie.com/ja/solutions/acp/web-access-controller",
+    destination: "/platforms/acp/web-access-controller",
   },
 ];
 
@@ -152,6 +152,18 @@ test("/platforms/acp is now a local public page and replaces the old preview rou
 test("/platforms/acp/integrations is now a local public page and replaces the old preview route", () => {
   assert.equal(existsSync(new URL("../src/app/platforms/acp/integrations/page.tsx", import.meta.url)), true);
   assert.equal(existsSync(new URL("../src/app/t/platforms/acp/integrations/page.tsx", import.meta.url)), false);
+});
+
+test("ACP child pages are now local public pages and replace their preview routes", () => {
+  for (const route of [
+    "database-access-controller",
+    "system-access-controller",
+    "kubernetes-access-controller",
+    "web-access-controller",
+  ]) {
+    assert.equal(existsSync(new URL(`../src/app/platforms/acp/${route}/page.tsx`, import.meta.url)), true);
+    assert.equal(existsSync(new URL(`../src/app/t/platforms/acp/${route}/page.tsx`, import.meta.url)), false);
+  }
 });
 
 test("/t/about-us and /t/certifications preview entrypoints are removed after public rollout", () => {
