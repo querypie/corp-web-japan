@@ -6,12 +6,13 @@ const querypieOrigin = "https://www.querypie.com";
 
 export function GET(request: NextRequest) {
   const querypieRedirectedUrl = new URL(request.nextUrl.pathname, querypieOrigin);
+  const statusCode = 307;
 
   querypieRedirectedUrl.search = request.nextUrl.search;
 
-  logRuntimeRedirect(request, querypieRedirectedUrl, 307);
+  logRuntimeRedirect(request, querypieRedirectedUrl, statusCode);
 
-  return NextResponse.redirect(querypieRedirectedUrl, 307);
+  return NextResponse.redirect(querypieRedirectedUrl, statusCode);
 }
 
 export const HEAD = GET;

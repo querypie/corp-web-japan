@@ -7,10 +7,11 @@ const destinationPath = "/privacy-policy";
 export function GET(request: NextRequest) {
   const destination = new URL(destinationPath, request.url);
   destination.search = request.nextUrl.search;
+  const statusCode = 307;
 
-  logRuntimeRedirect(request, destination, 307);
+  logRuntimeRedirect(request, destination, statusCode);
 
-  return NextResponse.redirect(destination, 307);
+  return NextResponse.redirect(destination, statusCode);
 }
 
 export const HEAD = GET;

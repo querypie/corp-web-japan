@@ -13,10 +13,11 @@ export async function GET(request: NextRequest, { params }: LegacyLocalizedDocum
   const { id, slug } = await params;
   const destination = new URL(`/blog/${id}/${slug}`, request.url);
   destination.search = request.nextUrl.search;
+  const statusCode = 307;
 
-  logRuntimeRedirect(request, destination, 307);
+  logRuntimeRedirect(request, destination, statusCode);
 
-  return NextResponse.redirect(destination, 307);
+  return NextResponse.redirect(destination, statusCode);
 }
 
 export const HEAD = GET;

@@ -117,9 +117,10 @@ test("querypie locale catch-all sends non-local ja paths to querypie.com after c
   assert.match(source, /isCorpWebJapanInternalContentPath/);
   assert.match(source, /if \(isCorpWebJapanInternalContentPath\(strippedPath\)\)/);
   assert.match(source, /new URL\(request\.nextUrl\.pathname, querypieOrigin\)/);
-  assert.match(source, /logRuntimeRedirect\(request, redirectedUrl, 307\)/);
-  assert.match(source, /logRuntimeRedirect\(request, querypieRedirectedUrl, 307\)/);
-  assert.match(source, /NextResponse\.redirect\(querypieRedirectedUrl, 307\)/);
+  assert.match(source, /logRuntimeRedirect\(request, redirectedUrl, statusCode\)/);
+  assert.match(source, /logRuntimeRedirect\(request, querypieRedirectedUrl, statusCode\)/);
+  assert.match(source, /const statusCode = 307/);
+  assert.match(source, /NextResponse\.redirect\(querypieRedirectedUrl, statusCode\)/);
 });
 
 test("querypie locale catch-all sends ko paths directly to querypie.com/ko", () => {
@@ -129,6 +130,7 @@ test("querypie locale catch-all sends ko paths directly to querypie.com/ko", () 
   assert.match(source, /const querypieOrigin = "https:\/\/www\.querypie\.com"/);
   assert.match(source, /new URL\(request\.nextUrl\.pathname, querypieOrigin\)/);
   assert.match(source, /querypieRedirectedUrl\.search = request\.nextUrl\.search/);
-  assert.match(source, /logRuntimeRedirect\(request, querypieRedirectedUrl, 307\)/);
-  assert.match(source, /NextResponse\.redirect\(querypieRedirectedUrl, 307\)/);
+  assert.match(source, /logRuntimeRedirect\(request, querypieRedirectedUrl, statusCode\)/);
+  assert.match(source, /const statusCode = 307/);
+  assert.match(source, /NextResponse\.redirect\(querypieRedirectedUrl, statusCode\)/);
 });

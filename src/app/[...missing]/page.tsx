@@ -66,6 +66,7 @@ export default async function MissingRoutePage({ params, searchParams }: Missing
     requestedPath,
     search,
   });
+  const statusCode = 307;
 
   if (redirectTarget) {
     logRuntimeRedirectFromHeaders({
@@ -73,7 +74,7 @@ export default async function MissingRoutePage({ params, searchParams }: Missing
       requestedPath,
       redirectTarget,
       requestUrl,
-      statusCode: 307,
+      statusCode,
       host,
       referer,
       userAgent,
