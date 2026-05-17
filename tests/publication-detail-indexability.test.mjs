@@ -38,6 +38,9 @@ const publicIndexableListRoutes = [
   "src/app/platforms/acp/page.tsx",
   "src/app/platforms/acp/integrations/page.tsx",
   "src/app/services/fde/page.tsx",
+  "src/app/plans/page.tsx",
+  "src/app/plans/aip/page.tsx",
+  "src/app/plans/acp/page.tsx",
   "src/app/cookie-preference/page.tsx",
   "src/app/eula/page.tsx",
   "src/app/privacy-policy/[slug]/page.tsx",
@@ -75,9 +78,6 @@ test("internal, preview, and whitepaper pdf-only routes stay non-indexable", () 
     "src/app/internal/load-more/page.tsx",
     "src/app/internal/mdx-list-demo/page.tsx",
     "src/app/internal/whitepaper-gating-demo/page.tsx",
-    "src/app/t/plans/page.tsx",
-    "src/app/t/plans/aip/page.tsx",
-    "src/app/t/plans/acp/page.tsx",
     "src/app/whitepapers/[id]/[slug]/pdf/page.tsx",
   ];
 

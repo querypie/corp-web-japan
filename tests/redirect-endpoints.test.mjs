@@ -15,6 +15,11 @@ const expectedRedirectRules = [
     destination: "/platforms/acp",
   },
   {
+    requestPath: "/pricing",
+    file: "src/app/pricing/route.ts",
+    destination: "/plans",
+  },
+  {
     requestPath: "/api-docs.html",
     file: "src/app/api-docs.html/route.ts",
     destination: "https://docs.querypie.com/ja/api-reference",
@@ -72,7 +77,7 @@ const expectedRedirectRules = [
 ];
 
 test("remaining redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 13);
+  assert.equal(expectedRedirectRules.length, 14);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
@@ -82,6 +87,13 @@ test("remaining redirect endpoints are defined in a single test-case table with 
     assert.match(source, /export function GET\(/);
     assert.match(source, /307/);
     assert.ok(source.includes(rule.destination), `missing redirect destination: ${rule.destination}`);
+
+    if (rule.requestPath === "/pricing") {
+      assert.match(source, /export function GET\(request: NextRequest\)/);
+      assert.match(source, /export const HEAD = GET;/);
+      assert.ok(source.includes("new URL(\"/plans\", request.url)"));
+      assert.ok(source.includes("redirectedUrl.search = request.nextUrl.search;"));
+    }
 
     if (rule.requestPath === "/ja") {
       assert.match(source, /export function GET\(request: NextRequest\)/);

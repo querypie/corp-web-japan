@@ -5,8 +5,8 @@ import { readSource } from "./helpers/source-readers.mjs";
 const primitiveSource = () => readSource("src/components/sections/home/primitives.tsx");
 
 const companySectionContractFiles = [
-  "src/app/t/plans/aip/page.tsx",
-  "src/app/t/plans/acp/page.tsx",
+  "src/app/plans/aip/page.tsx",
+  "src/app/plans/acp/page.tsx",
 ];
 
 test("shared marketing page section owns the default mobile container contract", () => {
@@ -19,7 +19,7 @@ test("shared marketing page section owns the default mobile container contract",
   assert.match(source, /mx-auto w-full/);
 });
 
-test("plans preview routes use the company page hero and container contract", () => {
+test("plans public routes use the company page hero and container contract", () => {
   for (const filePath of companySectionContractFiles) {
     const source = readSource(filePath);
 

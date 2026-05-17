@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   title: "プラン | QueryPie AI",
   description: "あなたのチームに最適なプランを見つけよう。14日間の無料トライアルで今すぐ始められます。",
   alternates: {
-    canonical: "/t/plans",
+    canonical: "/plans",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
   openGraph: {
     title: "プラン | QueryPie AI",
@@ -52,7 +52,7 @@ function getLegacyProductQueryRedirect(searchParams: Record<string, string | str
 
   const remainingQuery = nextSearchParams.toString();
 
-  return `plans/${product}${remainingQuery ? `?${remainingQuery}` : ""}`;
+  return `/plans/${product}${remainingQuery ? `?${remainingQuery}` : ""}`;
 }
 
 export default async function PlansPage({ searchParams }: PageProps) {

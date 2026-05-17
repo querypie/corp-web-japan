@@ -1,22 +1,28 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
+import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
 
-test("/t/plans routes keep pricing copy in route pages while the section module only provides pricing UI primitives", () => {
-  const routeSource = readSource("src/app/t/plans/page.tsx");
-  const aipRouteSource = readSource("src/app/t/plans/aip/page.tsx");
-  const acpRouteSource = readSource("src/app/t/plans/acp/page.tsx");
+test("/plans routes keep pricing copy in route pages while the section module only provides pricing UI primitives", () => {
+  const routeSource = readSource("src/app/plans/page.tsx");
+  const aipRouteSource = readSource("src/app/plans/aip/page.tsx");
+  const acpRouteSource = readSource("src/app/plans/acp/page.tsx");
   const sectionSource = readSource("src/components/sections/plans/section.tsx");
 
-  assert.equal(sourceExists("src/app/t/plans/plans-page-content.tsx"), false);
-  assert.equal(sourceExists("src/app/t/plans/[product]/page.tsx"), false);
+  assert.equal(sourceExists("src/app/plans/plans-page-content.tsx"), false);
+  assert.equal(sourceExists("src/app/plans/[product]/page.tsx"), false);
 
   assert.match(routeSource, /import PlansAIPPage from "\.\/aip\/page"/);
   assert.match(routeSource, /return <PlansAIPPage \/>/);
   assert.match(routeSource, /redirect\(redirectTarget\)/);
-  assert.match(routeSource, /return `plans\/\$\{product\}/);
+  assert.match(routeSource, /return `\/plans\/\$\{product\}/);
+  assert.match(routeSource, /canonical: "\/plans"/);
+  assert.match(routeSource, /robots:\s*\{\s*index:\s*true,\s*follow:\s*true,\s*\}/s);
+  assert.equal(sourceExists("src/app/t/plans/page.tsx"), false);
+  assert.equal(sourceExists("src/app/t/plans/aip/page.tsx"), false);
+  assert.equal(sourceExists("src/app/t/plans/acp/page.tsx"), false);
 
-  assert.match(aipRouteSource, /canonical: "\/t\/plans\/aip"/);
+  assert.match(aipRouteSource, /canonical: "\/plans\/aip"/);
+  assert.match(aipRouteSource, /robots:\s*\{\s*index:\s*true,\s*follow:\s*true,\s*\}/s);
   assert.doesNotMatch(aipRouteSource, /export function AipPlansContent\(\)/);
   assert.match(aipRouteSource, /from "@\/components\/sections\/company\/page-primitives"/);
   assert.match(aipRouteSource, /<CompanyPageSection>/);
@@ -38,7 +44,8 @@ test("/t/plans routes keep pricing copy in route pages while the section module 
   assert.match(aipRouteSource, /<CompareTableBooleanCell supported=\{false\} \/>/);
   assert.match(aipRouteSource, /<CompareTableCheckLabelCell>最大30日間<\/CompareTableCheckLabelCell>/);
 
-  assert.match(acpRouteSource, /canonical: "\/t\/plans\/acp"/);
+  assert.match(acpRouteSource, /canonical: "\/plans\/acp"/);
+  assert.match(acpRouteSource, /robots:\s*\{\s*index:\s*true,\s*follow:\s*true,\s*\}/s);
   assert.match(acpRouteSource, /from "@\/components\/sections\/company\/page-primitives"/);
   assert.match(acpRouteSource, /<CompanyPageSection>/);
   assert.match(acpRouteSource, /<CompanyPageIntro>/);
