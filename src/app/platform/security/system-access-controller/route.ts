@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-const destination = "https://www.querypie.com/ja/solutions/acp/system-access-controller";
-
-export function GET() {
-  return NextResponse.redirect(destination, 307);
+export function GET(request: NextRequest) {
+  return NextResponse.redirect(new URL("/platforms/acp/system-access-controller", request.url), 307);
 }
 
 export const HEAD = GET;

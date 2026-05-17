@@ -86,6 +86,12 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   const plansPage = readSource("src/app/plans/page.tsx");
   const plansAipPage = readSource("src/app/plans/aip/page.tsx");
   const plansAcpPage = readSource("src/app/plans/acp/page.tsx");
+  const acpChildPages = [
+    ["database-access-controller", readSource("src/app/platforms/acp/database-access-controller/page.tsx")],
+    ["system-access-controller", readSource("src/app/platforms/acp/system-access-controller/page.tsx")],
+    ["kubernetes-access-controller", readSource("src/app/platforms/acp/kubernetes-access-controller/page.tsx")],
+    ["web-access-controller", readSource("src/app/platforms/acp/web-access-controller/page.tsx")],
+  ];
 
   for (const relativePath of expectedRedirectFiles) {
     assert.equal(existsSync(new URL(`../${relativePath}`, import.meta.url)), true, `${relativePath} should exist`);
@@ -125,6 +131,9 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.match(plansPage, /canonical:\s*"\/plans"/);
   assert.match(plansAipPage, /canonical:\s*"\/plans\/aip"/);
   assert.match(plansAcpPage, /canonical:\s*"\/plans\/acp"/);
+  for (const [route, page] of acpChildPages) {
+    assert.match(page, new RegExp(`canonical:\\s*"\\/platforms\\/acp\\/${route}"`));
+  }
   assert.match(sitemap, /absoluteUrl\("\/about-us"\)/);
   assert.match(sitemap, /absoluteUrl\("\/certifications"\)/);
   assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
@@ -142,6 +151,9 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.match(sitemap, /absoluteUrl\("\/plans"\)/);
   assert.match(sitemap, /absoluteUrl\("\/plans\/aip"\)/);
   assert.match(sitemap, /absoluteUrl\("\/plans\/acp"\)/);
+  for (const [route] of acpChildPages) {
+    assert.match(sitemap, new RegExp(`absoluteUrl\\("\\/platforms\\/acp\\/${route}"\\)`));
+  }
   assert.match(sitemap, /absoluteUrl\("\/cookie-preference"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/terms-of-service"\)/);
   assert.doesNotMatch(sitemap, /absoluteUrl\("\/privacy-policy"\)/);
@@ -160,6 +172,9 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.equal(existsSync(new URL("../src/app/t/plans/page.tsx", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/t/plans/aip/page.tsx", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/t/plans/acp/page.tsx", import.meta.url)), false);
+  for (const [route] of acpChildPages) {
+    assert.equal(existsSync(new URL(`../src/app/t/platforms/acp/${route}/page.tsx`, import.meta.url)), false);
+  }
 });
 
 test("events is a canonical public resource list route and is included in the sitemap", () => {

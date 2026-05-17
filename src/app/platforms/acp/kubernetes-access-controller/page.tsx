@@ -31,11 +31,11 @@ export const metadata: Metadata = {
   title: "QueryPie KAC:  Kubernetes Access Controller | QueryPie AI",
   description: "QueryPie KAC は、Kubernetes API 保護や AWS EKS、オンプレミスクラスタなどのクーバネティスを管理します。",
   alternates: {
-    canonical: "/t/platforms/acp/kubernetes-access-controller",
+    canonical: "/platforms/acp/kubernetes-access-controller",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 

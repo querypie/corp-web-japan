@@ -17,6 +17,10 @@ const removedPreviewRoutes = [
   "src/app/t/platforms/aip/integrations/page.tsx",
   "src/app/t/platforms/acp/page.tsx",
   "src/app/t/platforms/acp/integrations/page.tsx",
+  "src/app/t/platforms/acp/database-access-controller/page.tsx",
+  "src/app/t/platforms/acp/system-access-controller/page.tsx",
+  "src/app/t/platforms/acp/kubernetes-access-controller/page.tsx",
+  "src/app/t/platforms/acp/web-access-controller/page.tsx",
 ];
 
 const redirectRoutes = [

@@ -32,11 +32,11 @@ export const metadata: Metadata = {
   title: "QueryPie WAC: Web Access Controller | QueryPie AI",
   description: "QueryPie WACは、管理者ポータルや SaaS プラットフォームを含む Web アプリケーションのアクセスおよびログアクティビティを保護します。",
   alternates: {
-    canonical: "/t/platforms/acp/web-access-controller",
+    canonical: "/platforms/acp/web-access-controller",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 

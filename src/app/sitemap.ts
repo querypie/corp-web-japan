@@ -136,6 +136,26 @@ const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
     priority: 0.7,
   },
   {
+    url: absoluteUrl("/platforms/acp/database-access-controller"),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  },
+  {
+    url: absoluteUrl("/platforms/acp/system-access-controller"),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  },
+  {
+    url: absoluteUrl("/platforms/acp/kubernetes-access-controller"),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  },
+  {
+    url: absoluteUrl("/platforms/acp/web-access-controller"),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  },
+  {
     url: absoluteUrl("/platforms/aip/usage-based-llm"),
     changeFrequency: "weekly",
     priority: 0.7,

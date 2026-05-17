@@ -31,11 +31,11 @@ export const metadata: Metadata = {
   title: "QueryPie SAC: System Access Controller | QueryPie AI",
   description: "QueryPie SAC は、AWS、GCP、Azure上のクラウドインスタンスを保護するように設計されており、オンプレミス環境にも対応しています。",
   alternates: {
-    canonical: "/t/platforms/acp/system-access-controller",
+    canonical: "/platforms/acp/system-access-controller",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 

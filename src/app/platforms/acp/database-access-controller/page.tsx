@@ -31,11 +31,11 @@ export const metadata: Metadata = {
   title: "QueryPie DAC: Database Access Controller | QueryPie AI",
   description: "QueryPie DACnはデータ保護のために作られ、様々なクラウドエコシステムにシームレスに接続します。 ",
   alternates: {
-    canonical: "/t/platforms/acp/database-access-controller",
+    canonical: "/platforms/acp/database-access-controller",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 

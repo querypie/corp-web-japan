@@ -83,9 +83,9 @@ CTA behavior, embeds, or shared components.
 | `src/app/internal/demo-sections/page.tsx` | `/internal/demo-sections` | 6 | `www.youtube.com` | Internal demo only. Contains placeholder-like YouTube IDs; do not treat as public page links, but avoid copying them to production pages. |
 | `src/app/page.tsx` | `/` | 1 | `www.youtube.com` | Home page embedded YouTube video. Validate exact video availability when changing home media. |
 | `src/app/solutions/ai-crew/page.tsx` | `/solutions/ai-crew` | 5 | `youtu.be` | AI Crew use-case video links. Validate as public page media links. |
-| `src/app/t/platforms/acp/database-access-controller/page.tsx` | `/t/platforms/acp/database-access-controller` | 1 | `www.youtube.com` | Preview ACP child-page embed. Validate before public promotion. |
-| `src/app/t/platforms/acp/kubernetes-access-controller/page.tsx` | `/t/platforms/acp/kubernetes-access-controller` | 1 | `www.youtube.com` | Preview ACP child-page embed. Validate before public promotion. |
-| `src/app/t/platforms/acp/system-access-controller/page.tsx` | `/t/platforms/acp/system-access-controller` | 1 | `www.youtube.com` | Preview ACP child-page embed. Validate before public promotion. |
+| `src/app/platforms/acp/database-access-controller/page.tsx` | `/platforms/acp/database-access-controller` | 1 | `www.youtube.com` | Public ACP child-page embed. Validate exact video availability when changing page media. |
+| `src/app/platforms/acp/kubernetes-access-controller/page.tsx` | `/platforms/acp/kubernetes-access-controller` | 1 | `www.youtube.com` | Public ACP child-page embed. Validate exact video availability when changing page media. |
+| `src/app/platforms/acp/system-access-controller/page.tsx` | `/platforms/acp/system-access-controller` | 1 | `www.youtube.com` | Public ACP child-page embed. Validate exact video availability when changing page media. |
 | `src/components/layout/site-footer.tsx` | Site footer | 5 | `kr.linkedin.com`, `www.youtube.com`, `x.com`, `www.facebook.com`, `www.instagram.com` | Shared social links. Review as site-wide navigation, not page-specific content. |
 | `src/components/sections/acp/service-page.tsx` | ACP shared section | 1 | `www.youtube.com` | Shared ACP media embed; check routes importing this component before changing. |
 | `src/components/sections/ai-crew/use-cases-section.tsx` | AI Crew section component | 2 | `img.youtube.com`, `www.youtube.com` | Dynamic YouTube thumbnail/embed templates based on `videoId`; scanner sees partial template strings. Validate by checking page-provided video IDs. |
