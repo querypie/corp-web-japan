@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { buildQueryPieContentRedirectUrl } from "@/lib/querypie-content-redirect";
+import { logRuntimeRedirect } from "@/lib/runtime-redirect-log";
 
 export const dynamic = "force-dynamic";
 
@@ -32,24 +33,50 @@ function toSearchString(searchParams: Record<string, string | string[] | undefin
   return serializedSearchParams ? `?${serializedSearchParams}` : "";
 }
 
+function buildRequestUrl({
+  host,
+  protocol,
+  requestedPath,
+  search,
+}: {
+  host: string | null;
+  protocol: string | null;
+  requestedPath: string;
+  search: string;
+}) {
+  if (!host) {
+    return null;
+  }
+
+  return `${protocol ?? "https"}://${host}${requestedPath}${search}`;
+}
+
 export default async function MissingRoutePage({ params, searchParams }: MissingRoutePageProps) {
   const [{ missing }, resolvedSearchParams] = await Promise.all([params, searchParams]);
   const requestHeaders = await headers();
   const requestedPath = `/${missing.join("/")}`;
   const search = toSearchString(resolvedSearchParams);
   const redirectTarget = buildQueryPieContentRedirectUrl(requestedPath, search);
+  const host = requestHeaders.get("host");
+  const referer = requestHeaders.get("referer");
+  const userAgent = requestHeaders.get("user-agent");
+  const requestUrl = buildRequestUrl({
+    host,
+    protocol: requestHeaders.get("x-forwarded-proto"),
+    requestedPath,
+    search,
+  });
 
   if (redirectTarget) {
-    console.log(
-      "[runtime-missing-redirect]",
-      JSON.stringify({
-        requestedPath,
-        redirectTarget: redirectTarget.toString(),
-        host: requestHeaders.get("host"),
-        referer: requestHeaders.get("referer"),
-        userAgent: requestHeaders.get("user-agent"),
-      }),
-    );
+    logRuntimeRedirect({
+      marker: "[runtime-missing-redirect]",
+      requestedPath,
+      redirectTarget,
+      requestUrl,
+      host,
+      referer,
+      userAgent,
+    });
 
     redirect(redirectTarget.toString());
   }
@@ -58,9 +85,9 @@ export default async function MissingRoutePage({ params, searchParams }: Missing
     "[runtime-404]",
     JSON.stringify({
       requestedPath,
-      host: requestHeaders.get("host"),
-      referer: requestHeaders.get("referer"),
-      userAgent: requestHeaders.get("user-agent"),
+      host,
+      referer,
+      userAgent,
     }),
   );
 
