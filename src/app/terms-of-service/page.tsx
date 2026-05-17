@@ -34,8 +34,8 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: "/terms-of-service",
     },
     robots: {
-      index: true,
-      follow: true,
+      index: false,
+      follow: false,
     },
   };
 }

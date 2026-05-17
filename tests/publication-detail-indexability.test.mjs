@@ -47,8 +47,6 @@ const publicIndexableListRoutes = [
   "src/app/plans/acp/page.tsx",
   "src/app/cookie-preference/page.tsx",
   "src/app/eula/page.tsx",
-  "src/app/privacy-policy/[slug]/page.tsx",
-  "src/app/terms-of-service/page.tsx",
 ];
 
 test("public MDX-backed detail routes are indexable for search engines", () => {
@@ -83,6 +81,8 @@ test("internal, preview, and whitepaper pdf-only routes stay non-indexable", () 
     "src/app/internal/mdx-list/page.tsx",
     "src/app/internal/whitepaper-gating-form/page.tsx",
     "src/app/whitepapers/[id]/[slug]/pdf/page.tsx",
+    "src/app/privacy-policy/[slug]/page.tsx",
+    "src/app/terms-of-service/page.tsx",
   ];
 
   for (const routePath of nonIndexableRoutes) {

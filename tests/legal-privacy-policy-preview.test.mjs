@@ -35,7 +35,7 @@ const expectedVersionSlugs = [
   "2019-11-29",
 ];
 
-test("privacy policy route keeps a latest alias page while [slug]/page.tsx owns rendering and public metadata", () => {
+test("privacy policy route keeps a latest alias page while [slug]/page.tsx owns rendering and noindex metadata", () => {
   assert.equal(existsSync(new URL(`../${pagePath}`, import.meta.url)), true, `${pagePath} should exist`);
   assert.equal(existsSync(new URL(`../${versionPagePath}`, import.meta.url)), true, `${versionPagePath} should exist`);
   assert.equal(existsSync(new URL(`../${documentBodyComponentsPath}`, import.meta.url)), true, `${documentBodyComponentsPath} should exist`);
@@ -50,7 +50,7 @@ test("privacy policy route keeps a latest alias page while [slug]/page.tsx owns 
   assert.match(pageSource, /from "\.\/\[slug\]\/page"/);
 
   assert.match(versionPageSource, /generateStaticParams\(\)/);
-  assert.match(versionPageSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
+  assert.match(versionPageSource, /robots:\s*\{\s*index: false,\s*follow: false,\s*\}/s);
   assert.match(versionPageSource, /listPrivacyPolicySlugs\(\)/);
   assert.match(versionPageSource, /<LegalDocumentIntro>/);
   assert.doesNotMatch(versionPageSource, /<LegalDocumentIntro className=/);
