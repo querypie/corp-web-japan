@@ -91,6 +91,11 @@ describe("ACP static preview route migration", () => {
       assert.match(page, /<AcpHeroTitle>/);
       assert.match(page, /<AcpFeatureCardTitle>/);
       assert.match(page, /<AcpSplitFeatureSection/);
+      assert.match(page, /<AcpFaqSection>/);
+      assert.match(page, /QueryPie はSaaS サービスですか？/);
+      assert.match(page, /QueryPie はユーザー認証をどのように処理しますか？/);
+      assert.match(page, /QueryPie はどのようなセキュリティ標準を遵守していますか？/);
+      assert.match(page, /QueryPie は既存のセキュリティソリューションと互換性がありますか？/);
       assert.match(page, /<AcpPageCtaTitle>まずは小さく、失敗しないAXを始めよう<\/AcpPageCtaTitle>/);
     }
   });
@@ -138,6 +143,11 @@ describe("ACP static preview route migration", () => {
     const staticPageSection = read("src/components/sections/acp/static-page.tsx");
 
     assert.match(staticPageSection, /max-w-\[1024px\]/);
+    assert.match(staticPageSection, /bg-linear-to-b/);
+    assert.match(staticPageSection, /via-\[#dfe8f2\]/);
+    assert.match(staticPageSection, /via-\[#e2e9e1\]/);
+    assert.match(staticPageSection, /via-\[#e8eaf4\]/);
+    assert.match(staticPageSection, /via-\[#dfeff2\]/);
     assert.match(staticPageSection, /text-\[60px\] font-normal leading-\[72px\]/);
     assert.match(staticPageSection, /text-\[52px\] font-normal leading-\[62px\]/);
     assert.match(staticPageSection, /max-w-\[1200px\] flex-col gap-5/);
@@ -145,7 +155,11 @@ describe("ACP static preview route migration", () => {
     assert.match(staticPageSection, /rounded-\[20px\] bg-\[#f6f8fa\] px-10 py-\[60px\]/);
     assert.match(staticPageSection, /width=\{40\} height=\{40\}/);
     assert.match(staticPageSection, /font-medium leading-\[42px\]/);
+    assert.match(staticPageSection, /max-\[480px\]:text-\[20px\] max-\[480px\]:leading-7/);
     assert.match(staticPageSection, /export function AcpSplitFeatureSection/);
+    assert.match(staticPageSection, /export function AcpFaqSection/);
+    assert.match(staticPageSection, /export function AcpFaqItem/);
+    assert.match(staticPageSection, /linear-gradient\(100deg, #0762d4 34\.93%, #875ac5 76\.81%, #c55a8c 99\.98%\)/);
     assert.match(staticPageSection, /bg-\[#f6f8fa\]/);
     assert.match(staticPageSection, /https:\/\/app\.querypie\.com/);
     assert.doesNotMatch(staticPageSection, /rounded-\[24px\] border border-slate-200 bg-white p-8 shadow-sm/);
@@ -160,6 +174,7 @@ describe("ACP static preview route migration", () => {
     assert.doesNotMatch(staticPageSection, /description\.map/);
     assert.match(staticPageSection, /export function AcpFeatureCard/);
     assert.match(staticPageSection, /export function AcpCapabilityImage/);
+    assert.match(staticPageSection, /export function AcpFaqSection/);
     assert.match(staticPageSection, /export function AcpPageCtaTitle/);
   });
 });

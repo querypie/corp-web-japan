@@ -3,6 +3,8 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
   AcpFeatureCard,
+  AcpFaqItem,
+  AcpFaqSection,
   AcpFeatureCardDescription,
   AcpFeatureCardTitle,
   AcpFeatureGrid,
@@ -41,7 +43,7 @@ export default function KubernetesAccessControllerPage() {
   return (
     <AcpStaticPageShell>
       <SiteHeader />
-      <AcpHeroSection media={{"kind": "youtube", "src": "https://www.youtube.com/embed/OzxB0qqmCTQ?si=qbFYGIDUg2GPuzfU"}} mediaTitle="Kubernetes Access Controller">
+      <AcpHeroSection background="kac" media={{"kind": "youtube", "src": "https://www.youtube.com/embed/OzxB0qqmCTQ?si=qbFYGIDUg2GPuzfU"}} mediaTitle="Kubernetes Access Controller">
         <AcpHeroEyebrow>QueryPie ACP</AcpHeroEyebrow>
         <AcpHeroTitle>Kubernetes Access Controller</AcpHeroTitle>
         <AcpHeroLeadGroup>
@@ -160,6 +162,28 @@ export default function KubernetesAccessControllerPage() {
           <p>各ユーザーに割り当てられたロールに基づいて、kubeconfig ファイルを自動的に生成します。ユーザーはQueryPie エージェントを通じてこれらのファイルに簡単にアクセスでき、kubectx などの既存のクバネティス ツールを使用してアクセス可能なクラスターを選択できます。</p>
         </AcpSplitFeatureBody>
       </AcpSplitFeatureSection>
+      <AcpFaqSection>
+        <AcpFaqItem question="QueryPie はSaaS サービスですか？">
+          <p>
+            現在、QueryPie はクラウドとオンプレミス環境の両方でインストール可能なソリューションとして提供され、今後SaaS ベースのサービスのご提供を計画しています。これにより、お客様は既存のインフラストラクチャとシームレスに統合され、SaaS への移行サポートを受けることができます。
+          </p>
+        </AcpFaqItem>
+        <AcpFaqItem question="QueryPie はユーザー認証をどのように処理しますか？">
+          <p>
+            QueryPieは、SAMLベースのSSO、多要素認証(MFA)、LDAP 統合をサポートし、ユーザーがシステムに安全にアクセスできるようにします。集中管理機能により、管理者はシステム間の権限を効率的に処理でき、セキュリティを強化し、ユーザーアクセスに対する統制を向上させることができます。
+          </p>
+        </AcpFaqItem>
+        <AcpFaqItem question="QueryPie はどのようなセキュリティ標準を遵守していますか？">
+          <p>
+            QueryPie はISO27001、SOC2、GDPR、CSA-STAR といったグローバルセキュリティ標準を遵守するように設計され、データセキュリティと規制要件を満たしています。これにより、組織はアクセス管理機能を強化し、コンプライアンス要件を満たし、監査準備を行うことができます。
+          </p>
+        </AcpFaqItem>
+        <AcpFaqItem question="QueryPie は既存のセキュリティソリューションと互換性がありますか？">
+          <p>
+            QueryPie はAPI を通じて様々な外部セキュリティソリューションと円滑に統合されるように設計されています。これにより、既存のインフラストラクチャとの互換性が保証され、既存のセキュリティ フレームワークが強化され、追加のセキュリティ ソリューションなしで効率的な運用が可能になります。
+          </p>
+        </AcpFaqItem>
+      </AcpFaqSection>
       <AcpPageCta>
         <AcpPageCtaTitle>まずは小さく、失敗しないAXを始めよう</AcpPageCtaTitle>
         <AcpPageCtaDescription>

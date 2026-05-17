@@ -14,13 +14,22 @@ export function AcpHeroSection({
   children,
   media,
   mediaTitle,
+  background = "dac",
 }: {
   children: ReactNode;
   media: { kind: "youtube"; src: string } | { kind: "image"; src: string; alt: string };
   mediaTitle: string;
+  background?: "dac" | "sac" | "kac" | "wac";
 }) {
+  const backgroundClassName = {
+    dac: "from-white from-[30%] via-[#dfe8f2] via-[84%] to-white",
+    sac: "from-white from-[30%] via-[#e2e9e1] via-[84%] to-white",
+    kac: "from-white from-[30%] via-[#e8eaf4] via-[84%] to-white",
+    wac: "from-white from-[30%] via-[#dfeff2] via-[84%] to-white",
+  }[background];
+
   return (
-    <section className="px-6 pb-0 pt-[70px] md:pt-20">
+    <section className={joinClasses("bg-linear-to-b px-6 pb-0 pt-[70px] md:pt-20", backgroundClassName)}>
       <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-20 text-center max-[480px]:gap-[70px]">
         <div className="flex max-w-[920px] flex-col items-center gap-5">{children}</div>
         {media.kind === "youtube" ? (
@@ -96,7 +105,7 @@ export function AcpFeatureCard({ icon, children }: { icon: string; children: Rea
 }
 
 export function AcpFeatureCardTitle({ children }: { children: ReactNode }) {
-  return <h3 className="text-[26px] font-normal leading-[34px] text-[#24292f] max-[480px]:text-[22px] max-[480px]:leading-[30px]">{children}</h3>;
+  return <h6 className="text-[20px] font-medium leading-7 text-[#24292f] max-[480px]:text-base max-[480px]:leading-6">{children}</h6>;
 }
 
 export function AcpFeatureCardDescription({ children }: { children: ReactNode }) {
@@ -182,7 +191,7 @@ export function AcpSplitFeatureSection({
 }
 
 export function AcpSplitFeatureTitle({ children }: { children: ReactNode }) {
-  return <h4 className="whitespace-pre-line text-[32px] font-medium leading-[42px] text-[#24292f] max-[480px]:text-[26px] max-[480px]:leading-[34px]">{children}</h4>;
+  return <h4 className="whitespace-pre-line text-[32px] font-medium leading-[42px] text-[#24292f] max-[480px]:text-[20px] max-[480px]:leading-7">{children}</h4>;
 }
 
 export function AcpSplitFeatureBadge({ children }: { children: ReactNode }) {
@@ -191,6 +200,31 @@ export function AcpSplitFeatureBadge({ children }: { children: ReactNode }) {
 
 export function AcpSplitFeatureBody({ children }: { children: ReactNode }) {
   return <div className="text-lg font-light leading-7 text-[#57606a] max-[480px]:text-base max-[480px]:leading-7">{children}</div>;
+}
+
+export function AcpFaqSection({ children }: { children: ReactNode }) {
+  return (
+    <section className="px-6 py-[100px] max-[480px]:py-[70px]">
+      <ul className="mx-auto flex w-full max-w-[1200px] flex-col divide-y divide-[#d0d7de] border-y border-[#d0d7de]">{children}</ul>
+    </section>
+  );
+}
+
+export function AcpFaqItem({
+  question,
+  children,
+}: {
+  question: ReactNode;
+  children: ReactNode;
+}) {
+  return (
+    <li className="py-10 max-[480px]:py-[30px]">
+      <details open>
+        <summary className="cursor-pointer list-none text-[20px] font-medium leading-7 text-[#24292f] max-[480px]:text-base max-[480px]:leading-6">{question}</summary>
+        <div className="mt-5 text-base font-light leading-7 text-[#57606a] max-[480px]:text-sm max-[480px]:leading-[22px]">{children}</div>
+      </details>
+    </li>
+  );
 }
 
 export function AcpPageCta({ children }: { children: ReactNode }) {
@@ -215,7 +249,8 @@ export function AcpPageCtaLink({ children }: { children: ReactNode }) {
   return (
     <Link
       href="https://app.querypie.com"
-      className="inline-flex h-[50px] items-center justify-center rounded-[6px] bg-[#0762d4] px-7 text-base font-medium leading-4 text-[#f6f6f6] transition hover:bg-[#2f81f7] max-[480px]:h-[44px] max-[480px]:text-sm"
+      className="inline-flex h-[50px] items-center justify-center rounded-[6px] bg-[#0762d4] px-7 text-base font-medium leading-4 text-[#f6f6f6] transition hover:opacity-90 max-[480px]:h-[44px] max-[480px]:text-sm"
+      style={{ backgroundImage: "linear-gradient(100deg, #0762d4 34.93%, #875ac5 76.81%, #c55a8c 99.98%)" }}
     >
       {children}
     </Link>
