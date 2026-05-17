@@ -81,17 +81,16 @@ Migration-priority breakdown:
 
 | Category | Occurrences | Current status |
 | --- | ---: | --- |
-| Legacy `www.querypie.com/ja/**` | 2 | Only the AIP legacy redirect route files remain; no MDX/content body occurrences remain in this snapshot. ACP platform pages and their legacy aliases are now local/internal. |
+| Legacy `www.querypie.com/ja/**` | 0 | No MDX/content body occurrences or public route shims point at the legacy `/ja` corporate site in this snapshot. ACP and AIP platform pages and their legacy aliases are now local/internal. |
 | `www.querypie.com` non-`/ja` | 9 | Locale catch-all redirects, missing-path forwarding base, and historical privacy-policy text. |
 | Current `querypie.ai` / `www.querypie.ai` | 13 | Mostly company-information blocks in blog/news/event MDX plus the canonical site URL helper. |
 | QueryPie subdomains | 74 | Docs/app/trust/download destinations; generally not local-route migration defects. |
 
 ## Quick status: `querypie.com/ja` links
 
-Current status: content-link replacement is effectively complete for
-`www.querypie.com/ja/**` MDX/content references. The remaining entries are route
-redirect shims that intentionally point old local paths back to the legacy
-corporate site.
+Current status: content-link replacement is complete for
+`www.querypie.com/ja/**` MDX/content references and public redirect shims. Former
+AIP legacy redirect endpoints now point to the local `/platforms/aip` page.
 
 Quick verification command:
 
@@ -100,17 +99,16 @@ grep -R "https://www.querypie.com/ja" -n src \
   --include='*.ts' --include='*.tsx' --include='*.mdx'
 ```
 
-Expected current result: only the 2 route files below.
+Expected current result: no `https://www.querypie.com/ja` occurrences under `src`.
+The former AIP legacy aliases are retained as local redirect shims:
 
-| Local route file | Current external target | Local replacement candidate | Completion note |
-| --- | --- | --- | --- |
-| `src/app/platform/ai/aihub/route.ts` | `https://www.querypie.com/ja/solutions/aip` | `/platforms/aip` | Legacy redirect still external. |
-| `src/app/services/aip/route.ts` | `https://www.querypie.com/ja/solutions/aip` | `/platforms/aip` | Legacy redirect still external. |
+| Local route file | Local target | Completion note |
+| --- | --- | --- |
+| `src/app/platform/ai/aihub/route.ts` | `/platforms/aip` | Legacy alias now redirects locally. |
+| `src/app/services/aip/route.ts` | `/platforms/aip` | Legacy alias now redirects locally. |
 
-Do not rewrite these automatically just because preview `/t/**` routes exist.
-The current repository policy is that promoted public routes should remove the
-matching `/t/**` endpoints only at final release, and canonical route decisions
-should be confirmed before implementation.
+Do not reintroduce upstream `querypie.com/ja` targets for these aliases now that
+the canonical local AIP page is published.
 
 ## Quick status: `querypie.com` non-`/ja` links
 
@@ -180,8 +178,8 @@ Use this checklist when checking whether issue #521 is still complete or whether
 a new PR reintroduced stale links.
 
 1. Re-run the scan from latest `origin/main`.
-2. Confirm `https://www.querypie.com/ja` appears only in the 8 known redirect
-   route files above.
+2. Confirm `https://www.querypie.com/ja` has no matches in runtime `src/**/*.ts`,
+   `src/**/*.tsx`, or `src/**/*.mdx` files.
 3. Confirm no `src/content/**/*.mdx` file contains `https://www.querypie.com/ja`.
 4. Confirm `www.querypie.com` non-`/ja` entries are limited to catch-all redirect
    infrastructure plus historical privacy-policy versions, unless a new intended
@@ -202,7 +200,7 @@ When rewriting or refreshing this document:
 3. Re-run the static scan over tracked `src/**` files with the scope above.
 4. Update all count tables, not just the changed row.
 5. Re-run the quick verification commands in the three status sections.
-6. If `www.querypie.com/ja/**` appears outside the known redirect route files,
+6. If `www.querypie.com/ja/**` appears in runtime `src` files again,
    add it to the status table and classify it as:
    - already fixed by local route replacement,
    - still needs local replacement,
