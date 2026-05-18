@@ -160,6 +160,10 @@ test("remaining redirect endpoints are defined in a single test-case table with 
       assert.match(source, /export const HEAD = GET;/);
       assert.ok(source.includes("request.nextUrl.pathname.replace(/^\\/ja(?=\\/|$)/"));
       assert.ok(source.includes("const strippedPath = request.nextUrl.pathname.replace(/^\\/ja(?=\\/|$)/, \"\") || \"/\";"));
+      assert.ok(source.includes("const productionHosts = new Set([\"querypie.ai\", \"www.querypie.ai\"]);"));
+      assert.ok(source.includes("function isProductionHost(request: NextRequest)"));
+      assert.ok(source.includes("if (strippedPath === \"/\" && !isProductionHost(request))"));
+      assert.ok(source.includes("return NextResponse.rewrite(rewrittenUrl);"));
       assert.ok(source.includes("new URL(strippedPath, request.url)"));
       assert.ok(source.includes("redirectedUrl.search = request.nextUrl.search;"));
     }
