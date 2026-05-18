@@ -10,6 +10,18 @@ README.md is the human-facing project guide. AI agents should read this file fir
 - Redirect domains: [https://www.querypie.ai](https://www.querypie.ai) -> [https://querypie.ai](https://querypie.ai)
 - Staging URL: [https://stage.querypie.ai](https://stage.querypie.ai)
 
+## Search and analytics consoles
+
+Registration status:
+
+- Google Search Console: the production site is registered for the `querypie.ai` property.
+- Google Analytics: production Google Analytics 4 tracking is enabled with measurement ID `G-DGKPWV2DP2`.
+
+How to check:
+
+- Google Search Console: open the [QueryPie AI Search Console property](https://search.google.com/search-console?resource_id=https%3A%2F%2Fquerypie.ai%2F), then use Performance, URL Inspection, Indexing, and Sitemaps as needed.
+- Google Analytics: open the [QueryPie AI Japan GA4 report](https://analytics.google.com/analytics/web/#/a322528759p538139625/reports/intelligenthome) and review Traffic acquisition, Engagement, Events, and Realtime reports as needed.
+
 ## Project overview
 
 This project is built with Next.js 16, React 19, TypeScript, Tailwind CSS v4, and npm.
