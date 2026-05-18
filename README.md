@@ -19,7 +19,7 @@ Registration status:
 
 How to check:
 
-- Google Search Console: open [Google Search Console](https://search.google.com/search-console), select the `querypie.ai` property, then use Performance, URL Inspection, Indexing, and Sitemaps as needed.
+- Google Search Console: open the [QueryPie AI Search Console property](https://search.google.com/search-console?resource_id=https%3A%2F%2Fquerypie.ai%2F), then use Performance, URL Inspection, Indexing, and Sitemaps as needed.
 - Google Analytics: open the [QueryPie AI Japan GA4 report](https://analytics.google.com/analytics/web/#/a322528759p538139625/reports/intelligenthome) and review Traffic acquisition, Engagement, Events, and Realtime reports as needed.
 
 ## Project overview
