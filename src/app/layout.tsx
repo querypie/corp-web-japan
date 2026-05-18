@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { preload } from "react-dom";
 import "./globals.css";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { siteUrl } from "@/lib/site-url";
 
 const monaSansFont = localFont({
@@ -30,7 +31,10 @@ export default function RootLayout({
 
   return (
     <html lang="ja" className={monaSansFont.variable}>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        <GoogleAnalytics />
+        {children}
+      </body>
     </html>
   );
 }

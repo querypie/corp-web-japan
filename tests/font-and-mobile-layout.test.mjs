@@ -19,7 +19,8 @@ test("app font setup keeps Mona Sans on html while preloading the representative
   assert.match(layout, /type:\s*"font\/woff2"/);
   assert.match(layout, /crossOrigin:\s*"anonymous"/);
   assert.match(layout, /<html lang="ja" className=\{monaSansFont\.variable\}>/);
-  assert.match(layout, /<body className="font-sans antialiased">\{children\}<\/body>/);
+  assert.match(layout, /<body className="font-sans antialiased">/);
+  assert.match(layout, /<GoogleAnalytics \/>\s*\{children\}/s);
   assert.doesNotMatch(layout, /fontFamily:/);
 
   assert.equal(existsSync(new URL("../src/app/head.tsx", import.meta.url)), false);
