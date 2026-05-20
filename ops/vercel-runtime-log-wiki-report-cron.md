@@ -9,10 +9,10 @@ The document lives in this repository because the job is operationally tied to t
 Recommended schedule:
 
 ```text
-45 23 * * *
+0 */3 * * *
 ```
 
-This runs near the end of the KST day. That timing is intentional because Vercel Runtime Logs are only reliably accessible for the most recent 24 hours in the current environment. Running after midnight for the previous day can lose the beginning of that prior KST day.
+This runs every three hours, up to eight times per KST calendar day. The report is still a daily report: each run should create or update the same KST-day wiki page with the currently accessible Runtime Log evidence. This cadence reduces the risk of losing early-day log entries because Vercel Runtime Logs are only reliably accessible for the most recent 24 hours in the current environment.
 
 Recommended job name:
 
@@ -47,7 +47,7 @@ hermes-agent
 
 When using the Hermes tool/API, create the cron job with:
 
-- schedule: `45 23 * * *`
+- schedule: `0 */3 * * *`
 - name: `corp-web-japan daily Vercel runtime log wiki report`
 - prompt: the full `Cron job prompt` section below
 - skills:
@@ -62,7 +62,7 @@ When using the Hermes tool/API, create the cron job with:
 If creating from the CLI, create the job first and then paste or edit in the prompt.
 
 ```bash
-hermes cron create '45 23 * * *'
+hermes cron create '0 */3 * * *'
 hermes cron edit <job-id>
 ```
 
@@ -106,7 +106,8 @@ Critical Vercel runtime-log constraint:
 - Vercel runtime logs are only reliably accessible for the most recent 24 hours in this environment.
 - Do not attempt to reconstruct older full-day reports outside the accessible 24-hour window.
 - If the job is delayed or starts after the intended reporting day has partly fallen outside the recent-24h window, document the actual accessible window and do not claim full-day coverage.
-- Because of this constraint, prefer reporting the current KST calendar day up to the audit time when the job runs before midnight KST.
+- Because of this constraint, the job runs every three hours and updates the current KST calendar-day report incrementally up to eight times per day.
+- Treat the report as a same-day rolling daily report until the day ends. Do not create a separate page for each run.
 - If a completed prior calendar-day report is required in the future, a separate log archival job must collect the data before it expires. This task does not do that.
 
 Required report page naming:
@@ -120,7 +121,8 @@ Required high-level workflow:
    - Example: `TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S %Z'`
    - Japan and Korea are both UTC+09:00; label report times as KST.
 2. Determine the intended reporting window:
-   - If running before midnight KST as scheduled, report from the current KST date 00:00:00 through the audit time, or through 23:59:59 if a bounded `--until` is needed.
+   - The job runs every three hours, but the report is daily. For each run, update the page for the current KST calendar date.
+   - For the current KST day, report from 00:00:00 through the audit time when that full window is still accessible.
    - If current KST day start is more than 24 hours behind the runtime-log query point, use only the recent accessible 24-hour window and label it honestly.
    - Use ISO timestamps with explicit `+09:00` offset for Vercel queries when supported.
 3. Verify prerequisites:
@@ -143,7 +145,9 @@ Required high-level workflow:
    - Do not infer runtime-log findings from code inspection alone.
 6. Collect Vercel logs for `corp-web-japan` production.
 7. Write or update the wiki report markdown using the report template below.
-8. Update `_Sidebar.md` in the wiki repository so the new dated page is discoverable. Preserve existing sidebar structure and add the new runtime-log page near adjacent Vercel Runtime Log reports.
+8. Update `_Sidebar.md` in the wiki repository so the report page link is visible in the wiki navigation. Preserve existing sidebar structure and add the dated runtime-log page near adjacent Vercel Runtime Log reports.
+   - This is required when creating a new dated page.
+   - If updating an existing same-day page, verify that `_Sidebar.md` already contains the page link; add it if missing.
 9. Commit and push the wiki repository.
 10. Verify the pushed wiki state.
 11. Final response must include:
@@ -219,7 +223,7 @@ Classification guidance:
 - If a path-specific 404 looks like a malformed content URL with extra title text appended, inspect current production HTML/sitemap/repo content only if needed and classify whether current in-site emission is reproduced. Do not default to redirects for one-off external/cached malformed hits.
 
 Report language and style:
-- Write the wiki report in Korean.
+- Write the wiki report in Korean. This is mandatory even though this repository document is written in English.
 - Keep technical terms such as Vercel, Runtime Log, HTTP, 5xx, 404, `production`, command snippets, and route paths as-is.
 - Avoid leftover English section labels except where the existing wiki convention intentionally uses English product/technical names.
 - Use markdown links for wiki references.
@@ -349,8 +353,9 @@ Only include this section if manual checks were performed.
 
 Wiki update requirements:
 - Before editing, read the existing target page if it exists.
-- Preserve useful prior content only if updating the same day; otherwise create a new dated page.
+- The report is daily even though the cron job runs every three hours. Preserve and update the same current-day page during the day instead of creating per-run pages.
 - Update `_Sidebar.md` in the same commit when creating a new dated report.
+- When updating an existing same-day report, verify `_Sidebar.md` already exposes that report link; if it does not, add it in the same commit.
 - Commit message format:
   `docs: add Vercel runtime log report for {YYYY-MM-DD}`
   or
@@ -374,6 +379,6 @@ Failure handling:
 ## Maintenance notes
 
 - Keep this document in sync with the Hermes `vercel-runtime-log-audit` and `github-wiki-editing` skills. The attached skills should carry the newest command pitfalls; this document keeps the job runnable even if skill loading fails.
-- The near-midnight KST schedule is part of the data-integrity contract. Do not move it after midnight unless a separate archival mechanism exists.
+- The every-three-hours schedule is part of the data-integrity contract. It lets the daily wiki page be updated up to eight times per day while reducing the risk of losing early-day logs to the recent-24h access limit.
 - If Vercel changes `vercel logs` behavior, update the query instructions only after confirming `vercel logs --help` and a small successful probe query.
 - If the wiki report format changes, update both the reference page link and the embedded report template.
