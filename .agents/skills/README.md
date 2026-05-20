@@ -7,6 +7,12 @@ Canonical layout:
 
 Current skills:
 
+- `vercel-runtime-log-audit`
+  - Path: `.agents/skills/vercel-runtime-log-audit/SKILL.md`
+  - Purpose: audit `corp-web-japan` Vercel production Runtime Logs for recurring Korean wiki reports, including recent-24h access limits, 307/308/404/5xx checks, and Korean report template guidance
+- `github-wiki-editing`
+  - Path: `.agents/skills/github-wiki-editing/SKILL.md`
+  - Purpose: edit `querypie/corp-web-japan.wiki` through the separate wiki git repository and keep `_Sidebar.md` navigation aligned with created/updated report pages
 - `mdx-publication-operations`
   - Path: `.agents/skills/mdx-publication-operations/SKILL.md`
   - Purpose: the shared reference for all public MDX publication families in this repo

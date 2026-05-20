@@ -39,7 +39,7 @@ Optional helper skill for job creation or later job maintenance:
 hermes-agent
 ```
 
-`hermes-agent` is useful when creating or editing the Hermes cron job itself. The recurring job's core execution depends on `vercel-runtime-log-audit` and `github-wiki-editing`.
+`hermes-agent` is useful when creating or editing the Hermes cron job itself. The recurring job's core execution depends on `vercel-runtime-log-audit` and `github-wiki-editing`, both of which are checked into this repository under `.agents/skills/`.
 
 ## Creating the job
 
@@ -78,10 +78,14 @@ You are running an autonomous scheduled operational reporting task in a fresh He
 Task: create or update a GitHub wiki report for querypie/corp-web-japan based on Vercel production runtime logs for the corp-web-japan project.
 
 Skill loading requirement:
-- If the Hermes skills tool is available, first load and follow these skills in this order:
+- First try to load and follow these skills in this order:
   1. vercel-runtime-log-audit
   2. github-wiki-editing
-- If a skill is unavailable, continue using the embedded instructions in this prompt. Do not stop only because a skill could not be loaded.
+- These skills are expected to be available as repo-local checked-in skills at:
+  - `.agents/skills/vercel-runtime-log-audit/SKILL.md`
+  - `.agents/skills/github-wiki-editing/SKILL.md`
+- If the Hermes skills tool cannot load repo-local skills by name, read those `SKILL.md` files directly from the repository working directory and follow them.
+- If a skill is still unavailable, continue using the embedded instructions in this prompt. Do not stop only because a skill could not be loaded.
 - Use the loaded skills for command pitfalls and verification details, but the concrete task scope in this prompt takes precedence.
 
 Execution constraints:
@@ -378,7 +382,7 @@ Failure handling:
 
 ## Maintenance notes
 
-- Keep this document in sync with the Hermes `vercel-runtime-log-audit` and `github-wiki-editing` skills. The attached skills should carry the newest command pitfalls; this document keeps the job runnable even if skill loading fails.
+- Keep this document in sync with the repo-local `.agents/skills/vercel-runtime-log-audit` and `.agents/skills/github-wiki-editing` skills. The attached skills should carry the newest command pitfalls; this document keeps the job runnable even if skill loading fails.
 - The every-three-hours schedule is part of the data-integrity contract. It lets the daily wiki page be updated up to eight times per day while reducing the risk of losing early-day logs to the recent-24h access limit.
 - If Vercel changes `vercel logs` behavior, update the query instructions only after confirming `vercel logs --help` and a small successful probe query.
 - If the wiki report format changes, update both the reference page link and the embedded report template.
