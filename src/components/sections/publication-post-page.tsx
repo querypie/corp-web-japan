@@ -138,7 +138,7 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
           </div>
 
           <aside className="w-full lg:w-[280px] lg:flex-shrink-0">
-            <div className="space-y-[60px]">
+            <div className="space-y-[60px] lg:pt-[20px]">
               {post.toc.length > 0 ? (
                 <div>
                   <h2 className="mb-[13px] text-[15px] font-medium leading-[1.467] text-slate-950">目次</h2>

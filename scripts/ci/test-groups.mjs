@@ -47,6 +47,7 @@ const matchers = {
     /^tests\/button-link-external-prop\.test\.mjs$/,
     /^tests\/publication-post-button-spacing\.test\.mjs$/,
     /^tests\/publication-post-inline-link-styles\.test\.mjs$/,
+    /^tests\/publication-post-sidebar-layout\.test\.mjs$/,
     /^tests\/resource-list-page-structure\.test\.mjs$/,
     /^tests\/ja-locale-content-priority\.test\.mjs$/,
     /^tests\/src\/app\/blog\/page\.test\.mjs$/,
