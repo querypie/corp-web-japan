@@ -1,0 +1,15 @@
+# Public URLs that are intentionally checked even when they are not present in sitemap.xml.
+# Keep this list focused on externally reachable entrypoints and known public links
+# whose regressions would otherwise be invisible to the sitemap-only sweep.
+
+# 307 redirect paths explicitly observed in the May 22 Vercel Runtime Log wiki report.
+https://querypie.ai/api/og/ja
+https://querypie.ai/ja
+https://querypie.ai/ja/plans
+https://querypie.ai/ko/features/documentation/querypie-install-guide
+https://querypie.ai/features/documentation/white-paper/19/google-agentspace-vs-querypie-mcp-pam
+https://querypie.ai/company/news
+https://querypie.ai/features/demo
+https://querypie.ai/features/documentation/white-paper/18/uncovering-mcp-security
+https://querypie.ai/features/demo/acp-features/10/use-web-terminal
+https://querypie.ai/events/5/ai-dashi-saas-webinar-recording
