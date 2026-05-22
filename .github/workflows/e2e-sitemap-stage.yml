@@ -1,0 +1,79 @@
+name: E2E - Sitemap Stage
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Base URL whose sitemap URLs should be checked"
+        required: false
+        default: "https://stage.querypie.ai"
+        type: string
+      sitemap_concurrency:
+        description: "Number of sitemap URLs to check in parallel"
+        required: false
+        default: "8"
+        type: string
+      sitemap_max_requests_per_10s:
+        description: "Maximum target HTTP requests per 10 seconds"
+        required: false
+        default: "70"
+        type: string
+
+concurrency:
+  group: stage-sitemap-e2e-${{ github.ref }}-${{ inputs.base_url }}
+  cancel-in-progress: true
+
+jobs:
+  sitemap-stage:
+    name: Run stage sitemap E2E
+    runs-on: [self-hosted, Linux]
+    timeout-minutes: 20
+    env:
+      CI: true
+      SITEMAP_E2E_BASE_URL: ${{ inputs.base_url || 'https://stage.querypie.ai' }}
+      SITEMAP_E2E_CONCURRENCY: ${{ inputs.sitemap_concurrency || '8' }}
+      SITEMAP_E2E_MAX_REQUESTS_PER_10S: ${{ inputs.sitemap_max_requests_per_10s || '70' }}
+      PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-report
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --silent
+
+      - name: Show E2E target
+        run: |
+          echo "Base URL: ${SITEMAP_E2E_BASE_URL}"
+          echo "Concurrency: ${SITEMAP_E2E_CONCURRENCY}"
+          echo "Max requests per 10s: ${SITEMAP_E2E_MAX_REQUESTS_PER_10S}"
+          echo "Git ref: ${GITHUB_REF}"
+          echo "Git SHA: ${GITHUB_SHA}"
+
+      - name: Run stage sitemap E2E
+        run: npm run e2e:local:sitemap:stage -- --reporter=github,html
+
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: stage-sitemap-e2e-report-${{ github.run_id }}
+          path: playwright-report
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload Playwright traces and media
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: stage-sitemap-e2e-results-${{ github.run_id }}
+          path: .playwright-local/results
+          if-no-files-found: ignore
+          retention-days: 14
