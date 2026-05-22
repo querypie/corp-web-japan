@@ -25,6 +25,11 @@ const expectedRedirectRules = [
     destination: "https://docs.querypie.com/ja/api-reference",
   },
   {
+    requestPath: "/querypie/license/community/apply",
+    file: "src/app/querypie/license/community/apply/route.ts",
+    destination: "https://www.querypie.com/querypie/license/community/apply",
+  },
+  {
     requestPath: "/ja",
     file: "src/app/ja/[[...path]]/route.ts",
     destination: "/",
@@ -137,7 +142,7 @@ const expectedRedirectRules = [
 ];
 
 test("remaining redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 26);
+  assert.equal(expectedRedirectRules.length, 27);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
@@ -153,6 +158,14 @@ test("remaining redirect endpoints are defined in a single test-case table with 
       assert.match(source, /export const HEAD = GET;/);
       assert.ok(source.includes("new URL(\"/plans\", request.url)"));
       assert.ok(source.includes("redirectedUrl.search = request.nextUrl.search;"));
+    }
+
+    if (rule.requestPath === "/querypie/license/community/apply") {
+      assert.match(source, /export function GET\(request: NextRequest\)/);
+      assert.match(source, /export const HEAD = GET;/);
+      assert.ok(source.includes("const destinationUrl = \"https://www.querypie.com/querypie/license/community/apply\";"));
+      assert.ok(source.includes("const destination = new URL(destinationUrl);"));
+      assert.ok(source.includes("destination.search = request.nextUrl.search;"));
     }
 
     if (rule.requestPath === "/ja") {
