@@ -30,6 +30,8 @@ export const inquiryOptions: ContactUsOption[] = [
 ];
 
 export const productOptions: ContactUsOption[] = [
+  { key: "lingo", label: "会議記録・リアルタイム翻訳AI - Lingo" },
+  { key: "notepie", label: "ナレッジベース コンテンツ生成AI - NotePie" },
   { key: "ai-crew", label: "社内業務効率化｜AI Crew" },
   { key: "ai-dashi", label: "自社サービスAI化｜AI Dashi" },
   { key: "aip", label: "AIプラットフォーム QueryPie AIP" },

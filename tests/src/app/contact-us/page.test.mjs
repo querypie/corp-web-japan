@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource, sourceExists } from "../../../helpers/source-readers.mjs";
+import { createTsModuleLoader, toPlainJson } from "../../../helpers/ts-module-loader.mjs";
 
 test("/contact-us is the public form page and keeps production-ready form wiring", () => {
   const page = readSource("src/app/contact-us/page.tsx");
@@ -47,4 +48,20 @@ test("/contact-us is the public form page and keeps production-ready form wiring
   assert.match(contactUsLib, /"aip"/);
   assert.match(contactUsLib, /"acp"/);
   assert.match(contactUsLib, /"fde"/);
+});
+
+test("contact-us product options prepend Lingo and NotePie before the existing products", () => {
+  const { importModule } = createTsModuleLoader();
+  const { productOptions } = importModule("src/lib/contact-us.ts");
+
+  assert.deepEqual(toPlainJson(productOptions), [
+    { key: "lingo", label: "会議記録・リアルタイム翻訳AI - Lingo" },
+    { key: "notepie", label: "ナレッジベース コンテンツ生成AI - NotePie" },
+    { key: "ai-crew", label: "社内業務効率化｜AI Crew" },
+    { key: "ai-dashi", label: "自社サービスAI化｜AI Dashi" },
+    { key: "aip", label: "AIプラットフォーム QueryPie AIP" },
+    { key: "acp", label: "アクセス制御プラットフォーム QueryPie ACP" },
+    { key: "fde", label: "AI専門家伴走 (FDE) サービス" },
+    { key: "partnership", label: "パートナーシップ" },
+  ]);
 });
