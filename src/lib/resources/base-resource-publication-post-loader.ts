@@ -1,4 +1,5 @@
 import * as fs from "node:fs";
+import { buildPublicationAuthor } from "@/lib/publications/build-publication-author";
 import { formatJapaneseDateFromIsoDate } from "@/lib/publications/format-japanese-date";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
@@ -12,6 +13,7 @@ export abstract class BaseResourcePublicationPostLoader {
   private bodySourceCache = new Map<string, string>();
 
   protected abstract readonly repository: BaseResourcePublicationRepository;
+  protected readonly defaultAuthorAvatarSrc = "/querypie-logo.svg";
 
   private readBodySource(record: ResourcePublicationRecord) {
     const cachedSource = this.bodySourceCache.get(record.sourcePath);
@@ -69,7 +71,7 @@ export abstract class BaseResourcePublicationPostLoader {
         description: previewEvaluation.frontmatter.description,
         date: formatJapaneseDateFromIsoDate(previewEvaluation.frontmatter.date ?? ""),
         heroImageSrc: previewEvaluation.frontmatter.heroImageSrc,
-        author: null,
+        author: buildPublicationAuthor(previewEvaluation.frontmatter.author, this.defaultAuthorAvatarSrc),
         bodyHtml: null,
         bodyMdx: previewEvaluation.content,
         gatedBodyMdx: gatedEvaluation.content,
@@ -98,7 +100,7 @@ export abstract class BaseResourcePublicationPostLoader {
       description: evaluation.frontmatter.description,
       date: formatJapaneseDateFromIsoDate(evaluation.frontmatter.date ?? ""),
       heroImageSrc: evaluation.frontmatter.heroImageSrc,
-      author: null,
+      author: buildPublicationAuthor(evaluation.frontmatter.author, this.defaultAuthorAvatarSrc),
       bodyHtml: null,
       bodyMdx: evaluation.content,
       gatedBodyMdx: null,

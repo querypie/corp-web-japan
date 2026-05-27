@@ -26,7 +26,7 @@ This wrapper only adds the manuals-specific contract.
 - Asset root: `public/manuals/<id>/...`
 - Repository: `src/lib/resources/manual-publications.ts`
 - Post loader: `src/lib/resources/manual-post-loader.ts`
-- Resource-only fields: `date?`, `gated?`, `relatedItems?`
+- Resource-supported optional fields: `date?`, `author?`, `gated?`, `relatedItems?`
 
 ## Important limit
 - Do not assume `hidden` or `redirectUrl` support for this family in the current code.

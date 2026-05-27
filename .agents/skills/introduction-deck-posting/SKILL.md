@@ -27,7 +27,7 @@ This wrapper only adds the introduction-deck-specific contract.
 - Asset root: `public/introduction-deck/<id>/...`
 - Repository: `src/lib/resources/introduction-deck-publications.ts`
 - Post loader: `src/lib/resources/introduction-deck-post-loader.ts`
-- Resource-only fields: `date?`, `gated?`, `downloadCta?`, `relatedItems?`
+- Resource-supported optional fields: `date?`, `author?`, `gated?`, `downloadCta?`, `relatedItems?`
 
 ## Download CTA contract
 - Introduction-deck PDFs should be modeled in frontmatter `downloadCta`, not as inline MDX `<ButtonLink>` markup inside the body.

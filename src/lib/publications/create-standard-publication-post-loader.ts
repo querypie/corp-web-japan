@@ -1,10 +1,10 @@
 import * as fs from "node:fs";
-import { getDisplayableArticleAuthors, resolveArticleAuthors } from "@/lib/authors/resolve-authors";
+import { buildPublicationAuthor } from "@/lib/publications/build-publication-author";
 import { buildRelatedPublicationItems } from "@/lib/publications/build-related-publication-items";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { formatJapaneseDateFromIsoDate } from "@/lib/publications/format-japanese-date";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
-import type { PublicationCategory, PublicationPost, PublicationPostAuthor } from "@/lib/publications/types";
+import type { PublicationCategory, PublicationPost } from "@/lib/publications/types";
 
 type StandardPublicationPostFrontmatter = {
   author?: string | string[];
@@ -38,24 +38,6 @@ type CreateStandardPublicationPostLoaderConfig<TRecord extends StandardPublicati
   getRecord: (id: string) => TRecord | null;
   getHref: (id: string, slug: string) => string;
 };
-
-function buildPublicationAuthor(author: string | string[] | undefined, defaultAuthorAvatarSrc: string): PublicationPostAuthor | null {
-  const resolvedAuthors = getDisplayableArticleAuthors(resolveArticleAuthors(author));
-  const primaryAuthor = resolvedAuthors.find((candidate) => candidate.isRegistered) ?? null;
-
-  if (!primaryAuthor) {
-    return null;
-  }
-
-  return {
-    avatarSrc: primaryAuthor.profileImageSrc ?? defaultAuthorAvatarSrc,
-    avatarAlt: primaryAuthor.name,
-    name: primaryAuthor.name,
-    role: primaryAuthor.position ?? "",
-    bio: primaryAuthor.description ?? "",
-    profileUrl: primaryAuthor.links.find((link) => link.type === "linkedin")?.url,
-  };
-}
 
 export function createStandardPublicationPostLoader<
   TFrontmatter extends StandardPublicationPostFrontmatter,
