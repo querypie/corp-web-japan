@@ -55,7 +55,7 @@ test("contact-us product options prepend Lingo and NotePie before the existing p
   const { productOptions } = importModule("src/lib/contact-us.ts");
 
   assert.deepEqual(toPlainJson(productOptions), [
-    { key: "lingo", label: "会議記録・リアルタイム翻訳AI - Lingo" },
+    { key: "lingo", label: "会議記録・リアルタイム翻訳AI｜Lingo" },
     { key: "notepie", label: "ナレッジベース コンテンツ生成AI - NotePie" },
     { key: "ai-crew", label: "社内業務効率化｜AI Crew" },
     { key: "ai-dashi", label: "自社サービスAI化｜AI Dashi" },
