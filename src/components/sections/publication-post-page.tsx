@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import { AuthorBox } from "@/components/AuthorBox";
 import { PublicationShareButtons } from "@/components/sections/publication/share-buttons";
 import { ResourcePostGated } from "@/components/sections/publication/gated-content";
@@ -212,13 +213,9 @@ export function PublicationPostPage({ post }: PublicationPostPageProps) {
                   className="inline-flex w-full items-center justify-center gap-[6px] rounded-[6px] bg-[#24292F] px-[18px] py-[12px] text-[14px] font-medium leading-none text-white transition hover:opacity-80"
                 >
                   今すぐお問い合わせ
-                  <Image
-                    src="/header-assets/stage-arrow-right.svg"
-                    alt=""
-                    width={11}
-                    height={11}
-                    className="h-[11px] w-[11px] invert"
+                  <ChevronRight
                     aria-hidden="true"
+                    className="h-[14px] w-[14px] shrink-0 text-inherit"
                   />
                 </Link>
               </div>
