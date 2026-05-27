@@ -9,6 +9,7 @@ export type ResourcePublicationFrontmatter = {
   description: string;
   heroImageSrc: string;
   date?: string;
+  author?: string | string[];
   gated?: boolean;
   downloadCta?: {
     href: string;

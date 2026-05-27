@@ -37,7 +37,7 @@ The closest shared frontmatter contract across public MDX collections is:
 | `description` | string | Required for all public collections | Metadata and list/detail summary text. |
 | `heroImageSrc` | string path | Required for all non-legal public collections | List image and detail hero image source. |
 | `date` | string | Required for standard publication families; optional for resource publication families | List/detail date display. Events may format an effective event date separately. |
-| `author` | string or string[] | Supported by standard publication families and whitepapers | Resolved through the article author registry for detail-page author display. |
+| `author` | string or string[] | Supported by standard publication families, whitepapers, and resource publication families | Resolved through the article author registry for detail-page author display. |
 | `relatedIds` | string[] | Supported by standard publication families and whitepapers | Builds related cards by resolving IDs within the same collection. |
 | `hidden` | boolean | Supported by standard publication families and whitepapers | Removes the record from list pages while keeping the detail route resolvable. |
 | `redirectUrl` | string | Supported by standard publication families and whitepapers | Makes list hrefs resolve to the redirect target and redirects human detail visits where the detail route uses the redirectable-publication helper. |

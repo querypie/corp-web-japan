@@ -1,11 +1,11 @@
 import * as fs from "node:fs";
-import { getDisplayableArticleAuthors, resolveArticleAuthors } from "@/lib/authors/resolve-authors";
+import { buildPublicationAuthor } from "@/lib/publications/build-publication-author";
 import { buildRelatedPublicationItems } from "@/lib/publications/build-related-publication-items";
 import { buildGatingContentKey, splitMdxSourceAtGatingCut, stripFrontmatterBlock } from "@/lib/publications/gating";
 import { extractHeadingsFromMdx } from "@/lib/publications/mdx/headings";
 import { formatJapaneseDateFromIsoDate } from "@/lib/publications/format-japanese-date";
 import { renderPublicationMdx } from "@/lib/publications/mdx/renderer";
-import type { PublicationCategory, PublicationPost, PublicationPostAuthor, PublicationPostDownloadCta } from "@/lib/publications/types";
+import type { PublicationCategory, PublicationPost, PublicationPostDownloadCta } from "@/lib/publications/types";
 
 type GatedPublicationDownloadCta = {
   href: string;
@@ -63,24 +63,6 @@ function normalizeDownloadCta(value: unknown): PublicationPostDownloadCta | null
     href,
     label,
     external: candidate.external === true,
-  };
-}
-
-function buildPublicationAuthor(author: string | string[] | undefined, defaultAuthorAvatarSrc: string): PublicationPostAuthor | null {
-  const resolvedAuthors = getDisplayableArticleAuthors(resolveArticleAuthors(author));
-  const primaryAuthor = resolvedAuthors.find((candidate) => candidate.isRegistered) ?? null;
-
-  if (!primaryAuthor) {
-    return null;
-  }
-
-  return {
-    avatarSrc: primaryAuthor.profileImageSrc ?? defaultAuthorAvatarSrc,
-    avatarAlt: primaryAuthor.name,
-    name: primaryAuthor.name,
-    role: primaryAuthor.position ?? "",
-    bio: primaryAuthor.description ?? "",
-    profileUrl: primaryAuthor.links.find((link) => link.type === "linkedin")?.url,
   };
 }
 

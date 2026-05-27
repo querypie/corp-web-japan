@@ -26,7 +26,7 @@ This wrapper only adds the glossary-specific contract.
 - Asset root: `public/glossary/<id>/...`
 - Repository: `src/lib/resources/glossary-publications.ts`
 - Post loader: `src/lib/resources/glossary-post-loader.ts`
-- Resource-only fields: `date?`, `gated?`, `relatedItems?`
+- Resource-supported optional fields: `date?`, `author?`, `gated?`, `relatedItems?`
 
 ## Important limit
 - Do not assume `hidden` or `redirectUrl` support for this family in the current code.

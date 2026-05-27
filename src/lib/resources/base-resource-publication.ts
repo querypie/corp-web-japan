@@ -34,6 +34,7 @@ export abstract class BaseResourcePublicationRepository {
     const frontmatter = value as Record<string, unknown>;
     const relatedItemsValue = Array.isArray(frontmatter.relatedItems) ? frontmatter.relatedItems : [];
     const downloadCtaValue = frontmatter.downloadCta;
+    const authorValue = frontmatter.author;
     const downloadCta =
       downloadCtaValue && typeof downloadCtaValue === "object"
         ? (() => {
@@ -60,6 +61,12 @@ export abstract class BaseResourcePublicationRepository {
       description: String(frontmatter.description ?? ""),
       heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
       date: typeof frontmatter.date === "string" ? frontmatter.date : undefined,
+      author:
+        typeof authorValue === "string"
+          ? authorValue
+          : Array.isArray(authorValue)
+            ? authorValue.map((item) => String(item))
+            : undefined,
       gated: frontmatter.gated === true,
       downloadCta,
       relatedItems: relatedItemsValue.map((item) => {
