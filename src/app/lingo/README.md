@@ -163,6 +163,52 @@ Preserve these invariants when applying future Lingo source updates:
 - Prefer preserving visual parity during source syncs; do broader refactors in
   separate follow-up PRs after parity is confirmed.
 
+## Intentional QueryPie.ai link divergence
+
+The following links are intentionally different from `lingo-web`. Future Lingo
+migration refreshes and visual/content parity checks must preserve these
+same-site `querypie.ai` paths instead of reverting them to `querypie.com` source
+links. Because these targets are served by the same `querypie.ai` website, use
+root-relative paths in code.
+
+Primary legal/footer policy:
+
+- The Lingo GNB Company links and footer Company links point to the
+  corresponding same-site company pages by root-relative path.
+- Cookie Preference, Terms of Use, Privacy Policy, and EULA links in the Lingo
+  footer point to the corresponding same-site legal pages by root-relative path.
+- The cookie consent banner's Privacy Policy link also points to the same-site
+  Privacy Policy path.
+- The footer Cookie Preference item links to `/cookie-preference`; the cookie
+  consent banner can still open its local settings UI.
+- Other Lingo links that point to `querypie.com/` in the source should be mapped
+  to the corresponding `querypie.ai` same-site destination below.
+
+Mapping table:
+
+| Source `querypie.com` link | Target same-site path | Usage |
+| --- | --- | --- |
+| `https://www.querypie.com/company/about-us` | `/about-us` | GNB and footer About link |
+| `https://www.querypie.com/ko/company/about-us` | `/about-us` | GNB and footer About link fallback |
+| `https://www.querypie.com/ja/company/about-us` | `/about-us` | GNB and footer About link |
+| `https://www.querypie.com/company/contact-us` | `/contact-us` | GNB and footer Contact link and shared Lingo contact CTA |
+| `https://www.querypie.com/ko/company/contact-us` | `/contact-us` | GNB and footer Contact link fallback |
+| `https://www.querypie.com/ja/company/contact-us` | `/contact-us` | GNB and footer Contact link |
+| `https://www.querypie.com/terms-of-service` | `/terms-of-service` | Footer Terms of Use link |
+| `https://www.querypie.com/ko/terms-of-service-ko` | `/terms-of-service` | Footer Terms of Use fallback |
+| `https://www.querypie.com/ja/terms-of-service-ja` | `/terms-of-service` | Footer Terms of Use link |
+| `https://www.querypie.com/privacy-policy` | `/privacy-policy` | Footer and cookie banner Privacy Policy link |
+| `https://www.querypie.com/ko/privacy-policy-ko` | `/privacy-policy` | Footer and cookie banner Privacy Policy fallback |
+| `https://www.querypie.com/ja/privacy-policy-ja` | `/privacy-policy` | Footer and cookie banner Privacy Policy link |
+| `https://www.querypie.com/eula` | `/eula` | Footer EULA link |
+| `https://www.querypie.com/ko/eula` | `/eula` | Footer EULA fallback |
+| `https://www.querypie.com/ja/eula` | `/eula` | Footer EULA link |
+| Source Cookie Preference legal link | `/cookie-preference` | Footer Cookie Preference link |
+| `https://querypie.com` | `/` | Pricing page QueryPie CTA |
+| `https://www.querypie.com/solutions/aip` | `/platforms/aip` | Integrations page AIP link fallback |
+| `https://www.querypie.com/ko/solutions/aip` | `/platforms/aip` | Integrations page AIP link fallback |
+| `https://www.querypie.com/ja/solutions/aip` | `/platforms/aip` | Integrations page AIP link |
+
 ## Recommended future update workflow
 
 Use this process when `lingo-web` changes and the `/lingo/**` migration needs to

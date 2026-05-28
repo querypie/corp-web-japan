@@ -2,16 +2,11 @@
 
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { useLocale } from "@/lib/lingo/intl"
 import { ChevronDown, PanelLeft } from "lucide-react"
 import { cn } from "@/lib/lingo/utils"
 import { Button } from "@/components/lingo/common/Button"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
-
-const LOCALES = [
-  { code: "ja" as const, label: "日本語", flagImage: "/lingo/images/icon-Japan.png" },
-]
 
 const gnbCopy = {
   ko: {
@@ -22,10 +17,12 @@ const gnbCopy = {
     integrations: "연동",
     pricing: "요금",
     resources: "리소스",
+    company: "회사",
     help: "Help / FAQ",
     releaseNote: "Release Note",
+    about: "About",
+    contact: "Contact",
     getStarted: "Lingo 시작하기",
-    selectLanguage: "언어 선택",
     openMenu: "메뉴 열기",
     closeMenu: "메뉴 닫기",
   },
@@ -37,10 +34,12 @@ const gnbCopy = {
     integrations: "Integrations",
     pricing: "Pricing",
     resources: "Resources",
+    company: "Company",
     help: "Help / FAQ",
     releaseNote: "Release Note",
+    about: "About",
+    contact: "Contact",
     getStarted: "Start Lingo",
-    selectLanguage: "Select language",
     openMenu: "Open menu",
     closeMenu: "Close menu",
   },
@@ -52,10 +51,12 @@ const gnbCopy = {
     integrations: "連携",
     pricing: "料金",
     resources: "リソース",
+    company: "会社",
     help: "Help / FAQ",
     releaseNote: "Release Note",
+    about: "About",
+    contact: "Contact",
     getStarted: "Lingoを始める",
-    selectLanguage: "言語を選択",
     openMenu: "メニューを開く",
     closeMenu: "メニューを閉じる",
   },
@@ -64,26 +65,19 @@ const gnbCopy = {
 export function GNB() {
   const locale = useLocale()
   const copy = getLocaleCopy(locale, gnbCopy)
-  const router = useRouter()
-  const [isOpen, setIsOpen] = useState(false)
   const [featuresOpen, setFeaturesOpen] = useState(false)
   const [resourcesOpen, setResourcesOpen] = useState(false)
+  const [companyOpen, setCompanyOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mobileClosing, setMobileClosing] = useState(false)
   const [mobileReady, setMobileReady] = useState(false)
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null)
-  const popoverRef = useRef<HTMLDivElement>(null)
   const featuresRef = useRef<HTMLDivElement>(null)
   const resourcesRef = useRef<HTMLDivElement>(null)
+  const companyRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (
-        popoverRef.current &&
-        !popoverRef.current.contains(e.target as Node)
-      ) {
-        setIsOpen(false)
-      }
       if (
         featuresRef.current &&
         !featuresRef.current.contains(e.target as Node)
@@ -96,16 +90,16 @@ export function GNB() {
       ) {
         setResourcesOpen(false)
       }
+      if (
+        companyRef.current &&
+        !companyRef.current.contains(e.target as Node)
+      ) {
+        setCompanyOpen(false)
+      }
     }
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
-
-
-  const handleLocaleSwitch = () => {
-    router.push("/lingo")
-    setIsOpen(false)
-  }
 
   const closeMobileMenu = () => {
     if (mobileClosing) return
@@ -134,6 +128,11 @@ export function GNB() {
       })
     }
   }
+
+  const companyLinks = [
+    { label: copy.about, href: "/about-us" },
+    { label: copy.contact, href: "/contact-us" },
+  ]
 
   return (
     <header className="fixed inset-x-0 top-3 z-50 md:top-5">
@@ -286,6 +285,55 @@ export function GNB() {
                 </div>
               )}
             </div>
+
+            {/* Company 드롭다운 */}
+            <div
+              className="relative"
+              ref={companyRef}
+              onMouseEnter={() => setCompanyOpen(true)}
+              onMouseLeave={() => setCompanyOpen(false)}
+            >
+              <button
+                onClick={() => setCompanyOpen(!companyOpen)}
+                className={cn(
+                  "gnb-menu-trigger body-sm flex cursor-pointer items-center gap-1 text-[var(--fg)]",
+                  companyOpen && "is-open"
+                )}
+              >
+                {copy.company}
+                <ChevronDown
+                  className={cn(
+                    "gnb-menu-chevron transition-transform duration-220 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                    companyOpen && "rotate-180"
+                  )}
+                />
+              </button>
+              {companyOpen && (
+                <div
+                  className="gnb-popover-bridge absolute top-full left-0 origin-top-left pt-3"
+                  style={{
+                    animation:
+                      "popover-in 260ms cubic-bezier(0.22, 1, 0.36, 1)",
+                  }}
+                >
+                  <div className="gnb-popover flex w-fit flex-col gap-px rounded-[12px] p-2">
+                    {companyLinks.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        prefetch={false}
+                        onClick={() => setCompanyOpen(false)}
+                        className="gnb-popover-item rounded-[12px] px-3 py-1 text-left"
+                      >
+                        <span className="body-sm whitespace-nowrap">
+                          {item.label}
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center gap-[10px]">
@@ -293,81 +341,6 @@ export function GNB() {
               {copy.getStarted}
             </Button>
 
-            {/* 언어 선택 (PC) */}
-            <div
-              className="relative hidden md:block"
-              ref={popoverRef}
-              onMouseEnter={() => setIsOpen(true)}
-              onMouseLeave={() => setIsOpen(false)}
-            >
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className={cn(
-                  "gnb-locale-trigger flex cursor-pointer items-center gap-1 rounded-[var(--corner-fill)] px-2 py-2 text-[var(--fg)]",
-                  isOpen && "is-open"
-                )}
-                aria-label={copy.selectLanguage}
-              >
-                <span className="size-5 overflow-hidden rounded-full">
-                  <img
-                    src={LOCALES.find((l) => l.code === locale)?.flagImage || ""}
-                    alt=""
-                    className="size-full object-cover"
-                  />
-                </span>
-                <ChevronDown
-                  className={cn(
-                    "size-4 transition-transform duration-220 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                    isOpen && "rotate-180"
-                  )}
-                />
-              </button>
-
-              {isOpen && (
-                <div
-                  className="gnb-popover-bridge absolute top-full right-0 origin-top-right pt-2"
-                  style={{
-                    animation:
-                      "popover-in 260ms cubic-bezier(0.22, 1, 0.36, 1)",
-                  }}
-                >
-                  <div className="gnb-popover flex w-fit flex-col gap-px rounded-[12px] p-2">
-                    {LOCALES.map((l) => (
-                      <div
-                        key={l.code}
-                        className={cn(
-                          "contents",
-                          locale === l.code && "cursor-default"
-                        )}
-                      >
-                        <button
-                          onClick={() => handleLocaleSwitch()}
-                          disabled={locale === l.code}
-                          aria-current={locale === l.code ? "true" : undefined}
-                          className={cn(
-                            "gnb-popover-item flex items-center gap-2 rounded-[12px] px-3 py-1.5 text-left",
-                            locale === l.code
-                              ? "cursor-default bg-[var(--hover)]"
-                              : "cursor-pointer"
-                          )}
-                        >
-                          <span className="size-5 shrink-0 overflow-hidden rounded-full">
-                            <img
-                              src={l.flagImage}
-                              alt=""
-                              className="size-full object-cover"
-                            />
-                          </span>
-                          <span className="body-sm whitespace-nowrap">
-                            {l.label}
-                          </span>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
 
             {/* 모바일: 사이트맵 열기/닫기 */}
             <button
@@ -417,9 +390,15 @@ export function GNB() {
                       { label: copy.releaseNote, href: "/resources/release-note" },
                     ],
                   },
+                  {
+                    label: copy.company,
+                    type: "externalGroup" as const,
+                    items: companyLinks,
+                  },
                 ].map((menu) => {
                   const isExpanded = mobileExpanded === menu.label
-                  const hasSub = menu.type === "group"
+                  const hasSub = menu.type === "group" || menu.type === "externalGroup"
+                  const isExternalGroup = menu.type === "externalGroup"
                   return (
                     <div key={menu.label} className="flex flex-col items-start px-5">
                       {hasSub ? (
@@ -454,45 +433,41 @@ export function GNB() {
                           style={{ gridTemplateRows: isExpanded ? '1fr' : '0fr' }}
                         >
                           <div className={cn("flex min-h-0 flex-col gap-[12px]", isExpanded && "pt-[16px] pb-4")}>
-                            {menu.items!.map((item) => (
-                              <Link
-                                key={item.href}
-                                href={`/lingo${item.href}`}
-                                prefetch={false}
-                                className="text-h3 text-[var(--fg)] transition-opacity duration-[300ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
-                                style={{
-                                  opacity: isExpanded ? 1 : 0,
-                                }}
-                                onClick={closeMobileMenu}
-                              >
-                                {item.label}
-                              </Link>
-                            ))}
+                            {menu.items!.map((item) =>
+                              isExternalGroup ? (
+                                <Link
+                                  key={item.href}
+                                  href={item.href}
+                                  prefetch={false}
+                                  className="text-h3 text-[var(--fg)] transition-opacity duration-[300ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
+                                  style={{
+                                    opacity: isExpanded ? 1 : 0,
+                                  }}
+                                  onClick={closeMobileMenu}
+                                >
+                                  {item.label}
+                                </Link>
+                              ) : (
+                                <Link
+                                  key={item.href}
+                                  href={`/lingo${item.href}`}
+                                  prefetch={false}
+                                  className="text-h3 text-[var(--fg)] transition-opacity duration-[300ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
+                                  style={{
+                                    opacity: isExpanded ? 1 : 0,
+                                  }}
+                                  onClick={closeMobileMenu}
+                                >
+                                  {item.label}
+                                </Link>
+                              )
+                            )}
                           </div>
                         </div>
                       )}
                     </div>
                   )
                 })}
-              </div>
-
-              {/* 모바일: 하단 언어 선택 (아이콘 버튼 3개) */}
-              <div className="mt-auto flex items-center justify-end gap-2 px-5 pb-5">
-                {LOCALES.map((l) => (
-                  <button
-                    key={l.code}
-                    onClick={() => handleLocaleSwitch()}
-                    className={cn(
-                      "flex size-14 items-center justify-center transition-all",
-                      locale === l.code
-                        ? "rounded-[var(--corner-fill)] bg-[var(--hover)]"
-                        : "rounded-full opacity-60 hover:opacity-100"
-                    )}
-                    aria-label={l.label}
-                  >
-                    <img src={l.flagImage} alt={l.label} className="size-8 object-cover" />
-                  </button>
-                ))}
               </div>
             </div>
           </div>

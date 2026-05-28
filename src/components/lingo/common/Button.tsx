@@ -18,7 +18,7 @@ interface ButtonProps {
   size?: ButtonSize
 }
 
-const contactUrl = "https://www.querypie.com/company/contact-us"
+const contactUrl = "/contact-us"
 
 const readyModalCopy = {
   ko: {
@@ -105,11 +105,13 @@ export function Button({
   )
 
   if (href) {
+    const isExternalHref = /^https?:\/\//.test(href)
+
     return (
       <a
         href={href}
-        target="_blank"
-        rel="noopener noreferrer"
+        target={isExternalHref ? "_blank" : undefined}
+        rel={isExternalHref ? "noopener noreferrer" : undefined}
         className={buttonClassName}
       >
         {content}
@@ -170,8 +172,6 @@ export function Button({
             <div className="mt-7 flex justify-center">
               <a
                 href={contactUrl}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[var(--corner-fill)] bg-[var(--brand)] px-5 py-2.5 body-md text-white transition-colors hover:bg-[#f2743d]"
               >
                 {copy.cta}

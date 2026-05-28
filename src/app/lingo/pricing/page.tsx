@@ -16,7 +16,7 @@ import { Footer } from "@/components/layout/lingo/Footer"
 import { FAQSection } from "@/components/sections/lingo/FAQSection"
 import { SubHeroSection } from "@/components/sections/lingo/SubHeroSection"
 
-const queryPieUrl = "https://querypie.com"
+const queryPieUrl = "/"
 
 type ComparisonRow = {
   item: string
