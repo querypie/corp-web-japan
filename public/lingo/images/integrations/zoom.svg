@@ -1,0 +1,7 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="100" ry="100" fill="#2D8CFF"/>
+  <!-- Video camera body (white rectangle) -->
+  <rect x="72" y="176" width="248" height="160" rx="24" ry="24" fill="white"/>
+  <!-- Camera lens triangle (chevron pointing right) -->
+  <polygon points="340,200 440,256 340,312" fill="white"/>
+</svg>

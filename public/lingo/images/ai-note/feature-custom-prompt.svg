@@ -1,0 +1,43 @@
+<svg width="1200" height="748" viewBox="0 0 1200 748" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="748" rx="40" fill="#F6F6F6"/>
+  <rect x="102" y="76" width="996" height="596" rx="30" fill="#FFFFFF"/>
+  <rect x="102" y="76" width="996" height="76" rx="30" fill="url(#headerGradient)"/>
+  <rect x="132" y="102" width="34" height="34" rx="12" fill="url(#brandGradient)"/>
+  <path d="M149 111L152 119L160 122L152 125L149 133L146 125L138 122L146 119L149 111Z" fill="white"/>
+  <text x="180" y="119" fill="#333333" font-family="Arial, sans-serif" font-size="16" font-weight="700">AI 요약</text>
+  <text x="180" y="138" fill="#999999" font-family="Arial, sans-serif" font-size="11">AI generated</text>
+  <text x="154" y="202" fill="#999999" font-family="Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="1.2">커스텀 프롬프트</text>
+  <rect x="154" y="224" width="412" height="112" rx="18" fill="url(#promptBorder)"/>
+  <rect x="158" y="228" width="404" height="104" rx="14" fill="#FFFFFF"/>
+  <text x="184" y="266" fill="#333333" font-family="Arial, sans-serif" font-size="18" font-weight="700">고객 피드백 중심으로 요약해줘</text>
+  <text x="184" y="300" fill="#999999" font-family="Arial, sans-serif" font-size="14">불만, 요청사항, 다음 액션을 따로 분리</text>
+  <rect x="154" y="360" width="412" height="50" rx="25" fill="url(#brandGradient)"/>
+  <path d="M322 374L325 382L333 385L325 388L322 396L319 388L311 385L319 382L322 374Z" fill="white"/>
+  <text x="342" y="391" fill="white" font-family="Arial, sans-serif" font-size="15" font-weight="700">요약 생성</text>
+  <rect x="644" y="190" width="338" height="362" rx="24" fill="#FAFAFA" stroke="#E8E8E8"/>
+  <rect x="670" y="218" width="164" height="26" rx="13" fill="url(#brandGradient)"/>
+  <text x="704" y="236" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="700">커스텀 프롬프트</text>
+  <text x="670" y="286" fill="#333333" font-family="Arial, sans-serif" font-size="18" font-weight="700">고객 피드백</text>
+  <rect x="670" y="306" width="260" height="10" rx="5" fill="#D9D9D9"/>
+  <rect x="670" y="326" width="224" height="10" rx="5" fill="#E5E5E5"/>
+  <text x="670" y="382" fill="#333333" font-family="Arial, sans-serif" font-size="18" font-weight="700">우려사항</text>
+  <rect x="670" y="402" width="276" height="10" rx="5" fill="#D9D9D9"/>
+  <rect x="670" y="422" width="208" height="10" rx="5" fill="#E5E5E5"/>
+  <text x="670" y="478" fill="#333333" font-family="Arial, sans-serif" font-size="18" font-weight="700">다음 액션</text>
+  <rect x="670" y="500" width="286" height="32" rx="10" fill="#FFFFFF" stroke="#E8E8E8"/>
+  <rect x="688" y="511" width="194" height="10" rx="5" fill="#D9D9D9"/>
+  <defs>
+    <linearGradient id="headerGradient" x1="102" y1="76" x2="1098" y2="152" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E25A25" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#9478C7" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="brandGradient" x1="154" y1="224" x2="566" y2="410" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E25A25"/>
+      <stop offset="1" stop-color="#9478C7"/>
+    </linearGradient>
+    <linearGradient id="promptBorder" x1="154" y1="224" x2="566" y2="336" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E25A25"/>
+      <stop offset="1" stop-color="#9478C7"/>
+    </linearGradient>
+  </defs>
+</svg>

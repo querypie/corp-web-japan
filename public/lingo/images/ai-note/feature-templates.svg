@@ -1,0 +1,44 @@
+<svg width="1200" height="748" viewBox="0 0 1200 748" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="748" rx="40" fill="#F6F6F6"/>
+  <rect x="156" y="70" width="888" height="608" rx="30" fill="#FFFFFF"/>
+  <rect x="156" y="70" width="888" height="76" rx="30" fill="url(#headerGradient)"/>
+  <rect x="190" y="96" width="34" height="34" rx="12" fill="url(#brandGradient)"/>
+  <path d="M207 105L210 113L218 116L210 119L207 127L204 119L196 116L204 113L207 105Z" fill="white"/>
+  <text x="238" y="113" fill="#333333" font-family="Arial, sans-serif" font-size="16" font-weight="700">AI 요약</text>
+  <text x="238" y="132" fill="#999999" font-family="Arial, sans-serif" font-size="11">AI generated</text>
+  <text x="252" y="208" fill="#999999" font-family="Arial, sans-serif" font-size="17">회의 내용을 어떤 형식으로 요약할까요?</text>
+  <g filter="url(#cardShadow)">
+    <rect x="252" y="248" width="696" height="84" rx="18" fill="#FFFFFF"/>
+    <text x="286" y="285" fill="#333333" font-family="Arial, sans-serif" font-size="18" font-weight="700">기본 요약</text>
+    <text x="286" y="312" fill="#999999" font-family="Arial, sans-serif" font-size="14">회의의 핵심 내용과 결정사항, 다음 액션을 요약</text>
+  </g>
+  <line x1="252" y1="350" x2="948" y2="350" stroke="#E8E8E8"/>
+  <g filter="url(#cardShadow)">
+    <rect x="252" y="370" width="696" height="84" rx="18" fill="#FFFFFF"/>
+    <text x="286" y="407" fill="#333333" font-family="Arial, sans-serif" font-size="18" font-weight="700">액션 아이템</text>
+    <text x="286" y="434" fill="#999999" font-family="Arial, sans-serif" font-size="14">담당자별 할 일, 기한, 후속 조치를 정리</text>
+  </g>
+  <line x1="252" y1="472" x2="948" y2="472" stroke="#E8E8E8"/>
+  <g filter="url(#cardShadow)">
+    <rect x="252" y="492" width="696" height="84" rx="18" fill="#FFFFFF"/>
+    <text x="286" y="529" fill="#333333" font-family="Arial, sans-serif" font-size="18" font-weight="700">회의록</text>
+    <text x="286" y="556" fill="#999999" font-family="Arial, sans-serif" font-size="14">안건별 논의 내용과 결과를 회의록 형식으로 정리</text>
+  </g>
+  <rect x="732" y="184" width="224" height="38" rx="19" fill="#E25A25" fill-opacity="0.1"/>
+  <text x="786" y="209" fill="#E25A25" font-family="Arial, sans-serif" font-size="14" font-weight="700">템플릿</text>
+  <rect x="854" y="184" width="102" height="38" rx="19" fill="#9478C7" fill-opacity="0.1"/>
+  <text x="884" y="209" fill="#6D50A4" font-family="Arial, sans-serif" font-size="14" font-weight="700">4종</text>
+  <defs>
+    <linearGradient id="headerGradient" x1="156" y1="70" x2="1044" y2="146" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E25A25" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#9478C7" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="brandGradient" x1="190" y1="96" x2="224" y2="130" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E25A25"/>
+      <stop offset="1" stop-color="#9478C7"/>
+    </linearGradient>
+    <filter id="cardShadow" x="232" y="232" width="736" height="124" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000000" flood-opacity="0.05"/>
+    </filter>
+  </defs>
+</svg>

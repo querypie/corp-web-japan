@@ -1,0 +1,63 @@
+<svg width="1200" height="748" viewBox="0 0 1200 748" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="748" rx="40" fill="#F6F6F6"/>
+  <rect x="82" y="74" width="1036" height="600" rx="28" fill="#FFFFFF"/>
+  <rect x="82" y="74" width="672" height="600" rx="28" fill="#FAFAFA"/>
+  <rect x="82" y="74" width="1036" height="56" rx="28" fill="#FFFFFF"/>
+  <rect x="110" y="94" width="168" height="16" rx="8" fill="#333333"/>
+  <rect x="928" y="94" width="82" height="20" rx="10" fill="#E25A25" fill-opacity="0.12"/>
+  <text x="946" y="109" fill="#E25A25" font-family="Arial, sans-serif" font-size="12" font-weight="700">AI 요약</text>
+  <rect x="120" y="168" width="560" height="88" rx="18" fill="#FFFFFF" stroke="#E8E8E8"/>
+  <circle cx="152" cy="204" r="18" fill="#E25A25" fill-opacity="0.12"/>
+  <text x="145" y="210" fill="#E25A25" font-family="Arial, sans-serif" font-size="14" font-weight="700">A</text>
+  <rect x="188" y="184" width="132" height="12" rx="6" fill="#333333"/>
+  <rect x="188" y="210" width="420" height="10" rx="5" fill="#D9D9D9"/>
+  <rect x="188" y="230" width="298" height="10" rx="5" fill="#E5E5E5"/>
+  <rect x="120" y="282" width="560" height="108" rx="18" fill="#FFFFFF" stroke="#E8E8E8"/>
+  <circle cx="152" cy="318" r="18" fill="#9478C7" fill-opacity="0.16"/>
+  <text x="145" y="324" fill="#6D50A4" font-family="Arial, sans-serif" font-size="14" font-weight="700">B</text>
+  <rect x="188" y="300" width="150" height="12" rx="6" fill="#333333"/>
+  <rect x="188" y="326" width="438" height="10" rx="5" fill="#D9D9D9"/>
+  <rect x="188" y="346" width="386" height="10" rx="5" fill="#E5E5E5"/>
+  <rect x="188" y="366" width="260" height="10" rx="5" fill="#E5E5E5"/>
+  <rect x="120" y="416" width="560" height="82" rx="18" fill="#FFFFFF" stroke="#E8E8E8"/>
+  <circle cx="152" cy="452" r="18" fill="#333333" fill-opacity="0.08"/>
+  <text x="145" y="458" fill="#555555" font-family="Arial, sans-serif" font-size="14" font-weight="700">C</text>
+  <rect x="188" y="434" width="124" height="12" rx="6" fill="#333333"/>
+  <rect x="188" y="460" width="392" height="10" rx="5" fill="#D9D9D9"/>
+  <rect x="754" y="74" width="364" height="600" rx="28" fill="#FFFFFF"/>
+  <rect x="754" y="74" width="364" height="76" rx="28" fill="url(#headerGradient)"/>
+  <rect x="784" y="100" width="34" height="34" rx="12" fill="url(#brandGradient)"/>
+  <path d="M801 109L804 117L812 120L804 123L801 131L798 123L790 120L798 117L801 109Z" fill="white"/>
+  <text x="832" y="116" fill="#333333" font-family="Arial, sans-serif" font-size="15" font-weight="700">AI 요약</text>
+  <text x="832" y="134" fill="#999999" font-family="Arial, sans-serif" font-size="10">AI generated</text>
+  <rect x="784" y="178" width="136" height="26" rx="13" fill="url(#brandGradient)"/>
+  <path d="M802 185L804 190L809 192L804 194L802 199L800 194L795 192L800 190L802 185Z" fill="white"/>
+  <text x="816" y="196" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="700">기본 요약</text>
+  <text x="932" y="196" fill="#999999" font-family="Arial, sans-serif" font-size="11">생성됨</text>
+  <text x="784" y="246" fill="#333333" font-family="Arial, sans-serif" font-size="18" font-weight="700">핵심 요약</text>
+  <rect x="784" y="264" width="286" height="10" rx="5" fill="#D9D9D9"/>
+  <rect x="784" y="284" width="248" height="10" rx="5" fill="#E5E5E5"/>
+  <rect x="784" y="304" width="302" height="10" rx="5" fill="#E5E5E5"/>
+  <text x="784" y="360" fill="#333333" font-family="Arial, sans-serif" font-size="18" font-weight="700">결정사항</text>
+  <rect x="784" y="378" width="278" height="10" rx="5" fill="#D9D9D9"/>
+  <rect x="784" y="398" width="236" height="10" rx="5" fill="#E5E5E5"/>
+  <text x="784" y="454" fill="#333333" font-family="Arial, sans-serif" font-size="18" font-weight="700">액션 아이템</text>
+  <rect x="784" y="474" width="300" height="42" rx="12" fill="#F7F7F7"/>
+  <rect x="800" y="490" width="12" height="12" rx="3" fill="#FFFFFF" stroke="#E25A25" stroke-width="2"/>
+  <rect x="826" y="491" width="212" height="10" rx="5" fill="#D9D9D9"/>
+  <rect x="784" y="528" width="300" height="42" rx="12" fill="#F7F7F7"/>
+  <rect x="800" y="544" width="12" height="12" rx="3" fill="#FFFFFF" stroke="#E25A25" stroke-width="2"/>
+  <rect x="826" y="545" width="236" height="10" rx="5" fill="#D9D9D9"/>
+  <rect x="784" y="606" width="304" height="42" rx="21" fill="#FFFFFF" stroke="#E25A25" stroke-opacity="0.38"/>
+  <text x="884" y="632" fill="#E25A25" font-family="Arial, sans-serif" font-size="14" font-weight="700">다시 생성</text>
+  <defs>
+    <linearGradient id="headerGradient" x1="754" y1="74" x2="1118" y2="150" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E25A25" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#9478C7" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="brandGradient" x1="784" y1="100" x2="920" y2="204" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E25A25"/>
+      <stop offset="1" stop-color="#9478C7"/>
+    </linearGradient>
+  </defs>
+</svg>
