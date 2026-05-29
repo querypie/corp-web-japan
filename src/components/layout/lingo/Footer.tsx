@@ -3,31 +3,33 @@
 import Link from "next/link"
 import { useLocale } from "@/lib/lingo/intl"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
-import { CookieSettingsButton } from "@/components/layout/lingo/CookieSettingsButton"
 
 type FooterLocale = "en" | "ko" | "ja"
 
 const queryPieLinks = {
   en: {
-    about: "https://www.querypie.com/company/about-us",
-    contact: "https://www.querypie.com/company/contact-us",
-    terms: "https://www.querypie.com/terms-of-service",
-    privacy: "https://www.querypie.com/privacy-policy",
-    eula: "https://www.querypie.com/eula",
+    about: "/about-us",
+    contact: "/contact-us",
+    cookie: "/cookie-preference",
+    terms: "/terms-of-service",
+    privacy: "/privacy-policy",
+    eula: "/eula",
   },
   ko: {
-    about: "https://www.querypie.com/ko/company/about-us",
-    contact: "https://www.querypie.com/ko/company/contact-us",
-    terms: "https://www.querypie.com/ko/terms-of-service-ko",
-    privacy: "https://www.querypie.com/ko/privacy-policy-ko",
-    eula: "https://www.querypie.com/ko/eula",
+    about: "/about-us",
+    contact: "/contact-us",
+    cookie: "/cookie-preference",
+    terms: "/terms-of-service",
+    privacy: "/privacy-policy",
+    eula: "/eula",
   },
   ja: {
-    about: "https://www.querypie.com/ja/company/about-us",
-    contact: "https://www.querypie.com/ja/company/contact-us",
-    terms: "https://www.querypie.com/ja/terms-of-service-ja",
-    privacy: "https://www.querypie.com/ja/privacy-policy-ja",
-    eula: "https://www.querypie.com/ja/eula",
+    about: "/about-us",
+    contact: "/contact-us",
+    cookie: "/cookie-preference",
+    terms: "/terms-of-service",
+    privacy: "/privacy-policy",
+    eula: "/eula",
   },
 } satisfies Record<FooterLocale, Record<string, string>>
 
@@ -115,6 +117,7 @@ export function Footer() {
   ]
 
   const legalLinks = [
+    { label: labels.cookie, href: externalLinks.cookie },
     { label: labels.terms, href: externalLinks.terms },
     { label: labels.privacy, href: externalLinks.privacy },
     { label: labels.eula, href: externalLinks.eula },
@@ -172,15 +175,14 @@ export function Footer() {
                 </h3>
                 <div className="flex flex-col gap-[10px]">
                   {companyLinks.map((link) => (
-                    <a
+                    <Link
                       key={link.href}
                       href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      prefetch={false}
                       className="text-[13px] leading-[18px] text-[var(--mute)] transition-colors hover:text-[var(--white)] md:text-[14px] md:leading-[20px]"
                     >
                       {link.label}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -191,19 +193,15 @@ export function Footer() {
           <div className="flex flex-col gap-3 pt-4 pb-[44px] md:pb-[60px]">
             <div className="body-sm flex flex-wrap items-center gap-x-4 gap-y-2 md:gap-x-[20px]">
               <span className="text-[var(--white)]">Powered by AIP</span>
-              <CookieSettingsButton className="cursor-pointer text-left text-[var(--mute)] hover:text-[var(--white)] hover:underline">
-                {labels.cookie}
-              </CookieSettingsButton>
               {legalLinks.map((link) => (
-                <a
+                <Link
                   key={link.href}
                   href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  prefetch={false}
                   className="text-[var(--mute)] hover:text-[var(--white)] hover:underline"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
             </div>
             <p className="body-sm text-[var(--white)]">

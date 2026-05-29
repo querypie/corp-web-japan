@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import {
   ArrowRight,
   Bot,
@@ -35,9 +36,12 @@ function ServiceLogo({ id, title }: { id: string; title: string }) {
 
   if (logoSrc) {
     return (
-      <img
+      <Image
         src={logoSrc}
         alt=""
+        width={32}
+        height={32}
+        unoptimized
         className="size-8 object-contain"
         aria-hidden="true"
       />
@@ -251,14 +255,14 @@ const aipVideoThumb =
 
 function getAipUrl(locale: string) {
   if (locale === "ko") {
-    return "https://www.querypie.com/ko/solutions/aip"
+    return "/platforms/aip"
   }
 
   if (locale === "ja") {
-    return "https://www.querypie.com/ja/solutions/aip"
+    return "/platforms/aip"
   }
 
-  return "https://www.querypie.com/solutions/aip"
+  return "/platforms/aip"
 }
 
 export default function IntegrationsPage() {
@@ -269,10 +273,13 @@ export default function IntegrationsPage() {
   return (
     <main className="min-h-screen bg-[var(--bg)] page-layout-sub">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[200px] overflow-hidden">
-        <img
+        <Image
           src="/lingo/images/bg-home.jpg"
           alt=""
-          className="size-full object-cover object-bottom"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-bottom"
         />
       </div>
 
@@ -322,10 +329,13 @@ export default function IntegrationsPage() {
             aria-label={copy.videoLabel}
             className="group relative isolate aspect-video w-full overflow-hidden rounded-[var(--corner-box)] bg-[var(--card)]"
           >
-            <img
+            <Image
               src={aipVideoThumb}
               alt=""
-              className="absolute inset-0 -z-10 size-full object-cover"
+              fill
+              unoptimized
+              sizes="(min-width: 1024px) 1000px, 100vw"
+              className="-z-10 object-cover"
             />
             <div className="absolute inset-0 -z-10 bg-black/10 transition-colors group-hover:bg-black/20" />
             <span className="absolute inset-0 flex items-center justify-center">
