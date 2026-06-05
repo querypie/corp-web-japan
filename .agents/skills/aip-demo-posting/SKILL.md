@@ -31,6 +31,9 @@ This wrapper only adds the AIP-demo-specific contract.
 - Related field: `relatedIds`
 - Supported optional extras: `author`, `hidden`, `redirectUrl`
 
+## AIP demo-specific expectations
+- The shared Open Graph preview image rule applies to AIP demo posts: keep the effective preview image route-aligned and `.png`, never SVG.
+
 ## Verification
 ```bash
 npm run test -- tests/aip-demo-mdx-routing-and-preview.test.mjs

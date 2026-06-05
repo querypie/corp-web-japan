@@ -33,6 +33,8 @@ This wrapper only adds the news-specific contract.
 - Optional shared extras also supported: `author`, `hidden`, `redirectUrl`
 
 ## News-specific expectations
+- News `heroImageSrc` is used for list cards and metadata preview surfaces in the current loaders; keep it route-aligned and `.png`, never SVG.
+- If a future loader-supported `openGraphImageSrc` is used, it may be shared across locales (`/news/<id>/thumbnail.png`) or locale-specific (`/news/<id>/thumbnail.ko.png` or `/ko/news/<id>/thumbnail.png`) when the referenced `public/**` file exists.
 - `sourceLabel` is optional.
 - If omitted, the current list defaults to `メディア掲載` when `redirectUrl` exists, otherwise `公式発表`.
 - Use `redirectUrl` when the local news record should preserve a detail surface but human visitors should be sent to an upstream/media destination.

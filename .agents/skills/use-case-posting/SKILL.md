@@ -31,6 +31,9 @@ This wrapper only adds the use-case-specific contract.
 - Related field: `relatedIds`
 - Supported optional extras: `author`, `hidden`, `redirectUrl`
 
+## Use-case-specific expectations
+- The shared Open Graph preview image rule applies to use cases: keep the effective preview image route-aligned and `.png`, never SVG.
+
 ## Verification
 ```bash
 npm run test -- tests/use-cases-mdx-routing-and-preview.test.mjs
