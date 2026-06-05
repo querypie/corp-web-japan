@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { PlatformContentSection, PlatformFeatureSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 import { AipThumbnailYoutube } from "@/components/sections/aip/thumbnail-youtube";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type FeatureSectionProps = {
   children: ReactNode;
@@ -22,11 +23,15 @@ type HeroVideoProps = {
 };
 
 export function AipPageShell({ children }: { children: ReactNode }) {
-  return <PlatformPageShell>{children}</PlatformPageShell>;
+  return <PlatformPageShell {...componentNameDebugProps("AipPageShell")}>{children}</PlatformPageShell>;
 }
 
 export function AipHeroSection({ children }: { children: ReactNode }) {
-  return <PlatformContentSection className="pb-[120px] pt-[134px] lg:pt-[144px]">{children}</PlatformContentSection>;
+  return (
+    <PlatformContentSection {...componentNameDebugProps("AipHeroSection")} className="pb-[120px] pt-[134px] lg:pt-[144px]">
+      {children}
+    </PlatformContentSection>
+  );
 }
 
 export function AipHeroInner({ children }: { children: ReactNode }) {

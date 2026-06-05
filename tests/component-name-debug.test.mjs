@@ -8,6 +8,19 @@ const menuSectionSource = readSource("src/components/layout/component-name-debug
 const previewToggleSource = readSource("src/components/layout/preview-mode-toggle.tsx");
 const siteHeaderSource = readSource("src/components/layout/site-header-client.tsx");
 const overlayStyles = readSource("src/components/layout/component-name-debug-overlay.module.css");
+const siteFooterSource = readSource("src/components/layout/site-footer.tsx");
+const homePageSource = readSource("src/app/page.tsx");
+const aiCrewPageSource = readSource("src/app/solutions/ai-crew/page.tsx");
+const aiDashiPageSource = readSource("src/app/solutions/ai-dashi/page.tsx");
+const homeHeroSectionsSource = readSource("src/components/sections/home/hero-section.tsx");
+const homeSolutionOverviewSectionsSource = readSource("src/components/sections/home/solution-overview-section.tsx");
+const aiCrewHeroSectionsSource = readSource("src/components/sections/ai-crew/hero-section.tsx");
+const aiCrewResultsSectionsSource = readSource("src/components/sections/ai-crew/results-section.tsx");
+const aiDashiHeroSectionsSource = readSource("src/components/sections/ai-dashi/hero-section.tsx");
+const aiDashiValuesSectionsSource = readSource("src/components/sections/ai-dashi/values-section.tsx");
+const aipPageSectionsSource = readSource("src/components/sections/aip/page.tsx");
+const fdePageSectionsSource = readSource("src/components/sections/fde/service-page.tsx");
+const publicationPostPageSource = readSource("src/components/sections/publication-post-page.tsx");
 
 test("Component Name Debug uses a production-capable build-time code constant", () => {
   assert.match(contractSource, /export const COMPONENT_NAME_DEBUG_ENABLED = true;/);
@@ -72,4 +85,23 @@ test("Preview toggle menu hosts Component Name Debug independently from preview 
   assert.match(menuSectionSource, /Show Component Name/);
   assert.match(menuSectionSource, /Shortcut: Alt\+Shift\+N/);
   assert.match(menuSectionSource, /writeComponentNameDebugMode/);
+});
+
+test("Component Name Debug marks common layout, page, section, and publication boundaries", () => {
+  assert.match(siteFooterSource, /componentNameDebugProps\("SiteFooter"\)/);
+  assert.match(homePageSource, /componentNameDebugProps\("HomePage"\)/);
+  assert.match(homeHeroSectionsSource, /componentNameDebugProps\("HeroSection"\)/);
+  assert.match(homeSolutionOverviewSectionsSource, /componentNameDebugProps\("SolutionOverviewSection"\)/);
+  assert.match(aiCrewPageSource, /componentNameDebugProps\("AICrewPage"\)/);
+  assert.match(aiCrewHeroSectionsSource, /componentNameDebugProps\("AICrewHeroSection"\)/);
+  assert.match(aiCrewResultsSectionsSource, /componentNameDebugProps\("AICrewResultsSection"\)/);
+  assert.match(aiDashiPageSource, /componentNameDebugProps\("AIDashiPage"\)/);
+  assert.match(aiDashiHeroSectionsSource, /componentNameDebugProps\("AIDashiHeroSection"\)/);
+  assert.match(aiDashiValuesSectionsSource, /componentNameDebugProps\("AIDashiValuesSection"\)/);
+  assert.match(aipPageSectionsSource, /componentNameDebugProps\("AipPageShell"\)/);
+  assert.match(aipPageSectionsSource, /componentNameDebugProps\("AipHeroSection"\)/);
+  assert.match(fdePageSectionsSource, /componentNameDebugProps\("ServiceFdePageShell"\)/);
+  assert.match(fdePageSectionsSource, /componentNameDebugProps\("ServiceFdeHeroSection"\)/);
+  assert.match(publicationPostPageSource, /componentNameDebugProps\("PublicationPostPage"\)/);
+  assert.match(publicationPostPageSource, /componentNameDebugProps\("PublicationPostArticle"\)/);
 });

@@ -1,12 +1,17 @@
 import type { ReactNode } from "react";
 import { BriefcaseBusiness, type LucideIcon } from "lucide-react";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const aiCrewAccentTextClass =
   "bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_48%,#2563EB_78%,#93C5FD_100%)] bg-clip-text text-transparent [animation:heroAccentGlow_3.2s_ease-in-out_infinite] motion-reduce:animate-none";
 
 export function AICrewResultsSection({ children }: { children: ReactNode }) {
-  return <section id="results" className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-20 lg:px-10">{children}</section>;
+  return (
+    <section {...componentNameDebugProps("AICrewResultsSection")} id="results" className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-20 lg:px-10">
+      {children}
+    </section>
+  );
 }
 
 export function AICrewResultsIntro({ children }: { children: ReactNode }) {

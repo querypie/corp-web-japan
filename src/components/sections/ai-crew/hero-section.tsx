@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const aiCrewAccentTextClass =
   "bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_48%,#2563EB_78%,#93C5FD_100%)] bg-clip-text text-transparent [animation:heroAccentGlow_3.2s_ease-in-out_infinite] motion-reduce:animate-none";
@@ -13,7 +14,11 @@ const aiCrewSecondaryButtonClass =
   "inline-flex items-center justify-center gap-2 rounded-[12px] border border-[#C9D8F5] bg-[linear-gradient(180deg,#FFFFFF_0%,#EEF4FF_100%)] px-5 py-3 text-base font-semibold text-[#163A7A] shadow-[0_18px_40px_-30px_rgba(15,42,95,0.34)] transition hover:border-[#B7CCEF] hover:bg-[linear-gradient(180deg,#FAFCFF_0%,#E8F0FF_100%)]";
 
 export function AICrewHeroSection({ children }: { children: ReactNode }) {
-  return <section id="hero" className="mx-auto max-w-[1260px] px-6 py-14 lg:px-0 lg:py-[72px]">{children}</section>;
+  return (
+    <section {...componentNameDebugProps("AICrewHeroSection")} id="hero" className="mx-auto max-w-[1260px] px-6 py-14 lg:px-0 lg:py-[72px]">
+      {children}
+    </section>
+  );
 }
 
 export function AICrewHeroShell({ children }: { children: ReactNode }) {

@@ -157,6 +157,7 @@ import {
   AIDashiWallCardsSection,
   AIDashiWallCardsTitle,
 } from "@/components/sections/ai-dashi/wall-cards-section";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 export const metadata: Metadata = {
   title: "自社サービスをAI搭載SaaSへ最短で進化させる | AI Dashi | QueryPie AI",
   description:
@@ -181,7 +182,7 @@ export const metadata: Metadata = {
 
 export default function AIDashiPage() {
   return (
-    <main className="relative overflow-x-hidden bg-[#eceff3] pt-[64px] text-slate-950">
+    <main {...componentNameDebugProps("AIDashiPage")} className="relative overflow-x-hidden bg-[#eceff3] pt-[64px] text-slate-950">
       <SiteHeader />
       <FloatingConversionCta href={aiDashiFloatingUrl} />
 

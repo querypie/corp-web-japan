@@ -3,10 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { MarketingPill } from "@/components/sections/home/primitives";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export function HeroSection({ imageSrc, imageAlt, children }: { imageSrc: string; imageAlt: string; children: ReactNode }) {
   return (
-    <section className="relative overflow-hidden border-b border-slate-200 bg-slate-950">
+    <section {...componentNameDebugProps("HeroSection")} className="relative overflow-hidden border-b border-slate-200 bg-slate-950">
       <Image src={imageSrc} alt={imageAlt} fill priority className="object-cover object-[58%_center]" />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,6,23,0.88)_0%,rgba(2,6,23,0.72)_34%,rgba(2,6,23,0.36)_60%,rgba(2,6,23,0.18)_100%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(96,165,250,0.22),transparent_24%),radial-gradient(circle_at_70%_20%,rgba(255,255,255,0.14),transparent_18%),linear-gradient(180deg,rgba(15,23,42,0)_0%,rgba(15,23,42,0.16)_62%,rgba(15,23,42,0.56)_100%)]" />

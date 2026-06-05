@@ -6,6 +6,8 @@ type ChildrenProps = {
   children: ReactNode;
 };
 
+type PlatformPageShellProps = ChildrenProps & Omit<ComponentPropsWithoutRef<"main">, "children" | "className">;
+
 type PlatformContentSectionProps<T extends ElementType = "section"> = ChildrenProps & {
   as?: T;
   className?: string;
@@ -22,8 +24,8 @@ type PlatformCtaSectionProps = ChildrenProps & {
   className?: string;
 };
 
-export function PlatformPageShell({ children }: ChildrenProps) {
-  return <main className="relative overflow-x-hidden bg-white text-slate-950">{children}</main>;
+export function PlatformPageShell({ children, ...props }: PlatformPageShellProps) {
+  return <main className="relative overflow-x-hidden bg-white text-slate-950" {...props}>{children}</main>;
 }
 
 export function PlatformContentSection<T extends ElementType = "section">({

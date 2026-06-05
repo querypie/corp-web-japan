@@ -191,6 +191,7 @@ import {
   AICrewUseCaseTab,
   AICrewUseCaseTabbedCard,
 } from "@/components/sections/ai-crew/use-cases-section";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const aiCrewPageDescription =
   "調査、データ整理、下書きなど、時間のかかる下準備をAIに任せて効率化。人員を増やすことなく、企業の生産性・利益率の向上を実現します。";
@@ -219,7 +220,7 @@ export const metadata: Metadata = {
 
 export default function AICrewPage() {
   return (
-    <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
+    <main {...componentNameDebugProps("AICrewPage")} className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
       <SiteHeader />
       <FloatingConversionCta href={aiCrewFloatingCtaUrl} />
       <AICrewHeroSection>

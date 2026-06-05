@@ -6,6 +6,7 @@ import { PublicationShareButtons } from "@/components/sections/publication/share
 import { ResourcePostGated } from "@/components/sections/publication/gated-content";
 import { ResourcePostToc } from "@/components/sections/publication/toc";
 import type { PublicationPost, PublicationPostDownloadCta } from "@/lib/publications/types";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const publicationPostContactUrl = "/contact-us";
 
@@ -78,10 +79,10 @@ export const publicationBodyClassName = [
 
 export function PublicationPostPage({ post }: PublicationPostPageProps) {
   return (
-    <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[120px] pt-[112px] lg:px-[30px] lg:pb-[160px] lg:pt-[144px]">
+    <section {...componentNameDebugProps("PublicationPostPage")} className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[120px] pt-[112px] lg:px-[30px] lg:pb-[160px] lg:pt-[144px]">
       <div className="mx-auto max-w-[1200px]">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-[60px]">
-          <div className="min-w-0 flex-1">
+          <div {...componentNameDebugProps("PublicationPostArticle")} className="min-w-0 flex-1">
             <div className="mb-5 flex flex-col gap-5">
               <div className="flex flex-col gap-5">
                 <span className="inline-flex self-start rounded-full border border-[#353c45] px-3 py-1 text-xs font-medium leading-[1.417] tracking-[0.015rem] text-slate-950">

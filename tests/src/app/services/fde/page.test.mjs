@@ -38,8 +38,8 @@ test("/services/fde is a public page with indexable metadata and canonical path"
 
   assert.match(sectionSource, /export function ServiceFdeHeroSection/);
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
-  assert.match(sectionSource, /export function ServiceFdePageShell[\s\S]*<PlatformPageShell>/);
-  assert.match(sectionSource, /export function ServiceFdeHeroSection[\s\S]*<PlatformContentSection className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]">/);
+  assert.match(sectionSource, /export function ServiceFdePageShell[\s\S]*<PlatformPageShell(?:\s[^>]*)?>/);
+  assert.match(sectionSource, /export function ServiceFdeHeroSection[\s\S]*<PlatformContentSection[\s\S]*className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]">/);
   assert.match(sectionSource, /export function ServiceFdeHeroTitle[\s\S]*mx-auto max-w-\[800px\][\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
   assert.match(sectionSource, /export function ServiceFdeHeroLead[\s\S]*max-w-\[1000px\][\s\S]*text-\[18px\][\s\S]*leading-\[28px\]/);
   assert.match(sectionSource, /export function ServiceFdeHeroVisual/);
