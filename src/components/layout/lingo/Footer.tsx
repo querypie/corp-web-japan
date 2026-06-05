@@ -9,25 +9,25 @@ type FooterLocale = "en" | "ko" | "ja"
 
 const queryPieLinks = {
   en: {
-    about: "https://querypie.ai/about-us",
-    contact: "https://querypie.ai/contact-us",
-    terms: "https://querypie.ai/terms-of-service",
-    privacy: "https://querypie.ai/privacy-policy",
-    eula: "https://querypie.ai/eula",
+    about: "/about-us",
+    contact: "/contact-us",
+    terms: "/terms-of-service",
+    privacy: "/privacy-policy",
+    eula: "/eula",
   },
   ko: {
-    about: "https://querypie.ai/about-us",
-    contact: "https://querypie.ai/contact-us",
-    terms: "https://querypie.ai/terms-of-service",
-    privacy: "https://querypie.ai/privacy-policy",
-    eula: "https://querypie.ai/eula",
+    about: "/about-us",
+    contact: "/contact-us",
+    terms: "/terms-of-service",
+    privacy: "/privacy-policy",
+    eula: "/eula",
   },
   ja: {
-    about: "https://querypie.ai/about-us",
-    contact: "https://querypie.ai/contact-us",
-    terms: "https://querypie.ai/terms-of-service",
-    privacy: "https://querypie.ai/privacy-policy",
-    eula: "https://querypie.ai/eula",
+    about: "/about-us",
+    contact: "/contact-us",
+    terms: "/terms-of-service",
+    privacy: "/privacy-policy",
+    eula: "/eula",
   },
 } satisfies Record<FooterLocale, Record<string, string>>
 
@@ -172,15 +172,14 @@ export function Footer() {
                 </h3>
                 <div className="flex flex-col gap-[10px]">
                   {companyLinks.map((link) => (
-                    <a
+                    <Link
                       key={link.href}
                       href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      prefetch={false}
                       className="text-[13px] leading-[18px] text-[var(--mute)] transition-colors hover:text-[var(--white)] md:text-[14px] md:leading-[20px]"
                     >
                       {link.label}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -195,15 +194,14 @@ export function Footer() {
                 {labels.cookie}
               </CookieSettingsButton>
               {legalLinks.map((link) => (
-                <a
+                <Link
                   key={link.href}
                   href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  prefetch={false}
                   className="text-[var(--mute)] hover:text-[var(--white)] hover:underline"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
             </div>
             <p className="body-sm text-[var(--white)]">

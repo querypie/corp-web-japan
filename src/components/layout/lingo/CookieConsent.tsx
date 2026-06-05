@@ -12,9 +12,9 @@ import {
 type CookieConsentLocale = "en" | "ko" | "ja"
 
 const privacyPolicyLinks = {
-  en: "https://querypie.ai/privacy-policy",
-  ko: "https://querypie.ai/privacy-policy",
-  ja: "https://querypie.ai/privacy-policy",
+  en: "/privacy-policy",
+  ko: "/privacy-policy",
+  ja: "/privacy-policy",
 } satisfies Record<CookieConsentLocale, string>
 
 const cookieConsentCopy = {
@@ -124,8 +124,6 @@ export function CookieConsent() {
             {copy.descriptionBeforePrivacy}
             <a
               href={privacyPolicyHref}
-              target="_blank"
-              rel="noopener noreferrer"
               className="font-medium text-[#1368d8] underline underline-offset-2"
             >
               {copy.privacyPolicy}
