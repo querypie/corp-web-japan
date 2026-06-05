@@ -34,6 +34,7 @@ This wrapper only adds the whitepaper-specific contract.
 - Optional shared extras also supported: `author`, `hidden`, `redirectUrl`
 
 ## Whitepaper-specific expectations
+- The shared Open Graph preview image rule applies to whitepapers: keep the effective preview image route-aligned and `.png`, never SVG.
 - Prefer setting `listDescription` explicitly.
 - If `gated: true`, the body must include `<GatingCut />`.
 - Keep all whitepaper-specific assets under `public/whitepapers/<id>/...`.

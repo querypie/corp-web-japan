@@ -68,13 +68,17 @@ Do not treat internal support content as a normal public posting family unless t
 2. Keep the file name shaped as `src/content/<family>/<id>-<slug>.mdx`.
 3. Treat frontmatter `slug` as the canonical route source of truth.
 4. Keep family-specific assets under the route-aligned public root for that family.
-5. Do not put new post-specific assets under generic roots such as `public/assets/...`.
-6. Prefer editing the existing MDX file directly instead of recreating it.
-7. Preserve current route behavior:
+5. Use Open Graph preview-compatible raster files for publication hero/preview images; do not use `.svg` as the effective Open Graph preview image.
+6. In the current corp-web-japan loaders, `heroImageSrc` is the authored image field and is also used by metadata surfaces, so prefer a route-aligned `.png` `heroImageSrc` such as `/blog/<id>/thumbnail.png` or `/news/<id>/thumbnail.png`.
+7. If a future family loader explicitly supports `openGraphImageSrc`, treat the effective Open Graph preview image as `openGraphImageSrc ?? heroImageSrc`: `openGraphImageSrc` may provide a separate `.png` preview while `heroImageSrc` may remain a non-PNG page/card image.
+8. Open Graph preview image paths may be locale-agnostic (for example `/news/<id>/thumbnail.png`) or locale-specific (for example `/news/<id>/thumbnail.ko.png` or `/ko/news/<id>/thumbnail.png`) when the referenced `public/**` file exists and the target loader supports that path shape.
+9. Do not put new post-specific assets under generic roots such as `public/assets/...`.
+10. Prefer editing the existing MDX file directly instead of recreating it.
+11. Preserve current route behavior:
    - `/section/:id` redirects to `/section/:id/:slug`
    - mismatched slug redirects to the canonical slug
-8. Only use `hidden` / `redirectUrl` on families that actually support those fields in code.
-9. Keep all `date` / `eventDate` frontmatter values as ISO `YYYY-MM-DD`; the website loaders convert ISO source dates to Japanese display dates such as `2024年11月22日`.
+12. Only use `hidden` / `redirectUrl` on families that actually support those fields in code.
+13. Keep all `date` / `eventDate` frontmatter values as ISO `YYYY-MM-DD`; the website loaders convert ISO source dates to Japanese display dates such as `2024年11月22日`.
 
 ## Frontmatter contracts
 
@@ -101,6 +105,8 @@ redirectUrl: "https://example.com"
 
 Field notes:
 - `id`, `slug`, `title`, `description`, `date`, `heroImageSrc` are required.
+- `heroImageSrc` should point to a route-aligned `.png` by default because it is the current effective Open Graph preview image in corp-web-japan.
+- Only author `openGraphImageSrc` when the target family loader explicitly supports it; when supported, it must point to a route-aligned `.png` and overrides `heroImageSrc` for Open Graph/Twitter preview metadata.
 - `author` is optional and may be either a single string or a string array in the current loaders.
 - `relatedIds` should be an array of string IDs. Use `[]` semantics by omitting or leaving it empty when there are no related items.
 - `hidden` is optional. When `true`, the item is removed from the list page but still kept in the record set.
@@ -233,11 +239,14 @@ Field notes:
 3. Pick the intended numeric `id`.
 4. Add or copy the thumbnail to the route-aligned asset root:
    - `public/<family-root>/<id>/thumbnail.png`
-5. Add any extra figures or attachments under the same family-specific asset root.
-6. Create `src/content/<family>/<id>-<slug>.mdx`.
-7. Fill the exact frontmatter required by that family.
-8. Write the body using existing MDX patterns already used by that family.
-9. Run the lightest family-relevant verification.
+5. Confirm the effective Open Graph preview image is not SVG:
+   - current default: `heroImageSrc` references the `.png` thumbnail
+   - future loader-supported override: `openGraphImageSrc` references a `.png` preview image and `heroImageSrc` may be a separate page/card asset
+6. Add any extra figures or attachments under the same family-specific asset root.
+7. Create `src/content/<family>/<id>-<slug>.mdx`.
+8. Fill the exact frontmatter required by that family.
+9. Write the body using existing MDX patterns already used by that family.
+10. Run the lightest family-relevant verification.
 
 ### 2. Edit an existing MDX file
 
@@ -245,8 +254,9 @@ Field notes:
 2. Preserve the same `id` unless the user explicitly asks for a migration that changes canonical identity.
 3. If you change `slug`, verify the canonical route expectation still makes sense.
 4. If you change asset paths, move the files so the route-aligned public structure stays consistent.
-5. If you add new frontmatter, confirm the target family loader actually supports it.
-6. Re-run family-relevant tests.
+5. If `heroImageSrc` becomes SVG or another non-preview-safe format, also add a loader-supported `.png` Open Graph preview field before relying on it; otherwise keep `heroImageSrc` as `.png`.
+6. If you add new frontmatter, confirm the target family loader actually supports it.
+7. Re-run family-relevant tests.
 
 ### 3. Hide an item from list visibility without breaking detail routes
 
@@ -357,6 +367,8 @@ Do not set `gated: true` without `<GatingCut />`.
 - Using numeric `id` values without quoting them as strings
 - Treating filename slug as more authoritative than frontmatter `slug`
 - Adding post-specific assets under `public/assets/...`
+- Using `.svg` as the effective Open Graph preview image (`heroImageSrc` in the current loaders, or `openGraphImageSrc ?? heroImageSrc` when a loader supports `openGraphImageSrc`)
+- Adding `openGraphImageSrc` to a family before the loader/frontmatter contract supports it
 - Using `relatedIds` on resource families that actually expect `relatedItems`
 - Using `hidden` / `redirectUrl` on resource families without loader support
 - Setting `gated: true` without `<GatingCut />`
@@ -401,7 +413,8 @@ When asked to do MDX content work in this repo:
 2. confirm whether it is a publication family or a resource family
 3. apply the exact frontmatter contract for that family
 4. keep assets in the route-aligned public root
-5. use `hidden` / `redirectUrl` only on the families that support them
-6. use `gated: true` only with `<GatingCut />`
-7. run the lightest relevant tests
-8. update `.agents/skills/README.md` if a new repo-local skill is added or removed
+5. keep the effective Open Graph preview image route-aligned and `.png`, never SVG
+6. use `hidden` / `redirectUrl` only on the families that support them
+7. use `gated: true` only with `<GatingCut />`
+8. run the lightest relevant tests
+9. update `.agents/skills/README.md` if a new repo-local skill is added or removed

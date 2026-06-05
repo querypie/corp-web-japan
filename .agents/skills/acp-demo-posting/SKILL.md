@@ -31,6 +31,9 @@ This wrapper only adds the ACP-demo-specific contract.
 - Related field: `relatedIds`
 - Supported optional extras: `author`, `hidden`, `redirectUrl`
 
+## ACP demo-specific expectations
+- The shared Open Graph preview image rule applies to ACP demo posts: keep the effective preview image route-aligned and `.png`, never SVG.
+
 ## Verification
 ```bash
 npm run test -- tests/acp-demo-mdx-routing-and-preview.test.mjs

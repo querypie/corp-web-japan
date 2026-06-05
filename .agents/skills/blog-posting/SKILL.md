@@ -32,6 +32,7 @@ This wrapper only adds the blog-specific contract.
 - Optional supported frontmatter beyond the shared base: `author`, `hidden`, `redirectUrl`
 
 ## Blog-specific expectations
+- The shared Open Graph preview image rule applies to blog posts: keep the effective preview image route-aligned and `.png`, never SVG.
 - Use `src/content/authors/ja.yaml` for author ids when applicable.
 - Keep all blog-specific assets under `public/blog/<id>/...`.
 - Do not put new blog assets under `public/assets/...`.
