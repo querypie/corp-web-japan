@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Children, isValidElement, type ReactElement, type ReactNode, useMemo, useState } from "react";
 import { Minus, Plus } from "lucide-react";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export type AIDashiFaqItem = {
   question: string;
@@ -40,7 +41,7 @@ export function AIDashiFaq({ children, ctaHref, ctaLabel }: AIDashiFaqProps) {
   );
 
   return (
-    <div className="w-full max-w-[1120px] space-y-4">
+    <div {...componentNameDebugProps("AIDashiFaq")} className="w-full max-w-[1120px] space-y-4">
       {items.map((item, index) => {
         const isOpen = openIndex === index;
 

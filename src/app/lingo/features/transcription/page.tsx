@@ -13,6 +13,7 @@ import {
 import { SubPageHeroBackground } from "@/components/sections/lingo/SubPageHeroBackground"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
 import { cn } from "@/lib/lingo/utils"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type TranscriptionFeatureCard = {
   title: string
@@ -216,7 +217,7 @@ function FeatureCardsSection() {
   const copy = getLocaleCopy(useLocale(), transcriptionCopy)
 
   return (
-    <Container className="section-gap">
+    <Container {...componentNameDebugProps("FeatureCardsSection")} className="section-gap">
       <div className="flex flex-col gap-16 md:gap-[120px]">
         {copy.featureCards.map((card, index) => {
           const isEven = index % 2 === 0
@@ -338,7 +339,7 @@ function NextFeaturesSection() {
   const copy = getLocaleCopy(useLocale(), transcriptionCopy)
 
   return (
-    <Container>
+    <Container {...componentNameDebugProps("NextFeaturesSection")}>
       <div className="flex flex-col gap-[50px] md:gap-[70px]">
         <div className="mx-auto flex max-w-[960px] flex-col items-center gap-[14px] text-center">
           <h2 className="text-h1 [word-break:keep-all] text-[var(--fg)]">
@@ -381,7 +382,7 @@ function TranscriptionFAQSection() {
   const copy = getLocaleCopy(useLocale(), transcriptionCopy)
 
   return (
-    <Container>
+    <Container {...componentNameDebugProps("TranscriptionFAQSection")}>
       <div className="flex flex-col gap-4 md:gap-[20px]">
         <h2 className="text-h1 text-[var(--fg)]">{copy.faqTitle}</h2>
         <div className="flex flex-col gap-[10px]">
@@ -430,7 +431,7 @@ function TranscriptionCTASection() {
   const copy = getLocaleCopy(useLocale(), transcriptionCopy)
 
   return (
-    <Container>
+    <Container {...componentNameDebugProps("TranscriptionCTASection")}>
       <div className="flex flex-col items-center gap-6 text-center md:gap-[30px]">
         <div className="flex w-full flex-col items-center gap-4 text-[var(--fg)] md:gap-[20px]">
           <h2 className="text-h1">{copy.ctaTitle}</h2>
@@ -450,7 +451,7 @@ export default function TranscriptionPage() {
   const copy = getLocaleCopy(useLocale(), transcriptionCopy)
 
   return (
-    <main className="page-layout-sub min-h-screen bg-[var(--bg)]">
+    <main {...componentNameDebugProps("TranscriptionPage")} className="page-layout-sub min-h-screen bg-[var(--bg)]">
       <SubPageHeroBackground />
       <div className="page-gutter w-full">
         <div className="container-main relative z-10 w-full">

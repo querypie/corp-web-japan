@@ -8,11 +8,13 @@ import {
   useEffect,
   useMemo,
   useState,
+  type ComponentPropsWithoutRef,
   type ReactElement,
   type ReactNode,
 } from "react";
 import { Blocks, Brain, ChartColumnIncreasing, FileSearch, Play, Search, Wallet, X } from "lucide-react";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const useCaseIcons = {
   search: Search,
@@ -66,6 +68,7 @@ function UseCaseCardChrome({
   videoHref,
   videoAriaLabel,
   delayMs = 0,
+  ...articleProps
 }: {
   icon: UseCaseIconName;
   category: ReactNode;
@@ -76,7 +79,7 @@ function UseCaseCardChrome({
   videoHref: string;
   videoAriaLabel: string;
   delayMs?: number;
-}) {
+} & Omit<ComponentPropsWithoutRef<"article">, "children" | "title">) {
   const Icon = useCaseIcons[icon];
   const { openVideo } = useAICrewUseCasesVideo();
   const thumbnail = getYouTubeThumbnail(videoHref);
@@ -84,6 +87,7 @@ function UseCaseCardChrome({
   return (
     <RevealOnScroll delayMs={delayMs}>
       <article
+        {...articleProps}
         role="button"
         tabIndex={0}
         aria-label={videoAriaLabel}
@@ -157,7 +161,7 @@ export function AICrewUseCasesSection({ children }: { children: ReactNode }) {
 
   return (
     <AICrewUseCasesVideoContext.Provider value={{ openVideo: setActiveVideo }}>
-      <section id="use-cases" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10">
+      <section {...componentNameDebugProps("AICrewUseCasesSection")} id="use-cases" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10">
         {children}
       </section>
 
@@ -190,12 +194,12 @@ export function AICrewUseCasesSection({ children }: { children: ReactNode }) {
 }
 
 export function AICrewUseCasesIntro({ children }: { children: ReactNode }) {
-  return <div className="mx-auto max-w-[1120px] text-center">{children}</div>;
+  return <div {...componentNameDebugProps("AICrewUseCasesIntro")} className="mx-auto max-w-[1120px] text-center">{children}</div>;
 }
 
 export function AICrewUseCasesTitle({ children }: { children: ReactNode }) {
   return (
-    <RevealOnScroll>
+    <RevealOnScroll {...componentNameDebugProps("AICrewUseCasesTitle")}>
       <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em]">
         {children}
       </h2>
@@ -205,7 +209,7 @@ export function AICrewUseCasesTitle({ children }: { children: ReactNode }) {
 
 export function AICrewUseCasesBody({ children }: { children: ReactNode }) {
   return (
-    <RevealOnScroll delayMs={80}>
+    <RevealOnScroll {...componentNameDebugProps("AICrewUseCasesBody")} delayMs={80}>
       <p className="mx-auto mt-5 w-full max-w-[860px] whitespace-pre-line text-left text-base leading-7 text-slate-500 lg:pl-[42px]">
         {children}
       </p>
@@ -214,7 +218,7 @@ export function AICrewUseCasesBody({ children }: { children: ReactNode }) {
 }
 
 export function AICrewUseCasesGrid({ children }: { children: ReactNode }) {
-  return <div className="relative mx-auto mt-10 grid max-w-[980px] gap-4 md:grid-cols-2">{children}</div>;
+  return <div {...componentNameDebugProps("AICrewUseCasesGrid")} className="relative mx-auto mt-10 grid max-w-[980px] gap-4 md:grid-cols-2">{children}</div>;
 }
 
 export function AICrewUseCaseCardCategory({ children }: { children: ReactNode; slot: AICrewUseCaseCardSlot }) {
@@ -286,7 +290,7 @@ export function AICrewUseCaseCard({
   const { category, title, body } = readCardContent(children);
 
   return (
-    <UseCaseCardChrome
+    <UseCaseCardChrome {...componentNameDebugProps("AICrewUseCaseCard")}
       body={body}
       category={category}
       ctaLabel={ctaLabel}
@@ -353,7 +357,7 @@ export function AICrewUseCaseTabbedCard({
   const activeTab = tabs[activeTabIndex] ?? tabs[0];
 
   return (
-    <UseCaseCardChrome
+    <UseCaseCardChrome {...componentNameDebugProps("AICrewUseCaseTabbedCard")}
       body={
         <>
           {activeTab ? <div>{activeTab.props.children}</div> : body ? <div>{body}</div> : null}
@@ -399,20 +403,20 @@ const aiCrewSecondaryButtonClass =
   "inline-flex items-center justify-center rounded-[12px] border border-[#C9D8F5] bg-[linear-gradient(180deg,#FFFFFF_0%,#EEF4FF_100%)] px-5 py-3 text-base font-semibold text-[#163A7A] shadow-[0_18px_40px_-30px_rgba(15,42,95,0.34)] transition hover:border-[#B7CCEF] hover:bg-[linear-gradient(180deg,#FAFCFF_0%,#E8F0FF_100%)]";
 
 export function AICrewUseCasesFooter({ children }: { children: ReactNode }) {
-  return <div className="mx-auto mt-10 max-w-[1120px] text-center">{children}</div>;
+  return <div {...componentNameDebugProps("AICrewUseCasesFooter")} className="mx-auto mt-10 max-w-[1120px] text-center">{children}</div>;
 }
 
 export function AICrewUseCasesNote({ children }: { children: ReactNode }) {
-  return <p className="mx-auto max-w-[860px] text-[15px] leading-7 text-slate-600">{children}</p>;
+  return <p {...componentNameDebugProps("AICrewUseCasesNote")} className="mx-auto max-w-[860px] text-[15px] leading-7 text-slate-600">{children}</p>;
 }
 
 export function AICrewUseCasesActions({ children }: { children: ReactNode }) {
-  return <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">{children}</div>;
+  return <div {...componentNameDebugProps("AICrewUseCasesActions")} className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">{children}</div>;
 }
 
 export function AICrewUseCasesPrimaryAction({ children, href }: { children: ReactNode; href: string }) {
   return (
-    <a href={href} className={aiCrewPrimaryButtonClass}>
+    <a {...componentNameDebugProps("AICrewUseCasesPrimaryAction")} href={href} className={aiCrewPrimaryButtonClass}>
       {children}
     </a>
   );
@@ -420,7 +424,7 @@ export function AICrewUseCasesPrimaryAction({ children, href }: { children: Reac
 
 export function AICrewUseCasesSecondaryAction({ children, href }: { children: ReactNode; href: string }) {
   return (
-    <a href={href} className={aiCrewSecondaryButtonClass}>
+    <a {...componentNameDebugProps("AICrewUseCasesSecondaryAction")} href={href} className={aiCrewSecondaryButtonClass}>
       {children}
     </a>
   );

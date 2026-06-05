@@ -3,6 +3,7 @@
 import { ReactNode } from "react"
 import { useTranslations } from "@/lib/lingo/intl"
 import { Button } from "@/components/lingo/common/Button"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 interface SubHeroSectionProps {
   title: ReactNode
@@ -20,7 +21,7 @@ export function SubHeroSection({
   const t = useTranslations("cta")
 
   return (
-    <div className="flex flex-col gap-5 md:gap-[20px]">
+    <div {...componentNameDebugProps("SubHeroSection")} className="flex flex-col gap-5 md:gap-[20px]">
       <h1 className="text-h1 text-[var(--fg)]">{title}</h1>
       <p className={`${descriptionClassName} text-[var(--fg)]`}>{description}</p>
       {showButtons && (

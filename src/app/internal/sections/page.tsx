@@ -21,6 +21,7 @@ import {
 import { RoleCatchCopy, RolePainPoint, RoleSlide, RoleSlides, RoleSummary } from "@/components/sections/internal-demo/role-slides";
 import { UseCaseBody, UseCaseCard, UseCaseShowcase, UseCaseTab } from "@/components/sections/internal-demo/use-case-showcase";
 import { aiDashiConsultUrl } from "@/content/ai-dashi-links";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "Internal Sections | QueryPie AI",
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
 
 export default function SectionsPage() {
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("SectionsPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
       <SectionShowcaseSection compactBottom>

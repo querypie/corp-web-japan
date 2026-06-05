@@ -27,6 +27,7 @@ import {
   AcpStaticPageShell,
   AcpWorksSection,
 } from "@/components/sections/acp/static-page";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "QueryPie DAC: Database Access Controller | QueryPie AI",
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
 
 export default function DatabaseAccessControllerPage() {
   return (
-    <AcpStaticPageShell>
+    <AcpStaticPageShell {...componentNameDebugProps("DatabaseAccessControllerPage")}>
       <SiteHeader />
       <AcpHeroSection background="dac" media={{"kind": "youtube", "src": "https://www.youtube.com/embed/SoACnHF6s3Y?si=1DSZJfMYeXjeT0kU"}} mediaTitle="Database Access Controller">
         <AcpHeroCopy>

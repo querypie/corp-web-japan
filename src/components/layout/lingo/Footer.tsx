@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useLocale } from "@/lib/lingo/intl"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
 import { CookieSettingsButton } from "@/components/layout/lingo/CookieSettingsButton"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type FooterLocale = "en" | "ko" | "ja"
 
@@ -121,7 +122,7 @@ export function Footer() {
   ]
 
   return (
-    <footer className="w-full bg-[var(--black)]">
+    <footer {...componentNameDebugProps("Footer")} className="w-full bg-[var(--black)]">
       <div className="page-gutter w-full">
         <div className="mx-auto w-full max-w-[1000px]">
           {/* 사이트맵 */}

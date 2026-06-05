@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type PrivacyPolicyVersionSelectorProps = {
   currentSlug: string;
@@ -11,7 +12,7 @@ export function PrivacyPolicyVersionSelector({ currentSlug, slugs }: PrivacyPoli
   const router = useRouter();
 
   return (
-    <label className="inline-flex items-center gap-3 text-sm text-slate-500">
+    <label {...componentNameDebugProps("PrivacyPolicyVersionSelector")} className="inline-flex items-center gap-3 text-sm text-slate-500">
       <span className="sr-only">Change history</span>
       <select
         defaultValue={currentSlug}

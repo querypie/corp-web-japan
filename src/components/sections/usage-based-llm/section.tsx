@@ -2,38 +2,39 @@ import Image from "next/image";
 import type { ComponentPropsWithoutRef, CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { PlatformContentSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type ClassNameProps = {
   className?: string;
 };
 
 export function AipUsageBasedLlmPageShell({ children }: { children: ReactNode }) {
-  return <PlatformPageShell>{children}</PlatformPageShell>;
+  return <PlatformPageShell {...componentNameDebugProps("AipUsageBasedLlmPageShell")}>{children}</PlatformPageShell>;
 }
 
 export function AipUsageBasedLlmHeroSection({ children }: { children: ReactNode }) {
   return (
-    <PlatformContentSection className="pb-[120px] pt-[134px] lg:pt-[144px]" contentWidthClassName="max-w-[1200px]">
+    <PlatformContentSection {...componentNameDebugProps("AipUsageBasedLlmHeroSection")} className="pb-[120px] pt-[134px] lg:pt-[144px]" contentWidthClassName="max-w-[1200px]">
       {children}
     </PlatformContentSection>
   );
 }
 
 export function AipUsageBasedLlmHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 className="mx-auto max-w-[800px] text-center text-[48px] font-normal leading-[56px] text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h1>;
+  return <h1 {...componentNameDebugProps("AipUsageBasedLlmHeroTitle")} className="mx-auto max-w-[800px] text-center text-[48px] font-normal leading-[56px] text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h1>;
 }
 
 export function AipUsageBasedLlmHeroDescription({ children }: { children: ReactNode }) {
-  return <p className="mx-auto mt-[20px] max-w-[1000px] text-center text-[18px] font-light leading-[28px] text-[#57606A]">{children}</p>;
+  return <p {...componentNameDebugProps("AipUsageBasedLlmHeroDescription")} className="mx-auto mt-[20px] max-w-[1000px] text-center text-[18px] font-light leading-[28px] text-[#57606A]">{children}</p>;
 }
 
 export function AipUsageBasedLlmHeroFootnote({ children }: { children: ReactNode }) {
-  return <small className="text-[10px] font-light leading-[28px] tracking-[0.36px] text-[#57606A]">{children}</small>;
+  return <small {...componentNameDebugProps("AipUsageBasedLlmHeroFootnote")} className="text-[10px] font-light leading-[28px] tracking-[0.36px] text-[#57606A]">{children}</small>;
 }
 
 export function AipUsageBasedLlmHeroImage() {
   return (
-    <section className="mx-auto mt-[80px] flex max-w-[1200px] justify-center">
+    <section {...componentNameDebugProps("AipUsageBasedLlmHeroImage")} className="mx-auto mt-[80px] flex max-w-[1200px] justify-center">
       <Image
         src="/solutions/aip/usage-based-llm/hero.svg"
         alt="Usage-based LLM Deployment"
@@ -48,12 +49,12 @@ export function AipUsageBasedLlmHeroImage() {
 }
 
 export function AipUsageBasedLlmFeatureBand({ muted = false, children }: { muted?: boolean; children: ReactNode }) {
-  return <section className={cn(muted ? "bg-[#F6F8FA]" : "bg-white")}>{children}</section>;
+  return <section {...componentNameDebugProps("AipUsageBasedLlmFeatureBand")} className={cn(muted ? "bg-[#F6F8FA]" : "bg-white")}>{children}</section>;
 }
 
 export function AipUsageBasedLlmFeatureRow({ reverse = false, children }: { reverse?: boolean; children: ReactNode }) {
   return (
-    <PlatformContentSection
+    <PlatformContentSection {...componentNameDebugProps("AipUsageBasedLlmFeatureRow")}
       as="div"
       className="py-[80px]"
       contentClassName={cn(
@@ -67,22 +68,22 @@ export function AipUsageBasedLlmFeatureRow({ reverse = false, children }: { reve
 }
 
 export function AipUsageBasedLlmFeatureCopy({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <div className={cn("flex w-full max-w-full flex-col gap-[20px]", className)}>{children}</div>;
+  return <div {...componentNameDebugProps("AipUsageBasedLlmFeatureCopy")} className={cn("flex w-full max-w-full flex-col gap-[20px]", className)}>{children}</div>;
 }
 
 export function AipUsageBasedLlmFeatureTitle({ children }: { children: ReactNode }) {
-  return <h4 className="text-[32px] font-medium leading-[42px] text-slate-950 max-[480px]:text-[20px] max-[480px]:leading-[28px]">{children}</h4>;
+  return <h4 {...componentNameDebugProps("AipUsageBasedLlmFeatureTitle")} className="text-[32px] font-medium leading-[42px] text-slate-950 max-[480px]:text-[20px] max-[480px]:leading-[28px]">{children}</h4>;
 }
 
 export function AipUsageBasedLlmFeatureBody({ children }: { children: ReactNode }) {
-  return <p className="text-[16px] font-light leading-[26px] text-[#57606A]">{children}</p>;
+  return <p {...componentNameDebugProps("AipUsageBasedLlmFeatureBody")} className="text-[16px] font-light leading-[26px] text-[#57606A]">{children}</p>;
 }
 
 export function AipUsageBasedLlmFeatureImage({ src, alt, width, height, className = "" }: { src: string; alt: string; width: number; height: number } & ClassNameProps) {
   const style = { "--usage-feature-image-width": `${width}px` } as CSSProperties;
 
   return (
-    <div
+    <div {...componentNameDebugProps("AipUsageBasedLlmFeatureImage")}
       className={cn(
         "w-full max-w-full overflow-hidden rounded-[8px] shadow-[0_4px_12px_rgba(0,0,0,0.1)] lg:w-[var(--usage-feature-image-width)] lg:shadow-[0_8px_20px_rgba(0,0,0,0.15)]",
         className,
@@ -96,19 +97,19 @@ export function AipUsageBasedLlmFeatureImage({ src, alt, width, height, classNam
 
 export function AipUsageBasedLlmComparisonSection({ children }: { children: ReactNode }) {
   return (
-    <PlatformContentSection className="py-[160px]" contentWidthClassName="max-w-[1200px]">
+    <PlatformContentSection {...componentNameDebugProps("AipUsageBasedLlmComparisonSection")} className="py-[160px]" contentWidthClassName="max-w-[1200px]">
       {children}
     </PlatformContentSection>
   );
 }
 
 export function AipUsageBasedLlmComparisonTitle({ children }: { children: ReactNode }) {
-  return <h2 className="text-center text-[52px] font-normal leading-[62px] text-slate-950">{children}</h2>;
+  return <h2 {...componentNameDebugProps("AipUsageBasedLlmComparisonTitle")} className="text-center text-[52px] font-normal leading-[62px] text-slate-950">{children}</h2>;
 }
 
 export function AipUsageBasedLlmComparisonImage() {
   return (
-    <div className="mt-[80px] flex justify-center">
+    <div {...componentNameDebugProps("AipUsageBasedLlmComparisonImage")} className="mt-[80px] flex justify-center">
       <Image
         src="/solutions/aip/usage-based-llm/platform-comparison.svg"
         alt="Platform Comparison"
@@ -130,7 +131,7 @@ export function AipUsageBasedLlmCtaButtonWrap({ children }: { children: ReactNod
 }
 
 export function AipUsageBasedLlmLineBreak() {
-  return <br className="hidden sm:block" />;
+  return <br {...componentNameDebugProps("AipUsageBasedLlmLineBreak")} className="hidden sm:block" />;
 }
 
 export type AipUsageBasedLlmImageProps = ComponentPropsWithoutRef<typeof Image>;

@@ -6,6 +6,7 @@ import { CtaActions, CtaContent, CtaCopy, CtaDescription, SimpleCtaSection, CtaT
 import { ResourceListContentSection, ResourceListHeroDescription, ResourceListHeroSection, ResourceListHeroTitle, ResourceListItems } from "@/components/sections/resource-list-section";
 import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 import { listBlogPublicationItems } from "@/lib/publications/blog/records";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "MDXコンテンツ一覧画面サンプル | QueryPie AI",
@@ -19,7 +20,7 @@ export default async function InternalMdxListPage() {
   const blogItems = await listBlogPublicationItems();
 
   return (
-    <main className="relative bg-white text-slate-950">
+    <main {...componentNameDebugProps("InternalMdxListPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
 
       <ResourceListHeroSection>

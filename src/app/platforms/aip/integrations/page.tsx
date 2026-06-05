@@ -12,6 +12,7 @@ import {
   AipIntegrationsProductList,
 } from "@/components/sections/aip/integrations-page";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "QueryPie AI: インテグレーション",
@@ -120,7 +121,7 @@ export default async function AipIntegrationsPage({ searchParams }: Integrations
     .sort((left, right) => left.label.localeCompare(right.label));
 
   return (
-    <main className="bg-white text-slate-950">
+    <main {...componentNameDebugProps("AipIntegrationsPage")} className="bg-white text-slate-950">
       <SiteHeader />
 
       <AipIntegrationsHeroSection>

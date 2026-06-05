@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const internalPageCards = [
   {
@@ -61,7 +62,7 @@ export const metadata: Metadata = {
 
 export default function InternalPage() {
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("InternalPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
       <section className="px-6 pb-8 pt-20 sm:px-10 lg:px-16 lg:pb-10 lg:pt-24">

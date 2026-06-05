@@ -7,12 +7,14 @@ import {
   cloneElement,
   createContext,
   isValidElement,
+  type ComponentPropsWithoutRef,
   type ReactElement,
   type ReactNode,
   useContext,
   useState,
 } from "react";
 import { Check, Minus } from "lucide-react";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type PricingContextValue = {
   activeTab: string;
@@ -46,7 +48,7 @@ function usePricingContext() {
 }
 
 export function PricingRoot({ children }: { children: ReactNode }) {
-  return <div className="flex flex-col gap-20">{children}</div>;
+  return <div {...componentNameDebugProps("PricingRoot")} className="flex flex-col gap-20">{children}</div>;
 }
 
 export function PricingContextProvider({ children, defaultActiveTab }: { children: ReactNode; defaultActiveTab: string }) {
@@ -68,7 +70,11 @@ export function PricingContextProvider({ children, defaultActiveTab }: { childre
     return defaultActiveTab;
   });
 
-  return <pricingContext.Provider value={{ activeTab, setActiveTab }}>{children}</pricingContext.Provider>;
+  return (
+    <pricingContext.Provider value={{ activeTab, setActiveTab }}>
+      <div {...componentNameDebugProps("PricingContextProvider")} className="flex flex-col gap-20">{children}</div>
+    </pricingContext.Provider>
+  );
 }
 
 function getPlansProductHref(pathname: string, product: string) {
@@ -79,12 +85,12 @@ function getPlansProductHref(pathname: string, product: string) {
   return `/${[...baseSegments, product].join("/")}`;
 }
 
-function ProductTabsRoot({ children }: { children: ReactNode }) {
+function ProductTabsRoot({ children, ...props }: { children: ReactNode } & Omit<ComponentPropsWithoutRef<"div">, "children">) {
   const pathname = usePathname();
   const { activeTab, setActiveTab } = usePricingContext();
 
   return (
-    <div className="flex w-full gap-3 border-b-2 border-[#dae1e7] min-[481px]:gap-5 min-[769px]:gap-10 min-[1025px]:gap-[60px]">
+    <div {...props} className="flex w-full gap-3 border-b-2 border-[#dae1e7] min-[481px]:gap-5 min-[769px]:gap-10 min-[1025px]:gap-[60px]">
       {Children.map(children, (child) => {
         if (!isValidElement<{ name: string }>(child) || !("name" in child.props)) {
           return child;
@@ -110,7 +116,7 @@ type ProductTabProps = {
 
 export function ProductTab({ name, href, children, isActive, onTabClick }: ProductTabProps) {
   return (
-    <Link
+    <Link {...componentNameDebugProps("ProductTab")}
       href={href ?? name}
       aria-label={name}
       onClick={onTabClick}
@@ -125,14 +131,16 @@ export function ProductTab({ name, href, children, isActive, onTabClick }: Produ
 }
 
 export function ProductName({ children }: { children: ReactNode }) {
-  return <div className="whitespace-nowrap text-[20px] font-medium leading-7 text-inherit min-[481px]:text-[22px] min-[481px]:leading-[30px] min-[769px]:text-[26px] min-[769px]:leading-[34px]">{children}</div>;
+  return <div {...componentNameDebugProps("ProductName")} className="whitespace-nowrap text-[20px] font-medium leading-7 text-inherit min-[481px]:text-[22px] min-[481px]:leading-[30px] min-[769px]:text-[26px] min-[769px]:leading-[34px]">{children}</div>;
 }
 
 export function ProductDescription({ children }: { children: ReactNode }) {
-  return <div className="whitespace-nowrap text-xs font-normal leading-[18px] tracking-[0.02em] text-slate-600 min-[481px]:text-[13px] min-[481px]:leading-[20px] min-[769px]:text-sm min-[769px]:leading-[22px]">{children}</div>;
+  return <div {...componentNameDebugProps("ProductDescription")} className="whitespace-nowrap text-xs font-normal leading-[18px] tracking-[0.02em] text-slate-600 min-[481px]:text-[13px] min-[481px]:leading-[20px] min-[769px]:text-sm min-[769px]:leading-[22px]">{children}</div>;
 }
 
-export const ProductTabs = ProductTabsRoot;
+export function ProductTabs({ children }: { children: ReactNode }) {
+  return <ProductTabsRoot {...componentNameDebugProps("ProductTabs")}>{children}</ProductTabsRoot>;
+}
 
 export function PlanVisibility({ id, children }: { id: string; children: ReactNode }) {
   const { activeTab } = usePricingContext();
@@ -146,7 +154,7 @@ export function PlanVisibility({ id, children }: { id: string; children: ReactNo
 
 export function PlanRoot({ children, num = 3 }: { children: ReactNode; num?: number }) {
   return (
-    <ul
+    <ul {...componentNameDebugProps("PlanRoot")}
       className={joinClasses(
         "grid w-full grid-cols-1 gap-5 [container-name:plan-list] [container-type:inline-size] min-[600px]:grid-cols-2 min-[900px]:grid-cols-3 min-[1201px]:gap-10",
         num === 2 && "min-[900px]:grid-cols-2 min-[1201px]:gap-[60px]",
@@ -162,6 +170,7 @@ export function PlanCard({ type, children }: { type: PlanTone; children: ReactNo
   return (
     <PlanToneContext.Provider value={type}>
       <li
+        {...componentNameDebugProps("PlanCard")}
         className={joinClasses(
           "relative flex min-w-[280px] flex-col items-center gap-10 rounded-t-[20px] px-6 pb-0 pt-[60px] text-center [container-name:plan-card] [container-type:inline-size] min-[1201px]:px-6",
           type === "black"
@@ -185,30 +194,30 @@ export function PlanCard({ type, children }: { type: PlanTone; children: ReactNo
 }
 
 export function PlanTitleContainer({ children }: { children: ReactNode }) {
-  return <div className="relative flex w-full flex-col items-center gap-2.5 text-center">{children}</div>;
+  return <div {...componentNameDebugProps("PlanTitleContainer")} className="relative flex w-full flex-col items-center gap-2.5 text-center">{children}</div>;
 }
 
 export function PlanTitle({ children }: { children: ReactNode }) {
   const tone = useContext(PlanToneContext);
 
-  return <h2 className={joinClasses("m-0 text-[26px] font-medium leading-[34px]", tone === "black" ? "text-[#f6f6f6]" : "text-slate-950")}>{children}</h2>;
+  return <h2 {...componentNameDebugProps("PlanTitle")} className={joinClasses("m-0 text-[26px] font-medium leading-[34px]", tone === "black" ? "text-[#f6f6f6]" : "text-slate-950")}>{children}</h2>;
 }
 
 export function PlanDescription({ children }: { children: ReactNode }) {
   const tone = useContext(PlanToneContext);
 
-  return <div className={joinClasses("m-0 self-stretch text-center text-sm font-normal leading-[22px] tracking-[0.02em]", tone === "black" ? "text-[#f6f6f6]" : "text-slate-600")}>{children}</div>;
+  return <div {...componentNameDebugProps("PlanDescription")} className={joinClasses("m-0 self-stretch text-center text-sm font-normal leading-[22px] tracking-[0.02em]", tone === "black" ? "text-[#f6f6f6]" : "text-slate-600")}>{children}</div>;
 }
 
 export function PlanPrice({ children }: { children: ReactNode }) {
   const tone = useContext(PlanToneContext);
 
-  return <div className={joinClasses("relative m-0 text-[32px] font-medium leading-[42px]", tone === "black" ? "text-[#f6f6f6]" : "text-slate-950")}>{children}</div>;
+  return <div {...componentNameDebugProps("PlanPrice")} className={joinClasses("relative m-0 text-[32px] font-medium leading-[42px]", tone === "black" ? "text-[#f6f6f6]" : "text-slate-950")}>{children}</div>;
 }
 
 export function PlanButton({ href, external = false, type = "primary", children }: { href: string; external?: boolean; type?: PlanTone; children: ReactNode }) {
   return (
-    <Link
+    <Link {...componentNameDebugProps("PlanButton")}
       href={href}
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer" : undefined}
@@ -232,12 +241,12 @@ function ButtonChevronIcon() {
 }
 
 export function PlanFeatures({ children }: { children: ReactNode }) {
-  return <ul className="relative flex w-[230px] flex-col gap-2.5 text-left text-base font-normal leading-[26px] tracking-[0.02em] text-slate-950">{children}</ul>;
+  return <ul {...componentNameDebugProps("PlanFeatures")} className="relative flex w-[230px] flex-col gap-2.5 text-left text-base font-normal leading-[26px] tracking-[0.02em] text-slate-950">{children}</ul>;
 }
 
 export function PlanFeature({ supported = true, children }: { supported?: boolean; children: ReactNode }) {
   return (
-    <li className={joinClasses("flex flex-1 items-start gap-2.5 text-inherit [text-wrap:pretty] [word-break:keep-all]", !supported && "text-slate-400")}>
+    <li {...componentNameDebugProps("PlanFeature")} className={joinClasses("flex flex-1 items-start gap-2.5 text-inherit [text-wrap:pretty] [word-break:keep-all]", !supported && "text-slate-400")}>
       {supported ? <Check className="mt-2 h-[11px] w-[14px] shrink-0 text-emerald-500" strokeWidth={3} /> : <Minus className="mt-1.5 h-3 w-3 shrink-0 text-slate-400" strokeWidth={3} />}
       <div>{children}</div>
     </li>
@@ -246,7 +255,7 @@ export function PlanFeature({ supported = true, children }: { supported?: boolea
 
 export function PlanDivider() {
   return (
-    <li aria-hidden role="separator" className="block h-0 w-full list-none self-start">
+    <li {...componentNameDebugProps("PlanDivider")} aria-hidden role="separator" className="block h-0 w-full list-none self-start">
       <span className="block h-[2px] w-full origin-top-left bg-[#dae1e7] [transform:scaleY(0.5)]" />
     </li>
   );
@@ -254,7 +263,7 @@ export function PlanDivider() {
 
 export function CompareTable({ children }: { children: ReactNode }) {
   return (
-    <div className="-mx-6 w-[calc(100%+48px)] overflow-x-auto px-6 sm:-mx-10 sm:w-[calc(100%+80px)] sm:px-10">
+    <div {...componentNameDebugProps("CompareTable")} className="-mx-6 w-[calc(100%+48px)] overflow-x-auto px-6 sm:-mx-10 sm:w-[calc(100%+80px)] sm:px-10">
       <table className="w-[1200px] border-collapse text-left text-[15px] text-slate-950">{children}</table>
     </div>
   );
@@ -262,7 +271,7 @@ export function CompareTable({ children }: { children: ReactNode }) {
 
 export function CompareTableHead({ children }: { children: ReactNode }) {
   return (
-    <thead>
+    <thead {...componentNameDebugProps("CompareTableHead")}>
       <tr className="h-16 border-0">
         <th className="w-[420px] text-left font-bold">&nbsp;</th>
         {children}
@@ -272,12 +281,12 @@ export function CompareTableHead({ children }: { children: ReactNode }) {
 }
 
 export function CompareTablePlanHead({ children }: { children: ReactNode }) {
-  return <th className="h-16 w-[130px] text-center text-sm font-normal leading-[22px] text-[#24292f]">{children}</th>;
+  return <th {...componentNameDebugProps("CompareTablePlanHead")} className="h-16 w-[130px] text-center text-sm font-normal leading-[22px] text-[#24292f]">{children}</th>;
 }
 
 export function CompareTableSection({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <tbody>
+    <tbody {...componentNameDebugProps("CompareTableSection")}>
       <tr className="h-11 border-b border-[#dae1e7] bg-[#2f3a49] text-[#f6f6f6]">
         <td colSpan={4} className="pl-5 text-left text-xs font-medium leading-[17px] tracking-[0.24px]">
           {title}
@@ -290,20 +299,20 @@ export function CompareTableSection({ title, children }: { title: string; childr
 
 export function CompareTableRow({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <tr className="h-11 border-b border-[#dae1e7]">
+    <tr {...componentNameDebugProps("CompareTableRow")} className="h-11 border-b border-[#dae1e7]">
       <td className="w-[420px] pl-5 text-left text-sm font-light leading-[22px] text-[#24292f]">{label}</td>
       {children}
     </tr>
   );
 }
 
-function CompareTableCell({ children }: { children: ReactNode }) {
-  return <td className="w-[130px] text-center align-middle text-sm leading-[1.2] text-[#24292f]">{children}</td>;
+function CompareTableCell({ children, ...props }: { children: ReactNode } & Omit<ComponentPropsWithoutRef<"td">, "children">) {
+  return <td {...props} className="w-[130px] text-center align-middle text-sm leading-[1.2] text-[#24292f]">{children}</td>;
 }
 
 export function CompareTableTextCell({ children, secondary, isBold = false }: { children: ReactNode; secondary?: ReactNode; isBold?: boolean }) {
   return (
-    <CompareTableCell>
+    <CompareTableCell {...componentNameDebugProps("CompareTableTextCell")}>
       <div className="inline-flex flex-col items-center gap-1 text-center">
         <span className={joinClasses(isBold && "font-semibold")}>{children}</span>
         {secondary ? <span className="whitespace-pre-line text-[10px] leading-[1.4] text-[#24292f]">{secondary}</span> : null}
@@ -340,7 +349,7 @@ function CompareTableStatusIcon({ supported, className }: { supported: boolean; 
 
 export function CompareTableBooleanCell({ supported }: { supported: boolean }) {
   return (
-    <CompareTableCell>
+    <CompareTableCell {...componentNameDebugProps("CompareTableBooleanCell")}>
       <span className="inline-flex justify-center">
         <CompareTableStatusIcon supported={supported} />
       </span>
@@ -350,7 +359,7 @@ export function CompareTableBooleanCell({ supported }: { supported: boolean }) {
 
 export function CompareTableCheckLabelCell({ children }: { children: ReactNode }) {
   return (
-    <CompareTableCell>
+    <CompareTableCell {...componentNameDebugProps("CompareTableCheckLabelCell")}>
       <div className="inline-flex items-center justify-center gap-1">
         <CompareTableStatusIcon supported={true} />
         <span>{children}</span>

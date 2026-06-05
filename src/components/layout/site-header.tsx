@@ -4,6 +4,7 @@ import {
   getPreviewNavigationState,
 } from "@/lib/preview-navigation";
 import { SiteHeaderClient } from "./site-header-client";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export async function SiteHeader() {
   const cookieStore = await cookies();
@@ -11,7 +12,7 @@ export async function SiteHeader() {
   const { enabled, showToggle } = getPreviewNavigationState(previewCookieValue);
 
   return (
-    <SiteHeaderClient
+    <SiteHeaderClient {...componentNameDebugProps("SiteHeader")}
       previewModeEnabled={enabled}
       showPreviewModeToggle={showToggle}
     />

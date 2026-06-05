@@ -21,6 +21,7 @@ import {
   isCookiePreferenceEnabled,
   type CookiePreferenceState,
 } from "@/lib/cookie-preferences";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "クッキー設定 | QueryPie AI",
@@ -49,7 +50,7 @@ export default async function CookiePreferencePage() {
   const cookiePreferences = await getCookiePreferenceState();
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("CookiePreferencePage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
       <LegalDocumentSection>

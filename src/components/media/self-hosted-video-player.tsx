@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { ReactNode, VideoHTMLAttributes } from "react";
 import { useRef, useState } from "react";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export type SelfHostedVideoSource = {
   src: string;
@@ -65,7 +66,7 @@ export function SelfHostedVideoPlayer({
   };
 
   return (
-    <figure className={className}>
+    <figure {...componentNameDebugProps("SelfHostedVideoPlayer")} className={className}>
       <div className={`relative overflow-hidden bg-slate-950 ${frameClassName}`}>
         <video
           ref={videoRef}

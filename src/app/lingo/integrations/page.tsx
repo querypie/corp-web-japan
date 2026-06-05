@@ -16,6 +16,7 @@ import { CTASection } from "@/components/sections/lingo/CTASection"
 import { Footer } from "@/components/layout/lingo/Footer"
 import { Container } from "@/components/layout/lingo/Container"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const aipIcons: Record<string, LucideIcon> = {
   usage: Bot,
@@ -37,7 +38,7 @@ function ServiceLogo({ id, title }: { id: string; title: string }) {
 
   if (logoSrc) {
     return (
-      <img
+      <img {...componentNameDebugProps("ServiceLogo")}
         src={logoSrc}
         alt=""
         className="size-12 object-contain"
@@ -47,7 +48,7 @@ function ServiceLogo({ id, title }: { id: string; title: string }) {
   }
 
   return (
-    <span className="text-[28px] font-semibold leading-none text-[var(--brand)]">
+    <span {...componentNameDebugProps("ServiceLogo")} className="text-[28px] font-semibold leading-none text-[var(--brand)]">
       {title.slice(0, 1)}
     </span>
   )
@@ -269,7 +270,7 @@ export default function IntegrationsPage() {
   const copy = getLocaleCopy(locale, integrationsCopy)
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] page-layout-sub">
+    <main {...componentNameDebugProps("IntegrationsPage")} className="min-h-screen bg-[var(--bg)] page-layout-sub">
       <SubPageHeroBackground />
 
       <div className="w-full page-gutter">

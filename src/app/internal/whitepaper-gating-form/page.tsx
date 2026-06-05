@@ -17,6 +17,7 @@ import {
   PREVIEW_NAVIGATION_COOKIE,
 } from "@/lib/preview-navigation";
 import type { PublicationPost } from "@/lib/publications/types";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const sourcePath = path.join(process.cwd(), "src/content/internal/whitepaper-gating-form.mdx");
 const contentKey = buildGatingContentKey("internal", "whitepaper-gating-form");
@@ -83,7 +84,7 @@ export default async function InternalWhitepaperGatingFormPage() {
   }
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("InternalWhitepaperGatingFormPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <PublicationPostPage post={post} />
       <SiteFooter />

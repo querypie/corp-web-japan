@@ -12,6 +12,7 @@ import {
 } from "@/components/sections/legal/document";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 import { renderLegalMdx } from "@/lib/legal-mdx-source";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type EulaFrontmatter = {
   title: string;
@@ -45,7 +46,7 @@ export default async function EulaPage() {
   const { frontmatter } = evaluation;
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("EulaPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <LegalDocumentSection>
         <LegalDocumentIntro>

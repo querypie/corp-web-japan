@@ -13,6 +13,7 @@ import {
   ResourceListSidebarNav,
   type ResourceCategoryLink,
 } from "@/components/sections/resource-list-section";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const publicDemoCategorySidebarLinks: readonly ResourceCategoryLink[] = [
   { label: "活用事例", href: "/use-cases" },
@@ -54,7 +55,7 @@ export async function DemoCategorySidebar({ activeLabel, links }: DemoCategorySi
   );
 
   return (
-    <ResourceListSidebar>
+    <ResourceListSidebar {...componentNameDebugProps("DemoCategorySidebar")}>
       <ResourceListSidebarLabel>デモカテゴリー</ResourceListSidebarLabel>
       <ResourceListMobileSidebarDrawer title="デモカテゴリー" activeLabel={activeLabel}>
         <ResourceListSidebarNav label="Sidebar Navigation">{renderSidebarList()}</ResourceListSidebarNav>

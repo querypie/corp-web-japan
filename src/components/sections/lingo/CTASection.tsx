@@ -3,12 +3,13 @@
 import { useTranslations } from "@/lib/lingo/intl"
 import { Button } from "@/components/lingo/common/Button"
 import { Container } from "@/components/layout/lingo/Container"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export function CTASection() {
   const t = useTranslations()
 
   return (
-    <Container>
+    <Container {...componentNameDebugProps("CTASection")}>
       <div className="flex flex-col items-center gap-6 text-center md:gap-[30px]">
         <div className="flex flex-col items-center gap-4 text-[var(--fg)] md:gap-[20px]">
           <h2 className="text-h1">{t("cta.title")}</h2>

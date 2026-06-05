@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { PlatformContentSection, PlatformCtaSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 function cx(...values: Array<string | false | null | undefined>) {
   return values.filter(Boolean).join(" ");
@@ -14,27 +15,27 @@ type ClassNameProps = {
 
 export function McpGatewayHeroSection({ children, className }: { children: ReactNode } & ClassNameProps) {
   return (
-    <PlatformContentSection className={cx("pb-[120px] pt-[134px] lg:pt-[144px]", className)} contentWidthClassName="max-w-[1200px]">
+    <PlatformContentSection {...componentNameDebugProps("McpGatewayHeroSection")} className={cx("pb-[120px] pt-[134px] lg:pt-[144px]", className)} contentWidthClassName="max-w-[1200px]">
       {children}
     </PlatformContentSection>
   );
 }
 
 export function McpGatewayHeroCopy({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <div className={className}>{children}</div>;
+  return <div {...componentNameDebugProps("McpGatewayHeroCopy")} className={className}>{children}</div>;
 }
 
 export function McpGatewayHeroHeading({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <h1 className={cx("mx-auto max-w-[800px] text-center text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]", className)}>{children}</h1>;
+  return <h1 {...componentNameDebugProps("McpGatewayHeroHeading")} className={cx("mx-auto max-w-[800px] text-center text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]", className)}>{children}</h1>;
 }
 
 export function McpGatewayHeroBody({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <p className={cx("mx-auto mt-[20px] max-w-[1000px] text-center text-[18px] font-light leading-[28px] tracking-normal text-[#57606A]", className)}>{children}</p>;
+  return <p {...componentNameDebugProps("McpGatewayHeroBody")} className={cx("mx-auto mt-[20px] max-w-[1000px] text-center text-[18px] font-light leading-[28px] tracking-normal text-[#57606A]", className)}>{children}</p>;
 }
 
 export function McpGatewayHeroVisual({ className = "", imageClassName = "" }: { className?: string; imageClassName?: string }) {
   return (
-    <div className={cx("mx-auto mt-[80px] flex max-w-[1200px] justify-center", className)}>
+    <div {...componentNameDebugProps("McpGatewayHeroVisual")} className={cx("mx-auto mt-[80px] flex max-w-[1200px] justify-center", className)}>
       <div className="w-full max-w-[1200px]">
         <Image
           src="/solutions/aip/mcp-gateway/hero.svg"
@@ -50,7 +51,7 @@ export function McpGatewayHeroVisual({ className = "", imageClassName = "" }: { 
 }
 
 export function McpGatewayPageShell({ children }: { children: ReactNode }) {
-  return <PlatformPageShell>{children}</PlatformPageShell>;
+  return <PlatformPageShell {...componentNameDebugProps("McpGatewayPageShell")}>{children}</PlatformPageShell>;
 }
 
 export function McpGatewayFeatureBand({
@@ -60,7 +61,7 @@ export function McpGatewayFeatureBand({
   style,
 }: { children: ReactNode; muted?: boolean } & ClassNameProps) {
   return (
-    <PlatformContentSection
+    <PlatformContentSection {...componentNameDebugProps("McpGatewayFeatureBand")}
       className={cx("w-full py-[80px]", muted && "bg-[#F6F8FA]", className)}
       contentWidthClassName="max-w-[1200px]"
       style={style}
@@ -76,30 +77,30 @@ export function McpGatewayFeatureLayout({
   className,
 }: { children: ReactNode; reverse?: boolean } & ClassNameProps) {
   return (
-    <div className={cx("flex flex-col items-center justify-center gap-[60px] lg:gap-[80px]", reverse ? "lg:flex-row-reverse" : "lg:flex-row", className)}>
+    <div {...componentNameDebugProps("McpGatewayFeatureLayout")} className={cx("flex flex-col items-center justify-center gap-[60px] lg:gap-[80px]", reverse ? "lg:flex-row-reverse" : "lg:flex-row", className)}>
       {children}
     </div>
   );
 }
 
 export function McpGatewayFeatureCopy({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <div className={cx("flex w-full max-w-full shrink-0 flex-col gap-[20px]", className)}>{children}</div>;
+  return <div {...componentNameDebugProps("McpGatewayFeatureCopy")} className={cx("flex w-full max-w-full shrink-0 flex-col gap-[20px]", className)}>{children}</div>;
 }
 
 export function McpGatewayFeatureTitle({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <h4 className={cx("text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F] max-[480px]:text-[20px] max-[480px]:leading-[28px]", className)}>{children}</h4>;
+  return <h4 {...componentNameDebugProps("McpGatewayFeatureTitle")} className={cx("text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F] max-[480px]:text-[20px] max-[480px]:leading-[28px]", className)}>{children}</h4>;
 }
 
 export function McpGatewayFeatureDescription({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <p className={cx("text-[16px] font-light leading-[26px] tracking-normal text-[#57606A]", className)}>{children}</p>;
+  return <p {...componentNameDebugProps("McpGatewayFeatureDescription")} className={cx("text-[16px] font-light leading-[26px] tracking-normal text-[#57606A]", className)}>{children}</p>;
 }
 
 export function McpGatewayFeatureChecklist({ className }: ClassNameProps) {
-  return <ul aria-hidden="true" className={cx("min-h-0", className)} />;
+  return <ul {...componentNameDebugProps("McpGatewayFeatureChecklist")} aria-hidden="true" className={cx("min-h-0", className)} />;
 }
 
 export function McpGatewayFeatureVisual({ children, className }: { children: ReactNode } & ClassNameProps) {
-  return <div className={cx("w-full max-w-full shrink-0", className)}>{children}</div>;
+  return <div {...componentNameDebugProps("McpGatewayFeatureVisual")} className={cx("w-full max-w-full shrink-0", className)}>{children}</div>;
 }
 
 export function McpGatewayFeatureImage({
@@ -116,7 +117,7 @@ export function McpGatewayFeatureImage({
   className?: string;
 }) {
   return (
-    <div className={cx("overflow-hidden rounded-[8px] shadow-[0_4px_12px_rgba(0,0,0,0.1)] lg:shadow-[0_8px_20px_rgba(0,0,0,0.15)]", className)}>
+    <div {...componentNameDebugProps("McpGatewayFeatureImage")} className={cx("overflow-hidden rounded-[8px] shadow-[0_4px_12px_rgba(0,0,0,0.1)] lg:shadow-[0_8px_20px_rgba(0,0,0,0.15)]", className)}>
       <Image src={src} alt={alt} width={width} height={height} unoptimized className="h-auto w-full" />
     </div>
   );

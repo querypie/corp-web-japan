@@ -6,6 +6,7 @@ import { useLocale } from "@/lib/lingo/intl"
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type ButtonVariant = "primary" | "dark" | "outline" | "text"
 type ButtonSize = "lg" | "md" | "sm"
@@ -110,7 +111,7 @@ export function Button({
 
   if (href) {
     return (
-      <a
+      <a {...componentNameDebugProps("Button")}
         href={href}
         target={isExternalHref ? "_blank" : undefined}
         rel={isExternalHref ? "noopener noreferrer" : undefined}

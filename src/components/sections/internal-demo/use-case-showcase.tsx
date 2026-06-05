@@ -3,6 +3,7 @@
 import { Children, isValidElement, type ReactElement, type ReactNode, useEffect, useMemo, useState } from "react";
 import { Blocks, Brain, ChartColumnIncreasing, FileSearch, Play, Search, Wallet, X } from "lucide-react";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type UseCaseTabData = {
   label: string;
@@ -157,7 +158,7 @@ export function UseCaseShowcase({
 
   return (
     <>
-      <div className="relative mx-auto mt-10 max-w-[980px]">
+      <div {...componentNameDebugProps("UseCaseShowcase")} className="relative mx-auto mt-10 max-w-[980px]">
         <div className="grid gap-4 md:grid-cols-2">
         {normalizedCards.map((card, index) => {
           const Icon = icons[index % icons.length];

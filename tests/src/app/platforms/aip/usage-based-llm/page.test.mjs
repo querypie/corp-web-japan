@@ -25,12 +25,12 @@ test("published usage-based-llm page keeps route-local copy/composition", () => 
 
   assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection/);
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
-  assert.match(sectionSource, /export function AipUsageBasedLlmPageShell[\s\S]*<PlatformPageShell>/);
-  assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection[\s\S]*<PlatformContentSection className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]" contentWidthClassName="max-w-\[1200px\]">/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmPageShell[\s\S]*<PlatformPageShell(?:\s[^>]*)?>/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection[\s\S]*<PlatformContentSection[\s\S]*className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]" contentWidthClassName="max-w-\[1200px\]">/);
   assert.match(sectionSource, /max-w-\[800px\][\s\S]*text-\[48px\][\s\S]*text-\[#24292F\][\s\S]*lg:text-\[60px\]/);
   assert.match(sectionSource, /max-w-\[1000px\]/);
   assert.match(sectionSource, /mt-\[20px\]/);
-  assert.match(sectionSource, /export function AipUsageBasedLlmHeroFootnote[\s\S]*<small className="text-\[10px\] font-light leading-\[28px\] tracking-\[0\.36px\] text-\[#57606A\]">/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmHeroFootnote[\s\S]*<small[^>]*className="text-\[10px\] font-light leading-\[28px\] tracking-\[0\.36px\] text-\[#57606A\]">/);
   assert.match(routeSource, /<AipUsageBasedLlmHeroFootnote>\*ユーザーの利用量により異なります<\/AipUsageBasedLlmHeroFootnote>/);
   assert.match(sectionSource, /className="py-\[80px\]"/);
   assert.match(sectionSource, /<PlatformContentSection[\s\S]*as="div"[\s\S]*contentClassName=\{cn\(/);

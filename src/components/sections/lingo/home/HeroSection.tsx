@@ -4,12 +4,13 @@ import { useTranslations } from "@/lib/lingo/intl"
 import { Button } from "@/components/lingo/common/Button"
 import { Container } from "@/components/layout/lingo/Container"
 import { MockupShell } from "@/components/lingo/mockup/MockupShell"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export function HeroSection() {
   const t = useTranslations()
 
   return (
-    <section className="relative flex w-full flex-col items-center overflow-hidden">
+    <section {...componentNameDebugProps("HeroSection")} className="relative flex w-full flex-col items-center overflow-hidden">
       <div className="pointer-events-none absolute inset-x-0 top-0 bottom-20 z-0 overflow-hidden md:bottom-[120px]">
         <img
           src="/lingo/images/bg-home.jpg"

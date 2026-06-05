@@ -19,6 +19,7 @@ import {
 } from "@/components/sections/mcp-gateway/section";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "QueryPie AIP：すべてを接続するMCPハブ",
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
 
 export default function McpGatewayPage() {
   return (
-    <McpGatewayPageShell>
+    <McpGatewayPageShell {...componentNameDebugProps("McpGatewayPage")}>
       <SiteHeader />
 
       <McpGatewayHeroSection>

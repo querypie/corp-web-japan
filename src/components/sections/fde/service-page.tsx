@@ -37,24 +37,24 @@ export function ServiceFdeHeroSection({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeHeroInner({ children }: { children: ReactNode }) {
-  return <section className="flex w-full max-w-[1200px] flex-col items-center gap-[80px] text-center">{children}</section>;
+  return <section {...componentNameDebugProps("ServiceFdeHeroInner")} className="flex w-full max-w-[1200px] flex-col items-center gap-[80px] text-center">{children}</section>;
 }
 
 export function ServiceFdeHeroCopy({ children }: { children: ReactNode }) {
-  return <div className="flex w-full max-w-[1200px] flex-col items-center gap-[20px] text-center">{children}</div>;
+  return <div {...componentNameDebugProps("ServiceFdeHeroCopy")} className="flex w-full max-w-[1200px] flex-col items-center gap-[20px] text-center">{children}</div>;
 }
 
 export function ServiceFdeHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 className="mx-auto max-w-[800px] text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h1>;
+  return <h1 {...componentNameDebugProps("ServiceFdeHeroTitle")} className="mx-auto max-w-[800px] text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h1>;
 }
 
 export function ServiceFdeHeroLead({ children }: { children: ReactNode }) {
-  return <p className="max-w-[1000px] text-[18px] font-light leading-[28px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+  return <p {...componentNameDebugProps("ServiceFdeHeroLead")} className="max-w-[1000px] text-[18px] font-light leading-[28px] tracking-[0.36px] text-[#57606A]">{children}</p>;
 }
 
 export function ServiceFdeHeroVisual() {
   return (
-    <section className="flex w-full self-stretch justify-center">
+    <section {...componentNameDebugProps("ServiceFdeHeroVisual")} className="flex w-full self-stretch justify-center">
       <div className="mx-auto w-full max-w-[1200px]">
         <Image
           src="/services/fde/hero.svg"
@@ -71,49 +71,49 @@ export function ServiceFdeHeroVisual() {
 }
 
 export function ServiceFdeFeatureSection({ children, muted = false }: FeatureSectionProps) {
-  return <PlatformFeatureSection muted={muted}>{children}</PlatformFeatureSection>;
+  return <PlatformFeatureSection {...componentNameDebugProps("ServiceFdeFeatureSection")} muted={muted}>{children}</PlatformFeatureSection>;
 }
 
 export function ServiceFdeFeatureInner({ children }: { children: ReactNode }) {
-  return <div className="flex w-full flex-col">{children}</div>;
+  return <div {...componentNameDebugProps("ServiceFdeFeatureInner")} className="flex w-full flex-col">{children}</div>;
 }
 
 export function ServiceFdeFeatureRow({ children, reverse = false }: FeatureRowProps) {
-  return <div className={`flex flex-col items-center justify-center gap-[60px] lg:gap-[80px] ${reverse ? "lg:flex-row-reverse" : "lg:flex-row"}`}>{children}</div>;
+  return <div {...componentNameDebugProps("ServiceFdeFeatureRow")} className={`flex flex-col items-center justify-center gap-[60px] lg:gap-[80px] ${reverse ? "lg:flex-row-reverse" : "lg:flex-row"}`}>{children}</div>;
 }
 
 export function ServiceFdeFeatureCopy({ children }: { children: ReactNode }) {
-  return <div className="flex w-full max-w-full flex-col gap-[20px]">{children}</div>;
+  return <div {...componentNameDebugProps("ServiceFdeFeatureCopy")} className="flex w-full max-w-full flex-col gap-[20px]">{children}</div>;
 }
 
 export function ServiceFdeFeatureTitle({ children }: { children: ReactNode }) {
-  return <h4 className="text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F] max-[480px]:text-[20px] max-[480px]:leading-[28px]">{children}</h4>;
+  return <h4 {...componentNameDebugProps("ServiceFdeFeatureTitle")} className="text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F] max-[480px]:text-[20px] max-[480px]:leading-[28px]">{children}</h4>;
 }
 
 export function ServiceFdeFeatureBody({ children }: { children: ReactNode }) {
-  return <p className={headingBodyClass}>{children}</p>;
+  return <p {...componentNameDebugProps("ServiceFdeFeatureBody")} className={headingBodyClass}>{children}</p>;
 }
 
 export function ServiceFdeFeatureChecklist({ className = "" }: ClassNameProps) {
-  return <ul className={`min-h-0 ${className}`.trim()} />;
+  return <ul {...componentNameDebugProps("ServiceFdeFeatureChecklist")} className={`min-h-0 ${className}`.trim()} />;
 }
 
 export function ServiceFdeFeatureMedia({ children }: { children: ReactNode }) {
-  return <div className="relative shrink-0 flex-[0_0_auto]">{children}</div>;
+  return <div {...componentNameDebugProps("ServiceFdeFeatureMedia")} className="relative shrink-0 flex-[0_0_auto]">{children}</div>;
 }
 
 export function ServiceFdeFeatureImageFrame({ children, width }: FeatureImageFrameProps) {
   const style = { "--fde-feature-image-width": `${width}px` } as CSSProperties;
 
   return (
-    <div className="w-full max-w-full overflow-hidden rounded-[8px] shadow-[0_4px_12px_rgba(0,0,0,0.1)] lg:w-[var(--fde-feature-image-width)] lg:shadow-[0_8px_20px_rgba(0,0,0,0.15)]" style={style}>
+    <div {...componentNameDebugProps("ServiceFdeFeatureImageFrame")} className="w-full max-w-full overflow-hidden rounded-[8px] shadow-[0_4px_12px_rgba(0,0,0,0.1)] lg:w-[var(--fde-feature-image-width)] lg:shadow-[0_8px_20px_rgba(0,0,0,0.15)]" style={style}>
       {children}
     </div>
   );
 }
 
 export function ServiceFdeFeatureImage({ src, alt }: { src: string; alt: string }) {
-  return <Image src={src} alt={alt} width={1000} height={612} className="h-auto w-full" />;
+  return <Image {...componentNameDebugProps("ServiceFdeFeatureImage")} src={src} alt={alt} width={1000} height={612} className="h-auto w-full" />;
 }
 
 export function ServiceFdeCtaSection({ children }: { children: ReactNode }) {

@@ -18,6 +18,7 @@ import {
   ResourceListSectionTitleRow,
 } from "@/components/sections/resource-list-section";
 import { resolveInternalEventsDemoState } from "@/lib/publications/events/records";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "Internal Events | QueryPie AI",
@@ -42,7 +43,7 @@ export default async function InternalEventsPage({ searchParams }: InternalEvent
   const { demoHeroEvent, showUpcomingEvent, visiblePastEvents } = resolveInternalEventsDemoState(resolvedSearchParams);
 
   return (
-    <main className="relative bg-white text-slate-950">
+    <main {...componentNameDebugProps("InternalEventsPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
 
       <ResourceListHeroSection>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type BrandGradientCtaButtonProps = {
   href: string;
@@ -17,7 +18,7 @@ export function BrandGradientCtaButton({ href, children, className, target = "_b
   const iconClassName = "h-[12px] w-[7px]";
 
   return (
-    <Link href={href} target={target} rel={rel} className={[baseClassName, className].filter(Boolean).join(" ")}>
+    <Link {...componentNameDebugProps("BrandGradientCtaButton")} href={href} target={target} rel={rel} className={[baseClassName, className].filter(Boolean).join(" ")}>
       <span className={labelClassName}>{children}</span>
       <span aria-hidden="true" className={iconWrapClassName}>
         <svg viewBox="0 0 7 12" className={iconClassName} fill="none" xmlns="http://www.w3.org/2000/svg">

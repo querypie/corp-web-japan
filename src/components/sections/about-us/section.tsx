@@ -10,7 +10,7 @@ const bodyCopyClass = companyBodyTextClassName;
 const secondaryCopyClass = companyBodyTextClassName;
 
 export function AboutUsBodyCopy({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <p className={`${bodyCopyClass}${className ? ` ${className}` : ""}`}>{children}</p>;
+  return <p {...componentNameDebugProps("AboutUsBodyCopy")} className={`${bodyCopyClass}${className ? ` ${className}` : ""}`}>{children}</p>;
 }
 
 export function AboutUsHeroCopy({ children }: { children: ReactNode }) {
@@ -36,11 +36,11 @@ export function AboutUsSection({ children, muted = false }: { children: ReactNod
 }
 
 export function AboutUsSectionHeading({ children }: { children: ReactNode }) {
-  return <h2 className={sectionHeadingClass}>{children}</h2>;
+  return <h2 {...componentNameDebugProps("AboutUsSectionHeading")} className={sectionHeadingClass}>{children}</h2>;
 }
 
 export function AboutUsSectionIntro({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <div className={`mt-4 max-w-[1200px]${className ? ` ${className}` : ""}`}>{children}</div>;
+  return <div {...componentNameDebugProps("AboutUsSectionIntro")} className={`mt-4 max-w-[1200px]${className ? ` ${className}` : ""}`}>{children}</div>;
 }
 
 export function AboutUsInvestorLogoRow({ children }: { children: ReactNode }) {
@@ -59,7 +59,7 @@ export function AboutUsInvestorLogo({
   height: number;
 }) {
   return (
-    <div className="flex min-h-[80px] items-center justify-center">
+    <div {...componentNameDebugProps("AboutUsInvestorLogo")} className="flex min-h-[80px] items-center justify-center">
       <Image
         src={logoSrc}
         alt={name}
@@ -78,7 +78,7 @@ export function AboutUsTimeline({ children }: { children: ReactNode }) {
 
 export function AboutUsTimelineItem({ year, children }: { year: string; children: ReactNode }) {
   return (
-    <div className="flex gap-[18.75px]">
+    <div {...componentNameDebugProps("AboutUsTimelineItem")} className="flex gap-[18.75px]">
       <h3 className="w-[93.75px] shrink-0 text-[30px] font-medium leading-[39.375px] tracking-[-0.03em] text-slate-950">{year}</h3>
       <ul className={`list-disc space-y-1 pl-5 ${secondaryCopyClass}`}>{children}</ul>
     </div>
@@ -86,7 +86,7 @@ export function AboutUsTimelineItem({ year, children }: { year: string; children
 }
 
 export function AboutUsLeaderGrid({ children }: { children: ReactNode }) {
-  return <div className="mt-[36px] grid grid-cols-1 gap-y-[56.25px] md:grid-cols-2 md:justify-between md:gap-x-6 xl:grid-cols-[repeat(3,320px)] xl:justify-between xl:gap-x-0">{children}</div>;
+  return <div {...componentNameDebugProps("AboutUsLeaderGrid")} className="mt-[36px] grid grid-cols-1 gap-y-[56.25px] md:grid-cols-2 md:justify-between md:gap-x-6 xl:grid-cols-[repeat(3,320px)] xl:justify-between xl:gap-x-0">{children}</div>;
 }
 
 export function AboutUsLeaderCard({
@@ -126,11 +126,11 @@ export function AboutUsLeaderCard({
 }
 
 export function AboutUsLeaderName({ children }: { children: ReactNode }) {
-  return <p className="text-[18.75px] font-medium leading-[26.25px] tracking-[-0.02em] text-slate-950">{children}</p>;
+  return <p {...componentNameDebugProps("AboutUsLeaderName")} className="text-[18.75px] font-medium leading-[26.25px] tracking-[-0.02em] text-slate-950">{children}</p>;
 }
 
 export function AboutUsLeaderRole({ children }: { children: ReactNode }) {
-  return <p className={`text-[13.125px] leading-[20.625px] ${secondaryCopyClass}`}>{children}</p>;
+  return <p {...componentNameDebugProps("AboutUsLeaderRole")} className={`text-[13.125px] leading-[20.625px] ${secondaryCopyClass}`}>{children}</p>;
 }
 
 export function AboutUsLocationGrid({ children }: { children: ReactNode }) {
@@ -158,12 +158,12 @@ export function AboutUsLocationCard({
 
 export function AboutUsLocationName({ children }: { children: ReactNode }) {
   return (
-    <div className="mt-4">
+    <div {...componentNameDebugProps("AboutUsLocationName")} className="mt-4">
       <p className="text-[18.75px] font-medium leading-[26.25px] tracking-[-0.02em] text-slate-950">{children}</p>
     </div>
   );
 }
 
 export function AboutUsLocationAddress({ children }: { children: ReactNode }) {
-  return <div className={`mt-4 space-y-0 ${secondaryCopyClass}`}>{children}</div>;
+  return <div {...componentNameDebugProps("AboutUsLocationAddress")} className={`mt-4 space-y-0 ${secondaryCopyClass}`}>{children}</div>;
 }

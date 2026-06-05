@@ -1,19 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, type ComponentPropsWithoutRef } from "react";
 
 type AipThumbnailYoutubeProps = {
   videoId: string;
   thumbnailSrc: string;
-};
+} & Omit<ComponentPropsWithoutRef<"div">, "children">;
 
-export function AipThumbnailYoutube({ videoId, thumbnailSrc }: AipThumbnailYoutubeProps) {
+export function AipThumbnailYoutube({ videoId, thumbnailSrc, ...props }: AipThumbnailYoutubeProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const autoplay = isPlaying ? "1" : "0";
 
   return (
-    <div className="relative mx-auto w-full max-w-[1024px]">
+    <div {...props} className="relative mx-auto w-full max-w-[1024px]">
       <div className="relative aspect-video w-full">
         <iframe
           src={`https://www.youtube.com/embed/${videoId}?autoplay=${autoplay}&controls=1&rel=0`}

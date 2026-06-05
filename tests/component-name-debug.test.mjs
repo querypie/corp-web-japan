@@ -1,6 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readSource } from "./helpers/source-readers.mjs";
+import { readdirSync, readFileSync } from "node:fs";
+import path from "node:path";
+import * as ts from "typescript";
+import { readSource, sourcePath } from "./helpers/source-readers.mjs";
 
 const contractSource = readSource("src/lib/component-name-debug.ts");
 const overlaySource = readSource("src/components/layout/component-name-debug-overlay.tsx");
@@ -50,6 +53,336 @@ const acpDemoPostRouteSource = readSource("src/app/demo/acp/[id]/[slug]/page.tsx
 const introductionDeckPostRouteSource = readSource("src/app/introduction-deck/[id]/[slug]/page.tsx");
 const glossaryPostRouteSource = readSource("src/app/glossary/[id]/[slug]/page.tsx");
 const manualPostRouteSource = readSource("src/app/manuals/[id]/[slug]/page.tsx");
+const repoRoot = sourcePath("");
+
+const renderlessPageComponentMarkerExceptions = new Set([
+  "src/app/[...missing]/page.tsx#MissingRoutePage",
+  "src/app/blog/[id]/page.tsx#BlogDetailCanonicalRedirectPage",
+  "src/app/demo/acp/[id]/page.tsx#AcpDemoDetailIdPage",
+  "src/app/demo/aip/[id]/page.tsx#AipDemoDetailIdPage",
+  "src/app/events/[id]/page.tsx#EventIdPage",
+  "src/app/glossary/[id]/page.tsx#GlossaryDetailIdPage",
+  "src/app/introduction-deck/[id]/page.tsx#IntroductionDeckDetailIdPage",
+  "src/app/manuals/[id]/page.tsx#ManualsDetailIdPage",
+  "src/app/news/[id]/page.tsx#NewsIdPage",
+  "src/app/pricing/calculator/page.tsx#PricingCalculatorPage",
+  "src/app/privacy-policy/[slug]/page.tsx#PrivacyPolicyVersionPage",
+  "src/app/privacy-policy/page.tsx#PrivacyPolicyPage",
+  "src/app/use-cases/[id]/page.tsx#UseCaseDetailIdPage",
+  "src/app/whitepapers/[id]/page.tsx#WhitepaperDetailIdPage",
+  "src/app/whitepapers/[id]/pdf/page.tsx#WhitepaperDownloadIdPage",
+  "src/components/sections/acp/feature-browser.tsx#AcpFeatureCategory",
+  "src/components/sections/acp/feature-browser.tsx#AcpFeatureCategoryLabel",
+  "src/components/sections/acp/feature-browser.tsx#AcpFeatureItem",
+  "src/components/sections/acp/feature-browser.tsx#AcpFeatureItemBody",
+  "src/components/sections/acp/feature-browser.tsx#AcpFeatureItemTitle",
+  "src/components/sections/acp/static-page.tsx#AcpHeroEyebrow",
+  "src/components/sections/ai-crew/use-cases-section.tsx#AICrewUseCaseCardBody",
+  "src/components/sections/ai-crew/use-cases-section.tsx#AICrewUseCaseCardCategory",
+  "src/components/sections/ai-crew/use-cases-section.tsx#AICrewUseCaseCardTitle",
+  "src/components/sections/ai-crew/use-cases-section.tsx#AICrewUseCaseTab",
+  "src/components/sections/home/roadmap-section.tsx#RoadmapStep",
+  "src/components/sections/home/roadmap-section.tsx#RoadmapTab",
+  "src/components/sections/internal-demo/ai-dashi-faq.tsx#AIDashiFaqQuestion",
+  "src/components/sections/internal-demo/role-slides.tsx#RoleCatchCopy",
+  "src/components/sections/internal-demo/role-slides.tsx#RolePainPoint",
+  "src/components/sections/internal-demo/role-slides.tsx#RoleSlide",
+  "src/components/sections/internal-demo/role-slides.tsx#RoleSummary",
+  "src/components/sections/internal-demo/use-case-showcase.tsx#UseCaseBody",
+  "src/components/sections/internal-demo/use-case-showcase.tsx#UseCaseCard",
+  "src/components/sections/internal-demo/use-case-showcase.tsx#UseCaseTab",
+]);
+
+const pageComponentMarkerAliases = new Map([
+  ["src/app/blog/[id]/[slug]/page.tsx#BlogDetailPage", "BlogPostPage"],
+  ["src/app/demo/acp/[id]/[slug]/page.tsx#AcpDemoDetailPage", "AcpDemoPostPage"],
+  ["src/app/demo/aip/[id]/[slug]/page.tsx#AipDemoDetailPage", "AipDemoPostPage"],
+  ["src/app/events/[id]/[slug]/page.tsx#EventDetailPage", "EventPostPage"],
+  ["src/app/glossary/[id]/[slug]/page.tsx#GlossaryDetailPage", "GlossaryPostPage"],
+  ["src/app/introduction-deck/[id]/[slug]/page.tsx#IntroductionDeckDetailPage", "IntroductionDeckPostPage"],
+  ["src/app/manuals/[id]/[slug]/page.tsx#ManualsDetailPage", "ManualPostPage"],
+  ["src/app/news/[id]/[slug]/page.tsx#NewsDetailPage", "NewsPostPage"],
+  ["src/app/use-cases/[id]/[slug]/page.tsx#UseCaseDetailPage", "UseCasePostPage"],
+  ["src/app/whitepapers/[id]/[slug]/page.tsx#WhitepaperDetailPage", "WhitepaperPostPage"],
+  ["src/app/whitepapers/page.tsx#WhitepaperPage", "WhitepapersPage"],
+]);
+
+function toRepoRelative(filePath) {
+  return path.relative(repoRoot, filePath).split(path.sep).join("/");
+}
+
+function readTsx(filePath) {
+  return ts.createSourceFile(filePath, readFileSync(filePath, "utf8"), ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+}
+
+function walkPageFiles(dirPath, files = []) {
+  for (const entry of readdirSync(dirPath, { withFileTypes: true })) {
+    if (entry.name === "node_modules" || entry.name === ".git" || entry.name === ".next") {
+      continue;
+    }
+
+    const entryPath = path.join(dirPath, entry.name);
+
+    if (entry.isDirectory()) {
+      walkPageFiles(entryPath, files);
+      continue;
+    }
+
+    if (entry.name === "page.tsx") {
+      files.push(entryPath);
+    }
+  }
+
+  return files;
+}
+
+function isLocalImportSpecifier(specifier) {
+  return specifier.startsWith("@/") || specifier.startsWith("./") || specifier.startsWith("../");
+}
+
+function resolveImportPath(fromFile, specifier) {
+  const basePath = specifier.startsWith("@/")
+    ? path.join(repoRoot, "src", specifier.slice(2))
+    : path.resolve(path.dirname(fromFile), specifier);
+  const candidates = [
+    `${basePath}.tsx`,
+    `${basePath}.ts`,
+    path.join(basePath, "index.tsx"),
+    path.join(basePath, "index.ts"),
+  ];
+
+  return candidates.find((candidate) => {
+    try {
+      readFileSync(candidate);
+      return true;
+    } catch {
+      return false;
+    }
+  });
+}
+
+function jsxTagName(tagName) {
+  if (ts.isIdentifier(tagName)) {
+    return tagName.text;
+  }
+
+  if (ts.isPropertyAccessExpression(tagName)) {
+    return `${jsxTagName(tagName.expression)}.${tagName.name.text}`;
+  }
+
+  return undefined;
+}
+
+function collectLocalImports(filePath, sourceFile) {
+  const imports = new Map();
+
+  sourceFile.forEachChild((node) => {
+    if (!ts.isImportDeclaration(node) || !node.importClause || !ts.isStringLiteral(node.moduleSpecifier)) {
+      return;
+    }
+
+    const specifier = node.moduleSpecifier.text;
+
+    if (!isLocalImportSpecifier(specifier)) {
+      return;
+    }
+
+    const resolved = resolveImportPath(filePath, specifier);
+    const addImport = (localName, importedName = localName) => {
+      imports.set(localName, { importedName, resolved });
+    };
+    const { importClause } = node;
+
+    if (importClause.name) {
+      addImport(importClause.name.text, "default");
+    }
+
+    if (importClause.namedBindings && ts.isNamedImports(importClause.namedBindings)) {
+      for (const element of importClause.namedBindings.elements) {
+        addImport(element.name.text, element.propertyName ? element.propertyName.text : element.name.text);
+      }
+    }
+  });
+
+  return imports;
+}
+
+function collectLocalDefinitions(sourceFile) {
+  const definitions = new Set();
+
+  sourceFile.forEachChild((node) => {
+    if (ts.isFunctionDeclaration(node) && node.name && /^[A-Z]/.test(node.name.text)) {
+      definitions.add(node.name.text);
+    }
+
+    if (ts.isVariableStatement(node)) {
+      for (const declaration of node.declarationList.declarations) {
+        if (ts.isIdentifier(declaration.name) && /^[A-Z]/.test(declaration.name.text)) {
+          definitions.add(declaration.name.text);
+        }
+      }
+    }
+  });
+
+  return definitions;
+}
+
+function collectPageJsxNames(sourceFile) {
+  const names = new Set();
+
+  function visit(node) {
+    if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
+      const name = jsxTagName(node.tagName);
+
+      if (name && /^[A-Z]/.test(name) && !name.includes(".")) {
+        names.add(name);
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  }
+
+  visit(sourceFile);
+  return names;
+}
+
+function findLocalDefinition(sourceFile, componentName) {
+  let found;
+
+  function visit(node) {
+    if (found) {
+      return;
+    }
+
+    if (componentName === "default" && ts.isFunctionDeclaration(node) && node.name && (ts.getCombinedModifierFlags(node) & ts.ModifierFlags.Default)) {
+      found = { node, componentName: node.name.text };
+      return;
+    }
+
+    if (ts.isFunctionDeclaration(node) && node.name?.text === componentName) {
+      found = { node, componentName };
+      return;
+    }
+
+    if (ts.isVariableStatement(node)) {
+      for (const declaration of node.declarationList.declarations) {
+        if (ts.isIdentifier(declaration.name) && declaration.name.text === componentName) {
+          found = { node: declaration, componentName };
+          return;
+        }
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  }
+
+  visit(sourceFile);
+  return found;
+}
+
+function resolveExport(filePath, componentName, seen = new Set()) {
+  const key = `${filePath}#${componentName}`;
+
+  if (seen.has(key)) {
+    return { filePath, componentName };
+  }
+
+  seen.add(key);
+  const sourceFile = readTsx(filePath);
+  const localDefinition = findLocalDefinition(sourceFile, componentName);
+
+  if (localDefinition) {
+    if (ts.isVariableDeclaration(localDefinition.node) && localDefinition.node.initializer && ts.isIdentifier(localDefinition.node.initializer)) {
+      const aliasTarget = findLocalDefinition(sourceFile, localDefinition.node.initializer.text);
+
+      if (aliasTarget) {
+        return { filePath, componentName: aliasTarget.componentName };
+      }
+    }
+
+    return { filePath, componentName: localDefinition.componentName };
+  }
+
+  const localImports = collectLocalImports(filePath, sourceFile);
+
+  for (const statement of sourceFile.statements) {
+    if (!ts.isExportDeclaration(statement) || !statement.exportClause || !ts.isNamedExports(statement.exportClause)) {
+      continue;
+    }
+
+    for (const element of statement.exportClause.elements) {
+      const exportedName = element.name.text;
+      const originalName = element.propertyName ? element.propertyName.text : element.name.text;
+
+      if (exportedName !== componentName) {
+        continue;
+      }
+
+      if (statement.moduleSpecifier && ts.isStringLiteral(statement.moduleSpecifier)) {
+        const resolved = resolveImportPath(filePath, statement.moduleSpecifier.text);
+        return resolved ? resolveExport(resolved, originalName, seen) : { filePath, componentName };
+      }
+
+      const imported = localImports.get(originalName);
+      return imported?.resolved ? resolveExport(imported.resolved, imported.importedName, seen) : { filePath, componentName: originalName };
+    }
+  }
+
+  return { filePath, componentName };
+}
+
+function defaultExportFunctionName(sourceFile) {
+  let name;
+
+  sourceFile.forEachChild((node) => {
+    if (ts.isFunctionDeclaration(node) && node.name && (ts.getCombinedModifierFlags(node) & ts.ModifierFlags.Default)) {
+      name = node.name.text;
+    }
+  });
+
+  return name;
+}
+
+function collectPageReferencedComponentTargets() {
+  const targets = new Map();
+
+  function addTarget(filePath, componentName) {
+    if (!filePath || !filePath.startsWith(path.join(repoRoot, "src"))) {
+      return;
+    }
+
+    const resolved = resolveExport(filePath, componentName);
+    const key = `${toRepoRelative(resolved.filePath)}#${resolved.componentName}`;
+    targets.set(key, resolved);
+  }
+
+  for (const pageFile of walkPageFiles(sourcePath("src/app"))) {
+    const sourceFile = readTsx(pageFile);
+    const localImports = collectLocalImports(pageFile, sourceFile);
+    const localDefinitions = collectLocalDefinitions(sourceFile);
+
+    for (const componentName of collectPageJsxNames(sourceFile)) {
+      const imported = localImports.get(componentName);
+
+      if (imported?.resolved?.startsWith(path.join(repoRoot, "src"))) {
+        addTarget(imported.resolved, imported.importedName);
+        continue;
+      }
+
+      if (!imported && localDefinitions.has(componentName)) {
+        addTarget(pageFile, componentName);
+      }
+    }
+
+    const pageComponentName = defaultExportFunctionName(sourceFile);
+
+    if (pageComponentName) {
+      addTarget(pageFile, pageComponentName);
+    }
+  }
+
+  return targets;
+}
 
 test("Component Name Debug uses a production-capable build-time code constant", () => {
   assert.match(contractSource, /export const COMPONENT_NAME_DEBUG_ENABLED = true;/);
@@ -181,4 +514,24 @@ test("Component Name Debug marks MDX detail route pages and company/about-us sec
   assert.match(aboutUsSectionsSource, /componentNameDebugProps\("AboutUsLeaderCard"\)/);
   assert.match(aboutUsSectionsSource, /componentNameDebugProps\("AboutUsLocationGrid"\)/);
   assert.match(aboutUsSectionsSource, /componentNameDebugProps\("AboutUsLocationCard"\)/);
+});
+
+test("Component Name Debug marks renderable local components referenced by route pages", () => {
+  const missingMarkers = [];
+
+  for (const [key, target] of collectPageReferencedComponentTargets()) {
+    if (renderlessPageComponentMarkerExceptions.has(key)) {
+      continue;
+    }
+
+    const source = readFileSync(target.filePath, "utf8");
+    const markerName = pageComponentMarkerAliases.get(key) ?? target.componentName;
+    const expectedMarker = `componentNameDebugProps("${markerName}")`;
+
+    if (!source.includes(expectedMarker)) {
+      missingMarkers.push(`${key} missing ${expectedMarker}`);
+    }
+  }
+
+  assert.deepEqual(missingMarkers, []);
 });

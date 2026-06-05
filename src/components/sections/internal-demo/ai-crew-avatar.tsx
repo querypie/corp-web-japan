@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type AICrewAvatarProps = {
   size?: "mobile" | "desktop";
@@ -17,7 +18,7 @@ export function AICrewAvatar({
   tone = "white",
 }: AICrewAvatarProps) {
   return (
-    <div
+    <div {...componentNameDebugProps("AICrewAvatar")}
       role="img"
       aria-label={alt}
       className={`relative ${sizeClassMap[size]} animate-[crewFloat_6s_ease-in-out_infinite] motion-reduce:animate-none`}

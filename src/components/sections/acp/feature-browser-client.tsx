@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, type ComponentPropsWithoutRef } from "react";
 
 export type AcpFeatureBrowserItem = {
   imageSrc: string;
@@ -16,7 +16,7 @@ export type AcpFeatureBrowserCategory = {
   items: AcpFeatureBrowserItem[];
 };
 
-export function AcpFeatureBrowserClient({ categories }: { categories: AcpFeatureBrowserCategory[] }) {
+export function AcpFeatureBrowserClient({ categories, ...props }: { categories: AcpFeatureBrowserCategory[] } & Omit<ComponentPropsWithoutRef<"div">, "children">) {
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
 
@@ -43,7 +43,7 @@ export function AcpFeatureBrowserClient({ categories }: { categories: AcpFeature
   }
 
   return (
-    <div className="grid w-full gap-[60px] lg:grid-cols-[380px_1fr]">
+    <div {...props} className="grid w-full gap-[60px] lg:grid-cols-[380px_1fr]">
       <ul className="flex flex-col">
         {categories.map((category, index) => {
           const active = index === activeCategoryIndex;

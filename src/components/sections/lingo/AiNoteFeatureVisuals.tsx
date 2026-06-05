@@ -4,6 +4,7 @@ import { Bot, CheckCircle2, MessageCircle, Sparkles } from "lucide-react"
 import { useLocale } from "@/lib/lingo/intl"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
 import { cn } from "@/lib/lingo/utils"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export type AiNoteFeatureVisualType =
   | "summary"
@@ -331,8 +332,8 @@ function LiveQuestionVisual() {
 }
 
 export function AiNoteFeatureVisual({ type }: AiNoteFeatureVisualProps) {
-  if (type === "summary") return <SummaryVisual />
-  if (type === "templates") return <TemplatesVisual />
-  if (type === "customPrompt") return <CustomPromptVisual />
-  return <LiveQuestionVisual />
+  if (type === "summary") return <SummaryVisual {...componentNameDebugProps("AiNoteFeatureVisual")} />
+  if (type === "templates") return <TemplatesVisual {...componentNameDebugProps("AiNoteFeatureVisual")} />
+  if (type === "customPrompt") return <CustomPromptVisual {...componentNameDebugProps("AiNoteFeatureVisual")} />
+  return <LiveQuestionVisual {...componentNameDebugProps("AiNoteFeatureVisual")} />
 }

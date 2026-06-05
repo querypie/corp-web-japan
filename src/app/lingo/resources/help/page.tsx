@@ -7,6 +7,7 @@ import { CTASection } from "@/components/sections/lingo/CTASection"
 import { Footer } from "@/components/layout/lingo/Footer"
 import { Container } from "@/components/layout/lingo/Container"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const helpCopy = {
   ko: {
@@ -105,7 +106,7 @@ export default function HelpPage() {
   const copy = getLocaleCopy(useLocale(), helpCopy)
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] page-layout-sub">
+    <main {...componentNameDebugProps("HelpPage")} className="min-h-screen bg-[var(--bg)] page-layout-sub">
       <SubPageHeroBackground />
 
       <div className="w-full page-gutter">

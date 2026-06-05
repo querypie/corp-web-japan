@@ -22,6 +22,7 @@ import {
 } from "@/components/sections/fde/service-page";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "QueryPie AIP：あなたのためのAI変革エキスパート | QueryPie AI",
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
 
 export default function ServiceFdePage() {
   return (
-    <ServiceFdePageShell>
+    <ServiceFdePageShell {...componentNameDebugProps("ServiceFdePage")}>
       <SiteHeader />
 
       <ServiceFdeHeroSection>

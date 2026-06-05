@@ -13,6 +13,7 @@ import {
   ResourceListSidebarNav,
   type ResourceCategoryLink,
 } from "@/components/sections/resource-list-section";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const resourceCategorySidebarLinks: readonly ResourceCategoryLink[] = [
   { label: "全て", href: "/resources" },
@@ -61,7 +62,7 @@ export async function ResourceCategorySidebar({ activeLabel, links }: ResourceCa
   );
 
   return (
-    <ResourceListSidebar>
+    <ResourceListSidebar {...componentNameDebugProps("ResourceCategorySidebar")}>
       <ResourceListSidebarLabel>カテゴリー</ResourceListSidebarLabel>
       <ResourceListMobileSidebarDrawer title="カテゴリー" activeLabel={activeLabel}>
         <ResourceListSidebarNav label="Sidebar Navigation">{renderSidebarList()}</ResourceListSidebarNav>

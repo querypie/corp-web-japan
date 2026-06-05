@@ -11,6 +11,7 @@ import {
   splitIntoSentences,
   joinUnits,
 } from "@/lib/lingo/textSplitter"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 
 export function LiveTranslationLines({
@@ -277,7 +278,7 @@ export function FeatureBento() {
   const featureHref = (href: string) => `/${locale}${href}`
 
   return (
-    <Container>
+    <Container {...componentNameDebugProps("FeatureBento")}>
       <h1 className="text-h1 mb-[60px] text-center text-[var(--fg)]">
         {t("feature.headingLine1")}
         <br />

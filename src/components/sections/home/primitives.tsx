@@ -4,11 +4,12 @@ import { cn } from "@/lib/utils";
 type MarketingPillProps = {
   children: ReactNode;
   className?: string;
-};
+} & Omit<ComponentPropsWithoutRef<"div">, "children" | "className">;
 
-export function MarketingPill({ children, className }: MarketingPillProps) {
+export function MarketingPill({ children, className, ...props }: MarketingPillProps) {
   return (
     <div
+      {...props}
       className={cn(
         "inline-flex rounded-full px-3 py-1 text-[11px] font-semibold tracking-[0.08em]",
         className,
@@ -22,11 +23,12 @@ export function MarketingPill({ children, className }: MarketingPillProps) {
 type MarketingIconFrameProps = {
   children: ReactNode;
   className?: string;
-};
+} & Omit<ComponentPropsWithoutRef<"div">, "children" | "className">;
 
-export function MarketingIconFrame({ children, className }: MarketingIconFrameProps) {
+export function MarketingIconFrame({ children, className, ...props }: MarketingIconFrameProps) {
   return (
     <div
+      {...props}
       className={cn(
         "flex h-11 w-11 items-center justify-center rounded-[14px] shadow-[0_16px_34px_-24px_rgba(15,23,42,0.18)]",
         className,

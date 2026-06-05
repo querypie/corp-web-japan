@@ -1,6 +1,6 @@
-export function InternalEventsDemoEmptyState() {
+import { componentNameDebugProps } from "@/lib/component-name-debug";export function InternalEventsDemoEmptyState() {
   return (
-    <section className="relative mb-16 min-h-[240px] overflow-hidden border bg-white" style={{ borderColor: "#f4efe6" }}>
+    <section {...componentNameDebugProps("InternalEventsDemoEmptyState")} className="relative mb-16 min-h-[240px] overflow-hidden border bg-white" style={{ borderColor: "#f4efe6" }}>
       <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         <line x1="0" y1="0" x2="100" y2="100" stroke="#f4efe6" strokeWidth="1" vectorEffect="non-scaling-stroke" />
         <line x1="100" y1="0" x2="0" y2="100" stroke="#f4efe6" strokeWidth="1" vectorEffect="non-scaling-stroke" />

@@ -7,6 +7,7 @@ import { SubHeroSection } from "@/components/sections/lingo/SubHeroSection"
 import { SubPageHeroBackground } from "@/components/sections/lingo/SubPageHeroBackground"
 import { useLocale } from "@/lib/lingo/intl"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const releaseNoteCopy = {
   ko: {
@@ -114,7 +115,7 @@ export default function ReleaseNotePage() {
   const copy = getLocaleCopy(useLocale(), releaseNoteCopy)
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] page-layout-sub">
+    <main {...componentNameDebugProps("ReleaseNotePage")} className="min-h-screen bg-[var(--bg)] page-layout-sub">
       <SubPageHeroBackground />
 
       <div className="w-full page-gutter">

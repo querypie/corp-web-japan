@@ -43,7 +43,7 @@ test("/platforms/acp keeps route-local copy/composition while the interactive fe
   assert.match(routeSource, /<AcpIntegrationsLink href="\/platforms\/acp\/integrations">/);
   assert.doesNotMatch(routeSource, /href="https:\/\/www\.querypie\.com\/ja\/solutions\/acp\/integrations"/);
   assert.match(sectionSource, /export function AcpIntegrationsLink/);
-  assert.match(sectionSource, /<Link href=\{href\}/);
+  assert.match(sectionSource, /<Link[\s\S]*href=\{href\}/);
   assert.doesNotMatch(sectionSource, /target="_blank"/);
   assert.doesNotMatch(sectionSource, /noopener noreferrer/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
@@ -60,20 +60,20 @@ test("/platforms/acp keeps route-local copy/composition while the interactive fe
 
   assert.match(sectionSource, /export function AcpFeatureSection/);
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
-  assert.match(sectionSource, /export function AcpServicePageShell[\s\S]*<PlatformPageShell>/);
+  assert.match(sectionSource, /export function AcpServicePageShell[\s\S]*<PlatformPageShell(?:\s[^>]*)?>/);
   assert.match(sectionSource, /export \{ AcpHeroCopy, AcpHeroLead, AcpHeroTitle \} from "@\/components\/sections\/acp\/hero-primitives"/);
-  assert.match(sectionSource, /export function AcpHeroSection[\s\S]*<PlatformContentSection className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]">/);
+  assert.match(sectionSource, /export function AcpHeroSection[\s\S]*<PlatformContentSection[\s\S]*className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]">/);
   assert.match(heroSource, /export function AcpHeroTitle[\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
   assert.match(heroSource, /export function AcpHeroLead[\s\S]*w-full max-w-\[1200px\][\s\S]*text-\[18px\][\s\S]*leading-\[28px\]/);
   assert.doesNotMatch(heroSource, /max-w-\[760px\]/);
   assert.match(sectionSource, /src="https:\/\/www\.youtube\.com\/embed\/AWnknC76Jpo\?si=5M5QNi83zyyHD2V3&modestbranding=0"/);
   assert.match(sectionSource, /title="YouTube video player"/);
-  assert.match(sectionSource, /<div className="mx-auto w-full max-w-\[1024px\]">/);
-  assert.match(sectionSource, /<div className="relative aspect-video w-full">/);
+  assert.match(sectionSource, /<div[^>]*className="mx-auto w-full max-w-\[1024px\]">/);
+  assert.match(sectionSource, /<div[^>]*className="relative aspect-video w-full">/);
   assert.doesNotMatch(sectionSource, /rounded-\[12px\]/);
   assert.doesNotMatch(sectionSource, /shadow-\[0_24px_80px_-55px_rgba/);
   assert.doesNotMatch(sectionSource, /bg-black/);
-  assert.match(sectionSource, /export function AcpFeatureSection[\s\S]*<PlatformContentSection className="pb-\[80px\]">/);
+  assert.match(sectionSource, /export function AcpFeatureSection[\s\S]*<PlatformContentSection[\s\S]*className="pb-\[80px\]">/);
   assert.match(sectionSource, /export function AcpFeatureIntro/);
   assert.match(sectionSource, /export function AcpIntegrationsLink/);
   assert.match(sectionSource, /export function AcpHeroVideo/);

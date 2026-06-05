@@ -15,6 +15,7 @@ import {
   CompanyPageTitle,
 } from "@/components/sections/company/page-primitives";
 import { getPrefilledContactUsFormState } from "@/lib/contact-us";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "お問い合わせ | QueryPie AI",
@@ -49,7 +50,7 @@ export default async function ContactUsPage({
   const initialPrefills = getPrefilledContactUsFormState(urlSearchParams);
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("ContactUsPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <CompanyPageSection>
         <CompanyPageLayout preset="equalColumns">

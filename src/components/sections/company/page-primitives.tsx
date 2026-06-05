@@ -27,7 +27,7 @@ type CompanyPageTitleProps = {
 };
 
 export function CompanyPageTitle({ children }: CompanyPageTitleProps) {
-  return <h1 className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">{children}</h1>;
+  return <h1 {...componentNameDebugProps("CompanyPageTitle")} className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">{children}</h1>;
 }
 
 type CompanyPageLeadProps = {
@@ -35,7 +35,7 @@ type CompanyPageLeadProps = {
 };
 
 export function CompanyPageLead({ children }: CompanyPageLeadProps) {
-  return <div className={companyBodyTextClassName}>{children}</div>;
+  return <div {...componentNameDebugProps("CompanyPageLead")} className={companyBodyTextClassName}>{children}</div>;
 }
 
 type CompanyPageLayoutPreset = "single" | "equalColumns" | "aboutUsHero";

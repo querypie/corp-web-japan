@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/lingo/Footer"
 import { Container } from "@/components/layout/lingo/Container"
 import { useLocale } from "@/lib/lingo/intl"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const contactCopy = {
   ko: {
@@ -112,7 +113,7 @@ export default function ContactPage() {
   const copy = getLocaleCopy(useLocale(), contactCopy)
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] page-layout-sub">
+    <main {...componentNameDebugProps("ContactPage")} className="min-h-screen bg-[var(--bg)] page-layout-sub">
       <SubPageHeroBackground />
 
       <div className="w-full page-gutter">

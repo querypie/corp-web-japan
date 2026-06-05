@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useTranslations } from "@/lib/lingo/intl"
 import { cn } from "@/lib/lingo/utils"
 import { Container } from "@/components/layout/lingo/Container"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 interface FAQSectionProps {
   namespace?: string
@@ -22,7 +23,7 @@ export function FAQSection({ namespace = "faq" }: FAQSectionProps) {
   ]
 
   return (
-    <Container>
+    <Container {...componentNameDebugProps("FAQSection")}>
       <div className="flex flex-col gap-4 md:gap-[20px]">
         <h2 className="text-h1 text-[var(--fg)]">{t("title")}</h2>
         <div className="flex flex-col gap-[10px]">

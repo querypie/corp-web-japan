@@ -34,6 +34,7 @@ import {
 } from "@/components/sections/acp/service-page";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "QueryPie アクセス制御 (ACP) | QueryPie AI",
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
 
 export default function AcpPage() {
   return (
-    <AcpServicePageShell>
+    <AcpServicePageShell {...componentNameDebugProps("AcpPage")}>
       <SiteHeader />
 
       <AcpHeroSection>

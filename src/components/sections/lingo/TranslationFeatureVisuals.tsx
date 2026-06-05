@@ -5,6 +5,7 @@ import { useLocale } from "@/lib/lingo/intl"
 import { QRCodeSVG } from "qrcode.react"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
 import { cn } from "@/lib/lingo/utils"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export type TranslationFeatureVisualType =
   | "languages"
@@ -495,8 +496,8 @@ function ShareVisual() {
 export function TranslationFeatureVisual({
   type,
 }: TranslationFeatureVisualProps) {
-  if (type === "languages") return <LanguagesVisual />
-  if (type === "fast") return <FastVisual />
-  if (type === "remote") return <RemoteVisual />
-  return <ShareVisual />
+  if (type === "languages") return <LanguagesVisual {...componentNameDebugProps("TranslationFeatureVisual")} />
+  if (type === "fast") return <FastVisual {...componentNameDebugProps("TranslationFeatureVisual")} />
+  if (type === "remote") return <RemoteVisual {...componentNameDebugProps("TranslationFeatureVisual")} />
+  return <ShareVisual {...componentNameDebugProps("TranslationFeatureVisual")} />
 }

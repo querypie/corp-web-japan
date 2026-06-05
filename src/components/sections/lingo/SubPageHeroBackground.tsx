@@ -1,8 +1,9 @@
 import Image from "next/image"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export function SubPageHeroBackground() {
   return (
-    <div className="pointer-events-none absolute inset-x-0 -top-10 h-[200px] overflow-hidden md:top-0">
+    <div {...componentNameDebugProps("SubPageHeroBackground")} className="pointer-events-none absolute inset-x-0 -top-10 h-[200px] overflow-hidden md:top-0">
       <Image
         src="/lingo/images/bg-home.jpg"
         alt=""

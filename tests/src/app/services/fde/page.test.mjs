@@ -44,16 +44,16 @@ test("/services/fde is a public page with indexable metadata and canonical path"
   assert.match(sectionSource, /export function ServiceFdeHeroLead[\s\S]*max-w-\[1000px\][\s\S]*text-\[18px\][\s\S]*leading-\[28px\]/);
   assert.match(sectionSource, /export function ServiceFdeHeroVisual/);
   assert.match(sectionSource, /export function ServiceFdeFeatureSection/);
-  assert.match(sectionSource, /export function ServiceFdeFeatureSection[\s\S]*<PlatformFeatureSection muted=\{muted\}>/);
+  assert.match(sectionSource, /export function ServiceFdeFeatureSection[\s\S]*<PlatformFeatureSection[\s\S]*muted=\{muted\}>/);
   assert.match(sectionSource, /export function ServiceFdeFeatureRow/);
   assert.match(sectionSource, /flex flex-col items-center[\s\S]*gap-\[60px\][\s\S]*lg:gap-\[80px\][\s\S]*lg:flex-row/);
   assert.match(sectionSource, /--fde-feature-image-width/);
   assert.match(sectionSource, /lg:w-\[var\(--fde-feature-image-width\)\]/);
   assert.match(sectionSource, /shadow-\[0_4px_12px_rgba\(0,0,0,0\.1\)\]/);
   assert.match(sectionSource, /lg:shadow-\[0_8px_20px_rgba\(0,0,0,0\.15\)\]/);
-  assert.match(sectionSource, /<h4 className="[^"]*text-\[32px\][^"]*leading-\[42px\][^"]*max-\[480px\]:text-\[20px\][^"]*max-\[480px\]:leading-\[28px\][^"]*"/);
+  assert.match(sectionSource, /<h4[^>]*className="[^"]*text-\[32px\][^"]*leading-\[42px\][^"]*max-\[480px\]:text-\[20px\][^"]*max-\[480px\]:leading-\[28px\][^"]*"/);
   assert.match(sectionSource, /export function ServiceFdeCtaSection/);
-  assert.match(sectionSource, /export function ServiceFdeCtaSection[\s\S]*<PlatformCtaSection>/);
+  assert.match(sectionSource, /export function ServiceFdeCtaSection[\s\S]*<PlatformCtaSection(?:\s[^>]*)?>/);
 
   assert.match(platformSource, /export function PlatformPageShell/);
   assert.match(platformSource, /export function PlatformContentSection/);

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRight, ExternalLink } from "lucide-react";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export type CertificationItem = {
   id: string;
@@ -16,12 +17,12 @@ export type CertificationItem = {
 };
 
 export function CertificationsGrid({ children }: { children: ReactNode }) {
-  return <div className="mt-[44px] grid gap-x-7 gap-y-9 md:grid-cols-2 xl:grid-cols-3">{children}</div>;
+  return <div {...componentNameDebugProps("CertificationsGrid")} className="mt-[44px] grid gap-x-7 gap-y-9 md:grid-cols-2 xl:grid-cols-3">{children}</div>;
 }
 
 export function CertificationCard({ title, description, src, alt, imageWidth, imageHeight, displayWidth, displayHeight }: CertificationItem) {
   return (
-    <article className="flex h-[375px] flex-col items-center justify-start rounded-[9.375px] bg-[#f5f7fa] px-8 pb-8 pt-10 text-center">
+    <article {...componentNameDebugProps("CertificationCard")} className="flex h-[375px] flex-col items-center justify-start rounded-[9.375px] bg-[#f5f7fa] px-8 pb-8 pt-10 text-center">
       <div className="flex min-h-[148px] items-center justify-center">
         <Image
           src={src}
@@ -45,12 +46,12 @@ export function CertificationCard({ title, description, src, alt, imageWidth, im
 }
 
 export function CertificationsTrustCenterSection({ children }: { children: ReactNode }) {
-  return <section className="flex flex-col items-center pb-2 pt-20 text-center lg:pt-24">{children}</section>;
+  return <section {...componentNameDebugProps("CertificationsTrustCenterSection")} className="flex flex-col items-center pb-2 pt-20 text-center lg:pt-24">{children}</section>;
 }
 
 export function CertificationsTrustCenterAction({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link
+    <Link {...componentNameDebugProps("CertificationsTrustCenterAction")}
       href={href}
       target="_blank"
       rel="noopener noreferrer"

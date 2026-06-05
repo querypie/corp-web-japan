@@ -9,6 +9,7 @@ import {
   isGatingFormValid,
   type GatingFormState,
 } from "@/lib/gating-form";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type WhitepaperDownloadGatePageProps = {
   categoryLabel: string;
@@ -180,7 +181,7 @@ export function WhitepaperDownloadGatePage({
   }
 
   return (
-    <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-20 pt-[112px] lg:px-[30px] lg:pb-[120px] lg:pt-[144px]">
+    <section {...componentNameDebugProps("WhitepaperDownloadGatePage")} className="mx-auto max-w-[1920px] bg-white px-[30px] pb-20 pt-[112px] lg:px-[30px] lg:pb-[120px] lg:pt-[144px]">
       <div className="mx-auto max-w-[1200px]">
         <div className="grid gap-10 lg:grid-cols-[1fr_440px] lg:gap-14">
           <div className="lg:sticky lg:top-[108px] lg:self-start">

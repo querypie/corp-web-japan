@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ComponentPropsWithoutRef, type ReactNode } from "react";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type RevealOnScrollProps = {
   children: ReactNode;
   className?: string;
   variant?: "up" | "left" | "right" | "scale";
   delayMs?: number;
-};
+} & Omit<ComponentPropsWithoutRef<"div">, "children" | "className">;
 
 const variantClassMap = {
   up: "translate-y-6",
@@ -21,6 +22,8 @@ export function RevealOnScroll({
   className = "",
   variant = "up",
   delayMs = 0,
+  style,
+  ...props
 }: RevealOnScrollProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -44,9 +47,9 @@ export function RevealOnScroll({
   }, []);
 
   return (
-    <div
+    <div {...componentNameDebugProps("RevealOnScroll")} {...props}
       ref={ref}
-      style={{ transitionDelay: `${delayMs}ms` }}
+      style={{ ...style, transitionDelay: `${delayMs}ms` }}
       className={`transition-all duration-700 ease-out motion-reduce:transition-none ${
         visible ? "translate-x-0 translate-y-0 scale-100 opacity-100" : `${variantClassMap[variant]} opacity-0`
       } ${className}`}

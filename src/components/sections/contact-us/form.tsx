@@ -12,6 +12,7 @@ import {
   timelineOptions,
   type ContactUsFormState,
 } from "@/lib/contact-us";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const UTM_ATTRIBUTION_COOKIE_KEY = "utm-attribution";
 
@@ -199,7 +200,7 @@ export function ContactUsForm({ initialPrefills = {} }: ContactUsFormProps) {
   return (
     <>
       {submitState.status === "success" ? (
-        <div className="mx-auto max-w-[360px] px-0 pb-2 pt-4 text-center">
+        <div {...componentNameDebugProps("ContactUsForm")} className="mx-auto max-w-[360px] px-0 pb-2 pt-4 text-center">
           <div className="mb-3 flex justify-center text-[#22C55E]">
             <CheckCircle2 className="h-10 w-10" />
           </div>
@@ -212,7 +213,7 @@ export function ContactUsForm({ initialPrefills = {} }: ContactUsFormProps) {
           </p>
         </div>
       ) : (
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
+        <form {...componentNameDebugProps("ContactUsForm")} className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
           {textFields.map(({ key, label, placeholder, autoComplete, inputMode }) => {
             const required = key !== "phone";
             const fieldError = getFieldError(key);

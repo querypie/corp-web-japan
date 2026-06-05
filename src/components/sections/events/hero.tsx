@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type FeaturedEventHeroProps = {
   href: string;
@@ -25,7 +26,7 @@ export function FeaturedEventHero({
   ctaLabel = "詳細を見る",
 }: FeaturedEventHeroProps) {
   return (
-    <section className="mb-16">
+    <section {...componentNameDebugProps("FeaturedEventHero")} className="mb-16">
       <div className="relative overflow-hidden rounded-lg bg-[#f2f4f6]">
         <Link
           href={href}

@@ -18,6 +18,7 @@ import {
   PREVIEW_NAVIGATION_COOKIE,
 } from "@/lib/preview-navigation";
 import { absoluteUrl } from "@/lib/site-url";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type WhitepaperDownloadPageProps = {
   params: Promise<{
@@ -78,7 +79,7 @@ export default async function WhitepaperDownloadPage({ params }: WhitepaperDownl
   }
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("WhitepaperDownloadPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <WhitepaperDownloadGatePage
         categoryLabel="ホワイトペーパー"
