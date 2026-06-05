@@ -12,9 +12,9 @@ import {
 type CookieConsentLocale = "en" | "ko" | "ja"
 
 const privacyPolicyLinks = {
-  en: "/privacy-policy",
-  ko: "/privacy-policy",
-  ja: "/privacy-policy",
+  en: "https://querypie.ai/privacy-policy",
+  ko: "https://querypie.ai/privacy-policy",
+  ja: "https://querypie.ai/privacy-policy",
 } satisfies Record<CookieConsentLocale, string>
 
 const cookieConsentCopy = {
@@ -100,14 +100,14 @@ export function CookieConsent() {
   const isVisible = useSyncExternalStore(
     subscribeCookieConsentStore,
     getCookieConsentSnapshot,
-    () => false
+    () => false,
   )
 
   const saveConsent = (value: CookieConsentValue) => {
     isCookieSettingsOpen = false
     window.localStorage.setItem(cookieConsentStorageKey, value)
     window.dispatchEvent(
-      new CustomEvent("lingo-cookie-consent-change", { detail: { value } })
+      new CustomEvent("lingo-cookie-consent-change", { detail: { value } }),
     )
   }
 
@@ -124,6 +124,8 @@ export function CookieConsent() {
             {copy.descriptionBeforePrivacy}
             <a
               href={privacyPolicyHref}
+              target="_blank"
+              rel="noopener noreferrer"
               className="font-medium text-[#1368d8] underline underline-offset-2"
             >
               {copy.privacyPolicy}

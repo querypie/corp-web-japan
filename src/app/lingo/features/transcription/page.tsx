@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import { useLocale } from "@/lib/lingo/intl"
 import { ChevronDown } from "lucide-react"
 import { Button } from "@/components/lingo/common/Button"
@@ -11,6 +10,7 @@ import {
   TranscriptionFeatureVisual,
   type TranscriptionFeatureVisualType,
 } from "@/components/sections/lingo/TranscriptionFeatureVisuals"
+import { SubPageHeroBackground } from "@/components/sections/lingo/SubPageHeroBackground"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
 import { cn } from "@/lib/lingo/utils"
 
@@ -217,17 +217,17 @@ function FeatureCardsSection() {
 
   return (
     <Container className="section-gap">
-      <div className="flex flex-col" style={{ gap: "120px" }}>
+      <div className="flex flex-col gap-16 md:gap-[120px]">
         {copy.featureCards.map((card, index) => {
           const isEven = index % 2 === 0
           return (
             <article
               key={card.title}
-              className="flex flex-col gap-[30px] md:flex-row md:items-end md:gap-[60px]"
+              className="flex flex-col gap-[30px] md:flex-row md:items-start md:gap-[60px]"
             >
               <div
                 className={cn(
-                  "flex flex-1 flex-col gap-[10px] md:pb-8",
+                  "flex flex-1 flex-col gap-[10px]",
                   isEven ? "order-1" : "order-1 md:order-2"
                 )}
               >
@@ -335,8 +335,7 @@ function renderNextFeatureVisual(visual: string) {
 }
 
 function NextFeaturesSection() {
-  const locale = useLocale()
-  const copy = getLocaleCopy(locale, transcriptionCopy)
+  const copy = getLocaleCopy(useLocale(), transcriptionCopy)
 
   return (
     <Container>
@@ -349,10 +348,9 @@ function NextFeaturesSection() {
         </div>
         <div className="mx-auto grid w-full max-w-[680px] grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
           {copy.nextFeatureCards.map((card) => (
-            <a
+            <article
               key={card.title}
-              href={`/lingo${card.href}`}
-              className="group flex min-h-[440px] flex-col rounded-[var(--corner-box)] bg-[var(--card)] p-4 text-left shadow-[0_2px_10px_rgba(0,0,0,0.06)] transition-transform duration-250 hover:-translate-y-1 md:min-h-[470px] md:p-5"
+              className="group flex min-h-[380px] flex-col rounded-[var(--corner-box)] bg-[var(--card)] p-4 text-left shadow-[0_2px_10px_rgba(0,0,0,0.06)] transition-transform duration-250 hover:-translate-y-1 md:min-h-[470px] md:p-5"
             >
               {renderNextFeatureVisual(card.visual)}
               <div className="flex flex-1 flex-col gap-[14px] px-1 pt-8 md:px-2">
@@ -362,11 +360,15 @@ function NextFeaturesSection() {
                     {card.description}
                   </p>
                 </div>
-                <span className="body-sm mt-auto flex min-h-14 items-center justify-center rounded-full bg-[var(--fg)] px-6 text-center text-[var(--white)] transition-colors duration-250 group-hover:bg-[var(--brand)]">
+                <Button
+                  href={`/lingo${card.href}`}
+                  variant="dark"
+                  className="mt-auto w-full"
+                >
                   {card.cta}
-                </span>
+                </Button>
               </div>
-            </a>
+            </article>
           ))}
         </div>
       </div>
@@ -430,9 +432,9 @@ function TranscriptionCTASection() {
   return (
     <Container>
       <div className="flex flex-col items-center gap-6 text-center md:gap-[30px]">
-        <div className="flex max-w-[620px] flex-col items-center gap-4 text-[var(--fg)] md:gap-[20px]">
+        <div className="flex w-full flex-col items-center gap-4 text-[var(--fg)] md:gap-[20px]">
           <h2 className="text-h1">{copy.ctaTitle}</h2>
-          <p className="text-[16px] leading-[24px]">
+          <p className="body-md">
             {copy.ctaDescription}
           </p>
         </div>
@@ -449,33 +451,23 @@ export default function TranscriptionPage() {
 
   return (
     <main className="page-layout-sub min-h-screen bg-[var(--bg)]">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[200px] overflow-hidden">
-        <Image
-          src="/lingo/images/bg-home.jpg"
-          alt=""
-          fill
-          sizes="100vw"
-          className="size-full object-cover object-bottom"
-        />
-      </div>
+      <SubPageHeroBackground />
       <div className="page-gutter w-full">
         <div className="container-main relative z-10 w-full">
           <div className="flex flex-col gap-5 md:gap-[20px]">
             <h1 className="text-h1 text-[var(--fg)]">
               {copy.heroTitle[0]}
               <br />
-              {copy.heroTitle[1]}
-              <br />
-              {copy.heroTitle[2]}
+              {copy.heroTitle[1]} {copy.heroTitle[2]}
             </h1>
           </div>
-          <p className="body-md mt-5 max-w-[640px] text-[var(--fg)]">
+          <p className="body-md mt-5 max-w-[1000px] text-[var(--fg)]">
             {copy.heroDescription[0]}
             <br />
             {copy.heroDescription[1]}
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-3">
-            <Button variant="outline">{copy.secondaryCta}</Button>
+            <Button variant="dark">{copy.secondaryCta}</Button>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react"
 import { Clock } from "@phosphor-icons/react"
+import { useTranslations } from "@/lib/lingo/intl"
 import { useOrganizationContext } from "@/components/lingo/mockup/contexts/OrganizationContext"
 import { useCalendarConnect } from "@/components/lingo/mockup/hooks/useCalendarConnect"
 import { useLangValidation } from "@/components/lingo/mockup/hooks/useLangValidation"
@@ -50,6 +51,7 @@ export function UpcomingMeetings({
 }: UpcomingMeetingsProps) {
   const { currentOrg } = useOrganizationContext()
   const { connect: startCalendarConnect } = useCalendarConnect()
+  const t = useTranslations("mockup.home")
 
   const [calendarStatus, setCalendarStatus] = useState<CalendarStatus | null>(
     "connected"
@@ -291,9 +293,11 @@ export function UpcomingMeetings({
   if (calendarStatus === "disconnected") {
     return (
       <section className="mt-10">
-        <h2 className="text-base font-semibold text-foreground">Upcoming</h2>
+        <h2 className="text-base font-semibold text-foreground">
+          {t("upcoming.heading")}
+        </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Connect your calendar to see upcoming meetings.
+          {t("upcoming.disconnected.prompt")}
         </p>
         <div className="mt-3 max-w-[30rem] rounded-xl border border-border bg-card pt-5 pr-2 pb-5 pl-4">
           <div className="space-y-4">
@@ -302,7 +306,7 @@ export function UpcomingMeetings({
                 <CalendarProviderLogo provider="google" />
                 <div>
                   <p className="text-sm font-medium text-foreground">
-                    Google Calendar
+                    {t("upcoming.providers.google")}
                   </p>
                 </div>
               </div>
@@ -312,7 +316,7 @@ export function UpcomingMeetings({
                 size="sm"
                 onClick={handleGoogleConnect}
               >
-                Connect
+                {t("upcoming.actions.connect")}
               </Button>
             </div>
             <div className="flex items-center justify-between border-t border-border pt-3 first:border-t-0 first:pt-0">
@@ -320,7 +324,7 @@ export function UpcomingMeetings({
                 <CalendarProviderLogo provider="microsoft" />
                 <div>
                   <p className="text-sm font-medium text-foreground">
-                    Microsoft Outlook
+                    {t("upcoming.providers.microsoft")}
                   </p>
                 </div>
               </div>
@@ -330,7 +334,7 @@ export function UpcomingMeetings({
                 size="sm"
                 onClick={handleMicrosoftConnect}
               >
-                Connect
+                {t("upcoming.actions.connect")}
               </Button>
             </div>
           </div>
@@ -342,10 +346,12 @@ export function UpcomingMeetings({
   if (calendarStatus === "sync_failed") {
     return (
       <section className="mt-10">
-        <h2 className="text-base font-semibold text-foreground">Upcoming</h2>
+        <h2 className="text-base font-semibold text-foreground">
+          {t("upcoming.heading")}
+        </h2>
         <div className="mt-3 rounded-xl border border-destructive/30 bg-card p-5">
           <p className="text-sm text-destructive">
-            Calendar sync failed. Please reconnect.
+            {t("upcoming.syncFailed.message")}
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3">
             <Button
@@ -353,14 +359,14 @@ export function UpcomingMeetings({
               onClick={handleCalendarReconnect}
               disabled={reconnectLoading}
             >
-              Reconnect
+              {t("upcoming.actions.reconnect")}
             </Button>
             <button
               type="button"
               onClick={onNavigateToSettings}
               className="text-sm font-medium text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
             >
-              Go to settings
+              {t("upcoming.syncFailed.goToSettings")}
             </button>
           </div>
         </div>
@@ -372,13 +378,15 @@ export function UpcomingMeetings({
     <section className="mt-10">
       {/* Header */}
       <div>
-        <h2 className="text-base font-semibold text-foreground">Upcoming</h2>
+        <h2 className="text-base font-semibold text-foreground">
+          {t("upcoming.heading")}
+        </h2>
       </div>
 
       {calendarStatus === "pending" && (
         <div className="mt-3 flex items-center gap-2 rounded-xl border border-border bg-muted/50 px-4 py-3 text-sm text-muted-foreground">
           <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
-          Syncing calendar…
+          {t("upcoming.syncing")}
         </div>
       )}
 
@@ -392,7 +400,7 @@ export function UpcomingMeetings({
       {/* Empty state */}
       {calendarStatus === "connected" && !loading && events.length === 0 && (
         <p className="mt-4 text-sm text-muted-foreground">
-          No upcoming meetings.
+          {t("upcoming.empty")}
         </p>
       )}
 
@@ -435,7 +443,7 @@ export function UpcomingMeetings({
                             >
                               <PlatformLogo platform={platform} />
                               <span className="text-xs text-foreground">
-                                {platform === "googleMeet" && "Google Meet"}
+                                {platform === "googleMeet" && "Meet"}
                                 {platform === "zoom" && "Zoom"}
                                 {platform === "teams" && "Teams"}
                               </span>
@@ -465,7 +473,7 @@ export function UpcomingMeetings({
                     <div className="mt-2 flex items-center justify-between gap-3">
                       <div className="flex min-w-0 items-center gap-1.5">
                         <p className="min-w-0 truncate text-sm font-semibold text-foreground">
-                          {ev.title || "No title"}
+                          {ev.title || t("upcoming.noTitle")}
                         </p>
                         {ev.is_recurring && (
                           <Clock
@@ -477,7 +485,7 @@ export function UpcomingMeetings({
                       {ev.meeting_url && (
                         <div className="flex shrink-0 items-center gap-2">
                           <span className="text-xs text-muted-foreground">
-                            Auto-join
+                            {t("upcoming.autoJoin")}
                           </span>
                           <Tooltip delayDuration={TOOLTIP_HOVER_DELAY_MS}>
                             <TooltipTrigger asChild>
@@ -490,8 +498,8 @@ export function UpcomingMeetings({
                             </TooltipTrigger>
                             <TooltipContent side="top">
                               {botOn
-                                ? "Lingo will join this meeting"
-                                : "Lingo will not join this meeting"}
+                                ? t("upcoming.tooltip.botOn")
+                                : t("upcoming.tooltip.botOff")}
                             </TooltipContent>
                           </Tooltip>
                         </div>
@@ -507,7 +515,9 @@ export function UpcomingMeetings({
       {/* Step 1: Language selection dialog */}
       <Dialog open={botModalEvent !== null} onClose={closeBotModal}>
         <div className="mx-4 w-full max-w-sm rounded-2xl border border-border bg-card p-5 text-card-foreground shadow-xl">
-          <h3 className="mb-1 text-base font-semibold">Source language</h3>
+          <h3 className="mb-1 text-base font-semibold">
+            {t("upcoming.languageDialog.title")}
+          </h3>
           <p className="mb-4 text-xs text-muted-foreground">
             {botModalEvent?.title}
           </p>
@@ -529,10 +539,10 @@ export function UpcomingMeetings({
           <div className="mb-5 flex items-center justify-between">
             <div>
               <div className="text-sm font-medium text-foreground">
-                Add translation
+                {t("upcoming.languageDialog.addTranslation")}
               </div>
               <div className="mt-0.5 text-xs text-muted-foreground">
-                Translate into additional languages
+                {t("upcoming.languageDialog.addTranslationDescription")}
               </div>
             </div>
             {selectedLangs.size < 2 ? (
@@ -542,26 +552,28 @@ export function UpcomingMeetings({
                     <Switch
                       checked={false}
                       disabled
-                      aria-label="Add translation"
+                      aria-label={t("upcoming.languageDialog.addTranslation")}
                     />
                   </span>
                 </TooltipTrigger>
-                <TooltipContent>Select at least 2 languages</TooltipContent>
+                <TooltipContent>
+                  {t("upcoming.languageDialog.selectAtLeastTwo")}
+                </TooltipContent>
               </Tooltip>
             ) : (
               <Switch
                 checked={addTranslation}
                 onClick={() => setAddTranslation((v) => !v)}
-                aria-label="Add translation"
+                aria-label={t("upcoming.languageDialog.addTranslation")}
               />
             )}
           </div>
           <div className="flex justify-end gap-2">
             <Button variant="outline" size="sm" onClick={closeBotModal}>
-              Cancel
+              {t("upcoming.actions.cancel")}
             </Button>
             <Button size="sm" onClick={handleLanguageConfirm}>
-              Start bot
+              {t("upcoming.languageDialog.startBot")}
             </Button>
           </div>
         </div>
@@ -574,29 +586,29 @@ export function UpcomingMeetings({
       >
         <div className="mx-4 w-full max-w-sm rounded-2xl border border-border bg-card p-5 text-card-foreground shadow-xl">
           <h3 className="mb-1 text-base font-semibold">
-            Schedule recurring meeting
+            {t("upcoming.recurringSchedule.title")}
           </h3>
           <p className="mb-5 text-sm text-muted-foreground">
-            Apply bot to which occurrences?
+            {t("upcoming.recurringSchedule.description")}
           </p>
           <div className="flex flex-col gap-2">
             <Button
               variant="outline"
               onClick={() => handleRecurringChoice("from_here")}
             >
-              From this occurrence
+              {t("upcoming.recurringSchedule.fromHere")}
             </Button>
             <Button
               variant="outline"
               onClick={() => handleRecurringChoice("all")}
             >
-              All occurrences
+              {t("upcoming.recurringSchedule.all")}
             </Button>
             <Button
               variant="outline"
               onClick={() => handleRecurringChoice("this")}
             >
-              This occurrence only
+              {t("upcoming.recurringSchedule.thisOnly")}
             </Button>
           </div>
           <div className="mt-3 flex justify-end">
@@ -605,7 +617,7 @@ export function UpcomingMeetings({
               size="sm"
               onClick={() => setRecurringModalEvent(null)}
             >
-              Cancel
+              {t("upcoming.actions.cancel")}
             </Button>
           </div>
         </div>
@@ -617,9 +629,11 @@ export function UpcomingMeetings({
         onClose={() => setRecurringRemoveEvent(null)}
       >
         <div className="mx-4 w-full max-w-sm rounded-2xl border border-border bg-card p-5 text-card-foreground shadow-xl">
-          <h3 className="mb-1 text-base font-semibold">Remove bot</h3>
+          <h3 className="mb-1 text-base font-semibold">
+            {t("upcoming.recurringRemove.title")}
+          </h3>
           <p className="mb-5 text-sm text-muted-foreground">
-            Remove bot from which occurrences?
+            {t("upcoming.recurringRemove.description")}
           </p>
           <div className="flex flex-col gap-2">
             <Button
@@ -628,7 +642,7 @@ export function UpcomingMeetings({
                 recurringRemoveEvent && removeBot(recurringRemoveEvent, true)
               }
             >
-              All occurrences
+              {t("upcoming.recurringRemove.all")}
             </Button>
             <Button
               variant="outline"
@@ -636,7 +650,7 @@ export function UpcomingMeetings({
                 recurringRemoveEvent && removeBot(recurringRemoveEvent, false)
               }
             >
-              This occurrence only
+              {t("upcoming.recurringRemove.thisOnly")}
             </Button>
           </div>
           <div className="mt-3 flex justify-end">
@@ -645,7 +659,7 @@ export function UpcomingMeetings({
               size="sm"
               onClick={() => setRecurringRemoveEvent(null)}
             >
-              Cancel
+              {t("upcoming.actions.cancel")}
             </Button>
           </div>
         </div>

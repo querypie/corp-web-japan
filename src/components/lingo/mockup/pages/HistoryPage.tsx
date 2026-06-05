@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useLocale, useTranslations } from "@/lib/lingo/intl"
 import {
   DotsThree,
   DownloadSimple,
@@ -89,6 +90,9 @@ export function HistoryPage({
   onRejoinSession,
   onResumeScheduled,
 }: HistoryPageProps) {
+  const t = useTranslations("mockup.meetings.history")
+  const locale = useLocale()
+  const dateLocale = locale === "ko" ? "ko" : locale === "ja" ? "ja" : "en"
   const [sessions, setSessions] = useState<Session[]>(getInitialSessions)
   const [loadingMore, setLoadingMore] = useState(false)
   const [hasNextPage, setHasNextPage] = useState(false)
@@ -211,32 +215,9 @@ export function HistoryPage({
     sessionId: string,
     format: "json" | "srt"
   ) => {
-    const session = sessions.find((s) => s.id === sessionId)
-    if (!session) return
-
-    if (format === "srt") {
-      const blob = new Blob(
-        ["1\n00:00:00,000 --> 00:00:05,000\nMock SRT export"],
-        { type: "text/plain" }
-      )
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = `session-${sessionId}.srt`
-      a.click()
-      URL.revokeObjectURL(url)
-      return
-    }
-
-    const blob = new Blob([JSON.stringify(session, null, 2)], {
-      type: "application/json",
-    })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = `session-${sessionId}.json`
-    a.click()
-    URL.revokeObjectURL(url)
+    // 데모 목업: 실제 파일을 내려받지 않는다.
+    void sessionId
+    void format
   }
 
   const handleDeleteSession = async (sessionId: string) => {
@@ -414,7 +395,7 @@ export function HistoryPage({
                   className="flex items-center justify-between gap-3 pt-6 pb-6 sm:pt-8"
                 >
                   <h1 className="text-xl font-semibold text-foreground">
-                    Meetings
+                    {t("title")}
                   </h1>
                 </div>
               )
@@ -424,7 +405,7 @@ export function HistoryPage({
                   key={`loading-${idx}`}
                   className="py-4 text-muted-foreground"
                 >
-                  Loading...
+                  {t("loading")}
                 </p>
               )
             case "server_down":
@@ -440,8 +421,8 @@ export function HistoryPage({
                   data-testid="history-empty-state"
                   className="flex flex-col items-center justify-center py-20 text-muted-foreground"
                 >
-                  <p className="mb-2 text-lg">No meetings yet</p>
-                  <p className="text-sm">Start a new meeting to see it here.</p>
+                  <p className="mb-2 text-lg">{t("empty.title")}</p>
+                  <p className="text-sm">{t("empty.description")}</p>
                 </div>
               )
             case "scheduled_header":
@@ -450,7 +431,7 @@ export function HistoryPage({
                   key={`scheduled-header-${idx}`}
                   className="pb-3 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase"
                 >
-                  Scheduled Meetings
+                  {t("scheduledHeader")}
                 </p>
               )
             case "scheduled_card": {
@@ -488,13 +469,13 @@ export function HistoryPage({
                   <div className="flex h-full w-[88px] shrink-0 items-center sm:w-[108px]">
                     <div className="flex min-h-[52px] w-full flex-col justify-center px-2">
                       <div className="text-[15px] leading-none font-semibold text-foreground">
-                        {date.toLocaleDateString("en", {
+                        {date.toLocaleDateString(dateLocale, {
                           month: "short",
                           day: "numeric",
                         })}
                       </div>
                       <div className="mt-1 text-[11px] text-muted-foreground">
-                        {date.toLocaleTimeString("en", {
+                        {date.toLocaleTimeString(dateLocale, {
                           hour: "numeric",
                           minute: "2-digit",
                         })}
@@ -569,9 +550,9 @@ export function HistoryPage({
                           <p
                             className={`mt-1 text-xs font-medium ${session.meeting_type === "remote" ? "text-purple" : "text-brand"}`}
                           >
-                            {formatTime(calInfo.start_time, "en")}
+                            {formatTime(calInfo.start_time, dateLocale)}
                             {" – "}
-                            {formatTime(calInfo.end_time, "en")}
+                            {formatTime(calInfo.end_time, dateLocale)}
                           </p>
                         )}
                       </div>
@@ -579,7 +560,7 @@ export function HistoryPage({
                       {/* "..." menu */}
                       <DropdownMenu
                         className="relative shrink-0 self-center"
-                        menuClassName="absolute right-0 top-8 z-10 w-44 rounded-xl border border-border bg-popover p-1 text-popover-foreground shadow-lg"
+                        menuClassName="absolute right-0 top-8 z-10 w-max min-w-44 rounded-xl border border-border bg-popover p-1 text-popover-foreground shadow-lg"
                         trigger={({ toggle }) => (
                           <button
                             type="button"
@@ -588,7 +569,7 @@ export function HistoryPage({
                               toggle()
                             }}
                             className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-[background-color,color,transform] active:scale-95 sm:hover:bg-accent sm:hover:text-accent-foreground sm:active:scale-100"
-                            aria-label="More actions"
+                            aria-label={t("moreActions")}
                           >
                             <DotsThree className="h-5 w-5" weight="bold" />
                           </button>
@@ -609,7 +590,7 @@ export function HistoryPage({
                                 className="h-4 w-4"
                                 weight="regular"
                               />
-                              <span>Share</span>
+                              <span>{t("actions.share")}</span>
                             </button>
                             <button
                               type="button"
@@ -621,7 +602,7 @@ export function HistoryPage({
                               className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-destructive transition-[background-color,color,transform] active:scale-[0.99] sm:hover:bg-destructive/10 sm:active:scale-100"
                             >
                               <Trash className="h-4 w-4" weight="regular" />
-                              <span>Delete</span>
+                              <span>{t("actions.delete")}</span>
                             </button>
                           </>
                         )}
@@ -637,13 +618,13 @@ export function HistoryPage({
                   key={`history-header-${idx}`}
                   className="pt-6 pb-3 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase"
                 >
-                  All Meetings
+                  {t("allHeader")}
                 </p>
               )
             case "history_card": {
               const session = row.session
               const date = new Date(session.created_at)
-              const timeLabel = date.toLocaleTimeString("en", {
+              const timeLabel = date.toLocaleTimeString(dateLocale, {
                 hour: "numeric",
                 minute: "2-digit",
               })
@@ -673,7 +654,7 @@ export function HistoryPage({
                   <div className="flex h-full w-[88px] shrink-0 items-center sm:w-[108px]">
                     <div className="flex min-h-[52px] w-full flex-col justify-center px-2">
                       <div className="text-[15px] leading-none font-semibold text-foreground">
-                        {date.toLocaleDateString("en", {
+                        {date.toLocaleDateString(dateLocale, {
                           month: "short",
                           day: "numeric",
                         })}
@@ -717,17 +698,17 @@ export function HistoryPage({
                           </span>
                           {session.session_state === "scheduled" && (
                             <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium tracking-[0.08em] text-amber-700 uppercase dark:bg-amber-900/30 dark:text-amber-400">
-                              Scheduled
+                              {t("badges.scheduled")}
                             </span>
                           )}
                           {session.session_state === "cancelled" && (
                             <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium tracking-[0.08em] text-muted-foreground uppercase">
-                              Cancelled
+                              {t("badges.cancelled")}
                             </span>
                           )}
                           {session.session_state === "auto_join_failed" && (
                             <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2 py-0.5 text-[10px] font-medium tracking-[0.08em] text-destructive uppercase">
-                              Auto-join failed
+                              {t("badges.autoJoinFailed")}
                             </span>
                           )}
                           {session.bot_status &&
@@ -767,14 +748,14 @@ export function HistoryPage({
                                 className="h-3 w-3"
                                 weight="regular"
                               />
-                              Shared
+                              {t("badges.shared")}
                             </span>
                           )}
                         </div>
                       </div>
                       <DropdownMenu
                         className="relative shrink-0 self-center"
-                        menuClassName="absolute right-0 top-8 z-10 w-44 rounded-xl border border-border bg-popover p-1 text-popover-foreground shadow-lg"
+                        menuClassName="absolute right-0 top-8 z-10 w-max min-w-44 rounded-xl border border-border bg-popover p-1 text-popover-foreground shadow-lg"
                         trigger={({ toggle }) => (
                           <button
                             type="button"
@@ -783,7 +764,7 @@ export function HistoryPage({
                               toggle()
                             }}
                             className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-[background-color,color,transform] active:scale-95 sm:hover:bg-accent sm:hover:text-accent-foreground sm:active:scale-100"
-                            aria-label="More actions"
+                            aria-label={t("moreActions")}
                           >
                             <DotsThree className="h-5 w-5" weight="bold" />
                           </button>
@@ -804,7 +785,7 @@ export function HistoryPage({
                                 className="h-4 w-4"
                                 weight="regular"
                               />
-                              <span>Share</span>
+                              <span>{t("actions.share")}</span>
                             </button>
                             <button
                               type="button"
@@ -816,10 +797,12 @@ export function HistoryPage({
                               className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm transition-[background-color,color,transform] active:scale-[0.99] sm:hover:bg-accent sm:hover:text-accent-foreground sm:active:scale-100"
                             >
                               <DownloadSimple
-                                className="h-4 w-4"
+                                className="h-4 w-4 shrink-0"
                                 weight="regular"
                               />
-                              <span>Export JSON</span>
+                              <span className="whitespace-nowrap">
+                                {t("actions.downloadTranscript")}
+                              </span>
                             </button>
                             {session.meeting_type === "remote" &&
                               !TERMINAL_SESSION_STATES.has(
@@ -843,8 +826,8 @@ export function HistoryPage({
                                   <span>
                                     {session.bot_status === "recording" ||
                                     session.bot_status === "in_meeting"
-                                      ? "Remove Bot"
-                                      : "Cancel Meeting"}
+                                      ? t("actions.removeBot")
+                                      : t("actions.cancelMeeting")}
                                   </span>
                                 </button>
                               )}
@@ -858,7 +841,7 @@ export function HistoryPage({
                               className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-destructive transition-[background-color,color,transform] active:scale-[0.99] sm:hover:bg-destructive/10 sm:active:scale-100"
                             >
                               <Trash className="h-4 w-4" weight="regular" />
-                              <span>Delete</span>
+                              <span>{t("actions.delete")}</span>
                             </button>
                           </>
                         )}
@@ -874,7 +857,7 @@ export function HistoryPage({
                   key={`loading-more-${idx}`}
                   className="py-4 text-center text-sm text-muted-foreground"
                 >
-                  Loading...
+                  {t("loading")}
                 </p>
               )
           }
@@ -888,10 +871,10 @@ export function HistoryPage({
       >
         <div className="mx-4 w-full max-w-sm rounded-2xl border border-border bg-card p-5 text-card-foreground shadow-xl">
           <h3 className="mb-1 text-base font-semibold">
-            Remove Recurring Event
+            {t("recurringDialog.title")}
           </h3>
           <p className="mb-5 text-sm text-muted-foreground">
-            This is a recurring event. What would you like to remove?
+            {t("recurringDialog.description")}
           </p>
           <div className="flex flex-col gap-2">
             <button
@@ -902,7 +885,7 @@ export function HistoryPage({
               }
               className="flex w-full items-center justify-center rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-medium text-destructive transition-colors hover:bg-destructive/5"
             >
-              Remove All Occurrences
+              {t("recurringDialog.removeAll")}
             </button>
             <button
               type="button"
@@ -913,7 +896,7 @@ export function HistoryPage({
               }}
               className="flex w-full items-center justify-center rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-medium transition-colors hover:bg-accent"
             >
-              Remove This Occurrence Only
+              {t("recurringDialog.removeOne")}
             </button>
           </div>
           <div className="mt-3 flex justify-end">
@@ -922,7 +905,7 @@ export function HistoryPage({
               onClick={() => setDeleteChoiceSession(null)}
               className="text-xs text-muted-foreground hover:text-foreground"
             >
-              Cancel
+              {t("recurringDialog.cancel")}
             </button>
           </div>
         </div>
@@ -942,10 +925,12 @@ export function HistoryPage({
           }
           setDeleteTarget(null)
         }}
-        title="Delete Meeting?"
-        description={`Delete "${deleteTarget?.session.name ?? ""}"? This cannot be undone.`}
-        confirmButtonText="Delete"
-        cancelButtonText="Cancel"
+        title={t("deleteDialog.title")}
+        description={t("deleteDialog.description", {
+          name: deleteTarget?.session.name ?? "",
+        })}
+        confirmButtonText={t("deleteDialog.confirm")}
+        cancelButtonText={t("deleteDialog.cancel")}
       />
 
       <ShareModal

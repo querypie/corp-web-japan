@@ -115,17 +115,24 @@ const aiNoteVisualCopy = {
   },
 }
 
-function VisualStage({ children }: { children: React.ReactNode }) {
+type VisualStageTone = "blue" | "lavender"
+
+function VisualStage({
+  children,
+  tone,
+}: {
+  children: React.ReactNode
+  tone: VisualStageTone
+}) {
   return (
     <div
       data-mockup
-      className="relative h-full w-full overflow-hidden bg-[linear-gradient(135deg,#ffede2_0%,#fff7ef_30%,#ffffff_52%,#eaf1ff_100%)]"
+      className={cn(
+        "relative h-full w-full overflow-hidden",
+        tone === "blue" ? "bg-[#EEF5FD]" : "bg-[#F1E9F8]"
+      )}
     >
-      <div className="absolute left-[-8%] top-[-18%] h-[58%] w-[36%] rounded-[44%] bg-[#e25a25]/16" />
-      <div className="absolute right-[-7%] top-[-10%] h-[54%] w-[38%] rounded-[42%] bg-[#9478c7]/18" />
-      <div className="absolute bottom-[-24%] left-[34%] h-[64%] w-[46%] rounded-[45%] bg-[#4a8cff]/10" />
-      <div className="absolute inset-x-0 bottom-0 h-[34%] bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.62)_100%)]" />
-      <div className="absolute inset-0 origin-center scale-[0.86] md:scale-100">
+      <div className="absolute inset-0 origin-top-left scale-[0.9] md:origin-center md:scale-100">
         {children}
       </div>
     </div>
@@ -197,12 +204,12 @@ function SummaryVisual() {
   const copy = getLocaleCopy(useLocale(), aiNoteVisualCopy)
 
   return (
-    <VisualStage>
+    <VisualStage tone="blue">
       <AiTemplateProductPanel
-        className="hidden md:block md:right-[8%] md:top-[6%] md:h-[88%] md:w-[43%]"
+        className="left-[160px] top-[40px] h-[148%] w-[102%] md:left-auto md:right-[-5%] md:top-[10%] md:h-[112%] md:w-[50%]"
         copy={copy}
       />
-      <FloatingCard className="left-[8%] top-[18%] w-[64%] md:left-[8%] md:top-[17%] md:w-[44%]">
+      <FloatingCard className="left-[8%] top-[17%] w-[44%]">
         <div className="mb-3 flex items-center gap-2">
           <span className="grid size-8 place-items-center rounded-[12px] bg-[var(--brand)] text-white">
             <Sparkles className="size-4" aria-hidden="true" />
@@ -232,7 +239,7 @@ function SummaryVisual() {
           ))}
         </div>
       </FloatingCard>
-      <FloatingCard className="bottom-[16%] left-[12%] w-[64%] p-3 md:bottom-[13%] md:left-[15%] md:w-[34%]">
+      <FloatingCard className="bottom-[13%] left-[15%] w-[34%] p-3">
         <div className="flex items-center gap-2">
           <CheckCircle2 className="size-4 text-[var(--brand)]" aria-hidden="true" />
           <span className="text-[12px] font-bold text-[#171717]">
@@ -248,9 +255,9 @@ function TemplatesVisual() {
   const copy = getLocaleCopy(useLocale(), aiNoteVisualCopy)
 
   return (
-    <VisualStage>
+    <VisualStage tone="lavender">
       <AiTemplateProductPanel
-        className="left-1/2 top-[5%] h-[90%] w-[60%] -translate-x-1/2 md:w-[52%]"
+        className="left-[60px] top-[40px] h-[148%] w-[110%] md:left-1/2 md:top-[10%] md:h-[100%] md:w-[58%] md:-translate-x-1/2"
         copy={copy}
       />
     </VisualStage>
@@ -261,12 +268,12 @@ function CustomPromptVisual() {
   const copy = getLocaleCopy(useLocale(), aiNoteVisualCopy)
 
   return (
-    <VisualStage>
+    <VisualStage tone="blue">
       <AiTemplateProductPanel
-        className="hidden md:block md:right-[9%] md:top-[4%] md:h-[92%] md:w-[43%]"
+        className="left-[200px] top-[40px] h-[148%] w-[102%] md:left-auto md:right-[-5%] md:top-[10%] md:h-[112%] md:w-[50%]"
         copy={copy}
       />
-      <FloatingCard className="left-[8%] top-[17%] w-[84%] md:left-[8%] md:top-[18%] md:w-[44%]">
+      <FloatingCard className="left-[8%] top-[18%] w-[44%]">
         <p className="mb-3 text-[13px] font-bold text-[#171717]">
           {copy.customPromptTitle}
         </p>
@@ -288,12 +295,12 @@ function LiveQuestionVisual() {
   const copy = getLocaleCopy(useLocale(), aiNoteVisualCopy)
 
   return (
-    <VisualStage>
+    <VisualStage tone="lavender">
       <AiTemplateProductPanel
-        className="hidden md:block md:left-[8%] md:top-[7%] md:h-[86%] md:w-[42%]"
+        className="left-[60px] top-[40px] h-[148%] w-[102%] md:left-[12%] md:top-[10%] md:h-[112%] md:w-[50%]"
         copy={copy}
       />
-      <FloatingCard className="right-[8%] top-[14%] w-[84%] md:right-[8%] md:top-[15%] md:w-[42%]">
+      <FloatingCard className="right-[8%] top-[40px] w-[52%] translate-x-[100px] md:top-[15%] md:w-[42%] md:translate-x-0">
         <div className="mb-3 flex items-center gap-2">
           <span className="grid size-8 place-items-center rounded-[12px] bg-[#111111] text-white">
             <Bot className="size-4" aria-hidden="true" />
@@ -313,7 +320,7 @@ function LiveQuestionVisual() {
           </p>
         </div>
       </FloatingCard>
-      <FloatingCard className="bottom-[15%] right-[15%] flex items-center gap-2 p-3 md:bottom-[14%] md:right-[14%]">
+      <FloatingCard className="left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 p-3 md:bottom-[14%] md:right-[14%] md:left-auto md:top-auto md:translate-x-0 md:translate-y-0">
         <MessageCircle className="size-4 text-[var(--brand)]" aria-hidden="true" />
         <span className="text-[12px] font-bold text-[#171717]">
           {copy.comingSoon}

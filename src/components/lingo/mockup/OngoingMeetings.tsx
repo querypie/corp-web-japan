@@ -1,6 +1,7 @@
 "use client"
 
 import { useMemo } from "react"
+import { useTranslations } from "@/lib/lingo/intl"
 import { useOrganizationContext } from "@/components/lingo/mockup/contexts/OrganizationContext"
 import { MOCK_SESSIONS } from "@/components/lingo/mockup/mockData"
 import type { BotStatus, Session } from "@/components/lingo/mockup/types"
@@ -42,19 +43,16 @@ function botStatusBadgeClass(status: string | null | undefined): string {
   return "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
 }
 
-function botLabel(status: string): string {
-  const map: Record<string, string> = {
-    creating: "Creating",
-    ready: "Ready",
-    joining: "Joining",
-    in_waiting_room: "Waiting",
-    in_meeting: "In Meeting",
-    recording: "Recording",
-    ending: "Ending",
-    done: "Done",
-    error: "Error",
-  }
-  return map[status] ?? status
+const BOT_LABEL_KEYS: Record<string, string> = {
+  creating: "ongoing.botStatus.creating",
+  ready: "ongoing.botStatus.ready",
+  joining: "ongoing.botStatus.joining",
+  in_waiting_room: "ongoing.botStatus.inWaitingRoom",
+  in_meeting: "ongoing.botStatus.inMeeting",
+  recording: "ongoing.botStatus.recording",
+  ending: "ongoing.botStatus.ending",
+  done: "ongoing.botStatus.done",
+  error: "ongoing.botStatus.error",
 }
 
 function isOngoing(s: Session): boolean {
@@ -89,6 +87,7 @@ interface OngoingMeetingsProps {
 
 export function OngoingMeetings({ onSelectSession }: OngoingMeetingsProps) {
   const { currentOrg } = useOrganizationContext()
+  const t = useTranslations("mockup.home")
 
   const ongoing = useMemo(() => {
     return MOCK_SESSIONS.filter(isOngoing).map(toOngoingSession)
@@ -96,15 +95,22 @@ export function OngoingMeetings({ onSelectSession }: OngoingMeetingsProps) {
 
   if (!currentOrg) return null
 
+  const botLabel = (status: string): string => {
+    const key = BOT_LABEL_KEYS[status]
+    return key ? t(key) : status
+  }
+
   return (
     <section className="mt-10">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-foreground">Ongoing</h2>
+        <h2 className="text-base font-semibold text-foreground">
+          {t("ongoing.heading")}
+        </h2>
       </div>
 
       {ongoing.length === 0 && (
         <p className="mt-4 text-sm text-muted-foreground">
-          No ongoing meetings.
+          {t("ongoing.empty")}
         </p>
       )}
 
@@ -149,7 +155,7 @@ export function OngoingMeetings({ onSelectSession }: OngoingMeetingsProps) {
                   <div className="flex min-w-0 flex-col gap-0.5">
                     <div className="flex items-center gap-2">
                       <span className="truncate text-sm font-medium text-foreground">
-                        {s.name || "No title"}
+                        {s.name || t("ongoing.noTitle")}
                       </span>
                       {showSessionStatusBadge && (
                         <SessionStatusBadge
@@ -177,7 +183,7 @@ export function OngoingMeetings({ onSelectSession }: OngoingMeetingsProps) {
                 </div>
                 {onSelectSession && (
                   <span className="shrink-0 text-xs font-medium text-primary">
-                    Open
+                    {t("ongoing.open")}
                   </span>
                 )}
               </Wrapper>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useLocale, useTranslations } from "@/lib/lingo/intl"
 import { Button } from "@/components/lingo/mockup/ui/Button"
 import { Select } from "@/components/lingo/mockup/ui/Select"
 import { Tabs } from "@/components/lingo/mockup/ui/Tabs"
@@ -18,23 +19,12 @@ type CalendarAccount = {
   status_reason: string | null
 }
 
-const THEME_OPTIONS: { value: ThemeValue; label: string }[] = [
-  { value: "light", label: "Light" },
-  { value: "dark", label: "Dark" },
-  { value: "system", label: "System" },
-]
-
 const CALENDAR_PROVIDERS: {
   provider: CalendarProvider
   label: string
-  connectLabel: string
 }[] = [
-  { provider: "google", label: "Google Calendar", connectLabel: "Connect" },
-  {
-    provider: "microsoft",
-    label: "Microsoft Outlook",
-    connectLabel: "Connect",
-  },
+  { provider: "google", label: "Google Calendar" },
+  { provider: "microsoft", label: "Microsoft Outlook" },
 ]
 
 const MOCK_USER_SETTINGS: UserSettings = {
@@ -46,9 +36,19 @@ const MOCK_USER_SETTINGS: UserSettings = {
 }
 
 export function SettingsPage() {
-  const [settings, setSettings] = useState<UserSettings | null>(
-    () => MOCK_USER_SETTINGS
-  )
+  const locale = useLocale()
+  const t = useTranslations("mockup.settings")
+  const initialLanguage =
+    locale in UI_LANGUAGES ? locale : MOCK_USER_SETTINGS.preferred_language
+  const themeOptions: { value: ThemeValue; label: string }[] = [
+    { value: "light", label: t("theme.light") },
+    { value: "dark", label: t("theme.dark") },
+    { value: "system", label: t("theme.system") },
+  ]
+  const [settings, setSettings] = useState<UserSettings | null>(() => ({
+    ...MOCK_USER_SETTINGS,
+    preferred_language: initialLanguage,
+  }))
   const [calendarAccounts, setCalendarAccounts] = useState<CalendarAccount[]>(
     () => [
       {
@@ -138,15 +138,17 @@ export function SettingsPage() {
   return (
     <div className="h-full overflow-y-auto bg-background">
       <div className="mx-auto max-w-[640px] px-4 py-6 sm:px-6 sm:py-8">
-        <h1 className="mb-6 text-xl font-semibold text-foreground">Settings</h1>
+        <h1 className="mb-6 text-xl font-semibold text-foreground">
+          {t("title")}
+        </h1>
 
         {/* Language */}
         <section className="mb-4 rounded-xl border border-border bg-card p-5">
           <h2 className="mb-1 text-sm font-medium text-card-foreground">
-            Language
+            {t("language.heading")}
           </h2>
           <p className="mb-3 text-xs text-muted-foreground">
-            Select your preferred language for the interface.
+            {t("language.description")}
           </p>
           <Select
             containerClassName="w-full max-w-[200px]"
@@ -164,13 +166,13 @@ export function SettingsPage() {
         {/* Theme */}
         <section className="mb-4 rounded-xl border border-border bg-card p-5">
           <h2 className="mb-1 text-sm font-medium text-card-foreground">
-            Theme
+            {t("theme.heading")}
           </h2>
           <p className="mb-3 text-xs text-muted-foreground">
-            Choose how Lingo looks on your device.
+            {t("theme.description")}
           </p>
           <Tabs<ThemeValue>
-            items={THEME_OPTIONS.map((opt) => ({
+            items={themeOptions.map((opt) => ({
               id: opt.value,
               label: opt.label,
             }))}
@@ -183,10 +185,10 @@ export function SettingsPage() {
         {/* Upcoming meetings window */}
         <section className="mb-4 rounded-xl border border-border bg-card p-5">
           <h2 className="mb-1 text-sm font-medium text-card-foreground">
-            Upcoming meetings window
+            {t("upcomingMeetings.heading")}
           </h2>
           <p className="mb-3 text-xs text-muted-foreground">
-            How many days of upcoming meetings to display.
+            {t("upcomingMeetings.description")}
           </p>
           <Select
             containerClassName="w-full max-w-[200px]"
@@ -195,7 +197,7 @@ export function SettingsPage() {
           >
             {[1, 3, 5, 7, 14, 21, 28].map((d) => (
               <option key={d} value={String(d)}>
-                {d === 1 ? "1 day" : `${d} days`}
+                {t("upcomingMeetings.daysLabel", { count: d })}
               </option>
             ))}
           </Select>
@@ -205,15 +207,15 @@ export function SettingsPage() {
         <section className="rounded-xl border border-border bg-card p-5">
           <div className="min-w-0">
             <h2 className="mb-1 text-sm font-medium text-card-foreground">
-              Calendar
+              {t("calendar.heading")}
             </h2>
             <p className="text-xs text-muted-foreground">
-              Connect your calendar to automatically see upcoming meetings.
+              {t("calendar.description")}
             </p>
           </div>
 
           <div className="mt-4 space-y-3">
-            {CALENDAR_PROVIDERS.map(({ provider, label, connectLabel }) => {
+            {CALENDAR_PROVIDERS.map(({ provider, label }) => {
               const account = calendarAccounts.find(
                 (item) => item.provider === provider
               )
@@ -230,12 +232,14 @@ export function SettingsPage() {
                       </p>
                       {account?.status === "connected" ? (
                         <p className="truncate text-xs text-muted-foreground">
-                          Connected as {account.email}
+                          {t("calendar.connectedAs", {
+                            email: account.email ?? "",
+                          })}
                         </p>
                       ) : account?.status === "sync_failed" ? (
                         <div className="flex items-center gap-1.5">
                           <p className="text-xs text-destructive">
-                            Sync failed
+                            {t("calendar.syncFailed")}
                           </p>
                           {account.status_reason && (
                             <span className="group relative text-destructive">
@@ -259,7 +263,7 @@ export function SettingsPage() {
                         </div>
                       ) : account ? (
                         <p className="text-xs text-muted-foreground">
-                          Connection pending
+                          {t("calendar.connectionPending")}
                         </p>
                       ) : null}
                     </div>
@@ -271,7 +275,7 @@ export function SettingsPage() {
                       onClick={() => handleCalendarDisconnect(provider)}
                       disabled={calendarLoading}
                     >
-                      Disconnect
+                      {t("calendar.disconnect")}
                     </Button>
                   ) : account ? (
                     <Button
@@ -280,7 +284,7 @@ export function SettingsPage() {
                       onClick={() => handleCalendarReconnect(provider)}
                       disabled={calendarLoading}
                     >
-                      Reconnect
+                      {t("calendar.reconnect")}
                     </Button>
                   ) : (
                     <Button
@@ -289,7 +293,7 @@ export function SettingsPage() {
                       onClick={() => handleCalendarConnect(provider)}
                       disabled={calendarLoading || connectLoading}
                     >
-                      {connectLabel}
+                      {t("calendar.connect")}
                     </Button>
                   )}
                 </div>

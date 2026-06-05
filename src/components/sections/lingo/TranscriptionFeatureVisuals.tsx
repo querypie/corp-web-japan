@@ -23,14 +23,25 @@ const screenshotByType: Record<TranscriptionFeatureVisualType, string> = {
   multilingual: "/lingo/images/transcription/multilingual-transcription.png",
 }
 
-function VisualStage({ children }: { children: React.ReactNode }) {
+type VisualStageTone = "blue" | "lavender"
+
+function VisualStage({
+  children,
+  tone,
+}: {
+  children: React.ReactNode
+  tone: VisualStageTone
+}) {
   return (
-    <div className="relative h-full w-full overflow-hidden bg-[linear-gradient(135deg,#ffede2_0%,#fff7ef_30%,#ffffff_52%,#eaf1ff_100%)]">
-      <div className="absolute top-[-18%] left-[-8%] h-[58%] w-[36%] rounded-[44%] bg-[#e25a25]/16" />
-      <div className="absolute top-[-10%] right-[-7%] h-[54%] w-[38%] rounded-[42%] bg-[#9478c7]/18" />
-      <div className="absolute bottom-[-24%] left-[34%] h-[64%] w-[46%] rounded-[45%] bg-[#4a8cff]/10" />
-      <div className="absolute inset-x-0 bottom-0 h-[34%] bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.62)_100%)]" />
-      {children}
+    <div
+      className={cn(
+        "relative h-full w-full overflow-hidden",
+        tone === "blue" ? "bg-[#EEF5FD]" : "bg-[#F1E9F8]"
+      )}
+    >
+      <div className="absolute inset-0">
+        {children}
+      </div>
     </div>
   )
 }
@@ -211,8 +222,8 @@ function SpeakerVisual() {
   const copy = getLocaleCopy(useLocale(), transcriptionVisualCopy)
 
   return (
-    <VisualStage>
-      <div className="absolute top-[8%] left-[8%] h-[84%] w-[88%] overflow-hidden rounded-[22px] border border-[#e8e8e8] bg-white shadow-[0_28px_80px_rgba(0,0,0,0.12)]">
+    <VisualStage tone="blue">
+      <div className="absolute top-[8%] left-[8%] h-[84%] w-[88%] overflow-hidden rounded-[22px] border border-[#e8e8e8] bg-white shadow-[0_28px_80px_rgba(0,0,0,0.12)] max-md:top-[30px] max-md:left-[40px] max-md:h-[140%] max-md:w-[150%] max-md:origin-top-left max-md:scale-[0.8] md:top-[60px] md:left-[80px] md:h-[112%] md:w-[100%]">
         <div className="border-b border-[#eeeeee] px-5 py-3">
           <div className="mb-2 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -248,10 +259,10 @@ function VoiceVisual() {
   const copy = getLocaleCopy(useLocale(), transcriptionVisualCopy)
 
   return (
-    <VisualStage>
-      <div className="absolute top-[20%] left-[7%] h-[60%] w-[86%] overflow-hidden rounded-[22px] border border-[#e8e8e8] bg-white shadow-[0_28px_80px_rgba(0,0,0,0.12)]">
+    <VisualStage tone="lavender">
+      <div className="absolute top-[20%] left-[7%] h-[60%] w-[86%] overflow-hidden rounded-[22px] border border-[#e8e8e8] bg-white shadow-[0_28px_80px_rgba(0,0,0,0.12)] max-md:top-[30px] max-md:left-[40px] max-md:h-[120%] max-md:w-[150%] max-md:origin-top-left max-md:scale-[0.8]">
         <div className="flex h-full flex-col justify-center border-y border-[#eeeeee] px-5">
-          <div className="grid grid-cols-[0.92fr_2fr_0.92fr] items-start gap-4">
+          <div className="grid min-w-0 grid-cols-[0.92fr_2fr_0.92fr] items-start gap-4">
             <div className="flex flex-col items-center">
               <div className="grid size-[92px] place-items-center rounded-full border-4 border-[#31dc75] bg-[#f7fff9] shadow-[0_0_0_10px_rgba(49,220,117,0.16)]">
                 <Pause className="size-10 fill-[#111111] text-[#111111]" />
@@ -314,7 +325,7 @@ function CustomizationScreenshot() {
   const copy = getLocaleCopy(useLocale(), transcriptionVisualCopy)
 
   return (
-    <div className="absolute top-[7%] left-[8%] grid h-[82%] w-[88%] overflow-hidden rounded-[22px] border border-[#e8e8e8] bg-white shadow-[0_28px_80px_rgba(0,0,0,0.12)] md:grid-cols-[31%_69%]">
+    <div className="absolute top-[7%] left-[8%] grid h-[82%] w-[88%] overflow-hidden rounded-[22px] border border-[#e8e8e8] bg-white shadow-[0_28px_80px_rgba(0,0,0,0.12)] max-md:top-[30px] max-md:left-[40px] max-md:h-[140%] max-md:w-[150%] max-md:origin-top-left max-md:scale-[0.8] md:top-[60px] md:left-[80px] md:h-[112%] md:w-[100%] md:grid-cols-[31%_69%]">
       <aside className="hidden border-r border-[#e5e5e5] bg-[#fbfbfb] md:block">
         <div className="flex h-[56px] items-center gap-2 border-b border-[#e5e5e5] px-4">
           <LogoMark />
@@ -387,7 +398,7 @@ function CustomizationScreenshot() {
 
 function TermsVisual() {
   return (
-    <VisualStage>
+    <VisualStage tone="blue">
       <CustomizationScreenshot />
     </VisualStage>
   )
@@ -397,10 +408,10 @@ function MultilingualVisual() {
   const copy = getLocaleCopy(useLocale(), transcriptionVisualCopy)
 
   return (
-    <VisualStage>
+    <VisualStage tone="lavender">
       <ProductFrame
         type="multilingual"
-        className="top-[8%] left-[11%] h-[82%] w-[78%]"
+        className="top-[8%] left-[11%] h-[82%] w-[78%] max-md:top-[30px] max-md:left-[40px] max-md:h-[140%] max-md:w-[140%] md:top-[60px] md:left-[80px] md:h-[112%] md:w-[96%]"
         imageClassName="object-left-top"
       />
       <div className="absolute bottom-[9%] left-1/2 flex -translate-x-1/2 gap-2 rounded-full bg-white/94 px-4 py-3 shadow-[0_18px_50px_rgba(0,0,0,0.12)]">

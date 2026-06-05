@@ -6,6 +6,7 @@ import { OrganizationProvider } from "@/components/lingo/mockup/contexts/Organiz
 import { ToastProvider } from "@/components/lingo/mockup/ui/Toast"
 import { TooltipProvider } from "@/components/lingo/mockup/ui/tooltip"
 import { Sidebar } from "@/components/lingo/mockup/Sidebar"
+import { BrandLogo } from "@/components/lingo/mockup/BrandLogo"
 import { HomePage } from "@/components/lingo/mockup/pages/HomePage"
 import { SessionPage } from "@/components/lingo/mockup/pages/SessionPage"
 import { HistoryPage } from "@/components/lingo/mockup/pages/HistoryPage"
@@ -78,6 +79,9 @@ export function MockupShell({
   const [isPreviewPaused, setIsPreviewPaused] = useState(false)
   const pauseTimerRef = useRef<number | null>(null)
 
+  // 모바일 사이드바(드로어) 열림 상태
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
+
   // 모달 열림 상태
   const [inPersonModalOpen, setInPersonModalOpen] = useState(false)
   const [remoteModalOpen, setRemoteModalOpen] = useState(false)
@@ -87,6 +91,7 @@ export function MockupShell({
 
   const handleNavigate = useCallback((page: Page) => {
     setCurrentPage(page)
+    setMobileSidebarOpen(false)
   }, [])
 
   const handleSelectSession = useCallback((sessionId: string) => {
@@ -240,7 +245,7 @@ export function MockupShell({
             style={MOCKUP_CSS_VARS}
           >
             <div
-              className="flex h-[640px] flex-col overflow-hidden rounded-xl border shadow-2xl md:h-[720px]"
+              className="relative flex h-[640px] flex-col overflow-hidden rounded-xl border shadow-2xl md:h-[720px]"
               style={{
                 borderColor: "var(--border)",
                 backgroundColor: "var(--background)",
@@ -249,23 +254,68 @@ export function MockupShell({
                   "'Geist Variable', 'Pretendard', system-ui, sans-serif",
               }}
             >
+              {/* 모바일 상단바 — sm 미만에서만 표시 */}
+              <div
+                className="flex h-14 shrink-0 items-center justify-between border-b px-4 sm:hidden"
+                style={{ borderColor: "var(--border)" }}
+              >
+                <button
+                  type="button"
+                  onClick={() => handleNavigate("meeting-active")}
+                  className="flex cursor-pointer items-center gap-0.5"
+                >
+                  <img src="/lingo/symbol.png" alt="" className="h-5 w-auto shrink-0" />
+                  <BrandLogo />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMobileSidebarOpen(true)}
+                  aria-label="Open menu"
+                  className="ml-2 cursor-pointer rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="h-5 w-5"
+                  >
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                  </svg>
+                </button>
+              </div>
+
               <div className="flex min-h-0 flex-1">
                 <Sidebar
                   currentPage={currentPage}
                   onNavigate={handleNavigate}
-                  onLogoClick={() => setCurrentPage("meeting-active")}
+                  onLogoClick={() => handleNavigate("meeting-active")}
                   hasMeetingActive={
                     isSessionRunning && currentPage === "meeting-active"
                   }
                   onLogout={() => {}}
-                  mobileSidebarOpen={false}
-                  onMobileClose={() => {}}
+                  mobileSidebarOpen={mobileSidebarOpen}
+                  onMobileClose={() => setMobileSidebarOpen(false)}
                 />
 
                 <main className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
                   {renderPage()}
                 </main>
               </div>
+
+              {/* 모바일 드로어 백드롭 */}
+              {mobileSidebarOpen && (
+                <div
+                  className="absolute inset-0 z-40 bg-black/40 sm:hidden"
+                  onClick={() => setMobileSidebarOpen(false)}
+                  aria-hidden="true"
+                />
+              )}
             </div>
           </div>
 

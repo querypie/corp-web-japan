@@ -145,17 +145,26 @@ const translationVisualCopy = {
   },
 }
 
-function VisualStage({ children }: { children: React.ReactNode }) {
+type VisualStageTone = "blue" | "lavender"
+
+function VisualStage({
+  children,
+  tone,
+}: {
+  children: React.ReactNode
+  tone: VisualStageTone
+}) {
   return (
     <div
       data-mockup
-      className="relative h-full w-full overflow-hidden bg-[linear-gradient(135deg,#ffede2_0%,#fff7ef_30%,#ffffff_52%,#eaf1ff_100%)]"
+      className={cn(
+        "relative h-full w-full overflow-hidden",
+        tone === "blue" ? "bg-[#EEF5FD]" : "bg-[#F1E9F8]"
+      )}
     >
-      <div className="absolute left-[-8%] top-[-18%] h-[58%] w-[36%] rounded-[44%] bg-[#e25a25]/16" />
-      <div className="absolute right-[-7%] top-[-10%] h-[54%] w-[38%] rounded-[42%] bg-[#9478c7]/18" />
-      <div className="absolute bottom-[-24%] left-[34%] h-[64%] w-[46%] rounded-[45%] bg-[#4a8cff]/10" />
-      <div className="absolute inset-x-0 bottom-0 h-[34%] bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.62)_100%)]" />
-      {children}
+      <div className="absolute inset-0 origin-top-left scale-[0.8] md:scale-100">
+        {children}
+      </div>
     </div>
   )
 }
@@ -260,8 +269,8 @@ function LanguagesVisual() {
   const copy = getLocaleCopy(useLocale(), translationVisualCopy)
 
   return (
-    <VisualStage>
-      <ProductPanel className="left-[9%] top-[12%] h-[76%] w-[82%] overflow-hidden">
+    <VisualStage tone="blue">
+      <ProductPanel className="left-[60px] top-[40px] h-[125%] w-[125%] overflow-hidden md:left-[9%] md:top-[60px] md:h-full md:w-[82%]">
         <PanelHeader
           title={copy.globalTitle}
           action={
@@ -292,8 +301,8 @@ function FastVisual() {
   const copy = getLocaleCopy(useLocale(), translationVisualCopy)
 
   return (
-    <VisualStage>
-      <ProductPanel className="left-[11%] top-[8%] h-[84%] w-[78%] overflow-hidden">
+    <VisualStage tone="lavender">
+      <ProductPanel className="left-[60px] top-[40px] h-[125%] w-[125%] overflow-hidden md:left-[11%] md:top-[60px] md:h-full md:w-[78%]">
         <PanelHeader
           title={copy.liveTranslationTitle}
           action={
@@ -354,8 +363,8 @@ function RemoteVisual() {
   const copy = getLocaleCopy(useLocale(), translationVisualCopy)
 
   return (
-    <VisualStage>
-      <div className="absolute left-[8%] top-[17%] grid h-[52%] w-[38%] grid-cols-2 gap-2">
+    <VisualStage tone="blue">
+      <div className="absolute left-[24px] top-[40px] grid h-[52%] w-[38%] grid-cols-2 gap-2 md:left-[8%] md:top-[17%]">
         {["A", "Y", "K", "L"].map((name, index) => (
           <div
             key={name}
@@ -375,7 +384,7 @@ function RemoteVisual() {
           </div>
         ))}
       </div>
-      <ProductPanel className="right-[9%] top-[9%] h-[82%] w-[45%] overflow-hidden">
+      <ProductPanel className="left-[80px] top-[40px] h-[125%] w-[95%] overflow-hidden md:left-auto md:right-[9%] md:top-[9%] md:h-[82%] md:w-[45%]">
         <div className="p-5">
           <div className="mb-4 flex items-center gap-2">
             <div className="grid size-8 place-items-center rounded-xl bg-[#e25a25]/10 text-[#e25a25]">
@@ -428,9 +437,9 @@ function ShareVisual() {
   const copy = getLocaleCopy(useLocale(), translationVisualCopy)
 
   return (
-    <VisualStage>
+    <VisualStage tone="lavender">
       <div className="absolute bottom-[9%] left-1/2 h-10 w-[38%] -translate-x-1/2 rounded-full bg-[#171717]/10 blur-xl" />
-      <ProductPanel className="left-1/2 top-[6%] h-[86%] w-[47%] min-w-[272px] -translate-x-1/2 overflow-hidden border-0 shadow-[0_30px_80px_rgba(47,47,47,0.18),0_0_0_1px_rgba(255,255,255,0.78)]">
+      <ProductPanel className="left-[62.5%] top-[40px] h-[125%] w-[47%] min-w-[272px] -translate-x-1/2 overflow-hidden border-0 shadow-[0_30px_80px_rgba(47,47,47,0.18),0_0_0_1px_rgba(255,255,255,0.78)] md:left-1/2 md:top-[6%] md:h-[86%]">
         <div className="flex h-full flex-col bg-white p-4">
           <div className="mb-3 flex items-center justify-between">
             <h4 className="text-[19px] font-bold leading-none text-[#111111]">

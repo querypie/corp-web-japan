@@ -13,7 +13,7 @@ interface FeatureSectionProps {
 export function FeatureSection({ rows }: FeatureSectionProps) {
   return (
     <Container className="section-gap">
-      <div className="flex flex-col gap-[60px]">
+      <div className="flex flex-col gap-10 md:gap-[60px]">
         {rows.map((row, i) => {
           const isEven = i % 2 === 0 // 짝수 인덱스면 텍스트 좌 / 이미지 우
           return (

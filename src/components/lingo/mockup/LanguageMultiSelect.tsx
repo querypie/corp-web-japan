@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useTranslations } from "@/lib/lingo/intl"
 import {
   SUPPORTED_LANGUAGES,
   LANGUAGE_FLAGS,
@@ -24,6 +25,7 @@ export function LanguageMultiSelect({
   error,
   errorToken,
 }: LanguageMultiSelectProps) {
+  const t = useTranslations("mockup.misc.languageSelect")
   const rootRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const [open, setOpen] = useState(false)
@@ -81,7 +83,7 @@ export function LanguageMultiSelect({
       >
         <span className="truncate">
           {selected.size === 0
-            ? "Select languages"
+            ? t("placeholder")
             : Array.from(selected)
                 .map(
                   (code) =>
@@ -129,7 +131,7 @@ export function LanguageMultiSelect({
                   <span>{name}</span>
                   {BETA_LANGUAGES.has(code) && (
                     <span className="rounded-md border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-semibold tracking-wider text-amber-600 uppercase dark:text-amber-400">
-                      BETA
+                      {t("betaBadge")}
                     </span>
                   )}
                   {isSelected && (
@@ -152,7 +154,7 @@ export function LanguageMultiSelect({
           </div>
           {isMaxReached && (
             <div className="px-3 py-1.5 text-xs text-muted-foreground">
-              Maximum {max} languages
+              {t("maxReached", { max })}
             </div>
           )}
         </div>

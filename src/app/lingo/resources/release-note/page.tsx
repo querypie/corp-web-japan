@@ -4,6 +4,7 @@ import { CTASection } from "@/components/sections/lingo/CTASection"
 import { Container } from "@/components/layout/lingo/Container"
 import { Footer } from "@/components/layout/lingo/Footer"
 import { SubHeroSection } from "@/components/sections/lingo/SubHeroSection"
+import { SubPageHeroBackground } from "@/components/sections/lingo/SubPageHeroBackground"
 import { useLocale } from "@/lib/lingo/intl"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
 
@@ -114,13 +115,7 @@ export default function ReleaseNotePage() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] page-layout-sub">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[200px] overflow-hidden">
-        <img
-          src="/lingo/images/bg-home.jpg"
-          alt=""
-          className="size-full object-cover object-bottom"
-        />
-      </div>
+      <SubPageHeroBackground />
 
       <div className="w-full page-gutter">
         <div className="container-main relative z-10 w-full">
@@ -134,7 +129,7 @@ export default function ReleaseNotePage() {
       {/* 릴리스 노트 */}
       <Container className="section-gap">
         <article className="rounded-[var(--corner-box)] bg-[var(--card)] p-6 md:p-[34px]">
-          <div className="border-b border-[var(--line)] pb-7">
+          <div className="border-b border-[var(--border)] pb-7">
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <h2 className="text-h2 text-[var(--fg)]">v1.0.0</h2>
               <span className="body-md text-[var(--mute)]">2026.05.27</span>

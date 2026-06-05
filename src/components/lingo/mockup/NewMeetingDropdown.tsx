@@ -1,8 +1,11 @@
+"use client"
+
 import {
   ChatTeardropText,
   Microphone,
   MonitorPlay,
 } from "@phosphor-icons/react"
+import { useTranslations } from "@/lib/lingo/intl"
 import { DropdownMenu } from "@/components/lingo/mockup/ui/DropdownMenu"
 
 type MeetingType = "in-person" | "remote"
@@ -12,6 +15,8 @@ interface NewMeetingDropdownProps {
 }
 
 export function NewMeetingDropdown({ onSelect }: NewMeetingDropdownProps) {
+  const t = useTranslations("mockup.home")
+
   return (
     <DropdownMenu
       className="relative"
@@ -24,7 +29,7 @@ export function NewMeetingDropdown({ onSelect }: NewMeetingDropdownProps) {
         >
           <span className="flex items-center gap-1.5">
             <ChatTeardropText className="h-4 w-4" weight="regular" />
-            New meeting
+            {t("newMeeting.trigger")}
           </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -55,9 +60,11 @@ export function NewMeetingDropdown({ onSelect }: NewMeetingDropdownProps) {
               weight="regular"
             />
             <div>
-              <div className="font-medium">In-person meeting</div>
+              <div className="font-medium">
+                {t("newMeeting.inPerson.title")}
+              </div>
               <div className="text-xs text-muted-foreground">
-                Record with your device microphone
+                {t("newMeeting.inPerson.description")}
               </div>
             </div>
           </button>
@@ -73,9 +80,9 @@ export function NewMeetingDropdown({ onSelect }: NewMeetingDropdownProps) {
               weight="regular"
             />
             <div>
-              <div className="font-medium">Remote meeting</div>
+              <div className="font-medium">{t("newMeeting.remote.title")}</div>
               <div className="text-xs text-muted-foreground">
-                Join with a meeting bot
+                {t("newMeeting.remote.description")}
               </div>
             </div>
           </button>

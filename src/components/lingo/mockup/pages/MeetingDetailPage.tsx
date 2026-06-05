@@ -1,6 +1,7 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useLocale, useTranslations } from "@/lib/lingo/intl"
 import {
   ArrowsClockwise,
   Check,
@@ -22,16 +23,20 @@ import { useToast } from "@/components/lingo/mockup/ui/Toast"
 import { DeleteConfirmationDialog } from "@/components/lingo/mockup/DeleteConfirmationDialog"
 import { ShareModal } from "@/components/lingo/mockup/ShareModal"
 import type { Session, SpeechBlock } from "@/components/lingo/mockup/types"
-import { TERMINAL_SESSION_STATES } from "@/components/lingo/mockup/types"
+import {
+  TERMINAL_SESSION_STATES,
+  SUPPORTED_LANGUAGES,
+  LANGUAGE_FLAGS,
+} from "@/components/lingo/mockup/types"
 import { TranscriptView } from "@/components/lingo/mockup/TranscriptView"
 import { LanguageFilterBar } from "@/components/lingo/mockup/LanguageFilterBar"
 import { shouldShowLanguageFilter } from "@/components/lingo/mockup/utils/languageFilter"
-import {
-  MOCK_SESSIONS,
-  MOCK_BLOCKS,
-  MOCK_SUMMARIES as SESSION_SUMMARIES,
-} from "@/components/lingo/mockup/mockData"
+import { MOCK_SESSIONS, MOCK_BLOCKS } from "@/components/lingo/mockup/mockData"
 import type { Page } from "@/components/lingo/mockup/types"
+import {
+  SAMPLE_SUMMARIES,
+  type SummaryLanguage,
+} from "@/components/lingo/mockup/summarySamples"
 
 // ── 타입 ────────────────────────────────────
 
@@ -48,90 +53,32 @@ type SummaryTemplateId =
   | "minutes"
   | "key-decisions"
 
-// ── 목업 요약 텍스트 ─────────────────────────
-
-const TEMPLATE_SUMMARIES: Record<string, string> = {
-  "action-items": `## Action Items
-
-- [x] Review Q3 roadmap
-- [ ] Walk through payment flow documentation — **John Smith**
-- [ ] Finalize design draft — **Kim Min-su**
-- [ ] Schedule follow-up for API spec review — **Yuki Tanaka**
-- [x] Incorporate last week's feedback`,
-  minutes: `## Meeting Minutes
-
-**Date:** Q3 Roadmap Review
-**Attendees:** Alice Chen, Yuki Tanaka, Kim Min-su, John Smith, Sato Haruka
-
-### Topics Discussed
-1. Q3 roadmap review before client call
-2. API specification documentation status
-3. Payment flow checkout process
-4. Security audit results
-5. Deployment timeline
-
-### Decisions
-- Proceed with current roadmap
-- Deploy on Friday evening
-
-### Next Steps
-- Follow up on action items in next sync`,
-  "key-decisions": `## Key Decisions
-
-1. **Q3 Roadmap Approved**
-   The team agreed to proceed with the current Q3 roadmap before the client call.
-
-2. **Friday Deployment**
-   Deployment is scheduled for Friday evening. All backend endpoints are documented.
-
-3. **Security Audit Cleared**
-   The security audit showed no issues.
-
-4. **Payment Flow Expansion**
-   Checkout process now supports three different providers.`,
-}
-
 // ── 요약 템플릿 ─────────────────────────────
 
-const SUMMARY_TEMPLATES: Array<{
+type SummaryTemplate = {
   id: SummaryTemplateId
   icon: typeof Sparkle
   label: string
   desc: string
   prompt: string
-}> = [
-  {
-    id: "default",
-    icon: Sparkle,
-    label: "Default",
-    desc: "General overview of the meeting",
-    prompt: "",
-  },
-  {
-    id: "action-items",
-    icon: ListChecks,
-    label: "Action Items",
-    desc: "Extract tasks and deadlines",
-    prompt:
-      "Extract all action items from this meeting. List each item with the assignee if mentioned, the task, and any deadline. Format the result as a Markdown checklist.",
-  },
-  {
-    id: "minutes",
-    icon: ClipboardText,
-    label: "Minutes",
-    desc: "Formal meeting minutes",
-    prompt:
-      "Write formal meeting minutes in Markdown. Include agenda or topics discussed, key discussion notes, decisions, action items, and next steps. Only include attendees if speaker names are present in the transcript.",
-  },
-  {
-    id: "key-decisions",
-    icon: Lightning,
-    label: "Key Decisions",
-    desc: "List important decisions",
-    prompt:
-      "List the key decisions made in this meeting. For each decision, include the decision, relevant context, and any owner or follow-up if mentioned.",
-  },
-]
+}
+
+const SUMMARY_TEMPLATE_PROMPTS: Record<SummaryTemplateId, string> = {
+  default: "",
+  "action-items":
+    "Extract all action items from this meeting. List each item with the assignee if mentioned, the task, and any deadline. Format the result as a Markdown checklist.",
+  minutes:
+    "Write formal meeting minutes in Markdown. Include agenda or topics discussed, key discussion notes, decisions, action items, and next steps. Only include attendees if speaker names are present in the transcript.",
+  "key-decisions":
+    "List the key decisions made in this meeting. For each decision, include the decision, relevant context, and any owner or follow-up if mentioned.",
+}
+
+const SUMMARY_TEMPLATE_ICONS: Record<SummaryTemplateId, typeof Sparkle> = {
+  default: Sparkle,
+  "action-items": ListChecks,
+  minutes: ClipboardText,
+  "key-decisions": Lightning,
+}
 
 // ── 유틸 ────────────────────────────────────
 
@@ -233,6 +180,103 @@ function SummaryMarkdown({ content }: { content: string }) {
   )
 }
 
+// ── 요약 언어 드롭다운 ───────────────────────
+
+const SUMMARY_LANGUAGES = ["ko", "ja", "en", "th", "vi"] as const
+
+function SummaryLanguageDropdown({
+  label,
+  value,
+  onChange,
+}: {
+  label: string
+  value: string
+  onChange: (value: string) => void
+}) {
+  const rootRef = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    if (!open) return
+    const handleClickOutside = (event: MouseEvent) => {
+      if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [open])
+
+  const selectedLabel = SUPPORTED_LANGUAGES[value] ?? value
+  const selectedFlag = LANGUAGE_FLAGS[value] ?? ""
+
+  return (
+    <div ref={rootRef} className="relative shrink-0">
+      <button
+        type="button"
+        aria-label={label}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => setOpen((prev) => !prev)}
+        className="flex h-9 w-[128px] cursor-pointer items-center justify-between gap-2 rounded-[999px] border border-input bg-background px-3 text-xs font-medium text-foreground transition-[border-color,box-shadow] focus:border-ring focus:ring-1 focus:ring-ring focus:outline-none"
+      >
+        <span className="min-w-0 truncate">
+          <span className="mr-1.5">{selectedFlag}</span>
+          {selectedLabel}
+        </span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`}
+          aria-hidden="true"
+        >
+          <path
+            fillRule="evenodd"
+            d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </button>
+
+      {open && (
+        <div
+          role="listbox"
+          aria-label={label}
+          className="absolute right-0 z-50 mt-1 w-44 overflow-hidden rounded-lg border border-border bg-popover py-1 text-popover-foreground shadow-lg"
+        >
+          {SUMMARY_LANGUAGES.map((code) => {
+            const name = SUPPORTED_LANGUAGES[code] ?? code
+            const isSelected = value === code
+            return (
+              <button
+                key={code}
+                type="button"
+                role="option"
+                aria-selected={isSelected}
+                onClick={() => {
+                  onChange(code)
+                  setOpen(false)
+                }}
+                className={`flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-left text-sm transition-colors hover:bg-accent hover:text-accent-foreground ${isSelected ? "bg-accent/50 text-accent-foreground" : ""}`}
+              >
+                <span className="text-base">{LANGUAGE_FLAGS[code] ?? ""}</span>
+                <span>{name}</span>
+                {isSelected && (
+                  <Check
+                    className="ml-auto h-4 w-4 shrink-0 text-primary"
+                    weight="bold"
+                  />
+                )}
+              </button>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── 페이지 컴포넌트 ──────────────────────────
 
 export function MeetingDetailPage({
@@ -240,6 +284,23 @@ export function MeetingDetailPage({
   onBack,
   onRejoinSession,
 }: MeetingDetailPageProps) {
+  const t = useTranslations("mockup.meetings.detail")
+  const locale = useLocale()
+  const summaryTemplates = useMemo<SummaryTemplate[]>(() => {
+    const ids: SummaryTemplateId[] = [
+      "default",
+      "action-items",
+      "minutes",
+      "key-decisions",
+    ]
+    return ids.map((id) => ({
+      id,
+      icon: SUMMARY_TEMPLATE_ICONS[id],
+      label: t(`summary.templates.${id}.label`),
+      desc: t(`summary.templates.${id}.desc`),
+      prompt: SUMMARY_TEMPLATE_PROMPTS[id],
+    }))
+  }, [t])
   const joiningRef = useRef(false)
   const [session, setSession] = useState<Session | null>(null)
   const [blocks, setBlocks] = useState<SpeechBlock[]>([])
@@ -259,11 +320,13 @@ export function MeetingDetailPage({
   const [summaryActiveTemplate, setSummaryActiveTemplate] = useState<
     string | null
   >(null)
-  const [summaryEditingPrompt, setSummaryEditingPrompt] = useState(false)
+  const [selectedSummaryType, setSelectedSummaryType] = useState<
+    SummaryTemplateId | "custom" | null
+  >(null)
+  const [customPromptOpen, setCustomPromptOpen] = useState(false)
+  const [showRegenerateForm, setShowRegenerateForm] = useState(false)
+  const [summaryLanguage, setSummaryLanguage] = useState<string>(locale)
   const { showToast } = useToast()
-
-  const meta =
-    SESSION_SUMMARIES[sessionId] ?? SESSION_SUMMARIES["sess-live-001"]
 
   // 목업 데이터 로딩
   useEffect(() => {
@@ -296,7 +359,11 @@ export function MeetingDetailPage({
     setSummaryError(null)
     setSummaryCopied(false)
     setSummaryActiveTemplate(null)
-    setSummaryEditingPrompt(false)
+    setSelectedSummaryType(null)
+    setCustomPromptOpen(false)
+    setShowRegenerateForm(false)
+    setSummaryPrompt("")
+    setSummaryLanguage(locale)
   }
 
   const handleGenerateSummary = async (
@@ -309,63 +376,60 @@ export function MeetingDetailPage({
     setSummaryText(null)
     setSummaryCopied(false)
     setSummaryActiveTemplate(templateId)
-    setSummaryEditingPrompt(false)
+    setShowRegenerateForm(false)
 
     try {
-      // 목업: 템플릿에 맞는 정적 요약 반환
+      // 목업: 선택한 요약 언어에 맞는 정적 요약 반환
       await new Promise((r) => setTimeout(r, 800))
-      let text: string
-      if (templateId === "default" || templateId === "custom") {
-        text = `## Meeting Summary\n\n${meta.summary}\n\n### Key Points\n${meta.keyPoints.map((p) => `- ${p}`).join("\n")}`
-      } else {
-        text =
-          TEMPLATE_SUMMARIES[templateId] ??
-          `## Meeting Summary\n\n${meta.summary}\n\n### Key Points\n${meta.keyPoints.map((p) => `- ${p}`).join("\n")}`
-      }
-      setSummaryText(text)
+      const lang: SummaryLanguage = (
+        summaryLanguage in SAMPLE_SUMMARIES ? summaryLanguage : "en"
+      ) as SummaryLanguage
+      const sampleTemplate = templateId === "custom" ? "default" : templateId
+      setSummaryText(SAMPLE_SUMMARIES[lang][sampleTemplate])
     } catch {
-      setSummaryError("Failed to generate summary")
+      setSummaryError(t("summary.error"))
     } finally {
       setSummaryLoading(false)
     }
   }
+
+  const handleSelectSummaryType = (type: SummaryTemplateId | "custom") => {
+    setSelectedSummaryType(type)
+    setCustomPromptOpen(type === "custom")
+    if (type !== "custom") setSummaryPrompt("")
+  }
+
+  const handleGenerateSelected = () => {
+    if (!selectedSummaryType) return
+    if (selectedSummaryType === "custom") {
+      const prompt = summaryPrompt.trim()
+      if (!prompt) return
+      void handleGenerateSummary("custom", prompt)
+      return
+    }
+    void handleGenerateSummary(selectedSummaryType)
+  }
+
+  const canGenerateSummary =
+    selectedSummaryType === "custom"
+      ? Boolean(summaryPrompt.trim())
+      : selectedSummaryType !== null
 
   const handleCopySummary = async () => {
     if (!summaryText) return
     try {
       await navigator.clipboard.writeText(summaryText)
       setSummaryCopied(true)
-      showToast("Summary copied")
+      showToast(t("summary.copied"))
       window.setTimeout(() => setSummaryCopied(false), 2000)
     } catch {
-      showToast("Failed to copy summary")
+      showToast(t("summary.copyFailed"))
     }
   }
 
   const handleExport = async (format: string) => {
-    if (!session) return
-    if (format === "srt") {
-      const blob = new Blob(
-        ["1\n00:00:12,000 --> 00:00:16,500\nMock SRT content"],
-        { type: "text/plain" }
-      )
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = `session-${session.id}.srt`
-      a.click()
-      URL.revokeObjectURL(url)
-    } else {
-      const blob = new Blob([JSON.stringify(session, null, 2)], {
-        type: "application/json",
-      })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = `session-${session.id}.json`
-      a.click()
-      URL.revokeObjectURL(url)
-    }
+    // 데모 목업: 실제 파일을 내려받지 않는다.
+    void format
   }
 
   const handleDelete = async () => {
@@ -408,7 +472,7 @@ export function MeetingDetailPage({
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <p className="text-muted-foreground">Loading...</p>
+        <p className="text-muted-foreground">{t("loading")}</p>
       </div>
     )
   }
@@ -416,22 +480,113 @@ export function MeetingDetailPage({
   if (!session) {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-4">
-        <p className="text-muted-foreground">Session not found</p>
+        <p className="text-muted-foreground">{t("notFound.title")}</p>
         <button
           onClick={onBack}
           className="cursor-pointer text-sm text-primary-soft-foreground hover:underline"
         >
-          Back to meetings
+          {t("notFound.backLink")}
         </button>
       </div>
     )
   }
 
   const showLanguageFilter = shouldShowLanguageFilter(session.target_languages)
-  const showSummaryControls =
-    !summaryText || summaryEditingPrompt || Boolean(summaryError)
-  const activeSummaryTemplate = SUMMARY_TEMPLATES.find(
+  const activeSummaryTemplate = summaryTemplates.find(
     (item) => item.id === summaryActiveTemplate
+  )
+
+  const summarySelectionForm = (
+    <div className="flex flex-1 flex-col py-5">
+      <div className="flex flex-col px-5">
+        <div className="mb-4 flex items-center justify-between gap-3">
+          <p className="min-w-0 text-[15px] text-muted-foreground">
+            {t("summary.guide")}
+          </p>
+          <SummaryLanguageDropdown
+            label={t("summary.language")}
+            value={summaryLanguage}
+            onChange={setSummaryLanguage}
+          />
+        </div>
+        {summaryError && (
+          <div className="mb-4 rounded-xl border border-destructive/30 bg-destructive/5 px-3 py-3 text-sm text-destructive">
+            {summaryError}
+          </div>
+        )}
+        {summaryTemplates.map(({ id, label, desc }, idx) => (
+          <div key={id}>
+            <button
+              type="button"
+              onClick={() => handleSelectSummaryType(id)}
+              className="group w-full cursor-pointer py-4 text-left transition-all"
+            >
+              <p
+                className={`text-[15px] font-semibold transition-colors group-hover:text-[var(--brand)] ${selectedSummaryType === id ? "text-[var(--brand)]" : "text-foreground"}`}
+              >
+                {label}
+              </p>
+              <p className="mt-1 text-[13px] text-muted-foreground">{desc}</p>
+            </button>
+            {idx < summaryTemplates.length - 1 && (
+              <div className="h-px bg-border" />
+            )}
+          </div>
+        ))}
+        <div className="h-px bg-border" />
+        <button
+          type="button"
+          onClick={() => handleSelectSummaryType("custom")}
+          className="group w-full cursor-pointer py-4 text-left transition-all"
+        >
+          <p
+            className={`text-[15px] font-semibold transition-colors group-hover:text-[var(--brand)] ${selectedSummaryType === "custom" ? "text-[var(--brand)]" : "text-foreground"}`}
+          >
+            {t("summary.customPrompt.label")}
+          </p>
+          <p className="mt-1 text-[13px] text-muted-foreground">
+            {t("summary.customPrompt.desc")}
+          </p>
+        </button>
+      </div>
+
+      <div className="mt-auto px-5 pt-6 pb-4">
+        {customPromptOpen && (
+          <div
+            className="flex rounded-[10px] p-[2px]"
+            style={{
+              background:
+                "linear-gradient(135deg, var(--brand), var(--purple))",
+              boxShadow:
+                "0 4px 16px -2px color-mix(in srgb, var(--brand) 30%, transparent), 0 2px 8px -1px color-mix(in srgb, var(--purple) 25%, transparent)",
+            }}
+          >
+            <textarea
+              id="summary-custom-prompt"
+              aria-label={t("summary.customPrompt.label")}
+              value={summaryPrompt}
+              onChange={(e) => setSummaryPrompt(e.target.value)}
+              placeholder={t("summary.customPrompt.placeholder")}
+              rows={5}
+              className="block w-full resize-none rounded-[8px] bg-background px-4 py-3 text-[15px] text-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-ring focus:outline-none"
+            />
+          </div>
+        )}
+        <button
+          type="button"
+          onClick={handleGenerateSelected}
+          disabled={!canGenerateSummary}
+          className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-[999px] px-4 py-3 text-[15px] font-medium text-white transition-[transform,opacity] duration-200 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-30"
+          style={{
+            background: "linear-gradient(135deg, var(--brand), var(--purple))",
+            boxShadow: "0 6px 16px color-mix(in srgb, var(--brand) 35%, transparent)",
+          }}
+        >
+          <Sparkle className="h-4 w-4" weight="fill" />
+          {t("summary.generate")}
+        </button>
+      </div>
+    </div>
   )
 
   return (
@@ -444,7 +599,8 @@ export function MeetingDetailPage({
               <button
                 onClick={onBack}
                 className="cursor-pointer rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-                title="Back"
+                title={t("header.back")}
+                aria-label={t("header.back")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -517,7 +673,7 @@ export function MeetingDetailPage({
                     className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-purple px-3 py-1.5 text-sm font-medium text-white transition-[background-color,transform] active:scale-95 sm:hover:bg-purple/90 sm:active:scale-100"
                   >
                     <MonitorPlay className="h-4 w-4" weight="fill" />
-                    Join Bot Now
+                    {t("header.joinBotNow")}
                   </button>
                 )}
               {TERMINAL_SESSION_STATES.has(session.session_state) && (
@@ -525,19 +681,21 @@ export function MeetingDetailPage({
                   type="button"
                   onClick={openSummaryPanel}
                   className="flex h-8 cursor-pointer items-center gap-1.5 rounded-lg px-2.5 text-sm font-medium text-primary transition-[background-color,color,transform] active:scale-95 sm:hover:bg-primary/10 sm:active:scale-100"
-                  aria-label="AI Summary"
-                  title="AI Summary"
+                  aria-label={t("summary.heading")}
+                  title={t("summary.heading")}
                 >
                   <Sparkle className="h-4 w-4" weight="fill" />
-                  <span className="hidden sm:inline">AI Summary</span>
+                  <span className="hidden sm:inline">
+                    {t("summary.heading")}
+                  </span>
                 </button>
               )}
               <button
                 type="button"
                 onClick={() => setShowShareModal(true)}
                 className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-[background-color,color,transform] active:scale-95 sm:hover:bg-accent sm:hover:text-accent-foreground sm:active:scale-100"
-                aria-label="Share"
-                title="Share"
+                aria-label={t("header.share")}
+                title={t("header.share")}
               >
                 <ShareNetwork
                   className={`h-4 w-4 ${session.share ? "text-success" : ""}`}
@@ -546,13 +704,13 @@ export function MeetingDetailPage({
               </button>
               <DropdownMenu
                 className="relative shrink-0"
-                menuClassName="absolute right-0 top-9 z-20 w-44 rounded-xl border border-border bg-popover p-1 text-popover-foreground shadow-lg"
+                menuClassName="absolute right-0 top-9 z-20 w-max min-w-44 rounded-xl border border-border bg-popover p-1 text-popover-foreground shadow-lg"
                 trigger={({ toggle }) => (
                   <button
                     type="button"
                     onClick={toggle}
                     className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-[background-color,color,transform] active:scale-95 sm:hover:bg-accent sm:hover:text-accent-foreground sm:active:scale-100"
-                    aria-label="More actions"
+                    aria-label={t("header.moreActions")}
                   >
                     <DotsThree className="h-4 w-4" weight="bold" />
                   </button>
@@ -568,8 +726,13 @@ export function MeetingDetailPage({
                       }}
                       className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm transition-[background-color,color,transform] active:scale-[0.99] sm:hover:bg-accent sm:hover:text-accent-foreground sm:active:scale-100"
                     >
-                      <DownloadSimple className="h-4 w-4" weight="regular" />
-                      <span>Export JSON</span>
+                      <DownloadSimple
+                        className="h-4 w-4 shrink-0"
+                        weight="regular"
+                      />
+                      <span className="whitespace-nowrap">
+                        {t("actions.downloadTranscript")}
+                      </span>
                     </button>
                     <button
                       type="button"
@@ -580,7 +743,7 @@ export function MeetingDetailPage({
                       className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-destructive transition-[background-color,color,transform] active:scale-[0.99] sm:hover:bg-destructive/10 sm:active:scale-100"
                     >
                       <Trash className="h-4 w-4" weight="regular" />
-                      <span>Delete</span>
+                      <span>{t("actions.delete")}</span>
                     </button>
                   </>
                 )}
@@ -609,7 +772,7 @@ export function MeetingDetailPage({
         <div className="flex min-w-0 flex-1 flex-col overflow-y-auto">
           {blocks.length === 0 ? (
             <p className="py-20 text-center text-sm text-muted-foreground">
-              No transcript available
+              {t("transcript.empty")}
             </p>
           ) : (
             <TranscriptView
@@ -628,164 +791,143 @@ export function MeetingDetailPage({
 
         {showSummaryPanel && (
           <aside
-            aria-label="AI Summary"
-            className="flex h-full w-[340px] shrink-0 flex-col overflow-hidden border-l border-border bg-card text-card-foreground sm:w-[390px] lg:w-[430px]"
+            aria-label={t("summary.heading")}
+            className="flex h-full w-full shrink-0 flex-col overflow-hidden border-l border-border bg-card text-card-foreground sm:w-[400px] lg:w-[440px]"
           >
-            <div className="flex items-center justify-between border-b border-border px-4 py-3">
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <Sparkle className="h-4 w-4" weight="fill" />
+            {/* Gradient header */}
+            <div
+              className="flex shrink-0 items-center justify-between gap-3 px-5 py-4"
+              style={{
+                background:
+                  "linear-gradient(135deg, color-mix(in srgb, var(--brand) 8%, transparent), color-mix(in srgb, var(--purple) 6%, transparent))",
+              }}
+            >
+              <div className="flex min-w-0 items-center gap-3">
+                <div
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, var(--brand), var(--purple))",
+                    boxShadow:
+                      "0 4px 10px color-mix(in srgb, var(--brand) 35%, transparent)",
+                  }}
+                >
+                  <Sparkle className="h-4 w-4 text-white" weight="fill" />
                 </div>
-                <div>
-                  <h2 className="text-sm font-semibold">AI Summary</h2>
-                  <p className="text-xs text-muted-foreground">
-                    Generated by AI
-                  </p>
-                </div>
+                <h3 className="truncate text-sm font-semibold tracking-[-0.2px] text-foreground">
+                  {t("summary.heading")}
+                </h3>
               </div>
-              <div className="flex items-center gap-1">
+              <div className="flex shrink-0 items-center gap-1">
                 {summaryText && !summaryLoading && (
                   <button
                     type="button"
                     onClick={handleCopySummary}
-                    className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-                    aria-label="Copy"
-                    title="Copy"
+                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                    aria-label={t("summary.copy")}
+                    title={t("summary.copy")}
                   >
                     {summaryCopied ? (
-                      <Check className="h-4 w-4 text-success" weight="bold" />
+                      <Check className="h-3.5 w-3.5 text-success" weight="bold" />
                     ) : (
-                      <Copy className="h-4 w-4" weight="regular" />
+                      <Copy className="h-3.5 w-3.5" weight="regular" />
                     )}
                   </button>
                 )}
                 <button
                   type="button"
                   onClick={() => setShowSummaryPanel(false)}
-                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-                  aria-label="Close"
-                  title="Close"
+                  className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                  aria-label={t("summary.close")}
+                  title={t("summary.close")}
                 >
-                  <X className="h-4 w-4" weight="regular" />
+                  <X className="h-3.5 w-3.5" weight="regular" />
                 </button>
               </div>
             </div>
 
-            <div className="flex flex-1 flex-col overflow-y-auto">
-              {showSummaryControls && (
-                <div className="border-b border-border px-4 py-4">
-                  <div className="grid grid-cols-2 gap-2">
-                    {SUMMARY_TEMPLATES.map(
-                      ({ id, icon: Icon, label, desc }) => (
-                        <button
-                          key={id}
-                          type="button"
-                          onClick={() => void handleGenerateSummary(id)}
-                          disabled={summaryLoading}
-                          className={`flex min-h-[92px] cursor-pointer flex-col gap-2 rounded-xl border p-3 text-left transition-[background-color,border-color,transform] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 ${
-                            summaryActiveTemplate === id
-                              ? "border-primary/40 bg-primary/5"
-                              : "border-border bg-background hover:border-primary/30 hover:bg-accent"
-                          }`}
-                        >
-                          <Icon
-                            className="h-4 w-4 text-primary"
-                            weight="duotone"
-                          />
-                          <span className="text-xs font-semibold text-foreground">
-                            {label}
-                          </span>
-                          <span className="text-[11px] leading-snug text-muted-foreground">
-                            {desc}
-                          </span>
-                        </button>
-                      )
-                    )}
-                  </div>
-
-                  <div className="mt-4">
-                    <label
-                      className="text-xs font-medium text-muted-foreground"
-                      htmlFor="summary-custom-prompt"
-                    >
-                      Custom prompt
-                    </label>
-                    <textarea
-                      id="summary-custom-prompt"
-                      value={summaryPrompt}
-                      onChange={(event) => setSummaryPrompt(event.target.value)}
-                      placeholder="Describe what you'd like the AI to focus on..."
-                      rows={3}
-                      className="mt-2 w-full resize-none rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground transition-[border-color,box-shadow] outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/15"
-                    />
-                    <button
-                      type="button"
-                      onClick={() =>
-                        void handleGenerateSummary("custom", summaryPrompt)
-                      }
-                      disabled={summaryLoading || !summaryPrompt.trim()}
-                      className="mt-2 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-[background-color,opacity,transform] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40"
-                    >
-                      <Sparkle className="h-4 w-4" weight="fill" />
-                      Generate
-                    </button>
-                  </div>
+            <div className="relative flex flex-1 flex-col overflow-y-auto">
+              {summaryCopied && (
+                <div className="pointer-events-none absolute top-3 left-1/2 z-20 -translate-x-1/2 rounded-lg bg-card px-4 py-2 text-sm text-card-foreground shadow-lg ring-1 ring-border">
+                  {t("summary.copied")}
                 </div>
               )}
 
-              <div className="flex flex-1 flex-col px-4 py-4">
-                {summaryLoading && (
-                  <div className="flex flex-1 flex-col items-center justify-center gap-3 py-12">
-                    <div className="h-8 w-8 animate-spin rounded-full border-[3px] border-primary/20 border-t-primary" />
-                    <p className="text-sm text-muted-foreground">
-                      Generating summary...
-                    </p>
-                  </div>
-                )}
+              {!summaryText && !summaryLoading && !showRegenerateForm &&
+                summarySelectionForm}
 
-                {!summaryLoading && summaryError && (
-                  <div className="rounded-xl border border-destructive/30 bg-destructive/5 px-3 py-3 text-sm text-destructive">
-                    {summaryError}
-                  </div>
-                )}
+              {summaryLoading && (
+                <div className="flex flex-1 flex-col items-center justify-center gap-3 px-5 py-12">
+                  <div
+                    className="h-8 w-8 animate-spin rounded-full border-[3px] border-t-transparent"
+                    style={{
+                      borderColor: "var(--purple)",
+                      borderTopColor: "transparent",
+                    }}
+                  />
+                  <span className="text-sm text-muted-foreground">
+                    {t("summary.loading")}
+                  </span>
+                </div>
+              )}
 
-                {!summaryLoading && !summaryError && !summaryText && (
-                  <div className="flex flex-1 items-center justify-center py-10 text-center text-sm text-muted-foreground">
-                    Choose a template or enter a custom prompt
-                  </div>
-                )}
-
-                {!summaryLoading && !summaryError && summaryText && (
-                  <>
-                    <div className="mb-4 flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
+              {summaryText && !summaryLoading && !showRegenerateForm && (
+                <div className="flex-1 px-5 py-5">
+                  {summaryActiveTemplate && (
+                    <div className="mb-4 flex items-center gap-2">
+                      <span
+                        className="inline-flex items-center gap-1.5 rounded-[999px] px-3 py-1 text-[11px] font-medium text-white"
+                        style={{
+                          background:
+                            "linear-gradient(135deg, var(--brand), var(--purple))",
+                        }}
+                      >
                         <Sparkle className="h-3 w-3" weight="fill" />
                         {summaryActiveTemplate === "custom"
-                          ? "Custom prompt"
-                          : (activeSummaryTemplate?.label ?? "Default")}
-                      </span>
-                      <span className="text-xs text-muted-foreground">
-                        Generated
+                          ? t("summary.customPrompt.label")
+                          : (activeSummaryTemplate?.label ??
+                            t("summary.templates.default.label"))}
                       </span>
                     </div>
-                    <SummaryMarkdown content={summaryText} />
-                  </>
-                )}
-              </div>
+                  )}
+                  <SummaryMarkdown content={summaryText} />
+                </div>
+              )}
+
+              {showRegenerateForm && !summaryLoading && (
+                <div className="flex flex-1 flex-col">
+                  {summarySelectionForm}
+                  <button
+                    type="button"
+                    onClick={() => setShowRegenerateForm(false)}
+                    className="mx-5 mb-1 w-[calc(100%-2.5rem)] cursor-pointer text-center text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {t("summary.cancel")}
+                  </button>
+                </div>
+              )}
             </div>
 
-            {summaryText && !summaryLoading && !summaryEditingPrompt && (
-              <div className="border-t border-border bg-background/50 px-4 py-3">
+            {summaryText && !summaryLoading && !showRegenerateForm && (
+              <div className="px-4 py-3">
                 <button
                   type="button"
                   onClick={() => {
+                    setSummaryPrompt("")
+                    setCustomPromptOpen(false)
+                    setSelectedSummaryType(null)
                     setSummaryError(null)
-                    setSummaryEditingPrompt(true)
+                    setShowRegenerateForm(true)
                   }}
-                  className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+                  className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-[999px] border px-4 py-2.5 text-sm font-medium transition-[transform,colors] duration-200 hover:bg-[color-mix(in_srgb,var(--brand)_5%,transparent)] active:scale-[0.97]"
+                  style={{
+                    borderColor:
+                      "color-mix(in srgb, var(--brand) 40%, transparent)",
+                    color: "var(--brand)",
+                  }}
                 >
                   <ArrowsClockwise className="h-4 w-4" weight="regular" />
-                  Regenerate
+                  {t("summary.back")}
                 </button>
               </div>
             )}
@@ -800,10 +942,10 @@ export function MeetingDetailPage({
         onConfirm={async () => {
           await handleDelete()
         }}
-        title="Delete meeting?"
-        description={`Are you sure you want to delete "${session.name}"?`}
-        confirmButtonText="Delete"
-        cancelButtonText="Cancel"
+        title={t("deleteDialog.title")}
+        description={t("deleteDialog.description", { name: session.name })}
+        confirmButtonText={t("deleteDialog.confirm")}
+        cancelButtonText={t("deleteDialog.cancel")}
       />
 
       <ShareModal

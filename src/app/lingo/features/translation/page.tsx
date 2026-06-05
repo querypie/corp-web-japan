@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import { Check, ChevronDown } from "lucide-react"
 import { useLocale } from "@/lib/lingo/intl"
 import { Button } from "@/components/lingo/common/Button"
@@ -11,6 +10,7 @@ import {
   TranslationFeatureVisual,
   type TranslationFeatureVisualType,
 } from "@/components/sections/lingo/TranslationFeatureVisuals"
+import { SubPageHeroBackground } from "@/components/sections/lingo/SubPageHeroBackground"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
 import { cn } from "@/lib/lingo/utils"
 
@@ -401,12 +401,12 @@ function TranslationSetupModal({
   const isLanguageMode = mode === "language"
 
   return (
-    <div className="absolute left-1/2 top-[-36px] w-[74%] max-w-[460px] -translate-x-1/2 rounded-b-[38px] bg-white px-6 pb-7 pt-[72px] shadow-[0_24px_70px_rgba(0,0,0,0.30)] md:px-8 md:pb-8">
+    <div className="absolute left-1/2 top-[-36px] w-[88%] max-w-[460px] -translate-x-1/2 rounded-b-[38px] bg-white px-4 pb-7 pt-[72px] shadow-[0_24px_70px_rgba(0,0,0,0.30)] md:w-[74%] md:px-8 md:pb-8">
       <div className="mb-5">
         <p className="mb-3 text-[17px] font-bold text-[#111111] md:text-[20px]">
           {copy.languageLabel}
         </p>
-        <div className="flex items-center justify-between rounded-[16px] border border-[#dddddd] px-4 py-3.5 text-[17px] font-semibold text-[#111111] md:text-[20px]">
+        <div className="flex items-center justify-between rounded-[16px] border border-[#dddddd] px-3 py-3.5 text-[17px] font-semibold text-[#111111] md:px-4 md:text-[20px]">
           <span>{isLanguageMode ? copy.selectedKoEn : copy.selectedKoJa}</span>
           <ChevronDown
             className={cn(
@@ -422,7 +422,7 @@ function TranslationSetupModal({
           {copy.languageOptions.map((option) => (
             <div
               key={option.label}
-              className="flex items-center justify-between px-4 py-3.5 text-[17px] font-semibold text-[#111111] md:text-[20px]"
+              className="flex items-center justify-between px-3 py-3.5 text-[17px] font-semibold text-[#111111] md:px-4 md:text-[20px]"
             >
               <span className="flex min-w-0 items-center gap-3">
                 <span>{option.flag}</span>
@@ -439,7 +439,7 @@ function TranslationSetupModal({
         </div>
       ) : (
         <div className="grid gap-5">
-          <div className="flex items-center justify-between rounded-[18px] border border-[#dddddd] px-5 py-4">
+          <div className="flex items-center justify-between rounded-[18px] border border-[#dddddd] px-3 py-4 md:px-5">
             <div>
               <p className="text-[17px] font-bold text-[#111111] md:text-[20px]">
                 {copy.activationTitle}
@@ -448,7 +448,7 @@ function TranslationSetupModal({
                 {copy.activationDescription}
               </p>
             </div>
-            <div className="h-9 w-[68px] rounded-full bg-[var(--brand)] p-1">
+            <div className="h-9 w-[68px] shrink-0 rounded-full bg-[var(--brand)] p-1">
               <div className="ml-auto size-7 rounded-full bg-white shadow-[0_3px_8px_rgba(0,0,0,0.16)]" />
             </div>
           </div>
@@ -466,7 +466,7 @@ function TranslationSetupModal({
 
 function TranslationLivePreview({ copy }: { copy: TranslationValueVisualCopy }) {
   return (
-    <div className="absolute inset-x-12 top-10 bottom-10 overflow-hidden rounded-[26px] bg-white shadow-[0_24px_70px_rgba(0,0,0,0.22)]">
+    <div className="absolute inset-x-4 top-10 bottom-10 overflow-hidden rounded-[26px] bg-white shadow-[0_24px_70px_rgba(0,0,0,0.22)] md:inset-x-12">
       <div className="h-full overflow-hidden px-5 py-5 text-[#111111]">
         <div className="mb-5 flex items-center gap-3">
           <span className="grid size-9 place-items-center rounded-full bg-[#ff8200] text-[18px] font-bold text-white">
@@ -516,7 +516,7 @@ function TranslationValuePreview({
   copy: TranslationValueVisualCopy
 }) {
   return (
-    <div className="relative min-h-[520px] overflow-hidden bg-[#777777] md:min-h-0">
+    <div className="relative min-h-[360px] overflow-hidden bg-[#777777] md:min-h-0">
       {stepIndex === 0 && <TranslationSetupModal copy={copy} mode="language" />}
       {stepIndex === 1 && <TranslationSetupModal copy={copy} mode="activation" />}
       {stepIndex === 2 && <TranslationLivePreview copy={copy} />}
@@ -553,7 +553,7 @@ function TranslationValueSection() {
                 >
                   <span
                     className={cn(
-                      "text-[24px] font-bold leading-[1.25] transition-colors duration-200",
+                      "text-[20px] font-bold leading-[1.25] transition-colors duration-200 md:text-[24px]",
                       isActive ? "text-[var(--brand)]" : "text-[var(--fg)]"
                     )}
                   >
@@ -588,17 +588,17 @@ function FeatureCardsSection() {
 
   return (
     <Container className="section-gap">
-      <div className="flex flex-col" style={{ gap: "120px" }}>
+      <div className="flex flex-col gap-16 md:gap-[120px]">
         {copy.featureCards.map((card, index) => {
           const isEven = index % 2 === 0
           return (
             <article
               key={card.title}
-              className="flex flex-col gap-[30px] md:flex-row md:items-end md:gap-[60px]"
+              className="flex flex-col gap-[30px] md:flex-row md:items-start md:gap-[60px]"
             >
               <div
                 className={cn(
-                  "flex flex-1 flex-col gap-[10px] md:pb-8",
+                  "flex flex-1 flex-col gap-[10px]",
                   isEven ? "order-1" : "order-1 md:order-2"
                 )}
               >
@@ -677,9 +677,9 @@ function TranslationCTASection() {
   return (
     <Container>
       <div className="flex flex-col items-center gap-6 text-center md:gap-[30px]">
-        <div className="flex max-w-[660px] flex-col items-center gap-4 text-[var(--fg)] md:gap-[20px]">
+        <div className="flex w-full flex-col items-center gap-4 text-[var(--fg)] md:gap-[20px]">
           <h2 className="text-h1">{copy.ctaTitle}</h2>
-          <p className="text-[16px] leading-[24px]">{copy.ctaDescription}</p>
+          <p className="body-md">{copy.ctaDescription}</p>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Button variant="dark">{copy.primaryCta}</Button>
@@ -694,15 +694,7 @@ export default function TranslationPage() {
 
   return (
     <main className="page-layout-sub min-h-screen bg-[var(--bg)]">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[200px] overflow-hidden">
-        <Image
-          src="/lingo/images/bg-home.jpg"
-          alt=""
-          fill
-          sizes="100vw"
-          className="size-full object-cover object-bottom"
-        />
-      </div>
+      <SubPageHeroBackground />
       <div className="page-gutter w-full">
         <div className="container-main relative z-10 w-full">
           <div className="flex flex-col gap-5 md:gap-[20px]">
@@ -712,13 +704,13 @@ export default function TranslationPage() {
               {copy.heroTitle[1]}
             </h1>
           </div>
-          <p className="body-md mt-5 max-w-[640px] text-[var(--fg)]">
+          <p className="body-md mt-5 max-w-[1000px] text-[var(--fg)]">
             {copy.heroDescription[0]}
             <br />
             {copy.heroDescription[1]}
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-3">
-            <Button variant="outline">{copy.secondaryCta}</Button>
+            <Button variant="dark">{copy.secondaryCta}</Button>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
+import { useTranslations } from "@/lib/lingo/intl"
 import { Share2 } from "lucide-react"
 import type {
   BotStatus,
@@ -42,33 +43,36 @@ function getBotStatusBadgeClass(status: BotStatus): string {
   }
 }
 
-function getBotStatusLabel(status: BotStatus): string {
-  switch (status) {
-    case "creating":
-      return "Creating"
-    case "ready":
-      return "Ready"
-    case "joining":
-      return "Joining"
-    case "in_waiting_room":
-      return "Waiting Room"
-    case "in_meeting":
-      return "In Meeting"
-    case "recording":
-      return "Recording"
-    case "ending":
-      return "Ending"
-    case "done":
-      return "Done"
-    case "error":
-      return "Error"
-    default:
-      return status
+function useBotStatusLabel(): (status: BotStatus) => string {
+  const t = useTranslations("mockup.session")
+  return (status: BotStatus): string => {
+    switch (status) {
+      case "creating":
+        return t("topBar.botStatus.creating")
+      case "ready":
+        return t("topBar.botStatus.ready")
+      case "joining":
+        return t("topBar.botStatus.joining")
+      case "in_waiting_room":
+        return t("topBar.botStatus.inWaitingRoom")
+      case "in_meeting":
+        return t("topBar.botStatus.inMeeting")
+      case "recording":
+        return t("topBar.botStatus.recording")
+      case "ending":
+        return t("topBar.botStatus.ending")
+      case "done":
+        return t("topBar.botStatus.done")
+      case "error":
+        return t("topBar.botStatus.error")
+      default:
+        return status
+    }
   }
 }
 
 export function SessionPage({
-  sessionName = "Live Session",
+  sessionName,
   targetLanguages = ["en", "ko", "ja"],
   audioSource = "mic",
   isScheduled = false,
@@ -77,6 +81,9 @@ export function SessionPage({
   translationEnabled = true,
   onEnd,
 }: SessionPageProps) {
+  const t = useTranslations("mockup.session")
+  const getBotStatusLabel = useBotStatusLabel()
+  const resolvedSessionName = sessionName ?? t("topBar.defaultTitle")
   const isBotMode = audioSource === "bot"
   const barAudioSource: "mic" | "screen" | "mix" | undefined = isBotMode
     ? undefined
@@ -252,7 +259,7 @@ export function SessionPage({
   return (
     <div className="flex h-full flex-col">
       <SessionTopBar
-        title={sessionName}
+        title={resolvedSessionName}
         languages={targetLanguages}
         selectedLanguage={filterLanguage}
         onSelectLanguage={setFilterLanguage}
@@ -279,8 +286,8 @@ export function SessionPage({
               type="button"
               onClick={() => setShowShareModal(true)}
               className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-[background-color,color,transform] active:scale-95 sm:hover:bg-accent sm:hover:text-accent-foreground sm:active:scale-100"
-              aria-label="Share"
-              title="Share"
+              aria-label={t("topBar.share")}
+              title={t("topBar.share")}
             >
               <Share2 className="h-4 w-4" />
             </button>
@@ -296,14 +303,14 @@ export function SessionPage({
         {showJoinBotPrompt ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-4 p-6">
             <p className="text-sm text-muted-foreground">
-              The bot has not joined the meeting yet.
+              {t("botPrompt.notJoined")}
             </p>
             <button
               type="button"
               onClick={() => setBotStatus("joining")}
               className="rounded-xl bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
             >
-              Join Bot Now
+              {t("botPrompt.joinNow")}
             </button>
           </div>
         ) : (
@@ -313,7 +320,8 @@ export function SessionPage({
                 type="button"
                 onClick={() => setIsFullscreen(false)}
                 className="absolute top-3 right-3 z-10 flex h-7 w-7 items-center justify-center rounded bg-background/80 text-muted-foreground backdrop-blur-sm transition-colors hover:text-foreground"
-                title="Exit Fullscreen"
+                title={t("transcript.exitFullscreen")}
+                aria-label={t("transcript.exitFullscreen")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

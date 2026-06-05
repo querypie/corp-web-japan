@@ -501,7 +501,7 @@ export function FeatureBento() {
           </div>
 
           {/* 카드4 */}
-          <div ref={card4Ref} className={cn("relative flex min-w-0 min-h-[26rem] flex-col items-start overflow-hidden rounded-[28px] p-[30px] md:h-[720px] md:rounded-[var(--corner-feature)] md:p-[clamp(1.5rem,4vw,2.5rem)]", revealClass(card4Visible))}>
+          <div ref={card4Ref} className={cn("relative flex min-w-0 min-h-[27.25rem] flex-col items-start overflow-hidden rounded-[28px] p-[30px] md:h-[720px] md:rounded-[var(--corner-feature)] md:p-[clamp(1.5rem,4vw,2.5rem)]", revealClass(card4Visible))}>
             <img
               src="/lingo/images/feature-05.jpg"
               alt=""
@@ -525,7 +525,7 @@ export function FeatureBento() {
               src="/lingo/images/ai-note.png"
               alt=""
               className={cn(
-                "absolute z-0 w-[81.02%] max-w-none rounded-[20px] shadow-[0px_40px_40px_rgba(0,0,0,0.15)] max-md:top-[38%] md:top-[27.92%]",
+                "absolute z-0 w-[81.02%] max-w-none rounded-[20px] shadow-[0px_40px_40px_rgba(0,0,0,0.15)] max-md:top-[calc(38%+60px)] md:top-[calc(27.92%+20px)]",
                 card4Visible
                   ? "animate-[feature-calendar-reveal_1.2s_cubic-bezier(0.22,1,0.36,1)_forwards]"
                   : "translate-x-full"
@@ -691,7 +691,7 @@ export function FeatureBento() {
         </div>
 
         {/* 카드7 */}
-        <div ref={card7Ref} className={cn("relative flex min-w-0 min-h-[28rem] w-full flex-col justify-end overflow-hidden rounded-[28px] md:h-[600px] md:w-[calc(50%-10px)] md:rounded-[var(--corner-feature)]", revealClass(card7Visible))}>
+        <div ref={card7Ref} className={cn("relative flex min-w-0 min-h-[31.75rem] w-full flex-col justify-end overflow-hidden rounded-[28px] md:h-[600px] md:w-[calc(50%-10px)] md:rounded-[var(--corner-feature)]", revealClass(card7Visible))}>
           {/* 배경 + 원형 그라데이션 컨테이너 */}
           <div className="absolute inset-0 overflow-hidden rounded-[28px] md:rounded-[var(--corner-feature)]">
             <img

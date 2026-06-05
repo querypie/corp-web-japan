@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useState } from "react"
+import { useTranslations } from "@/lib/lingo/intl"
 import { Button } from "@/components/lingo/mockup/ui/Button"
 import { Dialog } from "@/components/lingo/mockup/ui/Dialog"
 import { Input } from "@/components/lingo/mockup/ui/Input"
@@ -62,6 +63,7 @@ export function InPersonMeetingModal({
   onClose,
   onStart,
 }: InPersonMeetingModalProps) {
+  const t = useTranslations("mockup.modals")
   const [name, setName] = useState("")
   const [selectedLangs, setSelectedLangs] = useState<Set<string>>(new Set())
   const [audioSource, setAudioSource] = useState<AudioSource>("mic")
@@ -136,27 +138,42 @@ export function InPersonMeetingModal({
       (supportsScreenCapture || (source !== "screen" && source !== "mix"))
   ) as [AudioSource, string][]
 
+  const audioSourceLabel = (source: AudioSource): string => {
+    switch (source) {
+      case "mic":
+        return t("audioSource.mic")
+      case "screen":
+        return t("audioSource.screen")
+      case "mix":
+        return t("audioSource.mix")
+      case "bot":
+        return t("audioSource.bot")
+      default:
+        return source
+    }
+  }
+
   return (
     <Dialog open={open} onClose={handleClose}>
       <div className="mx-4 w-full max-w-md rounded-3xl border border-border bg-card p-6 text-card-foreground shadow-xl">
         <h2 className="mb-5 text-xl font-semibold text-card-foreground">
-          In-Person Meeting
+          {t("inPerson.title")}
         </h2>
 
         {/* Audio Source */}
         <div className="mb-4">
           <label className="mb-2 block text-sm font-medium text-foreground">
-            Audio Source
+            {t("inPerson.audioSource.label")}
           </label>
           <div className="flex flex-wrap gap-2">
-            {localAudioSources.map(([source, labelKey]) => (
+            {localAudioSources.map(([source]) => (
               <Button
                 key={source}
                 onClick={() => setAudioSource(source)}
                 variant={audioSource === source ? "primary" : "outline"}
                 size="sm"
               >
-                {labelKey}
+                {audioSourceLabel(source)}
               </Button>
             ))}
           </div>
@@ -167,7 +184,7 @@ export function InPersonMeetingModal({
           audioDevices.length > 0 && (
             <div className="mb-4">
               <label className="mb-1 block text-sm font-medium text-foreground">
-                Microphone
+                {t("inPerson.microphone.label")}
               </label>
               <Select
                 value={selectedDevice}
@@ -176,7 +193,9 @@ export function InPersonMeetingModal({
                 {audioDevices.map((device) => (
                   <option key={device.deviceId} value={device.deviceId}>
                     {device.label ||
-                      `Microphone ${device.deviceId.slice(0, 8)}`}
+                      t("inPerson.microphone.fallback", {
+                        id: device.deviceId.slice(0, 8),
+                      })}
                   </option>
                 ))}
               </Select>
@@ -186,13 +205,13 @@ export function InPersonMeetingModal({
         {/* Session Name */}
         <div className="mb-4">
           <label className="mb-1 block text-sm font-medium text-foreground">
-            Meeting Name
+            {t("inPerson.meetingName.label")}
           </label>
           <Input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter meeting name (optional)"
+            placeholder={t("inPerson.meetingName.placeholder")}
           />
         </div>
 
@@ -215,7 +234,7 @@ export function InPersonMeetingModal({
               }
             }}
             max={3}
-            label="Source Language"
+            label={t("inPerson.sourceLanguage")}
             error={langError}
             errorToken={errorToken}
           />
@@ -226,10 +245,10 @@ export function InPersonMeetingModal({
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm font-medium text-foreground">
-                Add Translation
+                {t("inPerson.addTranslation.title")}
               </div>
               <div className="mt-0.5 text-xs text-muted-foreground">
-                Enable real-time translation between selected languages
+                {t("inPerson.addTranslation.description")}
               </div>
             </div>
             {selectedLangs.size < 2 ? (
@@ -240,12 +259,12 @@ export function InPersonMeetingModal({
                       <Switch
                         checked={false}
                         disabled
-                        aria-label="Add Translation"
+                        aria-label={t("inPerson.addTranslation.title")}
                       />
                     </span>
                   </TooltipTrigger>
                   <TooltipContent>
-                    Select at least 2 languages to enable translation
+                    {t("inPerson.addTranslation.tooltip")}
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -268,7 +287,7 @@ export function InPersonMeetingModal({
                     return next
                   })
                 }}
-                aria-label="Add Translation"
+                aria-label={t("inPerson.addTranslation.title")}
               />
             )}
           </div>
@@ -417,10 +436,10 @@ export function InPersonMeetingModal({
             </p>
           )}
           <Button onClick={handleStart} fullWidth>
-            Create Meeting
+            {t("inPerson.actions.create")}
           </Button>
           <Button onClick={handleClose} variant="ghost" fullWidth>
-            Cancel
+            {t("inPerson.actions.cancel")}
           </Button>
         </div>
       </div>

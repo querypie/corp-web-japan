@@ -106,8 +106,14 @@
       "usageRates": {
         "title": "機能別の想定課金",
         "rows": [
-          { "feature": "AI文字起こし", "rate": "50クレジット / 時間" },
-          { "feature": "リアルタイム翻訳", "rate": "200クレジット / 時間" }
+          {
+            "feature": "AI文字起こし",
+            "rate": "50クレジット / 時間"
+          },
+          {
+            "feature": "リアルタイム翻訳",
+            "rate": "200クレジット / 時間"
+          }
         ],
         "note": "表示クレジットは想定課金の基準です。実際のクレジット差し引き額は、AIPポリシーと利用条件により変わる場合があります。"
       },
@@ -128,20 +134,52 @@
         "lingo": "Lingo"
       },
       "rows": [
-        { "item": "課金基準", "subscription": "ユーザー数、月額サブスクリプション", "lingo": "実際の会議利用量、AIPクレジット" },
-        { "item": "未使用ユーザーの費用", "subscription": "招待されただけでも席の費用が発生", "lingo": "使わなければLingo費用は発生しません" },
-        { "item": "チーム拡張", "subscription": "人数が増えると費用もすぐに増加", "lingo": "人数よりも実際の利用量に比例" },
-        { "item": "プラットフォーム統合", "subscription": "サービスごとに決済と管理が分散", "lingo": "AIPアカウント、組織、クレジットで統合" },
-        { "item": "適したチーム", "subscription": "全ユーザーが毎日多く利用するチーム", "lingo": "利用量にばらつきがある、または必要な会議に集中して使うチーム" }
+        {
+          "item": "課金基準",
+          "subscription": "ユーザー数、月額サブスクリプション",
+          "lingo": "実際の会議利用量、AIPクレジット"
+        },
+        {
+          "item": "未使用ユーザーの費用",
+          "subscription": "招待されただけでも席の費用が発生",
+          "lingo": "使わなければLingo費用は発生しません"
+        },
+        {
+          "item": "チーム拡張",
+          "subscription": "人数が増えると費用もすぐに増加",
+          "lingo": "人数よりも実際の利用量に比例"
+        },
+        {
+          "item": "プラットフォーム統合",
+          "subscription": "サービスごとに決済と管理が分散",
+          "lingo": "AIPアカウント、組織、クレジットで統合"
+        },
+        {
+          "item": "適したチーム",
+          "subscription": "全ユーザーが毎日多く利用するチーム",
+          "lingo": "利用量にばらつきがある、または必要な会議に集中して使うチーム"
+        }
       ]
     },
     "examples": {
       "title": "軽く使うチームほど、より柔軟です。",
       "description": "10人のチームでも、全員が毎日Lingoを使うとは限りません。Lingoは席数ではなく実際の会議利用量を基準にコストを計算するため、特定の会議やチームから無理なく導入できます。",
       "scenarios": [
-        { "title": "パイロット導入", "description": "一部のチームだけ先に利用", "message": "席を購入せず、必要な会議から開始" },
-        { "title": "グローバル会議", "description": "通訳が必要な会議だけ利用", "message": "リアルタイム翻訳が必要な瞬間に集中して課金" },
-        { "title": "組織拡張", "description": "チームメンバーの招待が増加", "message": "招待人数ではなく実際の利用量で管理" }
+        {
+          "title": "パイロット導入",
+          "description": "一部のチームだけ先に利用",
+          "message": "席を購入せず、必要な会議から開始"
+        },
+        {
+          "title": "グローバル会議",
+          "description": "通訳が必要な会議だけ利用",
+          "message": "リアルタイム翻訳が必要な瞬間に集中して課金"
+        },
+        {
+          "title": "組織拡張",
+          "description": "チームメンバーの招待が増加",
+          "message": "招待人数ではなく実際の利用量で管理"
+        }
       ]
     },
     "faq": {
@@ -168,5 +206,478 @@
     "privacy": "プライバシーポリシー",
     "eula": "EULA",
     "copyright": "© 2017-2024 QueryPie, Inc. All rights reserved."
+  },
+  "mockup": {
+    "sidebar": {
+      "home": "ホーム",
+      "meetings": "会議",
+      "calendar": "カレンダー",
+      "customization": "カスタマイズ",
+      "settings": "設定"
+    },
+    "settings": {
+      "title": "設定",
+      "language": {
+        "heading": "言語",
+        "description": "インターフェースで使用する言語を選択してください。"
+      },
+      "theme": {
+        "heading": "テーマ",
+        "description": "Lingo の外観を選択してください。",
+        "light": "ライト",
+        "dark": "ダーク",
+        "system": "システム"
+      },
+      "upcomingMeetings": {
+        "heading": "カレンダー表示期間",
+        "description": "カレンダーに表示する予定会議の日数を選択してください。",
+        "daysLabel": "{count, plural, other {#日}}"
+      },
+      "calendar": {
+        "heading": "カレンダー",
+        "description": "カレンダーを連携すると、予定会議を自動的に取得します。",
+        "connect": "連携する",
+        "disconnect": "連携解除",
+        "reconnect": "再連携",
+        "connectedAs": "{email} で連携済み",
+        "connectionPending": "連携待機中",
+        "syncFailed": "同期に失敗しました"
+      }
+    },
+    "home": {
+      "startMeeting": {
+        "title": "会議を開始",
+        "description": "会議が終わると、会話と翻訳は保存され、いつでも見返せます。"
+      },
+      "inPerson": {
+        "title": "対面会議",
+        "description": "デバイスから直接録音"
+      },
+      "remote": {
+        "title": "リモート会議",
+        "description": "Zoom、Meet、Teamsで参加"
+      },
+      "newMeeting": {
+        "trigger": "新規ミーティング",
+        "inPerson": {
+          "title": "対面ミーティング",
+          "description": "デバイスのマイクで録音します"
+        },
+        "remote": {
+          "title": "リモートミーティング",
+          "description": "ミーティングボットで参加します"
+        }
+      },
+      "ongoing": {
+        "heading": "進行中",
+        "empty": "進行中のミーティングはありません。",
+        "noTitle": "タイトルなし",
+        "open": "開く",
+        "botStatus": {
+          "creating": "作成中",
+          "ready": "準備完了",
+          "joining": "参加中",
+          "inWaitingRoom": "待機中",
+          "inMeeting": "ミーティング中",
+          "recording": "録音中",
+          "ending": "終了中",
+          "done": "完了",
+          "error": "エラー"
+        }
+      },
+      "upcoming": {
+        "heading": "今後の予定",
+        "empty": "今後のミーティングはありません。",
+        "noTitle": "タイトルなし",
+        "syncing": "カレンダーを同期中…",
+        "autoJoin": "自動参加",
+        "disconnected": {
+          "prompt": "カレンダーを連携すると、今後のミーティングを確認できます。"
+        },
+        "syncFailed": {
+          "message": "カレンダーの同期に失敗しました。再接続してください。",
+          "goToSettings": "設定へ移動"
+        },
+        "providers": {
+          "google": "Google Calendar",
+          "microsoft": "Microsoft Outlook"
+        },
+        "actions": {
+          "connect": "接続",
+          "reconnect": "再接続",
+          "cancel": "キャンセル"
+        },
+        "tooltip": {
+          "botOn": "Lingo がこのミーティングに参加します",
+          "botOff": "Lingo はこのミーティングに参加しません"
+        },
+        "languageDialog": {
+          "title": "ソース言語",
+          "addTranslation": "翻訳を追加",
+          "addTranslationDescription": "他の言語に翻訳します",
+          "selectAtLeastTwo": "言語を 2 つ以上選択してください",
+          "startBot": "ボットを開始"
+        },
+        "recurringSchedule": {
+          "title": "繰り返しミーティングを予約",
+          "description": "どの回にボットを適用しますか？",
+          "fromHere": "今回以降",
+          "all": "すべての回",
+          "thisOnly": "今回のみ"
+        },
+        "recurringRemove": {
+          "title": "ボットを削除",
+          "description": "どの回からボットを削除しますか？",
+          "all": "すべての回",
+          "thisOnly": "今回のみ"
+        }
+      }
+    },
+    "modals": {
+      "audioSource": {
+        "mic": "マイク",
+        "screen": "画面",
+        "mix": "マイク + 画面",
+        "bot": "会議ボット"
+      },
+      "inPerson": {
+        "title": "対面ミーティング",
+        "audioSource": {
+          "label": "音声ソース"
+        },
+        "microphone": {
+          "label": "マイク",
+          "fallback": "マイク {id}"
+        },
+        "meetingName": {
+          "label": "ミーティング名",
+          "placeholder": "ミーティング名を入力 (任意)"
+        },
+        "sourceLanguage": "元の言語",
+        "addTranslation": {
+          "title": "翻訳を追加",
+          "description": "選択した言語間でリアルタイム翻訳を有効にします",
+          "tooltip": "翻訳を有効にするには2言語以上を選択してください"
+        },
+        "actions": {
+          "create": "ミーティングを作成",
+          "cancel": "キャンセル"
+        }
+      },
+      "remote": {
+        "title": "リモートミーティング",
+        "meetingUrl": {
+          "label": "ミーティングURL",
+          "placeholder": "ミーティングリンクを貼り付け (Zoom, Google Meet, Teams...)",
+          "error": "有効なミーティングURLを入力してください (Zoom, Google Meet, Teams)",
+          "hint": "対応: Google Meet, Zoom, Microsoft Teams"
+        },
+        "meetingName": {
+          "label": "ミーティング名",
+          "placeholder": "ミーティング名を入力 (任意)"
+        },
+        "sourceLanguage": "元の言語",
+        "addTranslation": {
+          "title": "翻訳を追加",
+          "description": "選択した言語間でリアルタイム翻訳を有効にします",
+          "tooltip": "翻訳を有効にするには2言語以上を選択してください"
+        },
+        "joinMode": {
+          "label": "参加方法",
+          "now": "今すぐ参加",
+          "later": "後で参加"
+        },
+        "actions": {
+          "save": "セッションを保存",
+          "cancel": "キャンセル"
+        }
+      },
+      "audioUpload": {
+        "title": "音声ファイルをアップロード",
+        "dropzone": {
+          "title": "音声ファイルをドラッグ&ドロップするか、クリックして選択",
+          "hint": "MP3, M4A, WAV, WebM, OGG (最大500 MB)"
+        },
+        "removeFile": "ファイルを削除",
+        "meetingName": {
+          "label": "ミーティング名",
+          "placeholder": "ミーティング名を入力"
+        },
+        "sourceLanguage": "元の言語",
+        "actions": {
+          "start": "アップロード開始",
+          "cancel": "キャンセル"
+        },
+        "errors": {
+          "invalidType": "対応していないファイル形式です",
+          "fileTooLarge": "ファイルが大きすぎます"
+        }
+      },
+      "share": {
+        "title": "共有",
+        "close": "閉じる",
+        "qrCode": "QRコード",
+        "publicLink": {
+          "title": "公開リンク",
+          "description": "リンクを持つ全員が閲覧できます"
+        },
+        "copyLink": {
+          "label": "リンクをコピー",
+          "copied": "コピーしました"
+        },
+        "expiration": {
+          "label": "リンクの有効期限",
+          "never": "無期限",
+          "expired": "期限切れ",
+          "calendar": "有効期限カレンダー",
+          "prevMonth": "前の月",
+          "nextMonth": "次の月",
+          "apply": "適用"
+        },
+        "time": {
+          "label": "時刻",
+          "picker": "時刻ピッカー",
+          "hourWheel": "時間ホイール",
+          "minuteWheel": "分ホイール",
+          "hourValue": "{value}時",
+          "minuteValue": "{value}分"
+        },
+        "password": {
+          "label": "パスワード保護",
+          "show": "パスワードを表示",
+          "hide": "パスワードを非表示",
+          "copy": "パスワードをコピー"
+        },
+        "feedback": {
+          "passwordCopied": "パスワードをコピーしました"
+        },
+        "errors": {
+          "update": "共有設定の更新に失敗しました",
+          "copy": "コピーに失敗しました"
+        }
+      },
+      "activeElsewhere": {
+        "title": "別のタブでアクティブ",
+        "description": "別のタブまたはウィンドウでアクティブなセッションがあるようです。",
+        "confirm": "OK"
+      }
+    },
+    "session": {
+      "topBar": {
+        "defaultTitle": "ライブセッション",
+        "share": "共有",
+        "botStatus": {
+          "creating": "作成中",
+          "ready": "準備完了",
+          "joining": "参加中",
+          "inWaitingRoom": "待機室",
+          "inMeeting": "会議参加中",
+          "recording": "録音中",
+          "ending": "終了中",
+          "done": "完了",
+          "error": "エラー"
+        }
+      },
+      "botPrompt": {
+        "notJoined": "ボットはまだ会議に参加していません。",
+        "joinNow": "今すぐボットを参加させる"
+      },
+      "controls": {
+        "start": "開始",
+        "pause": "一時停止",
+        "resume": "再開",
+        "stop": "停止",
+        "selectMicrophone": "マイクを選択",
+        "devices": {
+          "default": "デフォルトマイク",
+          "builtIn": "内蔵マイク",
+          "externalUsb": "外付けUSBマイク",
+          "fallback": "マイク"
+        }
+      },
+      "transcript": {
+        "empty": "まだ文字起こしがありません。",
+        "loading": "読み込み中...",
+        "jumpToLatest": "最新へ移動",
+        "exitFullscreen": "全画面表示を終了",
+        "copy": "コピー",
+        "copied": "コピーしました",
+        "toggleDebug": "デバッグ切り替え",
+        "emptyText": "(空)",
+        "unknownSpeaker": "不明",
+        "guestSpeaker": "ゲスト {number}"
+      },
+      "filter": {
+        "allLanguages": "すべての言語"
+      },
+      "status": {
+        "paused": "一時停止中",
+        "ongoing": "進行中"
+      },
+      "serverDown": {
+        "heading": "サーバーを再起動しています",
+        "description": "しばらく待ってから再度お試しください。",
+        "retry": "再試行"
+      }
+    },
+    "meetings": {
+      "calendar": {
+        "title": "カレンダー",
+        "description": "今後の会議を確認・管理できます。"
+      },
+      "history": {
+        "title": "会議",
+        "loading": "読み込み中...",
+        "moreActions": "その他の操作",
+        "scheduledHeader": "予定された会議",
+        "allHeader": "すべての会議",
+        "empty": {
+          "title": "会議はまだありません",
+          "description": "新しい会議を開始するとここに表示されます。"
+        },
+        "badges": {
+          "scheduled": "予定",
+          "cancelled": "キャンセル済み",
+          "autoJoinFailed": "自動参加失敗",
+          "shared": "共有中"
+        },
+        "actions": {
+          "share": "共有",
+          "delete": "削除",
+          "downloadTranscript": "音声記録をダウンロード",
+          "removeBot": "ボットを削除",
+          "cancelMeeting": "会議をキャンセル"
+        },
+        "recurringDialog": {
+          "title": "繰り返しイベントの削除",
+          "description": "繰り返しイベントです。どのように削除しますか?",
+          "removeAll": "すべての繰り返しを削除",
+          "removeOne": "この回のみ削除",
+          "cancel": "キャンセル"
+        },
+        "deleteDialog": {
+          "title": "会議を削除しますか?",
+          "description": "「{name}」を削除しますか?この操作は取り消せません。",
+          "confirm": "削除",
+          "cancel": "キャンセル"
+        }
+      },
+      "detail": {
+        "loading": "読み込み中...",
+        "notFound": {
+          "title": "セッションが見つかりません",
+          "backLink": "会議一覧に戻る"
+        },
+        "header": {
+          "back": "戻る",
+          "share": "共有",
+          "moreActions": "その他の操作",
+          "joinBotNow": "今すぐボット参加"
+        },
+        "actions": {
+          "downloadTranscript": "音声記録をダウンロード",
+          "delete": "削除"
+        },
+        "transcript": {
+          "empty": "トランスクリプトはありません"
+        },
+        "summary": {
+          "heading": "AI要約",
+          "guide": "会議内容をどのような形式で要約しますか？",
+          "language": "要約言語",
+          "generate": "生成",
+          "back": "戻る",
+          "cancel": "キャンセル",
+          "copy": "要約をコピー",
+          "copied": "要約をコピーしました。",
+          "copyFailed": "要約のコピーに失敗しました。",
+          "loading": "要約を生成中...",
+          "error": "要約の生成に失敗しました。",
+          "empty": "要約できるトランスクリプトがありません。",
+          "close": "閉じる",
+          "customPrompt": {
+            "label": "カスタムプロンプト",
+            "desc": "入力したプロンプトに沿って整理",
+            "placeholder": "要約方法を入力してください（例：アクションアイテムだけ整理して）"
+          },
+          "templates": {
+            "default": {
+              "label": "クイック要約",
+              "desc": "主な議題、要点、次のステップを簡潔に要約"
+            },
+            "action-items": {
+              "label": "デイリー / ウィークリー会議",
+              "desc": "進捗、予定、課題、必要な支援を整理"
+            },
+            "minutes": {
+              "label": "顧客ミーティング",
+              "desc": "要望、回答、未解決事項、フォローアップを整理"
+            },
+            "key-decisions": {
+              "label": "意思決定ミーティング",
+              "desc": "決定の背景、選択肢、トレードオフ、次のアクションを整理"
+            }
+          }
+        },
+        "deleteDialog": {
+          "title": "会議を削除しますか?",
+          "description": "「{name}」を本当に削除しますか?",
+          "confirm": "削除",
+          "cancel": "キャンセル"
+        }
+      }
+    },
+    "misc": {
+      "customization": {
+        "title": "カスタマイズ",
+        "tabs": {
+          "keywords": "キーワード",
+          "presets": "プリセット",
+          "rules": "ルール"
+        },
+        "keywords": {
+          "description": "専門用語の認識精度を高めるためにキーワードを追加してください。",
+          "inputPlaceholder": "キーワードをカンマ区切りで入力してください...",
+          "add": "追加",
+          "previewAddable": "{count, plural, other {新しいキーワード#個を追加します}}",
+          "lengthLimitWarning": "一部のキーワードが{max}文字の上限を超えています。",
+          "exceedsLengthTitle": "{max}文字を超えています",
+          "countSummary": "{count, plural, other {キーワード#個}} · {total}個中{remaining}個残り",
+          "removeAria": "{word}を削除",
+          "empty": "まだキーワードが追加されていません。"
+        },
+        "presets": {
+          "description": "プリセットキーワードパックを切り替えて、業界特有の用語をすばやく追加できます。",
+          "items": {
+            "ai": "AI",
+            "crypto": "暗号資産/ブロックチェーン"
+          },
+          "saving": "保存中…",
+          "saved": "保存しました"
+        },
+        "rules": {
+          "description": "Lingoが特定のフレーズや文脈をどのように扱うかを、カスタムルールで設定できます。",
+          "emptyTitle": "まだルールがありません",
+          "emptyHint": "カスタムルールは近日公開予定です。"
+        }
+      },
+      "orgSwitcher": {
+        "heading": "組織"
+      },
+      "theme": {
+        "switchToLight": "ライト",
+        "switchToDark": "ダーク"
+      },
+      "languageSelect": {
+        "placeholder": "言語を選択",
+        "betaBadge": "BETA",
+        "maxReached": "最大{max}言語"
+      },
+      "audio": {
+        "connected": "接続済み",
+        "disconnected": "未接続",
+        "recording": "録音中"
+      }
+    }
   }
 }
