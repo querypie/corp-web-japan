@@ -1,9 +1,14 @@
 import type { ReactNode } from "react";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { ZoomableFigure } from "@/components/sections/ai-dashi/zoomable-figure";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export function AIDashiValuesSection({ children }: { children: ReactNode }) {
-  return <section id="ai-dashi-values" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">{children}</section>;
+  return (
+    <section {...componentNameDebugProps("AIDashiValuesSection")} id="ai-dashi-values" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-24">
+      {children}
+    </section>
+  );
 }
 
 export function AIDashiValuesShell({ children }: { children: ReactNode }) {

@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export function SolutionOverviewSection({ children }: { children: ReactNode }) {
   return (
-    <section className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-16 lg:px-10 lg:py-20">
+    <section {...componentNameDebugProps("SolutionOverviewSection")} className="mx-auto max-w-[1920px] bg-[#f6f8fb] px-6 py-16 lg:px-10 lg:py-20">
       <div className="mx-auto w-full max-w-[1120px]">{children}</div>
     </section>
   );

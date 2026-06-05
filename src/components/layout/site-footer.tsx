@@ -7,6 +7,7 @@ import {
   t,
 } from "@/lib/preview-navigation";
 import styles from "./site-footer.module.css";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export async function SiteFooter() {
   const cookieStore = await cookies();
@@ -120,7 +121,7 @@ export async function SiteFooter() {
   ] as const;
 
   return (
-    <footer id="company-info" className={styles.siteFooter}>
+    <footer {...componentNameDebugProps("SiteFooter")} id="company-info" className={styles.siteFooter}>
       <div className={`${styles.container} ${styles.footerContent}`}>
         <div className={styles.footerBrand}>
           <div className={styles.footerLogo}>

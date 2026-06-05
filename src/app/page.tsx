@@ -116,6 +116,7 @@ import {
   SolutionChoiceSubtitle,
   SolutionChoiceTitle,
 } from "@/components/sections/home/solution-choice-card";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 export const metadata: Metadata = {
   title: "信頼できるAIが、現場を動かす｜QueryPie AI",
   description:
@@ -146,7 +147,7 @@ export default function HomePage() {
   const topPageFinalConsultUrl = "/contact-us?inquiry=ai-consulting";
 
   return (
-    <main className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
+    <main {...componentNameDebugProps("HomePage")} className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
       <SiteHeader />
       <FloatingConversionCta href={topPageFloatingCtaUrl} />
       <HeroSection

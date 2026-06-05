@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
 import { PlatformContentSection, PlatformCtaSection, PlatformFeatureSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const headingBodyClass = "text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]";
 
@@ -24,11 +25,15 @@ type FeatureImageFrameProps = {
 };
 
 export function ServiceFdePageShell({ children }: { children: ReactNode }) {
-  return <PlatformPageShell>{children}</PlatformPageShell>;
+  return <PlatformPageShell {...componentNameDebugProps("ServiceFdePageShell")}>{children}</PlatformPageShell>;
 }
 
 export function ServiceFdeHeroSection({ children }: { children: ReactNode }) {
-  return <PlatformContentSection className="pb-[120px] pt-[134px] lg:pt-[144px]">{children}</PlatformContentSection>;
+  return (
+    <PlatformContentSection {...componentNameDebugProps("ServiceFdeHeroSection")} className="pb-[120px] pt-[134px] lg:pt-[144px]">
+      {children}
+    </PlatformContentSection>
+  );
 }
 
 export function ServiceFdeHeroInner({ children }: { children: ReactNode }) {

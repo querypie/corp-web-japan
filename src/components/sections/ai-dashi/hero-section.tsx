@@ -1,10 +1,11 @@
 import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export function AIDashiHeroSection({ children }: { children: ReactNode }) {
   return (
-    <section className="relative mx-auto max-w-[1920px] overflow-hidden bg-[#eceff3] px-6 py-14 lg:px-10 lg:py-[84px]">
+    <section {...componentNameDebugProps("AIDashiHeroSection")} className="relative mx-auto max-w-[1920px] overflow-hidden bg-[#eceff3] px-6 py-14 lg:px-10 lg:py-[84px]">
       {children}
     </section>
   );
