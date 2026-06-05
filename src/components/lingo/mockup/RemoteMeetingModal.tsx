@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
+import { useTranslations } from "@/lib/lingo/intl"
 import { Lightning, HandTap } from "@phosphor-icons/react"
 import { Button } from "@/components/lingo/mockup/ui/Button"
 import { Dialog } from "@/components/lingo/mockup/ui/Dialog"
@@ -78,6 +79,7 @@ export function RemoteMeetingModal({
   onStart,
   onManualCreate,
 }: RemoteMeetingModalProps) {
+  const t = useTranslations("mockup.modals")
   const [name, setName] = useState("")
   const [selectedLangs, setSelectedLangs] = useState<Set<string>>(new Set())
   const [meetingUrl, setMeetingUrl] = useState("")
@@ -180,7 +182,7 @@ export function RemoteMeetingModal({
     <Dialog open={open} onClose={handleClose}>
       <div className="mx-4 w-full max-w-md rounded-3xl border border-border bg-card p-6 text-card-foreground shadow-xl">
         <h2 className="mb-5 text-xl font-semibold text-card-foreground">
-          Remote Meeting
+          {t("remote.title")}
         </h2>
 
         {/* Meeting URL */}
@@ -189,7 +191,7 @@ export function RemoteMeetingModal({
             htmlFor="meeting-url"
             className="mb-1 block text-sm font-medium text-foreground"
           >
-            Meeting URL
+            {t("remote.meetingUrl.label")}
           </label>
           <Input
             id="meeting-url"
@@ -202,7 +204,7 @@ export function RemoteMeetingModal({
                 clearUrlError()
               }
             }}
-            placeholder="Paste meeting link (Zoom, Google Meet, Teams...)"
+            placeholder={t("remote.meetingUrl.placeholder")}
             aria-invalid={urlError || undefined}
             aria-describedby={urlError ? "url-error-msg" : "meeting-url-hint"}
             className={
@@ -213,14 +215,14 @@ export function RemoteMeetingModal({
           />
           {urlError ? (
             <p id="url-error-msg" className="mt-1 text-xs text-destructive">
-              Please enter a valid meeting URL (Zoom, Google Meet, Teams)
+              {t("remote.meetingUrl.error")}
             </p>
           ) : (
             <p
               id="meeting-url-hint"
               className="mt-1 text-xs text-muted-foreground"
             >
-              Supported: Google Meet, Zoom, Microsoft Teams
+              {t("remote.meetingUrl.hint")}
             </p>
           )}
         </div>
@@ -228,13 +230,13 @@ export function RemoteMeetingModal({
         {/* Session Name */}
         <div className="mb-4">
           <label className="mb-1 block text-sm font-medium text-foreground">
-            Meeting Name
+            {t("remote.meetingName.label")}
           </label>
           <Input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter meeting name (optional)"
+            placeholder={t("remote.meetingName.placeholder")}
           />
         </div>
 
@@ -257,7 +259,7 @@ export function RemoteMeetingModal({
               }
             }}
             max={3}
-            label="Source Language"
+            label={t("remote.sourceLanguage")}
             error={langError}
             errorToken={langErrorToken}
           />
@@ -268,10 +270,10 @@ export function RemoteMeetingModal({
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm font-medium text-foreground">
-                Add Translation
+                {t("remote.addTranslation.title")}
               </div>
               <div className="mt-0.5 text-xs text-muted-foreground">
-                Enable real-time translation between selected languages
+                {t("remote.addTranslation.description")}
               </div>
             </div>
             {selectedLangs.size < 2 ? (
@@ -282,12 +284,12 @@ export function RemoteMeetingModal({
                       <Switch
                         checked={false}
                         disabled
-                        aria-label="Add Translation"
+                        aria-label={t("remote.addTranslation.title")}
                       />
                     </span>
                   </TooltipTrigger>
                   <TooltipContent>
-                    Select at least 2 languages to enable translation
+                    {t("remote.addTranslation.tooltip")}
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -310,7 +312,7 @@ export function RemoteMeetingModal({
                     return next
                   })
                 }}
-                aria-label="Add Translation"
+                aria-label={t("remote.addTranslation.title")}
               />
             )}
           </div>
@@ -319,7 +321,7 @@ export function RemoteMeetingModal({
         {/* Join Mode */}
         <div className="mb-4">
           <label className="mb-2 block text-sm font-medium text-foreground">
-            Join Mode
+            {t("remote.joinMode.label")}
           </label>
           <div className="flex gap-3">
             <button
@@ -335,7 +337,7 @@ export function RemoteMeetingModal({
                 className="h-6 w-6"
                 weight={joinMode === "immediate" ? "fill" : "regular"}
               />
-              <span>Join Now</span>
+              <span>{t("remote.joinMode.now")}</span>
             </button>
             <button
               type="button"
@@ -350,7 +352,7 @@ export function RemoteMeetingModal({
                 className="h-6 w-6"
                 weight={joinMode === "manual" ? "fill" : "regular"}
               />
-              <span>Join Later</span>
+              <span>{t("remote.joinMode.later")}</span>
             </button>
           </div>
         </div>
@@ -493,10 +495,10 @@ export function RemoteMeetingModal({
         {/* Actions */}
         <div className="space-y-2">
           <Button onClick={handleStart} fullWidth>
-            Save Session
+            {t("remote.actions.save")}
           </Button>
           <Button onClick={handleClose} variant="ghost" fullWidth>
-            Cancel
+            {t("remote.actions.cancel")}
           </Button>
         </div>
       </div>

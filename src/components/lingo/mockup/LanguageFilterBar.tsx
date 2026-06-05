@@ -1,3 +1,6 @@
+"use client"
+
+import { useTranslations } from "@/lib/lingo/intl"
 import { SUPPORTED_LANGUAGES, LANGUAGE_FLAGS } from "@/components/lingo/mockup/types"
 import { getVisibleFilterLanguages } from "@/components/lingo/mockup/utils/languageFilter"
 
@@ -12,6 +15,7 @@ export function LanguageFilterBar({
   selected,
   onSelect,
 }: LanguageFilterBarProps) {
+  const t = useTranslations("mockup.session")
   const visibleLanguages = getVisibleFilterLanguages(languages)
 
   if (visibleLanguages.length <= 1) {
@@ -29,7 +33,7 @@ export function LanguageFilterBar({
             : "border-border bg-card text-muted-foreground sm:hover:bg-accent sm:hover:text-accent-foreground"
         }`}
       >
-        All languages
+        {t("filter.allLanguages")}
       </button>
       {visibleLanguages.map((code) => (
         <button

@@ -1,6 +1,7 @@
 "use client"
 
 import { SubHeroSection } from "@/components/sections/lingo/SubHeroSection"
+import { SubPageHeroBackground } from "@/components/sections/lingo/SubPageHeroBackground"
 import { FeatureSection } from "@/components/sections/lingo/FeatureSection"
 import { CTASection } from "@/components/sections/lingo/CTASection"
 import { Footer } from "@/components/layout/lingo/Footer"
@@ -98,13 +99,7 @@ export default function AboutPage() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] page-layout-sub">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[200px] overflow-hidden">
-        <img
-          src="/lingo/images/bg-home.jpg"
-          alt=""
-          className="size-full object-cover object-bottom"
-        />
-      </div>
+      <SubPageHeroBackground />
 
       <div className="w-full page-gutter">
         <div className="container-main relative z-10 w-full">

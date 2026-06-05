@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useTranslations } from "@/lib/lingo/intl"
 import { Button } from "@/components/lingo/mockup/ui/Button"
 import { Input } from "@/components/lingo/mockup/ui/Input"
 import { Tabs } from "@/components/lingo/mockup/ui/Tabs"
@@ -14,18 +15,13 @@ const TAG_CLASS_NAME =
 const MAX_HOTWORDS_TOTAL = 100
 const MAX_HOTWORD_LENGTH = 50
 
-const TABS: { id: Tab; label: string }[] = [
-  { id: "keywords", label: "Keywords" },
-  { id: "presets", label: "Presets" },
-  { id: "rules", label: "Rules" },
-]
+// 실제 앱과 동일하게 presets/rules 탭은 개발 모드 전용. 운영에서는 keywords만 노출.
+const isDev = false
 
-const PRESET_DEFINITIONS: Record<
-  string,
-  { label: string; keywords: string[] }
-> = {
+const TAB_IDS: Tab[] = ["keywords", "presets", "rules"]
+
+const PRESET_DEFINITIONS: Record<string, { keywords: string[] }> = {
   ai: {
-    label: "AI",
     keywords: [
       "AWS",
       "Anthropic",
@@ -65,7 +61,6 @@ const PRESET_DEFINITIONS: Record<
     ],
   },
   crypto: {
-    label: "Crypto/Blockchain",
     keywords: [
       "Binance USD (BUSD)",
       "Bitcoin",
@@ -136,6 +131,7 @@ function computeAddableKeywords(
 }
 
 export function CustomizationPage() {
+  const t = useTranslations("mockup.misc.customization")
   const [settings, setSettings] = useState<UserSettings | null>(() =>
     normalizeSettings(MOCK_USER_SETTINGS)
   )
@@ -220,6 +216,17 @@ export function CustomizationPage() {
       ).length
     : 0
 
+  const inputAddableCount = settings
+    ? computeAddableKeywords(
+        parseKeywords(input),
+        settings.hotwords,
+        remainingSlots,
+        MAX_HOTWORD_LENGTH
+      ).length
+    : 0
+
+  const visibleTabs = TAB_IDS.filter((id) => isDev || id === "keywords")
+
   if (!settings) {
     return (
       <div className="flex h-full items-center justify-center">
@@ -232,15 +239,15 @@ export function CustomizationPage() {
     <div className="h-full overflow-y-auto bg-background">
       <div className="mx-auto max-w-[640px] px-4 py-6 sm:px-6 sm:py-8">
         <h1 className="mb-6 text-xl font-semibold text-foreground">
-          Customization
+          {t("title")}
         </h1>
 
         {/* Tabs */}
         <Tabs
           className="mb-6 flex w-full"
-          items={TABS.map((tabItem) => ({
-            id: tabItem.id,
-            label: tabItem.label,
+          items={visibleTabs.map((tabId) => ({
+            id: tabId,
+            label: t(`tabs.${tabId}`),
           }))}
           value={tab}
           onValueChange={setTab}
@@ -249,9 +256,8 @@ export function CustomizationPage() {
         {/* Tab content */}
         {tab === "keywords" && (
           <section className="rounded-xl border border-border bg-card p-5">
-            <p className="mb-4 text-sm text-muted-foreground">
-              Add keywords to improve recognition accuracy for domain-specific
-              terms.
+            <p className="mb-4 whitespace-pre-line text-sm text-muted-foreground">
+              {t("keywords.description")}
             </p>
 
             {/* Input */}
@@ -262,14 +268,18 @@ export function CustomizationPage() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Enter keywords separated by commas..."
+                placeholder={t("keywords.inputPlaceholder")}
                 className="flex-1"
               />
               <Button
                 onClick={addKeywords}
-                disabled={!input.trim() || remainingSlots <= 0}
+                disabled={
+                  !input.trim() ||
+                  remainingSlots <= 0 ||
+                  inputAddableCount === 0
+                }
               >
-                Add
+                {t("keywords.add")}
               </Button>
             </div>
 
@@ -278,7 +288,7 @@ export function CustomizationPage() {
               <div className="mb-4">
                 {addableCount > 0 && (
                   <p className="mb-1.5 text-xs text-muted-foreground">
-                    {addableCount} new keywords will be added
+                    {t("keywords.previewAddable", { count: addableCount })}
                   </p>
                 )}
                 {(() => {
@@ -292,8 +302,9 @@ export function CustomizationPage() {
                     <>
                       {hasTooLong && (
                         <p className="mb-1.5 text-xs text-destructive">
-                          Some keywords exceed the {MAX_HOTWORD_LENGTH}{" "}
-                          character limit.
+                          {t("keywords.lengthLimitWarning", {
+                            max: MAX_HOTWORD_LENGTH,
+                          })}
                         </p>
                       )}
                       <div className="flex flex-wrap gap-1.5">
@@ -309,7 +320,9 @@ export function CustomizationPage() {
                               }`}
                               title={
                                 isTooLong
-                                  ? `Exceeds ${MAX_HOTWORD_LENGTH} characters`
+                                  ? t("keywords.exceedsLengthTitle", {
+                                      max: MAX_HOTWORD_LENGTH,
+                                    })
                                   : undefined
                               }
                             >
@@ -328,9 +341,11 @@ export function CustomizationPage() {
             <p
               className={`mb-3 text-xs font-medium ${remainingSlots <= 0 ? "text-destructive" : "text-muted-foreground"}`}
             >
-              {settings.hotwords.length} keywords
-              {" · "}
-              {remainingSlots} of {MAX_HOTWORDS_TOTAL} remaining
+              {t("keywords.countSummary", {
+                count: settings.hotwords.length,
+                remaining: remainingSlots,
+                total: MAX_HOTWORDS_TOTAL,
+              })}
             </p>
 
             {/* Tags */}
@@ -345,7 +360,7 @@ export function CustomizationPage() {
                     <button
                       type="button"
                       onClick={() => removeKeyword(index)}
-                      aria-label={`Remove ${word}`}
+                      aria-label={t("keywords.removeAria", { word })}
                       className="ml-0.5 inline-flex h-3.5 w-3.5 cursor-pointer items-center justify-center rounded-full text-secondary-foreground/60 hover:text-destructive"
                     >
                       <svg
@@ -362,17 +377,16 @@ export function CustomizationPage() {
               </div>
             ) : (
               <p className="text-sm text-muted-foreground">
-                No keywords added yet.
+                {t("keywords.empty")}
               </p>
             )}
           </section>
         )}
 
-        {tab === "presets" && (
+        {isDev && tab === "presets" && (
           <section className="rounded-xl border border-border bg-card p-5">
             <p className="mb-4 text-sm text-muted-foreground">
-              Toggle preset keyword packs to quickly add industry-specific
-              terms.
+              {t("presets.description")}
             </p>
 
             <div className="space-y-3">
@@ -390,7 +404,7 @@ export function CustomizationPage() {
                         className="h-4 w-4 rounded border-input text-primary focus:ring-ring"
                       />
                       <span className="text-sm font-medium text-card-foreground">
-                        {preset.label}
+                        {t(`presets.items.${id}`)}
                       </span>
                     </label>
 
@@ -413,17 +427,16 @@ export function CustomizationPage() {
               <p
                 className={`mt-3 text-xs ${saved ? "text-success" : "text-muted-foreground"}`}
               >
-                {saving ? "Saving…" : "Saved"}
+                {saving ? t("presets.saving") : t("presets.saved")}
               </p>
             )}
           </section>
         )}
 
-        {tab === "rules" && (
+        {isDev && tab === "rules" && (
           <section className="rounded-xl border border-border bg-card p-5">
             <p className="mb-4 text-sm text-muted-foreground">
-              Create custom rules for how Lingo should handle specific phrases
-              or contexts.
+              {t("rules.description")}
             </p>
             <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
               <svg
@@ -439,8 +452,8 @@ export function CustomizationPage() {
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <polyline points="14 2 14 8 20 8" />
               </svg>
-              <p className="text-sm font-medium">No rules yet</p>
-              <p className="mt-1 text-xs">Custom rules are coming soon.</p>
+              <p className="text-sm font-medium">{t("rules.emptyTitle")}</p>
+              <p className="mt-1 text-xs">{t("rules.emptyHint")}</p>
             </div>
           </section>
         )}

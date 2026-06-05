@@ -2,6 +2,7 @@
 
 import { Moon, Sun } from "@phosphor-icons/react"
 import { useEffect, useRef, useState } from "react"
+import { useTranslations } from "@/lib/lingo/intl"
 import { useOrganizationContext } from "@/components/lingo/mockup/contexts/OrganizationContext"
 import { useAuthFetch } from "@/components/lingo/mockup/hooks/useAuthFetch"
 import { orgApiPath } from "@/components/lingo/mockup/utils/orgApi"
@@ -20,6 +21,7 @@ export function ThemeToggleButton({
   iconWeight = "duotone",
   scope = "global",
 }: ThemeToggleButtonProps) {
+  const t = useTranslations("mockup.misc.theme")
   const authFetch = useAuthFetch()
   const { currentOrg } = useOrganizationContext()
   const buttonRef = useRef<HTMLButtonElement | null>(null)
@@ -94,7 +96,7 @@ export function ThemeToggleButton({
     }
   }
 
-  const label = themeMode === "dark" ? "Light" : "Dark"
+  const label = themeMode === "dark" ? t("switchToLight") : t("switchToDark")
 
   return (
     <button

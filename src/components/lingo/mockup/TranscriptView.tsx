@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react"
+import { useTranslations } from "@/lib/lingo/intl"
 import { Check, Copy, Bug } from "@phosphor-icons/react"
 import { Virtuoso, type Components, type VirtuosoHandle } from "react-virtuoso"
 import type { PartialBlock, SpeechBlock } from "@/components/lingo/mockup/types"
@@ -128,6 +129,7 @@ export function TranscriptView({
   onReachTop,
   debugEnabled = false,
 }: TranscriptViewProps) {
+  const t = useTranslations("mockup.session")
   const scrollRef = useRef<HTMLDivElement>(null)
   const virtuosoRef = useRef<VirtuosoHandle>(null)
   const lastKnownScrollTopRef = useRef(0)
@@ -175,10 +177,10 @@ export function TranscriptView({
       !latest._intermediate
     ) {
       lastAnnouncedIdRef.current = latest.id
-      const speaker = latestGroup.speaker || "Unknown"
+      const speaker = latestGroup.speaker || t("transcript.unknownSpeaker")
       liveRegionRef.current.textContent = `${speaker}: ${latest.text.substring(0, 150)}`
     }
-  }, [groups, isActive])
+  }, [groups, isActive, t])
 
   const setScrollContainerRef = useCallback((node: HTMLDivElement | null) => {
     scrollRef.current = node
@@ -464,7 +466,7 @@ export function TranscriptView({
   if (blocks.length === 0 && !hasPartials) {
     return (
       <div className="flex h-full items-center justify-center text-muted-foreground">
-        <p className="text-center">No transcript yet.</p>
+        <p className="text-center">{t("transcript.empty")}</p>
       </div>
     )
   }
@@ -500,7 +502,7 @@ export function TranscriptView({
         {groups.length === 0 ? (
           <div className="flex min-h-full flex-col p-4">
             <div className="flex flex-1 items-center justify-center text-muted-foreground">
-              <p className="text-center">No transcript yet.</p>
+              <p className="text-center">{t("transcript.empty")}</p>
             </div>
           </div>
         ) : (
@@ -516,7 +518,7 @@ export function TranscriptView({
             context={{
               hasTopStatus: loadingAbove || hasMoreAbove,
               loadingAbove,
-              loadingText: "Loading...",
+              loadingText: t("transcript.loading"),
             }}
             followOutput={followOutput}
             alignToBottom
@@ -566,7 +568,7 @@ export function TranscriptView({
         <button
           type="button"
           onClick={() => unlockScrollToLatest(true)}
-          aria-label="Jump to latest"
+          aria-label={t("transcript.jumpToLatest")}
           className={
             jumpToLatestVariant === "floating"
               ? "absolute z-20 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-card text-card-foreground shadow-lg ring-1 ring-border transition-colors hover:bg-accent"
@@ -611,13 +613,15 @@ function SpeakerGroupCard({
   newBlockIds,
   debugEnabled = false,
 }: SpeakerGroupCardProps) {
+  const t = useTranslations("mockup.session")
   const badgeLabel = deriveBadgeLabel(group.speaker)
   const badgeColor =
     SPEAKER_BADGE_COLORS[
       deriveBadgeColorIndex(group.speaker, SPEAKER_BADGE_COLORS.length)
     ]
   const guestN = guestSpeakerNumber(group.speaker)
-  const speakerDisplayName = guestN !== null ? `Guest ${guestN}` : group.speaker
+  const speakerDisplayName =
+    guestN !== null ? t("transcript.guestSpeaker", { number: guestN }) : group.speaker
   const firstBlock = group.blocks[0]
   const lastBlock = group.blocks[group.blocks.length - 1]
   const groupCopyId = `group:${firstBlock?.id ?? "unknown"}:${lastBlock?.id ?? "unknown"}`
@@ -679,8 +683,16 @@ function SpeakerGroupCard({
               type="button"
               onClick={handleGroupCopy}
               className="flex h-8 w-8 cursor-pointer items-center justify-center rounded text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-              title={copiedBlockId === groupCopyId ? "Copied" : "Copy"}
-              aria-label={copiedBlockId === groupCopyId ? "Copied" : "Copy"}
+              title={
+                copiedBlockId === groupCopyId
+                  ? t("transcript.copied")
+                  : t("transcript.copy")
+              }
+              aria-label={
+                copiedBlockId === groupCopyId
+                  ? t("transcript.copied")
+                  : t("transcript.copy")
+              }
             >
               <span aria-hidden="true">
                 {copiedBlockId === groupCopyId ? (
@@ -740,6 +752,7 @@ function UtteranceRow({
   isIntermediate = false,
   debugEnabled = false,
 }: UtteranceRowProps) {
+  const t = useTranslations("mockup.session")
   const visibleTranslationEntries = getVisibleTranslationEntries(
     block.translations,
     filterLanguage,
@@ -773,7 +786,7 @@ function UtteranceRow({
                   hasVisibleTranslations,
                 })}
               >
-                {isEmptyText ? "(Empty)" : block.text}
+                {isEmptyText ? t("transcript.emptyText") : block.text}
               </p>
 
               <div
@@ -796,7 +809,7 @@ function UtteranceRow({
               <button
                 type="button"
                 onClick={() => setDebugOpen((v) => !v)}
-                aria-label="Toggle debug"
+                aria-label={t("transcript.toggleDebug")}
                 aria-pressed={debugOpen}
                 className="mt-0.5 flex-shrink-0 rounded p-1 text-muted-foreground hover:bg-accent hover:text-foreground"
               >
@@ -814,6 +827,7 @@ function UtteranceRow({
 }
 
 function PartialTranscriptBlock({ block }: { block: PartialBlock }) {
+  const t = useTranslations("mockup.session")
   const textRef = useRef<HTMLDivElement>(null)
   const badgeLabel = deriveBadgeLabel(block.speaker)
   const badgeColor =
@@ -821,7 +835,8 @@ function PartialTranscriptBlock({ block }: { block: PartialBlock }) {
       deriveBadgeColorIndex(block.speaker, SPEAKER_BADGE_COLORS.length)
     ]
   const guestN = guestSpeakerNumber(block.speaker)
-  const speakerDisplayName = guestN !== null ? `Guest ${guestN}` : block.speaker
+  const speakerDisplayName =
+    guestN !== null ? t("transcript.guestSpeaker", { number: guestN }) : block.speaker
 
   useEffect(() => {
     const el = textRef.current

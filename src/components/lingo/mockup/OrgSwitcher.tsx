@@ -5,6 +5,7 @@
  * from the sidebar. Keep this file for potential future re-integration.
  */
 import { CaretDown, Check } from "@phosphor-icons/react"
+import { useTranslations } from "@/lib/lingo/intl"
 import { useOrganizationContext } from "@/components/lingo/mockup/contexts/OrganizationContext"
 import { DropdownMenu } from "@/components/lingo/mockup/ui/DropdownMenu"
 
@@ -47,6 +48,7 @@ interface OrgSwitcherProps {
 }
 
 export function OrgSwitcher({ collapsed }: OrgSwitcherProps) {
+  const t = useTranslations("mockup.misc.orgSwitcher")
   const { organizations, currentOrg, switchOrg } = useOrganizationContext()
 
   if (!currentOrg) return null
@@ -81,7 +83,7 @@ export function OrgSwitcher({ collapsed }: OrgSwitcherProps) {
       {({ close }) => (
         <div>
           <div className="px-3 py-1.5 text-xs font-medium text-muted-foreground">
-            Organizations
+            {t("heading")}
           </div>
           {organizations.map((org) => (
             <button

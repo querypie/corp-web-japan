@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import type { KeyboardEvent } from "react"
+import { useTranslations } from "@/lib/lingo/intl"
 import {
   CalendarBlank,
   CaretLeft,
@@ -168,6 +169,7 @@ export function ShareModal({
   onUpdateShare,
   onUnshare,
 }: ShareModalProps) {
+  const t = useTranslations("mockup.modals")
   const { showToast } = useToast()
   const [loading, setLoading] = useState(false)
   const [passwordLoading, setPasswordLoading] = useState(false)
@@ -337,7 +339,7 @@ export function ShareModal({
         resetDraft(shareWithPassword)
       }
     } catch {
-      showToast("Failed to update share")
+      showToast(t("share.errors.update"))
     } finally {
       setLoading(false)
     }
@@ -360,7 +362,7 @@ export function ShareModal({
       try {
         await onUpdateShare({ password: null })
       } catch {
-        showToast("Failed to update share")
+        showToast(t("share.errors.update"))
       } finally {
         setPasswordLoading(false)
       }
@@ -378,7 +380,7 @@ export function ShareModal({
       try {
         await onUpdateShare({ password: nextPassword })
       } catch {
-        showToast("Failed to update share")
+        showToast(t("share.errors.update"))
       } finally {
         setPasswordLoading(false)
       }
@@ -461,7 +463,7 @@ export function ShareModal({
     try {
       await onUpdateShare({ expires_at: null })
     } catch {
-      showToast("Failed to update share")
+      showToast(t("share.errors.update"))
     } finally {
       setExpirationLoading(false)
     }
@@ -476,7 +478,7 @@ export function ShareModal({
       await onUpdateShare({ expires_at: draftExpiresAt })
       setExpirationPickerOpen(false)
     } catch {
-      showToast("Failed to update share")
+      showToast(t("share.errors.update"))
     } finally {
       setExpirationLoading(false)
     }
@@ -486,9 +488,9 @@ export function ShareModal({
     if (!draftGeneratedPassword) return
     try {
       await navigator.clipboard.writeText(draftGeneratedPassword)
-      showFeedback("Password copied")
+      showFeedback(t("share.feedback.passwordCopied"))
     } catch {
-      showToast("Copy failed")
+      showToast(t("share.errors.copy"))
     }
   }
 
@@ -500,7 +502,7 @@ export function ShareModal({
       if (copiedTimer.current) clearTimeout(copiedTimer.current)
       copiedTimer.current = setTimeout(() => setCopied(false), 2000)
     } catch {
-      showToast("Copy failed")
+      showToast(t("share.errors.copy"))
     }
   }
 
@@ -508,12 +510,12 @@ export function ShareModal({
     <Dialog open={open} onClose={onClose}>
       <div className="relative mx-4 max-h-[calc(100vh-2rem)] w-full max-w-sm overflow-y-auto rounded-2xl border border-border bg-card p-5 text-card-foreground shadow-xl">
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-base font-semibold">Share</h3>
+          <h3 className="text-base font-semibold">{t("share.title")}</h3>
           <button
             type="button"
             onClick={onClose}
             className="cursor-pointer rounded-lg p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-            aria-label="Close"
+            aria-label={t("share.close")}
           >
             <X className="h-4 w-4" weight="bold" />
           </button>
@@ -528,10 +530,10 @@ export function ShareModal({
             />
             <div>
               <span className="text-sm font-medium text-foreground">
-                Public link
+                {t("share.publicLink.title")}
               </span>
               <p className="text-xs text-muted-foreground">
-                Anyone with the link can view
+                {t("share.publicLink.description")}
               </p>
             </div>
           </div>
@@ -539,7 +541,7 @@ export function ShareModal({
             checked={isShared}
             disabled={loading}
             onClick={() => void handleToggle()}
-            aria-label="Public link"
+            aria-label={t("share.publicLink.title")}
           />
         </div>
 
@@ -547,7 +549,7 @@ export function ShareModal({
           <div
             className="relative mt-4 flex justify-center"
             role="img"
-            aria-label="QR code"
+            aria-label={t("share.qrCode")}
           >
             <QRCodeSVG
               value={shareUrl(token)}
@@ -585,10 +587,10 @@ export function ShareModal({
           {copied ? (
             <>
               <Check className="h-4 w-4" weight="bold" />
-              Copied
+              {t("share.copyLink.copied")}
             </>
           ) : (
-            <>Copy link</>
+            <>{t("share.copyLink.label")}</>
           )}
         </button>
 
@@ -596,7 +598,7 @@ export function ShareModal({
           <div className="mt-4 border-t border-border">
             <div className="flex min-h-14 items-center justify-between gap-3 py-3">
               <span className="text-sm font-medium text-muted-foreground">
-                Link expiration
+                {t("share.expiration.label")}
               </span>
               <button
                 ref={expirationButtonRef}
@@ -604,17 +606,19 @@ export function ShareModal({
                 onClick={openExpirationPicker}
                 disabled={!onUpdateShare || expirationLoading}
                 className="flex min-h-9 items-center justify-end gap-1.5 text-right text-sm font-medium text-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                aria-label="Link expiration"
+                aria-label={t("share.expiration.label")}
               >
                 <CalendarBlank
                   className="h-4 w-4 text-muted-foreground"
                   weight="regular"
                   aria-hidden="true"
                 />
-                <span>{formatExpiration(draftExpiresAt, "Never")}</span>
+                <span>
+                  {formatExpiration(draftExpiresAt, t("share.expiration.never"))}
+                </span>
                 {isExpired(draftExpiresAt) && (
                   <span className="rounded-full border border-destructive/30 px-2 py-0.5 text-xs font-medium text-destructive">
-                    Expired
+                    {t("share.expiration.expired")}
                   </span>
                 )}
               </button>
@@ -623,18 +627,18 @@ export function ShareModal({
               <div
                 ref={expirationPickerRef}
                 role="dialog"
-                aria-label="Expiration calendar"
+                aria-label={t("share.expiration.calendar")}
                 className="absolute top-1/2 left-1/2 z-20 w-[calc(100%-2rem)] max-w-80 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-3 shadow-xl"
               >
                 <div className="mb-2 flex items-center justify-between">
                   <span className="text-xs font-medium text-muted-foreground uppercase">
-                    Expiration calendar
+                    {t("share.expiration.calendar")}
                   </span>
                   <div className="flex items-center gap-1">
                     <button
                       type="button"
                       className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-accent-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                      aria-label="Previous month"
+                      aria-label={t("share.expiration.prevMonth")}
                       onClick={() =>
                         setVisibleMonth(
                           new Date(
@@ -653,7 +657,7 @@ export function ShareModal({
                     <button
                       type="button"
                       className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                      aria-label="Next month"
+                      aria-label={t("share.expiration.nextMonth")}
                       onClick={() =>
                         setVisibleMonth(
                           new Date(
@@ -709,7 +713,7 @@ export function ShareModal({
                       weight="regular"
                       aria-hidden="true"
                     />
-                    Time
+                    {t("share.time.label")}
                   </label>
                   <div
                     className={[
@@ -728,13 +732,13 @@ export function ShareModal({
                       onChange={(event) => handleTimeChange(event.target.value)}
                       onBlur={normalizeDraftTime}
                       onKeyDown={handleTimeInputKeyDown}
-                      aria-label="Time"
+                      aria-label={t("share.time.label")}
                       className="h-8 w-16 border-0 bg-transparent px-1 font-mono text-sm text-foreground tabular-nums outline-none"
                     />
                     <button
                       type="button"
                       onClick={() => setTimePickerOpen((current) => !current)}
-                      aria-label="Time picker"
+                      aria-label={t("share.time.picker")}
                       aria-expanded={timePickerOpen}
                       className="rounded-md p-1.5 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                     >
@@ -744,7 +748,7 @@ export function ShareModal({
                   {timePickerOpen && (
                     <div
                       role="group"
-                      aria-label="Time picker"
+                      aria-label={t("share.time.picker")}
                       className="relative mt-2 grid grid-cols-2 gap-2 overflow-hidden rounded-lg border border-border bg-card/95 p-2 shadow-sm"
                     >
                       <div
@@ -761,7 +765,7 @@ export function ShareModal({
                       />
                       <div
                         role="group"
-                        aria-label="Hour wheel"
+                        aria-label={t("share.time.hourWheel")}
                         className="relative z-10 h-32 overflow-hidden"
                       >
                         <div className="h-full snap-y snap-mandatory overflow-y-auto py-12">
@@ -773,7 +777,9 @@ export function ShareModal({
                                 ref={selected ? selectedHourRef : undefined}
                                 type="button"
                                 tabIndex={selected ? 0 : -1}
-                                aria-label={`Hour ${pad2(hour)}`}
+                                aria-label={t("share.time.hourValue", {
+                                  value: pad2(hour),
+                                })}
                                 onClick={() =>
                                   handleTimePartSelect(hour, currentDraftMinute)
                                 }
@@ -795,7 +801,7 @@ export function ShareModal({
                       </div>
                       <div
                         role="group"
-                        aria-label="Minute wheel"
+                        aria-label={t("share.time.minuteWheel")}
                         className="relative z-10 h-32 overflow-hidden"
                       >
                         <div className="h-full snap-y snap-mandatory overflow-y-auto py-12">
@@ -807,7 +813,9 @@ export function ShareModal({
                                 ref={selected ? selectedMinuteRef : undefined}
                                 type="button"
                                 tabIndex={selected ? 0 : -1}
-                                aria-label={`Minute ${pad2(minute)}`}
+                                aria-label={t("share.time.minuteValue", {
+                                  value: pad2(minute),
+                                })}
                                 onClick={() =>
                                   handleTimePartSelect(currentDraftHour, minute)
                                 }
@@ -841,7 +849,7 @@ export function ShareModal({
                     disabled={expirationLoading}
                     className="rounded-md px-2.5 py-2 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
                   >
-                    Never
+                    {t("share.expiration.never")}
                   </button>
                   <button
                     type="button"
@@ -849,14 +857,14 @@ export function ShareModal({
                     disabled={expirationLoading || expirationTimeInvalid}
                     className="rounded-md bg-primary px-2.5 py-2 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    Apply
+                    {t("share.expiration.apply")}
                   </button>
                 </div>
               </div>
             )}
             <div className="flex min-h-14 items-center justify-between gap-3 py-3">
               <span className="text-sm font-medium text-muted-foreground">
-                Password protection
+                {t("share.password.label")}
               </span>
               <div className="flex min-w-0 items-center justify-end gap-2">
                 {draftRequiresPassword ? (
@@ -871,7 +879,9 @@ export function ShareModal({
                       onClick={() => setShowPassword((current) => !current)}
                       className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                       aria-label={
-                        showPassword ? "Hide password" : "Show password"
+                        showPassword
+                          ? t("share.password.hide")
+                          : t("share.password.show")
                       }
                     >
                       {showPassword ? (
@@ -885,7 +895,7 @@ export function ShareModal({
                       onClick={() => void handleCopyGeneratedPassword()}
                       disabled={!draftGeneratedPassword}
                       className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                      aria-label="Copy password"
+                      aria-label={t("share.password.copy")}
                     >
                       <Copy className="h-4 w-4" weight="regular" />
                     </button>
@@ -895,7 +905,7 @@ export function ShareModal({
                   checked={draftRequiresPassword}
                   disabled={passwordLoading || loading}
                   onClick={() => void handlePasswordToggle()}
-                  aria-label="Password protection"
+                  aria-label={t("share.password.label")}
                 />
               </div>
             </div>

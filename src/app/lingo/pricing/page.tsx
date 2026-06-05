@@ -8,15 +8,26 @@ import {
   Gauge,
   Users,
 } from "lucide-react"
-import Image from "next/image"
 import { useTranslations } from "@/lib/lingo/intl"
 import { Button } from "@/components/lingo/common/Button"
 import { Container } from "@/components/layout/lingo/Container"
 import { Footer } from "@/components/layout/lingo/Footer"
 import { FAQSection } from "@/components/sections/lingo/FAQSection"
 import { SubHeroSection } from "@/components/sections/lingo/SubHeroSection"
+import { SubPageHeroBackground } from "@/components/sections/lingo/SubPageHeroBackground"
 
-const queryPieUrl = "/"
+const queryPieUrl = "https://querypie.com"
+
+function formatRateRate(rate: string) {
+  const match = rate.match(/^[\d,]+/);
+  if (!match) return rate;
+  return (
+    <>
+      <span className="font-semibold text-[var(--brand)]">{match[0]}</span>
+      {rate.slice(match[0].length)}
+    </>
+  );
+}
 
 type ComparisonRow = {
   item: string
@@ -43,24 +54,14 @@ export default function PricingPage() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] page-layout-sub">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[200px] overflow-hidden">
-        <Image
-          src="/lingo/images/bg-home.jpg"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-bottom"
-        />
-      </div>
+      <SubPageHeroBackground />
 
       <div className="w-full page-gutter">
         <div className="container-main relative z-10 w-full">
           <SubHeroSection
             title={
               <>
-                {t("hero.title.line1")}
-                <br />
+                {t("hero.title.line1")}{" "}
                 {t("hero.title.line2")}
               </>
             }
@@ -71,10 +72,10 @@ export default function PricingPage() {
                 {t("hero.description.line2")}
               </>
             }
-            descriptionClassName="text-[16px] leading-[24px]"
+            descriptionClassName="body-md"
           />
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Button href={queryPieUrl} variant="outline">
+            <Button href={queryPieUrl} variant="dark">
               {t("hero.secondaryCta")}
             </Button>
           </div>
@@ -89,7 +90,7 @@ export default function PricingPage() {
             <img
               src="/lingo/images/feature-03.jpg"
               alt=""
-              className="absolute inset-0 -z-10 size-full object-cover"
+              className="absolute inset-0 -z-10 size-full object-cover scale-y-[-1]"
             />
             <div className="pointer-events-none absolute inset-0 -z-10 bg-white/10" />
 
@@ -101,7 +102,7 @@ export default function PricingPage() {
                 <h2 className="text-h1">{t("plan.title")}</h2>
                 <div className="flex flex-col gap-1.5">
                   <p className="text-h2">{t("plan.price")}</p>
-                  <p className="body-md max-w-[34rem] text-[var(--mute)]">
+                  <p className="body-md max-w-[34rem] text-[var(--fg)]">
                     {t("plan.description")}
                   </p>
                 </div>
@@ -112,13 +113,13 @@ export default function PricingPage() {
             </div>
           </div>
 
-          <div className="rounded-[var(--corner-box)] p-6 md:p-[28px]">
+          <div className="rounded-[var(--corner-box)] py-6 pr-6 pl-0 md:p-[28px]">
             <h3 className="text-h3 text-[var(--fg)]">{t("plan.includedTitle")}</h3>
             <ul className="mt-4 grid grid-cols-1 gap-2.5">
               {includedFeatures.map((feature) => (
                 <li
                   key={feature}
-                  className="flex items-start gap-3 text-[16px] leading-[24px] text-[var(--fg)]"
+                  className="body-md flex items-start gap-3 text-[var(--fg)]"
                 >
                   <Check
                     className="mt-1 size-4 shrink-0 text-[var(--brand)]"
@@ -144,7 +145,7 @@ export default function PricingPage() {
             <p className="body-md mt-5 text-[var(--fg)]">
               {t("plan.freeCredits.description")}
             </p>
-            <p className="body-sm mt-4 rounded-[12px] bg-[var(--card)] p-4 text-[var(--mute)]">
+            <p className="body-sm mt-4 rounded-[12px] bg-[var(--card)] p-4 text-[var(--fg)]">
               {t("plan.freeCredits.note")}
             </p>
           </div>
@@ -163,13 +164,13 @@ export default function PricingPage() {
                   className="grid grid-cols-[1fr_auto] gap-4 border-b border-[var(--border)] px-4 py-4 last:border-b-0"
                 >
                   <span className="body-md text-[var(--fg)]">{row.feature}</span>
-                  <span className="body-md font-semibold text-[var(--fg)]">
-                    {row.rate}
+                  <span className="body-md text-[var(--fg)]">
+                    {formatRateRate(row.rate)}
                   </span>
                 </div>
               ))}
             </div>
-            <p className="body-sm mt-4 text-[var(--mute)]">
+            <p className="body-sm mt-4 text-[var(--fg)]">
               {t("plan.usageRates.note")}
             </p>
           </div>
@@ -180,7 +181,7 @@ export default function PricingPage() {
         <section className="grid grid-cols-1 gap-8 md:grid-cols-[0.75fr_1.25fr] md:items-start">
           <div className="flex flex-col gap-4">
             <h2 className="text-h1 text-[var(--fg)]">{t("plan.howItWorksTitle")}</h2>
-            <p className="body-md text-[var(--mute)]">{t("plan.accountNote")}</p>
+            <p className="body-md text-[var(--fg)]">{t("plan.accountNote")}</p>
           </div>
           <ol className="grid grid-cols-1 gap-3">
             {usageSteps.map((step, index) => (
@@ -200,29 +201,37 @@ export default function PricingPage() {
 
       <Container className="section-gap">
         <section className="flex flex-col gap-6">
-          <div className="flex max-w-[36rem] flex-col gap-4">
+          <div className="flex w-full flex-col gap-4">
             <h2 className="text-h1 text-[var(--fg)]">{t("comparison.title")}</h2>
-            <p className="body-md text-[var(--mute)]">{t("comparison.description")}</p>
+            <p className="body-md text-[var(--fg)]">{t("comparison.description")}</p>
           </div>
           <div className="overflow-x-auto">
-            <div className="min-w-[720px] overflow-hidden rounded-[var(--corner-box)] border border-[var(--border)]">
-              <div className="grid grid-cols-[0.8fr_1fr_1fr] bg-[var(--black)] text-[var(--white)]">
-                <div className="body-md px-5 py-4">{t("comparison.headers.item")}</div>
-                <div className="body-md px-5 py-4">
+            <div className="min-w-[600px]">
+              <div className="grid grid-cols-[0.8fr_1fr_1fr] items-center rounded-[10px] bg-[var(--black)] text-[var(--white)]">
+                <div className="body-md px-4 py-[20px] md:px-[30px]">
+                  {t("comparison.headers.item")}
+                </div>
+                <div className="body-md px-4 py-[20px] md:px-[20px]">
                   {t("comparison.headers.subscription")}
                 </div>
-                <div className="body-md px-5 py-4">{t("comparison.headers.lingo")}</div>
+                <div className="body-md px-4 py-[20px] md:px-[20px]">
+                  {t("comparison.headers.lingo")}
+                </div>
               </div>
               {comparisonRows.map((row) => (
                 <div
                   key={row.item}
-                  className="grid grid-cols-[0.8fr_1fr_1fr] border-b border-[var(--border)] last:border-b-0"
+                  className="grid grid-cols-[0.8fr_1fr_1fr] items-center border-b border-[var(--border)] py-[20px]"
                 >
-                  <div className="text-h3 px-5 py-5 text-[var(--fg)]">{row.item}</div>
-                  <div className="body-sm px-5 py-5 text-[var(--mute)]">
+                  <div className="px-4 text-h3 text-[var(--fg)] md:px-[30px]">
+                    {row.item}
+                  </div>
+                  <div className="px-4 body-sm text-[var(--fg)] md:px-[20px]">
                     {row.subscription}
                   </div>
-                  <div className="body-sm px-5 py-5 text-[var(--fg)]">{row.lingo}</div>
+                  <div className="px-4 body-sm text-[var(--fg)] md:px-[20px]">
+                    {row.lingo}
+                  </div>
                 </div>
               ))}
             </div>
@@ -232,9 +241,9 @@ export default function PricingPage() {
 
       <Container className="section-gap">
         <section className="flex flex-col gap-6">
-          <div className="flex max-w-[40rem] flex-col gap-4">
+          <div className="flex w-full flex-col gap-4">
             <h2 className="text-h1 text-[var(--fg)]">{t("examples.title")}</h2>
-            <p className="body-md text-[var(--mute)]">{t("examples.description")}</p>
+            <p className="body-md text-[var(--fg)]">{t("examples.description")}</p>
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
             {scenarios.map((scenario, index) => {
@@ -246,7 +255,7 @@ export default function PricingPage() {
                   className="flex min-h-[220px] flex-col justify-between gap-8 rounded-[var(--corner-box)] bg-[var(--card)] p-6 md:p-[30px]"
                 >
                   <div className="flex flex-col gap-4">
-                    <Icon className="size-6 text-[var(--brand)]" aria-hidden="true" />
+                    <Icon className="size-8 text-[var(--brand)]" aria-hidden="true" />
                     <div className="flex flex-col gap-2">
                       <h3 className="text-h3 text-[var(--fg)]">{scenario.title}</h3>
                       <p className="body-sm text-[var(--mute)]">
@@ -272,7 +281,7 @@ export default function PricingPage() {
         <section className="flex flex-col items-center gap-6 text-center md:gap-[30px]">
           <div className="flex flex-col items-center gap-4 text-[var(--fg)] md:gap-[20px]">
             <h2 className="text-h1">{t("cta.title")}</h2>
-            <p className="max-w-[28rem] text-[16px] leading-[24px]">{t("cta.subtitle")}</p>
+            <p className="body-md w-full">{t("cta.subtitle")}</p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Button variant="dark">{t("cta.primary")}</Button>

@@ -80,11 +80,11 @@ export function FeatureShowcaseSection() {
                     <p className="body-sm pt-[10px] text-[var(--fg)]">
                       {item.description}
                     </p>
-                    <div className="mt-4 overflow-hidden rounded-[var(--corner-feature)] md:hidden">
+                    <div className="mt-4 overflow-hidden rounded-[var(--corner-feature)] bg-[var(--card)] md:hidden">
                       <img
                         src={item.image}
                         alt=""
-                        className="w-full aspect-[16/10] object-cover"
+                        className="aspect-[16/10] w-full scale-[0.8] object-cover"
                       />
                     </div>
                   </div>

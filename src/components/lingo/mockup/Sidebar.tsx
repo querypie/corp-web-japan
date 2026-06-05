@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import { useTranslations } from "@/lib/lingo/intl"
 import {
   CalendarDots,
   ChatsTeardrop,
@@ -93,34 +94,36 @@ export function Sidebar({
 
   const toggleCollapsed = () => setCollapsed((v) => !v)
 
+  const t = useTranslations("mockup.sidebar")
+
   const navItems = [
     {
       id: "meeting-active" as Page,
-      label: "Home",
+      label: t("home"),
       icon: <House className="h-5 w-5" weight="duotone" />,
       onClick: () => onNavigate("meeting-active"),
     },
     {
       id: "meetings" as Page,
-      label: "Meetings",
+      label: t("meetings"),
       icon: <ChatsTeardrop className="h-5 w-5" weight="duotone" />,
       onClick: () => onNavigate("meetings"),
     },
     {
       id: "calendar" as Page,
-      label: "Calendar",
+      label: t("calendar"),
       icon: <CalendarDots className="h-5 w-5" weight="duotone" />,
       onClick: () => onNavigate("calendar"),
     },
     {
       id: "customization" as Page,
-      label: "Customization",
+      label: t("customization"),
       icon: <Sparkle className="h-5 w-5" weight="duotone" />,
       onClick: () => onNavigate("customization"),
     },
     {
       id: "settings" as Page,
-      label: "Settings",
+      label: t("settings"),
       icon: <GearSix className="h-5 w-5" weight="duotone" />,
       onClick: () => onNavigate("settings"),
     },
@@ -129,7 +132,7 @@ export function Sidebar({
   return (
     <TooltipProvider delayDuration={200} skipDelayDuration={300}>
       <aside
-        className={`fixed inset-y-0 right-0 z-50 flex flex-shrink-0 flex-col border-l border-sidebar-border bg-sidebar text-sidebar-foreground transition-transform duration-200 sm:relative sm:inset-auto sm:right-auto sm:left-0 sm:z-auto sm:translate-x-0 sm:border-r sm:border-l-0 ${
+        className={`absolute inset-y-0 right-0 z-50 flex flex-shrink-0 flex-col border-l border-sidebar-border bg-sidebar text-sidebar-foreground transition-transform duration-200 sm:relative sm:inset-auto sm:right-auto sm:left-0 sm:z-auto sm:translate-x-0 sm:border-r sm:border-l-0 ${
           mobileSidebarOpen
             ? "translate-x-0"
             : "translate-x-full sm:translate-x-0"
@@ -149,7 +152,11 @@ export function Sidebar({
                 className={`cursor-pointer transition-opacity ${collapsed ? "group-hover:opacity-0" : ""}`}
               >
                 {collapsed ? (
-                  <BrandLogo collapsed={collapsed} />
+                  <img
+                    src="/lingo/symbol.png"
+                    alt="Lingo"
+                    className="h-6 w-auto shrink-0"
+                  />
                 ) : (
                   <div className="flex items-center gap-0.5">
                     <img

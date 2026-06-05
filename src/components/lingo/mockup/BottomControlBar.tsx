@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "@/lib/lingo/intl"
 import { DropdownMenu } from "@/components/lingo/mockup/ui/DropdownMenu"
 
 interface BottomControlBarProps {
@@ -22,12 +23,6 @@ interface AudioDevice {
   label: string
 }
 
-const MOCK_DEVICES: AudioDevice[] = [
-  { deviceId: "default", label: "Default Microphone" },
-  { deviceId: "mic-001", label: "Built-in Microphone" },
-  { deviceId: "mic-002", label: "External USB Microphone" },
-]
-
 export function BottomControlBar({
   currentDeviceId,
   onDeviceChange,
@@ -40,12 +35,17 @@ export function BottomControlBar({
   isStarted = true,
   onStart,
 }: BottomControlBarProps) {
-  const [devices] = useState<AudioDevice[]>(MOCK_DEVICES)
+  const t = useTranslations("mockup.session")
+  const [devices] = useState<AudioDevice[]>(() => [
+    { deviceId: "default", label: t("controls.devices.default") },
+    { deviceId: "mic-001", label: t("controls.devices.builtIn") },
+    { deviceId: "mic-002", label: t("controls.devices.externalUsb") },
+  ])
 
   const selectedLabel =
     devices.find((d) => d.deviceId === currentDeviceId)?.label ??
     devices[0]?.label ??
-    "Microphone"
+    t("controls.devices.fallback")
 
   const volumeBarCount = 10
   const activeBars = Math.round(volumeLevel * volumeBarCount)
@@ -71,7 +71,7 @@ export function BottomControlBar({
             </svg>
           </button>
           <span className="hidden text-[11px] text-muted-foreground sm:inline">
-            Start
+            {t("controls.start")}
           </span>
         </div>
       ) : (
@@ -110,7 +110,7 @@ export function BottomControlBar({
             )}
           </button>
           <span className="hidden text-[11px] text-muted-foreground sm:inline">
-            {isPaused ? "Resume" : "Pause"}
+            {isPaused ? t("controls.resume") : t("controls.pause")}
           </span>
         </div>
       )}
@@ -126,7 +126,8 @@ export function BottomControlBar({
                 type="button"
                 onClick={toggle}
                 className="flex h-[52px] w-full cursor-pointer items-center gap-2 rounded-full border border-border px-4 transition-colors hover:bg-accent"
-                title="Select microphone"
+                title={t("controls.selectMicrophone")}
+                aria-label={t("controls.selectMicrophone")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -223,7 +224,8 @@ export function BottomControlBar({
         <button
           onClick={onEnd}
           className="flex h-[52px] w-[52px] cursor-pointer items-center justify-center rounded-full bg-destructive text-destructive-foreground transition-colors hover:opacity-90"
-          title="Stop"
+          title={t("controls.stop")}
+          aria-label={t("controls.stop")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -235,7 +237,7 @@ export function BottomControlBar({
           </svg>
         </button>
         <span className="hidden text-[11px] text-muted-foreground sm:inline">
-          Stop
+          {t("controls.stop")}
         </span>
       </div>
     </footer>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState, type DragEvent } from "react"
+import { useTranslations } from "@/lib/lingo/intl"
 import { CloudArrowUp, File as FileIcon, X } from "@phosphor-icons/react"
 import { Button } from "@/components/lingo/mockup/ui/Button"
 import { Dialog } from "@/components/lingo/mockup/ui/Dialog"
@@ -49,6 +50,7 @@ interface AudioUploadModalProps {
 }
 
 export function AudioUploadModal({ open, onClose }: AudioUploadModalProps) {
+  const t = useTranslations("mockup.modals")
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | null>(null)
   const [name, setName] = useState("")
@@ -75,13 +77,13 @@ export function AudioUploadModal({ open, onClose }: AudioUploadModalProps) {
       !ACCEPTED_TYPES.includes(nextFile.type) &&
       !ACCEPTED_EXTENSIONS.includes(ext)
     ) {
-      return "Invalid file type"
+      return t("audioUpload.errors.invalidType")
     }
     if (nextFile.size > MAX_FILE_SIZE_BYTES) {
-      return "File too large"
+      return t("audioUpload.errors.fileTooLarge")
     }
     return null
-  }, [])
+  }, [t])
 
   const handleFileSelect = useCallback(
     (nextFile: File) => {
@@ -135,7 +137,7 @@ export function AudioUploadModal({ open, onClose }: AudioUploadModalProps) {
     <Dialog open={open} onClose={handleClose}>
       <div className="mx-4 w-full max-w-md rounded-2xl border border-border bg-card p-6 text-card-foreground shadow-xl">
         <h2 className="mb-5 text-xl font-semibold text-card-foreground">
-          Upload audio file
+          {t("audioUpload.title")}
         </h2>
 
         {!file ? (
@@ -158,10 +160,10 @@ export function AudioUploadModal({ open, onClose }: AudioUploadModalProps) {
               weight="regular"
             />
             <p className="text-center text-sm font-medium text-foreground">
-              Drag and drop an audio file, or click to browse
+              {t("audioUpload.dropzone.title")}
             </p>
             <p className="mt-1 text-center text-xs text-muted-foreground">
-              MP3, M4A, WAV, WebM, OGG (up to 500 MB)
+              {t("audioUpload.dropzone.hint")}
             </p>
             <input
               ref={fileInputRef}
@@ -193,7 +195,7 @@ export function AudioUploadModal({ open, onClose }: AudioUploadModalProps) {
             </div>
             <button
               type="button"
-              aria-label="Remove file"
+              aria-label={t("audioUpload.removeFile")}
               onClick={() => {
                 setFile(null)
                 setError(null)
@@ -207,19 +209,19 @@ export function AudioUploadModal({ open, onClose }: AudioUploadModalProps) {
 
         <div className="mb-4">
           <label className="mb-1 block text-sm font-medium text-foreground">
-            Meeting name
+            {t("audioUpload.meetingName.label")}
           </label>
           <Input
             type="text"
             value={name}
             onChange={(event) => setName(event.target.value)}
-            placeholder="Enter meeting name"
+            placeholder={t("audioUpload.meetingName.placeholder")}
           />
         </div>
 
         <div className="mb-4">
           <LanguageMultiSelect
-            label="Source language"
+            label={t("audioUpload.sourceLanguage")}
             selected={sourceLanguages}
             onChange={(next) => {
               setSourceLanguages(next)
@@ -237,10 +239,10 @@ export function AudioUploadModal({ open, onClose }: AudioUploadModalProps) {
             </p>
           )}
           <Button onClick={handleUpload} disabled={!file} fullWidth>
-            Start upload
+            {t("audioUpload.actions.start")}
           </Button>
           <Button onClick={handleClose} variant="ghost" fullWidth>
-            Cancel
+            {t("audioUpload.actions.cancel")}
           </Button>
         </div>
       </div>

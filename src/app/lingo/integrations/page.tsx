@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import {
   ArrowRight,
   Bot,
@@ -10,7 +9,9 @@ import {
   type LucideIcon,
 } from "lucide-react"
 import { useLocale } from "@/lib/lingo/intl"
+import { Badge } from "@/components/lingo/common/Badge"
 import { SubHeroSection } from "@/components/sections/lingo/SubHeroSection"
+import { SubPageHeroBackground } from "@/components/sections/lingo/SubPageHeroBackground"
 import { CTASection } from "@/components/sections/lingo/CTASection"
 import { Footer } from "@/components/layout/lingo/Footer"
 import { Container } from "@/components/layout/lingo/Container"
@@ -36,20 +37,17 @@ function ServiceLogo({ id, title }: { id: string; title: string }) {
 
   if (logoSrc) {
     return (
-      <Image
+      <img
         src={logoSrc}
         alt=""
-        width={32}
-        height={32}
-        unoptimized
-        className="size-8 object-contain"
+        className="size-12 object-contain"
         aria-hidden="true"
       />
     )
   }
 
   return (
-    <span className="text-[16px] font-semibold leading-[24px] text-[var(--brand)]">
+    <span className="text-[28px] font-semibold leading-none text-[var(--brand)]">
       {title.slice(0, 1)}
     </span>
   )
@@ -255,14 +253,14 @@ const aipVideoThumb =
 
 function getAipUrl(locale: string) {
   if (locale === "ko") {
-    return "/platforms/aip"
+    return "https://www.querypie.com/ko/solutions/aip"
   }
 
   if (locale === "ja") {
-    return "/platforms/aip"
+    return "https://www.querypie.com/ja/solutions/aip"
   }
 
-  return "/platforms/aip"
+  return "https://www.querypie.com/solutions/aip"
 }
 
 export default function IntegrationsPage() {
@@ -272,16 +270,7 @@ export default function IntegrationsPage() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] page-layout-sub">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[200px] overflow-hidden">
-        <Image
-          src="/lingo/images/bg-home.jpg"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-bottom"
-        />
-      </div>
+      <SubPageHeroBackground />
 
       <div className="w-full page-gutter">
         <div className="container-main relative z-10 w-full">
@@ -300,7 +289,7 @@ export default function IntegrationsPage() {
                 {copy.heroDescription[1]}
               </>
             }
-            descriptionClassName="text-[16px] leading-[24px]"
+            descriptionClassName="body-md"
           />
         </div>
       </div>
@@ -308,14 +297,14 @@ export default function IntegrationsPage() {
       {/* AIP 핵심 연동 */}
       <Container className="section-gap">
         <section className="flex flex-col gap-8 md:gap-10">
-          <div className="mx-auto flex max-w-[860px] flex-col items-center gap-4 text-center">
-            <p className="text-[16px] font-semibold leading-[24px] text-[var(--brand)]">
+          <div className="flex max-w-[860px] flex-col items-start gap-4 text-left">
+            <Badge variant="brand">
               {copy.core}
-            </p>
+            </Badge>
             <h2 className="text-h1 text-[var(--fg)]">
               QueryPie AI Platform (AIP)
             </h2>
-            <p className="body-md text-[var(--mute)]">
+            <p className="body-md text-[var(--fg)]">
               {copy.aipDescription[0]}
               <br />
               {copy.aipDescription[1]}
@@ -327,15 +316,12 @@ export default function IntegrationsPage() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={copy.videoLabel}
-            className="group relative isolate aspect-video w-full overflow-hidden rounded-[var(--corner-box)] bg-[var(--card)]"
+            className="group relative isolate aspect-video w-full overflow-hidden rounded-[var(--corner-feature)] bg-[var(--card)]"
           >
-            <Image
+            <img
               src={aipVideoThumb}
               alt=""
-              fill
-              unoptimized
-              sizes="(min-width: 1024px) 1000px, 100vw"
-              className="-z-10 object-cover"
+              className="absolute inset-0 -z-10 size-full object-cover"
             />
             <div className="absolute inset-0 -z-10 bg-black/10 transition-colors group-hover:bg-black/20" />
             <span className="absolute inset-0 flex items-center justify-center">
@@ -352,16 +338,16 @@ export default function IntegrationsPage() {
               return (
                 <div
                   key={item.title}
-                  className="grid grid-cols-[auto_1fr] gap-3 rounded-[var(--corner-box)] bg-[var(--card)] p-5"
+                  className="grid grid-cols-[auto_1fr] gap-3 rounded-[var(--corner-box)] bg-[var(--card)] p-[30px]"
                 >
-                  <span className="flex size-10 items-center justify-center rounded-[14px] border border-[var(--border)] bg-[var(--white)] text-[var(--brand)]">
-                    <Icon className="size-5" aria-hidden="true" />
+                  <span className="flex size-10 items-center justify-center text-[var(--brand)]">
+                    <Icon className="size-8" aria-hidden="true" />
                   </span>
                   <div className="flex flex-col gap-1.5">
-                    <h3 className="body-md font-semibold text-[var(--fg)]">
+                    <h3 className="text-h3 text-[var(--fg)]">
                       {item.title}
                     </h3>
-                    <p className="text-[16px] leading-[24px] text-[var(--mute)]">
+                    <p className="body-sm text-[var(--fg)]">
                       {item.description}
                     </p>
                   </div>
@@ -394,12 +380,12 @@ export default function IntegrationsPage() {
                 key={card.title}
                 className="flex min-h-[210px] flex-col gap-5 rounded-[var(--corner-box)] bg-[var(--card)] p-[30px]"
               >
-                <span className="flex size-12 items-center justify-center rounded-[16px] border border-[var(--border)] bg-[var(--white)] shadow-[0_8px_24px_rgba(0,0,0,0.05)]">
+                <span className="flex size-12 items-center justify-center">
                   <ServiceLogo id={card.id} title={card.title} />
                 </span>
                 <div className="flex flex-col gap-[10px]">
                   <h3 className="text-h3 text-[var(--fg)]">{card.title}</h3>
-                  <p className="body-md text-[var(--fg)]">{card.description}</p>
+                  <p className="body-sm text-[var(--fg)]">{card.description}</p>
                 </div>
               </div>
             )

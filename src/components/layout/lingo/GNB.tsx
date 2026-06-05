@@ -101,6 +101,21 @@ export function GNB() {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
+  useEffect(() => {
+    if (mobileMenuOpen || mobileClosing) {
+      const scrollY = window.scrollY
+      document.body.style.position = "fixed"
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.width = "100%"
+    } else {
+      const scrollY = document.body.style.top
+      document.body.style.position = ""
+      document.body.style.top = ""
+      document.body.style.width = ""
+      window.scrollTo(0, parseInt(scrollY || "0", 10) * -1)
+    }
+  }, [mobileMenuOpen, mobileClosing])
+
   const closeMobileMenu = () => {
     if (mobileClosing) return
     setMobileReady(false)
@@ -130,8 +145,8 @@ export function GNB() {
   }
 
   const companyLinks = [
-    { label: copy.about, href: "/about-us" },
-    { label: copy.contact, href: "/contact-us" },
+    { label: copy.about, href: "https://querypie.ai/about-us" },
+    { label: copy.contact, href: "https://querypie.ai/contact-us" },
   ]
 
   return (
@@ -171,14 +186,14 @@ export function GNB() {
                 onClick={() => setFeaturesOpen(!featuresOpen)}
                 className={cn(
                   "gnb-menu-trigger body-sm flex cursor-pointer items-center gap-1 text-[var(--fg)]",
-                  featuresOpen && "is-open"
+                  featuresOpen && "is-open",
                 )}
               >
                 {copy.features}
                 <ChevronDown
                   className={cn(
                     "gnb-menu-chevron transition-transform duration-220 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                    featuresOpen && "rotate-180"
+                    featuresOpen && "rotate-180",
                   )}
                 />
               </button>
@@ -245,14 +260,14 @@ export function GNB() {
                 onClick={() => setResourcesOpen(!resourcesOpen)}
                 className={cn(
                   "gnb-menu-trigger body-sm flex cursor-pointer items-center gap-1 text-[var(--fg)]",
-                  resourcesOpen && "is-open"
+                  resourcesOpen && "is-open",
                 )}
               >
                 {copy.resources}
                 <ChevronDown
                   className={cn(
                     "gnb-menu-chevron transition-transform duration-220 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                    resourcesOpen && "rotate-180"
+                    resourcesOpen && "rotate-180",
                   )}
                 />
               </button>
@@ -267,7 +282,10 @@ export function GNB() {
                   <div className="gnb-popover flex w-fit flex-col gap-px rounded-[12px] p-2">
                     {[
                       { label: copy.help, href: "/resources/help" },
-                      { label: copy.releaseNote, href: "/resources/release-note" },
+                      {
+                        label: copy.releaseNote,
+                        href: "/resources/release-note",
+                      },
                     ].map((item) => (
                       <Link
                         key={item.label}
@@ -297,14 +315,14 @@ export function GNB() {
                 onClick={() => setCompanyOpen(!companyOpen)}
                 className={cn(
                   "gnb-menu-trigger body-sm flex cursor-pointer items-center gap-1 text-[var(--fg)]",
-                  companyOpen && "is-open"
+                  companyOpen && "is-open",
                 )}
               >
                 {copy.company}
                 <ChevronDown
                   className={cn(
                     "gnb-menu-chevron transition-transform duration-220 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                    companyOpen && "rotate-180"
+                    companyOpen && "rotate-180",
                   )}
                 />
               </button>
@@ -341,12 +359,12 @@ export function GNB() {
               {copy.getStarted}
             </Button>
 
-
             {/* 모바일: 사이트맵 열기/닫기 */}
             <button
               className={cn(
                 "md:hidden p-2 text-[var(--fg)] transition-colors",
-                mobileMenuOpen && "bg-[var(--hover)] rounded-[var(--corner-fill)]"
+                mobileMenuOpen &&
+                  "bg-[var(--hover)] rounded-[var(--corner-fill)]",
               )}
               onClick={toggleMobileMenu}
               aria-label={mobileMenuOpen ? copy.closeMenu : copy.openMenu}
@@ -365,7 +383,7 @@ export function GNB() {
                 ? "translate-x-full ease-[cubic-bezier(0.22,1,0.36,1)]"
                 : !mobileReady
                   ? "translate-x-full"
-                  : "translate-x-0 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                  : "translate-x-0 ease-[cubic-bezier(0.22,1,0.36,1)]",
             )}
           >
             <div className="flex min-h-full flex-col">
@@ -375,19 +393,36 @@ export function GNB() {
                     label: copy.features,
                     type: "group" as const,
                     items: [
-                      { label: copy.aiTranscription, href: "/features/transcription" },
+                      {
+                        label: copy.aiTranscription,
+                        href: "/features/transcription",
+                      },
                       { label: copy.aiNotes, href: "/features/ai-note" },
-                      { label: copy.translation, href: "/features/translation" },
+                      {
+                        label: copy.translation,
+                        href: "/features/translation",
+                      },
                     ],
                   },
-                  { label: copy.integrations, type: "link" as const, href: "/integrations" },
-                  { label: copy.pricing, type: "link" as const, href: "/pricing" },
+                  {
+                    label: copy.integrations,
+                    type: "link" as const,
+                    href: "/integrations",
+                  },
+                  {
+                    label: copy.pricing,
+                    type: "link" as const,
+                    href: "/pricing",
+                  },
                   {
                     label: copy.resources,
                     type: "group" as const,
                     items: [
                       { label: copy.help, href: "/resources/help" },
-                      { label: copy.releaseNote, href: "/resources/release-note" },
+                      {
+                        label: copy.releaseNote,
+                        href: "/resources/release-note",
+                      },
                     ],
                   },
                   {
@@ -397,10 +432,14 @@ export function GNB() {
                   },
                 ].map((menu) => {
                   const isExpanded = mobileExpanded === menu.label
-                  const hasSub = menu.type === "group" || menu.type === "externalGroup"
+                  const hasSub =
+                    menu.type === "group" || menu.type === "externalGroup"
                   const isExternalGroup = menu.type === "externalGroup"
                   return (
-                    <div key={menu.label} className="flex flex-col items-start px-5">
+                    <div
+                      key={menu.label}
+                      className="flex flex-col items-start px-5"
+                    >
                       {hasSub ? (
                         <button
                           className="inline-flex items-center gap-2 text-left text-h1 text-[var(--fg)]"
@@ -412,7 +451,7 @@ export function GNB() {
                           <ChevronDown
                             className={cn(
                               "size-4 transition-transform duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
-                              isExpanded && "rotate-180"
+                              isExpanded && "rotate-180",
                             )}
                           />
                         </button>
@@ -430,9 +469,16 @@ export function GNB() {
                       {hasSub && (
                         <div
                           className="grid overflow-hidden transition-all duration-[300ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
-                          style={{ gridTemplateRows: isExpanded ? '1fr' : '0fr' }}
+                          style={{
+                            gridTemplateRows: isExpanded ? "1fr" : "0fr",
+                          }}
                         >
-                          <div className={cn("flex min-h-0 flex-col gap-[12px]", isExpanded && "pt-[16px] pb-4")}>
+                          <div
+                            className={cn(
+                              "flex min-h-0 flex-col gap-[12px]",
+                              isExpanded && "pt-[16px] pb-4",
+                            )}
+                          >
                             {menu.items!.map((item) =>
                               isExternalGroup ? (
                                 <Link
@@ -460,7 +506,7 @@ export function GNB() {
                                 >
                                   {item.label}
                                 </Link>
-                              )
+                              ),
                             )}
                           </div>
                         </div>
