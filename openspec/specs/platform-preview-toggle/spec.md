@@ -68,26 +68,45 @@ Preview Toggle state SHALL be persisted in the `querypie-preview-navigation` coo
 - THEN the response body reports `{ "ok": true, "enabled": false }`
 - AND the response sets `querypie-preview-navigation=off`
 
-### Requirement: header Preview Toggle control
+### Requirement: header Preview Toggle dropdown control
 
-When the toggle is visible, the site header SHALL render a compact Preview Toggle control in the header action area next to the contact CTA. The control SHALL reflect the current server-derived preview-navigation state, use `aria-pressed` for the pressed state, and expose accessible labels for enabling and disabling preview mode navigation. The client control SHALL optimistically update its visual state, post the new state to `/api/preview-navigation`, refresh the router after a successful update, and revert with a status error message if the update fails.
+When the toggle is visible, the site header SHALL render a compact Preview Toggle control in the header action area next to the contact CTA. The visible button SHALL remain the current-state indicator for preview navigation and SHALL use `aria-pressed` for that state. The same button SHALL act as a dropdown menu trigger, not as the direct enable/disable action. The trigger SHALL expose menu semantics with `aria-haspopup="menu"`, `aria-expanded`, and `aria-controls`. The dropdown panel SHALL provide explicit ON and OFF menu options. Selecting an option that changes the state SHALL optimistically update the visible trigger state, post the new state to `/api/preview-navigation`, close the menu, refresh the router after a successful update, and revert with a status error message if the update fails. The dropdown SHALL close when the user clicks outside it or presses Escape.
 
-#### Scenario: user toggles preview navigation from off to on
+#### Scenario: user opens the Preview Toggle menu
 
 - GIVEN Preview Toggle is visible
 - AND preview navigation is currently disabled
-- WHEN the user clicks the Preview Toggle button
-- THEN the control optimistically changes to the enabled state
+- WHEN the user clicks the Preview Toggle trigger button
+- THEN the button keeps showing the current OFF state
+- AND a dropdown menu opens with explicit ON and OFF options
+
+#### Scenario: user enables preview navigation from the dropdown
+
+- GIVEN Preview Toggle is visible
+- AND preview navigation is currently disabled
+- AND the dropdown menu is open
+- WHEN the user selects the ON menu item
+- THEN the menu closes
+- AND the visible trigger optimistically changes to the enabled state
 - AND the client posts `{ "enabled": true }` to `/api/preview-navigation`
 - AND a successful response triggers a router refresh so server components re-read the cookie
 
 #### Scenario: API failure reverts the optimistic state
 
 - GIVEN Preview Toggle is visible
-- WHEN the user clicks the Preview Toggle button
+- AND the dropdown menu is open
+- WHEN the user selects a menu item that changes the state
 - AND `/api/preview-navigation` fails or returns a non-OK response
 - THEN the control restores the previous enabled/disabled state
 - AND it renders a polite status message telling the user that preview mode could not be updated
+
+#### Scenario: user dismisses the Preview Toggle menu
+
+- GIVEN Preview Toggle is visible
+- AND the dropdown menu is open
+- WHEN the user clicks outside the dropdown or presses Escape
+- THEN the dropdown menu closes
+- AND preview navigation state is not changed by dismissal alone
 
 ### Requirement: preview path helper
 
