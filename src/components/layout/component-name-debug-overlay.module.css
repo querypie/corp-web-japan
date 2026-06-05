@@ -1,0 +1,32 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  pointer-events: none;
+}
+
+.label {
+  position: fixed;
+  z-index: 2147483647;
+  display: inline-flex;
+  max-width: min(280px, calc(100vw - 8px));
+  align-items: center;
+  border: 1px solid rgba(14, 116, 144, 0.55);
+  border-radius: 9999px;
+  background: rgba(8, 47, 73, 0.92);
+  color: #ffffff;
+  cursor: copy;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  overflow: hidden;
+  padding: 3px 7px;
+  pointer-events: auto;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.label:hover {
+  background: rgba(14, 116, 144, 0.96);
+}

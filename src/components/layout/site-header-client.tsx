@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { t } from "@/lib/preview-navigation";
+import { componentNameDebugProps, isComponentNameDebugEnabled } from "@/lib/component-name-debug";
+import { ComponentNameDebugOverlay } from "./component-name-debug-overlay";
 import { PreviewModeToggle } from "./preview-mode-toggle";
 import styles from "./site-header.module.css";
 
@@ -25,7 +26,7 @@ type SiteHeaderClientProps = {
   showPreviewModeToggle: boolean;
 };
 
-function getNavItems(previewModeEnabled: boolean): readonly NavItem[] {
+function getNavItems(): readonly NavItem[] {
   return [
     {
       label: "サービス",
@@ -88,7 +89,9 @@ export function SiteHeaderClient({
   const shellRef = useRef<HTMLDivElement>(null);
   const navListRef = useRef<HTMLUListElement>(null);
   const [navLeft, setNavLeft] = useState(0);
-  const navItems = getNavItems(previewModeEnabled);
+  const navItems = getNavItems();
+  const componentNameDebugEnabled = isComponentNameDebugEnabled();
+  const showReviewerToolsToggle = showPreviewModeToggle || componentNameDebugEnabled;
 
   useEffect(() => {
     function handlePointerDown(event: MouseEvent) {
@@ -135,10 +138,10 @@ export function SiteHeaderClient({
 
   return (
     <>
-      <div ref={shellRef}>
-        <header className={styles.siteHeader}>
-          <div className={styles.headerContainer}>
-            <Link href="/" className={styles.logo}>
+      <div ref={shellRef} {...componentNameDebugProps("SiteHeaderShell")}>
+        <header {...componentNameDebugProps("SiteHeader")} className={styles.siteHeader}>
+          <div {...componentNameDebugProps("SiteHeaderContainer")} className={styles.headerContainer}>
+            <Link {...componentNameDebugProps("SiteHeaderLogo")} href="/" className={styles.logo}>
               <Image
                 src="/header-assets/stage-logo.svg"
                 alt="AI Staff"
@@ -149,7 +152,7 @@ export function SiteHeaderClient({
               />
             </Link>
 
-            <nav className={styles.mainNav}>
+            <nav {...componentNameDebugProps("SiteHeaderNav")} className={styles.mainNav}>
               <ul ref={navListRef} className={styles.navList}>
                 {navItems.map((item) => {
                   const isOpen = openMenu === item.label;
@@ -181,12 +184,15 @@ export function SiteHeaderClient({
               </ul>
             </nav>
 
-            <div className={styles.rightActions}>
+            <div {...componentNameDebugProps("SiteHeaderActions")} className={styles.rightActions}>
               <Link href="/contact-us" className={styles.cta}>
                 お問い合わせ
               </Link>
-              {showPreviewModeToggle ? (
-                <PreviewModeToggle enabled={previewModeEnabled} />
+              {showReviewerToolsToggle ? (
+                <PreviewModeToggle
+                  enabled={previewModeEnabled}
+                  showPreviewModeControls={showPreviewModeToggle}
+                />
               ) : null}
             </div>
           </div>
@@ -200,7 +206,7 @@ export function SiteHeaderClient({
               className={styles.navDropdown}
               style={{ left: `${navLeft}px` }}
             >
-              <div className={styles.megaInner}>
+              <div {...componentNameDebugProps("SiteHeaderMegaMenu")} className={styles.megaInner}>
                 <div className={styles.megaLeft}>
                   <p className={styles.megaHeading}>{activeDropdown.label}</p>
                   <p className={styles.megaSub}>{activeDropdown.description}</p>
@@ -237,6 +243,7 @@ export function SiteHeaderClient({
           onClick={() => setOpenMenu(null)}
         />
       ) : null}
+      <ComponentNameDebugOverlay />
     </>
   );
 }

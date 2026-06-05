@@ -127,6 +127,7 @@ const matchers = {
     /^tests\/favicon-assets\.test\.mjs$/,
     /^tests\/footer-addresses\.test\.mjs$/,
     /^tests\/footer-legal-links\.test\.mjs$/,
+    /^tests\/component-name-debug\.test\.mjs$/,
     /^tests\/footer-preview-navigation\.test\.mjs$/,
     /^tests\/preview-mode-toggle-dropdown\.test\.mjs$/,
     /^tests\/src\/components\/analytics\//,

@@ -10,7 +10,7 @@ The feature is being migrated from the equivalent `querypie/outbound-agent` Open
 
 ## Current implementation status
 
-The feature is not implemented in `corp-web-japan` yet. This spec is the target contract for implementing it.
+The first `corp-web-japan` implementation is available through the site header reviewer tools control surface. The implementation includes the build-time availability constant, shared mode/storage helpers, `data-component-name` marker helper, `Alt+Shift+N` shortcut, global overlay, Clipboard copy labels, and representative header markers. Additional route-local and section markers can be added incrementally without introducing wrapper-only components.
 
 ## Intended implementation references
 
