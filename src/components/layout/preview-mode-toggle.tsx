@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useId, useRef, useState, useTransition } from "react";
 import styles from "./preview-mode-toggle.module.css";
 
 type PreviewModeToggleProps = {
@@ -10,7 +10,10 @@ type PreviewModeToggleProps = {
 
 export function PreviewModeToggle({ enabled }: PreviewModeToggleProps) {
   const router = useRouter();
+  const menuId = useId();
+  const menuRef = useRef<HTMLDivElement>(null);
   const [isEnabled, setIsEnabled] = useState(enabled);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
@@ -18,9 +21,38 @@ export function PreviewModeToggle({ enabled }: PreviewModeToggleProps) {
     setIsEnabled(enabled);
   }, [enabled]);
 
-  async function handleClick() {
-    const nextEnabled = !isEnabled;
+  useEffect(() => {
+    if (!isMenuOpen) {
+      return;
+    }
 
+    function handlePointerDown(event: PointerEvent) {
+      const target = event.target;
+      if (!(target instanceof Node)) {
+        return;
+      }
+
+      if (!menuRef.current?.contains(target)) {
+        setIsMenuOpen(false);
+      }
+    }
+
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isMenuOpen]);
+
+  async function updatePreviewMode(nextEnabled: boolean) {
     setIsEnabled(nextEnabled);
     setError(null);
 
@@ -46,14 +78,27 @@ export function PreviewModeToggle({ enabled }: PreviewModeToggleProps) {
     }
   }
 
+  async function handlePreviewModeSelection(nextEnabled: boolean) {
+    setIsMenuOpen(false);
+
+    if (nextEnabled === isEnabled) {
+      return;
+    }
+
+    await updatePreviewMode(nextEnabled);
+  }
+
   return (
-    <div className={styles.toggleContainer}>
+    <div ref={menuRef} className={styles.toggleContainer}>
       <button
         type="button"
         className={`${styles.toggleButton} ${isEnabled ? styles.toggleButtonEnabled : styles.toggleButtonDisabled}`}
-        onClick={handleClick}
+        onClick={() => setIsMenuOpen((current) => !current)}
         aria-pressed={isEnabled}
-        aria-label={isEnabled ? "Disable preview mode navigation" : "Enable preview mode navigation"}
+        aria-haspopup="menu"
+        aria-expanded={isMenuOpen}
+        aria-controls={menuId}
+        aria-label={`Preview mode menu: ${isEnabled ? "ON" : "OFF"}`}
         title={isEnabled ? "Preview mode: ON" : "Preview mode: OFF"}
         disabled={isPending}
       >
@@ -64,6 +109,37 @@ export function PreviewModeToggle({ enabled }: PreviewModeToggleProps) {
           </span>
         </span>
       </button>
+
+      {isMenuOpen ? (
+        <div id={menuId} className={styles.menuPanel} role="menu" aria-label="Preview mode navigation">
+          <p className={styles.menuEyebrow}>Preview mode</p>
+          <p className={styles.menuStatus}>{isEnabled ? "Currently ON" : "Currently OFF"}</p>
+          <div className={styles.menuItems}>
+            <button
+              type="button"
+              role="menuitemradio"
+              aria-checked={isEnabled}
+              className={`${styles.menuItem} ${isEnabled ? styles.menuItemActive : ""}`}
+              onClick={() => void handlePreviewModeSelection(true)}
+              disabled={isPending}
+            >
+              <span className={styles.menuItemLabel}>ON</span>
+              <span className={styles.menuItemDescription}>Use preview navigation and reviewer unlocks.</span>
+            </button>
+            <button
+              type="button"
+              role="menuitemradio"
+              aria-checked={!isEnabled}
+              className={`${styles.menuItem} ${!isEnabled ? styles.menuItemActive : ""}`}
+              onClick={() => void handlePreviewModeSelection(false)}
+              disabled={isPending}
+            >
+              <span className={styles.menuItemLabel}>OFF</span>
+              <span className={styles.menuItemDescription}>Use public navigation and normal gates.</span>
+            </button>
+          </div>
+        </div>
+      ) : null}
 
       {error ? (
         <p className={styles.errorText} role="status">
