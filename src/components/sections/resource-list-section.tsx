@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import type { ResourceItem } from "@/content/resources";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export { ResourceListMobileSidebarDrawer } from "@/components/sections/resource-list/mobile-sidebar-drawer";
 
@@ -22,7 +23,7 @@ type SectionWithContentProps = ClassNameProps & {
 
 export function ResourceListHeroSection({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
   return (
-    <section className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[34px] pt-[111px] lg:px-[30px] lg:pb-[34px] lg:pt-[143px]">
+    <section {...componentNameDebugProps("ResourceListHeroSection")} className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[34px] pt-[111px] lg:px-[30px] lg:pb-[34px] lg:pt-[143px]">
       <div className={`mx-auto max-w-[1200px] text-center ${className}`.trim()}>{children}</div>
     </section>
   );
@@ -51,7 +52,7 @@ export function ResourceListContentSection({
   style,
 }: { children: ReactNode } & SectionWithContentProps) {
   return (
-    <section className={`mx-auto max-w-[1920px] bg-white px-[30px] pb-[187.5px] pt-[34px] lg:px-[30px] lg:pb-[187.5px] lg:pt-[55px] ${className}`.trim()} style={style}>
+    <section {...componentNameDebugProps("ResourceListContentSection")} className={`mx-auto max-w-[1920px] bg-white px-[30px] pb-[187.5px] pt-[34px] lg:px-[30px] lg:pb-[187.5px] lg:pt-[55px] ${className}`.trim()} style={style}>
       <div className={`mx-auto flex max-w-[1200px] flex-col gap-[34px] lg:flex-row lg:items-start lg:gap-[60px] ${contentClassName}`.trim()}>
         {children}
       </div>
@@ -80,7 +81,7 @@ export function ResourceListSectionDescription({ children, className = "" }: { c
 }
 
 export function ResourceListSidebar({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <aside className={`w-full lg:w-[240px] lg:flex-shrink-0 lg:sticky lg:top-[128px] lg:self-start ${className}`.trim()}>{children}</aside>;
+  return <aside {...componentNameDebugProps("ResourceListSidebar")} className={`w-full lg:w-[240px] lg:flex-shrink-0 lg:sticky lg:top-[128px] lg:self-start ${className}`.trim()}>{children}</aside>;
 }
 
 export function ResourceListSidebarLabel({ children }: { children: ReactNode }) {
@@ -128,10 +129,10 @@ export function ResourceListSidebarLink({
 
 export function ResourceListItems({ items }: { items: readonly ResourceItem[] }) {
   return (
-    <div className="min-w-0 flex-1">
+    <div {...componentNameDebugProps("ResourceListItems")} className="min-w-0 flex-1">
       <ul className="grid gap-[34px] lg:grid-cols-2 lg:gap-[60px]">
         {items.map((item) => (
-          <li key={item.id}>
+          <li key={item.id} {...componentNameDebugProps("ResourceListItemCard")}>
             <Link href={item.href} className="flex flex-col gap-5 transition hover:opacity-70">
               <div className="aspect-[16/9] overflow-hidden rounded-[8px] bg-[#eceff3]">
                 <Image

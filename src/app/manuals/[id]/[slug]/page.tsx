@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { PublicationPostPage } from "@/components/sections/publication-post-page";
 import { getManualPublicationHref, getManualPublicationPost, getManualPublicationRecordById, listManualPublicationParamsByCategory } from "@/lib/resources/manual-post-loader";
 
@@ -52,7 +53,7 @@ export default async function ManualsDetailPage({ params }: ManualsDetailPagePro
   }
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("ManualPostPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <PublicationPostPage post={post} />
       <SiteFooter />

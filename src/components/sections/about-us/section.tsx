@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { companyBodyTextClassName } from "@/components/ui/text-tokens";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const sectionHeadingClass =
   "text-[48.75px] font-normal leading-[58.125px] tracking-[-0.035em] text-slate-950";
@@ -13,12 +14,12 @@ export function AboutUsBodyCopy({ children, className = "" }: { children: ReactN
 }
 
 export function AboutUsHeroCopy({ children }: { children: ReactNode }) {
-  return <div className="max-w-[504px] space-y-6">{children}</div>;
+  return <div {...componentNameDebugProps("AboutUsHeroCopy")} className="max-w-[504px] space-y-6">{children}</div>;
 }
 
 export function AboutUsHeroImage() {
   return (
-    <div className="relative h-[360px] w-full lg:w-[640px]">
+    <div {...componentNameDebugProps("AboutUsHeroImage")} className="relative h-[360px] w-full lg:w-[640px]">
       <Image src="/about-us/hero-game-changer.png" alt="Game Changer" fill priority className="object-cover" />
     </div>
   );
@@ -28,7 +29,7 @@ export function AboutUsSection({ children, muted = false }: { children: ReactNod
   const backgroundClass = muted ? "bg-[#F6F8FA]" : "bg-white";
 
   return (
-    <section className={backgroundClass}>
+    <section {...componentNameDebugProps("AboutUsSection")} className={backgroundClass}>
       <div className="mx-auto max-w-[1200px] px-6 py-[100px] lg:px-0">{children}</div>
     </section>
   );
@@ -43,7 +44,7 @@ export function AboutUsSectionIntro({ children, className = "" }: { children: Re
 }
 
 export function AboutUsInvestorLogoRow({ children }: { children: ReactNode }) {
-  return <div className="mt-[72px] flex flex-wrap items-center justify-center gap-x-[169px] gap-y-8">{children}</div>;
+  return <div {...componentNameDebugProps("AboutUsInvestorLogoRow")} className="mt-[72px] flex flex-wrap items-center justify-center gap-x-[169px] gap-y-8">{children}</div>;
 }
 
 export function AboutUsInvestorLogo({
@@ -72,7 +73,7 @@ export function AboutUsInvestorLogo({
 }
 
 export function AboutUsTimeline({ children }: { children: ReactNode }) {
-  return <div className="mt-[56px] flex flex-col gap-[37.5px] border-l border-slate-300 pl-[28.125px]">{children}</div>;
+  return <div {...componentNameDebugProps("AboutUsTimeline")} className="mt-[56px] flex flex-col gap-[37.5px] border-l border-slate-300 pl-[28.125px]">{children}</div>;
 }
 
 export function AboutUsTimelineItem({ year, children }: { year: string; children: ReactNode }) {
@@ -100,7 +101,7 @@ export function AboutUsLeaderCard({
   children: ReactNode;
 }) {
   return (
-    <article className="flex w-full max-w-[320px] flex-col gap-5">
+    <article {...componentNameDebugProps("AboutUsLeaderCard")} className="flex w-full max-w-[320px] flex-col gap-5">
       <div className="relative aspect-square w-full overflow-hidden rounded-[20px] bg-[#F6F8FA]">
         <Image src={imageSrc} alt={imageAlt} fill sizes="(min-width: 1280px) 320px, (min-width: 768px) 50vw, 100vw" className="object-cover object-top" />
       </div>
@@ -133,7 +134,7 @@ export function AboutUsLeaderRole({ children }: { children: ReactNode }) {
 }
 
 export function AboutUsLocationGrid({ children }: { children: ReactNode }) {
-  return <div className="mt-[31px] grid gap-x-[36px] gap-y-10 md:grid-cols-2 xl:grid-cols-4">{children}</div>;
+  return <div {...componentNameDebugProps("AboutUsLocationGrid")} className="mt-[31px] grid gap-x-[36px] gap-y-10 md:grid-cols-2 xl:grid-cols-4">{children}</div>;
 }
 
 export function AboutUsLocationCard({
@@ -146,7 +147,7 @@ export function AboutUsLocationCard({
   children: ReactNode;
 }) {
   return (
-    <div className="flex h-full flex-col">
+    <div {...componentNameDebugProps("AboutUsLocationCard")} className="flex h-full flex-col">
       <div className="inline-flex w-fit self-start items-center justify-center border border-slate-200/70 bg-white leading-none">
         <Image src={iconSrc} alt={iconAlt} width={23} height={17} className="block h-[17px] w-[23px]" />
       </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { NewsArticleLoadMore } from "@/components/sections/news/list-load-more";
 import { NewsListSection } from "@/components/sections/news/page-section";
 import {
@@ -38,7 +39,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
   const initialVisibleCount = resolveResourceListVisibleCount(newsItems, resolvedSearchParams?.until);
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("NewsPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
       <CompanyPageSection>

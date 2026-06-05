@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type NavItemProps = {
   href: string;
@@ -49,5 +50,5 @@ export function NewsPageContent({ children }: { children: ReactNode }) {
 }
 
 export function NewsListSection({ children }: { children: ReactNode }) {
-  return <div className="mx-auto mt-[44px] max-w-[1200px] lg:mt-[80px]">{children}</div>;
+  return <div {...componentNameDebugProps("NewsListSection")} className="mx-auto mt-[44px] max-w-[1200px] lg:mt-[80px]">{children}</div>;
 }

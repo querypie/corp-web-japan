@@ -37,7 +37,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(sectionSource, /export function AboutUsLocationCard/);
 
   assert.match(sectionSource, /export function AboutUsSection\(\{ children, muted = false \}: \{ children: ReactNode; muted\?: boolean \}\)/);
-  assert.match(sectionSource, /export function AboutUsSection[\s\S]*<section className=\{backgroundClass\}>[\s\S]*mx-auto max-w-\[1200px\] px-6 py-\[100px\] lg:px-0/);
+  assert.match(sectionSource, /export function AboutUsSection[\s\S]*<section[^>]*className=\{backgroundClass\}>[\s\S]*mx-auto max-w-\[1200px\] px-6 py-\[100px\] lg:px-0/);
   assert.doesNotMatch(sectionSource, /export function AboutUsSection\(\{ children, muted = false, className/);
   assert.doesNotMatch(routeSource, /<AboutUsSection[^>]*className=/);
   assert.doesNotMatch(routeSource, /<AboutUsSection className="mx-auto max-w-\[1200px\] px-6/);
@@ -49,7 +49,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.doesNotMatch(sectionSource, /border-l border-slate-200 pl-\[28px\]/);
 
   assert.match(sectionSource, /grid grid-cols-1 gap-y-\[56\.25px\] md:grid-cols-2 md:justify-between md:gap-x-6 xl:grid-cols-\[repeat\(3,320px\)\] xl:justify-between xl:gap-x-0/);
-  assert.match(sectionSource, /article className="flex w-full max-w-\[320px\] flex-col gap-5"/);
+  assert.match(sectionSource, /article[^>]*className="flex w-full max-w-\[320px\] flex-col gap-5"/);
   assert.match(sectionSource, /className="flex items-start justify-between"/);
   assert.match(sectionSource, /className=\{`block \$\{secondaryCopyClass\} transition hover:text-slate-950`\}/);
   assert.doesNotMatch(sectionSource, /mt-4 flex w-full justify-end/);

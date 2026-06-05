@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { NewsPublicationListItem } from "@/lib/publications/news/records";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type NewsArticleListProps = {
   items: readonly NewsPublicationListItem[];
@@ -46,9 +47,9 @@ function NewsCard({ item }: { item: NewsPublicationListItem }) {
 
 export function NewsArticleList({ items }: NewsArticleListProps) {
   return (
-    <ul className="space-y-20 lg:space-y-[80px]">
+    <ul {...componentNameDebugProps("NewsArticleList")} className="space-y-20 lg:space-y-[80px]">
       {items.map((item) => (
-        <li key={item.id}>
+        <li key={item.id} {...componentNameDebugProps("NewsArticleCard")}>
           <NewsCard item={item} />
         </li>
       ))}

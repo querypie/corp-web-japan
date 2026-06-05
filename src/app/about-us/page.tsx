@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 import {
   AboutUsBodyCopy,
   AboutUsHeroCopy,
@@ -46,7 +47,7 @@ export const metadata: Metadata = {
 
 export default function AboutUsPage() {
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("AboutUsPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
       <CompanyPageSection>

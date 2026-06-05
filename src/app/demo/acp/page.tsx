@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { DemoCategorySidebar } from "@/components/sections/demo-category-sidebar";
 import { ResourceListLoadMore } from "@/components/sections/resource-list-load-more";
 import {
@@ -36,7 +37,7 @@ export default async function AcpDemoPage({ searchParams }: AcpDemoPageProps) {
   const initialVisibleCount = resolveResourceListVisibleCount(acpDemoItems, resolvedSearchParams?.until);
 
   return (
-    <main className="relative bg-white text-slate-950">
+    <main {...componentNameDebugProps("AcpDemoPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
 
       <ResourceListHeroSection>
