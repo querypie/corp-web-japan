@@ -11,6 +11,7 @@ import {
 } from "@/components/sections/resource-list-section";
 import { listBlogPublicationItems } from "@/lib/publications/blog/records";
 import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "Internal Load More | QueryPie AI",
@@ -34,7 +35,7 @@ export default async function InternalLoadMorePage({ searchParams }: InternalLoa
   const initialVisibleCount = resolveResourceListVisibleCount(blogItems, resolvedSearchParams?.until);
 
   return (
-    <main className="relative bg-white text-slate-950">
+    <main {...componentNameDebugProps("InternalLoadMorePage")} className="relative bg-white text-slate-950">
       <SiteHeader />
 
       <ResourceListHeroSection>

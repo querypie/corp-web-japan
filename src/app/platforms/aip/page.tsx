@@ -34,6 +34,7 @@ import {
 } from "@/components/sections/aip/page";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "QueryPie AIプラットフォーム (AIP) | QueryPie AI",
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
 
 export default function AipPage() {
   return (
-    <AipPageShell>
+    <AipPageShell {...componentNameDebugProps("AipPage")}>
       <SiteHeader />
 
       <AipHeroSection>

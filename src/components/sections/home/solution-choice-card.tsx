@@ -10,6 +10,7 @@ import {
   MarketingSurface,
 } from "@/components/sections/home/primitives";
 import { cn } from "@/lib/utils";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type Tone = "crew" | "dashi";
 
@@ -60,6 +61,7 @@ export function SolutionChoiceCard({ href, tone, children }: SolutionChoiceCardP
   return (
     <ToneContext.Provider value={{ tone }}>
       <MarketingSurface
+        {...componentNameDebugProps("SolutionChoiceCard")}
         as={Link}
         href={href}
         className={cn(
@@ -82,7 +84,7 @@ export function SolutionChoiceHeader({ children }: SolutionChoiceHeaderProps) {
   const Icon = tone === "crew" ? Users : Blocks;
 
   return (
-    <div className="flex items-start justify-between gap-4">
+    <div {...componentNameDebugProps("SolutionChoiceHeader")} className="flex items-start justify-between gap-4">
       {children}
       <MarketingIconFrame className={cn("flex-none shadow-[0_16px_34px_-24px_rgba(15,23,42,0.35)]", toneIconFrameClass(tone))}>
         <Icon className="h-5 w-5" />
@@ -93,26 +95,26 @@ export function SolutionChoiceHeader({ children }: SolutionChoiceHeaderProps) {
 
 export function SolutionChoiceBadge({ children }: { children: ReactNode }) {
   const tone = useTone();
-  return <MarketingPill className={cn("w-fit px-3 py-1 tracking-[0.12em]", toneBadgeClass(tone))}>{children}</MarketingPill>;
+  return <MarketingPill {...componentNameDebugProps("SolutionChoiceBadge")} className={cn("w-fit px-3 py-1 tracking-[0.12em]", toneBadgeClass(tone))}>{children}</MarketingPill>;
 }
 
 export function SolutionChoiceTitle({ children }: { children: ReactNode }) {
   const tone = useTone();
-  return <h3 className={cn("text-[24px] font-semibold leading-[1.35] tracking-[-0.04em] sm:text-[28px]", toneTitleClass(tone))}>{children}</h3>;
+  return <h3 {...componentNameDebugProps("SolutionChoiceTitle")} className={cn("text-[24px] font-semibold leading-[1.35] tracking-[-0.04em] sm:text-[28px]", toneTitleClass(tone))}>{children}</h3>;
 }
 
 export function SolutionChoiceSubtitle({ children }: { children: ReactNode }) {
-  return <p className="mt-2 text-[12px] font-semibold tracking-[0.12em] text-slate-500 sm:text-[13px]">{children}</p>;
+  return <p {...componentNameDebugProps("SolutionChoiceSubtitle")} className="mt-2 text-[12px] font-semibold tracking-[0.12em] text-slate-500 sm:text-[13px]">{children}</p>;
 }
 
 export function SolutionChoiceDescription({ children }: { children: ReactNode }) {
-  return <p className="mt-5 flex-1 text-[15px] leading-7 text-slate-600">{children}</p>;
+  return <p {...componentNameDebugProps("SolutionChoiceDescription")} className="mt-5 flex-1 text-[15px] leading-7 text-slate-600">{children}</p>;
 }
 
 export function SolutionChoiceAction({ children }: { children: ReactNode }) {
   const tone = useTone();
   return (
-    <span className={cn("mt-8 inline-flex items-center gap-2 text-sm font-semibold transition", toneActionClass(tone))}>
+    <span {...componentNameDebugProps("SolutionChoiceAction")} className={cn("mt-8 inline-flex items-center gap-2 text-sm font-semibold transition", toneActionClass(tone))}>
       {children}
       <ArrowRight className="h-4 w-4" />
     </span>

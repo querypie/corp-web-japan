@@ -17,6 +17,7 @@ import {
   AcpPageCtaLink,
   AcpPageCtaTitle,
 } from "@/components/sections/acp/static-page";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "QueryPie: インテグレーション | QueryPie AI",
@@ -414,7 +415,7 @@ export default async function AcpIntegrationsPage({
     .sort((left, right) => left.label.localeCompare(right.label));
 
   return (
-    <main className="bg-white text-slate-950">
+    <main {...componentNameDebugProps("AcpIntegrationsPage")} className="bg-white text-slate-950">
       <SiteHeader />
       <AipIntegrationsHeroSection>
         <AipIntegrationsHeroCopy>

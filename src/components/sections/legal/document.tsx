@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { companyBodyTextClassName } from "@/components/ui/text-tokens";
 import { cn } from "@/lib/utils";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type LegalDocumentSectionProps = {
   children?: ReactNode;
@@ -60,7 +61,7 @@ export const legalDocumentBodyClassName = [
 
 export function LegalDocumentSection({ children }: LegalDocumentSectionProps) {
   return (
-    <section className="mx-auto w-full max-w-[1920px] bg-white px-[30px] pb-[50px] pt-[100px] lg:pb-[72px] lg:pt-[120px]">
+    <section {...componentNameDebugProps("LegalDocumentSection")} className="mx-auto w-full max-w-[1920px] bg-white px-[30px] pb-[50px] pt-[100px] lg:pb-[72px] lg:pt-[120px]">
       <div className="mx-auto w-full max-w-[1200px]">{children}</div>
     </section>
   );
@@ -68,32 +69,32 @@ export function LegalDocumentSection({ children }: LegalDocumentSectionProps) {
 
 export function LegalDocumentIntro({ children, className }: LegalDocumentIntroProps) {
   return (
-    <header className={cn("mb-10 flex flex-col gap-10 pt-[10px] text-left lg:mb-[50px] lg:gap-[50px] lg:pt-0", className)}>
+    <header {...componentNameDebugProps("LegalDocumentIntro")} className={cn("mb-10 flex flex-col gap-10 pt-[10px] text-left lg:mb-[50px] lg:gap-[50px] lg:pt-0", className)}>
       {children}
     </header>
   );
 }
 
 export function LegalDocumentLayout({ children, className }: LegalDocumentLayoutProps) {
-  return <div className={cn("flex w-full flex-col", className)}>{children}</div>;
+  return <div {...componentNameDebugProps("LegalDocumentLayout")} className={cn("flex w-full flex-col", className)}>{children}</div>;
 }
 
 export function LegalDocumentTitleActions({ children }: LegalDocumentTitleActionsProps) {
-  return <div className="flex flex-wrap items-center gap-4">{children}</div>;
+  return <div {...componentNameDebugProps("LegalDocumentTitleActions")} className="flex flex-wrap items-center gap-4">{children}</div>;
 }
 
 export function LegalDocumentTitle({ children }: LegalDocumentTitleProps) {
   return (
-    <h1 className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">
+    <h1 {...componentNameDebugProps("LegalDocumentTitle")} className="text-[40px] font-medium leading-[1.2] tracking-[-0.03em] text-slate-950 sm:text-[48px] lg:text-[52px]">
       {children}
     </h1>
   );
 }
 
 export function LegalDocumentLead({ children }: LegalDocumentSectionProps) {
-  return <div className={companyBodyTextClassName}>{children}</div>;
+  return <div {...componentNameDebugProps("LegalDocumentLead")} className={companyBodyTextClassName}>{children}</div>;
 }
 
 export function LegalDocumentBody({ children, className }: LegalDocumentBodyProps) {
-  return <div className={cn(legalDocumentBodyClassName, className)}>{children}</div>;
+  return <div {...componentNameDebugProps("LegalDocumentBody")} className={cn(legalDocumentBodyClassName, className)}>{children}</div>;
 }

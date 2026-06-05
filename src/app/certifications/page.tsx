@@ -16,6 +16,7 @@ import {
   CompanyPageTitle,
 } from "@/components/sections/company/page-primitives";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "認証 | QueryPie AI",
@@ -176,7 +177,7 @@ const certifications: readonly CertificationItem[] = [
 
 export default function CertificationsPage() {
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("CertificationsPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
       <CompanyPageSection>

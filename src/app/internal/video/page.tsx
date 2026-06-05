@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SelfHostedVideoPlayer, type SelfHostedVideoSource } from "@/components/media/self-hosted-video-player";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const demoVideoSources = [
   {
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
 
 export default function InternalVideoPage() {
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("InternalVideoPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
 
       <section className="px-6 pb-[120px] pt-[134px] sm:px-10 lg:px-16 lg:pt-[144px]">

@@ -27,6 +27,7 @@ import {
   AcpStaticPageShell,
   AcpWorksSection,
 } from "@/components/sections/acp/static-page";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "QueryPie KAC:  Kubernetes Access Controller | QueryPie AI",
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
 
 export default function KubernetesAccessControllerPage() {
   return (
-    <AcpStaticPageShell>
+    <AcpStaticPageShell {...componentNameDebugProps("KubernetesAccessControllerPage")}>
       <SiteHeader />
       <AcpHeroSection background="kac" media={{"kind": "youtube", "src": "https://www.youtube.com/embed/OzxB0qqmCTQ?si=qbFYGIDUg2GPuzfU"}} mediaTitle="Kubernetes Access Controller">
         <AcpHeroCopy>

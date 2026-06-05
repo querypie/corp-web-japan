@@ -1,6 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/lingo/utils"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type BadgeVariant = "brand" | "outline"
 
@@ -17,7 +18,7 @@ const variantClasses: Record<BadgeVariant, string> = {
 
 export function Badge({ children, className, variant = "brand" }: BadgeProps) {
   return (
-    <span
+    <span {...componentNameDebugProps("Badge")}
       className={cn(
         "inline-flex items-center justify-center rounded-[var(--corner-fill)] px-[10px] py-[4px] body-sm",
         variantClasses[variant],

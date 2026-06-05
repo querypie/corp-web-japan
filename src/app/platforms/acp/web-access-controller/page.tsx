@@ -28,6 +28,7 @@ import {
   AcpStaticPageShell,
   AcpWorksSection,
 } from "@/components/sections/acp/static-page";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "QueryPie WAC: Web Access Controller | QueryPie AI",
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
 
 export default function WebAccessControllerPage() {
   return (
-    <AcpStaticPageShell>
+    <AcpStaticPageShell {...componentNameDebugProps("WebAccessControllerPage")}>
       <SiteHeader />
       <AcpHeroSection background="wac" media={{"kind": "image", "src": "/platforms/acp/web-access-controller/main.png", "alt": "Web Access Controller"}} mediaTitle="Web Access Controller">
         <AcpHeroCopy>

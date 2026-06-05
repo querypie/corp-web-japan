@@ -31,7 +31,7 @@ export function ResourceListHeroSection({ children, className = "" }: { children
 
 export function ResourceListHeroTitle({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
   return (
-    <h1
+    <h1 {...componentNameDebugProps("ResourceListHeroTitle")}
       className={`text-[56.25px] font-medium leading-[67.5px] tracking-[-0.04em] text-slate-950 sm:text-[56.25px] sm:leading-[67.5px] sm:tracking-[-0.04em] ${className}`.trim()}
     >
       {children}
@@ -41,7 +41,7 @@ export function ResourceListHeroTitle({ children, className = "" }: { children: 
 
 export function ResourceListHeroDescription({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
   return (
-    <p className={`mx-auto mt-5 max-w-none text-[16.875px] leading-[26.25px] text-slate-600 ${className}`.trim()}>{children}</p>
+    <p {...componentNameDebugProps("ResourceListHeroDescription")} className={`mx-auto mt-5 max-w-none text-[16.875px] leading-[26.25px] text-slate-600 ${className}`.trim()}>{children}</p>
   );
 }
 
@@ -61,23 +61,23 @@ export function ResourceListContentSection({
 }
 
 export function ResourceListSectionHeading({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <div className={`mb-8 border-b border-slate-200 pb-4 ${className}`.trim()}>{children}</div>;
+  return <div {...componentNameDebugProps("ResourceListSectionHeading")} className={`mb-8 border-b border-slate-200 pb-4 ${className}`.trim()}>{children}</div>;
 }
 
 export function ResourceListSectionEyebrow({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <p className={`text-sm font-medium uppercase tracking-[0.18em] text-slate-500 ${className}`.trim()}>{children}</p>;
+  return <p {...componentNameDebugProps("ResourceListSectionEyebrow")} className={`text-sm font-medium uppercase tracking-[0.18em] text-slate-500 ${className}`.trim()}>{children}</p>;
 }
 
 export function ResourceListSectionTitleRow({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <div className={`mt-2 flex flex-col gap-2 lg:flex-row lg:items-baseline lg:gap-4 ${className}`.trim()}>{children}</div>;
+  return <div {...componentNameDebugProps("ResourceListSectionTitleRow")} className={`mt-2 flex flex-col gap-2 lg:flex-row lg:items-baseline lg:gap-4 ${className}`.trim()}>{children}</div>;
 }
 
 export function ResourceListSectionTitle({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <h2 className={`text-[28px] font-medium leading-[1.25] text-slate-950 lg:text-[32px] ${className}`.trim()}>{children}</h2>;
+  return <h2 {...componentNameDebugProps("ResourceListSectionTitle")} className={`text-[28px] font-medium leading-[1.25] text-slate-950 lg:text-[32px] ${className}`.trim()}>{children}</h2>;
 }
 
 export function ResourceListSectionDescription({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <p className={`text-base leading-7 text-slate-600 ${className}`.trim()}>{children}</p>;
+  return <p {...componentNameDebugProps("ResourceListSectionDescription")} className={`text-base leading-7 text-slate-600 ${className}`.trim()}>{children}</p>;
 }
 
 export function ResourceListSidebar({ children, className = "" }: { children: ReactNode } & ClassNameProps) {

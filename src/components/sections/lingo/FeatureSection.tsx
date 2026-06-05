@@ -1,4 +1,5 @@
 import { Container } from "@/components/layout/lingo/Container"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 interface FeatureRow {
   title: React.ReactNode
@@ -12,7 +13,7 @@ interface FeatureSectionProps {
 
 export function FeatureSection({ rows }: FeatureSectionProps) {
   return (
-    <Container className="section-gap">
+    <Container {...componentNameDebugProps("FeatureSection")} className="section-gap">
       <div className="flex flex-col gap-10 md:gap-[60px]">
         {rows.map((row, i) => {
           const isEven = i % 2 === 0 // 짝수 인덱스면 텍스트 좌 / 이미지 우

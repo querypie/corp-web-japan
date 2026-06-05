@@ -13,6 +13,7 @@ import {
 import { SubPageHeroBackground } from "@/components/sections/lingo/SubPageHeroBackground"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
 import { cn } from "@/lib/lingo/utils"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type TranslationFeatureCard = {
   title: string
@@ -401,7 +402,7 @@ function TranslationSetupModal({
   const isLanguageMode = mode === "language"
 
   return (
-    <div className="absolute left-1/2 top-[-36px] w-[88%] max-w-[460px] -translate-x-1/2 rounded-b-[38px] bg-white px-4 pb-7 pt-[72px] shadow-[0_24px_70px_rgba(0,0,0,0.30)] md:w-[74%] md:px-8 md:pb-8">
+    <div {...componentNameDebugProps("TranslationSetupModal")} className="absolute left-1/2 top-[-36px] w-[88%] max-w-[460px] -translate-x-1/2 rounded-b-[38px] bg-white px-4 pb-7 pt-[72px] shadow-[0_24px_70px_rgba(0,0,0,0.30)] md:w-[74%] md:px-8 md:pb-8">
       <div className="mb-5">
         <p className="mb-3 text-[17px] font-bold text-[#111111] md:text-[20px]">
           {copy.languageLabel}
@@ -466,7 +467,7 @@ function TranslationSetupModal({
 
 function TranslationLivePreview({ copy }: { copy: TranslationValueVisualCopy }) {
   return (
-    <div className="absolute inset-x-4 top-10 bottom-10 overflow-hidden rounded-[26px] bg-white shadow-[0_24px_70px_rgba(0,0,0,0.22)] md:inset-x-12">
+    <div {...componentNameDebugProps("TranslationLivePreview")} className="absolute inset-x-4 top-10 bottom-10 overflow-hidden rounded-[26px] bg-white shadow-[0_24px_70px_rgba(0,0,0,0.22)] md:inset-x-12">
       <div className="h-full overflow-hidden px-5 py-5 text-[#111111]">
         <div className="mb-5 flex items-center gap-3">
           <span className="grid size-9 place-items-center rounded-full bg-[#ff8200] text-[18px] font-bold text-white">
@@ -516,7 +517,7 @@ function TranslationValuePreview({
   copy: TranslationValueVisualCopy
 }) {
   return (
-    <div className="relative min-h-[360px] overflow-hidden bg-[#777777] md:min-h-0">
+    <div {...componentNameDebugProps("TranslationValuePreview")} className="relative min-h-[360px] overflow-hidden bg-[#777777] md:min-h-0">
       {stepIndex === 0 && <TranslationSetupModal copy={copy} mode="language" />}
       {stepIndex === 1 && <TranslationSetupModal copy={copy} mode="activation" />}
       {stepIndex === 2 && <TranslationLivePreview copy={copy} />}
@@ -531,7 +532,7 @@ function TranslationValueSection() {
   const [activeIndex, setActiveIndex] = useState(0)
 
   return (
-    <Container className="section-gap">
+    <Container {...componentNameDebugProps("TranslationValueSection")} className="section-gap">
       <div className="mb-6 max-w-[720px] md:mb-[30px]">
         <h2 className="text-h1 text-[var(--fg)]">
           {copy.valueTitle[0]}
@@ -587,7 +588,7 @@ function FeatureCardsSection() {
   const copy = getLocaleCopy(useLocale(), translationPageCopy)
 
   return (
-    <Container className="section-gap">
+    <Container {...componentNameDebugProps("FeatureCardsSection")} className="section-gap">
       <div className="flex flex-col gap-16 md:gap-[120px]">
         {copy.featureCards.map((card, index) => {
           const isEven = index % 2 === 0
@@ -626,7 +627,7 @@ function TranslationFAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   return (
-    <Container>
+    <Container {...componentNameDebugProps("TranslationFAQSection")}>
       <div className="flex flex-col gap-4 md:gap-[20px]">
         <h2 className="text-h1 text-[var(--fg)]">{copy.faqTitle}</h2>
         <div className="flex flex-col gap-[10px]">
@@ -675,7 +676,7 @@ function TranslationCTASection() {
   const copy = getLocaleCopy(useLocale(), translationPageCopy)
 
   return (
-    <Container>
+    <Container {...componentNameDebugProps("TranslationCTASection")}>
       <div className="flex flex-col items-center gap-6 text-center md:gap-[30px]">
         <div className="flex w-full flex-col items-center gap-4 text-[var(--fg)] md:gap-[20px]">
           <h2 className="text-h1">{copy.ctaTitle}</h2>
@@ -693,7 +694,7 @@ export default function TranslationPage() {
   const copy = getLocaleCopy(useLocale(), translationPageCopy)
 
   return (
-    <main className="page-layout-sub min-h-screen bg-[var(--bg)]">
+    <main {...componentNameDebugProps("TranslationPage")} className="page-layout-sub min-h-screen bg-[var(--bg)]">
       <SubPageHeroBackground />
       <div className="page-gutter w-full">
         <div className="container-main relative z-10 w-full">

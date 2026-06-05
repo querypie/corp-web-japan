@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import type { PlansProduct } from "@/components/sections/plans/section";
 import PlansAIPPage from "./aip/page";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "プラン | QueryPie AI",
@@ -62,5 +63,5 @@ export default async function PlansPage({ searchParams }: PageProps) {
     redirect(redirectTarget);
   }
 
-  return <PlansAIPPage />;
+  return <PlansAIPPage {...componentNameDebugProps("PlansPage")} />;
 }

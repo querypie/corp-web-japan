@@ -1,5 +1,6 @@
 import { Children, isValidElement, type ReactElement, type ReactNode } from "react";
 import { AcpFeatureBrowserClient, type AcpFeatureBrowserCategory } from "./feature-browser-client";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type AcpFeatureCategoryProps = {
   children: ReactNode;
@@ -100,7 +101,7 @@ function parseCategories(children: ReactNode): AcpFeatureBrowserCategory[] {
 export function AcpFeatureBrowser({ children }: { children: ReactNode }) {
   const categories = parseCategories(children);
 
-  return <AcpFeatureBrowserClient categories={categories} />;
+  return <AcpFeatureBrowserClient {...componentNameDebugProps("AcpFeatureBrowser")} categories={categories} />;
 }
 
 export function AcpFeatureCategory(props: AcpFeatureCategoryProps) {

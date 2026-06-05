@@ -15,7 +15,7 @@ test("published mcp gateway page keeps authored copy in the route and rendering 
   assert.match(routeSource, /from "@\/components\/sections\/reveal-on-scroll"/);
   assert.match(routeSource, /canonical: "\/platforms\/aip\/mcp-gateway"/);
   assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
-  assert.match(routeSource, /<McpGatewayPageShell>/);
+  assert.match(routeSource, /<McpGatewayPageShell(?:\s[^>]*)?>/);
   assert.match(routeSource, /<McpGatewayHeroHeading>/);
   assert.match(routeSource, /統合型AIゲートウェイ/);
   assert.match(routeSource, /<McpGatewayFeatureCopy className="w-full lg:w-\[450px\]">/);
@@ -45,7 +45,7 @@ test("published mcp gateway page keeps authored copy in the route and rendering 
   assert.doesNotMatch(sectionSource, /contentClassName="px-10 lg:px-10"/);
   assert.doesNotMatch(sectionSource, /paddingClassName=""/);
   assert.match(sectionSource, /export function McpGatewayFeatureCopy[\s\S]*flex w-full max-w-full shrink-0 flex-col gap-\[20px\]/);
-  assert.match(sectionSource, /<h4 className=\{cx\("text-\[32px\][\s\S]*max-\[480px\]:text-\[20px\][\s\S]*max-\[480px\]:leading-\[28px\]/);
+  assert.match(sectionSource, /<h4[^>]*className=\{cx\("text-\[32px\][\s\S]*max-\[480px\]:text-\[20px\][\s\S]*max-\[480px\]:leading-\[28px\]/);
   assert.match(sectionSource, /shadow-\[0_4px_12px_rgba\(0,0,0,0\.1\)\]/);
   assert.match(sectionSource, /lg:shadow-\[0_8px_20px_rgba\(0,0,0,0\.15\)\]/);
   assert.match(sectionSource, /rounded-\[8px\]/);
@@ -53,14 +53,14 @@ test("published mcp gateway page keeps authored copy in the route and rendering 
   assert.match(sectionSource, /export function McpGatewayFeatureBand/);
   assert.match(sectionSource, /export function McpGatewayFeatureImage/);
   assert.match(sectionSource, /export function McpGatewayCtaSection/);
-  assert.match(sectionSource, /export function McpGatewayCtaSection[\s\S]*<PlatformCtaSection className=\{className\}>/);
+  assert.match(sectionSource, /export function McpGatewayCtaSection[\s\S]*<PlatformCtaSection[\s\S]*className=\{className\}>/);
 
   assert.match(simpleCtaSource, /background\?: "muted" \| "white"/);
   assert.match(simpleCtaSource, /const simpleCtaBackgroundClass = \{/);
   assert.match(simpleCtaSource, /muted: "bg-\[#F6F8FA\]"/);
   assert.match(simpleCtaSource, /white: "bg-white"/);
   assert.match(simpleCtaSource, /background = "muted"/);
-  assert.match(simpleCtaSource, /<SimpleCtaSection background=\{background\}>/);
+  assert.match(simpleCtaSource, /<SimpleCtaSection[\s\S]*background=\{background\}>/);
 
   assert.match(platformSource, /paddingClassName\?: string/);
   assert.match(platformSource, /export function PlatformCtaSection/);

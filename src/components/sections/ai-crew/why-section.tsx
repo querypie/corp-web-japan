@@ -12,6 +12,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const beforeIcons: ReadonlyArray<{ icon: LucideIcon; pos: string; rot: string }> = [
   { icon: Search, pos: "left-6 top-4", rot: "-rotate-[10deg]" },
@@ -41,19 +42,19 @@ const afterBackgroundIcons = [Search, Layers3, FileSearch, ChartColumnIncreasing
 
 export function AICrewWhySection({ children }: { children: ReactNode }) {
   return (
-    <section id="why" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-28">
+    <section {...componentNameDebugProps("AICrewWhySection")} id="why" className="mx-auto max-w-[1920px] bg-white px-6 py-20 lg:px-10 lg:py-28">
       {children}
     </section>
   );
 }
 
 export function AICrewWhyIntro({ children }: { children: ReactNode }) {
-  return <div className="mx-auto max-w-[1120px] text-center">{children}</div>;
+  return <div {...componentNameDebugProps("AICrewWhyIntro")} className="mx-auto max-w-[1120px] text-center">{children}</div>;
 }
 
 export function AICrewWhyTitle({ children }: { children: ReactNode }) {
   return (
-    <RevealOnScroll>
+    <RevealOnScroll {...componentNameDebugProps("AICrewWhyTitle")}>
       <h2 className="text-[34px] font-semibold leading-[1.24] tracking-[-0.03em] text-slate-950 sm:text-[42px] sm:leading-[54px] sm:tracking-[-0.04em] [&_strong]:bg-[linear-gradient(135deg,#0F2A5F_0%,#174EA6_48%,#2563EB_78%,#93C5FD_100%)] [&_strong]:bg-clip-text [&_strong]:font-inherit [&_strong]:text-transparent [&_strong]:[animation:heroAccentGlow_3.2s_ease-in-out_infinite] [&_strong]:motion-reduce:animate-none">
         {children}
       </h2>
@@ -63,7 +64,7 @@ export function AICrewWhyTitle({ children }: { children: ReactNode }) {
 
 export function AICrewWhyBody({ children }: { children: ReactNode }) {
   return (
-    <RevealOnScroll delayMs={80}>
+    <RevealOnScroll {...componentNameDebugProps("AICrewWhyBody")} delayMs={80}>
       <p className="mx-auto mt-5 max-w-[900px] text-left text-base leading-8 text-slate-600 [&_strong]:font-semibold [&_strong]:text-slate-800">
         {children}
       </p>
@@ -73,7 +74,7 @@ export function AICrewWhyBody({ children }: { children: ReactNode }) {
 
 export function AICrewWhyComparisonShell({ children }: { children: ReactNode }) {
   return (
-    <RevealOnScroll
+    <RevealOnScroll {...componentNameDebugProps("AICrewWhyComparisonShell")}
       className="mx-auto mt-12 max-w-[1120px] rounded-[2.2rem] border border-black/6 bg-white p-5 shadow-[0_28px_90px_-50px_rgba(15,23,42,0.1)] sm:p-6"
       variant="up"
       delayMs={140}
@@ -87,7 +88,7 @@ export function AICrewWhyBeforeCard({ children }: { children: ReactNode }) {
   const [header, ...body] = Children.toArray(children);
 
   return (
-    <article className="rounded-[1.8rem] border border-black/6 bg-[#f9f9fb] p-6">
+    <article {...componentNameDebugProps("AICrewWhyBeforeCard")} className="rounded-[1.8rem] border border-black/6 bg-[#f9f9fb] p-6">
       {header}
       <div className="mt-8 flex min-h-[18rem] items-center justify-center">
         <div className="relative h-[320px] w-full max-w-[27rem]">
@@ -114,7 +115,7 @@ export function AICrewWhyBeforeCard({ children }: { children: ReactNode }) {
 
 export function AICrewWhyBeforeCardSubtitle({ children }: { children: ReactNode }) {
   return (
-    <div className="text-center">
+    <div {...componentNameDebugProps("AICrewWhyBeforeCardSubtitle")} className="text-center">
       <p className="text-2xl font-semibold tracking-[-0.04em] text-slate-900">Before</p>
       <p className="mt-1 text-sm font-medium tracking-[-0.02em] text-slate-500">{children}</p>
     </div>
@@ -123,7 +124,7 @@ export function AICrewWhyBeforeCardSubtitle({ children }: { children: ReactNode 
 
 export function AICrewWhyBeforePainPoint({ children }: { children: ReactNode }) {
   return (
-    <div className="max-w-[330px] rounded-full border border-[#dbe5f7] bg-white px-4 py-2 text-center text-[12px] font-medium leading-5 tracking-[-0.01em] text-slate-700 shadow-[0_16px_36px_-24px_rgba(15,23,42,0.18)]">
+    <div {...componentNameDebugProps("AICrewWhyBeforePainPoint")} className="max-w-[330px] rounded-full border border-[#dbe5f7] bg-white px-4 py-2 text-center text-[12px] font-medium leading-5 tracking-[-0.01em] text-slate-700 shadow-[0_16px_36px_-24px_rgba(15,23,42,0.18)]">
       {children}
     </div>
   );
@@ -131,24 +132,24 @@ export function AICrewWhyBeforePainPoint({ children }: { children: ReactNode }) 
 
 export function AICrewWhyHumanDecisionCore({ children }: { children: ReactNode }) {
   return (
-    <>
+    <div {...componentNameDebugProps("AICrewWhyHumanDecisionCore")} className="flex flex-col items-center">
       <div className="relative h-[74px] w-[74px] overflow-hidden">
         <Image src="/images/icon_main.png" alt="Human decision maker" fill className="object-contain" sizes="74px" />
       </div>
       <span className="mt-2 text-center text-[12px] font-semibold leading-4 tracking-[-0.01em] text-slate-600">
         {children}
       </span>
-    </>
+    </div>
   );
 }
 
 export function AICrewWhyAfterCard({ children }: { children: ReactNode }) {
-  return <article className="rounded-[1.8rem] border border-black/6 bg-[#2f3a49] p-6">{children}</article>;
+  return <article {...componentNameDebugProps("AICrewWhyAfterCard")} className="rounded-[1.8rem] border border-black/6 bg-[#2f3a49] p-6">{children}</article>;
 }
 
 export function AICrewWhyAfterCardSubtitle({ children }: { children: ReactNode }) {
   return (
-    <div className="text-center">
+    <div {...componentNameDebugProps("AICrewWhyAfterCardSubtitle")} className="text-center">
       <p className="text-2xl font-semibold tracking-[-0.04em] text-white">After</p>
       <p className="mt-1 text-sm font-medium tracking-[-0.02em] text-white/65">{children}</p>
     </div>
@@ -163,7 +164,7 @@ export function AICrewWhyAfterMobileLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="mt-8 lg:hidden">
+    <div {...componentNameDebugProps("AICrewWhyAfterMobileLayout")} className="mt-8 lg:hidden">
       <div className="flex flex-col items-center gap-4">
         <div className="relative flex h-[154px] w-[154px] flex-col items-center justify-center rounded-full bg-white text-[#2f3a49] shadow-[0_30px_70px_-28px_rgba(15,23,42,0.18)]">{centerCore}</div>
         <div className="grid w-full max-w-[23rem] gap-3 sm:grid-cols-2">{children}</div>
@@ -180,7 +181,7 @@ export function AICrewWhyAfterDesktopLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="mt-8 hidden min-h-[18rem] items-center justify-center lg:flex">
+    <div {...componentNameDebugProps("AICrewWhyAfterDesktopLayout")} className="mt-8 hidden min-h-[18rem] items-center justify-center lg:flex">
       <div className="relative h-[356px] w-full max-w-[33rem]">
         {afterBackgroundPositions.map((pos, index) => {
           const Icon = afterBackgroundIcons[index % afterBackgroundIcons.length];
@@ -217,7 +218,7 @@ export function AICrewWhyAfterOrbitItem({
   chipClassName?: string;
 }) {
   return (
-    <div>
+    <div {...componentNameDebugProps("AICrewWhyAfterOrbitItem")}>
       <div
         className={`absolute ${bubbleClassName} z-40 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/90 bg-[#1E293B] shadow-lg`}
       >
@@ -236,7 +237,7 @@ export function AICrewWhyAfterOrbitItem({
 
 export function AICrewWhyTaskColumn({ label, children }: { label: ReactNode; children: ReactNode }) {
   return (
-    <div className="rounded-[1rem] bg-white/14 px-4 py-4 shadow-[0_20px_40px_-28px_rgba(15,23,42,0.35)] backdrop-blur-sm">
+    <div {...componentNameDebugProps("AICrewWhyTaskColumn")} className="rounded-[1rem] bg-white/14 px-4 py-4 shadow-[0_20px_40px_-28px_rgba(15,23,42,0.35)] backdrop-blur-sm">
       <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-white/55">{label}</p>
       <div className="mt-3 grid gap-2">{children}</div>
     </div>
@@ -253,7 +254,7 @@ export function AICrewWhyDesktopTaskColumn({
   children: ReactNode;
 }) {
   return (
-    <div
+    <div {...componentNameDebugProps("AICrewWhyDesktopTaskColumn")}
       className={`absolute ${
         side === "left" ? "left-[14px]" : "right-[14px]"
       } top-1/2 z-30 w-[124px] -translate-y-1/2 rounded-[1rem] bg-white/14 px-3 py-4 shadow-[0_20px_40px_-28px_rgba(15,23,42,0.35)] backdrop-blur-sm`}
@@ -266,7 +267,7 @@ export function AICrewWhyDesktopTaskColumn({
 
 export function AICrewWhyTaskItem({ children }: { children: ReactNode }) {
   return (
-    <div className="rounded-[0.9rem] bg-white/10 px-3 py-2 text-[12px] font-medium text-white">
+    <div {...componentNameDebugProps("AICrewWhyTaskItem")} className="rounded-[0.9rem] bg-white/10 px-3 py-2 text-[12px] font-medium text-white">
       {children}
     </div>
   );

@@ -5,6 +5,7 @@ import { ChevronDown, Mic, Pause, X } from "lucide-react"
 import { useLocale } from "@/lib/lingo/intl"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
 import { cn } from "@/lib/lingo/utils"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export type TranscriptionFeatureVisualType =
   | "speaker"
@@ -431,8 +432,8 @@ function MultilingualVisual() {
 export function TranscriptionFeatureVisual({
   type,
 }: TranscriptionFeatureVisualProps) {
-  if (type === "speaker") return <SpeakerVisual />
-  if (type === "voice") return <VoiceVisual />
-  if (type === "terms") return <TermsVisual />
-  return <MultilingualVisual />
+  if (type === "speaker") return <SpeakerVisual {...componentNameDebugProps("TranscriptionFeatureVisual")} />
+  if (type === "voice") return <VoiceVisual {...componentNameDebugProps("TranscriptionFeatureVisual")} />
+  if (type === "terms") return <TermsVisual {...componentNameDebugProps("TranscriptionFeatureVisual")} />
+  return <MultilingualVisual {...componentNameDebugProps("TranscriptionFeatureVisual")} />
 }

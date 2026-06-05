@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowDown, ArrowRight, Building2, Compass, Settings2 } from "lucide-react";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type RoadmapTone = "crew" | "dashi";
 
@@ -61,19 +62,19 @@ function isRoadmapStepElement(node: ReactNode): node is ReactElement<RoadmapStep
 
 export function RoadmapSection({ children }: { children: ReactNode }) {
   return (
-    <section className="mx-auto max-w-[1920px] bg-[#f7f9fc] px-6 py-16 lg:px-10 lg:py-20">
+    <section {...componentNameDebugProps("RoadmapSection")} className="mx-auto max-w-[1920px] bg-[#f7f9fc] px-6 py-16 lg:px-10 lg:py-20">
       <div className="mx-auto w-full max-w-[1120px]">{children}</div>
     </section>
   );
 }
 
 export function RoadmapIntro({ children }: { children: ReactNode }) {
-  return <div className="mx-auto max-w-[860px] text-center">{children}</div>;
+  return <div {...componentNameDebugProps("RoadmapIntro")} className="mx-auto max-w-[860px] text-center">{children}</div>;
 }
 
 export function RoadmapTitle({ children }: { children: ReactNode }) {
   return (
-    <RevealOnScroll variant="up">
+    <RevealOnScroll {...componentNameDebugProps("RoadmapTitle")} variant="up">
       <h2 className="text-[30px] font-semibold leading-[1.2] tracking-[-0.04em] text-slate-950 sm:text-[42px]">{children}</h2>
     </RevealOnScroll>
   );
@@ -81,7 +82,7 @@ export function RoadmapTitle({ children }: { children: ReactNode }) {
 
 export function RoadmapBody({ children }: { children: ReactNode }) {
   return (
-    <RevealOnScroll variant="up" delayMs={120}>
+    <RevealOnScroll {...componentNameDebugProps("RoadmapBody")} variant="up" delayMs={120}>
       <p className="ml-auto mr-auto mt-5 max-w-[860px] pl-3 text-left text-[15px] leading-7 text-slate-600 lg:pl-5 lg:text-balance">{children}</p>
     </RevealOnScroll>
   );
@@ -95,7 +96,7 @@ export function RoadmapTabs({ children }: { children: ReactNode }) {
   const steps = Children.toArray(activePanel?.props.children).filter(isRoadmapStepElement);
 
   return (
-    <RevealOnScroll className="mt-10" variant="up" delayMs={220}>
+    <RevealOnScroll {...componentNameDebugProps("RoadmapTabs")} className="mt-10" variant="up" delayMs={220}>
       <div className="mb-6 flex flex-wrap justify-center gap-2">
         {tabs.map((tab) => {
           const active = tab.props.tabKey === activeTab;
@@ -189,27 +190,27 @@ export function RoadmapStep(props: RoadmapStepProps) {
 
 export function RoadmapCallout({ children }: { children: ReactNode }) {
   return (
-    <RevealOnScroll className="mt-8 flex justify-center" variant="up" delayMs={280}>
+    <RevealOnScroll {...componentNameDebugProps("RoadmapCallout")} className="mt-8 flex justify-center" variant="up" delayMs={280}>
       <div className="inline-flex flex-col items-center gap-2 rounded-full border border-slate-200 bg-white/85 px-5 py-3 text-center shadow-[0_18px_42px_-34px_rgba(15,23,42,0.18)] backdrop-blur-sm sm:flex-row sm:gap-3">{children}</div>
     </RevealOnScroll>
   );
 }
 
 export function RoadmapCalloutBadge({ children }: { children: ReactNode }) {
-  return <span className="rounded-full bg-[#2f3a49] px-3 py-1 text-[11px] font-semibold tracking-[0.12em] text-white">{children}</span>;
+  return <span {...componentNameDebugProps("RoadmapCalloutBadge")} className="rounded-full bg-[#2f3a49] px-3 py-1 text-[11px] font-semibold tracking-[0.12em] text-white">{children}</span>;
 }
 
 export function RoadmapCalloutBody({ children }: { children: ReactNode }) {
-  return <span className="text-[14px] font-semibold tracking-[-0.01em] text-slate-800">{children}</span>;
+  return <span {...componentNameDebugProps("RoadmapCalloutBody")} className="text-[14px] font-semibold tracking-[-0.01em] text-slate-800">{children}</span>;
 }
 
 export function RoadmapLinkGrid({ children }: { children: ReactNode }) {
-  return <RevealOnScroll className="mt-8 grid gap-4 lg:grid-cols-2" variant="up" delayMs={320}>{children}</RevealOnScroll>;
+  return <RevealOnScroll {...componentNameDebugProps("RoadmapLinkGrid")} className="mt-8 grid gap-4 lg:grid-cols-2" variant="up" delayMs={320}>{children}</RevealOnScroll>;
 }
 
 export function RoadmapLinkCard({ href, imageSrc, imageAlt, tone, children }: { href: string; imageSrc: string; imageAlt: string; tone: RoadmapTone; children: ReactNode }) {
   return (
-    <Link href={href} className="relative overflow-hidden rounded-[1.4rem] border border-slate-200/70 shadow-[0_18px_44px_-42px_rgba(15,23,42,0.22)] transition duration-300 hover:-translate-y-1 hover:shadow-md">
+    <Link {...componentNameDebugProps("RoadmapLinkCard")} href={href} className="relative overflow-hidden rounded-[1.4rem] border border-slate-200/70 shadow-[0_18px_44px_-42px_rgba(15,23,42,0.22)] transition duration-300 hover:-translate-y-1 hover:shadow-md">
       <div className="relative min-h-[260px]">
         <Image src={imageSrc} alt={imageAlt} fill unoptimized className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
         <div className={`absolute inset-0 ${tone === "crew" ? "bg-[linear-gradient(180deg,rgba(15,42,95,0.08)_0%,rgba(23,78,166,0.35)_42%,rgba(15,42,95,0.78)_100%)]" : "bg-[linear-gradient(180deg,rgba(245,158,11,0.12)_0%,rgba(217,119,6,0.36)_42%,rgba(92,48,12,0.78)_100%)]"}`} />
@@ -221,13 +222,13 @@ export function RoadmapLinkCard({ href, imageSrc, imageAlt, tone, children }: { 
 }
 
 export function RoadmapLinkTitle({ children }: { children: ReactNode }) {
-  return <p className="text-[18px] font-semibold leading-[1.4] tracking-[-0.02em] text-white sm:text-[20px]">{children}</p>;
+  return <p {...componentNameDebugProps("RoadmapLinkTitle")} className="text-[18px] font-semibold leading-[1.4] tracking-[-0.02em] text-white sm:text-[20px]">{children}</p>;
 }
 
 export function RoadmapLinkBody({ children }: { children: ReactNode }) {
-  return <p className="mt-2 max-w-[390px] text-[13px] leading-6 text-white/82">{children}</p>;
+  return <p {...componentNameDebugProps("RoadmapLinkBody")} className="mt-2 max-w-[390px] text-[13px] leading-6 text-white/82">{children}</p>;
 }
 
 export function RoadmapLinkAction({ children }: { children: ReactNode }) {
-  return <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-white/80">{children}<ArrowRight className="h-4 w-4" /></span>;
+  return <span {...componentNameDebugProps("RoadmapLinkAction")} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-white/80">{children}<ArrowRight className="h-4 w-4" /></span>;
 }

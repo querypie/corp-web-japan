@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type InternalEventsDemoHeroToggleProps = {
   showUpcomingEvent: boolean;
@@ -42,7 +43,7 @@ export function InternalEventsDemoHeroToggle({
   }
 
   return (
-    <div
+    <div {...componentNameDebugProps("InternalEventsDemoHeroToggle")}
       className={`inline-flex flex-wrap gap-2 ${disabled ? "opacity-60" : ""}`}
       role="group"
       aria-label="Internal events demo hero state"

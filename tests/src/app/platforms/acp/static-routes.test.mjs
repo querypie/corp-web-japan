@@ -176,7 +176,7 @@ describe("ACP static public route rollout", () => {
     assert.match(heroPrimitives, /export function AcpHeroLead/);
     assert.match(heroPrimitives, /w-full max-w-\[1200px\] text-\[18px\] font-light leading-\[28px\] tracking-\[0\.36px\] text-\[#57606A\]/);
     assert.doesNotMatch(heroPrimitives, /max-w-\[760px\]/);
-    assert.match(staticPageSection, /<section className="px-6 pb-0 pt-\[134px\] lg:pt-\[144px\]"/);
+    assert.match(staticPageSection, /<section[^>]*className="px-6 pb-0 pt-\[134px\] lg:pt-\[144px\]"/);
     assert.doesNotMatch(staticPageSection, /pt-\[70px\] md:pt-20/);
     assert.doesNotMatch(staticPageSection, /export function AcpHeroLeadGroup/);
     assert.doesNotMatch(staticPageSection, /flex w-full max-w-\[1200px\] flex-col items-center gap-5/);
@@ -190,10 +190,10 @@ describe("ACP static public route rollout", () => {
     assert.match(staticPageSection, /export function AcpSplitFeatureSection/);
     assert.match(staticPageSection, /export function AcpFaqSection/);
     assert.match(staticPageSection, /import faqStyles from "@\/components\/sections\/acp\/acp-faq\.module\.css"/);
-    assert.match(staticPageSection, /<section className=\{faqStyles\.section\}>/);
-    assert.match(staticPageSection, /<ul className=\{faqStyles\.list\}>/);
-    assert.match(staticPageSection, /<li className=\{faqStyles\.item\}>/);
-    assert.match(staticPageSection, /<details>/);
+    assert.match(staticPageSection, /<section[^>]*className=\{faqStyles\.section\}>/);
+    assert.match(staticPageSection, /<ul[^>]*className=\{faqStyles\.list\}>/);
+    assert.match(staticPageSection, /<li[^>]*className=\{faqStyles\.item\}>/);
+    assert.match(staticPageSection, /<details(?:\s[^>]*)?>/);
     assert.doesNotMatch(staticPageSection, /<details open>/);
     assert.match(staticPageSection, /<summary>\{question\}<\/summary>/);
     assert.match(staticPageSection, /className=\{faqStyles\.answer\}/);

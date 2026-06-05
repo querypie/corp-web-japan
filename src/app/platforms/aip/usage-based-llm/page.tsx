@@ -21,6 +21,7 @@ import {
 } from "@/components/sections/usage-based-llm/section";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
   title: "QueryPie AIP：実際使用量ベースエンタープライズAI | QueryPie AI",
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
 
 export default function AipUsageBasedLlmPage() {
   return (
-    <AipUsageBasedLlmPageShell>
+    <AipUsageBasedLlmPageShell {...componentNameDebugProps("AipUsageBasedLlmPage")}>
       <SiteHeader />
 
       <AipUsageBasedLlmHeroSection>

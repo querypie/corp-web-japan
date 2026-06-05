@@ -33,6 +33,7 @@ import {
   ProductTab,
   ProductTabs,
 } from "@/components/sections/plans/section";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const description = "あなたのチームに最適なプランを見つけよう。14日間の無料トライアルで今すぐ始められます。";
 
@@ -60,7 +61,7 @@ export const metadata: Metadata = {
 
 export default function PlansAIPPage() {
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("PlansAIPPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <CompanyPageSection>
         <PricingRoot>

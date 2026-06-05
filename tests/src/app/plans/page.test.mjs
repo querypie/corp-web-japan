@@ -12,7 +12,7 @@ test("/plans routes keep pricing copy in route pages while the section module on
   assert.equal(sourceExists("src/app/plans/[product]/page.tsx"), false);
 
   assert.match(routeSource, /import PlansAIPPage from "\.\/aip\/page"/);
-  assert.match(routeSource, /return <PlansAIPPage \/>/);
+  assert.match(routeSource, /return <PlansAIPPage(?:\s[^>]*)? \/>/);
   assert.match(routeSource, /redirect\(redirectTarget\)/);
   assert.match(routeSource, /return `\/plans\/\$\{product\}/);
   assert.match(routeSource, /canonical: "\/plans"/);

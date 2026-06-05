@@ -13,6 +13,7 @@ import {
 import { SubPageHeroBackground } from "@/components/sections/lingo/SubPageHeroBackground"
 import { getLocaleCopy } from "@/lib/lingo/locale-copy"
 import { cn } from "@/lib/lingo/utils"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type AiNoteFeatureCard = {
   title: string
@@ -190,7 +191,7 @@ function FeatureCardsSection() {
   const copy = getLocaleCopy(useLocale(), aiNoteCopy)
 
   return (
-    <Container className="section-gap">
+    <Container {...componentNameDebugProps("FeatureCardsSection")} className="section-gap">
       <div className="flex flex-col gap-16 md:gap-[120px]">
         {copy.featureCards.map((card, index) => {
           const isEven = index % 2 === 0
@@ -235,7 +236,7 @@ function AiNoteFAQSection() {
   const copy = getLocaleCopy(useLocale(), aiNoteCopy)
 
   return (
-    <Container>
+    <Container {...componentNameDebugProps("AiNoteFAQSection")}>
       <div className="flex flex-col gap-4 md:gap-[20px]">
         <h2 className="text-h1 text-[var(--fg)]">{copy.faqTitle}</h2>
         <div className="flex flex-col gap-[10px]">
@@ -284,7 +285,7 @@ function AiNoteCTASection() {
   const copy = getLocaleCopy(useLocale(), aiNoteCopy)
 
   return (
-    <Container>
+    <Container {...componentNameDebugProps("AiNoteCTASection")}>
       <div className="flex flex-col items-center gap-6 text-center md:gap-[30px]">
         <div className="flex w-full flex-col items-center gap-4 text-[var(--fg)] md:gap-[20px]">
           <h2 className="text-h1">{copy.ctaTitle}</h2>
@@ -304,7 +305,7 @@ export default function AiNotePage() {
   const copy = getLocaleCopy(useLocale(), aiNoteCopy)
 
   return (
-    <main className="page-layout-sub min-h-screen bg-[var(--bg)]">
+    <main {...componentNameDebugProps("AiNotePage")} className="page-layout-sub min-h-screen bg-[var(--bg)]">
       <SubPageHeroBackground />
       <div className="page-gutter w-full">
         <div className="container-main relative z-10 w-full">

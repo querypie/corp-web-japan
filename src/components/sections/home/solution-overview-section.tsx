@@ -12,7 +12,7 @@ export function SolutionOverviewSection({ children }: { children: ReactNode }) {
 
 export function SolutionOverviewIntro({ children }: { children: ReactNode }) {
   return (
-    <div className="mx-auto max-w-[900px] text-center">
+    <div {...componentNameDebugProps("SolutionOverviewIntro")} className="mx-auto max-w-[900px] text-center">
       <RevealOnScroll variant="up">
         <div className="mx-auto max-w-[900px]">{children}</div>
       </RevealOnScroll>
@@ -22,32 +22,32 @@ export function SolutionOverviewIntro({ children }: { children: ReactNode }) {
 
 export function SolutionOverviewTitle({ children }: { children: ReactNode }) {
   return (
-    <h2 className="mx-auto max-w-[730px] text-balance text-[31px] font-semibold leading-[1.22] tracking-[-0.045em] text-slate-950 sm:text-[40px] lg:text-[43px]">
+    <h2 {...componentNameDebugProps("SolutionOverviewTitle")} className="mx-auto max-w-[730px] text-balance text-[31px] font-semibold leading-[1.22] tracking-[-0.045em] text-slate-950 sm:text-[40px] lg:text-[43px]">
       {children}
     </h2>
   );
 }
 
 export function SolutionOverviewLead({ children }: { children: ReactNode }) {
-  return <p className="text-[15px] leading-[1.9] text-slate-600">{children}</p>;
+  return <p {...componentNameDebugProps("SolutionOverviewLead")} className="text-[15px] leading-[1.9] text-slate-600">{children}</p>;
 }
 
 export function SolutionOverviewLeadGroup({ children }: { children: ReactNode }) {
-  return <div className="mx-auto mt-6 max-w-[790px] space-y-4 text-left">{children}</div>;
+  return <div {...componentNameDebugProps("SolutionOverviewLeadGroup")} className="mx-auto mt-6 max-w-[790px] space-y-4 text-left">{children}</div>;
 }
 
 export function SolutionChoiceGroup({ children }: { children: ReactNode }) {
   return (
-    <RevealOnScroll className="mt-10 grid items-stretch gap-5 lg:grid-cols-2" variant="up" delayMs={220}>
+    <RevealOnScroll {...componentNameDebugProps("SolutionChoiceGroup")} className="mt-10 grid items-stretch gap-5 lg:grid-cols-2" variant="up" delayMs={220}>
       {children}
     </RevealOnScroll>
   );
 }
 
 export function SolutionChoiceContent({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+  return <div {...componentNameDebugProps("SolutionChoiceContent")} className="flex flex-1 flex-col">{children}</div>;
 }
 
 export function SolutionChoiceHeading({ children }: { children: ReactNode }) {
-  return <div className="mt-5">{children}</div>;
+  return <div {...componentNameDebugProps("SolutionChoiceHeading")} className="mt-5">{children}</div>;
 }

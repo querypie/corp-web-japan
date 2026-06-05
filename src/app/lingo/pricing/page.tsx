@@ -15,6 +15,7 @@ import { Footer } from "@/components/layout/lingo/Footer"
 import { FAQSection } from "@/components/sections/lingo/FAQSection"
 import { SubHeroSection } from "@/components/sections/lingo/SubHeroSection"
 import { SubPageHeroBackground } from "@/components/sections/lingo/SubPageHeroBackground"
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const queryPieUrl = "https://querypie.com"
 
@@ -53,7 +54,7 @@ export default function PricingPage() {
   const scenarios = t.raw("examples.scenarios") as Scenario[]
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] page-layout-sub">
+    <main {...componentNameDebugProps("PricingPage")} className="min-h-screen bg-[var(--bg)] page-layout-sub">
       <SubPageHeroBackground />
 
       <div className="w-full page-gutter">

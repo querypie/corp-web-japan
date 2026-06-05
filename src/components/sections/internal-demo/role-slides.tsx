@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Children, isValidElement, type ReactElement, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, BarChart3, BriefcaseBusiness, Building2, ChevronDown, ClipboardCheck, Code2, FileText, Handshake, Headset, Megaphone, MessageCircleHeart, Palette, PencilLine, Scale, SearchCheck, ShieldCheck, ShoppingCart, UserRoundCog, Wallet } from "lucide-react";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type RoleSlideData = {
   department: string;
@@ -250,7 +251,7 @@ export function RoleSlides({ children, note, ctaLabel, ctaHref }: RoleSlidesProp
   }
 
   return (
-    <div className="relative mx-auto max-w-[1232px]">
+    <div {...componentNameDebugProps("RoleSlides")} className="relative mx-auto max-w-[1232px]">
       <div className="mx-auto mb-8 flex max-w-[1240px] flex-nowrap items-center justify-center gap-2 overflow-x-auto px-4 md:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <button
           type="button"

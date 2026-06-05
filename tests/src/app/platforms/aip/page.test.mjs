@@ -66,7 +66,7 @@ test("/platforms/aip keeps route-local copy/composition while the layout primiti
   assert.match(sectionSource, /absolute inset-0 flex items-center/);
   assert.match(sectionSource, /export function AipValueSection[\s\S]*<PlatformContentSection/);
   assert.match(sectionSource, /export function AipFeatureSection/);
-  assert.match(sectionSource, /export function AipFeatureSection[\s\S]*<PlatformFeatureSection muted=\{muted\}>/);
+  assert.match(sectionSource, /export function AipFeatureSection[\s\S]*<PlatformFeatureSection[\s\S]*muted=\{muted\}>/);
   assert.match(sectionSource, /export function AipFeatureRow/);
   assert.match(sectionSource, /flex w-full flex-col items-center/);
   assert.match(sectionSource, /lg:flex-row-reverse/);

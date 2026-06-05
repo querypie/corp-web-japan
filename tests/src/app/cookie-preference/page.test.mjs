@@ -69,7 +69,7 @@ test("cookie preference shared section modules separate server-side layout primi
   assert.match(sectionSource, /export function CookiePreferenceItem/);
   assert.match(sectionSource, /export function CookiePreferenceToggleField/);
   assert.match(sectionSource, /export function CookiePreferenceToggleDescription/);
-  assert.match(sectionSource, /return <p className=\{companyBodyTextClassName\}>\{children\}<\/p>;/);
+  assert.match(sectionSource, /return <p[^>]*className=\{companyBodyTextClassName\}>\{children\}<\/p>;/);
   assert.doesNotMatch(sectionSource, /text-\[/);
   assert.doesNotMatch(sectionSource, /leading-\[/);
   assert.doesNotMatch(sectionSource, /tracking-\[/);
@@ -77,9 +77,9 @@ test("cookie preference shared section modules separate server-side layout primi
   assert.doesNotMatch(sectionSource, /gap-\[/);
   assert.match(sectionSource, /<CookiePreferenceToggle preference=\{id\} id=\{switchId\} disabled=\{disabled\} initialChecked=\{initialChecked\} \/>/);
   assert.match(sectionSource, /<label htmlFor=\{switchId\} className="font-medium text-slate-950">/);
-  assert.match(sectionSource, /<ul className="flex flex-col gap-10">/);
-  assert.match(sectionSource, /<li className="flex flex-col gap-5">/);
-  assert.match(sectionSource, /<div className="flex items-center gap-4">/);
+  assert.match(sectionSource, /<ul[^>]*className="flex flex-col gap-10">/);
+  assert.match(sectionSource, /<li[^>]*className="flex flex-col gap-5">/);
+  assert.match(sectionSource, /<div[^>]*className="flex items-center gap-4">/);
   assert.doesNotMatch(sectionSource, /label: string/);
   assert.doesNotMatch(sectionSource, /description: ReactNode/);
 
@@ -114,9 +114,9 @@ test("shared legal document intro matches company family typography and spacing"
 
   assert.match(
     legalDocumentSource,
-    /<h1 className="text-\[40px\] font-medium leading-\[1\.2\] tracking-\[-0\.03em\] text-slate-950 sm:text-\[48px\] lg:text-\[52px\]">/,
+    /<h1[^>]*className="text-\[40px\] font-medium leading-\[1\.2\] tracking-\[-0\.03em\] text-slate-950 sm:text-\[48px\] lg:text-\[52px\]">/,
   );
-  assert.match(legalDocumentSource, /return <div className=\{companyBodyTextClassName\}>\{children\}<\/div>;/);
+  assert.match(legalDocumentSource, /return <div[^>]*className=\{companyBodyTextClassName\}>\{children\}<\/div>;/);
   assert.match(legalDocumentSource, /export function LegalDocumentTitleActions/);
   assert.match(legalDocumentSource, /mb-10 flex flex-col gap-10 pt-\[10px\] text-left lg:mb-\[50px\] lg:gap-\[50px\] lg:pt-0/);
   assert.doesNotMatch(legalDocumentSource, /titleVariant/);
