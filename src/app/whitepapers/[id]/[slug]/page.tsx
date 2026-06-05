@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { PublicationPostPage } from "@/components/sections/publication-post-page";
 import {
   getWhitepaperPublicationHref,
@@ -96,7 +97,7 @@ export default async function WhitepaperDetailPage({ params }: WhitepaperDetailP
   }
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("WhitepaperPostPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <PublicationPostPage post={post} />
       <SiteFooter />

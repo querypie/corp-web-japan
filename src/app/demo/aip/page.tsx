@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { DemoCategorySidebar } from "@/components/sections/demo-category-sidebar";
 import {
   ResourceListContentSection,
@@ -28,7 +29,7 @@ export default async function AipDemoPage() {
   const aipDemoItems = await listAipDemoPublicationItems();
 
   return (
-    <main className="relative bg-white text-slate-950">
+    <main {...componentNameDebugProps("AipDemoPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
 
       <ResourceListHeroSection>

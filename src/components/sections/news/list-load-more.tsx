@@ -9,6 +9,7 @@ import {
   getResourceListLoadedRange,
   getResourceListNextVisibleCount,
 } from "@/lib/resource-list-load-more";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { NewsArticleList } from "./list-page";
 
 type NewsArticleLoadMoreProps = {
@@ -58,7 +59,7 @@ export function NewsArticleLoadMore({
   }
 
   return (
-    <>
+    <div {...componentNameDebugProps("NewsArticleLoadMore")}>
       <NewsArticleList items={visibleItems} />
       <ProgressiveLoadMore
         currentCount={visibleItems.length}
@@ -66,6 +67,6 @@ export function NewsArticleLoadMore({
         onLoadMore={handleLoadMore}
         isLoading={isPending}
       />
-    </>
+    </div>
   );
 }

@@ -8,6 +8,7 @@ import {
 } from "@/lib/preview-navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { PublicationPostPage } from "@/components/sections/publication-post-page";
 import { getIntroductionDeckPublicationHref, getIntroductionDeckPublicationPost, getIntroductionDeckPublicationRecord, listIntroductionDeckPublicationParamsByCategory } from "@/lib/resources/introduction-deck-post-loader";
 
@@ -67,7 +68,7 @@ export default async function IntroductionDeckDetailPage({ params }: Introductio
   }
 
   return (
-    <main className="relative overflow-x-hidden bg-white text-slate-950">
+    <main {...componentNameDebugProps("IntroductionDeckPostPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
       <PublicationPostPage post={post} />
       <SiteFooter />

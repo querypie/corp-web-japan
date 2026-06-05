@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { FeaturedEventHero } from "@/components/sections/events/hero";
 import { InternalEventsDemoEmptyState } from "@/components/sections/events/empty-state";
 import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
@@ -44,7 +45,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
   const initialVisibleCount = resolveResourceListVisibleCount(pastEvents, resolvedSearchParams?.until);
 
   return (
-    <main className="relative bg-white text-slate-950">
+    <main {...componentNameDebugProps("EventsPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
 
       <ResourceListHeroSection>

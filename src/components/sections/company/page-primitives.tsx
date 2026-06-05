@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { companyBodyTextClassName } from "@/components/ui/text-tokens";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type CompanyPageSectionProps = {
   children: ReactNode;
@@ -7,7 +8,7 @@ type CompanyPageSectionProps = {
 
 export function CompanyPageSection({ children }: CompanyPageSectionProps) {
   return (
-    <section className="mx-auto w-full max-w-[1920px] bg-white px-[30px] pb-[50px] pt-[100px] lg:pb-[72px] lg:pt-[120px]">
+    <section {...componentNameDebugProps("CompanyPageSection")} className="mx-auto w-full max-w-[1920px] bg-white px-[30px] pb-[50px] pt-[100px] lg:pb-[72px] lg:pt-[120px]">
       <div className="mx-auto w-full max-w-[1200px]">{children}</div>
     </section>
   );
@@ -18,7 +19,7 @@ type CompanyPageIntroProps = {
 };
 
 export function CompanyPageIntro({ children }: CompanyPageIntroProps) {
-  return <div className="flex flex-col gap-10 pt-[10px] text-left lg:gap-[50px] lg:pt-0">{children}</div>;
+  return <div {...componentNameDebugProps("CompanyPageIntro")} className="flex flex-col gap-10 pt-[10px] text-left lg:gap-[50px] lg:pt-0">{children}</div>;
 }
 
 type CompanyPageTitleProps = {
@@ -51,5 +52,5 @@ const companyPageLayoutClassNames = {
 } satisfies Record<CompanyPageLayoutPreset, string>;
 
 export function CompanyPageLayout({ children, preset = "single" }: CompanyPageLayoutProps) {
-  return <div className={companyPageLayoutClassNames[preset]}>{children}</div>;
+  return <div {...componentNameDebugProps("CompanyPageLayout")} className={companyPageLayoutClassNames[preset]}>{children}</div>;
 }

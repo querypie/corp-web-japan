@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 import {
   resourceCategorySidebarLinks,
   ResourceCategorySidebar,
@@ -31,7 +32,7 @@ export default function ManualsPage() {
   const items = listManualPreviewItems();
 
   return (
-    <main className="relative bg-white text-slate-950">
+    <main {...componentNameDebugProps("ManualsPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
 
       <ResourceListHeroSection>

@@ -9,6 +9,7 @@ import {
   getResourceListLoadedRange,
   getResourceListNextVisibleCount,
 } from "@/lib/resource-list-load-more";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { ResourceListItems } from "./resource-list-section";
 
 type ResourceListLoadMoreProps = {
@@ -58,7 +59,7 @@ export function ResourceListLoadMore({
   }
 
   return (
-    <div className="min-w-0 flex-1">
+    <div {...componentNameDebugProps("ResourceListLoadMore")} className="min-w-0 flex-1">
       <ResourceListItems items={visibleItems} />
       <ProgressiveLoadMore
         currentCount={visibleItems.length}

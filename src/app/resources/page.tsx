@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 import {
   resourceCategorySidebarLinks,
   ResourceCategorySidebar,
@@ -39,7 +40,7 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
   const initialVisibleCount = resolveResourceListVisibleCount(items, resolvedSearchParams?.until);
 
   return (
-    <main className="relative bg-white text-slate-950">
+    <main {...componentNameDebugProps("ResourcesPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
 
       <ResourceListHeroSection>

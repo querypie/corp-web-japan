@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { ResourceListLoadMore } from "@/components/sections/resource-list-load-more";
 import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
 import {
@@ -35,7 +36,7 @@ export default async function WhitepaperPage({ searchParams }: WhitepaperPagePro
   const initialVisibleCount = resolveResourceListVisibleCount(whitepaperItems, resolvedSearchParams?.until);
 
   return (
-    <main className="relative bg-white text-slate-950">
+    <main {...componentNameDebugProps("WhitepapersPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
 
       <ResourceListHeroSection>
