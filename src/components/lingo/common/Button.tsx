@@ -18,7 +18,7 @@ interface ButtonProps {
   size?: ButtonSize
 }
 
-const contactUrl = "https://querypie.ai/contact-us"
+const contactUrl = "/contact-us"
 
 const readyModalCopy = {
   ko: {
@@ -175,8 +175,6 @@ export function Button({
               <div className="mt-7 flex justify-center">
                 <a
                   href={contactUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[var(--corner-fill)] bg-[var(--brand)] px-5 py-2.5 body-md text-white transition-colors hover:bg-[#f2743d]"
                 >
                   {copy.cta}

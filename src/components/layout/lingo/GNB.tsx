@@ -145,8 +145,8 @@ export function GNB() {
   }
 
   const companyLinks = [
-    { label: copy.about, href: "https://querypie.ai/about-us" },
-    { label: copy.contact, href: "https://querypie.ai/contact-us" },
+    { label: copy.about, href: "/about-us" },
+    { label: copy.contact, href: "/contact-us" },
   ]
 
   return (
