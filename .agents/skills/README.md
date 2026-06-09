@@ -68,6 +68,12 @@ Current skills:
   - Path: `.agents/skills/mdx-refactoring-formatting/SKILL.md`
   - Purpose: normalize MDX formatting as an independent cross-cutting skill covering 80-column prose wrapping, indentation cleanup, and 2-space raw HTML table indentation
   - Scope: formatting-only MDX refactors for route-adjacent legal/policy content and other existing MDX files
+- `openspec-authoring`
+  - Path: `.agents/skills/openspec-authoring/SKILL.md`
+  - Purpose: write or substantially update corp-web-japan OpenSpec specifications or change documents from existing docs, current specs, and implementation evidence
+- `openspec-doc-maintenance`
+  - Path: `.agents/skills/openspec-doc-maintenance/SKILL.md`
+  - Purpose: maintain corp-web-japan OpenSpec documents when work reveals drift, contradiction, stale requirements, missing scenarios, or implementation contracts that should be captured in `openspec/`
 
 ## QueryPie Japan webpage migration skill stack (MECE)
 
