@@ -26,10 +26,12 @@ This wrapper only adds the glossary-specific contract.
 - Asset root: `public/glossary/<id>/...`
 - Repository: `src/lib/resources/glossary-publications.ts`
 - Post loader: `src/lib/resources/glossary-post-loader.ts`
-- Resource-supported optional fields: `date?`, `author?`, `gated?`, `relatedItems?`
+- Resource-supported optional fields: `date?`, `gated?`, `relatedItems?`
 
 ## Glossary-specific expectations
 - The shared Open Graph preview image rule applies to glossary posts: keep the effective preview image route-aligned and `.png`, never SVG.
+- Do not add `author` to glossary frontmatter. Glossary posts should not show
+  author information.
 
 ## Important limit
 - Do not assume `hidden` or `redirectUrl` support for this family in the current code.

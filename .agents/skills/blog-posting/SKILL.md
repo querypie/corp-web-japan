@@ -34,6 +34,9 @@ This wrapper only adds the blog-specific contract.
 ## Blog-specific expectations
 - The shared Open Graph preview image rule applies to blog posts: keep the effective preview image route-aligned and `.png`, never SVG.
 - Use `src/content/authors/ja.yaml` for author ids when applicable.
+- If no specific blog author is named but an author block should still appear,
+  set `author: "querypie"`. This default-author pattern applies only to blog,
+  whitepaper, and event posts.
 - Keep all blog-specific assets under `public/blog/<id>/...`.
 - Do not put new blog assets under `public/assets/...`.
 - Blog list cards resolve to local canonical detail routes.

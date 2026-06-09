@@ -36,6 +36,9 @@ This wrapper only adds the whitepaper-specific contract.
 ## Whitepaper-specific expectations
 - The shared Open Graph preview image rule applies to whitepapers: keep the effective preview image route-aligned and `.png`, never SVG.
 - Prefer setting `listDescription` explicitly.
+- If no specific whitepaper author is named but an author block should still
+  appear, set `author: "querypie"`. This default-author pattern applies only
+  to blog, whitepaper, and event posts.
 - If `gated: true`, the body must include `<GatingCut />`.
 - Keep all whitepaper-specific assets under `public/whitepapers/<id>/...`.
 - Do not put new whitepaper assets under `public/assets/...`.

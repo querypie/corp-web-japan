@@ -29,10 +29,12 @@ This wrapper only adds the ACP-demo-specific contract.
 - Records loader: `src/lib/publications/demo/acp/records.ts`
 - Detail loader: `src/lib/publications/demo/acp/get-post.ts`
 - Related field: `relatedIds`
-- Supported optional extras: `author`, `hidden`, `redirectUrl`
+- Supported optional extras: `hidden`, `redirectUrl`
 
 ## ACP demo-specific expectations
 - The shared Open Graph preview image rule applies to ACP demo posts: keep the effective preview image route-aligned and `.png`, never SVG.
+- Do not add `author` to ACP demo frontmatter. Author display is limited to
+  blog, whitepaper, and event posts.
 
 ## Verification
 ```bash

@@ -29,10 +29,12 @@ This wrapper only adds the use-case-specific contract.
 - Records loader: `src/lib/publications/use-cases/records.ts`
 - Detail loader: `src/lib/publications/use-cases/get-post.ts`
 - Related field: `relatedIds`
-- Supported optional extras: `author`, `hidden`, `redirectUrl`
+- Supported optional extras: `hidden`, `redirectUrl`
 
 ## Use-case-specific expectations
 - The shared Open Graph preview image rule applies to use cases: keep the effective preview image route-aligned and `.png`, never SVG.
+- Do not add `author` to use-case frontmatter. Author display is limited to
+  blog, whitepaper, and event posts.
 
 ## Verification
 ```bash

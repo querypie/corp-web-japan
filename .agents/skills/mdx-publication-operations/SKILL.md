@@ -36,10 +36,10 @@ They support:
 
 | Family | Content root | Canonical detail route | List route | Asset root | Extra frontmatter |
 |---|---|---|---|---|---|
-| Blog | `src/content/blog/*.mdx` | `/blog/:id/:slug` | `/blog` | `public/blog/<id>/...` | none beyond shared fields |
-| Whitepapers | `src/content/whitepapers/*.mdx` | `/whitepapers/:id/:slug` | `/whitepapers` | `public/whitepapers/<id>/...` | `listDescription`, `gated` |
+| Blog | `src/content/blog/*.mdx` | `/blog/:id/:slug` | `/blog` | `public/blog/<id>/...` | `author` |
+| Whitepapers | `src/content/whitepapers/*.mdx` | `/whitepapers/:id/:slug` | `/whitepapers` | `public/whitepapers/<id>/...` | `author`, `listDescription`, `gated` |
 | News | `src/content/news/*.mdx` | `/news/:id/:slug` | `/news` | `public/news/<id>/...` | `sourceLabel` |
-| Events | `src/content/events/*.mdx` | `/events/:id/:slug` | `/events` (launch-gated list) | `public/events/<id>/...` | `eventDate`, `eventLabel`, `hideHeroImageOnDetail` |
+| Events | `src/content/events/*.mdx` | `/events/:id/:slug` | `/events` (launch-gated list) | `public/events/<id>/...` | `author`, `eventDate`, `eventLabel`, `hideHeroImageOnDetail` |
 | Use cases | `src/content/use-cases/*.mdx` | `/use-cases/:id/:slug` | `/use-cases` | `public/use-cases/<id>/...` | none beyond shared fields |
 | AIP demo | `src/content/demo/aip/*.mdx` | `/demo/aip/:id/:slug` | `/demo/aip` | `public/demo/aip/<id>/...` | none beyond shared fields |
 | ACP demo | `src/content/demo/acp/*.mdx` | `/demo/acp/:id/:slug` | `/demo/acp` | `public/demo/acp/<id>/...` | none beyond shared fields |
@@ -51,9 +51,9 @@ They currently support add/edit, and they support `gated: true` where applicable
 
 | Family | Content root | Canonical detail route | List route | Asset root | Extra frontmatter |
 |---|---|---|---|---|---|
-| Introduction deck | `src/content/introduction-deck/*.mdx` | `/introduction-deck/:id/:slug` | `/introduction-deck` | `public/introduction-deck/<id>/...` | `date?`, `author?`, `gated?`, `downloadCta?`, `relatedItems?` |
-| Glossary | `src/content/glossary/*.mdx` | `/glossary/:id/:slug` | `/glossary` | `public/glossary/<id>/...` | `date?`, `author?`, `gated?`, `downloadCta?`, `relatedItems?` |
-| Manuals | `src/content/manuals/*.mdx` | `/manuals/:id/:slug` | `/manuals` | `public/manuals/<id>/...` | `date?`, `author?`, `gated?`, `downloadCta?`, `relatedItems?` |
+| Introduction deck | `src/content/introduction-deck/*.mdx` | `/introduction-deck/:id/:slug` | `/introduction-deck` | `public/introduction-deck/<id>/...` | `date?`, `gated?`, `downloadCta?`, `relatedItems?` |
+| Glossary | `src/content/glossary/*.mdx` | `/glossary/:id/:slug` | `/glossary` | `public/glossary/<id>/...` | `date?`, `gated?`, `downloadCta?`, `relatedItems?` |
+| Manuals | `src/content/manuals/*.mdx` | `/manuals/:id/:slug` | `/manuals` | `public/manuals/<id>/...` | `date?`, `gated?`, `downloadCta?`, `relatedItems?` |
 
 ### Out of scope
 
@@ -83,6 +83,17 @@ Do not treat internal support content as a normal public posting family unless t
 
 ## Frontmatter contracts
 
+### Author display policy
+
+Author information should be exposed only for blog, whitepaper, and event
+posts.
+
+- Blog, whitepaper, and event posts may use `author`.
+- When a blog, whitepaper, or event source does not name a specific author but
+  the page should still show an author block, set `author: "querypie"`.
+- Do not add `author` or a `querypie` default-author fallback to news,
+  introduction-deck, glossary, manuals, use-case, AIP demo, or ACP demo posts.
+
 ### A. Shared publication-family frontmatter
 
 Applies to blog, news, use-cases, AIP demo, and ACP demo.
@@ -96,7 +107,6 @@ description: "一覧・メタデータ用の説明"
 date: "2026-05-01"
 heroImageSrc: "/section/30/thumbnail.png"
 openGraphImageSrc: "/section/30/open-graph.png"
-author: "querypie"
 relatedIds:
   - "29"
   - "28"
@@ -109,7 +119,7 @@ Field notes:
 - `id`, `slug`, `title`, `description`, `date`, `heroImageSrc` are required.
 - `heroImageSrc` should point to a route-aligned `.png` by default.
 - `openGraphImageSrc` is optional. Use it when the Open Graph/Twitter preview image must differ from `heroImageSrc`, especially when `heroImageSrc` is SVG or another non-PNG format. It must point to an existing route-aligned `.png` file and overrides `heroImageSrc` for Open Graph/Twitter preview metadata.
-- `author` is optional and may be either a single string or a string array in the current loaders.
+- `author` is intentionally not part of the shared base. Add it only for blog posts according to the author display policy above; do not add it to news, use-cases, AIP demo, or ACP demo posts.
 - `relatedIds` should be an array of string IDs. Use `[]` semantics by omitting or leaving it empty when there are no related items.
 - `hidden` is optional. When `true`, the item is removed from the list page but still kept in the record set.
 - `redirectUrl` is optional. When set on supported publication families, the list item href resolves to that URL and human detail-page visits redirect there.
@@ -156,7 +166,6 @@ date: "2025-11-07"
 heroImageSrc: "/news/13/thumbnail.png"
 openGraphImageSrc: "/news/13/open-graph.png"
 sourceLabel: "公式発表"
-author: "querypie"
 relatedIds:
   - "12"
 hidden: false
@@ -167,6 +176,8 @@ redirectUrl: "https://example.com"
 Field notes:
 - `sourceLabel` is optional.
 - If omitted, the list defaults to `メディア掲載` when `redirectUrl` exists, otherwise `公式発表`.
+- Do not add `author` to news posts. News posts should not show author
+  information, and they should not use `author: "querypie"` as a fallback.
 
 ### D. Event frontmatter
 
@@ -212,7 +223,6 @@ description: "説明"
 heroImageSrc: "/glossary/1/thumbnail.png"
 openGraphImageSrc: "/glossary/1/open-graph.png"
 date: "2026-05-01"
-author: "querypie"
 gated: true
 downloadCta:
   href: "/glossary/1/download.pdf"
@@ -228,7 +238,7 @@ relatedItems:
 
 Field notes:
 - `date` is optional.
-- `author` is optional and uses the same registered author display path as the publication families.
+- Do not add `author` to introduction-deck, glossary, or manuals posts.
 - `gated` is optional and uses the same `<GatingCut />` marker contract in the current resource post loader.
 - `downloadCta` is optional. When present, it is parsed from frontmatter and rendered through the shared publication CTA flow instead of requiring an inline MDX `ButtonLink` for the actual downloadable file action.
 - In gated resource families, keep the explanatory copy inside the post body after `<GatingCut />`, but prefer the actual file-opening action in frontmatter `downloadCta`.
@@ -338,19 +348,26 @@ Do not set `gated: true` without `<GatingCut />`.
 ### Blog
 - Keep blog assets under `public/blog/<id>/...`.
 - Use author IDs from `src/content/authors/ja.yaml` when available.
+- If no specific blog author is named but an author block should still appear,
+  set `author: "querypie"`.
 - Blog list cards resolve to the local canonical detail route.
 
 ### Whitepapers
 - Prefer adding `listDescription` explicitly.
+- If no specific whitepaper author is named but an author block should still
+  appear, set `author: "querypie"`.
 - Use gating only when the user truly wants partial unlock behavior.
 - Whitepaper detail pages exist locally even though some list-card behavior has legacy/upstream history.
 
 ### News
 - Choose `sourceLabel` intentionally when the entry represents media coverage.
+- Do not add author information to news posts.
 - Use `redirectUrl` when the item should preserve a local canonical surface but open an upstream/media destination for humans.
 
 ### Events
 - Keep `eventDate` evidence-based.
+- If no specific event author is named but an author block should still appear,
+  set `author: "querypie"`.
 - Hidden + redirect shadow records are already used in this family and are a good reference pattern.
 - The public list page is launch-gated, so avoid undocumented assumptions based only on `/events` visibility.
 
@@ -363,7 +380,9 @@ Do not set `gated: true` without `<GatingCut />`.
 
 ### Introduction deck / Glossary / Manuals
 - Support add/edit today.
-- Support `author`, `gated`, `downloadCta`, and `relatedItems`.
+- Support `gated`, `downloadCta`, and `relatedItems`.
+- Do not add author information to introduction-deck, glossary, or manuals
+  posts.
 - For real downloadable files in these families, prefer frontmatter `downloadCta` over inline MDX `ButtonLink` markup so the shared publication renderer controls when the CTA appears.
 - In gated resource posts, the actual `downloadCta` should appear after unlock, not before the form.
 - Do not document hide/remove/shadow-record workflows for these families as if they already exist.
@@ -375,6 +394,8 @@ Do not set `gated: true` without `<GatingCut />`.
 - Adding post-specific assets under `public/assets/...`
 - Using `.svg` as the effective Open Graph preview image (`openGraphImageSrc ?? heroImageSrc`)
 - Adding `openGraphImageSrc` without adding the referenced `public/**` PNG file
+- Adding `author` to no-author families: news, introduction-deck, glossary,
+  manuals, use-case, AIP demo, or ACP demo
 - Using `relatedIds` on resource families that actually expect `relatedItems`
 - Using `hidden` / `redirectUrl` on resource families without loader support
 - Setting `gated: true` without `<GatingCut />`

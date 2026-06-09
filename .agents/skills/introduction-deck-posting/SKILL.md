@@ -27,10 +27,12 @@ This wrapper only adds the introduction-deck-specific contract.
 - Asset root: `public/introduction-deck/<id>/...`
 - Repository: `src/lib/resources/introduction-deck-publications.ts`
 - Post loader: `src/lib/resources/introduction-deck-post-loader.ts`
-- Resource-supported optional fields: `date?`, `author?`, `gated?`, `downloadCta?`, `relatedItems?`
+- Resource-supported optional fields: `date?`, `gated?`, `downloadCta?`, `relatedItems?`
 
 ## Introduction deck-specific expectations
 - The shared Open Graph preview image rule applies to introduction-deck posts: keep the effective preview image route-aligned and `.png`, never SVG.
+- Do not add `author` to introduction-deck frontmatter. Introduction-deck
+  posts should not show author information.
 
 ## Download CTA contract
 - Introduction-deck PDFs should be modeled in frontmatter `downloadCta`, not as inline MDX `<ButtonLink>` markup inside the body.
