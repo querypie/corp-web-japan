@@ -30,9 +30,13 @@ This wrapper only adds the news-specific contract.
 - Detail loader: `src/lib/publications/news/get-post.ts`
 - Related field: `relatedIds`
 - News-only frontmatter: `sourceLabel`
-- Optional shared extras also supported: `author`, `hidden`, `redirectUrl`
+- Optional shared extras also supported: `hidden`, `redirectUrl`
 
 ## News-specific expectations
+- Do not add `author` to news frontmatter. News posts should not show author
+  information.
+- Do not use `author: "querypie"` as a fallback for news; the `querypie`
+  default-author pattern is only for blog, whitepaper, and event posts.
 - News `heroImageSrc` is used for list cards and detail-page hero rendering; keep it route-aligned and `.png` by default.
 - Detail metadata resolves the effective Open Graph/Twitter preview image as `openGraphImageSrc ?? heroImageSrc`.
 - Use `openGraphImageSrc` when `heroImageSrc` is SVG or another non-PNG asset, or when the social preview should use a separate PNG. The referenced file must exist under `public/news/<id>/...` or another supported route-aligned news path.

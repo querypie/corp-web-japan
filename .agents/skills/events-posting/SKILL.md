@@ -34,6 +34,9 @@ This wrapper only adds the event-specific contract.
 
 ## Event-specific expectations
 - The shared Open Graph preview image rule applies to events: keep the effective preview image route-aligned and `.png`, never SVG.
+- If no specific event author is named but an author block should still appear,
+  set `author: "querypie"`. This default-author pattern applies only to blog,
+  whitepaper, and event posts.
 - `eventDate` must be ISO `YYYY-MM-DD` when present.
 - Only add `eventDate` when the source/body explicitly provides the event date.
 - Hidden + redirect shadow records are already used in this family and are a valid current pattern.

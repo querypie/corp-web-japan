@@ -26,10 +26,12 @@ This wrapper only adds the manuals-specific contract.
 - Asset root: `public/manuals/<id>/...`
 - Repository: `src/lib/resources/manual-publications.ts`
 - Post loader: `src/lib/resources/manual-post-loader.ts`
-- Resource-supported optional fields: `date?`, `author?`, `gated?`, `relatedItems?`
+- Resource-supported optional fields: `date?`, `gated?`, `relatedItems?`
 
 ## Manuals-specific expectations
 - The shared Open Graph preview image rule applies to manuals: keep the effective preview image route-aligned and `.png`, never SVG.
+- Do not add `author` to manuals frontmatter. Manuals should not show author
+  information.
 
 ## Important limit
 - Do not assume `hidden` or `redirectUrl` support for this family in the current code.
