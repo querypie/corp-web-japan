@@ -14,6 +14,7 @@ export type EventPublicationFrontmatter = {
   date: string;
   eventDate?: string;
   heroImageSrc: string;
+  openGraphImageSrc?: string;
   eventLabel?: string;
   hideHeroImageOnDetail?: boolean;
   hideTocOnDetail?: boolean;
@@ -111,6 +112,7 @@ function normalizeEventPublicationFrontmatter(value: unknown, sourcePath: string
   const eventLabelValue = frontmatter.eventLabel;
   const hideHeroImageOnDetailValue = frontmatter.hideHeroImageOnDetail;
   const redirectUrlValue = frontmatter.redirectUrl;
+  const openGraphImageSrcValue = frontmatter.openGraphImageSrc;
 
   if (typeof eventDateValue === "string" && !parseIsoCalendarDate(eventDateValue)) {
     throw new Error(`Invalid eventDate in ${sourcePath}: ${eventDateValue}`);
@@ -124,6 +126,10 @@ function normalizeEventPublicationFrontmatter(value: unknown, sourcePath: string
     date: String(frontmatter.date ?? ""),
     eventDate: typeof eventDateValue === "string" ? eventDateValue : undefined,
     heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
+    openGraphImageSrc:
+      typeof openGraphImageSrcValue === "string"
+        ? openGraphImageSrcValue
+        : undefined,
     eventLabel: typeof eventLabelValue === "string" ? eventLabelValue : undefined,
     hideHeroImageOnDetail: hideHeroImageOnDetailValue === true,
     author:

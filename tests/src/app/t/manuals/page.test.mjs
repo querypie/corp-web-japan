@@ -49,7 +49,8 @@ test("manual detail route family now uses only canonical public paths and no /t 
   const loaderSource = readSource(loaderFile);
   const publicationSource = readSource(publicationFile);
 
-  assert.match(canonicalSlugSource, /canonical: getManualPublicationHref/);
+  assert.match(canonicalSlugSource, /canonicalUrl = absoluteUrl\(getManualPublicationHref/);
+  assert.match(canonicalSlugSource, /canonical: canonicalUrl/);
   assert.match(canonicalSlugSource, /PublicationPostPage post=\{post\}/);
   assert.match(loaderSource, /extends BaseResourcePublicationPostLoader/);
   assert.match(publicationSource, /extends BaseResourcePublicationRepository/);

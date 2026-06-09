@@ -13,6 +13,7 @@ export type WhitepaperPublicationFrontmatter = {
   listDescription?: string;
   date: string;
   heroImageSrc: string;
+  openGraphImageSrc?: string;
   downloadCoverImageSrc?: string;
   author?: string | string[];
   hidden?: boolean;
@@ -47,6 +48,7 @@ function normalizeWhitepaperPublicationFrontmatter(
   const authorValue = frontmatter.author;
   const redirectUrlValue = frontmatter.redirectUrl;
   const downloadCtaValue = frontmatter.downloadCta;
+  const openGraphImageSrcValue = frontmatter.openGraphImageSrc;
   const downloadCta =
     downloadCtaValue && typeof downloadCtaValue === "object"
       ? (() => {
@@ -77,6 +79,10 @@ function normalizeWhitepaperPublicationFrontmatter(
         : undefined,
     date: String(frontmatter.date ?? ""),
     heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
+    openGraphImageSrc:
+      typeof openGraphImageSrcValue === "string"
+        ? openGraphImageSrcValue
+        : undefined,
     downloadCoverImageSrc:
       typeof frontmatter.downloadCoverImageSrc === "string"
         ? frontmatter.downloadCoverImageSrc

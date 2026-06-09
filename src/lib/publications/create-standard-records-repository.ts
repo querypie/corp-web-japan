@@ -14,6 +14,7 @@ export type StandardPublicationFrontmatter = {
   description: string;
   date: string;
   heroImageSrc: string;
+  openGraphImageSrc?: string;
   hidden?: boolean;
   redirectUrl?: string;
   relatedIds: readonly string[];

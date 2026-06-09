@@ -22,6 +22,7 @@ test("glossary now uses only canonical public routes and does not keep a /t/glos
   const canonicalSlugSource = readSource(canonicalSlugPage);
   const publicationSource = readSource(publicationFile);
 
-  assert.match(canonicalSlugSource, /canonical: getGlossaryPublicationHref/);
+  assert.match(canonicalSlugSource, /canonicalUrl = absoluteUrl\(getGlossaryPublicationHref/);
+  assert.match(canonicalSlugSource, /canonical: canonicalUrl/);
   assert.match(publicationSource, /src\/content\/glossary/);
 });

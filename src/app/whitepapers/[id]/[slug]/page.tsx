@@ -11,6 +11,10 @@ import {
   getWhitepaperPublicationRecord,
   listWhitepaperPublicationParams,
 } from "@/lib/publications/whitepapers/get-post";
+import {
+  buildPublicationOpenGraphMetadata,
+  resolvePublicationOpenGraphImageSrc,
+} from "@/lib/publications/metadata";
 import { buildGatingCookieName } from "@/lib/publications/gating";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import {
@@ -38,30 +42,26 @@ export async function generateMetadata({ params }: WhitepaperDetailPageProps): P
     return {};
   }
 
-  if (record.redirectUrl) {
-    return {
-      title: `${record.title} | QueryPie AI`,
-      description: record.description,
-      alternates: {
-        canonical: absoluteUrl(getWhitepaperPublicationHref(id, record.slug)),
-      },
-      robots: {
-        index: true,
-        follow: true,
-      },
-    };
-  }
+  const title = `${record.title} | QueryPie AI`;
+  const canonicalUrl = absoluteUrl(getWhitepaperPublicationHref(id, record.slug));
 
   return {
-    title: `${record.title} | QueryPie AI`,
+    title,
     description: record.description,
     alternates: {
-      canonical: absoluteUrl(getWhitepaperPublicationHref(id, record.slug)),
+      canonical: canonicalUrl,
     },
     robots: {
       index: true,
       follow: true,
     },
+    ...buildPublicationOpenGraphMetadata({
+      title,
+      description: record.description,
+      canonicalUrl,
+      imageAlt: record.title,
+      imageSrc: resolvePublicationOpenGraphImageSrc(record),
+    }),
   };
 }
 

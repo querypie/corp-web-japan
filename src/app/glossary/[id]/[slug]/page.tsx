@@ -4,7 +4,12 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { PublicationPostPage } from "@/components/sections/publication-post-page";
+import {
+  buildPublicationOpenGraphMetadata,
+  resolvePublicationOpenGraphImageSrc,
+} from "@/lib/publications/metadata";
 import { getGlossaryPublicationHref, getGlossaryPublicationPost, getGlossaryPublicationRecordById, listGlossaryPublicationParamsByCategory } from "@/lib/resources/glossary-post-loader";
+import { absoluteUrl } from "@/lib/site-url";
 
 type GlossaryDetailPageProps = {
   params: Promise<{ id: string; slug: string }>;
@@ -22,16 +27,26 @@ export async function generateMetadata({ params }: GlossaryDetailPageProps): Pro
     return {};
   }
 
+  const title = `${record.title} | QueryPie AI`;
+  const canonicalUrl = absoluteUrl(getGlossaryPublicationHref(id, record.slug));
+
   return {
-    title: `${record.title} | QueryPie AI`,
+    title,
     description: record.description,
     alternates: {
-      canonical: getGlossaryPublicationHref(id, record.slug),
+      canonical: canonicalUrl,
     },
     robots: {
       index: true,
       follow: true,
     },
+    ...buildPublicationOpenGraphMetadata({
+      title,
+      description: record.description,
+      canonicalUrl,
+      imageAlt: record.title,
+      imageSrc: resolvePublicationOpenGraphImageSrc(record),
+    }),
   };
 }
 

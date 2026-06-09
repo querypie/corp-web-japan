@@ -10,6 +10,10 @@ import {
   getNewsPublicationRecord,
   listNewsPublicationParams,
 } from "@/lib/publications/news/get-post";
+import {
+  buildPublicationOpenGraphMetadata,
+  resolvePublicationOpenGraphImageSrc,
+} from "@/lib/publications/metadata";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -32,16 +36,26 @@ export async function generateMetadata({ params }: NewsDetailPageProps): Promise
     return {};
   }
 
+  const title = `${record.title} | QueryPie AI`;
+  const canonicalUrl = absoluteUrl(getNewsPublicationHref(id, record.slug));
+
   return {
-    title: `${record.title} | QueryPie AI`,
+    title,
     description: record.description,
     alternates: {
-      canonical: absoluteUrl(getNewsPublicationHref(id, record.slug)),
+      canonical: canonicalUrl,
     },
     robots: {
       index: true,
       follow: true,
     },
+    ...buildPublicationOpenGraphMetadata({
+      title,
+      description: record.description,
+      canonicalUrl,
+      imageAlt: record.title,
+      imageSrc: resolvePublicationOpenGraphImageSrc(record),
+    }),
   };
 }
 

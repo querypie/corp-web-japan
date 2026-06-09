@@ -8,6 +8,7 @@ export type ResourcePublicationFrontmatter = {
   title: string;
   description: string;
   heroImageSrc: string;
+  openGraphImageSrc?: string;
   date?: string;
   author?: string | string[];
   gated?: boolean;

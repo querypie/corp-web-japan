@@ -12,6 +12,7 @@ export type AipDemoPublicationFrontmatter = {
   description: string;
   date: string;
   heroImageSrc: string;
+  openGraphImageSrc?: string;
   author?: string | string[];
   hideHeroImageOnDetail?: boolean;
   hidden?: boolean;
@@ -38,6 +39,7 @@ function normalizeAipDemoPublicationFrontmatter(
   const authorValue = frontmatter.author;
   const hideHeroImageOnDetailValue = frontmatter.hideHeroImageOnDetail;
   const redirectUrlValue = frontmatter.redirectUrl;
+  const openGraphImageSrcValue = frontmatter.openGraphImageSrc;
 
   return {
     id: String(frontmatter.id ?? ""),
@@ -46,6 +48,10 @@ function normalizeAipDemoPublicationFrontmatter(
     description: String(frontmatter.description ?? ""),
     date: String(frontmatter.date ?? ""),
     heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
+    openGraphImageSrc:
+      typeof openGraphImageSrcValue === "string"
+        ? openGraphImageSrcValue
+        : undefined,
     author:
       typeof authorValue === "string"
         ? authorValue
