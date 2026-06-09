@@ -5,7 +5,7 @@ import path from "node:path";
 
 const newsDir = path.join(process.cwd(), "src/content/news");
 const blogDir = path.join(process.cwd(), "src/content/blog");
-const expectedIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"];
+const expectedIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"];
 const migratedExternalIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 const markdownLinkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
 const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
