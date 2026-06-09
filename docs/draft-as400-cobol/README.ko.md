@@ -23,6 +23,7 @@
 | `content-brief.ja.md` | 콘텐츠 목표, 타깃 독자, 핵심 메시지, SEO 방향 일본어 기획안 |
 | `article-draft.ko.md` | 리뷰를 위한 일본어 본문 초안의 한국어 번역 |
 | `article-draft.ja.md` | 일본 웹사이트에 게시할 일본어 정적 웹페이지 본문 초안 |
+| `as400-technical-overview.ko.md` | AS/400의 CPU, OS, 브랜드 변화와 현재 기술 현황 정리 |
 | `publishing-checklist.ko.md` | 실제 반영 전 확인해야 할 작업 체크리스트 한국어판 |
 | `publishing-checklist.ja.md` | 실제 반영 전 확인해야 할 작업 체크리스트 일본어판 |
 | `source-research.ko.md` | AS400 / COBOL Migration 수치 표현의 출처 조사 보고서 |
