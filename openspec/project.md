@@ -6,6 +6,11 @@
 
 The website serves public marketing, solution, resource, publication, event, demo, glossary, manual, and company routes on `querypie.ai` and related preview/staging environments.
 
+First-party metadata, Open Graph, Twitter image, sitemap, and robots absolute
+URLs must resolve on the currently deployed website origin. The durable metadata
+origin contract lives in
+`openspec/specs/contract-deployed-origin-metadata/spec.md`.
+
 ## Environment boundary
 
 Production behavior is determined by the deployment target. The implementation currently treats `VERCEL_TARGET_ENV=production` as the production signal through `src/lib/is-production.ts`.
