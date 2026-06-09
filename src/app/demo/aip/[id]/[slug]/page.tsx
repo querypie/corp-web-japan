@@ -16,6 +16,7 @@ import {
 } from "@/lib/publications/metadata";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import { absoluteUrl } from "@/lib/site-url";
+import { getRequestDeployedSiteUrl } from "@/lib/site-url.server";
 
 type AipDemoDetailPageProps = {
   params: Promise<{
@@ -37,7 +38,7 @@ export async function generateMetadata({ params }: AipDemoDetailPageProps): Prom
   }
 
   const title = `${record.title} | QueryPie AI`;
-  const canonicalUrl = absoluteUrl(getAipDemoPublicationHref(id, record.slug));
+  const canonicalUrl = absoluteUrl(getAipDemoPublicationHref(id, record.slug), await getRequestDeployedSiteUrl());
 
   return {
     title,

@@ -74,6 +74,7 @@ const matchers = {
   ],
   routingSeo: [
     /^tests\/canonical-endpoints\.test\.mjs$/,
+    /^tests\/deployed-origin-metadata\.test\.mjs$/,
     /^tests\/legal-redirect-endpoints\.test\.mjs$/,
     /^tests\/legacy-whitepaper-redirects\.test\.mjs$/,
     /^tests\/link-and-metadata-integrity\.test\.mjs$/,
@@ -89,6 +90,7 @@ const matchers = {
     /^tests\/seo-metadata\.test\.mjs$/,
     /^tests\/services-preview-routes\.test\.mjs$/,
     /^tests\/sitemap-hidden-redirect-rules\.test\.mjs$/,
+    /^tests\/src\/lib\/site-url\.test\.mjs$/,
     /^tests\/typecheck-tsconfig-contract\.test\.mjs$/,
   ],
   staticPages: [

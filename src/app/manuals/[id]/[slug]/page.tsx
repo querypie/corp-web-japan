@@ -10,6 +10,7 @@ import {
 } from "@/lib/publications/metadata";
 import { getManualPublicationHref, getManualPublicationPost, getManualPublicationRecordById, listManualPublicationParamsByCategory } from "@/lib/resources/manual-post-loader";
 import { absoluteUrl } from "@/lib/site-url";
+import { getRequestDeployedSiteUrl } from "@/lib/site-url.server";
 
 type ManualsDetailPageProps = {
   params: Promise<{ id: string; slug: string }>;
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: ManualsDetailPageProps): Prom
   }
 
   const title = `${record.title} | QueryPie AI`;
-  const canonicalUrl = absoluteUrl(getManualPublicationHref(id, record.slug));
+  const canonicalUrl = absoluteUrl(getManualPublicationHref(id, record.slug), await getRequestDeployedSiteUrl());
 
   return {
     title,

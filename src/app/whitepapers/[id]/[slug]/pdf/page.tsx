@@ -18,6 +18,7 @@ import {
   PREVIEW_NAVIGATION_COOKIE,
 } from "@/lib/preview-navigation";
 import { absoluteUrl } from "@/lib/site-url";
+import { getRequestDeployedSiteUrl } from "@/lib/site-url.server";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type WhitepaperDownloadPageProps = {
@@ -43,7 +44,7 @@ export async function generateMetadata({ params }: WhitepaperDownloadPageProps):
     title: `${record.title} | QueryPie AI`,
     description: "限定コンテンツの入手には、フォームのご記入をお願いいたします。",
     alternates: {
-      canonical: absoluteUrl(getWhitepaperPublicationPdfHref(id, record.slug)),
+      canonical: absoluteUrl(getWhitepaperPublicationPdfHref(id, record.slug), await getRequestDeployedSiteUrl()),
     },
     robots: {
       index: false,

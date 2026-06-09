@@ -71,35 +71,35 @@ test("events is now a released resource hub with canonical metadata and a sitema
   assert.match(eventsPage, /FeaturedEventHero/);
   assert.match(eventsPage, /InternalEventsDemoEmptyState/);
   assert.match(eventsPage, /Past Events/);
-  assert.match(sitemap, /absoluteUrl\("\/events"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/resources"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/introduction-deck"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/manuals"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/glossary"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/events", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/resources", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/introduction-deck", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/manuals", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/glossary", deployedSiteUrl\)/);
 });
 
 test("robots and sitemap metadata files exist and cover the core public routes", () => {
   const robots = readSource("src/app/robots.ts");
   const sitemap = readSource("src/app/sitemap.ts");
 
-  assert.match(robots, /sitemap: `\$\{siteUrl\.toString\(\)\}sitemap\.xml`/);
-  assert.match(robots, /host: siteUrl\.toString\(\)/);
+  assert.match(robots, /sitemap: new URL\("\/sitemap\.xml", deployedSiteUrl\)\.toString\(\)/);
+  assert.match(robots, /host: deployedSiteUrl\.toString\(\)/);
   assert.match(robots, /disallow: \["\/privacy-policy", "\/terms-of-service"\]/);
 
-  assert.match(sitemap, /absoluteUrl\("\/"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-crew"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-dashi"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/blog"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/whitepapers"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/resources"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/introduction-deck"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/glossary"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/manuals"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/cookie-preference"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/terms-of-service"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/privacy-policy"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/eula"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-crew", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-dashi", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/blog", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/whitepapers", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/resources", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/introduction-deck", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/glossary", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/manuals", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/contact-us", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/cookie-preference", deployedSiteUrl\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/terms-of-service", deployedSiteUrl\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/privacy-policy", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/eula", deployedSiteUrl\)/);
   assert.match(sitemap, /eventPostRecords/);
   assert.match(sitemap, /getEventPostHref/);
 });

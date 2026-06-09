@@ -22,6 +22,7 @@ import {
   PREVIEW_NAVIGATION_COOKIE,
 } from "@/lib/preview-navigation";
 import { absoluteUrl } from "@/lib/site-url";
+import { getRequestDeployedSiteUrl } from "@/lib/site-url.server";
 
 type WhitepaperDetailPageProps = {
   params: Promise<{
@@ -43,7 +44,7 @@ export async function generateMetadata({ params }: WhitepaperDetailPageProps): P
   }
 
   const title = `${record.title} | QueryPie AI`;
-  const canonicalUrl = absoluteUrl(getWhitepaperPublicationHref(id, record.slug));
+  const canonicalUrl = absoluteUrl(getWhitepaperPublicationHref(id, record.slug), await getRequestDeployedSiteUrl());
 
   return {
     title,

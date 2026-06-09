@@ -10,6 +10,7 @@ import {
 } from "@/lib/publications/metadata";
 import { getGlossaryPublicationHref, getGlossaryPublicationPost, getGlossaryPublicationRecordById, listGlossaryPublicationParamsByCategory } from "@/lib/resources/glossary-post-loader";
 import { absoluteUrl } from "@/lib/site-url";
+import { getRequestDeployedSiteUrl } from "@/lib/site-url.server";
 
 type GlossaryDetailPageProps = {
   params: Promise<{ id: string; slug: string }>;
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: GlossaryDetailPageProps): Pro
   }
 
   const title = `${record.title} | QueryPie AI`;
-  const canonicalUrl = absoluteUrl(getGlossaryPublicationHref(id, record.slug));
+  const canonicalUrl = absoluteUrl(getGlossaryPublicationHref(id, record.slug), await getRequestDeployedSiteUrl());
 
   return {
     title,

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { absoluteUrl } from "@/lib/site-url";
 
 export type PublicationOpenGraphImageSource = {
   heroImageSrc: string;
@@ -31,6 +32,7 @@ export function buildPublicationOpenGraphMetadata({
   imageSrc,
 }: BuildPublicationOpenGraphMetadataParams): Pick<Metadata, "openGraph" | "twitter"> {
   const openGraphImageSrc = isPublicationOpenGraphImageSrc(imageSrc) ? imageSrc : null;
+  const openGraphImageUrl = openGraphImageSrc ? absoluteUrl(openGraphImageSrc, canonicalUrl) : null;
 
   return {
     openGraph: {
@@ -38,15 +40,15 @@ export function buildPublicationOpenGraphMetadata({
       description,
       url: canonicalUrl,
       type: "article",
-      images: openGraphImageSrc
-        ? [{ url: openGraphImageSrc, width: 1280, height: 720, alt: imageAlt }]
+      images: openGraphImageUrl
+        ? [{ url: openGraphImageUrl, width: 1280, height: 720, alt: imageAlt }]
         : [],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: openGraphImageSrc ? [openGraphImageSrc] : [],
+      images: openGraphImageUrl ? [openGraphImageUrl] : [],
     },
   };
 }

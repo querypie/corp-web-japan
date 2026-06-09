@@ -134,31 +134,31 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   for (const [route, page] of acpChildPages) {
     assert.match(page, new RegExp(`canonical:\\s*"\\/platforms\\/acp\\/${route}"`));
   }
-  assert.match(sitemap, /absoluteUrl\("\/about-us"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/certifications"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/news"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/resources"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/introduction-deck"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/glossary"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/manuals"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/use-cases"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/demo\/aip"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/demo\/acp"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/services\/fde"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/platforms\/acp"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/platforms\/acp\/integrations"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/plans"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/plans\/aip"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/plans\/acp"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/about-us", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/certifications", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/contact-us", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/news", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/resources", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/introduction-deck", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/glossary", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/manuals", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/use-cases", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/demo\/aip", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/demo\/acp", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/services\/fde", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/platforms\/acp", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/platforms\/acp\/integrations", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/plans", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/plans\/aip", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/plans\/acp", deployedSiteUrl\)/);
   for (const [route] of acpChildPages) {
-    assert.match(sitemap, new RegExp(`absoluteUrl\\("\\/platforms\\/acp\\/${route}"\\)`));
+    assert.match(sitemap, new RegExp(`absoluteUrl\\("\\/platforms\\/acp\\/${route}", deployedSiteUrl\\)`));
   }
-  assert.match(sitemap, /absoluteUrl\("\/cookie-preference"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/terms-of-service"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/privacy-policy"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/eula"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/cookie-preference", deployedSiteUrl\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/terms-of-service", deployedSiteUrl\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/privacy-policy", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/eula", deployedSiteUrl\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/demo\/use-cases", deployedSiteUrl\)/);
   assert.equal(existsSync(new URL("../src/app/about-us/route.ts", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/certifications/route.ts", import.meta.url)), false);
   assert.equal(existsSync(new URL("../src/app/news/route.ts", import.meta.url)), false);
@@ -190,5 +190,5 @@ test("events is a canonical public resource list route and is included in the si
   assert.match(eventsPage, /<ResourceListLoadMore[\s\S]*items=\{pastEvents\}[\s\S]*initialVisibleCount=\{initialVisibleCount\}/);
   assert.doesNotMatch(eventsPage, /<ResourceListItems items=\{pastEvents\} \/>/);
   assert.doesNotMatch(eventsPage, /return notFound\(\);/);
-  assert.match(sitemap, /absoluteUrl\("\/events"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/events", deployedSiteUrl\)/);
 });

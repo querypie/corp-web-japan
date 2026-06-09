@@ -16,6 +16,7 @@ import {
 } from "@/lib/publications/metadata";
 import { getIntroductionDeckPublicationHref, getIntroductionDeckPublicationPost, getIntroductionDeckPublicationRecord, listIntroductionDeckPublicationParamsByCategory } from "@/lib/resources/introduction-deck-post-loader";
 import { absoluteUrl } from "@/lib/site-url";
+import { getRequestDeployedSiteUrl } from "@/lib/site-url.server";
 
 type IntroductionDeckDetailPageProps = {
   params: Promise<{ id: string; slug: string }>;
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: IntroductionDeckDetailPagePro
   }
 
   const title = `${record.title} | QueryPie AI`;
-  const canonicalUrl = absoluteUrl(getIntroductionDeckPublicationHref(id, record.slug));
+  const canonicalUrl = absoluteUrl(getIntroductionDeckPublicationHref(id, record.slug), await getRequestDeployedSiteUrl());
 
   return {
     title,
