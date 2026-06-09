@@ -116,6 +116,67 @@ PowerVM/LPAR와의 통합, PASE를 통한 AIX/UNIX 계열 실행 환경, Java와
 - 주요 기존 언어: RPG, COBOL, CL
 - 현대화 연계: Java, SQL, REST API, Python, Node.js, PHP, Git, PASE, WebSphere/Apache 등
 
+## IBM i 환경의 주요 구성 요소
+
+IBM i 환경은 Linux처럼 커널, 배포판, DBMS, 미들웨어, 패키지 관리자를 각각
+조합해 구성하는 방식과 다릅니다. IBM i는 운영체제, 데이터베이스, 보안, 작업 관리,
+개발 런타임, 관리 도구가 하나의 제품 스택으로 통합된 구조입니다.
+
+| 구성 요소 | 역할 | 기술 특징 |
+| --- | --- | --- |
+| IBM Power 하드웨어 | IBM i가 실행되는 물리/가상 서버 기반 | POWER10, POWER11 등 Power 프로세서 기반. 온프레미스 Power 서버 또는 IBM Power Virtual Server에서 운영 가능 |
+| IBM i OS | 운영체제이자 통합 실행 플랫폼 | 데이터베이스, 미들웨어, 보안, 런타임, 하이퍼바이저 연계가 하나의 스택으로 통합됨 |
+| Licensed Internal Code(LIC) / SLIC | 하드웨어와 OS 사이의 저수준 실행 계층 | CPU 아키텍처 차이를 흡수하고 TIMI/MI 위의 애플리케이션 호환성을 유지하는 핵심 계층 |
+| TIMI / MI | 기술 독립적 기계 인터페이스 | 애플리케이션이 특정 CPU 명령어 집합에 직접 묶이지 않도록 하는 추상화 계층 |
+| Db2 for i | 내장 관계형 데이터베이스 | IBM i에 통합된 RDBMS. 별도 DB 서버라기보다 OS 일부처럼 운영되며, SQL과 기존 DDS/native I/O 자산을 함께 지원 |
+| 단일 수준 저장소 | 메모리와 디스크를 하나의 주소 공간처럼 관리하는 저장 구조 | DB 테이블스페이스나 디스크 배치 관리 부담을 줄이고, OS가 객체와 저장 위치를 통합 관리 |
+| 객체 기반 구조 | 파일 중심이 아니라 객체 중심으로 시스템 자원을 관리 | 프로그램, 파일, 라이브러리, 데이터 큐, 잡 큐 등 다양한 자원이 객체 타입과 권한 모델을 가짐 |
+| 라이브러리와 Library List | 전통 IBM i 애플리케이션의 네임스페이스와 탐색 순서 | Linux의 디렉터리/PATH와 비슷한 역할도 하지만, 객체와 라이브러리 단위의 업무 애플리케이션 배치 방식에 가깝다 |
+| Integrated File System(IFS) | UNIX/PC와 유사한 계층형 파일 시스템 제공 | 스트림 파일, 디렉터리 경로, NFS/Windows 연계 등을 지원하면서 IBM i 전체 객체에 대한 통합 접근 구조를 제공 |
+| Work Management | 작업(Job), 서브시스템, 잡 큐, 출력 큐 등 실행 관리 | Linux 프로세스/서비스 관리와 유사한 목적이지만, 업무 트랜잭션과 배치 중심으로 job을 통제하는 모델 |
+| 5250 인터페이스 | 전통적인 녹색 화면 업무/운영 인터페이스 | 메뉴, 명령어, 화면 기반 업무 앱을 제공. 현대화 시 웹/API/GUI와 병행하거나 대체 대상이 됨 |
+| CL(Control Language) | 시스템 운영과 배치 제어용 명령/스크립트 언어 | Linux shell script와 비슷한 자동화 역할을 하지만, IBM i 명령과 객체/잡 관리에 밀접하게 결합 |
+| RPG / COBOL | 기존 기간계 업무 로직의 주요 구현 언어 | 파일/레코드 중심 업무 처리, 배치, 트랜잭션 로직에 많이 사용. 최신 IBM i에서는 free-form RPG, SQL, API 연계와 함께 사용 가능 |
+| PASE for i | AIX/UNIX 계열 애플리케이션 실행 환경 | IBM i 안에서 UNIX 계열 런타임을 제공. Python, Node.js, Git 등 오픈소스 개발 도구 활용의 기반 |
+| Qshell / SSH / Open Source RPM | 현대적 CLI와 오픈소스 개발 도구 | Linux와 비슷한 shell/CLI 경험을 일부 제공하지만, IBM i native 환경과 PASE 환경의 경계를 이해해야 함 |
+| IBM Navigator for i / ACS | 관리, DB, 5250, 파일 전송, 개발 보조 도구 | 웹 기반 관리 UI와 클라이언트 도구를 통해 시스템/DB/잡/성능/5250 접근을 지원 |
+
+## Linux 개발환경과의 비교
+
+IBM i는 최근 Python, Node.js, Git, SSH, RPM 패키지 등 Linux 개발자에게 익숙한
+도구를 제공하지만, 기본 운영 모델은 Linux와 다릅니다. 특히 기존 RPG/COBOL
+자산을 다룰 때는 `파일과 프로세스` 중심이 아니라 `객체, 라이브러리, 잡, 통합 DB`
+중심으로 이해해야 합니다.
+
+| 관점 | IBM i | Linux 개발환경 |
+| --- | --- | --- |
+| 시스템 성격 | OS, DB, 미들웨어, 보안, 런타임이 통합된 업무 플랫폼 | 커널과 배포판 위에 DBMS, 미들웨어, 런타임을 조합하는 범용 서버 환경 |
+| 기본 자원 모델 | 모든 것이 객체에 가깝고, 객체 타입과 권한이 중요 | 모든 것이 파일이라는 UNIX 철학에 가까우며, 파일 descriptor와 경로가 중심 |
+| 파일/네임스페이스 | 라이브러리, 객체, IFS가 공존 | 계층형 파일 시스템과 `$PATH`, 패키지 경로 중심 |
+| 데이터베이스 | Db2 for i가 OS에 통합되어 있고 OS 릴리스와 밀접 | PostgreSQL, MySQL, Db2 LUW 등 별도 DBMS를 설치/운영하는 경우가 일반적 |
+| 저장소 관리 | 단일 수준 저장소와 객체 기반 관리가 핵심 | 블록 디바이스, 파일 시스템, 볼륨, DB 테이블스페이스 등을 계층적으로 관리 |
+| 실행 단위 | Job, subsystem, job queue, activation group 등이 중요 | Process, thread, service, cgroup, systemd unit 등이 중요 |
+| 배치/운영 자동화 | CL, job scheduler, job queue, message queue 등 | shell script, cron, systemd timer, CI runner 등 |
+| 전통 업무 UI | 5250 화면과 메뉴 기반 앱이 많음 | 터미널 CLI, 웹 UI, 데스크톱/모바일 클라이언트가 일반적 |
+| 개발 언어 | RPG, COBOL, CL, SQL이 기간계 자산의 중심. Java/Python/Node.js도 가능 | C/C++, Java, Go, Python, Node.js, Ruby 등 범용 언어 선택 폭이 넓음 |
+| 오픈소스 도구 | PASE와 RPM 기반으로 Git, Python, Node.js 등을 사용 | 배포판 패키지 관리자와 컨테이너 생태계가 기본 개발 흐름에 가까움 |
+| 권한 모델 | 사용자 프로파일, 객체 권한, adopted authority, 라이브러리/오브젝트 권한이 중요 | 사용자/그룹, POSIX 권한, ACL, SELinux/AppArmor, sudo 등이 중요 |
+| 운영 인력 모델 | 플랫폼 자체가 DB/보안/운영을 통합해 소수 인력 운영 사례가 많음 | 각 계층별 전문 운영, SRE, DBA, 미들웨어 관리 분리가 흔함 |
+| 현대화 포인트 | 5250/RPG/COBOL/Db2 for i 자산을 분석하고 API, SQL, 웹, Java/Python/Node.js와 연결 | 기존 Linux 앱은 컨테이너화, 클라우드 네이티브화, DB 분리, CI/CD 고도화가 주요 흐름 |
+
+## 개발자가 혼동하기 쉬운 지점
+
+1. `Db2 for i`는 Linux에 별도 설치하는 Db2 LUW와 같은 운영 감각이 아닙니다.
+   IBM i에 통합되어 있고 OS 릴리스, 객체 권한, 단일 수준 저장소와 밀접하게 움직입니다.
+2. IFS는 Linux와 유사한 경로 기반 파일 시스템을 제공하지만, IBM i 전체가 Linux처럼
+   파일 시스템 하나로만 구성된 것은 아닙니다. 라이브러리와 객체 모델이 여전히 중요합니다.
+3. PASE에서 실행하는 Python/Node.js/Git은 Linux 경험과 비슷하지만, 기존 RPG/COBOL
+   애플리케이션은 native IBM i 객체, 라이브러리, 잡 환경과 연결되어 있습니다.
+4. `job`은 단순히 Linux process 하나와 1:1로 대응하지 않습니다. 배치, 대화형 세션,
+   서버 작업, subsystem, job queue까지 포함하는 운영 단위로 보는 편이 좋습니다.
+5. 시스템 현대화는 Linux로 다시 작성하는 것만을 뜻하지 않습니다. 기존 IBM i와 Db2 for i를
+   유지하면서 SQL, API, 웹, 오픈소스 런타임을 붙이는 방식도 현대화 경로가 될 수 있습니다.
+
 따라서 공개 콘텐츠에서 `AS/400`이라고 쓸 때는 다음 의미를 분명히 하는 것이 좋습니다.
 
 > AS/400（現在のIBM i）は、IBM Power上で動作する統合型の基幹業務プラットフォームです。
@@ -150,3 +211,15 @@ PowerVM/LPAR와의 통합, PASE를 통한 AIX/UNIX 계열 실행 환경, Java와
 - IBM Support, 「IBM i Platform Support Summary」
   - https://www.ibm.com/support/pages/ibm-i-platform-support-summary
   - IBM i와 Power 서버 모델/릴리스 지원 관계 확인에 사용했습니다.
+- IBM, 「IBM i operating system」
+  - https://www.ibm.com/products/ibm-i
+  - IBM i가 데이터베이스, 미들웨어, 보안, 런타임, 관리 도구를 통합한 플랫폼이라는 현재 제품 설명과 IBM Power Virtual Server 운영 가능성 확인에 사용했습니다.
+- IBM Support, 「Db2 for IBM i」
+  - https://www.ibm.com/support/pages/db2-ibm-i
+  - Db2 for i가 IBM i에 통합된 RDBMS이며 단일 수준 저장소와 객체 기반 구조 위에서 운영된다는 설명 확인에 사용했습니다.
+- IBM Docs, 「What the integrated file system is」
+  - https://www.ibm.com/docs/en/i/7.5.0?topic=system-what-integrated-file-is
+  - IFS가 UNIX/PC와 유사한 스트림 파일, 계층형 디렉터리, 공통 인터페이스를 제공한다는 설명 확인에 사용했습니다.
+- IBM Support, 「Open Source Support for IBM i」
+  - https://www.ibm.com/support/pages/open-source-support-ibm-i
+  - IBM i에서 OpenSSH, OpenSSL, Apache, Java 및 RPM 기반 오픈소스 도구를 지원한다는 현재 개발환경 설명 확인에 사용했습니다.
