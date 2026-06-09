@@ -4,7 +4,7 @@
 
 - [x] `AS400 / COBOL Migration` を QueryPie のソリューションまたはサービスとして明記可能
 - [ ] `IBM i（AS/400）モダナイゼーション` と `AS400 / COBOL マイグレーション` のうち主表記を決定
-- [ ] AI ベースの COBOL/RPG 分析、設計書生成、テストケース生成、Java/API/Cloud 移行をどの範囲まで公開文言にできるか確認
+- [x] AI ベースの COBOL/RPG 分析、設計書生成、テストケース生成、Java/API/Cloud 移行は十分に公開可能
 - [ ] DB2 / Oracle 分析、PostgreSQL 移行、Linux/OCI/AWS 移行を具体的に言及してよいか確認
 - [ ] `1週間診断`、`1〜2か月で可能性確認` のような期間表現を公開ページで使えるか確認
 
