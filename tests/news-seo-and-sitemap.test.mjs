@@ -8,7 +8,7 @@ test("local official news detail pages are indexable and sitemap includes news d
   const newsDetailPage = read("src/app/news/[id]/[slug]/page.tsx");
   const sitemap = read("src/app/sitemap.ts");
 
-  assert.match(newsDetailPage, /canonicalUrl = absoluteUrl\(getNewsPublicationHref\(id, record\.slug\)\)/);
+  assert.match(newsDetailPage, /canonicalUrl = absoluteUrl\(getNewsPublicationHref\(id, record\.slug\), await getRequestDeployedSiteUrl\(\)\)/);
   assert.match(newsDetailPage, /canonical:\s*canonicalUrl/);
   assert.match(newsDetailPage, /buildPublicationOpenGraphMetadata/);
   assert.match(newsDetailPage, /imageSrc: resolvePublicationOpenGraphImageSrc\(record\)/);
@@ -18,6 +18,6 @@ test("local official news detail pages are indexable and sitemap includes news d
 
   assert.match(sitemap, /newsPublicationRecords/);
   assert.doesNotMatch(sitemap, /newsPublicationRecords\s*\.filter\(\(\{ redirectUrl \}\) => !redirectUrl\)/s);
-  assert.match(sitemap, /absoluteUrl\(getNewsPublicationHref\(id, slug\)\)/);
+  assert.match(sitemap, /absoluteUrl\(getNewsPublicationHref\(id, slug\), deployedSiteUrl\)/);
   assert.match(sitemap, /\.\.\.newsDetailRoutes/);
 });

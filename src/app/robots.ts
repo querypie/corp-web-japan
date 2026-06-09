@@ -1,14 +1,18 @@
 import type { MetadataRoute } from "next";
-import { siteUrl } from "@/lib/site-url";
+import { getRequestDeployedSiteUrl } from "@/lib/site-url.server";
 
-export default function robots(): MetadataRoute.Robots {
+export const dynamic = "force-dynamic";
+
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const deployedSiteUrl = await getRequestDeployedSiteUrl();
+
   return {
     rules: {
       userAgent: "*",
       allow: "/",
       disallow: ["/privacy-policy", "/terms-of-service"],
     },
-    sitemap: `${siteUrl.toString()}sitemap.xml`,
-    host: siteUrl.toString(),
+    sitemap: new URL("/sitemap.xml", deployedSiteUrl).toString(),
+    host: deployedSiteUrl.toString(),
   };
 }

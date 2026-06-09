@@ -18,186 +18,193 @@ import { listIntroductionDeckPublicationParams } from "@/lib/resources/introduct
 import { listGlossaryPublicationParams } from "@/lib/resources/glossary-publications";
 import { listManualPublicationParams } from "@/lib/resources/manual-publications";
 import { absoluteUrl } from "@/lib/site-url";
+import { getRequestDeployedSiteUrl } from "@/lib/site-url.server";
+
+export const dynamic = "force-dynamic";
 
 // `/privacy-policy` and `/terms-of-service` are public local legal pages,
 // but they are intentionally noindex and therefore omitted from the sitemap.
-const staticRoutes: Array<MetadataRoute.Sitemap[number]> = [
+function buildStaticRoutes(deployedSiteUrl: URL): Array<MetadataRoute.Sitemap[number]> {
+  return [
   {
-    url: absoluteUrl("/"),
+    url: absoluteUrl("/", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 1,
   },
   {
-    url: absoluteUrl("/solutions/ai-crew"),
+    url: absoluteUrl("/solutions/ai-crew", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.9,
   },
   {
-    url: absoluteUrl("/solutions/ai-dashi"),
+    url: absoluteUrl("/solutions/ai-dashi", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.9,
   },
   {
-    url: absoluteUrl("/blog"),
+    url: absoluteUrl("/blog", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
   },
   {
-    url: absoluteUrl("/whitepapers"),
+    url: absoluteUrl("/whitepapers", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
   },
   {
-    url: absoluteUrl("/news"),
+    url: absoluteUrl("/news", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
   },
   {
-    url: absoluteUrl("/resources"),
+    url: absoluteUrl("/resources", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
   },
   {
-    url: absoluteUrl("/events"),
+    url: absoluteUrl("/events", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
   },
   {
-    url: absoluteUrl("/introduction-deck"),
+    url: absoluteUrl("/introduction-deck", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/glossary"),
+    url: absoluteUrl("/glossary", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/manuals"),
+    url: absoluteUrl("/manuals", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/about-us"),
+    url: absoluteUrl("/about-us", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/certifications"),
+    url: absoluteUrl("/certifications", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/contact-us"),
+    url: absoluteUrl("/contact-us", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/cookie-preference"),
+    url: absoluteUrl("/cookie-preference", deployedSiteUrl),
     changeFrequency: "yearly",
     priority: 0.4,
   },
   {
-    url: absoluteUrl("/eula"),
+    url: absoluteUrl("/eula", deployedSiteUrl),
     changeFrequency: "yearly",
     priority: 0.4,
   },
   {
-    url: absoluteUrl("/plans"),
+    url: absoluteUrl("/plans", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
   },
   {
-    url: absoluteUrl("/plans/aip"),
+    url: absoluteUrl("/plans/aip", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/plans/acp"),
+    url: absoluteUrl("/plans/acp", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/platforms/aip"),
+    url: absoluteUrl("/platforms/aip", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
   },
   {
-    url: absoluteUrl("/platforms/aip/integrations"),
+    url: absoluteUrl("/platforms/aip/integrations", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/platforms/acp"),
+    url: absoluteUrl("/platforms/acp", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
   },
   {
-    url: absoluteUrl("/platforms/acp/integrations"),
+    url: absoluteUrl("/platforms/acp/integrations", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/platforms/acp/database-access-controller"),
+    url: absoluteUrl("/platforms/acp/database-access-controller", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/platforms/acp/system-access-controller"),
+    url: absoluteUrl("/platforms/acp/system-access-controller", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/platforms/acp/kubernetes-access-controller"),
+    url: absoluteUrl("/platforms/acp/kubernetes-access-controller", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/platforms/acp/web-access-controller"),
+    url: absoluteUrl("/platforms/acp/web-access-controller", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/platforms/aip/usage-based-llm"),
+    url: absoluteUrl("/platforms/aip/usage-based-llm", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/platforms/aip/mcp-gateway"),
+    url: absoluteUrl("/platforms/aip/mcp-gateway", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.7,
   },
   {
-    url: absoluteUrl("/use-cases"),
+    url: absoluteUrl("/use-cases", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
   },
   {
-    url: absoluteUrl("/demo/aip"),
+    url: absoluteUrl("/demo/aip", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
   },
   {
-    url: absoluteUrl("/demo/acp"),
+    url: absoluteUrl("/demo/acp", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
   },
   {
-    url: absoluteUrl("/services/fde"),
+    url: absoluteUrl("/services/fde", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
   },
-];
+  ];
+}
 
 function shouldIncludeRedirectableRecordInSitemap(record: { hidden?: boolean; redirectUrl?: string }) {
   return record.hidden !== true || typeof record.redirectUrl === "string";
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const deployedSiteUrl = await getRequestDeployedSiteUrl();
+
   const blogDetailRoutes: MetadataRoute.Sitemap = blogPostRecords
     .filter(shouldIncludeRedirectableRecordInSitemap)
     .map(({ id, slug }) => ({
-      url: absoluteUrl(getBlogPublicationHref(id, slug)),
+      url: absoluteUrl(getBlogPublicationHref(id, slug), deployedSiteUrl),
       changeFrequency: "monthly",
       priority: 0.7,
     }));
@@ -205,7 +212,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const whitepaperDetailRoutes: MetadataRoute.Sitemap = whitepaperPublicationRecords
     .filter(shouldIncludeRedirectableRecordInSitemap)
     .map(({ id, slug }) => ({
-      url: absoluteUrl(getWhitepaperPublicationHref(id, slug)),
+      url: absoluteUrl(getWhitepaperPublicationHref(id, slug), deployedSiteUrl),
       changeFrequency: "monthly",
       priority: 0.7,
     }));
@@ -213,7 +220,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const eventDetailRoutes: MetadataRoute.Sitemap = eventPostRecords
     .filter(shouldIncludeRedirectableRecordInSitemap)
     .map(({ id, slug }) => ({
-      url: absoluteUrl(getEventPostHref(id, slug)),
+      url: absoluteUrl(getEventPostHref(id, slug), deployedSiteUrl),
       changeFrequency: "monthly",
       priority: 0.7,
     }));
@@ -221,49 +228,49 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const newsDetailRoutes: MetadataRoute.Sitemap = newsPublicationRecords
     .filter(shouldIncludeRedirectableRecordInSitemap)
     .map(({ id, slug }) => ({
-      url: absoluteUrl(getNewsPublicationHref(id, slug)),
+      url: absoluteUrl(getNewsPublicationHref(id, slug), deployedSiteUrl),
       changeFrequency: "monthly",
       priority: 0.7,
     }));
 
   const useCaseDetailRoutes: MetadataRoute.Sitemap = useCasePublicationRecords.map(({ id, slug }) => ({
-    url: absoluteUrl(getUseCasePublicationHref(id, slug)),
+    url: absoluteUrl(getUseCasePublicationHref(id, slug), deployedSiteUrl),
     changeFrequency: "monthly",
     priority: 0.7,
   }));
 
   const aipDemoDetailRoutes: MetadataRoute.Sitemap = aipDemoPublicationRecords.map(({ id, slug }) => ({
-    url: absoluteUrl(getAipDemoPublicationHref(id, slug)),
+    url: absoluteUrl(getAipDemoPublicationHref(id, slug), deployedSiteUrl),
     changeFrequency: "monthly",
     priority: 0.7,
   }));
 
   const acpDemoDetailRoutes: MetadataRoute.Sitemap = acpDemoPublicationRecords.map(({ id, slug }) => ({
-    url: absoluteUrl(getAcpDemoPublicationHref(id, slug)),
+    url: absoluteUrl(getAcpDemoPublicationHref(id, slug), deployedSiteUrl),
     changeFrequency: "monthly",
     priority: 0.7,
   }));
 
   const introductionDeckDetailRoutes: MetadataRoute.Sitemap = listIntroductionDeckPublicationParams().map(({ id, slug }) => ({
-    url: absoluteUrl(`/introduction-deck/${id}/${slug}`),
+    url: absoluteUrl(`/introduction-deck/${id}/${slug}`, deployedSiteUrl),
     changeFrequency: "monthly",
     priority: 0.6,
   }));
 
   const glossaryDetailRoutes: MetadataRoute.Sitemap = listGlossaryPublicationParams().map(({ id, slug }) => ({
-    url: absoluteUrl(`/glossary/${id}/${slug}`),
+    url: absoluteUrl(`/glossary/${id}/${slug}`, deployedSiteUrl),
     changeFrequency: "monthly",
     priority: 0.6,
   }));
 
   const manualDetailRoutes: MetadataRoute.Sitemap = listManualPublicationParams().map(({ id, slug }) => ({
-    url: absoluteUrl(`/manuals/${id}/${slug}`),
+    url: absoluteUrl(`/manuals/${id}/${slug}`, deployedSiteUrl),
     changeFrequency: "monthly",
     priority: 0.6,
   }));
 
   return [
-    ...staticRoutes,
+    ...buildStaticRoutes(deployedSiteUrl),
     ...blogDetailRoutes,
     ...whitepaperDetailRoutes,
     ...eventDetailRoutes,

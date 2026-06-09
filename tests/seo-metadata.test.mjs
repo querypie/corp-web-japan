@@ -27,10 +27,11 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   const privacyPolicyPage = read("src/app/privacy-policy/page.tsx");
   const eulaPage = read("src/app/eula/page.tsx");
 
-  assert.match(layout, /metadataBase:\s*siteUrl/);
+  assert.match(layout, /metadataBase:\s*await getRequestDeployedSiteUrl\(\)/);
 
-  assert.match(robots, /sitemap:\s*`\$\{siteUrl\.toString\(\)\}sitemap\.xml`/);
-  assert.match(robots, /host:\s*siteUrl\.toString\(\)/);
+  assert.match(robots, /const deployedSiteUrl = await getRequestDeployedSiteUrl\(\)/);
+  assert.match(robots, /sitemap:\s*new URL\("\/sitemap\.xml", deployedSiteUrl\)\.toString\(\)/);
+  assert.match(robots, /host:\s*deployedSiteUrl\.toString\(\)/);
   assert.match(robots, /disallow:\s*\["\/privacy-policy", "\/terms-of-service"\]/);
 
   assert.match(homePage, /canonical:\s*"\/"/);
@@ -53,25 +54,25 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.match(privacyPolicyPage, /canonicalPath: "\/privacy-policy"/);
   assert.match(eulaPage, /canonical:\s*"\/eula"/);
 
-  assert.match(sitemap, /absoluteUrl\("\/whitepapers"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/contact-us"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/resources"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/introduction-deck"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/glossary"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/manuals"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/whitepaper"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/whitepapers", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/contact-us", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/resources", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/introduction-deck", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/glossary", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/manuals", deployedSiteUrl\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/whitepaper", deployedSiteUrl\)/);
   assert.match(sitemap, /getBlogPublicationHref/);
   assert.match(sitemap, /getWhitepaperPublicationHref/);
   assert.match(sitemap, /getNewsPublicationHref/);
   assert.match(sitemap, /getEventPostHref/);
-  assert.match(sitemap, /absoluteUrl\("\/use-cases"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/demo\/aip"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/demo\/acp"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/demo\/use-cases"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/events"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/cookie-preference"\)/);
+  assert.match(sitemap, /absoluteUrl\("\/use-cases", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/demo\/aip", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/demo\/acp", deployedSiteUrl\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/demo\/use-cases", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/events", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/cookie-preference", deployedSiteUrl\)/);
   assert.match(sitemap, /legal pages,[\s\S]*intentionally noindex and therefore omitted from the sitemap/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/terms-of-service"\)/);
-  assert.doesNotMatch(sitemap, /absoluteUrl\("\/privacy-policy"\)/);
-  assert.match(sitemap, /absoluteUrl\("\/eula"\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/terms-of-service", deployedSiteUrl\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/privacy-policy", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/eula", deployedSiteUrl\)/);
 });

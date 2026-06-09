@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import { preload } from "react-dom";
 import "./globals.css";
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
-import { siteUrl } from "@/lib/site-url";
+import { getRequestDeployedSiteUrl } from "@/lib/site-url.server";
 
 const monaSansFont = localFont({
   src: "../assets/fonts/Mona-Sans.woff2",
@@ -12,11 +12,13 @@ const monaSansFont = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
-  metadataBase: siteUrl,
-  title: "QueryPie AI Japan Website",
-  description: "QueryPie AIの日本向けエンタープライズAIソリューションサイトです。",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    metadataBase: await getRequestDeployedSiteUrl(),
+    title: "QueryPie AI Japan Website",
+    description: "QueryPie AIの日本向けエンタープライズAIソリューションサイトです。",
+  };
+}
 
 export default function RootLayout({
   children,
