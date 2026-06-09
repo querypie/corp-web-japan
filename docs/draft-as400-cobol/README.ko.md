@@ -25,6 +25,7 @@
 | `article-draft.ja.md` | 일본 웹사이트에 게시할 일본어 정적 웹페이지 본문 초안 |
 | `publishing-checklist.ko.md` | 실제 반영 전 확인해야 할 작업 체크리스트 한국어판 |
 | `publishing-checklist.ja.md` | 실제 반영 전 확인해야 할 작업 체크리스트 일본어판 |
+| `source-research.ko.md` | AS400 / COBOL Migration 수치 표현의 출처 조사 보고서 |
 
 ## 참고자료 제외 범위
 

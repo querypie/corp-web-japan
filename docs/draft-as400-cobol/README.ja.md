@@ -25,6 +25,7 @@
 | `article-draft.ja.md` | 日本向けWebサイトに掲載する日本語静的Webページ本文ドラフト |
 | `publishing-checklist.ko.md` | 実装・公開前に確認すべき作業チェックリスト韓国語版 |
 | `publishing-checklist.ja.md` | 実装・公開前に確認すべき作業チェックリスト日本語版 |
+| `source-research.ko.md` | AS400 / COBOL Migration の数値表現に関する出典調査レポート |
 
 ## 参考資料の除外範囲
 
