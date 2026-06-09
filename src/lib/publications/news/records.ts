@@ -12,6 +12,7 @@ export type NewsPublicationFrontmatter = {
   description: string;
   date: string;
   heroImageSrc: string;
+  openGraphImageSrc?: string;
   author?: string | string[];
   sourceLabel?: string;
   hidden?: boolean;
@@ -48,6 +49,7 @@ function normalizeNewsPublicationFrontmatter(value: unknown, sourcePath: string)
   const authorValue = frontmatter.author;
   const redirectUrlValue = frontmatter.redirectUrl;
   const sourceLabelValue = frontmatter.sourceLabel;
+  const openGraphImageSrcValue = frontmatter.openGraphImageSrc;
 
   return {
     id: String(frontmatter.id ?? ""),
@@ -56,6 +58,10 @@ function normalizeNewsPublicationFrontmatter(value: unknown, sourcePath: string)
     description: String(frontmatter.description ?? ""),
     date: String(frontmatter.date ?? ""),
     heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
+    openGraphImageSrc:
+      typeof openGraphImageSrcValue === "string"
+        ? openGraphImageSrcValue
+        : undefined,
     author:
       typeof authorValue === "string"
         ? authorValue

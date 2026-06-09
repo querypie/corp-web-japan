@@ -10,7 +10,12 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { PublicationPostPage } from "@/components/sections/publication-post-page";
+import {
+  buildPublicationOpenGraphMetadata,
+  resolvePublicationOpenGraphImageSrc,
+} from "@/lib/publications/metadata";
 import { getIntroductionDeckPublicationHref, getIntroductionDeckPublicationPost, getIntroductionDeckPublicationRecord, listIntroductionDeckPublicationParamsByCategory } from "@/lib/resources/introduction-deck-post-loader";
+import { absoluteUrl } from "@/lib/site-url";
 
 type IntroductionDeckDetailPageProps = {
   params: Promise<{ id: string; slug: string }>;
@@ -28,16 +33,26 @@ export async function generateMetadata({ params }: IntroductionDeckDetailPagePro
     return {};
   }
 
+  const title = `${record.title} | QueryPie AI`;
+  const canonicalUrl = absoluteUrl(getIntroductionDeckPublicationHref(id, record.slug));
+
   return {
-    title: `${record.title} | QueryPie AI`,
+    title,
     description: record.description,
     alternates: {
-      canonical: getIntroductionDeckPublicationHref(id, record.slug),
+      canonical: canonicalUrl,
     },
     robots: {
       index: true,
       follow: true,
     },
+    ...buildPublicationOpenGraphMetadata({
+      title,
+      description: record.description,
+      canonicalUrl,
+      imageAlt: record.title,
+      imageSrc: resolvePublicationOpenGraphImageSrc(record),
+    }),
   };
 }
 

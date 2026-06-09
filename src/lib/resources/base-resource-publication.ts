@@ -60,6 +60,10 @@ export abstract class BaseResourcePublicationRepository {
       title: String(frontmatter.title ?? ""),
       description: String(frontmatter.description ?? ""),
       heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
+      openGraphImageSrc:
+        typeof frontmatter.openGraphImageSrc === "string"
+          ? frontmatter.openGraphImageSrc
+          : undefined,
       date: typeof frontmatter.date === "string" ? frontmatter.date : undefined,
       author:
         typeof authorValue === "string"

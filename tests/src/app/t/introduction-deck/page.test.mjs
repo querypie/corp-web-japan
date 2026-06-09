@@ -25,7 +25,8 @@ test("introduction deck now uses only canonical public routes and does not keep 
   const canonicalSlugSource = readSource(canonicalSlugPage);
   const publicationSource = readSource(publicationFile);
 
-  assert.match(canonicalSlugSource, /canonical: getIntroductionDeckPublicationHref/);
+  assert.match(canonicalSlugSource, /canonicalUrl = absoluteUrl\(getIntroductionDeckPublicationHref/);
+  assert.match(canonicalSlugSource, /canonical: canonicalUrl/);
   assert.match(canonicalSlugSource, /PublicationPostPage post=\{post\}/);
   assert.match(publicationSource, /src\/content\/introduction-deck/);
 });

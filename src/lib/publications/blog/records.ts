@@ -12,6 +12,7 @@ export type BlogPostFrontmatter = {
   description: string;
   date: string;
   heroImageSrc: string;
+  openGraphImageSrc?: string;
   author?: string | string[];
   hidden?: boolean;
   redirectUrl?: string;
@@ -36,6 +37,7 @@ function normalizeBlogPostFrontmatter(value: unknown, sourcePath: string): BlogP
     : [];
   const authorValue = frontmatter.author;
   const redirectUrlValue = frontmatter.redirectUrl;
+  const openGraphImageSrcValue = frontmatter.openGraphImageSrc;
 
   return {
     id: String(frontmatter.id ?? ""),
@@ -44,6 +46,10 @@ function normalizeBlogPostFrontmatter(value: unknown, sourcePath: string): BlogP
     description: String(frontmatter.description ?? ""),
     date: String(frontmatter.date ?? ""),
     heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
+    openGraphImageSrc:
+      typeof openGraphImageSrcValue === "string"
+        ? openGraphImageSrcValue
+        : undefined,
     author:
       typeof authorValue === "string"
         ? authorValue

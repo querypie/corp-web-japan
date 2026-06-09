@@ -20,6 +20,7 @@ type GatedPublicationPostFrontmatter = {
   description: string;
   date: string;
   heroImageSrc: string;
+  openGraphImageSrc?: string;
   gated?: boolean;
   hideHeroImageOnDetail?: boolean;
   downloadCta?: GatedPublicationDownloadCta;
@@ -31,6 +32,7 @@ type GatedPublicationPostRecord = {
   title: string;
   date: string;
   heroImageSrc: string;
+  openGraphImageSrc?: string;
   redirectUrl?: string;
   relatedIds: readonly string[];
   sourcePath: string;
@@ -114,6 +116,7 @@ export function createGatedPublicationPostLoader<
       description: frontmatter.description,
       date: formatJapaneseDateFromIsoDate(frontmatter.date),
       heroImageSrc: frontmatter.heroImageSrc,
+      openGraphImageSrc: frontmatter.openGraphImageSrc,
       hideHeroImageOnDetail: frontmatter.hideHeroImageOnDetail === true,
       author: buildPublicationAuthor(frontmatter.author, config.defaultAuthorAvatarSrc),
       bodyHtml: null,

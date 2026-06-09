@@ -28,7 +28,8 @@ test("whitepaper redirect-backed detail routes redirect only human visitors whil
   assert.match(slugRouteSource, /shouldRedirectHumanVisitorFromRedirectablePublication/);
   assert.match(idOnlyRouteSource, /if \(record\.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication\(\)\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
   assert.match(slugRouteSource, /if \(record\.redirectUrl && await shouldRedirectHumanVisitorFromRedirectablePublication\(\)\) \{\s*redirect\(record\.redirectUrl\);\s*\}/s);
-  assert.match(slugRouteSource, /if \(record\.redirectUrl\) \{[\s\S]*robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
+  assert.match(slugRouteSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
+  assert.match(slugRouteSource, /buildPublicationOpenGraphMetadata/);
   assert.match(slugRouteSource, /const post = await getWhitepaperPublicationPost\(id\);/);
 });
 

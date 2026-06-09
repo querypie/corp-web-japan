@@ -10,6 +10,10 @@ import {
   getBlogPublicationRecord,
   listBlogPublicationParams,
 } from "@/lib/publications/blog/get-post";
+import {
+  buildPublicationOpenGraphMetadata,
+  resolvePublicationOpenGraphImageSrc,
+} from "@/lib/publications/metadata";
 import { shouldRedirectHumanVisitorFromRedirectablePublication } from "@/lib/publications/redirectable-publication-request";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -32,30 +36,26 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
     return {};
   }
 
-  if (record.redirectUrl) {
-    return {
-      title: `${record.title} | QueryPie AI`,
-      description: record.description,
-      alternates: {
-        canonical: absoluteUrl(getBlogPublicationHref(id, record.slug)),
-      },
-      robots: {
-        index: true,
-        follow: true,
-      },
-    };
-  }
+  const title = `${record.title} | QueryPie AI`;
+  const canonicalUrl = absoluteUrl(getBlogPublicationHref(id, record.slug));
 
   return {
-    title: `${record.title} | QueryPie AI`,
+    title,
     description: record.description,
     alternates: {
-      canonical: absoluteUrl(getBlogPublicationHref(id, record.slug)),
+      canonical: canonicalUrl,
     },
     robots: {
       index: true,
       follow: true,
     },
+    ...buildPublicationOpenGraphMetadata({
+      title,
+      description: record.description,
+      canonicalUrl,
+      imageAlt: record.title,
+      imageSrc: resolvePublicationOpenGraphImageSrc(record),
+    }),
   };
 }
 

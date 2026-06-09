@@ -52,6 +52,7 @@ export type PublicationPost = {
   description: string;
   date: string;
   heroImageSrc: string;
+  openGraphImageSrc?: string;
   hideHeroImageOnDetail?: boolean;
   author: PublicationPostAuthor | null;
   bodyHtml: string | null;

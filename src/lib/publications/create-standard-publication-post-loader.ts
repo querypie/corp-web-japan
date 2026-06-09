@@ -13,6 +13,7 @@ type StandardPublicationPostFrontmatter = {
   description: string;
   date: string;
   heroImageSrc: string;
+  openGraphImageSrc?: string;
   hideHeroImageOnDetail?: boolean;
   hideTocOnDetail?: boolean;
 };
@@ -23,6 +24,7 @@ type StandardPublicationPostRecord = {
   title: string;
   date: string;
   heroImageSrc: string;
+  openGraphImageSrc?: string;
   redirectUrl?: string;
   relatedIds: readonly string[];
   sourcePath: string;
@@ -73,6 +75,7 @@ export function createStandardPublicationPostLoader<
       description: frontmatter.description,
       date: formatDate(frontmatter.date),
       heroImageSrc: frontmatter.heroImageSrc,
+      openGraphImageSrc: frontmatter.openGraphImageSrc,
       hideHeroImageOnDetail: frontmatter.hideHeroImageOnDetail === true,
       author: buildPublicationAuthor(frontmatter.author, config.defaultAuthorAvatarSrc),
       bodyHtml: null,
