@@ -2,7 +2,7 @@
 
 ## 1. 솔루션 메시지 검증
 
-- [ ] `AS400 / COBOL Migration`을 QueryPie의 솔루션 또는 서비스로 명시해도 되는지 확인
+- [x] `AS400 / COBOL Migration`을 QueryPie의 솔루션 또는 서비스로 명시 가능
 - [ ] `IBM i（AS/400）モダナイゼーション`과 `AS400 / COBOL マイグレーション` 중 주 표기 결정
 - [ ] AI 기반 COBOL/RPG 분석, 설계서 생성, 테스트 케이스 생성, Java/API/Cloud 전환을 어느 수준까지 공개 문구로 사용할지 확인
 - [ ] DB2 / Oracle 분석, PostgreSQL 이전, Linux/OCI/AWS 이전을 구체적으로 언급해도 되는지 확인
