@@ -23,8 +23,11 @@
 | `content-brief.ja.md` | コンテンツ目的、対象読者、主要メッセージ、SEO方針の日本語企画書 |
 | `article-draft.ko.md` | レビュー用の日本語本文ドラフト韓国語訳 |
 | `article-draft.ja.md` | 日本向けWebサイトに掲載する日本語静的Webページ本文ドラフト |
+| `as400-technical-overview.ko.md` | AS/400 のCPU、OS、ブランド変遷、現在の技術状況に関する韓国語整理 |
+| `market-estimate.ko.md` | 日本の IBM i/RPG/COBOL レガシー市場における顧客数と市場規模の韓国語推定レポート |
 | `publishing-checklist.ko.md` | 実装・公開前に確認すべき作業チェックリスト韓国語版 |
 | `publishing-checklist.ja.md` | 実装・公開前に確認すべき作業チェックリスト日本語版 |
+| `source-research.ko.md` | AS400 / COBOL Migration の数値表現に関する出典調査レポート |
 
 ## 参考資料の除外範囲
 
