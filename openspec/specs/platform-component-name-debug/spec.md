@@ -44,13 +44,15 @@ The spec id SHALL be `platform-component-name-debug`.
 
 ### Requirement: build-time feature availability
 
-Component Name Debug SHALL be treated as a reviewer/debugging capability that MAY be available in production builds. Availability SHALL NOT be controlled by runtime environment variables or mutable operations settings on the same build artifact. Whether the app includes this feature SHALL be decided by an implementation code constant at build time. The default implementation constant SHOULD enable the feature unless a Product Owner decision or launch policy explicitly chooses a disabled build. If a disabled build is required, implementers SHALL change the code constant and produce a new build artifact.
+Component Name Debug SHALL be treated as a reviewer/debugging capability that MAY be available in production builds. Availability SHALL NOT be controlled by runtime environment variables or mutable operations settings on the same build artifact. Whether the app includes this feature SHALL be decided by an implementation code constant at build time. The default implementation constant SHOULD enable the feature unless a Product Owner decision or launch policy explicitly chooses a disabled build. If a disabled build is required, implementers SHALL change the code constant and produce a new build artifact. Production availability of the overlay and shortcut SHALL NOT imply production availability of a visible debug menu control.
 
 #### Scenario: default build includes Component Name Debug
 
 - GIVEN the website is built with the default Component Name Debug build-time constant
-- WHEN a user opens the app-specific Component Name Debug control surface or presses `Alt+Shift+N`
-- THEN the mode control and shortcut are available
+- WHEN a user presses `Alt+Shift+N`
+- THEN the shortcut can cycle Component Name Debug modes
+- AND the overlay runtime can display labels for the selected mode
+- BUT production UI does not render a standalone Component Name Debug menu trigger
 
 #### Scenario: runtime environment does not change availability
 
@@ -79,19 +81,29 @@ For static marketing pages, route-local authoring rules remain active. `src/app/
 - THEN the implementer revisits the existing layout owner or extracts a meaningful named component only if it improves normal source ownership
 - AND the implementer does not add `FooWrapper`, `FooPageShell`, `PageContent`, or equivalent wrapper-only components for Component Name Debug
 
-### Requirement: component name debug mode control
+### Requirement: component name debug mode control and shortcut
 
-The app SHALL provide an app-specific control surface for selecting Component Name Debug mode when the feature is included in the build. The control surface MAY live in the global site header, a reviewer tools menu, an internal-only menu, or another component that fits corp-web-japan's website architecture. It SHALL NOT be specified as an Outbound Agent Help menu requirement.
+The app SHALL provide at least one mode-changing path when Component Name Debug is included in the build. In `corp-web-japan`, the visible mode selector SHALL be the Show Component Name section inside the non-production Preview Toggle dropdown. It SHALL NOT be implemented as a second standalone header trigger, and production UI SHALL NOT render the Preview Toggle trigger or a visible Show Component Name menu. It SHALL NOT be specified as an Outbound Agent Help menu requirement.
 
-The control SHALL provide exactly these modes in this order: `Off`, `Pointer`, `Pointer + Ancestors`, `Always`. The default mode SHALL be `Off`. Pressing `Alt+Shift+N` SHALL cycle modes in this order: `Off` -> `Pointer` -> `Pointer + Ancestors` -> `Always` -> `Off`. The shortcut SHALL be ignored while the active target is an input, textarea, select, or contenteditable surface. Mode changes SHALL be stored and propagated so every mounted control and overlay reads the same current mode. Unsupported persisted mode values SHALL fall back to `Off`.
+When the visible selector is available, it SHALL provide exactly these modes in this order: `Off`, `Pointer`, `Pointer + Ancestors`, `Always`. The default mode SHALL be `Off`. Pressing `Alt+Shift+N` SHALL cycle modes in this order: `Off` -> `Pointer` -> `Pointer + Ancestors` -> `Always` -> `Off`. The shortcut SHALL remain available even when the visible selector is hidden in production. The shortcut SHALL be ignored while the active target is an input, textarea, select, or contenteditable surface. Mode changes SHALL be stored and propagated so every mounted control and overlay reads the same current mode. Unsupported persisted mode values SHALL fall back to `Off`.
 
-#### Scenario: control surface exposes all modes
+#### Scenario: non-production control surface exposes all modes
 
 - GIVEN Component Name Debug is included in the current build
-- WHEN a user opens the app-specific control surface
+- AND the website is running outside production
+- WHEN a user opens the Preview Toggle dropdown
 - THEN `Off`, `Pointer`, `Pointer + Ancestors`, and `Always` are shown in that order
 - AND selecting an option changes the current Component Name Debug mode
 - AND the control surface may show `Shortcut: Alt+Shift+N`
+
+#### Scenario: production header exposes no debug menu control
+
+- GIVEN Component Name Debug is included in the current build
+- AND the website is running in production
+- WHEN the site header renders
+- THEN the Preview Toggle trigger is not rendered
+- AND a standalone Component Name Debug trigger is not rendered
+- AND a visible Show Component Name menu is not rendered
 
 #### Scenario: Alt+Shift+N cycles modes
 
