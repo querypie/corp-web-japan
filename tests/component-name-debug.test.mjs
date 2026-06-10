@@ -388,7 +388,10 @@ test("Component Name Debug uses a production-capable build-time code constant", 
   assert.match(contractSource, /export const COMPONENT_NAME_DEBUG_ENABLED = true;/);
   assert.doesNotMatch(contractSource, /process\.env/);
   assert.match(contractSource, /export function isComponentNameDebugEnabled\(\)/);
-  assert.match(siteHeaderSource, /showPreviewModeToggle \|\| componentNameDebugEnabled/);
+  assert.doesNotMatch(siteHeaderSource, /isComponentNameDebugEnabled/);
+  assert.doesNotMatch(siteHeaderSource, /showPreviewModeToggle \|\| componentNameDebugEnabled/);
+  assert.doesNotMatch(siteHeaderSource, /showReviewerToolsToggle/);
+  assert.match(siteHeaderSource, /showPreviewModeToggle \? \(\s*<PreviewModeToggle\s+enabled=\{previewModeEnabled\}\s*\/>\s*\) : null/s);
 });
 
 test("Component Name Debug exposes the required mode order and shortcut cycle", () => {
@@ -438,11 +441,11 @@ test("Component Name Debug labels copy component names to Clipboard", () => {
   assert.match(overlaySource, /void copyComponentNameToClipboard\(label\.name\)/);
 });
 
-test("Preview toggle menu hosts Component Name Debug independently from preview controls", () => {
-  assert.match(previewToggleSource, /showPreviewModeControls\?: boolean/);
-  assert.match(previewToggleSource, /Reviewer tools menu/);
-  assert.match(previewToggleSource, /showPreviewModeControls \? "P" : "D"/);
-  assert.match(previewToggleSource, /showPreviewModeControls \? \(/);
+test("Preview toggle menu keeps Component Name Debug inside non-production preview controls", () => {
+  assert.doesNotMatch(previewToggleSource, /showPreviewModeControls/);
+  assert.doesNotMatch(previewToggleSource, /Reviewer tools menu/);
+  assert.doesNotMatch(previewToggleSource, /\? "P" : "D"/);
+  assert.match(previewToggleSource, /Preview mode menu:/);
   assert.match(previewToggleSource, /<ComponentNameDebugMenuSection \/>/);
   assert.match(menuSectionSource, /Show Component Name/);
   assert.match(menuSectionSource, /Shortcut: Alt\+Shift\+N/);

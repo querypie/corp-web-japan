@@ -31,7 +31,7 @@ Preview Toggle is not a public website feature. It is a reviewer/developer aid t
 
 ### Requirement: non-production availability
 
-Preview Toggle SHALL be available only outside production. Production detection SHALL use the deployment-target signal from `src/lib/is-production.ts`, currently `VERCEL_TARGET_ENV=production`. When production is detected, the preview toggle control SHALL NOT be shown and preview navigation SHALL be treated as disabled even if a stale preview cookie exists. The preview-navigation API SHALL force the preview-navigation cookie to the disabled value when called in production.
+Preview Toggle SHALL be available only outside production. Production detection SHALL use the deployment-target signal from `src/lib/is-production.ts`, currently `VERCEL_TARGET_ENV=production`. When production is detected, the preview toggle control SHALL NOT be shown and preview navigation SHALL be treated as disabled even if a stale preview cookie exists. The preview-navigation API SHALL force the preview-navigation cookie to the disabled value when called in production. Component Name Debug availability SHALL NOT override this non-production Preview Toggle boundary or create a standalone Show Component Name menu trigger in production UI.
 
 #### Scenario: non-production users can see the toggle
 
@@ -47,6 +47,8 @@ Preview Toggle SHALL be available only outside production. Production detection 
 - WHEN `getPreviewNavigationState` evaluates the cookie
 - THEN `showToggle` is false
 - AND `enabled` is false
+- AND the header does not render the Preview Toggle component
+- AND the header does not render a standalone Show Component Name menu trigger
 - WHEN `/api/preview-navigation` is called
 - THEN the response sets `querypie-preview-navigation=off`
 
@@ -70,7 +72,7 @@ Preview Toggle state SHALL be persisted in the `querypie-preview-navigation` coo
 
 ### Requirement: header Preview Toggle dropdown control
 
-When the toggle is visible, the site header SHALL render a compact Preview Toggle control in the header action area next to the contact CTA. The visible button SHALL remain the current-state indicator for preview navigation and SHALL use `aria-pressed` for that state. The same button SHALL act as a dropdown menu trigger, not as the direct enable/disable action. The trigger SHALL expose menu semantics with `aria-haspopup="menu"`, `aria-expanded`, and `aria-controls`. The dropdown panel SHALL provide explicit ON and OFF menu options. Selecting an option that changes the state SHALL optimistically update the visible trigger state, post the new state to `/api/preview-navigation`, close the menu, refresh the router after a successful update, and revert with a status error message if the update fails. The dropdown SHALL close when the user clicks outside it or presses Escape.
+When the toggle is visible, the site header SHALL render a compact Preview Toggle control in the header action area next to the contact CTA. The visible button SHALL remain the current-state indicator for preview navigation and SHALL use `aria-pressed` for that state. The same button SHALL act as a dropdown menu trigger, not as the direct enable/disable action. The trigger SHALL expose menu semantics with `aria-haspopup="menu"`, `aria-expanded`, and `aria-controls`. The dropdown panel SHALL provide explicit ON and OFF menu options and MAY include the Show Component Name mode section from `platform-component-name-debug`. Selecting a preview option that changes the state SHALL optimistically update the visible trigger state, post the new state to `/api/preview-navigation`, close the menu, refresh the router after a successful update, and revert with a status error message if the update fails. Selecting a Show Component Name mode SHALL update only Component Name Debug state and SHALL NOT post to `/api/preview-navigation`. The dropdown SHALL close when the user clicks outside it or presses Escape.
 
 #### Scenario: user opens the Preview Toggle menu
 
@@ -79,6 +81,7 @@ When the toggle is visible, the site header SHALL render a compact Preview Toggl
 - WHEN the user clicks the Preview Toggle trigger button
 - THEN the button keeps showing the current OFF state
 - AND a dropdown menu opens with explicit ON and OFF options
+- AND the dropdown may include Show Component Name mode options
 
 #### Scenario: user enables preview navigation from the dropdown
 

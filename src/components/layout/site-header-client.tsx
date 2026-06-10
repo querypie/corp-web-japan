@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { componentNameDebugProps, isComponentNameDebugEnabled } from "@/lib/component-name-debug";
+import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { ComponentNameDebugOverlay } from "./component-name-debug-overlay";
 import { PreviewModeToggle } from "./preview-mode-toggle";
 import styles from "./site-header.module.css";
@@ -90,8 +90,6 @@ export function SiteHeaderClient({
   const navListRef = useRef<HTMLUListElement>(null);
   const [navLeft, setNavLeft] = useState(0);
   const navItems = getNavItems();
-  const componentNameDebugEnabled = isComponentNameDebugEnabled();
-  const showReviewerToolsToggle = showPreviewModeToggle || componentNameDebugEnabled;
 
   useEffect(() => {
     function handlePointerDown(event: MouseEvent) {
@@ -188,11 +186,8 @@ export function SiteHeaderClient({
               <Link href="/contact-us" className={styles.cta}>
                 お問い合わせ
               </Link>
-              {showReviewerToolsToggle ? (
-                <PreviewModeToggle
-                  enabled={previewModeEnabled}
-                  showPreviewModeControls={showPreviewModeToggle}
-                />
+              {showPreviewModeToggle ? (
+                <PreviewModeToggle enabled={previewModeEnabled} />
               ) : null}
             </div>
           </div>

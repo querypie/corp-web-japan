@@ -8,10 +8,9 @@ import styles from "./preview-mode-toggle.module.css";
 
 type PreviewModeToggleProps = {
   enabled: boolean;
-  showPreviewModeControls?: boolean;
 };
 
-export function PreviewModeToggle({ enabled, showPreviewModeControls = true }: PreviewModeToggleProps) {
+export function PreviewModeToggle({ enabled }: PreviewModeToggleProps) {
   const router = useRouter();
   const menuId = useId();
   const menuRef = useRef<HTMLDivElement>(null);
@@ -20,9 +19,7 @@ export function PreviewModeToggle({ enabled, showPreviewModeControls = true }: P
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const componentNameDebugEnabled = isComponentNameDebugEnabled();
-  const menuLabel = showPreviewModeControls
-    ? `Preview mode menu: ${isEnabled ? "ON" : "OFF"}`
-    : "Reviewer tools menu";
+  const menuLabel = `Preview mode menu: ${isEnabled ? "ON" : "OFF"}`;
 
   useEffect(() => {
     setIsEnabled(enabled);
@@ -112,43 +109,41 @@ export function PreviewModeToggle({ enabled, showPreviewModeControls = true }: P
         <span className={styles.toggleInner}>
           <span className={styles.toggleDot} aria-hidden="true" />
           <span className={styles.toggleLabel} aria-hidden="true">
-            {showPreviewModeControls ? "P" : "D"}
+            P
           </span>
         </span>
       </button>
 
       {isMenuOpen ? (
         <div id={menuId} className={styles.menuPanel} role="menu" aria-label="Reviewer tools">
-          {showPreviewModeControls ? (
-            <div>
-              <p className={styles.menuEyebrow}>Preview mode</p>
-              <p className={styles.menuStatus}>{isEnabled ? "Currently ON" : "Currently OFF"}</p>
-              <div className={styles.menuItems}>
-                <button
-                  type="button"
-                  role="menuitemradio"
-                  aria-checked={isEnabled}
-                  className={`${styles.menuItem} ${isEnabled ? styles.menuItemActive : ""}`}
-                  onClick={() => void handlePreviewModeSelection(true)}
-                  disabled={isPending}
-                >
-                  <span className={styles.menuItemLabel}>ON</span>
-                  <span className={styles.menuItemDescription}>Use preview navigation and reviewer unlocks.</span>
-                </button>
-                <button
-                  type="button"
-                  role="menuitemradio"
-                  aria-checked={!isEnabled}
-                  className={`${styles.menuItem} ${!isEnabled ? styles.menuItemActive : ""}`}
-                  onClick={() => void handlePreviewModeSelection(false)}
-                  disabled={isPending}
-                >
-                  <span className={styles.menuItemLabel}>OFF</span>
-                  <span className={styles.menuItemDescription}>Use public navigation and normal gates.</span>
-                </button>
-              </div>
+          <div>
+            <p className={styles.menuEyebrow}>Preview mode</p>
+            <p className={styles.menuStatus}>{isEnabled ? "Currently ON" : "Currently OFF"}</p>
+            <div className={styles.menuItems}>
+              <button
+                type="button"
+                role="menuitemradio"
+                aria-checked={isEnabled}
+                className={`${styles.menuItem} ${isEnabled ? styles.menuItemActive : ""}`}
+                onClick={() => void handlePreviewModeSelection(true)}
+                disabled={isPending}
+              >
+                <span className={styles.menuItemLabel}>ON</span>
+                <span className={styles.menuItemDescription}>Use preview navigation and reviewer unlocks.</span>
+              </button>
+              <button
+                type="button"
+                role="menuitemradio"
+                aria-checked={!isEnabled}
+                className={`${styles.menuItem} ${!isEnabled ? styles.menuItemActive : ""}`}
+                onClick={() => void handlePreviewModeSelection(false)}
+                disabled={isPending}
+              >
+                <span className={styles.menuItemLabel}>OFF</span>
+                <span className={styles.menuItemDescription}>Use public navigation and normal gates.</span>
+              </button>
             </div>
-          ) : null}
+          </div>
           {componentNameDebugEnabled ? <ComponentNameDebugMenuSection /> : null}
         </div>
       ) : null}
