@@ -70,10 +70,10 @@ Current skills:
   - Scope: formatting-only MDX refactors for route-adjacent legal/policy content and other existing MDX files
 - `openspec-authoring`
   - Path: `.agents/skills/openspec-authoring/SKILL.md`
-  - Purpose: write or substantially update corp-web-japan OpenSpec specifications or change documents from existing docs, current specs, and implementation evidence
+  - Purpose: create, improve, or substantially update corp-web-japan OpenSpec specifications and change documents from existing docs, current specs, sibling repo OpenSpec practices, and implementation evidence
 - `openspec-doc-maintenance`
   - Path: `.agents/skills/openspec-doc-maintenance/SKILL.md`
-  - Purpose: maintain corp-web-japan OpenSpec documents when work reveals drift, contradiction, stale requirements, missing scenarios, or implementation contracts that should be captured in `openspec/`
+  - Purpose: improve and maintain corp-web-japan OpenSpec documents when work reveals drift, contradiction, stale requirements, missing scenarios, weak task coverage, or implementation contracts that should be captured in `openspec/`
 
 ## QueryPie Japan webpage migration skill stack (MECE)
 

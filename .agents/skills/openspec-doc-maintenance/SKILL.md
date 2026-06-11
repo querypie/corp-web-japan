@@ -1,8 +1,6 @@
 ---
 name: openspec-doc-maintenance
-description: Use when corp-web-japan work reveals OpenSpec drift, contradiction, stale requirements, missing scenarios, or an implementation contract that should be captured in openspec/.
-version: 1.0.0
-author: Hermes Agent
+description: Use when corp-web-japan work requires improving or maintaining OpenSpec docs, or reveals drift, contradiction, stale requirements, missing scenarios, or an implementation contract that should be captured in openspec/.
 license: MIT
 metadata:
   hermes:
@@ -25,6 +23,8 @@ Scenario, contradiction, or undocumented cross-cutting contract, capture it in
 Use this skill when:
 
 - Adding, updating, correcting, or reorganizing files under `openspec/`.
+- Improving OpenSpec document clarity, structure, deduplication, evidence links,
+  task quality, or verification coverage without changing product behavior.
 - A user request changes requirements or asks for an OpenSpec update.
 - Implementation or review reveals a mismatch between OpenSpec, docs, and code.
 - A reusable route, metadata, content, platform, UI, or verification contract is
@@ -48,6 +48,13 @@ Check the smallest relevant set:
 - `openspec/specs/README.md`
 - related `openspec/specs/**/spec.md`
 - related `openspec/changes/<change-id>/**` if a change exists
+- sibling repo skill references when the task explicitly asks to port or align
+  OpenSpec operating practice:
+  - `../corp-web-app/.agents/skills/openspec-authoring/SKILL.md`
+  - `../corp-web-app/.agents/skills/openspec-doc-maintenance/SKILL.md`
+  - `../outbound-agent/.agents/skills/openspec-authoring/SKILL.md`
+  - `../outbound-agent/.agents/skills/openspec-doc-maintenance/SKILL.md`
+  - `../outbound-agent/.agents/skills/openspec-task-execution/SKILL.md`
 - relevant repository docs such as:
   - `docs/code-location-conventions.md`
   - `docs/static-page-route-local-authoring.md`
@@ -75,6 +82,10 @@ Check the smallest relevant set:
    - Use `openspec/changes/<change-id>/design.md` for decision logs,
      alternatives, risks, and open questions.
    - Use `openspec/changes/<change-id>/tasks.md` for implementation sequencing.
+   - Use `openspec/changes/<change-id>/specs/<spec-id>/spec.md` for a
+     change-local delta before the accepted spec is updated.
+   - Use `openspec/archive/<date>-<change-id>/` only when preserving a completed
+     change history is useful and the active spec now owns the current contract.
 4. Keep OpenSpec and docs aligned.
    - Do not leave old docs with a competing full statement of the same contract.
    - Replace duplicated prose with a short bridge to the canonical OpenSpec path.
@@ -108,6 +119,8 @@ Good follow-up tasks include:
 - The regression tests to add or update.
 - The hosted or browser verification to run.
 - The explicit drift check result location, usually `tasks.md` or PR body.
+- The cleanup or archive condition if the change creates temporary
+  `openspec/changes/<change-id>/**` documents.
 
 Poor follow-up tasks:
 
