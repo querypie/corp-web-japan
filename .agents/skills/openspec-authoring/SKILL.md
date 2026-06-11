@@ -1,8 +1,6 @@
 ---
 name: openspec-authoring
-description: Use when writing or substantially updating corp-web-japan OpenSpec specifications or change documents from existing docs, current specs, and implementation evidence.
-version: 1.0.0
-author: Hermes Agent
+description: Use when creating, improving, or substantially updating corp-web-japan OpenSpec specifications or change documents from existing docs, current specs, and implementation evidence.
 license: MIT
 metadata:
   hermes:
@@ -12,8 +10,9 @@ metadata:
 
 # OpenSpec authoring in corp-web-japan
 
-Use this skill when creating a new OpenSpec spec, adding a change plan, or
-substantially updating an existing OpenSpec contract in `corp-web-japan`.
+Use this skill when creating a new OpenSpec spec, adding a change plan,
+improving an existing spec, or substantially updating an existing OpenSpec
+contract in `corp-web-japan`.
 
 The goal is to write a durable implementation contract that future agents and
 reviewers can execute against. Do not copy a design memo into OpenSpec and leave
@@ -26,6 +25,8 @@ Use this skill for:
 - Adding a new `openspec/specs/<spec-id>/spec.md`.
 - Updating active OpenSpec Requirements or Scenarios.
 - Creating or updating `openspec/changes/<change-id>/**` documents.
+- Improving existing OpenSpec documents for clarity, contract completeness,
+  deduplication, or testability without changing product behavior.
 - Promoting durable requirements from `docs/**`, current implementation, or a
   user decision into OpenSpec.
 - Writing follow-up implementation tasks and verification scope for a new
@@ -55,7 +56,16 @@ Do not use it for:
    - `openspec/specs/README.md`
    - related `openspec/specs/**/spec.md`
    - related `openspec/changes/**/{proposal.md,design.md,tasks.md}` if present
-5. Inspect current implementation evidence when the spec documents existing or
+5. When the task is a migration or policy alignment from another QueryPie repo,
+   use sibling OpenSpec skills and docs as workflow evidence only:
+   - `../corp-web-app/.agents/skills/openspec-authoring/SKILL.md`
+   - `../corp-web-app/.agents/skills/openspec-doc-maintenance/SKILL.md`
+   - `../outbound-agent/.agents/skills/openspec-authoring/SKILL.md`
+   - `../outbound-agent/.agents/skills/openspec-doc-maintenance/SKILL.md`
+   - `../outbound-agent/.agents/skills/openspec-task-execution/SKILL.md`
+   Do not import sibling product/domain requirements unless the user explicitly
+   asks for that content.
+6. Inspect current implementation evidence when the spec documents existing or
    near-term behavior:
    - `src/app/**/{page.tsx,route.ts}`
    - `src/components/**`
@@ -89,6 +99,11 @@ Do not use it for:
    - Use `openspec/changes/<change-id>/` when a broad not-yet-implemented change
      needs proposal, design decisions, and task sequencing before active specs
      are updated.
+   - Use `openspec/changes/<change-id>/specs/<spec-id>/spec.md` for a
+     change-local spec delta when the accepted spec should not be updated yet.
+   - Move completed change records to `openspec/archive/<date>-<change-id>/`
+     only when the repository has adopted that archive convention for the
+     change family.
 3. Write Requirements as contracts, not implementation plans.
    - Repository OpenSpec documents are written in English.
    - Use `SHALL`, `SHALL NOT`, `MUST`, `MUST NOT`, `MAY`, `SHOULD`, and
@@ -197,6 +212,17 @@ Change tasks:
 
 For verification tasks, include broad affected surfaces even when the
 implementation task itself is intentionally narrow.
+
+Archive note:
+
+```md
+# <date>-<change-id>
+
+## Summary
+## Accepted specs
+## Implementation evidence
+## Verification
+```
 
 ## Verification checklist
 
