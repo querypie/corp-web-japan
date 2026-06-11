@@ -129,8 +129,8 @@ Lingo global CSS into the target as unscoped global selectors.
 
 ### Requirement: same-site link targets
 
-Links from the Lingo subtree to pages served by the current `querypie.ai` website
-SHALL use root-relative paths and SHALL open in the current tab/window. These
+Same-site links from the Lingo subtree SHALL use root-relative paths and SHALL
+open in the current tab/window. These
 same-site links SHALL NOT use absolute `https://querypie.ai/...`,
 `https://www.querypie.ai/...`, or `https://www.querypie.com/...` URLs in Lingo
 implementation code, and SHALL NOT set `target="_blank"` or
@@ -198,8 +198,9 @@ is explicitly docs-only.
 
 ### Requirement: parity-first update policy
 
-Routine Lingo syncs SHOULD preserve visual/content parity with `../lingo-web`
-within the target namespace and policy boundaries above. Broader refactors, shared
+Routine Lingo syncs SHALL preserve visual/content parity with `../lingo-web`
+within the target namespace and policy boundaries above unless a separate
+accepted decision explicitly narrows the sync scope. Broader refactors, shared
 component promotion, `next/image` conversion, client/server boundary reduction,
 or unused asset pruning SHOULD happen in separate follow-up PRs after parity is
 confirmed.
