@@ -7,7 +7,7 @@ test("blog content directory contains all migrated local blog MDX posts", () => 
   const blogDir = join(process.cwd(), "src/content/blog");
   const files = readdirSync(blogDir).filter((file) => file.endsWith(".mdx")).sort();
 
-  assert.equal(files.length, 29);
+  assert.equal(files.length, 30);
   for (const file of files) {
     assert.match(file, /^\d+-[a-z0-9-]+\.mdx$/);
     assert.doesNotMatch(file, /^\d+\.mdx$/);
