@@ -230,5 +230,13 @@
     "description": "AI攻撃ツールCyberStrikeAIが55カ国のファイアウォール600台を突破。技術的に未熟な攻撃者がAIで大規模攻撃を実行した事件を分析し、ファイアウォールの先にあるデータを守る多層防御フレームワークをCxO向けに解説します。",
     "author": null,
     "sourceLocale": "ja"
+  },
+  {
+    "id": "30",
+    "slug": "claude-fable-5-management-strategy",
+    "title": "Claude Fable 5が突きつける「経営の再定義」：神話級AIを組織の意思決定に組み込むための5つの戦略",
+    "description": "Claude Fable 5の登場により、経営判断のあり方がどう変わるのか。博士号レベルの推論力を持つ「神話級」AIを、リスクを抑えつつ組織の武器にするための5つの戦略をCxO向けに解説。ガバナンスとセキュリティの最前線を紹介します。",
+    "author": null,
+    "sourceLocale": "ja"
   }
 ]
