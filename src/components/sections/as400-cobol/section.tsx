@@ -34,7 +34,7 @@ export function As400CobolSection({
       <div className="mx-auto w-full max-w-[1120px]">
         <div
           {...componentNameDebugProps("As400CobolSectionIntro")}
-          className="mx-auto max-w-[760px] text-center"
+          className="mx-auto max-w-[880px] text-center"
         >
           {eyebrow ? (
             <p
