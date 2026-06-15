@@ -146,8 +146,28 @@ export default async function As400CobolServicePage({
         muted
         componentName="As400CobolMarketBackgroundSection"
         eyebrow="Market Background"
-        title="AS/400とCOBOL資産は、今も基幹システムの重要テーマです"
-        lead="AS/400（現在のIBM i）は、IBM Power上で動作する統合型の基幹業務プラットフォームです。RPG、COBOL、CL、Db2 for i、ジョブ、帳票、5250画面などが業務と深く結びついているため、単なるサーバー更改ではなく、業務ロジックを理解したうえでの段階的なモダナイゼーションが必要です。"
+        title={
+          <>
+            AS/400とCOBOL資産は、
+            <br />
+            今も基幹システムの重要テーマです
+          </>
+        }
+        lead={
+          <>
+            AS/400（現在のIBM i）は、
+            <br />
+            IBM Power上で動作する統合型の基幹業務プラットフォームです。
+            <br />
+            RPG、COBOL、CL、Db2 for i、ジョブ、帳票、5250画面などが
+            <br />
+            業務と深く結びついているため、
+            <br />
+            単なるサーバー更改ではなく、業務ロジックを理解したうえでの
+            <br />
+            段階的なモダナイゼーションが必要です。
+          </>
+        }
       >
         <div className="space-y-8">
           <As400CobolStatGrid>
@@ -210,8 +230,24 @@ export default async function As400CobolServicePage({
       <As400CobolSection
         componentName="As400CobolWhyModernizeSection"
         eyebrow="Why Modernize"
-        title="なぜ今、AS400 / COBOL Modernizationが必要なのか"
-        lead="課題は、システムが動かないことではありません。安定して動いているからこそ、変える判断が遅れ、保守人材、コスト、仕様のブラックボックス化、DX施策との接続が同時に難しくなることです。"
+        title={
+          <>
+            なぜ今、AS400 / COBOL Modernizationが
+            <br />
+            必要なのか
+          </>
+        }
+        lead={
+          <>
+            課題は、システムが動かないことではありません。
+            <br />
+            安定して動いているからこそ、変える判断が遅れ、
+            <br />
+            保守人材、コスト、仕様のブラックボックス化、
+            <br />
+            DX施策との接続が同時に難しくなることです。
+          </>
+        }
       >
         <As400CobolInsightList>
           <As400CobolInsightItem icon="legacy" title="「動いているから触らない」が限界に近づく">
@@ -236,8 +272,22 @@ export default async function As400CobolServicePage({
         muted
         componentName="As400CobolAiApproachSection"
         eyebrow="AI Approach"
-        title="全面再開発ではなく、まずAIで現行システムを理解する"
-        lead="QueryPie AIは、既存資産をただ置き換えるのではなく、コード、DB、ジョブ、帳票、外部連携を読み解き、移行判断に必要な情報へ変換します。"
+        title={
+          <>
+            全面再開発ではなく、
+            <br />
+            まずAIで現行システムを理解する
+          </>
+        }
+        lead={
+          <>
+            QueryPie AIは、既存資産をただ置き換えるのではなく、
+            <br />
+            コード、DB、ジョブ、帳票、外部連携を読み解き、
+            <br />
+            移行判断に必要な情報へ変換します。
+          </>
+        }
       >
         <As400CobolDiagramRail>
           <As400CobolDiagramStage icon="source" eyebrow="Input" title="既存資産を集める">
@@ -269,8 +319,22 @@ export default async function As400CobolServicePage({
       <As400CobolSection
         componentName="As400CobolDeliverablesSection"
         eyebrow="Deliverables"
-        title="設計書、影響度、テストケースまで移行判断に必要な成果物をそろえる"
-        lead="AI分析の目的は、単にコードを説明することではありません。現行業務を止めずに、どこから着手し、何を残し、何を移すかを判断できる状態を作ることです。"
+        title={
+          <>
+            設計書、影響度、テストケースまで
+            <br />
+            移行判断に必要な成果物をそろえる
+          </>
+        }
+        lead={
+          <>
+            AI分析の目的は、単にコードを説明することではありません。
+            <br />
+            現行業務を止めずに、どこから着手し、
+            <br />
+            何を残し、何を移すかを判断できる状態を作ることです。
+          </>
+        }
       >
         <As400CobolPanelGrid componentName="As400CobolDeliverablesGrid">
           <As400CobolPanel
@@ -316,8 +380,24 @@ export default async function As400CobolServicePage({
         muted
         componentName="As400CobolMigrationArchitectureSection"
         eyebrow="Migration Architecture"
-        title="Java / PostgreSQL / Linux / Cloudへ、状況に応じた移行ルートを設計する"
-        lead="最初から全体を置き換えるのではなく、既存IBM iを残す選択肢も含めて、API化、Java化、データ移行、クラウド移行を段階的に組み合わせます。"
+        title={
+          <>
+            Java / PostgreSQL / Linux / Cloudへ、
+            <br />
+            状況に応じた移行ルートを設計する
+          </>
+        }
+        lead={
+          <>
+            最初から全体を置き換えるのではなく、
+            <br />
+            既存IBM iを残す選択肢も含めて、
+            <br />
+            API化、Java化、データ移行、クラウド移行を
+            <br />
+            段階的に組み合わせます。
+          </>
+        }
       >
         <div className="space-y-8">
           <As400CobolArchitectureBand>
@@ -367,8 +447,24 @@ export default async function As400CobolServicePage({
         id="service-scope"
         componentName="As400CobolServiceScopeSection"
         eyebrow="Service Scope"
-        title="現行理解から段階移行まで、サービス範囲を一つの流れで支援"
-        lead="受発注、在庫、請求、バッチ、帳票、外部連携といった業務単位に沿って現行資産を理解し、AI分析、PoC、移行設計、実装、並行稼働、運用安定化までつなげます。"
+        title={
+          <>
+            現行理解から段階移行まで、
+            <br />
+            サービス範囲を一つの流れで支援
+          </>
+        }
+        lead={
+          <>
+            受発注、在庫、請求、バッチ、帳票、外部連携といった
+            <br />
+            業務単位に沿って現行資産を理解し、
+            <br />
+            AI分析、PoC、移行設計、実装、並行稼働、
+            <br />
+            運用安定化までつなげます。
+          </>
+        }
       >
         <As400CobolPanelGrid componentName="As400CobolServiceScopeGrid">
           <As400CobolPanel
