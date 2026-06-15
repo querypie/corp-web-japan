@@ -145,7 +145,7 @@ export function As400CobolContactSection({ children }: { children: ReactNode }) 
     >
       <div
         {...componentNameDebugProps("As400CobolContactContent")}
-        className="mx-auto flex max-w-[760px] flex-col items-center"
+        className="mx-auto flex max-w-[880px] flex-col items-center"
       >
         {children}
       </div>

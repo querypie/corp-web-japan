@@ -155,17 +155,11 @@ export default async function As400CobolServicePage({
         }
         lead={
           <>
-            AS/400（現在のIBM i）は、
+            AS/400（現在のIBM i）は、IBM Power上で動作する統合型の基幹業務プラットフォームです。
             <br />
-            IBM Power上で動作する統合型の基幹業務プラットフォームです。
+            RPG、COBOL、CL、Db2 for i、ジョブ、帳票、5250画面などが業務と深く結びついているため、
             <br />
-            RPG、COBOL、CL、Db2 for i、ジョブ、帳票、5250画面などが
-            <br />
-            業務と深く結びついているため、
-            <br />
-            単なるサーバー更改ではなく、業務ロジックを理解したうえでの
-            <br />
-            段階的なモダナイゼーションが必要です。
+            単なるサーバー更改ではなく、業務ロジックを理解したうえでの段階的なモダナイゼーションが必要です。
           </>
         }
       >
@@ -231,21 +225,13 @@ export default async function As400CobolServicePage({
         componentName="As400CobolWhyModernizeSection"
         eyebrow="Why Modernize"
         title={
-          <>
-            なぜ今、AS400 / COBOL Modernizationが
-            <br />
-            必要なのか
-          </>
+          <>なぜ今、AS400 / COBOL Modernizationが必要なのか</>
         }
         lead={
           <>
-            課題は、システムが動かないことではありません。
+            課題は、システムが動かないことではありません。安定して動いているからこそ、変える判断が遅れ、
             <br />
-            安定して動いているからこそ、変える判断が遅れ、
-            <br />
-            保守人材、コスト、仕様のブラックボックス化、
-            <br />
-            DX施策との接続が同時に難しくなることです。
+            保守人材、コスト、仕様のブラックボックス化、DX施策との接続が同時に難しくなることです。
           </>
         }
       >
@@ -283,9 +269,7 @@ export default async function As400CobolServicePage({
           <>
             QueryPie AIは、既存資産をただ置き換えるのではなく、
             <br />
-            コード、DB、ジョブ、帳票、外部連携を読み解き、
-            <br />
-            移行判断に必要な情報へ変換します。
+            コード、DB、ジョブ、帳票、外部連携を読み解き、移行判断に必要な情報へ変換します。
           </>
         }
       >
@@ -330,9 +314,7 @@ export default async function As400CobolServicePage({
           <>
             AI分析の目的は、単にコードを説明することではありません。
             <br />
-            現行業務を止めずに、どこから着手し、
-            <br />
-            何を残し、何を移すかを判断できる状態を作ることです。
+            現行業務を止めずに、どこから着手し、何を残し、何を移すかを判断できる状態を作ることです。
           </>
         }
       >
@@ -389,13 +371,9 @@ export default async function As400CobolServicePage({
         }
         lead={
           <>
-            最初から全体を置き換えるのではなく、
+            最初から全体を置き換えるのではなく、既存IBM iを残す選択肢も含めて、
             <br />
-            既存IBM iを残す選択肢も含めて、
-            <br />
-            API化、Java化、データ移行、クラウド移行を
-            <br />
-            段階的に組み合わせます。
+            API化、Java化、データ移行、クラウド移行を段階的に組み合わせます。
           </>
         }
       >
@@ -456,13 +434,9 @@ export default async function As400CobolServicePage({
         }
         lead={
           <>
-            受発注、在庫、請求、バッチ、帳票、外部連携といった
+            受発注、在庫、請求、バッチ、帳票、外部連携といった業務単位に沿って現行資産を理解し、
             <br />
-            業務単位に沿って現行資産を理解し、
-            <br />
-            AI分析、PoC、移行設計、実装、並行稼働、
-            <br />
-            運用安定化までつなげます。
+            AI分析、PoC、移行設計、実装、並行稼働、運用安定化までつなげます。
           </>
         }
       >
