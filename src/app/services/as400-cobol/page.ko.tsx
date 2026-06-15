@@ -36,7 +36,12 @@ import {
   As400CobolHeroTitle,
   As400CobolPageShell,
 } from "@/components/sections/as400-cobol/page-sections";
-import { As400CobolSection } from "@/components/sections/as400-cobol/section";
+import {
+  As400CobolReferenceLink,
+  As400CobolReferenceNote,
+  As400CobolReferenceNotes,
+  As400CobolSection,
+} from "@/components/sections/as400-cobol/section";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
@@ -190,6 +195,36 @@ export default function As400CobolKoreanPage() {
               </As400CobolInsightItem>
             </As400CobolInsightList>
           </As400CobolTextColumns>
+          <As400CobolReferenceNotes componentName="As400CobolMarketReferenceNotes">
+            <As400CobolReferenceNote>
+              IBM i의 세계 약 15만 개사・일본 국내 약 2만 개사 규모는{" "}
+              <As400CobolReferenceLink href="https://community.ibm.com/community/user/blogs/hirotsugu-hara/2024/09/03/ibm-i-developer-task-blog">
+                IBM Community Japan（2024）
+              </As400CobolReferenceLink>
+              를 참조.
+            </As400CobolReferenceNote>
+            <As400CobolReferenceNote>
+              IBM i 이용 기업의 핵심 업무 애플리케이션 운용 비율은{" "}
+              <As400CobolReferenceLink href="https://power.fortra.com/resources/guides/outlook-ibm-i-2026-ibm-i-marketplace-survey-results">
+                Fortra 2026 IBM i Marketplace Survey
+              </As400CobolReferenceLink>
+              를 참조.
+            </As400CobolReferenceNote>
+            <As400CobolReferenceNote>
+              `2025年の崖`와 최대 12조 엔/년 경제 손실 가능성은{" "}
+              <As400CobolReferenceLink href="https://www.meti.go.jp/policy/it_policy/dx/20180907_02.pdf">
+                경제산업성 DX Report 본문
+              </As400CobolReferenceLink>
+              을 참조.
+            </As400CobolReferenceNote>
+            <As400CobolReferenceNote>
+              일본 IT 모더나이제이션 서비스 시장의 2025년 전망은{" "}
+              <As400CobolReferenceLink href="https://www.idc.com/resource-center/press-releases/%E5%9B%BD%E5%86%85it%E3%83%A2%E3%83%80%E3%83%8A%E3%82%A4%E3%82%BC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E5%B8%82%E5%A0%B4%E4%BA%88%E6%B8%AC%E3%82%92%E7%99%BA%E8%A1%A8/">
+                IDC Japan（2026）
+              </As400CobolReferenceLink>
+              을 참조.
+            </As400CobolReferenceNote>
+          </As400CobolReferenceNotes>
         </div>
       </As400CobolSection>
 
@@ -207,23 +242,48 @@ export default function As400CobolKoreanPage() {
           </>
         }
       >
-        <As400CobolInsightList>
-          <As400CobolInsightItem icon="legacy" title="“동작하니까 건드리지 않는다”의 한계">
-            오랫동안 가동된 기간계 시스템은 업무에 깊이 내장되어 있습니다.
-            그러나 담당자의 퇴직, 벤더 의존, 수정 이력의 축적이 진행될수록
-            건드리지 않는 판단 자체가 미래의 리스크가 됩니다.
-          </As400CobolInsightItem>
-          <As400CobolInsightItem icon="route" title="영향 범위를 몰라 수정 판단이 늦어진다">
-            하나의 화면이나 장표 변경이라도 프로그램, 파일, 잡, 외부 연계,
-            테스트 범위가 연쇄됩니다. 보이지 않는 의존 관계를 가시화하지 않으면
-            작은 수정도 큰 리스크가 됩니다.
-          </As400CobolInsightItem>
-          <As400CobolInsightItem icon="api" title="클라우드, API, 데이터 활용으로 이어지기 어렵다">
-            기존 IBM i를 남겨 둔 채 API Wrapper로 외부화할지, Java화할지,
-            PostgreSQL이나 Linux / OCI / AWS로 옮길지. 선택지를 비교하려면
-            현행 자산의 구조 이해가 필요합니다.
-          </As400CobolInsightItem>
-        </As400CobolInsightList>
+        <div className="space-y-8">
+          <As400CobolInsightList>
+            <As400CobolInsightItem icon="legacy" title="“동작하니까 건드리지 않는다”의 한계">
+              오랫동안 가동된 기간계 시스템은 업무에 깊이 내장되어 있습니다.
+              그러나 담당자의 퇴직, 벤더 의존, 수정 이력의 축적이 진행될수록
+              건드리지 않는 판단 자체가 미래의 리스크가 됩니다.
+            </As400CobolInsightItem>
+            <As400CobolInsightItem icon="route" title="영향 범위를 몰라 수정 판단이 늦어진다">
+              하나의 화면이나 장표 변경이라도 프로그램, 파일, 잡, 외부 연계,
+              테스트 범위가 연쇄됩니다. 보이지 않는 의존 관계를 가시화하지 않으면
+              작은 수정도 큰 리스크가 됩니다.
+            </As400CobolInsightItem>
+            <As400CobolInsightItem icon="api" title="클라우드, API, 데이터 활용으로 이어지기 어렵다">
+              기존 IBM i를 남겨 둔 채 API Wrapper로 외부화할지, Java화할지,
+              PostgreSQL이나 Linux / OCI / AWS로 옮길지. 선택지를 비교하려면
+              현행 자산의 구조 이해가 필요합니다.
+            </As400CobolInsightItem>
+          </As400CobolInsightList>
+          <As400CobolReferenceNotes componentName="As400CobolModernizationReferenceNotes">
+            <As400CobolReferenceNote>
+              COBOL 기술자 부족과 시스템 유지・이전 리스크의 문맥은{" "}
+              <As400CobolReferenceLink href="https://techtarget.itmedia.co.jp/tt/news/2407/16/news04.html">
+                TechTarget Japan（2024）
+              </As400CobolReferenceLink>
+              을 참조.
+            </As400CobolReferenceNote>
+            <As400CobolReferenceNote>
+              Panasonic Group의 COBOL 기반 인사 시스템 Java 이전 사례는{" "}
+              <As400CobolReferenceLink href="https://prtimes.jp/main/html/rd/p/000001509.000011650.html">
+                TIS 발표（2024）
+              </As400CobolReferenceLink>
+              를 참조.
+            </As400CobolReferenceNote>
+            <As400CobolReferenceNote>
+              일본 기업 DX의 성과 창출 과제와 `内向き・部分最適`에서의 전환은{" "}
+              <As400CobolReferenceLink href="https://www.ipa.go.jp/digital/chousa/dx-trend/dx-trend-2025.html">
+                IPA DX動向2025
+              </As400CobolReferenceLink>
+              를 참조.
+            </As400CobolReferenceNote>
+          </As400CobolReferenceNotes>
+        </div>
       </As400CobolSection>
 
       <As400CobolSection
@@ -390,6 +450,15 @@ export default function As400CobolKoreanPage() {
               운영, 모니터링, 권한, 접속 방식을 포함해 이전 후에도 계속 쓸 수 있는 기반을 설계합니다.
             </As400CobolPathCard>
           </As400CobolPathGrid>
+          <As400CobolReferenceNotes componentName="As400CobolMigrationReferenceNotes">
+            <As400CobolReferenceNote>
+              COBOL에서 Java로 리라이트하는 모더나이제이션 서비스 예시는{" "}
+              <As400CobolReferenceLink href="https://it.impress.co.jp/articles/-/26675">
+                LAC MAJALIS Modernization Service（IT Leaders, 2024）
+              </As400CobolReferenceLink>
+              를 참조.
+            </As400CobolReferenceNote>
+          </As400CobolReferenceNotes>
         </div>
       </As400CobolSection>
 

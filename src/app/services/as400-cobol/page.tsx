@@ -39,7 +39,12 @@ import {
   As400CobolHeroTitle,
   As400CobolPageShell,
 } from "@/components/sections/as400-cobol/page-sections";
-import { As400CobolSection } from "@/components/sections/as400-cobol/section";
+import {
+  As400CobolReferenceLink,
+  As400CobolReferenceNote,
+  As400CobolReferenceNotes,
+  As400CobolSection,
+} from "@/components/sections/as400-cobol/section";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
@@ -218,6 +223,36 @@ export default async function As400CobolServicePage({
               </As400CobolInsightItem>
             </As400CobolInsightList>
           </As400CobolTextColumns>
+          <As400CobolReferenceNotes componentName="As400CobolMarketReferenceNotes">
+            <As400CobolReferenceNote>
+              IBM iの世界約15万社・国内約2万社規模は{" "}
+              <As400CobolReferenceLink href="https://community.ibm.com/community/user/blogs/hirotsugu-hara/2024/09/03/ibm-i-developer-task-blog">
+                IBM Community Japan（2024）
+              </As400CobolReferenceLink>
+              を参照。
+            </As400CobolReferenceNote>
+            <As400CobolReferenceNote>
+              IBM i利用企業の基幹業務アプリケーション運用比率は{" "}
+              <As400CobolReferenceLink href="https://power.fortra.com/resources/guides/outlook-ibm-i-2026-ibm-i-marketplace-survey-results">
+                Fortra 2026 IBM i Marketplace Survey
+              </As400CobolReferenceLink>
+              を参照。
+            </As400CobolReferenceNote>
+            <As400CobolReferenceNote>
+              「2025年の崖」と最大12兆円/年の経済損失可能性は{" "}
+              <As400CobolReferenceLink href="https://www.meti.go.jp/policy/it_policy/dx/20180907_02.pdf">
+                経済産業省 DXレポート本文
+              </As400CobolReferenceLink>
+              を参照。
+            </As400CobolReferenceNote>
+            <As400CobolReferenceNote>
+              国内ITモダナイゼーションサービス市場の2025年予測は{" "}
+              <As400CobolReferenceLink href="https://www.idc.com/resource-center/press-releases/%E5%9B%BD%E5%86%85it%E3%83%A2%E3%83%80%E3%83%8A%E3%82%A4%E3%82%BC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E5%B8%82%E5%A0%B4%E4%BA%88%E6%B8%AC%E3%82%92%E7%99%BA%E8%A1%A8/">
+                IDC Japan（2026）
+              </As400CobolReferenceLink>
+              を参照。
+            </As400CobolReferenceNote>
+          </As400CobolReferenceNotes>
         </div>
       </As400CobolSection>
 
@@ -235,23 +270,48 @@ export default async function As400CobolServicePage({
           </>
         }
       >
-        <As400CobolInsightList>
-          <As400CobolInsightItem icon="legacy" title="「動いているから触らない」が限界に近づく">
-            長年稼働してきた基幹システムは、業務に深く組み込まれています。
-            しかし担当者の退職、ベンダー依存、改修履歴の蓄積が進むほど、
-            触らない判断そのものが将来のリスクになります。
-          </As400CobolInsightItem>
-          <As400CobolInsightItem icon="route" title="影響範囲が分からず、改修判断が遅れる">
-            1つの画面や帳票の変更でも、プログラム、ファイル、ジョブ、外部連携、
-            テスト範囲が連鎖します。見えない依存関係を可視化しなければ、
-            小さな改修も大きなリスクになります。
-          </As400CobolInsightItem>
-          <As400CobolInsightItem icon="api" title="クラウド、API、データ活用につながりにくい">
-            既存IBM iを残しながらAPIで外部化するのか、Java化するのか、
-            PostgreSQLやLinux / OCI / AWSへ移すのか。選択肢を比較するには、
-            現行資産の構造理解が必要です。
-          </As400CobolInsightItem>
-        </As400CobolInsightList>
+        <div className="space-y-8">
+          <As400CobolInsightList>
+            <As400CobolInsightItem icon="legacy" title="「動いているから触らない」が限界に近づく">
+              長年稼働してきた基幹システムは、業務に深く組み込まれています。
+              しかし担当者の退職、ベンダー依存、改修履歴の蓄積が進むほど、
+              触らない判断そのものが将来のリスクになります。
+            </As400CobolInsightItem>
+            <As400CobolInsightItem icon="route" title="影響範囲が分からず、改修判断が遅れる">
+              1つの画面や帳票の変更でも、プログラム、ファイル、ジョブ、外部連携、
+              テスト範囲が連鎖します。見えない依存関係を可視化しなければ、
+              小さな改修も大きなリスクになります。
+            </As400CobolInsightItem>
+            <As400CobolInsightItem icon="api" title="クラウド、API、データ活用につながりにくい">
+              既存IBM iを残しながらAPIで外部化するのか、Java化するのか、
+              PostgreSQLやLinux / OCI / AWSへ移すのか。選択肢を比較するには、
+              現行資産の構造理解が必要です。
+            </As400CobolInsightItem>
+          </As400CobolInsightList>
+          <As400CobolReferenceNotes componentName="As400CobolModernizationReferenceNotes">
+            <As400CobolReferenceNote>
+              COBOL技術者不足とシステム維持・移行リスクの文脈は{" "}
+              <As400CobolReferenceLink href="https://techtarget.itmedia.co.jp/tt/news/2407/16/news04.html">
+                TechTarget Japan（2024）
+              </As400CobolReferenceLink>
+              を参照。
+            </As400CobolReferenceNote>
+            <As400CobolReferenceNote>
+              Panasonic GroupのCOBOLベース人事システムJava移行事例は{" "}
+              <As400CobolReferenceLink href="https://prtimes.jp/main/html/rd/p/000001509.000011650.html">
+                TIS発表（2024）
+              </As400CobolReferenceLink>
+              を参照。
+            </As400CobolReferenceNote>
+            <As400CobolReferenceNote>
+              日本企業DXの成果創出課題と「内向き・部分最適」からの転換は{" "}
+              <As400CobolReferenceLink href="https://www.ipa.go.jp/digital/chousa/dx-trend/dx-trend-2025.html">
+                IPA DX動向2025
+              </As400CobolReferenceLink>
+              を参照。
+            </As400CobolReferenceNote>
+          </As400CobolReferenceNotes>
+        </div>
       </As400CobolSection>
 
       <As400CobolSection
@@ -418,6 +478,15 @@ export default async function As400CobolServicePage({
               運用、監視、権限、接続方式を含めて、移行後に使い続けられる基盤を設計します。
             </As400CobolPathCard>
           </As400CobolPathGrid>
+          <As400CobolReferenceNotes componentName="As400CobolMigrationReferenceNotes">
+            <As400CobolReferenceNote>
+              COBOLからJavaへのリライト型モダナイゼーションサービス例は{" "}
+              <As400CobolReferenceLink href="https://it.impress.co.jp/articles/-/26675">
+                LAC MAJALIS Modernization Service（IT Leaders, 2024）
+              </As400CobolReferenceLink>
+              を参照。
+            </As400CobolReferenceNote>
+          </As400CobolReferenceNotes>
         </div>
       </As400CobolSection>
 

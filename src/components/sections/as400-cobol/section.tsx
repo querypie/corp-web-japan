@@ -66,3 +66,79 @@ export function As400CobolSection({
     </section>
   );
 }
+
+export function As400CobolReferenceNotes({
+  children,
+  componentName = "As400CobolReferenceNotes",
+}: {
+  children: ReactNode;
+  componentName?: string;
+}) {
+  const debugProps =
+    componentName === "As400CobolReferenceNotes"
+      ? componentNameDebugProps("As400CobolReferenceNotes")
+      : componentNameDebugProps(componentName);
+
+  return (
+    <aside
+      {...debugProps}
+      aria-label="Reference notes"
+      className="mt-8 rounded-[8px] border border-slate-200 bg-white/75 px-5 py-4 text-left text-[12px] leading-6 text-slate-500"
+    >
+      <p
+        {...componentNameDebugProps("As400CobolReferenceNotesLabel")}
+        className="font-semibold uppercase tracking-[0.08em] text-slate-500"
+      >
+        References
+      </p>
+      <ul
+        {...componentNameDebugProps("As400CobolReferenceNotesList")}
+        className="mt-2 space-y-1"
+      >
+        {children}
+      </ul>
+    </aside>
+  );
+}
+
+export function As400CobolReferenceNote({
+  children,
+  componentName = "As400CobolReferenceNote",
+}: {
+  children: ReactNode;
+  componentName?: string;
+}) {
+  const debugProps =
+    componentName === "As400CobolReferenceNote"
+      ? componentNameDebugProps("As400CobolReferenceNote")
+      : componentNameDebugProps(componentName);
+
+  return (
+    <li {...debugProps} className="flex gap-2">
+      <span aria-hidden="true" className="text-slate-400">
+        ※
+      </span>
+      <span>{children}</span>
+    </li>
+  );
+}
+
+export function As400CobolReferenceLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: ReactNode;
+}) {
+  return (
+    <a
+      {...componentNameDebugProps("As400CobolReferenceLink")}
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="font-medium text-[#0f766e] underline decoration-[#0f766e]/30 underline-offset-4 hover:text-[#0b5f59]"
+    >
+      {children}
+    </a>
+  );
+}
