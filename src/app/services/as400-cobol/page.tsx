@@ -469,24 +469,24 @@ export default async function As400CobolServicePage({
       <As400CobolSection
         componentName="As400CobolScenarioSection"
         eyebrow="Scenario"
-        title="匿名化された運用シナリオを前提に、実行可能な移行計画へ"
-        lead="具体的な顧客名やベンダー名は出さず、AS/400、COBOL、RPG、DB2、Oracle、PostgreSQL、Java、API、Cloudといった技術要素を明確に扱います。"
+        title="業務シナリオから、実行できる移行計画へ"
+        lead="受発注、在庫、請求、バッチ、帳票、外部連携といった実際の運用単位に沿って、AS/400、COBOL/RPG、DB2 / Oracle、PostgreSQL、Java、API、Cloudへの移行範囲と順序を整理します。"
       >
         <As400CobolPanelGrid componentName="As400CobolScenarioGrid">
           <As400CobolPanel
             componentName="As400CobolLegacyVisibilityPanel"
-            title="長年運用されたAS/400資産の可視化"
-            body="部門ごとに使われてきたCOBOL/RPGプログラム、ジョブ、帳票、DB2 / Oracle構造を整理し、仕様の属人化を解消するための分析資料を作成します。"
+            title="現行業務と技術資産の棚卸し"
+            body="受発注、在庫、請求、給与などの業務単位で、COBOL/RPGプログラム、ジョブ、帳票、DB2 / Oracleのテーブル、ファイル連携を整理します。"
           />
           <As400CobolPanel
             componentName="As400CobolPhasedMigrationPanel"
-            title="周辺システム連携を前提にした段階移行"
-            body="一括刷新ではなく、既存業務への影響を抑えながら、API連携、データ移行、Java化、クラウド基盤への移行を順番に進めます。"
+            title="移行対象と残す領域の切り分け"
+            body="Java化、API化、PostgreSQL移行、Cloud移行に進める領域と、当面IBM i上に残す領域を分け、影響度と業務優先度に基づいて移行順序を決めます。"
           />
           <As400CobolPanel
             componentName="As400CobolOperationalStabilityPanel"
-            title="移行後の運用安定化まで伴走"
-            body="新旧システムの並行稼働、テストケース拡充、障害時対応、運用ドキュメント整備まで含め、現場が使い続けられる状態を目指します。"
+            title="PoCから本番移行までの実行計画"
+            body="一部業務で変換精度、データ整合性、性能、周辺連携を検証し、テストケース、並行稼働、切り戻し、運用引き継ぎまで計画に落とし込みます。"
           />
         </As400CobolPanelGrid>
       </As400CobolSection>

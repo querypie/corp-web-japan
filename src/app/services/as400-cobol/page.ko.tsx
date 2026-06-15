@@ -235,24 +235,24 @@ export default function As400CobolKoreanPage() {
       <As400CobolSection
         componentName="As400CobolScenarioSection"
         eyebrow="Scenario"
-        title="익명화된 운영 시나리오를 전제로 실행 가능한 이전 계획으로"
-        lead="구체적인 고객명이나 벤더명은 드러내지 않고, AS/400, COBOL, RPG, DB2, Oracle, PostgreSQL, Java, API, Cloud 같은 기술 요소는 명확히 다룹니다."
+        title="업무 시나리오에서 실행 가능한 이전 계획으로"
+        lead="수발주, 재고, 청구, 배치, 장표, 외부 연계 같은 실제 운영 단위에 맞춰 AS/400, COBOL/RPG, DB2 / Oracle, PostgreSQL, Java, API, Cloud로의 이전 범위와 순서를 정리합니다."
       >
         <As400CobolPanelGrid componentName="As400CobolScenarioGrid">
           <As400CobolPanel
             componentName="As400CobolAssetVisibilityScenario"
-            title="오랫동안 운영된 AS/400 자산의 가시화"
-            body="부서별로 사용되어 온 COBOL/RPG 프로그램, 잡, 장표, DB2 / Oracle 구조를 정리하고, 개인에게 의존된 사양을 해소하기 위한 분석 자료를 작성합니다."
+            title="현행 업무와 기술 자산 목록화"
+            body="수발주, 재고, 청구, 급여 같은 업무 단위로 COBOL/RPG 프로그램, 잡, 장표, DB2 / Oracle 테이블, 파일 연계를 정리합니다."
           />
           <As400CobolPanel
             componentName="As400CobolPhasedMigrationScenario"
-            title="주변 시스템 연계를 전제로 한 단계적 이전"
-            body="일괄 재구축이 아니라 기존 업무 영향을 줄이면서 API 연계, 데이터 이전, Java화, 클라우드 기반 이전을 순서대로 진행합니다."
+            title="이전 대상과 유지 영역 분리"
+            body="Java화, API화, PostgreSQL 이전, Cloud 이전으로 진행할 영역과 당분간 IBM i에 남길 영역을 나누고, 영향도와 업무 우선순위에 따라 이전 순서를 정합니다."
           />
           <As400CobolPanel
             componentName="As400CobolStabilizationScenario"
-            title="이전 후 운영 안정화까지 동행"
-            body="신구 시스템 병행 가동, 테스트 케이스 확충, 장애 대응, 운영 문서 정비까지 포함해 현장이 계속 사용할 수 있는 상태를 목표로 합니다."
+            title="PoC부터 운영 전환까지 실행 계획화"
+            body="일부 업무에서 변환 정확도, 데이터 정합성, 성능, 주변 연계를 검증하고, 테스트 케이스, 병행 가동, 전환 복구, 운영 인수인계까지 계획에 반영합니다."
           />
         </As400CobolPanelGrid>
       </As400CobolSection>
