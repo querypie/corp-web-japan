@@ -11,16 +11,23 @@ type As400CobolHeroVisualProps = {
   imageSrc: string;
   imageAlt: string;
   labels: HeroLabel[];
+  componentName?: string;
 };
 
 export function As400CobolHeroVisual({
   imageSrc,
   imageAlt,
   labels,
+  componentName = "As400CobolHeroVisual",
 }: As400CobolHeroVisualProps) {
+  const debugProps =
+    componentName === "As400CobolHeroVisual"
+      ? componentNameDebugProps("As400CobolHeroVisual")
+      : componentNameDebugProps(componentName);
+
   return (
     <figure
-      {...componentNameDebugProps("As400CobolHeroVisual")}
+      {...debugProps}
       className="relative w-full overflow-hidden rounded-[8px] border border-slate-200 bg-white shadow-[0_32px_90px_-52px_rgba(15,23,42,0.28)]"
     >
       <Image
@@ -54,7 +61,10 @@ export function As400CobolHeroVisual({
 
 function HeroOverlayLabel({ children }: { children: ReactNode }) {
   return (
-    <div className="rounded-[8px] border border-white/70 bg-white/88 px-4 py-3 text-left shadow-[0_18px_40px_-30px_rgba(15,23,42,0.28)] backdrop-blur-md">
+    <div
+      {...componentNameDebugProps("As400CobolHeroOverlayLabel")}
+      className="rounded-[8px] border border-white/70 bg-white/88 px-4 py-3 text-left shadow-[0_18px_40px_-30px_rgba(15,23,42,0.28)] backdrop-blur-md"
+    >
       {children}
     </div>
   );
