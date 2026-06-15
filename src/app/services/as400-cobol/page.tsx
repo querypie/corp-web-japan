@@ -50,7 +50,7 @@ type As400CobolServicePageProps = {
 const contactHref = "/contact-us";
 const heroImageSrc = "/services/as400-cobol/hero-modernization-flow.png";
 const heroImageAlt =
-  "AS/400とCOBOL資産を分析し、Java、API、クラウド環境へ段階的に移行するモダナイゼーションの流れ";
+  "AS/400とCOBOL資産を分析し、Java、API、クラウド環境へ段階的に移行する流れ";
 
 const heroLabels = [
   {
@@ -62,7 +62,7 @@ const heroLabels = [
     description: "AIを活用して設計書とテストケースを生成",
   },
   {
-    label: "Java / API / Cloud移行",
+    label: "Java / API / クラウド移行",
     description: "段階的な変換と運用安定化まで支援",
   },
 ];
@@ -71,7 +71,7 @@ const as400CobolJapaneseMetadata: Metadata = {
   title:
     "IBM i（AS/400）モダナイゼーション | AS400 / COBOL マイグレーション | QueryPie AI",
   description:
-    "QueryPie AIは、IBM i（AS/400）上のCOBOL/RPG資産を分析し、設計書・テストケース生成からJava/API/Cloud移行、DB2 / Oracle分析、PostgreSQL移行まで段階的に支援します。",
+    "QueryPie AIは、IBM i（AS/400）上のCOBOL/RPG資産を分析し、設計書・テストケース生成からJava/API/クラウド移行、DB2 / Oracle分析、PostgreSQL移行まで段階的に支援します。",
   alternates: {
     canonical: "/services/as400-cobol",
   },
@@ -119,7 +119,7 @@ export default async function As400CobolServicePage({
       >
         <RevealOnScroll>
           <As400CobolHeroCopy>
-            <As400CobolHeroEyebrow>IBM i Modernization</As400CobolHeroEyebrow>
+            <As400CobolHeroEyebrow>IBM i モダナイゼーション</As400CobolHeroEyebrow>
             <As400CobolHeroTitle>
               IBM i（AS/400）
               <br />
@@ -127,7 +127,7 @@ export default async function As400CobolServicePage({
             </As400CobolHeroTitle>
             <As400CobolHeroSubtitle>
               AS400 / COBOL マイグレーションを、現状分析から
-              Java/API/Cloud移行、運用安定化まで支援
+              Java/API/クラウド移行、運用安定化まで支援
             </As400CobolHeroSubtitle>
             <As400CobolHeroDescription>
               QueryPie AIは、COBOL/RPG資産の解析・可視化、
@@ -145,7 +145,7 @@ export default async function As400CobolServicePage({
       <As400CobolSection
         muted
         componentName="As400CobolMarketBackgroundSection"
-        eyebrow="Market Background"
+        eyebrow="市場背景"
         title={
           <>
             AS/400とCOBOL資産は、
@@ -206,7 +206,7 @@ export default async function As400CobolServicePage({
             <As400CobolInsightList>
               <As400CobolInsightItem icon="host" title="IBM iは統合型プラットフォーム">
                 OS、Db2 for i、ジョブ管理、セキュリティ、5250画面、RPG/COBOL/CLが
-                一体で運用されるため、Linux移行やDB移行だけでは全体像を説明できません。
+                一体で運用されるため、Linux移行やデータベース移行だけでは全体像を説明できません。
               </As400CobolInsightItem>
               <As400CobolInsightItem icon="database" title="データと業務ロジックが近い">
                 Db2 for i、DB2 / Oracle、帳票、バッチ、周辺システム連携まで含めて、
@@ -223,9 +223,9 @@ export default async function As400CobolServicePage({
 
       <As400CobolSection
         componentName="As400CobolWhyModernizeSection"
-        eyebrow="Why Modernize"
+        eyebrow="刷新が必要な理由"
         title={
-          <>なぜ今、AS400 / COBOL Modernizationが必要なのか</>
+          <>なぜ今、AS400 / COBOL モダナイゼーションが必要なのか</>
         }
         lead={
           <>
@@ -247,7 +247,7 @@ export default async function As400CobolServicePage({
             小さな改修も大きなリスクになります。
           </As400CobolInsightItem>
           <As400CobolInsightItem icon="api" title="クラウド、API、データ活用につながりにくい">
-            既存IBM iを残しながらAPI Wrapperで外部化するのか、Java化するのか、
+            既存IBM iを残しながらAPIで外部化するのか、Java化するのか、
             PostgreSQLやLinux / OCI / AWSへ移すのか。選択肢を比較するには、
             現行資産の構造理解が必要です。
           </As400CobolInsightItem>
@@ -257,7 +257,7 @@ export default async function As400CobolServicePage({
       <As400CobolSection
         muted
         componentName="As400CobolAiApproachSection"
-        eyebrow="AI Approach"
+        eyebrow="AI活用"
         title={
           <>
             全面再開発ではなく、
@@ -269,12 +269,12 @@ export default async function As400CobolServicePage({
           <>
             QueryPie AIは、既存資産をただ置き換えるのではなく、
             <br />
-            コード、DB、ジョブ、帳票、外部連携を読み解き、移行判断に必要な情報へ変換します。
+            コード、データベース、ジョブ、帳票、外部連携を読み解き、移行判断に必要な情報へ変換します。
           </>
         }
       >
         <As400CobolDiagramRail>
-          <As400CobolDiagramStage icon="source" eyebrow="Input" title="既存資産を集める">
+          <As400CobolDiagramStage icon="source" eyebrow="入力情報" title="既存資産を集める">
             <As400CobolMiniList>
               <As400CobolMiniListItem>COBOL / RPG / CLプログラム</As400CobolMiniListItem>
               <As400CobolMiniListItem>Db2 for i、DB2 / Oracle、ファイル定義</As400CobolMiniListItem>
@@ -282,7 +282,7 @@ export default async function As400CobolServicePage({
             </As400CobolMiniList>
           </As400CobolDiagramStage>
           <As400CobolDiagramArrow />
-          <As400CobolDiagramStage icon="analysis" eyebrow="Analysis" title="AIで構造化する">
+          <As400CobolDiagramStage icon="analysis" eyebrow="分析" title="AIで構造化する">
             <As400CobolMiniList>
               <As400CobolMiniListItem>業務ロジックと処理フローの説明</As400CobolMiniListItem>
               <As400CobolMiniListItem>テーブル、プログラム、バッチの依存関係整理</As400CobolMiniListItem>
@@ -290,7 +290,7 @@ export default async function As400CobolServicePage({
             </As400CobolMiniList>
           </As400CobolDiagramStage>
           <As400CobolDiagramArrow />
-          <As400CobolDiagramStage icon="book" eyebrow="Output" title="判断材料に変える">
+          <As400CobolDiagramStage icon="book" eyebrow="出力" title="判断材料に変える">
             <As400CobolMiniList>
               <As400CobolMiniListItem>現行仕様書、データモデル、移行対象分類</As400CobolMiniListItem>
               <As400CobolMiniListItem>テストケース、テスト範囲、優先順位</As400CobolMiniListItem>
@@ -302,7 +302,7 @@ export default async function As400CobolServicePage({
 
       <As400CobolSection
         componentName="As400CobolDeliverablesSection"
-        eyebrow="Deliverables"
+        eyebrow="成果物"
         title={
           <>
             設計書、影響度、テストケースまで
@@ -321,37 +321,37 @@ export default async function As400CobolServicePage({
         <As400CobolPanelGrid componentName="As400CobolDeliverablesGrid">
           <As400CobolPanel
             componentName="As400CobolSpecificationPanel"
-            eyebrow="Specification"
+            eyebrow="仕様書"
             title="現行仕様書の生成"
             body="COBOL/RPGプログラムの処理内容、入力、出力、例外処理、業務ルールを読み解き、担当者が確認できる現行仕様として整理します。"
           />
           <As400CobolPanel
             componentName="As400CobolDependencyPanel"
-            eyebrow="Dependency"
+            eyebrow="依存関係"
             title="依存関係と影響度の整理"
             body="プログラム、テーブル、ジョブ、帳票、外部連携の関係を可視化し、改修や移行時に影響を受ける範囲を確認します。"
           />
           <As400CobolPanel
             componentName="As400CobolDataModelPanel"
-            eyebrow="Data Model"
-            title="DB・データモデル分析"
+            eyebrow="データモデル"
+            title="データベース・データモデル分析"
             body="Db2 for i、DB2 / Oracle、ファイル定義、データ項目の関係を整理し、PostgreSQL移行やAPI化の前提を作ります。"
           />
           <As400CobolPanel
             componentName="As400CobolTestCasePanel"
-            eyebrow="Test"
+            eyebrow="テスト"
             title="テストケース生成"
             body="業務ロジックとデータ整合性を確認するためのテスト観点、正常系・例外系、移行後の比較検証範囲を整理します。"
           />
           <As400CobolPanel
             componentName="As400CobolRoadmapPanel"
-            eyebrow="Roadmap"
+            eyebrow="ロードマップ"
             title="移行対象の分類"
-            body="残す機能、外部化する機能、Java化する機能、DB移行が必要な領域を分け、PoCと段階移行の優先順位を作ります。"
+            body="残す機能、外部化する機能、Java化する機能、データベース移行が必要な領域を分け、PoCと段階移行の優先順位を作ります。"
           />
           <As400CobolPanel
             componentName="As400CobolKnowledgePanel"
-            eyebrow="Knowledge"
+            eyebrow="知識継承"
             title="業務知識の検索・継承"
             body="属人化した仕様やベテラン担当者の知識を、検索・確認しやすい形に変換し、新しい担当者のオンボーディングを支援します。"
           />
@@ -361,10 +361,10 @@ export default async function As400CobolServicePage({
       <As400CobolSection
         muted
         componentName="As400CobolMigrationArchitectureSection"
-        eyebrow="Migration Architecture"
+        eyebrow="移行設計"
         title={
           <>
-            Java / PostgreSQL / Linux / Cloudへ、
+            Java / PostgreSQL / Linux / クラウドへ、
             <br />
             状況に応じた移行ルートを設計する
           </>
@@ -379,7 +379,7 @@ export default async function As400CobolServicePage({
       >
         <div className="space-y-8">
           <As400CobolArchitectureBand>
-            <As400CobolDiagramStage icon="host" eyebrow="Current" title="IBM i（AS/400）">
+            <As400CobolDiagramStage icon="host" eyebrow="現行" title="IBM i（AS/400）">
               <As400CobolMiniList>
                 <As400CobolMiniListItem>RPG / COBOL / CL</As400CobolMiniListItem>
                 <As400CobolMiniListItem>Db2 for i、DB2 / Oracle</As400CobolMiniListItem>
@@ -387,7 +387,7 @@ export default async function As400CobolServicePage({
               </As400CobolMiniList>
             </As400CobolDiagramStage>
             <As400CobolDiagramArrow />
-            <As400CobolDiagramStage icon="brain" eyebrow="Bridge" title="AI分析とPoC">
+            <As400CobolDiagramStage icon="brain" eyebrow="橋渡し" title="AI分析とPoC">
               <As400CobolMiniList>
                 <As400CobolMiniListItem>業務影響と移行難易度を評価</As400CobolMiniListItem>
                 <As400CobolMiniListItem>変換精度とテスト可能性を検証</As400CobolMiniListItem>
@@ -395,9 +395,9 @@ export default async function As400CobolServicePage({
               </As400CobolMiniList>
             </As400CobolDiagramStage>
             <As400CobolDiagramArrow />
-            <As400CobolDiagramStage icon="cloud" eyebrow="Target" title="Next Architecture">
+            <As400CobolDiagramStage icon="cloud" eyebrow="移行先" title="次世代アーキテクチャ">
               <As400CobolMiniList>
-                <As400CobolMiniListItem>Java / API / Cloud</As400CobolMiniListItem>
+                <As400CobolMiniListItem>Java / API / クラウド</As400CobolMiniListItem>
                 <As400CobolMiniListItem>PostgreSQL / Linux</As400CobolMiniListItem>
                 <As400CobolMiniListItem>OCI / AWS / オンプレミス併用</As400CobolMiniListItem>
               </As400CobolMiniList>
@@ -405,7 +405,7 @@ export default async function As400CobolServicePage({
           </As400CobolArchitectureBand>
 
           <As400CobolPathGrid>
-            <As400CobolPathCard icon="api" title="API Wrapperで外部化">
+            <As400CobolPathCard icon="api" title="APIで外部化">
               既存IBM iをすぐに置き換えず、必要な機能からAPIで外部システムと接続します。
             </As400CobolPathCard>
             <As400CobolPathCard icon="code" title="COBOL/RPGからJavaへ">
@@ -424,7 +424,7 @@ export default async function As400CobolServicePage({
       <As400CobolSection
         id="service-scope"
         componentName="As400CobolServiceScopeSection"
-        eyebrow="Service Scope"
+        eyebrow="サービス範囲"
         title={
           <>
             現行理解から段階移行まで、
@@ -443,37 +443,37 @@ export default async function As400CobolServicePage({
         <As400CobolPanelGrid componentName="As400CobolServiceScopeGrid">
           <As400CobolPanel
             componentName="As400CobolAssessmentPanel"
-            eyebrow="01 Assessment"
+            eyebrow="01 棚卸し"
             title="現行業務と技術資産の棚卸し"
             body="受発注、在庫、請求、給与などの業務単位で、COBOL/RPGプログラム、DB2 / Oracle、ジョブ、帳票、ファイル連携を整理し、移行の全体像を把握します。"
           />
           <As400CobolPanel
             componentName="As400CobolAnalysisPanel"
-            eyebrow="02 Analysis"
+            eyebrow="02 分析"
             title="AI分析と影響度整理"
             body="コード構造、業務ロジック、データモデル、依存関係、改修時の影響範囲をAIで整理し、仕様書、データモデル、テスト観点として確認できる状態にします。"
           />
           <As400CobolPanel
             componentName="As400CobolPlanningPanel"
-            eyebrow="03 Planning"
+            eyebrow="03 計画"
             title="移行対象と残す領域の切り分け"
-            body="Java化、API化、PostgreSQL移行、Cloud移行に進める領域と、当面IBM i上に残す領域を分け、業務影響と優先度に基づいて段階的なロードマップを作ります。"
+            body="Java化、API化、PostgreSQL移行、クラウド移行に進める領域と、当面IBM i上に残す領域を分け、業務影響と優先度に基づいて段階的なロードマップを作ります。"
           />
           <As400CobolPanel
             componentName="As400CobolPocPanel"
-            eyebrow="04 PoC"
+            eyebrow="04 検証"
             title="小さく検証するPoC"
             body="在庫照会、取引先マスタ、請求状況など、業務影響を抑えやすい範囲から、変換精度、データ整合性、API連携、移行後の運用イメージを検証します。"
           />
           <As400CobolPanel
             componentName="As400CobolImplementationPanel"
-            eyebrow="05 Implementation"
+            eyebrow="05 実装"
             title="変換・実装と基盤移行"
-            body="PoCで確認した範囲から、COBOL/RPGのJava化、API Wrapper、PostgreSQL移行、Linux / OCI / AWS環境への展開、周辺システム連携を進めます。"
+            body="PoCで確認した範囲から、COBOL/RPGのJava化、API連携、PostgreSQL移行、Linux / OCI / AWS環境への展開、周辺システム連携を進めます。"
           />
           <As400CobolPanel
             componentName="As400CobolStabilizationPanel"
-            eyebrow="06 Stabilization"
+            eyebrow="06 安定化"
             title="テスト、並行稼働、運用安定化"
             body="新旧システムの照合テスト、性能確認、並行稼働、切り戻し、監視、障害対応、運用ドキュメント整備まで、現場が使い続けられる状態を目指します。"
           />
@@ -481,7 +481,7 @@ export default async function As400CobolServicePage({
       </As400CobolSection>
 
       <As400CobolContactSection>
-        <As400CobolContactEyebrow>Contact</As400CobolContactEyebrow>
+        <As400CobolContactEyebrow>お問い合わせ</As400CobolContactEyebrow>
         <As400CobolContactTitle>
           AS/400・COBOLモダナイゼーションを相談する
         </As400CobolContactTitle>
