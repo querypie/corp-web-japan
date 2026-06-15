@@ -59,6 +59,13 @@ Use `.agents/skills/README.md` as the first local index, then load the specific 
 ## Work rules
 
 - Use a worktree for branch-isolated work.
+- In branch worktrees, do not run dependency installs such as `npm install` or
+  `npm ci` to create a separate `node_modules`. If dependency-backed local
+  commands are explicitly needed, symlink the root checkout's `node_modules`
+  into the worktree (for example, `ln -s ../corp-web-japan/node_modules
+  node_modules` from a sibling worktree). If a tool cannot use the symlinked
+  dependency tree, do not install dependencies in the worktree; use CI/preview
+  verification or report the blocker.
 - Make the smallest change that satisfies the request.
 - Keep docs and implementation aligned.
 - Prefer source content files over inline strings for copy changes.

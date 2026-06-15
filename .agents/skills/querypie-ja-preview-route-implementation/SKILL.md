@@ -82,7 +82,9 @@ Do not use it for:
 2. Use a git worktree, not the main checkout.
 3. Do not plan from stale local files when the page area may have changed recently.
 4. Do not start a local dev server unless the user explicitly asks.
-5. Rebase on the latest `origin/main` again before push / PR update.
+5. In branch worktrees, do not run dependency installs such as `npm install` or `npm ci` to create a separate `node_modules`. If dependency-backed local commands are explicitly needed, symlink the root checkout's `node_modules` into the worktree, for example `ln -s ../corp-web-japan/node_modules node_modules` from a sibling worktree.
+6. If a tool cannot use the symlinked dependency tree, do not install dependencies in the worktree; use CI/preview verification or report the blocker.
+7. Rebase on the latest `origin/main` again before push / PR update.
 
 ## Core preview-route convention
 
@@ -376,8 +378,9 @@ When asked to migrate a `querypie.com/ja` or external page into this website as 
 4. choose the preview URI under `/t/...`
 5. create the matching `src/app/t/**/page.tsx`
 6. place page-specific assets under route-aligned `public/**`, not `public/t/**` and not `public/assets/**`
-7. author the real copy directly in `page.tsx` or, for very large legal documents, keep the route self-contained with an adjacent route-local source file
-8. mark the preview page as noindex with canonical `/t/...`
-9. keep existing non-preview public redirects/routes separate unless rollout was explicitly requested
-10. add the lightest targeted regression checks
-11. rebase and finish the git workflow
+7. do not install dependencies in the worktree; symlink the root checkout's `node_modules` if local dependency-backed commands are explicitly needed
+8. author the real copy directly in `page.tsx` or, for very large legal documents, keep the route self-contained with an adjacent route-local source file
+9. mark the preview page as noindex with canonical `/t/...`
+10. keep existing non-preview public redirects/routes separate unless rollout was explicitly requested
+11. add the lightest targeted regression checks
+12. rebase and finish the git workflow

@@ -255,8 +255,9 @@ Important lesson from PR 193 follow-up:
 2. Use a git worktree, not the main checkout.
 3. If the user explicitly tells you to continue an existing worktree/branch, validate that worktree and continue there.
 4. Do not start a local dev server unless the user explicitly asks.
-5. Avoid repeated local `npm install` when the existing workspace already has what you need.
-6. Rebase onto the latest `origin/main` again before push/PR update.
+5. In branch worktrees, do not run dependency installs such as `npm install` or `npm ci` to create a separate `node_modules`. If dependency-backed local commands are explicitly needed, symlink the root checkout's `node_modules` into the worktree, for example `ln -s ../corp-web-japan/node_modules node_modules` from a sibling worktree.
+6. If a tool cannot use the symlinked dependency tree, do not install dependencies in the worktree; use CI/preview verification or report the blocker.
+7. Rebase onto the latest `origin/main` again before push/PR update.
 
 ### Worktree freshness gate
 
@@ -534,7 +535,7 @@ Recommended order:
 2. `npm run test:ci` if the change touches broad route/test structure
 3. `npm run build` if the change is deployment-sensitive or the user explicitly wants it
 
-If the repo/worktree already has dependency resolution available, prefer using it directly instead of repeating install steps.
+If the worktree needs dependency resolution, use the root checkout's `node_modules` through a worktree-local symlink instead of installing dependencies inside the worktree.
 
 ### 7. Final git workflow
 
@@ -600,7 +601,7 @@ Required constraints:
 - Use branch `<branch-name>`.
 - Do not modify the main checkout.
 - Do not start a local dev server.
-- Avoid repeated local npm install when possible.
+- Do not install dependencies in the worktree; symlink the root checkout's `node_modules` if local dependency-backed commands are explicitly needed.
 - Final done condition is commit + push + PR creation.
 
 Already known references:
