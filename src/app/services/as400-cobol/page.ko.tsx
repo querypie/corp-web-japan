@@ -1,4 +1,20 @@
 import type { Metadata } from "next";
+import {
+  As400CobolArchitectureBand,
+  As400CobolBodyText,
+  As400CobolDiagramArrow,
+  As400CobolDiagramRail,
+  As400CobolDiagramStage,
+  As400CobolInsightItem,
+  As400CobolInsightList,
+  As400CobolMiniList,
+  As400CobolMiniListItem,
+  As400CobolPathCard,
+  As400CobolPathGrid,
+  As400CobolStatCard,
+  As400CobolStatGrid,
+  As400CobolTextColumns,
+} from "@/components/sections/as400-cobol/diagrams";
 import { As400CobolCtaAction } from "@/components/sections/as400-cobol/cta-action";
 import { As400CobolHeroVisual } from "@/components/sections/as400-cobol/hero-visual";
 import {
@@ -8,7 +24,6 @@ import {
   As400CobolPanelGrid,
 } from "@/components/sections/as400-cobol/migration-flow";
 import {
-  As400CobolBodyCopy,
   As400CobolContactActions,
   As400CobolContactDescription,
   As400CobolContactEyebrow,
@@ -30,7 +45,7 @@ import { componentNameDebugProps } from "@/lib/component-name-debug";
 const contactHref = "/contact-us";
 const heroImageSrc = "/services/as400-cobol/hero-modernization-flow.png";
 const heroImageAlt =
-  "AS/400과 COBOL 자산을 분석하고 Java, API, 클라우드 환경으로 단계적으로 이전하는 현대화의 흐름";
+  "AS/400과 COBOL 자산을 분석하고 Java, API, 클라우드 환경으로 단계적으로 이전하는 모더나이제이션 흐름";
 
 const heroLabels = [
   {
@@ -49,7 +64,7 @@ const heroLabels = [
 
 export const as400CobolKoreanMetadata: Metadata = {
   title:
-    "IBM i（AS/400）현대화 | AS400 / COBOL 마이그레이션 | QueryPie AI",
+    "IBM i（AS/400）모더나이제이션 | AS400 / COBOL 마이그레이션 | QueryPie AI",
   description:
     "QueryPie AI는 IBM i（AS/400）상의 COBOL/RPG 자산을 분석하고, 설계서・테스트 케이스 생성부터 Java/API/Cloud 이전, DB2 / Oracle 분석, PostgreSQL 이전까지 단계적으로 지원합니다.",
   alternates: {
@@ -81,7 +96,7 @@ export default function As400CobolKoreanPage() {
             <As400CobolHeroTitle>
               IBM i（AS/400）
               <br />
-              현대화
+              모더나이제이션
             </As400CobolHeroTitle>
             <As400CobolHeroSubtitle>
               AS400 / COBOL 마이그레이션을 현황 분석부터
@@ -90,8 +105,8 @@ export default function As400CobolKoreanPage() {
             <As400CobolHeroDescription>
               QueryPie AI는 COBOL/RPG 자산의 분석・가시화,
               설계서・테스트 케이스 생성, DB2 / Oracle 분석,
-              PostgreSQL 이전, Linux / OCI / AWS 환경으로의 이전까지
-              단계적으로 지원합니다.
+              PostgreSQL 이전, Linux / OCI / AWS 환경으로의 이전까지,
+              기존 업무를 멈추지 않는 단계적 쇄신을 지원합니다.
             </As400CobolHeroDescription>
             <As400CobolHeroActions>
               <As400CobolCtaAction href={contactHref}>상담하기</As400CobolCtaAction>
@@ -104,31 +119,222 @@ export default function As400CobolKoreanPage() {
         muted
         componentName="As400CobolMarketBackgroundSection"
         eyebrow="Market Background"
-        title="1만 개사 규모의 IBM i 시장과 확대되는 현대화 수요"
-        lead="일본의 IBM i（AS/400） 고객은 보수적으로 약 1만 개사, 넓게는 1만5,000~2만 개사 규모로 추정됩니다. IDC는 일본 IT 모더나이제이션 서비스 시장을 2025년 1조 3,044억 엔, 2030년 2조 1,234억 엔으로 전망합니다."
+        title="AS/400과 COBOL 자산은 지금도 기간계 시스템의 중요한 주제입니다"
+        lead="AS/400（현재의 IBM i）는 IBM Power에서 동작하는 통합형 기간계 업무 플랫폼입니다. RPG, COBOL, CL, Db2 for i, 잡, 장표, 5250 화면 등이 업무와 깊게 결합되어 있기 때문에, 단순한 서버 교체가 아니라 업무 로직을 이해한 뒤의 단계적 모더나이제이션이 필요합니다."
       >
-        <As400CobolBodyCopy componentName="As400CobolMarketBackgroundCopy">
-          <p>
-            IBM i（AS/400）는 제조, 유통, 물류, 상사, 도매 업무에서
-            오랫동안 사용되어 온 기간계 업무 플랫폼입니다. 시장 추정상
-            IBM i 사용자의 85~92%가 RPG 자산을 보유한 것으로 보이며,
-            RPG 이용 고객은 1만~1만4,000개사 정도가 현실적인 대상입니다.
-          </p>
-          <p>
-            COBOL의 경우 IBM i 위에서의 사용률은 15~16% 정도로 보이며,
-            IBM i상의 COBOL 이용 고객은 1,500~3,200개사 규모로 추정됩니다.
-            한편 메인프레임과 오픈계까지 포함한 일본 COBOL 이용 고객은
-            4,000~8,000개사 규모로 볼 수 있으며, 금융・보험・공공・대형 제조를
-            중심으로 지금도 기간계 업무를 지탱하고 있습니다.
-          </p>
-          <p>
-            이 시장 규모가 보여주는 것은 단순한 서버 교체 수요가 아니라
-            업무 로직, 데이터 구조, 잡, 장표, 주변 시스템 연계를 다시 이해해야
-            하는 수요입니다. 유지보수 인력 부족, 개인에게 의존된 사양,
-            클라우드・API 활용 지연을 해결하려면 현행 자산을 AI로 가시화하고
-            단계적으로 이전 범위를 판단하는 접근이 필요합니다.
-          </p>
-        </As400CobolBodyCopy>
+        <div className="space-y-8">
+          <As400CobolStatGrid>
+            <As400CobolStatCard
+              value="1만 개사 규모"
+              label="일본 내 IBM i 이용 기업"
+              description="일본 내 제조, 유통, 물류, 상사, 도매 등에서 지금도 기간계 업무를 지탱하는 플랫폼입니다."
+            />
+            <As400CobolStatCard
+              value="85~92%"
+              label="RPG 자산을 보유한 IBM i 사용자"
+              description="IBM i 시장에서는 RPG가 중심이며 제조, 유통, 물류, 상사, 도매 등의 업무 로직을 지탱하고 있습니다."
+            />
+            <As400CobolStatCard
+              value="4,000~8,000개사"
+              label="광의의 COBOL 이용 추정"
+              description="메인프레임, 오픈계, IBM i를 포함해 금융, 보험, 공공, 대형 제조 등에서 계속 이용될 것으로 보입니다."
+            />
+            <As400CobolStatCard
+              value="1조 3,044억 엔"
+              label="2025년 IT 모더나이제이션 시장"
+              description="IDC의 일본 IT 모더나이제이션 서비스 시장 전망을 전체 시장 배경으로 다룹니다."
+            />
+          </As400CobolStatGrid>
+
+          <As400CobolTextColumns>
+            <As400CobolBodyText>
+              <p>
+                일본 기업에 남아 있는 IBM i（AS/400）와 COBOL/RPG 기간계 시스템은
+                오래되었기 때문에 남아 있는 것이 아닙니다. 수발주, 재고, 회계, 결제,
+                급여, 고객 관리처럼 멈출 수 없는 업무를 오랫동안 안정적으로
+                지탱해 왔기 때문에 쉽게 교체할 수 없는 자산이 되었습니다.
+              </p>
+              <p>
+                한편 오랜 기간의 수정으로 사양이 개인에게 의존하고, 프로그램, 테이블,
+                잡, 장표, 외부 연계의 관계가 보이지 않게 되면 수정이나 이전의
+                영향 범위를 판단하기 어려워집니다. 경제산업성의 DX 리포트가
+                지적한 “2025년의 절벽” 역시 레거시 시스템의 복잡화와
+                블랙박스화를 방치할 때의 리스크를 생각하는 중요한 맥락입니다.
+              </p>
+            </As400CobolBodyText>
+            <As400CobolInsightList>
+              <As400CobolInsightItem icon="host" title="IBM i는 통합형 플랫폼">
+                OS, Db2 for i, 잡 관리, 보안, 5250 화면, RPG/COBOL/CL이
+                하나로 운영되기 때문에 Linux 이전이나 DB 이전만으로는
+                전체상을 설명할 수 없습니다.
+              </As400CobolInsightItem>
+              <As400CobolInsightItem icon="database" title="데이터와 업무 로직이 가깝다">
+                Db2 for i, DB2 / Oracle, 장표, 배치, 주변 시스템 연계까지 포함해
+                어떤 업무가 어떤 자산에 의존하는지 정리해야 합니다.
+              </As400CobolInsightItem>
+              <As400CobolInsightItem icon="brain" title="AI 분석의 진입점이 명확하다">
+                코드 설명, 사양서 생성, 의존 관계 정리, 영향도 분석, 테스트 범위 추출은
+                단계적인 이전 판단의 전제가 됩니다.
+              </As400CobolInsightItem>
+            </As400CobolInsightList>
+          </As400CobolTextColumns>
+        </div>
+      </As400CobolSection>
+
+      <As400CobolSection
+        componentName="As400CobolWhyModernizeSection"
+        eyebrow="Why Modernize"
+        title="왜 지금 AS400 / COBOL Modernization이 필요한가"
+        lead="과제는 시스템이 동작하지 않는다는 것이 아닙니다. 안정적으로 동작하기 때문에 바꾸는 판단이 늦어지고, 유지보수 인력, 비용, 사양의 블랙박스화, DX 시책과의 연결이 동시에 어려워진다는 점입니다."
+      >
+        <As400CobolInsightList>
+          <As400CobolInsightItem icon="legacy" title="“동작하니까 건드리지 않는다”의 한계">
+            오랫동안 가동된 기간계 시스템은 업무에 깊이 내장되어 있습니다.
+            그러나 담당자의 퇴직, 벤더 의존, 수정 이력의 축적이 진행될수록
+            건드리지 않는 판단 자체가 미래의 리스크가 됩니다.
+          </As400CobolInsightItem>
+          <As400CobolInsightItem icon="route" title="영향 범위를 몰라 수정 판단이 늦어진다">
+            하나의 화면이나 장표 변경이라도 프로그램, 파일, 잡, 외부 연계,
+            테스트 범위가 연쇄됩니다. 보이지 않는 의존 관계를 가시화하지 않으면
+            작은 수정도 큰 리스크가 됩니다.
+          </As400CobolInsightItem>
+          <As400CobolInsightItem icon="api" title="클라우드, API, 데이터 활용으로 이어지기 어렵다">
+            기존 IBM i를 남겨 둔 채 API Wrapper로 외부화할지, Java화할지,
+            PostgreSQL이나 Linux / OCI / AWS로 옮길지. 선택지를 비교하려면
+            현행 자산의 구조 이해가 필요합니다.
+          </As400CobolInsightItem>
+        </As400CobolInsightList>
+      </As400CobolSection>
+
+      <As400CobolSection
+        muted
+        componentName="As400CobolAiApproachSection"
+        eyebrow="AI Approach"
+        title="전면 재개발이 아니라, 먼저 AI로 현행 시스템을 이해합니다"
+        lead="QueryPie AI는 기존 자산을 단순히 대체하는 것이 아니라, 코드, DB, 잡, 장표, 외부 연계를 읽어내고, 이전 판단에 필요한 정보로 변환합니다."
+      >
+        <As400CobolDiagramRail>
+          <As400CobolDiagramStage icon="source" eyebrow="Input" title="기존 자산을 모읍니다">
+            <As400CobolMiniList>
+              <As400CobolMiniListItem>COBOL / RPG / CL 프로그램</As400CobolMiniListItem>
+              <As400CobolMiniListItem>Db2 for i, DB2 / Oracle, 파일 정의</As400CobolMiniListItem>
+              <As400CobolMiniListItem>잡, 장표, 화면, 외부 연계</As400CobolMiniListItem>
+            </As400CobolMiniList>
+          </As400CobolDiagramStage>
+          <As400CobolDiagramArrow />
+          <As400CobolDiagramStage icon="analysis" eyebrow="Analysis" title="AI로 구조화합니다">
+            <As400CobolMiniList>
+              <As400CobolMiniListItem>업무 로직과 처리 흐름 설명</As400CobolMiniListItem>
+              <As400CobolMiniListItem>테이블, 프로그램, 배치의 의존 관계 정리</As400CobolMiniListItem>
+              <As400CobolMiniListItem>수정・이전 시의 영향도 분석</As400CobolMiniListItem>
+            </As400CobolMiniList>
+          </As400CobolDiagramStage>
+          <As400CobolDiagramArrow />
+          <As400CobolDiagramStage icon="book" eyebrow="Output" title="판단 자료로 전환합니다">
+            <As400CobolMiniList>
+              <As400CobolMiniListItem>현행 사양서, 데이터 모델, 이전 대상 분류</As400CobolMiniListItem>
+              <As400CobolMiniListItem>테스트 케이스, 테스트 범위, 우선순위</As400CobolMiniListItem>
+              <As400CobolMiniListItem>PoC 계획, 이전 로드맵, 구현 방침</As400CobolMiniListItem>
+            </As400CobolMiniList>
+          </As400CobolDiagramStage>
+        </As400CobolDiagramRail>
+      </As400CobolSection>
+
+      <As400CobolSection
+        componentName="As400CobolDeliverablesSection"
+        eyebrow="Deliverables"
+        title="설계서, 영향도, 테스트 케이스까지 이전 판단에 필요한 산출물을 갖춥니다"
+        lead="AI 분석의 목적은 단순히 코드를 설명하는 것이 아닙니다. 현행 업무를 멈추지 않고 어디서부터 착수할지, 무엇을 남기고 무엇을 옮길지 판단할 수 있는 상태를 만드는 것입니다."
+      >
+        <As400CobolPanelGrid componentName="As400CobolDeliverablesGrid">
+          <As400CobolPanel
+            componentName="As400CobolSpecificationPanel"
+            eyebrow="Specification"
+            title="현행 사양서 생성"
+            body="COBOL/RPG 프로그램의 처리 내용, 입력, 출력, 예외 처리, 업무 규칙을 읽어내어 담당자가 확인할 수 있는 현행 사양으로 정리합니다."
+          />
+          <As400CobolPanel
+            componentName="As400CobolDependencyPanel"
+            eyebrow="Dependency"
+            title="의존 관계와 영향도 정리"
+            body="프로그램, 테이블, 잡, 장표, 외부 연계의 관계를 가시화하고, 수정이나 이전 시 영향을 받는 범위를 확인합니다."
+          />
+          <As400CobolPanel
+            componentName="As400CobolDataModelPanel"
+            eyebrow="Data Model"
+            title="DB・데이터 모델 분석"
+            body="Db2 for i, DB2 / Oracle, 파일 정의, 데이터 항목의 관계를 정리해 PostgreSQL 이전이나 API화의 전제를 만듭니다."
+          />
+          <As400CobolPanel
+            componentName="As400CobolTestCasePanel"
+            eyebrow="Test"
+            title="테스트 케이스 생성"
+            body="업무 로직과 데이터 정합성을 확인하기 위한 테스트 관점, 정상계・예외계, 이전 후 비교 검증 범위를 정리합니다."
+          />
+          <As400CobolPanel
+            componentName="As400CobolRoadmapPanel"
+            eyebrow="Roadmap"
+            title="이전 대상 분류"
+            body="남길 기능, 외부화할 기능, Java화할 기능, DB 이전이 필요한 영역을 나누고 PoC와 단계적 이전의 우선순위를 만듭니다."
+          />
+          <As400CobolPanel
+            componentName="As400CobolKnowledgePanel"
+            eyebrow="Knowledge"
+            title="업무 지식 검색・계승"
+            body="개인에게 의존된 사양이나 숙련 담당자의 지식을 검색・확인하기 쉬운 형태로 변환해 새로운 담당자의 온보딩을 지원합니다."
+          />
+        </As400CobolPanelGrid>
+      </As400CobolSection>
+
+      <As400CobolSection
+        muted
+        componentName="As400CobolMigrationArchitectureSection"
+        eyebrow="Migration Architecture"
+        title="Java / PostgreSQL / Linux / Cloud로, 상황에 맞는 이전 루트를 설계합니다"
+        lead="처음부터 전체를 바꾸는 것이 아니라, 기존 IBM i를 남기는 선택지도 포함해, API화, Java화, 데이터 이전, 클라우드 이전을 단계적으로 조합합니다."
+      >
+        <div className="space-y-8">
+          <As400CobolArchitectureBand>
+            <As400CobolDiagramStage icon="host" eyebrow="Current" title="IBM i（AS/400）">
+              <As400CobolMiniList>
+                <As400CobolMiniListItem>RPG / COBOL / CL</As400CobolMiniListItem>
+                <As400CobolMiniListItem>Db2 for i, DB2 / Oracle</As400CobolMiniListItem>
+                <As400CobolMiniListItem>5250 화면, 잡, 장표</As400CobolMiniListItem>
+              </As400CobolMiniList>
+            </As400CobolDiagramStage>
+            <As400CobolDiagramArrow />
+            <As400CobolDiagramStage icon="brain" eyebrow="Bridge" title="AI 분석과 PoC">
+              <As400CobolMiniList>
+                <As400CobolMiniListItem>업무 영향과 이전 난이도 평가</As400CobolMiniListItem>
+                <As400CobolMiniListItem>변환 정밀도와 테스트 가능성 검증</As400CobolMiniListItem>
+                <As400CobolMiniListItem>우선순위와 구현 단위 결정</As400CobolMiniListItem>
+              </As400CobolMiniList>
+            </As400CobolDiagramStage>
+            <As400CobolDiagramArrow />
+            <As400CobolDiagramStage icon="cloud" eyebrow="Target" title="Next Architecture">
+              <As400CobolMiniList>
+                <As400CobolMiniListItem>Java / API / Cloud</As400CobolMiniListItem>
+                <As400CobolMiniListItem>PostgreSQL / Linux</As400CobolMiniListItem>
+                <As400CobolMiniListItem>OCI / AWS / 온프레미스 병용</As400CobolMiniListItem>
+              </As400CobolMiniList>
+            </As400CobolDiagramStage>
+          </As400CobolArchitectureBand>
+
+          <As400CobolPathGrid>
+            <As400CobolPathCard icon="api" title="API Wrapper로 외부화">
+              기존 IBM i를 바로 교체하지 않고 필요한 기능부터 API로 외부 시스템과 연결합니다.
+            </As400CobolPathCard>
+            <As400CobolPathCard icon="code" title="COBOL/RPG에서 Java로">
+              변환 대상을 좁히고 PoC로 정밀도, 예외 처리, 테스트 가능성을 확인하며 진행합니다.
+            </As400CobolPathCard>
+            <As400CobolPathCard icon="database" title="PostgreSQL로 데이터 이전">
+              테이블, 파일, 데이터 항목, 정합성 체크를 정리하고 단계적으로 이전합니다.
+            </As400CobolPathCard>
+            <As400CobolPathCard icon="cloud" title="Linux / OCI / AWS로 전개">
+              운영, 모니터링, 권한, 접속 방식을 포함해 이전 후에도 계속 쓸 수 있는 기반을 설계합니다.
+            </As400CobolPathCard>
+          </As400CobolPathGrid>
+        </div>
       </As400CobolSection>
 
       <As400CobolSection
@@ -136,44 +342,44 @@ export default function As400CobolKoreanPage() {
         componentName="As400CobolServiceScopeSection"
         eyebrow="Service Scope"
         title="진단, PoC, 변환, 구현, 운영 안정화까지 일관되게 지원"
-        lead="AS/400과 COBOL/RPG뿐 아니라 DB, 인프라, 주변 시스템 연계까지 포함한 현실적인 이전 계획을 설계합니다."
+        lead="현행 자산의 목록화에서 끝내지 않고, 분석 결과를 PoC, 이전 계획, 구현, 테스트, 운영 안정화로 연결합니다."
       >
         <As400CobolPanelGrid componentName="As400CobolServiceScopeGrid">
           <As400CobolPanel
             componentName="As400CobolAssessmentPanel"
             eyebrow="Assessment"
             title="현황 진단"
-            body="IBM i（AS/400）상의 애플리케이션, COBOL/RPG 자산, DB2 / Oracle, 주변 시스템 연계를 정리하고 이전 우선순위와 리스크를 명확히 합니다."
+            body="대상 시스템, COBOL/RPG 프로그램, DB, 잡, 장표, 외부 연계를 목록화하고 이전의 전체상을 파악합니다."
+          />
+          <As400CobolPanel
+            componentName="As400CobolAnalysisPanel"
+            eyebrow="Analysis"
+            title="AI 분석"
+            body="코드 구조, 업무 로직, 데이터 모델, 의존 관계, 영향 범위를 AI로 정리하고 판단 가능한 자료로 변환합니다."
+          />
+          <As400CobolPanel
+            componentName="As400CobolPlanningPanel"
+            eyebrow="Planning"
+            title="이전 계획"
+            body="Java화, PostgreSQL화, API화, Cloud 이전 등의 후보를 비교하고 단계적 로드맵으로 구체화합니다."
           />
           <As400CobolPanel
             componentName="As400CobolPocPanel"
             eyebrow="PoC"
-            title="PoC와 이전 설계"
-            body="변환 대상, 테스트 범위, 데이터 이전, 클라우드・온프레미스 구성을 작게 검증하고 단계적 로드맵으로 구체화합니다."
+            title="PoC"
+            body="일부 프로그램이나 업무 영역을 대상으로 변환 정밀도, 테스트 가능성, 이전 후 운영 이미지를 검증합니다."
           />
           <As400CobolPanel
-            componentName="As400CobolMigrationPanel"
-            eyebrow="Migration"
+            componentName="As400CobolImplementationPanel"
+            eyebrow="Implementation"
             title="변환・구현"
-            body="COBOL/RPG 자산 분석, 설계서・테스트 케이스 생성, Java/API/Cloud 이전, PostgreSQL 이전을 구현 단계까지 지원합니다."
-          />
-          <As400CobolPanel
-            componentName="As400CobolInfrastructurePanel"
-            eyebrow="Infrastructure"
-            title="Linux / OCI / AWS 이전"
-            body="기존 인프라의 제약을 고려해 Linux, OCI, AWS 환경으로의 이전, 운영 설계, 모니터링・권한・접속 방식 정리까지 대응합니다."
+            body="우선순위가 높은 영역부터 Java/API/Cloud 이전, PostgreSQL 이전, 주변 연계 구현을 진행합니다."
           />
           <As400CobolPanel
             componentName="As400CobolStabilizationPanel"
             eyebrow="Stabilization"
-            title="테스트와 운영 안정화"
-            body="업무 영향을 줄이기 위한 테스트, 병행 가동, 성능・장애 대응, 이전 후 개선 운영까지 지속적으로 함께합니다."
-          />
-          <As400CobolPanel
-            componentName="As400CobolConsultingPanel"
-            eyebrow="Consulting"
-            title="AI 활용 자산 가시화"
-            body="개인에게 의존된 사양과 방대한 기존 코드를 AI 분석・정리의 대상으로 삼아 이전 판단에 필요한 정보로 전환합니다."
+            title="운영 안정화"
+            body="병행 가동, 테스트 케이스 확충, 성능・장애 대응, 운영 문서 정비까지 지속적으로 함께합니다."
           />
         </As400CobolPanelGrid>
       </As400CobolSection>
@@ -182,16 +388,16 @@ export default function As400CobolKoreanPage() {
         muted
         componentName="As400CobolMigrationFlowSection"
         eyebrow="Migration Flow"
-        title="단계적 Migration으로 업무 영향을 줄이며 쇄신합니다"
-        lead="현황 진단부터 자산 분석, PoC, 변환・구현, 테스트, 운영 안정화까지 이전 판단과 구현을 같은 흐름으로 진행합니다."
+        title="단계적 Migration으로, 업무 영향을 억제하면서 쇄신합니다"
+        lead="현황 진단부터 자산 분석, PoC, 변환・구현, 테스트, 운영 안정화까지, 이전 판단과 구현을 같은 흐름으로 진행합니다."
       >
-        <As400CobolMigrationFlow>
+        <As400CobolMigrationFlow componentName="As400CobolMigrationFlowList">
           <As400CobolMigrationStep
             componentName="As400CobolAssessmentStep"
             stepNumber="01"
             icon="assessment"
             title="현황 진단"
-            body="AS/400, COBOL/RPG, DB, 주변 연계를 목록화합니다."
+            body="AS/400, COBOL/RPG, DB, 잡, 장표, 주변 연계를 목록화합니다."
           />
           <As400CobolMigrationStep
             componentName="As400CobolAnalysisStep"
@@ -208,14 +414,14 @@ export default function As400CobolKoreanPage() {
             body="대상 범위를 좁혀 변환・테스트・운영 방식을 검증합니다."
           />
           <As400CobolMigrationStep
-            componentName="As400CobolImplementationStep"
+            componentName="As400CobolMigrationStepCard"
             stepNumber="04"
             icon="migration"
             title="변환・구현"
             body="Java/API/Cloud 이전과 PostgreSQL 이전을 단계적으로 진행합니다."
           />
           <As400CobolMigrationStep
-            componentName="As400CobolTestingStep"
+            componentName="As400CobolTestStep"
             stepNumber="05"
             icon="test"
             title="테스트"
@@ -235,24 +441,24 @@ export default function As400CobolKoreanPage() {
       <As400CobolSection
         componentName="As400CobolScenarioSection"
         eyebrow="Scenario"
-        title="업무 시나리오에서 실행 가능한 이전 계획으로"
-        lead="수발주, 재고, 청구, 배치, 장표, 외부 연계 같은 실제 운영 단위에 맞춰 AS/400, COBOL/RPG, DB2 / Oracle, PostgreSQL, Java, API, Cloud로의 이전 범위와 순서를 정리합니다."
+        title="익명화된 운영 시나리오를 전제로, 실행 가능한 이전 계획으로"
+        lead="구체적인 고객명이나 벤더명은 드러내지 않고, AS/400, COBOL, RPG, DB2, Oracle, PostgreSQL, Java, API, Cloud 같은 기술 요소를 명확히 다룹니다."
       >
         <As400CobolPanelGrid componentName="As400CobolScenarioGrid">
           <As400CobolPanel
-            componentName="As400CobolAssetVisibilityScenario"
-            title="현행 업무와 기술 자산 목록화"
-            body="수발주, 재고, 청구, 급여 같은 업무 단위로 COBOL/RPG 프로그램, 잡, 장표, DB2 / Oracle 테이블, 파일 연계를 정리합니다."
+            componentName="As400CobolLegacyVisibilityPanel"
+            title="오랫동안 운영된 AS/400 자산의 가시화"
+            body="부서별로 사용되어 온 COBOL/RPG 프로그램, 잡, 장표, DB2 / Oracle 구조를 정리하고 사양의 개인 의존을 해소하기 위한 분석 자료를 작성합니다."
           />
           <As400CobolPanel
-            componentName="As400CobolPhasedMigrationScenario"
-            title="이전 대상과 유지 영역 분리"
-            body="Java화, API화, PostgreSQL 이전, Cloud 이전으로 진행할 영역과 당분간 IBM i에 남길 영역을 나누고, 영향도와 업무 우선순위에 따라 이전 순서를 정합니다."
+            componentName="As400CobolPhasedMigrationPanel"
+            title="주변 시스템 연계를 전제로 한 단계적 이전"
+            body="일괄 쇄신이 아니라 기존 업무에 미치는 영향을 억제하면서 API 연계, 데이터 이전, Java화, 클라우드 기반 이전을 순서대로 진행합니다."
           />
           <As400CobolPanel
-            componentName="As400CobolStabilizationScenario"
-            title="PoC부터 운영 전환까지 실행 계획화"
-            body="일부 업무에서 변환 정확도, 데이터 정합성, 성능, 주변 연계를 검증하고, 테스트 케이스, 병행 가동, 전환 복구, 운영 인수인계까지 계획에 반영합니다."
+            componentName="As400CobolOperationalStabilityPanel"
+            title="이전 후 운영 안정화까지 함께"
+            body="신구 시스템 병행 가동, 테스트 케이스 확충, 장애 시 대응, 운영 문서 정비까지 포함해 현장이 계속 사용할 수 있는 상태를 목표로 합니다."
           />
         </As400CobolPanelGrid>
       </As400CobolSection>
@@ -260,11 +466,11 @@ export default function As400CobolKoreanPage() {
       <As400CobolContactSection>
         <As400CobolContactEyebrow>Contact</As400CobolContactEyebrow>
         <As400CobolContactTitle>
-          AS/400・COBOL 현대화를 상담하기
+          AS/400・COBOL 모더나이제이션을 상담하기
         </As400CobolContactTitle>
         <As400CobolContactDescription>
-          기존 자산 목록화부터 PoC, 변환, 구현, 운영 안정화까지
-          현재 상황에 맞는 단계적 진행 방식을 정리합니다.
+          기존 자산의 목록화부터 PoC, 변환, 구현, 운영 안정화까지,
+          현재 상황에 맞춰 단계적인 진행 방식을 정리합니다.
         </As400CobolContactDescription>
         <As400CobolContactActions>
           <As400CobolCtaAction href={contactHref}>상담하기</As400CobolCtaAction>
