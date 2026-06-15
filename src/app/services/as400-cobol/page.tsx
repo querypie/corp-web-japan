@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import As400CobolKoreanPage, {
+  as400CobolKoreanMetadata,
+} from "@/app/services/as400-cobol/page.ko";
 import { As400CobolCtaAction } from "@/components/sections/as400-cobol/cta-action";
 import { As400CobolHeroVisual } from "@/components/sections/as400-cobol/hero-visual";
 import {
@@ -11,6 +14,10 @@ import {
 import { As400CobolSection } from "@/components/sections/as400-cobol/section";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
+
+type As400CobolServicePageProps = {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+};
 
 const contactHref = "/contact-us";
 const heroImageSrc = "/services/as400-cobol/hero-modernization-flow.png";
@@ -107,7 +114,7 @@ const scenarioPanels = [
   },
 ];
 
-export const metadata: Metadata = {
+const as400CobolJapaneseMetadata: Metadata = {
   title:
     "IBM i（AS/400）モダナイゼーション | AS400 / COBOL マイグレーション | QueryPie AI",
   description:
@@ -121,7 +128,29 @@ export const metadata: Metadata = {
   },
 };
 
-export default function As400CobolServicePage() {
+function readLanguage(searchParams: Record<string, string | string[] | undefined> | undefined) {
+  const rawLang = searchParams?.lang;
+  return Array.isArray(rawLang) ? rawLang[0] : rawLang;
+}
+
+export async function generateMetadata({
+  searchParams,
+}: As400CobolServicePageProps): Promise<Metadata> {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  return readLanguage(resolvedSearchParams) === "ko"
+    ? as400CobolKoreanMetadata
+    : as400CobolJapaneseMetadata;
+}
+
+export default async function As400CobolServicePage({
+  searchParams,
+}: As400CobolServicePageProps) {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+
+  if (readLanguage(resolvedSearchParams) === "ko") {
+    return <As400CobolKoreanPage />;
+  }
+
   return (
     <main
       {...componentNameDebugProps("As400CobolServicePage")}

@@ -35,6 +35,7 @@
 - [x] Blog 확장 여부는 후순위로 검토
 - [x] `corp-web-japan`의 콘텐츠 구조 확인
 - [x] 정적 페이지 구현 방식은 route-local `page.tsx` 중심으로 하고 시각 컴포넌트는 `src/components/sections/as400-cobol/` 아래 분리
+- [x] `?lang=ko` 요청 시 한국어 페이지는 `src/app/services/as400-cobol/page.ko.tsx`에서 route-local authoring으로 분리 렌더링
 - [x] 슬러그는 `/services/as400-cobol`로 결정
 - [x] canonical URL은 `https://querypie.ai/services/as400-cobol`로 설정
 - [x] 콘텐츠 초안 단계에서는 production/stage 배포 가능성을 열어두되, robots는 `noindex, nofollow`로 설정

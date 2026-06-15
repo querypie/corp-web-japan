@@ -23,7 +23,7 @@
 
 1차 게시 형태는 일본 웹사이트의 정적 웹페이지입니다. 공식 주 표기는 `IBM i（AS/400）モダナイゼーション`으로 사용하고, `AS400 / COBOL マイグレーション`은 SEO와 문맥상 보조 표기로 사용합니다.
 
-초기 구현은 `/services/as400-cobol` 직접 URL로 접근 가능한 콘텐츠 초안입니다. 콘텐츠가 리뷰와 수정을 여러 번 거칠 예정이므로, 메뉴와 sitemap에는 아직 노출하지 않고 robots는 `noindex, nofollow`로 둡니다.
+초기 구현은 `/services/as400-cobol` 직접 URL로 접근 가능한 콘텐츠 초안입니다. 콘텐츠가 리뷰와 수정을 여러 번 거칠 예정이므로, 메뉴와 sitemap에는 아직 노출하지 않고 robots는 `noindex, nofollow`로 둡니다. 한국어 확인용 페이지는 별도 공개 경로를 만들지 않고 `/services/as400-cobol?lang=ko` 쿼리 파라미터로 제공하며, 한국어 카피와 섹션 구성은 `src/app/services/as400-cobol/page.ko.tsx`가 route-local authoring 방식으로 소유합니다.
 
 후순위 확장 콘텐츠는 다음과 같습니다.
 
@@ -32,7 +32,7 @@
 | 1 | 정적 웹페이지 | `/services/as400-cobol` 콘텐츠 초안 구현 |
 | 2 | White paper | 리드 수집, 상세 진단 프레임, 세일즈 후속 자료 |
 | 3 | Blog | 시장 교육, SEO 유입, 문제 인식 확산 |
-| 검토용 | 직접 URL | 메뉴/sitemap 미노출 상태에서 stage 또는 production 확인 |
+| 검토용 | 직접 URL | 메뉴/sitemap 미노출 상태에서 stage 또는 production 확인. 한국어 확인은 `?lang=ko` 사용 |
 
 ## 2. 타깃 독자
 
