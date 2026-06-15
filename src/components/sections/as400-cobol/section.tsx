@@ -3,8 +3,8 @@ import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type As400CobolSectionProps = {
   eyebrow?: string;
-  title: string;
-  lead?: string;
+  title: ReactNode;
+  lead?: ReactNode;
   children: ReactNode;
   muted?: boolean;
   id?: string;

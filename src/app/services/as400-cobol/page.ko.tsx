@@ -117,8 +117,28 @@ export default function As400CobolKoreanPage() {
         muted
         componentName="As400CobolMarketBackgroundSection"
         eyebrow="Market Background"
-        title="AS/400과 COBOL 자산은 지금도 기간계 시스템의 중요한 주제입니다"
-        lead="AS/400（현재의 IBM i）는 IBM Power에서 동작하는 통합형 기간계 업무 플랫폼입니다. RPG, COBOL, CL, Db2 for i, 잡, 장표, 5250 화면 등이 업무와 깊게 결합되어 있기 때문에, 단순한 서버 교체가 아니라 업무 로직을 이해한 뒤의 단계적 모더나이제이션이 필요합니다."
+        title={
+          <>
+            AS/400과 COBOL 자산은
+            <br />
+            지금도 기간계 시스템의 중요한 주제입니다
+          </>
+        }
+        lead={
+          <>
+            AS/400（현재의 IBM i）는
+            <br />
+            IBM Power에서 동작하는 통합형 기간계 업무 플랫폼입니다.
+            <br />
+            RPG, COBOL, CL, Db2 for i, 잡, 장표, 5250 화면 등이
+            <br />
+            업무와 깊게 결합되어 있기 때문에,
+            <br />
+            단순한 서버 교체가 아니라 업무 로직을 이해한 뒤의
+            <br />
+            단계적 모더나이제이션이 필요합니다.
+          </>
+        }
       >
         <div className="space-y-8">
           <As400CobolStatGrid>
@@ -182,8 +202,24 @@ export default function As400CobolKoreanPage() {
       <As400CobolSection
         componentName="As400CobolWhyModernizeSection"
         eyebrow="Why Modernize"
-        title="왜 지금 AS400 / COBOL Modernization이 필요한가"
-        lead="과제는 시스템이 동작하지 않는다는 것이 아닙니다. 안정적으로 동작하기 때문에 바꾸는 판단이 늦어지고, 유지보수 인력, 비용, 사양의 블랙박스화, DX 시책과의 연결이 동시에 어려워진다는 점입니다."
+        title={
+          <>
+            왜 지금 AS400 / COBOL Modernization이
+            <br />
+            필요한가
+          </>
+        }
+        lead={
+          <>
+            과제는 시스템이 동작하지 않는다는 것이 아닙니다.
+            <br />
+            안정적으로 동작하기 때문에 바꾸는 판단이 늦어지고,
+            <br />
+            유지보수 인력, 비용, 사양의 블랙박스화,
+            <br />
+            DX 시책과의 연결이 동시에 어려워진다는 점입니다.
+          </>
+        }
       >
         <As400CobolInsightList>
           <As400CobolInsightItem icon="legacy" title="“동작하니까 건드리지 않는다”의 한계">
@@ -208,8 +244,22 @@ export default function As400CobolKoreanPage() {
         muted
         componentName="As400CobolAiApproachSection"
         eyebrow="AI Approach"
-        title="전면 재개발이 아니라, 먼저 AI로 현행 시스템을 이해합니다"
-        lead="QueryPie AI는 기존 자산을 단순히 대체하는 것이 아니라, 코드, DB, 잡, 장표, 외부 연계를 읽어내고, 이전 판단에 필요한 정보로 변환합니다."
+        title={
+          <>
+            전면 재개발이 아니라,
+            <br />
+            먼저 AI로 현행 시스템을 이해합니다
+          </>
+        }
+        lead={
+          <>
+            QueryPie AI는 기존 자산을 단순히 대체하는 것이 아니라,
+            <br />
+            코드, DB, 잡, 장표, 외부 연계를 읽어내고,
+            <br />
+            이전 판단에 필요한 정보로 변환합니다.
+          </>
+        }
       >
         <As400CobolDiagramRail>
           <As400CobolDiagramStage icon="source" eyebrow="Input" title="기존 자산을 모읍니다">
@@ -241,8 +291,22 @@ export default function As400CobolKoreanPage() {
       <As400CobolSection
         componentName="As400CobolDeliverablesSection"
         eyebrow="Deliverables"
-        title="설계서, 영향도, 테스트 케이스까지 이전 판단에 필요한 산출물을 갖춥니다"
-        lead="AI 분석의 목적은 단순히 코드를 설명하는 것이 아닙니다. 현행 업무를 멈추지 않고 어디서부터 착수할지, 무엇을 남기고 무엇을 옮길지 판단할 수 있는 상태를 만드는 것입니다."
+        title={
+          <>
+            설계서, 영향도, 테스트 케이스까지
+            <br />
+            이전 판단에 필요한 산출물을 갖춥니다
+          </>
+        }
+        lead={
+          <>
+            AI 분석의 목적은 단순히 코드를 설명하는 것이 아닙니다.
+            <br />
+            현행 업무를 멈추지 않고 어디서부터 착수할지,
+            <br />
+            무엇을 남기고 무엇을 옮길지 판단할 수 있는 상태를 만드는 것입니다.
+          </>
+        }
       >
         <As400CobolPanelGrid componentName="As400CobolDeliverablesGrid">
           <As400CobolPanel
@@ -288,8 +352,24 @@ export default function As400CobolKoreanPage() {
         muted
         componentName="As400CobolMigrationArchitectureSection"
         eyebrow="Migration Architecture"
-        title="Java / PostgreSQL / Linux / Cloud로, 상황에 맞는 이전 루트를 설계합니다"
-        lead="처음부터 전체를 바꾸는 것이 아니라, 기존 IBM i를 남기는 선택지도 포함해, API화, Java화, 데이터 이전, 클라우드 이전을 단계적으로 조합합니다."
+        title={
+          <>
+            Java / PostgreSQL / Linux / Cloud로,
+            <br />
+            상황에 맞는 이전 루트를 설계합니다
+          </>
+        }
+        lead={
+          <>
+            처음부터 전체를 바꾸는 것이 아니라,
+            <br />
+            기존 IBM i를 남기는 선택지도 포함해,
+            <br />
+            API화, Java화, 데이터 이전, 클라우드 이전을
+            <br />
+            단계적으로 조합합니다.
+          </>
+        }
       >
         <div className="space-y-8">
           <As400CobolArchitectureBand>
@@ -339,8 +419,24 @@ export default function As400CobolKoreanPage() {
         id="service-scope"
         componentName="As400CobolServiceScopeSection"
         eyebrow="Service Scope"
-        title="현행 이해부터 단계적 이전까지 하나의 서비스 흐름으로 지원"
-        lead="수발주, 재고, 청구, 배치, 장표, 외부 연계 같은 업무 단위에 맞춰 현행 자산을 이해하고, AI 분석, PoC, 이전 설계, 구현, 병행 가동, 운영 안정화까지 연결합니다."
+        title={
+          <>
+            현행 이해부터 단계적 이전까지
+            <br />
+            하나의 서비스 흐름으로 지원
+          </>
+        }
+        lead={
+          <>
+            수발주, 재고, 청구, 배치, 장표, 외부 연계 같은
+            <br />
+            업무 단위에 맞춰 현행 자산을 이해하고,
+            <br />
+            AI 분석, PoC, 이전 설계, 구현, 병행 가동,
+            <br />
+            운영 안정화까지 연결합니다.
+          </>
+        }
       >
         <As400CobolPanelGrid componentName="As400CobolServiceScopeGrid">
           <As400CobolPanel
