@@ -35,6 +35,7 @@
 - [x] Blog 展開の有無は後続で検討
 - [x] `corp-web-japan` のコンテンツ構造を確認
 - [x] 静的ページ実装方式は route-local `page.tsx` を中心とし、視覚コンポーネントは `src/components/sections/as400-cobol/` 配下に分離
+- [x] `?lang=ko` リクエスト時の韓国語ページは `src/app/services/as400-cobol/page.ko.tsx` で route-local authoring として分離レンダリング
 - [x] スラッグは `/services/as400-cobol` に決定
 - [x] canonical URL は `https://querypie.ai/services/as400-cobol` に設定
 - [x] コンテンツ初稿段階では production/stage へのデプロイ可能性を許容しつつ、robots は `noindex, nofollow` に設定

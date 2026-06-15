@@ -23,7 +23,7 @@
 
 一次公開形式は、日本向けWebサイトの静的Webページです。公式主表記は `IBM i（AS/400）モダナイゼーション` とし、`AS400 / COBOL マイグレーション` は SEO と文脈上の補助表記として使用します。
 
-初期実装は `/services/as400-cobol` に直接アクセスできるコンテンツ初稿です。コンテンツは複数回のレビューと修正を前提とするため、ナビゲーションと sitemap にはまだ露出せず、robots は `noindex, nofollow` とします。
+初期実装は `/services/as400-cobol` に直接アクセスできるコンテンツ初稿です。コンテンツは複数回のレビューと修正を前提とするため、ナビゲーションと sitemap にはまだ露出せず、robots は `noindex, nofollow` とします。韓国語確認用ページは別の公開パスを作らず、`/services/as400-cobol?lang=ko` の query parameter で提供し、韓国語コピーとセクション構成は `src/app/services/as400-cobol/page.ko.tsx` が route-local authoring として所有します。
 
 後続コンテンツとして、次の形式を検討します。
 
@@ -32,7 +32,7 @@
 | 1 | 静的Webページ | `/services/as400-cobol` コンテンツ初稿の実装 |
 | 2 | White paper | リード獲得、詳細診断フレーム、営業フォロー資料 |
 | 3 | Blog | 市場教育、SEO流入、課題認知の拡大 |
-| レビュー用 | 直接URL | ナビゲーション／sitemap 非露出状態で stage または production 確認 |
+| レビュー用 | 直接URL | ナビゲーション／sitemap 非露出状態で stage または production 確認。韓国語確認は `?lang=ko` を使用 |
 
 ## 2. 対象読者
 
