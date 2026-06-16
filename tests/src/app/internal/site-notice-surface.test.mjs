@@ -101,13 +101,13 @@ test("/internal/site-notice exposes the site notice operation debug surface", ()
   assert.match(storagePanelSource, /componentNameDebugProps\("SiteNoticeStorageDebugPanel"\)/);
 });
 
-test("site notice YAML uses local Japanese news content and explicit visibility windows", () => {
+test("site notice YAML uses local Japanese featured content and explicit visibility windows", () => {
   assert.equal(sourceExists("src/content/site-notice/featured.ja.yaml"), true);
   assert.equal(sourceExists("src/content/site-notice/featured.en.yaml"), false);
   assert.equal(sourceExists("src/content/site-notice/featured.ko.yaml"), false);
   assert.equal(siteNoticeContent.ariaLabel, "最新のお知らせ");
   assert.equal(siteNoticeContent.viewAllHref, "/news");
-  assert.equal(siteNoticeContent.items.length, 3);
+  assert.equal(siteNoticeContent.items.length, 4);
 
   const expectedItems = [
     {
@@ -128,6 +128,12 @@ test("site notice YAML uses local Japanese news content and explicit visibility 
       imageSrc: "/news/18/thumbnail.png",
       visibleUntil: "2026-07-09",
     },
+    {
+      href: "/solutions/as400-cobol",
+      id: "as400-cobol-modernization",
+      imageSrc: "/solutions/as400-cobol/hero-modernization-flow.png",
+      visibleUntil: "2026-07-16",
+    },
   ];
 
   assert.deepEqual(
@@ -143,9 +149,11 @@ test("site notice YAML uses local Japanese news content and explicit visibility 
   for (const item of siteNoticeContent.items) {
     assert.match(item.id, /^[a-z0-9]+(?:-[a-z0-9]+)+$/);
     assert.match(item.visibleUntil, /^\d{4}-\d{2}-\d{2}$/);
-    assert.match(item.href, /^\/news\/\d+\//);
+    assert.match(item.href, /^(?:\/news\/\d+\/|\/solutions\/as400-cobol$)/);
     assert.equal(sourceExists(`public${item.imageSrc}`), true, `${item.imageSrc} should exist`);
   }
+
+  assert.equal(sourceExists("src/app/solutions/as400-cobol/page.tsx"), true);
 });
 
 test("site notice loader validates and filters active featured items", () => {
@@ -153,17 +161,21 @@ test("site notice loader validates and filters active featured items", () => {
     importModule("src/lib/site-notice.ts");
 
   const loadedContent = loadSiteNoticeFeaturedContent();
-  assert.equal(loadedContent.items.length, 3);
+  assert.equal(loadedContent.items.length, 4);
   assert.equal(loadedContent.items[0].visibleUntil, "2026-07-04");
 
   const activeContent = getActiveSiteNoticeFeaturedContent({ today: "2026-07-05" });
   assert.deepEqual(
     activeContent.items.map((item) => item.id),
-    ["lingo-release", "notepie-release"],
+    ["lingo-release", "notepie-release", "as400-cobol-modernization"],
   );
   assert.equal("visibleUntil" in activeContent.items[0], false);
 
-  assert.equal(getActiveSiteNoticeFeaturedContent({ today: "2026-07-10" }), null);
+  assert.deepEqual(
+    getActiveSiteNoticeFeaturedContent({ today: "2026-07-10" }).items.map((item) => item.id),
+    ["as400-cobol-modernization"],
+  );
+  assert.equal(getActiveSiteNoticeFeaturedContent({ today: "2026-07-17" }), null);
   assert.throws(() => getActiveSiteNoticeFeaturedContent({ today: "2026/07/05" }), /YYYY-MM-DD/);
 });
 
