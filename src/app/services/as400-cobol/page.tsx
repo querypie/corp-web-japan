@@ -166,19 +166,19 @@ export default async function As400CobolServicePage({
         <div className="space-y-8">
           <As400CobolStatGrid>
             <As400CobolStatCard
-              value="1万社規模"
+              value="国内約2万社"
               label="国内IBM i利用企業"
-              description="国内の製造、流通、物流、商社、卸売などで、今も基幹業務を支えるプラットフォームです。"
+              description="日本IBM関係者の公開資料では、世界約15万社、国内約2万社で利用されると説明されています。"
             />
             <As400CobolStatCard
-              value="85〜92%"
-              label="RPG資産を持つIBM iユーザー"
-              description="IBM i市場ではRPGが中心で、製造、流通、物流、商社、卸売などの業務ロジックを支えています。"
+              value="約70%"
+              label="基幹業務の過半をIBM iで運用"
+              description="Fortraの2026年調査では、IBM i利用企業の約70%が基幹業務アプリケーションの半数以上をIBM iで運用しています。"
             />
             <As400CobolStatCard
-              value="4,000〜8,000社"
-              label="広義のCOBOL利用推定"
-              description="メインフレーム、オープン系、IBM iを含め、金融、保険、公共、大手製造などで継続利用が見込まれます。"
+              value="最大12兆円/年"
+              label="2025年以降の経済損失リスク"
+              description="経済産業省のDXレポートが示した、レガシーシステムの複雑化・ブラックボックス化に関する警告です。"
             />
             <As400CobolStatCard
               value="1兆3,044億円"
