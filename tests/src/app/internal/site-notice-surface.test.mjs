@@ -67,6 +67,40 @@ test("site notice surface renders on the configured internal and public pages", 
   );
 });
 
+test("/internal/site-notice exposes the site notice operation debug surface", () => {
+  const pageSource = readSource("src/app/internal/site-notice/page.tsx");
+
+  assert.equal(sourceExists("src/app/internal/site-notice/page.tsx"), true);
+  assert.equal(
+    sourceExists("src/components/sections/site-notice/site-notice-data-debug-panel.tsx"),
+    true,
+  );
+  assert.equal(
+    sourceExists("src/components/sections/site-notice/site-notice-storage-debug-panel.tsx"),
+    true,
+  );
+  assert.match(pageSource, /title:\s*"Internal Site Notice \| QueryPie AI"/);
+  assert.match(pageSource, /canonical:\s*"\/internal\/site-notice"/);
+  assert.match(pageSource, /index:\s*false/);
+  assert.match(pageSource, /follow:\s*false/);
+  assert.match(pageSource, /export const revalidate = 3600;/);
+  assert.match(pageSource, /loadSiteNoticeFeaturedContent/);
+  assert.match(pageSource, /<SiteNoticeDataDebugPanel content=\{content\} \/>/);
+  assert.match(pageSource, /<SiteNoticeStorageDebugPanel \/>/);
+
+  const dataPanelSource = readSource("src/components/sections/site-notice/site-notice-data-debug-panel.tsx");
+  assert.match(dataPanelSource, /src\/content\/site-notice\/featured\.ja\.yaml/);
+  assert.match(dataPanelSource, /content\.items\.map/);
+  assert.match(dataPanelSource, /visibleUntil/);
+  assert.match(dataPanelSource, /componentNameDebugProps\("SiteNoticeDataDebugPanel"\)/);
+
+  const storagePanelSource = readSource("src/components/sections/site-notice/site-notice-storage-debug-panel.tsx");
+  assert.match(storagePanelSource, /listSiteNoticeLocalStorageEntries/);
+  assert.match(storagePanelSource, /parseSiteNoticeSpotlightVisibilityRecords/);
+  assert.match(storagePanelSource, /Delete all site-notice data/);
+  assert.match(storagePanelSource, /componentNameDebugProps\("SiteNoticeStorageDebugPanel"\)/);
+});
+
 test("site notice YAML uses local Japanese news content and explicit visibility windows", () => {
   assert.equal(sourceExists("src/content/site-notice/featured.ja.yaml"), true);
   assert.equal(sourceExists("src/content/site-notice/featured.en.yaml"), false);
@@ -155,6 +189,7 @@ test("spotlight storage helpers use 30-day localStorage visibility records", () 
     SITE_NOTICE_SPOTLIGHT_STORAGE_KEY,
     SITE_NOTICE_SPOTLIGHT_VISIBILITY_TTL_MS,
     isSiteNoticeLocalStorageKey,
+    listSiteNoticeLocalStorageEntries,
     parseSiteNoticeSpotlightVisibilityRecords,
     readSiteNoticeSpotlightVisibilityState,
     writeSiteNoticeSpotlightVisibilityRecord,
@@ -162,7 +197,11 @@ test("spotlight storage helpers use 30-day localStorage visibility records", () 
 
   const state = new Map();
   const storage = {
+    get length() {
+      return state.size;
+    },
     getItem: (key) => state.get(key) ?? null,
+    key: (index) => Array.from(state.keys())[index] ?? null,
     removeItem: (key) => state.delete(key),
     setItem: (key, value) => state.set(key, value),
   };
@@ -171,8 +210,22 @@ test("spotlight storage helpers use 30-day localStorage visibility records", () 
   assert.equal(SITE_NOTICE_SPOTLIGHT_STORAGE_KEY, "querypie:site-notice:spotlight:v1");
   assert.equal(SITE_NOTICE_SPOTLIGHT_VISIBILITY_TTL_MS, 30 * 24 * 60 * 60 * 1000);
   assert.equal(isSiteNoticeLocalStorageKey("QueryPie:Site-Notice:Spotlight:v1"), true);
+  assert.deepEqual(toPlainJson(listSiteNoticeLocalStorageEntries(storage)), []);
 
   assert.equal(writeSiteNoticeSpotlightVisibilityRecord(storage, "lingo-release", "viewed", now), true);
+  state.set("querypie:cookie-preference:v1", "{}");
+  state.set("querypie:floating-spotlight:legacy", "legacy");
+
+  assert.deepEqual(toPlainJson(listSiteNoticeLocalStorageEntries(storage)), [
+    {
+      key: "querypie:floating-spotlight:legacy",
+      value: "legacy",
+    },
+    {
+      key: SITE_NOTICE_SPOTLIGHT_STORAGE_KEY,
+      value: state.get(SITE_NOTICE_SPOTLIGHT_STORAGE_KEY),
+    },
+  ]);
 
   const records = parseSiteNoticeSpotlightVisibilityRecords(state.get(SITE_NOTICE_SPOTLIGHT_STORAGE_KEY), now);
   assert.deepEqual(
