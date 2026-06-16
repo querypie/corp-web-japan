@@ -79,8 +79,8 @@ const as400CobolJapaneseMetadata: Metadata = {
     canonical: "/services/as400-cobol",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 

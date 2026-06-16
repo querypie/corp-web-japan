@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 import {
   PREVIEW_NAVIGATION_COOKIE,
   getPreviewNavigationState,
-  t,
 } from "@/lib/preview-navigation";
 import styles from "./site-footer.module.css";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
@@ -33,6 +32,7 @@ export async function SiteFooter() {
         { label: "AIプラットフォーム｜AIP", href: "/platforms/aip" },
         { label: "アクセス制御プラットフォーム｜ACP", href: "/platforms/acp" },
         { label: "AI専門家伴走支援｜FDE", href: "/services/fde" },
+        { label: "IBM i（AS/400）モダナイゼーション", href: "/services/as400-cobol" },
       ],
     },
     {

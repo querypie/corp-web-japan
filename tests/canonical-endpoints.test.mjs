@@ -7,6 +7,7 @@ const expectedHeaderLinks = [
   'label: "AIプラットフォーム｜AIP", href: "/platforms/aip"',
   'label: "アクセス制御プラットフォーム｜ACP", href: "/platforms/acp"',
   'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
+  'label: "IBM i（AS/400）モダナイゼーション", href: "/services/as400-cobol"',
   'label: "活用事例", href: "/use-cases"',
   'label: "AIP機能", href: "/demo/aip"',
   'label: "ACP機能", href: "/demo/acp"',
@@ -25,6 +26,7 @@ const expectedFooterLinks = [
   'label: "AIプラットフォーム｜AIP", href: "/platforms/aip"',
   'label: "アクセス制御プラットフォーム｜ACP", href: "/platforms/acp"',
   'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
+  'label: "IBM i（AS/400）モダナイゼーション", href: "/services/as400-cobol"',
   'label: "活用事例", href: "/use-cases"',
   'label: "AIP 機能", href: "/demo/aip"',
   'label: "ACP 機能", href: "/demo/acp"',
@@ -86,6 +88,7 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   const plansPage = readSource("src/app/plans/page.tsx");
   const plansAipPage = readSource("src/app/plans/aip/page.tsx");
   const plansAcpPage = readSource("src/app/plans/acp/page.tsx");
+  const as400CobolPage = readSource("src/app/services/as400-cobol/page.tsx");
   const acpChildPages = [
     ["database-access-controller", readSource("src/app/platforms/acp/database-access-controller/page.tsx")],
     ["system-access-controller", readSource("src/app/platforms/acp/system-access-controller/page.tsx")],
@@ -131,6 +134,7 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.match(plansPage, /canonical:\s*"\/plans"/);
   assert.match(plansAipPage, /canonical:\s*"\/plans\/aip"/);
   assert.match(plansAcpPage, /canonical:\s*"\/plans\/acp"/);
+  assert.match(as400CobolPage, /canonical:\s*"\/services\/as400-cobol"/);
   for (const [route, page] of acpChildPages) {
     assert.match(page, new RegExp(`canonical:\\s*"\\/platforms\\/acp\\/${route}"`));
   }
@@ -146,6 +150,7 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.match(sitemap, /absoluteUrl\("\/demo\/aip", deployedSiteUrl\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/acp", deployedSiteUrl\)/);
   assert.match(sitemap, /absoluteUrl\("\/services\/fde", deployedSiteUrl\)/);
+  assert.match(sitemap, /absoluteUrl\("\/services\/as400-cobol", deployedSiteUrl\)/);
   assert.match(sitemap, /absoluteUrl\("\/platforms\/acp", deployedSiteUrl\)/);
   assert.match(sitemap, /absoluteUrl\("\/platforms\/acp\/integrations", deployedSiteUrl\)/);
   assert.match(sitemap, /absoluteUrl\("\/plans", deployedSiteUrl\)/);
