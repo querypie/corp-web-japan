@@ -9,6 +9,7 @@ test("internal hub page exists and links to each internal route", () => {
     "src/app/internal/whitepaper-gating-form/page.tsx",
     "src/app/internal/mdx-list/page.tsx",
     "src/app/internal/events/page.tsx",
+    "src/app/internal/site-notice/page.tsx",
     "src/app/internal/load-more/page.tsx",
     "src/app/internal/video/page.tsx",
     "src/app/internal/sections/page.tsx",
@@ -36,6 +37,7 @@ test("internal hub page exists and links to each internal route", () => {
   assert.match(source, /\/internal\/whitepaper-gating-form/);
   assert.match(source, /\/internal\/mdx-list/);
   assert.match(source, /\/internal\/events/);
+  assert.match(source, /\/internal\/site-notice/);
   assert.match(source, /\/internal\/load-more/);
   assert.match(source, /\/internal\/video/);
   assert.match(source, /\/internal\/sections/);

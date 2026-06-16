@@ -28,6 +28,13 @@ const internalPageCards = [
       "events 목록 페이지를 바꾸기 전에, 현재 local event publication 데이터를 그대로 사용한 리스트 구성을 internal 경로에서 먼저 확인할 수 있는 데모입니다.",
   },
   {
+    eyebrow: "Operations",
+    title: "Site Notice",
+    href: "/internal/site-notice",
+    description:
+      "Site Notice YAML 데이터와 Floating Spotlight Card 의 browser-local visibility 상태를 함께 확인하고 초기화할 수 있는 운영 점검 surface입니다.",
+  },
+  {
     eyebrow: "Interaction",
     title: "Load More",
     href: "/internal/load-more",

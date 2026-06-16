@@ -11,6 +11,11 @@ export type SiteNoticeSpotlightVisibilityRecord = {
 
 export type SiteNoticeSpotlightVisibilityState = Record<string, SiteNoticeSpotlightVisibilityRecord>;
 
+export type SiteNoticeLocalStorageEntry = {
+  key: string;
+  value: string;
+};
+
 export type ParsedSiteNoticeSpotlightRecord = SiteNoticeSpotlightVisibilityRecord & {
   id: string;
   isExpired: boolean;
@@ -83,6 +88,26 @@ export function isSiteNoticeLocalStorageKey(key: string) {
   const normalizedKey = key.toLowerCase();
 
   return siteNoticeKeyMarkers.some((marker) => normalizedKey.includes(marker));
+}
+
+export function listSiteNoticeLocalStorageEntries(storage: Storage): SiteNoticeLocalStorageEntry[] {
+  const entries: SiteNoticeLocalStorageEntry[] = [];
+
+  for (let index = 0; index < storage.length; index += 1) {
+    const key = storage.key(index);
+
+    if (!key || !isSiteNoticeLocalStorageKey(key)) {
+      continue;
+    }
+
+    const value = storage.getItem(key);
+
+    if (value !== null) {
+      entries.push({ key, value });
+    }
+  }
+
+  return entries.sort((left, right) => left.key.localeCompare(right.key));
 }
 
 export function parseSiteNoticeSpotlightVisibilityRecords(
