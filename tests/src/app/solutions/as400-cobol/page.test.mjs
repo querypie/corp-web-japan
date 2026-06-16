@@ -2,13 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readSource, sourceExists } from "../../../../helpers/source-readers.mjs";
 
-test("/services/as400-cobol keeps references inline with sourced route-local copy", () => {
-  assert.equal(sourceExists("src/app/services/as400-cobol/page.tsx"), true);
-  assert.equal(sourceExists("src/app/services/as400-cobol/page.ko.tsx"), true);
+test("/solutions/as400-cobol keeps references inline with sourced route-local copy", () => {
+  assert.equal(sourceExists("src/app/solutions/as400-cobol/page.tsx"), true);
+  assert.equal(sourceExists("src/app/solutions/as400-cobol/page.ko.tsx"), true);
   assert.equal(sourceExists("src/components/sections/as400-cobol/section.tsx"), true);
 
-  const routeSource = readSource("src/app/services/as400-cobol/page.tsx");
-  const koreanRouteSource = readSource("src/app/services/as400-cobol/page.ko.tsx");
+  const routeSource = readSource("src/app/solutions/as400-cobol/page.tsx");
+  const koreanRouteSource = readSource("src/app/solutions/as400-cobol/page.ko.tsx");
   const sectionSource = readSource("src/components/sections/as400-cobol/section.tsx");
 
   for (const source of [routeSource, koreanRouteSource]) {

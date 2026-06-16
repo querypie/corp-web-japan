@@ -6,9 +6,9 @@ const headerExpectedLinks = [
   'label: "AIプラットフォーム｜AIP", href: "/platforms/aip"',
   'label: "アクセス制御プラットフォーム｜ACP", href: "/platforms/acp"',
   'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
-  'label: "IBM i（AS/400）モダナイゼーション", href: "/services/as400-cobol"',
   'label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew"',
   'label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi"',
+  'label: "IBM i（AS/400）モダナイゼーション", href: "/solutions/as400-cobol"',
   'label: "活用事例", href: "/use-cases"',
   'label: "AIP機能", href: "/demo/aip"',
   'label: "ACP機能", href: "/demo/acp"',
@@ -26,9 +26,9 @@ const footerExpectedLinks = [
   'label: "AIプラットフォーム｜AIP", href: "/platforms/aip"',
   'label: "アクセス制御プラットフォーム｜ACP", href: "/platforms/acp"',
   'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
-  'label: "IBM i（AS/400）モダナイゼーション", href: "/services/as400-cobol"',
   'label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew"',
   'label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi"',
+  'label: "IBM i（AS/400）モダナイゼーション", href: "/solutions/as400-cobol"',
   'label: "活用事例", href: "/use-cases"',
   'label: "AIP 機能", href: "/demo/aip"',
   'label: "ACP 機能", href: "/demo/acp"',
@@ -57,6 +57,8 @@ test("header and footer navigation links match the current implemented destinati
 
   assert.doesNotMatch(siteHeader, /href:\s*"\/whitepaper"/);
   assert.doesNotMatch(siteFooter, /href:\s*"\/whitepaper"/);
+  assert.doesNotMatch(siteHeader, /href:\s*"\/services\/as400-cobol"/);
+  assert.doesNotMatch(siteFooter, /href:\s*"\/services\/as400-cobol"/);
 });
 
 test("public interaction surfaces do not ship bare hash broken links", () => {

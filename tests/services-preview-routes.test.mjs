@@ -32,6 +32,10 @@ const redirectRoutes = [
     file: "src/app/services/acp/route.ts",
     destination: 'new URL("/platforms/acp", request.url)',
   },
+  {
+    file: "src/app/services/as400-cobol/route.ts",
+    destination: 'const destinationPath = "/solutions/as400-cobol";',
+  },
 ];
 test("/t platform preview pages exist with noindex metadata and canonical preview paths", () => {
   for (const page of previewPages) {

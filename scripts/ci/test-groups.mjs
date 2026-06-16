@@ -110,6 +110,7 @@ const matchers = {
     /^tests\/t\/solutions\//,
     /^tests\/src\/app\/page\.test\.mjs$/,
     /^tests\/src\/app\/solutions\/ai-(crew|dashi)\/page\.test\.mjs$/,
+    /^tests\/src\/app\/solutions\/as400-cobol\//,
     /^tests\/src\/app\/internal\//,
     /^tests\/src\/app\/solutions\/ai-(crew|dashi)\/cta-links\.test\.mjs$/,
     /^tests\/src\/app\/(about-us|certifications)\/page\.test\.mjs$/,

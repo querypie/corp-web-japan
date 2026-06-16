@@ -46,12 +46,12 @@ import {
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
-type As400CobolServicePageProps = {
+type As400CobolSolutionPageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
 const contactHref = "/contact-us";
-const heroImageSrc = "/services/as400-cobol/hero-modernization-flow.png";
+const heroImageSrc = "/solutions/as400-cobol/hero-modernization-flow.png";
 const heroImageAlt =
   "AS/400とCOBOL資産を分析し、Java、API、クラウド環境へ段階的に移行する流れ";
 
@@ -76,7 +76,7 @@ const as400CobolJapaneseMetadata: Metadata = {
   description:
     "QueryPie AIは、IBM i（AS/400）上のCOBOL/RPG資産を分析し、設計書・テストケース生成からJava/API/クラウド移行、DB2 / Oracle分析、PostgreSQL移行まで段階的に支援します。",
   alternates: {
-    canonical: "/services/as400-cobol",
+    canonical: "/solutions/as400-cobol",
   },
   robots: {
     index: true,
@@ -91,16 +91,16 @@ function readLanguage(searchParams: Record<string, string | string[] | undefined
 
 export async function generateMetadata({
   searchParams,
-}: As400CobolServicePageProps): Promise<Metadata> {
+}: As400CobolSolutionPageProps): Promise<Metadata> {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   return readLanguage(resolvedSearchParams) === "ko"
     ? as400CobolKoreanMetadata
     : as400CobolJapaneseMetadata;
 }
 
-export default async function As400CobolServicePage({
+export default async function As400CobolSolutionPage({
   searchParams,
-}: As400CobolServicePageProps) {
+}: As400CobolSolutionPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
 
   if (readLanguage(resolvedSearchParams) === "ko") {
@@ -108,7 +108,7 @@ export default async function As400CobolServicePage({
   }
 
   return (
-    <As400CobolPageShell debugProps={componentNameDebugProps("As400CobolServicePage")}>
+    <As400CobolPageShell debugProps={componentNameDebugProps("As400CobolSolutionPage")}>
       <As400CobolHeroSection
         visual={
           <RevealOnScroll delayMs={120} className="w-full" variant="scale">

@@ -42,6 +42,11 @@ function buildStaticRoutes(deployedSiteUrl: URL): Array<MetadataRoute.Sitemap[nu
     priority: 0.9,
   },
   {
+    url: absoluteUrl("/solutions/as400-cobol", deployedSiteUrl),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  },
+  {
     url: absoluteUrl("/blog", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
@@ -188,11 +193,6 @@ function buildStaticRoutes(deployedSiteUrl: URL): Array<MetadataRoute.Sitemap[nu
   },
   {
     url: absoluteUrl("/services/fde", deployedSiteUrl),
-    changeFrequency: "weekly",
-    priority: 0.8,
-  },
-  {
-    url: absoluteUrl("/services/as400-cobol", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
   },

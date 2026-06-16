@@ -44,7 +44,7 @@ import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const contactHref = "/contact-us";
-const heroImageSrc = "/services/as400-cobol/hero-modernization-flow.png";
+const heroImageSrc = "/solutions/as400-cobol/hero-modernization-flow.png";
 const heroImageAlt =
   "AS/400과 COBOL 자산을 분석하고 Java, API, 클라우드 환경으로 단계적으로 이전하는 모더나이제이션 흐름";
 
@@ -69,7 +69,7 @@ export const as400CobolKoreanMetadata: Metadata = {
   description:
     "QueryPie AI는 IBM i（AS/400）상의 COBOL/RPG 자산을 분석하고, 설계서・테스트 케이스 생성부터 Java/API/Cloud 이전, DB2 / Oracle 분석, PostgreSQL 이전까지 단계적으로 지원합니다.",
   alternates: {
-    canonical: "/services/as400-cobol?lang=ko",
+    canonical: "/solutions/as400-cobol?lang=ko",
   },
   robots: {
     index: false,
