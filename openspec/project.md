@@ -27,6 +27,14 @@ The `/t/...` namespace is reserved for preview or historical migration surfaces.
 
 Gated publication content uses repository gating helpers and gating cookies. Non-production preview affordances may bypass or auto-unlock gated UI for reviewer verification, but production visitors must follow the normal gated flow unless they already hold the standard gating cookie.
 
+## Certification marketing boundary
+
+Acquired-certification status is a static marketing content contract. The
+durable source-of-truth rules for `/certifications`, supporting certification
+mentions on static marketing pages, Trust Center links, badge assets, and the
+explicit exclusion of news publication management live in
+`openspec/specs/contract-certifications-content-management/spec.md`.
+
 ## Reviewer tooling boundary
 
 Reviewer/developer tooling specs may describe internal controls that help implementation review without changing the public marketing experience. Component Name Debug is such a platform capability: it may annotate existing rendered component boundaries for reviewers, but it must not change customer-facing copy, add wrapper-only layout layers, or override the repository code-location conventions.
