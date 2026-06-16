@@ -10,7 +10,7 @@ The feature is being migrated from the equivalent `querypie/outbound-agent` Open
 
 ## Current implementation status
 
-The first `corp-web-japan` implementation is available through the site header reviewer tools control surface. The implementation includes the build-time availability constant, shared mode/storage helpers, `data-component-name` marker helper, `Alt+Shift+N` shortcut, global overlay, Clipboard copy labels, and representative header markers. Additional route-local and section markers can be added incrementally without introducing wrapper-only components.
+The first `corp-web-japan` implementation is available through the site header reviewer tools control surface. The implementation includes the build-time availability constant, shared mode/storage helpers, `data-component-name` marker helper, `Alt+Shift+N` mode-cycle shortcut, `Alt+Shift+0` off shortcut, global overlay, Clipboard copy labels, and representative header markers. Additional route-local and section markers can be added incrementally without introducing wrapper-only components.
 
 ## Intended implementation references
 
@@ -85,7 +85,7 @@ For static marketing pages, route-local authoring rules remain active. `src/app/
 
 The app SHALL provide at least one mode-changing path when Component Name Debug is included in the build. In `corp-web-japan`, the visible mode selector SHALL be the Show Component Name section inside the non-production Preview Toggle dropdown. It SHALL NOT be implemented as a second standalone header trigger, and production UI SHALL NOT render the Preview Toggle trigger or a visible Show Component Name menu. It SHALL NOT be specified as an Outbound Agent Help menu requirement.
 
-When the visible selector is available, it SHALL provide exactly these modes in this order: `Off`, `Pointer`, `Pointer + Ancestors`, `Always`. The default mode SHALL be `Off`. Pressing `Alt+Shift+N` SHALL cycle modes in this order: `Off` -> `Pointer` -> `Pointer + Ancestors` -> `Always` -> `Off`. The shortcut SHALL remain available even when the visible selector is hidden in production. The shortcut SHALL be ignored while the active target is an input, textarea, select, or contenteditable surface. Mode changes SHALL be stored and propagated so every mounted control and overlay reads the same current mode. Unsupported persisted mode values SHALL fall back to `Off`.
+When the visible selector is available, it SHALL provide exactly these modes in this order: `Off`, `Pointer`, `Pointer + Ancestors`, `Always`. The default mode SHALL be `Off`. Pressing `Alt+Shift+N` SHALL cycle modes in this order: `Off` -> `Pointer` -> `Pointer + Ancestors` -> `Always` -> `Off`. Pressing `Alt+Shift+0` SHALL set Component Name Debug to `Off` without cycling. The shortcuts SHALL remain available even when the visible selector is hidden in production. The shortcuts SHALL be ignored while the active target is an input, textarea, select, or contenteditable surface. Mode changes SHALL be stored and propagated so every mounted control and overlay reads the same current mode. Unsupported persisted mode values SHALL fall back to `Off`.
 
 #### Scenario: non-production control surface exposes all modes
 
@@ -94,7 +94,7 @@ When the visible selector is available, it SHALL provide exactly these modes in 
 - WHEN a user opens the Preview Toggle dropdown
 - THEN `Off`, `Pointer`, `Pointer + Ancestors`, and `Always` are shown in that order
 - AND selecting an option changes the current Component Name Debug mode
-- AND the control surface may show `Shortcut: Alt+Shift+N`
+- AND the control surface may show `Shortcut: Alt+Shift+N / Alt+Shift+0 Off`
 
 #### Scenario: production header exposes no debug menu control
 
@@ -113,12 +113,19 @@ When the visible selector is available, it SHALL provide exactly these modes in 
 - WHEN the user presses the shortcut repeatedly
 - THEN the mode continues through `Pointer + Ancestors`, `Always`, and back to `Off`
 
+#### Scenario: Alt+Shift+0 turns the feature off
+
+- GIVEN the current Component Name Debug mode is `Always`
+- WHEN the user presses `Alt+Shift+0` on a normal UI surface
+- THEN the mode changes to `Off`
+- AND the mode does not cycle to another Component Name Debug mode
+
 #### Scenario: shortcut is ignored during text entry
 
 - GIVEN focus is inside an input, textarea, select, or contenteditable surface
-- WHEN the user presses `Alt+Shift+N`
+- WHEN the user presses `Alt+Shift+N` or `Alt+Shift+0`
 - THEN Component Name Debug mode does not change
-- AND the text-entry surface is not interrupted by the debug shortcut
+- AND the text-entry surface is not interrupted by the debug shortcuts
 
 ### Requirement: component name debug overlay visibility and collection
 

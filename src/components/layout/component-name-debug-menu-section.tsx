@@ -45,7 +45,7 @@ export function ComponentNameDebugMenuSection() {
           </button>
         ))}
       </div>
-      <small className={styles.debugShortcut}>Shortcut: Alt+Shift+N</small>
+      <small className={styles.debugShortcut}>Shortcut: Alt+Shift+N / Alt+Shift+0 Off</small>
     </div>
   );
 }

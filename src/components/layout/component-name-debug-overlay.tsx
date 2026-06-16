@@ -160,6 +160,14 @@ function isComponentNameDebugCopyLabel(target: Element | null) {
   return Boolean(target?.closest(`[${componentNameDebugLabelCopyAttribute}]`));
 }
 
+function isComponentNameDebugCycleShortcut(event: KeyboardEvent) {
+  return event.altKey && event.shiftKey && event.code === "KeyN";
+}
+
+function isComponentNameDebugOffShortcut(event: KeyboardEvent) {
+  return event.altKey && event.shiftKey && (event.code === "Digit0" || event.code === "Numpad0");
+}
+
 export async function copyComponentNameToClipboard(
   componentName: string,
   clipboard: ComponentNameDebugClipboard | undefined = typeof navigator === "undefined" ? undefined : navigator.clipboard,
@@ -284,7 +292,10 @@ export function ComponentNameDebugOverlay() {
     }
 
     function onKeyDown(event: KeyboardEvent) {
-      if (!event.altKey || !event.shiftKey || event.code !== "KeyN") {
+      const isCycleShortcut = isComponentNameDebugCycleShortcut(event);
+      const isOffShortcut = isComponentNameDebugOffShortcut(event);
+
+      if (!isCycleShortcut && !isOffShortcut) {
         return;
       }
 
@@ -293,7 +304,7 @@ export function ComponentNameDebugOverlay() {
       }
 
       event.preventDefault();
-      writeComponentNameDebugMode(nextComponentNameDebugMode(readStoredComponentNameDebugMode()));
+      writeComponentNameDebugMode(isOffShortcut ? "off" : nextComponentNameDebugMode(readStoredComponentNameDebugMode()));
     }
 
     window.addEventListener("keydown", onKeyDown);
