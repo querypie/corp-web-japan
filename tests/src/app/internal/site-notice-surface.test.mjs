@@ -1,0 +1,233 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { parse } from "yaml";
+import { readSource, sourceExists, sourcePath } from "../../../helpers/source-readers.mjs";
+import { createTsModuleLoader, toPlainJson } from "../../../helpers/ts-module-loader.mjs";
+
+const repoRoot = process.cwd();
+
+const { importModule } = createTsModuleLoader({
+  "node:fs": fs,
+  "node:path": path,
+  yaml: { parse },
+});
+
+const siteNoticeContent = parse(readSource("src/content/site-notice/featured.ja.yaml"));
+
+function collectPageFiles(directory) {
+  const entries = fs.readdirSync(directory, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    const absolutePath = path.join(directory, entry.name);
+
+    if (entry.isDirectory()) {
+      files.push(...collectPageFiles(absolutePath));
+      continue;
+    }
+
+    if (entry.name === "page.tsx") {
+      files.push(path.relative(repoRoot, absolutePath));
+    }
+  }
+
+  return files.sort();
+}
+
+test("/internal renders the site notice surface without placing it on public pages", () => {
+  const internalPageSource = readSource("src/app/internal/page.tsx");
+  const otherPageFiles = collectPageFiles(sourcePath("src/app")).filter(
+    (file) => file !== "src/app/internal/page.tsx",
+  );
+
+  assert.match(internalPageSource, /site-notice\/site-notice-surface/);
+  assert.match(internalPageSource, /<SiteNoticeSurface \/>/);
+  assert.match(internalPageSource, /export const revalidate = 3600;/);
+
+  for (const pageFile of otherPageFiles) {
+    assert.doesNotMatch(readSource(pageFile), /site-notice\/site-notice-surface|<SiteNoticeSurface\b/);
+  }
+});
+
+test("site notice YAML uses local Japanese news content and explicit visibility windows", () => {
+  assert.equal(sourceExists("src/content/site-notice/featured.ja.yaml"), true);
+  assert.equal(sourceExists("src/content/site-notice/featured.en.yaml"), false);
+  assert.equal(sourceExists("src/content/site-notice/featured.ko.yaml"), false);
+  assert.equal(siteNoticeContent.ariaLabel, "最新のお知らせ");
+  assert.equal(siteNoticeContent.viewAllHref, "/news");
+  assert.equal(siteNoticeContent.items.length, 3);
+
+  const expectedItems = [
+    {
+      href: "/news/16/iso-42001-certification-announcement",
+      id: "iso-42001-certification",
+      imageSrc: "/news/16/thumbnail.png",
+      visibleUntil: "2026-07-04",
+    },
+    {
+      href: "/news/17/lingo-launch",
+      id: "lingo-release",
+      imageSrc: "/news/17/thumbnail.png",
+      visibleUntil: "2026-07-05",
+    },
+    {
+      href: "/news/18/notepie-launch",
+      id: "notepie-release",
+      imageSrc: "/news/18/thumbnail.png",
+      visibleUntil: "2026-07-09",
+    },
+  ];
+
+  assert.deepEqual(
+    siteNoticeContent.items.map((item) => ({
+      href: item.href,
+      id: item.id,
+      imageSrc: item.imageSrc,
+      visibleUntil: item.visibleUntil,
+    })),
+    expectedItems,
+  );
+
+  for (const item of siteNoticeContent.items) {
+    assert.match(item.id, /^[a-z0-9]+(?:-[a-z0-9]+)+$/);
+    assert.match(item.visibleUntil, /^\d{4}-\d{2}-\d{2}$/);
+    assert.match(item.href, /^\/news\/\d+\//);
+    assert.equal(sourceExists(`public${item.imageSrc}`), true, `${item.imageSrc} should exist`);
+  }
+});
+
+test("site notice loader validates and filters active featured items", () => {
+  const { getActiveSiteNoticeFeaturedContent, loadSiteNoticeFeaturedContent } =
+    importModule("src/lib/site-notice.ts");
+
+  const loadedContent = loadSiteNoticeFeaturedContent();
+  assert.equal(loadedContent.items.length, 3);
+  assert.equal(loadedContent.items[0].visibleUntil, "2026-07-04");
+
+  const activeContent = getActiveSiteNoticeFeaturedContent({ today: "2026-07-05" });
+  assert.deepEqual(
+    activeContent.items.map((item) => item.id),
+    ["lingo-release", "notepie-release"],
+  );
+  assert.equal("visibleUntil" in activeContent.items[0], false);
+
+  assert.equal(getActiveSiteNoticeFeaturedContent({ today: "2026-07-10" }), null);
+  assert.throws(() => getActiveSiteNoticeFeaturedContent({ today: "2026/07/05" }), /YYYY-MM-DD/);
+});
+
+test("site notice tracking hrefs add UTM only for QueryPie-owned URLs", () => {
+  const { createSiteNoticeTrackingHref } = importModule("src/lib/site-notice-utm.ts");
+
+  assert.equal(
+    createSiteNoticeTrackingHref("/news/17/lingo-launch?ref=internal#overview", "lingo-release", "card"),
+    "/news/17/lingo-launch?ref=internal&utm_campaign=lingo-release&utm_content=card&utm_id=sn_lingo-release&utm_medium=notice&utm_source=qp#overview",
+  );
+  assert.equal(
+    createSiteNoticeTrackingHref("https://www.querypie.ai/news/18/notepie-launch", "notepie-release", "bar"),
+    "/news/18/notepie-launch?utm_campaign=notepie-release&utm_content=bar&utm_id=sn_notepie-release&utm_medium=notice&utm_source=qp",
+  );
+  assert.equal(
+    createSiteNoticeTrackingHref("https://example.com/news", "notepie-release", "card"),
+    "https://example.com/news",
+  );
+});
+
+test("spotlight storage helpers use 30-day localStorage visibility records", () => {
+  const {
+    SITE_NOTICE_SPOTLIGHT_STORAGE_KEY,
+    SITE_NOTICE_SPOTLIGHT_VISIBILITY_TTL_MS,
+    isSiteNoticeLocalStorageKey,
+    parseSiteNoticeSpotlightVisibilityRecords,
+    readSiteNoticeSpotlightVisibilityState,
+    writeSiteNoticeSpotlightVisibilityRecord,
+  } = importModule("src/lib/site-notice-spotlight-storage.ts");
+
+  const state = new Map();
+  const storage = {
+    getItem: (key) => state.get(key) ?? null,
+    removeItem: (key) => state.delete(key),
+    setItem: (key, value) => state.set(key, value),
+  };
+  const now = new Date("2026-06-16T00:00:00.000Z");
+
+  assert.equal(SITE_NOTICE_SPOTLIGHT_STORAGE_KEY, "querypie:site-notice:spotlight:v1");
+  assert.equal(SITE_NOTICE_SPOTLIGHT_VISIBILITY_TTL_MS, 30 * 24 * 60 * 60 * 1000);
+  assert.equal(isSiteNoticeLocalStorageKey("QueryPie:Site-Notice:Spotlight:v1"), true);
+
+  assert.equal(writeSiteNoticeSpotlightVisibilityRecord(storage, "lingo-release", "viewed", now), true);
+
+  const records = parseSiteNoticeSpotlightVisibilityRecords(state.get(SITE_NOTICE_SPOTLIGHT_STORAGE_KEY), now);
+  assert.deepEqual(
+    toPlainJson(
+      records.map((record) => ({
+        disposition: record.disposition,
+        expiresAt: record.expiresAt,
+        id: record.id,
+        isExpired: record.isExpired,
+        updatedAt: record.updatedAt,
+      })),
+    ),
+    [
+      {
+        disposition: "viewed",
+        expiresAt: "2026-07-16T00:00:00.000Z",
+        id: "lingo-release",
+        isExpired: false,
+        updatedAt: "2026-06-16T00:00:00.000Z",
+      },
+    ],
+  );
+
+  assert.deepEqual(toPlainJson(readSiteNoticeSpotlightVisibilityState(storage, now)["lingo-release"]), {
+    disposition: "viewed",
+    expiresAt: "2026-07-16T00:00:00.000Z",
+    updatedAt: "2026-06-16T00:00:00.000Z",
+  });
+  assert.deepEqual(
+    toPlainJson(readSiteNoticeSpotlightVisibilityState(storage, new Date("2026-07-17T00:00:00.000Z"))),
+    {},
+  );
+  assert.equal(state.has(SITE_NOTICE_SPOTLIGHT_STORAGE_KEY), false);
+});
+
+test("site notice analytics params use GA4 promotion fields", () => {
+  const { createSiteNoticeAnalyticsParams } = importModule("src/lib/site-notice-analytics.ts");
+
+  assert.deepEqual(toPlainJson(createSiteNoticeAnalyticsParams(siteNoticeContent.items[0], "card")), {
+    creative_name: "AIマネジメントシステムの国際規格 ISO/IEC 42001 認証を取得",
+    creative_slot: "card",
+    items: [
+      {
+        creative_name: "AIマネジメントシステムの国際規格 ISO/IEC 42001 認証を取得",
+        creative_slot: "card",
+        item_id: "iso-42001-certification",
+        item_name: "AIマネジメントシステムの国際規格 ISO/IEC 42001 認証を取得",
+        promotion_id: "sn_iso-42001-certification",
+        promotion_name: "iso-42001-certification",
+      },
+    ],
+    promotion_id: "sn_iso-42001-certification",
+    promotion_name: "iso-42001-certification",
+    site_notice_destination: "/news/16/iso-42001-certification-announcement",
+    site_notice_id: "iso-42001-certification",
+    site_notice_surface: "card",
+    site_notice_title: "AIマネジメントシステムの国際規格 ISO/IEC 42001 認証を取得",
+  });
+});
+
+test("site notice components keep component-name debug markers", () => {
+  assert.match(
+    readSource("src/components/sections/site-notice/site-notice-surface.tsx"),
+    /componentNameDebugProps\("SiteNoticeSurface"\)/,
+  );
+  assert.match(
+    readSource("src/components/sections/site-notice/top-announcement-bar.tsx"),
+    /componentNameDebugProps\("TopAnnouncementBar"\)/,
+  );
+  assert.match(
+    readSource("src/components/sections/site-notice/floating-spotlight-card.tsx"),
+    /componentNameDebugProps\("FloatingSpotlightCard"\)/,
+  );
+});

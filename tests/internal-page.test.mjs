@@ -26,6 +26,9 @@ test("internal hub page exists and links to each internal route", () => {
   assert.match(source, /canonical:\s*"\/internal"/);
   assert.match(source, /index:\s*false/);
   assert.match(source, /follow:\s*false/);
+  assert.match(source, /export const revalidate = 3600;/);
+  assert.match(source, /site-notice\/site-notice-surface/);
+  assert.match(source, /<SiteNoticeSurface \/>/);
   assert.match(source, /const internalPageCards = \[/);
   assert.match(source, /internalPageCards\.length/);
   assert.match(source, /모든 internal 페이지는 검색 엔진 색인에서 제외됩니다/);
