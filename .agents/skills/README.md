@@ -68,6 +68,9 @@ Current skills:
   - Path: `.agents/skills/mdx-refactoring-formatting/SKILL.md`
   - Purpose: normalize MDX formatting as an independent cross-cutting skill covering 80-column prose wrapping, indentation cleanup, and 2-space raw HTML table indentation
   - Scope: formatting-only MDX refactors for route-adjacent legal/policy content and other existing MDX files
+- `certifications-content-management`
+  - Path: `.agents/skills/certifications-content-management/SKILL.md`
+  - Purpose: thin wrapper for updating acquired-certification content on `/certifications` and supporting static marketing pages by following `openspec/specs/contract-certifications-content-management/spec.md`
 - `openspec-authoring`
   - Path: `.agents/skills/openspec-authoring/SKILL.md`
   - Purpose: create, improve, or substantially update corp-web-japan OpenSpec specifications and change documents from existing docs, current specs, sibling repo OpenSpec practices, and implementation evidence
