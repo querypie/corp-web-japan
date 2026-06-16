@@ -25,7 +25,7 @@ export function SecurityIntro({ title, children }: { title: ReactNode; children:
 }
 
 export function SecurityCertificationGrid({ children }: { children: ReactNode }) {
-  return <RevealOnScroll {...componentNameDebugProps("SecurityCertificationGrid")} className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4" variant="up" delayMs={220}>{children}</RevealOnScroll>;
+  return <RevealOnScroll {...componentNameDebugProps("SecurityCertificationGrid")} className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-5" variant="up" delayMs={220}>{children}</RevealOnScroll>;
 }
 
 export function SecurityCertificationCard({ src, alt, title }: { src: string; alt: string; title: string }) {
