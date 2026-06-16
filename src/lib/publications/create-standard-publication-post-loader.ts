@@ -30,13 +30,17 @@ type StandardPublicationPostRecord = {
   sourcePath: string;
 };
 
-type CreateStandardPublicationPostLoaderConfig<TRecord extends StandardPublicationPostRecord> = {
+type CreateStandardPublicationPostLoaderConfig<
+  TFrontmatter extends StandardPublicationPostFrontmatter,
+  TRecord extends StandardPublicationPostRecord,
+> = {
   category: PublicationCategory;
   categoryLabel: string;
   relatedTitle: string;
   defaultAuthorAvatarSrc: string;
   records: readonly TRecord[];
   formatDate?: (value: string) => string;
+  getCategoryLabel?: (record: TRecord, frontmatter: TFrontmatter) => string;
   getRecord: (id: string) => TRecord | null;
   getHref: (id: string, slug: string) => string;
 };
@@ -44,7 +48,7 @@ type CreateStandardPublicationPostLoaderConfig<TRecord extends StandardPublicati
 export function createStandardPublicationPostLoader<
   TFrontmatter extends StandardPublicationPostFrontmatter,
   TRecord extends StandardPublicationPostRecord,
->(config: CreateStandardPublicationPostLoaderConfig<TRecord>) {
+>(config: CreateStandardPublicationPostLoaderConfig<TFrontmatter, TRecord>) {
   const bodySourceCache = new Map<string, string>();
 
   const readBodySource = (sourcePath: string) => {
@@ -70,7 +74,7 @@ export function createStandardPublicationPostLoader<
 
     return {
       category: config.category,
-      categoryLabel: config.categoryLabel,
+      categoryLabel: config.getCategoryLabel?.(record, frontmatter) ?? config.categoryLabel,
       title: frontmatter.title,
       description: frontmatter.description,
       date: formatDate(frontmatter.date),

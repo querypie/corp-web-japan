@@ -21,6 +21,8 @@ test("use-case, AIP demo, ACP demo, event, news, and blog post loaders share a c
   assert.match(sharedLoader, /renderPublicationMdx/);
   assert.match(sharedLoader, /extractHeadingsFromMdx/);
   assert.match(sharedLoader, /buildPublicationAuthor/);
+  assert.match(sharedLoader, /getCategoryLabel\?: \(record: TRecord, frontmatter: TFrontmatter\) => string/);
+  assert.match(sharedLoader, /categoryLabel: config\.getCategoryLabel\?\.\(record, frontmatter\) \?\? config\.categoryLabel/);
 
   for (const filePath of standardLoaderFiles) {
     const source = readSource(filePath);

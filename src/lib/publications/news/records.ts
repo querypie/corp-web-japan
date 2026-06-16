@@ -36,6 +36,12 @@ export type NewsPublicationListItem = {
 
 const NEWS_POSTS_ROOT = path.join(process.cwd(), "src/content/news");
 
+export function getNewsPublicationSourceLabel(
+  record: Pick<NewsPublicationRecord, "sourceLabel" | "redirectUrl">,
+) {
+  return record.sourceLabel ?? (record.redirectUrl ? "メディア掲載" : "公式発表");
+}
+
 function normalizeNewsPublicationFrontmatter(value: unknown, sourcePath: string): NewsPublicationFrontmatter {
   if (!value || typeof value !== "object") {
     throw new Error(`Missing news frontmatter in ${sourcePath}`);
@@ -92,7 +98,7 @@ const newsPublicationRepository = createStandardPublicationRecordsRepository<
     title: record.title,
     description: record.description,
     date: formatJapaneseDateFromIsoDate(record.date),
-    sourceLabel: record.sourceLabel ?? (record.redirectUrl ? "メディア掲載" : "公式発表"),
+    sourceLabel: getNewsPublicationSourceLabel(record),
     opensExternal: false,
   }),
 });

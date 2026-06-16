@@ -1,5 +1,6 @@
 import {
   getNewsPublicationRecord,
+  getNewsPublicationSourceLabel,
   listNewsPublicationIds,
   listNewsPublicationParams,
   newsPublicationRecords,
@@ -20,6 +21,7 @@ export const getNewsPublicationPost = createStandardPublicationPostLoader<
   relatedTitle: "関連ニュース",
   defaultAuthorAvatarSrc: "/querypie-logo.svg",
   records: newsPublicationRecords,
+  getCategoryLabel: (record) => getNewsPublicationSourceLabel(record),
   getRecord: getNewsPublicationRecord,
   getHref: getNewsPublicationHref,
 });

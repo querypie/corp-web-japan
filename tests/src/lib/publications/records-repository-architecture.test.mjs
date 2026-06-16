@@ -33,7 +33,8 @@ const standardRecordFiles = [
     filePath: "src/lib/publications/news/records.ts",
     expectedMatches: [
       /createListItem: \(record, href\) => \(\{/,
-      /sourceLabel: record\.sourceLabel \?\? \(record\.redirectUrl \? "メディア掲載" : "公式発表"\)/,
+      /function getNewsPublicationSourceLabel/,
+      /sourceLabel: getNewsPublicationSourceLabel\(record\)/,
       /opensExternal: false/,
     ],
   },
