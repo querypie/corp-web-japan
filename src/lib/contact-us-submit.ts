@@ -5,7 +5,6 @@ import {
 } from "@/lib/contact-us";
 import { hasValidMxRecord } from "@/lib/forms/server/email-deliverability";
 import { sanitizeRecordStrings, sanitizeText } from "@/lib/forms/server/sanitize";
-import { deliverSalesforcePayload } from "@/lib/forms/server/salesforce-delivery";
 import { postSlackNotification } from "@/lib/forms/server/slack-notification";
 import { toSalesforceUtmFields } from "@/lib/forms/server/utm-attribution";
 
@@ -61,14 +60,6 @@ export async function submitContactUsForm(
     payload.referrerUrl ?? fallbackReferrerUrl,
     payload.utmAttribution,
   );
-
-  await deliverSalesforcePayload({
-    endpoint: process.env.SALESFORCE_ENDPOINT,
-    endpointName: "contact-us",
-    requestPath: "/contact-us/submit",
-    payload: requestPayload as Record<string, unknown>,
-    successIdField: "recordUUID",
-  });
 
   const slackResult = await postSlackNotification({
     endpointName: "contact-us",
