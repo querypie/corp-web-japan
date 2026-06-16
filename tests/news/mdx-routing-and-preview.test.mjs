@@ -70,6 +70,8 @@ test("news public page and canonical routes are driven by news MDX publication r
 
   assert.match(loader, /createStandardPublicationPostLoader/);
   assert.match(loader, /from "@\/lib\/publications\/create-standard-publication-post-loader"/);
+  assert.match(loader, /getNewsPublicationSourceLabel/);
+  assert.match(loader, /getCategoryLabel: \(record\) => getNewsPublicationSourceLabel\(record\)/);
   assert.doesNotMatch(loader, /function readNewsPublicationBodySource/);
   assert.doesNotMatch(loader, /renderPublicationMdx/);
   assert.doesNotMatch(loader, /extractHeadingsFromMdx\(bodySource\)/);
@@ -79,9 +81,11 @@ test("news public page and canonical routes are driven by news MDX publication r
   assert.match(records, /sourceLabel\?: string;/);
   assert.match(records, /redirectUrl:\s*typeof redirectUrlValue === "string" \? redirectUrlValue : undefined/);
   assert.match(records, /sourceLabel:\s*typeof sourceLabelValue === "string" \? sourceLabelValue : undefined/);
+  assert.match(records, /function getNewsPublicationSourceLabel/);
+  assert.match(records, /return record\.sourceLabel \?\? \(record\.redirectUrl \? "メディア掲載" : "公式発表"\)/);
   assert.match(records, /createStandardPublicationRecordsRepository/);
   assert.match(records, /createListItem: \(record, href\) => \(\{/);
-  assert.match(records, /sourceLabel: record\.sourceLabel \?\? \(record\.redirectUrl \? "メディア掲載" : "公式発表"\)/);
+  assert.match(records, /sourceLabel: getNewsPublicationSourceLabel\(record\)/);
   assert.match(records, /opensExternal: false/);
   assert.match(hrefs, /news: "\/news"/);
   assert.match(types, /"news"/);
