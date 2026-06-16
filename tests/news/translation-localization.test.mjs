@@ -44,7 +44,7 @@ test("translated external news posts place a Japanese translation before preserv
 });
 
 test("already-Japanese local-body news posts do not gain redundant original-language sections", () => {
-  for (const id of ["12", "13", "14"]) {
+  for (const id of ["12", "13", "14", "15", "16", "17", "18"]) {
     const source = readNews(id);
     assert.doesNotMatch(source, /## 原文（英語）/);
     assert.doesNotMatch(source, /## 原文（韓国語）/);
