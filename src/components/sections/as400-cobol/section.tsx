@@ -77,7 +77,7 @@ export function As400CobolReferenceLink({
   children?: ReactNode;
 }) {
   return (
-    <sup className="ml-1 align-super text-[10px] font-normal leading-none">
+    <sup className="relative -top-[0.25em] ml-1 align-baseline text-[10px] font-normal leading-none">
       <a
         {...componentNameDebugProps("As400CobolReferenceLink")}
         href={href}

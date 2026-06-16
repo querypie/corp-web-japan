@@ -44,7 +44,7 @@ test("/services/as400-cobol keeps references inline with sourced route-local cop
 
   assert.match(sectionSource, /export function As400CobolReferenceLink/);
   assert.match(sectionSource, /children = "\(参考\)"/);
-  assert.match(sectionSource, /<sup className="ml-1 align-super text-\[10px\]/);
+  assert.match(sectionSource, /<sup className="relative -top-\[0\.25em\] ml-1 align-baseline text-\[10px\]/);
   assert.match(sectionSource, /componentNameDebugProps\("As400CobolReferenceLink"\)/);
   assert.match(sectionSource, /aria-label=\{ariaLabel\}/);
   assert.doesNotMatch(sectionSource, /export function As400CobolReferenceNotes/);
