@@ -402,7 +402,10 @@ test("Component Name Debug exposes the required mode order and shortcut cycle", 
   assert.match(contractSource, /nextComponentNameDebugMode/);
   assert.match(overlaySource, /event\.altKey/);
   assert.match(overlaySource, /event\.shiftKey/);
-  assert.match(overlaySource, /event\.code !== "KeyN"/);
+  assert.match(overlaySource, /event\.code === "KeyN"/);
+  assert.match(overlaySource, /event\.code === "Digit0"/);
+  assert.match(overlaySource, /event\.code === "Numpad0"/);
+  assert.match(overlaySource, /writeComponentNameDebugMode\(isOffShortcut \? "off" : nextComponentNameDebugMode/);
   assert.match(overlaySource, /shouldIgnoreComponentNameDebugShortcut/);
   assert.match(overlaySource, /tagName === "INPUT"/);
   assert.match(overlaySource, /tagName === "TEXTAREA"/);
@@ -448,7 +451,7 @@ test("Preview toggle menu keeps Component Name Debug inside non-production previ
   assert.match(previewToggleSource, /Preview mode menu:/);
   assert.match(previewToggleSource, /<ComponentNameDebugMenuSection \/>/);
   assert.match(menuSectionSource, /Show Component Name/);
-  assert.match(menuSectionSource, /Shortcut: Alt\+Shift\+N/);
+  assert.match(menuSectionSource, /Shortcut: Alt\+Shift\+N \/ Alt\+Shift\+0 Off/);
   assert.match(menuSectionSource, /writeComponentNameDebugMode/);
 });
 
