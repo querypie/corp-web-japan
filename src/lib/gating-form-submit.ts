@@ -5,7 +5,6 @@ import {
 } from "@/lib/gating-form";
 import { hasValidMxRecord } from "@/lib/forms/server/email-deliverability";
 import { sanitizeRecordStrings, sanitizeText } from "@/lib/forms/server/sanitize";
-import { deliverSalesforcePayload } from "@/lib/forms/server/salesforce-delivery";
 import { postSlackNotification } from "@/lib/forms/server/slack-notification";
 import { toSalesforceUtmFields } from "@/lib/forms/server/utm-attribution";
 
@@ -68,14 +67,6 @@ export async function submitGatingForm(
     payload.referrerUrl ?? fallbackReferrerUrl,
     payload.utmAttribution,
   );
-
-  await deliverSalesforcePayload({
-    endpoint: process.env.SALESFORCE_ENDPOINT,
-    endpointName: "gating-form",
-    requestPath: "/api/gating-form/unlock",
-    payload: requestPayload as Record<string, unknown>,
-    successIdField: "recordUUID",
-  });
 
   const slackResult = await postSlackNotification({
     endpointName: "gating-form",
