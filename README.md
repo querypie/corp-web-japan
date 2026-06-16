@@ -31,6 +31,7 @@ The current public structure is:
 - `/` — top page
 - `/solutions/ai-crew`
 - `/solutions/ai-dashi`
+- `/solutions/as400-cobol`
 - `/blog` — local blog index
 - `/blog/:id/:slug` — local MDX-backed blog detail, with `/blog/:id` redirecting to the canonical slug route
 - `/whitepapers` — local whitepaper index

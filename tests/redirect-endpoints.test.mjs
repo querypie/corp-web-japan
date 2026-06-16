@@ -15,6 +15,11 @@ const expectedRedirectRules = [
     destination: "/platforms/acp",
   },
   {
+    requestPath: "/services/as400-cobol",
+    file: "src/app/services/as400-cobol/route.ts",
+    destination: "/solutions/as400-cobol",
+  },
+  {
     requestPath: "/pricing",
     file: "src/app/pricing/route.ts",
     destination: "/plans",
@@ -142,7 +147,7 @@ const expectedRedirectRules = [
 ];
 
 test("remaining redirect endpoints are defined in a single test-case table with temporary redirect destinations", () => {
-  assert.equal(expectedRedirectRules.length, 27);
+  assert.equal(expectedRedirectRules.length, 28);
 
   for (const rule of expectedRedirectRules) {
     assert.equal(existsSync(new URL(`../${rule.file}`, import.meta.url)), true, `${rule.file} should exist`);
@@ -175,6 +180,13 @@ test("remaining redirect endpoints are defined in a single test-case table with 
       assert.ok(source.includes("const strippedPath = request.nextUrl.pathname.replace(/^\\/ja(?=\\/|$)/, \"\") || \"/\";"));
       assert.ok(source.includes("new URL(strippedPath, request.url)"));
       assert.ok(source.includes("redirectedUrl.search = request.nextUrl.search;"));
+    }
+
+    if (rule.requestPath === "/services/as400-cobol") {
+      assert.ok(source.includes(`const destinationPath = "${rule.destination}";`));
+      assert.ok(source.includes("const destination = new URL(destinationPath, request.url);"));
+      assert.ok(source.includes("destination.search = request.nextUrl.search;"));
+      assert.match(source, /export const HEAD = GET;/);
     }
 
     if (
@@ -340,4 +352,3 @@ test("legacy company news root path redirects to the local /news page", () => {
   assert.match(source, /export const HEAD = GET;/);
   assert.equal(existsSync(new URL("../src/app/[locale]/company/news/route.ts", import.meta.url)), false);
 });
-
