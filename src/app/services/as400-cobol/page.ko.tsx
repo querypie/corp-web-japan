@@ -36,7 +36,10 @@ import {
   As400CobolHeroTitle,
   As400CobolPageShell,
 } from "@/components/sections/as400-cobol/page-sections";
-import { As400CobolSection } from "@/components/sections/as400-cobol/section";
+import {
+  As400CobolReferenceLink,
+  As400CobolSection,
+} from "@/components/sections/as400-cobol/section";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
@@ -139,22 +142,62 @@ export default function As400CobolKoreanPage() {
             <As400CobolStatCard
               value="국내 약 2만 개사"
               label="일본 내 IBM i 이용 기업"
-              description="일본 IBM 관계자 공개 자료에서는 세계 약 15만 개사, 일본 국내 약 2만 개사에서 사용된다고 설명합니다."
+              description={
+                <>
+                  일본 IBM 관계자 공개 자료에서는 세계 약 15만 개사, 일본 국내 약 2만 개사에서 사용된다고 설명합니다.
+                  <As400CobolReferenceLink
+                    href="https://community.ibm.com/community/user/blogs/hirotsugu-hara/2024/09/03/ibm-i-developer-task-blog"
+                    ariaLabel="IBM Community Japan 2024 참고"
+                  >
+                    (참고)
+                  </As400CobolReferenceLink>
+                </>
+              }
             />
             <As400CobolStatCard
               value="약 70%"
               label="핵심 업무 과반을 IBM i에서 운영"
-              description="Fortra의 2026년 조사에서는 IBM i 이용 기업의 약 70%가 핵심 업무 애플리케이션 절반 이상을 IBM i에서 운영한다고 설명합니다."
+              description={
+                <>
+                  Fortra의 2026년 조사에서는 IBM i 이용 기업의 약 70%가 핵심 업무 애플리케이션 절반 이상을 IBM i에서 운영한다고 설명합니다.
+                  <As400CobolReferenceLink
+                    href="https://power.fortra.com/resources/guides/outlook-ibm-i-2026-ibm-i-marketplace-survey-results"
+                    ariaLabel="Fortra 2026 IBM i Marketplace Survey 참고"
+                  >
+                    (참고)
+                  </As400CobolReferenceLink>
+                </>
+              }
             />
             <As400CobolStatCard
               value="최대 12조 엔/년"
               label="2025년 이후 경제 손실 리스크"
-              description="경제산업성 DX Report가 제시한 레거시 시스템 복잡화와 블랙박스화에 대한 경고입니다."
+              description={
+                <>
+                  경제산업성 DX Report가 제시한 레거시 시스템 복잡화와 블랙박스화에 대한 경고입니다.
+                  <As400CobolReferenceLink
+                    href="https://www.meti.go.jp/policy/it_policy/dx/20180907_02.pdf"
+                    ariaLabel="경제산업성 DX Report 본문 참고"
+                  >
+                    (참고)
+                  </As400CobolReferenceLink>
+                </>
+              }
             />
             <As400CobolStatCard
               value="1조 3,044억 엔"
               label="2025년 IT 모더나이제이션 시장"
-              description="IDC의 일본 IT 모더나이제이션 서비스 시장 전망을 전체 시장 배경으로 다룹니다."
+              description={
+                <>
+                  IDC의 일본 IT 모더나이제이션 서비스 시장 전망을 전체 시장 배경으로 다룹니다.
+                  <As400CobolReferenceLink
+                    href="https://www.idc.com/resource-center/press-releases/%E5%9B%BD%E5%86%85it%E3%83%A2%E3%83%80%E3%83%8A%E3%82%A4%E3%82%BC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E5%B8%82%E5%A0%B4%E4%BA%88%E6%B8%AC%E3%82%92%E7%99%BA%E8%A1%A8/"
+                    ariaLabel="IDC Japan 2026 참고"
+                  >
+                    (참고)
+                  </As400CobolReferenceLink>
+                </>
+              }
             />
           </As400CobolStatGrid>
 
@@ -204,26 +247,46 @@ export default function As400CobolKoreanPage() {
             과제는 시스템이 동작하지 않는다는 것이 아닙니다. 안정적으로 동작하기 때문에 바꾸는 판단이 늦어지고,
             <br />
             유지보수 인력, 비용, 사양의 블랙박스화, DX 시책과의 연결이 동시에 어려워진다는 점입니다.
+            <As400CobolReferenceLink
+              href="https://www.ipa.go.jp/digital/chousa/dx-trend/dx-trend-2025.html"
+              ariaLabel="IPA DX動向2025 참고"
+            >
+              (참고)
+            </As400CobolReferenceLink>
           </>
         }
       >
-        <As400CobolInsightList>
-          <As400CobolInsightItem icon="legacy" title="“동작하니까 건드리지 않는다”의 한계">
-            오랫동안 가동된 기간계 시스템은 업무에 깊이 내장되어 있습니다.
-            그러나 담당자의 퇴직, 벤더 의존, 수정 이력의 축적이 진행될수록
-            건드리지 않는 판단 자체가 미래의 리스크가 됩니다.
-          </As400CobolInsightItem>
-          <As400CobolInsightItem icon="route" title="영향 범위를 몰라 수정 판단이 늦어진다">
-            하나의 화면이나 장표 변경이라도 프로그램, 파일, 잡, 외부 연계,
-            테스트 범위가 연쇄됩니다. 보이지 않는 의존 관계를 가시화하지 않으면
-            작은 수정도 큰 리스크가 됩니다.
-          </As400CobolInsightItem>
-          <As400CobolInsightItem icon="api" title="클라우드, API, 데이터 활용으로 이어지기 어렵다">
-            기존 IBM i를 남겨 둔 채 API로 외부화할지, Java화할지,
-            PostgreSQL이나 Linux / OCI / AWS로 옮길지. 선택지를 비교하려면
-            현행 자산의 구조 이해가 필요합니다.
-          </As400CobolInsightItem>
-        </As400CobolInsightList>
+        <div className="space-y-8">
+          <As400CobolInsightList>
+            <As400CobolInsightItem icon="legacy" title="“동작하니까 건드리지 않는다”의 한계">
+              오랫동안 가동된 기간계 시스템은 업무에 깊이 내장되어 있습니다.
+              그러나 담당자의 퇴직, 벤더 의존, 수정 이력의 축적이 진행될수록
+              건드리지 않는 판단 자체가 미래의 리스크가 됩니다.
+              <As400CobolReferenceLink
+                href="https://techtarget.itmedia.co.jp/tt/news/2407/16/news04.html"
+                ariaLabel="TechTarget Japan 2024 참고"
+              >
+                (참고)
+              </As400CobolReferenceLink>
+            </As400CobolInsightItem>
+            <As400CobolInsightItem icon="route" title="영향 범위를 몰라 수정 판단이 늦어진다">
+              하나의 화면이나 장표 변경이라도 프로그램, 파일, 잡, 외부 연계,
+              테스트 범위가 연쇄됩니다. 보이지 않는 의존 관계를 가시화하지 않으면
+              작은 수정도 큰 리스크가 됩니다.
+            </As400CobolInsightItem>
+            <As400CobolInsightItem icon="api" title="클라우드, API, 데이터 활용으로 이어지기 어렵다">
+              기존 IBM i를 남겨 둔 채 API로 외부화할지, Java화할지,
+              PostgreSQL이나 Linux / OCI / AWS로 옮길지. 선택지를 비교하려면
+              현행 자산의 구조 이해가 필요합니다.
+              <As400CobolReferenceLink
+                href="https://prtimes.jp/main/html/rd/p/000001509.000011650.html"
+                ariaLabel="TIS 발표 2024 참고"
+              >
+                (참고)
+              </As400CobolReferenceLink>
+            </As400CobolInsightItem>
+          </As400CobolInsightList>
+        </div>
       </As400CobolSection>
 
       <As400CobolSection
@@ -382,6 +445,12 @@ export default function As400CobolKoreanPage() {
             </As400CobolPathCard>
             <As400CobolPathCard icon="code" title="COBOL/RPG에서 Java로">
               변환 대상을 좁히고 PoC로 정밀도, 예외 처리, 테스트 가능성을 확인하며 진행합니다.
+              <As400CobolReferenceLink
+                href="https://it.impress.co.jp/articles/-/26675"
+                ariaLabel="LAC MAJALIS Modernization Service IT Leaders 2024 참고"
+              >
+                (참고)
+              </As400CobolReferenceLink>
             </As400CobolPathCard>
             <As400CobolPathCard icon="database" title="PostgreSQL로 데이터 이전">
               테이블, 파일, 데이터 항목, 정합성 체크를 정리하고 단계적으로 이전합니다.

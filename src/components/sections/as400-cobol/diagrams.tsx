@@ -71,7 +71,7 @@ export function As400CobolStatCard({
 }: {
   value: string;
   label: string;
-  description: string;
+  description: ReactNode;
 }) {
   return (
     <article
