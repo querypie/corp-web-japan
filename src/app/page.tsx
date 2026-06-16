@@ -405,10 +405,11 @@ export default function HomePage() {
 
         <SecuritySection>
           <SecurityIntro title="国際基準のセキュリティ認証">
-            企業がAIを導入する際の最大の壁である「情報セキュリティ」と「コンプライアンス」。QueryPie AIは、SOC 2 Type II や ISO/IEC 27001 など、グローバル最高水準のセキュリティ認証を取得し、厳格な監査基準をクリアしています。
+            企業がAIを導入する際の最大の壁である「情報セキュリティ」と「コンプライアンス」。QueryPie AIは、ISO/IEC 42001、SOC 2 Type II、ISO/IEC 27001 など、グローバル最高水準のセキュリティ認証を取得し、厳格な監査基準をクリアしています。
           </SecurityIntro>
 
           <SecurityCertificationGrid>
+            <SecurityCertificationCard src="/certifications/iso-iec-42001.png" alt="ISO/IEC 42001 certification logo" title="ISO/IEC 42001" />
             <SecurityCertificationCard src="/top-assets/certifications/soc2.webp" alt="SOC 2 Type II certification logo" title="SOC 2 Type II" />
             <SecurityCertificationCard src="/top-assets/certifications/iso27001.png" alt="ISO/IEC 27001 certification logo" title="ISO/IEC 27001" />
             <SecurityCertificationCard src="/top-assets/certifications/iso27701.png" alt="ISO/IEC 27701 certification logo" title="ISO/IEC 27701" />

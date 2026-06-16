@@ -176,7 +176,7 @@ export default function KubernetesAccessControllerPage() {
         </AcpFaqItem>
         <AcpFaqItem question="QueryPie はどのようなセキュリティ標準を遵守していますか？">
           <p>
-            QueryPie はISO27001、SOC2、GDPR、CSA-STAR といったグローバルセキュリティ標準を遵守するように設計され、データセキュリティと規制要件を満たしています。これにより、組織はアクセス管理機能を強化し、コンプライアンス要件を満たし、監査準備を行うことができます。
+            QueryPie はISO/IEC 42001、ISO27001、SOC2、GDPR、CSA-STAR といったグローバルセキュリティ標準を遵守するように設計され、データセキュリティと規制要件を満たしています。これにより、組織はアクセス管理機能を強化し、コンプライアンス要件を満たし、監査準備を行うことができます。
           </p>
         </AcpFaqItem>
         <AcpFaqItem question="QueryPie は既存のセキュリティソリューションと互換性がありますか？">

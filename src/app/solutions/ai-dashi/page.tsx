@@ -390,7 +390,7 @@ export default function AIDashiPage() {
             </AIDashiEnterpriseReadyCardIcon>
             <AIDashiEnterpriseReadyCardTitle>監査ログとコンプライアンス対応</AIDashiEnterpriseReadyCardTitle>
             <AIDashiEnterpriseReadyCardBody>
-              SOC2 / ISO27001水準のセキュリティ基盤により、エンタープライズ顧客の厳しいセキュリティシート（導入審査）をパスできます。
+              ISO/IEC 42001 / SOC2 / ISO27001水準のセキュリティ基盤により、エンタープライズ顧客の厳しいセキュリティシート（導入審査）をパスできます。
             </AIDashiEnterpriseReadyCardBody>
           </AIDashiEnterpriseReadyCard>
         </AIDashiEnterpriseReadyCards>
@@ -455,7 +455,7 @@ export default function AIDashiPage() {
             <AIDashiComparisonLabelCell>セキュリティ</AIDashiComparisonLabelCell>
             <AIDashiComparisonPreferredCell>
               <AIDashiComparisonPreferredIcon />
-              <AIDashiComparisonPreferredTitle>エンタープライズ品質の基盤（SOC2/ISO27001）</AIDashiComparisonPreferredTitle>
+              <AIDashiComparisonPreferredTitle>エンタープライズ品質の基盤（ISO/IEC 42001/SOC2/ISO27001）</AIDashiComparisonPreferredTitle>
               <AIDashiComparisonPreferredBody>厳格な権限管理（RBAC）が標準装備</AIDashiComparisonPreferredBody>
             </AIDashiComparisonPreferredCell>
             <AIDashiComparisonLegacyCell>
