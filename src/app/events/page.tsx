@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
+import { SiteNoticeSurface } from "@/components/sections/site-notice/site-notice-surface";
 import { FeaturedEventHero } from "@/components/sections/events/hero";
 import { InternalEventsDemoEmptyState } from "@/components/sections/events/empty-state";
 import { ResourceCategorySidebar } from "@/components/sections/resource-category-sidebar";
@@ -32,6 +33,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const revalidate = 3600;
+
 type EventsPageProps = {
   searchParams?: Promise<{
     asof?: string | string[];
@@ -47,6 +50,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
   return (
     <main {...componentNameDebugProps("EventsPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
+      <SiteNoticeSurface />
 
       <ResourceListHeroSection>
         <ResourceListHeroTitle>イベント</ResourceListHeroTitle>

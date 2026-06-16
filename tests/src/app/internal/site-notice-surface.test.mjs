@@ -36,19 +36,35 @@ function collectPageFiles(directory) {
   return files.sort();
 }
 
-test("/internal renders the site notice surface without placing it on public pages", () => {
+test("site notice surface renders on the configured internal and public pages", () => {
   const internalPageSource = readSource("src/app/internal/page.tsx");
-  const otherPageFiles = collectPageFiles(sourcePath("src/app")).filter(
-    (file) => file !== "src/app/internal/page.tsx",
+  const expectedPageFiles = [
+    "src/app/about-us/page.tsx",
+    "src/app/events/page.tsx",
+    "src/app/internal/page.tsx",
+    "src/app/page.tsx",
+    "src/app/resources/page.tsx",
+  ];
+  const siteNoticePageFiles = collectPageFiles(sourcePath("src/app")).filter((file) =>
+    /site-notice\/site-notice-surface|<SiteNoticeSurface\b/.test(readSource(file)),
   );
 
   assert.match(internalPageSource, /site-notice\/site-notice-surface/);
   assert.match(internalPageSource, /<SiteNoticeSurface \/>/);
   assert.match(internalPageSource, /export const revalidate = 3600;/);
+  assert.deepEqual(siteNoticePageFiles, expectedPageFiles);
 
-  for (const pageFile of otherPageFiles) {
-    assert.doesNotMatch(readSource(pageFile), /site-notice\/site-notice-surface|<SiteNoticeSurface\b/);
+  for (const pageFile of expectedPageFiles) {
+    const source = readSource(pageFile);
+    assert.match(source, /site-notice\/site-notice-surface/);
+    assert.match(source, /<SiteNoticeSurface\b/);
+    assert.match(source, /export const revalidate = 3600;/);
   }
+
+  assert.match(
+    readSource("src/app/page.tsx"),
+    /<SiteNoticeSurface className="-mt-\[72px\] flow-root lg:mt-0" \/>/,
+  );
 });
 
 test("site notice YAML uses local Japanese news content and explicit visibility windows", () => {

@@ -3,7 +3,7 @@ import { TopAnnouncementBar } from "@/components/sections/site-notice/top-announ
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { getActiveSiteNoticeFeaturedContent } from "@/lib/site-notice";
 
-export function SiteNoticeSurface() {
+export function SiteNoticeSurface({ className }: { className?: string } = {}) {
   const content = getActiveSiteNoticeFeaturedContent();
 
   if (!content) {
@@ -11,7 +11,7 @@ export function SiteNoticeSurface() {
   }
 
   return (
-    <div {...componentNameDebugProps("SiteNoticeSurface")}>
+    <div {...componentNameDebugProps("SiteNoticeSurface")} className={className}>
       <TopAnnouncementBar content={content} />
       <FloatingSpotlightCard
         items={content.items}
