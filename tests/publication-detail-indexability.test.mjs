@@ -42,6 +42,7 @@ const publicIndexableListRoutes = [
   "src/app/platforms/acp/kubernetes-access-controller/page.tsx",
   "src/app/platforms/acp/web-access-controller/page.tsx",
   "src/app/services/fde/page.tsx",
+  "src/app/services/as400-cobol/page.tsx",
   "src/app/plans/page.tsx",
   "src/app/plans/aip/page.tsx",
   "src/app/plans/acp/page.tsx",
