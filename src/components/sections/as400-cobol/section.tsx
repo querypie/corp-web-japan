@@ -66,3 +66,28 @@ export function As400CobolSection({
     </section>
   );
 }
+
+export function As400CobolReferenceLink({
+  href,
+  ariaLabel,
+  children = "(参考)",
+}: {
+  href: string;
+  ariaLabel?: string;
+  children?: ReactNode;
+}) {
+  return (
+    <sup className="ml-1 align-super text-[10px] font-normal leading-none">
+      <a
+        {...componentNameDebugProps("As400CobolReferenceLink")}
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={ariaLabel}
+        className="text-slate-500 underline decoration-slate-300 underline-offset-2 transition-colors hover:text-[#0f766e] hover:decoration-[#0f766e]/50"
+      >
+        {children}
+      </a>
+    </sup>
+  );
+}

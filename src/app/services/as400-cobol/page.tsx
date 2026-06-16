@@ -39,7 +39,10 @@ import {
   As400CobolHeroTitle,
   As400CobolPageShell,
 } from "@/components/sections/as400-cobol/page-sections";
-import { As400CobolSection } from "@/components/sections/as400-cobol/section";
+import {
+  As400CobolReferenceLink,
+  As400CobolSection,
+} from "@/components/sections/as400-cobol/section";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
@@ -168,22 +171,54 @@ export default async function As400CobolServicePage({
             <As400CobolStatCard
               value="国内約2万社"
               label="国内IBM i利用企業"
-              description="日本IBM関係者の公開資料では、世界約15万社、国内約2万社で利用されると説明されています。"
+              description={
+                <>
+                  日本IBM関係者の公開資料では、世界約15万社、国内約2万社で利用されると説明されています。
+                  <As400CobolReferenceLink
+                    href="https://community.ibm.com/community/user/blogs/hirotsugu-hara/2024/09/03/ibm-i-developer-task-blog"
+                    ariaLabel="IBM Community Japan 2024を参照"
+                  />
+                </>
+              }
             />
             <As400CobolStatCard
               value="約70%"
               label="基幹業務の過半をIBM iで運用"
-              description="Fortraの2026年調査では、IBM i利用企業の約70%が基幹業務アプリケーションの半数以上をIBM iで運用しています。"
+              description={
+                <>
+                  Fortraの2026年調査では、IBM i利用企業の約70%が基幹業務アプリケーションの半数以上をIBM iで運用しています。
+                  <As400CobolReferenceLink
+                    href="https://power.fortra.com/resources/guides/outlook-ibm-i-2026-ibm-i-marketplace-survey-results"
+                    ariaLabel="Fortra 2026 IBM i Marketplace Surveyを参照"
+                  />
+                </>
+              }
             />
             <As400CobolStatCard
               value="最大12兆円/年"
               label="2025年以降の経済損失リスク"
-              description="経済産業省のDXレポートが示した、レガシーシステムの複雑化・ブラックボックス化に関する警告です。"
+              description={
+                <>
+                  経済産業省のDXレポートが示した、レガシーシステムの複雑化・ブラックボックス化に関する警告です。
+                  <As400CobolReferenceLink
+                    href="https://www.meti.go.jp/policy/it_policy/dx/20180907_02.pdf"
+                    ariaLabel="経済産業省 DXレポート本文を参照"
+                  />
+                </>
+              }
             />
             <As400CobolStatCard
               value="1兆3,044億円"
               label="2025年ITモダナイゼーション市場"
-              description="IDCの日本ITモダナイゼーションサービス市場予測を、全体市場の背景として扱います。"
+              description={
+                <>
+                  IDCの日本ITモダナイゼーションサービス市場予測を、全体市場の背景として扱います。
+                  <As400CobolReferenceLink
+                    href="https://www.idc.com/resource-center/press-releases/%E5%9B%BD%E5%86%85it%E3%83%A2%E3%83%80%E3%83%8A%E3%82%A4%E3%82%BC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E5%B8%82%E5%A0%B4%E4%BA%88%E6%B8%AC%E3%82%92%E7%99%BA%E8%A1%A8/"
+                    ariaLabel="IDC Japan 2026を参照"
+                  />
+                </>
+              }
             />
           </As400CobolStatGrid>
 
@@ -232,26 +267,40 @@ export default async function As400CobolServicePage({
             課題は、システムが動かないことではありません。安定して動いているからこそ、変える判断が遅れ、
             <br />
             保守人材、コスト、仕様のブラックボックス化、DX施策との接続が同時に難しくなることです。
+            <As400CobolReferenceLink
+              href="https://www.ipa.go.jp/digital/chousa/dx-trend/dx-trend-2025.html"
+              ariaLabel="IPA DX動向2025を参照"
+            />
           </>
         }
       >
-        <As400CobolInsightList>
-          <As400CobolInsightItem icon="legacy" title="「動いているから触らない」が限界に近づく">
-            長年稼働してきた基幹システムは、業務に深く組み込まれています。
-            しかし担当者の退職、ベンダー依存、改修履歴の蓄積が進むほど、
-            触らない判断そのものが将来のリスクになります。
-          </As400CobolInsightItem>
-          <As400CobolInsightItem icon="route" title="影響範囲が分からず、改修判断が遅れる">
-            1つの画面や帳票の変更でも、プログラム、ファイル、ジョブ、外部連携、
-            テスト範囲が連鎖します。見えない依存関係を可視化しなければ、
-            小さな改修も大きなリスクになります。
-          </As400CobolInsightItem>
-          <As400CobolInsightItem icon="api" title="クラウド、API、データ活用につながりにくい">
-            既存IBM iを残しながらAPIで外部化するのか、Java化するのか、
-            PostgreSQLやLinux / OCI / AWSへ移すのか。選択肢を比較するには、
-            現行資産の構造理解が必要です。
-          </As400CobolInsightItem>
-        </As400CobolInsightList>
+        <div className="space-y-8">
+          <As400CobolInsightList>
+            <As400CobolInsightItem icon="legacy" title="「動いているから触らない」が限界に近づく">
+              長年稼働してきた基幹システムは、業務に深く組み込まれています。
+              しかし担当者の退職、ベンダー依存、改修履歴の蓄積が進むほど、
+              触らない判断そのものが将来のリスクになります。
+              <As400CobolReferenceLink
+                href="https://techtarget.itmedia.co.jp/tt/news/2407/16/news04.html"
+                ariaLabel="TechTarget Japan 2024を参照"
+              />
+            </As400CobolInsightItem>
+            <As400CobolInsightItem icon="route" title="影響範囲が分からず、改修判断が遅れる">
+              1つの画面や帳票の変更でも、プログラム、ファイル、ジョブ、外部連携、
+              テスト範囲が連鎖します。見えない依存関係を可視化しなければ、
+              小さな改修も大きなリスクになります。
+            </As400CobolInsightItem>
+            <As400CobolInsightItem icon="api" title="クラウド、API、データ活用につながりにくい">
+              既存IBM iを残しながらAPIで外部化するのか、Java化するのか、
+              PostgreSQLやLinux / OCI / AWSへ移すのか。選択肢を比較するには、
+              現行資産の構造理解が必要です。
+              <As400CobolReferenceLink
+                href="https://prtimes.jp/main/html/rd/p/000001509.000011650.html"
+                ariaLabel="TIS発表 2024を参照"
+              />
+            </As400CobolInsightItem>
+          </As400CobolInsightList>
+        </div>
       </As400CobolSection>
 
       <As400CobolSection
@@ -410,6 +459,10 @@ export default async function As400CobolServicePage({
             </As400CobolPathCard>
             <As400CobolPathCard icon="code" title="COBOL/RPGからJavaへ">
               変換対象を絞り、PoCで精度、例外処理、テスト可能性を確認しながら進めます。
+              <As400CobolReferenceLink
+                href="https://it.impress.co.jp/articles/-/26675"
+                ariaLabel="LAC MAJALIS Modernization Service IT Leaders 2024を参照"
+              />
             </As400CobolPathCard>
             <As400CobolPathCard icon="database" title="PostgreSQLへデータ移行">
               テーブル、ファイル、データ項目、整合性チェックを整理し、段階的に移行します。
