@@ -3,6 +3,7 @@ import Image from "next/image";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
+import { SiteNoticeSurface } from "@/components/sections/site-notice/site-notice-surface";
 import {
   AboutUsBodyCopy,
   AboutUsHeroCopy,
@@ -45,10 +46,13 @@ export const metadata: Metadata = {
   keywords: ["QueryPie AIについて", "QueryPie AI 投資家", "QueryPie AI 履歴", "QueryPie AI チーム", "QueryPie AI 所在地"],
 };
 
+export const revalidate = 3600;
+
 export default function AboutUsPage() {
   return (
     <main {...componentNameDebugProps("AboutUsPage")} className="relative overflow-x-hidden bg-white text-slate-950">
       <SiteHeader />
+      <SiteNoticeSurface />
 
       <CompanyPageSection>
         <CompanyPageIntro>

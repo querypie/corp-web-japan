@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
+import { SiteNoticeSurface } from "@/components/sections/site-notice/site-notice-surface";
 import {
   resourceCategorySidebarLinks,
   ResourceCategorySidebar,
@@ -29,6 +30,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const revalidate = 3600;
+
 type ResourcesPageProps = {
   searchParams?: Promise<{
     until?: string | string[];
@@ -42,6 +45,7 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
   return (
     <main {...componentNameDebugProps("ResourcesPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
+      <SiteNoticeSurface />
 
       <ResourceListHeroSection>
         <ResourceListHeroTitle>ドキュメント</ResourceListHeroTitle>
