@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { ShieldCheck, Users, Zap } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
-import { FloatingConversionCta } from "@/components/layout/floating-conversion-cta";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteNoticeSurface } from "@/components/sections/site-notice/site-notice-surface";
 import {
@@ -142,7 +141,6 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 export default function HomePage() {
-  const topPageFloatingCtaUrl = "/contact-us";
   const topPageHeroContactUrl = "/contact-us?inquiry=ai-consulting";
   const topPageDownloadUrl =
     "/introduction-deck/1/querypie-aip";
@@ -153,7 +151,6 @@ export default function HomePage() {
     <main {...componentNameDebugProps("HomePage")} className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
       <SiteHeader />
       <SiteNoticeSurface className="-mt-[72px] flow-root lg:mt-0" />
-      <FloatingConversionCta href={topPageFloatingCtaUrl} />
       <HeroSection
         imageSrc="/top-hero.png"
         imageAlt="QueryPie AIの導入イメージを想起させる、オフィスでAIダッシュボードを活用するチーム"
