@@ -3,6 +3,7 @@ import * as path from "node:path";
 import { parse } from "yaml";
 
 export type SiteNoticeFeaturedItem = {
+  date: string;
   id: string;
   href: string;
   imageAlt: string;
@@ -35,6 +36,7 @@ export type ActiveSiteNoticeFeaturedContent = Omit<SiteNoticeFeaturedContent, "i
 
 export type LoadSiteNoticeFeaturedOptions = {
   contentRoot?: string;
+  random?: () => number;
   today?: string;
 };
 
@@ -55,6 +57,7 @@ const contentFields = [
 ] as const;
 
 const itemFields = [
+  "date",
   "id",
   "href",
   "imageAlt",
@@ -115,6 +118,7 @@ function normalizeItem(value: unknown, sourcePath: string, index: number): SiteN
   assertAllowedKeys(record, allowedItemFields, `${sourcePath} item ${index + 1}`);
 
   const item: SiteNoticeFeaturedItem = {
+    date: readString(record, "date", sourcePath),
     href: readString(record, "href", sourcePath),
     id: readString(record, "id", sourcePath),
     imageAlt: readString(record, "imageAlt", sourcePath),
@@ -126,6 +130,7 @@ function normalizeItem(value: unknown, sourcePath: string, index: number): SiteN
     visibleUntil: readString(record, "visibleUntil", sourcePath),
   };
 
+  assertDateString(item.date, sourcePath, `items[${index}].date`);
   assertDateString(item.visibleUntil, sourcePath, `items[${index}].visibleUntil`);
 
   if (!idPattern.test(item.id)) {
@@ -137,6 +142,7 @@ function normalizeItem(value: unknown, sourcePath: string, index: number): SiteN
 
 function stripVisibilityDate(item: SiteNoticeFeaturedItem): ActiveSiteNoticeFeaturedItem {
   return {
+    date: item.date,
     href: item.href,
     id: item.id,
     imageAlt: item.imageAlt,
@@ -146,6 +152,36 @@ function stripVisibilityDate(item: SiteNoticeFeaturedItem): ActiveSiteNoticeFeat
     spotlightMeta: item.spotlightMeta,
     title: item.title,
   };
+}
+
+function shuffleItems<T>(items: readonly T[], random: () => number) {
+  const shuffledItems = [...items];
+
+  for (let index = shuffledItems.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(random() * (index + 1));
+    [shuffledItems[index], shuffledItems[swapIndex]] = [shuffledItems[swapIndex], shuffledItems[index]];
+  }
+
+  return shuffledItems;
+}
+
+function orderActiveItemsForCarousel(
+  items: readonly ActiveSiteNoticeFeaturedItem[],
+  random: () => number,
+) {
+  if (items.length < 2) {
+    return items;
+  }
+
+  const newestItemIndex = items.reduce(
+    (currentNewestItemIndex, item, index) =>
+      item.date > items[currentNewestItemIndex].date ? index : currentNewestItemIndex,
+    0,
+  );
+  const newestItem = items[newestItemIndex];
+  const remainingItems = items.filter((_, index) => index !== newestItemIndex);
+
+  return [newestItem, ...shuffleItems(remainingItems, random)];
 }
 
 export function loadSiteNoticeFeaturedContent(
@@ -182,7 +218,10 @@ export function getActiveSiteNoticeFeaturedContent(
   assertDateString(today, "site notice featured content options", "today");
 
   const content = loadSiteNoticeFeaturedContent(options);
-  const items = content.items.filter((item) => item.visibleUntil >= today).map(stripVisibilityDate);
+  const items = orderActiveItemsForCarousel(
+    content.items.filter((item) => item.visibleUntil >= today).map(stripVisibilityDate),
+    options.random ?? Math.random,
+  );
 
   if (items.length === 0) {
     return null;

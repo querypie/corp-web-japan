@@ -111,24 +111,28 @@ test("site notice YAML uses local Japanese featured content and explicit visibil
 
   const expectedItems = [
     {
+      date: "2026-06-04",
       href: "/news/16/iso-42001-certification-announcement",
       id: "iso-42001-certification",
       imageSrc: "/news/16/thumbnail.png",
       visibleUntil: "2026-07-04",
     },
     {
+      date: "2026-06-05",
       href: "/news/17/lingo-launch",
       id: "lingo-release",
       imageSrc: "/news/17/thumbnail.png",
       visibleUntil: "2026-07-05",
     },
     {
+      date: "2026-06-09",
       href: "/news/18/notepie-launch",
       id: "notepie-release",
       imageSrc: "/news/18/thumbnail.png",
       visibleUntil: "2026-07-09",
     },
     {
+      date: "2026-06-16",
       href: "/solutions/as400-cobol",
       id: "as400-cobol-modernization",
       imageSrc: "/solutions/as400-cobol/hero-modernization-flow.png",
@@ -138,6 +142,7 @@ test("site notice YAML uses local Japanese featured content and explicit visibil
 
   assert.deepEqual(
     siteNoticeContent.items.map((item) => ({
+      date: item.date,
       href: item.href,
       id: item.id,
       imageSrc: item.imageSrc,
@@ -148,6 +153,7 @@ test("site notice YAML uses local Japanese featured content and explicit visibil
 
   for (const item of siteNoticeContent.items) {
     assert.match(item.id, /^[a-z0-9]+(?:-[a-z0-9]+)+$/);
+    assert.match(item.date, /^\d{4}-\d{2}-\d{2}$/);
     assert.match(item.visibleUntil, /^\d{4}-\d{2}-\d{2}$/);
     assert.match(item.href, /^(?:\/news\/\d+\/|\/solutions\/as400-cobol$)/);
     assert.equal(sourceExists(`public${item.imageSrc}`), true, `${item.imageSrc} should exist`);
@@ -164,10 +170,10 @@ test("site notice loader validates and filters active featured items", () => {
   assert.equal(loadedContent.items.length, 4);
   assert.equal(loadedContent.items[0].visibleUntil, "2026-07-04");
 
-  const activeContent = getActiveSiteNoticeFeaturedContent({ today: "2026-07-05" });
+  const activeContent = getActiveSiteNoticeFeaturedContent({ random: () => 0, today: "2026-07-05" });
   assert.deepEqual(
-    activeContent.items.map((item) => item.id),
-    ["lingo-release", "notepie-release", "as400-cobol-modernization"],
+    toPlainJson(activeContent.items.map((item) => item.id)),
+    ["as400-cobol-modernization", "notepie-release", "lingo-release"],
   );
   assert.equal("visibleUntil" in activeContent.items[0], false);
 
@@ -177,6 +183,72 @@ test("site notice loader validates and filters active featured items", () => {
   );
   assert.equal(getActiveSiteNoticeFeaturedContent({ today: "2026-07-17" }), null);
   assert.throws(() => getActiveSiteNoticeFeaturedContent({ today: "2026/07/05" }), /YYYY-MM-DD/);
+});
+
+test("site notice loader keeps the newest active entry first and shuffles the rest", () => {
+  const { getActiveSiteNoticeFeaturedContent } = importModule("src/lib/site-notice.ts");
+  const tempRoot = fs.mkdtempSync(path.join(repoRoot, ".tmp-site-notice-"));
+
+  try {
+    fs.writeFileSync(
+      path.join(tempRoot, "featured.ja.yaml"),
+      `
+ariaLabel: "Latest notices"
+badgeLabel: "Spotlight"
+nextLabel: "Next"
+previousLabel: "Previous"
+spotlightCtaLabel: "Read more"
+spotlightDismissLabel: "Dismiss spotlight"
+spotlightLabel: "Spotlight"
+viewAllHref: "/news"
+viewAllLabel: "View all"
+items:
+  - id: "older-entry"
+    href: "/news/1/older-entry"
+    imageAlt: "Older entry"
+    imageSrc: "/news/1/thumbnail.png"
+    title: "Older entry"
+    meta: "News"
+    indicatorLabel: "Show older entry"
+    spotlightMeta: "2026年6月1日"
+    date: "2026-06-01"
+    visibleUntil: "2026-07-01"
+  - id: "latest-entry"
+    href: "/news/3/latest-entry"
+    imageAlt: "Latest entry"
+    imageSrc: "/news/3/thumbnail.png"
+    title: "Latest entry"
+    meta: "News"
+    indicatorLabel: "Show latest entry"
+    spotlightMeta: "2026年6月3日"
+    date: "2026-06-03"
+    visibleUntil: "2026-07-03"
+  - id: "middle-entry"
+    href: "/news/2/middle-entry"
+    imageAlt: "Middle entry"
+    imageSrc: "/news/2/thumbnail.png"
+    title: "Middle entry"
+    meta: "News"
+    indicatorLabel: "Show middle entry"
+    spotlightMeta: "2026年6月2日"
+    date: "2026-06-02"
+    visibleUntil: "2026-07-02"
+`,
+    );
+
+    const activeContent = getActiveSiteNoticeFeaturedContent({
+      contentRoot: tempRoot,
+      random: () => 0,
+      today: "2026-06-04",
+    });
+
+    assert.deepEqual(
+      toPlainJson(activeContent.items.map((item) => item.id)),
+      ["latest-entry", "middle-entry", "older-entry"],
+    );
+  } finally {
+    fs.rmSync(tempRoot, { force: true, recursive: true });
+  }
 });
 
 test("site notice tracking hrefs add UTM only for QueryPie-owned URLs", () => {
