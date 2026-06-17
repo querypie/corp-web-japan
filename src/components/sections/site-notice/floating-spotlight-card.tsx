@@ -1,7 +1,7 @@
 "use client";
 
-import type { FocusEvent } from "react";
-import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import type { CSSProperties, FocusEvent } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,11 +21,14 @@ import {
   sendSiteNoticeViewEvent,
 } from "@/lib/site-notice-analytics";
 import { createSiteNoticeTrackingHref } from "@/lib/site-notice-utm";
+import { calculateSpotlightCardTop, resolveSpotlightPositionPercentage } from "./floating-spotlight-card-position";
 
 type FloatingSpotlightCardProps = Pick<
   ActiveSiteNoticeFeaturedContent,
   "items" | "nextLabel" | "previousLabel" | "spotlightCtaLabel" | "spotlightDismissLabel" | "spotlightLabel"
 > & {
+  spotlightPositionAsof?: string;
+  spotlightYPosition?: number;
   rotationIntervalMs?: number;
 };
 
@@ -92,11 +95,18 @@ export function FloatingSpotlightCard({
   spotlightCtaLabel,
   spotlightDismissLabel,
   spotlightLabel,
+  spotlightPositionAsof,
+  spotlightYPosition,
   rotationIntervalMs = defaultRotationIntervalMs,
 }: FloatingSpotlightCardProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [spotlightPositionPercentage, setSpotlightPositionPercentage] = useState(() =>
+    resolveSpotlightPositionPercentage(spotlightPositionAsof, undefined, spotlightYPosition),
+  );
+  const [spotlightPositionTop, setSpotlightPositionTop] = useState<number | null>(null);
+  const spotlightCardRef = useRef<HTMLElement | null>(null);
   const viewedItemIdsRef = useRef<Set<string>>(new Set());
   const visibilityState = useSyncExternalStore(
     subscribeToSiteNoticeVisibilityStore,
@@ -110,6 +120,39 @@ export function FloatingSpotlightCard({
   const normalizedActiveIndex = renderableItems.length > 0 ? activeIndex % renderableItems.length : 0;
   const activeItem = renderableItems[normalizedActiveIndex] ?? renderableItems[0];
   const canRotate = renderableItems.length > 1 && rotationIntervalMs > 0;
+
+  const updateSpotlightPosition = useCallback(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const cardElement = spotlightCardRef.current;
+
+    if (!cardElement) {
+      return;
+    }
+
+    const nextPositionPercentage = resolveSpotlightPositionPercentage(
+      spotlightPositionAsof,
+      undefined,
+      spotlightYPosition,
+    );
+    const mainElement = cardElement.closest("main") ?? document.querySelector("main");
+    const mainRect = mainElement?.getBoundingClientRect();
+    const cardRect = cardElement.getBoundingClientRect();
+    const nextPositionTop = calculateSpotlightCardTop({
+      cardHeight: cardRect.height,
+      mainContentBottom: mainRect?.bottom ?? window.innerHeight,
+      mainContentTop: mainRect?.top ?? 0,
+      positionPercentage: nextPositionPercentage,
+      viewportHeight: window.innerHeight,
+    });
+
+    setSpotlightPositionPercentage((currentValue) =>
+      currentValue === nextPositionPercentage ? currentValue : nextPositionPercentage,
+    );
+    setSpotlightPositionTop((currentValue) => (currentValue === nextPositionTop ? currentValue : nextPositionTop));
+  }, [spotlightPositionAsof, spotlightYPosition]);
 
   useEffect(() => {
     if (!canRotate || isPaused || prefersReducedMotion()) {
@@ -136,6 +179,74 @@ export function FloatingSpotlightCard({
     viewedItemIdsRef.current.add(activeItem.id);
     sendSiteNoticeViewEvent(activeItem, "card");
   }, [activeItem, isVisible]);
+
+  useLayoutEffect(() => {
+    if (!activeItem || !isVisible) {
+      return;
+    }
+
+    let animationFrameId: number | null = null;
+    let minuteTimeoutId: number | null = null;
+
+    const requestSpotlightPositionUpdate = () => {
+      if (animationFrameId !== null) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
+
+      animationFrameId = window.requestAnimationFrame(() => {
+        animationFrameId = null;
+        updateSpotlightPosition();
+      });
+    };
+
+    const scheduleNextMinuteUpdate = () => {
+      const now = new Date();
+      const nextMinuteDelayMs = 60000 - (now.getSeconds() * 1000 + now.getMilliseconds());
+
+      minuteTimeoutId = window.setTimeout(() => {
+        updateSpotlightPosition();
+        scheduleNextMinuteUpdate();
+      }, nextMinuteDelayMs);
+    };
+
+    const cardElement = spotlightCardRef.current;
+    const mainElement = cardElement?.closest("main") ?? document.querySelector("main");
+    let resizeObserver: ResizeObserver | null = null;
+
+    requestSpotlightPositionUpdate();
+    window.addEventListener("resize", requestSpotlightPositionUpdate);
+    window.addEventListener("scroll", requestSpotlightPositionUpdate, { passive: true });
+
+    if (typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(requestSpotlightPositionUpdate);
+
+      if (cardElement) {
+        resizeObserver.observe(cardElement);
+      }
+
+      if (mainElement) {
+        resizeObserver.observe(mainElement);
+      }
+    }
+
+    if (!spotlightPositionAsof && spotlightYPosition === undefined) {
+      scheduleNextMinuteUpdate();
+    }
+
+    return () => {
+      if (animationFrameId !== null) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
+
+      if (minuteTimeoutId !== null) {
+        window.clearTimeout(minuteTimeoutId);
+      }
+
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", requestSpotlightPositionUpdate);
+      window.removeEventListener("scroll", requestSpotlightPositionUpdate);
+    };
+  }, [activeItem, isVisible, spotlightPositionAsof, spotlightYPosition, updateSpotlightPosition]);
 
   const handleBlur = (event: FocusEvent<HTMLElement>) => {
     const nextFocusedElement = event.relatedTarget;
@@ -171,16 +282,26 @@ export function FloatingSpotlightCard({
     return null;
   }
 
+  const spotlightCardStyle: CSSProperties | undefined =
+    spotlightPositionTop === null
+      ? undefined
+      : {
+          top: `${spotlightPositionTop}px`,
+        };
+
   return (
     <aside
       {...componentNameDebugProps("FloatingSpotlightCard")}
       aria-label={spotlightLabel}
       className="fixed right-6 top-1/4 z-[900] hidden w-72 lg:block"
+      data-position-percentage={spotlightPositionPercentage}
       data-testid="floating-spotlight-card"
       onBlurCapture={handleBlur}
       onFocusCapture={() => setIsPaused(true)}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      ref={spotlightCardRef}
+      style={spotlightCardStyle}
     >
       <div className="relative overflow-hidden rounded-lg border border-slate-300 bg-white p-4 shadow-[0_18px_40px_rgba(13,28,47,0.16)]">
         <div className="mb-3 flex items-center justify-between">

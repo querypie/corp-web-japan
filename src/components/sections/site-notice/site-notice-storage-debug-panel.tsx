@@ -1,6 +1,7 @@
 "use client";
 
 import { RefreshCw, Trash2 } from "lucide-react";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 import {
@@ -10,10 +11,15 @@ import {
   type ParsedSiteNoticeSpotlightRecord,
   type SiteNoticeLocalStorageEntry,
 } from "@/lib/site-notice-spotlight-storage";
+import { spotlightYPositionParamName } from "./floating-spotlight-card-position";
 
 type ParsedEntry = SiteNoticeLocalStorageEntry & {
   error: string | null;
   records: ParsedSiteNoticeSpotlightRecord[];
+};
+
+type SiteNoticeStorageDebugPanelProps = {
+  spotlightYPosition?: number;
 };
 
 const codeClassName = "rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[13px] text-slate-950";
@@ -21,6 +27,20 @@ const secondaryButtonClassName =
   "inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-950 transition hover:border-slate-400 hover:bg-slate-50 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400";
 const dangerButtonClassName =
   "inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-red-800 bg-red-800 px-3 py-2 text-sm font-semibold text-white transition hover:border-red-900 hover:bg-red-900 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400";
+
+function normalizeSpotlightYPositionInput(value: string) {
+  if (value === "") {
+    return value;
+  }
+
+  const nextValue = Number(value);
+
+  if (!Number.isFinite(nextValue)) {
+    return "";
+  }
+
+  return String(Math.min(Math.max(Math.round(nextValue), 0), 100));
+}
 
 function parseEntry(entry: SiteNoticeLocalStorageEntry): ParsedEntry {
   if (entry.key !== SITE_NOTICE_SPOTLIGHT_STORAGE_KEY) {
@@ -83,10 +103,14 @@ function removeSpotlightRecord(recordId: string) {
   window.localStorage.setItem(SITE_NOTICE_SPOTLIGHT_STORAGE_KEY, JSON.stringify(nextValue, null, 2));
 }
 
-export function SiteNoticeStorageDebugPanel() {
+export function SiteNoticeStorageDebugPanel({ spotlightYPosition }: SiteNoticeStorageDebugPanelProps) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [entries, setEntries] = useState<SiteNoticeLocalStorageEntry[]>([]);
   const [isReady, setIsReady] = useState(false);
   const [message, setMessage] = useState("");
+  const [spotlightYPositionValue, setSpotlightYPositionValue] = useState<string | null>(null);
+  const searchParamsString = searchParams.toString();
 
   const refreshEntries = useCallback((nextMessage?: string) => {
     setEntries(readEntries());
@@ -104,6 +128,29 @@ export function SiteNoticeStorageDebugPanel() {
 
   const parsedEntries = useMemo(() => entries.map(parseEntry), [entries]);
   const totalRecords = parsedEntries.reduce((sum, entry) => sum + entry.records.length, 0);
+  const resolvedSpotlightYPositionValue = spotlightYPositionValue ?? String(spotlightYPosition ?? 50);
+  const preservedSearchParams = useMemo(() => {
+    const params = new URLSearchParams(searchParamsString);
+
+    params.delete(spotlightYPositionParamName);
+    params.delete("asof");
+
+    return Array.from(params.entries());
+  }, [searchParamsString]);
+  const resetHref = useMemo(() => {
+    const params = new URLSearchParams();
+
+    for (const [key, value] of preservedSearchParams) {
+      params.append(key, value);
+    }
+
+    const query = params.toString();
+
+    return query ? `${pathname}?${query}` : pathname;
+  }, [pathname, preservedSearchParams]);
+  const updateSpotlightYPositionValue = (value: string) => {
+    setSpotlightYPositionValue(normalizeSpotlightYPositionInput(value));
+  };
 
   const deleteKey = (key: string) => {
     try {
@@ -168,6 +215,64 @@ export function SiteNoticeStorageDebugPanel() {
             <dd className="mt-2 text-2xl font-semibold text-slate-950">{isReady ? totalRecords : "-"}</dd>
           </div>
         </dl>
+
+        <section
+          className="mt-5 rounded-lg border border-slate-200 bg-white p-5"
+          aria-labelledby="spotlight-y-position-heading"
+        >
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h3 id="spotlight-y-position-heading" className="text-xl font-semibold text-slate-950">
+                Spotlight Y Position
+              </h3>
+              <p className="mt-1 text-sm text-slate-600">
+                Override the Floating Spotlight Card vertical position for internal review.
+              </p>
+            </div>
+            <p className="text-sm font-medium text-slate-600">
+              Current override: {spotlightYPosition === undefined ? "Off" : `${spotlightYPosition}%`}
+            </p>
+          </div>
+          <form className="mt-5 grid gap-4 md:grid-cols-[minmax(180px,1fr)_minmax(260px,3fr)_auto_auto_auto]" method="get">
+            {preservedSearchParams.map(([key, value], index) => (
+              <input key={`${key}-${index}`} type="hidden" name={key} value={value} />
+            ))}
+            <input type="hidden" name={spotlightYPositionParamName} value={resolvedSpotlightYPositionValue} />
+            <label className="flex items-center text-sm font-semibold text-slate-950" htmlFor="spotlight-y-position">
+              Y Position
+            </label>
+            <input
+              className="h-10 w-full cursor-pointer accent-slate-950"
+              id="spotlight-y-position"
+              max="100"
+              min="0"
+              onChange={(event) => updateSpotlightYPositionValue(event.target.value)}
+              step="1"
+              type="range"
+              value={resolvedSpotlightYPositionValue || "0"}
+            />
+            <label className="flex min-h-10 items-center gap-2 text-sm font-semibold text-slate-950">
+              <span className="sr-only">Y Position value</span>
+              <input
+                aria-label="Y Position value"
+                className="h-10 w-20 rounded-md border border-slate-300 px-3 py-2 text-right text-sm text-slate-950"
+                max="100"
+                min="0"
+                onChange={(event) => updateSpotlightYPositionValue(event.target.value)}
+                step="1"
+                type="number"
+                value={resolvedSpotlightYPositionValue}
+              />
+              <span aria-hidden="true">%</span>
+            </label>
+            <button className={secondaryButtonClassName} type="submit">
+              Apply
+            </button>
+            <a className={secondaryButtonClassName} href={resetHref}>
+              Reset
+            </a>
+          </form>
+        </section>
 
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <button className={secondaryButtonClassName} type="button" onClick={() => refreshEntries()}>

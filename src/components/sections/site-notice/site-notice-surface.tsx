@@ -3,7 +3,13 @@ import { TopAnnouncementBar } from "@/components/sections/site-notice/top-announ
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 import { getActiveSiteNoticeFeaturedContent } from "@/lib/site-notice";
 
-export function SiteNoticeSurface({ className }: { className?: string } = {}) {
+type SiteNoticeSurfaceProps = {
+  className?: string;
+  spotlightPositionAsof?: string;
+  spotlightYPosition?: number;
+};
+
+export function SiteNoticeSurface({ className, spotlightPositionAsof, spotlightYPosition }: SiteNoticeSurfaceProps = {}) {
   const content = getActiveSiteNoticeFeaturedContent();
 
   if (!content) {
@@ -20,6 +26,8 @@ export function SiteNoticeSurface({ className }: { className?: string } = {}) {
         spotlightCtaLabel={content.spotlightCtaLabel}
         spotlightDismissLabel={content.spotlightDismissLabel}
         spotlightLabel={content.spotlightLabel}
+        spotlightPositionAsof={spotlightPositionAsof}
+        spotlightYPosition={spotlightYPosition}
       />
     </div>
   );
