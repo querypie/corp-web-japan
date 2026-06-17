@@ -29,7 +29,7 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
   );
   assert.match(aiCrewDataSource, /href: aiCrewWhitepaperUrl|href=\{aiCrewWhitepaperUrl\}/);
 
-  assert.match(topPage, /<FloatingConversionCta href={topPageFloatingCtaUrl} \/>/);
+  assert.doesNotMatch(topPage, /FloatingConversionCta/);
   assert.match(`${topPageDataSource}
 ${topPage}`, /primaryCta: \{ label: "お問い合わせ", href: topPageHeroContactUrl \}|<HeroPrimaryAction href=\{topPageHeroContactUrl\}>お問い合わせ<\/HeroPrimaryAction>/);
   assert.match(`${topPageDataSource}
