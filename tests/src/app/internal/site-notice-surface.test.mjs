@@ -42,6 +42,7 @@ test("site notice surface renders on the configured internal and public pages", 
     "src/app/about-us/page.tsx",
     "src/app/events/page.tsx",
     "src/app/internal/page.tsx",
+    "src/app/internal/site-notice/page.tsx",
     "src/app/page.tsx",
     "src/app/resources/page.tsx",
   ];
@@ -85,8 +86,11 @@ test("/internal/site-notice exposes the site notice operation debug surface", ()
   assert.match(pageSource, /follow:\s*false/);
   assert.match(pageSource, /export const revalidate = 3600;/);
   assert.match(pageSource, /loadSiteNoticeFeaturedContent/);
+  assert.match(pageSource, /parseSpotlightPositionAsof/);
+  assert.match(pageSource, /parseSpotlightYPosition/);
+  assert.match(pageSource, /<SiteNoticeSurface spotlightPositionAsof=\{spotlightPositionAsof\} spotlightYPosition=\{spotlightYPosition\} \/>/);
   assert.match(pageSource, /<SiteNoticeDataDebugPanel content=\{content\} \/>/);
-  assert.match(pageSource, /<SiteNoticeStorageDebugPanel \/>/);
+  assert.match(pageSource, /<SiteNoticeStorageDebugPanel spotlightYPosition=\{spotlightYPosition\} \/>/);
 
   const dataPanelSource = readSource("src/components/sections/site-notice/site-notice-data-debug-panel.tsx");
   assert.match(dataPanelSource, /src\/content\/site-notice\/featured\.ja\.yaml/);
@@ -97,6 +101,9 @@ test("/internal/site-notice exposes the site notice operation debug surface", ()
   const storagePanelSource = readSource("src/components/sections/site-notice/site-notice-storage-debug-panel.tsx");
   assert.match(storagePanelSource, /listSiteNoticeLocalStorageEntries/);
   assert.match(storagePanelSource, /parseSiteNoticeSpotlightVisibilityRecords/);
+  assert.match(storagePanelSource, /Spotlight Y Position/);
+  assert.match(storagePanelSource, /spotlightYPositionParamName/);
+  assert.match(storagePanelSource, /Current override:/);
   assert.match(storagePanelSource, /Delete all site-notice data/);
   assert.match(storagePanelSource, /componentNameDebugProps\("SiteNoticeStorageDebugPanel"\)/);
 });
@@ -343,6 +350,92 @@ test("spotlight storage helpers use 30-day localStorage visibility records", () 
     {},
   );
   assert.equal(state.has(SITE_NOTICE_SPOTLIGHT_STORAGE_KEY), false);
+});
+
+test("spotlight position helpers map minute buckets and visible main placement", () => {
+  const {
+    calculateSpotlightCardTop,
+    parseSpotlightPositionAsof,
+    parseSpotlightYPosition,
+    resolveSpotlightPositionPercentage,
+    spotlightCardPositionPercentages,
+    spotlightYPositionParamName,
+  } = importModule("src/components/sections/site-notice/floating-spotlight-card-position.ts");
+
+  assert.deepEqual(toPlainJson(spotlightCardPositionPercentages), [
+    25,
+    30,
+    35,
+    40,
+    45,
+    50,
+    55,
+    60,
+    65,
+    70,
+    75,
+    80,
+    85,
+    90,
+    95,
+  ]);
+  assert.equal(spotlightYPositionParamName, "spotlightY");
+  assert.deepEqual(toPlainJson(parseSpotlightPositionAsof("00:59:59")), {
+    hours: 0,
+    minutes: 59,
+    seconds: 59,
+  });
+  assert.equal(parseSpotlightPositionAsof("24:00:00"), null);
+  assert.equal(parseSpotlightPositionAsof("00:60:00"), null);
+  assert.equal(resolveSpotlightPositionPercentage("00:03:59"), 25);
+  assert.equal(resolveSpotlightPositionPercentage("00:04:00"), 30);
+  assert.equal(resolveSpotlightPositionPercentage("00:59:59"), 95);
+  assert.equal(resolveSpotlightPositionPercentage(undefined, new Date("2026-06-12T00:16:00.000Z")), 45);
+  assert.equal(parseSpotlightYPosition("100"), 100);
+  assert.equal(parseSpotlightYPosition("101"), 100);
+  assert.equal(parseSpotlightYPosition("-1"), 0);
+  assert.equal(resolveSpotlightPositionPercentage("00:04:00", new Date("2026-06-12T00:00:00.000Z"), 100), 100);
+
+  assert.equal(
+    calculateSpotlightCardTop({
+      cardHeight: 200,
+      mainContentBottom: 800,
+      mainContentTop: 100,
+      positionPercentage: 25,
+      viewportHeight: 900,
+    }),
+    225,
+  );
+  assert.equal(
+    calculateSpotlightCardTop({
+      cardHeight: 200,
+      mainContentBottom: 800,
+      mainContentTop: 100,
+      positionPercentage: 95,
+      viewportHeight: 900,
+    }),
+    575,
+  );
+  assert.equal(
+    calculateSpotlightCardTop({
+      cardHeight: 200,
+      mainContentBottom: 800,
+      mainContentTop: 100,
+      positionPercentage: 0,
+      viewportHeight: 900,
+    }),
+    100,
+  );
+  assert.equal(
+    calculateSpotlightCardTop({
+      cardHeight: 200,
+      mainContentBottom: 800,
+      mainContentTop: 100,
+      positionPercentage: 100,
+      viewportHeight: 900,
+    }),
+    600,
+  );
 });
 
 test("site notice analytics params use GA4 promotion fields", () => {
