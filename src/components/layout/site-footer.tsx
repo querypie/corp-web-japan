@@ -40,7 +40,6 @@ export async function SiteFooter() {
       links: [
         { label: "社内業務効率化｜AI Crew", href: "/solutions/ai-crew" },
         { label: "自社サービスAI化｜AI Dashi", href: "/solutions/ai-dashi" },
-        { label: "IBM i（AS/400）モダナイゼーション", href: "/solutions/as400-cobol" },
       ],
     },
     {

@@ -7,7 +7,6 @@ const expectedHeaderLinks = [
   'label: "AIプラットフォーム｜AIP", href: "/platforms/aip"',
   'label: "アクセス制御プラットフォーム｜ACP", href: "/platforms/acp"',
   'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
-  'label: "IBM i（AS/400）モダナイゼーション", href: "/solutions/as400-cobol"',
   'label: "活用事例", href: "/use-cases"',
   'label: "AIP機能", href: "/demo/aip"',
   'label: "ACP機能", href: "/demo/acp"',
@@ -26,7 +25,6 @@ const expectedFooterLinks = [
   'label: "AIプラットフォーム｜AIP", href: "/platforms/aip"',
   'label: "アクセス制御プラットフォーム｜ACP", href: "/platforms/acp"',
   'label: "AI専門家伴走支援｜FDE", href: "/services/fde"',
-  'label: "IBM i（AS/400）モダナイゼーション", href: "/solutions/as400-cobol"',
   'label: "活用事例", href: "/use-cases"',
   'label: "AIP 機能", href: "/demo/aip"',
   'label: "ACP 機能", href: "/demo/acp"',
@@ -69,14 +67,8 @@ test("navigation surfaces point to the canonical local and redirect endpoints", 
     assert.ok(resourceSidebar.includes(expected), `missing sidebar link: ${expected}`);
   }
 
-  assert.match(
-    siteHeader,
-    /label: "ソリューション"[\s\S]*label: "IBM i（AS\/400）モダナイゼーション", href: "\/solutions\/as400-cobol"[\s\S]*label: "デモ"/,
-  );
-  assert.match(
-    siteFooter,
-    /title: "ソリューション"[\s\S]*label: "IBM i（AS\/400）モダナイゼーション", href: "\/solutions\/as400-cobol"[\s\S]*title: "デモ"/,
-  );
+  assert.doesNotMatch(siteHeader, /href:\s*"\/solutions\/as400-cobol"/);
+  assert.doesNotMatch(siteFooter, /href:\s*"\/solutions\/as400-cobol"/);
   assert.doesNotMatch(
     siteHeader,
     /label: "サービス"[\s\S]*label: "IBM i（AS\/400）モダナイゼーション", href: "\/solutions\/as400-cobol"[\s\S]*label: "ソリューション"/,
@@ -152,6 +144,7 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.match(plansAipPage, /canonical:\s*"\/plans\/aip"/);
   assert.match(plansAcpPage, /canonical:\s*"\/plans\/acp"/);
   assert.match(as400CobolPage, /canonical:\s*"\/solutions\/as400-cobol"/);
+  assert.match(as400CobolPage, /robots:\s*\{\s*index:\s*false,\s*follow:\s*true,\s*\}/s);
   for (const [route, page] of acpChildPages) {
     assert.match(page, new RegExp(`canonical:\\s*"\\/platforms\\/acp\\/${route}"`));
   }
@@ -167,7 +160,7 @@ test("public resource rollout replaced the old redirect endpoints with page rout
   assert.match(sitemap, /absoluteUrl\("\/demo\/aip", deployedSiteUrl\)/);
   assert.match(sitemap, /absoluteUrl\("\/demo\/acp", deployedSiteUrl\)/);
   assert.match(sitemap, /absoluteUrl\("\/services\/fde", deployedSiteUrl\)/);
-  assert.match(sitemap, /absoluteUrl\("\/solutions\/as400-cobol", deployedSiteUrl\)/);
+  assert.doesNotMatch(sitemap, /absoluteUrl\("\/solutions\/as400-cobol", deployedSiteUrl\)/);
   assert.match(sitemap, /absoluteUrl\("\/platforms\/acp", deployedSiteUrl\)/);
   assert.match(sitemap, /absoluteUrl\("\/platforms\/acp\/integrations", deployedSiteUrl\)/);
   assert.match(sitemap, /absoluteUrl\("\/plans", deployedSiteUrl\)/);
