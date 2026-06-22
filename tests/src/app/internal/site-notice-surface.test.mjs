@@ -114,7 +114,7 @@ test("site notice YAML uses local Japanese featured content and explicit visibil
   assert.equal(sourceExists("src/content/site-notice/featured.ko.yaml"), false);
   assert.equal(siteNoticeContent.ariaLabel, "最新のお知らせ");
   assert.equal(siteNoticeContent.viewAllHref, "/news");
-  assert.equal(siteNoticeContent.items.length, 4);
+  assert.equal(siteNoticeContent.items.length, 3);
 
   const expectedItems = [
     {
@@ -138,13 +138,6 @@ test("site notice YAML uses local Japanese featured content and explicit visibil
       imageSrc: "/news/18/thumbnail.png",
       visibleUntil: "2026-07-09",
     },
-    {
-      date: "2026-06-16",
-      href: "/solutions/as400-cobol",
-      id: "as400-cobol-modernization",
-      imageSrc: "/solutions/as400-cobol/hero-modernization-flow.png",
-      visibleUntil: "2026-07-16",
-    },
   ];
 
   assert.deepEqual(
@@ -162,11 +155,15 @@ test("site notice YAML uses local Japanese featured content and explicit visibil
     assert.match(item.id, /^[a-z0-9]+(?:-[a-z0-9]+)+$/);
     assert.match(item.date, /^\d{4}-\d{2}-\d{2}$/);
     assert.match(item.visibleUntil, /^\d{4}-\d{2}-\d{2}$/);
-    assert.match(item.href, /^(?:\/news\/\d+\/|\/solutions\/as400-cobol$)/);
+    assert.match(item.href, /^\/news\/\d+\//);
     assert.equal(sourceExists(`public${item.imageSrc}`), true, `${item.imageSrc} should exist`);
   }
 
   assert.equal(sourceExists("src/app/solutions/as400-cobol/page.tsx"), true);
+  assert.doesNotMatch(
+    readSource("src/content/site-notice/featured.ja.yaml"),
+    /\/solutions\/as400-cobol/,
+  );
 });
 
 test("site notice loader validates and filters active featured items", () => {
@@ -174,20 +171,17 @@ test("site notice loader validates and filters active featured items", () => {
     importModule("src/lib/site-notice.ts");
 
   const loadedContent = loadSiteNoticeFeaturedContent();
-  assert.equal(loadedContent.items.length, 4);
+  assert.equal(loadedContent.items.length, 3);
   assert.equal(loadedContent.items[0].visibleUntil, "2026-07-04");
 
   const activeContent = getActiveSiteNoticeFeaturedContent({ random: () => 0, today: "2026-07-05" });
   assert.deepEqual(
     toPlainJson(activeContent.items.map((item) => item.id)),
-    ["as400-cobol-modernization", "notepie-release", "lingo-release"],
+    ["notepie-release", "lingo-release"],
   );
   assert.equal("visibleUntil" in activeContent.items[0], false);
 
-  assert.deepEqual(
-    getActiveSiteNoticeFeaturedContent({ today: "2026-07-10" }).items.map((item) => item.id),
-    ["as400-cobol-modernization"],
-  );
+  assert.equal(getActiveSiteNoticeFeaturedContent({ today: "2026-07-10" }), null);
   assert.equal(getActiveSiteNoticeFeaturedContent({ today: "2026-07-17" }), null);
   assert.throws(() => getActiveSiteNoticeFeaturedContent({ today: "2026/07/05" }), /YYYY-MM-DD/);
 });

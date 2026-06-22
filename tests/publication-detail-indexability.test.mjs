@@ -42,7 +42,6 @@ const publicIndexableListRoutes = [
   "src/app/platforms/acp/kubernetes-access-controller/page.tsx",
   "src/app/platforms/acp/web-access-controller/page.tsx",
   "src/app/services/fde/page.tsx",
-  "src/app/solutions/as400-cobol/page.tsx",
   "src/app/plans/page.tsx",
   "src/app/plans/aip/page.tsx",
   "src/app/plans/acp/page.tsx",
@@ -60,6 +59,18 @@ test("public MDX-backed detail routes are indexable for search engines", () => {
       `${routePath} should explicitly allow indexing`,
     );
   }
+});
+
+test("accessible hidden solution routes stay noindex", () => {
+  const routePath = "src/app/solutions/as400-cobol/page.tsx";
+  const source = read(routePath);
+
+  assert.match(source, /canonical:\s*"\/solutions\/as400-cobol"/);
+  assert.match(
+    source,
+    /robots:\s*\{\s*index:\s*false,\s*follow:\s*true,\s*\}/s,
+    `${routePath} should stay directly accessible but noindex`,
+  );
 });
 
 test("public MDX-backed list routes are indexable for search engines", () => {
