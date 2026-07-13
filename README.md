@@ -115,6 +115,16 @@ Whitepaper gating contract:
 - The shared gating helpers live in `src/lib/publications/gating.ts`.
 - The internal reference route for the current pattern is `/internal/whitepaper-gating-form`.
 
+Lead form delivery:
+
+- Lead-bearing form submissions use the existing Salesforce-shaped `LEAD_MS` request body.
+- `/contact-us/submit` handles the Contact Us page.
+- `/api/gating-form/unlock` handles gated whitepaper, introduction deck, PDF/download, and internal test form submissions.
+- Both submit paths send a fire-and-forget DeskPie Lead request through `src/lib/forms/server/deskpie-lead-delivery.ts`.
+- DeskPie delivery is enabled only when both server-side environment variables are present: `DESKPIE_LEAD_API_ENDPOINT` and `DESKPIE_LEAD_API_KEY`.
+- Keep production Vercel env pointed at the production DeskPie public lead endpoint/key, and non-production Vercel env pointed at the development DeskPie endpoint/key.
+- Missing DeskPie env or delivery failures must not block the user-facing form response.
+
 ## Human quick start
 
 1. Read this README for project context.
