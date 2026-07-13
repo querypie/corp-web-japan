@@ -154,10 +154,12 @@ export const buildContactUsSalesforceBody = (
   form: ContactUsFormState,
   referrerUrl: string,
 ) => {
+  const product = form.products.map(toOptionLabel).join(", ");
+  const plannedImplementationDate = form.timeline;
   const descriptionParts = [
     `RequestURI: ${referrerUrl}`,
-    `Product: ${form.products.map(toOptionLabel).join(", ")}`,
-    `PlannedImplementationDate: ${form.timeline}`,
+    `Product: ${product}`,
+    `PlannedImplementationDate: ${plannedImplementationDate}`,
   ];
 
   if (form.message.trim()) {
@@ -175,6 +177,8 @@ export const buildContactUsSalesforceBody = (
       Objective__c: toOptionLabel(form.inquiry),
       Questions__c: form.message.trim() || undefined,
       Description: descriptionParts.join("\n"),
+      Product: product,
+      PlannedImplementationDate: plannedImplementationDate,
       HasOptedInMarketing__c: form.marketing,
       Referrer_URL__c: referrerUrl,
     },

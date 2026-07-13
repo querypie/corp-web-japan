@@ -90,3 +90,27 @@ test("client gating UI re-syncs when preview toggle refreshes the server prop", 
   assert.match(gatedClient, /import \{ useEffect, useState \} from "react"/);
   assert.match(gatedClient, /useEffect\(\(\) => \{\s*setUnlocked\(initiallyUnlocked\);\s*\}, \[initiallyUnlocked\]\);/s);
 });
+
+test("all gated lead form surfaces submit through the DeskPie-connected gating API", () => {
+  const gatedContent = readSource("src/components/sections/publication/gated-content.tsx");
+  const downloadGatePage = readSource("src/components/sections/whitepapers/download-gate-page.tsx");
+  const internalDemoPage = readSource("src/app/internal/whitepaper-gating-form/page.tsx");
+  const whitepaperDetailPage = readSource("src/app/whitepapers/[id]/[slug]/page.tsx");
+  const whitepaperPdfPage = readSource("src/app/whitepapers/[id]/[slug]/pdf/page.tsx");
+  const introductionDeckDetailPage = readSource("src/app/introduction-deck/[id]/[slug]/page.tsx");
+  const gatingSubmit = readSource("src/lib/gating-form-submit.ts");
+
+  assert.match(gatedContent, /fetch\("\/api\/gating-form\/unlock"/);
+  assert.match(downloadGatePage, /fetch\("\/api\/gating-form\/unlock"/);
+  assert.match(downloadGatePage, /fetch\("\/api\/gating-form\/preview-unlock"/);
+
+  for (const source of [internalDemoPage, whitepaperDetailPage, introductionDeckDetailPage]) {
+    assert.match(source, /post\.gating/);
+    assert.match(source, /buildGatingCookieName\(post\.gating\.contentKey\)/);
+  }
+
+  assert.match(whitepaperPdfPage, /WhitepaperDownloadGatePage/);
+  assert.match(gatingSubmit, /deliverDeskPieLeadPayload/);
+  assert.match(gatingSubmit, /endpointName:\s*"gating-form"/);
+  assert.match(gatingSubmit, /requestPath:\s*"\/api\/gating-form\/unlock"/);
+});
