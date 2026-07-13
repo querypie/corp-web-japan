@@ -23,6 +23,7 @@ test("contact-us submit caller composes reusable shared form server modules", ()
   assert.match(helper, /sanitizeRecordStrings/);
   assert.match(helper, /toSalesforceUtmFields/);
   assert.match(helper, /postSlackNotification/);
+  assert.match(helper, /deliverDeskPieLeadPayload/);
   assert.doesNotMatch(helper, /deliverSalesforcePayload/);
   assert.match(helper, /buildContactUsSalesforceBody/);
   assert.match(helper, /endpointName:\s*"contact-us"/);
@@ -30,7 +31,7 @@ test("contact-us submit caller composes reusable shared form server modules", ()
   assert.match(contactUsLib, /processType:\s*"LEAD_MS"/);
 });
 
-test("contact-us submit sends only the Slack notification while Salesforce is paused", async () => {
+test("contact-us submit sends Slack and optional DeskPie lead while Salesforce is paused", async () => {
   const dnsMock = {
     Resolver: class {
       async resolveMx() {
@@ -38,22 +39,31 @@ test("contact-us submit sends only the Slack notification while Salesforce is pa
       }
     },
   };
-  const { importModule } = createTsModuleLoader({ "node:dns/promises": dnsMock });
+  const { importModule } = createTsModuleLoader({
+    "node:dns/promises": dnsMock,
+    "next/server": { after: (callback) => void callback() },
+  });
   const { submitContactUsForm } = importModule("src/lib/contact-us-submit.ts");
 
   const previousSlackToken = process.env.SLACK_BOT_OAUTH_TOKEN;
   const previousSlackChannel = process.env.SLACK_CHANNEL_ALERT_WEBSITE_BUSINESS_INQUIRIES;
   const previousSalesforceEndpoint = process.env.SALESFORCE_ENDPOINT;
+  const previousDeskPieEndpoint = process.env.DESKPIE_LEAD_API_ENDPOINT;
+  const previousDeskPieApiKey = process.env.DESKPIE_LEAD_API_KEY;
   const originalFetch = global.fetch;
   const originalInfo = console.info;
   const fetchUrls = [];
+  const fetchBodies = [];
 
   process.env.SLACK_BOT_OAUTH_TOKEN = "xoxb-test";
   process.env.SLACK_CHANNEL_ALERT_WEBSITE_BUSINESS_INQUIRIES = "C123";
   process.env.SALESFORCE_ENDPOINT = "https://sf.example.com";
+  process.env.DESKPIE_LEAD_API_ENDPOINT = "https://deskpie.example.com/api/v1/public/leads";
+  process.env.DESKPIE_LEAD_API_KEY = "deskpie-key";
   console.info = () => {};
-  global.fetch = async (url) => {
+  global.fetch = async (url, init) => {
     fetchUrls.push(String(url));
+    fetchBodies.push(init?.body);
     return {
       ok: true,
       json: async () => ({ ok: true }),
@@ -82,12 +92,91 @@ test("contact-us submit sends only the Slack notification while Salesforce is pa
     );
 
     assert.deepEqual(toPlainJson(result), { success: true, status: 200 });
-    assert.deepEqual(fetchUrls, ["https://slack.com/api/chat.postMessage"]);
+    assert.deepEqual(fetchUrls, [
+      "https://deskpie.example.com/api/v1/public/leads",
+      "https://slack.com/api/chat.postMessage",
+    ]);
+    const deskPieRequest = JSON.parse(fetchBodies[0]);
+    assert.equal(deskPieRequest.requestBody.Product, "AIプラットフォーム QueryPie AIP");
+    assert.equal(deskPieRequest.requestBody.PlannedImplementationDate, "3ヶ月以内");
   } finally {
     restoreEnv("SLACK_BOT_OAUTH_TOKEN", previousSlackToken);
     restoreEnv("SLACK_CHANNEL_ALERT_WEBSITE_BUSINESS_INQUIRIES", previousSlackChannel);
     restoreEnv("SALESFORCE_ENDPOINT", previousSalesforceEndpoint);
+    restoreEnv("DESKPIE_LEAD_API_ENDPOINT", previousDeskPieEndpoint);
+    restoreEnv("DESKPIE_LEAD_API_KEY", previousDeskPieApiKey);
     global.fetch = originalFetch;
+    console.info = originalInfo;
+  }
+});
+
+test("contact-us submit still succeeds and sends DeskPie lead when Slack credentials are missing", async () => {
+  const dnsMock = {
+    Resolver: class {
+      async resolveMx() {
+        return [{ exchange: "mail.querypie.com", priority: 10 }];
+      }
+    },
+  };
+  const { importModule } = createTsModuleLoader({
+    "node:dns/promises": dnsMock,
+    "next/server": { after: (callback) => void callback() },
+  });
+  const { submitContactUsForm } = importModule("src/lib/contact-us-submit.ts");
+
+  const previousSlackToken = process.env.SLACK_BOT_OAUTH_TOKEN;
+  const previousSlackChannel = process.env.SLACK_CHANNEL_ALERT_WEBSITE_BUSINESS_INQUIRIES;
+  const previousDeskPieEndpoint = process.env.DESKPIE_LEAD_API_ENDPOINT;
+  const previousDeskPieApiKey = process.env.DESKPIE_LEAD_API_KEY;
+  const originalFetch = global.fetch;
+  const originalWarn = console.warn;
+  const originalInfo = console.info;
+  const fetchUrls = [];
+
+  delete process.env.SLACK_BOT_OAUTH_TOKEN;
+  delete process.env.SLACK_CHANNEL_ALERT_WEBSITE_BUSINESS_INQUIRIES;
+  process.env.DESKPIE_LEAD_API_ENDPOINT = "https://deskpie.example.com/api/v1/public/leads";
+  process.env.DESKPIE_LEAD_API_KEY = "deskpie-key";
+  console.warn = () => {};
+  console.info = () => {};
+  global.fetch = async (url) => {
+    fetchUrls.push(String(url));
+    return {
+      ok: true,
+      json: async () => ({ leadId: "lead-123" }),
+    };
+  };
+
+  try {
+    const result = await submitContactUsForm(
+      {
+        form: {
+          lastName: "Yamada",
+          firstName: "Taro",
+          email: "taro@querypie.com",
+          company: "QueryPie",
+          title: "Manager",
+          phone: "090-1234-5678",
+          inquiry: "demo-request",
+          products: ["aip"],
+          timeline: "3ヶ月以内",
+          message: "Please contact me.",
+          marketing: false,
+        },
+        referrerUrl: "https://querypie.ai/contact-us",
+      },
+      "",
+    );
+
+    assert.deepEqual(toPlainJson(result), { success: true, status: 200 });
+    assert.deepEqual(fetchUrls, ["https://deskpie.example.com/api/v1/public/leads"]);
+  } finally {
+    restoreEnv("SLACK_BOT_OAUTH_TOKEN", previousSlackToken);
+    restoreEnv("SLACK_CHANNEL_ALERT_WEBSITE_BUSINESS_INQUIRIES", previousSlackChannel);
+    restoreEnv("DESKPIE_LEAD_API_ENDPOINT", previousDeskPieEndpoint);
+    restoreEnv("DESKPIE_LEAD_API_KEY", previousDeskPieApiKey);
+    global.fetch = originalFetch;
+    console.warn = originalWarn;
     console.info = originalInfo;
   }
 });

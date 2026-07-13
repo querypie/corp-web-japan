@@ -1,4 +1,4 @@
-export type ExternalApiService = "slack" | "salesforce" | "license";
+export type ExternalApiService = "slack" | "salesforce" | "license" | "deskpie";
 export type ExternalApiOutcome = "success" | "skipped" | "failed";
 
 export type ExternalApiLogEntry = {
