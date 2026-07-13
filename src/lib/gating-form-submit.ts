@@ -1,8 +1,10 @@
+import { after } from "next/server";
 import {
   buildGatingSalesforceBody,
   isGatingFormValid,
   type GatingFormState,
 } from "@/lib/gating-form";
+import { deliverDeskPieLeadPayload } from "@/lib/forms/server/deskpie-lead-delivery";
 import { hasValidMxRecord } from "@/lib/forms/server/email-deliverability";
 import { sanitizeRecordStrings, sanitizeText } from "@/lib/forms/server/sanitize";
 import { postSlackNotification } from "@/lib/forms/server/slack-notification";
@@ -68,20 +70,25 @@ export async function submitGatingForm(
     payload.utmAttribution,
   );
 
-  const slackResult = await postSlackNotification({
-    endpointName: "gating-form",
-    requestPath: "/api/gating-form/unlock",
-    requestBody: requestPayload.requestBody as Record<string, unknown>,
-    token: slackToken,
-    channel: slackChannel,
-    title: "New Gated Document Unlock Received",
-  });
-  if (!slackResult.ok) {
-    return {
-      success: false,
-      status: slackResult.reason === "missing_credentials" ? 500 : 502,
-      message: "限定コンテンツの送信処理に失敗しました。しばらくしてから再度お試しください。",
-    };
+  after(() =>
+    deliverDeskPieLeadPayload({
+      endpointName: "gating-form",
+      requestPath: "/api/gating-form/unlock",
+      payload: requestPayload,
+    }),
+  );
+
+  try {
+    await postSlackNotification({
+      endpointName: "gating-form",
+      requestPath: "/api/gating-form/unlock",
+      requestBody: requestPayload.requestBody as Record<string, unknown>,
+      token: slackToken,
+      channel: slackChannel,
+      title: "New Gated Document Unlock Received",
+    });
+  } catch (error) {
+    console.error("[gating-form] slack notification failed", error);
   }
 
   return {
