@@ -49,10 +49,22 @@ test("all corp-web-contents blog posts are migrated locally with stable id/slug 
   const targetPosts = listTargetPosts();
   const targetById = new Map(targetPosts.map((post) => [post.id, post]));
 
-  assert.equal(targetPosts.length, sourcePosts.length);
+  assert.ok(
+    targetPosts.length >= sourcePosts.length,
+    "local blog posts may include additional querypie.ai-native articles, but all source-backed posts must remain present",
+  );
   assert.deepEqual(
-    targetPosts.map(({ id, slug, author }) => ({ id, slug, author })),
     sourcePosts.map(({ id, slug, author }) => ({ id, slug, author })),
+    sourcePosts.map(({ id }) => {
+      const targetPost = targetById.get(id);
+      assert.ok(targetPost, `Missing local blog post for id=${id}`);
+
+      return {
+        id: targetPost.id,
+        slug: targetPost.slug,
+        author: targetPost.author,
+      };
+    }),
   );
 
   for (const sourcePost of sourcePosts) {
