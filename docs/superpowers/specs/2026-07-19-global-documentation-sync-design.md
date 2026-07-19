@@ -74,6 +74,10 @@ Outlinks are not required to appear in the sitemap because the Global sitemap
 intentionally excludes them. Any other disagreement between production and the
 repository fails closed for that item.
 
+Locale selection is deterministic: choose `ja.html` when it exists and is
+non-empty; otherwise choose non-empty `en.html`; otherwise mark the item
+ineligible. The selected locale is fixed before identity and hash calculation.
+
 ## Stable Identity and Provenance
 
 Each candidate uses the Global storage ID as its primary identity. URL, category,
@@ -108,19 +112,33 @@ The job checks records in this order:
 
 Repository state:
 
-- `.github/content-sync/baseline.json` records Global source IDs already
-  represented in Japan before automation begins.
-- `.github/content-sync/ignore.json` records explicit permanent exclusions and
-  reasons.
+- `.github/content-sync/baseline.json` is a source-ID-sorted array of records
+  containing `sourceId`, `sourceCategory`, `sourceSlug`, `targetFamily`,
+  `targetId`, and `targetSlug`. It is generated once, rejects duplicate source or
+  target identities, and is manually reviewed before scheduling is enabled.
+- `.github/content-sync/ignore.json` is a source-ID-sorted array containing
+  `sourceId`, `reason`, `addedBy`, and `addedAt` for explicit permanent
+  exclusions.
 - Pull request bodies contain a machine-readable JSON marker with provenance,
-  target family, run ID, and generated branch.
+  target family, target ID, run ID, and generated branch.
 
-Any open, merged, or closed pull request for a source ID blocks automatic
-regeneration, even when its source hash changes. A maintainer must explicitly
-apply the `content-sync:retry` label or remove an ignore entry to retry it. This
-ensures rejected or cancelled items do not return automatically.
+Any open, merged, or closed pull request for a source ID blocks scheduled
+regeneration, even when its source hash changes. Scheduled runs never consume
+retry labels. A maintainer may run `--retry <source-id>` only after applying the
+`content-sync:retry` label to that source's latest closed, unmerged pull request.
+The manual retry reuses the same deterministic branch and reopens that pull
+request; it never creates a second pull request. If the branch cannot be restored
+or the pull request cannot be reopened, retry fails closed and requires human
+cleanup. This ensures rejected or cancelled items do not return automatically.
 
-The initial scheduler opens at most one new Draft pull request per run.
+Target numeric IDs are allocated above the maximum ID found in current `main`
+content, every sync pull-request marker including closed pull requests, and
+every remote `content-sync/<source-id>` branch. Historical and branch-only IDs
+therefore remain reserved and cannot collide with an unmerged Draft. If any
+sync branch has no associated pull request, the scheduler reports
+`blocked_branch_only` and allocates no new candidate until that branch is
+resumed or removed. The initial scheduler opens at most one new Draft pull
+request per run.
 
 ## Components
 
@@ -140,7 +158,20 @@ A single Node.js CLI owns:
 - Commit, push, and Draft pull-request creation
 - Structured logs and final run summary
 
-The CLI does not translate or make editorial decisions.
+The CLI does not translate or make editorial decisions. It communicates with the
+agent and reviewers through validated JSON artifacts:
+
+1. `candidate.json`: immutable source evidence, selected locale, identity,
+   allocated target ID, and asset/link inventory
+2. `generation-report.json`: target files, source-to-target heading/figure/link
+   mappings, intentional transformations, and validation requests
+3. `content-review.json`: severity-ranked content findings
+4. `contract-review.json`: severity-ranked repository-contract findings
+5. `run-summary.json`: final status, exit code, timings, commands, and pull
+   request URL when created
+
+Missing or invalid artifacts, or any reviewer finding with severity `critical`
+or `major`, exits non-zero before commit or push.
 
 ### Agent Orchestration Skill
 
@@ -154,10 +185,20 @@ The skill owns:
 - Choosing `ja.html` when present
 - Translating `en.html` only when Japanese source is unavailable
 - Converting source HTML semantics into maintainable MDX
+- Removing source-only `style` and `data-*` attributes, flattening paragraph
+  wrappers inside lists, and rendering figures through existing MDX patterns
+- Keeping one caption when a source figure caption is immediately repeated as an
+  identical paragraph, and recording that deduplication as an intentional
+  formatting transformation rather than an omission
 - Applying the category-specific Japan presentation pattern
 - Rewriting internal routes and download behavior
-- Selecting evidence-based related content
-- Producing a provenance and intentional-deviation report
+- Resolving named authors by exact name against `src/content/authors/ja.yaml`;
+  unresolved named authors fail closed instead of falling back or being invented
+- Preserving mapped source related items; when source related IDs are empty, the
+  target relation list remains empty rather than being inferred
+- Producing a provenance report with complete source-to-target inventories for
+  headings, figures, captions, links, files, frontmatter, and intentional
+  deviations
 
 ### Fresh Reviewers
 
@@ -205,8 +246,12 @@ Locale priority:
    `sourceLanguage: "en"`.
 
 English fallback adds a stricter Japanese review covering naturalness,
-terminology, Japan-market phrasing, and preservation of factual claims. The job
-does not invent claims, dates, event details, author identities, or download
+terminology, Japan-market phrasing, and preservation of factual claims. Every
+output, including frontmatter, prose, alt text, and captions, is scanned for
+unresolved Korean characters; any residue fails review unless the report names
+an intentional proper noun. The reviewer also rejects awkward translation
+calques and inconsistent numbering or terminology. The job does not invent
+claims, dates, event details, author identities, related content, or download
 assets.
 
 ## Link and Asset Rules
@@ -214,23 +259,36 @@ assets.
 The generated item must:
 
 - Place all item-specific assets under `public/<family>/<target-id>/...`.
+- Convert the card/hero thumbnail to `thumbnail.png`; article figures may remain
+  WebP when supported by the existing renderer.
 - Use a route-aligned PNG as the effective Open Graph image.
 - Preserve or localize meaningful alt text and captions.
 - Verify every referenced local asset exists.
 - Rewrite Global internal publication links to canonical Japan routes when a
   corresponding local publication exists.
+- Copy owned root-relative Global file links under `/documentation/**`, including
+  Blog PDFs, into the target item's asset root and rewrite the link to the local
+  public path. If the source file is unavailable, preserve it only as an
+  absolute Global HTTPS URL after a successful request and document the choice;
+  otherwise fail closed.
 - Preserve valid external HTTPS links.
 - Apply the repository contact-us query-prefill contract when relevant.
-- Use the existing family-specific PDF and gating flow.
+- Use the existing family-specific PDF and gating flow when that family defines
+  one; a Blog file link remains an ordinary local file link and must not invent a
+  Whitepaper gating flow.
+- Require the generation report to list every source href and asset path beside
+  its target href, target path, or intentional omission.
 - Fail closed when a required asset or download cannot be resolved.
 
 ## Pull-request Contract
 
-Branch names are deterministic:
+Branch names depend only on stable source identity:
 
 ```text
-content-sync/<source-id>-<source-slug>
+content-sync/<source-id>
 ```
+
+A source slug change cannot create another branch for the same source ID.
 
 Each pull request:
 
@@ -244,27 +302,56 @@ Each pull request:
 
 ## Error Handling and Concurrency
 
-The runtime allows only one active sync job. A local Linux deployment uses
-`flock`; a container scheduler uses an equivalent non-overlap guard.
+The runtime allows only one active sync job. The supported deployment uses
+`flock` around the complete Linux-host execution. Failure to acquire the lock
+exits successfully with status `skipped_locked`; it never starts another
+worktree.
 
-Network operations use bounded retries with backoff. Git push and pull-request
-creation are never blindly retried without checking the deterministic branch and
-pull-request marker first.
+Each run uses a run-ID-specific worktree and never reuses a failed worktree.
+Clean skips and successful runs remove their worktrees after reports are
+persisted. Failed worktrees are retained for seven days for diagnosis and then
+removed by the same CLI. Branches are never force-pushed automatically.
 
-An item failure does not create a partial pull request. The job preserves a
-redacted structured report containing discovery evidence, skip or failure
-reason, changed files, reviewer summaries, and test output.
+Network reads use three attempts with exponential backoff and jitter, a
+per-request timeout, and retries limited to timeout, connection failure, HTTP
+429, and HTTP 5xx. Git push and pull-request creation are never blindly retried
+without checking the stable branch and pull-request marker first.
+
+If push succeeds but pull-request creation fails, the remote branch becomes a
+reported `blocked_branch_only` state. Scheduled runs do not regenerate, create
+an alternate branch, or allocate another target ID while any such branch exists.
+After inspection, a maintainer may invoke
+`--resume-branch-only <source-id>`, which revalidates the existing branch and
+retries pull-request creation without regenerating content. This command does
+not require a pull-request label because no pull request exists. If the branch
+is invalid, the maintainer deletes it; the next scheduled run may then generate
+the source again. Push conflicts, pull-request HTTP 422 responses, and stale
+state always refetch the branch and pull-request list, then either skip an
+already recorded source or fail closed.
+
+An item failure does not create a partial pull request. Every stdout line is
+JSON containing a shared run ID. Reports are written under a host-protected
+retention directory; `journald` retains service logs and a `systemd` `OnFailure`
+unit sends the failure summary to the configured team alert channel. A normal
+no-candidate run exits zero with `status: "no_candidate"`; a failed run exits
+non-zero. Reports include discovery evidence, skip or failure reason, changed
+files, reviewer summaries, and test output with secrets and signed URLs
+redacted.
 
 ## Validation
 
-Every generated item runs the narrowest family tests from its family skill.
-Blog pilot validation is:
+Every generated item runs the narrowest current family tests. Executable paths
+and package scripts in the checked-out target repository are authoritative when
+a family skill's verification snippet has drifted; implementation must correct
+that skill documentation in the same change. Blog pilot validation is:
 
 ```bash
-npm run test -- tests/blog-list-server-source.test.mjs
-npm run test -- tests/blog-publication-cache.test.mjs
-npm run test -- tests/blog-canonical-slug-routing.test.mjs
-npm run test -- tests/blog-mdx-rendering-architecture.test.mjs
+node --test \
+  tests/blog/list-server-source.test.mjs \
+  tests/blog/publication-cache.test.mjs \
+  tests/blog/canonical-slug-routing.test.mjs \
+  tests/blog/mdx-rendering-architecture.test.mjs
+npm run test:publications
 ```
 
 Mixed-family changes, route behavior changes, metadata changes, or automation
@@ -275,9 +362,11 @@ npm run test:ci
 npm run build
 ```
 
-The deterministic CLI has focused tests for discovery normalization, public
-predicates, category mapping, source identity, baseline and ignore handling,
-pull-request marker parsing, closed-PR suppression, and one-item-per-run limits.
+The deterministic CLI has focused tests for discovery normalization, locale and
+public predicates, category mapping, source identity, target-ID reservation,
+baseline and ignore schemas, pull-request marker parsing, retry authorization,
+closed-PR suppression, branch-only state, retryable network failures, worktree
+cleanup, report-schema validation, secret redaction, and one-item-per-run limits.
 
 ## Local Quality Pilot
 
@@ -302,9 +391,17 @@ from automation quality.
 Pilot acceptance requires:
 
 - No unresolved Critical or Major reviewer findings
+- A complete source-to-target inventory for headings, figures, captions, links,
+  files, frontmatter, and intentional transformations
 - No omitted source sections, images, links, or factual data except documented
   intentional adaptation
+- Source duplicate-caption paragraphs removed only when they normalize exactly
+  to the retained figure caption
 - Natural Japanese and consistent product terminology
+- No unresolved Korean text in frontmatter, prose, alt text, or captions
+- Source author `Sam Kim` resolved to existing author ID `sam`
+- The source Blog PDF copied locally and represented in the link inventory
+- Empty source `relatedIds` preserved as no inferred target relations
 - Valid family frontmatter and canonical route
 - All referenced assets present under the route-aligned asset root
 - Effective Open Graph image is PNG
@@ -319,19 +416,18 @@ Deployment order:
 
 1. Run and approve the local quality pilot.
 2. Measure runtime, disk use, API usage, and failure modes.
-3. If an existing managed Linux host is available, run the same CLI using a
-   `systemd` timer and `flock`.
-4. If new AWS infrastructure is required, package the same CLI and skills as an
-   ECS Fargate task invoked once daily by EventBridge Scheduler.
+3. Run the same CLI on a managed Linux host using a `systemd` timer and `flock`.
 
-The runtime choice does not change prompts, family skills, validation, or pull-
-request behavior.
+ECS Fargate is not part of this implementation. It requires a separate durable
+lock and operational design and may replace the Linux host later without
+changing prompts, family skills, validation, or pull-request behavior.
 
 ## Security
 
-- Use a read-only credential for `corp-web-v2`.
-- Use a separate least-privilege credential for branch push and pull-request
-  creation in `corp-web-japan`.
+- Use a read-only credential for `corp-web-v2` with repository contents read
+  access only.
+- Use a separate least-privilege GitHub App or fine-grained credential for
+  `corp-web-japan` with repository contents write and pull-request write access.
 - Do not grant merge or production deployment permission.
 - Store model and GitHub credentials in host-protected credentials or AWS
   Secrets Manager, never in repository files or logs.
@@ -347,6 +443,6 @@ request behavior.
 5. Implement deterministic discovery and decision records.
 6. Add the thin orchestration skill and CLI validation.
 7. Run local end-to-end dry runs with a one-item cap.
-8. Deploy the same command to the chosen daily runtime.
+8. Deploy the same command to the managed Linux host.
 9. Keep Draft pull requests and a one-item-per-run cap until maintainers approve
    broader operation.
