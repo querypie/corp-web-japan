@@ -17,6 +17,12 @@ Current skills:
   - Path: `.agents/skills/mdx-publication-operations/SKILL.md`
   - Purpose: the shared reference for all public MDX publication families in this repo
   - Scope: common frontmatter rules, add/edit workflows, gating, list hiding, redirect shadow records, and current family support limits
+- `global-documentation-sync`
+  - Path: `.agents/skills/global-documentation-sync/SKILL.md`
+  - Purpose: orchestrate one production-first Global Documentation migration through deterministic preparation, Pi authoring, independent reviews, validation, and Draft PR gating
+- `japanese-publication-editorial-review`
+  - Path: `.agents/skills/japanese-publication-editorial-review/SKILL.md`
+  - Purpose: independently review translated or AI-generated Japanese publication copy for meaning-preserving naturalness, register, terminology, repetition, and notation
 - `blog-posting`
   - Path: `.agents/skills/blog-posting/SKILL.md`
   - Purpose: thin wrapper for blog-specific paths, fields, and checks

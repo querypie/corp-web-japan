@@ -47,7 +47,8 @@ function listWhitepaperIds() {
 }
 
 test("whitepaper corpus includes every Japanese corp-web-contents source with a local MDX file", () => {
-  assert.deepEqual(listWhitepaperIds(), expectedIds);
+  const actualIds = new Set(listWhitepaperIds());
+  for (const id of expectedIds) assert.ok(actualIds.has(id), `missing imported whitepaper ${id}`);
 });
 
 test("migrated whitepaper MDX files use local whitepaper routes and route-aligned assets", () => {

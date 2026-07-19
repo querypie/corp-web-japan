@@ -140,6 +140,7 @@ const matchers = {
     /^tests\/whitepaper-route-aligned-assets\.test\.mjs$/,
   ],
   crossCutting: [
+    /^tests\/global-documentation-sync\//,
     /^tests\/launch-readiness-coverage\.test\.mjs$/,
     /^tests\/skill-frontmatter-validity\.test\.mjs$/,
   ],

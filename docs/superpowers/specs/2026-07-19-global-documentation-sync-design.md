@@ -165,9 +165,17 @@ agent and reviewers through validated JSON artifacts:
    allocated target ID, and asset/link inventory
 2. `generation-report.json`: target files, source-to-target heading/figure/link
    mappings, intentional transformations, and validation requests
-3. `content-review.json`: severity-ranked content findings
-4. `contract-review.json`: severity-ranked repository-contract findings
-5. `run-summary.json`: final status, exit code, timings, commands, and pull
+3. `fidelity-review.json`: severity-ranked omissions, additions, and factual
+   parity findings from a fresh reviewer
+4. `japanese-editorial-review.json`: severity-ranked Japanese naturalness,
+   terminology, register, and readability findings from a different fresh
+   reviewer
+5. `contract-review.json`: severity-ranked repository-contract findings from a
+   third fresh reviewer
+6. `validation-results.json`: exact deterministic commands and exit codes
+7. `browser-results.json`: desktop/mobile screenshots, rendered media geometry,
+   response checks, and overflow findings
+8. `run-summary.json`: final status, exit code, timings, commands, and pull
    request URL when created
 
 Missing or invalid artifacts, or any reviewer finding with severity `critical`
@@ -179,6 +187,12 @@ A thin repo-local `global-documentation-sync` skill owns the agent workflow. It
 must load `mdx-publication-operations` and then the narrowest existing family
 skill. It must not copy or redefine family frontmatter contracts already held by
 those skills.
+
+Pi writer and reviewer processes run with `--no-tools`. The runner places
+immutable candidate/source/target data in each prompt, requires one strict JSON
+stdout envelope, validates identity and schema, then atomically writes only the
+allocated MDX and report paths. Source content therefore cannot invoke a
+filesystem, shell, Git, or network tool.
 
 The skill owns:
 
@@ -202,17 +216,23 @@ The skill owns:
 
 ### Fresh Reviewers
 
-Each generated item receives two independent reviews before a pull request is
-opened:
+Each generated item receives three independent reviews before a pull request is
+opened. The writer cannot approve its own output, every reviewer starts a fresh
+Pi session, and no reviewer reads another reviewer's conclusions:
 
-1. Content parity review: omissions, additions, meaning, Japanese naturalness,
-   dates, names, numbers, product terminology, headings, lists, tables, code,
-   callouts, captions, and CTAs
-2. Repository contract review: frontmatter, route, links, assets, effective Open
+1. Fidelity review: omissions, additions, meaning, dates, names, numbers,
+   headings, lists, tables, code, callouts, captions, links, and CTAs
+2. Japanese editorial review: naturalness, translation calques, register,
+   readability, terminology, punctuation, notation consistency, and repetitive
+   AI-like phrasing
+3. Repository contract review: frontmatter, route, links, assets, effective Open
    Graph image, gating, downloads, and family-specific tests
 
-Any Critical or Major finding blocks the pull request until corrected and
-reviewed again.
+Any Critical or Major finding blocks the pull request until corrected and all
+affected reviews run again. The correction loop is bounded and fails closed
+rather than accepting unresolved findings. The Japanese reviewer must load
+`japanese-publication-editorial-review`; the writer may use the same skill as an
+authoring checklist but cannot replace the independent review.
 
 ## Category Adaptation
 
@@ -268,9 +288,9 @@ The generated item must:
   corresponding local publication exists.
 - Copy owned root-relative Global file links under `/documentation/**`, including
   Blog PDFs, into the target item's asset root and rewrite the link to the local
-  public path. If the source file is unavailable, preserve it only as an
-  absolute Global HTTPS URL after a successful request and document the choice;
-  otherwise fail closed.
+  public path. Resolve owned resources only from the checked-out Global
+  repository. If the source file is unavailable there, fail closed; do not
+  download a production-only fallback.
 - Preserve valid external HTTPS links.
 - Apply the repository contact-us query-prefill contract when relevant.
 - Use the existing family-specific PDF and gating flow when that family defines
@@ -302,8 +322,11 @@ Each pull request:
 
 ## Error Handling and Concurrency
 
-The runtime allows only one active sync job. The supported deployment uses
-`flock` around the complete Linux-host execution. Failure to acquire the lock
+The runtime allows only one active sync job. The supported deployment uses a
+`systemd` timer to start an ephemeral, non-interactive Pi process and `flock`
+around the complete Linux-host execution. Pi loads the checked-in orchestration
+and Japanese editorial skills explicitly, calls an external model provider, and
+exits after the run; no agent daemon is required. Failure to acquire the lock
 exits successfully with status `skipped_locked`; it never starts another
 worktree.
 
@@ -383,8 +406,9 @@ The pilot runs in an isolated worktree. It calculates the next available target
 blog ID at execution time; as of the design baseline, blog ID `31` is already
 occupied, so the expected pilot ID is `32`.
 
-The pilot generates the MDX and assets, runs both fresh reviews and the Blog
-tests, and presents the final diff and quality report. It does not push, open a
+The pilot generates the MDX and assets, runs all three fresh reviews, the Blog
+tests, a production build, and desktop/mobile browser media checks, then
+presents the final diff and quality report. It does not push, open a
 pull request, or install scheduler infrastructure. This isolates content quality
 from automation quality.
 
@@ -405,7 +429,10 @@ Pilot acceptance requires:
 - Valid family frontmatter and canonical route
 - All referenced assets present under the route-aligned asset root
 - Effective Open Graph image is PNG
-- All required Blog tests pass
+- All required Blog tests and the production build pass
+- Desktop and mobile browser checks show no broken/zero-sized media or horizontal
+  overflow; local PDFs and media endpoints return successful compatible MIME
+  responses
 
 ## Runtime Deployment
 
@@ -424,6 +451,11 @@ changing prompts, family skills, validation, or pull-request behavior.
 
 ## Security
 
+- Global HTML, metadata, and linked source files are untrusted data. Pi runs
+  with `--no-tools`; only the deterministic CLI may write, after strict stdout
+  JSON, identity, schema, and allocated-path validation.
+- Dry-run mode rejects commit, push, pull-request, and remote-branch operations
+  before invoking any implementation that could perform them.
 - Use a read-only credential for `corp-web-v2` with repository contents read
   access only.
 - Use a separate least-privilege GitHub App or fine-grained credential for
@@ -432,7 +464,9 @@ changing prompts, family skills, validation, or pull-request behavior.
 - Store model and GitHub credentials in host-protected credentials or AWS
   Secrets Manager, never in repository files or logs.
 - Redact credentials and signed URLs from retained reports.
-- Run source checkout read-only and target changes in an isolated worktree.
+- Give the source checkout read-only repository credentials and limit host-side
+  mutation to deterministic `fetch`/`reset`; Pi receives source text as prompt
+  data and has no filesystem tools. Keep target changes in an isolated worktree.
 
 ## Rollout
 

@@ -1,0 +1,12 @@
+[Unit]
+Description=Report QueryPie Global Documentation Sync failure for %i
+
+[Service]
+Type=oneshot
+User=corp-web-sync
+EnvironmentFile=/etc/global-documentation-sync.env
+ExecStart=/srv/repos/corp-web-japan/ops/global-documentation-sync/report-failure.sh %i
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
