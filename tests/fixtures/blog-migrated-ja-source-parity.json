@@ -238,5 +238,13 @@
     "description": "Claude Fable 5の登場により、経営判断のあり方がどう変わるのか。博士号レベルの推論力を持つ「神話級」AIを、リスクを抑えつつ組織の武器にするための5つの戦略をCxO向けに解説。ガバナンスとセキュリティの最前線を紹介します。",
     "author": null,
     "sourceLocale": "ja"
+  },
+  {
+    "id": "32",
+    "slug": "ai-work-os-enterprise-intelligence",
+    "title": "AI Work OS：新たな知能が企業で働く仕組み",
+    "description": "AIが企業で人とともに働く新たな知能となった今、企業には、AIが理解できるコンテキスト、実務を遂行する実行基盤、そして安全に管理するためのガバナンスが必要です。",
+    "author": "sam",
+    "sourceLocale": "ja"
   }
 ]
