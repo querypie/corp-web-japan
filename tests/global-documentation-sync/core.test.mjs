@@ -55,15 +55,19 @@ test("requires the exact canonical URL in both production surfaces", () => {
   assert.equal(hasExactProductionEvidence({ ...valid, documentationListHtml: '<a href="/en/blog/example-extra">Other</a>' }), false);
 });
 
-test("resolves owned assets only inside Global public/documentation", async () => {
+test("resolves owned assets only inside approved Global public roots", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "global-doc-assets-"));
-  const assetDir = path.join(root, "public/documentation/blogs");
-  await mkdir(assetDir, { recursive: true });
-  await writeFile(path.join(assetDir, "slide.webp"), "asset");
+  const documentation = path.join(root, "public/documentation/blogs");
+  const news = path.join(root, "public/news");
+  await mkdir(documentation, { recursive: true });
+  await mkdir(news, { recursive: true });
+  await writeFile(path.join(documentation, "slide.webp"), "asset");
+  await writeFile(path.join(news, "hero.webp"), "news");
   const asset = await resolveOwnedAsset(root, "/documentation/blogs/slide.webp");
   assert.equal(asset.bytes, 5);
   assert.match(asset.sha256, /^[a-f0-9]{64}$/);
-  await assert.rejects(() => resolveOwnedAsset(root, "/assets/slide.webp"), /documentation/);
+  assert.equal((await resolveOwnedAsset(root, "/news/hero.webp")).bytes, 4);
+  await assert.rejects(() => resolveOwnedAsset(root, "/assets/slide.webp"), /approved/);
   await assert.rejects(() => resolveOwnedAsset(root, "/documentation/../secret.txt"), /unsafe|outside|missing/);
 });
 
