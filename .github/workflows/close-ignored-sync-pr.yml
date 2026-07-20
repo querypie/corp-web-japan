@@ -12,6 +12,7 @@ on:
         type: string
 
 permissions:
+  contents: write
   pull-requests: write
 
 jobs:
@@ -52,10 +53,12 @@ jobs:
           source_pr=$(sed -E 's/.*"syncPr":([0-9]+).*/\1/' <<<"$marker")
 
           source=$(gh pr view "$source_pr" --repo "$REPOSITORY" --json state,isDraft,headRefName,body)
-          if [[ "$(jq -r .state <<<"$source")" == CLOSED ]]; then
-            echo "source PR #$source_pr already closed"
-            exit 0
-          fi
-          [[ "$(jq -r .isDraft <<<"$source")" == true && "$(jq -r .headRefName <<<"$source")" == "content-sync/$source_id" ]] || { echo "source PR does not match sync marker" >&2; exit 1; }
+          [[ "$(jq -r .headRefName <<<"$source")" == "content-sync/$source_id" ]] || { echo "source PR does not match sync marker" >&2; exit 1; }
           grep -Fq "\"sourceId\":\"$source_id\"" <<<"$(jq -r .body <<<"$source")" || { echo "source marker mismatch" >&2; exit 1; }
-          gh pr close "$source_pr" --repo "$REPOSITORY" --delete-branch
+          if [[ "$(jq -r .state <<<"$source")" == OPEN ]]; then
+            [[ "$(jq -r .isDraft <<<"$source")" == true ]] || { echo "source PR is not Draft" >&2; exit 1; }
+            gh pr close "$source_pr" --repo "$REPOSITORY"
+          fi
+          gh api --method DELETE "repos/$REPOSITORY/git/refs/heads/content-sync/$source_id" 2>/dev/null || {
+            gh api "repos/$REPOSITORY/git/ref/heads/content-sync/$source_id" >/dev/null 2>&1 && exit 1 || true
+          }
