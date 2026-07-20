@@ -184,6 +184,9 @@ sudo install -m 644 ops/global-documentation-sync/global-documentation-sync.serv
   ops/global-documentation-sync/global-documentation-sync.timer \
   ops/global-documentation-sync/global-documentation-sync-failure@.service \
   /etc/systemd/system/
+sudo install -m 644 ops/global-documentation-sync/global-documentation-sync-reports.conf \
+  /etc/tmpfiles.d/global-documentation-sync.conf
+sudo systemd-tmpfiles --create /etc/tmpfiles.d/global-documentation-sync.conf
 sudo systemctl daemon-reload
 ```
 
@@ -204,6 +207,9 @@ sudo install -m 644 ops/global-documentation-sync/global-documentation-sync.serv
   ops/global-documentation-sync/global-documentation-sync.timer \
   ops/global-documentation-sync/global-documentation-sync-failure@.service \
   /etc/systemd/system/
+sudo install -m 644 ops/global-documentation-sync/global-documentation-sync-reports.conf \
+  /etc/tmpfiles.d/global-documentation-sync.conf
+sudo systemd-tmpfiles --create /etc/tmpfiles.d/global-documentation-sync.conf
 sudo systemctl daemon-reload
 sudo systemctl restart global-documentation-sync.timer
 systemctl list-timers global-documentation-sync.timer
@@ -254,9 +260,16 @@ journalctl -u global-documentation-sync.service -n 200 --no-pager
 ```
 
 Automation-owned detached worktree는 7일 후 cleanup 대상입니다. Report directory는
-Node runner가 자동 삭제하지 않습니다. `/var/lib/global-documentation-sync/reports`
-용 host-level retention, logrotate-equivalent cleanup, 또는 durable object storage를
-별도로 구성해야 합니다.
+`/etc/tmpfiles.d/global-documentation-sync.conf`의 `mM:7d` policy로 마지막 수정 후
+7일이 지나면 `systemd-tmpfiles-clean.timer`가 정리합니다. `mM`은 file/directory
+mtime만 사용하므로 장애 조사 중 report를 읽는 행위가 retention을 연장하지 않습니다.
+Spot VM 회수 후에도 report가 필요하면 별도 durable object storage가 필요합니다.
+
+```bash
+systemctl is-active systemd-tmpfiles-clean.timer
+systemctl list-timers systemd-tmpfiles-clean.timer
+sudo systemd-tmpfiles --clean /etc/tmpfiles.d/global-documentation-sync.conf
+```
 
 ```bash
 git worktree list
