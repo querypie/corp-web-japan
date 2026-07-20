@@ -782,5 +782,13 @@
     "targetFamily": "blog",
     "targetId": 30,
     "targetSlug": "claude-fable-5-management-strategy"
+  },
+  {
+    "sourceId": "cnt_000214",
+    "sourceCategory": "blogs",
+    "sourceSlug": "iso-iec-42001-getting-started",
+    "targetFamily": "blog",
+    "targetId": 31,
+    "targetSlug": "iso-iec-42001-getting-started"
   }
 ]
