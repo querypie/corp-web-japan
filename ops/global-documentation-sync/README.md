@@ -1,10 +1,67 @@
 # Global Documentation Sync operations
 
+## Tencent Cloud VM
+
+Create one CVM with the following settings for the initial dry-run and staging
+period:
+
+| Setting | Value |
+| --- | --- |
+| Region | Tokyo (`ap-tokyo`) |
+| Billing | Spot Instance |
+| Image | Ubuntu Server 24.04 LTS, x86_64, standard public image |
+| Compute | 4 vCPU, 8 GB RAM; general-purpose instance family |
+| System disk | 40 GB; select 50 GB when that is the console minimum |
+| Swap | 4 GB swap file created during bootstrap |
+| Network | Public IPv4, 5-10 Mbps cap or traffic-based billing |
+| GPU | None |
+
+The measured local footprint is approximately 4 GB for both repositories, 0.7
+GB for dependencies, less than 1 GB for one sequential worktree, and 0.2-0.5 GB
+for a production build. Ubuntu, Chrome, caches, reports, and swap bring practical
+peak usage to roughly 15-20 GB. A 40-50 GB system disk leaves sufficient update
+and failure-debugging headroom; 80 GB is unnecessary.
+
+Use an SSH key, not password authentication. Restrict inbound TCP 22 to the
+operator's fixed/VPN address. No public web port is required. Permit outbound
+HTTPS for GitHub, QueryPie, the model provider, and package repositories.
+
+Spot instances can be reclaimed with short notice. Check the Tencent metadata
+endpoint when diagnosing shutdowns:
+
+```bash
+curl -fsS http://metadata.tencentyun.com/latest/meta-data/spot/termination-time
+```
+
+A single Spot CVM is acceptable for staging because source repositories and PR
+state are recoverable. Before enabling unattended production, either use a
+non-Spot CVM or add automatic Spot replacement and durable report storage. A
+reclaim after push but before PR creation leaves a detectable branch-only state,
+but losing `/var/lib/global-documentation-sync/reports` makes recovery manual.
+Do not treat the Spot system disk as durable storage.
+
+After creation, configure a local SSH alias such as:
+
+```sshconfig
+Host corp-web-sync
+  HostName <public-ip>
+  User ubuntu
+  IdentityFile ~/.ssh/<tencent-key>
+```
+
+Only the instance ID, public IP, and SSH alias may be shared during setup. Never
+copy a private key, Tencent credential, GitHub token, or model API key into chat
+or this repository.
+
+Official references: [Playwright supported systems](https://playwright.dev/docs/intro),
+[Tencent Spot instances](https://cloud.tencent.com/document/product/213/17816),
+and [Spot reclaim metadata](https://cloud.tencent.com/document/product/213/37970).
+
 ## Runtime
 
-Use a dedicated Linux host and user. Recommended capacity for one sequential
-candidate is 4 vCPU, 8 GB RAM, 4 GB swap, and 80 GB SSD. The model runs through
-an external provider; do not run a local model on this host.
+Use a dedicated Linux host and user. Recommended runtime capacity is 4 vCPU, 8
+GB RAM, 4 GB swap, and a 40-50 GB system disk. The model runs through an external
+provider; do not run a local model on this host.
 
 Install and pin:
 
