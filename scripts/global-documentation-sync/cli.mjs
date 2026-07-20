@@ -95,7 +95,7 @@ async function resolveAuthor(targetRepo, family, authorName) {
   return resolved.length === 1 ? resolved[0] : resolved;
 }
 
-function assetHrefs(meta, html) {
+export function assetHrefs(meta, html) {
   const values = [
     meta.imageSrc, meta.downloadCoverImageSrc, meta.downloadPdfSrc,
     ...Object.values(meta.downloadPdfSrcByLocale || {}),
@@ -104,7 +104,7 @@ function assetHrefs(meta, html) {
   for (const match of html.matchAll(/srcset=["']([^"']+)["']/g)) {
     for (const source of match[1].split(",")) values.push(source.trim().split(/\s+/)[0]);
   }
-  return [...new Set(values.filter((value) => typeof value === "string" && value.startsWith("/documentation/")))];
+  return [...new Set(values.filter((value) => typeof value === "string" && /^\/[^?#]+\.(?:webp|png|jpe?g|gif|pdf|mp4|webm)(?:[?#].*)?$/i.test(value)))];
 }
 
 export async function prepare(options) {

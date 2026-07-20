@@ -66,7 +66,9 @@ host에서 local model을 실행하지 않습니다.
 
 설치하고 version을 고정할 항목:
 
-- Repository CI와 같은 Node.js, npm, Git, GitHub CLI, Python 3
+- Repository CI와 같은 Node.js, npm, Git, Python 3
+- `gh api --slurp`를 지원하는 최신 GitHub CLI. Ubuntu 기본 apt package가 이
+  flag를 제공하지 않으면 [GitHub 공식 apt repository](https://cli.github.com/packages)를 사용
 - Pi CLI와 사용할 model provider
 - `ffmpeg`, `ffprobe`
 - Google Chrome 또는 Playwright Chromium

@@ -33,6 +33,10 @@ export function resolvePlaywrightChromium(moduleNamespace) {
   return chromium;
 }
 
+export function supportsGhSlurp(helpOutput) {
+  return /(?:^|\n)\s*--slurp\b/m.test(helpOutput);
+}
+
 function requireCommand(command) {
   if (path.isAbsolute(command)) return access(command);
   const result = spawnSync("which", [command], { encoding: "utf8" });
@@ -47,6 +51,8 @@ export async function runPreflight({ globalRepo, targetRepo, worktreesRoot, piBi
   ]);
   const playwrightPath = createRequire(path.join(targetRepo, "package.json")).resolve("playwright");
   await Promise.all(["git", "gh", "ffmpeg", "ffprobe", piBin].map(requireCommand));
+  const ghHelp = spawnSync("gh", ["api", "--help"], { encoding: "utf8" });
+  if (ghHelp.status !== 0 || !supportsGhSlurp(ghHelp.stdout)) throw new Error("GitHub CLI with gh api --slurp support is required");
   if (spawnSync("gh", ["auth", "status", "--hostname", "github.com"], { encoding: "utf8" }).status !== 0) throw new Error("GitHub CLI authentication is required");
   let chrome = process.platform === "darwin"
     ? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"

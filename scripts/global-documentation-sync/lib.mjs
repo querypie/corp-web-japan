@@ -97,12 +97,12 @@ const MIME = new Map([
 
 export async function resolveOwnedAsset(globalRepo, href) {
   const urlPath = decodeURIComponent(new URL(href, "https://source.invalid").pathname);
-  if (!urlPath.startsWith("/documentation/") || urlPath.split("/").includes("..")) {
-    throw new Error(`unsafe non-documentation asset: ${href}`);
+  if (urlPath.split("/").includes("..")) {
+    throw new Error(`unsafe source asset path: ${href}`);
   }
   const extension = path.extname(urlPath).toLowerCase();
   if (!MIME.has(extension)) throw new Error(`unsupported asset type: ${extension}`);
-  const publicRoot = await realpath(path.join(globalRepo, "public/documentation"));
+  const publicRoot = await realpath(path.join(globalRepo, "public"));
   const candidate = path.join(globalRepo, "public", urlPath);
   let resolved;
   try {
@@ -111,7 +111,7 @@ export async function resolveOwnedAsset(globalRepo, href) {
     throw new Error(`missing source asset: ${href}`);
   }
   if (resolved !== publicRoot && !resolved.startsWith(`${publicRoot}${path.sep}`)) {
-    throw new Error(`asset resolves outside source repository: ${href}`);
+    throw new Error(`asset resolves outside Global public root: ${href}`);
   }
   const bytes = await readFile(resolved);
   return {

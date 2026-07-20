@@ -214,6 +214,8 @@ jobs:
               - 'tests/whitepaper-asset-filename-prefix-cleanup.test.mjs'
               - 'tests/whitepaper-route-aligned-assets.test.mjs'
             cross_cutting:
+              - 'scripts/global-documentation-sync/**'
+              - 'tests/global-documentation-sync/**'
               - 'src/app/page.tsx'
               - 'src/app/solutions/**'
               - 'src/app/contact-us/**'

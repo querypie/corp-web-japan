@@ -288,11 +288,12 @@ The generated item must:
 - Verify every referenced local asset exists.
 - Rewrite Global internal publication links to canonical Japan routes when a
   corresponding local publication exists.
-- Copy owned root-relative Global file links under `/documentation/**`, including
-  Blog PDFs, into the target item's asset root and rewrite the link to the local
-  public path. Resolve owned resources only from the checked-out Global
-  repository. If the source file is unavailable there, fail closed; do not
-  download a production-only fallback.
+- Copy declared root-relative Global media/file links, including assets currently
+  under `/documentation/**` or `/news/**`, into the target item's asset root and
+  rewrite the link to the local public path. Resolve resources only from the
+  checked-out Global repository's `public/**` root with realpath containment.
+  If the source file is unavailable there, fail closed; do not download a
+  production-only fallback.
 - Preserve valid external HTTPS links.
 - Apply the repository contact-us query-prefill contract when relevant.
 - Use the existing family-specific PDF and gating flow when that family defines

@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { resolvePlaywrightChromium, validateTurbopackLayout } from "../../scripts/global-documentation-sync/preflight.mjs";
+import { resolvePlaywrightChromium, supportsGhSlurp, validateTurbopackLayout } from "../../scripts/global-documentation-sync/preflight.mjs";
+
+test("requires GitHub CLI pagination slurp support", () => {
+  assert.equal(supportsGhSlurp("      --slurp  Wrap paginated output"), true);
+  assert.equal(supportsGhSlurp("      --paginate  Fetch every page"), false);
+});
 
 test("resolves Playwright Chromium from ESM or CommonJS namespaces", () => {
   const chromium = { executablePath: () => "/managed/chromium" };

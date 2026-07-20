@@ -4,7 +4,15 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 
-import { prepare } from "../../scripts/global-documentation-sync/cli.mjs";
+import { assetHrefs, prepare } from "../../scripts/global-documentation-sync/cli.mjs";
+
+test("collects only declared Global public media paths", () => {
+  const assets = assetHrefs(
+    { imageSrc: "/news/hero.webp", downloadPdfSrc: "/shared/guide.pdf" },
+    '<img src="/documentation/blogs/figure.webp"><a href="/blog/article">Read</a>',
+  );
+  assert.deepEqual(assets, ["/news/hero.webp", "/shared/guide.pdf", "/documentation/blogs/figure.webp"]);
+});
 
 test("prepares a published HTTPS outlink without a locale HTML file", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "prepare-outlink-"));
