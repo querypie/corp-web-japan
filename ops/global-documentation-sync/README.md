@@ -7,7 +7,7 @@ period:
 
 | Setting | Value |
 | --- | --- |
-| Region | Tokyo (`ap-tokyo`) |
+| Region | Seoul (`ap-seoul`) |
 | Billing | Spot Instance |
 | Image | Ubuntu Server 24.04 LTS, x86_64, standard public image |
 | Compute | 4 vCPU, 8 GB RAM; general-purpose instance family |
