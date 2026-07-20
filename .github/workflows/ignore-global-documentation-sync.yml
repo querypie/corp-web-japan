@@ -1,0 +1,56 @@
+name: Ignore Global Documentation sync PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      sync_pr_number:
+        description: Draft sync PR number to ignore
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  ignore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit ignore decision and close sync PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ inputs.sync_pr_number }}
+        run: |
+          set -euo pipefail
+          pr=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json body,headRefName,state,isDraft,url)
+          head=$(jq -r .headRefName <<<"$pr")
+          body=$(jq -r .body <<<"$pr")
+          [[ "$(jq -r .state <<<"$pr")" == OPEN && "$(jq -r .isDraft <<<"$pr")" == true && "$head" =~ ^content-sync/cnt_[0-9]+$ ]] || { echo "not an open sync Draft PR" >&2; exit 1; }
+          source_id="${head#content-sync/}"
+          grep -Fq "\"sourceId\":\"$source_id\"" <<<"$body" || { echo "sync marker mismatch" >&2; exit 1; }
+          source_url=$(sed -n 's/^- Source: //p' <<<"$body" | head -1)
+          [[ "$source_url" =~ ^https://www.querypie.com/ ]] || { echo "missing canonical source URL" >&2; exit 1; }
+          SOURCE_ID="$source_id" SOURCE_URL="$source_url" python3 - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          from pathlib import Path
+          file = Path('.github/content-sync/ignore.json')
+          values = json.loads(file.read_text())
+          source_id = os.environ['SOURCE_ID']
+          if any(value['sourceId'] == source_id for value in values): raise SystemExit(f'already ignored: {source_id}')
+          values.append({'sourceId': source_id, 'sourceCanonicalUrl': os.environ['SOURCE_URL'], 'reasonCode': 'other', 'reason': 'Ignored by owner from sync Draft PR.', 'addedBy': 'owner', 'addedAt': datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00', 'Z')})
+          values.sort(key=lambda value: value['sourceId'])
+          file.write_text(json.dumps(values, indent=2) + '\n')
+          PY
+          git config user.name "QueryPie Documentation Sync"
+          git config user.email "noreply@querypie.com"
+          git add .github/content-sync/ignore.json
+          git diff --cached --quiet && { echo "no ignore change" >&2; exit 1; }
+          git commit -m "chore: ignore Global documentation $source_id"
+          git push origin HEAD:main
+          gh pr close "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --delete-branch
