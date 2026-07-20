@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { once } from "node:events";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -41,10 +42,23 @@ async function waitForServer(url, child) {
   throw new Error(`preview server did not become ready: ${url}`);
 }
 
+export async function stopPreviewServer(server) {
+  if (!server.pid || server.exitCode !== null) return;
+  const closed = once(server, "close").then(() => true);
+  const kill = (signal) => {
+    if (process.platform === "win32") server.kill(signal);
+    else process.kill(-server.pid, signal);
+  };
+  try { kill("SIGTERM"); } catch (error) { if (error.code !== "ESRCH") throw error; }
+  if (await Promise.race([closed, new Promise((resolve) => setTimeout(() => resolve(false), 5_000))])) return;
+  try { kill("SIGKILL"); } catch (error) { if (error.code !== "ESRCH") throw error; }
+  await closed;
+}
+
 export async function runBrowserQa({ targetRepo, candidate, reportsDir, port = 43129 }) {
   const route = publicationRoute(candidate);
   const url = `http://127.0.0.1:${port}${route}`;
-  const server = spawn("npm", ["start", "--", "-p", String(port)], { cwd: targetRepo, env: process.env, stdio: ["ignore", "ignore", "pipe"] });
+  const server = spawn("npm", ["start", "--", "-p", String(port)], { cwd: targetRepo, env: process.env, stdio: ["ignore", "ignore", "pipe"], detached: process.platform !== "win32" });
   let serverError = "";
   server.stderr.on("data", (chunk) => { serverError = `${serverError}${chunk}`.slice(-4000); });
   try {
@@ -117,6 +131,6 @@ export async function runBrowserQa({ targetRepo, candidate, reportsDir, port = 4
   } catch (error) {
     throw new Error(`${error.message}${serverError ? `\n${serverError}` : ""}`);
   } finally {
-    server.kill("SIGTERM");
+    await stopPreviewServer(server);
   }
 }
