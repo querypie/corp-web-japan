@@ -1,8 +1,15 @@
 name: Close ignored Global Documentation sync PR
 
 on:
-  pull_request_target:
-    types: [closed]
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      ignore_pr_number:
+        description: Merged ignore PR number to reconcile
+        required: true
+        type: string
 
 permissions:
   pull-requests: write
@@ -10,24 +17,41 @@ permissions:
 jobs:
   close-source:
     if: >-
-      github.event.pull_request.merged == true &&
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      startsWith(github.event.pull_request.head.ref, 'content-sync-ignore/')
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       startsWith(github.event.workflow_run.head_branch, 'content-sync-ignore/'))
     runs-on: ubuntu-latest
-    timeout-minutes: 1
+    timeout-minutes: 2
     steps:
-      - name: Close source sync PR from ignore marker
+      - name: Close source sync PR from merged ignore marker
         env:
           GH_TOKEN: ${{ github.token }}
-          IGNORE_BODY: ${{ github.event.pull_request.body }}
           REPOSITORY: ${{ github.repository }}
+          DISPATCH_PR: ${{ inputs.ignore_pr_number }}
+          RUN_PR: ${{ github.event.workflow_run.pull_requests[0].number }}
         run: |
           set -euo pipefail
-          marker=$(grep -oE '<!-- global-documentation-sync-ignore:v1 \{"sourceId":"cnt_[0-9]+","syncPr":[0-9]+\} -->' <<<"$IGNORE_BODY" || true)
-          [[ -n "$marker" ]] || { echo "ignore marker absent; no source PR to close"; exit 0; }
+          ignore_pr="${DISPATCH_PR:-$RUN_PR}"
+          [[ "$ignore_pr" =~ ^[0-9]+$ ]] || { echo "missing ignore PR number" >&2; exit 1; }
+
+          for attempt in $(seq 1 12); do
+            ignore=$(gh pr view "$ignore_pr" --repo "$REPOSITORY" --json state,headRefName,body)
+            [[ "$(jq -r .state <<<"$ignore")" == MERGED ]] && break
+            sleep 5
+          done
+          [[ "$(jq -r .state <<<"$ignore")" == MERGED && "$(jq -r .headRefName <<<"$ignore")" =~ ^content-sync-ignore/cnt_[0-9]+$ ]] || { echo "ignore PR is not a merged sync-ignore PR" >&2; exit 1; }
+
+          body=$(jq -r .body <<<"$ignore")
+          marker=$(grep -oE '<!-- global-documentation-sync-ignore:v1 \{"sourceId":"cnt_[0-9]+","syncPr":[0-9]+\} -->' <<<"$body" || true)
+          [[ -n "$marker" ]] || { echo "ignore marker missing" >&2; exit 1; }
           source_id=$(sed -E 's/.*"sourceId":"(cnt_[0-9]+)".*/\1/' <<<"$marker")
           source_pr=$(sed -E 's/.*"syncPr":([0-9]+).*/\1/' <<<"$marker")
+
           source=$(gh pr view "$source_pr" --repo "$REPOSITORY" --json state,isDraft,headRefName,body)
-          [[ "$(jq -r .state <<<"$source")" == OPEN && "$(jq -r .isDraft <<<"$source")" == true && "$(jq -r .headRefName <<<"$source")" == "content-sync/$source_id" ]] || { echo "source PR no longer matches open sync Draft; refusing close" >&2; exit 1; }
+          if [[ "$(jq -r .state <<<"$source")" == CLOSED ]]; then
+            echo "source PR #$source_pr already closed"
+            exit 0
+          fi
+          [[ "$(jq -r .isDraft <<<"$source")" == true && "$(jq -r .headRefName <<<"$source")" == "content-sync/$source_id" ]] || { echo "source PR does not match sync marker" >&2; exit 1; }
           grep -Fq "\"sourceId\":\"$source_id\"" <<<"$(jq -r .body <<<"$source")" || { echo "source marker mismatch" >&2; exit 1; }
           gh pr close "$source_pr" --repo "$REPOSITORY" --delete-branch
