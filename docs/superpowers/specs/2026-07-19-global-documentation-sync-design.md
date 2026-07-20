@@ -1,5 +1,10 @@
 # Global Documentation to Japan Publication Sync Design
 
+> Historical design record. The accepted production contract is
+> [`openspec/specs/contract-global-documentation-sync/spec.md`](../../../openspec/specs/contract-global-documentation-sync/spec.md).
+> When this document conflicts with the accepted OpenSpec or current runtime,
+> OpenSpec is authoritative.
+
 ## Objective
 
 Build a once-daily agent job that detects newly published items across the full
