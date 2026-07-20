@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, mkdir, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, symlink, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -55,20 +55,26 @@ test("requires the exact canonical URL in both production surfaces", () => {
   assert.equal(hasExactProductionEvidence({ ...valid, documentationListHtml: '<a href="/en/blog/example-extra">Other</a>' }), false);
 });
 
-test("resolves owned assets only inside approved Global public roots", async () => {
+test("resolves declared assets inside the Global public root only", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "global-doc-assets-"));
   const documentation = path.join(root, "public/documentation/blogs");
   const news = path.join(root, "public/news");
+  const shared = path.join(root, "public/shared");
   await mkdir(documentation, { recursive: true });
   await mkdir(news, { recursive: true });
+  await mkdir(shared, { recursive: true });
   await writeFile(path.join(documentation, "slide.webp"), "asset");
   await writeFile(path.join(news, "hero.webp"), "news");
+  await writeFile(path.join(shared, "cover.webp"), "shared");
+  await writeFile(path.join(root, "secret.webp"), "secret");
+  await symlink(path.join(root, "secret.webp"), path.join(shared, "escape.webp"));
   const asset = await resolveOwnedAsset(root, "/documentation/blogs/slide.webp");
   assert.equal(asset.bytes, 5);
   assert.match(asset.sha256, /^[a-f0-9]{64}$/);
   assert.equal((await resolveOwnedAsset(root, "/news/hero.webp")).bytes, 4);
-  await assert.rejects(() => resolveOwnedAsset(root, "/assets/slide.webp"), /approved/);
-  await assert.rejects(() => resolveOwnedAsset(root, "/documentation/../secret.txt"), /unsafe|outside|missing/);
+  assert.equal((await resolveOwnedAsset(root, "/shared/cover.webp")).bytes, 6);
+  await assert.rejects(() => resolveOwnedAsset(root, "/shared/escape.webp"), /outside/);
+  await assert.rejects(() => resolveOwnedAsset(root, "/documentation/../secret.txt"), /unsafe|outside|missing|unsupported/);
 });
 
 test("allocates IDs independently per target family", async () => {
