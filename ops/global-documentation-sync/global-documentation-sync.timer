@@ -2,7 +2,7 @@
 Description=Run QueryPie Global Documentation Sync daily
 
 [Timer]
-OnCalendar=*-*-* 03:00:00
+OnCalendar=*-*-* 10:00:00
 Persistent=true
 RandomizedDelaySec=10m
 Unit=global-documentation-sync.service
