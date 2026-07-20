@@ -40,10 +40,11 @@ test("reclaims only an unpushed base-equivalent automation branch", async () => 
   const calls = [];
   const execute = async (command, args) => {
     calls.push([command, args]);
-    if (args[0] === "for-each-ref") return "base-commit\n";
+    if (args[0] === "for-each-ref") return "old-base-commit\n";
     if (args[0] === "ls-remote") return "";
-    if (args[0] === "rev-parse") return "base-commit\n";
-    if (args[0] === "worktree" && args[1] === "list") return "worktree /runs/old-run\nHEAD base-commit\nbranch refs/heads/content-sync/cnt_9\n\n";
+    if (args[0] === "rev-parse") return "current-base-commit\n";
+    if (args[0] === "merge-base") return "old-base-commit\n";
+    if (args[0] === "worktree" && args[1] === "list") return "worktree /runs/old-run\nHEAD old-base-commit\nbranch refs/heads/content-sync/cnt_9\n\n";
     return "";
   };
   assert.equal(await reclaimUnpublishedBaseBranch({ baseRepo: "/base", worktreePath: "/runs/new-run", sourceId: "cnt_9", execute }), true);
@@ -55,7 +56,7 @@ test("blocks an unpublished branch with local commits", async () => {
   const execute = async (_command, args) => {
     if (args[0] === "for-each-ref") return "local-commit\n";
     if (args[0] === "ls-remote") return "";
-    if (args[0] === "rev-parse") return "base-commit\n";
+    if (args[0] === "rev-parse" || args[0] === "merge-base") return "base-commit\n";
     throw new Error(`unexpected command: ${args.join(" ")}`);
   };
   await assert.rejects(() => reclaimUnpublishedBaseBranch({ baseRepo: "/base", worktreePath: "/runs/new-run", sourceId: "cnt_9", execute }), /local commits/);

@@ -92,7 +92,8 @@ export async function reclaimUnpublishedBaseBranch({ baseRepo, worktreePath, sou
   const remote = await execute("git", ["ls-remote", "--heads", "origin", `refs/heads/${branch}`], baseRepo);
   if (remote.trim()) throw new Error(`unpublished sync branch has a remote ref: ${branch}`);
   const baseCommit = (await execute("git", ["rev-parse", baseRef], baseRepo)).trim();
-  if (localCommit !== baseCommit) throw new Error(`unpublished sync branch has local commits: ${branch}`);
+  const mergeBase = (await execute("git", ["merge-base", localCommit, baseCommit], baseRepo)).trim();
+  if (localCommit !== mergeBase) throw new Error(`unpublished sync branch has local commits: ${branch}`);
 
   const root = path.dirname(path.resolve(worktreePath));
   const worktrees = parseWorktreeList(await execute("git", ["worktree", "list", "--porcelain"], baseRepo));
