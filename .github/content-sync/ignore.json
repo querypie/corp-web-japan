@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "sourceId": "cnt_000051",
+    "sourceCanonicalUrl": "https://www.querypie.com/en/events/querypie-side-kick-teaser-ko",
+    "reasonCode": "other",
+    "reason": "Ignored by owner from sync Draft PR.",
+    "addedBy": "owner",
+    "addedAt": "2026-07-20T12:53:42Z"
+  }
+]
