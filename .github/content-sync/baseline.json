@@ -1,0 +1,786 @@
+[
+  {
+    "sourceId": "cnt_000001",
+    "sourceCategory": "manuals",
+    "sourceSlug": "acp-community-install-guide",
+    "targetFamily": "manuals",
+    "targetId": 1,
+    "targetSlug": "acp-community-install-guide"
+  },
+  {
+    "sourceId": "cnt_000007",
+    "sourceCategory": "blogs",
+    "sourceSlug": "ai-attack-tool-firewall-breach-data-protection",
+    "targetFamily": "blog",
+    "targetId": 29,
+    "targetSlug": "ai-attack-tool-firewall-breach-data-protection"
+  },
+  {
+    "sourceId": "cnt_000008",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "rag-security-querypie-builds-the-bridge",
+    "targetFamily": "whitepapers",
+    "targetId": 23,
+    "targetSlug": "rag-security-querypie-builds-the-bridge"
+  },
+  {
+    "sourceId": "cnt_000013",
+    "sourceCategory": "events",
+    "sourceSlug": "air-company-querypie-ai-webinar",
+    "targetFamily": "events",
+    "targetId": 24,
+    "targetSlug": "air-company-querypie-ai-webinar"
+  },
+  {
+    "sourceId": "cnt_000014",
+    "sourceCategory": "events",
+    "sourceSlug": "air-company-querypie-ai-usecase-webinar",
+    "targetFamily": "events",
+    "targetId": 26,
+    "targetSlug": "air-company-querypie-ai-usecase-webinar"
+  },
+  {
+    "sourceId": "cnt_000017",
+    "sourceCategory": "events",
+    "sourceSlug": "air-company-querypie-mcp-webinar",
+    "targetFamily": "events",
+    "targetId": 22,
+    "targetSlug": "air-company-querypie-mcp-webinar"
+  },
+  {
+    "sourceId": "cnt_000023",
+    "sourceCategory": "events",
+    "sourceSlug": "findy-querypie-mcp-webinar",
+    "targetFamily": "events",
+    "targetId": 17,
+    "targetSlug": "findy-querypie-mcp-webinar"
+  },
+  {
+    "sourceId": "cnt_000024",
+    "sourceCategory": "events",
+    "sourceSlug": "air-company-querypie-zerotrust-webinar",
+    "targetFamily": "events",
+    "targetId": 16,
+    "targetSlug": "air-company-querypie-zerotrust-webinar"
+  },
+  {
+    "sourceId": "cnt_000028",
+    "sourceCategory": "events",
+    "sourceSlug": "querypie-japan-webinar-security",
+    "targetFamily": "events",
+    "targetId": 15,
+    "targetSlug": "querypie-japan-webinar-security"
+  },
+  {
+    "sourceId": "cnt_000031",
+    "sourceCategory": "events",
+    "sourceSlug": "cloud-certification-shortest-path",
+    "targetFamily": "events",
+    "targetId": 1,
+    "targetSlug": "cloud-certification-shortest-path"
+  },
+  {
+    "sourceId": "cnt_000035",
+    "sourceCategory": "events",
+    "sourceSlug": "device-security-mdm-kandji",
+    "targetFamily": "events",
+    "targetId": 3,
+    "targetSlug": "device-security-mdm-kandji"
+  },
+  {
+    "sourceId": "cnt_000036",
+    "sourceCategory": "events",
+    "sourceSlug": "flex-querypie-secrets",
+    "targetFamily": "events",
+    "targetId": 4,
+    "targetSlug": "flex-querypie-secrets"
+  },
+  {
+    "sourceId": "cnt_000042",
+    "sourceCategory": "events",
+    "sourceSlug": "okta-paloalto-querypie-webinar",
+    "targetFamily": "events",
+    "targetId": 2,
+    "targetSlug": "okta-paloalto-querypie-webinar"
+  },
+  {
+    "sourceId": "cnt_000043",
+    "sourceCategory": "events",
+    "sourceSlug": "querypie-databases-nosql-ledger-ja",
+    "targetFamily": "events",
+    "targetId": 10,
+    "targetSlug": "querypie-databases-nosql-ledger-ja"
+  },
+  {
+    "sourceId": "cnt_000044",
+    "sourceCategory": "events",
+    "sourceSlug": "querypie-databases-nosql-ledger-ko",
+    "targetFamily": "events",
+    "targetId": 9,
+    "targetSlug": "querypie-databases-nosql-ledger-ko"
+  },
+  {
+    "sourceId": "cnt_000045",
+    "sourceCategory": "events",
+    "sourceSlug": "querypie-integrations-scim-slack-vault-ja",
+    "targetFamily": "events",
+    "targetId": 8,
+    "targetSlug": "querypie-integrations-scim-slack-vault-ja"
+  },
+  {
+    "sourceId": "cnt_000046",
+    "sourceCategory": "events",
+    "sourceSlug": "querypie-integrations-scim-slack-vault-ko",
+    "targetFamily": "events",
+    "targetId": 7,
+    "targetSlug": "querypie-integrations-scim-slack-vault-ko"
+  },
+  {
+    "sourceId": "cnt_000047",
+    "sourceCategory": "events",
+    "sourceSlug": "querypie-kubernetes-management-ja",
+    "targetFamily": "events",
+    "targetId": 14,
+    "targetSlug": "querypie-kubernetes-management-ja"
+  },
+  {
+    "sourceId": "cnt_000048",
+    "sourceCategory": "events",
+    "sourceSlug": "querypie-kubernetes-management-ko",
+    "targetFamily": "events",
+    "targetId": 13,
+    "targetSlug": "querypie-kubernetes-management-ko"
+  },
+  {
+    "sourceId": "cnt_000049",
+    "sourceCategory": "events",
+    "sourceSlug": "querypie-server-management-ja",
+    "targetFamily": "events",
+    "targetId": 12,
+    "targetSlug": "querypie-server-management-ja"
+  },
+  {
+    "sourceId": "cnt_000050",
+    "sourceCategory": "events",
+    "sourceSlug": "querypie-server-management-ko",
+    "targetFamily": "events",
+    "targetId": 11,
+    "targetSlug": "querypie-server-management-ko"
+  },
+  {
+    "sourceId": "cnt_000065",
+    "sourceCategory": "events",
+    "sourceSlug": "ztna-security-prisma-access",
+    "targetFamily": "events",
+    "targetId": 5,
+    "targetSlug": "ztna-security-prisma-access"
+  },
+  {
+    "sourceId": "cnt_000092",
+    "sourceCategory": "voc",
+    "sourceSlug": "lg-uplus-daniel-ku",
+    "targetFamily": "use-cases",
+    "targetId": 5,
+    "targetSlug": "lg-uplus-daniel-ku"
+  },
+  {
+    "sourceId": "cnt_000093",
+    "sourceCategory": "voc",
+    "sourceSlug": "superb-ai-hyun-kim",
+    "targetFamily": "use-cases",
+    "targetId": 4,
+    "targetSlug": "superb-ai-hyun-kim"
+  },
+  {
+    "sourceId": "cnt_000094",
+    "sourceCategory": "voc",
+    "sourceSlug": "lovo-ai-tom-lee",
+    "targetFamily": "use-cases",
+    "targetId": 2,
+    "targetSlug": "lovo-ai-tom-lee"
+  },
+  {
+    "sourceId": "cnt_000095",
+    "sourceCategory": "voc",
+    "sourceSlug": "allganize-changsu-lee",
+    "targetFamily": "use-cases",
+    "targetId": 1,
+    "targetSlug": "allganize-changsu-lee"
+  },
+  {
+    "sourceId": "cnt_000096",
+    "sourceCategory": "voc",
+    "sourceSlug": "air-company-mori-takeshi",
+    "targetFamily": "use-cases",
+    "targetId": 3,
+    "targetSlug": "air-company-mori-takeshi"
+  },
+  {
+    "sourceId": "cnt_000099",
+    "sourceCategory": "blogs",
+    "sourceSlug": "ai-security-threat-map-2026-cxo",
+    "targetFamily": "blog",
+    "targetId": 28,
+    "targetSlug": "ai-security-threat-map-2026-cxo"
+  },
+  {
+    "sourceId": "cnt_000100",
+    "sourceCategory": "blogs",
+    "sourceSlug": "shadow-ai-risk-cxo-countermeasures",
+    "targetFamily": "blog",
+    "targetId": 27,
+    "targetSlug": "shadow-ai-risk-cxo-countermeasures"
+  },
+  {
+    "sourceId": "cnt_000101",
+    "sourceCategory": "blogs",
+    "sourceSlug": "mitoco-buddy-release",
+    "targetFamily": "blog",
+    "targetId": 26,
+    "targetSlug": "mitoco-buddy-release"
+  },
+  {
+    "sourceId": "cnt_000102",
+    "sourceCategory": "blogs",
+    "sourceSlug": "terrasky-mitoco-buddy",
+    "targetFamily": "blog",
+    "targetId": 25,
+    "targetSlug": "terrasky-mitoco-buddy"
+  },
+  {
+    "sourceId": "cnt_000103",
+    "sourceCategory": "blogs",
+    "sourceSlug": "top-pam-solutions",
+    "targetFamily": "blog",
+    "targetId": 24,
+    "targetSlug": "top-pam-solutions"
+  },
+  {
+    "sourceId": "cnt_000104",
+    "sourceCategory": "blogs",
+    "sourceSlug": "querypie-payroll-partnership",
+    "targetFamily": "blog",
+    "targetId": 23,
+    "targetSlug": "querypie-payroll-partnership"
+  },
+  {
+    "sourceId": "cnt_000105",
+    "sourceCategory": "blogs",
+    "sourceSlug": "ai-agent-security-replit-case",
+    "targetFamily": "blog",
+    "targetId": 22,
+    "targetSlug": "ai-agent-security-replit-case"
+  },
+  {
+    "sourceId": "cnt_000106",
+    "sourceCategory": "blogs",
+    "sourceSlug": "why-we-need-ai-red-teaming",
+    "targetFamily": "blog",
+    "targetId": 21,
+    "targetSlug": "why-we-need-ai-red-teaming"
+  },
+  {
+    "sourceId": "cnt_000107",
+    "sourceCategory": "blogs",
+    "sourceSlug": "nextjs-server-action-security",
+    "targetFamily": "blog",
+    "targetId": 20,
+    "targetSlug": "nextjs-server-action-security"
+  },
+  {
+    "sourceId": "cnt_000108",
+    "sourceCategory": "blogs",
+    "sourceSlug": "optimize-ec2-costs",
+    "targetFamily": "blog",
+    "targetId": 19,
+    "targetSlug": "optimize-ec2-costs"
+  },
+  {
+    "sourceId": "cnt_000109",
+    "sourceCategory": "blogs",
+    "sourceSlug": "why-is-sso-important",
+    "targetFamily": "blog",
+    "targetId": 18,
+    "targetSlug": "why-is-sso-important"
+  },
+  {
+    "sourceId": "cnt_000110",
+    "sourceCategory": "blogs",
+    "sourceSlug": "privileged-access-management-pam",
+    "targetFamily": "blog",
+    "targetId": 17,
+    "targetSlug": "privileged-access-management-pam"
+  },
+  {
+    "sourceId": "cnt_000111",
+    "sourceCategory": "blogs",
+    "sourceSlug": "healthcare-data-security",
+    "targetFamily": "blog",
+    "targetId": 16,
+    "targetSlug": "healthcare-data-security"
+  },
+  {
+    "sourceId": "cnt_000112",
+    "sourceCategory": "blogs",
+    "sourceSlug": "zero-trust-security",
+    "targetFamily": "blog",
+    "targetId": 15,
+    "targetSlug": "zero-trust-security"
+  },
+  {
+    "sourceId": "cnt_000113",
+    "sourceCategory": "blogs",
+    "sourceSlug": "data-observability",
+    "targetFamily": "blog",
+    "targetId": 14,
+    "targetSlug": "data-observability"
+  },
+  {
+    "sourceId": "cnt_000114",
+    "sourceCategory": "blogs",
+    "sourceSlug": "agentless-philosophy",
+    "targetFamily": "blog",
+    "targetId": 1,
+    "targetSlug": "agentless-philosophy"
+  },
+  {
+    "sourceId": "cnt_000115",
+    "sourceCategory": "blogs",
+    "sourceSlug": "command-bypass-prevention-control",
+    "targetFamily": "blog",
+    "targetId": 7,
+    "targetSlug": "command-bypass-prevention-control"
+  },
+  {
+    "sourceId": "cnt_000116",
+    "sourceCategory": "blogs",
+    "sourceSlug": "customer-centric-tpm-life",
+    "targetFamily": "blog",
+    "targetId": 10,
+    "targetSlug": "customer-centric-tpm-life"
+  },
+  {
+    "sourceId": "cnt_000117",
+    "sourceCategory": "blogs",
+    "sourceSlug": "data-discovery-privacy-management",
+    "targetFamily": "blog",
+    "targetId": 9,
+    "targetSlug": "data-discovery-privacy-management"
+  },
+  {
+    "sourceId": "cnt_000118",
+    "sourceCategory": "blogs",
+    "sourceSlug": "integration-connection-paradigm",
+    "targetFamily": "blog",
+    "targetId": 6,
+    "targetSlug": "integration-connection-paradigm"
+  },
+  {
+    "sourceId": "cnt_000119",
+    "sourceCategory": "blogs",
+    "sourceSlug": "internal-data-leaks",
+    "targetFamily": "blog",
+    "targetId": 12,
+    "targetSlug": "internal-data-leaks"
+  },
+  {
+    "sourceId": "cnt_000120",
+    "sourceCategory": "blogs",
+    "sourceSlug": "multi-cloud-kubernetes-access-control",
+    "targetFamily": "blog",
+    "targetId": 4,
+    "targetSlug": "multi-cloud-kubernetes-access-control"
+  },
+  {
+    "sourceId": "cnt_000121",
+    "sourceCategory": "blogs",
+    "sourceSlug": "querypie-cracking-global-markets",
+    "targetFamily": "blog",
+    "targetId": 2,
+    "targetSlug": "querypie-cracking-global-markets"
+  },
+  {
+    "sourceId": "cnt_000122",
+    "sourceCategory": "blogs",
+    "sourceSlug": "querypie-product-managers",
+    "targetFamily": "blog",
+    "targetId": 8,
+    "targetSlug": "querypie-product-managers"
+  },
+  {
+    "sourceId": "cnt_000123",
+    "sourceCategory": "blogs",
+    "sourceSlug": "querypie-team-success-secrets",
+    "targetFamily": "blog",
+    "targetId": 3,
+    "targetSlug": "querypie-team-success-secrets"
+  },
+  {
+    "sourceId": "cnt_000124",
+    "sourceCategory": "blogs",
+    "sourceSlug": "seamless-figma-querypie-collaboration",
+    "targetFamily": "blog",
+    "targetId": 11,
+    "targetSlug": "seamless-figma-querypie-collaboration"
+  },
+  {
+    "sourceId": "cnt_000125",
+    "sourceCategory": "blogs",
+    "sourceSlug": "technology-humanity-convergence",
+    "targetFamily": "blog",
+    "targetId": 5,
+    "targetSlug": "technology-humanity-convergence"
+  },
+  {
+    "sourceId": "cnt_000126",
+    "sourceCategory": "blogs",
+    "sourceSlug": "what-businesses-can-learn-from-sentiment-analysis",
+    "targetFamily": "blog",
+    "targetId": 13,
+    "targetSlug": "what-businesses-can-learn-from-sentiment-analysis"
+  },
+  {
+    "sourceId": "cnt_000127",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "saas-end-or-evolution",
+    "targetFamily": "whitepapers",
+    "targetId": 30,
+    "targetSlug": "saas-end-or-evolution"
+  },
+  {
+    "sourceId": "cnt_000128",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "ai-agent-guardrails-governance-2026",
+    "targetFamily": "whitepapers",
+    "targetId": 28,
+    "targetSlug": "ai-agent-guardrails-governance-2026"
+  },
+  {
+    "sourceId": "cnt_000129",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "ai-agent-guardrails-governance-2026-implementation",
+    "targetFamily": "whitepapers",
+    "targetId": 29,
+    "targetSlug": "ai-agent-guardrails-governance-2026-implementation"
+  },
+  {
+    "sourceId": "cnt_000130",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "llm-evaluation-agentic-rag-part1",
+    "targetFamily": "whitepapers",
+    "targetId": 26,
+    "targetSlug": "llm-evaluation-agentic-rag-part1"
+  },
+  {
+    "sourceId": "cnt_000131",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "llm-evaluation-agentic-rag-part2",
+    "targetFamily": "whitepapers",
+    "targetId": 27,
+    "targetSlug": "llm-evaluation-agentic-rag-part2"
+  },
+  {
+    "sourceId": "cnt_000132",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "ai-transformation-japan",
+    "targetFamily": "whitepapers",
+    "targetId": 24,
+    "targetSlug": "ai-transformation-japan"
+  },
+  {
+    "sourceId": "cnt_000134",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "your-architect-vs-ai-agents",
+    "targetFamily": "whitepapers",
+    "targetId": 22,
+    "targetSlug": "your-architect-vs-ai-agents"
+  },
+  {
+    "sourceId": "cnt_000135",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "welcome-to-the-age-of-agentsecops",
+    "targetFamily": "whitepapers",
+    "targetId": 21,
+    "targetSlug": "welcome-to-the-age-of-agentsecops"
+  },
+  {
+    "sourceId": "cnt_000136",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "beyond-mcp-to-mcps",
+    "targetFamily": "whitepapers",
+    "targetId": 20,
+    "targetSlug": "beyond-mcp-to-mcps"
+  },
+  {
+    "sourceId": "cnt_000137",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "google-agentspace-vs-querypie-mcp-pam",
+    "targetFamily": "whitepapers",
+    "targetId": 19,
+    "targetSlug": "google-agentspace-vs-querypie-mcp-pam"
+  },
+  {
+    "sourceId": "cnt_000138",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "uncovering-mcp-security",
+    "targetFamily": "whitepapers",
+    "targetId": 18,
+    "targetSlug": "uncovering-mcp-security"
+  },
+  {
+    "sourceId": "cnt_000139",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "ai-autonomous-access-control",
+    "targetFamily": "whitepapers",
+    "targetId": 17,
+    "targetSlug": "ai-autonomous-access-control"
+  },
+  {
+    "sourceId": "cnt_000140",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "next-step-mcp-pam",
+    "targetFamily": "whitepapers",
+    "targetId": 16,
+    "targetSlug": "next-step-mcp-pam"
+  },
+  {
+    "sourceId": "cnt_000141",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "redefining-pam-for-the-mcp-era",
+    "targetFamily": "whitepapers",
+    "targetId": 15,
+    "targetSlug": "redefining-pam-for-the-mcp-era"
+  },
+  {
+    "sourceId": "cnt_000142",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "reverse-tunneling-jumphost-solution",
+    "targetFamily": "whitepapers",
+    "targetId": 14,
+    "targetSlug": "reverse-tunneling-jumphost-solution"
+  },
+  {
+    "sourceId": "cnt_000143",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "seamless-ssh-connection",
+    "targetFamily": "whitepapers",
+    "targetId": 13,
+    "targetSlug": "seamless-ssh-connection"
+  },
+  {
+    "sourceId": "cnt_000144",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "querypie-grpc-dast-security",
+    "targetFamily": "whitepapers",
+    "targetId": 12,
+    "targetSlug": "querypie-grpc-dast-security"
+  },
+  {
+    "sourceId": "cnt_000145",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "efficient-audit-log-management",
+    "targetFamily": "whitepapers",
+    "targetId": 11,
+    "targetSlug": "efficient-audit-log-management"
+  },
+  {
+    "sourceId": "cnt_000146",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "kubernetes-access-control",
+    "targetFamily": "whitepapers",
+    "targetId": 6,
+    "targetSlug": "kubernetes-access-control"
+  },
+  {
+    "sourceId": "cnt_000147",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "pac-policy-as-code",
+    "targetFamily": "whitepapers",
+    "targetId": 7,
+    "targetSlug": "pac-policy-as-code"
+  },
+  {
+    "sourceId": "cnt_000148",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "parsing-sql-query-structural-interface",
+    "targetFamily": "whitepapers",
+    "targetId": 3,
+    "targetSlug": "parsing-sql-query-structural-interface"
+  },
+  {
+    "sourceId": "cnt_000149",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "penetration-testing-standard",
+    "targetFamily": "whitepapers",
+    "targetId": 9,
+    "targetSlug": "penetration-testing-standard"
+  },
+  {
+    "sourceId": "cnt_000150",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "personal-data-identification-analysis-ai",
+    "targetFamily": "whitepapers",
+    "targetId": 1,
+    "targetSlug": "personal-data-identification-analysis-ai"
+  },
+  {
+    "sourceId": "cnt_000151",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "preventing-command-bypass",
+    "targetFamily": "whitepapers",
+    "targetId": 5,
+    "targetSlug": "preventing-command-bypass"
+  },
+  {
+    "sourceId": "cnt_000152",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "querypie-devsecops-pipeline",
+    "targetFamily": "whitepapers",
+    "targetId": 10,
+    "targetSlug": "querypie-devsecops-pipeline"
+  },
+  {
+    "sourceId": "cnt_000153",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "secure-login-token-management",
+    "targetFamily": "whitepapers",
+    "targetId": 8,
+    "targetSlug": "secure-login-token-management"
+  },
+  {
+    "sourceId": "cnt_000154",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "shell-native-command-control-ssh-proxy-architecture",
+    "targetFamily": "whitepapers",
+    "targetId": 2,
+    "targetSlug": "shell-native-command-control-ssh-proxy-architecture"
+  },
+  {
+    "sourceId": "cnt_000155",
+    "sourceCategory": "white-papers",
+    "sourceSlug": "transaction-free-change-data-capture-system",
+    "targetFamily": "whitepapers",
+    "targetId": 4,
+    "targetSlug": "transaction-free-change-data-capture-system"
+  },
+  {
+    "sourceId": "cnt_000170",
+    "sourceCategory": "glossary",
+    "sourceSlug": "glossary-items",
+    "targetFamily": "glossary",
+    "targetId": 1,
+    "targetSlug": "querypie-ai-glossary"
+  },
+  {
+    "sourceId": "cnt_000196",
+    "sourceCategory": "events",
+    "sourceSlug": "air-company-ai-agent-security-webinar",
+    "targetFamily": "events",
+    "targetId": 27,
+    "targetSlug": "air-company-ai-agent-security-webinar"
+  },
+  {
+    "sourceId": "cnt_000197",
+    "sourceCategory": "events",
+    "sourceSlug": "air-company-querypie-ai-webinar-2",
+    "targetFamily": "events",
+    "targetId": 23,
+    "targetSlug": "air-company-querypie-ai-webinar"
+  },
+  {
+    "sourceId": "cnt_000198",
+    "sourceCategory": "events",
+    "sourceSlug": "air-company-querypie-ai-usecase-webinar-2",
+    "targetFamily": "events",
+    "targetId": 25,
+    "targetSlug": "air-company-querypie-ai-usecase-webinar"
+  },
+  {
+    "sourceId": "cnt_000199",
+    "sourceCategory": "events",
+    "sourceSlug": "air-company-querypie-ai-webinar-3",
+    "targetFamily": "events",
+    "targetId": 21,
+    "targetSlug": "air-company-querypie-ai-webinar"
+  },
+  {
+    "sourceId": "cnt_000203",
+    "sourceCategory": "manuals",
+    "sourceSlug": "querypie-acp-administrator-manual",
+    "targetFamily": "manuals",
+    "targetId": 2,
+    "targetSlug": "acp-administrator-manual"
+  },
+  {
+    "sourceId": "cnt_000204",
+    "sourceCategory": "manuals",
+    "sourceSlug": "querypie-acp-user-manual",
+    "targetFamily": "manuals",
+    "targetId": 3,
+    "targetSlug": "acp-user-manual"
+  },
+  {
+    "sourceId": "cnt_000205",
+    "sourceCategory": "manuals",
+    "sourceSlug": "querypie-acp-manual",
+    "targetFamily": "manuals",
+    "targetId": 5,
+    "targetSlug": "acp-manual"
+  },
+  {
+    "sourceId": "cnt_000206",
+    "sourceCategory": "manuals",
+    "sourceSlug": "querypie-aip-manual",
+    "targetFamily": "manuals",
+    "targetId": 6,
+    "targetSlug": "aip-manual"
+  },
+  {
+    "sourceId": "cnt_000207",
+    "sourceCategory": "manuals",
+    "sourceSlug": "querypie-acp-openapi-reference",
+    "targetFamily": "manuals",
+    "targetId": 4,
+    "targetSlug": "acp-api-reference"
+  },
+  {
+    "sourceId": "cnt_000208",
+    "sourceCategory": "manuals",
+    "sourceSlug": "querypie-acp-release-notes",
+    "targetFamily": "manuals",
+    "targetId": 7,
+    "targetSlug": "acp-release-notes"
+  },
+  {
+    "sourceId": "cnt_000209",
+    "sourceCategory": "introduction",
+    "sourceSlug": "querypie-acp",
+    "targetFamily": "introduction-deck",
+    "targetId": 2,
+    "targetSlug": "querypie-acp"
+  },
+  {
+    "sourceId": "cnt_000210",
+    "sourceCategory": "introduction",
+    "sourceSlug": "querypie-aip",
+    "targetFamily": "introduction-deck",
+    "targetId": 1,
+    "targetSlug": "querypie-aip"
+  },
+  {
+    "sourceId": "cnt_000211",
+    "sourceCategory": "blogs",
+    "sourceSlug": "ai-work-os-enterprise-intelligence",
+    "targetFamily": "blog",
+    "targetId": 32,
+    "targetSlug": "ai-work-os-enterprise-intelligence"
+  },
+  {
+    "sourceId": "cnt_000213",
+    "sourceCategory": "blogs",
+    "sourceSlug": "claude-fable-5-management-strategy",
+    "targetFamily": "blog",
+    "targetId": 30,
+    "targetSlug": "claude-fable-5-management-strategy"
+  }
+]

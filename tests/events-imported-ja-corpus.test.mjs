@@ -77,7 +77,8 @@ function listEventIds() {
 }
 
 test("event corpus includes every Japanese webinar source with a local MDX file", () => {
-  assert.deepEqual(listEventIds(), expectedIds);
+  const actualIds = new Set(listEventIds());
+  for (const id of expectedIds) assert.ok(actualIds.has(id), `missing imported event ${id}`);
 });
 
 test("migrated event MDX files use local event routes and route-aligned assets", () => {

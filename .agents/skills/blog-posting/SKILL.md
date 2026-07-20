@@ -53,10 +53,12 @@ This wrapper only adds the blog-specific contract.
 
 ## Verification
 ```bash
-npm run test -- tests/blog-list-server-source.test.mjs
-npm run test -- tests/blog-publication-cache.test.mjs
-npm run test -- tests/blog-canonical-slug-routing.test.mjs
-npm run test -- tests/blog-mdx-rendering-architecture.test.mjs
+node --test \
+  tests/blog/list-server-source.test.mjs \
+  tests/blog/publication-cache.test.mjs \
+  tests/blog/canonical-slug-routing.test.mjs \
+  tests/blog/mdx-rendering-architecture.test.mjs
+npm run test:publications
 ```
 
 If author data changed:

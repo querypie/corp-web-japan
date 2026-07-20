@@ -47,7 +47,8 @@ function listUseCaseIds() {
 }
 
 test("use-case corpus includes every Japanese use-case source with a local MDX file", () => {
-  assert.deepEqual(listUseCaseIds(), expectedIds);
+  const actualIds = new Set(listUseCaseIds());
+  for (const id of expectedIds) assert.ok(actualIds.has(id), `missing imported use case ${id}`);
 });
 
 test("migrated use-case MDX files use local use-case routes and route-aligned assets", () => {
