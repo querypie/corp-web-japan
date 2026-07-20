@@ -1,0 +1,33 @@
+name: Close ignored Global Documentation sync PR
+
+on:
+  pull_request_target:
+    types: [closed]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  close-source:
+    if: >-
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'content-sync-ignore/')
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - name: Close source sync PR from ignore marker
+        env:
+          GH_TOKEN: ${{ github.token }}
+          IGNORE_BODY: ${{ github.event.pull_request.body }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          marker=$(grep -oE '<!-- global-documentation-sync-ignore:v1 \{"sourceId":"cnt_[0-9]+","syncPr":[0-9]+\} -->' <<<"$IGNORE_BODY" || true)
+          [[ -n "$marker" ]] || { echo "ignore marker absent; no source PR to close"; exit 0; }
+          source_id=$(sed -E 's/.*"sourceId":"(cnt_[0-9]+)".*/\1/' <<<"$marker")
+          source_pr=$(sed -E 's/.*"syncPr":([0-9]+).*/\1/' <<<"$marker")
+          source=$(gh pr view "$source_pr" --repo "$REPOSITORY" --json state,isDraft,headRefName,body)
+          [[ "$(jq -r .state <<<"$source")" == OPEN && "$(jq -r .isDraft <<<"$source")" == true && "$(jq -r .headRefName <<<"$source")" == "content-sync/$source_id" ]] || { echo "source PR no longer matches open sync Draft; refusing close" >&2; exit 1; }
+          grep -Fq "\"sourceId\":\"$source_id\"" <<<"$(jq -r .body <<<"$source")" || { echo "source marker mismatch" >&2; exit 1; }
+          gh pr close "$source_pr" --repo "$REPOSITORY" --delete-branch
