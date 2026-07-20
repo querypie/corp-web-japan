@@ -4,6 +4,8 @@ on:
   workflow_run:
     workflows: [CI]
     types: [completed]
+  pull_request_review:
+    types: [submitted]
   workflow_dispatch:
     inputs:
       ignore_pr_number:
@@ -19,8 +21,12 @@ jobs:
   close-source:
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (github.event.workflow_run.conclusion == 'success' &&
-       startsWith(github.event.workflow_run.head_branch, 'content-sync-ignore/'))
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       startsWith(github.event.workflow_run.head_branch, 'content-sync-ignore/')) ||
+      (github.event_name == 'pull_request_review' &&
+       github.event.review.state == 'approved' &&
+       startsWith(github.event.pull_request.head.ref, 'content-sync-ignore/'))
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -31,9 +37,12 @@ jobs:
           DISPATCH_PR: ${{ inputs.ignore_pr_number }}
           RUN_PR: ${{ github.event.workflow_run.pull_requests[0].number }}
           RUN_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          REVIEW_PR: ${{ github.event.pull_request.number }}
+          REVIEW_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
           set -euo pipefail
-          ignore_pr="${DISPATCH_PR:-$RUN_PR}"
+          ignore_pr="${DISPATCH_PR:-${RUN_PR:-$REVIEW_PR}}"
+          RUN_BRANCH="${RUN_BRANCH:-$REVIEW_BRANCH}"
           if [[ -z "$ignore_pr" && "$RUN_BRANCH" =~ ^content-sync-ignore/cnt_[0-9]+$ ]]; then
             ignore_pr=$(gh pr list --repo "$REPOSITORY" --state merged --head "$RUN_BRANCH" --json number --limit 2 --jq 'if length == 1 then .[0].number else empty end')
           fi
