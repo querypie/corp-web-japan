@@ -36,7 +36,7 @@ test("server runtime is a locked oneshot Pi job", async () => {
   assert.match(service, /Type=oneshot/);
   assert.match(service, /User=corp-web-sync/);
   assert.match(service, /flock/);
-  assert.match(service, /TimeoutStartSec=2h/);
+  assert.match(service, /TimeoutStartSec=1h/);
   assert.match(service, /OnFailure=/);
   assert.match(service, /ProtectSystem=strict/);
   assert.match(timer, /OnCalendar=/);

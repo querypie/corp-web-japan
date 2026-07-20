@@ -8,6 +8,7 @@ import { createRunWorktree, publishDraft } from "./git-pr.mjs";
 import { SCHEMA_VERSION, validateArtifact } from "./lib.mjs";
 import { runPreflight } from "./preflight.mjs";
 import { redactSecrets } from "./redaction.mjs";
+import { updateRunStatus } from "./runtime-status.mjs";
 
 function parseArgs(argv) {
   const result = { dryRun: false };
@@ -58,6 +59,7 @@ export async function runProduction(options) {
   const runId = options.runId || new Date().toISOString().replace(/[-:.]/g, "").replace("Z", "Z");
   const reportsDir = path.join(options.reportsRoot, runId);
   await mkdir(reportsDir, { recursive: true });
+  await updateRunStatus({ reportsDir, runId, stage: "discovery" });
   await cleanupFailedWorktrees(options.targetRepo, options.worktreesRoot);
   const discovery = await discoverLive({ globalRepo: options.globalRepo, targetRepo: options.targetRepo, githubRepo: options.githubRepo });
   if (discovery.status !== "candidate") {
@@ -67,6 +69,7 @@ export async function runProduction(options) {
   }
 
   const productionEvidenceFile = path.join(reportsDir, "production-evidence.json");
+  await updateRunStatus({ reportsDir, runId, sourceId: discovery.source.sourceId, stage: "local-validation" });
   await atomicJson(productionEvidenceFile, { sourceId: discovery.source.sourceId, production: discovery.source.production });
   const worktreePath = path.join(options.worktreesRoot, `sync-${runId}`);
   await mkdir(options.worktreesRoot, { recursive: true });
@@ -96,6 +99,7 @@ export async function runProduction(options) {
     return dryRunSummary;
   }
 
+  await updateRunStatus({ reportsDir, runId, sourceId: candidate.sourceId, stage: "publish" });
   const published = await publishDraft({
     dryRun: false, targetRepo: worktreePath, candidate, validation, reviews,
     githubRepo: options.githubRepo,
@@ -110,6 +114,7 @@ export async function runProduction(options) {
   };
   validateArtifact("run-summary", summary);
   await atomicJson(path.join(reportsDir, "run-summary.json"), summary);
+  await updateRunStatus({ reportsDir, runId, sourceId: candidate.sourceId, stage: "complete", state: "passed", pullRequestUrl: published.pullRequestUrl });
   await run("git", ["worktree", "remove", "--force", worktreePath], options.targetRepo);
   return summary;
 }
@@ -119,7 +124,11 @@ if (process.argv[1]?.endsWith("production-run.mjs")) {
   options.runId ||= new Date().toISOString().replace(/[-:.]/g, "");
   runProduction(options).then((result) => process.stdout.write(`${JSON.stringify(result)}\n`)).catch(async (error) => {
     const failure = { schemaVersion: SCHEMA_VERSION, runId: options.runId, status: "failed", exitCode: 1, failedAt: new Date().toISOString(), reason: redactSecrets(error.message) };
-    if (options.reportsRoot) await atomicJson(path.join(options.reportsRoot, options.runId, "failure-summary.json"), failure).catch(() => {});
+    if (options.reportsRoot) {
+      const reportsDir = path.join(options.reportsRoot, options.runId);
+      await atomicJson(path.join(reportsDir, "failure-summary.json"), failure).catch(() => {});
+      await updateRunStatus({ reportsDir, runId: options.runId, stage: "failed", state: "failed", reason: failure.reason }).catch(() => {});
+    }
     process.stderr.write(`${JSON.stringify({ event: "failed", message: failure.reason, report: options.reportsRoot ? path.join(options.reportsRoot, options.runId, "failure-summary.json") : null })}\n`);
     process.exitCode = 1;
   });
