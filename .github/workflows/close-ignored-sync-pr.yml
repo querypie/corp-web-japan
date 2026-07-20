@@ -29,10 +29,14 @@ jobs:
           REPOSITORY: ${{ github.repository }}
           DISPATCH_PR: ${{ inputs.ignore_pr_number }}
           RUN_PR: ${{ github.event.workflow_run.pull_requests[0].number }}
+          RUN_BRANCH: ${{ github.event.workflow_run.head_branch }}
         run: |
           set -euo pipefail
           ignore_pr="${DISPATCH_PR:-$RUN_PR}"
-          [[ "$ignore_pr" =~ ^[0-9]+$ ]] || { echo "missing ignore PR number" >&2; exit 1; }
+          if [[ -z "$ignore_pr" && "$RUN_BRANCH" =~ ^content-sync-ignore/cnt_[0-9]+$ ]]; then
+            ignore_pr=$(gh pr list --repo "$REPOSITORY" --state merged --head "$RUN_BRANCH" --json number --limit 2 --jq 'if length == 1 then .[0].number else empty end')
+          fi
+          [[ "$ignore_pr" =~ ^[0-9]+$ ]] || { echo "missing or ambiguous ignore PR for branch $RUN_BRANCH" >&2; exit 1; }
 
           for attempt in $(seq 1 12); do
             ignore=$(gh pr view "$ignore_pr" --repo "$REPOSITORY" --json state,headRefName,body)
