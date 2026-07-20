@@ -40,8 +40,9 @@ Each run writes to `REPORTS_ROOT/<run-id>/`:
 Lifecycle stages include discovery, Pi generation/review, generated validation, full CI,
 build, browser QA, publish, and terminal completion or failure. Failure notifications
 include the owner mention, run ID, stage, host, report directory, and redacted reason.
-Stale automation worktrees are eligible for cleanup after seven days. Report-directory
-rotation is a separate host responsibility; the Node runner does not delete reports.
+Stale automation worktrees are eligible for cleanup after seven days. The production
+host uses `systemd-tmpfiles` with an `mM:7d` policy to remove report artifacts seven days
+after their last modification; the Node runner itself does not delete reports.
 
 The systemd service is the supported production entry point. See
 [`ops/global-documentation-sync/README.md`](../../ops/global-documentation-sync/README.md)

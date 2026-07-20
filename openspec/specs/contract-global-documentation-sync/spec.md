@@ -124,4 +124,4 @@ The production host SHALL use timezone `Asia/Seoul`. The systemd timer SHALL run
 
 ## Operational retention
 
-Failed automation worktrees older than seven days are eligible for automation-owned cleanup. Run reports remain under `REPORTS_ROOT/<run-id>/` for diagnosis; host-level retention or durable storage MUST be configured separately because report-directory rotation is not implemented by the Node runner.
+Failed automation worktrees older than seven days are eligible for automation-owned cleanup. Run reports SHALL remain under `REPORTS_ROOT/<run-id>/` for diagnosis and SHALL be removed by the production host's `systemd-tmpfiles` `mM:7d` policy seven days after their last modification. Reading a report SHALL NOT extend retention. The Node runner SHALL NOT delete report directories. Durable storage MUST be configured separately when evidence must survive Spot VM reclamation.

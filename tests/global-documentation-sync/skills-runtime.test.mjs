@@ -33,6 +33,7 @@ test("server runtime is a locked oneshot Pi job", async () => {
   const runner = await read("ops/global-documentation-sync/run-global-documentation-sync.sh");
   const lockRunner = await read("ops/global-documentation-sync/run-with-flock.sh");
   const failureUnit = await read("ops/global-documentation-sync/global-documentation-sync-failure@.service");
+  const reportRetention = await read("ops/global-documentation-sync/global-documentation-sync-reports.conf");
   assert.match(service, /Type=oneshot/);
   assert.match(service, /User=corp-web-sync/);
   assert.match(service, /flock/);
@@ -46,5 +47,6 @@ test("server runtime is a locked oneshot Pi job", async () => {
   assert.match(lockRunner, /flock -n/);
   assert.match(lockRunner, /skipped_locked/);
   assert.match(failureUnit, /report-failure\.sh/);
+  assert.match(reportRetention, /^d \/var\/lib\/global-documentation-sync\/reports 0700 corp-web-sync corp-web-sync mM:7d -$/m);
   assert.doesNotMatch(runner, /git push|gh pr create/);
 });
