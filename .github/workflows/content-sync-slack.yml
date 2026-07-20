@@ -1,0 +1,49 @@
+name: Notify Global Documentation sync Draft PR
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  notify:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.draft &&
+       github.event.pull_request.head.repo.full_name == github.repository &&
+       startsWith(github.event.pull_request.head.ref, 'content-sync/'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - name: Send Slack notification
+        env:
+          WEBHOOK_URL: ${{ secrets.CONTENT_SYNC_SLACK_WEBHOOK_URL }}
+          MENTION: ${{ vars.CONTENT_SYNC_SLACK_MENTION }}
+          CHANNEL_ID: ${{ vars.CONTENT_SYNC_SLACK_CHANNEL_ID }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          : "${WEBHOOK_URL:?CONTENT_SYNC_SLACK_WEBHOOK_URL is required}"
+          : "${MENTION:?CONTENT_SYNC_SLACK_MENTION is required}"
+          : "${CHANNEL_ID:?CONTENT_SYNC_SLACK_CHANNEL_ID is required}"
+
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            text="$MENTION Global Documentation Sync Slack notification test. Configured channel: $CHANNEL_ID"
+          else
+            source_id="${PR_BRANCH#content-sync/}"
+            text="$MENTION Global Documentation Draft PR is ready for review.
+          PR: $PR_TITLE
+          Source: $source_id
+          URL: $PR_URL"
+          fi
+
+          payload=$(jq -nc --arg text "$text" '{text: $text}')
+          curl --fail --silent --show-error --max-time 15 \
+            -H 'Content-Type: application/json' \
+            -d "$payload" \
+            "$WEBHOOK_URL"
