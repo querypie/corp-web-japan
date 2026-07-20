@@ -11,6 +11,11 @@ Automates one eligible QueryPie Global Documentation record into one Japan Draft
 - Runs generated-contract validation, `npm run test:ci`, `next build`, and desktop/mobile browser QA before a Draft PR.
 - Never merges or deploys generated content.
 - A failed gate stops before commit, push, or PR creation.
+- The systemd service enforces a one-hour hard timeout.
+- The production timer runs daily at 10:00 KST with up to ten minutes of randomized delay.
+
+The canonical durable contract is
+[`openspec/specs/contract-global-documentation-sync/spec.md`](../../openspec/specs/contract-global-documentation-sync/spec.md).
 
 ## Entry points
 
@@ -32,6 +37,12 @@ Each run writes to `REPORTS_ROOT/<run-id>/`:
 - `generation-report.json`, review artifacts, validation and browser results.
 - `run-summary.json` on success or `failure-summary.json` on failure.
 
+Lifecycle stages include discovery, Pi generation/review, generated validation, full CI,
+build, browser QA, publish, and terminal completion or failure. Failure notifications
+include the owner mention, run ID, stage, host, report directory, and redacted reason.
+Stale automation worktrees are eligible for cleanup after seven days. Report-directory
+rotation is a separate host responsibility; the Node runner does not delete reports.
+
 The systemd service is the supported production entry point. See
 [`ops/global-documentation-sync/README.md`](../../ops/global-documentation-sync/README.md)
 for installation, credentials, recovery, and scheduler operations.
@@ -40,6 +51,9 @@ for installation, credentials, recovery, and scheduler operations.
 
 - Review or merge a generated Draft PR normally.
 - Use the `Ignore Global Documentation sync PR` GitHub Actions dispatch workflow with a
-  sync PR number to create an ignore decision.
+  sync PR number to create a protected-branch-compliant ignore PR with auto-merge enabled.
+- After the ignore PR merges, reconciliation validates the machine marker, closes the
+  original sync Draft PR, and deletes its branch. Reconciliation runs after immediate CI,
+  after delayed approval, or through manual dispatch for recovery.
 - Never edit generated worktrees, runtime reports, or `content-sync/*` branches manually
   while a run is active.
