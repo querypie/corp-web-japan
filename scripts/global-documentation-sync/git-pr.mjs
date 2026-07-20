@@ -78,9 +78,37 @@ export function buildPullRequestBody({ candidate, validation, reviews }) {
   ].join("\n");
 }
 
+function parseWorktreeList(raw) {
+  return raw.trim().split("\n\n").filter(Boolean).map((entry) => Object.fromEntries(entry.split("\n").map((line) => {
+    const [key, ...value] = line.split(" ");
+    return [key, value.join(" ")];
+  })));
+}
+
+export async function reclaimUnpublishedBaseBranch({ baseRepo, worktreePath, sourceId, baseRef = "origin/main", execute = defaultExecute }) {
+  const branch = branchFor(sourceId);
+  const localCommit = (await execute("git", ["for-each-ref", "--format=%(objectname)", `refs/heads/${branch}`], baseRepo)).trim();
+  if (!localCommit) return false;
+  const remote = await execute("git", ["ls-remote", "--heads", "origin", `refs/heads/${branch}`], baseRepo);
+  if (remote.trim()) throw new Error(`unpublished sync branch has a remote ref: ${branch}`);
+  const baseCommit = (await execute("git", ["rev-parse", baseRef], baseRepo)).trim();
+  if (localCommit !== baseCommit) throw new Error(`unpublished sync branch has local commits: ${branch}`);
+
+  const root = path.dirname(path.resolve(worktreePath));
+  const worktrees = parseWorktreeList(await execute("git", ["worktree", "list", "--porcelain"], baseRepo));
+  for (const worktree of worktrees.filter(({ branch: ref }) => ref === `refs/heads/${branch}`)) {
+    const relative = path.relative(root, path.resolve(worktree.worktree));
+    if (!relative || relative.startsWith("..") || path.isAbsolute(relative)) throw new Error(`unpublished sync branch is checked out outside the automation worktree root: ${branch}`);
+    await execute("git", ["worktree", "remove", "--force", worktree.worktree], baseRepo);
+  }
+  await execute("git", ["branch", "-D", branch], baseRepo);
+  return true;
+}
+
 export async function createRunWorktree({ baseRepo, worktreePath, sourceId, baseRef = "origin/main", execute = defaultExecute }) {
   const branch = branchFor(sourceId);
   await execute("git", ["fetch", "origin", "main"], baseRepo);
+  await reclaimUnpublishedBaseBranch({ baseRepo, worktreePath, sourceId, baseRef, execute });
   await execute("git", ["worktree", "add", "--detach", worktreePath, baseRef], baseRepo);
   return { branch, worktreePath };
 }
