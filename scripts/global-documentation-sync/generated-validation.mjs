@@ -22,8 +22,12 @@ export async function validateGeneratedPublication(candidate, generationReport, 
   for (const required of ["title", "description", "heroImageSrc"]) if (!field(required)) throw new Error(`frontmatter ${required} is required`);
   if (["blog", "whitepapers", "events", "use-cases"].includes(candidate.targetFamily) && !/^\d{4}-\d{2}-\d{2}$/.test(field("date") || "")) throw new Error("publication frontmatter date must be ISO YYYY-MM-DD");
   const author = field("author");
-  if (candidate.resolvedAuthor && author !== candidate.resolvedAuthor) throw new Error(`frontmatter author must equal resolved author ${candidate.resolvedAuthor}`);
-  if (!candidate.resolvedAuthor && author) throw new Error(`author is unsupported for ${candidate.targetFamily}`);
+  const authorListBlock = /^author:\s*\n((?:\s+-[^\n]+\n?)*)/m.exec(frontmatter)?.[1] || "";
+  const authorList = [...authorListBlock.matchAll(/^\s+-\s*["']?([^"'\n]+)["']?\s*$/gm)].map((match) => match[1].trim());
+  if (Array.isArray(candidate.resolvedAuthor)) {
+    if (JSON.stringify(authorList) !== JSON.stringify(candidate.resolvedAuthor)) throw new Error(`frontmatter author list must equal resolved authors ${candidate.resolvedAuthor.join(", ")}`);
+  } else if (candidate.resolvedAuthor && author !== candidate.resolvedAuthor) throw new Error(`frontmatter author must equal resolved author ${candidate.resolvedAuthor}`);
+  if (!candidate.resolvedAuthor && (author || authorList.length)) throw new Error(`author is unsupported for ${candidate.targetFamily}`);
   if (/^hideHeroImage:/m.test(frontmatter)) throw new Error("unsupported hideHeroImage field; use hideHeroImageOnDetail");
   if (candidate.meta.hideHeroImage === true && ["blog", "whitepapers", "events", "use-cases"].includes(candidate.targetFamily) && !/^hideHeroImageOnDetail:\s*true\s*$/m.test(frontmatter)) throw new Error("source hidden-hero behavior requires hideHeroImageOnDetail: true");
   if ((candidate.meta.relatedIds || []).length === 0) {
@@ -34,7 +38,7 @@ export async function validateGeneratedPublication(candidate, generationReport, 
   if (hero !== candidate.heroImagePublicPath) throw new Error(`heroImageSrc is not the allocated hero: ${hero}`);
   if (!await exists(path.join(targetRepo, "public", hero.replace(/^\//, "")))) throw new Error(`missing hero asset: ${hero}`);
   const allowedMedia = new Set((candidate.externalMedia || []).map(({ identity }) => identity));
-  for (const match of mdx.matchAll(/<(?:iframe|video|source)[^>]+src=["']([^"']+)["']/g)) {
+  for (const match of mdx.matchAll(/<(?:iframe|video|source|Youtube)[^>]+src=["']([^"']+)["']/g)) {
     if (!/^https:\/\//.test(match[1])) continue;
     const identity = externalMediaIdentity(match[1]);
     if (!allowedMedia.has(identity)) throw new Error(`external media is not source-approved: ${match[1]}`);

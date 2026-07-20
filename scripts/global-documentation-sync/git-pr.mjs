@@ -8,6 +8,41 @@ import { hasBlockingFindings, validateArtifact } from "./lib.mjs";
 
 export const branchFor = (sourceId) => `content-sync/${sourceId}`;
 
+function repoRelative(targetRepo, file) {
+  const relative = path.relative(path.resolve(targetRepo), path.resolve(file));
+  if (!relative || relative.startsWith("..") || path.isAbsolute(relative)) throw new Error(`allocated path escapes target repo: ${file}`);
+  return relative.split(path.sep).join("/");
+}
+
+export async function assertAllocatedGitDiff({ targetRepo, candidate, allowStaleMdx = false, execute = defaultExecute }) {
+  const raw = await execute("git", ["status", "--porcelain=v1", "-z", "--untracked-files=all"], targetRepo);
+  const entries = raw.split("\0").filter(Boolean);
+  const changed = [];
+  for (const entry of entries) {
+    const status = entry.slice(0, 2);
+    if (/[RC]/.test(status)) throw new Error(`renames/copies are not allowed in generated publication diff: ${entry}`);
+    changed.push(entry.slice(3));
+  }
+  if (!changed.length) throw new Error("generated publication diff is empty");
+  const allowed = new Set([
+    candidate.targetMdxPath, candidate.heroImagePath, ...(candidate.assets || []).map(({ targetPath }) => targetPath),
+  ].filter(Boolean).map((file) => repoRelative(targetRepo, file)));
+  const stalePattern = new RegExp(`^src/content/${candidate.targetFamily}/${candidate.targetId}-.+\\.mdx$`);
+  const unexpected = changed.filter((file) => !allowed.has(file) && !(allowStaleMdx && stalePattern.test(file)));
+  if (unexpected.length) throw new Error(`generated publication diff contains unallocated paths: ${JSON.stringify(unexpected)}`);
+  const targetMdx = repoRelative(targetRepo, candidate.targetMdxPath);
+  if (!changed.includes(targetMdx)) throw new Error("generated publication diff does not include allocated MDX");
+  return changed;
+}
+
+async function stageAllocatedDiff({ targetRepo, candidate, allowStaleMdx, execute }) {
+  const changed = await assertAllocatedGitDiff({ targetRepo, candidate, allowStaleMdx, execute });
+  await execute("git", ["add", "--all", "--", ...changed], targetRepo);
+  const staged = (await execute("git", ["diff", "--cached", "--name-only", "-z"], targetRepo)).split("\0").filter(Boolean).sort();
+  if (JSON.stringify(staged) !== JSON.stringify([...changed].sort())) throw new Error("staged diff does not exactly match validated allocated paths");
+  return changed;
+}
+
 async function defaultExecute(command, args, cwd) {
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, { cwd, env: process.env, stdio: ["ignore", "pipe", "pipe"] });
@@ -56,7 +91,7 @@ export async function publishDraft({ dryRun, targetRepo, candidate, validation, 
   const current = (await execute("git", ["branch", "--show-current"], targetRepo)).trim();
   if (current && current !== branch) throw new Error(`unexpected publication branch: ${current}`);
   if (!current) await execute("git", ["switch", "-c", branch], targetRepo);
-  await execute("git", ["add", "--all"], targetRepo);
+  await stageAllocatedDiff({ targetRepo, candidate, allowStaleMdx: false, execute });
   await execute("git", ["commit", "-m", `content: sync Global documentation ${candidate.sourceId}`], targetRepo);
   await execute("git", ["push", "--set-upstream", "origin", branch], targetRepo);
   const commit = (await execute("git", ["rev-parse", "HEAD"], targetRepo)).trim();
@@ -79,10 +114,10 @@ export async function authorizeClosedRetry({ targetRepo, sourceId, githubRepo = 
   return { pullRequestNumber: pull.number, branch, marker: parseSyncMarker(pull.body), isDraft: pull.isDraft };
 }
 
-export async function publishRetry({ targetRepo, sourceId, pullRequestNumber, pullRequestBody, wasDraft = true, githubRepo = "querypie/corp-web-japan", execute = defaultExecute }) {
+export async function publishRetry({ targetRepo, candidate, sourceId = candidate?.sourceId, pullRequestNumber, pullRequestBody, wasDraft = true, githubRepo = "querypie/corp-web-japan", execute = defaultExecute }) {
   const branch = branchFor(sourceId);
   await execute("git", ["checkout", "-B", branch, `origin/${branch}`], targetRepo);
-  await execute("git", ["add", "--all"], targetRepo);
+  await stageAllocatedDiff({ targetRepo, candidate, allowStaleMdx: true, execute });
   await execute("git", ["commit", "-m", `content: retry Global documentation ${sourceId}`], targetRepo);
   await execute("git", ["push", "origin", branch], targetRepo);
   const commit = (await execute("git", ["rev-parse", "HEAD"], targetRepo)).trim();
@@ -109,7 +144,7 @@ export async function resumeBranchOnly({ targetRepo, sourceId, reportsDir, githu
       assertIdentity(validateArtifact(type, JSON.parse(await readFile(path.join(reportsDir, `${type}.json`), "utf8")))),
     ),
   );
-  if (reviews.some(hasBlockingFindings)) throw new Error("retained reviews contain blocking findings");
+  if (reviews.some((review) => review.verdict !== "pass" || review.findings.some(({ severity }) => severity !== "note") || hasBlockingFindings(review))) throw new Error("retained reviews contain unresolved actionable findings");
   const state = JSON.parse(await readFile(path.join(reportsDir, "branch-state.json"), "utf8"));
   const branch = branchFor(sourceId);
   if (state.branch !== branch || !/^[a-f0-9]{40,64}$/.test(state.commit || "")) throw new Error("invalid retained branch state");
@@ -118,6 +153,8 @@ export async function resumeBranchOnly({ targetRepo, sourceId, reportsDir, githu
   if (remoteCommit !== state.commit) throw new Error("remote branch no longer matches validated commit");
   if (typeof revalidate !== "function") throw new Error("branch-only resume requires fresh revalidation");
   validation = assertIdentity(validateArtifact("validation-results", await revalidate({ branch, commit: state.commit, candidate, reportsDir })));
+  const remoteAfterValidation = await execute("git", ["ls-remote", "--heads", "origin", `refs/heads/${branch}`], targetRepo);
+  if (remoteAfterValidation.trim().split(/\s+/)[0] !== state.commit) throw new Error("remote branch changed during fresh revalidation");
   const title = `Sync Global documentation: ${candidate.meta.title?.en || candidate.meta.id}`;
   const body = buildPullRequestBody({ candidate, validation, reviews });
   const pullRequestUrl = (await execute("gh", ["pr", "create", "--repo", githubRepo, "--draft", "--base", "main", "--head", branch, "--title", title, "--body", body], targetRepo)).trim();

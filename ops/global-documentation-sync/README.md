@@ -51,8 +51,29 @@ at a shared human worktree directory. Cleanup only considers automation-owned
 `sync-*` and `retry-*` directories inside that root.
 
 `baseline.json` and `ignore.json` must remain source-ID sorted and duplicate
-free. Closed PR markers and remote `content-sync/*` branches are also permanent
-suppression records.
+free. Ignore identity is always the immutable Global `sourceId`; the canonical
+URL is a required audit snapshot, never the lookup key. URL drift blocks the run
+for review. Optional `expiresAt` makes a temporary decision eligible again after
+expiry.
+
+```json
+[
+  {
+    "sourceId": "cnt_000211",
+    "sourceCanonicalUrl": "https://www.querypie.com/en/blog/example",
+    "reasonCode": "not-for-japan",
+    "reason": "Japan publication intentionally excluded",
+    "addedBy": "owner",
+    "addedAt": "2026-07-20T00:00:00Z",
+    "expiresAt": "2026-10-01T00:00:00Z"
+  }
+]
+```
+
+Allowed `reasonCode` values: `not-for-japan`, `duplicate`, `superseded`,
+`legal-hold`, `launch-gated`, `manual-publication`, `source-quality`, and
+`other`. Omit `expiresAt` for permanent decisions. Closed PR markers and remote
+`content-sync/*` branches are also permanent suppression records.
 
 ## Installation
 

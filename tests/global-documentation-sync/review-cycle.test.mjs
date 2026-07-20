@@ -8,7 +8,7 @@ import { runReviewCycle } from "../../scripts/global-documentation-sync/review-c
 
 const schemaVersion = "global-documentation-sync/v1";
 
-test("corrects blocking reviews and reruns all reviewers in fresh processes", async () => {
+test("corrects every review finding and reruns all reviewers in fresh processes", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "review-cycle-"));
   const targetRepo = path.join(root, "target");
   const reportsDir = path.join(root, "reports");
@@ -31,7 +31,7 @@ test("corrects blocking reviews and reruns all reviewers in fresh processes", as
     }
     if (role === "fidelity") fidelityCalls += 1;
     const blocking = role === "fidelity" && fidelityCalls === 1;
-    return JSON.stringify({ schemaVersion, artifactType: `${role}-review`, runId: "r", sourceId: "cnt_1", verdict: blocking ? "revise" : "pass", findings: blocking ? [{ severity: "major", location: "body", message: "drift", suggestion: "fix" }] : [] });
+    return JSON.stringify({ schemaVersion, artifactType: `${role}-review`, runId: "r", sourceId: "cnt_1", verdict: blocking ? "revise" : "pass", findings: blocking ? [{ severity: "minor", location: "body", message: "drift", suggestion: "fix" }] : [] });
   };
   const result = await runReviewCycle({ piBin: "pi", provider: "p", model: "m", targetRepo, candidatePath, reportsDir, runProcess });
   assert.equal(result.attempts, 2);

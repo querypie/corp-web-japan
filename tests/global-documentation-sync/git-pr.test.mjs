@@ -4,10 +4,18 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 
-import { authorizeClosedRetry, branchFor, buildPullRequestBody, createRunWorktree, publishDraft, publishRetry, resumeBranchOnly } from "../../scripts/global-documentation-sync/git-pr.mjs";
+import { assertAllocatedGitDiff, authorizeClosedRetry, branchFor, buildPullRequestBody, createRunWorktree, publishDraft, publishRetry, resumeBranchOnly } from "../../scripts/global-documentation-sync/git-pr.mjs";
 import { parseSyncMarker } from "../../scripts/global-documentation-sync/discovery.mjs";
 
-const candidate = { sourceId: "cnt_9", sourceHash: "sha256:x", targetFamily: "blog", targetId: 9, meta: { id: "nine" }, production: { canonicalUrl: "https://www.querypie.com/en/blog/nine" }, runId: "run-9" };
+const candidate = { sourceId: "cnt_9", sourceHash: "sha256:x", targetFamily: "blog", targetId: 9, targetMdxPath: "/target/src/content/blog/9-nine.mdx", assets: [], meta: { id: "nine" }, production: { canonicalUrl: "https://www.querypie.com/en/blog/nine" }, runId: "run-9" };
+
+const generatedDiffExecute = (calls) => async (command, args) => {
+  calls.push([command, args]);
+  if (command === "gh") return "https://github.com/querypie/corp-web-japan/pull/1\n";
+  if (args[0] === "status") return "?? src/content/blog/9-nine.mdx\0";
+  if (args[0] === "diff") return "src/content/blog/9-nine.mdx\0";
+  return "";
+};
 
 test("uses deterministic branches and a machine-readable PR marker", () => {
   assert.equal(branchFor("cnt_9"), "content-sync/cnt_9");
@@ -33,9 +41,16 @@ test("dry-run cannot commit, push, or create a PR", async () => {
   assert.equal(calls, 0);
 });
 
+test("rejects generated side effects outside the allocated publication files", async () => {
+  await assert.rejects(() => assertAllocatedGitDiff({
+    targetRepo: "/target", candidate,
+    execute: async () => "?? src/content/blog/9-nine.mdx\0?? scripts/injected.mjs\0",
+  }), /unallocated paths/);
+});
+
 test("publishes one commit and Draft PR without merge", async () => {
   const calls = [];
-  const execute = async (command, args) => { calls.push([command, args]); return command === "gh" ? "https://github.com/querypie/corp-web-japan/pull/1\n" : ""; };
+  const execute = generatedDiffExecute(calls);
   const result = await publishDraft({ dryRun: false, targetRepo: "/target", candidate, validation: { results: [] }, reviews: [], execute });
   assert.equal(result.pullRequestUrl, "https://github.com/querypie/corp-web-japan/pull/1");
   assert.ok(calls.some(([command, args]) => command === "git" && args[0] === "commit"));
@@ -57,9 +72,10 @@ test("resumes PR creation only when retained reports match the remote branch com
     ...["fidelity-review", "japanese-editorial-review", "contract-review"].map((type) => writeFile(path.join(reportsDir, `${type}.json`), JSON.stringify(review(type)))),
     writeFile(path.join(reportsDir, "branch-state.json"), JSON.stringify({ branch: branchFor(sourceId), commit: "a".repeat(40) })),
   ]);
+  let remoteChecks = 0;
   const execute = async (command, args) => {
     if (command === "gh" && args[0] === "api") return "[[]]";
-    if (command === "git") return `${"a".repeat(40)}\trefs/heads/${branchFor(sourceId)}\n`;
+    if (command === "git") { remoteChecks += 1; return `${"a".repeat(40)}\trefs/heads/${branchFor(sourceId)}\n`; }
     if (command === "gh" && args[1] === "create") return "https://github.com/querypie/corp-web-japan/pull/9\n";
     return "";
   };
@@ -67,8 +83,9 @@ test("resumes PR creation only when retained reports match the remote branch com
   const result = await resumeBranchOnly({ targetRepo: "/repo", sourceId, reportsDir, execute, revalidate: async () => { revalidated = true; return { schemaVersion: validCandidate.schemaVersion, artifactType: "validation-results", runId, sourceId, results: [{ command: "fresh-test", code: 0 }] }; } });
   assert.equal(revalidated, true);
   assert.equal(result.pullRequestUrl, "https://github.com/querypie/corp-web-japan/pull/9");
+  assert.equal(remoteChecks, 2);
   await writeFile(path.join(reportsDir, "fidelity-review.json"), JSON.stringify({ ...review("fidelity-review"), verdict: "revise", findings: [{ severity: "major", message: "meaning drift" }] }));
-  await assert.rejects(() => resumeBranchOnly({ targetRepo: "/repo", sourceId, reportsDir, execute, revalidate: async () => { throw new Error("must not run"); } }), /blocking/);
+  await assert.rejects(() => resumeBranchOnly({ targetRepo: "/repo", sourceId, reportsDir, execute, revalidate: async () => { throw new Error("must not run"); } }), /unresolved/);
 });
 
 test("manual retry requires the retry label and existing remote branch", async () => {
@@ -76,14 +93,17 @@ test("manual retry requires the retry label and existing remote branch", async (
   const execute = async (command, args) => {
     calls.push([command, args]);
     if (command === "gh" && args[0] === "api") return JSON.stringify([[{ number: 7, state: "closed", merged_at: null, body: buildPullRequestBody({ candidate, validation: { results: [] }, reviews: [] }), labels: [{ name: "content-sync:retry" }], head: { ref: branchFor(candidate.sourceId) }, html_url: "url" }]]);
-    return args[0] === "ls-remote" ? "hash\trefs/heads/content-sync/cnt_9\n" : "";
+    if (args[0] === "ls-remote") return "hash\trefs/heads/content-sync/cnt_9\n";
+    if (args[0] === "status") return "?? src/content/blog/9-nine.mdx\0";
+    if (args[0] === "diff") return "src/content/blog/9-nine.mdx\0";
+    return "";
   };
   const authorized = await authorizeClosedRetry({ targetRepo: "/target", sourceId: "cnt_9", githubRepo: "querypie/corp-web-japan", execute });
   assert.equal(authorized.pullRequestNumber, 7);
   assert.ok(!calls.some(([command, args]) => command === "gh" && args[1] === "reopen"));
 
   calls.length = 0;
-  await publishRetry({ targetRepo: "/target", sourceId: "cnt_9", pullRequestNumber: 7, wasDraft: false, execute });
+  await publishRetry({ targetRepo: "/target", candidate, sourceId: "cnt_9", pullRequestNumber: 7, wasDraft: false, execute });
   assert.ok(calls.some(([command, args]) => command === "gh" && args[1] === "reopen" && args.includes("7")));
   assert.ok(calls.some(([command, args]) => command === "gh" && args[1] === "ready" && args.includes("--undo")));
   assert.ok(calls.some(([command, args]) => command === "git" && args[0] === "push"));

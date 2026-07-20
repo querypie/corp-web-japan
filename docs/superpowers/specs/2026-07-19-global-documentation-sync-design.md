@@ -117,8 +117,10 @@ Repository state:
   `targetId`, and `targetSlug`. It is generated once, rejects duplicate source or
   target identities, and is manually reviewed before scheduling is enabled.
 - `.github/content-sync/ignore.json` is a source-ID-sorted array containing
-  `sourceId`, `reason`, `addedBy`, and `addedAt` for explicit permanent
-  exclusions.
+  immutable-key `sourceId`, audit snapshot `sourceCanonicalUrl`, `reasonCode`,
+  `reason`, `addedBy`, and `addedAt`. Optional `expiresAt` supports temporary
+  decisions. Ignore lookup always uses `sourceId`; canonical URL drift blocks
+  the run for human review rather than silently changing the decision target.
 - Pull request bodies contain a machine-readable JSON marker with provenance,
   target family, target ID, run ID, and generated branch.
 

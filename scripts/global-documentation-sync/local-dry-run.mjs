@@ -47,12 +47,8 @@ async function main() {
   else await runReviewCycle(agentOptions);
   const generation = JSON.parse(await readFile(path.join(options.reportsDir, "generation-report.json"), "utf8"));
   await validateGeneratedPublication(candidate, generation, options.targetRepo);
-  const validationCommands = candidate.targetFamily === "blog" ? [
-    ["node", ["--test", "tests/blog/list-server-source.test.mjs", "tests/blog/publication-cache.test.mjs", "tests/blog/canonical-slug-routing.test.mjs", "tests/blog/mdx-rendering-architecture.test.mjs"]],
-    ["npm", ["run", "test:publications"]],
-    [path.join(options.targetRepo, "node_modules/.bin/next"), ["build"]],
-  ] : [
-    ["npm", ["run", "test:publications"]],
+  const validationCommands = [
+    ["npm", ["run", "test:ci"]],
     [path.join(options.targetRepo, "node_modules/.bin/next"), ["build"]],
   ];
   const results = [{ command: "generated-publication-contract", code: 0, stdout: "passed" }];

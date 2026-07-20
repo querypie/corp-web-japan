@@ -21,11 +21,26 @@ test("selects at most one exact production candidate after all decision records"
   await source(globalRepo, "cnt_3", "newest", { dateIso: "2026-03-01" });
   await mkdir(path.join(targetRepo, ".github/content-sync"), { recursive: true });
   await writeFile(path.join(targetRepo, ".github/content-sync/baseline.json"), JSON.stringify([{ sourceId: "cnt_1", sourceCategory: "blogs", sourceSlug: "handled", targetFamily: "blog", targetId: 1, targetSlug: "handled" }]));
-  await writeFile(path.join(targetRepo, ".github/content-sync/ignore.json"), JSON.stringify([{ sourceId: "cnt_2", reason: "rejected", addedBy: "owner", addedAt: "2026-01-01" }]));
+  await writeFile(path.join(targetRepo, ".github/content-sync/ignore.json"), JSON.stringify([{ sourceId: "cnt_2", sourceCanonicalUrl: "https://www.querypie.com/en/blog/ignored", reasonCode: "not-for-japan", reason: "rejected", addedBy: "owner", addedAt: "2026-01-01" }]));
   const urls = ["handled", "ignored", "newest"].map((slug) => `https://www.querypie.com/en/blog/${slug}`);
   const result = await discoverNextCandidate({ globalRepo, targetRepo, sitemapXml: urls.map((url) => `<url><loc>${url}</loc></url>`).join(""), documentationListHtml: urls.map((url) => `<a href="${url}">${url}</a>`).join("") , prRecords: [], branchNames: [] });
   assert.equal(result.status, "candidate");
   assert.equal(result.source.sourceId, "cnt_3");
+});
+
+test("ignore uses sourceId, blocks URL drift, and expires temporary decisions", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-ignore-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-ignore-"));
+  await source(globalRepo, "cnt_8", "current-slug");
+  await mkdir(path.join(targetRepo, ".github/content-sync"), { recursive: true });
+  await writeFile(path.join(targetRepo, ".github/content-sync/baseline.json"), "[]");
+  const ignoreFile = path.join(targetRepo, ".github/content-sync/ignore.json");
+  const ignored = { sourceId: "cnt_8", sourceCanonicalUrl: "https://www.querypie.com/en/blog/old-slug", reasonCode: "launch-gated", reason: "wait", addedBy: "owner", addedAt: "2026-01-01" };
+  await writeFile(ignoreFile, JSON.stringify([ignored]));
+  const common = { globalRepo, targetRepo, sitemapXml: '<loc>https://www.querypie.com/en/blog/current-slug</loc>', documentationListHtml: '<a href="/en/blog/current-slug">current</a>', prRecords: [], branchNames: [] };
+  assert.equal((await discoverNextCandidate(common)).status, "blocked_ignore_url_drift");
+  await writeFile(ignoreFile, JSON.stringify([{ ...ignored, sourceCanonicalUrl: "https://www.querypie.com/en/blog/current-slug", expiresAt: "2000-01-01T00:00:00Z" }]));
+  assert.equal((await discoverNextCandidate(common)).status, "candidate");
 });
 
 test("closed PR markers and branch-only states suppress regeneration", async () => {

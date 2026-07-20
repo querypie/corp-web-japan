@@ -25,7 +25,8 @@ accept/reject decisions and never merge or deploy automatically.
 | Japanese generation | Pi headless one-shot writer; shared and family publication Skills; deterministic author/frontmatter contract | `pi-runner.mjs`, Skills, runtime tests |
 | Independent review | Three fresh no-tools Pi processes; writer alone receives correction findings; bounded correction loop | `review-cycle.mjs`, Pi runner tests |
 | Writer filesystem boundary | Pi receives `--no-tools`; strict JSON envelope; deterministic realpath/atomic writer owns all writes | `pi-runner.mjs`, Pi runner tests |
-| Fail closed | Critical/major finding, identity mismatch, invalid marker, branch-only state, asset/provenance failure, test/build/browser failure all stop publication | validators, production runner, recovery tests |
+| Fail closed | Critical/major or actionable editorial finding, identity mismatch, invalid marker, branch-only state, asset/provenance failure, full CI/build/browser failure all stop publication | validators, production runner, recovery tests |
+| Allocated diff only | Git status and staged diff must contain only the allocated MDX, hero, copied assets, and explicitly permitted stale retry MDX deletion | `assertAllocatedGitDiff()`, unit and actual Git integration tests |
 | Draft PR only | Isolated deterministic branch, one commit, push, `gh pr create --draft`; no merge/deploy command | `git-pr.mjs`, actual local bare-Git integration test |
 | Dry-run safety | No commit, push, PR, or remote branch mutation | dry-run assertions and release E2E summary |
 | Daily Linux operation | systemd oneshot/timer, flock, dedicated checkouts/worktree root, failure unit/webhook, least-privilege service | `ops/global-documentation-sync/*`, runtime tests |
@@ -36,13 +37,13 @@ accept/reject decisions and never merge or deploy automatically.
 
 Current-code, real Pi no-tools E2E:
 
-- Reports: `/tmp/global-doc-sync-pilot/release-e2e-reports`
+- Reports: `/tmp/global-doc-sync-pilot/auditor-fix-release-e2e`
 - Source: `cnt_000051` (event with source-approved YouTube media)
 - Source hash: `sha256:3bec046ec6f72462bdf8091a129ced6abcbcacb7430ad25763607cc3c51b07a3`
 - Result: `dry_run_passed`
 - Mutations: `committed=false`, `pushed=false`, `pullRequestUrl=null`
-- Reviews: fidelity pass, contract pass, Japanese editorial minor-only findings
-- Validation: generated contract, 69 publication test files, Next production build
+- Reviews: fidelity pass, contract pass, Japanese editorial pass with note-only observations after three correction attempts
+- Validation: generated contract, full `npm run test:ci`, Next production build
 - Browser: 1440x900 and 390x844 passed; image/video provenance and responses checked
 - Complete changed-file inventory includes MDX, PNG hero, and source WebP
 - Attempt-specific raw and structured artifacts retained
@@ -50,11 +51,12 @@ Current-code, real Pi no-tools E2E:
 Repository validation:
 
 - `node --check scripts/global-documentation-sync/*.mjs`
-- `node --test tests/global-documentation-sync/*.test.mjs` -> 38/38 passed
+- `node --test tests/global-documentation-sync/*.test.mjs` -> 40/40 passed
 - `npm run test:ci` -> lint 0 errors, typecheck passed, 171 test files passed
 - `next build` -> passed
-- Actual local bare-Git transaction test proved deterministic branch push, Draft PR
-  command, same-branch retry, same-PR reopen/edit, and no merge command.
+- Actual local bare-Git transaction test proved deterministic branch push, allocated-only staging, Draft PR command, same-branch retry, same-PR reopen/edit, and no merge command.
+- Branch-only recovery rechecks the exact remote commit after its full fresh validation and immediately before PR creation.
+- Representative real-Pi family runs produced independent fidelity/Japanese/contract evidence for events, use-cases, manuals, introduction decks, blogs, and glossary; current production-candidate events plus use-cases and manuals completed full CI/build/browser gates. Historical baseline rewrites are not treated as production release evidence because their intentionally curated Japan metadata differs from current Global source metadata.
 - No `content-sync/*` branch was created on the real remote by dry-run E2E.
 
 ## Release boundary

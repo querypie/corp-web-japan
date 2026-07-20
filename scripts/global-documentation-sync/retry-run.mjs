@@ -49,7 +49,7 @@ export async function runRetry(options) {
   if (candidate.sourceId !== options.sourceId || candidate.targetFamily !== authorization.marker.targetFamily || Number(candidate.targetId) !== Number(authorization.marker.targetId)) throw new Error("retry candidate identity no longer matches the closed PR marker");
   const validation = JSON.parse(await readFile(path.join(reportsDir, "validation-results.json"), "utf8"));
   const reviews = await Promise.all(["fidelity-review", "japanese-editorial-review", "contract-review"].map((type) => readFile(path.join(reportsDir, `${type}.json`), "utf8").then(JSON.parse)));
-  const published = await publishRetry({ targetRepo: worktreePath, sourceId: options.sourceId, pullRequestNumber: authorization.pullRequestNumber, wasDraft: authorization.isDraft, pullRequestBody: buildPullRequestBody({ candidate, validation, reviews }), githubRepo: options.githubRepo });
+  const published = await publishRetry({ targetRepo: worktreePath, candidate, sourceId: options.sourceId, pullRequestNumber: authorization.pullRequestNumber, wasDraft: authorization.isDraft, pullRequestBody: buildPullRequestBody({ candidate, validation, reviews }), githubRepo: options.githubRepo });
   const summaryPath = path.join(reportsDir, "run-summary.json");
   const summary = JSON.parse(await readFile(summaryPath, "utf8"));
   Object.assign(summary, { status: "retry_pr_reopened", dryRun: false, committed: true, pushed: true, pullRequestUrl: `https://github.com/${options.githubRepo || "querypie/corp-web-japan"}/pull/${authorization.pullRequestNumber}`, branch: published.branch, commit: published.commit });

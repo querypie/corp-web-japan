@@ -83,12 +83,16 @@ async function verifyProduction(category, meta) {
 
 async function resolveAuthor(targetRepo, family, authorName) {
   if (!["blog", "whitepapers", "events"].includes(family)) return null;
-  if (!authorName?.trim()) return "querypie";
+  if (!authorName?.trim()) return family === "events" ? "querypie" : null;
   const source = await readFile(path.join(targetRepo, "src/content/authors/ja.yaml"), "utf8");
   const authors = [...source.matchAll(/^- id:\s*([^\s]+)\n\s+name:\s*(.+)$/gm)].map((match) => ({ id: match[1].trim(), name: match[2].trim().replace(/^['"]|['"]$/g, "") }));
-  const matches = authors.filter(({ name }) => name === authorName.trim());
-  if (matches.length !== 1) throw new Error(`author must resolve exactly once: ${authorName}`);
-  return matches[0].id;
+  const names = authorName.split(",").map((name) => name.trim()).filter(Boolean);
+  const resolved = names.map((name) => {
+    const matches = authors.filter((author) => author.name === name || author.name.startsWith(`${name} `));
+    if (matches.length !== 1) throw new Error(`author must resolve exactly once: ${name}`);
+    return matches[0].id;
+  });
+  return resolved.length === 1 ? resolved[0] : resolved;
 }
 
 function assetHrefs(meta, html) {
@@ -124,7 +128,7 @@ export async function prepare(options) {
     selected = chooseLocale({ jaHtml: await readOptional("ja.html"), enHtml: await readOptional("en.html") });
     sourceHtmlPath = path.join(directory, `${selected.locale}.html`);
   }
-  if (redactSecrets(selected.html) !== selected.html || JSON.stringify(redactSecrets(meta)) !== JSON.stringify(meta)) throw new Error("source contains secret-like values and requires manual curation");
+  if ((meta.contentType === "outlink" && redactSecrets(selected.html) !== selected.html) || JSON.stringify(redactSecrets(meta)) !== JSON.stringify(meta)) throw new Error("source metadata contains secret-like values and requires manual curation");
   if (meta.contentType === "outlink") {
     await mkdir(options.reportsDir, { recursive: true });
     await writeFile(sourceHtmlPath, `${selected.html}\n`, { mode: 0o600 });
@@ -198,7 +202,7 @@ export async function finalize({ reportsDir }) {
     const value = JSON.parse(await readFile(path.join(reportsDir, `${type}.json`), "utf8"));
     validateArtifact(type, value);
     if (value.runId !== candidate.runId || value.sourceId !== candidate.sourceId) throw new Error(`${type}: candidate identity mismatch`);
-    if (type.endsWith("review") && hasBlockingFindings(value)) throw new Error(`${type} has unresolved blocking findings`);
+    if (type.endsWith("review") && (value.verdict !== "pass" || value.findings.some(({ severity }) => severity !== "note") || hasBlockingFindings(value))) throw new Error(`${type} has unresolved actionable findings`);
     artifacts[type] = value;
   }
   const finishedAt = new Date().toISOString();

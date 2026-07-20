@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-import { hasBlockingFindings, validateArtifact } from "./lib.mjs";
+import { validateArtifact } from "./lib.mjs";
 import { runPiInvocations } from "./pi-runner.mjs";
 
 const REVIEW_TYPES = ["fidelity-review", "japanese-editorial-review", "contract-review"];
@@ -21,10 +21,14 @@ export async function runReviewCycle(options) {
   for (let attempt = 1; attempt <= maximumAttempts; attempt += 1) {
     await runPiInvocations({ ...options, correctionFindings, attempt });
     const reviews = await readReviews(options.reportsDir);
-    const blocking = reviews.flatMap((review) => review.findings.filter(({ severity }) => severity === "critical" || severity === "major").map((finding) => ({ review: review.artifactType, ...finding })));
-    if (blocking.length === 0) return { attempts: attempt, reviews };
-    if (attempt === maximumAttempts) throw new Error(`review correction limit reached after ${maximumAttempts} attempts: ${JSON.stringify(blocking)}`);
-    correctionFindings = blocking;
+    const unresolved = reviews.flatMap((review) => {
+      const actionable = review.findings.filter(({ severity }) => severity !== "note");
+      if (actionable.length === 0) return [];
+      return actionable.map((finding) => ({ review: review.artifactType, ...finding }));
+    });
+    if (unresolved.length === 0) return { attempts: attempt, reviews };
+    if (attempt === maximumAttempts) throw new Error(`review correction limit reached after ${maximumAttempts} attempts: ${JSON.stringify(unresolved)}`);
+    correctionFindings = unresolved;
   }
   throw new Error("unreachable review cycle state");
 }

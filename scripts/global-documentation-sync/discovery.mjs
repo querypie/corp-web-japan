@@ -45,9 +45,12 @@ export function validateDecisionManifest(records, name) {
     const targets = records.map(({ targetFamily, targetId }) => `${targetFamily}:${targetId}`);
     if (new Set(targets).size !== targets.length) throw new Error("baseline manifest has duplicate target identity");
   } else if (name === "ignore") {
+    const reasonCodes = new Set(["not-for-japan", "duplicate", "superseded", "legal-hold", "launch-gated", "manual-publication", "source-quality", "other"]);
     for (const record of records) {
-      for (const key of ["sourceId", "reason", "addedBy", "addedAt"]) if (!record[key]) throw new Error(`ignore record missing ${key}`);
-      if (!/^cnt_\d+$/.test(record.sourceId) || Number.isNaN(Date.parse(record.addedAt))) throw new Error("ignore record has invalid identity or date");
+      for (const key of ["sourceId", "sourceCanonicalUrl", "reasonCode", "reason", "addedBy", "addedAt"]) if (!record[key]) throw new Error(`ignore record missing ${key}`);
+      if (!/^cnt_\d+$/.test(record.sourceId) || Number.isNaN(Date.parse(record.addedAt)) || (record.expiresAt && Number.isNaN(Date.parse(record.expiresAt)))) throw new Error("ignore record has invalid identity or date");
+      if (!reasonCodes.has(record.reasonCode)) throw new Error(`ignore record has invalid reasonCode: ${record.reasonCode}`);
+      if (normalizeUrl(record.sourceCanonicalUrl) !== record.sourceCanonicalUrl || !record.sourceCanonicalUrl.startsWith("https://")) throw new Error("ignore record sourceCanonicalUrl must be normalized HTTPS");
     }
   }
   return records;
@@ -118,18 +121,28 @@ export async function discoverNextCandidate({ globalRepo, targetRepo, sitemapXml
   const orphan = syncBranches.find((name) => !markerIds.has(name.slice("content-sync/".length)));
   if (orphan) return { status: "blocked_branch_only", branch: orphan };
 
+  const activeIgnore = new Map(ignore.filter(({ expiresAt }) => !expiresAt || Date.parse(expiresAt) > Date.now()).map((record) => [record.sourceId, record]));
   const handled = new Set([
-    ...baseline.map(({ sourceId }) => sourceId), ...ignore.map(({ sourceId }) => sourceId),
+    ...baseline.map(({ sourceId }) => sourceId),
     ...markerIds, ...syncBranches.map((name) => name.slice("content-sync/".length)),
     ...(await mappedSourceIds(targetRepo)),
   ]);
   const production = productionSets(sitemapXml, documentationListHtml);
   const sources = (await enumerateSources(globalRepo)).sort((a, b) => (b.meta.dateIso || "").localeCompare(a.meta.dateIso || "") || a.sourceId.localeCompare(b.sourceId));
+  for (const [sourceId, ignored] of activeIgnore) {
+    const source = sources.find((record) => record.sourceId === sourceId);
+    if (!source) continue;
+    let currentUrl;
+    try { currentUrl = canonicalSourceUrl(source.category, source.meta); } catch { continue; }
+    if (ignored.sourceCanonicalUrl !== currentUrl) return { status: "blocked_ignore_url_drift", sourceId, expectedUrl: ignored.sourceCanonicalUrl, actualUrl: currentUrl };
+  }
   for (const source of sources) {
-    if (handled.has(source.sourceId) || source.meta.status !== "published") continue;
+    if (source.meta.status !== "published") continue;
     if (!["content", "outlink"].includes(source.meta.contentType)) continue;
     let url;
     try { url = canonicalSourceUrl(source.category, source.meta); } catch { continue; }
+    if (activeIgnore.has(source.sourceId)) continue;
+    if (handled.has(source.sourceId)) continue;
     const listed = production.list.has(url);
     const eligible = source.meta.contentType === "outlink"
       ? listed
