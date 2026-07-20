@@ -80,9 +80,10 @@ export function buildPiInvocations(options) {
   });
 }
 
-async function defaultRunProcess(invocation, cwd) {
+async function defaultRunProcess(invocation, cwd, onProcess) {
   return new Promise((resolve, reject) => {
     const child = spawn(invocation.command, invocation.args, { cwd, env: process.env, stdio: ["ignore", "pipe", "pipe"] });
+    onProcess?.({ role: invocation.role, attempt: invocation.attempt, state: "running", pid: child.pid });
     let stdout = "";
     let stderr = "";
     const append = (current, chunk) => {
@@ -92,8 +93,11 @@ async function defaultRunProcess(invocation, cwd) {
     };
     child.stdout.on("data", (chunk) => { stdout = append(stdout, chunk); });
     child.stderr.on("data", (chunk) => { stderr = append(stderr, chunk); });
-    child.on("error", reject);
-    child.on("close", (code) => code === 0 ? resolve(stdout) : reject(new Error(`${invocation.role} Pi process failed (${code}): ${stderr.slice(-4000)}`)));
+    child.on("error", (error) => { onProcess?.({ role: invocation.role, attempt: invocation.attempt, state: "failed", pid: child.pid }); reject(error); });
+    child.on("close", (code) => {
+      onProcess?.({ role: invocation.role, attempt: invocation.attempt, state: code === 0 ? "completed" : "failed", pid: child.pid });
+      code === 0 ? resolve(stdout) : reject(new Error(`${invocation.role} Pi process failed (${code}): ${stderr.slice(-4000)}`));
+    });
   });
 }
 
@@ -125,7 +129,7 @@ export async function runPiInvocations(options) {
   validateArtifact("candidate", candidate);
   await assertAllocated(candidate, options.targetRepo);
   const sourceHtml = await readFile(candidate.sourceHtmlPath, "utf8");
-  const runProcess = options.runProcess || ((invocation) => defaultRunProcess(invocation, options.targetRepo));
+  const runProcess = options.runProcess || ((invocation) => defaultRunProcess({ ...invocation, attempt }, options.targetRepo, options.onProcess));
 
   const correctionMdx = options.correctionFindings?.length ? await readFile(candidate.targetMdxPath, "utf8") : null;
   const writer = buildPiInvocations({ ...options, candidate, sourceHtml, targetMdx: correctionMdx })[0];
