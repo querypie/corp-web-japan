@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 
-import { assertAllocatedGitDiff, authorizeClosedRetry, branchFor, buildPullRequestBody, createRunWorktree, publishDraft, publishRetry, resumeBranchOnly } from "../../scripts/global-documentation-sync/git-pr.mjs";
+import { assertAllocatedGitDiff, authorizeClosedRetry, branchFor, buildPullRequestBody, createRunWorktree, publishDraft, publishRetry, reclaimUnpublishedBaseBranch, resumeBranchOnly } from "../../scripts/global-documentation-sync/git-pr.mjs";
 import { parseSyncMarker } from "../../scripts/global-documentation-sync/discovery.mjs";
 
 const candidate = { sourceId: "cnt_9", sourceHash: "sha256:x", targetFamily: "blog", targetId: 9, targetMdxPath: "/target/src/content/blog/9-nine.mdx", assets: [], meta: { id: "nine" }, production: { canonicalUrl: "https://www.querypie.com/en/blog/nine" }, runId: "run-9" };
@@ -31,8 +31,34 @@ test("creates an isolated branch worktree from current origin main", async () =>
   await createRunWorktree({ baseRepo: "/base", worktreePath: "/runs/run-9", sourceId: "cnt_9", execute: async (...args) => { calls.push(args); return ""; } });
   assert.deepEqual(calls.map(([command, args]) => [command, args.slice(0, 2)]), [
     ["git", ["fetch", "origin"]],
+    ["git", ["for-each-ref", "--format=%(objectname)"]],
     ["git", ["worktree", "add"]],
   ]);
+});
+
+test("reclaims only an unpushed base-equivalent automation branch", async () => {
+  const calls = [];
+  const execute = async (command, args) => {
+    calls.push([command, args]);
+    if (args[0] === "for-each-ref") return "base-commit\n";
+    if (args[0] === "ls-remote") return "";
+    if (args[0] === "rev-parse") return "base-commit\n";
+    if (args[0] === "worktree" && args[1] === "list") return "worktree /runs/old-run\nHEAD base-commit\nbranch refs/heads/content-sync/cnt_9\n\n";
+    return "";
+  };
+  assert.equal(await reclaimUnpublishedBaseBranch({ baseRepo: "/base", worktreePath: "/runs/new-run", sourceId: "cnt_9", execute }), true);
+  assert.ok(calls.some(([, args]) => args.join(" ") === "worktree remove --force /runs/old-run"));
+  assert.ok(calls.some(([, args]) => args.join(" ") === "branch -D content-sync/cnt_9"));
+});
+
+test("blocks an unpublished branch with local commits", async () => {
+  const execute = async (_command, args) => {
+    if (args[0] === "for-each-ref") return "local-commit\n";
+    if (args[0] === "ls-remote") return "";
+    if (args[0] === "rev-parse") return "base-commit\n";
+    throw new Error(`unexpected command: ${args.join(" ")}`);
+  };
+  await assert.rejects(() => reclaimUnpublishedBaseBranch({ baseRepo: "/base", worktreePath: "/runs/new-run", sourceId: "cnt_9", execute }), /local commits/);
 });
 
 test("dry-run cannot commit, push, or create a PR", async () => {
