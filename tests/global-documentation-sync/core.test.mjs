@@ -16,6 +16,12 @@ import {
   resolveOwnedAsset,
   validateArtifact,
 } from "../../scripts/global-documentation-sync/lib.mjs";
+import {
+  SOURCE_FAMILIES,
+  canonicalContentUrl,
+  sourceFamily,
+  targetFamily,
+} from "../../scripts/global-documentation-sync/source-family-map.mjs";
 
 test("validates versioned review artifacts and blocking severities", () => {
   const review = {
@@ -33,10 +39,29 @@ test("validates versioned review artifacts and blocking severities", () => {
   assert.throws(() => validateArtifact("japanese-editorial-review", { ...review, findings: [{ severity: "warning", message: "x" }] }), /severity/);
 });
 
+test("source-family map owns Documentation categories and separate News section", () => {
+  assert.deepEqual(SOURCE_FAMILIES.map(({ sourceCategory, sourceSection, targetFamily: family }) => ({ sourceCategory, sourceSection, targetFamily: family })), [
+    { sourceCategory: "blogs", sourceSection: "documentation", targetFamily: "blog" },
+    { sourceCategory: "white-papers", sourceSection: "documentation", targetFamily: "whitepapers" },
+    { sourceCategory: "voc", sourceSection: "documentation", targetFamily: "use-cases" },
+    { sourceCategory: "manuals", sourceSection: "documentation", targetFamily: "manuals" },
+    { sourceCategory: "events", sourceSection: "documentation", targetFamily: "events" },
+    { sourceCategory: "glossary", sourceSection: "documentation", targetFamily: "glossary" },
+    { sourceCategory: "introduction", sourceSection: "documentation", targetFamily: "introduction-deck" },
+    { sourceCategory: "news", sourceSection: "news", targetFamily: "news" },
+  ]);
+  assert.equal(new Set(SOURCE_FAMILIES.map(({ sourceCategory }) => sourceCategory)).size, SOURCE_FAMILIES.length);
+  assert.equal(new Set(SOURCE_FAMILIES.map(({ targetFamily: family }) => family)).size, SOURCE_FAMILIES.length);
+  assert.equal(sourceFamily("news").relativeRoot, "src/content/news");
+  assert.equal(targetFamily("news"), "news");
+  assert.equal(canonicalContentUrl("news", "example"), "https://www.querypie.com/en/news/example");
+});
+
+
 test("maps every Global category and prefers a non-empty Japanese body", () => {
   assert.deepEqual(
-    ["introduction", "glossary", "manuals", "white-papers", "blogs", "voc", "events"].map(mapCategory),
-    ["introduction-deck", "glossary", "manuals", "whitepapers", "blog", "use-cases", "events"],
+    ["introduction", "glossary", "manuals", "white-papers", "blogs", "voc", "events", "news"].map(mapCategory),
+    ["introduction-deck", "glossary", "manuals", "whitepapers", "blog", "use-cases", "events", "news"],
   );
   assert.deepEqual(chooseLocale({ jaHtml: "  <p>日本語</p> ", enHtml: "<p>English</p>" }), { locale: "ja", html: "<p>日本語</p>" });
   assert.deepEqual(chooseLocale({ jaHtml: " ", enHtml: " <p>English</p> " }), { locale: "en", html: "<p>English</p>" });

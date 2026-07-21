@@ -2,23 +2,13 @@ import { createHash } from "node:crypto";
 import { readdir, readFile, realpath, stat } from "node:fs/promises";
 import path from "node:path";
 
+import { targetFamily } from "./source-family-map.mjs";
+
 export const SCHEMA_VERSION = "global-documentation-sync/v1";
 export const SEVERITIES = new Set(["critical", "major", "minor", "note"]);
 
-const CATEGORY_MAP = new Map([
-  ["introduction", "introduction-deck"],
-  ["glossary", "glossary"],
-  ["manuals", "manuals"],
-  ["white-papers", "whitepapers"],
-  ["blogs", "blog"],
-  ["voc", "use-cases"],
-  ["events", "events"],
-]);
-
 export function mapCategory(category) {
-  const family = CATEGORY_MAP.get(category);
-  if (!family) throw new Error(`unsupported source category: ${category}`);
-  return family;
+  return targetFamily(category);
 }
 
 export function chooseLocale({ jaHtml, enHtml }) {
