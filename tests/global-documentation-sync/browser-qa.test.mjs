@@ -29,9 +29,9 @@ test("stops the complete detached preview process group", { skip: process.platfo
 
 test("builds canonical local publication routes for every family", () => {
   const expected = {
-    blog: "/blog/7/slug", whitepapers: "/whitepapers/7/slug", events: "/events/7/slug",
-    manuals: "/manuals/7/slug", glossary: "/glossary/7/slug", "use-cases": "/use-cases/7/slug",
-    "introduction-deck": "/introduction-deck/7/slug",
+    blog: "/blog/7/slug", whitepapers: "/whitepapers/7/slug", news: "/news/7/slug",
+    events: "/events/7/slug", manuals: "/manuals/7/slug", glossary: "/glossary/7/slug",
+    "use-cases": "/use-cases/7/slug", "introduction-deck": "/introduction-deck/7/slug",
   };
   for (const [family, route] of Object.entries(expected)) assert.equal(publicationRoute({ targetFamily: family, targetId: 7, meta: { id: "slug" } }), route);
 });
