@@ -1,6 +1,6 @@
 ---
 name: global-documentation-sync
-description: Use when a newly published Global QueryPie Documentation item must be migrated into corp-web-japan, or when running, reviewing, or diagnosing the scheduled Global-to-Japan publication dry-run.
+description: Use when a newly published Global QueryPie Documentation or News item must be migrated into corp-web-japan, or when running, reviewing, or diagnosing the scheduled Global-to-Japan publication dry-run.
 ---
 
 # Global Documentation Sync
@@ -19,6 +19,25 @@ The writer has no filesystem, shell, Git, or network tools. The writer must not 
 envelope containing `mdx` and `generationReport`. The deterministic runner
 validates the envelope, identity, and allocated target-file allowlist before it
 atomically writes the exact `targetMdxPath` and `generation-report.json`.
+
+## Supported source families
+
+The accepted source-family map lives in
+`scripts/global-documentation-sync/source-family-map.mjs` and is documented in
+`scripts/global-documentation-sync/README.md`.
+
+- Documentation / `blogs` → `blog` → `/blog`
+- Documentation / `white-papers` → `whitepapers` → `/whitepapers`
+- Documentation / `voc` → `use-cases` → `/use-cases`
+- Documentation / `manuals` → `manuals` → `/manuals`
+- Documentation / `events` → `events` → `/events`
+- Documentation / `glossary` → `glossary` → `/glossary`
+- Documentation / `introduction` → `introduction-deck` → `/introduction-deck`
+- News / `news` → `news` → `/news`
+
+News is a separate `/en/news` source section, not a Documentation category.
+News evidence is one-way Global → Japan.
+News contract: frontmatter must not contain author. News sourceLabel must equal candidate.resolvedSourceLabel exactly. News redirectUrl must equal candidate.resolvedRedirectUrl exactly for outlink records and must be omitted for content records.
 
 ## Required skill stack
 

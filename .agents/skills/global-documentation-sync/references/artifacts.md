@@ -66,6 +66,5 @@ lists, tables, code, figures, captions, links, and CTA intent.
 
 ## Contract scope
 
-Check family frontmatter, author resolution, related IDs, canonical route,
-asset root, local links, effective PNG Open Graph image, gating, download
-behavior, and required family tests.
+Check family frontmatter, author resolution, related IDs, canonical route, asset root, local links, effective PNG Open Graph image, gating, download behavior, required family tests, and News sourceLabel/redirect behavior.
+For synced News, treat `author` as prohibited, require deterministic `sourceLabel`, and require `redirectUrl` only for outlink records.
