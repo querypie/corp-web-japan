@@ -53,6 +53,7 @@ test("prepares News content and outlink candidates with section-neutral producti
   const contentEvidencePath = path.join(root, "content-evidence.json");
   await writeFile(contentEvidencePath, JSON.stringify({
     sourceId: "cnt_19",
+    sourceSection: "news",
     production: {
       canonicalUrl: "https://www.querypie.com/en/news/news-one",
       listed: true,
@@ -63,6 +64,7 @@ test("prepares News content and outlink candidates with section-neutral producti
   const outlinkEvidencePath = path.join(root, "outlink-evidence.json");
   await writeFile(outlinkEvidencePath, JSON.stringify({
     sourceId: "cnt_20",
+    sourceSection: "news",
     production: {
       canonicalUrl: "https://media.example/news-one",
       listed: true,
@@ -111,6 +113,28 @@ test("prepares News content and outlink candidates with section-neutral producti
     listUrl: "https://www.querypie.com/en/news",
     sitemap: false,
   });
+});
+
+test("requires sourceSection when sourceId is duplicated across sections", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "prepare-duplicate-id-"));
+  const globalRepo = path.join(root, "global");
+  const targetRepo = path.join(root, "target");
+  await mkdir(path.join(globalRepo, "src/content/documentation/manuals/cnt_000001"), { recursive: true });
+  await writeFile(path.join(globalRepo, "src/content/documentation/manuals/cnt_000001/meta.json"), JSON.stringify({
+    storageId: "cnt_000001",
+    id: "manual-one",
+    categorySlug: "manuals",
+    status: "published",
+    contentType: "content",
+  }));
+  await writeFile(path.join(globalRepo, "src/content/documentation/manuals/cnt_000001/ja.html"), "<p>manual</p>");
+  await seedNewsSource(globalRepo, "cnt_000001", "news-one");
+  await mkdir(path.join(targetRepo, "src/content/manuals"), { recursive: true });
+  await mkdir(path.join(targetRepo, "src/content/news"), { recursive: true });
+
+  await assert.rejects(() => prepare({ dryRun: true, productionCheck: false, sourceId: "cnt_000001", targetId: "1", globalRepo, targetRepo, reportsDir: path.join(root, "r1") }), /sourceSection required/);
+  const { candidate } = await prepare({ dryRun: true, productionCheck: false, sourceId: "cnt_000001", sourceSection: "news", targetId: "1", globalRepo, targetRepo, reportsDir: path.join(root, "r2") });
+  assert.equal(candidate.sourceSection, "news");
 });
 
 test("rejects invalid News source contract fields during prepare", async () => {

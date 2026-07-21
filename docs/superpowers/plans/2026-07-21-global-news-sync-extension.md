@@ -1,5 +1,11 @@
 # Global News Sync Extension Implementation Plan
 
+> Historical implementation plan. The canonical accepted contract now lives in
+> `openspec/specs/contract-global-documentation-sync/spec.md`. Composite
+> identity follow-up maintenance, rollout hold, and legacy-compatibility
+> clarifications now live in
+> `openspec/changes/composite-global-publication-sync-identity/`.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Extend the production Global-to-Japan publication sync to ingest the separate Global `/en/news` collection and generate validated Japan `/news/:id/:slug` Draft PRs.
@@ -10,15 +16,10 @@
 
 ## Global Constraints
 
-- One production run SHALL select at most one candidate and create at most one Draft PR.
-- Global `sourceId` SHALL remain the baseline, ignore, PR, and branch identity.
-- Global assets SHALL resolve inside the checked-out Global `public/**` tree; production HTTP asset downloads remain forbidden.
-- Pi writer/reviewer processes SHALL remain fresh and use `--no-tools`; deterministic Node code owns all filesystem and Git mutation.
-- Every generated publication SHALL pass contract validation, `npm run test:ci`, `next build`, and desktop/mobile browser QA before push.
-- Generated content SHALL never auto-merge or deploy.
-- Existing Documentation source behavior SHALL remain unchanged.
-- News `author` is forbidden; News source labels and redirects are deterministic.
-- No new dependency.
+See the active OpenSpec contract plus
+`openspec/changes/composite-global-publication-sync-identity/` for the current
+canonical identity, suppression, and rollout constraints. The remainder of this
+plan is retained as historical implementation sequencing evidence.
 
 ---
 
@@ -478,12 +479,12 @@ Set `GLOBAL_DOC_SYNC_DRY_RUN=0`, start the service manually, and verify:
 - service result success
 - `run-status.json` is `complete/passed`
 - `run-summary.json` is `draft_pr_created`
-- exactly one `content-sync/<sourceId>` branch exists
+- exactly one `content-sync/<sourceSection>-<sourceId>` branch exists for the chosen composite identity
 - exactly one Draft PR exists
 - Slack notification contains source ID and PR URL
 - no merge or deployment occurred
 
-- [ ] **Step 5: Confirm timer and cleanup remain healthy**
+- [ ] **Step 5: Confirm scheduler remains disabled during rollout and cleanup remains healthy**
 
 ```bash
 systemctl is-enabled global-documentation-sync.timer
@@ -492,7 +493,7 @@ systemctl list-timers global-documentation-sync.timer
 systemctl is-active systemd-tmpfiles-clean.timer
 ```
 
-Expected: daily 10:00 KST timer active with at most ten minutes randomized delay; report cleanup timer active.
+Expected: `global-documentation-sync.timer` stays disabled/inactive until independent review plus at least one host dry-run satisfy `openspec/changes/composite-global-publication-sync-identity/`; report cleanup timer stays active.
 
 - [ ] **Step 6: Commit any evidence-driven correction separately**
 

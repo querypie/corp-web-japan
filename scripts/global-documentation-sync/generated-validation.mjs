@@ -14,6 +14,10 @@ function frontmatterScalar(frontmatter, name) {
   return new RegExp(`^${name}:\\s*["']?([^"'\\n]+)["']?\\s*$`, "m").exec(frontmatter)?.[1]?.trim();
 }
 
+function frontmatterQuotedString(frontmatter, name) {
+  return new RegExp(`^${name}:\\s*(["'])([^"'\\n]+)\\1\\s*$`, "m").exec(frontmatter)?.[2];
+}
+
 function frontmatterList(frontmatter, name) {
   const block = new RegExp(`^${name}:\\s*\\n((?:\\s+-[^\\n]+\\n?)*)`, "m").exec(frontmatter)?.[1] || "";
   return [...block.matchAll(/^\s+-\s*["']?([^"'\n]+)["']?\s*$/gm)].map((match) => match[1].trim());
@@ -28,9 +32,9 @@ export async function validateGeneratedPublication(candidate, generationReport, 
   const allowsKorean = generationReport.intentionalTransformations?.some((item) => /korean/i.test(typeof item === "string" ? item : JSON.stringify(item)));
   if (!allowsKorean && /[\uac00-\ud7af]/u.test(mdx)) throw new Error("unresolved Korean characters");
   const frontmatter = frontmatterBlock(mdx);
-  const frontmatterId = frontmatterScalar(frontmatter, "id");
+  const frontmatterId = frontmatterQuotedString(frontmatter, "id");
   const frontmatterSlug = frontmatterScalar(frontmatter, "slug");
-  if (Number(frontmatterId) !== Number(candidate.targetId)) throw new Error(`frontmatter id must equal allocated targetId ${candidate.targetId}`);
+  if (frontmatterId !== String(candidate.targetId)) throw new Error(`frontmatter id must be quoted YAML string equal to allocated targetId ${candidate.targetId}`);
   if (frontmatterSlug !== candidate.meta.id) throw new Error(`frontmatter slug must equal source slug ${candidate.meta.id}`);
   for (const required of ["title", "description", "heroImageSrc"]) if (!frontmatterScalar(frontmatter, required)) throw new Error(`frontmatter ${required} is required`);
   if (["blog", "whitepapers", "news", "events", "use-cases"].includes(candidate.targetFamily) && !/^\d{4}-\d{2}-\d{2}$/.test(frontmatterScalar(frontmatter, "date") || "")) throw new Error("publication frontmatter date must be ISO YYYY-MM-DD");

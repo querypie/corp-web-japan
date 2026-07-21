@@ -11,6 +11,31 @@ const frontmatter = (hero = "/blog/1/thumbnail.png") => `---\nid: "1"\nslug: one
 
 const newsFrontmatter = (extra = "") => `---\nid: "1"\nslug: one\ntitle: ニュース\ndescription: 説明\ndate: "2026-01-01"\nheroImageSrc: "/news/1/thumbnail.png"\n${extra}---\n`;
 
+test("accepts only exact quoted string frontmatter id forms", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "generated-validation-id-"));
+  const assetRoot = path.join(root, "public/blog/1");
+  const mdx = path.join(root, "src/content/blog/1-one.mdx");
+  await mkdir(assetRoot, { recursive: true });
+  await mkdir(path.dirname(mdx), { recursive: true });
+  await writeFile(path.join(assetRoot, "thumbnail.png"), "png");
+  const candidate = { targetRepo: root, targetFamily: "blog", targetId: 1, targetMdxPath: mdx, targetAssetRoot: assetRoot, heroImagePath: path.join(assetRoot, "thumbnail.png"), heroImagePublicPath: "/blog/1/thumbnail.png", resolvedAuthor: null, meta: { id: "one", hideHeroImage: false, relatedIds: [] }, externalMedia: [], assets: [] };
+
+  await writeFile(mdx, `---\nid: "1"\nslug: one\ntitle: テスト\ndescription: 説明\ndate: "2026-01-01"\nheroImageSrc: /blog/1/thumbnail.png\n---\n`);
+  assert.equal((await validateGeneratedPublication(candidate, { intentionalTransformations: [] })).status, "passed");
+
+  await writeFile(mdx, `---\nid: '1'\nslug: one\ntitle: テスト\ndescription: 説明\ndate: "2026-01-01"\nheroImageSrc: /blog/1/thumbnail.png\n---\n`);
+  assert.equal((await validateGeneratedPublication(candidate, { intentionalTransformations: [] })).status, "passed");
+
+  await writeFile(mdx, `---\nid: 1\nslug: one\ntitle: テスト\ndescription: 説明\ndate: "2026-01-01"\nheroImageSrc: /blog/1/thumbnail.png\n---\n`);
+  await assert.rejects(() => validateGeneratedPublication(candidate, { intentionalTransformations: [] }), /quoted YAML string/);
+
+  await writeFile(mdx, `---\nid: " 1 "\nslug: one\ntitle: テスト\ndescription: 説明\ndate: "2026-01-01"\nheroImageSrc: /blog/1/thumbnail.png\n---\n`);
+  await assert.rejects(() => validateGeneratedPublication(candidate, { intentionalTransformations: [] }), /quoted YAML string/);
+
+  await writeFile(mdx, `---\nid: "01"\nslug: one\ntitle: テスト\ndescription: 説明\ndate: "2026-01-01"\nheroImageSrc: /blog/1/thumbnail.png\n---\n`);
+  await assert.rejects(() => validateGeneratedPublication(candidate, { intentionalTransformations: [] }), /quoted YAML string/);
+});
+
 test("accepts route-aligned local assets and rejects unresolved source paths or Korean residue", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "generated-validation-"));
   const assetRoot = path.join(root, "public/blog/1");

@@ -71,8 +71,11 @@ repository에 넣지 마세요.
 host에서 local model을 실행하지 않습니다.
 
 지원 source family는 `scripts/global-documentation-sync/source-family-map.mjs`
-의 exact map을 따릅니다. News support가 추가되어도 production timer,
-failure alert, seven-day report retention 계약은 바뀌지 않습니다.
+의 exact map을 따릅니다. Steady-state production timer, failure alert,
+seven-day report retention 계약 자체는 바뀌지 않습니다. 다만 composite
+identity rollout 유지보수 동안에는
+`openspec/changes/composite-global-publication-sync-identity/`의 검증 task가
+끝날 때까지 scheduler를 disabled 상태로 유지합니다.
 
 설치하고 version을 고정할 항목:
 
@@ -139,15 +142,19 @@ diff -u .github/content-sync/baseline.json /tmp/baseline.json
 사람이 사용하는 worktree directory를 지정하면 안 됩니다. Cleanup 대상도 이
 경로 안의 `sync-*`, `retry-*` directory로 제한됩니다.
 
-`baseline.json`과 `ignore.json`은 `sourceId` 순으로 정렬하고 중복 없이
-관리합니다. Ignore 판정의 primary key는 Global의 불변 ID인 `sourceId`입니다.
-Canonical URL은 lookup key가 아니라 검토용 snapshot입니다. URL이 달라지면
-자동으로 무시하지 않고 작업을 차단해 사람이 확인하도록 합니다. 임시로
-제외할 때는 `expiresAt`을 사용합니다. 만료 후에는 다시 candidate가 됩니다.
+`baseline.json`과 `ignore.json`은 `sourceId` primary, `sourceSection` secondary로
+정렬하고 composite identity `${sourceSection}:${sourceId}` 기준으로 중복 없이
+관리합니다. 이 규칙은 실제 collision evidence (`documentation/manuals/cnt_000001`
+vs `news/cnt_000001`) 때문에 기존 `sourceId`-only 계약을 대체합니다. Ignore
+판정의 primary key도 composite identity입니다. Canonical URL은 lookup key가 아니라
+검토용 snapshot입니다. URL이 달라지면 자동으로 무시하지 않고 작업을 차단해 사람이
+확인하도록 합니다. 임시로 제외할 때는 `expiresAt`을 사용합니다. 만료 후에는 다시
+candidate가 됩니다.
 
 ```json
 [
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000211",
     "sourceCanonicalUrl": "https://www.querypie.com/en/blog/example",
     "reasonCode": "not-for-japan",
@@ -171,23 +178,26 @@ Canonical URL은 lookup key가 아니라 검토용 snapshot입니다. URL이 달
 - `other`
 
 영구 제외라면 `expiresAt`을 생략합니다. 종료된 PR marker와 remote
-`content-sync/*` branch도 영구 suppression record로 사용합니다.
+`content-sync/*` branch도 영구 suppression record로 사용합니다. Legacy row나
+legacy PR marker에 `sourceSection`이 없으면 안전하게 한 section으로만 infer될 때만
+허용합니다. Ambiguous legacy identity와 markerless legacy branch는 block입니다.
 
 ### GitHub Actions ignore flow
 
 1. Actions에서 `Ignore Global publication sync PR`을 실행하고 원본 sync Draft
    PR 번호를 입력합니다.
-2. Workflow가 open Draft 상태, `content-sync/{sourceId}` branch, source marker,
-   canonical URL을 검증합니다.
-3. `content-sync-ignore/{sourceId}` branch에서 정렬된 `ignore.json` 변경 PR을
+2. Workflow가 open Draft 상태, source marker JSON, canonical URL, same-repo guard,
+   그리고 `sourceSection`까지 검증합니다. New branch는 `content-sync/{sourceSection}-{sourceId}`,
+   legacy branch는 retained marker가 같은 composite identity를 증명할 때만 read-compatible입니다.
+3. `content-sync-ignore/{sourceSection}-{sourceId}` branch에서 정렬된 `ignore.json` 변경 PR을
    만들고 squash auto-merge를 설정합니다. Protected `main`에 직접 push하지 않습니다.
-4. Ignore PR이 repository approval과 CI를 통과해 merge되면 reconciler가 machine
-   marker를 검증하고 원본 sync PR을 닫은 뒤 source branch를 삭제합니다.
+4. Ignore PR이 repository approval과 CI를 통과해 merge되면 reconciler가 ignore marker와
+   source PR marker JSON을 함께 검증하고, section이 일치하는 원본 sync PR만 닫은 뒤 그 branch만 삭제합니다.
 5. CI가 approval보다 먼저 끝난 경우 `pull_request_review: approved`가 merge 후
    reconciliation을 재개합니다. 즉시 merge된 경우 `workflow_run`이 처리하며,
    장애 복구에는 close workflow의 manual dispatch를 사용합니다.
 
-Close/delete reconciliation은 같은 `sourceId`에 대해 idempotent합니다. Duplicate
+Close/delete reconciliation은 같은 composite identity에 대해 idempotent합니다. Duplicate
 ignore dispatch는 새 결정을 만들지 않고 fail-closed로 종료합니다.
 
 ## 설치
@@ -247,10 +257,15 @@ journalctl -u global-documentation-sync.service -n 200 --no-pager
 - Full CI와 build 통과
 - Desktop/mobile browser QA 통과
 
-모두 통과하면 `GLOBAL_DOC_SYNC_DRY_RUN=0`으로 변경하고 timer를 활성화합니다.
+모두 통과해도 바로 timer를 활성화하지 않습니다. 현재 composite identity
+rollout 유지보수 단계에서는 independent review와 host dry-run evidence가
+완료될 때까지 scheduler를 disabled로 유지하고 manual run만 허용합니다.
+Steady-state timer restore 조건은
+`openspec/changes/composite-global-publication-sync-identity/tasks.md`를
+따릅니다.
 
 ```bash
-sudo systemctl enable --now global-documentation-sync.timer
+sudo systemctl disable --now global-documentation-sync.timer
 systemctl list-timers global-documentation-sync.timer
 ```
 
@@ -311,6 +326,7 @@ report path context 뒤에 reason을 `container` child로 보내고 `is_collapsi
 node scripts/global-documentation-sync/cli.mjs resume-branch-only \
   --target-repo /srv/repos/corp-web-japan \
   --source-id cnt_000211 \
+  --source-section documentation \
   --reports-dir /var/lib/global-documentation-sync/reports/<run-id> \
   --worktrees-root /srv/repos/corp-web-japan-worktrees/global-documentation-sync
 ```
@@ -328,12 +344,15 @@ Schedule 실행에서는 자동으로 다시 생성하지 않습니다.
 ```bash
 node scripts/global-documentation-sync/retry-run.mjs \
   --source-id cnt_000211 \
+  --source-section documentation \
   --global-repo /srv/repos/corp-web-v2 \
   --target-repo /srv/repos/corp-web-japan \
   --reports-root /var/lib/global-documentation-sync/reports \
   --worktrees-root /srv/repos/corp-web-japan-worktrees/global-documentation-sync \
   --pi-bin /usr/local/bin/pi --provider "$PI_PROVIDER" --model "$PI_MODEL"
 ```
+
+Duplicate `sourceId`가 없는 legacy record라면 `--source-section` 없이도 수동 CLI가 동작할 수 있습니다. 하지만 duplicate `sourceId`가 확인되면 `--source-section`은 필수입니다.
 
 Retry를 강제로 실행하려고 baseline이나 ignore record를 삭제하면 안 됩니다.
 Service에 merge 또는 deploy 권한을 부여하지 마세요.

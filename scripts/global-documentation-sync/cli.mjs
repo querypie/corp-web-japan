@@ -40,17 +40,21 @@ async function writeJsonAtomic(file, value) {
   await rename(temporary, file);
 }
 
-async function findSource(globalRepo, sourceId) {
+async function findSource(globalRepo, sourceId, sourceSection) {
+  const matches = [];
   for (const descriptor of sourceRoots(globalRepo)) {
+    if (sourceSection && descriptor.sourceSection !== sourceSection) continue;
     const directory = path.join(descriptor.root, sourceId);
     try {
       const meta = JSON.parse(await readFile(path.join(directory, "meta.json"), "utf8"));
-      return { descriptor, directory, meta };
+      matches.push({ descriptor, directory, meta });
     } catch (error) {
       if (error.code !== "ENOENT") throw error;
     }
   }
-  throw new Error(`source not found: ${sourceId}`);
+  if (matches.length === 1) return matches[0];
+  if (matches.length === 0) throw new Error(`source not found: ${sourceSection ? `${sourceSection}/${sourceId}` : sourceId}`);
+  throw new Error(`sourceSection required for duplicate sourceId: ${sourceId}`);
 }
 
 function canonicalUrl(descriptor, meta) {
@@ -108,7 +112,7 @@ export async function prepare(options) {
   if (!options.dryRun) throw new Error("first implementation supports --dry-run only");
   for (const key of ["sourceId", "globalRepo", "targetRepo", "reportsDir"]) if (!options[key]) throw new Error(`--${key} required`);
   if (!/^cnt_\d+$/.test(options.sourceId)) throw new Error("invalid sourceId");
-  const { descriptor, directory, meta } = await findSource(options.globalRepo, options.sourceId);
+  const { descriptor, directory, meta } = await findSource(options.globalRepo, options.sourceId, options.sourceSection);
   const category = descriptor.sourceCategory;
   if (meta.storageId !== options.sourceId) throw new Error("source storageId mismatch");
   const readOptional = async (name) => { try { return await readFile(path.join(directory, name), "utf8"); } catch (error) { if (error.code === "ENOENT") return ""; throw error; } };
@@ -147,6 +151,7 @@ export async function prepare(options) {
     const expectedSitemap = meta.contentType === "content";
     if (
       evidence.sourceId !== options.sourceId
+      || evidence.sourceSection !== descriptor.sourceSection
       || evidence.production?.canonicalUrl !== expectedCanonicalUrl
       || evidence.production?.listed !== true
       || normalizeUrl(evidence.production?.listUrl || "") !== expectedListUrl
@@ -239,7 +244,7 @@ async function main() {
   const options = parseArgs(process.argv.slice(2));
   const result = options.command === "discover" ? await discoverLive({ globalRepo: options.globalRepo, targetRepo: options.targetRepo, githubRepo: options.githubRepo })
     : options.command === "resume-branch-only" ? await resumeBranchOnly({
-        targetRepo: options.targetRepo, sourceId: options.sourceId, reportsDir: options.reportsDir, githubRepo: options.githubRepo,
+        targetRepo: options.targetRepo, sourceId: options.sourceId, sourceSection: options.sourceSection, reportsDir: options.reportsDir, githubRepo: options.githubRepo,
         revalidate: ({ branch, candidate, reportsDir }) => revalidateRemoteBranch({ baseRepo: options.targetRepo, branch, worktreesRoot: options.worktreesRoot, reportsDir, candidate, port: Number(options.port || 43159) }),
       })
       : options.command === "prepare" ? await prepare(options)

@@ -6,13 +6,16 @@ Automates one eligible QueryPie Global publication or News record into one Japan
 
 - Selects at most one candidate per run.
 - Requires exact source-family evidence from the production sitemap and the family list page.
-- Uses `sourceId` (`cnt_*`) for baseline, ignore, and PR deduplication.
+- Uses composite source identity `${sourceSection}:${sourceId}` for baseline, ignore, branch, and PR deduplication.
 - Pi writer and reviewers run fresh with `--no-tools`; only Node scripts write files or mutate Git.
 - Runs generated-contract validation, `npm run test:ci`, `next build`, and desktop/mobile browser QA before a Draft PR.
 - Never merges or deploys generated content.
 - A failed gate stops before commit, push, or PR creation.
 - The systemd service enforces a one-hour hard timeout.
-- The production timer runs daily at 10:00 KST with up to ten minutes of randomized delay.
+- The steady-state production timer runs daily at 10:00 KST with up to ten minutes of randomized delay.
+- Current rollout hold for composite identity maintenance is tracked in
+  `openspec/changes/composite-global-publication-sync-identity/`; keep the
+  scheduler disabled until that change's verification tasks complete.
 
 The canonical durable contract is
 [`openspec/specs/contract-global-documentation-sync/spec.md`](../../openspec/specs/contract-global-documentation-sync/spec.md).
@@ -41,6 +44,19 @@ For synced News output, omit `author`, set `sourceLabel` deterministically to
 exactly to the normalized external URL only for outlink.
 Adding News support does not change the production timer, failure alerts, or
 seven-day report retention.
+
+## Identity contract
+
+- Canonical identity: `${sourceSection}:${sourceId}`.
+- New sync branch: `content-sync/{sourceSection}-{sourceId}`.
+- New ignore branch: `content-sync-ignore/{sourceSection}-{sourceId}`.
+- New PR marker and manifest rows include `sourceSection`.
+- Legacy baseline rows infer `sourceSection` from `sourceCategory`.
+- Legacy ignore rows infer `sourceSection` from the current source set only when one section is unique; ambiguous legacy identities block.
+- Legacy PR markers without `sourceSection` infer it from `targetFamily` (`news` → `news`, existing others → `documentation`). Retained legacy PR `#687` is read-compatible under that rule.
+- Any valid sync PR marker suppresses the same composite identity regardless of PR state; duplicate same-identity PR markers block.
+- Legacy branch-only `content-sync/{sourceId}` remains read-compatible only when a retained PR marker proves the same identity. Markerless legacy branches block.
+- Manual CLI remains legacy-compatible when a `sourceId` is unique. If the same `sourceId` exists in multiple sections, pass `--source-section`.
 
 ## Entry points
 
@@ -99,6 +115,7 @@ for installation, credentials, recovery, and scheduler operations.
 - Review or merge a generated Draft PR normally.
 - Use the `Ignore Global publication sync PR` GitHub Actions dispatch workflow with a
   sync PR number to create a protected-branch-compliant ignore PR with auto-merge enabled.
+  The workflow writes `sourceSection` into `ignore.json` and cross-checks it before any close/delete action.
 - After the ignore PR merges, reconciliation validates the machine marker, closes the
   original sync Draft PR, and deletes its branch. Reconciliation runs after immediate CI,
   after delayed approval, or through manual dispatch for recovery.

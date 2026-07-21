@@ -2,7 +2,11 @@
 
 ## Status
 
-Approved direction: extend the existing one-way Global-to-Japan publication sync from Global Documentation to the separate Global `/en/news` collection. This document defines the implementation shape. The accepted production contract remains `openspec/specs/contract-global-documentation-sync/spec.md` and must be updated when this extension ships.
+Historical design record for the News extension implementation. The current
+accepted production contract lives in
+`openspec/specs/contract-global-documentation-sync/spec.md`. Composite identity
+follow-up maintenance, rollout hold, and legacy-compatibility clarifications now
+live in `openspec/changes/composite-global-publication-sync-identity/`.
 
 ## Objective
 
@@ -10,7 +14,7 @@ Add `https://www.querypie.com/en/news` as a production source surface and genera
 
 - at most one candidate and one Draft PR per run
 - no automatic content merge or deployment
-- `sourceId`-based baseline, ignore, PR, and branch deduplication
+- composite `${sourceSection}:${sourceId}` baseline, ignore, PR, and branch deduplication, driven by the observed `documentation/manuals/cnt_000001` vs `news/cnt_000001` collision
 - fresh no-tools Pi processes
 - full contract, CI, build, and browser validation
 - fail closed before remote mutation
@@ -33,7 +37,10 @@ Could support Demo and future sections automatically, but it expands scope, weak
 
 ## Source support map
 
-The implementation must expose one source-family map as the single source of truth. Discovery, source loading, canonical URL generation, target allocation, baseline generation, prompts, validation, and documentation must consume this map rather than maintaining separate category switches.
+Bridge: treat the active OpenSpec contract and
+`source-family-map.mjs` as the canonical support-map sources. The detailed table
+below is retained as historical implementation rationale, not a second durable
+contract.
 
 | Source section | Source category | Global repository root | Production list | Content canonical pattern | Japan family | Japan route |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -181,7 +188,7 @@ Before enabling News discovery on the production host:
 
 Known pre-implementation evidence is six unique matches and no ambiguity using slug/title heuristics. This is evidence only, not a hard-coded baseline.
 
-Existing baseline, ignore, PR marker, branch, and embedded `sourceId` suppression rules apply unchanged to News.
+Existing suppression now keys on composite `${sourceSection}:${sourceId}`. Legacy baseline, ignore, PR marker, and branch records that omit `sourceSection` remain read-compatible only when one section can be inferred safely.
 
 ## Generation and review
 
@@ -224,7 +231,9 @@ Run the complete Global sync test suite, `npm run test:ci`, `next build`, and de
 
 ## Runtime and rollout
 
-The service, lock, one-hour timeout, Slack notifications, report retention, and 10:00 KST timer remain unchanged.
+Bridge: steady-state runtime behavior remains defined by the active OpenSpec
+contract. Temporary rollout gating for composite identity maintenance now lives
+in `openspec/changes/composite-global-publication-sync-identity/`.
 
 Rollout sequence:
 
@@ -234,7 +243,7 @@ Rollout sequence:
 4. Run a full no-mutation News dry run through Pi, full CI, build, and browser QA.
 5. Enable News discovery.
 6. Run one manual production execution and verify one Draft PR plus Slack notification.
-7. Leave the daily timer enabled only after successful evidence.
+7. Keep the scheduler disabled until independent review plus at least one host dry-run satisfy `openspec/changes/composite-global-publication-sync-identity/`.
 
 ## Documentation
 

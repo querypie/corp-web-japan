@@ -90,17 +90,89 @@ test("closed PR markers and branch-only states suppress regeneration", async () 
   const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-pr-"));
   await source(globalRepo, "blogs", "cnt_9", "nine");
   await manifests(targetRepo);
-  const marker = '<!-- global-documentation-sync:v1 {"sourceId":"cnt_9","targetFamily":"blog","targetId":9,"runId":"r","branch":"content-sync/cnt_9"} -->';
+  const marker = '<!-- global-documentation-sync:v1 {"sourceSection":"documentation","sourceId":"cnt_9","targetFamily":"blog","targetId":9,"runId":"r","branch":"content-sync/documentation-cnt_9"} -->';
   const common = {
     globalRepo,
     targetRepo,
     sitemapXml: '<loc>https://www.querypie.com/en/blog/nine</loc>',
     productionListHtmlByUrl: byUrl([["https://www.querypie.com/en/documentation", '<a href="/en/blog/nine">nine</a>']]),
   };
-  assert.equal((await discoverNextCandidate({ ...common, prRecords: [{ body: marker, state: "CLOSED", headRefName: "content-sync/cnt_9" }], branchNames: [] })).status, "no_candidate");
-  assert.equal((await discoverNextCandidate({ ...common, prRecords: [{ number: 9, body: "", state: "CLOSED", headRefName: "content-sync/cnt_9" }], branchNames: [] })).status, "blocked_invalid_pr_marker");
-  assert.equal((await discoverNextCandidate({ ...common, prRecords: [], branchNames: ["content-sync/cnt_9"] })).status, "blocked_branch_only");
+  assert.equal((await discoverNextCandidate({ ...common, prRecords: [{ number: 9, body: marker, state: "CLOSED", headRefName: "content-sync/documentation-cnt_9" }], branchNames: [] })).status, "no_candidate");
+  assert.equal((await discoverNextCandidate({ ...common, prRecords: [{ number: 9, body: "", state: "CLOSED", headRefName: "content-sync/documentation-cnt_9" }], branchNames: [] })).status, "blocked_invalid_pr_marker");
+  assert.equal((await discoverNextCandidate({ ...common, prRecords: [], branchNames: ["content-sync/documentation-cnt_9"] })).status, "blocked_branch_only");
   assert.equal(parseSyncMarker(marker).sourceId, "cnt_9");
+});
+
+test("allows different sections to reuse the same sourceId", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-duplicate-id-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-duplicate-id-"));
+  await source(globalRepo, "manuals", "cnt_000001", "manual-one", { dateIso: "2026-01-02" });
+  await source(globalRepo, "news", "cnt_000001", "news-one", { dateIso: "2026-01-01" });
+  await manifests(targetRepo, {
+    baseline: [{ sourceId: "cnt_000001", sourceCategory: "manuals", sourceSlug: "manual-one", targetFamily: "manuals", targetId: 1, targetSlug: "manual-one" }],
+  });
+
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "<loc>https://www.querypie.com/en/manual/manual-one</loc><loc>https://www.querypie.com/en/news/news-one</loc>",
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": '<a href="/en/news/news-one">News</a>',
+      "https://www.querypie.com/en/documentation": '<a href="/en/manual/manual-one">Manual</a>',
+    },
+    prRecords: [],
+    branchNames: [],
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.source.sourceSection, "news");
+  assert.equal(result.source.sourceId, "cnt_000001");
+});
+
+test("suppresses legacy PR marker #687 for matching composite identity and blocks duplicate PR identities", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-legacy-pr-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-legacy-pr-"));
+  await source(globalRepo, "manuals", "cnt_000212", "manual-212", { dateIso: "2026-01-02" });
+  await source(globalRepo, "news", "cnt_000212", "news-212", { dateIso: "2026-01-01" });
+  await manifests(targetRepo);
+  const common = {
+    globalRepo,
+    targetRepo,
+    sitemapXml: [
+      "https://www.querypie.com/en/manual/manual-212",
+      "https://www.querypie.com/en/news/news-212",
+    ].map((url) => `<loc>${url}</loc>`).join(""),
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": '<a href="/en/news/news-212">News</a>',
+      "https://www.querypie.com/en/documentation": '<a href="/en/manual/manual-212">Manual</a>',
+    },
+    branchNames: [],
+  };
+  const legacyMarker687 = '<!-- global-documentation-sync:v1 {"sourceId":"cnt_000212","targetFamily":"news","targetId":212,"runId":"r687","branch":"content-sync/cnt_000212"} -->';
+  const suppressed = await discoverNextCandidate({ ...common, prRecords: [{ number: 687, body: legacyMarker687, state: "CLOSED", headRefName: "content-sync/cnt_000212" }], branchNames: ["content-sync/cnt_000212"] });
+  assert.equal(suppressed.status, "candidate");
+  assert.equal(suppressed.source.sourceSection, "documentation");
+  assert.equal((await discoverNextCandidate({ ...common, prRecords: [{ number: 687, body: legacyMarker687, state: "CLOSED", headRefName: "content-sync/cnt_000212" }, { number: 688, body: '<!-- global-documentation-sync:v1 {"sourceSection":"news","sourceId":"cnt_000212","targetFamily":"news","targetId":999,"runId":"r688","branch":"content-sync/news-cnt_000212"} -->', state: "OPEN", headRefName: "content-sync/news-cnt_000212" }] })).status, "blocked_duplicate_pr_identity");
+});
+
+test("blocks ambiguous legacy branch identities when sourceId is duplicated across sections", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-ambiguous-branch-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-ambiguous-branch-"));
+  await source(globalRepo, "manuals", "cnt_000001", "manual-one");
+  await source(globalRepo, "news", "cnt_000001", "news-one");
+  await manifests(targetRepo);
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "<loc>https://www.querypie.com/en/manual/manual-one</loc><loc>https://www.querypie.com/en/news/news-one</loc>",
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": '<a href="/en/news/news-one">News</a>',
+      "https://www.querypie.com/en/documentation": '<a href="/en/manual/manual-one">Manual</a>',
+    },
+    prRecords: [],
+    branchNames: ["content-sync/cnt_000001"],
+  });
+  assert.equal(result.status, "blocked_ambiguous_legacy_identity");
 });
 
 test("selects listed and sitemapped News content from the flat News root", async () => {
@@ -287,6 +359,7 @@ test("blocks News content missing Japanese and English body before candidate sel
   assert.deepEqual(result, {
     status: "blocked_source_contract",
     sourceId: "cnt_15",
+    sourceSection: "news",
     reason: "content requires non-empty ja.html or en.html",
   });
 });
@@ -313,6 +386,7 @@ test("blocks News section or category mismatch before candidate selection", asyn
   }), {
     status: "blocked_source_contract",
     sourceId: "cnt_16",
+    sourceSection: "news",
     reason: "section must equal news: documentation",
   });
 
@@ -336,6 +410,7 @@ test("blocks News section or category mismatch before candidate selection", asyn
   }), {
     status: "blocked_source_contract",
     sourceId: "cnt_17",
+    sourceSection: "news",
     reason: "categorySlug must equal news: blogs",
   });
 });
@@ -361,6 +436,7 @@ test("blocks unsafe News source slug before candidate selection", async () => {
   assert.deepEqual(result, {
     status: "blocked_source_contract",
     sourceId: "cnt_18",
+    sourceSection: "news",
     reason: 'unsafe source slug: bad slug',
   });
 });
@@ -391,6 +467,7 @@ test("blocks News outlink when Japanese locale is selected without Japanese summ
   assert.deepEqual(result, {
     status: "blocked_source_contract",
     sourceId: "cnt_19",
+    sourceSection: "news",
     reason: "outlink requires localized title/summary and HTTPS externalUrl",
   });
 });
@@ -448,6 +525,7 @@ test("blocks non-HTTPS News external URL before candidate selection", async () =
   assert.deepEqual(result, {
     status: "blocked_source_contract",
     sourceId: "cnt_21",
+    sourceSection: "news",
     reason: "non-HTTPS external URL: http://media.example/news-one",
   });
 });
@@ -494,6 +572,7 @@ test("discoverLive fetches sitemap plus deduplicated list URLs once", async () =
 });
 
 test("rejects unsorted or duplicate decision manifests", () => {
-  assert.throws(() => validateDecisionManifest([{ sourceId: "cnt_2" }, { sourceId: "cnt_1" }], "baseline"), /sorted/);
-  assert.throws(() => validateDecisionManifest([{ sourceId: "cnt_1" }, { sourceId: "cnt_1" }], "baseline"), /duplicate/);
+  const baselineRecord = { sourceId: "cnt_1", sourceCategory: "blogs", sourceSlug: "one", targetFamily: "blog", targetId: 1, targetSlug: "one" };
+  assert.throws(() => validateDecisionManifest([{ ...baselineRecord, sourceId: "cnt_2", sourceSlug: "two", targetId: 2, targetSlug: "two" }, baselineRecord], "baseline"), /sorted/);
+  assert.throws(() => validateDecisionManifest([baselineRecord, { ...baselineRecord, targetId: 2, targetSlug: "two" }], "baseline"), /duplicate/);
 });
