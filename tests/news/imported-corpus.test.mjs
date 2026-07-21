@@ -5,7 +5,7 @@ import path from "node:path";
 
 const newsDir = path.join(process.cwd(), "src/content/news");
 const blogDir = path.join(process.cwd(), "src/content/blog");
-const expectedIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"];
+const importedIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"];
 const migratedExternalIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 const markdownLinkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
 const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
@@ -32,12 +32,14 @@ function assertMarkdownEmailLinksUseMailto(source, label) {
   }
 }
 
-test("news corpus includes every imported news record as a local MDX file", () => {
-  assert.deepEqual(listNewsIds(), expectedIds);
+test("news corpus preserves every imported news record while allowing later publications", () => {
+  const newsIds = listNewsIds();
+
+  for (const id of importedIds) assert.ok(newsIds.includes(id), `Missing imported news ${id}`);
 });
 
 test("migrated news MDX files use local news routes, route-aligned assets, and no duplicated leading H1", () => {
-  for (const id of expectedIds) {
+  for (const id of importedIds) {
     const source = readFileSync(path.join(newsDir, newsFilesById.get(id)), "utf8");
     const thumbnailPath = path.join(process.cwd(), "public", "news", id, "thumbnail.png");
 
