@@ -22,8 +22,10 @@
       section can be inferred, including legacy PR `#687` handling.
 - [x] Commit `3a11aac` blocks duplicate same-identity PR evidence and guards
       wrong-section close/delete during ignore reconciliation.
-- [ ] Complete an independent review of the landed implementation on top of
-      `3a11aac` before restoring unattended execution.
+- [x] Complete an independent review of the implementation through `8ed24be`
+      before restoring unattended execution. The final independent review
+      returned `READY` after legacy retry, legacy ignore deduplication, workflow
+      fail-closed inference, and explicit checked-in manifest backfill fixes.
 
 ## 3. Verification
 
@@ -36,24 +38,31 @@
       - `tests/global-documentation-sync/prepare.test.mjs`
       - `tests/global-documentation-sync/production-run.test.mjs`
       - `tests/global-documentation-sync/sync-identity.test.mjs`
-- [ ] Run an independent review pass focused on composite-identity suppression,
+- [x] Run an independent review pass focused on composite-identity suppression,
       legacy inference, duplicate same-identity blocking, and wrong-section
-      close/delete prevention.
-- [ ] Run one server dry-run with the scheduler still disabled and capture host
+      close/delete prevention. Final result: `READY`.
+- [x] Run one server dry-run with the scheduler still disabled and capture host
       evidence that the candidate/PR suppression path behaves correctly.
-- [ ] Restore the scheduler only after the independent review and server dry-run
-      both pass.
+      Run `composite-review-20260721T171749Z` skipped legacy Draft PR `#687`
+      (`news:cnt_000212`), selected `news:cnt_000181`, reserved target ID `20`,
+      passed generated-contract, full CI, build, and desktop/mobile browser QA,
+      and recorded `committed: false`, `pushed: false`, and no PR URL. GitHub had
+      no `content-sync/news-cnt_000181` branch or pull request after the run.
+- [ ] Restore the scheduler only after the user approves the reviewed migration
+      and the existing Draft PR `#687` content corrections are complete.
 
 ## 4. Spec / Implementation Drift Check
 
 - [x] Record the current drift: `3a11aac` implementation now covers composite
       identity details that the active spec and rollout docs did not describe
       fully.
-- [ ] After independent review and host dry-run, fold the accepted delta into
-      `openspec/specs/contract-global-documentation-sync/spec.md` and remove any
-      remaining contradictory rollout guidance.
-- [ ] Record the post-rollout drift-check result in the implementation PR body
-      or equivalent review artifact.
+- [x] Fold the accepted composite-identity delta into
+      `openspec/specs/contract-global-documentation-sync/spec.md` and remove
+      contradictory rollout guidance from the historical News design/plan.
+- [x] Record the pre-rollout drift-check result here: implementation, workflows,
+      checked-in baseline/ignore manifests, active OpenSpec, and operator docs
+      agree on `${sourceSection}:${sourceId}`; scheduler restore intentionally
+      remains pending user approval.
 
 ## 5. OpenSpec Cleanup
 
