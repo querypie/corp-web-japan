@@ -1,22 +1,21 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 
-import { chooseLocale, mapCategory, normalizeUrl } from "./lib.mjs";
-
-const SOURCE_SECTIONS = {
-  blogs: "blog", "white-papers": "white-paper", events: "events", manuals: "manual",
-  glossary: "glossary", voc: "customer-story", introduction: "introduction",
-};
+import { chooseLocale, normalizeUrl } from "./lib.mjs";
+import { canonicalContentUrl, sourceFamily, sourceRoots, targetFamily } from "./source-family-map.mjs";
 
 export function canonicalSourceUrl(category, meta) {
   if (meta.contentType === "outlink") {
-    const url = new URL(meta.externalUrl);
+    let url;
+    try {
+      url = new URL(meta.externalUrl);
+    } catch {
+      throw new Error(`${meta.storageId}: invalid external URL`);
+    }
     if (url.protocol !== "https:") throw new Error(`${meta.storageId}: outlink must use HTTPS`);
     return normalizeUrl(url.href);
   }
-  const section = SOURCE_SECTIONS[category];
-  if (!section) throw new Error(`unsupported source category: ${category}`);
-  return normalizeUrl(`https://www.querypie.com/en/${section}/${meta.id}`);
+  return normalizeUrl(canonicalContentUrl(category, meta.id));
 }
 
 export function parseSyncMarker(body = "") {
@@ -61,32 +60,55 @@ async function readManifest(targetRepo, name) {
   return validateDecisionManifest(JSON.parse(await readFile(file, "utf8")), name);
 }
 
+function optionalHtml(directory, locale) {
+  return readFile(path.join(directory, `${locale}.html`), "utf8").catch((error) => {
+    if (error.code === "ENOENT") return "";
+    throw error;
+  });
+}
+
 async function enumerateSources(globalRepo) {
-  const root = path.join(globalRepo, "src/content/documentation");
   const records = [];
-  for (const category of await readdir(root)) {
-    if (!SOURCE_SECTIONS[category]) continue;
-    const categoryRoot = path.join(root, category);
-    for (const sourceId of await readdir(categoryRoot)) {
+  for (const descriptor of sourceRoots(globalRepo)) {
+    let entries = [];
+    try {
+      entries = await readdir(descriptor.root);
+    } catch (error) {
+      if (error.code === "ENOENT") continue;
+      throw error;
+    }
+    for (const sourceId of entries) {
       if (!/^cnt_\d+$/.test(sourceId)) continue;
-      const directory = path.join(categoryRoot, sourceId);
+      const directory = path.join(descriptor.root, sourceId);
       const meta = JSON.parse(await readFile(path.join(directory, "meta.json"), "utf8"));
       if (meta.storageId !== sourceId) throw new Error(`${sourceId}: storageId mismatch`);
       let selected = null;
       if (meta.contentType === "content") {
-        const optional = async (locale) => { try { return await readFile(path.join(directory, `${locale}.html`), "utf8"); } catch (error) { if (error.code === "ENOENT") return ""; throw error; } };
-        try { selected = chooseLocale({ jaHtml: await optional("ja"), enHtml: await optional("en") }); } catch { selected = null; }
+        try {
+          selected = chooseLocale({
+            jaHtml: await optionalHtml(directory, "ja"),
+            enHtml: await optionalHtml(directory, "en"),
+          });
+        } catch {
+          selected = null;
+        }
       }
-      records.push({ sourceId, category, directory, meta, selected });
+      records.push({ sourceId, category: descriptor.sourceCategory, directory, meta, selected, descriptor });
     }
   }
   return records;
 }
 
-function productionSets(sitemapXml, documentationListHtml) {
+function productionSets(sitemapXml, productionListHtmlByUrl = {}) {
   const sitemap = new Set([...sitemapXml.matchAll(/<loc>\s*([^<]+)\s*<\/loc>/g)].map((match) => normalizeUrl(match[1])));
-  const list = new Set([...documentationListHtml.matchAll(/href=["']([^"']+)["']/g)].map((match) => normalizeUrl(new URL(match[1], "https://www.querypie.com").href)));
-  return { sitemap, list };
+  const listByUrl = new Map();
+  for (const [listUrl, html] of Object.entries(productionListHtmlByUrl)) {
+    listByUrl.set(
+      normalizeUrl(listUrl),
+      new Set([...String(html || "").matchAll(/href=["']([^"']+)["']/g)].map((match) => normalizeUrl(new URL(match[1], "https://www.querypie.com").href))),
+    );
+  }
+  return { sitemap, listByUrl };
 }
 
 async function mappedSourceIds(targetRepo) {
@@ -109,7 +131,24 @@ async function mappedSourceIds(targetRepo) {
   return ids;
 }
 
-export async function discoverNextCandidate({ globalRepo, targetRepo, sitemapXml, documentationListHtml, prRecords = [], branchNames = [] }) {
+function sourceContractFailure(source) {
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(source.meta.id || "")) {
+    return `unsafe source slug: ${source.meta.id}`;
+  }
+  if (source.meta.contentType === "outlink") {
+    let external;
+    try {
+      external = new URL(source.meta.externalUrl);
+    } catch {
+      return `invalid external URL: ${source.meta.externalUrl}`;
+    }
+    if (external.protocol !== "https:") return `non-HTTPS external URL: ${source.meta.externalUrl}`;
+    return null;
+  }
+  return null;
+}
+
+export async function discoverNextCandidate({ globalRepo, targetRepo, sitemapXml, productionListHtmlByUrl, prRecords = [], branchNames = [] }) {
   const baseline = await readManifest(targetRepo, "baseline");
   const ignore = await readManifest(targetRepo, "ignore");
   const parsedPulls = prRecords.map((pull) => ({ pull, marker: parseSyncMarker(pull.body) }));
@@ -127,7 +166,7 @@ export async function discoverNextCandidate({ globalRepo, targetRepo, sitemapXml
     ...markerIds, ...syncBranches.map((name) => name.slice("content-sync/".length)),
     ...(await mappedSourceIds(targetRepo)),
   ]);
-  const production = productionSets(sitemapXml, documentationListHtml);
+  const production = productionSets(sitemapXml, productionListHtmlByUrl);
   const sources = (await enumerateSources(globalRepo)).sort((a, b) => (b.meta.dateIso || "").localeCompare(a.meta.dateIso || "") || a.sourceId.localeCompare(b.sourceId));
   for (const [sourceId, ignored] of activeIgnore) {
     const source = sources.find((record) => record.sourceId === sourceId);
@@ -139,25 +178,36 @@ export async function discoverNextCandidate({ globalRepo, targetRepo, sitemapXml
   for (const source of sources) {
     if (source.meta.status !== "published") continue;
     if (!["content", "outlink"].includes(source.meta.contentType)) continue;
+    const contractFailure = sourceContractFailure(source);
+    if (contractFailure) return { status: "blocked_source_contract", sourceId: source.sourceId, reason: contractFailure };
     let url;
     try { url = canonicalSourceUrl(source.category, source.meta); } catch { continue; }
     if (activeIgnore.has(source.sourceId)) continue;
     if (handled.has(source.sourceId)) continue;
-    const listed = production.list.has(url);
+    const descriptor = sourceFamily(source.category);
+    const listUrl = normalizeUrl(descriptor.productionListUrl);
+    const list = production.listByUrl.get(listUrl) || new Set();
+    const listed = list.has(url);
+    const sitemap = production.sitemap.has(url);
     const eligible = source.meta.contentType === "outlink"
       ? listed
-      : listed && production.sitemap.has(url) && source.selected;
+      : listed && sitemap && source.selected;
     if (!eligible) continue;
     return {
       status: "candidate",
       source: {
-        sourceId: source.sourceId, sourceCategory: source.category,
-        sourceSlug: source.meta.id, targetFamily: mapCategory(source.category),
-        canonicalUrl: url, sourceLocale: source.selected?.locale || (source.meta.title?.ja ? "ja" : "en"),
-        sourceDirectory: source.directory, meta: source.meta,
-        production: { canonicalUrl: url, sitemap: source.meta.contentType === "content", documentationList: true },
+        sourceId: source.sourceId,
+        sourceCategory: source.category,
+        sourceSection: descriptor.sourceSection,
+        sourceSlug: source.meta.id,
+        targetFamily: targetFamily(source.category),
+        canonicalUrl: url,
+        sourceLocale: source.selected?.locale || (source.meta.title?.ja ? "ja" : "en"),
+        sourceDirectory: source.directory,
+        meta: source.meta,
+        production: { canonicalUrl: url, listed, listUrl, sitemap },
       },
-      reservedTargetIds: markers.filter(({ targetFamily }) => targetFamily === mapCategory(source.category)).map(({ targetId }) => targetId),
+      reservedTargetIds: markers.filter(({ targetFamily: family }) => family === targetFamily(source.category)).map(({ targetId }) => targetId),
     };
   }
   return { status: "no_candidate" };

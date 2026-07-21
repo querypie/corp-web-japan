@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 import { discoverNextCandidate } from "./discovery.mjs";
 import { fetchTextWithRetry } from "./fetch-retry.mjs";
 import { loadAllPullRequests } from "./github-state.mjs";
+import { SOURCE_FAMILIES } from "./source-family-map.mjs";
 
 function run(command, args, cwd) {
   const result = spawnSync(command, args, { cwd, encoding: "utf8", maxBuffer: 100_000_000 });
@@ -11,12 +12,14 @@ function run(command, args, cwd) {
 }
 
 export async function discoverLive({ globalRepo, targetRepo, githubRepo = "querypie/corp-web-japan", fetchText = fetchTextWithRetry, execute = run }) {
-  const [sitemapXml, documentationListHtml] = await Promise.all([
+  const listUrls = [...new Set(SOURCE_FAMILIES.map(({ productionListUrl }) => productionListUrl))];
+  const [sitemapXml, ...listBodies] = await Promise.all([
     fetchText("https://www.querypie.com/sitemap.xml"),
-    fetchText("https://www.querypie.com/en/documentation"),
+    ...listUrls.map((url) => fetchText(url)),
   ]);
+  const productionListHtmlByUrl = Object.fromEntries(listUrls.map((url, index) => [url, listBodies[index]]));
   const prRecords = await loadAllPullRequests({ githubRepo, cwd: targetRepo, execute });
   const branchOutput = execute("git", ["ls-remote", "--heads", "origin", "refs/heads/content-sync/*"], targetRepo);
   const branchNames = branchOutput.split("\n").filter(Boolean).map((line) => line.split("refs/heads/")[1]).filter(Boolean);
-  return discoverNextCandidate({ globalRepo, targetRepo, sitemapXml, documentationListHtml, prRecords, branchNames });
+  return discoverNextCandidate({ globalRepo, targetRepo, sitemapXml, productionListHtmlByUrl, prRecords, branchNames });
 }

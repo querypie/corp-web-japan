@@ -6,24 +6,58 @@ import test from "node:test";
 
 import { discoverNextCandidate, parseSyncMarker, validateDecisionManifest } from "../../scripts/global-documentation-sync/discovery.mjs";
 
-async function source(root, id, slug, overrides = {}) {
-  const dir = path.join(root, "src/content/documentation/blogs", id);
+async function source(root, category, id, slug, overrides = {}) {
+  const relativeRoot = category === "news"
+    ? path.join("src/content/news", id)
+    : path.join("src/content/documentation", category, id);
+  const dir = path.join(root, relativeRoot);
   await mkdir(dir, { recursive: true });
-  await writeFile(path.join(dir, "meta.json"), JSON.stringify({ storageId: id, id: slug, categorySlug: "blogs", status: "published", contentType: "content", dateIso: "2026-01-01", ...overrides }));
-  await writeFile(path.join(dir, "ja.html"), "<p>本文</p>");
+  await writeFile(
+    path.join(dir, "meta.json"),
+    JSON.stringify({
+      storageId: id,
+      id: slug,
+      categorySlug: category,
+      status: "published",
+      contentType: "content",
+      dateIso: "2026-01-01",
+      ...overrides,
+    }),
+  );
+  if (overrides.contentType !== "outlink") {
+    await writeFile(path.join(dir, "ja.html"), "<p>本文</p>");
+  }
+}
+
+async function manifests(targetRepo, { baseline = [], ignore = [] } = {}) {
+  await mkdir(path.join(targetRepo, ".github/content-sync"), { recursive: true });
+  await writeFile(path.join(targetRepo, ".github/content-sync/baseline.json"), JSON.stringify(baseline));
+  await writeFile(path.join(targetRepo, ".github/content-sync/ignore.json"), JSON.stringify(ignore));
+}
+
+function byUrl(entries) {
+  return Object.fromEntries(entries);
 }
 
 test("selects at most one exact production candidate after all decision records", async () => {
   const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-discovery-"));
   const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-discovery-"));
-  await source(globalRepo, "cnt_1", "handled", { dateIso: "2026-01-01" });
-  await source(globalRepo, "cnt_2", "ignored", { dateIso: "2026-02-01" });
-  await source(globalRepo, "cnt_3", "newest", { dateIso: "2026-03-01" });
-  await mkdir(path.join(targetRepo, ".github/content-sync"), { recursive: true });
-  await writeFile(path.join(targetRepo, ".github/content-sync/baseline.json"), JSON.stringify([{ sourceId: "cnt_1", sourceCategory: "blogs", sourceSlug: "handled", targetFamily: "blog", targetId: 1, targetSlug: "handled" }]));
-  await writeFile(path.join(targetRepo, ".github/content-sync/ignore.json"), JSON.stringify([{ sourceId: "cnt_2", sourceCanonicalUrl: "https://www.querypie.com/en/blog/ignored", reasonCode: "not-for-japan", reason: "rejected", addedBy: "owner", addedAt: "2026-01-01" }]));
+  await source(globalRepo, "blogs", "cnt_1", "handled", { dateIso: "2026-01-01" });
+  await source(globalRepo, "blogs", "cnt_2", "ignored", { dateIso: "2026-02-01" });
+  await source(globalRepo, "blogs", "cnt_3", "newest", { dateIso: "2026-03-01" });
+  await manifests(targetRepo, {
+    baseline: [{ sourceId: "cnt_1", sourceCategory: "blogs", sourceSlug: "handled", targetFamily: "blog", targetId: 1, targetSlug: "handled" }],
+    ignore: [{ sourceId: "cnt_2", sourceCanonicalUrl: "https://www.querypie.com/en/blog/ignored", reasonCode: "not-for-japan", reason: "rejected", addedBy: "owner", addedAt: "2026-01-01" }],
+  });
   const urls = ["handled", "ignored", "newest"].map((slug) => `https://www.querypie.com/en/blog/${slug}`);
-  const result = await discoverNextCandidate({ globalRepo, targetRepo, sitemapXml: urls.map((url) => `<url><loc>${url}</loc></url>`).join(""), documentationListHtml: urls.map((url) => `<a href="${url}">${url}</a>`).join("") , prRecords: [], branchNames: [] });
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: urls.map((url) => `<url><loc>${url}</loc></url>`).join(""),
+    productionListHtmlByUrl: byUrl([["https://www.querypie.com/en/documentation", urls.map((url) => `<a href="${url}">${url}</a>`).join("")]]),
+    prRecords: [],
+    branchNames: [],
+  });
   assert.equal(result.status, "candidate");
   assert.equal(result.source.sourceId, "cnt_3");
 });
@@ -31,13 +65,19 @@ test("selects at most one exact production candidate after all decision records"
 test("ignore uses sourceId, blocks URL drift, and expires temporary decisions", async () => {
   const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-ignore-"));
   const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-ignore-"));
-  await source(globalRepo, "cnt_8", "current-slug");
-  await mkdir(path.join(targetRepo, ".github/content-sync"), { recursive: true });
-  await writeFile(path.join(targetRepo, ".github/content-sync/baseline.json"), "[]");
+  await source(globalRepo, "blogs", "cnt_8", "current-slug");
+  await manifests(targetRepo);
   const ignoreFile = path.join(targetRepo, ".github/content-sync/ignore.json");
   const ignored = { sourceId: "cnt_8", sourceCanonicalUrl: "https://www.querypie.com/en/blog/old-slug", reasonCode: "launch-gated", reason: "wait", addedBy: "owner", addedAt: "2026-01-01" };
   await writeFile(ignoreFile, JSON.stringify([ignored]));
-  const common = { globalRepo, targetRepo, sitemapXml: '<loc>https://www.querypie.com/en/blog/current-slug</loc>', documentationListHtml: '<a href="/en/blog/current-slug">current</a>', prRecords: [], branchNames: [] };
+  const common = {
+    globalRepo,
+    targetRepo,
+    sitemapXml: '<loc>https://www.querypie.com/en/blog/current-slug</loc>',
+    productionListHtmlByUrl: byUrl([["https://www.querypie.com/en/documentation", '<a href="/en/blog/current-slug">current</a>']]),
+    prRecords: [],
+    branchNames: [],
+  };
   assert.equal((await discoverNextCandidate(common)).status, "blocked_ignore_url_drift");
   await writeFile(ignoreFile, JSON.stringify([{ ...ignored, sourceCanonicalUrl: "https://www.querypie.com/en/blog/current-slug", expiresAt: "2000-01-01T00:00:00Z" }]));
   assert.equal((await discoverNextCandidate(common)).status, "candidate");
@@ -46,16 +86,199 @@ test("ignore uses sourceId, blocks URL drift, and expires temporary decisions", 
 test("closed PR markers and branch-only states suppress regeneration", async () => {
   const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-pr-"));
   const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-pr-"));
-  await source(globalRepo, "cnt_9", "nine");
-  await mkdir(path.join(targetRepo, ".github/content-sync"), { recursive: true });
-  await writeFile(path.join(targetRepo, ".github/content-sync/baseline.json"), "[]");
-  await writeFile(path.join(targetRepo, ".github/content-sync/ignore.json"), "[]");
+  await source(globalRepo, "blogs", "cnt_9", "nine");
+  await manifests(targetRepo);
   const marker = '<!-- global-documentation-sync:v1 {"sourceId":"cnt_9","targetFamily":"blog","targetId":9,"runId":"r","branch":"content-sync/cnt_9"} -->';
-  const common = { globalRepo, targetRepo, sitemapXml: '<loc>https://www.querypie.com/en/blog/nine</loc>', documentationListHtml: '<a href="/en/blog/nine">nine</a>' };
+  const common = {
+    globalRepo,
+    targetRepo,
+    sitemapXml: '<loc>https://www.querypie.com/en/blog/nine</loc>',
+    productionListHtmlByUrl: byUrl([["https://www.querypie.com/en/documentation", '<a href="/en/blog/nine">nine</a>']]),
+  };
   assert.equal((await discoverNextCandidate({ ...common, prRecords: [{ body: marker, state: "CLOSED", headRefName: "content-sync/cnt_9" }], branchNames: [] })).status, "no_candidate");
   assert.equal((await discoverNextCandidate({ ...common, prRecords: [{ number: 9, body: "", state: "CLOSED", headRefName: "content-sync/cnt_9" }], branchNames: [] })).status, "blocked_invalid_pr_marker");
   assert.equal((await discoverNextCandidate({ ...common, prRecords: [], branchNames: ["content-sync/cnt_9"] })).status, "blocked_branch_only");
   assert.equal(parseSyncMarker(marker).sourceId, "cnt_9");
+});
+
+test("selects listed and sitemapped News content from the flat News root", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-listed-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-listed-"));
+  await source(globalRepo, "news", "cnt_10", "news-one");
+  await manifests(targetRepo);
+
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "<loc>https://www.querypie.com/en/news/news-one</loc>",
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": '<a href="/en/news/news-one">News</a>',
+      "https://www.querypie.com/en/documentation": "",
+    },
+    prRecords: [],
+    branchNames: [],
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.source.sourceSection, "news");
+  assert.equal(result.source.targetFamily, "news");
+  assert.deepEqual(result.source.production, {
+    canonicalUrl: "https://www.querypie.com/en/news/news-one",
+    listed: true,
+    listUrl: "https://www.querypie.com/en/news",
+    sitemap: true,
+  });
+});
+
+test("selects a listed HTTPS News external destination without sitemap detail evidence", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-outlink-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-outlink-"));
+  await source(globalRepo, "news", "cnt_11", "news-outlink", {
+    contentType: "outlink",
+    externalUrl: "https://media.example/news-one",
+  });
+  await manifests(targetRepo);
+
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "",
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": '<a href="https://media.example/news-one">News</a>',
+      "https://www.querypie.com/en/documentation": "",
+    },
+    prRecords: [],
+    branchNames: [],
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.source.sourceSection, "news");
+  assert.equal(result.source.production.sitemap, false);
+  assert.equal(result.source.production.listed, true);
+  assert.equal(result.source.production.listUrl, "https://www.querypie.com/en/news");
+});
+
+test("documentation discovery still uses documentation list and sitemap evidence", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-doc-listed-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-doc-listed-"));
+  await source(globalRepo, "blogs", "cnt_12", "doc-one");
+  await manifests(targetRepo);
+
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "<loc>https://www.querypie.com/en/blog/doc-one</loc>",
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/documentation": '<a href="/en/blog/doc-one">Doc</a>',
+      "https://www.querypie.com/en/news": "",
+    },
+    prRecords: [],
+    branchNames: [],
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.source.sourceSection, "documentation");
+  assert.deepEqual(result.source.production, {
+    canonicalUrl: "https://www.querypie.com/en/blog/doc-one",
+    listed: true,
+    listUrl: "https://www.querypie.com/en/documentation",
+    sitemap: true,
+  });
+});
+
+test("skips News content missing list evidence", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-no-list-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-no-list-"));
+  await source(globalRepo, "news", "cnt_13", "news-missing-list");
+  await manifests(targetRepo);
+
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "<loc>https://www.querypie.com/en/news/news-missing-list</loc>",
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": "",
+      "https://www.querypie.com/en/documentation": "",
+    },
+    prRecords: [],
+    branchNames: [],
+  });
+
+  assert.equal(result.status, "no_candidate");
+});
+
+test("skips News content missing sitemap evidence", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-no-sitemap-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-no-sitemap-"));
+  await source(globalRepo, "news", "cnt_14", "news-missing-sitemap");
+  await manifests(targetRepo);
+
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "",
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": '<a href="/en/news/news-missing-sitemap">News</a>',
+      "https://www.querypie.com/en/documentation": "",
+    },
+    prRecords: [],
+    branchNames: [],
+  });
+
+  assert.equal(result.status, "no_candidate");
+});
+
+test("blocks unsafe News source slug before candidate selection", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-unsafe-slug-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-unsafe-slug-"));
+  await source(globalRepo, "news", "cnt_15", "bad slug");
+  await manifests(targetRepo);
+
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "",
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": "",
+      "https://www.querypie.com/en/documentation": "",
+    },
+    prRecords: [],
+    branchNames: [],
+  });
+
+  assert.deepEqual(result, {
+    status: "blocked_source_contract",
+    sourceId: "cnt_15",
+    reason: 'unsafe source slug: bad slug',
+  });
+});
+
+test("blocks non-HTTPS News external URL before candidate selection", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-http-outlink-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-http-outlink-"));
+  await source(globalRepo, "news", "cnt_16", "news-http-outlink", {
+    contentType: "outlink",
+    externalUrl: "http://media.example/news-one",
+  });
+  await manifests(targetRepo);
+
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "",
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": "",
+      "https://www.querypie.com/en/documentation": "",
+    },
+    prRecords: [],
+    branchNames: [],
+  });
+
+  assert.deepEqual(result, {
+    status: "blocked_source_contract",
+    sourceId: "cnt_16",
+    reason: "non-HTTPS external URL: http://media.example/news-one",
+  });
 });
 
 test("rejects unsorted or duplicate decision manifests", () => {
