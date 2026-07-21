@@ -5,13 +5,22 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 
-import { cleanupFailedWorktrees, runProduction, runProductionCli } from "../../scripts/global-documentation-sync/production-run.mjs";
+import { cleanupFailedWorktrees, durableEvidenceConfig, runProduction, runProductionCli } from "../../scripts/global-documentation-sync/production-run.mjs";
 
 async function exists(file) { try { await stat(file); return true; } catch { return false; } }
 
 function reviewArtifact(type, runId, sourceId) {
   return { schemaVersion: "global-documentation-sync/v1", artifactType: type, runId, sourceId, verdict: "pass", findings: [] };
 }
+
+test("durable evidence config rejects missing blank invalid issue numbers and missing github repo", () => {
+  assert.deepEqual(durableEvidenceConfig({ env: {} }), { evidenceIssueNumber: null, githubRepo: null, required: false });
+  assert.throws(() => durableEvidenceConfig({ env: { DURABLE_EVIDENCE_REQUIRED: "1" }, githubRepo: "querypie/corp-web-japan" }), /valid EVIDENCE_ISSUE_NUMBER required/);
+  assert.throws(() => durableEvidenceConfig({ env: { DURABLE_EVIDENCE_REQUIRED: "1", EVIDENCE_ISSUE_NUMBER: "   " }, githubRepo: "querypie/corp-web-japan" }), /valid EVIDENCE_ISSUE_NUMBER required/);
+  assert.throws(() => durableEvidenceConfig({ env: { DURABLE_EVIDENCE_REQUIRED: "1", EVIDENCE_ISSUE_NUMBER: "abc" }, githubRepo: "querypie/corp-web-japan" }), /valid EVIDENCE_ISSUE_NUMBER required/);
+  assert.throws(() => durableEvidenceConfig({ env: { DURABLE_EVIDENCE_REQUIRED: "1", EVIDENCE_ISSUE_NUMBER: "688" } }), /githubRepo required/);
+  assert.deepEqual(durableEvidenceConfig({ env: { DURABLE_EVIDENCE_REQUIRED: "1", EVIDENCE_ISSUE_NUMBER: "688" }, githubRepo: "querypie/corp-web-japan" }), { evidenceIssueNumber: "688", githubRepo: "querypie/corp-web-japan", required: true });
+});
 
 test("no-candidate discovery records a passed terminal run status", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "sync-no-candidate-"));
@@ -105,6 +114,19 @@ test("success path gates completion on durable evidence publishing", async () =>
   assert.equal(status.state, "passed");
 });
 
+test("required durable evidence misconfig fails before no-candidate discovery", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "sync-no-candidate-misconfig-"));
+  await assert.rejects(() => runProduction({
+    globalRepo: path.join(root, "global"), targetRepo: path.join(root, "target"),
+    reportsRoot: path.join(root, "reports"), worktreesRoot: path.join(root, "worktrees"),
+    piBin: "pi", provider: "test", model: "test", runId: "run-misconfig",
+    env: { DURABLE_EVIDENCE_REQUIRED: "1", EVIDENCE_ISSUE_NUMBER: " " },
+    githubRepo: "querypie/corp-web-japan",
+    runPreflight: async () => { throw new Error("preflight should not run"); },
+    discoverLive: async () => { throw new Error("discovery should not run"); },
+  }), /valid EVIDENCE_ISSUE_NUMBER required/);
+});
+
 test("failure CLI path publishes durable evidence and fails closed when the ledger publish fails", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "sync-failure-gate-"));
   const reportsRoot = path.join(root, "reports");
@@ -122,6 +144,64 @@ test("failure CLI path publishes durable evidence and fails closed when the ledg
   assert.equal(status.stage, "durable-evidence");
   assert.equal(status.state, "failed");
   assert.match(status.reason, /gh unavailable/);
+});
+
+test("durable evidence failure does not trigger a recursive republish loop", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "sync-durable-loop-"));
+  const reportsRoot = path.join(root, "reports");
+  const worktreesRoot = path.join(root, "worktrees");
+  const targetRepo = path.join(root, "target");
+  const runId = "run-loop";
+  const sourceId = "cnt_000211";
+  let durablePublishAttempts = 0;
+  let publishDraftAttempts = 0;
+  await assert.rejects(() => runProductionCli({
+    globalRepo: path.join(root, "global"),
+    targetRepo,
+    reportsRoot,
+    worktreesRoot,
+    piBin: "pi",
+    provider: "test",
+    model: "test",
+    runId,
+    githubRepo: "querypie/corp-web-japan",
+    env: { EVIDENCE_ISSUE_NUMBER: "688", DURABLE_EVIDENCE_REQUIRED: "1" },
+    runPreflight: async () => {},
+    discoverLive: async () => ({ status: "candidate", source: { sourceId, production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } }, reservedTargetIds: [] }),
+    runCommand: async (command, args) => {
+      if (command === "git" && args[0] === "rev-parse") return "base-commit\n";
+      if (command === process.execPath) {
+        const reportsDir = path.join(reportsRoot, runId);
+        await mkdir(reportsDir, { recursive: true });
+        await Promise.all([
+          writeFile(path.join(reportsDir, "candidate.json"), JSON.stringify({ schemaVersion: "global-documentation-sync/v1", artifactType: "candidate", runId, sourceId, sourceHash: `sha256:${"a".repeat(64)}`, sourceCategory: "blogs", sourceSection: "documentation", targetFamily: "blog", targetId: 21, sourceLocale: "ja", sourceHtmlPath: "/tmp/source.html", targetMdxPath: "/tmp/21-demo.mdx", targetAssetRoot: "/tmp/blog/21", targetRoute: "/blog/21/demo", meta: { id: "demo", contentType: "content" }, assets: [], externalMedia: [], production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } })),
+          writeFile(path.join(reportsDir, "run-summary.json"), JSON.stringify({ schemaVersion: "global-documentation-sync/v1", artifactType: "run-summary", runId, sourceId, status: "dry_run_passed", dryRun: true, committed: false, pushed: false, pullRequestUrl: null })),
+          writeFile(path.join(reportsDir, "validation-results.json"), JSON.stringify({ schemaVersion: "global-documentation-sync/v1", artifactType: "validation-results", runId, sourceId, results: [{ command: "npm run test:ci", code: 0 }] })),
+          writeFile(path.join(reportsDir, "fidelity-review.json"), JSON.stringify(reviewArtifact("fidelity-review", runId, sourceId))),
+          writeFile(path.join(reportsDir, "japanese-editorial-review.json"), JSON.stringify(reviewArtifact("japanese-editorial-review", runId, sourceId))),
+          writeFile(path.join(reportsDir, "contract-review.json"), JSON.stringify(reviewArtifact("contract-review", runId, sourceId))),
+        ]);
+        return "";
+      }
+      if (command === "git" && args[0] === "worktree" && args[1] === "remove") return "";
+      throw new Error(`unexpected command: ${command} ${args.join(" ")}`);
+    },
+    createRunWorktree: async () => {},
+    publishDraft: async ({ onPushed }) => {
+      publishDraftAttempts += 1;
+      await onPushed({ branch: `content-sync/${sourceId}`, commit: "published-commit" });
+      return { branch: `content-sync/${sourceId}`, commit: "published-commit", pullRequestUrl: "https://github.com/querypie/corp-web-japan/pull/99" };
+    },
+    publishDurableEvidence: async () => {
+      durablePublishAttempts += 1;
+      throw new Error("pr comment failed");
+    },
+  }), /pr comment failed/);
+  assert.equal(publishDraftAttempts, 1);
+  assert.equal(durablePublishAttempts, 1);
+  const status = JSON.parse(await readFile(path.join(reportsRoot, runId, "run-status.json"), "utf8"));
+  assert.equal(status.stage, "durable-evidence");
+  assert.equal(status.state, "failed");
 });
 
 test("stale cleanup removes only automation-owned worktree names", async () => {

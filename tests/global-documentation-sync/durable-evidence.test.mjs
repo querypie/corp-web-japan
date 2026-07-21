@@ -9,6 +9,8 @@ import {
   collectTencentHostMetadata,
   DURABLE_EVIDENCE_COMMENT_LIMIT_BYTES,
   DURABLE_EVIDENCE_MARKER_PREFIX,
+  DURABLE_EVIDENCE_MAX_BROWSER_FINDINGS,
+  DURABLE_EVIDENCE_MAX_REVIEW_FINDINGS,
   publishDurableEvidence,
 } from "../../scripts/global-documentation-sync/durable-evidence.mjs";
 
@@ -37,8 +39,55 @@ async function createReportDir() {
   return reportsDir;
 }
 
-test("builds a sanitized durable evidence comment within the size cap", async () => {
+test("builds a strict bounded durable evidence projection within the size cap", async () => {
   const reportsDir = await createReportDir();
+  const largeSecret = `Bearer ${"x".repeat(6000)}`;
+  const writeJson = (name, value) => writeFile(path.join(reportsDir, name), `${JSON.stringify(value, null, 2)}\n`);
+  await Promise.all([
+    writeJson("fidelity-review.json", {
+      schemaVersion: "global-documentation-sync/v1",
+      artifactType: "fidelity-review",
+      runId: "run-123",
+      sourceId: "cnt_000211",
+      verdict: "revise",
+      sourceHtml: `<div>${"SECRET_HTML".repeat(400)}</div>`,
+      findings: Array.from({ length: DURABLE_EVIDENCE_MAX_REVIEW_FINDINGS + 5 }, (_, index) => ({
+        severity: index % 2 === 0 ? "major" : "note",
+        location: `section ${index} ${"L".repeat(600)}`,
+        message: `keep this finding ${index} ${largeSecret} ${"M".repeat(600)}`,
+        suggestion: `drop me ${"S".repeat(600)}`,
+        excerpt: `drop excerpt ${"E".repeat(600)}`,
+        sourceHtml: `<p>${"HTML".repeat(600)}</p>`,
+        webhookUrl: "https://hooks.slack.com/services/SECRET",
+      })),
+      arbitrary: { nested: "SECRET_NESTED" },
+    }),
+    writeJson("browser-results.json", {
+      schemaVersion: "global-documentation-sync/v1",
+      artifactType: "browser-results",
+      runId: "run-123",
+      sourceId: "cnt_000211",
+      results: [
+        {
+          viewport: { width: 1440, height: 900, scale: 99 },
+          status: "failed",
+          url: "https://secret.example.com/?token=hunter2",
+          findings: [
+            "minor banner mismatch",
+            ...Array.from({ length: DURABLE_EVIDENCE_MAX_BROWSER_FINDINGS + 3 }, (_, index) => ({
+              severity: "minor",
+              location: `hero ${index} ${"B".repeat(600)}`,
+              message: `browser finding ${index} ${largeSecret} ${"C".repeat(600)}`,
+              excerpt: `remove excerpt ${"X".repeat(600)}`,
+              sourceHtml: `<div>${"Y".repeat(600)}</div>`,
+              unknown: "DROP_UNKNOWN",
+            })),
+          ],
+          metrics: { sourceHtml: "LEAK" },
+        },
+      ],
+    }),
+  ]);
   const metadataResponses = new Map([
     ["instance-id", "ins-123"],
     ["placement/zone", "ap-seoul-1"],
@@ -64,7 +113,14 @@ test("builds a sanitized durable evidence comment within the size cap", async ()
   assert.match(comment, /generated-body.md/);
   assert.match(comment, /candidate-body.md/);
   assert.match(comment, /slack-webhook.txt/);
+  assert.match(comment, /"artifactType":"fidelity-review"/);
+  assert.match(comment, /"verdict":"revise"/);
+  assert.match(comment, /"status":"failed"/);
+  assert.doesNotMatch(comment, /suggestion|excerpt|sourceHtml|arbitrary|unknown|DROP_UNKNOWN|SECRET_NESTED|SECRET_HTML|LEAK/);
   assert.doesNotMatch(comment, /SHOULD-NOT-LEAK|SECRET GENERATED BODY|SECRET CANDIDATE BODY|hooks\.slack\.com\/services\/SECRET|top-secret/);
+  assert.doesNotMatch(comment, /Bearer x{30,}|token=hunter2/);
+  assert.equal((comment.match(/keep this finding/g) || []).length, DURABLE_EVIDENCE_MAX_REVIEW_FINDINGS);
+  assert.equal((comment.match(/browser finding/g) || []).length, DURABLE_EVIDENCE_MAX_BROWSER_FINDINGS - 1);
   assert.ok(bytes <= DURABLE_EVIDENCE_COMMENT_LIMIT_BYTES);
 });
 
@@ -100,4 +156,67 @@ test("publishes to issue and PR with idempotent marker checks", async () => {
   const issueComment = calls.find(({ args }) => args[0] === "issue" && args[1] === "comment");
   assert.deepEqual(issueComment.args.slice(0, 7), ["issue", "comment", "688", "--repo", "querypie/corp-web-japan", "--body-file", "-"]);
   assert.match(issueComment.input, new RegExp(DURABLE_EVIDENCE_MARKER_PREFIX));
+});
+
+test("retries PR-only after issue comment already succeeded", async () => {
+  const reportsDir = await createReportDir();
+  const calls = [];
+  let marker = "";
+  const execute = async (command, args, { input } = {}) => {
+    calls.push({ command, args, input });
+    if (args[0] === "issue" && args[1] === "view") return JSON.stringify({ comments: marker ? [{ body: marker }] : [] });
+    if (args[0] === "issue" && args[1] === "comment") {
+      marker = input.match(/<!-- durable-global-documentation-sync-evidence:v1 [\s\S]+?-->/)[0];
+      return "ok\n";
+    }
+    if (args[0] === "pr" && args[1] === "view") return JSON.stringify({ comments: [] });
+    if (args[0] === "pr" && args[1] === "comment") {
+      if (!marker || calls.filter(({ args: loggedArgs }) => loggedArgs[0] === "pr" && loggedArgs[1] === "comment").length === 1) {
+        throw new Error("pr comment failed");
+      }
+      return "ok\n";
+    }
+    throw new Error(`unexpected gh call: ${args.join(" ")}`);
+  };
+
+  await assert.rejects(() => publishDurableEvidence({
+    reportsDir,
+    githubRepo: "querypie/corp-web-japan",
+    evidenceIssueNumber: "688",
+    pullRequestUrl: "https://github.com/querypie/corp-web-japan/pull/99",
+    execute,
+    fetchImpl: async () => ({ ok: false, text: async () => "" }),
+  }), /pr comment failed/);
+
+  const retryResult = await publishDurableEvidence({
+    reportsDir,
+    githubRepo: "querypie/corp-web-japan",
+    evidenceIssueNumber: "688",
+    pullRequestUrl: "https://github.com/querypie/corp-web-japan/pull/99",
+    execute,
+    fetchImpl: async () => ({ ok: false, text: async () => "" }),
+  });
+
+  assert.equal(retryResult.issueCommented, false);
+  assert.equal(retryResult.issueSkipped, true);
+  assert.equal(retryResult.prCommented, true);
+  assert.equal(retryResult.prSkipped, false);
+  assert.equal(calls.filter(({ args }) => args[0] === "issue" && args[1] === "comment").length, 1);
+  assert.equal(calls.filter(({ args }) => args[0] === "pr" && args[1] === "comment").length, 2);
+});
+
+
+test("fails before gh when required durable evidence still exceeds 60KB", async () => {
+  const reportsDir = await createReportDir();
+  await Promise.all(Array.from({ length: 1800 }, (_, index) => writeFile(path.join(reportsDir, `nested/${String(index).padStart(4, "0")}-${"x".repeat(40)}.txt`), "x\n")));
+  let ghCalls = 0;
+  await assert.rejects(() => publishDurableEvidence({
+    reportsDir,
+    githubRepo: "querypie/corp-web-japan",
+    evidenceIssueNumber: "688",
+    pullRequestUrl: "https://github.com/querypie/corp-web-japan/pull/99",
+    execute: async () => { ghCalls += 1; throw new Error("gh should not run"); },
+    fetchImpl: async () => ({ ok: false, text: async () => "" }),
+  }), /durable evidence comment exceeds/);
+  assert.equal(ghCalls, 0);
 });

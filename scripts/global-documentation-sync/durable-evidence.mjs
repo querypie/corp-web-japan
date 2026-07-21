@@ -8,6 +8,10 @@ import { redactSecrets } from "./redaction.mjs";
 
 export const DURABLE_EVIDENCE_COMMENT_LIMIT_BYTES = 60 * 1024;
 export const DURABLE_EVIDENCE_MARKER_PREFIX = "durable-global-documentation-sync-evidence:v1";
+export const DURABLE_EVIDENCE_MAX_REVIEW_FINDINGS = 20;
+export const DURABLE_EVIDENCE_MAX_BROWSER_RESULTS = 4;
+export const DURABLE_EVIDENCE_MAX_BROWSER_FINDINGS = 20;
+export const DURABLE_EVIDENCE_MAX_STRING_LENGTH = 280;
 const TENCENT_METADATA_BASE = "http://metadata.tencentyun.com/latest/meta-data";
 const UNAVAILABLE = "unavailable";
 
@@ -68,6 +72,51 @@ function compactJson(value) {
   return stableStringify(sanitizeJson(value));
 }
 
+function truncateString(value, maxLength = DURABLE_EVIDENCE_MAX_STRING_LENGTH) {
+  if (typeof value !== "string") return null;
+  const normalized = redactSecrets(value).replace(/\s+/g, " ").trim();
+  if (!normalized) return null;
+  return normalized.length <= maxLength ? normalized : `${normalized.slice(0, maxLength - 1)}…`;
+}
+
+function sanitizeFinding(finding) {
+  if (typeof finding === "string") {
+    const message = truncateString(finding);
+    return message ? { message } : null;
+  }
+  if (!finding || typeof finding !== "object") return null;
+  const severity = truncateString(finding.severity);
+  const location = truncateString(finding.location);
+  const message = truncateString(finding.message);
+  if (!message) return null;
+  return {
+    ...(severity ? { severity } : {}),
+    ...(location ? { location } : {}),
+    message,
+  };
+}
+
+function sanitizeReview(review) {
+  if (!review || typeof review !== "object") return null;
+  return {
+    artifactType: truncateString(review.artifactType) || "unknown",
+    verdict: truncateString(review.verdict) || "unknown",
+    findings: Array.isArray(review.findings) ? review.findings.map(sanitizeFinding).filter(Boolean).slice(0, DURABLE_EVIDENCE_MAX_REVIEW_FINDINGS) : [],
+  };
+}
+
+function sanitizeBrowserResults(browserResults) {
+  if (!Array.isArray(browserResults?.results)) return [];
+  return browserResults.results.slice(0, DURABLE_EVIDENCE_MAX_BROWSER_RESULTS).map((result) => ({
+    viewport: {
+      width: Number.isFinite(result?.viewport?.width) ? Math.max(0, Math.trunc(result.viewport.width)) : null,
+      height: Number.isFinite(result?.viewport?.height) ? Math.max(0, Math.trunc(result.viewport.height)) : null,
+    },
+    status: truncateString(result?.status) || "unknown",
+    findings: Array.isArray(result?.findings) ? result.findings.map(sanitizeFinding).filter(Boolean).slice(0, DURABLE_EVIDENCE_MAX_BROWSER_FINDINGS) : [],
+  }));
+}
+
 function resolveTerminalSummary(artifacts) {
   const runSummary = artifacts.runSummary;
   const failureSummary = artifacts.failureSummary;
@@ -120,8 +169,8 @@ async function buildManifest(reportsDir) {
 }
 
 function buildSections({ summary, evidenceIssueNumber, targetCommit, hostMetadata, reviews, validationResults, browserResults, manifest, excludedEmbeddedFiles }) {
-  const commands = (validationResults?.results || []).map(({ command, code }) => ({ command, code }));
-  const browser = (browserResults?.results || []).map(({ viewport, status, findings }) => ({ viewport, status, findings }));
+  const commands = (validationResults?.results || []).map(({ command, code }) => ({ command: truncateString(command) || "unknown", code }));
+  const browser = sanitizeBrowserResults(browserResults);
   return [
     durableMarker(summary),
     "# Durable sanitized Spot-CVM sync evidence",
@@ -149,9 +198,9 @@ function buildSections({ summary, evidenceIssueNumber, targetCommit, hostMetadat
     "",
     "```json",
     compactJson({
-      fidelity: reviews.fidelity,
-      japanese: reviews.japanese,
-      contract: reviews.contract,
+      fidelity: sanitizeReview(reviews.fidelity),
+      japanese: sanitizeReview(reviews.japanese),
+      contract: sanitizeReview(reviews.contract),
     }),
     "```",
     "",

@@ -42,25 +42,44 @@ async function atomicJson(file, value) {
 
 async function exists(file) { try { await stat(file); return true; } catch { return false; } }
 
-function durableEvidenceConfig(options) {
+const VALID_EVIDENCE_ISSUE_NUMBER = /^[1-9]\d*$/;
+
+export class DurableEvidencePublishError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "DurableEvidencePublishError";
+  }
+}
+
+export function durableEvidenceConfig(options = {}) {
   const env = options.env || process.env;
-  const evidenceIssueNumber = options.evidenceIssueNumber || env.EVIDENCE_ISSUE_NUMBER;
   const required = options.durableEvidenceRequired === true || env.DURABLE_EVIDENCE_REQUIRED === "1";
-  return required && evidenceIssueNumber ? { evidenceIssueNumber, required: true } : { evidenceIssueNumber, required: false };
+  const evidenceIssueNumber = String(options.evidenceIssueNumber ?? env.EVIDENCE_ISSUE_NUMBER ?? "").trim();
+  const githubRepo = String(options.githubRepo ?? "").trim();
+  if (!required) return { evidenceIssueNumber: evidenceIssueNumber || null, githubRepo: githubRepo || null, required: false };
+  if (!VALID_EVIDENCE_ISSUE_NUMBER.test(evidenceIssueNumber)) {
+    throw new Error("valid EVIDENCE_ISSUE_NUMBER required when DURABLE_EVIDENCE_REQUIRED=1");
+  }
+  if (!githubRepo) throw new Error("githubRepo required when DURABLE_EVIDENCE_REQUIRED=1");
+  return { evidenceIssueNumber, githubRepo, required: true };
 }
 
 async function maybePublishDurableEvidence({ options, reportsDir, runId, sourceId, pullRequestUrl, status }) {
   const config = durableEvidenceConfig(options);
   if (!config.required) return null;
   await updateRunStatus({ reportsDir, runId, sourceId, stage: "durable-evidence", state: "running", result: status, pullRequestUrl: pullRequestUrl || null });
-  const published = await (options.publishDurableEvidence || publishDurableEvidence)({
-    reportsDir,
-    githubRepo: options.githubRepo,
-    evidenceIssueNumber: config.evidenceIssueNumber,
-    pullRequestUrl,
-  });
-  await atomicJson(path.join(reportsDir, "durable-evidence-summary.json"), { runId, sourceId: sourceId || null, status, pullRequestUrl: pullRequestUrl || null, ...published });
-  return published;
+  try {
+    const published = await (options.publishDurableEvidence || publishDurableEvidence)({
+      reportsDir,
+      githubRepo: config.githubRepo,
+      evidenceIssueNumber: config.evidenceIssueNumber,
+      pullRequestUrl,
+    });
+    await atomicJson(path.join(reportsDir, "durable-evidence-summary.json"), { runId, sourceId: sourceId || null, status, pullRequestUrl: pullRequestUrl || null, ...published });
+    return published;
+  } catch (error) {
+    throw new DurableEvidencePublishError(redactSecrets(error.message));
+  }
 }
 
 async function recordFailureArtifacts({ options, reportsDir, failure }) {
@@ -81,6 +100,7 @@ export async function cleanupFailedWorktrees(baseRepo, root, now = Date.now()) {
 }
 
 export async function runProduction(options) {
+  durableEvidenceConfig(options);
   const runCommand = options.runCommand || run;
   const createWorktree = options.createRunWorktree || createRunWorktree;
   const publishDraftImpl = options.publishDraft || publishDraft;
@@ -162,6 +182,7 @@ export async function runProduction(options) {
 export async function runProductionCli(options, runProductionImpl = runProduction) {
   const configured = { ...options };
   configured.runId ||= new Date().toISOString().replace(/[-:.]/g, "");
+  durableEvidenceConfig(configured);
   try {
     return await runProductionImpl(configured);
   } catch (error) {
@@ -169,6 +190,10 @@ export async function runProductionCli(options, runProductionImpl = runProductio
     if (configured.reportsRoot) {
       const reportsDir = path.join(configured.reportsRoot, configured.runId);
       await recordFailureArtifacts({ options: configured, reportsDir, failure });
+      if (error instanceof DurableEvidencePublishError) {
+        await updateRunStatus({ reportsDir, runId: configured.runId, stage: "durable-evidence", state: "failed", reason: failure.reason }).catch(() => {});
+        throw new Error(failure.reason);
+      }
       try {
         await maybePublishDurableEvidence({ options: configured, reportsDir, runId: configured.runId, sourceId: null, pullRequestUrl: null, status: failure.status });
       } catch (publishError) {
