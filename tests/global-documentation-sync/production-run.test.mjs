@@ -13,6 +13,16 @@ function reviewArtifact(type, runId, sourceId) {
   return { schemaVersion: "global-documentation-sync/v1", artifactType: type, runId, sourceId, verdict: "pass", findings: [] };
 }
 
+async function initGitRepo(root, file = "README.md") {
+  execFileSync("git", ["init"], { cwd: root, stdio: "ignore" });
+  execFileSync("git", ["config", "user.name", "Test User"], { cwd: root, stdio: "ignore" });
+  execFileSync("git", ["config", "user.email", "test@example.com"], { cwd: root, stdio: "ignore" });
+  await writeFile(path.join(root, file), "seed\n");
+  execFileSync("git", ["add", file], { cwd: root, stdio: "ignore" });
+  execFileSync("git", ["commit", "-m", "seed"], { cwd: root, stdio: "ignore" });
+  return execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
+}
+
 test("durable evidence config rejects missing blank invalid issue numbers and missing github repo", () => {
   assert.deepEqual(durableEvidenceConfig({ env: {} }), { evidenceIssueNumber: null, githubRepo: null, required: false });
   assert.throws(() => durableEvidenceConfig({ env: { DURABLE_EVIDENCE_REQUIRED: "1" }, githubRepo: "querypie/corp-web-japan" }), /valid EVIDENCE_ISSUE_NUMBER required/);
@@ -125,6 +135,47 @@ test("required durable evidence misconfig fails before no-candidate discovery", 
     runPreflight: async () => { throw new Error("preflight should not run"); },
     discoverLive: async () => { throw new Error("discovery should not run"); },
   }), /valid EVIDENCE_ISSUE_NUMBER required/);
+});
+
+test("failure CLI path leaves a failed terminal run status after durable evidence publishes", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "sync-failure-terminal-"));
+  const targetRepo = path.join(root, "target");
+  const reportsRoot = path.join(root, "reports");
+  await mkdir(targetRepo, { recursive: true });
+  const headCommit = await initGitRepo(targetRepo);
+  const runId = "run-failure-terminal";
+  const durableCalls = [];
+
+  await assert.rejects(() => runProductionCli({
+    globalRepo: path.join(root, "global"),
+    targetRepo,
+    reportsRoot,
+    worktreesRoot: path.join(root, "worktrees"),
+    piBin: "pi",
+    provider: "test",
+    model: "test",
+    runId,
+    env: { EVIDENCE_ISSUE_NUMBER: "688", DURABLE_EVIDENCE_REQUIRED: "1" },
+    githubRepo: "querypie/corp-web-japan",
+    runPreflight: async () => {},
+    discoverLive: async () => ({ status: "blocked_source_contract", sourceId: "cnt_999", reason: "status must equal published: hidden" }),
+    publishDurableEvidence: async (options) => {
+      durableCalls.push(options);
+      return { issueCommented: true, prCommented: false };
+    },
+  }), /discovery blocked: blocked_source_contract/);
+
+  assert.equal(durableCalls.length, 1);
+  assert.equal(durableCalls[0].targetCommitOverride, headCommit);
+  const status = JSON.parse(await readFile(path.join(reportsRoot, runId, "run-status.json"), "utf8"));
+  assert.equal(status.stage, "failed");
+  assert.equal(status.state, "failed");
+  assert.equal(status.result, "failed");
+  const durable = JSON.parse(await readFile(path.join(reportsRoot, runId, "durable-evidence-summary.json"), "utf8"));
+  assert.equal(durable.issueCommented, true);
+  assert.equal(durable.prCommented, false);
+  const failure = JSON.parse(await readFile(path.join(reportsRoot, runId, "failure-summary.json"), "utf8"));
+  assert.match(failure.reason, /discovery blocked: blocked_source_contract/);
 });
 
 test("failure CLI path publishes durable evidence and fails closed when the ledger publish fails", async () => {

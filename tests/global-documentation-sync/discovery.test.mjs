@@ -191,6 +191,38 @@ test("documentation discovery still uses documentation list and sitemap evidence
   });
 });
 
+test("documentation discovery skips hidden and unsupported newer records before selecting an eligible published candidate", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-doc-skip-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-doc-skip-"));
+  await source(globalRepo, "blogs", "cnt_120", "hidden-newer", { status: "hidden", dateIso: "2026-01-03" });
+  await source(globalRepo, "blogs", "cnt_121", "unsupported-newer", { contentType: "video", dateIso: "2026-01-02" });
+  await source(globalRepo, "blogs", "cnt_122", "eligible", { dateIso: "2026-01-01" });
+  await manifests(targetRepo);
+
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: [
+      "https://www.querypie.com/en/blog/hidden-newer",
+      "https://www.querypie.com/en/blog/unsupported-newer",
+      "https://www.querypie.com/en/blog/eligible",
+    ].map((url) => `<loc>${url}</loc>`).join(""),
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/documentation": [
+        '<a href="/en/blog/hidden-newer">hidden</a>',
+        '<a href="/en/blog/unsupported-newer">unsupported</a>',
+        '<a href="/en/blog/eligible">eligible</a>',
+      ].join(""),
+      "https://www.querypie.com/en/news": "",
+    },
+    prRecords: [],
+    branchNames: [],
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.source.sourceId, "cnt_122");
+});
+
 test("skips News content missing list evidence", async () => {
   const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-no-list-"));
   const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-no-list-"));

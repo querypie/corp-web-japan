@@ -175,6 +175,12 @@ export function sourceContractFailure(source) {
   return null;
 }
 
+function shouldSkipDiscoveryContractFailure(source) {
+  return source.descriptor?.sourceSection !== "news"
+    && (source.meta.status !== "published"
+      || (source.meta.contentType && !["content", "outlink"].includes(source.meta.contentType)));
+}
+
 export async function discoverNextCandidate({ globalRepo, targetRepo, sitemapXml, productionListHtmlByUrl, prRecords = [], branchNames = [] }) {
   const baseline = await readManifest(targetRepo, "baseline");
   const ignore = await readManifest(targetRepo, "ignore");
@@ -203,6 +209,7 @@ export async function discoverNextCandidate({ globalRepo, targetRepo, sitemapXml
     if (ignored.sourceCanonicalUrl !== currentUrl) return { status: "blocked_ignore_url_drift", sourceId, expectedUrl: ignored.sourceCanonicalUrl, actualUrl: currentUrl };
   }
   for (const source of sources) {
+    if (shouldSkipDiscoveryContractFailure(source)) continue;
     const contractFailure = sourceContractFailure(source);
     if (contractFailure) return { status: "blocked_source_contract", sourceId: source.sourceId, reason: contractFailure };
     let url;
