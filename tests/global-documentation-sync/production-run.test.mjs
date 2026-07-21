@@ -68,6 +68,79 @@ test("no-candidate durable evidence is a required terminal gate when enabled", a
   assert.equal(status.state, "running");
 });
 
+test("dry run publishes durable evidence before cleanup and restores terminal passed status", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "sync-dry-run-gate-"));
+  const reportsRoot = path.join(root, "reports");
+  const worktreesRoot = path.join(root, "worktrees");
+  const targetRepo = path.join(root, "target");
+  const runId = "run-dry-success";
+  const reportsDir = path.join(reportsRoot, runId);
+  const sourceId = "cnt_000211";
+  const events = [];
+  const durableCalls = [];
+  const fakeRun = async (command, args) => {
+    if (command === "git" && args[0] === "rev-parse") return "deadbeefcafebabe\n";
+    if (command === process.execPath) {
+      await mkdir(reportsDir, { recursive: true });
+      await Promise.all([
+        writeFile(path.join(reportsDir, "candidate.json"), JSON.stringify({ schemaVersion: "global-documentation-sync/v1", artifactType: "candidate", runId, sourceId, sourceHash: `sha256:${"a".repeat(64)}`, sourceCategory: "blogs", sourceSection: "documentation", targetFamily: "blog", targetId: 21, sourceLocale: "ja", sourceHtmlPath: "/tmp/source.html", targetMdxPath: "/tmp/21-demo.mdx", targetAssetRoot: "/tmp/blog/21", targetRoute: "/blog/21/demo", meta: { id: "demo", contentType: "content" }, assets: [], externalMedia: [], production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } })),
+        writeFile(path.join(reportsDir, "run-summary.json"), JSON.stringify({ schemaVersion: "global-documentation-sync/v1", artifactType: "run-summary", runId, sourceId, status: "dry_run_passed", dryRun: true, committed: false, pushed: false, pullRequestUrl: null })),
+        writeFile(path.join(reportsDir, "validation-results.json"), JSON.stringify({ schemaVersion: "global-documentation-sync/v1", artifactType: "validation-results", runId, sourceId, results: [{ command: "npm run test:ci", code: 0 }] })),
+        writeFile(path.join(reportsDir, "fidelity-review.json"), JSON.stringify(reviewArtifact("fidelity-review", runId, sourceId))),
+        writeFile(path.join(reportsDir, "japanese-editorial-review.json"), JSON.stringify(reviewArtifact("japanese-editorial-review", runId, sourceId))),
+        writeFile(path.join(reportsDir, "contract-review.json"), JSON.stringify(reviewArtifact("contract-review", runId, sourceId))),
+      ]);
+      return "";
+    }
+    if (command === "git" && args[0] === "worktree" && args[1] === "remove") {
+      events.push("cleanup");
+      return "";
+    }
+    throw new Error(`unexpected command: ${command} ${args.join(" ")}`);
+  };
+
+  const result = await runProduction({
+    dryRun: true,
+    globalRepo: path.join(root, "global"),
+    targetRepo,
+    reportsRoot,
+    worktreesRoot,
+    piBin: "pi",
+    provider: "test",
+    model: "test",
+    runId,
+    githubRepo: "querypie/corp-web-japan",
+    env: { EVIDENCE_ISSUE_NUMBER: "688", DURABLE_EVIDENCE_REQUIRED: "1" },
+    runPreflight: async () => {},
+    discoverLive: async () => ({ status: "candidate", source: { sourceId, production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } }, reservedTargetIds: [] }),
+    runCommand: fakeRun,
+    createRunWorktree: async () => {},
+    publishDraft: async () => { throw new Error("publishDraft should not run for dry run"); },
+    publishDurableEvidence: async (options) => {
+      events.push("publish");
+      durableCalls.push(options);
+      return { issueCommented: true, issueSkipped: false, prCommented: false, prSkipped: false };
+    },
+  });
+
+  assert.equal(result.status, "dry_run_passed");
+  assert.deepEqual(events, ["publish", "cleanup"]);
+  assert.equal(durableCalls.length, 1);
+  assert.equal(durableCalls[0].sourceId, sourceId);
+  assert.equal(durableCalls[0].status, "dry_run_passed");
+  assert.equal(durableCalls[0].pullRequestUrl, null);
+  assert.equal(durableCalls[0].targetCommitOverride, "deadbeefcafebabe");
+  const durable = JSON.parse(await readFile(path.join(reportsDir, "durable-evidence-summary.json"), "utf8"));
+  assert.equal(durable.sourceId, sourceId);
+  assert.equal(durable.status, "dry_run_passed");
+  assert.equal(durable.issueCommented, true);
+  assert.equal(durable.prCommented, false);
+  const status = JSON.parse(await readFile(path.join(reportsDir, "run-status.json"), "utf8"));
+  assert.equal(status.stage, "complete");
+  assert.equal(status.state, "passed");
+  assert.equal(status.result, "dry_run_passed");
+});
+
 test("success path gates completion on durable evidence publishing", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "sync-success-gate-"));
   const reportsRoot = path.join(root, "reports");
@@ -77,7 +150,7 @@ test("success path gates completion on durable evidence publishing", async () =>
   const runId = "run-success";
   const sourceId = "cnt_000211";
   const fakeRun = async (command, args) => {
-    if (command === "git" && args[0] === "rev-parse") return "base-commit\n";
+    if (command === "git" && args[0] === "rev-parse") return "deadbeefcafebabe\n";
     if (command === process.execPath) {
       await mkdir(reportsDir, { recursive: true });
       await Promise.all([
@@ -197,6 +270,60 @@ test("failure CLI path publishes durable evidence and fails closed when the ledg
   assert.match(status.reason, /gh unavailable/);
 });
 
+test("dry run durable evidence failure keeps worktree for retry diagnosis and marks status failed", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "sync-dry-fail-"));
+  const reportsRoot = path.join(root, "reports");
+  const worktreesRoot = path.join(root, "worktrees");
+  const targetRepo = path.join(root, "target");
+  const runId = "run-dry-failure";
+  const sourceId = "cnt_000211";
+  let cleanupAttempts = 0;
+  await assert.rejects(() => runProductionCli({
+    dryRun: true,
+    globalRepo: path.join(root, "global"),
+    targetRepo,
+    reportsRoot,
+    worktreesRoot,
+    piBin: "pi",
+    provider: "test",
+    model: "test",
+    runId,
+    githubRepo: "querypie/corp-web-japan",
+    env: { EVIDENCE_ISSUE_NUMBER: "688", DURABLE_EVIDENCE_REQUIRED: "1" },
+    runPreflight: async () => {},
+    discoverLive: async () => ({ status: "candidate", source: { sourceId, production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } }, reservedTargetIds: [] }),
+    runCommand: async (command, args) => {
+      if (command === "git" && args[0] === "rev-parse") return "deadbeefcafebabe\n";
+      if (command === process.execPath) {
+        const reportsDir = path.join(reportsRoot, runId);
+        await mkdir(reportsDir, { recursive: true });
+        await Promise.all([
+          writeFile(path.join(reportsDir, "candidate.json"), JSON.stringify({ schemaVersion: "global-documentation-sync/v1", artifactType: "candidate", runId, sourceId, sourceHash: `sha256:${"a".repeat(64)}`, sourceCategory: "blogs", sourceSection: "documentation", targetFamily: "blog", targetId: 21, sourceLocale: "ja", sourceHtmlPath: "/tmp/source.html", targetMdxPath: "/tmp/21-demo.mdx", targetAssetRoot: "/tmp/blog/21", targetRoute: "/blog/21/demo", meta: { id: "demo", contentType: "content" }, assets: [], externalMedia: [], production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } })),
+          writeFile(path.join(reportsDir, "run-summary.json"), JSON.stringify({ schemaVersion: "global-documentation-sync/v1", artifactType: "run-summary", runId, sourceId, status: "dry_run_passed", dryRun: true, committed: false, pushed: false, pullRequestUrl: null })),
+          writeFile(path.join(reportsDir, "validation-results.json"), JSON.stringify({ schemaVersion: "global-documentation-sync/v1", artifactType: "validation-results", runId, sourceId, results: [{ command: "npm run test:ci", code: 0 }] })),
+          writeFile(path.join(reportsDir, "fidelity-review.json"), JSON.stringify(reviewArtifact("fidelity-review", runId, sourceId))),
+          writeFile(path.join(reportsDir, "japanese-editorial-review.json"), JSON.stringify(reviewArtifact("japanese-editorial-review", runId, sourceId))),
+          writeFile(path.join(reportsDir, "contract-review.json"), JSON.stringify(reviewArtifact("contract-review", runId, sourceId))),
+        ]);
+        return "";
+      }
+      if (command === "git" && args[0] === "worktree" && args[1] === "remove") {
+        cleanupAttempts += 1;
+        return "";
+      }
+      throw new Error(`unexpected command: ${command} ${args.join(" ")}`);
+    },
+    createRunWorktree: async () => {},
+    publishDurableEvidence: async () => { throw new Error("issue 688 unavailable"); },
+  }), /issue 688 unavailable/);
+
+  assert.equal(cleanupAttempts, 0);
+  const status = JSON.parse(await readFile(path.join(reportsRoot, runId, "run-status.json"), "utf8"));
+  assert.equal(status.stage, "durable-evidence");
+  assert.equal(status.state, "failed");
+  assert.match(status.reason, /issue 688 unavailable/);
+});
+
 test("durable evidence failure does not trigger a recursive republish loop", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "sync-durable-loop-"));
   const reportsRoot = path.join(root, "reports");
@@ -220,7 +347,7 @@ test("durable evidence failure does not trigger a recursive republish loop", asy
     runPreflight: async () => {},
     discoverLive: async () => ({ status: "candidate", source: { sourceId, production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } }, reservedTargetIds: [] }),
     runCommand: async (command, args) => {
-      if (command === "git" && args[0] === "rev-parse") return "base-commit\n";
+      if (command === "git" && args[0] === "rev-parse") return "deadbeefcafebabe\n";
       if (command === process.execPath) {
         const reportsDir = path.join(reportsRoot, runId);
         await mkdir(reportsDir, { recursive: true });
