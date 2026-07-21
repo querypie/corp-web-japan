@@ -17,16 +17,19 @@ fi
 if [[ "$reason" == "see journal" && -n "$run_dir" && -f "$run_dir/failure-summary.json" ]]; then
   reason=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("reason", "see journal"))' "$run_dir/failure-summary.json")
 fi
-message="${ALERT_SLACK_MENTION:-} Global publication sync failed
-- Unit: $unit
-- Run: $run_id
-- Stage: $stage
-- Host: $(hostname)
-- Report: ${run_dir:-unavailable}
-- Reason: ${reason:0:3000}"
-logger -t global-documentation-sync "$message"
+host=$(hostname)
+alert_bundle=$(python3 "$(dirname "$0")/build-failure-alert.py" \
+  --mention "${ALERT_SLACK_MENTION:-}" \
+  --unit "$unit" \
+  --run-id "$run_id" \
+  --stage "$stage" \
+  --host "$host" \
+  --report-path "${run_dir:-unavailable}" \
+  --reason "$reason")
+log_message=$(python3 -c 'import json,sys; print(json.load(sys.stdin)["logMessage"])' <<<"$alert_bundle")
+logger -t global-documentation-sync "$log_message"
 if [[ -n "${ALERT_WEBHOOK_URL:-}" ]]; then
-  payload=$(python3 -c 'import json,sys; print(json.dumps({"text": sys.stdin.read()}))' <<<"$message")
+  payload=$(python3 -c 'import json,sys; print(json.dumps(json.load(sys.stdin)["payload"], ensure_ascii=False))' <<<"$alert_bundle")
   curl --fail --silent --show-error --max-time 15 \
     -H 'Content-Type: application/json' -d "$payload" "$ALERT_WEBHOOK_URL" >/dev/null
 fi

@@ -295,8 +295,10 @@ git worktree list
 ```
 
 Service failure 또는 1시간 timeout은 `OnFailure` reporter를 실행합니다. Slack
-메시지에는 `ALERT_SLACK_MENTION`, run ID, stage, host, report path, redacted reason이
-포함되어야 합니다.
+메시지는 Block Kit payload를 사용합니다. Top-level fallback은 compact summary만
+담고 reason 본문은 넣지 않습니다. Header/mention, compact fields(Unit/Run/Stage/Host),
+report path context 뒤에 reason section을 `expand: false`로 보내 Slack이 `See more`로
+접을 수 있게 합니다. Reason은 redaction/sanitization 뒤 2400자 이하로 제한합니다.
 
 ### Push 완료, PR 생성 실패
 
