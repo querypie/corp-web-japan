@@ -14,6 +14,10 @@ export const DURABLE_EVIDENCE_MAX_BROWSER_FINDINGS = 20;
 export const DURABLE_EVIDENCE_MAX_STRING_LENGTH = 280;
 const TENCENT_METADATA_BASE = "http://metadata.tencentyun.com/latest/meta-data";
 const UNAVAILABLE = "unavailable";
+const SOURCE_SECTIONS = new Set(["documentation", "news"]);
+const SOURCE_CATEGORIES = new Set(["blogs", "white-papers", "voc", "manuals", "events", "glossary", "introduction", "news"]);
+const TARGET_FAMILIES = new Set(["blog", "whitepapers", "events", "manuals", "glossary", "news", "use-cases", "introduction-deck", "demo/aip", "demo/acp"]);
+const TARGET_ROUTE_PATTERN = /^\/(?:blog|whitepapers|events|manuals|glossary|news|use-cases|introduction-deck|demo\/(?:aip|acp))\/\d+\/[A-Za-z0-9._~-]+$/;
 
 function defaultExecute(command, args, { cwd, input } = {}) {
   return new Promise((resolve, reject) => {
@@ -130,6 +134,50 @@ function resolveTerminalSummary(artifacts) {
   };
 }
 
+function sanitizeIdentityScalar(value, allowedValues) {
+  if (typeof value !== "string") return null;
+  const normalized = value.trim();
+  if (!normalized || normalized.length > 80) return null;
+  return allowedValues.has(normalized) ? normalized : null;
+}
+
+function sanitizeTargetId(value) {
+  if (typeof value === "string" && /^\d+$/.test(value.trim())) value = Number(value.trim());
+  return Number.isInteger(value) && value > 0 ? value : null;
+}
+
+function sanitizeTargetRoute(value, { targetFamily, targetId }) {
+  if (typeof value !== "string") return null;
+  const normalized = value.trim();
+  if (!normalized || normalized.length > 200 || !TARGET_ROUTE_PATTERN.test(normalized) || normalized.includes("..") || /[?#\s]/.test(normalized)) return null;
+  const familyPath = targetFamily?.startsWith("demo/") ? targetFamily : targetFamily;
+  const expectedPrefix = `/${familyPath}/${targetId}/`;
+  return targetFamily && targetId && normalized.startsWith(expectedPrefix) ? normalized : null;
+}
+
+function resolveIdentity(artifacts) {
+  const runSummary = artifacts.runSummary;
+  const candidate = artifacts.candidate;
+  const sourceSection = sanitizeIdentityScalar(runSummary?.sourceSection, SOURCE_SECTIONS)
+    || sanitizeIdentityScalar(candidate?.sourceSection, SOURCE_SECTIONS)
+    || UNAVAILABLE;
+  const sourceCategory = sanitizeIdentityScalar(runSummary?.sourceCategory, SOURCE_CATEGORIES)
+    || sanitizeIdentityScalar(candidate?.sourceCategory, SOURCE_CATEGORIES)
+    || UNAVAILABLE;
+  const targetFamily = sanitizeIdentityScalar(runSummary?.targetFamily, TARGET_FAMILIES)
+    || sanitizeIdentityScalar(candidate?.targetFamily, TARGET_FAMILIES)
+    || UNAVAILABLE;
+  const targetId = sanitizeTargetId(runSummary?.targetId) ?? sanitizeTargetId(candidate?.targetId);
+  const targetRoute = sanitizeTargetRoute(runSummary?.targetRoute || candidate?.targetRoute, { targetFamily, targetId }) || UNAVAILABLE;
+  return {
+    sourceSection,
+    sourceCategory,
+    targetFamily,
+    targetId: targetId ?? UNAVAILABLE,
+    targetRoute,
+  };
+}
+
 function durableMarker(summary) {
   return `<!-- ${DURABLE_EVIDENCE_MARKER_PREFIX} ${stableStringify({ runId: summary.runId, sourceId: summary.sourceId, status: summary.status, pullRequestUrl: summary.pullRequestUrl || null })} -->`;
 }
@@ -168,7 +216,7 @@ async function buildManifest(reportsDir) {
   return manifest;
 }
 
-function buildSections({ summary, evidenceIssueNumber, targetCommit, hostMetadata, reviews, validationResults, browserResults, manifest, excludedEmbeddedFiles }) {
+function buildSections({ summary, identity, evidenceIssueNumber, targetCommit, hostMetadata, reviews, validationResults, browserResults, manifest, excludedEmbeddedFiles }) {
   const commands = (validationResults?.results || []).map(({ command, code }) => ({ command: truncateString(command) || "unknown", code }));
   const browser = sanitizeBrowserResults(browserResults);
   return [
@@ -177,6 +225,11 @@ function buildSections({ summary, evidenceIssueNumber, targetCommit, hostMetadat
     "",
     `- runId: \`${summary.runId || "unknown"}\``,
     `- sourceId: \`${summary.sourceId || "unknown"}\``,
+    `- sourceSection: \`${identity.sourceSection}\``,
+    `- sourceCategory: \`${identity.sourceCategory}\``,
+    `- targetFamily: \`${identity.targetFamily}\``,
+    `- targetId: \`${identity.targetId}\``,
+    `- targetRoute: \`${identity.targetRoute}\``,
     `- status: \`${summary.status}\``,
     `- pullRequestUrl: ${summary.pullRequestUrl || "none"}`,
     `- evidenceIssue: \`${evidenceIssueNumber || "unset"}\``,
@@ -251,10 +304,12 @@ export async function buildDurableEvidenceComment({ reportsDir, evidenceIssueNum
   const summary = resolveTerminalSummary(artifacts);
   const hostMetadata = await collectTencentHostMetadata({ fetchImpl });
   const manifest = await buildManifest(reportsDir);
+  const identity = resolveIdentity(artifacts);
   const targetCommit = targetCommitOverride || artifacts.productionEvidence?.target?.deployedGitCommit || artifacts.branchState?.commit || artifacts.runSummary?.commit || UNAVAILABLE;
   const excludedEmbeddedFiles = manifest.map(({ path: filePath }) => filePath).filter((filePath) => /(^|\/)(?:raw-|generated-body|candidate-body|.*credential.*|.*webhook.*)/i.test(filePath));
   const comment = buildSections({
     summary,
+    identity,
     evidenceIssueNumber,
     targetCommit,
     hostMetadata,

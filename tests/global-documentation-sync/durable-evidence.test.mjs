@@ -104,6 +104,11 @@ test("builds a strict bounded durable evidence projection within the size cap", 
   assert.match(marker, new RegExp(DURABLE_EVIDENCE_MARKER_PREFIX));
   assert.match(comment, /run-123/);
   assert.match(comment, /cnt_000211/);
+  assert.match(comment, /sourceSection: `documentation`/);
+  assert.match(comment, /sourceCategory: `blogs`/);
+  assert.match(comment, /targetFamily: `blog`/);
+  assert.match(comment, /targetId: `21`/);
+  assert.match(comment, /targetRoute: `\/blog\/21\/demo`/);
   assert.match(comment, /draft_pr_created/);
   assert.match(comment, /https:\/\/github.com\/querypie\/corp-web-japan\/pull\/99/);
   assert.match(comment, /abc123def456/);
@@ -127,6 +132,61 @@ test("builds a strict bounded durable evidence projection within the size cap", 
   assert.equal((comment.match(/keep this finding/g) || []).length, DURABLE_EVIDENCE_MAX_REVIEW_FINDINGS);
   assert.equal((comment.match(/browser finding/g) || []).length, DURABLE_EVIDENCE_MAX_BROWSER_FINDINGS - 1);
   assert.ok(bytes <= DURABLE_EVIDENCE_COMMENT_LIMIT_BYTES);
+});
+
+test("renders unavailable for malformed identity fields instead of leaking payloads", async () => {
+  const reportsDir = await createReportDir();
+  await Promise.all([
+    writeFile(path.join(reportsDir, "candidate.json"), JSON.stringify({
+      schemaVersion: "global-documentation-sync/v1",
+      artifactType: "candidate",
+      runId: "run-123",
+      sourceId: "cnt_000211",
+      sourceHash: `sha256:${"a".repeat(64)}`,
+      sourceCategory: "https://evil.example/category?token=hunter2",
+      sourceSection: "documentation\nleak",
+      targetFamily: "blog<script>",
+      targetId: "0",
+      sourceLocale: "ja",
+      sourceHtmlPath: "/tmp/source.html",
+      targetMdxPath: "/tmp/21-demo.mdx",
+      targetAssetRoot: "/tmp/blog/21",
+      targetRoute: "https://evil.example/blog/21/demo?token=hunter2",
+      meta: { id: "demo", contentType: "content" },
+      assets: [],
+      externalMedia: [],
+      production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true },
+    })),
+    writeFile(path.join(reportsDir, "run-summary.json"), JSON.stringify({
+      schemaVersion: "global-documentation-sync/v1",
+      artifactType: "run-summary",
+      runId: "run-123",
+      sourceId: "cnt_000211",
+      sourceCategory: "DROP_ME",
+      sourceSection: "DROP_ME",
+      targetFamily: "DROP_ME",
+      targetId: -7,
+      targetRoute: "/blog/0/demo?token=hunter2",
+      status: "draft_pr_created",
+      dryRun: false,
+      committed: true,
+      pushed: true,
+      pullRequestUrl: "https://github.com/querypie/corp-web-japan/pull/99",
+    })),
+  ]);
+
+  const { comment } = await buildDurableEvidenceComment({
+    reportsDir,
+    evidenceIssueNumber: "688",
+    fetchImpl: async () => ({ ok: false, text: async () => "" }),
+  });
+
+  assert.match(comment, /sourceSection: `unavailable`/);
+  assert.match(comment, /sourceCategory: `unavailable`/);
+  assert.match(comment, /targetFamily: `unavailable`/);
+  assert.match(comment, /targetId: `unavailable`/);
+  assert.match(comment, /targetRoute: `unavailable`/);
+  assert.doesNotMatch(comment, /DROP_ME|evil\.example|hunter2|<script>|documentation\\nleak/);
 });
 
 test("uses explicit target commit override when production evidence is absent", async () => {
