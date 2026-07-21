@@ -6,8 +6,10 @@ import {
   assessPageMetrics,
   assertLocalShadowNavigation,
   browserContextOptions,
+  browserLaunchOptions,
   publicationRoute,
   readinessProbeOptions,
+  startPreviewServer,
   stopPreviewServer,
   waitForServer,
 } from "../../scripts/global-documentation-sync/browser-qa.mjs";
@@ -86,6 +88,35 @@ test("readiness probe requires a local 200 for redirect-backed News", async () =
   assert.equal(calls.length, 1);
   assert.equal(calls[0].url, "http://127.0.0.1:43129/news/7/slug");
   assert.deepEqual(calls[0].options, readinessProbeOptions(candidate));
+});
+
+test("browser QA preview server uses forwarded validation env", () => {
+  const captured = [];
+  const child = { stderr: { on() {} } };
+  const env = { PATH: "/usr/bin", HOME: "/tmp/validation-home" };
+  const server = startPreviewServer({
+    targetRepo: "/repo",
+    port: 43129,
+    env,
+    spawnImpl: (command, args, options) => {
+      captured.push({ command, args, options });
+      return child;
+    },
+  });
+  assert.equal(server, child);
+  assert.equal(captured.length, 1);
+  assert.equal(captured[0].command, "npm");
+  assert.deepEqual(captured[0].args, ["start", "--", "-p", "43129"]);
+  assert.equal(captured[0].options.cwd, "/repo");
+  assert.deepEqual(captured[0].options.env, env);
+});
+
+test("browser QA browser launch options use forwarded validation env", () => {
+  const env = { PATH: "/usr/bin", HOME: "/tmp/validation-home" };
+  const options = browserLaunchOptions(env);
+  assert.equal(options.headless, true);
+  assert.deepEqual(options.env, env);
+  assert.ok(["chrome", undefined].includes(options.channel));
 });
 
 test("readiness probe rejects redirect-backed News location mismatches", async () => {
