@@ -1,5 +1,5 @@
 [Unit]
-Description=Run QueryPie Global Documentation Sync daily
+Description=Run QueryPie Global publication sync daily
 
 [Timer]
 OnCalendar=*-*-* 10:00:00

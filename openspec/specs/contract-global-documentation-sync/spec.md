@@ -145,7 +145,7 @@ A same-repository Draft pull request on `content-sync/**` SHALL trigger a Slack 
 
 ### Requirement: Owner-controlled ignore flow
 
-The owner SHALL initiate ignore handling through the `Ignore Global Documentation sync PR` workflow using the generated sync pull-request number. The workflow SHALL validate the open Draft PR and machine marker, update the sorted ignore manifest on `content-sync-ignore/{sourceId}`, open an ignore pull request, and enable squash auto-merge. It SHALL NOT push directly to protected `main`.
+The owner SHALL initiate ignore handling through the `Ignore Global publication sync PR` workflow using the generated sync pull-request number. The workflow SHALL validate the open Draft PR and machine marker, update the sorted ignore manifest on `content-sync-ignore/{sourceId}`, open an ignore pull request, and enable squash auto-merge. It SHALL NOT push directly to protected `main`.
 
 After the ignore pull request merges, the reconciler SHALL validate its ignore marker, close the matching source Draft pull request, and delete its source branch. Reconciliation SHALL be idempotent. Duplicate ignore dispatches SHALL fail closed without creating another decision. Reconciliation SHALL run after successful CI when merge is immediate, after an approval when approval delays auto-merge, and through manual dispatch for recovery.
 

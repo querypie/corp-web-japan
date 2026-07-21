@@ -1,4 +1,4 @@
-name: Close ignored Global Documentation sync PR
+name: Close ignored Global publication sync PR
 
 on:
   workflow_run:

@@ -45,18 +45,21 @@ test("server runtime is a locked oneshot Pi job", async () => {
   const lockRunner = await read("ops/global-documentation-sync/run-with-flock.sh");
   const failureUnit = await read("ops/global-documentation-sync/global-documentation-sync-failure@.service");
   const reportRetention = await read("ops/global-documentation-sync/global-documentation-sync-reports.conf");
+  assert.match(service, /Description=QueryPie Global publication sync/);
   assert.match(service, /Type=oneshot/);
   assert.match(service, /User=corp-web-sync/);
   assert.match(service, /flock/);
   assert.match(service, /TimeoutStartSec=1h/);
   assert.match(service, /OnFailure=/);
   assert.match(service, /ProtectSystem=strict/);
+  assert.match(timer, /Description=Run QueryPie Global publication sync daily/);
   assert.match(timer, /OnCalendar=/);
   assert.match(timer, /Persistent=true/);
   assert.match(runner, /pi/);
   assert.match(runner, /production-run\.mjs/);
   assert.match(lockRunner, /flock -n/);
   assert.match(lockRunner, /skipped_locked/);
+  assert.match(failureUnit, /Description=Report QueryPie Global publication sync failure for %i/);
   assert.match(failureUnit, /report-failure\.sh/);
   assert.match(reportRetention, /^d \/var\/lib\/global-documentation-sync\/reports 0700 corp-web-sync corp-web-sync mM:7d -$/m);
   assert.doesNotMatch(runner, /git push|gh pr create/);
@@ -70,6 +73,8 @@ test("documentation contract mirrors the exact source-family map and News rules"
   const artifacts = await read(".agents/skills/global-documentation-sync/references/artifacts.md");
 
   assertExactDescriptorMatrix(scriptReadme, "script README");
+  assert.match(scriptReadme, /# Global publication sync/);
+  assert.match(scriptReadme, /Ignore Global publication sync PR/);
   assert.match(scriptReadme, /News is a separate `\/en\/news` source section, not a Documentation category\./);
   assert.match(scriptReadme, /News content records require exact canonical URL evidence in both the production sitemap and the `\/en\/news` list, while News outlink records require exact `\/en\/news` list evidence only\./);
   assert.match(scriptReadme, /News sync is one-way: Global → Japan only; no Japan content writes back to Global\./);
@@ -89,5 +94,7 @@ test("documentation contract mirrors the exact source-family map and News rules"
   assert.match(skill, /redirectUrl must equal candidate\.resolvedRedirectUrl exactly/i);
 
   assert.match(artifacts, /Check family frontmatter, author resolution, related IDs, canonical route, asset root, local links, effective PNG Open Graph image, gating, download behavior, required family tests, and News sourceLabel\/redirect behavior\./);
+  assert.match(opsReadme, /# Global publication sync 운영 가이드/);
+  assert.match(opsReadme, /Ignore Global publication sync PR/);
   assert.match(opsReadme, /Adding News support does not change the production timer, failure alerts, or seven-day report retention\./);
 });

@@ -1,6 +1,6 @@
-# Global Documentation Sync
+# Global publication sync
 
-Automates one eligible QueryPie Global Documentation or News record into one Japan Draft PR.
+Automates one eligible QueryPie Global publication or News record into one Japan Draft PR.
 
 ## Safety model
 
@@ -76,7 +76,7 @@ for installation, credentials, recovery, and scheduler operations.
 ## Operator actions
 
 - Review or merge a generated Draft PR normally.
-- Use the `Ignore Global Documentation sync PR` GitHub Actions dispatch workflow with a
+- Use the `Ignore Global publication sync PR` GitHub Actions dispatch workflow with a
   sync PR number to create a protected-branch-compliant ignore PR with auto-merge enabled.
 - After the ignore PR merges, reconciliation validates the machine marker, closes the
   original sync Draft PR, and deletes its branch. Reconciliation runs after immediate CI,

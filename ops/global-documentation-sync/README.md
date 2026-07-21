@@ -1,4 +1,4 @@
-# Global Documentation Sync 운영 가이드
+# Global publication sync 운영 가이드
 
 ## Tencent Cloud VM
 
@@ -164,7 +164,7 @@ Canonical URL은 lookup key가 아니라 검토용 snapshot입니다. URL이 달
 
 ### GitHub Actions ignore flow
 
-1. Actions에서 `Ignore Global Documentation sync PR`을 실행하고 원본 sync Draft
+1. Actions에서 `Ignore Global publication sync PR`을 실행하고 원본 sync Draft
    PR 번호를 입력합니다.
 2. Workflow가 open Draft 상태, `content-sync/{sourceId}` branch, source marker,
    canonical URL을 검증합니다.
