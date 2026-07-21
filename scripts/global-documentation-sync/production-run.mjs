@@ -83,7 +83,9 @@ async function maybePublishDurableEvidence({ options, reportsDir, runId, sourceI
       reportsDir,
       githubRepo: config.githubRepo,
       evidenceIssueNumber: config.evidenceIssueNumber,
+      sourceId: sourceId || null,
       pullRequestUrl,
+      status,
       targetCommitOverride,
     });
     await atomicJson(path.join(reportsDir, "durable-evidence-summary.json"), { runId, sourceId: sourceId || null, status, pullRequestUrl: pullRequestUrl || null, ...published });
@@ -173,6 +175,16 @@ export async function runProduction(options) {
   const validation = validateArtifact("validation-results", JSON.parse(await readFile(path.join(reportsDir, "validation-results.json"), "utf8")));
   const reviews = await Promise.all(["fidelity-review", "japanese-editorial-review", "contract-review"].map(async (type) => validateArtifact(type, JSON.parse(await readFile(path.join(reportsDir, `${type}.json`), "utf8")))));
   if (options.dryRun) {
+    await maybePublishDurableEvidence({
+      options,
+      reportsDir,
+      runId,
+      sourceId: candidate.sourceId,
+      pullRequestUrl: null,
+      status: dryRunSummary.status,
+      targetCommitOverride: await resolveTargetRepoHead(options.targetRepo, runCommand),
+    });
+    await updateRunStatus({ reportsDir, runId, sourceId: candidate.sourceId, stage: "complete", state: "passed", result: dryRunSummary.status });
     await runCommand("git", ["worktree", "remove", "--force", worktreePath], options.targetRepo);
     return dryRunSummary;
   }
