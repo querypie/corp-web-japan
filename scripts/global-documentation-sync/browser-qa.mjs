@@ -6,6 +6,7 @@ import path from "node:path";
 import { externalMediaIdentity } from "./external-media.mjs";
 import { SCHEMA_VERSION, validateArtifact } from "./lib.mjs";
 import { redactSecrets } from "./redaction.mjs";
+import { targetRouteRoot } from "./source-family-map.mjs";
 
 const REDIRECTABLE_NEWS_BOT_USER_AGENT = "Mozilla/5.0 (compatible; Googlebot/2.1; +https://www.google.com/bot.html)";
 
@@ -14,14 +15,7 @@ function isRedirectStatus(status) {
 }
 
 export function publicationRoute(candidate) {
-  const roots = {
-    blog: "blog", whitepapers: "whitepapers", events: "events", manuals: "manuals",
-    glossary: "glossary", news: "news", "use-cases": "use-cases", "introduction-deck": "introduction-deck",
-    "demo/aip": "demo/aip", "demo/acp": "demo/acp",
-  };
-  const root = roots[candidate.targetFamily];
-  if (!root) throw new Error(`unsupported browser route family: ${candidate.targetFamily}`);
-  return `/${root}/${candidate.targetId}/${candidate.meta.id}`;
+  return `${targetRouteRoot(candidate.targetFamily)}/${candidate.targetId}/${candidate.meta.id}`;
 }
 
 export function browserContextOptions(candidate) {

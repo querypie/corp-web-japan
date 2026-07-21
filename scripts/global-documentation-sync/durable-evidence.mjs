@@ -5,6 +5,7 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 
 import { redactSecrets } from "./redaction.mjs";
+import { SOURCE_FAMILIES } from "./source-family-map.mjs";
 
 export const DURABLE_EVIDENCE_COMMENT_LIMIT_BYTES = 60 * 1024;
 export const DURABLE_EVIDENCE_MARKER_PREFIX = "durable-global-documentation-sync-evidence:v1";
@@ -14,6 +15,11 @@ export const DURABLE_EVIDENCE_MAX_BROWSER_FINDINGS = 20;
 export const DURABLE_EVIDENCE_MAX_STRING_LENGTH = 280;
 const TENCENT_METADATA_BASE = "http://metadata.tencentyun.com/latest/meta-data";
 const UNAVAILABLE = "unavailable";
+const SOURCE_DESCRIPTOR_BY_CATEGORY = new Map(SOURCE_FAMILIES.map((descriptor) => [descriptor.sourceCategory, descriptor]));
+const ALLOWED_SOURCE_SECTIONS = new Set(SOURCE_FAMILIES.map(({ sourceSection }) => sourceSection));
+const ALLOWED_SOURCE_CATEGORIES = new Set(SOURCE_FAMILIES.map(({ sourceCategory }) => sourceCategory));
+const ALLOWED_TARGET_FAMILIES = new Set(SOURCE_FAMILIES.map(({ targetFamily }) => targetFamily));
+const TARGET_ROUTE_SLUG_PATTERN = /^[A-Za-z0-9._~-]+$/;
 
 function defaultExecute(command, args, { cwd, input } = {}) {
   return new Promise((resolve, reject) => {
@@ -130,6 +136,67 @@ function resolveTerminalSummary(artifacts) {
   };
 }
 
+function sanitizeIdentityScalar(value, allowedValues) {
+  if (typeof value !== "string") return null;
+  const normalized = value.trim();
+  if (!normalized || normalized.length > 80) return null;
+  return allowedValues.has(normalized) ? normalized : null;
+}
+
+function sanitizeTargetId(value) {
+  if (typeof value === "string" && /^\d+$/.test(value.trim())) value = Number(value.trim());
+  return Number.isInteger(value) && value > 0 ? value : null;
+}
+
+function sanitizeTargetRoute(value, descriptor, targetId) {
+  if (typeof value !== "string" || !Number.isInteger(targetId) || targetId <= 0) return null;
+  const normalized = value.trim();
+  if (!normalized || normalized.length > 200 || normalized.includes("..") || /[?#\s]/.test(normalized)) return null;
+  const segments = normalized.split("/");
+  const rootSegments = descriptor.targetRouteRoot.split("/").filter(Boolean);
+  if (segments.length !== rootSegments.length + 3 || segments[0] !== "") return null;
+  if (!rootSegments.every((segment, index) => segments[index + 1] === segment)) return null;
+  if (segments[rootSegments.length + 1] !== String(targetId)) return null;
+  return TARGET_ROUTE_SLUG_PATTERN.test(segments[rootSegments.length + 2]) ? normalized : null;
+}
+
+function resolveDescriptorIdentity(record) {
+  if (!record || typeof record !== "object") return null;
+  const sourceSection = sanitizeIdentityScalar(record.sourceSection, ALLOWED_SOURCE_SECTIONS);
+  const sourceCategory = sanitizeIdentityScalar(record.sourceCategory, ALLOWED_SOURCE_CATEGORIES);
+  const targetFamily = sanitizeIdentityScalar(record.targetFamily, ALLOWED_TARGET_FAMILIES);
+  if (!sourceSection || !sourceCategory || !targetFamily) return null;
+  const descriptor = SOURCE_DESCRIPTOR_BY_CATEGORY.get(sourceCategory);
+  if (!descriptor || descriptor.sourceSection !== sourceSection || descriptor.targetFamily !== targetFamily) return null;
+  const targetId = sanitizeTargetId(record.targetId);
+  if (record.targetRoute !== undefined && record.targetRoute !== null) {
+    const targetRoute = sanitizeTargetRoute(record.targetRoute, descriptor, targetId);
+    if (!targetRoute) return null;
+    return { descriptor, targetId, targetRoute };
+  }
+  return { descriptor, targetId, targetRoute: null };
+}
+
+function resolveIdentity(artifacts) {
+  const identity = resolveDescriptorIdentity(artifacts.runSummary) || resolveDescriptorIdentity(artifacts.candidate);
+  if (!identity) {
+    return {
+      sourceSection: UNAVAILABLE,
+      sourceCategory: UNAVAILABLE,
+      targetFamily: UNAVAILABLE,
+      targetId: UNAVAILABLE,
+      targetRoute: UNAVAILABLE,
+    };
+  }
+  return {
+    sourceSection: identity.descriptor.sourceSection,
+    sourceCategory: identity.descriptor.sourceCategory,
+    targetFamily: identity.descriptor.targetFamily,
+    targetId: identity.targetId ?? UNAVAILABLE,
+    targetRoute: identity.targetRoute || UNAVAILABLE,
+  };
+}
+
 function durableMarker(summary) {
   return `<!-- ${DURABLE_EVIDENCE_MARKER_PREFIX} ${stableStringify({ runId: summary.runId, sourceId: summary.sourceId, status: summary.status, pullRequestUrl: summary.pullRequestUrl || null })} -->`;
 }
@@ -168,7 +235,7 @@ async function buildManifest(reportsDir) {
   return manifest;
 }
 
-function buildSections({ summary, evidenceIssueNumber, targetCommit, hostMetadata, reviews, validationResults, browserResults, manifest, excludedEmbeddedFiles }) {
+function buildSections({ summary, identity, evidenceIssueNumber, targetCommit, hostMetadata, reviews, validationResults, browserResults, manifest, excludedEmbeddedFiles }) {
   const commands = (validationResults?.results || []).map(({ command, code }) => ({ command: truncateString(command) || "unknown", code }));
   const browser = sanitizeBrowserResults(browserResults);
   return [
@@ -177,6 +244,11 @@ function buildSections({ summary, evidenceIssueNumber, targetCommit, hostMetadat
     "",
     `- runId: \`${summary.runId || "unknown"}\``,
     `- sourceId: \`${summary.sourceId || "unknown"}\``,
+    `- sourceSection: \`${identity.sourceSection}\``,
+    `- sourceCategory: \`${identity.sourceCategory}\``,
+    `- targetFamily: \`${identity.targetFamily}\``,
+    `- targetId: \`${identity.targetId}\``,
+    `- targetRoute: \`${identity.targetRoute}\``,
     `- status: \`${summary.status}\``,
     `- pullRequestUrl: ${summary.pullRequestUrl || "none"}`,
     `- evidenceIssue: \`${evidenceIssueNumber || "unset"}\``,
@@ -251,10 +323,12 @@ export async function buildDurableEvidenceComment({ reportsDir, evidenceIssueNum
   const summary = resolveTerminalSummary(artifacts);
   const hostMetadata = await collectTencentHostMetadata({ fetchImpl });
   const manifest = await buildManifest(reportsDir);
+  const identity = resolveIdentity(artifacts);
   const targetCommit = targetCommitOverride || artifacts.productionEvidence?.target?.deployedGitCommit || artifacts.branchState?.commit || artifacts.runSummary?.commit || UNAVAILABLE;
   const excludedEmbeddedFiles = manifest.map(({ path: filePath }) => filePath).filter((filePath) => /(^|\/)(?:raw-|generated-body|candidate-body|.*credential.*|.*webhook.*)/i.test(filePath));
   const comment = buildSections({
     summary,
+    identity,
     evidenceIssueNumber,
     targetCommit,
     hostMetadata,

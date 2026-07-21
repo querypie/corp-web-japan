@@ -21,6 +21,8 @@ import {
   canonicalContentUrl,
   sourceFamily,
   targetFamily,
+  targetFamilyDescriptor,
+  targetRouteRoot,
 } from "../../scripts/global-documentation-sync/source-family-map.mjs";
 
 test("validates versioned review artifacts and blocking severities", () => {
@@ -54,7 +56,10 @@ test("source-family map owns Documentation categories and separate News section"
   assert.equal(new Set(SOURCE_FAMILIES.map(({ targetFamily: family }) => family)).size, SOURCE_FAMILIES.length);
   assert.equal(sourceFamily("news").relativeRoot, "src/content/news");
   assert.equal(targetFamily("news"), "news");
+  assert.equal(targetFamilyDescriptor("news").sourceCategory, "news");
+  assert.equal(targetRouteRoot("news"), "/news");
   assert.equal(canonicalContentUrl("news", "example"), "https://www.querypie.com/en/news/example");
+  assert.throws(() => targetFamilyDescriptor("demo/aip"), /unsupported target family/);
 });
 
 
