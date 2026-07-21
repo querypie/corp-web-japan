@@ -12,7 +12,10 @@ Automates one eligible QueryPie Global publication or News record into one Japan
 - Never merges or deploys generated content.
 - A failed gate stops before commit, push, or PR creation.
 - The systemd service enforces a one-hour hard timeout.
-- The production timer runs daily at 10:00 KST with up to ten minutes of randomized delay.
+- The steady-state production timer runs daily at 10:00 KST with up to ten minutes of randomized delay.
+- Current rollout hold for composite identity maintenance is tracked in
+  `openspec/changes/composite-global-publication-sync-identity/`; keep the
+  scheduler disabled until that change's verification tasks complete.
 
 The canonical durable contract is
 [`openspec/specs/contract-global-documentation-sync/spec.md`](../../openspec/specs/contract-global-documentation-sync/spec.md).
@@ -50,7 +53,8 @@ seven-day report retention.
 - New PR marker and manifest rows include `sourceSection`.
 - Legacy baseline rows infer `sourceSection` from `sourceCategory`.
 - Legacy ignore rows infer `sourceSection` from the current source set only when one section is unique; ambiguous legacy identities block.
-- Legacy PR markers without `sourceSection` infer it from `targetFamily` (`news` → `news`, existing others → `documentation`).
+- Legacy PR markers without `sourceSection` infer it from `targetFamily` (`news` → `news`, existing others → `documentation`). Retained legacy PR `#687` is read-compatible under that rule.
+- Any valid sync PR marker suppresses the same composite identity regardless of PR state; duplicate same-identity PR markers block.
 - Legacy branch-only `content-sync/{sourceId}` remains read-compatible only when a retained PR marker proves the same identity. Markerless legacy branches block.
 - Manual CLI remains legacy-compatible when a `sourceId` is unique. If the same `sourceId` exists in multiple sections, pass `--source-section`.
 

@@ -2,7 +2,11 @@
 
 ## Status
 
-Approved direction: extend the existing one-way Global-to-Japan publication sync from Global Documentation to the separate Global `/en/news` collection. This document defines the implementation shape. The accepted production contract remains `openspec/specs/contract-global-documentation-sync/spec.md` and must be updated when this extension ships.
+Historical design record for the News extension implementation. The current
+accepted production contract lives in
+`openspec/specs/contract-global-documentation-sync/spec.md`. Composite identity
+follow-up maintenance, rollout hold, and legacy-compatibility clarifications now
+live in `openspec/changes/composite-global-publication-sync-identity/`.
 
 ## Objective
 
@@ -33,7 +37,10 @@ Could support Demo and future sections automatically, but it expands scope, weak
 
 ## Source support map
 
-The implementation must expose one source-family map as the single source of truth. Discovery, source loading, canonical URL generation, target allocation, baseline generation, prompts, validation, and documentation must consume this map rather than maintaining separate category switches.
+Bridge: treat the active OpenSpec contract and
+`source-family-map.mjs` as the canonical support-map sources. The detailed table
+below is retained as historical implementation rationale, not a second durable
+contract.
 
 | Source section | Source category | Global repository root | Production list | Content canonical pattern | Japan family | Japan route |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -224,7 +231,9 @@ Run the complete Global sync test suite, `npm run test:ci`, `next build`, and de
 
 ## Runtime and rollout
 
-The service, lock, one-hour timeout, Slack notifications, report retention, and 10:00 KST timer remain unchanged.
+Bridge: steady-state runtime behavior remains defined by the active OpenSpec
+contract. Temporary rollout gating for composite identity maintenance now lives
+in `openspec/changes/composite-global-publication-sync-identity/`.
 
 Rollout sequence:
 

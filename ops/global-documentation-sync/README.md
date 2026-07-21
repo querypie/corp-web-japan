@@ -71,8 +71,11 @@ repository에 넣지 마세요.
 host에서 local model을 실행하지 않습니다.
 
 지원 source family는 `scripts/global-documentation-sync/source-family-map.mjs`
-의 exact map을 따릅니다. News support가 추가되어도 production timer,
-failure alert, seven-day report retention 계약은 바뀌지 않습니다.
+의 exact map을 따릅니다. Steady-state production timer, failure alert,
+seven-day report retention 계약 자체는 바뀌지 않습니다. 다만 composite
+identity rollout 유지보수 동안에는
+`openspec/changes/composite-global-publication-sync-identity/`의 검증 task가
+끝날 때까지 scheduler를 disabled 상태로 유지합니다.
 
 설치하고 version을 고정할 항목:
 
@@ -254,10 +257,15 @@ journalctl -u global-documentation-sync.service -n 200 --no-pager
 - Full CI와 build 통과
 - Desktop/mobile browser QA 통과
 
-모두 통과하면 `GLOBAL_DOC_SYNC_DRY_RUN=0`으로 변경하고 timer를 활성화합니다.
+모두 통과해도 바로 timer를 활성화하지 않습니다. 현재 composite identity
+rollout 유지보수 단계에서는 independent review와 host dry-run evidence가
+완료될 때까지 scheduler를 disabled로 유지하고 manual run만 허용합니다.
+Steady-state timer restore 조건은
+`openspec/changes/composite-global-publication-sync-identity/tasks.md`를
+따릅니다.
 
 ```bash
-sudo systemctl enable --now global-documentation-sync.timer
+sudo systemctl disable --now global-documentation-sync.timer
 systemctl list-timers global-documentation-sync.timer
 ```
 

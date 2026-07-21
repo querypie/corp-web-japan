@@ -1,5 +1,11 @@
 # Global News Sync Extension Implementation Plan
 
+> Historical implementation plan. The canonical accepted contract now lives in
+> `openspec/specs/contract-global-documentation-sync/spec.md`. Composite
+> identity follow-up maintenance, rollout hold, and legacy-compatibility
+> clarifications now live in
+> `openspec/changes/composite-global-publication-sync-identity/`.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Extend the production Global-to-Japan publication sync to ingest the separate Global `/en/news` collection and generate validated Japan `/news/:id/:slug` Draft PRs.
@@ -10,15 +16,10 @@
 
 ## Global Constraints
 
-- One production run SHALL select at most one candidate and create at most one Draft PR.
-- Composite identity `${sourceSection}:${sourceId}` SHALL be the baseline, ignore, PR, and branch identity. This supersedes the older `sourceId`-only assumption because real collisions exist between `documentation/manuals/cnt_000001` and `news/cnt_000001`.
-- Global assets SHALL resolve inside the checked-out Global `public/**` tree; production HTTP asset downloads remain forbidden.
-- Pi writer/reviewer processes SHALL remain fresh and use `--no-tools`; deterministic Node code owns all filesystem and Git mutation.
-- Every generated publication SHALL pass contract validation, `npm run test:ci`, `next build`, and desktop/mobile browser QA before push.
-- Generated content SHALL never auto-merge or deploy.
-- Existing Documentation source behavior SHALL remain unchanged.
-- News `author` is forbidden; News source labels and redirects are deterministic.
-- No new dependency.
+See the active OpenSpec contract plus
+`openspec/changes/composite-global-publication-sync-identity/` for the current
+canonical identity, suppression, and rollout constraints. The remainder of this
+plan is retained as historical implementation sequencing evidence.
 
 ---
 
