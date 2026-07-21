@@ -4,6 +4,7 @@ import test from "node:test";
 
 import {
   assessPageMetrics,
+  assertLocalShadowNavigation,
   browserContextOptions,
   publicationRoute,
   readinessProbeOptions,
@@ -65,11 +66,11 @@ test("uses bot user agent only for redirect-backed News browser QA", () => {
   assert.deepEqual(readinessProbeOptions({ targetFamily: "blog", resolvedRedirectUrl: null }), { redirect: "manual" });
 });
 
-test("readiness probe never follows redirect-backed News outlinks", async () => {
+test("readiness probe requires a local 200 for redirect-backed News", async () => {
   const child = { exitCode: null };
   const candidate = { targetFamily: "news", resolvedRedirectUrl: "https://media.example/news-one" };
   const calls = [];
-  await waitForServer(
+  await assert.rejects(() => waitForServer(
     "http://127.0.0.1:43129/news/7/slug",
     child,
     candidate,
@@ -81,7 +82,7 @@ test("readiness probe never follows redirect-backed News outlinks", async () => 
       });
     },
     { maxAttempts: 1, sleepMs: 0 },
-  );
+  ), /preview server did not become ready/);
   assert.equal(calls.length, 1);
   assert.equal(calls[0].url, "http://127.0.0.1:43129/news/7/slug");
   assert.deepEqual(calls[0].options, readinessProbeOptions(candidate));
@@ -104,4 +105,17 @@ test("readiness probe rejects redirect-backed News location mismatches", async (
     { maxAttempts: 2, sleepMs: 0 },
   ), /preview server did not become ready/);
   assert.equal(calls, 2);
+});
+
+test("redirect-backed News browser QA stays on the local shadow route", () => {
+  assert.doesNotThrow(() => assertLocalShadowNavigation(
+    "http://127.0.0.1:43129/news/7/slug",
+    "http://127.0.0.1:43129/news/7/slug",
+    { targetFamily: "news", resolvedRedirectUrl: "https://media.example/news-one" },
+  ));
+  assert.throws(() => assertLocalShadowNavigation(
+    "https://media.example/news-one",
+    "http://127.0.0.1:43129/news/7/slug",
+    { targetFamily: "news", resolvedRedirectUrl: "https://media.example/news-one" },
+  ), /local shadow route/);
 });

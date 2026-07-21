@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 
-import { assertAllocatedGitDiff, authorizeClosedRetry, branchFor, buildPullRequestBody, createRunWorktree, publishDraft, publishRetry, reclaimUnpublishedBaseBranch, resumeBranchOnly } from "../../scripts/global-documentation-sync/git-pr.mjs";
+import { assertAllocatedGitDiff, authorizeClosedRetry, branchFor, buildPullRequestBody, createRunWorktree, publicationLabel, publishDraft, publishRetry, reclaimUnpublishedBaseBranch, resumeBranchOnly } from "../../scripts/global-documentation-sync/git-pr.mjs";
 import { parseSyncMarker } from "../../scripts/global-documentation-sync/discovery.mjs";
 
 const candidate = {
@@ -104,10 +104,11 @@ test("publishes one commit and Draft PR without merge", async () => {
   const execute = generatedDiffExecute(calls);
   const result = await publishDraft({ dryRun: false, targetRepo: "/target", candidate, validation: { results: [] }, reviews: [], execute });
   assert.equal(result.pullRequestUrl, "https://github.com/querypie/corp-web-japan/pull/1");
-  assert.ok(calls.some(([command, args]) => command === "git" && args[0] === "commit"));
+  assert.ok(calls.some(([command, args]) => command === "git" && args[0] === "commit" && args.includes(`content: sync ${publicationLabel} ${candidate.sourceId}`)));
   assert.ok(calls.some(([command, args]) => command === "git" && args[0] === "push"));
   const create = calls.find(([command, args]) => command === "gh" && args[1] === "create");
   assert.ok(create[1].includes("--draft"));
+  assert.ok(create[1].includes(`Sync ${publicationLabel}: ${candidate.meta.title.en}`));
   assert.ok(!calls.some(([command, args]) => command === "gh" && args.includes("merge")));
 });
 
@@ -181,5 +182,6 @@ test("manual retry requires the retry label and existing remote branch", async (
   await publishRetry({ targetRepo: "/target", candidate, sourceId: "cnt_9", pullRequestNumber: 7, wasDraft: false, execute });
   assert.ok(calls.some(([command, args]) => command === "gh" && args[1] === "reopen" && args.includes("7")));
   assert.ok(calls.some(([command, args]) => command === "gh" && args[1] === "ready" && args.includes("--undo")));
+  assert.ok(calls.some(([command, args]) => command === "git" && args[0] === "commit" && args.includes(`content: retry ${publicationLabel} cnt_9`)));
   assert.ok(calls.some(([command, args]) => command === "git" && args[0] === "push"));
 });

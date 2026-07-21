@@ -18,6 +18,7 @@ async function source(root, category, id, slug, overrides = {}) {
     JSON.stringify({
       storageId: id,
       id: slug,
+      section: category === "news" ? "news" : undefined,
       categorySlug: category,
       status: "published",
       contentType: "content",
@@ -232,10 +233,85 @@ test("skips News content missing sitemap evidence", async () => {
   assert.equal(result.status, "no_candidate");
 });
 
+test("blocks News content missing Japanese and English body before candidate selection", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-no-body-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-no-body-"));
+  await source(globalRepo, "news", "cnt_15", "news-no-body");
+  await writeFile(path.join(globalRepo, "src/content/news/cnt_15/ja.html"), "");
+  await manifests(targetRepo);
+
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "<loc>https://www.querypie.com/en/news/news-no-body</loc>",
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": '<a href="/en/news/news-no-body">News</a>',
+      "https://www.querypie.com/en/documentation": "",
+    },
+    prRecords: [],
+    branchNames: [],
+  });
+
+  assert.deepEqual(result, {
+    status: "blocked_source_contract",
+    sourceId: "cnt_15",
+    reason: "content requires non-empty ja.html or en.html",
+  });
+});
+
+test("blocks News section or category mismatch before candidate selection", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-contract-mismatch-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-contract-mismatch-"));
+  await source(globalRepo, "news", "cnt_16", "news-wrong-section", { section: "documentation", dateIso: "2026-01-03" });
+  await source(globalRepo, "news", "cnt_17", "news-wrong-category", { categorySlug: "blogs", dateIso: "2026-01-02" });
+  await manifests(targetRepo);
+
+  const productionListHtmlByUrl = {
+    "https://www.querypie.com/en/news": '<a href="/en/news/news-wrong-section">News</a><a href="/en/news/news-wrong-category">News</a>',
+    "https://www.querypie.com/en/documentation": "",
+  };
+
+  assert.deepEqual(await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "<loc>https://www.querypie.com/en/news/news-wrong-section</loc><loc>https://www.querypie.com/en/news/news-wrong-category</loc>",
+    productionListHtmlByUrl,
+    prRecords: [],
+    branchNames: [],
+  }), {
+    status: "blocked_source_contract",
+    sourceId: "cnt_16",
+    reason: "section must equal news: documentation",
+  });
+
+  await writeFile(path.join(globalRepo, "src/content/news/cnt_16/meta.json"), JSON.stringify({
+    storageId: "cnt_16",
+    id: "news-wrong-section",
+    section: "news",
+    categorySlug: "news",
+    status: "published",
+    contentType: "content",
+    dateIso: "2026-01-01",
+  }));
+
+  assert.deepEqual(await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "<loc>https://www.querypie.com/en/news/news-wrong-section</loc><loc>https://www.querypie.com/en/news/news-wrong-category</loc>",
+    productionListHtmlByUrl,
+    prRecords: [],
+    branchNames: [],
+  }), {
+    status: "blocked_source_contract",
+    sourceId: "cnt_17",
+    reason: "categorySlug must equal news: blogs",
+  });
+});
+
 test("blocks unsafe News source slug before candidate selection", async () => {
   const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-unsafe-slug-"));
   const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-unsafe-slug-"));
-  await source(globalRepo, "news", "cnt_15", "bad slug");
+  await source(globalRepo, "news", "cnt_18", "bad slug");
   await manifests(targetRepo);
 
   const result = await discoverNextCandidate({
@@ -252,7 +328,7 @@ test("blocks unsafe News source slug before candidate selection", async () => {
 
   assert.deepEqual(result, {
     status: "blocked_source_contract",
-    sourceId: "cnt_15",
+    sourceId: "cnt_18",
     reason: 'unsafe source slug: bad slug',
   });
 });
@@ -260,7 +336,7 @@ test("blocks unsafe News source slug before candidate selection", async () => {
 test("blocks News outlink when Japanese locale is selected without Japanese summary", async () => {
   const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-ja-outlink-gap-"));
   const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-ja-outlink-gap-"));
-  await source(globalRepo, "news", "cnt_16", "news-ja-outlink-gap", {
+  await source(globalRepo, "news", "cnt_19", "news-ja-outlink-gap", {
     contentType: "outlink",
     externalUrl: "https://media.example/news-one",
     title: { ja: "ニュース1", en: "News 1" },
@@ -282,7 +358,7 @@ test("blocks News outlink when Japanese locale is selected without Japanese summ
 
   assert.deepEqual(result, {
     status: "blocked_source_contract",
-    sourceId: "cnt_16",
+    sourceId: "cnt_19",
     reason: "outlink requires localized title/summary and HTTPS externalUrl",
   });
 });
@@ -290,7 +366,7 @@ test("blocks News outlink when Japanese locale is selected without Japanese summ
 test("falls back to English News outlink title and summary when Japanese is absent", async () => {
   const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-en-outlink-"));
   const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-en-outlink-"));
-  await source(globalRepo, "news", "cnt_17", "news-en-outlink", {
+  await source(globalRepo, "news", "cnt_20", "news-en-outlink", {
     contentType: "outlink",
     externalUrl: "https://media.example/news-en",
     title: { en: "News EN" },
@@ -317,7 +393,7 @@ test("falls back to English News outlink title and summary when Japanese is abse
 test("blocks non-HTTPS News external URL before candidate selection", async () => {
   const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-http-outlink-"));
   const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-http-outlink-"));
-  await source(globalRepo, "news", "cnt_18", "news-http-outlink", {
+  await source(globalRepo, "news", "cnt_21", "news-http-outlink", {
     contentType: "outlink",
     externalUrl: "http://media.example/news-one",
     title: { ja: "ニュース1" },
@@ -339,7 +415,7 @@ test("blocks non-HTTPS News external URL before candidate selection", async () =
 
   assert.deepEqual(result, {
     status: "blocked_source_contract",
-    sourceId: "cnt_18",
+    sourceId: "cnt_21",
     reason: "non-HTTPS external URL: http://media.example/news-one",
   });
 });
@@ -347,7 +423,7 @@ test("blocks non-HTTPS News external URL before candidate selection", async () =
 test("discoverLive fetches sitemap plus deduplicated list URLs once", async () => {
   const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-live-discovery-"));
   const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-live-discovery-"));
-  await source(globalRepo, "news", "cnt_19", "news-live", {
+  await source(globalRepo, "news", "cnt_22", "news-live", {
     contentType: "outlink",
     externalUrl: "https://media.example/news-live",
     title: { ja: "ニュース live" },

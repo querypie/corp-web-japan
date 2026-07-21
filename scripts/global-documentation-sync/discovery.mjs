@@ -140,7 +140,23 @@ function outlinkHasLocalizedTitleAndSummary(meta) {
   return Boolean(meta.title?.[locale]?.trim() && meta.summary?.[locale]?.trim());
 }
 
-function sourceContractFailure(source) {
+function contentHasSelectedBody(source) {
+  return Boolean(source.selected?.html?.trim());
+}
+
+export function sourceContractFailure(source) {
+  if (source.descriptor?.sourceSection === "news" && source.meta.section !== "news") {
+    return `section must equal news: ${source.meta.section ?? ""}`;
+  }
+  if (source.meta.categorySlug !== source.category) {
+    return `categorySlug must equal ${source.category}: ${source.meta.categorySlug ?? ""}`;
+  }
+  if (source.meta.status !== "published") {
+    return `status must equal published: ${source.meta.status ?? ""}`;
+  }
+  if (!source.meta.contentType || !["content", "outlink"].includes(source.meta.contentType)) {
+    return `contentType must be content or outlink: ${source.meta.contentType ?? ""}`;
+  }
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(source.meta.id || "")) {
     return `unsafe source slug: ${source.meta.id}`;
   }
@@ -155,6 +171,7 @@ function sourceContractFailure(source) {
     if (!outlinkHasLocalizedTitleAndSummary(source.meta)) return "outlink requires localized title/summary and HTTPS externalUrl";
     return null;
   }
+  if (!contentHasSelectedBody(source)) return "content requires non-empty ja.html or en.html";
   return null;
 }
 
@@ -186,8 +203,6 @@ export async function discoverNextCandidate({ globalRepo, targetRepo, sitemapXml
     if (ignored.sourceCanonicalUrl !== currentUrl) return { status: "blocked_ignore_url_drift", sourceId, expectedUrl: ignored.sourceCanonicalUrl, actualUrl: currentUrl };
   }
   for (const source of sources) {
-    if (source.meta.status !== "published") continue;
-    if (!["content", "outlink"].includes(source.meta.contentType)) continue;
     const contractFailure = sourceContractFailure(source);
     if (contractFailure) return { status: "blocked_source_contract", sourceId: source.sourceId, reason: contractFailure };
     let url;

@@ -1,4 +1,4 @@
-name: Ignore Global Documentation sync PR
+name: Ignore Global publication sync PR
 
 on:
   workflow_dispatch:
@@ -53,9 +53,9 @@ jobs:
           git switch -c "$branch"
           git add .github/content-sync/ignore.json
           git diff --cached --quiet && { echo "no ignore change" >&2; exit 1; }
-          git commit -m "chore: ignore Global documentation $source_id"
+          git commit -m "chore: ignore Global publication $source_id"
           git push --set-upstream origin "$branch"
-          ignore_body=$(printf 'Ignore Global Documentation sync source.\n\n<!-- global-documentation-sync-ignore:v1 {"sourceId":"%s","syncPr":%s} -->' "$source_id" "$PR_NUMBER")
-          ignore_pr=$(gh pr create --repo "$GITHUB_REPOSITORY" --base main --head "$branch" --title "Ignore Global documentation $source_id" --body "$ignore_body")
+          ignore_body=$(printf 'Ignore Global publication sync source.\n\n<!-- global-documentation-sync-ignore:v1 {"sourceId":"%s","syncPr":%s} -->' "$source_id" "$PR_NUMBER")
+          ignore_pr=$(gh pr create --repo "$GITHUB_REPOSITORY" --base main --head "$branch" --title "Ignore Global publication $source_id" --body "$ignore_body")
           gh pr merge --repo "$GITHUB_REPOSITORY" --auto --squash "$ignore_pr"
           echo "ignore_pr=$ignore_pr" >> "$GITHUB_STEP_SUMMARY"

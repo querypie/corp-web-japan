@@ -40,6 +40,15 @@ export function readinessProbeOptions(candidate) {
   return { redirect: "manual" };
 }
 
+export function assertLocalShadowNavigation(actualUrl, expectedUrl, candidate) {
+  if (!(candidate.targetFamily === "news" && candidate.resolvedRedirectUrl)) return;
+  const actual = new URL(actualUrl);
+  const expected = new URL(expectedUrl);
+  if (actual.origin !== expected.origin || actual.pathname !== expected.pathname || actual.search !== expected.search) {
+    throw new Error(`redirect-backed News browser QA must stay on local shadow route: ${actualUrl}`);
+  }
+}
+
 export function assessPageMetrics(metrics) {
   const findings = [];
   if (metrics.scrollWidth > metrics.clientWidth) findings.push(`horizontal overflow: ${metrics.scrollWidth} > ${metrics.clientWidth}`);
@@ -61,10 +70,7 @@ export async function waitForServer(url, child, candidate, fetchImpl = fetch, { 
     if (child.exitCode !== null) throw new Error(`preview server exited with ${child.exitCode}`);
     try {
       const response = await fetchImpl(url, requestOptions);
-      if (response.ok) return;
-      if (candidate.targetFamily === "news" && candidate.resolvedRedirectUrl && isRedirectStatus(response.status)) {
-        if (response.headers.get("location") === candidate.resolvedRedirectUrl) return;
-      }
+      if (response.ok && !isRedirectStatus(response.status)) return;
     } catch {}
     await new Promise((resolve) => setTimeout(resolve, sleepMs));
   }
@@ -102,6 +108,7 @@ export async function runBrowserQa({ targetRepo, candidate, reportsDir, port = 4
         const context = await browser.newContext({ ...browserContextOptions(candidate), viewport });
         const page = await context.newPage();
         await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60_000 });
+        assertLocalShadowNavigation(page.url(), url, candidate);
         const height = await page.evaluate(() => document.body.scrollHeight);
         for (const ratio of [0, 0.25, 0.5, 0.75, 1]) {
           await page.evaluate((y) => window.scrollTo(0, y), Math.floor(height * ratio));

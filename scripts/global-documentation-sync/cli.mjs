@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 
 import { inspectOwnedAsset } from "./asset-inspection.mjs";
 import { publicationRoute } from "./browser-qa.mjs";
+import { sourceContractFailure } from "./discovery.mjs";
 import { extractAllowedExternalMedia } from "./external-media.mjs";
 import { fetchTextWithRetry } from "./fetch-retry.mjs";
 import {
@@ -109,8 +110,7 @@ export async function prepare(options) {
   if (!/^cnt_\d+$/.test(options.sourceId)) throw new Error("invalid sourceId");
   const { descriptor, directory, meta } = await findSource(options.globalRepo, options.sourceId);
   const category = descriptor.sourceCategory;
-  if (meta.storageId !== options.sourceId || meta.categorySlug !== category || meta.status !== "published" || !["content", "outlink"].includes(meta.contentType)) throw new Error("source metadata is not eligible");
-  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(meta.id || "")) throw new Error("source slug is unsafe");
+  if (meta.storageId !== options.sourceId) throw new Error("source storageId mismatch");
   const readOptional = async (name) => { try { return await readFile(path.join(directory, name), "utf8"); } catch (error) { if (error.code === "ENOENT") return ""; throw error; } };
   let selected;
   let sourceHtmlPath;
@@ -118,13 +118,18 @@ export async function prepare(options) {
     const locale = meta.title?.ja?.trim() || meta.summary?.ja?.trim() ? "ja" : "en";
     const title = meta.title?.[locale]?.trim();
     const summary = meta.summary?.[locale]?.trim();
-    if (!title || !summary || !/^https:\/\//.test(meta.externalUrl || "")) throw new Error("outlink requires localized title/summary and HTTPS externalUrl");
-    selected = { locale, html: `<h1>${title}</h1>\n<p>${summary}</p>\n<a href="${meta.externalUrl}">${title}</a>` };
+    selected = title && summary && typeof meta.externalUrl === "string"
+      ? { locale, html: `<h1>${title}</h1>\n<p>${summary}</p>\n<a href="${meta.externalUrl}">${title}</a>` }
+      : null;
     sourceHtmlPath = path.join(options.reportsDir, "source.html");
   } else {
-    selected = chooseLocale({ jaHtml: await readOptional("ja.html"), enHtml: await readOptional("en.html") });
-    sourceHtmlPath = path.join(directory, `${selected.locale}.html`);
+    const jaHtml = await readOptional("ja.html");
+    const enHtml = await readOptional("en.html");
+    selected = jaHtml?.trim() || enHtml?.trim() ? chooseLocale({ jaHtml, enHtml }) : null;
+    sourceHtmlPath = path.join(directory, `${selected?.locale || "ja"}.html`);
   }
+  const contractFailure = sourceContractFailure({ category, descriptor, meta, selected });
+  if (contractFailure) throw new Error(contractFailure);
   if ((meta.contentType === "outlink" && redactSecrets(selected.html) !== selected.html) || JSON.stringify(redactSecrets(meta)) !== JSON.stringify(meta)) throw new Error("source metadata contains secret-like values and requires manual curation");
   if (meta.contentType === "outlink") {
     await mkdir(options.reportsDir, { recursive: true });
