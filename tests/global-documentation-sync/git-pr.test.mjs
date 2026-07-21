@@ -191,12 +191,60 @@ test("manual retry requires the retry label and existing remote branch", async (
   };
   const authorized = await authorizeClosedRetry({ targetRepo: "/target", sourceId: "cnt_9", sourceSection: "documentation", githubRepo: "querypie/corp-web-japan", execute });
   assert.equal(authorized.pullRequestNumber, 7);
+  assert.equal(authorized.branch, branchFor(candidate));
   assert.ok(!calls.some(([command, args]) => command === "gh" && args[1] === "reopen"));
 
   calls.length = 0;
-  await publishRetry({ targetRepo: "/target", candidate, pullRequestNumber: 7, wasDraft: false, execute });
+  await publishRetry({ targetRepo: "/target", candidate, branch: authorized.branch, pullRequestNumber: 7, wasDraft: false, execute });
+  assert.ok(calls.some(([command, args]) => command === "git" && args.join(" ") === `checkout -B ${authorized.branch} origin/${authorized.branch}`));
   assert.ok(calls.some(([command, args]) => command === "gh" && args[1] === "reopen" && args.includes("7")));
   assert.ok(calls.some(([command, args]) => command === "gh" && args[1] === "ready" && args.includes("--undo")));
   assert.ok(calls.some(([command, args]) => command === "git" && args[0] === "commit" && args.includes(`content: retry ${publicationLabel} documentation/cnt_9`)));
-  assert.ok(calls.some(([command, args]) => command === "git" && args[0] === "push"));
+  assert.ok(calls.some(([command, args]) => command === "git" && args.join(" ") === `push origin ${authorized.branch}`));
+});
+
+test("manual retry preserves validated legacy branch #687 style", async () => {
+  const legacyCandidate = {
+    ...candidate,
+    sourceId: "cnt_000212",
+    sourceSection: "news",
+    targetFamily: "news",
+    targetId: 212,
+    targetMdxPath: "/target/src/content/news/212-news-212.mdx",
+    meta: { id: "news-212", title: { en: "News 212" }, contentType: "content" },
+    production: {
+      canonicalUrl: "https://www.querypie.com/en/news/news-212",
+      listed: true,
+      listUrl: "https://www.querypie.com/en/news",
+      sitemap: true,
+    },
+  };
+  const calls = [];
+  const execute = async (command, args) => {
+    calls.push([command, args]);
+    if (command === "gh" && args[0] === "api") return JSON.stringify([[{ number: 687, state: "closed", merged_at: null, body: '<!-- global-documentation-sync:v1 {"sourceId":"cnt_000212","targetFamily":"news","targetId":212,"runId":"r687","branch":"content-sync/cnt_000212"} -->', labels: [{ name: "content-sync:retry" }], head: { ref: "content-sync/cnt_000212" }, html_url: "url" }]]);
+    if (args[0] === "ls-remote") return "hash\trefs/heads/content-sync/cnt_000212\n";
+    if (args[0] === "status") return "?? src/content/news/212-news-212.mdx\0";
+    if (args[0] === "diff") return "src/content/news/212-news-212.mdx\0";
+    return "";
+  };
+  const authorized = await authorizeClosedRetry({ targetRepo: "/target", sourceId: "cnt_000212", sourceSection: "news", execute });
+  assert.equal(authorized.branch, "content-sync/cnt_000212");
+
+  calls.length = 0;
+  await publishRetry({ targetRepo: "/target", candidate: legacyCandidate, branch: authorized.branch, pullRequestNumber: 687, execute });
+  assert.ok(calls.some(([command, args]) => command === "git" && args.join(" ") === "checkout -B content-sync/cnt_000212 origin/content-sync/cnt_000212"));
+  assert.ok(calls.some(([command, args]) => command === "git" && args.join(" ") === "push origin content-sync/cnt_000212"));
+});
+
+test("manual retry rejects explicit marker branch mismatch", async () => {
+  await assert.rejects(() => authorizeClosedRetry({
+    targetRepo: "/target",
+    sourceId: "cnt_9",
+    sourceSection: "documentation",
+    execute: async (command, args) => {
+      if (command === "gh" && args[0] === "api") return JSON.stringify([[{ number: 7, state: "closed", merged_at: null, body: buildPullRequestBody({ candidate, validation: { results: [] }, reviews: [] }), labels: [{ name: "content-sync:retry" }], head: { ref: "content-sync/cnt_9" }, html_url: "url" }]]);
+      return "";
+    },
+  }), /closed PR marker/);
 });

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
+import { assertIgnoreAppendAllowed } from "../../scripts/global-documentation-sync/ignore-workflow.mjs";
 import { SOURCE_FAMILIES } from "../../scripts/global-documentation-sync/source-family-map.mjs";
 
 const readWorkflow = (name) => readFile(`.github/workflows/${name}`, "utf8");
@@ -55,10 +56,13 @@ test("ignore dispatch accepts any normalized HTTPS source URL and rejects non-HT
 
 test("ignore dispatch keeps safe JSON manifest handling", async () => {
   const source = await readWorkflow("ignore-global-documentation-sync.yml");
+  const helper = await readFile("scripts/global-documentation-sync/ignore-workflow.mjs", "utf8");
   assert.match(source, /invalid ignore manifest JSON/);
-  assert.match(source, /ignore manifest must be an array/);
-  assert.match(source, /already ignored: \$\{sourceSection\}\/\$\{sourceId\}/);
+  assert.match(source, /assertIgnoreAppendAllowed/);
   assert.match(source, /JSON\.parse\(readFileSync\(file, "utf8"\)\)/);
+  assert.match(helper, /ignore manifest must be an array/);
+  assert.match(helper, /already ignored: \$\{sourceSection\}\/\$\{sourceId\}/);
+  assert.match(helper, /legacy ignore row cannot be resolved safely/);
 });
 
 test("workflow legacy targetFamily inference stays aligned with source-family map", async () => {
@@ -78,6 +82,46 @@ test("hostile legacy markers with unsupported targetFamily fail closed before si
   assert.throws(() => inferLegacySourceSection("manual"), /unsupported targetFamily: manual/);
   assert.throws(() => inferLegacySourceSection("blogs"), /unsupported targetFamily: blogs/);
   assert.throws(() => inferLegacySourceSection(""), /unsupported targetFamily/);
+});
+
+test("legacy ignore row for cnt_000051 still blocks duplicate append", () => {
+  assert.throws(() => assertIgnoreAppendAllowed({
+    values: [{
+      sourceId: "cnt_000051",
+      sourceCanonicalUrl: "https://www.querypie.com/en/events/querypie-side-kick-teaser-ko",
+      reasonCode: "other",
+      reason: "legacy row",
+      addedBy: "owner",
+      addedAt: "2026-07-20T12:53:42Z",
+    }],
+    sourceId: "cnt_000051",
+    sourceSection: "documentation",
+    sourceCanonicalUrl: "https://www.querypie.com/en/events/querypie-side-kick-teaser-ko",
+  }), /already ignored: documentation\/cnt_000051/);
+});
+
+test("hostile legacy ignore rows fail closed when section cannot be inferred safely", () => {
+  assert.throws(() => assertIgnoreAppendAllowed({
+    values: [{ sourceId: "cnt_000212", reasonCode: "other", reason: "legacy row", addedBy: "owner", addedAt: "2026-07-20T12:53:42Z" }],
+    sourceId: "cnt_000212",
+    sourceSection: "news",
+    sourceCanonicalUrl: "https://www.querypie.com/en/news/news-212",
+  }), /legacy ignore row cannot be resolved safely: cnt_000212/);
+  assert.throws(() => assertIgnoreAppendAllowed({
+    values: [{ sourceId: "cnt_000212", sourceCanonicalUrl: "https://www.querypie.com/en/manual/manual-212", reasonCode: "other", reason: "legacy row", addedBy: "owner", addedAt: "2026-07-20T12:53:42Z" }],
+    sourceId: "cnt_000212",
+    sourceSection: "news",
+    sourceCanonicalUrl: "https://www.querypie.com/en/news/news-212",
+  }), /legacy ignore row cannot be resolved safely: cnt_000212/);
+});
+
+test("legacy ignore row with exact sourceCategory inference can allow another composite identity", () => {
+  assert.doesNotThrow(() => assertIgnoreAppendAllowed({
+    values: [{ sourceId: "cnt_000212", sourceCategory: "manuals", reasonCode: "other", reason: "legacy row", addedBy: "owner", addedAt: "2026-07-20T12:53:42Z" }],
+    sourceId: "cnt_000212",
+    sourceSection: "news",
+    sourceCanonicalUrl: "https://www.querypie.com/en/news/news-212",
+  }));
 });
 
 test("close reconciler handles both CI completion and delayed approval", async () => {

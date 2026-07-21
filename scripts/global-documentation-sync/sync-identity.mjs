@@ -100,13 +100,14 @@ export function serializeSyncMarker(value) {
   return `<!-- global-documentation-sync:v1 ${JSON.stringify(marker)} -->`;
 }
 
-export function resolveLegacySourceSection({ record, sources }) {
+export function resolveLegacySourceSection({ record, sources, allowSourceIdFallback = true }) {
   if (record?.sourceSection) return { status: "resolved", sourceSection: record.sourceSection };
   if (record?.sourceCategory) return { status: "resolved", sourceSection: inferSourceSectionFromCategory(record.sourceCategory) };
   const byId = sources.filter((source) => source.sourceId === record?.sourceId);
-  const exact = record?.sourceCanonicalUrl ? byId.filter((source) => source.sourceCanonicalUrl === record.sourceCanonicalUrl) : byId;
+  const exact = record?.sourceCanonicalUrl ? byId.filter((source) => source.sourceCanonicalUrl === record.sourceCanonicalUrl) : allowSourceIdFallback ? byId : [];
   if (exact.length === 1) return { status: "resolved", sourceSection: exact[0].sourceSection };
   if (exact.length > 1) return { status: "ambiguous", sourceId: record?.sourceId };
+  if (!allowSourceIdFallback) return { status: "missing", sourceId: record?.sourceId };
   if (byId.length === 1) return { status: "resolved", sourceSection: byId[0].sourceSection };
   if (byId.length > 1) return { status: "ambiguous", sourceId: record?.sourceId };
   return { status: "missing", sourceId: record?.sourceId };

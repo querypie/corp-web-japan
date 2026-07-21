@@ -59,7 +59,8 @@
 
 - [x] Run a duplicate phrase scan for identity/rollout claims across `docs/` and
       `openspec/`.
-- [x] Run `git diff --check` for this OpenSpec/docs-only maintenance change.
+- [x] Run `git diff --check` for this implementation/workflow/test/OpenSpec
+      follow-up change.
 - [ ] After the active spec absorbs this delta, reduce any leftover duplicate
       historical design prose to a short bridge and archive the temporary change
       record when appropriate.

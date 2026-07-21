@@ -78,8 +78,10 @@ jobs:
           NODE
           SOURCE_ID="$source_id" SOURCE_SECTION="$source_section" SOURCE_URL="$source_url" node --input-type=module - <<'NODE'
           import { readFileSync, writeFileSync } from "node:fs";
+          import { assertIgnoreAppendAllowed } from "./scripts/global-documentation-sync/ignore-workflow.mjs";
           const sourceId = process.env.SOURCE_ID;
           const sourceSection = process.env.SOURCE_SECTION;
+          const sourceCanonicalUrl = process.env.SOURCE_URL;
           const file = ".github/content-sync/ignore.json";
           let values;
           try {
@@ -87,12 +89,11 @@ jobs:
           } catch (error) {
             throw new Error(`invalid ignore manifest JSON: ${error.message}`);
           }
-          if (!Array.isArray(values)) throw new Error("ignore manifest must be an array");
-          if (values.some((value) => value?.sourceId === sourceId && (value?.sourceSection || null) === sourceSection)) throw new Error(`already ignored: ${sourceSection}/${sourceId}`);
+          assertIgnoreAppendAllowed({ values, sourceId, sourceSection, sourceCanonicalUrl });
           values.push({
             sourceSection,
             sourceId,
-            sourceCanonicalUrl: process.env.SOURCE_URL,
+            sourceCanonicalUrl,
             reasonCode: "other",
             reason: "Ignored by owner from sync Draft PR.",
             addedBy: "owner",

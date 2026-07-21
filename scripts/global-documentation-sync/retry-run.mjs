@@ -3,7 +3,7 @@ import { spawn } from "node:child_process";
 import { mkdir, readFile, stat, symlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { authorizeClosedRetry, buildPullRequestBody, createRunWorktree, publishRetry } from "./git-pr.mjs";
+import { assertRetryAuthorizationCandidate, authorizeClosedRetry, buildPullRequestBody, createRunWorktree, publishRetry } from "./git-pr.mjs";
 import { validateArtifact } from "./lib.mjs";
 import { runPreflight } from "./preflight.mjs";
 import { redactSecrets } from "./redaction.mjs";
@@ -46,10 +46,10 @@ export async function runRetry(options) {
     "--pi-bin", options.piBin, "--provider", options.provider, "--model", options.model, "--run-id", runId,
   ], worktreePath);
   const candidate = JSON.parse(await readFile(path.join(reportsDir, "candidate.json"), "utf8"));
-  if (candidate.sourceId !== options.sourceId || candidate.targetFamily !== authorization.marker.targetFamily || Number(candidate.targetId) !== Number(authorization.marker.targetId)) throw new Error("retry candidate identity no longer matches the closed PR marker");
+  assertRetryAuthorizationCandidate({ candidate, authorization });
   const validation = JSON.parse(await readFile(path.join(reportsDir, "validation-results.json"), "utf8"));
   const reviews = await Promise.all(["fidelity-review", "japanese-editorial-review", "contract-review"].map((type) => readFile(path.join(reportsDir, `${type}.json`), "utf8").then(JSON.parse)));
-  const published = await publishRetry({ targetRepo: worktreePath, candidate, pullRequestNumber: authorization.pullRequestNumber, wasDraft: authorization.isDraft, pullRequestBody: buildPullRequestBody({ candidate, validation, reviews }), githubRepo: options.githubRepo });
+  const published = await publishRetry({ targetRepo: worktreePath, candidate, branch: authorization.branch, pullRequestNumber: authorization.pullRequestNumber, wasDraft: authorization.isDraft, pullRequestBody: buildPullRequestBody({ candidate, validation, reviews }), githubRepo: options.githubRepo });
   const summaryPath = path.join(reportsDir, "run-summary.json");
   const summary = JSON.parse(await readFile(summaryPath, "utf8"));
   Object.assign(summary, { status: "retry_pr_reopened", dryRun: false, committed: true, pushed: true, pullRequestUrl: `https://github.com/${options.githubRepo || "querypie/corp-web-japan"}/pull/${authorization.pullRequestNumber}`, branch: published.branch, commit: published.commit });

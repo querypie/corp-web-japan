@@ -70,4 +70,9 @@ test("legacy manifest rows resolve section from category or current sources", ()
     { sourceId: "cnt_000001", sourceSection: "documentation", sourceCanonicalUrl: "https://www.querypie.com/en/manual/manual-one" },
     { sourceId: "cnt_000001", sourceSection: "news", sourceCanonicalUrl: "https://www.querypie.com/en/news/news-one" },
   ] }), { status: "resolved", sourceSection: "news" });
+  assert.deepEqual(resolveLegacySourceSection({
+    record: { sourceId: "cnt_000051" },
+    sources: [{ sourceId: "cnt_000051", sourceSection: "documentation", sourceCanonicalUrl: "https://www.querypie.com/en/events/querypie-side-kick-teaser-ko" }],
+    allowSourceIdFallback: false,
+  }), { status: "missing", sourceId: "cnt_000051" });
 });

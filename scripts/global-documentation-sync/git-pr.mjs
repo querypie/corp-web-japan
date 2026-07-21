@@ -4,7 +4,7 @@ import path from "node:path";
 
 import { loadAllPullRequests } from "./github-state.mjs";
 import { hasBlockingFindings, validateArtifact } from "./lib.mjs";
-import { branchFor, parseSyncBranch, parseSyncMarker, serializeSyncMarker, sourceIdentityKey } from "./sync-identity.mjs";
+import { branchFor, legacyBranchFor, parseSyncBranch, parseSyncMarker, serializeSyncMarker, sourceIdentityKey } from "./sync-identity.mjs";
 
 export { branchFor } from "./sync-identity.mjs";
 export const publicationLabel = "Global publication";
@@ -21,6 +21,27 @@ function markerIdentity(marker) {
 
 function matchesIdentity(marker, { sourceId, sourceSection }) {
   return marker?.sourceId === sourceId && marker?.sourceSection === sourceSection;
+}
+
+function assertRetryBranchMatchesIdentity(branch, identity) {
+  const parsed = parseSyncBranch(branch);
+  if (!parsed || parsed.sourceId !== identity.sourceId) throw new Error(`invalid retry branch: ${branch}`);
+  if (parsed.legacy) {
+    if (branch !== legacyBranchFor(identity.sourceId)) throw new Error(`invalid retry branch: ${branch}`);
+    return { ...parsed, identity: sourceIdentityKey(identity) };
+  }
+  if (parsed.identity !== sourceIdentityKey(identity)) throw new Error(`retry branch identity mismatch: ${branch}`);
+  return parsed;
+}
+
+export function assertRetryAuthorizationCandidate({ candidate, authorization }) {
+  const expectedIdentity = { sourceId: authorization.marker.sourceId, sourceSection: authorization.marker.sourceSection };
+  if (!matchesIdentity(candidate, expectedIdentity)
+    || candidate.targetFamily !== authorization.marker.targetFamily
+    || Number(candidate.targetId) !== Number(authorization.marker.targetId)) {
+    throw new Error("retry candidate identity no longer matches the closed PR marker");
+  }
+  assertRetryBranchMatchesIdentity(authorization.branch, expectedIdentity);
 }
 
 export async function assertAllocatedGitDiff({ targetRepo, candidate, allowStaleMdx = false, execute = defaultExecute }) {
@@ -156,14 +177,15 @@ export async function authorizeClosedRetry({ targetRepo, sourceId, sourceSection
   const pull = matchingSection[0].pull;
   if (pull.state !== "CLOSED" || !pull.labels.some(({ name }) => name === "content-sync:retry")) throw new Error("retry requires a closed unmerged PR with content-sync:retry label");
   const marker = matchingSection[0].marker;
-  const branch = marker.branch || branchFor(marker);
-  const remote = await execute("git", ["ls-remote", "--heads", "origin", `refs/heads/${branch}`], targetRepo);
-  if (!remote.trim()) throw new Error(`retry branch is missing: ${branch}`);
-  return { pullRequestNumber: pull.number, branch, marker, isDraft: pull.isDraft };
+  if (pull.headRefName !== marker.branch) throw new Error("retry branch does not match the closed PR marker");
+  assertRetryBranchMatchesIdentity(pull.headRefName, { sourceId: marker.sourceId, sourceSection: marker.sourceSection });
+  const remote = await execute("git", ["ls-remote", "--heads", "origin", `refs/heads/${pull.headRefName}`], targetRepo);
+  if (!remote.trim()) throw new Error(`retry branch is missing: ${pull.headRefName}`);
+  return { pullRequestNumber: pull.number, branch: pull.headRefName, marker, isDraft: pull.isDraft };
 }
 
-export async function publishRetry({ targetRepo, candidate, pullRequestNumber, pullRequestBody, wasDraft = true, githubRepo = "querypie/corp-web-japan", execute = defaultExecute }) {
-  const branch = branchFor(candidate);
+export async function publishRetry({ targetRepo, candidate, branch, pullRequestNumber, pullRequestBody, wasDraft = true, githubRepo = "querypie/corp-web-japan", execute = defaultExecute }) {
+  assertRetryBranchMatchesIdentity(branch, { sourceId: candidate.sourceId, sourceSection: candidate.sourceSection });
   await execute("git", ["checkout", "-B", branch, `origin/${branch}`], targetRepo);
   await stageAllocatedDiff({ targetRepo, candidate, allowStaleMdx: true, execute });
   await execute("git", ["commit", "-m", `content: retry ${publicationLabel} ${candidate.sourceSection}/${candidate.sourceId}`], targetRepo);

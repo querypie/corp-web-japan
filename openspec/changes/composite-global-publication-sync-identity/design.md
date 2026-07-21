@@ -32,7 +32,8 @@ without widening product scope.
 
 ### Non-Goals
 
-- No new code path beyond what `3a11aac` already implemented.
+- No broader product or architecture expansion beyond the composite-identity
+  follow-up fixes already implied by `3a11aac` and its re-review findings.
 - No generic source crawler or broader sync-family expansion.
 - No redefinition of steady-state timer cadence after rollout.
 - No change to the one-candidate, Draft-only, fail-closed publication model.
@@ -118,8 +119,8 @@ remains disabled and only manual runs are allowed.
 ## Migration Plan
 
 1. Keep `3a11aac` as the implementation baseline.
-2. Apply follow-up workflow/test/doc fixes for independent-review findings in
-   this branch.
+2. Apply follow-up implementation, workflow, test, and OpenSpec fixes for
+   independent-review findings in this branch.
 3. Record the missing contract delta in this change set and bridge
    non-canonical docs to the active spec plus this change record.
 4. Run independent review of the landed implementation and workflows.
