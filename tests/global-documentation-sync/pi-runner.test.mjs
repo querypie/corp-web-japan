@@ -53,7 +53,7 @@ test("builds four isolated headless Pi calls with no tools", () => {
   }
 });
 
-test("writer prompt pins News frontmatter contract to resolved fields", () => {
+test("writer prompt pins quoted frontmatter id and News resolved-field contract", () => {
   const calls = buildPiInvocations({
     piBin: "pi",
     provider: "provider",
@@ -80,9 +80,31 @@ test("writer prompt pins News frontmatter contract to resolved fields", () => {
   });
   const writer = calls.find((call) => call.role === "writer");
   assert.ok(writer);
+  assert.match(writer.prompt, /quoted YAML string equal to String\(candidate\.targetId\)/);
+  assert.match(writer.prompt, /id: "19"/);
+  assert.match(writer.prompt, /never emit an unquoted or numeric id/);
   assert.match(writer.prompt, /News[\s\S]*must not contain author/);
   assert.match(writer.prompt, /resolvedSourceLabel/);
   assert.match(writer.prompt, /resolvedRedirectUrl/);
+});
+
+
+test("japanese editorial prompt reserves note for non-actionable observations", () => {
+  const calls = buildPiInvocations({
+    piBin: "pi",
+    provider: "provider",
+    model: "model",
+    targetRepo: "/target",
+    reportsDir: "/reports",
+    candidate,
+    sourceHtml: "<p>source</p>",
+    targetMdx: "---\nid: \"1\"\n---\n",
+  });
+  const editorial = calls.find((call) => call.role === "japanese-editorial");
+  assert.ok(editorial);
+  assert.match(editorial.prompt, /translationese wording that has a concrete correction as actionable minor or higher/);
+  assert.match(editorial.prompt, /reserve note only for non-actionable observations that require no text change/);
+  assert.match(editorial.prompt, /isolated wording described as merely やや or 少し awkward is still minor when a concrete correction exists/);
 });
 
 test("applies no-tools stdout envelopes only to allocated paths", async () => {
