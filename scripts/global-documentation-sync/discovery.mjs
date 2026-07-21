@@ -131,6 +131,15 @@ async function mappedSourceIds(targetRepo) {
   return ids;
 }
 
+function outlinkLocale(meta) {
+  return meta.title?.ja?.trim() || meta.summary?.ja?.trim() ? "ja" : "en";
+}
+
+function outlinkHasLocalizedTitleAndSummary(meta) {
+  const locale = outlinkLocale(meta);
+  return Boolean(meta.title?.[locale]?.trim() && meta.summary?.[locale]?.trim());
+}
+
 function sourceContractFailure(source) {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(source.meta.id || "")) {
     return `unsafe source slug: ${source.meta.id}`;
@@ -143,6 +152,7 @@ function sourceContractFailure(source) {
       return `invalid external URL: ${source.meta.externalUrl}`;
     }
     if (external.protocol !== "https:") return `non-HTTPS external URL: ${source.meta.externalUrl}`;
+    if (!outlinkHasLocalizedTitleAndSummary(source.meta)) return "outlink requires localized title/summary and HTTPS externalUrl";
     return null;
   }
   return null;
@@ -202,7 +212,7 @@ export async function discoverNextCandidate({ globalRepo, targetRepo, sitemapXml
         sourceSlug: source.meta.id,
         targetFamily: targetFamily(source.category),
         canonicalUrl: url,
-        sourceLocale: source.selected?.locale || (source.meta.title?.ja ? "ja" : "en"),
+        sourceLocale: source.selected?.locale || outlinkLocale(source.meta),
         sourceDirectory: source.directory,
         meta: source.meta,
         production: { canonicalUrl: url, listed, listUrl, sitemap },

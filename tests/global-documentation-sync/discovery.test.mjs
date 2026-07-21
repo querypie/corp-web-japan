@@ -5,6 +5,7 @@ import path from "node:path";
 import test from "node:test";
 
 import { discoverNextCandidate, parseSyncMarker, validateDecisionManifest } from "../../scripts/global-documentation-sync/discovery.mjs";
+import { discoverLive } from "../../scripts/global-documentation-sync/live-discovery.mjs";
 
 async function source(root, category, id, slug, overrides = {}) {
   const relativeRoot = category === "news"
@@ -136,6 +137,8 @@ test("selects a listed HTTPS News external destination without sitemap detail ev
   await source(globalRepo, "news", "cnt_11", "news-outlink", {
     contentType: "outlink",
     externalUrl: "https://media.example/news-one",
+    title: { ja: "ニュース1" },
+    summary: { ja: "要約1" },
   });
   await manifests(targetRepo);
 
@@ -153,6 +156,7 @@ test("selects a listed HTTPS News external destination without sitemap detail ev
 
   assert.equal(result.status, "candidate");
   assert.equal(result.source.sourceSection, "news");
+  assert.equal(result.source.sourceLocale, "ja");
   assert.equal(result.source.production.sitemap, false);
   assert.equal(result.source.production.listed, true);
   assert.equal(result.source.production.listUrl, "https://www.querypie.com/en/news");
@@ -253,12 +257,71 @@ test("blocks unsafe News source slug before candidate selection", async () => {
   });
 });
 
+test("blocks News outlink when Japanese locale is selected without Japanese summary", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-ja-outlink-gap-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-ja-outlink-gap-"));
+  await source(globalRepo, "news", "cnt_16", "news-ja-outlink-gap", {
+    contentType: "outlink",
+    externalUrl: "https://media.example/news-one",
+    title: { ja: "ニュース1", en: "News 1" },
+    summary: { en: "Summary 1" },
+  });
+  await manifests(targetRepo);
+
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "",
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": '<a href="https://media.example/news-one">News</a>',
+      "https://www.querypie.com/en/documentation": "",
+    },
+    prRecords: [],
+    branchNames: [],
+  });
+
+  assert.deepEqual(result, {
+    status: "blocked_source_contract",
+    sourceId: "cnt_16",
+    reason: "outlink requires localized title/summary and HTTPS externalUrl",
+  });
+});
+
+test("falls back to English News outlink title and summary when Japanese is absent", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-en-outlink-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-en-outlink-"));
+  await source(globalRepo, "news", "cnt_17", "news-en-outlink", {
+    contentType: "outlink",
+    externalUrl: "https://media.example/news-en",
+    title: { en: "News EN" },
+    summary: { en: "Summary EN" },
+  });
+  await manifests(targetRepo);
+
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "",
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": '<a href="https://media.example/news-en">News</a>',
+      "https://www.querypie.com/en/documentation": "",
+    },
+    prRecords: [],
+    branchNames: [],
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.source.sourceLocale, "en");
+});
+
 test("blocks non-HTTPS News external URL before candidate selection", async () => {
   const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-http-outlink-"));
   const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-http-outlink-"));
-  await source(globalRepo, "news", "cnt_16", "news-http-outlink", {
+  await source(globalRepo, "news", "cnt_18", "news-http-outlink", {
     contentType: "outlink",
     externalUrl: "http://media.example/news-one",
+    title: { ja: "ニュース1" },
+    summary: { ja: "要約1" },
   });
   await manifests(targetRepo);
 
@@ -276,9 +339,50 @@ test("blocks non-HTTPS News external URL before candidate selection", async () =
 
   assert.deepEqual(result, {
     status: "blocked_source_contract",
-    sourceId: "cnt_16",
+    sourceId: "cnt_18",
     reason: "non-HTTPS external URL: http://media.example/news-one",
   });
+});
+
+test("discoverLive fetches sitemap plus deduplicated list URLs once", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-live-discovery-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-live-discovery-"));
+  await source(globalRepo, "news", "cnt_19", "news-live", {
+    contentType: "outlink",
+    externalUrl: "https://media.example/news-live",
+    title: { ja: "ニュース live" },
+    summary: { ja: "要約 live" },
+  });
+  await manifests(targetRepo);
+
+  const fetchCalls = [];
+  const executeCalls = [];
+  const result = await discoverLive({
+    globalRepo,
+    targetRepo,
+    githubRepo: "owner/repo",
+    fetchText: async (url) => {
+      fetchCalls.push(url);
+      if (url === "https://www.querypie.com/sitemap.xml") return "";
+      if (url === "https://www.querypie.com/en/documentation") return "";
+      if (url === "https://www.querypie.com/en/news") return '<a href="https://media.example/news-live">News</a>';
+      throw new Error(`unexpected fetch ${url}`);
+    },
+    execute: (command, args) => {
+      executeCalls.push([command, args]);
+      if (command === "gh") return JSON.stringify([[]]);
+      if (command === "git") return "";
+      throw new Error(`unexpected execute ${command}`);
+    },
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.deepEqual(fetchCalls, [
+    "https://www.querypie.com/sitemap.xml",
+    "https://www.querypie.com/en/documentation",
+    "https://www.querypie.com/en/news",
+  ]);
+  assert.equal(executeCalls.length, 2);
 });
 
 test("rejects unsorted or duplicate decision manifests", () => {
