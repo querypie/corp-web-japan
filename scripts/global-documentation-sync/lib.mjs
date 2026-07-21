@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { readdir, readFile, realpath, stat } from "node:fs/promises";
 import path from "node:path";
 
-import { targetFamily } from "./source-family-map.mjs";
+import { sourceFamily, targetFamily } from "./source-family-map.mjs";
 
 export const SCHEMA_VERSION = "global-documentation-sync/v1";
 export const SEVERITIES = new Set(["critical", "major", "minor", "note"]);
@@ -26,10 +26,10 @@ export function normalizeUrl(value) {
   return url.toString().replace(/\/$/, url.pathname === "/" ? "/" : "");
 }
 
-export function hasExactProductionEvidence({ sitemapXml, documentationListHtml, expectedUrl }) {
+export function hasExactProductionEvidence({ sitemapXml, productionListHtml, expectedUrl }) {
   const expected = normalizeUrl(expectedUrl);
   const sitemapUrls = [...sitemapXml.matchAll(/<loc>\s*([^<]+)\s*<\/loc>/g)].map((match) => normalizeUrl(match[1]));
-  const listUrls = [...documentationListHtml.matchAll(/href=["']([^"']+)["']/g)].map((match) => normalizeUrl(new URL(match[1], "https://www.querypie.com").href));
+  const listUrls = [...productionListHtml.matchAll(/href=["']([^"']+)["']/g)].map((match) => normalizeUrl(new URL(match[1], "https://www.querypie.com").href));
   return sitemapUrls.includes(expected) && listUrls.includes(expected);
 }
 
@@ -41,11 +41,28 @@ export function validateArtifact(type, value) {
   if (value.schemaVersion !== SCHEMA_VERSION) throw new Error(`${type}: invalid schemaVersion`);
   if (value.artifactType !== type) throw new Error(`${type}: artifactType mismatch`);
   if (type === "candidate") {
-    for (const key of ["sourceHash", "sourceCategory", "targetFamily", "targetId", "sourceLocale", "sourceHtmlPath", "targetMdxPath", "targetAssetRoot", "targetRoute", "meta", "assets", "externalMedia", "production"]) {
+    for (const key of ["sourceHash", "sourceCategory", "sourceSection", "targetFamily", "targetId", "sourceLocale", "sourceHtmlPath", "targetMdxPath", "targetAssetRoot", "targetRoute", "meta", "assets", "externalMedia", "production"]) {
       if (value[key] === undefined || value[key] === null) throw new Error(`${type}: ${key} required`);
     }
     if (!/^sha256:[a-f0-9]{64}$/.test(value.sourceHash)) throw new Error(`${type}: sourceHash must be sha256-prefixed`);
     if (!Array.isArray(value.assets)) throw new Error(`${type}: assets must be an array`);
+    if (value.production?.skipped !== true) {
+      for (const key of ["canonicalUrl", "listUrl", "listed", "sitemap"]) {
+        if (value.production?.[key] === undefined) throw new Error(`${type}: production.${key} required`);
+      }
+      if (value.production.listed !== true) throw new Error(`${type}: production.listed must be true`);
+      if (typeof value.production.listUrl !== "string") throw new Error(`${type}: production.listUrl required`);
+      const descriptor = sourceFamily(value.sourceCategory);
+      if (normalizeUrl(value.production.listUrl) !== normalizeUrl(descriptor.productionListUrl)) throw new Error(`${type}: production.listUrl mismatch`);
+      const expectsSitemap = value.meta?.contentType === "content";
+      if (value.production.sitemap !== expectsSitemap) throw new Error(`${type}: production.sitemap must be ${expectsSitemap}`);
+    }
+    if (value.targetFamily === "news") {
+      if (typeof value.resolvedSourceLabel !== "string" || !value.resolvedSourceLabel) throw new Error(`${type}: resolvedSourceLabel required`);
+      const expectsRedirect = value.meta?.contentType === "outlink";
+      if (expectsRedirect && typeof value.resolvedRedirectUrl !== "string") throw new Error(`${type}: resolvedRedirectUrl required`);
+      if (!expectsRedirect && value.resolvedRedirectUrl !== null) throw new Error(`${type}: resolvedRedirectUrl must be null`);
+    }
   }
   if (type === "generation-report") {
     if (!Array.isArray(value.targetFiles) || !value.inventories || !Array.isArray(value.intentionalTransformations)) throw new Error(`${type}: targetFiles, inventories, and intentionalTransformations required`);

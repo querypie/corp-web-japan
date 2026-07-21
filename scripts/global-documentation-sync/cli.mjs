@@ -13,6 +13,7 @@ import {
   SCHEMA_VERSION, allocateTargetId, chooseLocale, hasBlockingFindings,
   hasExactProductionEvidence, mapCategory, normalizeUrl, resolveOwnedAsset, validateArtifact,
 } from "./lib.mjs";
+import { canonicalContentUrl, sourceRoots } from "./source-family-map.mjs";
 import { discoverLive } from "./live-discovery.mjs";
 import { resumeBranchOnly } from "./git-pr.mjs";
 import { redactSecrets } from "./redaction.mjs";
@@ -39,12 +40,11 @@ async function writeJsonAtomic(file, value) {
 }
 
 async function findSource(globalRepo, sourceId) {
-  const root = path.join(globalRepo, "src/content/documentation");
-  for (const category of await readdir(root)) {
-    const directory = path.join(root, category, sourceId);
+  for (const descriptor of sourceRoots(globalRepo)) {
+    const directory = path.join(descriptor.root, sourceId);
     try {
       const meta = JSON.parse(await readFile(path.join(directory, "meta.json"), "utf8"));
-      return { category, directory, meta };
+      return { descriptor, directory, meta };
     } catch (error) {
       if (error.code !== "ENOENT") throw error;
     }
@@ -52,33 +52,29 @@ async function findSource(globalRepo, sourceId) {
   throw new Error(`source not found: ${sourceId}`);
 }
 
-function canonicalUrl(category, meta) {
+function canonicalUrl(descriptor, meta) {
   if (meta.contentType === "outlink") {
     const external = new URL(meta.externalUrl);
     if (external.protocol !== "https:") throw new Error("outlink must use HTTPS");
-    return external.href;
+    return normalizeUrl(external.href);
   }
-  const section = {
-    blogs: "blog", "white-papers": "white-paper", events: "events",
-    manuals: "manual", glossary: "glossary", voc: "customer-story",
-    introduction: "introduction",
-  }[category];
-  return `https://www.querypie.com/en/${section}/${meta.id}`;
+  return normalizeUrl(canonicalContentUrl(descriptor.sourceCategory, meta.id));
 }
 
-async function verifyProduction(category, meta) {
-  const expected = normalizeUrl(canonicalUrl(category, meta));
+async function verifyProduction(descriptor, meta) {
+  const expected = canonicalUrl(descriptor, meta);
   const [sitemap, list] = await Promise.all([
     fetchTextWithRetry("https://www.querypie.com/sitemap.xml"),
-    fetchTextWithRetry("https://www.querypie.com/en/documentation"),
+    fetchTextWithRetry(descriptor.productionListUrl),
   ]);
+  const listUrl = normalizeUrl(descriptor.productionListUrl);
   const listUrls = [...list.matchAll(/href=["']([^"']+)["']/g)].map((match) => normalizeUrl(new URL(match[1], "https://www.querypie.com").href));
   if (meta.contentType === "outlink") {
     if (!listUrls.includes(expected)) throw new Error(`exact production list evidence missing for ${expected}`);
-    return { canonicalUrl: expected, sitemap: false, documentationList: true };
+    return { canonicalUrl: expected, listed: true, listUrl, sitemap: false };
   }
-  if (!hasExactProductionEvidence({ sitemapXml: sitemap, documentationListHtml: list, expectedUrl: expected })) throw new Error(`exact production evidence missing for ${expected}`);
-  return { canonicalUrl: expected, sitemap: true, documentationList: true };
+  if (!hasExactProductionEvidence({ sitemapXml: sitemap, productionListHtml: list, expectedUrl: expected })) throw new Error(`exact production evidence missing for ${expected}`);
+  return { canonicalUrl: expected, listed: true, listUrl, sitemap: true };
 }
 
 async function resolveAuthor(targetRepo, family, authorName) {
@@ -111,7 +107,8 @@ export async function prepare(options) {
   if (!options.dryRun) throw new Error("first implementation supports --dry-run only");
   for (const key of ["sourceId", "globalRepo", "targetRepo", "reportsDir"]) if (!options[key]) throw new Error(`--${key} required`);
   if (!/^cnt_\d+$/.test(options.sourceId)) throw new Error("invalid sourceId");
-  const { category, directory, meta } = await findSource(options.globalRepo, options.sourceId);
+  const { descriptor, directory, meta } = await findSource(options.globalRepo, options.sourceId);
+  const category = descriptor.sourceCategory;
   if (meta.storageId !== options.sourceId || meta.categorySlug !== category || meta.status !== "published" || !["content", "outlink"].includes(meta.contentType)) throw new Error("source metadata is not eligible");
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(meta.id || "")) throw new Error("source slug is unsafe");
   const readOptional = async (name) => { try { return await readFile(path.join(directory, name), "utf8"); } catch (error) { if (error.code === "ENOENT") return ""; throw error; } };
@@ -140,10 +137,21 @@ export async function prepare(options) {
   let production;
   if (options.productionEvidenceFile) {
     const evidence = JSON.parse(await readFile(options.productionEvidenceFile, "utf8"));
-    if (evidence.sourceId !== options.sourceId || evidence.production?.canonicalUrl !== normalizeUrl(canonicalUrl(category, meta)) || !evidence.production.documentationList || (meta.contentType === "content" && !evidence.production.sitemap)) throw new Error("production discovery evidence mismatch");
+    const expectedCanonicalUrl = canonicalUrl(descriptor, meta);
+    const expectedListUrl = normalizeUrl(descriptor.productionListUrl);
+    const expectedSitemap = meta.contentType === "content";
+    if (
+      evidence.sourceId !== options.sourceId
+      || evidence.production?.canonicalUrl !== expectedCanonicalUrl
+      || evidence.production?.listed !== true
+      || normalizeUrl(evidence.production?.listUrl || "") !== expectedListUrl
+      || evidence.production?.sitemap !== expectedSitemap
+    ) throw new Error("production discovery evidence mismatch");
     production = evidence.production;
-  } else production = options.productionCheck ? await verifyProduction(category, meta) : { skipped: true };
+  } else production = options.productionCheck ? await verifyProduction(descriptor, meta) : { skipped: true };
   const resolvedAuthor = await resolveAuthor(options.targetRepo, family, meta.authorName);
+  const resolvedSourceLabel = family === "news" ? (meta.contentType === "outlink" ? "メディア掲載" : "公式発表") : null;
+  const resolvedRedirectUrl = family === "news" && meta.contentType === "outlink" ? normalizeUrl(meta.externalUrl) : null;
   const targetContentRoot = path.join(options.targetRepo, "src/content", family);
   const targetAssetRoot = path.join(options.targetRepo, "public", family, String(targetId));
   if (options.resetTarget === "true") {
@@ -178,13 +186,13 @@ export async function prepare(options) {
   const candidate = {
     schemaVersion: SCHEMA_VERSION, artifactType: "candidate", runId,
     startedAt: new Date().toISOString(),
-    sourceId: options.sourceId, sourceHash, sourceCategory: category,
+    sourceId: options.sourceId, sourceHash, sourceCategory: category, sourceSection: descriptor.sourceSection,
     targetFamily: family, targetId, sourceLocale: selected.locale,
     sourceHtmlPath,
     targetMdxPath: path.join(targetContentRoot, `${targetId}-${meta.id}.mdx`),
     targetAssetRoot, heroImagePath,
     heroImagePublicPath: heroImagePath ? `/${family}/${targetId}/thumbnail.png` : null,
-    production, meta, resolvedAuthor, assets,
+    production, meta, resolvedAuthor, resolvedSourceLabel, resolvedRedirectUrl, assets,
     externalMedia: extractAllowedExternalMedia(selected.html),
   };
   candidate.targetRoute = publicationRoute(candidate);

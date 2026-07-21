@@ -10,7 +10,7 @@ import { redactSecrets } from "./redaction.mjs";
 export function publicationRoute(candidate) {
   const roots = {
     blog: "blog", whitepapers: "whitepapers", events: "events", manuals: "manuals",
-    glossary: "glossary", "use-cases": "use-cases", "introduction-deck": "introduction-deck",
+    glossary: "glossary", news: "news", "use-cases": "use-cases", "introduction-deck": "introduction-deck",
     "demo/aip": "demo/aip", "demo/acp": "demo/acp",
   };
   const root = roots[candidate.targetFamily];

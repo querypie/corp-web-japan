@@ -20,10 +20,13 @@ const candidate = {
   targetMdxPath: "/target/src/content/blog/1-example.mdx",
   targetAssetRoot: "/target/public/blog/1",
   targetRoute: "/blog/1/example",
-  meta: { id: "example" },
+  meta: { id: "example", contentType: "content" },
   assets: [],
   externalMedia: [],
-  production: { sitemap: true, documentationList: true },
+  sourceSection: "documentation",
+  resolvedSourceLabel: null,
+  resolvedRedirectUrl: null,
+  production: { canonicalUrl: "https://www.querypie.com/en/blog/example", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true },
 };
 
 test("builds four isolated headless Pi calls with no tools", () => {

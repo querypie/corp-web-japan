@@ -74,10 +74,63 @@ test("normalizes production URLs without query, hash, or trailing slash", () => 
 
 test("requires the exact canonical URL in both production surfaces", () => {
   const expectedUrl = "https://www.querypie.com/en/blog/example";
-  const valid = { sitemapXml: `<url><loc>${expectedUrl}/</loc></url>`, documentationListHtml: '<a href="/en/blog/example?x=1">Example</a>', expectedUrl };
+  const valid = { sitemapXml: `<url><loc>${expectedUrl}/</loc></url>`, productionListHtml: '<a href="/en/blog/example?x=1">Example</a>', expectedUrl };
   assert.equal(hasExactProductionEvidence(valid), true);
   assert.equal(hasExactProductionEvidence({ ...valid, sitemapXml: '<url><loc>https://www.querypie.com/en/blog/example-extra</loc></url>' }), false);
-  assert.equal(hasExactProductionEvidence({ ...valid, documentationListHtml: '<a href="/en/blog/example-extra">Other</a>' }), false);
+  assert.equal(hasExactProductionEvidence({ ...valid, productionListHtml: '<a href="/en/blog/example-extra">Other</a>' }), false);
+});
+
+test("validates candidate production evidence with listed and listUrl fields", () => {
+  const baseCandidate = {
+    schemaVersion: SCHEMA_VERSION,
+    artifactType: "candidate",
+    runId: "run-1",
+    sourceId: "cnt_000211",
+    sourceHash: `sha256:${"a".repeat(64)}`,
+    sourceCategory: "news",
+    sourceSection: "news",
+    targetFamily: "news",
+    targetId: 19,
+    sourceLocale: "ja",
+    sourceHtmlPath: "/tmp/source.html",
+    targetMdxPath: "/tmp/19-news-one.mdx",
+    targetAssetRoot: "/tmp/news/19",
+    targetRoute: "/news/19/news-one",
+    meta: { id: "news-one", contentType: "content" },
+    resolvedSourceLabel: "公式発表",
+    resolvedRedirectUrl: null,
+    resolvedAuthor: null,
+    assets: [],
+    externalMedia: [],
+    production: {
+      canonicalUrl: "https://www.querypie.com/en/news/news-one",
+      listed: true,
+      listUrl: "https://www.querypie.com/en/news",
+      sitemap: true,
+    },
+  };
+
+  assert.doesNotThrow(() => validateArtifact("candidate", baseCandidate));
+  assert.throws(() => validateArtifact("candidate", { ...baseCandidate, sourceSection: undefined }), /sourceSection required/);
+  assert.throws(() => validateArtifact("candidate", { ...baseCandidate, production: { ...baseCandidate.production, listed: false } }), /listed must be true/);
+  assert.throws(() => validateArtifact("candidate", { ...baseCandidate, production: { ...baseCandidate.production, listUrl: "https://www.querypie.com/en/documentation" } }), /listUrl mismatch/);
+  assert.throws(() => validateArtifact("candidate", { ...baseCandidate, production: { ...baseCandidate.production, sitemap: false } }), /sitemap must be true/);
+
+  const outlinkCandidate = {
+    ...baseCandidate,
+    sourceId: "cnt_000212",
+    meta: { id: "news-one", contentType: "outlink" },
+    resolvedSourceLabel: "メディア掲載",
+    resolvedRedirectUrl: "https://media.example/news-one",
+    production: {
+      canonicalUrl: "https://media.example/news-one",
+      listed: true,
+      listUrl: "https://www.querypie.com/en/news",
+      sitemap: false,
+    },
+  };
+  assert.doesNotThrow(() => validateArtifact("candidate", outlinkCandidate));
+  assert.throws(() => validateArtifact("candidate", { ...outlinkCandidate, production: { ...outlinkCandidate.production, sitemap: true } }), /sitemap must be false/);
 });
 
 test("resolves declared assets inside the Global public root only", async () => {
