@@ -53,9 +53,13 @@ rollout-time scheduler hold.
 
 ## Impact
 
-- OpenSpec/docs maintenance only in this branch. No code changes.
-- Implementation evidence already landed in commit `3a11aac` across discovery,
-  baseline, git/PR, ignore workflow, production-run, and regression tests.
+- This branch includes follow-up workflow, test, and documentation fixes on top
+  of commit `3a11aac`; it is not docs-only.
+- The implementation state is partial-but-landed: core composite-identity
+  behavior already exists across discovery, baseline, git/PR,
+  ignore/reconciliation, production-run, and regression tests, while this
+  branch closes independent-review findings around hostile legacy markers,
+  Slack source display, and rollout-document drift.
 - Pending work remains operational, not architectural: independent review,
-  server dry-run with the scheduler still disabled, and scheduler restore only
+  host dry-run with the scheduler still disabled, and scheduler restore only
   after rollout evidence is accepted.

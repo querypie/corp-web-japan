@@ -39,7 +39,14 @@ jobs:
           const matches = [...body.matchAll(/<!--\s*global-documentation-sync:v1\s+(\{[^\n]*\})\s*-->/g)];
           if (matches.length !== 1) fail("sync marker missing");
           const marker = JSON.parse(matches[0][1]);
-          const sourceSection = marker.sourceSection ?? (marker.targetFamily === "news" ? "news" : "documentation");
+          const documentationTargetFamilies = new Set(["blog", "whitepapers", "use-cases", "manuals", "events", "glossary", "introduction-deck"]);
+          const inferLegacySourceSection = (targetFamily) => {
+            if (targetFamily === "news") return "news";
+            if (documentationTargetFamilies.has(targetFamily)) return "documentation";
+            return null;
+          };
+          const sourceSection = marker.sourceSection ?? inferLegacySourceSection(marker.targetFamily);
+          if (!sourceSection) fail("sync marker missing or unsupported sourceSection");
           const expectedBranch = `content-sync/${sourceSection}-${marker.sourceId}`;
           const legacyBranch = `content-sync/${marker.sourceId}`;
           if (headBranch !== expectedBranch && headBranch !== legacyBranch) fail("sync marker mismatch");

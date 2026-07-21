@@ -110,19 +110,23 @@ remains disabled and only manual runs are allowed.
   old ambiguous evidence intentionally blocks instead of auto-healing.
 - Keeping the scheduler disabled slows publication throughput during rollout, but
   it avoids silent duplicate suppression or wrong-branch deletion.
-- Leaving the active accepted spec unchanged until rollout evidence is complete
-  means temporary contract split-brain is possible unless docs bridge clearly to
-  this change record.
+- The spec state is currently partial, not unchanged: the active accepted spec
+  already carries part of the rollout hold, while this change record and the
+  landed implementation still hold narrower edge-case detail until post-review
+  fold-in is complete.
 
 ## Migration Plan
 
 1. Keep `3a11aac` as the implementation baseline.
-2. Record the missing contract delta in this change set.
-3. Bridge non-canonical docs to the active spec plus this change record.
+2. Apply follow-up workflow/test/doc fixes for independent-review findings in
+   this branch.
+3. Record the missing contract delta in this change set and bridge
+   non-canonical docs to the active spec plus this change record.
 4. Run independent review of the landed implementation and workflows.
 5. Run a host dry-run with the scheduler still disabled.
-6. If review and dry-run pass, update the active spec with the accepted delta.
-7. Restore the scheduler only after the accepted-spec update and rollout signoff.
+6. If review and dry-run pass, fold the remaining delta into the active spec.
+7. Restore the scheduler only after the accepted-spec fold-in and rollout
+   signoff.
 
 ## Open Questions
 

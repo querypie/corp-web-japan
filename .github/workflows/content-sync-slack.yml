@@ -26,6 +26,7 @@ jobs:
           PR_URL: ${{ github.event.pull_request.html_url }}
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           set -euo pipefail
           : "${WEBHOOK_URL:?CONTENT_SYNC_SLACK_WEBHOOK_URL is required}"
@@ -35,10 +36,38 @@ jobs:
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
             text="$MENTION Global publication sync Slack notification test. Configured channel: $CHANNEL_ID"
           else
-            source_id="${PR_BRANCH#content-sync/}"
+            source=$(PR_BRANCH="$PR_BRANCH" PR_BODY="$PR_BODY" node --input-type=module - <<'NODE'
+            const branch = process.env.PR_BRANCH || "";
+            const body = process.env.PR_BODY || "";
+            const documentationTargetFamilies = new Set(["blog", "whitepapers", "use-cases", "manuals", "events", "glossary", "introduction-deck"]);
+            const inferLegacySourceSection = (targetFamily) => {
+              if (targetFamily === "news") return "news";
+              if (documentationTargetFamilies.has(targetFamily)) return "documentation";
+              return null;
+            };
+            const markerMatch = body.match(/<!--\s*global-documentation-sync:v1\s+(\{[^\n]*\})\s*-->/);
+            if (markerMatch) {
+              try {
+                const marker = JSON.parse(markerMatch[1]);
+                const sourceSection = marker.sourceSection ?? inferLegacySourceSection(marker.targetFamily);
+                if (sourceSection && marker.sourceId) {
+                  process.stdout.write(`${sourceSection}/${marker.sourceId}`);
+                  process.exit(0);
+                }
+              } catch {}
+            }
+            const explicitBranch = /^content-sync\/([a-z]+)-(cnt_\d+)$/.exec(branch);
+            if (explicitBranch) {
+              process.stdout.write(`${explicitBranch[1]}/${explicitBranch[2]}`);
+              process.exit(0);
+            }
+            const legacyBranch = /^content-sync\/(cnt_\d+)$/.exec(branch);
+            process.stdout.write(legacyBranch ? legacyBranch[1] : branch.replace(/^content-sync\//, ""));
+            NODE
+            )
             text="$MENTION Global publication Draft PR is ready for review.
           PR: $PR_TITLE
-          Source: $source_id
+          Source: $source
           URL: $PR_URL"
           fi
 

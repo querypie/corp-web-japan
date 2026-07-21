@@ -484,7 +484,7 @@ Set `GLOBAL_DOC_SYNC_DRY_RUN=0`, start the service manually, and verify:
 - Slack notification contains source ID and PR URL
 - no merge or deployment occurred
 
-- [ ] **Step 5: Confirm timer and cleanup remain healthy**
+- [ ] **Step 5: Confirm scheduler remains disabled during rollout and cleanup remains healthy**
 
 ```bash
 systemctl is-enabled global-documentation-sync.timer
@@ -493,7 +493,7 @@ systemctl list-timers global-documentation-sync.timer
 systemctl is-active systemd-tmpfiles-clean.timer
 ```
 
-Expected: daily 10:00 KST timer active with at most ten minutes randomized delay; report cleanup timer active.
+Expected: `global-documentation-sync.timer` stays disabled/inactive until independent review plus at least one host dry-run satisfy `openspec/changes/composite-global-publication-sync-identity/`; report cleanup timer stays active.
 
 - [ ] **Step 6: Commit any evidence-driven correction separately**
 

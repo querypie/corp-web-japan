@@ -2,7 +2,16 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
+import { SOURCE_FAMILIES } from "../../scripts/global-documentation-sync/source-family-map.mjs";
+
 const readWorkflow = (name) => readFile(`.github/workflows/${name}`, "utf8");
+const DOCUMENTATION_TARGET_FAMILIES = SOURCE_FAMILIES.filter(({ sourceSection }) => sourceSection === "documentation").map(({ targetFamily }) => targetFamily);
+
+function inferLegacySourceSection(targetFamily) {
+  if (targetFamily === "news") return "news";
+  if (DOCUMENTATION_TARGET_FAMILIES.includes(targetFamily)) return "documentation";
+  throw new Error(`unsupported targetFamily: ${targetFamily}`);
+}
 
 function validateNormalizedHttpsSourceUrl(sourceUrl) {
   const url = new URL(sourceUrl);
@@ -50,6 +59,25 @@ test("ignore dispatch keeps safe JSON manifest handling", async () => {
   assert.match(source, /ignore manifest must be an array/);
   assert.match(source, /already ignored: \$\{sourceSection\}\/\$\{sourceId\}/);
   assert.match(source, /JSON\.parse\(readFileSync\(file, "utf8"\)\)/);
+});
+
+test("workflow legacy targetFamily inference stays aligned with source-family map", async () => {
+  const ignoreWorkflow = await readWorkflow("ignore-global-documentation-sync.yml");
+  const closeWorkflow = await readWorkflow("close-ignored-sync-pr.yml");
+  for (const workflowSource of [ignoreWorkflow, closeWorkflow]) {
+    assert.match(workflowSource, /new Set\(\["blog", "whitepapers", "use-cases", "manuals", "events", "glossary", "introduction-deck"\]\)/);
+    assert.match(workflowSource, /unsupported sourceSection/);
+  }
+  assert.deepEqual(DOCUMENTATION_TARGET_FAMILIES, ["blog", "whitepapers", "use-cases", "manuals", "events", "glossary", "introduction-deck"]);
+  for (const targetFamily of DOCUMENTATION_TARGET_FAMILIES) assert.equal(inferLegacySourceSection(targetFamily), "documentation");
+  assert.equal(inferLegacySourceSection("news"), "news");
+  assert.throws(() => inferLegacySourceSection("newz"), /unsupported targetFamily: newz/);
+});
+
+test("hostile legacy markers with unsupported targetFamily fail closed before side effects", () => {
+  assert.throws(() => inferLegacySourceSection("manual"), /unsupported targetFamily: manual/);
+  assert.throws(() => inferLegacySourceSection("blogs"), /unsupported targetFamily: blogs/);
+  assert.throws(() => inferLegacySourceSection(""), /unsupported targetFamily/);
 });
 
 test("close reconciler handles both CI completion and delayed approval", async () => {

@@ -51,6 +51,7 @@ test("legacy PR markers infer sourceSection from targetFamily", () => {
   assert.equal(legacyNews.identity, "news:cnt_000212");
   const legacyDocs = parseSyncMarker('<!-- global-documentation-sync:v1 {"sourceId":"cnt_000001","targetFamily":"manuals","targetId":1,"runId":"r","branch":"content-sync/cnt_000001"} -->');
   assert.equal(legacyDocs.sourceSection, "documentation");
+  assert.throws(() => parseSyncMarker('<!-- global-documentation-sync:v1 {"sourceId":"cnt_000001","targetFamily":"manual","targetId":1,"runId":"r","branch":"content-sync/cnt_000001"} -->'), /unsupported target family: manual/);
   const explicit = serializeSyncMarker({
     sourceSection: "news",
     sourceId: "cnt_000212",

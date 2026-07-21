@@ -243,7 +243,7 @@ Rollout sequence:
 4. Run a full no-mutation News dry run through Pi, full CI, build, and browser QA.
 5. Enable News discovery.
 6. Run one manual production execution and verify one Draft PR plus Slack notification.
-7. Leave the daily timer enabled only after successful evidence.
+7. Keep the scheduler disabled until independent review plus at least one host dry-run satisfy `openspec/changes/composite-global-publication-sync-identity/`.
 
 ## Documentation
 
