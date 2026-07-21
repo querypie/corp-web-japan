@@ -3,7 +3,6 @@ import { readFile, realpath } from "node:fs/promises";
 import path from "node:path";
 
 import { externalMediaIdentity } from "./external-media.mjs";
-import { normalizeUrl } from "./lib.mjs";
 
 function frontmatterBlock(mdx) {
   const block = /^---\n([\s\S]*?)\n---/.exec(mdx)?.[1];
@@ -57,7 +56,7 @@ export async function validateGeneratedPublication(candidate, generationReport, 
     } else {
       if (!redirectUrl) throw new Error(`frontmatter redirectUrl must equal resolved redirectUrl ${candidate.resolvedRedirectUrl}`);
       if (!/^https:\/\//.test(redirectUrl)) throw new Error("redirectUrl must use HTTPS");
-      if (normalizeUrl(redirectUrl) !== normalizeUrl(candidate.resolvedRedirectUrl)) throw new Error(`frontmatter redirectUrl must equal resolved redirectUrl ${candidate.resolvedRedirectUrl}`);
+      if (redirectUrl !== candidate.resolvedRedirectUrl) throw new Error(`frontmatter redirectUrl must equal resolved redirectUrl ${candidate.resolvedRedirectUrl}`);
     }
   }
   const hero = frontmatterScalar(frontmatter, "heroImageSrc");

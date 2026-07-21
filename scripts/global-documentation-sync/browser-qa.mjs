@@ -9,6 +9,10 @@ import { redactSecrets } from "./redaction.mjs";
 
 const REDIRECTABLE_NEWS_BOT_USER_AGENT = "Mozilla/5.0 (compatible; Googlebot/2.1; +https://www.google.com/bot.html)";
 
+function isRedirectStatus(status) {
+  return status >= 300 && status < 400;
+}
+
 export function publicationRoute(candidate) {
   const roots = {
     blog: "blog", whitepapers: "whitepapers", events: "events", manuals: "manuals",
@@ -26,6 +30,16 @@ export function browserContextOptions(candidate) {
   return options;
 }
 
+export function readinessProbeOptions(candidate) {
+  if (candidate.targetFamily === "news" && candidate.resolvedRedirectUrl) {
+    return {
+      headers: { "user-agent": REDIRECTABLE_NEWS_BOT_USER_AGENT },
+      redirect: "manual",
+    };
+  }
+  return { redirect: "manual" };
+}
+
 export function assessPageMetrics(metrics) {
   const findings = [];
   if (metrics.scrollWidth > metrics.clientWidth) findings.push(`horizontal overflow: ${metrics.scrollWidth} > ${metrics.clientWidth}`);
@@ -41,11 +55,18 @@ export function assessPageMetrics(metrics) {
   return { status: findings.length ? "failed" : "passed", findings };
 }
 
-async function waitForServer(url, child) {
-  for (let attempt = 0; attempt < 80; attempt += 1) {
+export async function waitForServer(url, child, candidate, fetchImpl = fetch, { maxAttempts = 80, sleepMs = 500 } = {}) {
+  const requestOptions = readinessProbeOptions(candidate);
+  for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     if (child.exitCode !== null) throw new Error(`preview server exited with ${child.exitCode}`);
-    try { const response = await fetch(url); if (response.ok) return; } catch {}
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    try {
+      const response = await fetchImpl(url, requestOptions);
+      if (response.ok) return;
+      if (candidate.targetFamily === "news" && candidate.resolvedRedirectUrl && isRedirectStatus(response.status)) {
+        if (response.headers.get("location") === candidate.resolvedRedirectUrl) return;
+      }
+    } catch {}
+    await new Promise((resolve) => setTimeout(resolve, sleepMs));
   }
   throw new Error(`preview server did not become ready: ${url}`);
 }
@@ -70,7 +91,7 @@ export async function runBrowserQa({ targetRepo, candidate, reportsDir, port = 4
   let serverError = "";
   server.stderr.on("data", (chunk) => { serverError = `${serverError}${chunk}`.slice(-4000); });
   try {
-    await waitForServer(url, server);
+    await waitForServer(url, server, candidate);
     const { chromium } = await import("playwright");
     let browser;
     try { browser = await chromium.launch({ headless: true, channel: process.env.BROWSER_CHANNEL || "chrome" }); }

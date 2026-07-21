@@ -88,6 +88,15 @@ test("enforces resolved News frontmatter contract for content and outlinks", asy
   await writeFile(mdx, `${newsFrontmatter('sourceLabel: "メディア掲載"\nredirectUrl: "http://media.example/news-one"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
   await assert.rejects(() => validateGeneratedPublication(outlinkCandidate, { intentionalTransformations: [] }), /HTTPS|redirectUrl/);
 
+  for (const mismatchedRedirectUrl of [
+    "https://media.example/news-one?utm_source=test",
+    "https://media.example/news-one#section",
+    "https://media.example/news-one/",
+  ]) {
+    await writeFile(mdx, `${newsFrontmatter(`sourceLabel: "メディア掲載"\nredirectUrl: "${mismatchedRedirectUrl}"\nrelatedIds:\n  - "2"\n`)}\n本文\n`);
+    await assert.rejects(() => validateGeneratedPublication(outlinkCandidate, { intentionalTransformations: [] }), /redirectUrl must equal resolved redirectUrl/);
+  }
+
   await writeFile(mdx, `${newsFrontmatter('sourceLabel: "公式発表"\nrelatedIds:\n  - "999"\n')}\n本文\n`);
   await assert.rejects(() => validateGeneratedPublication(contentCandidate, { intentionalTransformations: [] }), /relatedIds/);
 });
