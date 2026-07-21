@@ -15,7 +15,7 @@ function frontmatterScalar(frontmatter, name) {
 }
 
 function frontmatterQuotedString(frontmatter, name) {
-  return new RegExp(`^${name}:\\s*(["'])([^"'\\n]+)\\1\\s*$`, "m").exec(frontmatter)?.[2]?.trim();
+  return new RegExp(`^${name}:\\s*(["'])([^"'\\n]+)\\1\\s*$`, "m").exec(frontmatter)?.[2];
 }
 
 function frontmatterList(frontmatter, name) {

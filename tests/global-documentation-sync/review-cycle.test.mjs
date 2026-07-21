@@ -8,7 +8,7 @@ import { runReviewCycle } from "../../scripts/global-documentation-sync/review-c
 
 const schemaVersion = "global-documentation-sync/v1";
 
-test("corrects every review finding and reruns all reviewers in fresh processes", async () => {
+test("corrects every actionable review finding and ignores note-only findings in correction mode", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "review-cycle-"));
   const targetRepo = path.join(root, "target");
   const reportsDir = path.join(root, "reports");
@@ -48,17 +48,26 @@ test("corrects every review finding and reruns all reviewers in fresh processes"
   await writeFile(candidatePath, JSON.stringify(candidate));
   let writerCalls = 0;
   let fidelityCalls = 0;
-  const runProcess = async ({ role }) => {
+  const writerPrompts = [];
+  const writerCorrectionPayloads = [];
+  const runProcess = async ({ role, prompt }) => {
     if (role === "writer") {
       writerCalls += 1;
+      writerPrompts.push(prompt);
+      writerCorrectionPayloads.push(JSON.parse(prompt.match(/DATA=(\{[\s\S]+\})$/)[1]).correctionFindings);
       return JSON.stringify({ mdx: `---\nheroImageSrc: /blog/1/thumbnail.png\n---\n\n${writerCalls}`, generationReport: { schemaVersion, artifactType: "generation-report", runId: "r", sourceId: "cnt_1", targetFiles: [targetMdxPath], inventories: {}, intentionalTransformations: [] } });
     }
     if (role === "fidelity") fidelityCalls += 1;
     const blocking = role === "fidelity" && fidelityCalls === 1;
-    return JSON.stringify({ schemaVersion, artifactType: `${role}-review`, runId: "r", sourceId: "cnt_1", verdict: blocking ? "revise" : "pass", findings: blocking ? [{ severity: "minor", location: "body", message: "drift", suggestion: "fix" }] : [] });
+    return JSON.stringify({ schemaVersion, artifactType: `${role}-review`, runId: "r", sourceId: "cnt_1", verdict: blocking ? "revise" : "pass", findings: blocking ? [{ severity: "minor", location: "body", message: "drift", suggestion: "fix" }, { severity: "note", location: "title", message: "style note", suggestion: "ignore" }] : [{ severity: "note", location: "title", message: "style note", suggestion: "ignore" }] });
   };
   const result = await runReviewCycle({ piBin: "pi", provider: "p", model: "m", targetRepo, candidatePath, reportsDir, runProcess });
   assert.equal(result.attempts, 2);
   assert.equal(writerCalls, 2);
   assert.equal(fidelityCalls, 2);
+  assert.equal(writerCorrectionPayloads[0].length, 0);
+  assert.deepEqual(writerCorrectionPayloads[1], [{ review: "fidelity-review", severity: "minor", location: "body", message: "drift", suggestion: "fix" }]);
+  assert.match(writerPrompts[1], /supplied actionable findings/);
+  assert.doesNotMatch(writerPrompts[1], /note findings/);
+  assert.equal(result.reviews.every((review) => review.findings.every((finding) => finding.severity === "note" || finding.severity === "minor")), true);
 });
