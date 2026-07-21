@@ -11,7 +11,7 @@ function buildAlert(args = []) {
   return JSON.parse(result.stdout);
 }
 
-test("failure alert builder emits compact Block Kit payload with collapsed reason section", () => {
+test("failure alert builder emits compact Block Kit payload with a default-collapsed reason container", () => {
   const alert = buildAlert([
     "--mention", "<@U123>",
     "--unit", "global-documentation-sync.service",
@@ -49,9 +49,13 @@ test("failure alert builder emits compact Block Kit payload with collapsed reaso
         ],
       },
       {
-        type: "section",
-        expand: false,
-        text: { type: "mrkdwn", text: "*Reason*\nline \"one\"\nline two\n``​`danger``​`" },
+        type: "container",
+        title: { type: "plain_text", text: "Failure reason", emoji: true },
+        is_collapsible: true,
+        default_collapsed: true,
+        child_blocks: [
+          { type: "section", text: { type: "mrkdwn", text: "line \"one\"\nline two\n``​`danger``​`" } },
+        ],
       },
     ],
   });
@@ -82,10 +86,12 @@ test("failure alert builder bounds and redacts the long reason while keeping fal
   ]);
 
   const reasonBlock = alert.payload.blocks.at(-1);
-  assert.equal(reasonBlock.type, "section");
-  assert.equal(reasonBlock.expand, false);
-  assert.ok(reasonBlock.text.text.startsWith("*Reason*\nBearer REDACTED\nREDACTED\nREDACTED\nhttps://example.com/path?token=REDACTED&api_key=REDACTED&apikey=REDACTED&AUTHORIZATION=REDACTED&auth=REDACTED&password=REDACTED&secret=REDACTED&client_secret=REDACTED&ok=1\n"));
-  assert.ok(reasonBlock.text.text.endsWith("…"));
+  assert.equal(reasonBlock.type, "container");
+  assert.equal(reasonBlock.is_collapsible, true);
+  assert.equal(reasonBlock.default_collapsed, true);
+  assert.equal(reasonBlock.child_blocks.length, 1);
+  assert.ok(reasonBlock.child_blocks[0].text.text.startsWith("Bearer REDACTED\nREDACTED\nREDACTED\nhttps://example.com/path?token=REDACTED&api_key=REDACTED&apikey=REDACTED&AUTHORIZATION=REDACTED&auth=REDACTED&password=REDACTED&secret=REDACTED&client_secret=REDACTED&ok=1\n"));
+  assert.ok(reasonBlock.child_blocks[0].text.text.endsWith("…"));
   assert.ok(alert.sanitizedReason.length <= 2400);
   const payloadJson = JSON.stringify(alert.payload);
   assert.ok(!alert.sanitizedReason.includes("secret-token-value"));
@@ -114,6 +120,6 @@ test("failure alert builder derives Slack and logger reason from the same saniti
   ]);
 
   assert.equal(alert.sanitizedReason, "REDACTED\nhttps://example.com/path?Authorization=REDACTED&ok=1");
-  assert.equal(alert.payload.blocks.at(-1).text.text, `*Reason*\n${alert.sanitizedReason}`);
+  assert.equal(alert.payload.blocks.at(-1).child_blocks[0].text.text, alert.sanitizedReason);
   assert.ok(alert.logMessage.includes(`reason=${alert.sanitizedReason.replaceAll("\n", " | ")}`));
 });

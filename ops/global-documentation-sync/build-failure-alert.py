@@ -108,9 +108,13 @@ def build_payload(*, mention: str, unit: str, run_id: str, stage: str, host: str
     blocks.append({"type": "context", "elements": [{"type": "mrkdwn", "text": f"*Report* {report_text}"}]})
     blocks.append(
         {
-            "type": "section",
-            "expand": False,
-            "text": {"type": "mrkdwn", "text": f"*Reason*\n{sanitized_reason}"},
+            "type": "container",
+            "title": {"type": "plain_text", "text": "Failure reason", "emoji": True},
+            "is_collapsible": True,
+            "default_collapsed": True,
+            "child_blocks": [
+                {"type": "section", "text": {"type": "mrkdwn", "text": sanitized_reason}},
+            ],
         }
     )
 
