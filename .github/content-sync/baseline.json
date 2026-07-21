@@ -672,6 +672,30 @@
     "targetSlug": "querypie-ai-glossary"
   },
   {
+    "sourceId": "cnt_000175",
+    "sourceCategory": "news",
+    "sourceSlug": "querypie-participates-in-isec-2023-with-orca-security",
+    "targetFamily": "news",
+    "targetId": 7,
+    "targetSlug": "querypie-participates-in-isec-2023-with-orca-security"
+  },
+  {
+    "sourceId": "cnt_000176",
+    "sourceCategory": "news",
+    "sourceSlug": "interview-with-brant-hwang-founder-of-querypie",
+    "targetFamily": "news",
+    "targetId": 8,
+    "targetSlug": "interview-with-brant-hwang-founder-of-querypie"
+  },
+  {
+    "sourceId": "cnt_000182",
+    "sourceCategory": "news",
+    "sourceSlug": "terrasky-and-querypie-ai-unveil-mitoco-buddy-for-work-2",
+    "targetFamily": "news",
+    "targetId": 14,
+    "targetSlug": "mitoco-buddy-official-launch"
+  },
+  {
     "sourceId": "cnt_000196",
     "sourceCategory": "events",
     "sourceSlug": "air-company-ai-agent-security-webinar",
@@ -702,6 +726,30 @@
     "targetFamily": "events",
     "targetId": 21,
     "targetSlug": "air-company-querypie-ai-webinar"
+  },
+  {
+    "sourceId": "cnt_000200",
+    "sourceCategory": "news",
+    "sourceSlug": "iso-42001-certification-announcement",
+    "targetFamily": "news",
+    "targetId": 16,
+    "targetSlug": "iso-42001-certification-announcement"
+  },
+  {
+    "sourceId": "cnt_000201",
+    "sourceCategory": "news",
+    "sourceSlug": "lingo-launch",
+    "targetFamily": "news",
+    "targetId": 17,
+    "targetSlug": "lingo-launch"
+  },
+  {
+    "sourceId": "cnt_000202",
+    "sourceCategory": "news",
+    "sourceSlug": "notepie-launch",
+    "targetFamily": "news",
+    "targetId": 18,
+    "targetSlug": "notepie-launch"
   },
   {
     "sourceId": "cnt_000203",
