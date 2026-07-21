@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 
-import { mapCategory } from "./lib.mjs";
+import { SOURCE_FAMILIES } from "./source-family-map.mjs";
 
 function args(argv) {
   const value = {};
@@ -36,39 +37,73 @@ async function targetRecords(targetRepo, family) {
   return records;
 }
 
+async function sourceRecords(globalRepo, descriptor) {
+  const root = path.join(globalRepo, descriptor.relativeRoot);
+  let entries = [];
+  try { entries = await readdir(root); } catch (error) { if (error.code === "ENOENT") return []; throw error; }
+  const records = [];
+  for (const sourceId of entries) {
+    if (!/^cnt_\d+$/.test(sourceId)) continue;
+    const directory = path.join(root, sourceId);
+    const meta = JSON.parse(await readFile(path.join(directory, "meta.json"), "utf8"));
+    records.push({ sourceId, meta });
+  }
+  records.sort((a, b) => a.sourceId.localeCompare(b.sourceId));
+  return records;
+}
+
+function matchTargets(targets, meta) {
+  const title = meta.title?.ja?.trim();
+  let matches = [];
+  if (meta.contentType === "outlink" && meta.externalUrl) {
+    const external = localeNeutralUrl(meta.externalUrl);
+    matches = targets.filter((target) => target.primaryLinks.some((link) => localeNeutralUrl(link) === external));
+  }
+  if (matches.length === 0) matches = targets.filter((target) => target.slug === meta.id);
+  if (matches.length > 1 && title) {
+    const titled = matches.filter((target) => target.title === title);
+    if (titled.length) matches = titled;
+  }
+  if (matches.length === 0 && title) matches = targets.filter((target) => target.title === title);
+  if (matches.length > 1) {
+    const visible = matches.filter((target) => !target.hidden);
+    if (visible.length) matches = visible;
+  }
+  return matches;
+}
+
+function assertUniqueTargets(baseline) {
+  const seen = new Set();
+  for (const record of baseline) {
+    const key = `${record.targetFamily}:${record.targetId}`;
+    if (seen.has(key)) throw new Error(`duplicate baseline target identity: ${key}`);
+    seen.add(key);
+  }
+}
+
+export function mergeBaselineRecords(existingBaseline, generatedBaseline) {
+  const bySourceId = new Map(existingBaseline.map((record) => [record.sourceId, record]));
+  for (const record of generatedBaseline) bySourceId.set(record.sourceId, record);
+  const merged = [...bySourceId.values()].sort((a, b) => a.sourceId.localeCompare(b.sourceId));
+  assertUniqueTargets(merged);
+  return merged;
+}
+
 export async function generateBaseline(globalRepo, targetRepo) {
-  const sourceRoot = path.join(globalRepo, "src/content/documentation");
   const byFamily = new Map();
   const baseline = [];
   const ambiguous = [];
-  for (const category of await readdir(sourceRoot)) {
-    let family;
-    try { family = mapCategory(category); } catch { continue; }
+  for (const descriptor of SOURCE_FAMILIES) {
+    const family = descriptor.targetFamily;
     if (!byFamily.has(family)) byFamily.set(family, await targetRecords(targetRepo, family));
-    for (const sourceId of await readdir(path.join(sourceRoot, category))) {
-      if (!/^cnt_\d+$/.test(sourceId)) continue;
-      const meta = JSON.parse(await readFile(path.join(sourceRoot, category, sourceId, "meta.json"), "utf8"));
-      const title = meta.title?.ja?.trim();
-      let matches = [];
-      if (meta.contentType === "outlink" && meta.externalUrl) {
-        const external = localeNeutralUrl(meta.externalUrl);
-        matches = byFamily.get(family).filter((target) => target.primaryLinks.some((link) => localeNeutralUrl(link) === external));
-      }
-      if (matches.length === 0) matches = byFamily.get(family).filter((target) => target.slug === meta.id);
-      if (matches.length > 1 && title) {
-        const titled = matches.filter((target) => target.title === title);
-        if (titled.length) matches = titled;
-      }
-      if (matches.length > 1) {
-        const visible = matches.filter((target) => !target.hidden);
-        if (visible.length) matches = visible;
-      }
-      if (matches.length === 0 && title) matches = byFamily.get(family).filter((target) => target.title === title && !target.hidden);
-      if (matches.length === 1) baseline.push({ sourceId, sourceCategory: category, sourceSlug: meta.id, targetFamily: family, targetId: matches[0].id, targetSlug: matches[0].slug });
-      else if (matches.length > 1) ambiguous.push({ sourceId, category, slug: meta.id, matches });
+    for (const { sourceId, meta } of await sourceRecords(globalRepo, descriptor)) {
+      const matches = matchTargets(byFamily.get(family), meta);
+      if (matches.length === 1) baseline.push({ sourceId, sourceCategory: descriptor.sourceCategory, sourceSlug: meta.id, targetFamily: family, targetId: matches[0].id, targetSlug: matches[0].slug });
+      else if (matches.length > 1) ambiguous.push({ sourceId, category: descriptor.sourceCategory, slug: meta.id, matches });
     }
   }
   baseline.sort((a, b) => a.sourceId.localeCompare(b.sourceId));
+  assertUniqueTargets(baseline);
   return { baseline, ambiguous };
 }
 
@@ -77,7 +112,10 @@ if (options["global-repo"] && options["target-repo"]) {
   const result = await generateBaseline(options["global-repo"], options["target-repo"]);
   if (result.ambiguous.length) throw new Error(`ambiguous baseline mappings: ${JSON.stringify(result.ambiguous)}`);
   const output = options.output || path.join(options["target-repo"], ".github/content-sync/baseline.json");
+  const baselineLedger = path.join(options["target-repo"], ".github/content-sync/baseline.json");
+  const existingBaseline = existsSync(baselineLedger) ? JSON.parse(await readFile(baselineLedger, "utf8")) : [];
+  const mergedBaseline = mergeBaselineRecords(existingBaseline, result.baseline);
   await mkdir(path.dirname(output), { recursive: true });
-  await writeFile(output, `${JSON.stringify(result.baseline, null, 2)}\n`);
-  process.stdout.write(`${JSON.stringify({ output, count: result.baseline.length })}\n`);
+  await writeFile(output, `${JSON.stringify(mergedBaseline, null, 2)}\n`);
+  process.stdout.write(`${JSON.stringify({ output, count: mergedBaseline.length, generatedCount: result.baseline.length })}\n`);
 }

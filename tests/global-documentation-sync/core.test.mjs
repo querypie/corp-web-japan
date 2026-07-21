@@ -16,6 +16,12 @@ import {
   resolveOwnedAsset,
   validateArtifact,
 } from "../../scripts/global-documentation-sync/lib.mjs";
+import {
+  SOURCE_FAMILIES,
+  canonicalContentUrl,
+  sourceFamily,
+  targetFamily,
+} from "../../scripts/global-documentation-sync/source-family-map.mjs";
 
 test("validates versioned review artifacts and blocking severities", () => {
   const review = {
@@ -33,10 +39,29 @@ test("validates versioned review artifacts and blocking severities", () => {
   assert.throws(() => validateArtifact("japanese-editorial-review", { ...review, findings: [{ severity: "warning", message: "x" }] }), /severity/);
 });
 
+test("source-family map owns Documentation categories and separate News section", () => {
+  assert.deepEqual(SOURCE_FAMILIES.map(({ sourceCategory, sourceSection, targetFamily: family }) => ({ sourceCategory, sourceSection, targetFamily: family })), [
+    { sourceCategory: "blogs", sourceSection: "documentation", targetFamily: "blog" },
+    { sourceCategory: "white-papers", sourceSection: "documentation", targetFamily: "whitepapers" },
+    { sourceCategory: "voc", sourceSection: "documentation", targetFamily: "use-cases" },
+    { sourceCategory: "manuals", sourceSection: "documentation", targetFamily: "manuals" },
+    { sourceCategory: "events", sourceSection: "documentation", targetFamily: "events" },
+    { sourceCategory: "glossary", sourceSection: "documentation", targetFamily: "glossary" },
+    { sourceCategory: "introduction", sourceSection: "documentation", targetFamily: "introduction-deck" },
+    { sourceCategory: "news", sourceSection: "news", targetFamily: "news" },
+  ]);
+  assert.equal(new Set(SOURCE_FAMILIES.map(({ sourceCategory }) => sourceCategory)).size, SOURCE_FAMILIES.length);
+  assert.equal(new Set(SOURCE_FAMILIES.map(({ targetFamily: family }) => family)).size, SOURCE_FAMILIES.length);
+  assert.equal(sourceFamily("news").relativeRoot, "src/content/news");
+  assert.equal(targetFamily("news"), "news");
+  assert.equal(canonicalContentUrl("news", "example"), "https://www.querypie.com/en/news/example");
+});
+
+
 test("maps every Global category and prefers a non-empty Japanese body", () => {
   assert.deepEqual(
-    ["introduction", "glossary", "manuals", "white-papers", "blogs", "voc", "events"].map(mapCategory),
-    ["introduction-deck", "glossary", "manuals", "whitepapers", "blog", "use-cases", "events"],
+    ["introduction", "glossary", "manuals", "white-papers", "blogs", "voc", "events", "news"].map(mapCategory),
+    ["introduction-deck", "glossary", "manuals", "whitepapers", "blog", "use-cases", "events", "news"],
   );
   assert.deepEqual(chooseLocale({ jaHtml: "  <p>日本語</p> ", enHtml: "<p>English</p>" }), { locale: "ja", html: "<p>日本語</p>" });
   assert.deepEqual(chooseLocale({ jaHtml: " ", enHtml: " <p>English</p> " }), { locale: "en", html: "<p>English</p>" });
@@ -49,10 +74,63 @@ test("normalizes production URLs without query, hash, or trailing slash", () => 
 
 test("requires the exact canonical URL in both production surfaces", () => {
   const expectedUrl = "https://www.querypie.com/en/blog/example";
-  const valid = { sitemapXml: `<url><loc>${expectedUrl}/</loc></url>`, documentationListHtml: '<a href="/en/blog/example?x=1">Example</a>', expectedUrl };
+  const valid = { sitemapXml: `<url><loc>${expectedUrl}/</loc></url>`, productionListHtml: '<a href="/en/blog/example?x=1">Example</a>', expectedUrl };
   assert.equal(hasExactProductionEvidence(valid), true);
   assert.equal(hasExactProductionEvidence({ ...valid, sitemapXml: '<url><loc>https://www.querypie.com/en/blog/example-extra</loc></url>' }), false);
-  assert.equal(hasExactProductionEvidence({ ...valid, documentationListHtml: '<a href="/en/blog/example-extra">Other</a>' }), false);
+  assert.equal(hasExactProductionEvidence({ ...valid, productionListHtml: '<a href="/en/blog/example-extra">Other</a>' }), false);
+});
+
+test("validates candidate production evidence with listed and listUrl fields", () => {
+  const baseCandidate = {
+    schemaVersion: SCHEMA_VERSION,
+    artifactType: "candidate",
+    runId: "run-1",
+    sourceId: "cnt_000211",
+    sourceHash: `sha256:${"a".repeat(64)}`,
+    sourceCategory: "news",
+    sourceSection: "news",
+    targetFamily: "news",
+    targetId: 19,
+    sourceLocale: "ja",
+    sourceHtmlPath: "/tmp/source.html",
+    targetMdxPath: "/tmp/19-news-one.mdx",
+    targetAssetRoot: "/tmp/news/19",
+    targetRoute: "/news/19/news-one",
+    meta: { id: "news-one", contentType: "content" },
+    resolvedSourceLabel: "公式発表",
+    resolvedRedirectUrl: null,
+    resolvedAuthor: null,
+    assets: [],
+    externalMedia: [],
+    production: {
+      canonicalUrl: "https://www.querypie.com/en/news/news-one",
+      listed: true,
+      listUrl: "https://www.querypie.com/en/news",
+      sitemap: true,
+    },
+  };
+
+  assert.doesNotThrow(() => validateArtifact("candidate", baseCandidate));
+  assert.throws(() => validateArtifact("candidate", { ...baseCandidate, sourceSection: undefined }), /sourceSection required/);
+  assert.throws(() => validateArtifact("candidate", { ...baseCandidate, production: { ...baseCandidate.production, listed: false } }), /listed must be true/);
+  assert.throws(() => validateArtifact("candidate", { ...baseCandidate, production: { ...baseCandidate.production, listUrl: "https://www.querypie.com/en/documentation" } }), /listUrl mismatch/);
+  assert.throws(() => validateArtifact("candidate", { ...baseCandidate, production: { ...baseCandidate.production, sitemap: false } }), /sitemap must be true/);
+
+  const outlinkCandidate = {
+    ...baseCandidate,
+    sourceId: "cnt_000212",
+    meta: { id: "news-one", contentType: "outlink" },
+    resolvedSourceLabel: "メディア掲載",
+    resolvedRedirectUrl: "https://media.example/news-one",
+    production: {
+      canonicalUrl: "https://media.example/news-one",
+      listed: true,
+      listUrl: "https://www.querypie.com/en/news",
+      sitemap: false,
+    },
+  };
+  assert.doesNotThrow(() => validateArtifact("candidate", outlinkCandidate));
+  assert.throws(() => validateArtifact("candidate", { ...outlinkCandidate, production: { ...outlinkCandidate.production, sitemap: true } }), /sitemap must be false/);
 });
 
 test("resolves declared assets inside the Global public root only", async () => {

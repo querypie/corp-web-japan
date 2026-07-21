@@ -2,13 +2,36 @@
 
 ## Purpose
 
-Define the production contract for discovering one eligible QueryPie Global Documentation record, generating and validating one Japan publication, opening one Draft pull request, and recording an explicit owner ignore decision.
+Define the production contract for discovering one eligible QueryPie Global Documentation or News record, generating and validating one Japan publication, opening one Draft pull request, and recording an explicit owner ignore decision.
 
 ## Requirements
 
+### Requirement: Exact supported source-family map
+
+The automation SHALL support only the exact source-family descriptors exported by `scripts/global-documentation-sync/source-family-map.mjs`.
+
+| Source section | Source category | Production list URL | Target family | Target route |
+| --- | --- | --- | --- | --- |
+| documentation | blogs | `https://www.querypie.com/en/documentation` | `blog` | `/blog` |
+| documentation | white-papers | `https://www.querypie.com/en/documentation` | `whitepapers` | `/whitepapers` |
+| documentation | voc | `https://www.querypie.com/en/documentation` | `use-cases` | `/use-cases` |
+| documentation | manuals | `https://www.querypie.com/en/documentation` | `manuals` | `/manuals` |
+| documentation | events | `https://www.querypie.com/en/documentation` | `events` | `/events` |
+| documentation | glossary | `https://www.querypie.com/en/documentation` | `glossary` | `/glossary` |
+| documentation | introduction | `https://www.querypie.com/en/documentation` | `introduction-deck` | `/introduction-deck` |
+| news | news | `https://www.querypie.com/en/news` | `news` | `/news` |
+
+News SHALL be treated as a separate `/en/news` source section, not a Documentation category.
+
+#### Scenario: Descriptor map is loaded
+
+- **WHEN** the runner resolves source-family support
+- **THEN** it SHALL use only the accepted descriptor map above
+- **AND** it SHALL route News through the dedicated `news` target family
+
 ### Requirement: Production source eligibility
 
-The automation SHALL use the checked-out `corp-web-v2` repository as the content and asset source of truth. A content record SHALL be eligible only when its exact normalized canonical URL is present in both the production sitemap and the Global Documentation list. Source-owned assets SHALL resolve through real paths inside the Global repository's `public/**` tree. The automation SHALL NOT download publication assets from production HTTP endpoints.
+The automation SHALL use the checked-out `corp-web-v2` repository as the content and asset source of truth. Content-family records SHALL be eligible only when their exact normalized canonical URL is present in both the production sitemap and the family production list. News outlink records SHALL use `/en/news` list evidence only and SHALL record `production.sitemap` as `false`. Source-owned assets SHALL resolve through real paths inside the Global repository's `public/**` tree. The automation SHALL NOT download publication assets from production HTTP endpoints.
 
 #### Scenario: Canonical source is eligible
 
@@ -22,6 +45,14 @@ The automation SHALL use the checked-out `corp-web-v2` repository as the content
 - **GIVEN** a record missing from either required production surface
 - **WHEN** discovery runs
 - **THEN** the automation SHALL NOT publish it
+
+#### Scenario: News outlink has list evidence only
+
+- **GIVEN** a News record with `contentType: outlink`
+- **AND** its exact canonical URL appears in `/en/news`
+- **WHEN** discovery runs
+- **THEN** the automation MAY accept it without sitemap evidence
+- **AND** it SHALL record `production.sitemap` as `false`
 
 ### Requirement: Stable identity and suppression
 
@@ -49,6 +80,26 @@ Pi writer and reviewer processes SHALL run fresh with `--no-tools`. Pi SHALL ret
 - **WHEN** the review cycle ends
 - **THEN** no commit, push, or pull request SHALL be created
 - **AND** failure artifacts SHALL record the unresolved findings
+
+### Requirement: News publication contract
+
+Synced News output SHALL remain one-way from Global to Japan. News publications SHALL NOT contain author frontmatter. News `resolvedSourceLabel` SHALL resolve deterministically to `公式発表` for `content` records and `メディア掲載` for `outlink` records, and generated News frontmatter `sourceLabel` SHALL equal that value exactly. News `resolvedRedirectUrl` SHALL equal the normalized external HTTPS URL for outlink records, and generated News frontmatter `redirectUrl` SHALL equal that value exactly for outlink records and SHALL be omitted for content records.
+
+#### Scenario: News content record is generated
+
+- **GIVEN** a News source record with `contentType: content`
+- **WHEN** the writer produces Japan MDX
+- **THEN** the output SHALL omit `author`
+- **AND** SHALL set `sourceLabel` to `公式発表`
+- **AND** SHALL omit `redirectUrl`
+
+#### Scenario: News outlink record is generated
+
+- **GIVEN** a News source record with `contentType: outlink`
+- **WHEN** the writer produces Japan MDX
+- **THEN** the output SHALL omit `author`
+- **AND** SHALL set `sourceLabel` to `メディア掲載`
+- **AND** SHALL set `redirectUrl` exactly to the normalized external HTTPS URL
 
 ### Requirement: Publication validation gate
 
@@ -94,7 +145,7 @@ A same-repository Draft pull request on `content-sync/**` SHALL trigger a Slack 
 
 ### Requirement: Owner-controlled ignore flow
 
-The owner SHALL initiate ignore handling through the `Ignore Global Documentation sync PR` workflow using the generated sync pull-request number. The workflow SHALL validate the open Draft PR and machine marker, update the sorted ignore manifest on `content-sync-ignore/{sourceId}`, open an ignore pull request, and enable squash auto-merge. It SHALL NOT push directly to protected `main`.
+The owner SHALL initiate ignore handling through the `Ignore Global publication sync PR` workflow using the generated sync pull-request number. The workflow SHALL validate the open Draft PR and machine marker, update the sorted ignore manifest on `content-sync-ignore/{sourceId}`, open an ignore pull request, and enable squash auto-merge. It SHALL NOT push directly to protected `main`.
 
 After the ignore pull request merges, the reconciler SHALL validate its ignore marker, close the matching source Draft pull request, and delete its source branch. Reconciliation SHALL be idempotent. Duplicate ignore dispatches SHALL fail closed without creating another decision. Reconciliation SHALL run after successful CI when merge is immediate, after an approval when approval delays auto-merge, and through manual dispatch for recovery.
 

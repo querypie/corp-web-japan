@@ -1,4 +1,4 @@
-# Global Documentation Sync 운영 가이드
+# Global publication sync 운영 가이드
 
 ## Tencent Cloud VM
 
@@ -63,6 +63,10 @@ repository에 넣지 마세요.
 전용 Linux host와 전용 user를 사용합니다. 권장 사양은 4 vCPU, 8GB RAM,
 4GB swap, 40~50GB system disk입니다. Model은 외부 provider를 사용하므로
 host에서 local model을 실행하지 않습니다.
+
+지원 source family는 `scripts/global-documentation-sync/source-family-map.mjs`
+의 exact map을 따릅니다. News support가 추가되어도 production timer,
+failure alert, seven-day report retention 계약은 바뀌지 않습니다.
 
 설치하고 version을 고정할 항목:
 
@@ -160,7 +164,7 @@ Canonical URL은 lookup key가 아니라 검토용 snapshot입니다. URL이 달
 
 ### GitHub Actions ignore flow
 
-1. Actions에서 `Ignore Global Documentation sync PR`을 실행하고 원본 sync Draft
+1. Actions에서 `Ignore Global publication sync PR`을 실행하고 원본 sync Draft
    PR 번호를 입력합니다.
 2. Workflow가 open Draft 상태, `content-sync/{sourceId}` branch, source marker,
    canonical URL을 검증합니다.
@@ -191,6 +195,8 @@ sudo systemctl daemon-reload
 ```
 
 Production timer contract:
+
+Adding News support does not change the production timer, failure alerts, or seven-day report retention.
 
 - Host timezone: `Asia/Seoul`
 - Daily base time: 10:00 KST

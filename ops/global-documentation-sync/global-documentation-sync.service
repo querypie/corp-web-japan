@@ -1,5 +1,5 @@
 [Unit]
-Description=QueryPie Global Documentation Sync
+Description=QueryPie Global publication sync
 After=network-online.target
 Wants=network-online.target
 OnFailure=global-documentation-sync-failure@%n.service

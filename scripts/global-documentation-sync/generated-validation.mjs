@@ -4,6 +4,21 @@ import path from "node:path";
 
 import { externalMediaIdentity } from "./external-media.mjs";
 
+function frontmatterBlock(mdx) {
+  const block = /^---\n([\s\S]*?)\n---/.exec(mdx)?.[1];
+  if (!block) throw new Error("MDX frontmatter is required");
+  return block;
+}
+
+function frontmatterScalar(frontmatter, name) {
+  return new RegExp(`^${name}:\\s*["']?([^"'\\n]+)["']?\\s*$`, "m").exec(frontmatter)?.[1]?.trim();
+}
+
+function frontmatterList(frontmatter, name) {
+  const block = new RegExp(`^${name}:\\s*\\n((?:\\s+-[^\\n]+\\n?)*)`, "m").exec(frontmatter)?.[1] || "";
+  return [...block.matchAll(/^\s+-\s*["']?([^"'\n]+)["']?\s*$/gm)].map((match) => match[1].trim());
+}
+
 async function exists(file) { try { await realpath(file); return true; } catch { return false; } }
 
 export async function validateGeneratedPublication(candidate, generationReport, targetRepo = candidate.targetRepo) {
@@ -12,28 +27,39 @@ export async function validateGeneratedPublication(candidate, generationReport, 
   if (/\/documentation\//.test(mdx)) throw new Error("unresolved /documentation/ source path");
   const allowsKorean = generationReport.intentionalTransformations?.some((item) => /korean/i.test(typeof item === "string" ? item : JSON.stringify(item)));
   if (!allowsKorean && /[\uac00-\ud7af]/u.test(mdx)) throw new Error("unresolved Korean characters");
-  const frontmatter = /^---\n([\s\S]*?)\n---/.exec(mdx)?.[1];
-  if (!frontmatter) throw new Error("MDX frontmatter is required");
-  const field = (name) => new RegExp(`^${name}:\\s*["']?([^"'\\n]+)["']?\\s*$`, "m").exec(frontmatter)?.[1]?.trim();
-  const frontmatterId = field("id");
-  const frontmatterSlug = field("slug");
+  const frontmatter = frontmatterBlock(mdx);
+  const frontmatterId = frontmatterScalar(frontmatter, "id");
+  const frontmatterSlug = frontmatterScalar(frontmatter, "slug");
   if (Number(frontmatterId) !== Number(candidate.targetId)) throw new Error(`frontmatter id must equal allocated targetId ${candidate.targetId}`);
   if (frontmatterSlug !== candidate.meta.id) throw new Error(`frontmatter slug must equal source slug ${candidate.meta.id}`);
-  for (const required of ["title", "description", "heroImageSrc"]) if (!field(required)) throw new Error(`frontmatter ${required} is required`);
-  if (["blog", "whitepapers", "events", "use-cases"].includes(candidate.targetFamily) && !/^\d{4}-\d{2}-\d{2}$/.test(field("date") || "")) throw new Error("publication frontmatter date must be ISO YYYY-MM-DD");
-  const author = field("author");
-  const authorListBlock = /^author:\s*\n((?:\s+-[^\n]+\n?)*)/m.exec(frontmatter)?.[1] || "";
-  const authorList = [...authorListBlock.matchAll(/^\s+-\s*["']?([^"'\n]+)["']?\s*$/gm)].map((match) => match[1].trim());
+  for (const required of ["title", "description", "heroImageSrc"]) if (!frontmatterScalar(frontmatter, required)) throw new Error(`frontmatter ${required} is required`);
+  if (["blog", "whitepapers", "news", "events", "use-cases"].includes(candidate.targetFamily) && !/^\d{4}-\d{2}-\d{2}$/.test(frontmatterScalar(frontmatter, "date") || "")) throw new Error("publication frontmatter date must be ISO YYYY-MM-DD");
+  const author = frontmatterScalar(frontmatter, "author");
+  const authorList = frontmatterList(frontmatter, "author");
   if (Array.isArray(candidate.resolvedAuthor)) {
     if (JSON.stringify(authorList) !== JSON.stringify(candidate.resolvedAuthor)) throw new Error(`frontmatter author list must equal resolved authors ${candidate.resolvedAuthor.join(", ")}`);
   } else if (candidate.resolvedAuthor && author !== candidate.resolvedAuthor) throw new Error(`frontmatter author must equal resolved author ${candidate.resolvedAuthor}`);
   if (!candidate.resolvedAuthor && (author || authorList.length)) throw new Error(`author is unsupported for ${candidate.targetFamily}`);
   if (/^hideHeroImage:/m.test(frontmatter)) throw new Error("unsupported hideHeroImage field; use hideHeroImageOnDetail");
   if (candidate.meta.hideHeroImage === true && ["blog", "whitepapers", "events", "use-cases"].includes(candidate.targetFamily) && !/^hideHeroImageOnDetail:\s*true\s*$/m.test(frontmatter)) throw new Error("source hidden-hero behavior requires hideHeroImageOnDetail: true");
-  if ((candidate.meta.relatedIds || []).length === 0) {
-    if (/^relatedIds:\s*\n\s+-/m.test(frontmatter) || /^relatedItems:\s*\n\s+-/m.test(frontmatter)) throw new Error("source has no related items; target must not infer them");
+  const relatedIds = frontmatterList(frontmatter, "relatedIds");
+  const expectedRelatedIds = (candidate.meta.relatedIds || []).map((value) => String(value));
+  if (expectedRelatedIds.length === 0) {
+    if (relatedIds.length > 0 || /^relatedItems:\s*\n\s+-/m.test(frontmatter)) throw new Error("source has no related items; target must not infer them");
+  } else if (JSON.stringify(relatedIds) !== JSON.stringify(expectedRelatedIds)) throw new Error(`frontmatter relatedIds must equal resolved related IDs ${expectedRelatedIds.join(", ")}`);
+  if (candidate.targetFamily === "news") {
+    const sourceLabel = frontmatterScalar(frontmatter, "sourceLabel");
+    if (sourceLabel !== candidate.resolvedSourceLabel) throw new Error(`frontmatter sourceLabel must equal resolved sourceLabel ${candidate.resolvedSourceLabel}`);
+    const redirectUrl = frontmatterScalar(frontmatter, "redirectUrl");
+    if (candidate.resolvedRedirectUrl === null) {
+      if (redirectUrl) throw new Error("redirectUrl must be omitted for non-outlink News");
+    } else {
+      if (!redirectUrl) throw new Error(`frontmatter redirectUrl must equal resolved redirectUrl ${candidate.resolvedRedirectUrl}`);
+      if (!/^https:\/\//.test(redirectUrl)) throw new Error("redirectUrl must use HTTPS");
+      if (redirectUrl !== candidate.resolvedRedirectUrl) throw new Error(`frontmatter redirectUrl must equal resolved redirectUrl ${candidate.resolvedRedirectUrl}`);
+    }
   }
-  const hero = /^heroImageSrc:\s*["']?([^"'\n]+)["']?\s*$/m.exec(mdx)?.[1];
+  const hero = frontmatterScalar(frontmatter, "heroImageSrc");
   if (!hero?.endsWith(".png")) throw new Error("effective heroImageSrc must be PNG");
   if (hero !== candidate.heroImagePublicPath) throw new Error(`heroImageSrc is not the allocated hero: ${hero}`);
   if (!await exists(path.join(targetRepo, "public", hero.replace(/^\//, "")))) throw new Error(`missing hero asset: ${hero}`);

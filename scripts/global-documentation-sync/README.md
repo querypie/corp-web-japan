@@ -1,11 +1,11 @@
-# Global Documentation Sync
+# Global publication sync
 
-Automates one eligible QueryPie Global Documentation record into one Japan Draft PR.
+Automates one eligible QueryPie Global publication or News record into one Japan Draft PR.
 
 ## Safety model
 
 - Selects at most one candidate per run.
-- Requires exact canonical URL evidence in the Global sitemap and Documentation list.
+- Requires exact source-family evidence from the production sitemap and the family list page.
 - Uses `sourceId` (`cnt_*`) for baseline, ignore, and PR deduplication.
 - Pi writer and reviewers run fresh with `--no-tools`; only Node scripts write files or mutate Git.
 - Runs generated-contract validation, `npm run test:ci`, `next build`, and desktop/mobile browser QA before a Draft PR.
@@ -16,6 +16,31 @@ Automates one eligible QueryPie Global Documentation record into one Japan Draft
 
 The canonical durable contract is
 [`openspec/specs/contract-global-documentation-sync/spec.md`](../../openspec/specs/contract-global-documentation-sync/spec.md).
+
+## Supported source families
+
+The accepted source-family contract is the exact descriptor map exported by
+[`source-family-map.mjs`](./source-family-map.mjs).
+
+| Source section | Source category | Production list URL | Target family | Target route |
+| --- | --- | --- | --- | --- |
+| documentation | blogs | `https://www.querypie.com/en/documentation` | `blog` | `/blog` |
+| documentation | white-papers | `https://www.querypie.com/en/documentation` | `whitepapers` | `/whitepapers` |
+| documentation | voc | `https://www.querypie.com/en/documentation` | `use-cases` | `/use-cases` |
+| documentation | manuals | `https://www.querypie.com/en/documentation` | `manuals` | `/manuals` |
+| documentation | events | `https://www.querypie.com/en/documentation` | `events` | `/events` |
+| documentation | glossary | `https://www.querypie.com/en/documentation` | `glossary` | `/glossary` |
+| documentation | introduction | `https://www.querypie.com/en/documentation` | `introduction-deck` | `/introduction-deck` |
+| news | news | `https://www.querypie.com/en/news` | `news` | `/news` |
+
+News is a separate `/en/news` source section, not a Documentation category.
+News content records require exact canonical URL evidence in both the production sitemap and the `/en/news` list, while News outlink records require exact `/en/news` list evidence only.
+News sync is one-way: Global → Japan only; no Japan content writes back to Global.
+For synced News output, omit `author`, set `sourceLabel` deterministically to
+`公式発表` for content or `メディア掲載` for outlink, and set `redirectUrl`
+exactly to the normalized external URL only for outlink.
+Adding News support does not change the production timer, failure alerts, or
+seven-day report retention.
 
 ## Entry points
 
@@ -51,7 +76,7 @@ for installation, credentials, recovery, and scheduler operations.
 ## Operator actions
 
 - Review or merge a generated Draft PR normally.
-- Use the `Ignore Global Documentation sync PR` GitHub Actions dispatch workflow with a
+- Use the `Ignore Global publication sync PR` GitHub Actions dispatch workflow with a
   sync PR number to create a protected-branch-compliant ignore PR with auto-merge enabled.
 - After the ignore PR merges, reconciliation validates the machine marker, closes the
   original sync Draft PR, and deletes its branch. Reconciliation runs after immediate CI,

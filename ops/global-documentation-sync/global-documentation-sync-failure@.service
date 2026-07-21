@@ -1,5 +1,5 @@
 [Unit]
-Description=Report QueryPie Global Documentation Sync failure for %i
+Description=Report QueryPie Global publication sync failure for %i
 
 [Service]
 Type=oneshot

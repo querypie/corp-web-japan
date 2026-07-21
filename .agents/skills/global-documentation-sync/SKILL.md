@@ -1,6 +1,6 @@
 ---
 name: global-documentation-sync
-description: Use when a newly published Global QueryPie Documentation item must be migrated into corp-web-japan, or when running, reviewing, or diagnosing the scheduled Global-to-Japan publication dry-run.
+description: Use when a newly published Global QueryPie Documentation or News item must be migrated into corp-web-japan, or when running, reviewing, or diagnosing the scheduled Global-to-Japan publication dry-run.
 ---
 
 # Global Documentation Sync
@@ -19,6 +19,28 @@ The writer has no filesystem, shell, Git, or network tools. The writer must not 
 envelope containing `mdx` and `generationReport`. The deterministic runner
 validates the envelope, identity, and allocated target-file allowlist before it
 atomically writes the exact `targetMdxPath` and `generation-report.json`.
+
+## Supported source families
+
+The accepted source-family map lives in
+`scripts/global-documentation-sync/source-family-map.mjs` and is documented in
+`scripts/global-documentation-sync/README.md`.
+
+| Source section | Source category | Production list URL | Target family | Target route |
+| --- | --- | --- | --- | --- |
+| documentation | blogs | `https://www.querypie.com/en/documentation` | `blog` | `/blog` |
+| documentation | white-papers | `https://www.querypie.com/en/documentation` | `whitepapers` | `/whitepapers` |
+| documentation | voc | `https://www.querypie.com/en/documentation` | `use-cases` | `/use-cases` |
+| documentation | manuals | `https://www.querypie.com/en/documentation` | `manuals` | `/manuals` |
+| documentation | events | `https://www.querypie.com/en/documentation` | `events` | `/events` |
+| documentation | glossary | `https://www.querypie.com/en/documentation` | `glossary` | `/glossary` |
+| documentation | introduction | `https://www.querypie.com/en/documentation` | `introduction-deck` | `/introduction-deck` |
+| news | news | `https://www.querypie.com/en/news` | `news` | `/news` |
+
+News is a separate `/en/news` source section, not a Documentation category.
+News content records require exact canonical URL evidence in both the production sitemap and the `/en/news` list, while News outlink records require exact `/en/news` list evidence only.
+News sync is one-way Global → Japan only; no Japan content writes back to Global.
+News contract: frontmatter must not contain author. News sourceLabel must equal candidate.resolvedSourceLabel exactly. News redirectUrl must equal candidate.resolvedRedirectUrl exactly for outlink records and must be omitted for content records.
 
 ## Required skill stack
 

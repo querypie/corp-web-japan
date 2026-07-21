@@ -1,4 +1,4 @@
-name: Notify Global Documentation sync Draft PR
+name: Notify Global publication sync Draft PR
 
 on:
   pull_request_target:
@@ -33,10 +33,10 @@ jobs:
           : "${CHANNEL_ID:?CONTENT_SYNC_SLACK_CHANNEL_ID is required}"
 
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
-            text="$MENTION Global Documentation Sync Slack notification test. Configured channel: $CHANNEL_ID"
+            text="$MENTION Global publication sync Slack notification test. Configured channel: $CHANNEL_ID"
           else
             source_id="${PR_BRANCH#content-sync/}"
-            text="$MENTION Global Documentation Draft PR is ready for review.
+            text="$MENTION Global publication Draft PR is ready for review.
           PR: $PR_TITLE
           Source: $source_id
           URL: $PR_URL"

@@ -19,7 +19,31 @@ test("corrects every review finding and reruns all reviewers in fresh processes"
   await mkdir(path.dirname(targetMdxPath), { recursive: true });
   await mkdir(reportsDir, { recursive: true });
   await writeFile(sourceHtmlPath, "<p>source</p>");
-  const candidate = { schemaVersion, artifactType: "candidate", runId: "r", sourceId: "cnt_1", sourceHash: `sha256:${"a".repeat(64)}`, sourceCategory: "blogs", targetFamily: "blog", targetId: 1, sourceLocale: "ja", sourceHtmlPath, targetMdxPath, targetAssetRoot, targetRoute: "/blog/1/one", meta: { id: "one" }, assets: [], externalMedia: [], production: {} };
+  const candidate = {
+    schemaVersion,
+    artifactType: "candidate",
+    runId: "r",
+    sourceId: "cnt_1",
+    sourceHash: `sha256:${"a".repeat(64)}`,
+    sourceCategory: "blogs",
+    sourceSection: "documentation",
+    targetFamily: "blog",
+    targetId: 1,
+    sourceLocale: "ja",
+    sourceHtmlPath,
+    targetMdxPath,
+    targetAssetRoot,
+    targetRoute: "/blog/1/one",
+    meta: { id: "one", contentType: "content" },
+    assets: [],
+    externalMedia: [],
+    production: {
+      canonicalUrl: "https://www.querypie.com/en/blog/one",
+      listed: true,
+      listUrl: "https://www.querypie.com/en/documentation",
+      sitemap: true,
+    },
+  };
   const candidatePath = path.join(reportsDir, "candidate.json");
   await writeFile(candidatePath, JSON.stringify(candidate));
   let writerCalls = 0;

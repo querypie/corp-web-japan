@@ -4,10 +4,34 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 
-import { assertAllocatedGitDiff, authorizeClosedRetry, branchFor, buildPullRequestBody, createRunWorktree, publishDraft, publishRetry, reclaimUnpublishedBaseBranch, resumeBranchOnly } from "../../scripts/global-documentation-sync/git-pr.mjs";
+import { assertAllocatedGitDiff, authorizeClosedRetry, branchFor, buildPullRequestBody, createRunWorktree, publicationLabel, publishDraft, publishRetry, reclaimUnpublishedBaseBranch, resumeBranchOnly } from "../../scripts/global-documentation-sync/git-pr.mjs";
 import { parseSyncMarker } from "../../scripts/global-documentation-sync/discovery.mjs";
 
-const candidate = { sourceId: "cnt_9", sourceHash: "sha256:x", targetFamily: "blog", targetId: 9, targetMdxPath: "/target/src/content/blog/9-nine.mdx", assets: [], meta: { id: "nine" }, production: { canonicalUrl: "https://www.querypie.com/en/blog/nine" }, runId: "run-9" };
+const candidate = {
+  schemaVersion: "global-documentation-sync/v1",
+  artifactType: "candidate",
+  runId: "run-9",
+  sourceId: "cnt_9",
+  sourceHash: `sha256:${"a".repeat(64)}`,
+  sourceCategory: "blogs",
+  sourceSection: "documentation",
+  targetFamily: "blog",
+  targetId: 9,
+  sourceLocale: "ja",
+  sourceHtmlPath: "/source/source.html",
+  targetMdxPath: "/target/src/content/blog/9-nine.mdx",
+  targetAssetRoot: "/target/public/blog/9",
+  targetRoute: "/blog/9/nine",
+  assets: [],
+  externalMedia: [],
+  meta: { id: "nine", title: { en: "Nine" }, contentType: "content" },
+  production: {
+    canonicalUrl: "https://www.querypie.com/en/blog/nine",
+    listed: true,
+    listUrl: "https://www.querypie.com/en/documentation",
+    sitemap: true,
+  },
+};
 
 const generatedDiffExecute = (calls) => async (command, args) => {
   calls.push([command, args]);
@@ -80,10 +104,11 @@ test("publishes one commit and Draft PR without merge", async () => {
   const execute = generatedDiffExecute(calls);
   const result = await publishDraft({ dryRun: false, targetRepo: "/target", candidate, validation: { results: [] }, reviews: [], execute });
   assert.equal(result.pullRequestUrl, "https://github.com/querypie/corp-web-japan/pull/1");
-  assert.ok(calls.some(([command, args]) => command === "git" && args[0] === "commit"));
+  assert.ok(calls.some(([command, args]) => command === "git" && args[0] === "commit" && args.includes(`content: sync ${publicationLabel} ${candidate.sourceId}`)));
   assert.ok(calls.some(([command, args]) => command === "git" && args[0] === "push"));
   const create = calls.find(([command, args]) => command === "gh" && args[1] === "create");
   assert.ok(create[1].includes("--draft"));
+  assert.ok(create[1].includes(`Sync ${publicationLabel}: ${candidate.meta.title.en}`));
   assert.ok(!calls.some(([command, args]) => command === "gh" && args.includes("merge")));
 });
 
@@ -91,7 +116,31 @@ test("resumes PR creation only when retained reports match the remote branch com
   const reportsDir = await mkdtemp(path.join(os.tmpdir(), "branch-resume-"));
   const sourceId = "cnt_9";
   const runId = "run-9";
-  const validCandidate = { schemaVersion: "global-documentation-sync/v1", artifactType: "candidate", runId, sourceId, sourceHash: `sha256:${"a".repeat(64)}`, sourceCategory: "blogs", targetFamily: "blog", targetId: 9, sourceLocale: "ja", sourceHtmlPath: "/source", targetMdxPath: "/target", targetAssetRoot: "/assets", targetRoute: "/blog/9/nine", meta: { id: "nine", title: { en: "Nine" } }, assets: [], externalMedia: [], production: { canonicalUrl: "https://www.querypie.com/en/blog/nine" } };
+  const validCandidate = {
+    schemaVersion: "global-documentation-sync/v1",
+    artifactType: "candidate",
+    runId,
+    sourceId,
+    sourceHash: `sha256:${"a".repeat(64)}`,
+    sourceCategory: "blogs",
+    sourceSection: "documentation",
+    targetFamily: "blog",
+    targetId: 9,
+    sourceLocale: "ja",
+    sourceHtmlPath: "/source",
+    targetMdxPath: "/target",
+    targetAssetRoot: "/assets",
+    targetRoute: "/blog/9/nine",
+    meta: { id: "nine", title: { en: "Nine" }, contentType: "content" },
+    assets: [],
+    externalMedia: [],
+    production: {
+      canonicalUrl: "https://www.querypie.com/en/blog/nine",
+      listed: true,
+      listUrl: "https://www.querypie.com/en/documentation",
+      sitemap: true,
+    },
+  };
   const review = (type) => ({ schemaVersion: validCandidate.schemaVersion, artifactType: type, runId, sourceId, verdict: "pass", findings: [] });
   await Promise.all([
     writeFile(path.join(reportsDir, "candidate.json"), JSON.stringify(validCandidate)),
@@ -133,5 +182,6 @@ test("manual retry requires the retry label and existing remote branch", async (
   await publishRetry({ targetRepo: "/target", candidate, sourceId: "cnt_9", pullRequestNumber: 7, wasDraft: false, execute });
   assert.ok(calls.some(([command, args]) => command === "gh" && args[1] === "reopen" && args.includes("7")));
   assert.ok(calls.some(([command, args]) => command === "gh" && args[1] === "ready" && args.includes("--undo")));
+  assert.ok(calls.some(([command, args]) => command === "git" && args[0] === "commit" && args.includes(`content: retry ${publicationLabel} cnt_9`)));
   assert.ok(calls.some(([command, args]) => command === "git" && args[0] === "push"));
 });

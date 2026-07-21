@@ -2,7 +2,15 @@ import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import test from "node:test";
 
-import { assessPageMetrics, publicationRoute, stopPreviewServer } from "../../scripts/global-documentation-sync/browser-qa.mjs";
+import {
+  assessPageMetrics,
+  assertLocalShadowNavigation,
+  browserContextOptions,
+  publicationRoute,
+  readinessProbeOptions,
+  stopPreviewServer,
+  waitForServer,
+} from "../../scripts/global-documentation-sync/browser-qa.mjs";
 
 test("fails closed on broken media or horizontal overflow", () => {
   assert.deepEqual(assessPageMetrics({ clientWidth: 390, scrollWidth: 391, images: [] }).status, "failed");
@@ -29,9 +37,85 @@ test("stops the complete detached preview process group", { skip: process.platfo
 
 test("builds canonical local publication routes for every family", () => {
   const expected = {
-    blog: "/blog/7/slug", whitepapers: "/whitepapers/7/slug", events: "/events/7/slug",
-    manuals: "/manuals/7/slug", glossary: "/glossary/7/slug", "use-cases": "/use-cases/7/slug",
-    "introduction-deck": "/introduction-deck/7/slug",
+    blog: "/blog/7/slug", whitepapers: "/whitepapers/7/slug", news: "/news/7/slug",
+    events: "/events/7/slug", manuals: "/manuals/7/slug", glossary: "/glossary/7/slug",
+    "use-cases": "/use-cases/7/slug", "introduction-deck": "/introduction-deck/7/slug",
   };
   for (const [family, route] of Object.entries(expected)) assert.equal(publicationRoute({ targetFamily: family, targetId: 7, meta: { id: "slug" } }), route);
+});
+
+test("uses bot user agent only for redirect-backed News browser QA", () => {
+  const newsCandidate = {
+    targetFamily: "news",
+    resolvedRedirectUrl: "https://media.example/news-one",
+  };
+  const newsContext = browserContextOptions(newsCandidate);
+  assert.match(newsContext.userAgent, /bot/i);
+  assert.equal(newsContext.ignoreHTTPSErrors, false);
+  assert.deepEqual(readinessProbeOptions(newsCandidate), {
+    headers: { "user-agent": newsContext.userAgent },
+    redirect: "manual",
+  });
+
+  const normalContext = browserContextOptions({
+    targetFamily: "blog",
+    resolvedRedirectUrl: null,
+  });
+  assert.equal(normalContext.userAgent, undefined);
+  assert.deepEqual(normalContext, { ignoreHTTPSErrors: false });
+  assert.deepEqual(readinessProbeOptions({ targetFamily: "blog", resolvedRedirectUrl: null }), { redirect: "manual" });
+});
+
+test("readiness probe requires a local 200 for redirect-backed News", async () => {
+  const child = { exitCode: null };
+  const candidate = { targetFamily: "news", resolvedRedirectUrl: "https://media.example/news-one" };
+  const calls = [];
+  await assert.rejects(() => waitForServer(
+    "http://127.0.0.1:43129/news/7/slug",
+    child,
+    candidate,
+    async (url, options) => {
+      calls.push({ url, options });
+      return new Response(null, {
+        status: 307,
+        headers: { location: "https://media.example/news-one" },
+      });
+    },
+    { maxAttempts: 1, sleepMs: 0 },
+  ), /preview server did not become ready/);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].url, "http://127.0.0.1:43129/news/7/slug");
+  assert.deepEqual(calls[0].options, readinessProbeOptions(candidate));
+});
+
+test("readiness probe rejects redirect-backed News location mismatches", async () => {
+  const child = { exitCode: null };
+  let calls = 0;
+  await assert.rejects(() => waitForServer(
+    "http://127.0.0.1:43129/news/7/slug",
+    child,
+    { targetFamily: "news", resolvedRedirectUrl: "https://media.example/news-one" },
+    async () => {
+      calls += 1;
+      return new Response(null, {
+        status: 307,
+        headers: { location: "https://media.example/news-one/" },
+      });
+    },
+    { maxAttempts: 2, sleepMs: 0 },
+  ), /preview server did not become ready/);
+  assert.equal(calls, 2);
+});
+
+test("redirect-backed News browser QA stays on the local shadow route", () => {
+  assert.doesNotThrow(() => assertLocalShadowNavigation(
+    "http://127.0.0.1:43129/news/7/slug",
+    "http://127.0.0.1:43129/news/7/slug",
+    { targetFamily: "news", resolvedRedirectUrl: "https://media.example/news-one" },
+  ));
+  assert.throws(() => assertLocalShadowNavigation(
+    "https://media.example/news-one",
+    "http://127.0.0.1:43129/news/7/slug",
+    { targetFamily: "news", resolvedRedirectUrl: "https://media.example/news-one" },
+  ), /local shadow route/);
 });

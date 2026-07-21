@@ -7,15 +7,46 @@ import { externalMediaIdentity } from "./external-media.mjs";
 import { SCHEMA_VERSION, validateArtifact } from "./lib.mjs";
 import { redactSecrets } from "./redaction.mjs";
 
+const REDIRECTABLE_NEWS_BOT_USER_AGENT = "Mozilla/5.0 (compatible; Googlebot/2.1; +https://www.google.com/bot.html)";
+
+function isRedirectStatus(status) {
+  return status >= 300 && status < 400;
+}
+
 export function publicationRoute(candidate) {
   const roots = {
     blog: "blog", whitepapers: "whitepapers", events: "events", manuals: "manuals",
-    glossary: "glossary", "use-cases": "use-cases", "introduction-deck": "introduction-deck",
+    glossary: "glossary", news: "news", "use-cases": "use-cases", "introduction-deck": "introduction-deck",
     "demo/aip": "demo/aip", "demo/acp": "demo/acp",
   };
   const root = roots[candidate.targetFamily];
   if (!root) throw new Error(`unsupported browser route family: ${candidate.targetFamily}`);
   return `/${root}/${candidate.targetId}/${candidate.meta.id}`;
+}
+
+export function browserContextOptions(candidate) {
+  const options = { ignoreHTTPSErrors: false };
+  if (candidate.targetFamily === "news" && candidate.resolvedRedirectUrl) options.userAgent = REDIRECTABLE_NEWS_BOT_USER_AGENT;
+  return options;
+}
+
+export function readinessProbeOptions(candidate) {
+  if (candidate.targetFamily === "news" && candidate.resolvedRedirectUrl) {
+    return {
+      headers: { "user-agent": REDIRECTABLE_NEWS_BOT_USER_AGENT },
+      redirect: "manual",
+    };
+  }
+  return { redirect: "manual" };
+}
+
+export function assertLocalShadowNavigation(actualUrl, expectedUrl, candidate) {
+  if (!(candidate.targetFamily === "news" && candidate.resolvedRedirectUrl)) return;
+  const actual = new URL(actualUrl);
+  const expected = new URL(expectedUrl);
+  if (actual.origin !== expected.origin || actual.pathname !== expected.pathname || actual.search !== expected.search) {
+    throw new Error(`redirect-backed News browser QA must stay on local shadow route: ${actualUrl}`);
+  }
 }
 
 export function assessPageMetrics(metrics) {
@@ -33,11 +64,15 @@ export function assessPageMetrics(metrics) {
   return { status: findings.length ? "failed" : "passed", findings };
 }
 
-async function waitForServer(url, child) {
-  for (let attempt = 0; attempt < 80; attempt += 1) {
+export async function waitForServer(url, child, candidate, fetchImpl = fetch, { maxAttempts = 80, sleepMs = 500 } = {}) {
+  const requestOptions = readinessProbeOptions(candidate);
+  for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     if (child.exitCode !== null) throw new Error(`preview server exited with ${child.exitCode}`);
-    try { const response = await fetch(url); if (response.ok) return; } catch {}
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    try {
+      const response = await fetchImpl(url, requestOptions);
+      if (response.ok && !isRedirectStatus(response.status)) return;
+    } catch {}
+    await new Promise((resolve) => setTimeout(resolve, sleepMs));
   }
   throw new Error(`preview server did not become ready: ${url}`);
 }
@@ -62,7 +97,7 @@ export async function runBrowserQa({ targetRepo, candidate, reportsDir, port = 4
   let serverError = "";
   server.stderr.on("data", (chunk) => { serverError = `${serverError}${chunk}`.slice(-4000); });
   try {
-    await waitForServer(url, server);
+    await waitForServer(url, server, candidate);
     const { chromium } = await import("playwright");
     let browser;
     try { browser = await chromium.launch({ headless: true, channel: process.env.BROWSER_CHANNEL || "chrome" }); }
@@ -70,8 +105,10 @@ export async function runBrowserQa({ targetRepo, candidate, reportsDir, port = 4
     const results = [];
     try {
       for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
-        const page = await browser.newPage({ viewport });
+        const context = await browser.newContext({ ...browserContextOptions(candidate), viewport });
+        const page = await context.newPage();
         await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60_000 });
+        assertLocalShadowNavigation(page.url(), url, candidate);
         const height = await page.evaluate(() => document.body.scrollHeight);
         for (const ratio of [0, 0.25, 0.5, 0.75, 1]) {
           await page.evaluate((y) => window.scrollTo(0, y), Math.floor(height * ratio));
@@ -117,7 +154,7 @@ export async function runBrowserQa({ targetRepo, candidate, reportsDir, port = 4
         const screenshot = path.join(reportsDir, `target-${viewport.width}x${viewport.height}.png`);
         await page.screenshot({ path: screenshot, fullPage: true });
         results.push({ viewport, url, screenshot, metrics, ...assessment });
-        await page.close();
+        await context.close();
       }
     } finally { await browser.close(); }
     const artifact = {

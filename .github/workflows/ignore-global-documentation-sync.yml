@@ -1,4 +1,4 @@
-name: Ignore Global Documentation sync PR
+name: Ignore Global publication sync PR
 
 on:
   workflow_dispatch:
@@ -27,35 +27,64 @@ jobs:
           PR_NUMBER: ${{ inputs.sync_pr_number }}
         run: |
           set -euo pipefail
-          pr=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json body,headRefName,state,isDraft,url)
+          pr=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json body,headRefName,state,isDraft,isCrossRepository,url)
           head=$(jq -r .headRefName <<<"$pr")
           body=$(jq -r .body <<<"$pr")
-          [[ "$(jq -r .state <<<"$pr")" == OPEN && "$(jq -r .isDraft <<<"$pr")" == true && "$head" =~ ^content-sync/cnt_[0-9]+$ ]] || { echo "not an open sync Draft PR" >&2; exit 1; }
+          [[ "$(jq -r .state <<<"$pr")" == OPEN && "$(jq -r .isDraft <<<"$pr")" == true && "$(jq -r .isCrossRepository <<<"$pr")" == false && "$head" =~ ^content-sync/cnt_[0-9]+$ ]] || { echo "not an open same-repository sync Draft PR" >&2; exit 1; }
           source_id="${head#content-sync/}"
           grep -Fq "\"sourceId\":\"$source_id\"" <<<"$body" || { echo "sync marker mismatch" >&2; exit 1; }
           source_url=$(sed -n 's/^- Source: //p' <<<"$body" | head -1)
-          [[ "$source_url" =~ ^https://www.querypie.com/ ]] || { echo "missing canonical source URL" >&2; exit 1; }
-          SOURCE_ID="$source_id" SOURCE_URL="$source_url" python3 - <<'PY'
-          import json, os
-          from datetime import datetime, timezone
-          from pathlib import Path
-          file = Path('.github/content-sync/ignore.json')
-          values = json.loads(file.read_text())
-          source_id = os.environ['SOURCE_ID']
-          if any(value['sourceId'] == source_id for value in values): raise SystemExit(f'already ignored: {source_id}')
-          values.append({'sourceId': source_id, 'sourceCanonicalUrl': os.environ['SOURCE_URL'], 'reasonCode': 'other', 'reason': 'Ignored by owner from sync Draft PR.', 'addedBy': 'owner', 'addedAt': datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00', 'Z')})
-          values.sort(key=lambda value: value['sourceId'])
-          file.write_text(json.dumps(values, indent=2) + '\n')
-          PY
+          SOURCE_URL="$source_url" node --input-type=module - <<'NODE'
+          const sourceUrl = process.env.SOURCE_URL || "";
+          const fail = (message) => {
+            console.error(message);
+            process.exit(1);
+          };
+          let url;
+          try {
+            url = new URL(sourceUrl);
+          } catch {
+            fail("missing canonical source URL");
+          }
+          url.search = "";
+          url.hash = "";
+          url.hostname = url.hostname.toLowerCase();
+          url.pathname = url.pathname.replace(/\/+$/, "") || "/";
+          const normalized = url.toString().replace(/\/$/, url.pathname === "/" ? "/" : "");
+          if (url.protocol !== "https:" || normalized !== sourceUrl) fail("source URL must be normalized HTTPS");
+          NODE
+          SOURCE_ID="$source_id" SOURCE_URL="$source_url" node --input-type=module - <<'NODE'
+          import { readFileSync, writeFileSync } from "node:fs";
+          const sourceId = process.env.SOURCE_ID;
+          const file = ".github/content-sync/ignore.json";
+          let values;
+          try {
+            values = JSON.parse(readFileSync(file, "utf8"));
+          } catch (error) {
+            throw new Error(`invalid ignore manifest JSON: ${error.message}`);
+          }
+          if (!Array.isArray(values)) throw new Error("ignore manifest must be an array");
+          if (values.some((value) => value?.sourceId === sourceId)) throw new Error(`already ignored: ${sourceId}`);
+          values.push({
+            sourceId,
+            sourceCanonicalUrl: process.env.SOURCE_URL,
+            reasonCode: "other",
+            reason: "Ignored by owner from sync Draft PR.",
+            addedBy: "owner",
+            addedAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
+          });
+          values.sort((left, right) => String(left?.sourceId || "").localeCompare(String(right?.sourceId || "")));
+          writeFileSync(file, `${JSON.stringify(values, null, 2)}\n`);
+          NODE
           branch="content-sync-ignore/$source_id"
-          git config user.name "QueryPie Documentation Sync"
+          git config user.name "QueryPie Global publication sync"
           git config user.email "noreply@querypie.com"
           git switch -c "$branch"
           git add .github/content-sync/ignore.json
           git diff --cached --quiet && { echo "no ignore change" >&2; exit 1; }
-          git commit -m "chore: ignore Global documentation $source_id"
+          git commit -m "chore: ignore Global publication $source_id"
           git push --set-upstream origin "$branch"
-          ignore_body=$(printf 'Ignore Global Documentation sync source.\n\n<!-- global-documentation-sync-ignore:v1 {"sourceId":"%s","syncPr":%s} -->' "$source_id" "$PR_NUMBER")
-          ignore_pr=$(gh pr create --repo "$GITHUB_REPOSITORY" --base main --head "$branch" --title "Ignore Global documentation $source_id" --body "$ignore_body")
+          ignore_body=$(printf 'Ignore Global publication sync source.\n\n<!-- global-documentation-sync-ignore:v1 {"sourceId":"%s","syncPr":%s} -->' "$source_id" "$PR_NUMBER")
+          ignore_pr=$(gh pr create --repo "$GITHUB_REPOSITORY" --base main --head "$branch" --title "Ignore Global publication $source_id" --body "$ignore_body")
           gh pr merge --repo "$GITHUB_REPOSITORY" --auto --squash "$ignore_pr"
           echo "ignore_pr=$ignore_pr" >> "$GITHUB_STEP_SUMMARY"

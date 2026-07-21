@@ -7,6 +7,7 @@ import { loadAllPullRequests } from "./github-state.mjs";
 import { hasBlockingFindings, validateArtifact } from "./lib.mjs";
 
 export const branchFor = (sourceId) => `content-sync/${sourceId}`;
+export const publicationLabel = "Global publication";
 
 function repoRelative(targetRepo, file) {
   const relative = path.relative(path.resolve(targetRepo), path.resolve(file));
@@ -121,11 +122,11 @@ export async function publishDraft({ dryRun, targetRepo, candidate, validation, 
   if (current && current !== branch) throw new Error(`unexpected publication branch: ${current}`);
   if (!current) await execute("git", ["switch", "-c", branch], targetRepo);
   await stageAllocatedDiff({ targetRepo, candidate, allowStaleMdx: false, execute });
-  await execute("git", ["commit", "-m", `content: sync Global documentation ${candidate.sourceId}`], targetRepo);
+  await execute("git", ["commit", "-m", `content: sync ${publicationLabel} ${candidate.sourceId}`], targetRepo);
   await execute("git", ["push", "--set-upstream", "origin", branch], targetRepo);
   const commit = (await execute("git", ["rev-parse", "HEAD"], targetRepo)).trim();
   await onPushed({ branch, commit });
-  const title = `Sync Global documentation: ${candidate.meta.title?.en || candidate.meta.id}`;
+  const title = `Sync ${publicationLabel}: ${candidate.meta.title?.en || candidate.meta.id}`;
   const body = buildPullRequestBody({ candidate, validation, reviews });
   const pullRequestUrl = (await execute("gh", ["pr", "create", "--repo", githubRepo, "--draft", "--base", "main", "--head", branch, "--title", title, "--body", body], targetRepo)).trim();
   return { branch, commit, pullRequestUrl };
@@ -147,7 +148,7 @@ export async function publishRetry({ targetRepo, candidate, sourceId = candidate
   const branch = branchFor(sourceId);
   await execute("git", ["checkout", "-B", branch, `origin/${branch}`], targetRepo);
   await stageAllocatedDiff({ targetRepo, candidate, allowStaleMdx: true, execute });
-  await execute("git", ["commit", "-m", `content: retry Global documentation ${sourceId}`], targetRepo);
+  await execute("git", ["commit", "-m", `content: retry ${publicationLabel} ${sourceId}`], targetRepo);
   await execute("git", ["push", "origin", branch], targetRepo);
   const commit = (await execute("git", ["rev-parse", "HEAD"], targetRepo)).trim();
   await execute("gh", ["pr", "reopen", String(pullRequestNumber), "--repo", githubRepo], targetRepo);
@@ -184,7 +185,7 @@ export async function resumeBranchOnly({ targetRepo, sourceId, reportsDir, githu
   validation = assertIdentity(validateArtifact("validation-results", await revalidate({ branch, commit: state.commit, candidate, reportsDir })));
   const remoteAfterValidation = await execute("git", ["ls-remote", "--heads", "origin", `refs/heads/${branch}`], targetRepo);
   if (remoteAfterValidation.trim().split(/\s+/)[0] !== state.commit) throw new Error("remote branch changed during fresh revalidation");
-  const title = `Sync Global documentation: ${candidate.meta.title?.en || candidate.meta.id}`;
+  const title = `Sync ${publicationLabel}: ${candidate.meta.title?.en || candidate.meta.id}`;
   const body = buildPullRequestBody({ candidate, validation, reviews });
   const pullRequestUrl = (await execute("gh", ["pr", "create", "--repo", githubRepo, "--draft", "--base", "main", "--head", branch, "--title", title, "--body", body], targetRepo)).trim();
   return { branch, commit: state.commit, pullRequestUrl };

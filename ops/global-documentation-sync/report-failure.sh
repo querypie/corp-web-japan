@@ -17,7 +17,7 @@ fi
 if [[ "$reason" == "see journal" && -n "$run_dir" && -f "$run_dir/failure-summary.json" ]]; then
   reason=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("reason", "see journal"))' "$run_dir/failure-summary.json")
 fi
-message="${ALERT_SLACK_MENTION:-} Global Documentation Sync failed
+message="${ALERT_SLACK_MENTION:-} Global publication sync failed
 - Unit: $unit
 - Run: $run_id
 - Stage: $stage
