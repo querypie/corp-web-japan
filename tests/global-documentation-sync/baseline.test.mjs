@@ -51,7 +51,7 @@ title: "QueryPie AI、AIマネジメントシステムの国際規格 ISO/IEC 42
 
     const { baseline, ambiguous } = await generateBaseline(globalRepo, targetRepo);
     assert.deepEqual(baseline, [
-      { sourceId: "cnt_000200", sourceCategory: "news", sourceSlug: "iso-42001-certification-announcement", targetFamily: "news", targetId: 16, targetSlug: "iso-42001-certification-announcement" },
+      { sourceSection: "news", sourceId: "cnt_000200", sourceCategory: "news", sourceSlug: "iso-42001-certification-announcement", targetFamily: "news", targetId: 16, targetSlug: "iso-42001-certification-announcement" },
     ]);
     assert.deepEqual(ambiguous, []);
   });
@@ -75,7 +75,7 @@ title: "External title"
 
     const { baseline, ambiguous } = await generateBaseline(globalRepo, targetRepo);
     assert.deepEqual(baseline, [
-      { sourceId: "cnt_000210", sourceCategory: "news", sourceSlug: "external-news-story", targetFamily: "news", targetId: 21, targetSlug: "different-target-slug" },
+      { sourceSection: "news", sourceId: "cnt_000210", sourceCategory: "news", sourceSlug: "external-news-story", targetFamily: "news", targetId: 21, targetSlug: "different-target-slug" },
     ]);
     assert.deepEqual(ambiguous, []);
   });
@@ -104,7 +104,7 @@ title: "Visible story"
 
     const { baseline, ambiguous } = await generateBaseline(globalRepo, targetRepo);
     assert.deepEqual(baseline, [
-      { sourceId: "cnt_000211", sourceCategory: "news", sourceSlug: "visible-news-story", targetFamily: "news", targetId: 23, targetSlug: "visible-news-story" },
+      { sourceSection: "news", sourceId: "cnt_000211", sourceCategory: "news", sourceSlug: "visible-news-story", targetFamily: "news", targetId: 23, targetSlug: "visible-news-story" },
     ]);
     assert.deepEqual(ambiguous, []);
   });
@@ -144,17 +144,44 @@ title: "Same title"
   });
 });
 
+test("generateBaseline keeps duplicate sourceIds from different sections", async () => {
+  await withTempRepos(async ({ globalRepo, targetRepo }) => {
+    await writeSourceRecord(globalRepo, { relativeRoot: "src/content/documentation/manuals" }, "cnt_000001", {
+      id: "manual-one",
+      contentType: "content",
+      categorySlug: "manuals",
+      title: { ja: "Manual one" },
+    });
+    await writeSourceRecord(globalRepo, { relativeRoot: "src/content/news" }, "cnt_000001", {
+      id: "news-one",
+      contentType: "content",
+      categorySlug: "news",
+      section: "news",
+      title: { ja: "News one" },
+    });
+    await writeTargetRecord(targetRepo, "manuals", "1-manual-one.mdx", `---\nid: "1"\nslug: "manual-one"\ntitle: "Manual one"\n---\n`);
+    await writeTargetRecord(targetRepo, "news", "2-news-one.mdx", `---\nid: "2"\nslug: "news-one"\ntitle: "News one"\n---\n`);
+
+    const { baseline, ambiguous } = await generateBaseline(globalRepo, targetRepo);
+    assert.deepEqual(baseline, [
+      { sourceSection: "documentation", sourceId: "cnt_000001", sourceCategory: "manuals", sourceSlug: "manual-one", targetFamily: "manuals", targetId: 1, targetSlug: "manual-one" },
+      { sourceSection: "news", sourceId: "cnt_000001", sourceCategory: "news", sourceSlug: "news-one", targetFamily: "news", targetId: 2, targetSlug: "news-one" },
+    ]);
+    assert.deepEqual(ambiguous, []);
+  });
+});
+
 test("mergeBaselineRecords preserves accepted mappings when the source disappears", () => {
   const merged = mergeBaselineRecords(
     [
       { sourceId: "cnt_000214", sourceCategory: "blogs", sourceSlug: "iso-iec-42001-getting-started", targetFamily: "blog", targetId: 31, targetSlug: "iso-iec-42001-getting-started" },
     ],
     [
-      { sourceId: "cnt_000200", sourceCategory: "news", sourceSlug: "iso-42001-certification-announcement", targetFamily: "news", targetId: 16, targetSlug: "iso-42001-certification-announcement" },
+      { sourceSection: "news", sourceId: "cnt_000200", sourceCategory: "news", sourceSlug: "iso-42001-certification-announcement", targetFamily: "news", targetId: 16, targetSlug: "iso-42001-certification-announcement" },
     ],
   );
   assert.deepEqual(merged, [
-    { sourceId: "cnt_000200", sourceCategory: "news", sourceSlug: "iso-42001-certification-announcement", targetFamily: "news", targetId: 16, targetSlug: "iso-42001-certification-announcement" },
+    { sourceSection: "news", sourceId: "cnt_000200", sourceCategory: "news", sourceSlug: "iso-42001-certification-announcement", targetFamily: "news", targetId: 16, targetSlug: "iso-42001-certification-announcement" },
     { sourceId: "cnt_000214", sourceCategory: "blogs", sourceSlug: "iso-iec-42001-getting-started", targetFamily: "blog", targetId: 31, targetSlug: "iso-iec-42001-getting-started" },
   ]);
 });

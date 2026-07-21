@@ -54,19 +54,20 @@ The automation SHALL use the checked-out `corp-web-v2` repository as the content
 - **THEN** the automation MAY accept it without sitemap evidence
 - **AND** it SHALL record `production.sitemap` as `false`
 
-### Requirement: Stable identity and suppression
+### Requirement: Stable composite identity and suppression
 
-The automation SHALL use Global `sourceId` values as the primary identity for baseline, ignore, pull-request, and branch deduplication. Canonical URLs SHALL be audit snapshots and URL-drift evidence, not primary keys. One run SHALL select no more than one candidate and SHALL create no more than one Draft pull request.
+The automation SHALL use the composite identity `${sourceSection}:${sourceId}` as the primary identity for baseline, ignore, pull-request, and branch deduplication. This supersedes the legacy `sourceId`-only rule because Global currently has real cross-section collisions such as `documentation/manuals/cnt_000001` and `news/cnt_000001`. New markers, baseline rows, ignore rows, and branch names SHALL include `sourceSection`. Legacy baseline or ignore rows MAY omit `sourceSection` only when the runner can infer one unique section safely; ambiguous legacy identities and markerless sync branches SHALL block. Canonical URLs SHALL remain audit snapshots and URL-drift evidence, not primary keys. One run SHALL select no more than one candidate and SHALL create no more than one Draft pull request.
 
 #### Scenario: Source is already represented
 
-- **GIVEN** a source ID present in baseline, a valid ignore decision, an existing Japan record, a sync pull-request marker, or an active deterministic sync branch
+- **GIVEN** a composite source identity present in baseline, a valid ignore decision, a sync pull-request marker, or an active deterministic sync branch
 - **WHEN** discovery runs
-- **THEN** the source SHALL be suppressed
+- **THEN** that same composite identity SHALL be suppressed
+- **AND** a different `sourceSection` with the same `sourceId` SHALL remain eligible
 
 #### Scenario: Ignore URL drifts
 
-- **GIVEN** an ignore decision whose recorded canonical URL differs from the current canonical URL for the same source ID
+- **GIVEN** an ignore decision whose recorded canonical URL differs from the current canonical URL for the same composite source identity
 - **WHEN** discovery runs
 - **THEN** the automation SHALL block for owner review instead of silently ignoring the source
 
@@ -109,7 +110,7 @@ Before a Draft pull request is created, the automation SHALL validate the genera
 
 - **GIVEN** a generated candidate with no actionable review findings
 - **WHEN** contract validation, full CI, build, and both browser viewports pass
-- **THEN** the automation SHALL create one commit on `content-sync/{sourceId}`
+- **THEN** the automation SHALL create one commit on `content-sync/{sourceSection}-{sourceId}`
 - **AND** SHALL open one Draft pull request
 - **AND** SHALL NOT merge or deploy it
 
@@ -145,7 +146,7 @@ A same-repository Draft pull request on `content-sync/**` SHALL trigger a Slack 
 
 ### Requirement: Owner-controlled ignore flow
 
-The owner SHALL initiate ignore handling through the `Ignore Global publication sync PR` workflow using the generated sync pull-request number. The workflow SHALL validate the open Draft PR and machine marker, update the sorted ignore manifest on `content-sync-ignore/{sourceId}`, open an ignore pull request, and enable squash auto-merge. It SHALL NOT push directly to protected `main`.
+The owner SHALL initiate ignore handling through the `Ignore Global publication sync PR` workflow using the generated sync pull-request number. The workflow SHALL validate the open Draft PR and machine marker, update the sorted ignore manifest on `content-sync-ignore/{sourceSection}-{sourceId}`, open an ignore pull request, and enable squash auto-merge. It SHALL NOT push directly to protected `main`.
 
 After the ignore pull request merges, the reconciler SHALL validate its ignore marker, close the matching source Draft pull request, and delete its source branch. Reconciliation SHALL be idempotent. Duplicate ignore dispatches SHALL fail closed without creating another decision. Reconciliation SHALL run after successful CI when merge is immediate, after an approval when approval delays auto-merge, and through manual dispatch for recovery.
 
@@ -161,7 +162,7 @@ After the ignore pull request merges, the reconciler SHALL validate its ignore m
 - **GIVEN** a merged ignore pull request with a valid marker
 - **WHEN** the reconciler runs
 - **THEN** the matching source Draft pull request SHALL be closed
-- **AND** `content-sync/{sourceId}` SHALL be deleted
+- **AND** only the cross-checked matching sync branch (`content-sync/{sourceSection}-{sourceId}` for new runs, or the retained legacy `content-sync/{sourceId}` branch when a legacy PR marker proves the same identity) SHALL be deleted
 
 ### Requirement: Production schedule and concurrency
 

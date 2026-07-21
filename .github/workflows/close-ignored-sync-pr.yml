@@ -43,7 +43,7 @@ jobs:
           set -euo pipefail
           ignore_pr="${DISPATCH_PR:-${RUN_PR:-$REVIEW_PR}}"
           RUN_BRANCH="${RUN_BRANCH:-$REVIEW_BRANCH}"
-          if [[ -z "$ignore_pr" && "$RUN_BRANCH" =~ ^content-sync-ignore/cnt_[0-9]+$ ]]; then
+          if [[ -z "$ignore_pr" && "$RUN_BRANCH" =~ ^content-sync-ignore/([a-z]+-)?cnt_[0-9]+$ ]]; then
             ignore_pr=$(gh pr list --repo "$REPOSITORY" --state merged --head "$RUN_BRANCH" --json number --limit 2 --jq 'if length == 1 then .[0].number else empty end')
           fi
           [[ "$ignore_pr" =~ ^[0-9]+$ ]] || { echo "missing or ambiguous ignore PR for branch $RUN_BRANCH" >&2; exit 1; }
@@ -53,21 +53,55 @@ jobs:
             [[ "$(jq -r .state <<<"$ignore")" == MERGED ]] && break
             sleep 5
           done
-          [[ "$(jq -r .state <<<"$ignore")" == MERGED && "$(jq -r .isCrossRepository <<<"$ignore")" == false && "$(jq -r .headRefName <<<"$ignore")" =~ ^content-sync-ignore/cnt_[0-9]+$ ]] || { echo "ignore PR is not a merged same-repository sync-ignore PR" >&2; exit 1; }
+          [[ "$(jq -r .state <<<"$ignore")" == MERGED && "$(jq -r .isCrossRepository <<<"$ignore")" == false && "$(jq -r .headRefName <<<"$ignore")" =~ ^content-sync-ignore/([a-z]+-)?cnt_[0-9]+$ ]] || { echo "ignore PR is not a merged same-repository sync-ignore PR" >&2; exit 1; }
 
-          body=$(jq -r .body <<<"$ignore")
-          marker=$(grep -oE '<!-- global-documentation-sync-ignore:v1 \{"sourceId":"cnt_[0-9]+","syncPr":[0-9]+\} -->' <<<"$body" || true)
-          [[ -n "$marker" ]] || { echo "ignore marker missing" >&2; exit 1; }
-          source_id=$(sed -E 's/.*"sourceId":"(cnt_[0-9]+)".*/\1/' <<<"$marker")
-          source_pr=$(sed -E 's/.*"syncPr":([0-9]+).*/\1/' <<<"$marker")
+          ignore_parsed=$(BODY="$(jq -r .body <<<"$ignore")" HEAD_BRANCH="$(jq -r .headRefName <<<"$ignore")" node --input-type=module - <<'NODE'
+          const body = process.env.BODY || "";
+          const headBranch = process.env.HEAD_BRANCH || "";
+          const fail = (message) => {
+            console.error(message);
+            process.exit(1);
+          };
+          const matches = [...body.matchAll(/<!--\s*global-documentation-sync-ignore:v1\s+(\{[^\n]*\})\s*-->/g)];
+          if (matches.length !== 1) fail("ignore marker missing");
+          const marker = JSON.parse(matches[0][1]);
+          if (!marker.sourceSection || !marker.sourceId || !Number.isInteger(Number(marker.syncPr))) fail("ignore marker missing sourceSection, sourceId, or syncPr");
+          const expectedBranch = `content-sync-ignore/${marker.sourceSection}-${marker.sourceId}`;
+          if (headBranch !== expectedBranch) fail("ignore marker mismatch");
+          process.stdout.write(JSON.stringify(marker));
+          NODE
+          )
+          source_id=$(jq -r .sourceId <<<"$ignore_parsed")
+          source_section=$(jq -r .sourceSection <<<"$ignore_parsed")
+          source_pr=$(jq -r .syncPr <<<"$ignore_parsed")
 
           source=$(gh pr view "$source_pr" --repo "$REPOSITORY" --json state,isDraft,headRefName,body,isCrossRepository)
-          [[ "$(jq -r .isCrossRepository <<<"$source")" == false && "$(jq -r .headRefName <<<"$source")" == "content-sync/$source_id" ]] || { echo "source PR is not same-repository or does not match sync marker" >&2; exit 1; }
-          grep -Fq "\"sourceId\":\"$source_id\"" <<<"$(jq -r .body <<<"$source")" || { echo "source marker mismatch" >&2; exit 1; }
+          [[ "$(jq -r .isCrossRepository <<<"$source")" == false ]] || { echo "source PR is not same-repository or does not match sync marker" >&2; exit 1; }
+          source_parsed=$(BODY="$(jq -r .body <<<"$source")" HEAD_BRANCH="$(jq -r .headRefName <<<"$source")" SOURCE_ID="$source_id" SOURCE_SECTION="$source_section" node --input-type=module - <<'NODE'
+          const body = process.env.BODY || "";
+          const headBranch = process.env.HEAD_BRANCH || "";
+          const sourceId = process.env.SOURCE_ID || "";
+          const sourceSection = process.env.SOURCE_SECTION || "";
+          const fail = (message) => {
+            console.error(message);
+            process.exit(1);
+          };
+          const matches = [...body.matchAll(/<!--\s*global-documentation-sync:v1\s+(\{[^\n]*\})\s*-->/g)];
+          if (matches.length !== 1) fail("source marker mismatch");
+          const marker = JSON.parse(matches[0][1]);
+          const markerSection = marker.sourceSection ?? (marker.targetFamily === "news" ? "news" : "documentation");
+          const expectedBranch = `content-sync/${markerSection}-${marker.sourceId}`;
+          const legacyBranch = `content-sync/${marker.sourceId}`;
+          if (marker.sourceId !== sourceId || markerSection !== sourceSection) fail("source marker mismatch");
+          if (headBranch !== expectedBranch && headBranch !== legacyBranch) fail("source marker mismatch");
+          process.stdout.write(JSON.stringify({ branchToDelete: headBranch }));
+          NODE
+          )
+          branch_to_delete=$(jq -r .branchToDelete <<<"$source_parsed")
           if [[ "$(jq -r .state <<<"$source")" == OPEN ]]; then
             [[ "$(jq -r .isDraft <<<"$source")" == true ]] || { echo "source PR is not Draft" >&2; exit 1; }
             gh pr close "$source_pr" --repo "$REPOSITORY"
           fi
-          gh api --method DELETE "repos/$REPOSITORY/git/refs/heads/content-sync/$source_id" 2>/dev/null || {
-            gh api "repos/$REPOSITORY/git/ref/heads/content-sync/$source_id" >/dev/null 2>&1 && exit 1 || true
+          gh api --method DELETE "repos/$REPOSITORY/git/refs/heads/$branch_to_delete" 2>/dev/null || {
+            gh api "repos/$REPOSITORY/git/ref/heads/$branch_to_delete" >/dev/null 2>&1 && exit 1 || true
           }

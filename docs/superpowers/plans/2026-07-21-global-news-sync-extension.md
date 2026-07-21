@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - One production run SHALL select at most one candidate and create at most one Draft PR.
-- Global `sourceId` SHALL remain the baseline, ignore, PR, and branch identity.
+- Composite identity `${sourceSection}:${sourceId}` SHALL be the baseline, ignore, PR, and branch identity. This supersedes the older `sourceId`-only assumption because real collisions exist between `documentation/manuals/cnt_000001` and `news/cnt_000001`.
 - Global assets SHALL resolve inside the checked-out Global `public/**` tree; production HTTP asset downloads remain forbidden.
 - Pi writer/reviewer processes SHALL remain fresh and use `--no-tools`; deterministic Node code owns all filesystem and Git mutation.
 - Every generated publication SHALL pass contract validation, `npm run test:ci`, `next build`, and desktop/mobile browser QA before push.
@@ -478,7 +478,7 @@ Set `GLOBAL_DOC_SYNC_DRY_RUN=0`, start the service manually, and verify:
 - service result success
 - `run-status.json` is `complete/passed`
 - `run-summary.json` is `draft_pr_created`
-- exactly one `content-sync/<sourceId>` branch exists
+- exactly one `content-sync/<sourceSection>-<sourceId>` branch exists for the chosen composite identity
 - exactly one Draft PR exists
 - Slack notification contains source ID and PR URL
 - no merge or deployment occurred

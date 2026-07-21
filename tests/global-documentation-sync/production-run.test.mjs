@@ -78,9 +78,12 @@ test("dry run publishes durable evidence before cleanup and restores terminal pa
   const sourceId = "cnt_000211";
   const events = [];
   const durableCalls = [];
+  const createWorktreeCalls = [];
+  const dryRunArgs = [];
   const fakeRun = async (command, args) => {
     if (command === "git" && args[0] === "rev-parse") return "deadbeefcafebabe\n";
     if (command === process.execPath) {
+      dryRunArgs.push(args);
       await mkdir(reportsDir, { recursive: true });
       await Promise.all([
         writeFile(path.join(reportsDir, "candidate.json"), JSON.stringify({ schemaVersion: "global-documentation-sync/v1", artifactType: "candidate", runId, sourceId, sourceHash: `sha256:${"a".repeat(64)}`, sourceCategory: "blogs", sourceSection: "documentation", targetFamily: "blog", targetId: 21, sourceLocale: "ja", sourceHtmlPath: "/tmp/source.html", targetMdxPath: "/tmp/21-demo.mdx", targetAssetRoot: "/tmp/blog/21", targetRoute: "/blog/21/demo", meta: { id: "demo", contentType: "content" }, assets: [], externalMedia: [], production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } })),
@@ -112,9 +115,9 @@ test("dry run publishes durable evidence before cleanup and restores terminal pa
     githubRepo: "querypie/corp-web-japan",
     env: { EVIDENCE_ISSUE_NUMBER: "688", DURABLE_EVIDENCE_REQUIRED: "1" },
     runPreflight: async () => {},
-    discoverLive: async () => ({ status: "candidate", source: { sourceId, production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } }, reservedTargetIds: [] }),
+    discoverLive: async () => ({ status: "candidate", source: { sourceId, sourceSection: "documentation", production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } }, reservedTargetIds: [] }),
     runCommand: fakeRun,
-    createRunWorktree: async () => {},
+    createRunWorktree: async (options) => { createWorktreeCalls.push(options); },
     publishDraft: async () => { throw new Error("publishDraft should not run for dry run"); },
     publishDurableEvidence: async (options) => {
       events.push("publish");
@@ -126,6 +129,11 @@ test("dry run publishes durable evidence before cleanup and restores terminal pa
   assert.equal(result.status, "dry_run_passed");
   assert.deepEqual(events, ["publish", "cleanup"]);
   assert.equal(durableCalls.length, 1);
+  assert.equal(createWorktreeCalls[0].sourceSection, "documentation");
+  assert.ok(dryRunArgs[0].includes("--source-section"));
+  assert.ok(dryRunArgs[0].includes("documentation"));
+  const productionEvidence = JSON.parse(await readFile(path.join(reportsDir, "production-evidence.json"), "utf8"));
+  assert.equal(productionEvidence.sourceSection, "documentation");
   assert.equal(durableCalls[0].sourceId, sourceId);
   assert.equal(durableCalls[0].status, "dry_run_passed");
   assert.equal(durableCalls[0].pullRequestUrl, null);
@@ -178,12 +186,12 @@ test("success path gates completion on durable evidence publishing", async () =>
     githubRepo: "querypie/corp-web-japan",
     env: { EVIDENCE_ISSUE_NUMBER: "688", DURABLE_EVIDENCE_REQUIRED: "1" },
     runPreflight: async () => {},
-    discoverLive: async () => ({ status: "candidate", source: { sourceId, production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } }, reservedTargetIds: [] }),
+    discoverLive: async () => ({ status: "candidate", source: { sourceId, sourceSection: "documentation", production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } }, reservedTargetIds: [] }),
     runCommand: fakeRun,
     createRunWorktree: async () => {},
     publishDraft: async ({ onPushed }) => {
-      await onPushed({ branch: `content-sync/${sourceId}`, commit: "published-commit" });
-      return { branch: `content-sync/${sourceId}`, commit: "published-commit", pullRequestUrl: "https://github.com/querypie/corp-web-japan/pull/99" };
+      await onPushed({ branch: `content-sync/documentation-${sourceId}`, commit: "published-commit" });
+      return { branch: `content-sync/documentation-${sourceId}`, commit: "published-commit", pullRequestUrl: "https://github.com/querypie/corp-web-japan/pull/99" };
     },
     publishDurableEvidence: async () => ({ issueCommented: true, prCommented: true }),
   });
@@ -291,7 +299,7 @@ test("dry run durable evidence failure keeps worktree for retry diagnosis and ma
     githubRepo: "querypie/corp-web-japan",
     env: { EVIDENCE_ISSUE_NUMBER: "688", DURABLE_EVIDENCE_REQUIRED: "1" },
     runPreflight: async () => {},
-    discoverLive: async () => ({ status: "candidate", source: { sourceId, production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } }, reservedTargetIds: [] }),
+    discoverLive: async () => ({ status: "candidate", source: { sourceId, sourceSection: "documentation", production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } }, reservedTargetIds: [] }),
     runCommand: async (command, args) => {
       if (command === "git" && args[0] === "rev-parse") return "deadbeefcafebabe\n";
       if (command === process.execPath) {
@@ -345,7 +353,7 @@ test("durable evidence failure does not trigger a recursive republish loop", asy
     githubRepo: "querypie/corp-web-japan",
     env: { EVIDENCE_ISSUE_NUMBER: "688", DURABLE_EVIDENCE_REQUIRED: "1" },
     runPreflight: async () => {},
-    discoverLive: async () => ({ status: "candidate", source: { sourceId, production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } }, reservedTargetIds: [] }),
+    discoverLive: async () => ({ status: "candidate", source: { sourceId, sourceSection: "documentation", production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true } }, reservedTargetIds: [] }),
     runCommand: async (command, args) => {
       if (command === "git" && args[0] === "rev-parse") return "deadbeefcafebabe\n";
       if (command === process.execPath) {
@@ -367,8 +375,8 @@ test("durable evidence failure does not trigger a recursive republish loop", asy
     createRunWorktree: async () => {},
     publishDraft: async ({ onPushed }) => {
       publishDraftAttempts += 1;
-      await onPushed({ branch: `content-sync/${sourceId}`, commit: "published-commit" });
-      return { branch: `content-sync/${sourceId}`, commit: "published-commit", pullRequestUrl: "https://github.com/querypie/corp-web-japan/pull/99" };
+      await onPushed({ branch: `content-sync/documentation-${sourceId}`, commit: "published-commit" });
+      return { branch: `content-sync/documentation-${sourceId}`, commit: "published-commit", pullRequestUrl: "https://github.com/querypie/corp-web-japan/pull/99" };
     },
     publishDurableEvidence: async () => {
       durablePublishAttempts += 1;

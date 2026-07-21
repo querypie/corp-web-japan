@@ -2,7 +2,18 @@ import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 
 import { chooseLocale, normalizeUrl } from "./lib.mjs";
+import {
+  branchFor,
+  parseSyncBranch,
+  parseSyncMarker,
+  resolveLegacySourceSection,
+  serializeSyncMarker,
+  sortSourceRecords,
+  sourceIdentityKey,
+} from "./sync-identity.mjs";
 import { canonicalContentUrl, sourceFamily, sourceRoots, targetFamily } from "./source-family-map.mjs";
+
+export { branchFor, parseSyncMarker, serializeSyncMarker } from "./sync-identity.mjs";
 
 export function canonicalSourceUrl(category, meta) {
   if (meta.contentType === "outlink") {
@@ -18,29 +29,25 @@ export function canonicalSourceUrl(category, meta) {
   return normalizeUrl(canonicalContentUrl(category, meta.id));
 }
 
-export function parseSyncMarker(body = "") {
-  const matches = [...body.matchAll(/<!--\s*global-documentation-sync:v1\s+(\{[^\n]*\})\s*-->/g)];
-  if (matches.length === 0) return null;
-  if (matches.length > 1) throw new Error("duplicate global-documentation-sync marker");
-  const value = JSON.parse(matches[0][1]);
-  for (const key of ["sourceId", "targetFamily", "targetId", "runId", "branch"]) if (value[key] === undefined) throw new Error(`PR marker missing ${key}`);
-  return value;
-}
-
-export function serializeSyncMarker(value) {
-  return `<!-- global-documentation-sync:v1 ${JSON.stringify(value)} -->`;
+function manifestIdentity(record, name) {
+  const resolved = resolveLegacySourceSection({ record, sources: [] });
+  if (resolved.status !== "resolved") throw new Error(`${name} record missing sourceSection`);
+  return sourceIdentityKey({ sourceSection: resolved.sourceSection, sourceId: record.sourceId });
 }
 
 export function validateDecisionManifest(records, name) {
   if (!Array.isArray(records)) throw new Error(`${name} manifest must be an array`);
-  const ids = records.map(({ sourceId }) => sourceId);
-  if (new Set(ids).size !== ids.length) throw new Error(`${name} manifest has duplicate sourceId`);
-  if (ids.some((id, index) => index > 0 && ids[index - 1].localeCompare(id) > 0)) throw new Error(`${name} manifest must be sourceId-sorted`);
+  const identities = [];
+  if (records.some((record, index) => index > 0 && sortSourceRecords(records[index - 1], record) > 0)) {
+    throw new Error(`${name} manifest must be sourceId-sorted`);
+  }
   if (name === "baseline") {
     for (const record of records) {
       for (const key of ["sourceId", "sourceCategory", "sourceSlug", "targetFamily", "targetId", "targetSlug"]) if (record[key] === undefined || record[key] === "") throw new Error(`baseline record missing ${key}`);
       if (!/^cnt_\d+$/.test(record.sourceId) || !Number.isInteger(Number(record.targetId))) throw new Error("baseline record has invalid identity");
+      identities.push(manifestIdentity(record, name));
     }
+    if (new Set(identities).size !== identities.length) throw new Error(`${name} manifest has duplicate source identity`);
     const targets = records.map(({ targetFamily, targetId }) => `${targetFamily}:${targetId}`);
     if (new Set(targets).size !== targets.length) throw new Error("baseline manifest has duplicate target identity");
   } else if (name === "ignore") {
@@ -50,7 +57,9 @@ export function validateDecisionManifest(records, name) {
       if (!/^cnt_\d+$/.test(record.sourceId) || Number.isNaN(Date.parse(record.addedAt)) || (record.expiresAt && Number.isNaN(Date.parse(record.expiresAt)))) throw new Error("ignore record has invalid identity or date");
       if (!reasonCodes.has(record.reasonCode)) throw new Error(`ignore record has invalid reasonCode: ${record.reasonCode}`);
       if (normalizeUrl(record.sourceCanonicalUrl) !== record.sourceCanonicalUrl || !record.sourceCanonicalUrl.startsWith("https://")) throw new Error("ignore record sourceCanonicalUrl must be normalized HTTPS");
+      if (record.sourceSection) identities.push(`${record.sourceSection}:${record.sourceId}`);
     }
+    if (new Set(identities).size !== identities.length) throw new Error(`${name} manifest has duplicate source identity`);
   }
   return records;
 }
@@ -93,7 +102,22 @@ async function enumerateSources(globalRepo) {
           selected = null;
         }
       }
-      records.push({ sourceId, category: descriptor.sourceCategory, directory, meta, selected, descriptor });
+      let sourceCanonicalUrl = null;
+      try {
+        sourceCanonicalUrl = canonicalSourceUrl(descriptor.sourceCategory, meta);
+      } catch {
+        sourceCanonicalUrl = null;
+      }
+      records.push({
+        sourceId,
+        category: descriptor.sourceCategory,
+        sourceSection: descriptor.sourceSection,
+        directory,
+        meta,
+        selected,
+        descriptor,
+        sourceCanonicalUrl,
+      });
     }
   }
   return records;
@@ -111,9 +135,9 @@ function productionSets(sitemapXml, productionListHtmlByUrl = {}) {
   return { sitemap, listByUrl };
 }
 
-async function mappedSourceIds(targetRepo) {
+async function mappedSourceIdentities(targetRepo) {
   const root = path.join(targetRepo, "src/content");
-  const ids = new Set();
+  const identities = new Set();
   async function visit(directory) {
     let entries = [];
     try { entries = await readdir(directory, { withFileTypes: true }); } catch (error) { if (error.code === "ENOENT") return; throw error; }
@@ -122,13 +146,14 @@ async function mappedSourceIds(targetRepo) {
       if (entry.isDirectory()) await visit(file);
       else if (entry.name.endsWith(".mdx")) {
         const source = await readFile(file, "utf8");
-        const match = /^sourceId:\s*["']?(cnt_\d+)["']?\s*$/m.exec(source);
-        if (match) ids.add(match[1]);
+        const sourceId = /^sourceId:\s*["']?(cnt_\d+)["']?\s*$/m.exec(source)?.[1];
+        const sourceSection = /^sourceSection:\s*["']?([a-z]+)["']?\s*$/m.exec(source)?.[1];
+        if (sourceId && sourceSection) identities.add(sourceIdentityKey({ sourceSection, sourceId }));
       }
     }
   }
   await visit(root);
-  return ids;
+  return identities;
 }
 
 function outlinkLocale(meta) {
@@ -181,41 +206,113 @@ function shouldSkipDiscoveryContractFailure(source) {
       || (source.meta.contentType && !["content", "outlink"].includes(source.meta.contentType)));
 }
 
+function identityForSource(source) {
+  return sourceIdentityKey({ sourceSection: source.sourceSection, sourceId: source.sourceId });
+}
+
+function resolveIgnoreRecord(record, sources) {
+  const resolved = resolveLegacySourceSection({ record, sources });
+  if (resolved.status === "missing") return null;
+  if (resolved.status !== "resolved") return { status: "blocked_ambiguous_legacy_identity", sourceId: record.sourceId };
+  return {
+    ...record,
+    sourceSection: resolved.sourceSection,
+    identity: sourceIdentityKey({ sourceSection: resolved.sourceSection, sourceId: record.sourceId }),
+  };
+}
+
+function resolveBranchIdentity(branch, sources) {
+  const parsed = parseSyncBranch(branch);
+  if (!parsed) return null;
+  if (!parsed.legacy) return parsed;
+  const resolved = resolveLegacySourceSection({ record: { sourceId: parsed.sourceId }, sources });
+  if (resolved.status === "resolved") return { ...parsed, sourceSection: resolved.sourceSection, identity: sourceIdentityKey({ sourceSection: resolved.sourceSection, sourceId: parsed.sourceId }) };
+  return { ...parsed, blockedStatus: "blocked_ambiguous_legacy_identity" };
+}
+
 export async function discoverNextCandidate({ globalRepo, targetRepo, sitemapXml, productionListHtmlByUrl, prRecords = [], branchNames = [] }) {
   const baseline = await readManifest(targetRepo, "baseline");
   const ignore = await readManifest(targetRepo, "ignore");
-  const parsedPulls = prRecords.map((pull) => ({ pull, marker: parseSyncMarker(pull.body) }));
-  const invalidSyncPull = parsedPulls.find(({ pull, marker }) => pull.headRefName?.startsWith("content-sync/") && !marker);
-  if (invalidSyncPull) return { status: "blocked_invalid_pr_marker", pullRequest: invalidSyncPull.pull.number, sourceId: invalidSyncPull.pull.headRefName.slice("content-sync/".length) };
-  const markers = parsedPulls.map(({ marker }) => marker).filter(Boolean);
-  const markerIds = new Set(markers.map(({ sourceId }) => sourceId));
-  const syncBranches = branchNames.filter((name) => name.startsWith("content-sync/"));
-  const orphan = syncBranches.find((name) => !markerIds.has(name.slice("content-sync/".length)));
-  if (orphan) return { status: "blocked_branch_only", branch: orphan };
-
-  const activeIgnore = new Map(ignore.filter(({ expiresAt }) => !expiresAt || Date.parse(expiresAt) > Date.now()).map((record) => [record.sourceId, record]));
-  const handled = new Set([
-    ...baseline.map(({ sourceId }) => sourceId),
-    ...markerIds, ...syncBranches.map((name) => name.slice("content-sync/".length)),
-    ...(await mappedSourceIds(targetRepo)),
-  ]);
   const production = productionSets(sitemapXml, productionListHtmlByUrl);
-  const sources = (await enumerateSources(globalRepo)).sort((a, b) => (b.meta.dateIso || "").localeCompare(a.meta.dateIso || "") || a.sourceId.localeCompare(b.sourceId));
-  for (const [sourceId, ignored] of activeIgnore) {
-    const source = sources.find((record) => record.sourceId === sourceId);
-    if (!source) continue;
-    let currentUrl;
-    try { currentUrl = canonicalSourceUrl(source.category, source.meta); } catch { continue; }
-    if (ignored.sourceCanonicalUrl !== currentUrl) return { status: "blocked_ignore_url_drift", sourceId, expectedUrl: ignored.sourceCanonicalUrl, actualUrl: currentUrl };
+  const sources = (await enumerateSources(globalRepo)).sort((left, right) => (right.meta.dateIso || "").localeCompare(left.meta.dateIso || "") || sortSourceRecords(left, right));
+  const sourceViews = sources.filter((source) => source.sourceCanonicalUrl).map((source) => ({
+    sourceId: source.sourceId,
+    sourceSection: source.sourceSection,
+    sourceCanonicalUrl: source.sourceCanonicalUrl,
+  }));
+
+  const baselineIdentities = new Set(baseline.map((record) => sourceIdentityKey({ sourceSection: record.sourceSection || sourceFamily(record.sourceCategory).sourceSection, sourceId: record.sourceId })));
+  const activeIgnore = new Map();
+  for (const record of ignore.filter(({ expiresAt }) => !expiresAt || Date.parse(expiresAt) > Date.now())) {
+    const resolved = resolveIgnoreRecord(record, sourceViews);
+    if (resolved?.status) return resolved;
+    if (resolved) activeIgnore.set(resolved.identity, resolved);
   }
+
+  const parsedPulls = [];
+  for (const pull of prRecords) {
+    if (!pull.headRefName?.startsWith("content-sync/")) continue;
+    let marker;
+    try {
+      marker = parseSyncMarker(pull.body);
+    } catch {
+      return { status: "blocked_invalid_pr_marker", pullRequest: pull.number, branch: pull.headRefName };
+    }
+    if (!marker) return { status: "blocked_invalid_pr_marker", pullRequest: pull.number, branch: pull.headRefName };
+    parsedPulls.push({ pull, marker });
+  }
+  const markersByIdentity = new Map();
+  for (const entry of parsedPulls) {
+    const list = markersByIdentity.get(entry.marker.identity) || [];
+    list.push(entry);
+    markersByIdentity.set(entry.marker.identity, list);
+  }
+  const duplicateMarkerGroup = [...markersByIdentity.entries()].find(([, list]) => list.length > 1);
+  if (duplicateMarkerGroup) {
+    return {
+      status: "blocked_duplicate_pr_identity",
+      sourceIdentity: duplicateMarkerGroup[0],
+      pullRequests: duplicateMarkerGroup[1].map(({ pull }) => pull.number),
+    };
+  }
+
+  const syncBranches = branchNames.filter((name) => name.startsWith("content-sync/"));
+  for (const branch of syncBranches) {
+    if (parsedPulls.some(({ marker }) => marker.branch === branch)) continue;
+    const parsed = resolveBranchIdentity(branch, sourceViews);
+    if (parsed?.blockedStatus) return { status: parsed.blockedStatus, branch };
+    if (parsed) return { status: "blocked_branch_only", branch };
+  }
+
+  const handled = new Set([
+    ...baselineIdentities,
+    ...markersByIdentity.keys(),
+    ...(await mappedSourceIdentities(targetRepo)),
+  ]);
+
+  for (const ignored of activeIgnore.values()) {
+    const source = sources.find((record) => identityForSource(record) === ignored.identity);
+    if (!source) continue;
+    if (ignored.sourceCanonicalUrl !== source.sourceCanonicalUrl) {
+      return {
+        status: "blocked_ignore_url_drift",
+        sourceId: source.sourceId,
+        sourceSection: source.sourceSection,
+        expectedUrl: ignored.sourceCanonicalUrl,
+        actualUrl: source.sourceCanonicalUrl,
+      };
+    }
+  }
+
   for (const source of sources) {
     if (shouldSkipDiscoveryContractFailure(source)) continue;
     const contractFailure = sourceContractFailure(source);
-    if (contractFailure) return { status: "blocked_source_contract", sourceId: source.sourceId, reason: contractFailure };
-    let url;
-    try { url = canonicalSourceUrl(source.category, source.meta); } catch { continue; }
-    if (activeIgnore.has(source.sourceId)) continue;
-    if (handled.has(source.sourceId)) continue;
+    if (contractFailure) return { status: "blocked_source_contract", sourceId: source.sourceId, sourceSection: source.sourceSection, reason: contractFailure };
+    const url = source.sourceCanonicalUrl;
+    if (!url) continue;
+    const identity = identityForSource(source);
+    if (activeIgnore.has(identity)) continue;
+    if (handled.has(identity)) continue;
     const descriptor = sourceFamily(source.category);
     const listUrl = normalizeUrl(descriptor.productionListUrl);
     const list = production.listByUrl.get(listUrl) || new Set();
@@ -239,7 +336,7 @@ export async function discoverNextCandidate({ globalRepo, targetRepo, sitemapXml
         meta: source.meta,
         production: { canonicalUrl: url, listed, listUrl, sitemap },
       },
-      reservedTargetIds: markers.filter(({ targetFamily: family }) => family === targetFamily(source.category)).map(({ targetId }) => targetId),
+      reservedTargetIds: parsedPulls.filter(({ marker }) => marker.targetFamily === targetFamily(source.category)).map(({ marker }) => marker.targetId),
     };
   }
   return { status: "no_candidate" };

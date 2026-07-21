@@ -35,13 +35,13 @@ test("actual local Git transaction pushes one deterministic branch, creates a Dr
     return git(args, cwd);
   };
 
-  await createRunWorktree({ baseRepo: base, worktreePath: firstWorktree, sourceId: "cnt_000999" });
+  await createRunWorktree({ baseRepo: base, worktreePath: firstWorktree, sourceId: "cnt_000999", sourceSection: "documentation" });
   await writeFile(path.join(firstWorktree, "generated.mdx"), "first\n");
-  const candidate = { sourceId: "cnt_000999", sourceHash: "sha256:test", sourceLocale: "ja", runId: "integration", targetFamily: "blog", targetId: 999, targetMdxPath: path.join(firstWorktree, "generated.mdx"), assets: [], production: { canonicalUrl: "https://example.test/en/documentation/test" }, meta: { id: "test", title: { en: "Test" } } };
+  const candidate = { sourceId: "cnt_000999", sourceSection: "documentation", sourceHash: "sha256:test", sourceLocale: "ja", runId: "integration", targetFamily: "blog", targetId: 999, targetMdxPath: path.join(firstWorktree, "generated.mdx"), assets: [], production: { canonicalUrl: "https://example.test/en/documentation/test" }, meta: { id: "test", title: { en: "Test" } } };
   const validation = { results: [] };
   const reviews = ["fidelity-review", "japanese-editorial-review", "contract-review"].map((artifactType) => ({ artifactType, verdict: "pass", findings: [] }));
   const published = await publishDraft({ targetRepo: firstWorktree, candidate, validation, reviews, execute });
-  assert.equal(published.branch, "content-sync/cnt_000999");
+  assert.equal(published.branch, "content-sync/documentation-cnt_000999");
   assert.equal(ghCalls[0].includes("--draft"), true);
   assert.equal(git(["ls-remote", "--heads", remote, published.branch], base).includes(published.commit), true);
 
@@ -50,7 +50,7 @@ test("actual local Git transaction pushes one deterministic branch, creates a Dr
   git(["worktree", "add", "--detach", retryWorktree, `origin/${published.branch}`], base);
   await writeFile(path.join(retryWorktree, "generated.mdx"), "corrected\n");
   const retryCandidate = { ...candidate, targetMdxPath: path.join(retryWorktree, "generated.mdx") };
-  const retried = await publishRetry({ targetRepo: retryWorktree, candidate: retryCandidate, sourceId: "cnt_000999", pullRequestNumber: 999, pullRequestBody: "updated marker", execute });
+  const retried = await publishRetry({ targetRepo: retryWorktree, candidate: retryCandidate, pullRequestNumber: 999, pullRequestBody: "updated marker", execute });
   assert.notEqual(retried.commit, published.commit);
   assert.equal(git(["ls-remote", "--heads", remote, published.branch], base).includes(retried.commit), true);
   assert.equal(ghCalls.some((args) => args[0] === "pr" && args[1] === "reopen" && args[2] === "999"), true);

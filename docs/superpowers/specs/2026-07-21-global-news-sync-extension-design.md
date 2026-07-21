@@ -10,7 +10,7 @@ Add `https://www.querypie.com/en/news` as a production source surface and genera
 
 - at most one candidate and one Draft PR per run
 - no automatic content merge or deployment
-- `sourceId`-based baseline, ignore, PR, and branch deduplication
+- composite `${sourceSection}:${sourceId}` baseline, ignore, PR, and branch deduplication, driven by the observed `documentation/manuals/cnt_000001` vs `news/cnt_000001` collision
 - fresh no-tools Pi processes
 - full contract, CI, build, and browser validation
 - fail closed before remote mutation
@@ -181,7 +181,7 @@ Before enabling News discovery on the production host:
 
 Known pre-implementation evidence is six unique matches and no ambiguity using slug/title heuristics. This is evidence only, not a hard-coded baseline.
 
-Existing baseline, ignore, PR marker, branch, and embedded `sourceId` suppression rules apply unchanged to News.
+Existing suppression now keys on composite `${sourceSection}:${sourceId}`. Legacy baseline, ignore, PR marker, and branch records that omit `sourceSection` remain read-compatible only when one section can be inferred safely.
 
 ## Generation and review
 

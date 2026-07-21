@@ -4,6 +4,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 
 import { SOURCE_FAMILIES } from "./source-family-map.mjs";
+import { sortSourceRecords, sourceIdentityKey } from "./sync-identity.mjs";
 
 function args(argv) {
   const value = {};
@@ -72,20 +73,28 @@ function matchTargets(targets, meta) {
   return matches;
 }
 
+function baselineIdentity(record) {
+  return sourceIdentityKey({ sourceSection: record.sourceSection, sourceId: record.sourceId });
+}
+
 function assertUniqueTargets(baseline) {
-  const seen = new Set();
+  const seenSource = new Set();
+  const seenTarget = new Set();
   for (const record of baseline) {
-    const key = `${record.targetFamily}:${record.targetId}`;
-    if (seen.has(key)) throw new Error(`duplicate baseline target identity: ${key}`);
-    seen.add(key);
+    const sourceKey = baselineIdentity(record);
+    if (seenSource.has(sourceKey)) throw new Error(`duplicate baseline source identity: ${sourceKey}`);
+    seenSource.add(sourceKey);
+    const targetKey = `${record.targetFamily}:${record.targetId}`;
+    if (seenTarget.has(targetKey)) throw new Error(`duplicate baseline target identity: ${targetKey}`);
+    seenTarget.add(targetKey);
   }
 }
 
 export function mergeBaselineRecords(existingBaseline, generatedBaseline) {
-  const bySourceId = new Map(existingBaseline.map((record) => [record.sourceId, record]));
-  for (const record of generatedBaseline) bySourceId.set(record.sourceId, record);
-  const merged = [...bySourceId.values()].sort((a, b) => a.sourceId.localeCompare(b.sourceId));
-  assertUniqueTargets(merged);
+  const bySourceIdentity = new Map(existingBaseline.map((record) => [baselineIdentity({ ...record, sourceSection: record.sourceSection || SOURCE_FAMILIES.find((descriptor) => descriptor.sourceCategory === record.sourceCategory)?.sourceSection }), record]));
+  for (const record of generatedBaseline) bySourceIdentity.set(baselineIdentity(record), record);
+  const merged = [...bySourceIdentity.values()].sort(sortSourceRecords);
+  assertUniqueTargets(merged.map((record) => ({ ...record, sourceSection: record.sourceSection || SOURCE_FAMILIES.find((descriptor) => descriptor.sourceCategory === record.sourceCategory)?.sourceSection })));
   return merged;
 }
 
@@ -98,11 +107,11 @@ export async function generateBaseline(globalRepo, targetRepo) {
     if (!byFamily.has(family)) byFamily.set(family, await targetRecords(targetRepo, family));
     for (const { sourceId, meta } of await sourceRecords(globalRepo, descriptor)) {
       const matches = matchTargets(byFamily.get(family), meta);
-      if (matches.length === 1) baseline.push({ sourceId, sourceCategory: descriptor.sourceCategory, sourceSlug: meta.id, targetFamily: family, targetId: matches[0].id, targetSlug: matches[0].slug });
+      if (matches.length === 1) baseline.push({ sourceSection: descriptor.sourceSection, sourceId, sourceCategory: descriptor.sourceCategory, sourceSlug: meta.id, targetFamily: family, targetId: matches[0].id, targetSlug: matches[0].slug });
       else if (matches.length > 1) ambiguous.push({ sourceId, category: descriptor.sourceCategory, slug: meta.id, matches });
     }
   }
-  baseline.sort((a, b) => a.sourceId.localeCompare(b.sourceId));
+  baseline.sort(sortSourceRecords);
   assertUniqueTargets(baseline);
   return { baseline, ambiguous };
 }

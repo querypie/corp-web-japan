@@ -148,18 +148,20 @@ export async function runProduction(options) {
   const baseRef = options.baseRef || "origin/main";
   await atomicJson(productionEvidenceFile, {
     sourceId: discovery.source.sourceId,
+    sourceSection: discovery.source.sourceSection,
     production: discovery.source.production,
     target: { baseRef, deployedGitCommit: redactSecrets((await runCommand("git", ["rev-parse", baseRef], options.targetRepo)).trim()) },
   });
   const worktreePath = path.join(options.worktreesRoot, `sync-${runId}`);
   await mkdir(options.worktreesRoot, { recursive: true });
-  await createWorktree({ baseRepo: options.targetRepo, worktreePath, sourceId: discovery.source.sourceId, baseRef });
+  await createWorktree({ baseRepo: options.targetRepo, worktreePath, sourceId: discovery.source.sourceId, sourceSection: discovery.source.sourceSection, baseRef });
   const dependencyRoot = path.join(options.targetRepo, "node_modules");
   if (await exists(dependencyRoot)) await symlink(dependencyRoot, path.join(worktreePath, "node_modules"), "dir");
 
   const args = [
     path.join(worktreePath, "scripts/global-documentation-sync/local-dry-run.mjs"), "--dry-run",
     "--source-id", discovery.source.sourceId,
+    "--source-section", discovery.source.sourceSection,
     "--global-repo", options.globalRepo, "--target-repo", worktreePath,
     "--reports-dir", reportsDir, "--pi-bin", options.piBin,
     "--provider", options.provider, "--model", options.model,
