@@ -90,18 +90,31 @@ export async function stopPreviewServer(server) {
   await closed;
 }
 
-export async function runBrowserQa({ targetRepo, candidate, reportsDir, port = 43129 }) {
+export function startPreviewServer({ targetRepo, port, env = process.env, spawnImpl = spawn }) {
+  return spawnImpl("npm", ["start", "--", "-p", String(port)], {
+    cwd: targetRepo,
+    env,
+    stdio: ["ignore", "ignore", "pipe"],
+    detached: process.platform !== "win32",
+  });
+}
+
+export function browserLaunchOptions(env = process.env) {
+  return { headless: true, env, channel: process.env.BROWSER_CHANNEL || "chrome" };
+}
+
+export async function runBrowserQa({ targetRepo, candidate, reportsDir, port = 43129, env = process.env, spawnImpl = spawn }) {
   const route = publicationRoute(candidate);
   const url = `http://127.0.0.1:${port}${route}`;
-  const server = spawn("npm", ["start", "--", "-p", String(port)], { cwd: targetRepo, env: process.env, stdio: ["ignore", "ignore", "pipe"], detached: process.platform !== "win32" });
+  const server = startPreviewServer({ targetRepo, port, env, spawnImpl });
   let serverError = "";
   server.stderr.on("data", (chunk) => { serverError = `${serverError}${chunk}`.slice(-4000); });
   try {
     await waitForServer(url, server, candidate);
     const { chromium } = await import("playwright");
     let browser;
-    try { browser = await chromium.launch({ headless: true, channel: process.env.BROWSER_CHANNEL || "chrome" }); }
-    catch { browser = await chromium.launch({ headless: true }); }
+    try { browser = await chromium.launch(browserLaunchOptions(env)); }
+    catch { browser = await chromium.launch({ headless: true, env }); }
     const results = [];
     try {
       for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {

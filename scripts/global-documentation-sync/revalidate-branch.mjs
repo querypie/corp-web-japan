@@ -5,6 +5,7 @@ import path from "node:path";
 import { runBrowserQa } from "./browser-qa.mjs";
 import { validateGeneratedPublication } from "./generated-validation.mjs";
 import { SCHEMA_VERSION, validateArtifact } from "./lib.mjs";
+import { createValidationHome, runValidationCommand, validationEnvironment } from "./validation-env.mjs";
 
 function run(command, args, cwd) {
   return new Promise((resolve, reject) => {
@@ -34,9 +35,11 @@ export async function revalidateRemoteBranch({ baseRepo, branch, worktreesRoot, 
     };
     const generation = JSON.parse(await readFile(path.join(reportsDir, "generation-report.json"), "utf8"));
     await validateGeneratedPublication(remapped, generation, worktree);
-    await run("npm", ["run", "test:ci"], worktree);
-    await run(path.join(worktree, "node_modules/.bin/next"), ["build"], worktree);
-    const browser = await runBrowserQa({ targetRepo: worktree, candidate: remapped, reportsDir, port });
+    const validationHome = await createValidationHome(reportsDir);
+    const validationEnv = validationEnvironment(process.env, { home: validationHome });
+    await runValidationCommand({ command: "npm", args: ["run", "test:ci"], cwd: worktree, env: validationEnv, reportsDir, label: "resume-validation-test-ci" });
+    await runValidationCommand({ command: path.join(worktree, "node_modules/.bin/next"), args: ["build"], cwd: worktree, env: validationEnv, reportsDir, label: "resume-validation-next-build" });
+    const browser = await runBrowserQa({ targetRepo: worktree, candidate: remapped, reportsDir, port, env: validationEnv });
     const validation = {
       schemaVersion: SCHEMA_VERSION, artifactType: "validation-results", runId: candidate.runId, sourceId: candidate.sourceId,
       results: [

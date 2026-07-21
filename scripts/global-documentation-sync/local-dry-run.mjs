@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import { spawn } from "node:child_process";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -11,20 +10,7 @@ import { runPiInvocations } from "./pi-runner.mjs";
 import { redactSecrets } from "./redaction.mjs";
 import { runReviewCycle } from "./review-cycle.mjs";
 import { updateRunStatus } from "./runtime-status.mjs";
-
-function run(command, args, cwd) {
-  return new Promise((resolve, reject) => {
-    const child = spawn(command, args, { cwd, env: process.env, stdio: ["ignore", "pipe", "pipe"] });
-    let stdout = "";
-    let stderr = "";
-    child.stdout.on("data", (chunk) => { stdout += chunk; });
-    child.stderr.on("data", (chunk) => { stderr += chunk; });
-    child.on("error", reject);
-    child.on("close", (code) => code === 0
-      ? resolve({ command: [command, ...args].join(" "), code, stdout: redactSecrets(stdout.slice(-4000)) })
-      : reject(new Error(redactSecrets(`${command} ${args.join(" ")} failed (${code})\n${stderr.slice(-4000)}\n${stdout.slice(-4000)}`))));
-  });
-}
+import { createValidationHome, runValidationCommand, validationEnvironment } from "./validation-env.mjs";
 
 async function main() {
   const options = parseArgs(process.argv.slice(2));
@@ -53,14 +39,16 @@ async function main() {
   await status("generated-validation", "running", { sourceId: candidate.sourceId });
   const generation = JSON.parse(await readFile(path.join(options.reportsDir, "generation-report.json"), "utf8"));
   await validateGeneratedPublication(candidate, generation, options.targetRepo);
+  const validationHome = await createValidationHome(options.reportsDir);
+  const validationEnv = validationEnvironment(process.env, { home: validationHome });
   const validationCommands = [
-    ["npm", ["run", "test:ci"]],
-    [path.join(options.targetRepo, "node_modules/.bin/next"), ["build"]],
+    { command: "npm", args: ["run", "test:ci"], label: "validation-test-ci", stage: "test-ci" },
+    { command: path.join(options.targetRepo, "node_modules/.bin/next"), args: ["build"], label: "validation-next-build", stage: "next-build" },
   ];
   const results = [{ command: "generated-publication-contract", code: 0, stdout: "passed" }];
-  for (const [command, args] of validationCommands) {
-    await status(command === "npm" ? "test-ci" : "next-build", "running", { sourceId: candidate.sourceId });
-    results.push(await run(command, args, options.targetRepo));
+  for (const { command, args, label, stage } of validationCommands) {
+    await status(stage, "running", { sourceId: candidate.sourceId });
+    results.push(await runValidationCommand({ command, args, cwd: options.targetRepo, env: validationEnv, reportsDir: options.reportsDir, label }));
   }
   const validation = {
     schemaVersion: SCHEMA_VERSION, artifactType: "validation-results",
@@ -70,7 +58,7 @@ async function main() {
   validateArtifact("validation-results", validation);
   await writeFile(path.join(options.reportsDir, "validation-results.json"), `${JSON.stringify(validation, null, 2)}\n`, { mode: 0o600 });
   await status("browser-qa", "running", { sourceId: candidate.sourceId });
-  await runBrowserQa({ targetRepo: options.targetRepo, candidate, reportsDir: options.reportsDir, port: Number(options.port || 43129) });
+  await runBrowserQa({ targetRepo: options.targetRepo, candidate, reportsDir: options.reportsDir, port: Number(options.port || 43129), env: validationEnv });
   const summary = await finalize({ reportsDir: options.reportsDir });
   await status("complete", "passed", { sourceId: candidate.sourceId });
   process.stdout.write(`${JSON.stringify(summary)}\n`);
