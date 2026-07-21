@@ -1,5 +1,6 @@
 [
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000001",
     "sourceCategory": "manuals",
     "sourceSlug": "acp-community-install-guide",
@@ -8,6 +9,7 @@
     "targetSlug": "acp-community-install-guide"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000007",
     "sourceCategory": "blogs",
     "sourceSlug": "ai-attack-tool-firewall-breach-data-protection",
@@ -16,6 +18,7 @@
     "targetSlug": "ai-attack-tool-firewall-breach-data-protection"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000008",
     "sourceCategory": "white-papers",
     "sourceSlug": "rag-security-querypie-builds-the-bridge",
@@ -24,6 +27,7 @@
     "targetSlug": "rag-security-querypie-builds-the-bridge"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000013",
     "sourceCategory": "events",
     "sourceSlug": "air-company-querypie-ai-webinar",
@@ -32,6 +36,7 @@
     "targetSlug": "air-company-querypie-ai-webinar"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000014",
     "sourceCategory": "events",
     "sourceSlug": "air-company-querypie-ai-usecase-webinar",
@@ -40,6 +45,7 @@
     "targetSlug": "air-company-querypie-ai-usecase-webinar"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000017",
     "sourceCategory": "events",
     "sourceSlug": "air-company-querypie-mcp-webinar",
@@ -48,6 +54,7 @@
     "targetSlug": "air-company-querypie-mcp-webinar"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000023",
     "sourceCategory": "events",
     "sourceSlug": "findy-querypie-mcp-webinar",
@@ -56,6 +63,7 @@
     "targetSlug": "findy-querypie-mcp-webinar"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000024",
     "sourceCategory": "events",
     "sourceSlug": "air-company-querypie-zerotrust-webinar",
@@ -64,6 +72,7 @@
     "targetSlug": "air-company-querypie-zerotrust-webinar"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000028",
     "sourceCategory": "events",
     "sourceSlug": "querypie-japan-webinar-security",
@@ -72,6 +81,7 @@
     "targetSlug": "querypie-japan-webinar-security"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000031",
     "sourceCategory": "events",
     "sourceSlug": "cloud-certification-shortest-path",
@@ -80,6 +90,7 @@
     "targetSlug": "cloud-certification-shortest-path"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000035",
     "sourceCategory": "events",
     "sourceSlug": "device-security-mdm-kandji",
@@ -88,6 +99,7 @@
     "targetSlug": "device-security-mdm-kandji"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000036",
     "sourceCategory": "events",
     "sourceSlug": "flex-querypie-secrets",
@@ -96,6 +108,7 @@
     "targetSlug": "flex-querypie-secrets"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000042",
     "sourceCategory": "events",
     "sourceSlug": "okta-paloalto-querypie-webinar",
@@ -104,6 +117,7 @@
     "targetSlug": "okta-paloalto-querypie-webinar"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000043",
     "sourceCategory": "events",
     "sourceSlug": "querypie-databases-nosql-ledger-ja",
@@ -112,6 +126,7 @@
     "targetSlug": "querypie-databases-nosql-ledger-ja"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000044",
     "sourceCategory": "events",
     "sourceSlug": "querypie-databases-nosql-ledger-ko",
@@ -120,6 +135,7 @@
     "targetSlug": "querypie-databases-nosql-ledger-ko"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000045",
     "sourceCategory": "events",
     "sourceSlug": "querypie-integrations-scim-slack-vault-ja",
@@ -128,6 +144,7 @@
     "targetSlug": "querypie-integrations-scim-slack-vault-ja"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000046",
     "sourceCategory": "events",
     "sourceSlug": "querypie-integrations-scim-slack-vault-ko",
@@ -136,6 +153,7 @@
     "targetSlug": "querypie-integrations-scim-slack-vault-ko"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000047",
     "sourceCategory": "events",
     "sourceSlug": "querypie-kubernetes-management-ja",
@@ -144,6 +162,7 @@
     "targetSlug": "querypie-kubernetes-management-ja"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000048",
     "sourceCategory": "events",
     "sourceSlug": "querypie-kubernetes-management-ko",
@@ -152,6 +171,7 @@
     "targetSlug": "querypie-kubernetes-management-ko"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000049",
     "sourceCategory": "events",
     "sourceSlug": "querypie-server-management-ja",
@@ -160,6 +180,7 @@
     "targetSlug": "querypie-server-management-ja"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000050",
     "sourceCategory": "events",
     "sourceSlug": "querypie-server-management-ko",
@@ -168,6 +189,7 @@
     "targetSlug": "querypie-server-management-ko"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000065",
     "sourceCategory": "events",
     "sourceSlug": "ztna-security-prisma-access",
@@ -176,6 +198,7 @@
     "targetSlug": "ztna-security-prisma-access"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000092",
     "sourceCategory": "voc",
     "sourceSlug": "lg-uplus-daniel-ku",
@@ -184,6 +207,7 @@
     "targetSlug": "lg-uplus-daniel-ku"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000093",
     "sourceCategory": "voc",
     "sourceSlug": "superb-ai-hyun-kim",
@@ -192,6 +216,7 @@
     "targetSlug": "superb-ai-hyun-kim"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000094",
     "sourceCategory": "voc",
     "sourceSlug": "lovo-ai-tom-lee",
@@ -200,6 +225,7 @@
     "targetSlug": "lovo-ai-tom-lee"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000095",
     "sourceCategory": "voc",
     "sourceSlug": "allganize-changsu-lee",
@@ -208,6 +234,7 @@
     "targetSlug": "allganize-changsu-lee"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000096",
     "sourceCategory": "voc",
     "sourceSlug": "air-company-mori-takeshi",
@@ -216,6 +243,7 @@
     "targetSlug": "air-company-mori-takeshi"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000099",
     "sourceCategory": "blogs",
     "sourceSlug": "ai-security-threat-map-2026-cxo",
@@ -224,6 +252,7 @@
     "targetSlug": "ai-security-threat-map-2026-cxo"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000100",
     "sourceCategory": "blogs",
     "sourceSlug": "shadow-ai-risk-cxo-countermeasures",
@@ -232,6 +261,7 @@
     "targetSlug": "shadow-ai-risk-cxo-countermeasures"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000101",
     "sourceCategory": "blogs",
     "sourceSlug": "mitoco-buddy-release",
@@ -240,6 +270,7 @@
     "targetSlug": "mitoco-buddy-release"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000102",
     "sourceCategory": "blogs",
     "sourceSlug": "terrasky-mitoco-buddy",
@@ -248,6 +279,7 @@
     "targetSlug": "terrasky-mitoco-buddy"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000103",
     "sourceCategory": "blogs",
     "sourceSlug": "top-pam-solutions",
@@ -256,6 +288,7 @@
     "targetSlug": "top-pam-solutions"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000104",
     "sourceCategory": "blogs",
     "sourceSlug": "querypie-payroll-partnership",
@@ -264,6 +297,7 @@
     "targetSlug": "querypie-payroll-partnership"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000105",
     "sourceCategory": "blogs",
     "sourceSlug": "ai-agent-security-replit-case",
@@ -272,6 +306,7 @@
     "targetSlug": "ai-agent-security-replit-case"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000106",
     "sourceCategory": "blogs",
     "sourceSlug": "why-we-need-ai-red-teaming",
@@ -280,6 +315,7 @@
     "targetSlug": "why-we-need-ai-red-teaming"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000107",
     "sourceCategory": "blogs",
     "sourceSlug": "nextjs-server-action-security",
@@ -288,6 +324,7 @@
     "targetSlug": "nextjs-server-action-security"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000108",
     "sourceCategory": "blogs",
     "sourceSlug": "optimize-ec2-costs",
@@ -296,6 +333,7 @@
     "targetSlug": "optimize-ec2-costs"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000109",
     "sourceCategory": "blogs",
     "sourceSlug": "why-is-sso-important",
@@ -304,6 +342,7 @@
     "targetSlug": "why-is-sso-important"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000110",
     "sourceCategory": "blogs",
     "sourceSlug": "privileged-access-management-pam",
@@ -312,6 +351,7 @@
     "targetSlug": "privileged-access-management-pam"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000111",
     "sourceCategory": "blogs",
     "sourceSlug": "healthcare-data-security",
@@ -320,6 +360,7 @@
     "targetSlug": "healthcare-data-security"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000112",
     "sourceCategory": "blogs",
     "sourceSlug": "zero-trust-security",
@@ -328,6 +369,7 @@
     "targetSlug": "zero-trust-security"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000113",
     "sourceCategory": "blogs",
     "sourceSlug": "data-observability",
@@ -336,6 +378,7 @@
     "targetSlug": "data-observability"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000114",
     "sourceCategory": "blogs",
     "sourceSlug": "agentless-philosophy",
@@ -344,6 +387,7 @@
     "targetSlug": "agentless-philosophy"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000115",
     "sourceCategory": "blogs",
     "sourceSlug": "command-bypass-prevention-control",
@@ -352,6 +396,7 @@
     "targetSlug": "command-bypass-prevention-control"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000116",
     "sourceCategory": "blogs",
     "sourceSlug": "customer-centric-tpm-life",
@@ -360,6 +405,7 @@
     "targetSlug": "customer-centric-tpm-life"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000117",
     "sourceCategory": "blogs",
     "sourceSlug": "data-discovery-privacy-management",
@@ -368,6 +414,7 @@
     "targetSlug": "data-discovery-privacy-management"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000118",
     "sourceCategory": "blogs",
     "sourceSlug": "integration-connection-paradigm",
@@ -376,6 +423,7 @@
     "targetSlug": "integration-connection-paradigm"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000119",
     "sourceCategory": "blogs",
     "sourceSlug": "internal-data-leaks",
@@ -384,6 +432,7 @@
     "targetSlug": "internal-data-leaks"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000120",
     "sourceCategory": "blogs",
     "sourceSlug": "multi-cloud-kubernetes-access-control",
@@ -392,6 +441,7 @@
     "targetSlug": "multi-cloud-kubernetes-access-control"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000121",
     "sourceCategory": "blogs",
     "sourceSlug": "querypie-cracking-global-markets",
@@ -400,6 +450,7 @@
     "targetSlug": "querypie-cracking-global-markets"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000122",
     "sourceCategory": "blogs",
     "sourceSlug": "querypie-product-managers",
@@ -408,6 +459,7 @@
     "targetSlug": "querypie-product-managers"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000123",
     "sourceCategory": "blogs",
     "sourceSlug": "querypie-team-success-secrets",
@@ -416,6 +468,7 @@
     "targetSlug": "querypie-team-success-secrets"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000124",
     "sourceCategory": "blogs",
     "sourceSlug": "seamless-figma-querypie-collaboration",
@@ -424,6 +477,7 @@
     "targetSlug": "seamless-figma-querypie-collaboration"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000125",
     "sourceCategory": "blogs",
     "sourceSlug": "technology-humanity-convergence",
@@ -432,6 +486,7 @@
     "targetSlug": "technology-humanity-convergence"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000126",
     "sourceCategory": "blogs",
     "sourceSlug": "what-businesses-can-learn-from-sentiment-analysis",
@@ -440,6 +495,7 @@
     "targetSlug": "what-businesses-can-learn-from-sentiment-analysis"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000127",
     "sourceCategory": "white-papers",
     "sourceSlug": "saas-end-or-evolution",
@@ -448,6 +504,7 @@
     "targetSlug": "saas-end-or-evolution"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000128",
     "sourceCategory": "white-papers",
     "sourceSlug": "ai-agent-guardrails-governance-2026",
@@ -456,6 +513,7 @@
     "targetSlug": "ai-agent-guardrails-governance-2026"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000129",
     "sourceCategory": "white-papers",
     "sourceSlug": "ai-agent-guardrails-governance-2026-implementation",
@@ -464,6 +522,7 @@
     "targetSlug": "ai-agent-guardrails-governance-2026-implementation"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000130",
     "sourceCategory": "white-papers",
     "sourceSlug": "llm-evaluation-agentic-rag-part1",
@@ -472,6 +531,7 @@
     "targetSlug": "llm-evaluation-agentic-rag-part1"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000131",
     "sourceCategory": "white-papers",
     "sourceSlug": "llm-evaluation-agentic-rag-part2",
@@ -480,6 +540,7 @@
     "targetSlug": "llm-evaluation-agentic-rag-part2"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000132",
     "sourceCategory": "white-papers",
     "sourceSlug": "ai-transformation-japan",
@@ -488,6 +549,7 @@
     "targetSlug": "ai-transformation-japan"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000134",
     "sourceCategory": "white-papers",
     "sourceSlug": "your-architect-vs-ai-agents",
@@ -496,6 +558,7 @@
     "targetSlug": "your-architect-vs-ai-agents"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000135",
     "sourceCategory": "white-papers",
     "sourceSlug": "welcome-to-the-age-of-agentsecops",
@@ -504,6 +567,7 @@
     "targetSlug": "welcome-to-the-age-of-agentsecops"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000136",
     "sourceCategory": "white-papers",
     "sourceSlug": "beyond-mcp-to-mcps",
@@ -512,6 +576,7 @@
     "targetSlug": "beyond-mcp-to-mcps"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000137",
     "sourceCategory": "white-papers",
     "sourceSlug": "google-agentspace-vs-querypie-mcp-pam",
@@ -520,6 +585,7 @@
     "targetSlug": "google-agentspace-vs-querypie-mcp-pam"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000138",
     "sourceCategory": "white-papers",
     "sourceSlug": "uncovering-mcp-security",
@@ -528,6 +594,7 @@
     "targetSlug": "uncovering-mcp-security"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000139",
     "sourceCategory": "white-papers",
     "sourceSlug": "ai-autonomous-access-control",
@@ -536,6 +603,7 @@
     "targetSlug": "ai-autonomous-access-control"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000140",
     "sourceCategory": "white-papers",
     "sourceSlug": "next-step-mcp-pam",
@@ -544,6 +612,7 @@
     "targetSlug": "next-step-mcp-pam"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000141",
     "sourceCategory": "white-papers",
     "sourceSlug": "redefining-pam-for-the-mcp-era",
@@ -552,6 +621,7 @@
     "targetSlug": "redefining-pam-for-the-mcp-era"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000142",
     "sourceCategory": "white-papers",
     "sourceSlug": "reverse-tunneling-jumphost-solution",
@@ -560,6 +630,7 @@
     "targetSlug": "reverse-tunneling-jumphost-solution"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000143",
     "sourceCategory": "white-papers",
     "sourceSlug": "seamless-ssh-connection",
@@ -568,6 +639,7 @@
     "targetSlug": "seamless-ssh-connection"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000144",
     "sourceCategory": "white-papers",
     "sourceSlug": "querypie-grpc-dast-security",
@@ -576,6 +648,7 @@
     "targetSlug": "querypie-grpc-dast-security"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000145",
     "sourceCategory": "white-papers",
     "sourceSlug": "efficient-audit-log-management",
@@ -584,6 +657,7 @@
     "targetSlug": "efficient-audit-log-management"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000146",
     "sourceCategory": "white-papers",
     "sourceSlug": "kubernetes-access-control",
@@ -592,6 +666,7 @@
     "targetSlug": "kubernetes-access-control"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000147",
     "sourceCategory": "white-papers",
     "sourceSlug": "pac-policy-as-code",
@@ -600,6 +675,7 @@
     "targetSlug": "pac-policy-as-code"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000148",
     "sourceCategory": "white-papers",
     "sourceSlug": "parsing-sql-query-structural-interface",
@@ -608,6 +684,7 @@
     "targetSlug": "parsing-sql-query-structural-interface"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000149",
     "sourceCategory": "white-papers",
     "sourceSlug": "penetration-testing-standard",
@@ -616,6 +693,7 @@
     "targetSlug": "penetration-testing-standard"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000150",
     "sourceCategory": "white-papers",
     "sourceSlug": "personal-data-identification-analysis-ai",
@@ -624,6 +702,7 @@
     "targetSlug": "personal-data-identification-analysis-ai"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000151",
     "sourceCategory": "white-papers",
     "sourceSlug": "preventing-command-bypass",
@@ -632,6 +711,7 @@
     "targetSlug": "preventing-command-bypass"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000152",
     "sourceCategory": "white-papers",
     "sourceSlug": "querypie-devsecops-pipeline",
@@ -640,6 +720,7 @@
     "targetSlug": "querypie-devsecops-pipeline"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000153",
     "sourceCategory": "white-papers",
     "sourceSlug": "secure-login-token-management",
@@ -648,6 +729,7 @@
     "targetSlug": "secure-login-token-management"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000154",
     "sourceCategory": "white-papers",
     "sourceSlug": "shell-native-command-control-ssh-proxy-architecture",
@@ -656,6 +738,7 @@
     "targetSlug": "shell-native-command-control-ssh-proxy-architecture"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000155",
     "sourceCategory": "white-papers",
     "sourceSlug": "transaction-free-change-data-capture-system",
@@ -664,6 +747,7 @@
     "targetSlug": "transaction-free-change-data-capture-system"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000170",
     "sourceCategory": "glossary",
     "sourceSlug": "glossary-items",
@@ -672,6 +756,7 @@
     "targetSlug": "querypie-ai-glossary"
   },
   {
+    "sourceSection": "news",
     "sourceId": "cnt_000175",
     "sourceCategory": "news",
     "sourceSlug": "querypie-participates-in-isec-2023-with-orca-security",
@@ -680,6 +765,7 @@
     "targetSlug": "querypie-participates-in-isec-2023-with-orca-security"
   },
   {
+    "sourceSection": "news",
     "sourceId": "cnt_000176",
     "sourceCategory": "news",
     "sourceSlug": "interview-with-brant-hwang-founder-of-querypie",
@@ -688,6 +774,7 @@
     "targetSlug": "interview-with-brant-hwang-founder-of-querypie"
   },
   {
+    "sourceSection": "news",
     "sourceId": "cnt_000182",
     "sourceCategory": "news",
     "sourceSlug": "terrasky-and-querypie-ai-unveil-mitoco-buddy-for-work-2",
@@ -696,6 +783,7 @@
     "targetSlug": "mitoco-buddy-official-launch"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000196",
     "sourceCategory": "events",
     "sourceSlug": "air-company-ai-agent-security-webinar",
@@ -704,6 +792,7 @@
     "targetSlug": "air-company-ai-agent-security-webinar"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000197",
     "sourceCategory": "events",
     "sourceSlug": "air-company-querypie-ai-webinar-2",
@@ -712,6 +801,7 @@
     "targetSlug": "air-company-querypie-ai-webinar"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000198",
     "sourceCategory": "events",
     "sourceSlug": "air-company-querypie-ai-usecase-webinar-2",
@@ -720,6 +810,7 @@
     "targetSlug": "air-company-querypie-ai-usecase-webinar"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000199",
     "sourceCategory": "events",
     "sourceSlug": "air-company-querypie-ai-webinar-3",
@@ -728,6 +819,7 @@
     "targetSlug": "air-company-querypie-ai-webinar"
   },
   {
+    "sourceSection": "news",
     "sourceId": "cnt_000200",
     "sourceCategory": "news",
     "sourceSlug": "iso-42001-certification-announcement",
@@ -736,6 +828,7 @@
     "targetSlug": "iso-42001-certification-announcement"
   },
   {
+    "sourceSection": "news",
     "sourceId": "cnt_000201",
     "sourceCategory": "news",
     "sourceSlug": "lingo-launch",
@@ -744,6 +837,7 @@
     "targetSlug": "lingo-launch"
   },
   {
+    "sourceSection": "news",
     "sourceId": "cnt_000202",
     "sourceCategory": "news",
     "sourceSlug": "notepie-launch",
@@ -752,6 +846,7 @@
     "targetSlug": "notepie-launch"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000203",
     "sourceCategory": "manuals",
     "sourceSlug": "querypie-acp-administrator-manual",
@@ -760,6 +855,7 @@
     "targetSlug": "acp-administrator-manual"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000204",
     "sourceCategory": "manuals",
     "sourceSlug": "querypie-acp-user-manual",
@@ -768,6 +864,7 @@
     "targetSlug": "acp-user-manual"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000205",
     "sourceCategory": "manuals",
     "sourceSlug": "querypie-acp-manual",
@@ -776,6 +873,7 @@
     "targetSlug": "acp-manual"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000206",
     "sourceCategory": "manuals",
     "sourceSlug": "querypie-aip-manual",
@@ -784,6 +882,7 @@
     "targetSlug": "aip-manual"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000207",
     "sourceCategory": "manuals",
     "sourceSlug": "querypie-acp-openapi-reference",
@@ -792,6 +891,7 @@
     "targetSlug": "acp-api-reference"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000208",
     "sourceCategory": "manuals",
     "sourceSlug": "querypie-acp-release-notes",
@@ -800,6 +900,7 @@
     "targetSlug": "acp-release-notes"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000209",
     "sourceCategory": "introduction",
     "sourceSlug": "querypie-acp",
@@ -808,6 +909,7 @@
     "targetSlug": "querypie-acp"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000210",
     "sourceCategory": "introduction",
     "sourceSlug": "querypie-aip",
@@ -816,6 +918,7 @@
     "targetSlug": "querypie-aip"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000211",
     "sourceCategory": "blogs",
     "sourceSlug": "ai-work-os-enterprise-intelligence",
@@ -824,6 +927,7 @@
     "targetSlug": "ai-work-os-enterprise-intelligence"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000213",
     "sourceCategory": "blogs",
     "sourceSlug": "claude-fable-5-management-strategy",
@@ -832,6 +936,7 @@
     "targetSlug": "claude-fable-5-management-strategy"
   },
   {
+    "sourceSection": "documentation",
     "sourceId": "cnt_000214",
     "sourceCategory": "blogs",
     "sourceSlug": "iso-iec-42001-getting-started",
