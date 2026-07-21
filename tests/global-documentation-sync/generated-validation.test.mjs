@@ -9,6 +9,8 @@ import { validateGeneratedPublication } from "../../scripts/global-documentation
 
 const frontmatter = (hero = "/blog/1/thumbnail.png") => `---\nid: "1"\nslug: one\ntitle: テスト\ndescription: 説明\ndate: "2026-01-01"\nheroImageSrc: ${hero}\n---\n`;
 
+const newsFrontmatter = (extra = "") => `---\nid: "1"\nslug: one\ntitle: ニュース\ndescription: 説明\ndate: "2026-01-01"\nheroImageSrc: "/news/1/thumbnail.png"\n${extra}---\n`;
+
 test("accepts route-aligned local assets and rejects unresolved source paths or Korean residue", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "generated-validation-"));
   const assetRoot = path.join(root, "public/blog/1");
@@ -32,4 +34,60 @@ test("accepts route-aligned local assets and rejects unresolved source paths or 
   await assert.rejects(() => validateGeneratedPublication(candidate, { intentionalTransformations: [] }), /cross-publication/);
   await writeFile(mdx, `${frontmatter()}\n/documentation/blogs/a.webp\n한국어\n`);
   await assert.rejects(() => validateGeneratedPublication(candidate, { intentionalTransformations: [] }), /documentation|Korean/);
+});
+
+test("enforces resolved News frontmatter contract for content and outlinks", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "generated-validation-news-"));
+  const assetRoot = path.join(root, "public/news/1");
+  const mdx = path.join(root, "src/content/news/1-one.mdx");
+  await mkdir(assetRoot, { recursive: true });
+  await mkdir(path.dirname(mdx), { recursive: true });
+  await writeFile(path.join(assetRoot, "thumbnail.png"), "png");
+  const base = {
+    targetRepo: root,
+    targetFamily: "news",
+    targetId: 1,
+    targetMdxPath: mdx,
+    targetAssetRoot: assetRoot,
+    heroImagePath: path.join(assetRoot, "thumbnail.png"),
+    heroImagePublicPath: "/news/1/thumbnail.png",
+    resolvedAuthor: null,
+    externalMedia: [],
+    assets: [],
+  };
+  const contentCandidate = {
+    ...base,
+    meta: { id: "one", hideHeroImage: false, relatedIds: ["2"] },
+    resolvedSourceLabel: "公式発表",
+    resolvedRedirectUrl: null,
+  };
+  await writeFile(mdx, `${newsFrontmatter('sourceLabel: "公式発表"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
+  assert.equal((await validateGeneratedPublication(contentCandidate, { intentionalTransformations: [] })).status, "passed");
+
+  const outlinkCandidate = {
+    ...base,
+    meta: { id: "one", hideHeroImage: false, relatedIds: ["2"] },
+    resolvedSourceLabel: "メディア掲載",
+    resolvedRedirectUrl: "https://media.example/news-one",
+  };
+  await writeFile(mdx, `${newsFrontmatter('sourceLabel: "メディア掲載"\nredirectUrl: "https://media.example/news-one"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
+  assert.equal((await validateGeneratedPublication(outlinkCandidate, { intentionalTransformations: [] })).status, "passed");
+
+  await writeFile(mdx, `${newsFrontmatter('author: "querypie"\nsourceLabel: "公式発表"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
+  await assert.rejects(() => validateGeneratedPublication(contentCandidate, { intentionalTransformations: [] }), /author is unsupported/);
+
+  await writeFile(mdx, `${newsFrontmatter('sourceLabel: "メディア掲載"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
+  await assert.rejects(() => validateGeneratedPublication(contentCandidate, { intentionalTransformations: [] }), /sourceLabel/);
+
+  await writeFile(mdx, `${newsFrontmatter('sourceLabel: "公式発表"\nredirectUrl: "https://media.example/news-one"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
+  await assert.rejects(() => validateGeneratedPublication(contentCandidate, { intentionalTransformations: [] }), /redirectUrl/);
+
+  await writeFile(mdx, `${newsFrontmatter('sourceLabel: "メディア掲載"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
+  await assert.rejects(() => validateGeneratedPublication(outlinkCandidate, { intentionalTransformations: [] }), /redirectUrl/);
+
+  await writeFile(mdx, `${newsFrontmatter('sourceLabel: "メディア掲載"\nredirectUrl: "http://media.example/news-one"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
+  await assert.rejects(() => validateGeneratedPublication(outlinkCandidate, { intentionalTransformations: [] }), /HTTPS|redirectUrl/);
+
+  await writeFile(mdx, `${newsFrontmatter('sourceLabel: "公式発表"\nrelatedIds:\n  - "999"\n')}\n本文\n`);
+  await assert.rejects(() => validateGeneratedPublication(contentCandidate, { intentionalTransformations: [] }), /relatedIds/);
 });

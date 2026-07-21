@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import test from "node:test";
 
-import { assessPageMetrics, publicationRoute, stopPreviewServer } from "../../scripts/global-documentation-sync/browser-qa.mjs";
+import { assessPageMetrics, browserContextOptions, publicationRoute, stopPreviewServer } from "../../scripts/global-documentation-sync/browser-qa.mjs";
 
 test("fails closed on broken media or horizontal overflow", () => {
   assert.deepEqual(assessPageMetrics({ clientWidth: 390, scrollWidth: 391, images: [] }).status, "failed");
@@ -34,4 +34,20 @@ test("builds canonical local publication routes for every family", () => {
     "use-cases": "/use-cases/7/slug", "introduction-deck": "/introduction-deck/7/slug",
   };
   for (const [family, route] of Object.entries(expected)) assert.equal(publicationRoute({ targetFamily: family, targetId: 7, meta: { id: "slug" } }), route);
+});
+
+test("uses bot user agent only for redirect-backed News browser QA", () => {
+  const newsContext = browserContextOptions({
+    targetFamily: "news",
+    resolvedRedirectUrl: "https://media.example/news-one",
+  });
+  assert.match(newsContext.userAgent, /bot/i);
+  assert.equal(newsContext.ignoreHTTPSErrors, false);
+
+  const normalContext = browserContextOptions({
+    targetFamily: "blog",
+    resolvedRedirectUrl: null,
+  });
+  assert.equal(normalContext.userAgent, undefined);
+  assert.deepEqual(normalContext, { ignoreHTTPSErrors: false });
 });

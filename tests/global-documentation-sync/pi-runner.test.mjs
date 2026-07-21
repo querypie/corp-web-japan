@@ -53,6 +53,38 @@ test("builds four isolated headless Pi calls with no tools", () => {
   }
 });
 
+test("writer prompt pins News frontmatter contract to resolved fields", () => {
+  const calls = buildPiInvocations({
+    piBin: "pi",
+    provider: "provider",
+    model: "model",
+    targetRepo: "/target",
+    reportsDir: "/reports",
+    candidate: {
+      ...candidate,
+      targetFamily: "news",
+      targetId: 9,
+      targetRoute: "/news/9/example",
+      resolvedSourceLabel: "公式発表",
+      resolvedRedirectUrl: "https://media.example/news-one",
+      production: {
+        canonicalUrl: "https://www.querypie.com/ja/news/example",
+        listed: true,
+        listUrl: "https://www.querypie.com/ja/news",
+        sitemap: false,
+      },
+      meta: { id: "example", contentType: "outlink" },
+    },
+    sourceHtml: "<p>source</p>",
+    targetMdx: "---\nid: 9\n---\n",
+  });
+  const writer = calls.find((call) => call.role === "writer");
+  assert.ok(writer);
+  assert.match(writer.prompt, /News[\s\S]*must not contain author/);
+  assert.match(writer.prompt, /resolvedSourceLabel/);
+  assert.match(writer.prompt, /resolvedRedirectUrl/);
+});
+
 test("applies no-tools stdout envelopes only to allocated paths", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "pi-envelope-"));
   const targetRepo = path.join(root, "target");

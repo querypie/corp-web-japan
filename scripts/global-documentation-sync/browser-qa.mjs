@@ -7,6 +7,8 @@ import { externalMediaIdentity } from "./external-media.mjs";
 import { SCHEMA_VERSION, validateArtifact } from "./lib.mjs";
 import { redactSecrets } from "./redaction.mjs";
 
+const REDIRECTABLE_NEWS_BOT_USER_AGENT = "Mozilla/5.0 (compatible; Googlebot/2.1; +https://www.google.com/bot.html)";
+
 export function publicationRoute(candidate) {
   const roots = {
     blog: "blog", whitepapers: "whitepapers", events: "events", manuals: "manuals",
@@ -16,6 +18,12 @@ export function publicationRoute(candidate) {
   const root = roots[candidate.targetFamily];
   if (!root) throw new Error(`unsupported browser route family: ${candidate.targetFamily}`);
   return `/${root}/${candidate.targetId}/${candidate.meta.id}`;
+}
+
+export function browserContextOptions(candidate) {
+  const options = { ignoreHTTPSErrors: false };
+  if (candidate.targetFamily === "news" && candidate.resolvedRedirectUrl) options.userAgent = REDIRECTABLE_NEWS_BOT_USER_AGENT;
+  return options;
 }
 
 export function assessPageMetrics(metrics) {
@@ -70,7 +78,8 @@ export async function runBrowserQa({ targetRepo, candidate, reportsDir, port = 4
     const results = [];
     try {
       for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
-        const page = await browser.newPage({ viewport });
+        const context = await browser.newContext({ ...browserContextOptions(candidate), viewport });
+        const page = await context.newPage();
         await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60_000 });
         const height = await page.evaluate(() => document.body.scrollHeight);
         for (const ratio of [0, 0.25, 0.5, 0.75, 1]) {
@@ -117,7 +126,7 @@ export async function runBrowserQa({ targetRepo, candidate, reportsDir, port = 4
         const screenshot = path.join(reportsDir, `target-${viewport.width}x${viewport.height}.png`);
         await page.screenshot({ path: screenshot, fullPage: true });
         results.push({ viewport, url, screenshot, metrics, ...assessment });
-        await page.close();
+        await context.close();
       }
     } finally { await browser.close(); }
     const artifact = {
