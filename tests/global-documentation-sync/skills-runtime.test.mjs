@@ -78,6 +78,9 @@ test("documentation contract mirrors the exact source-family map and News rules"
   assert.match(scriptReadme, /News is a separate `\/en\/news` source section, not a Documentation category\./);
   assert.match(scriptReadme, /News content records require exact canonical URL evidence in both the production sitemap and the `\/en\/news` list, while News outlink records require exact `\/en\/news` list evidence only\./);
   assert.match(scriptReadme, /News sync is one-way: Global → Japan only; no Japan content writes back to Global\./);
+  assert.match(scriptReadme, /issue `#688`/);
+  assert.match(scriptReadme, /public `corp-web-japan`\s+issue `#688`|public .*sanitized/i);
+  assert.match(scriptReadme, /seven days|7 days/i);
 
   assertExactDescriptorMatrix(spec, "OpenSpec");
   assert.match(spec, /separate `\/en\/news` source section, not a Documentation category/i);
@@ -85,6 +88,9 @@ test("documentation contract mirrors the exact source-family map and News rules"
   assert.match(spec, /News publications SHALL NOT contain author frontmatter/i);
   assert.match(spec, /resolvedSourceLabel.*`公式発表`.*`メディア掲載`/i);
   assert.match(spec, /resolvedRedirectUrl.*outlink/i);
+  assert.match(spec, /issue `#688`/i);
+  assert.match(spec, /60 KB|60KB/i);
+  assert.match(spec, /Spot recovery boundary/i);
 
   assertExactDescriptorMatrix(skill, "orchestration skill");
   assert.match(skill, /News is a separate `\/en\/news` source section, not a Documentation category\./);
@@ -97,4 +103,7 @@ test("documentation contract mirrors the exact source-family map and News rules"
   assert.match(opsReadme, /# Global publication sync 운영 가이드/);
   assert.match(opsReadme, /Ignore Global publication sync PR/);
   assert.match(opsReadme, /Adding News support does not change the production timer, failure alerts, or seven-day report retention\./);
+  assert.match(opsReadme, /querypie\/corp-web-japan#688/);
+  assert.match(opsReadme, /sanitized ledger/i);
+  assert.match(opsReadme, /7일|seven days/i);
 });

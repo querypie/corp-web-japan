@@ -173,6 +173,34 @@ The production host SHALL use timezone `Asia/Seoul`. The systemd timer SHALL run
 - **WHEN** the daily 10:00 KST schedule plus randomized delay is reached
 - **THEN** exactly one service execution SHALL acquire the automation lock
 
+### Requirement: Durable sanitized production evidence ledger
+
+When `EVIDENCE_ISSUE_NUMBER` is configured together with `DURABLE_EVIDENCE_REQUIRED=1`, every terminal production outcome (`draft_pr_created`, `no_candidate`, or `failed`) SHALL publish one sanitized durable evidence comment to the public `querypie/corp-web-japan` issue `#688`. If the run has a Draft PR, the automation SHALL also publish the same sanitized evidence comment to that PR.
+
+The durable evidence comment SHALL stay at or under 60 KB and SHALL include a machine marker, run ID, source ID when known, terminal status, pull-request URL when present, the deployed target Git commit, short-timeout Tencent host metadata, final fidelity/Japanese/contract review JSON details, validation command names and exit codes, browser viewport/status/findings, and a SHA-256 plus size manifest for every file in the run report directory.
+
+The durable evidence comment SHALL exclude embedded raw report bodies such as `raw-*`, generated/candidate body drafts, credentials, and webhooks while still applying the existing secret redaction rules and still listing those files in the manifest.
+
+Durable evidence publishing is the Spot recovery boundary. Local raw reports SHALL remain on the host for up to seven days only and SHALL NOT be treated as durable storage. If durable evidence publishing fails, the production service SHALL fail closed and SHALL NOT delete or merge any Draft PR. Retrying the same retained run SHALL be idempotent by checking for the durable marker before posting a new comment.
+
+#### Scenario: Spot run publishes public sanitized ledger
+
+- **GIVEN** a production run reaches any terminal state
+- **AND** durable evidence publishing is required
+- **WHEN** the terminal gate completes
+- **THEN** issue `#688` SHALL receive one sanitized ledger comment
+- **AND** any existing Draft PR for that run SHALL receive the same sanitized comment
+- **AND** the comment SHALL stay within the size limit and omit embedded raw secrets
+
+#### Scenario: Durable evidence publish fails after Draft PR creation
+
+- **GIVEN** a run has already pushed a branch and opened a Draft PR
+- **AND** durable evidence publishing is required
+- **WHEN** comment publication fails
+- **THEN** the service SHALL exit failed
+- **AND** the existing Draft PR and branch SHALL remain untouched
+- **AND** rerunning the same retained run SHALL reuse the durable marker to avoid duplicate comments
+
 ## Operational retention
 
 Failed automation worktrees older than seven days are eligible for automation-owned cleanup. Run reports SHALL remain under `REPORTS_ROOT/<run-id>/` for diagnosis and SHALL be removed by the production host's `systemd-tmpfiles` `mM:7d` policy seven days after their last modification. Reading a report SHALL NOT extend retention. The Node runner SHALL NOT delete report directories. Durable storage MUST be configured separately when evidence must survive Spot VM reclamation.

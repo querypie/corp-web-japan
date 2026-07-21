@@ -63,11 +63,32 @@ Each run writes to `REPORTS_ROOT/<run-id>/`:
 - `run-summary.json` on success or `failure-summary.json` on failure.
 
 Lifecycle stages include discovery, Pi generation/review, generated validation, full CI,
-build, browser QA, publish, and terminal completion or failure. Failure notifications
+build, browser QA, publish, durable evidence, and terminal completion or failure. Failure notifications
 include the owner mention, run ID, stage, host, report directory, and redacted reason.
 Stale automation worktrees are eligible for cleanup after seven days. The production
 host uses `systemd-tmpfiles` with an `mM:7d` policy to remove report artifacts seven days
 after their last modification; the Node runner itself does not delete reports.
+
+## Durable sanitized evidence ledger
+
+When `EVIDENCE_ISSUE_NUMBER` and `DURABLE_EVIDENCE_REQUIRED=1` are set, every
+terminal production result (`draft_pr_created`, `no_candidate`, `failed`) must
+publish a sanitized Markdown ledger comment to the public `corp-web-japan`
+issue `#688`. If a Draft PR exists, the same sanitized ledger comment is also
+posted to that PR.
+
+The durable ledger is intentionally public and sanitized. It includes the run
+marker, run/source/status/PR identity, deployed target Git commit, short-timeout
+Tencent host metadata, final review JSON details, validation command names/codes,
+browser viewport findings, and a SHA-256 plus size manifest for every report file.
+It excludes embedded `raw-*`, `generated-body*`, `candidate-body*`, credential,
+and webhook contents while still listing those files in the manifest.
+
+This ledger is the Spot-CVM recovery boundary. Local raw reports remain on the
+host for up to seven days and are removed by `systemd-tmpfiles`; they are not a
+durable store. If durable evidence publishing fails, the service fails closed
+without deleting or merging a Draft PR, and retrying the same run stays
+idempotent through the durable comment marker.
 
 The systemd service is the supported production entry point. See
 [`ops/global-documentation-sync/README.md`](../../ops/global-documentation-sync/README.md)
