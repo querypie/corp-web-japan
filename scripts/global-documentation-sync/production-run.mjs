@@ -55,16 +55,19 @@ export async function cleanupFailedWorktrees(baseRepo, root, now = Date.now()) {
 
 export async function runProduction(options) {
   for (const key of ["globalRepo", "targetRepo", "reportsRoot", "worktreesRoot", "piBin", "provider", "model"]) if (!options[key]) throw new Error(`--${key} required`);
-  await runPreflight({ globalRepo: options.globalRepo, targetRepo: options.targetRepo, worktreesRoot: options.worktreesRoot, piBin: options.piBin });
+  await (options.runPreflight || runPreflight)({ globalRepo: options.globalRepo, targetRepo: options.targetRepo, worktreesRoot: options.worktreesRoot, piBin: options.piBin });
   const runId = options.runId || new Date().toISOString().replace(/[-:.]/g, "").replace("Z", "Z");
   const reportsDir = path.join(options.reportsRoot, runId);
   await mkdir(reportsDir, { recursive: true });
   await updateRunStatus({ reportsDir, runId, stage: "discovery" });
   await cleanupFailedWorktrees(options.targetRepo, options.worktreesRoot);
-  const discovery = await discoverLive({ globalRepo: options.globalRepo, targetRepo: options.targetRepo, githubRepo: options.githubRepo });
+  const discovery = await (options.discoverLive || discoverLive)({ globalRepo: options.globalRepo, targetRepo: options.targetRepo, githubRepo: options.githubRepo });
   if (discovery.status !== "candidate") {
     await atomicJson(path.join(reportsDir, "discovery-summary.json"), { schemaVersion: SCHEMA_VERSION, runId, status: discovery.status, ...discovery });
-    if (discovery.status === "no_candidate") return discovery;
+    if (discovery.status === "no_candidate") {
+      await updateRunStatus({ reportsDir, runId, stage: "complete", state: "passed", result: discovery.status });
+      return discovery;
+    }
     throw new Error(`discovery blocked: ${discovery.status}`);
   }
 
