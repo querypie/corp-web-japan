@@ -7,7 +7,31 @@ import test from "node:test";
 import { assertAllocatedGitDiff, authorizeClosedRetry, branchFor, buildPullRequestBody, createRunWorktree, publishDraft, publishRetry, reclaimUnpublishedBaseBranch, resumeBranchOnly } from "../../scripts/global-documentation-sync/git-pr.mjs";
 import { parseSyncMarker } from "../../scripts/global-documentation-sync/discovery.mjs";
 
-const candidate = { sourceId: "cnt_9", sourceHash: "sha256:x", targetFamily: "blog", targetId: 9, targetMdxPath: "/target/src/content/blog/9-nine.mdx", assets: [], meta: { id: "nine" }, production: { canonicalUrl: "https://www.querypie.com/en/blog/nine" }, runId: "run-9" };
+const candidate = {
+  schemaVersion: "global-documentation-sync/v1",
+  artifactType: "candidate",
+  runId: "run-9",
+  sourceId: "cnt_9",
+  sourceHash: `sha256:${"a".repeat(64)}`,
+  sourceCategory: "blogs",
+  sourceSection: "documentation",
+  targetFamily: "blog",
+  targetId: 9,
+  sourceLocale: "ja",
+  sourceHtmlPath: "/source/source.html",
+  targetMdxPath: "/target/src/content/blog/9-nine.mdx",
+  targetAssetRoot: "/target/public/blog/9",
+  targetRoute: "/blog/9/nine",
+  assets: [],
+  externalMedia: [],
+  meta: { id: "nine", title: { en: "Nine" }, contentType: "content" },
+  production: {
+    canonicalUrl: "https://www.querypie.com/en/blog/nine",
+    listed: true,
+    listUrl: "https://www.querypie.com/en/documentation",
+    sitemap: true,
+  },
+};
 
 const generatedDiffExecute = (calls) => async (command, args) => {
   calls.push([command, args]);
@@ -91,7 +115,31 @@ test("resumes PR creation only when retained reports match the remote branch com
   const reportsDir = await mkdtemp(path.join(os.tmpdir(), "branch-resume-"));
   const sourceId = "cnt_9";
   const runId = "run-9";
-  const validCandidate = { schemaVersion: "global-documentation-sync/v1", artifactType: "candidate", runId, sourceId, sourceHash: `sha256:${"a".repeat(64)}`, sourceCategory: "blogs", targetFamily: "blog", targetId: 9, sourceLocale: "ja", sourceHtmlPath: "/source", targetMdxPath: "/target", targetAssetRoot: "/assets", targetRoute: "/blog/9/nine", meta: { id: "nine", title: { en: "Nine" } }, assets: [], externalMedia: [], production: { canonicalUrl: "https://www.querypie.com/en/blog/nine" } };
+  const validCandidate = {
+    schemaVersion: "global-documentation-sync/v1",
+    artifactType: "candidate",
+    runId,
+    sourceId,
+    sourceHash: `sha256:${"a".repeat(64)}`,
+    sourceCategory: "blogs",
+    sourceSection: "documentation",
+    targetFamily: "blog",
+    targetId: 9,
+    sourceLocale: "ja",
+    sourceHtmlPath: "/source",
+    targetMdxPath: "/target",
+    targetAssetRoot: "/assets",
+    targetRoute: "/blog/9/nine",
+    meta: { id: "nine", title: { en: "Nine" }, contentType: "content" },
+    assets: [],
+    externalMedia: [],
+    production: {
+      canonicalUrl: "https://www.querypie.com/en/blog/nine",
+      listed: true,
+      listUrl: "https://www.querypie.com/en/documentation",
+      sitemap: true,
+    },
+  };
   const review = (type) => ({ schemaVersion: validCandidate.schemaVersion, artifactType: type, runId, sourceId, verdict: "pass", findings: [] });
   await Promise.all([
     writeFile(path.join(reportsDir, "candidate.json"), JSON.stringify(validCandidate)),
