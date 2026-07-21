@@ -100,7 +100,11 @@ async function defaultRunProcess(invocation, cwd, onProcess) {
     child.on("error", (error) => { onProcess?.({ role: invocation.role, attempt: invocation.attempt, state: "failed", pid: child.pid }); reject(error); });
     child.on("close", (code) => {
       onProcess?.({ role: invocation.role, attempt: invocation.attempt, state: code === 0 ? "completed" : "failed", pid: child.pid });
-      code === 0 ? resolve(stdout) : reject(new Error(`${invocation.role} Pi process failed (${code}): ${stderr.slice(-4000)}`));
+      if (code === 0) {
+        resolve(stdout);
+        return;
+      }
+      reject(new Error(`${invocation.role} Pi process failed (${code}): ${stderr.slice(-4000)}`));
     });
   });
 }
