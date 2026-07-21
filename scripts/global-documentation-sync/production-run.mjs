@@ -3,6 +3,7 @@ import { spawn } from "node:child_process";
 import { mkdir, readFile, readdir, rename, rm, stat, symlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 
+import { publishDurableEvidence } from "./durable-evidence.mjs";
 import { discoverLive } from "./live-discovery.mjs";
 import { createRunWorktree, publishDraft } from "./git-pr.mjs";
 import { SCHEMA_VERSION, validateArtifact } from "./lib.mjs";
@@ -41,6 +42,32 @@ async function atomicJson(file, value) {
 
 async function exists(file) { try { await stat(file); return true; } catch { return false; } }
 
+function durableEvidenceConfig(options) {
+  const env = options.env || process.env;
+  const evidenceIssueNumber = options.evidenceIssueNumber || env.EVIDENCE_ISSUE_NUMBER;
+  const required = options.durableEvidenceRequired === true || env.DURABLE_EVIDENCE_REQUIRED === "1";
+  return required && evidenceIssueNumber ? { evidenceIssueNumber, required: true } : { evidenceIssueNumber, required: false };
+}
+
+async function maybePublishDurableEvidence({ options, reportsDir, runId, sourceId, pullRequestUrl, status }) {
+  const config = durableEvidenceConfig(options);
+  if (!config.required) return null;
+  await updateRunStatus({ reportsDir, runId, sourceId, stage: "durable-evidence", state: "running", result: status, pullRequestUrl: pullRequestUrl || null });
+  const published = await (options.publishDurableEvidence || publishDurableEvidence)({
+    reportsDir,
+    githubRepo: options.githubRepo,
+    evidenceIssueNumber: config.evidenceIssueNumber,
+    pullRequestUrl,
+  });
+  await atomicJson(path.join(reportsDir, "durable-evidence-summary.json"), { runId, sourceId: sourceId || null, status, pullRequestUrl: pullRequestUrl || null, ...published });
+  return published;
+}
+
+async function recordFailureArtifacts({ options, reportsDir, failure }) {
+  await atomicJson(path.join(reportsDir, "failure-summary.json"), failure).catch(() => {});
+  await updateRunStatus({ reportsDir, runId: failure.runId, stage: "failed", state: "failed", reason: failure.reason }).catch(() => {});
+}
+
 export async function cleanupFailedWorktrees(baseRepo, root, now = Date.now()) {
   let entries = [];
   try { entries = await readdir(root, { withFileTypes: true }); } catch (error) { if (error.code === "ENOENT") return; throw error; }
@@ -54,6 +81,9 @@ export async function cleanupFailedWorktrees(baseRepo, root, now = Date.now()) {
 }
 
 export async function runProduction(options) {
+  const runCommand = options.runCommand || run;
+  const createWorktree = options.createRunWorktree || createRunWorktree;
+  const publishDraftImpl = options.publishDraft || publishDraft;
   for (const key of ["globalRepo", "targetRepo", "reportsRoot", "worktreesRoot", "piBin", "provider", "model"]) if (!options[key]) throw new Error(`--${key} required`);
   await (options.runPreflight || runPreflight)({ globalRepo: options.globalRepo, targetRepo: options.targetRepo, worktreesRoot: options.worktreesRoot, piBin: options.piBin });
   const runId = options.runId || new Date().toISOString().replace(/[-:.]/g, "").replace("Z", "Z");
@@ -65,6 +95,7 @@ export async function runProduction(options) {
   if (discovery.status !== "candidate") {
     await atomicJson(path.join(reportsDir, "discovery-summary.json"), { schemaVersion: SCHEMA_VERSION, runId, status: discovery.status, ...discovery });
     if (discovery.status === "no_candidate") {
+      await maybePublishDurableEvidence({ options, reportsDir, runId, sourceId: null, pullRequestUrl: null, status: discovery.status });
       await updateRunStatus({ reportsDir, runId, stage: "complete", state: "passed", result: discovery.status });
       return discovery;
     }
@@ -73,10 +104,15 @@ export async function runProduction(options) {
 
   const productionEvidenceFile = path.join(reportsDir, "production-evidence.json");
   await updateRunStatus({ reportsDir, runId, sourceId: discovery.source.sourceId, stage: "local-validation" });
-  await atomicJson(productionEvidenceFile, { sourceId: discovery.source.sourceId, production: discovery.source.production });
+  const baseRef = options.baseRef || "origin/main";
+  await atomicJson(productionEvidenceFile, {
+    sourceId: discovery.source.sourceId,
+    production: discovery.source.production,
+    target: { baseRef, deployedGitCommit: redactSecrets((await runCommand("git", ["rev-parse", baseRef], options.targetRepo)).trim()) },
+  });
   const worktreePath = path.join(options.worktreesRoot, `sync-${runId}`);
   await mkdir(options.worktreesRoot, { recursive: true });
-  await createRunWorktree({ baseRepo: options.targetRepo, worktreePath, sourceId: discovery.source.sourceId, baseRef: options.baseRef || "origin/main" });
+  await createWorktree({ baseRepo: options.targetRepo, worktreePath, sourceId: discovery.source.sourceId, baseRef });
   const dependencyRoot = path.join(options.targetRepo, "node_modules");
   if (await exists(dependencyRoot)) await symlink(dependencyRoot, path.join(worktreePath, "node_modules"), "dir");
 
@@ -91,19 +127,19 @@ export async function runProduction(options) {
   ];
   if (discovery.reservedTargetIds.length) args.push("--reserved-target-ids", discovery.reservedTargetIds.join(","));
   if (options.port) args.push("--port", String(options.port));
-  await run(process.execPath, args, worktreePath);
+  await runCommand(process.execPath, args, worktreePath);
 
   const candidate = JSON.parse(await readFile(path.join(reportsDir, "candidate.json"), "utf8"));
   const dryRunSummary = validateArtifact("run-summary", JSON.parse(await readFile(path.join(reportsDir, "run-summary.json"), "utf8")));
   const validation = validateArtifact("validation-results", JSON.parse(await readFile(path.join(reportsDir, "validation-results.json"), "utf8")));
   const reviews = await Promise.all(["fidelity-review", "japanese-editorial-review", "contract-review"].map(async (type) => validateArtifact(type, JSON.parse(await readFile(path.join(reportsDir, `${type}.json`), "utf8")))));
   if (options.dryRun) {
-    await run("git", ["worktree", "remove", "--force", worktreePath], options.targetRepo);
+    await runCommand("git", ["worktree", "remove", "--force", worktreePath], options.targetRepo);
     return dryRunSummary;
   }
 
   await updateRunStatus({ reportsDir, runId, sourceId: candidate.sourceId, stage: "publish" });
-  const published = await publishDraft({
+  const published = await publishDraftImpl({
     dryRun: false, targetRepo: worktreePath, candidate, validation, reviews,
     githubRepo: options.githubRepo,
     onPushed: (state) => atomicJson(path.join(reportsDir, "branch-state.json"), state),
@@ -117,22 +153,38 @@ export async function runProduction(options) {
   };
   validateArtifact("run-summary", summary);
   await atomicJson(path.join(reportsDir, "run-summary.json"), summary);
+  await maybePublishDurableEvidence({ options, reportsDir, runId, sourceId: candidate.sourceId, pullRequestUrl: published.pullRequestUrl, status: summary.status });
   await updateRunStatus({ reportsDir, runId, sourceId: candidate.sourceId, stage: "complete", state: "passed", pullRequestUrl: published.pullRequestUrl });
-  await run("git", ["worktree", "remove", "--force", worktreePath], options.targetRepo);
+  await runCommand("git", ["worktree", "remove", "--force", worktreePath], options.targetRepo);
   return summary;
+}
+
+export async function runProductionCli(options, runProductionImpl = runProduction) {
+  const configured = { ...options };
+  configured.runId ||= new Date().toISOString().replace(/[-:.]/g, "");
+  try {
+    return await runProductionImpl(configured);
+  } catch (error) {
+    const failure = { schemaVersion: SCHEMA_VERSION, runId: configured.runId, status: "failed", exitCode: 1, failedAt: new Date().toISOString(), reason: redactSecrets(error.message) };
+    if (configured.reportsRoot) {
+      const reportsDir = path.join(configured.reportsRoot, configured.runId);
+      await recordFailureArtifacts({ options: configured, reportsDir, failure });
+      try {
+        await maybePublishDurableEvidence({ options: configured, reportsDir, runId: configured.runId, sourceId: null, pullRequestUrl: null, status: failure.status });
+      } catch (publishError) {
+        const combinedReason = redactSecrets(`${failure.reason}; durable evidence publish failed: ${publishError.message}`);
+        await updateRunStatus({ reportsDir, runId: configured.runId, stage: "durable-evidence", state: "failed", reason: combinedReason }).catch(() => {});
+        throw new Error(combinedReason);
+      }
+    }
+    throw new Error(failure.reason);
+  }
 }
 
 if (process.argv[1]?.endsWith("production-run.mjs")) {
   const options = parseArgs(process.argv.slice(2));
-  options.runId ||= new Date().toISOString().replace(/[-:.]/g, "");
-  runProduction(options).then((result) => process.stdout.write(`${JSON.stringify(result)}\n`)).catch(async (error) => {
-    const failure = { schemaVersion: SCHEMA_VERSION, runId: options.runId, status: "failed", exitCode: 1, failedAt: new Date().toISOString(), reason: redactSecrets(error.message) };
-    if (options.reportsRoot) {
-      const reportsDir = path.join(options.reportsRoot, options.runId);
-      await atomicJson(path.join(reportsDir, "failure-summary.json"), failure).catch(() => {});
-      await updateRunStatus({ reportsDir, runId: options.runId, stage: "failed", state: "failed", reason: failure.reason }).catch(() => {});
-    }
-    process.stderr.write(`${JSON.stringify({ event: "failed", message: failure.reason, report: options.reportsRoot ? path.join(options.reportsRoot, options.runId, "failure-summary.json") : null })}\n`);
+  runProductionCli(options).then((result) => process.stdout.write(`${JSON.stringify(result)}\n`)).catch((error) => {
+    process.stderr.write(`${JSON.stringify({ event: "failed", message: redactSecrets(error.message), report: options.reportsRoot ? path.join(options.reportsRoot, options.runId || "", "failure-summary.json") : null })}\n`);
     process.exitCode = 1;
   });
 }
