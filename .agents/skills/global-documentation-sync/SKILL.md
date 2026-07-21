@@ -26,17 +26,20 @@ The accepted source-family map lives in
 `scripts/global-documentation-sync/source-family-map.mjs` and is documented in
 `scripts/global-documentation-sync/README.md`.
 
-- Documentation / `blogs` → `blog` → `/blog`
-- Documentation / `white-papers` → `whitepapers` → `/whitepapers`
-- Documentation / `voc` → `use-cases` → `/use-cases`
-- Documentation / `manuals` → `manuals` → `/manuals`
-- Documentation / `events` → `events` → `/events`
-- Documentation / `glossary` → `glossary` → `/glossary`
-- Documentation / `introduction` → `introduction-deck` → `/introduction-deck`
-- News / `news` → `news` → `/news`
+| Source section | Source category | Production list URL | Target family | Target route |
+| --- | --- | --- | --- | --- |
+| documentation | blogs | `https://www.querypie.com/en/documentation` | `blog` | `/blog` |
+| documentation | white-papers | `https://www.querypie.com/en/documentation` | `whitepapers` | `/whitepapers` |
+| documentation | voc | `https://www.querypie.com/en/documentation` | `use-cases` | `/use-cases` |
+| documentation | manuals | `https://www.querypie.com/en/documentation` | `manuals` | `/manuals` |
+| documentation | events | `https://www.querypie.com/en/documentation` | `events` | `/events` |
+| documentation | glossary | `https://www.querypie.com/en/documentation` | `glossary` | `/glossary` |
+| documentation | introduction | `https://www.querypie.com/en/documentation` | `introduction-deck` | `/introduction-deck` |
+| news | news | `https://www.querypie.com/en/news` | `news` | `/news` |
 
 News is a separate `/en/news` source section, not a Documentation category.
-News evidence is one-way Global → Japan.
+News content records require exact canonical URL evidence in both the production sitemap and the `/en/news` list, while News outlink records require exact `/en/news` list evidence only.
+News sync is one-way Global → Japan only; no Japan content writes back to Global.
 News contract: frontmatter must not contain author. News sourceLabel must equal candidate.resolvedSourceLabel exactly. News redirectUrl must equal candidate.resolvedRedirectUrl exactly for outlink records and must be omitted for content records.
 
 ## Required skill stack

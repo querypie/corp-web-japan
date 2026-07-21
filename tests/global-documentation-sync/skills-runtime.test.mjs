@@ -8,6 +8,15 @@ import { SOURCE_FAMILIES } from "../../scripts/global-documentation-sync/source-
 const root = process.cwd();
 const read = (relative) => readFile(path.join(root, relative), "utf8");
 
+function assertExactDescriptorMatrix(document, label) {
+  assert.match(document, /## Supported source families|### Requirement: Exact supported source-family map/);
+  assert.match(document, /\| Source section \| Source category \| Production list URL \| Target family \| Target route \|/);
+  for (const descriptor of SOURCE_FAMILIES) {
+    const row = `| ${descriptor.sourceSection} | ${descriptor.sourceCategory} | \`${descriptor.productionListUrl}\` | \`${descriptor.targetFamily}\` | \`${descriptor.targetRouteRoot}\` |`;
+    assert.match(document, new RegExp(row.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `${label} missing descriptor row: ${row}`);
+  }
+}
+
 test("Japanese editorial skill defines an independent evidence-backed review", async () => {
   const skill = await read(".agents/skills/japanese-publication-editorial-review/SKILL.md");
   const rubric = await read(".agents/skills/japanese-publication-editorial-review/references/review-rubric.md");
@@ -60,22 +69,21 @@ test("documentation contract mirrors the exact source-family map and News rules"
   const skill = await read(".agents/skills/global-documentation-sync/SKILL.md");
   const artifacts = await read(".agents/skills/global-documentation-sync/references/artifacts.md");
 
-  assert.match(scriptReadme, /## Supported source families/);
-  for (const descriptor of SOURCE_FAMILIES) {
-    const row = `| ${descriptor.sourceSection} | ${descriptor.sourceCategory} | \`${descriptor.productionListUrl}\` | \`${descriptor.targetFamily}\` | \`${descriptor.targetRouteRoot}\` |`;
-    assert.match(scriptReadme, new RegExp(row.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-  }
-  assert.match(scriptReadme, /\| news \| news \| `https:\/\/www\.querypie\.com\/en\/news` \| `news` \| `\/news` \|/);
+  assertExactDescriptorMatrix(scriptReadme, "script README");
   assert.match(scriptReadme, /News is a separate `\/en\/news` source section, not a Documentation category\./);
   assert.match(scriptReadme, /News content records require exact canonical URL evidence in both the production sitemap and the `\/en\/news` list, while News outlink records require exact `\/en\/news` list evidence only\./);
   assert.match(scriptReadme, /News sync is one-way: Global → Japan only; no Japan content writes back to Global\./);
 
+  assertExactDescriptorMatrix(spec, "OpenSpec");
   assert.match(spec, /separate `\/en\/news` source section, not a Documentation category/i);
   assert.match(spec, /outlink.*list evidence only.*sitemap.*false/i);
   assert.match(spec, /News publications SHALL NOT contain author frontmatter/i);
   assert.match(spec, /resolvedSourceLabel.*`公式発表`.*`メディア掲載`/i);
   assert.match(spec, /resolvedRedirectUrl.*outlink/i);
 
+  assertExactDescriptorMatrix(skill, "orchestration skill");
+  assert.match(skill, /News is a separate `\/en\/news` source section, not a Documentation category\./);
+  assert.match(skill, /News content records require exact canonical URL evidence in both the production sitemap and the `\/en\/news` list, while News outlink records require exact `\/en\/news` list evidence only\./);
   assert.match(skill, /News contract: frontmatter must not contain author/i);
   assert.match(skill, /sourceLabel must equal candidate\.resolvedSourceLabel exactly/i);
   assert.match(skill, /redirectUrl must equal candidate\.resolvedRedirectUrl exactly/i);
