@@ -5,6 +5,7 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 
 import { redactSecrets } from "./redaction.mjs";
+import { SOURCE_FAMILIES } from "./source-family-map.mjs";
 
 export const DURABLE_EVIDENCE_COMMENT_LIMIT_BYTES = 60 * 1024;
 export const DURABLE_EVIDENCE_MARKER_PREFIX = "durable-global-documentation-sync-evidence:v1";
@@ -14,10 +15,11 @@ export const DURABLE_EVIDENCE_MAX_BROWSER_FINDINGS = 20;
 export const DURABLE_EVIDENCE_MAX_STRING_LENGTH = 280;
 const TENCENT_METADATA_BASE = "http://metadata.tencentyun.com/latest/meta-data";
 const UNAVAILABLE = "unavailable";
-const SOURCE_SECTIONS = new Set(["documentation", "news"]);
-const SOURCE_CATEGORIES = new Set(["blogs", "white-papers", "voc", "manuals", "events", "glossary", "introduction", "news"]);
-const TARGET_FAMILIES = new Set(["blog", "whitepapers", "events", "manuals", "glossary", "news", "use-cases", "introduction-deck", "demo/aip", "demo/acp"]);
-const TARGET_ROUTE_PATTERN = /^\/(?:blog|whitepapers|events|manuals|glossary|news|use-cases|introduction-deck|demo\/(?:aip|acp))\/\d+\/[A-Za-z0-9._~-]+$/;
+const SOURCE_DESCRIPTOR_BY_CATEGORY = new Map(SOURCE_FAMILIES.map((descriptor) => [descriptor.sourceCategory, descriptor]));
+const ALLOWED_SOURCE_SECTIONS = new Set(SOURCE_FAMILIES.map(({ sourceSection }) => sourceSection));
+const ALLOWED_SOURCE_CATEGORIES = new Set(SOURCE_FAMILIES.map(({ sourceCategory }) => sourceCategory));
+const ALLOWED_TARGET_FAMILIES = new Set(SOURCE_FAMILIES.map(({ targetFamily }) => targetFamily));
+const TARGET_ROUTE_SLUG_PATTERN = /^[A-Za-z0-9._~-]+$/;
 
 function defaultExecute(command, args, { cwd, input } = {}) {
   return new Promise((resolve, reject) => {
@@ -146,35 +148,52 @@ function sanitizeTargetId(value) {
   return Number.isInteger(value) && value > 0 ? value : null;
 }
 
-function sanitizeTargetRoute(value, { targetFamily, targetId }) {
-  if (typeof value !== "string") return null;
+function sanitizeTargetRoute(value, descriptor, targetId) {
+  if (typeof value !== "string" || !Number.isInteger(targetId) || targetId <= 0) return null;
   const normalized = value.trim();
-  if (!normalized || normalized.length > 200 || !TARGET_ROUTE_PATTERN.test(normalized) || normalized.includes("..") || /[?#\s]/.test(normalized)) return null;
-  const familyPath = targetFamily?.startsWith("demo/") ? targetFamily : targetFamily;
-  const expectedPrefix = `/${familyPath}/${targetId}/`;
-  return targetFamily && targetId && normalized.startsWith(expectedPrefix) ? normalized : null;
+  if (!normalized || normalized.length > 200 || normalized.includes("..") || /[?#\s]/.test(normalized)) return null;
+  const segments = normalized.split("/");
+  const rootSegments = descriptor.targetRouteRoot.split("/").filter(Boolean);
+  if (segments.length !== rootSegments.length + 3 || segments[0] !== "") return null;
+  if (!rootSegments.every((segment, index) => segments[index + 1] === segment)) return null;
+  if (segments[rootSegments.length + 1] !== String(targetId)) return null;
+  return TARGET_ROUTE_SLUG_PATTERN.test(segments[rootSegments.length + 2]) ? normalized : null;
+}
+
+function resolveDescriptorIdentity(record) {
+  if (!record || typeof record !== "object") return null;
+  const sourceSection = sanitizeIdentityScalar(record.sourceSection, ALLOWED_SOURCE_SECTIONS);
+  const sourceCategory = sanitizeIdentityScalar(record.sourceCategory, ALLOWED_SOURCE_CATEGORIES);
+  const targetFamily = sanitizeIdentityScalar(record.targetFamily, ALLOWED_TARGET_FAMILIES);
+  if (!sourceSection || !sourceCategory || !targetFamily) return null;
+  const descriptor = SOURCE_DESCRIPTOR_BY_CATEGORY.get(sourceCategory);
+  if (!descriptor || descriptor.sourceSection !== sourceSection || descriptor.targetFamily !== targetFamily) return null;
+  const targetId = sanitizeTargetId(record.targetId);
+  if (record.targetRoute !== undefined && record.targetRoute !== null) {
+    const targetRoute = sanitizeTargetRoute(record.targetRoute, descriptor, targetId);
+    if (!targetRoute) return null;
+    return { descriptor, targetId, targetRoute };
+  }
+  return { descriptor, targetId, targetRoute: null };
 }
 
 function resolveIdentity(artifacts) {
-  const runSummary = artifacts.runSummary;
-  const candidate = artifacts.candidate;
-  const sourceSection = sanitizeIdentityScalar(runSummary?.sourceSection, SOURCE_SECTIONS)
-    || sanitizeIdentityScalar(candidate?.sourceSection, SOURCE_SECTIONS)
-    || UNAVAILABLE;
-  const sourceCategory = sanitizeIdentityScalar(runSummary?.sourceCategory, SOURCE_CATEGORIES)
-    || sanitizeIdentityScalar(candidate?.sourceCategory, SOURCE_CATEGORIES)
-    || UNAVAILABLE;
-  const targetFamily = sanitizeIdentityScalar(runSummary?.targetFamily, TARGET_FAMILIES)
-    || sanitizeIdentityScalar(candidate?.targetFamily, TARGET_FAMILIES)
-    || UNAVAILABLE;
-  const targetId = sanitizeTargetId(runSummary?.targetId) ?? sanitizeTargetId(candidate?.targetId);
-  const targetRoute = sanitizeTargetRoute(runSummary?.targetRoute || candidate?.targetRoute, { targetFamily, targetId }) || UNAVAILABLE;
+  const identity = resolveDescriptorIdentity(artifacts.runSummary) || resolveDescriptorIdentity(artifacts.candidate);
+  if (!identity) {
+    return {
+      sourceSection: UNAVAILABLE,
+      sourceCategory: UNAVAILABLE,
+      targetFamily: UNAVAILABLE,
+      targetId: UNAVAILABLE,
+      targetRoute: UNAVAILABLE,
+    };
+  }
   return {
-    sourceSection,
-    sourceCategory,
-    targetFamily,
-    targetId: targetId ?? UNAVAILABLE,
-    targetRoute,
+    sourceSection: identity.descriptor.sourceSection,
+    sourceCategory: identity.descriptor.sourceCategory,
+    targetFamily: identity.descriptor.targetFamily,
+    targetId: identity.targetId ?? UNAVAILABLE,
+    targetRoute: identity.targetRoute || UNAVAILABLE,
   };
 }
 

@@ -91,6 +91,7 @@ export const SOURCE_FAMILIES = Object.freeze([
 ]);
 
 const SOURCE_FAMILY_BY_CATEGORY = new Map(SOURCE_FAMILIES.map((descriptor) => [descriptor.sourceCategory, descriptor]));
+const SOURCE_FAMILY_BY_TARGET = new Map(SOURCE_FAMILIES.map((descriptor) => [descriptor.targetFamily, descriptor]));
 const TARGET_FAMILY_BY_CATEGORY = new Map(SOURCE_FAMILIES.map((descriptor) => [descriptor.sourceCategory, descriptor.targetFamily]));
 
 export function sourceFamily(category) {
@@ -110,6 +111,16 @@ export function targetFamily(category) {
   const family = TARGET_FAMILY_BY_CATEGORY.get(category);
   if (!family) throw new Error(`unsupported source category: ${category}`);
   return family;
+}
+
+export function targetFamilyDescriptor(target) {
+  const descriptor = SOURCE_FAMILY_BY_TARGET.get(target);
+  if (!descriptor) throw new Error(`unsupported target family: ${target}`);
+  return descriptor;
+}
+
+export function targetRouteRoot(target) {
+  return targetFamilyDescriptor(target).targetRouteRoot;
 }
 
 export function canonicalContentUrl(category, slug) {

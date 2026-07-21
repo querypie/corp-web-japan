@@ -13,6 +13,7 @@ import {
   DURABLE_EVIDENCE_MAX_REVIEW_FINDINGS,
   publishDurableEvidence,
 } from "../../scripts/global-documentation-sync/durable-evidence.mjs";
+import { SOURCE_FAMILIES } from "../../scripts/global-documentation-sync/source-family-map.mjs";
 
 async function createReportDir() {
   const reportsDir = await mkdtemp(path.join(os.tmpdir(), "durable-evidence-"));
@@ -187,6 +188,110 @@ test("renders unavailable for malformed identity fields instead of leaking paylo
   assert.match(comment, /targetId: `unavailable`/);
   assert.match(comment, /targetRoute: `unavailable`/);
   assert.doesNotMatch(comment, /DROP_ME|evil\.example|hunter2|<script>|documentation\\nleak/);
+});
+
+test("accepts only exact SOURCE_FAMILIES descriptor relationships for durable identity", async () => {
+  for (const descriptor of SOURCE_FAMILIES) {
+    const reportsDir = await createReportDir();
+    await Promise.all([
+      writeFile(path.join(reportsDir, "candidate.json"), JSON.stringify({
+        schemaVersion: "global-documentation-sync/v1",
+        artifactType: "candidate",
+        runId: "run-123",
+        sourceId: "cnt_000211",
+        sourceHash: `sha256:${"a".repeat(64)}`,
+        sourceCategory: descriptor.sourceCategory,
+        sourceSection: descriptor.sourceSection,
+        targetFamily: descriptor.targetFamily,
+        targetId: 21,
+        sourceLocale: "ja",
+        sourceHtmlPath: "/tmp/source.html",
+        targetMdxPath: "/tmp/21-demo.mdx",
+        targetAssetRoot: "/tmp/blog/21",
+        targetRoute: `${descriptor.targetRouteRoot}/21/demo`,
+        meta: { id: "demo", contentType: "content" },
+        assets: [],
+        externalMedia: [],
+        production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true },
+      })),
+      writeFile(path.join(reportsDir, "run-summary.json"), JSON.stringify({
+        schemaVersion: "global-documentation-sync/v1",
+        artifactType: "run-summary",
+        runId: "run-123",
+        sourceId: "cnt_000211",
+        status: "draft_pr_created",
+        dryRun: false,
+        committed: true,
+        pushed: true,
+        pullRequestUrl: "https://github.com/querypie/corp-web-japan/pull/99",
+      })),
+    ]);
+
+    const { comment } = await buildDurableEvidenceComment({
+      reportsDir,
+      evidenceIssueNumber: "688",
+      fetchImpl: async () => ({ ok: false, text: async () => "" }),
+    });
+
+    assert.ok(comment.includes(`sourceSection: \`${descriptor.sourceSection}\``));
+    assert.ok(comment.includes(`sourceCategory: \`${descriptor.sourceCategory}\``));
+    assert.ok(comment.includes(`targetFamily: \`${descriptor.targetFamily}\``));
+    assert.ok(comment.includes(`targetRoute: \`${descriptor.targetRouteRoot}/21/demo\``));
+  }
+
+  const mismatched = SOURCE_FAMILIES[0];
+  const other = SOURCE_FAMILIES.find(({ sourceSection }) => sourceSection !== mismatched.sourceSection);
+  const reportsDir = await createReportDir();
+  await Promise.all([
+    writeFile(path.join(reportsDir, "candidate.json"), JSON.stringify({
+      schemaVersion: "global-documentation-sync/v1",
+      artifactType: "candidate",
+      runId: "run-123",
+      sourceId: "cnt_000211",
+      sourceHash: `sha256:${"a".repeat(64)}`,
+      sourceCategory: mismatched.sourceCategory,
+      sourceSection: other.sourceSection,
+      targetFamily: mismatched.targetFamily,
+      targetId: 21,
+      sourceLocale: "ja",
+      sourceHtmlPath: "/tmp/source.html",
+      targetMdxPath: "/tmp/21-demo.mdx",
+      targetAssetRoot: "/tmp/blog/21",
+      targetRoute: `${other.targetRouteRoot}/21/demo`,
+      meta: { id: "demo", contentType: "content" },
+      assets: [],
+      externalMedia: [],
+      production: { canonicalUrl: "https://www.querypie.com/en/blog/demo", listed: true, listUrl: "https://www.querypie.com/en/documentation", sitemap: true },
+    })),
+    writeFile(path.join(reportsDir, "run-summary.json"), JSON.stringify({
+      schemaVersion: "global-documentation-sync/v1",
+      artifactType: "run-summary",
+      runId: "run-123",
+      sourceId: "cnt_000211",
+      sourceCategory: mismatched.sourceCategory,
+      sourceSection: mismatched.sourceSection,
+      targetFamily: "demo/aip",
+      targetId: 21,
+      targetRoute: "/demo/aip/21/demo",
+      status: "draft_pr_created",
+      dryRun: false,
+      committed: true,
+      pushed: true,
+      pullRequestUrl: "https://github.com/querypie/corp-web-japan/pull/99",
+    })),
+  ]);
+
+  const { comment } = await buildDurableEvidenceComment({
+    reportsDir,
+    evidenceIssueNumber: "688",
+    fetchImpl: async () => ({ ok: false, text: async () => "" }),
+  });
+
+  assert.match(comment, /sourceSection: `unavailable`/);
+  assert.match(comment, /sourceCategory: `unavailable`/);
+  assert.match(comment, /targetFamily: `unavailable`/);
+  assert.match(comment, /targetRoute: `unavailable`/);
+  assert.doesNotMatch(comment, /demo\/aip/);
 });
 
 test("uses explicit target commit override when production evidence is absent", async () => {
