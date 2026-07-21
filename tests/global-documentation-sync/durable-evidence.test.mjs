@@ -92,9 +92,13 @@ test("builds a strict bounded durable evidence projection within the size cap", 
     ["instance-id", "ins-123"],
     ["placement/zone", "ap-seoul-1"],
     ["payment-mode", "postpaid"],
-    ["instance/charge-type", "spot"],
+    ["payment/charge-type", "SPOT"],
   ]);
-  const fetchImpl = async (url) => ({ ok: true, text: async () => metadataResponses.get(url.split("latest/meta-data/")[1]) || "missing" });
+  const metadataUrls = [];
+  const fetchImpl = async (url) => {
+    metadataUrls.push(url);
+    return { ok: true, text: async () => metadataResponses.get(url.split("latest/meta-data/")[1]) || "missing" };
+  };
   const { comment, marker, bytes } = await buildDurableEvidenceComment({ reportsDir, evidenceIssueNumber: "688", fetchImpl });
 
   assert.match(marker, new RegExp(DURABLE_EVIDENCE_MARKER_PREFIX));
@@ -106,7 +110,8 @@ test("builds a strict bounded durable evidence projection within the size cap", 
   assert.match(comment, /ins-123/);
   assert.match(comment, /ap-seoul-1/);
   assert.match(comment, /postpaid/);
-  assert.match(comment, /spot/);
+  assert.match(comment, /SPOT/);
+  assert.ok(metadataUrls.some((url) => url.endsWith("/payment/charge-type")));
   assert.match(comment, /npm run test:ci/);
   assert.match(comment, /minor banner mismatch/);
   assert.match(comment, /raw-writer-attempt-1.json/);
@@ -122,6 +127,22 @@ test("builds a strict bounded durable evidence projection within the size cap", 
   assert.equal((comment.match(/keep this finding/g) || []).length, DURABLE_EVIDENCE_MAX_REVIEW_FINDINGS);
   assert.equal((comment.match(/browser finding/g) || []).length, DURABLE_EVIDENCE_MAX_BROWSER_FINDINGS - 1);
   assert.ok(bytes <= DURABLE_EVIDENCE_COMMENT_LIMIT_BYTES);
+});
+
+test("uses explicit target commit override when production evidence is absent", async () => {
+  const reportsDir = await createReportDir();
+  await Promise.all([
+    writeFile(path.join(reportsDir, "run-summary.json"), JSON.stringify({ schemaVersion: "global-documentation-sync/v1", artifactType: "run-summary", runId: "run-123", sourceId: "cnt_000211", status: "failed", dryRun: false, committed: false, pushed: false, pullRequestUrl: null })),
+    writeFile(path.join(reportsDir, "failure-summary.json"), JSON.stringify({ schemaVersion: "global-documentation-sync/v1", runId: "run-123", status: "failed", reason: "discovery blocked" })),
+  ]);
+  await writeFile(path.join(reportsDir, "production-evidence.json"), "null\n", { flag: "w" });
+  const { comment } = await buildDurableEvidenceComment({
+    reportsDir,
+    evidenceIssueNumber: "688",
+    targetCommitOverride: "deadbeefcafebabe",
+    fetchImpl: async () => ({ ok: false, text: async () => "" }),
+  });
+  assert.match(comment, /deployedTargetGitCommit: `deadbeefcafebabe`/);
 });
 
 test("falls back to unavailable Tencent metadata on timeout or fetch failure", async () => {

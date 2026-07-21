@@ -150,7 +150,7 @@ export async function collectTencentHostMetadata({ fetchImpl = fetch, timeoutMs 
     instanceId: await readMetadata("instance-id"),
     zone: await readMetadata("placement/zone"),
     paymentMode: await readMetadata("payment-mode"),
-    chargeType: await readMetadata("instance/charge-type"),
+    chargeType: await readMetadata("payment/charge-type"),
   };
 }
 
@@ -231,7 +231,7 @@ function buildSections({ summary, evidenceIssueNumber, targetCommit, hostMetadat
   ].join("\n");
 }
 
-export async function buildDurableEvidenceComment({ reportsDir, evidenceIssueNumber, fetchImpl = fetch } = {}) {
+export async function buildDurableEvidenceComment({ reportsDir, evidenceIssueNumber, fetchImpl = fetch, targetCommitOverride = null } = {}) {
   if (!reportsDir) throw new Error("reportsDir required");
   if (!await fileExists(reportsDir)) throw new Error(`report directory not found: ${reportsDir}`);
   const artifacts = {
@@ -251,7 +251,7 @@ export async function buildDurableEvidenceComment({ reportsDir, evidenceIssueNum
   const summary = resolveTerminalSummary(artifacts);
   const hostMetadata = await collectTencentHostMetadata({ fetchImpl });
   const manifest = await buildManifest(reportsDir);
-  const targetCommit = artifacts.productionEvidence?.target?.deployedGitCommit || artifacts.branchState?.commit || artifacts.runSummary?.commit || UNAVAILABLE;
+  const targetCommit = targetCommitOverride || artifacts.productionEvidence?.target?.deployedGitCommit || artifacts.branchState?.commit || artifacts.runSummary?.commit || UNAVAILABLE;
   const excludedEmbeddedFiles = manifest.map(({ path: filePath }) => filePath).filter((filePath) => /(^|\/)(?:raw-|generated-body|candidate-body|.*credential.*|.*webhook.*)/i.test(filePath));
   const comment = buildSections({
     summary,
@@ -289,10 +289,10 @@ async function postComment(kind, target, githubRepo, body, cwd, execute) {
   return execute("gh", args, { cwd, input: body });
 }
 
-export async function publishDurableEvidence({ reportsDir, githubRepo, evidenceIssueNumber, pullRequestUrl, cwd = reportsDir, execute = defaultExecute, fetchImpl = fetch } = {}) {
+export async function publishDurableEvidence({ reportsDir, githubRepo, evidenceIssueNumber, pullRequestUrl, cwd = reportsDir, execute = defaultExecute, fetchImpl = fetch, targetCommitOverride = null } = {}) {
   if (!githubRepo) throw new Error("githubRepo required");
   if (!evidenceIssueNumber) throw new Error("evidenceIssueNumber required");
-  const { comment, marker, summary, bytes } = await buildDurableEvidenceComment({ reportsDir, evidenceIssueNumber, fetchImpl });
+  const { comment, marker, summary, bytes } = await buildDurableEvidenceComment({ reportsDir, evidenceIssueNumber, fetchImpl, targetCommitOverride });
   const result = { summary, bytes, issueCommented: false, issueSkipped: false, prCommented: false, prSkipped: false };
   const issueBodies = await loadCommentBodies("issue", evidenceIssueNumber, githubRepo, cwd, execute);
   if (issueBodies.some((body) => body.includes(marker))) result.issueSkipped = true;

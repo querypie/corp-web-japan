@@ -64,7 +64,17 @@ export function durableEvidenceConfig(options = {}) {
   return { evidenceIssueNumber, githubRepo, required: true };
 }
 
-async function maybePublishDurableEvidence({ options, reportsDir, runId, sourceId, pullRequestUrl, status }) {
+async function resolveTargetRepoHead(targetRepo, runCommand = run) {
+  if (!targetRepo) return null;
+  try {
+    const commit = redactSecrets((await runCommand("git", ["rev-parse", "HEAD"], targetRepo)).trim());
+    return /^[0-9a-f]{7,40}$/i.test(commit) ? commit : null;
+  } catch {
+    return null;
+  }
+}
+
+async function maybePublishDurableEvidence({ options, reportsDir, runId, sourceId, pullRequestUrl, status, targetCommitOverride = null }) {
   const config = durableEvidenceConfig(options);
   if (!config.required) return null;
   await updateRunStatus({ reportsDir, runId, sourceId, stage: "durable-evidence", state: "running", result: status, pullRequestUrl: pullRequestUrl || null });
@@ -74,6 +84,7 @@ async function maybePublishDurableEvidence({ options, reportsDir, runId, sourceI
       githubRepo: config.githubRepo,
       evidenceIssueNumber: config.evidenceIssueNumber,
       pullRequestUrl,
+      targetCommitOverride,
     });
     await atomicJson(path.join(reportsDir, "durable-evidence-summary.json"), { runId, sourceId: sourceId || null, status, pullRequestUrl: pullRequestUrl || null, ...published });
     return published;
@@ -115,7 +126,15 @@ export async function runProduction(options) {
   if (discovery.status !== "candidate") {
     await atomicJson(path.join(reportsDir, "discovery-summary.json"), { schemaVersion: SCHEMA_VERSION, runId, status: discovery.status, ...discovery });
     if (discovery.status === "no_candidate") {
-      await maybePublishDurableEvidence({ options, reportsDir, runId, sourceId: null, pullRequestUrl: null, status: discovery.status });
+      await maybePublishDurableEvidence({
+        options,
+        reportsDir,
+        runId,
+        sourceId: null,
+        pullRequestUrl: null,
+        status: discovery.status,
+        targetCommitOverride: await resolveTargetRepoHead(options.targetRepo, runCommand),
+      });
       await updateRunStatus({ reportsDir, runId, stage: "complete", state: "passed", result: discovery.status });
       return discovery;
     }
@@ -195,7 +214,16 @@ export async function runProductionCli(options, runProductionImpl = runProductio
         throw new Error(failure.reason);
       }
       try {
-        await maybePublishDurableEvidence({ options: configured, reportsDir, runId: configured.runId, sourceId: null, pullRequestUrl: null, status: failure.status });
+        await maybePublishDurableEvidence({
+          options: configured,
+          reportsDir,
+          runId: configured.runId,
+          sourceId: null,
+          pullRequestUrl: null,
+          status: failure.status,
+          targetCommitOverride: await resolveTargetRepoHead(configured.targetRepo, configured.runCommand || configured.runCommandImpl || run),
+        });
+        await updateRunStatus({ reportsDir, runId: configured.runId, stage: "failed", state: "failed", result: failure.status, reason: failure.reason }).catch(() => {});
       } catch (publishError) {
         const combinedReason = redactSecrets(`${failure.reason}; durable evidence publish failed: ${publishError.message}`);
         await updateRunStatus({ reportsDir, runId: configured.runId, stage: "durable-evidence", state: "failed", reason: combinedReason }).catch(() => {});
