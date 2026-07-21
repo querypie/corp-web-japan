@@ -49,11 +49,11 @@ jobs:
           [[ "$ignore_pr" =~ ^[0-9]+$ ]] || { echo "missing or ambiguous ignore PR for branch $RUN_BRANCH" >&2; exit 1; }
 
           for attempt in $(seq 1 12); do
-            ignore=$(gh pr view "$ignore_pr" --repo "$REPOSITORY" --json state,headRefName,body)
+            ignore=$(gh pr view "$ignore_pr" --repo "$REPOSITORY" --json state,headRefName,body,isCrossRepository)
             [[ "$(jq -r .state <<<"$ignore")" == MERGED ]] && break
             sleep 5
           done
-          [[ "$(jq -r .state <<<"$ignore")" == MERGED && "$(jq -r .headRefName <<<"$ignore")" =~ ^content-sync-ignore/cnt_[0-9]+$ ]] || { echo "ignore PR is not a merged sync-ignore PR" >&2; exit 1; }
+          [[ "$(jq -r .state <<<"$ignore")" == MERGED && "$(jq -r .isCrossRepository <<<"$ignore")" == false && "$(jq -r .headRefName <<<"$ignore")" =~ ^content-sync-ignore/cnt_[0-9]+$ ]] || { echo "ignore PR is not a merged same-repository sync-ignore PR" >&2; exit 1; }
 
           body=$(jq -r .body <<<"$ignore")
           marker=$(grep -oE '<!-- global-documentation-sync-ignore:v1 \{"sourceId":"cnt_[0-9]+","syncPr":[0-9]+\} -->' <<<"$body" || true)
@@ -61,8 +61,8 @@ jobs:
           source_id=$(sed -E 's/.*"sourceId":"(cnt_[0-9]+)".*/\1/' <<<"$marker")
           source_pr=$(sed -E 's/.*"syncPr":([0-9]+).*/\1/' <<<"$marker")
 
-          source=$(gh pr view "$source_pr" --repo "$REPOSITORY" --json state,isDraft,headRefName,body)
-          [[ "$(jq -r .headRefName <<<"$source")" == "content-sync/$source_id" ]] || { echo "source PR does not match sync marker" >&2; exit 1; }
+          source=$(gh pr view "$source_pr" --repo "$REPOSITORY" --json state,isDraft,headRefName,body,isCrossRepository)
+          [[ "$(jq -r .isCrossRepository <<<"$source")" == false && "$(jq -r .headRefName <<<"$source")" == "content-sync/$source_id" ]] || { echo "source PR is not same-repository or does not match sync marker" >&2; exit 1; }
           grep -Fq "\"sourceId\":\"$source_id\"" <<<"$(jq -r .body <<<"$source")" || { echo "source marker mismatch" >&2; exit 1; }
           if [[ "$(jq -r .state <<<"$source")" == OPEN ]]; then
             [[ "$(jq -r .isDraft <<<"$source")" == true ]] || { echo "source PR is not Draft" >&2; exit 1; }

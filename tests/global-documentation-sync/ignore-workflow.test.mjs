@@ -23,6 +23,9 @@ test("ignore dispatch creates an auto-merge decision PR with a machine marker", 
   assert.match(source, /global-documentation-sync-ignore:v1/);
   assert.match(source, /gh pr merge .*--auto --squash/);
   assert.match(source, /git config user\.name "QueryPie Global publication sync"/);
+  assert.match(source, /gh pr view "\$PR_NUMBER" --repo "\$GITHUB_REPOSITORY" --json body,headRefName,state,isDraft,isCrossRepository,url/);
+  assert.match(source, /jq -r \.isCrossRepository <<<"\$pr"\)" == false/);
+  assert.match(source, /not an open same-repository sync Draft PR/);
   assert.doesNotMatch(source, /git push origin HEAD:main/);
 });
 
@@ -55,6 +58,12 @@ test("close reconciler handles both CI completion and delayed approval", async (
   assert.match(source, /startsWith\(github\.event\.pull_request\.head\.ref, 'content-sync-ignore\/'\)/);
   assert.match(source, /contents: write/);
   assert.match(source, /pull-requests: write/);
+  assert.match(source, /gh pr view "\$ignore_pr" --repo "\$REPOSITORY" --json state,headRefName,body,isCrossRepository/);
+  assert.match(source, /jq -r \.isCrossRepository <<<"\$ignore"\)" == false/);
+  assert.match(source, /ignore PR is not a merged same-repository sync-ignore PR/);
+  assert.match(source, /gh pr view "\$source_pr" --repo "\$REPOSITORY" --json state,isDraft,headRefName,body,isCrossRepository/);
+  assert.match(source, /jq -r \.isCrossRepository <<<"\$source"\)" == false/);
+  assert.match(source, /source PR is not same-repository or does not match sync marker/);
   assert.match(source, /gh pr close/);
   assert.match(source, /git\/refs\/heads\/content-sync\/\$source_id/);
 });

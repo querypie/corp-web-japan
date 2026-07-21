@@ -27,10 +27,10 @@ jobs:
           PR_NUMBER: ${{ inputs.sync_pr_number }}
         run: |
           set -euo pipefail
-          pr=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json body,headRefName,state,isDraft,url)
+          pr=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json body,headRefName,state,isDraft,isCrossRepository,url)
           head=$(jq -r .headRefName <<<"$pr")
           body=$(jq -r .body <<<"$pr")
-          [[ "$(jq -r .state <<<"$pr")" == OPEN && "$(jq -r .isDraft <<<"$pr")" == true && "$head" =~ ^content-sync/cnt_[0-9]+$ ]] || { echo "not an open sync Draft PR" >&2; exit 1; }
+          [[ "$(jq -r .state <<<"$pr")" == OPEN && "$(jq -r .isDraft <<<"$pr")" == true && "$(jq -r .isCrossRepository <<<"$pr")" == false && "$head" =~ ^content-sync/cnt_[0-9]+$ ]] || { echo "not an open same-repository sync Draft PR" >&2; exit 1; }
           source_id="${head#content-sync/}"
           grep -Fq "\"sourceId\":\"$source_id\"" <<<"$body" || { echo "sync marker mismatch" >&2; exit 1; }
           source_url=$(sed -n 's/^- Source: //p' <<<"$body" | head -1)
