@@ -33,45 +33,168 @@ jobs:
           : "${MENTION:?CONTENT_SYNC_SLACK_MENTION is required}"
           : "${CHANNEL_ID:?CONTENT_SYNC_SLACK_CHANNEL_ID is required}"
 
-          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
-            text="$MENTION Global publication sync Slack notification test. Configured channel: $CHANNEL_ID"
-          else
-            source="$(PR_BRANCH="$PR_BRANCH" PR_BODY="$PR_BODY" node --input-type=module -e '
-            const branch = process.env.PR_BRANCH || "";
-            const body = process.env.PR_BODY || "";
-            const documentationTargetFamilies = new Set(["blog", "whitepapers", "use-cases", "manuals", "events", "glossary", "introduction-deck"]);
-            const inferLegacySourceSection = (targetFamily) => {
-              if (targetFamily === "news") return "news";
-              if (documentationTargetFamilies.has(targetFamily)) return "documentation";
-              return null;
+          payload="$(MENTION="$MENTION" CHANNEL_ID="$CHANNEL_ID" EVENT_NAME="$EVENT_NAME" PR_URL="$PR_URL" PR_TITLE="$PR_TITLE" PR_BRANCH="$PR_BRANCH" PR_BODY="$PR_BODY" node --input-type=module -e '
+          const documentationTargetFamilies = new Set(["blog", "whitepapers", "use-cases", "manuals", "events", "glossary", "introduction-deck"]);
+          const eventName = process.env.EVENT_NAME || "";
+          const mention = process.env.MENTION || "";
+          const channelId = process.env.CHANNEL_ID || "";
+          const prUrl = process.env.PR_URL || "";
+          const prTitle = process.env.PR_TITLE || "";
+          const prBranch = process.env.PR_BRANCH || "";
+          const prBody = process.env.PR_BODY || "";
+          const markerPattern = /<!--\s*global-documentation-sync:v1\s+(\{[^\n]*\})\s*-->/g;
+          const sourceIdPattern = /^cnt_\d+$/;
+          const targetFamilyPattern = /^[a-z]+(?:-[a-z]+)*$/;
+          const runIdPattern = /^[A-Za-z0-9._:-]+$/;
+          const inferLegacySourceSection = (targetFamily) => {
+            if (targetFamily === "news") return "news";
+            if (documentationTargetFamilies.has(targetFamily)) return "documentation";
+            return null;
+          };
+          const fail = (message) => {
+            console.error(message);
+            process.exit(1);
+          };
+          const compactBlockText = (value) => value.trim().replace(/^[-*]\s+/gm, "• ");
+          const buildPreviewPayload = () => ({
+            text: "Global publication sync Slack format preview. No action required.",
+            blocks: [
+              {
+                type: "header",
+                text: { type: "plain_text", text: "Global publication sync Slack format preview", emoji: true },
+              },
+              {
+                type: "section",
+                text: { type: "mrkdwn", text: "English preview only. No action required." },
+              },
+              {
+                type: "section",
+                fields: [
+                  { type: "mrkdwn", text: "*Source*\n`documentation/cnt_000000`" },
+                  { type: "mrkdwn", text: "*Target*\n`blog/0`" },
+                  { type: "mrkdwn", text: "*Status*\nFormat preview" },
+                  { type: "mrkdwn", text: "*Run*\n`preview-run`" },
+                ],
+              },
+              {
+                type: "section",
+                text: { type: "mrkdwn", text: "*PR title*\nExample Draft PR preview" },
+              },
+              {
+                type: "context",
+                elements: [
+                  { type: "mrkdwn", text: `Configured channel: ${channelId} · Preview only · No real PR action` },
+                ],
+              },
+              {
+                type: "container",
+                title: { type: "plain_text", text: "Validation details", emoji: true },
+                is_collapsible: true,
+                default_collapsed: true,
+                child_blocks: [
+                  {
+                    type: "section",
+                    text: { type: "mrkdwn", text: "*Pi reviews*\n• Fidelity: preview\n• Contract: preview" },
+                  },
+                  {
+                    type: "section",
+                    text: { type: "mrkdwn", text: "*Validation*\n• Representative block structure only" },
+                  },
+                ],
+              },
+            ],
+          });
+          const parseMarker = () => {
+            const matches = [...prBody.matchAll(markerPattern)];
+            if (matches.length !== 1) fail("expected exactly one global-documentation-sync marker");
+            let marker;
+            try {
+              marker = JSON.parse(matches[0][1]);
+            } catch (error) {
+              fail(`invalid global-documentation-sync marker JSON: ${error.message}`);
+            }
+            for (const key of ["sourceId", "targetFamily", "targetId", "runId", "branch"]) {
+              if (marker[key] === undefined || marker[key] === null || marker[key] === "") fail(`PR marker missing ${key}`);
+            }
+            if (!sourceIdPattern.test(String(marker.sourceId))) fail("invalid marker sourceId");
+            if (!targetFamilyPattern.test(String(marker.targetFamily))) fail("invalid marker targetFamily");
+            if (!Number.isInteger(marker.targetId) || marker.targetId <= 0) fail("invalid marker targetId");
+            if (!runIdPattern.test(String(marker.runId))) fail("invalid marker runId");
+            const sourceSection = marker.sourceSection ?? inferLegacySourceSection(marker.targetFamily);
+            if (!sourceSection) fail("PR marker missing sourceSection");
+            const explicitBranch = `content-sync/${sourceSection}-${marker.sourceId}`;
+            const legacyBranch = `content-sync/${marker.sourceId}`;
+            if (marker.branch !== explicitBranch && marker.branch !== legacyBranch) fail("invalid marker branch");
+            if (prBranch !== marker.branch) fail("PR branch does not match sync marker branch");
+            const reviewsMatch = prBody.match(/^## Reviews\s*$\n([\s\S]*?)\n^## Validation\s*$/m);
+            const validationMatch = prBody.match(/^## Validation\s*$\n([\s\S]*?)\n<!--\s*global-documentation-sync:v1/m);
+            if (!reviewsMatch || !validationMatch) fail("PR body missing review or validation sections");
+            const reviews = reviewsMatch[1].trim();
+            const validation = validationMatch[1].trim();
+            if (!reviews || !validation) fail("PR body review or validation section is empty");
+            return { ...marker, sourceSection, reviews, validation };
+          };
+          const buildSuccessPayload = () => {
+            const marker = parseMarker();
+            const reviewText = `${mention} Please review this Draft PR.`;
+            return {
+              text: reviewText,
+              blocks: [
+                {
+                  type: "header",
+                  text: { type: "plain_text", text: "Global publication Draft PR ready", emoji: true },
+                },
+                {
+                  type: "section",
+                  text: { type: "mrkdwn", text: reviewText },
+                },
+                {
+                  type: "section",
+                  fields: [
+                    { type: "mrkdwn", text: `*Source*\n\`${marker.sourceSection}/${marker.sourceId}\`` },
+                    { type: "mrkdwn", text: `*Target*\n\`${marker.targetFamily}/${marker.targetId}\`` },
+                    { type: "mrkdwn", text: "*Status*\nDraft PR ready" },
+                    { type: "mrkdwn", text: `*Run*\n\`${marker.runId}\`` },
+                  ],
+                },
+                {
+                  type: "section",
+                  text: { type: "mrkdwn", text: `*PR title*\n${prTitle}` },
+                  accessory: {
+                    type: "button",
+                    text: { type: "plain_text", text: "Open Draft PR", emoji: true },
+                    url: prUrl,
+                    action_id: "open_draft_pr",
+                  },
+                },
+                {
+                  type: "context",
+                  elements: [
+                    { type: "mrkdwn", text: "Human review required · Draft only · No automatic merge/deploy" },
+                  ],
+                },
+                {
+                  type: "container",
+                  title: { type: "plain_text", text: "Validation details", emoji: true },
+                  is_collapsible: true,
+                  default_collapsed: true,
+                  child_blocks: [
+                    {
+                      type: "section",
+                      text: { type: "mrkdwn", text: `*Pi reviews*\n${compactBlockText(marker.reviews)}` },
+                    },
+                    {
+                      type: "section",
+                      text: { type: "mrkdwn", text: `*Validation*\n${compactBlockText(marker.validation)}` },
+                    },
+                  ],
+                },
+              ],
             };
-            const markerMatch = body.match(/<!--\s*global-documentation-sync:v1\s+(\{[^\n]*\})\s*-->/);
-            if (markerMatch) {
-              try {
-                const marker = JSON.parse(markerMatch[1]);
-                const sourceSection = marker.sourceSection ?? inferLegacySourceSection(marker.targetFamily);
-                if (sourceSection && marker.sourceId) {
-                  process.stdout.write(`${sourceSection}/${marker.sourceId}`);
-                  process.exit(0);
-                }
-              } catch {}
-            }
-            const explicitBranch = /^content-sync\/([a-z]+)-(cnt_\d+)$/.exec(branch);
-            if (explicitBranch) {
-              process.stdout.write(`${explicitBranch[1]}/${explicitBranch[2]}`);
-              process.exit(0);
-            }
-            const legacyBranch = /^content-sync\/(cnt_\d+)$/.exec(branch);
-            process.stdout.write(legacyBranch ? legacyBranch[1] : branch.replace(/^content-sync\//, ""));
-            '
-            )"
-            text="$MENTION Global publication Draft PR is ready for review.
-          PR: $PR_TITLE
-          Source: $source
-          URL: $PR_URL"
-          fi
+          };
+          process.stdout.write(JSON.stringify(eventName === "workflow_dispatch" ? buildPreviewPayload() : buildSuccessPayload()));
+          ')"
 
-          payload=$(jq -nc --arg text "$text" '{text: $text}')
           curl --fail --silent --show-error --max-time 15 \
             -H 'Content-Type: application/json' \
             -d "$payload" \

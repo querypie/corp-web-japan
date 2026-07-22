@@ -34,7 +34,7 @@ test("failure alert builder emits compact Block Kit payload with a default-colla
       },
       {
         type: "section",
-        text: { type: "mrkdwn", text: "<@U123>" },
+        text: { type: "mrkdwn", text: "<@U123> Please investigate this failure." },
       },
       {
         type: "section",
