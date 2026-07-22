@@ -1,10 +1,24 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
+import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 
 const workflow = path.resolve(".github/workflows/content-sync-slack.yml");
 const DOCUMENTATION_TARGET_FAMILIES = new Set(["blog", "whitepapers", "use-cases", "manuals", "events", "glossary", "introduction-deck"]);
+const execFileAsync = promisify(execFile);
+
+function extractWorkflowRunScript(workflowSource) {
+  const match = workflowSource.match(/- name: Send Slack notification\n(?: {8}.+\n)*? {8}run: \|\n((?: {10}.*\n?)*)/);
+  assert.ok(match, "expected Send Slack notification run block");
+  return match[1]
+    .split("\n")
+    .map((line) => line.startsWith("          ") ? line.slice(10) : line)
+    .join("\n")
+    .trim();
+}
 
 function extractSlackSource({ branch, body }) {
   const markerMatch = body.match(/<!--\s*global-documentation-sync:v1\s+(\{[^\n]*\})\s*-->/);
@@ -22,6 +36,14 @@ function extractSlackSource({ branch, body }) {
   const legacyBranch = /^content-sync\/(cnt_\d+)$/.exec(branch);
   return legacyBranch ? legacyBranch[1] : branch.replace(/^content-sync\//, "");
 }
+
+test("Slack workflow shell parses with bash -n", async () => {
+  const source = await readFile(workflow, "utf8");
+  const runScript = extractWorkflowRunScript(source);
+  const tempScript = path.join(os.tmpdir(), `content-sync-slack-${process.pid}.sh`);
+  await writeFile(tempScript, `${runScript}\n`, "utf8");
+  await execFileAsync("bash", ["-n", tempScript]);
+});
 
 test("Slack workflow notifies only same-repository content-sync Draft PRs", async () => {
   const source = await readFile(workflow, "utf8");

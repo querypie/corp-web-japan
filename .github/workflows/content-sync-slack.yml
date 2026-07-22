@@ -36,7 +36,7 @@ jobs:
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
             text="$MENTION Global publication sync Slack notification test. Configured channel: $CHANNEL_ID"
           else
-            source=$(PR_BRANCH="$PR_BRANCH" PR_BODY="$PR_BODY" node --input-type=module - <<'NODE'
+            source="$(PR_BRANCH="$PR_BRANCH" PR_BODY="$PR_BODY" node --input-type=module -e '
             const branch = process.env.PR_BRANCH || "";
             const body = process.env.PR_BODY || "";
             const documentationTargetFamilies = new Set(["blog", "whitepapers", "use-cases", "manuals", "events", "glossary", "introduction-deck"]);
@@ -63,8 +63,8 @@ jobs:
             }
             const legacyBranch = /^content-sync\/(cnt_\d+)$/.exec(branch);
             process.stdout.write(legacyBranch ? legacyBranch[1] : branch.replace(/^content-sync\//, ""));
-            NODE
-            )
+            '
+            )"
             text="$MENTION Global publication Draft PR is ready for review.
           PR: $PR_TITLE
           Source: $source
