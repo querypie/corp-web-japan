@@ -3,7 +3,7 @@ set -euo pipefail
 unit="${1:-global-documentation-sync.service}"
 run_dir=""
 if [[ -n "${REPORTS_ROOT:-}" ]]; then
-  run_dir=$(find "$REPORTS_ROOT" -mindepth 1 -maxdepth 1 -type d -print 2>/dev/null | sort | tail -1 || true)
+  run_dir=$(python3 "$(dirname "$0")/select-latest-report.py" "$REPORTS_ROOT" 2>/dev/null || true)
 fi
 run_id="unavailable"
 stage="unavailable"

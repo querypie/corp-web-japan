@@ -89,6 +89,8 @@ test("writer correction prompt pins quoted id and promises only actionable corre
   assert.match(writer.prompt, /Resolve all 1 supplied actionable findings one by one/);
   assert.match(writer.prompt, /including every minor-or-higher item/);
   assert.match(writer.prompt, /resolve every supplied actionable finding, including minor findings/);
+  assert.match(writer.prompt, /Preserve exact source-authoritative proper-name and brand spelling/);
+  assert.match(writer.prompt, /do not transliterate, localize, legal-name-normalize, or change script/);
   assert.doesNotMatch(writer.prompt, /including minor and note findings/);
   assert.match(writer.prompt, /News[\s\S]*must not contain author/);
   assert.match(writer.prompt, /resolvedSourceLabel/);
@@ -96,7 +98,7 @@ test("writer correction prompt pins quoted id and promises only actionable corre
 });
 
 
-test("japanese editorial prompt reserves note for non-actionable observations", () => {
+test("japanese editorial prompt reserves note for non-actionable observations and preserves source-authoritative names", () => {
   const calls = buildPiInvocations({
     piBin: "pi",
     provider: "provider",
@@ -112,6 +114,8 @@ test("japanese editorial prompt reserves note for non-actionable observations", 
   assert.match(editorial.prompt, /translationese wording that has a concrete correction as actionable minor or higher/);
   assert.match(editorial.prompt, /reserve note only for non-actionable observations that require no text change/);
   assert.match(editorial.prompt, /isolated wording described as merely やや or 少し awkward is still minor when a concrete correction exists/);
+  assert.match(editorial.prompt, /Preserve exact source-authoritative proper-name and brand spelling/);
+  assert.match(editorial.prompt, /Do not suggest transliteration, localization, legal-name normalization, or script changes/);
   assert.doesNotMatch(editorial.prompt, /actionable note/);
 });
 
