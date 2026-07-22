@@ -8,8 +8,8 @@ import { runReviewCycle } from "../../scripts/global-documentation-sync/review-c
 
 const schemaVersion = "global-documentation-sync/v1";
 
-test("corrects every actionable review finding and ignores note-only findings in correction mode", async () => {
-  const root = await mkdtemp(path.join(os.tmpdir(), "review-cycle-"));
+async function setupReviewCycleFixture(prefix = "review-cycle-") {
+  const root = await mkdtemp(path.join(os.tmpdir(), prefix));
   const targetRepo = path.join(root, "target");
   const reportsDir = path.join(root, "reports");
   const sourceHtmlPath = path.join(root, "source.html");
@@ -46,6 +46,11 @@ test("corrects every actionable review finding and ignores note-only findings in
   };
   const candidatePath = path.join(reportsDir, "candidate.json");
   await writeFile(candidatePath, JSON.stringify(candidate));
+  return { targetRepo, reportsDir, targetMdxPath, candidatePath };
+}
+
+test("corrects every actionable review finding and ignores note-only findings in correction mode", async () => {
+  const { targetRepo, reportsDir, targetMdxPath, candidatePath } = await setupReviewCycleFixture();
   let writerCalls = 0;
   let fidelityCalls = 0;
   const writerPrompts = [];
@@ -70,4 +75,32 @@ test("corrects every actionable review finding and ignores note-only findings in
   assert.match(writerPrompts[1], /supplied actionable findings/);
   assert.doesNotMatch(writerPrompts[1], /note findings/);
   assert.equal(result.reviews.every((review) => review.findings.every((finding) => finding.severity === "note" || finding.severity === "minor")), true);
+});
+
+test("correction mode accumulates unique actionable findings across attempts while success depends on current unresolved findings", async () => {
+  const { targetRepo, reportsDir, targetMdxPath, candidatePath } = await setupReviewCycleFixture("review-cycle-accumulate-");
+  const writerCorrectionPayloads = [];
+  const findingA = { severity: "minor", location: "title", message: "A", suggestion: "fix A" };
+  const findingB = { severity: "minor", location: "body", message: "B", suggestion: "fix B" };
+  let fidelityCalls = 0;
+  const runProcess = async ({ role, prompt }) => {
+    if (role === "writer") {
+      writerCorrectionPayloads.push(JSON.parse(prompt.match(/DATA=(\{[\s\S]+\})$/)[1]).correctionFindings);
+      return JSON.stringify({ mdx: "---\nheroImageSrc: /blog/1/thumbnail.png\n---\n", generationReport: { schemaVersion, artifactType: "generation-report", runId: "r", sourceId: "cnt_1", targetFiles: [targetMdxPath], inventories: {}, intentionalTransformations: [] } });
+    }
+    if (role === "fidelity") {
+      fidelityCalls += 1;
+      const findings = fidelityCalls === 1 ? [findingA, findingA] : fidelityCalls === 2 ? [findingB] : [];
+      return JSON.stringify({ schemaVersion, artifactType: "fidelity-review", runId: "r", sourceId: "cnt_1", verdict: findings.length ? "revise" : "pass", findings });
+    }
+    return JSON.stringify({ schemaVersion, artifactType: `${role}-review`, runId: "r", sourceId: "cnt_1", verdict: "pass", findings: [] });
+  };
+
+  const result = await runReviewCycle({ piBin: "pi", provider: "p", model: "m", targetRepo, candidatePath, reportsDir, runProcess, maximumAttempts: 3 });
+  assert.equal(result.attempts, 3);
+  assert.deepEqual(writerCorrectionPayloads, [
+    [],
+    [{ review: "fidelity-review", ...findingA }],
+    [{ review: "fidelity-review", ...findingA }, { review: "fidelity-review", ...findingB }],
+  ]);
 });

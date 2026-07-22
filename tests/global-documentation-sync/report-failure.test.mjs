@@ -1,9 +1,12 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { mkdtemp, mkdir, utimes, writeFile } from "node:fs/promises";
+import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 
 const builder = path.resolve("ops/global-documentation-sync/build-failure-alert.py");
+const latestReportSelector = path.resolve("ops/global-documentation-sync/select-latest-report.py");
 
 function buildAlert(args = []) {
   const result = spawnSync("python3", [builder, ...args], { encoding: "utf8" });
@@ -122,4 +125,32 @@ test("failure alert builder derives Slack and logger reason from the same saniti
   assert.equal(alert.sanitizedReason, "REDACTED\nhttps://example.com/path?Authorization=REDACTED&ok=1");
   assert.equal(alert.payload.blocks.at(-1).child_blocks[0].text.text, alert.sanitizedReason);
   assert.ok(alert.logMessage.includes(`reason=${alert.sanitizedReason.replaceAll("\n", " | ")}`));
+});
+
+test("latest report selector prefers newest run-status mtime over lexicographic directory order and ignores dirs without run-status", async () => {
+  const reportsRoot = await mkdtemp(path.join(os.tmpdir(), "report-failure-"));
+  const newerNumericRun = path.join(reportsRoot, "20260722T010227958Z");
+  const lexicographicallyLaterOldRun = path.join(reportsRoot, "zzz-old-composite-review");
+  const ignoredDir = path.join(reportsRoot, "zzzz-no-status");
+  await Promise.all([
+    mkdir(newerNumericRun, { recursive: true }),
+    mkdir(lexicographicallyLaterOldRun, { recursive: true }),
+    mkdir(ignoredDir, { recursive: true }),
+  ]);
+  await Promise.all([
+    writeFile(path.join(newerNumericRun, "run-status.json"), JSON.stringify({ runId: "20260722T010227958Z" })),
+    writeFile(path.join(lexicographicallyLaterOldRun, "run-status.json"), JSON.stringify({ runId: "old-run" })),
+    writeFile(path.join(ignoredDir, "failure-summary.json"), JSON.stringify({ reason: "ignore" })),
+  ]);
+  const now = new Date();
+  const oldTime = new Date(now.getTime() - 60_000);
+  const newTime = new Date(now.getTime() + 60_000);
+  await Promise.all([
+    utimes(path.join(lexicographicallyLaterOldRun, "run-status.json"), oldTime, oldTime),
+    utimes(path.join(newerNumericRun, "run-status.json"), newTime, newTime),
+  ]);
+
+  const result = spawnSync("python3", [latestReportSelector, reportsRoot], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout.trim(), newerNumericRun);
 });

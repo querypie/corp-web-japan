@@ -6,6 +6,18 @@ import { runPiInvocations } from "./pi-runner.mjs";
 
 const REVIEW_TYPES = ["fidelity-review", "japanese-editorial-review", "contract-review"];
 
+function dedupeFindings(findings) {
+  const seen = new Set();
+  const deduped = [];
+  for (const finding of findings) {
+    const key = JSON.stringify(finding);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    deduped.push(finding);
+  }
+  return deduped;
+}
+
 export async function readReviews(reportsDir) {
   const reviews = [];
   for (const type of REVIEW_TYPES) {
@@ -21,14 +33,14 @@ export async function runReviewCycle(options) {
   for (let attempt = 1; attempt <= maximumAttempts; attempt += 1) {
     await runPiInvocations({ ...options, correctionFindings, attempt });
     const reviews = await readReviews(options.reportsDir);
-    const unresolved = reviews.flatMap((review) => {
+    const unresolved = dedupeFindings(reviews.flatMap((review) => {
       const actionable = review.findings.filter(({ severity }) => severity !== "note");
       if (actionable.length === 0) return [];
       return actionable.map((finding) => ({ review: review.artifactType, ...finding }));
-    });
+    }));
     if (unresolved.length === 0) return { attempts: attempt, reviews };
     if (attempt === maximumAttempts) throw new Error(`review correction limit reached after ${maximumAttempts} attempts: ${JSON.stringify(unresolved)}`);
-    correctionFindings = unresolved;
+    correctionFindings = dedupeFindings([...correctionFindings, ...unresolved]);
   }
   throw new Error("unreachable review cycle state");
 }
