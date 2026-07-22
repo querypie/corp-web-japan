@@ -124,13 +124,26 @@ test("legacy ignore row with exact sourceCategory inference can allow another co
   }));
 });
 
-test("close reconciler handles both CI completion and delayed approval", async () => {
+test("close reconciler keeps fast paths and adds scheduled fallback from main ignore manifest", async () => {
   const source = await readWorkflow("close-ignored-sync-pr.yml");
   assert.match(source, /name: Close ignored Global publication sync PR/);
+  assert.match(source, /schedule:/);
+  assert.match(source, /cron: '\*\/15 \* \* \* \*'/);
   assert.match(source, /workflow_run:/);
   assert.match(source, /pull_request_review:/);
+  assert.match(source, /workflow_dispatch:/);
+  assert.match(source, /github\.event_name == 'schedule'/);
   assert.match(source, /github\.event\.review\.state == 'approved'/);
   assert.match(source, /startsWith\(github\.event\.pull_request\.head\.ref, 'content-sync-ignore\/'\)/);
+  assert.match(source, /uses: actions\/checkout@v4/);
+  assert.match(source, /ref: \$\{\{ github\.event\.repository\.default_branch \}\}/);
+  assert.match(source, /\.github\/content-sync\/ignore\.json/);
+  assert.match(source, /open-pull-requests\.json/);
+  assert.match(source, /ignored-sync-plan\.json/);
+  assert.match(source, /parseGitHubPullRequestList/);
+  assert.match(source, /planIgnoredSyncPullRequestReconciliation/);
+  assert.match(source, /gh pr list --repo "\$REPOSITORY" --state open --limit 1000 --json number,state,isDraft,body,headRefName,isCrossRepository/);
+  assert.match(source, /planned source PR is no longer an open same-repository Draft sync PR/);
   assert.match(source, /contents: write/);
   assert.match(source, /pull-requests: write/);
   assert.match(source, /gh pr view "\$ignore_pr" --repo "\$REPOSITORY" --json state,headRefName,body,isCrossRepository/);
