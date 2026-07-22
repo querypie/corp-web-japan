@@ -93,7 +93,7 @@ def build_payload(*, mention: str, unit: str, run_id: str, stage: str, host: str
         {"type": "header", "text": {"type": "plain_text", "text": "Global publication sync failed", "emoji": True}},
     ]
     if mention_text:
-        blocks.append({"type": "section", "text": {"type": "mrkdwn", "text": mention_text}})
+        blocks.append({"type": "section", "text": {"type": "mrkdwn", "text": f"{mention_text} Please investigate this failure."}})
     blocks.append(
         {
             "type": "section",
