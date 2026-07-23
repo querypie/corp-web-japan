@@ -10,6 +10,15 @@
   },
   {
     "sourceSection": "news",
+    "sourceId": "cnt_000180",
+    "sourceCanonicalUrl": "https://itbusinesstoday.com/tech/ai/payroll-partners-with-querypie-on-ai-security-solutions",
+    "reasonCode": "other",
+    "reason": "Ignored by owner from sync Draft PR.",
+    "addedBy": "owner",
+    "addedAt": "2026-07-23T02:24:56Z"
+  },
+  {
+    "sourceSection": "news",
     "sourceId": "cnt_000181",
     "sourceCanonicalUrl": "https://itbusinesstoday.com/tech/ai/terrasky-and-querypie-ai-unveil-mitoco-buddy-for-work",
     "reasonCode": "other",
