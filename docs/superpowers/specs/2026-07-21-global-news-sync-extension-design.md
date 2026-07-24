@@ -119,7 +119,7 @@ It is eligible only when:
 
 It intentionally has no sitemap detail URL requirement.
 
-Invalid records must produce a deterministic blocked source-contract outcome or require an explicit owner ignore decision; they must not fail later inside generation after being selected.
+Production-eligible invalid records must produce a deterministic blocked source-contract outcome or require an explicit owner ignore decision; they must not fail later inside generation after being selected.
 
 ## Candidate and evidence model
 
