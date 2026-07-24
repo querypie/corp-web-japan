@@ -52,9 +52,11 @@ test("server runtime is a locked oneshot Pi job", async () => {
   assert.match(service, /TimeoutStartSec=1h/);
   assert.match(service, /OnFailure=/);
   assert.match(service, /ProtectSystem=strict/);
-  assert.match(timer, /Description=Run QueryPie Global publication sync daily/);
-  assert.match(timer, /OnCalendar=/);
-  assert.match(timer, /Persistent=true/);
+  assert.match(timer, /^Description=Run QueryPie Global publication sync on weekdays$/m);
+  assert.match(timer, /^OnCalendar=Mon\.\.Fri \*-\*-\* 10:00:00 Asia\/Seoul$/m);
+  assert.match(timer, /^RandomizedDelaySec=10m$/m);
+  assert.match(timer, /^Persistent=true$/m);
+  assert.match(timer, /^Unit=global-documentation-sync\.service$/m);
   assert.match(runner, /pi/);
   assert.match(runner, /production-run\.mjs/);
   assert.match(lockRunner, /flock -n/);

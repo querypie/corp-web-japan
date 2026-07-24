@@ -174,12 +174,12 @@ After the ignore pull request merges, the reconciler SHALL validate its ignore m
 
 ### Requirement: Production schedule and concurrency
 
-The production host SHALL use timezone `Asia/Seoul`. The systemd timer SHALL run daily at 10:00 KST with a randomized delay of no more than ten minutes and persistent catch-up behavior. `flock` SHALL prevent overlapping runs.
+The production host SHALL use timezone `Asia/Seoul`. The systemd timer SHALL run only on weekdays (Monday through Friday) at 10:00 KST with a randomized delay of no more than ten minutes and persistent catch-up behavior. `flock` SHALL prevent overlapping runs.
 
-#### Scenario: Daily timer fires
+#### Scenario: Weekday timer fires
 
 - **GIVEN** the timer is enabled and active
-- **WHEN** the daily 10:00 KST schedule plus randomized delay is reached
+- **WHEN** the weekday 10:00 KST schedule plus randomized delay is reached
 - **THEN** exactly one service execution SHALL acquire the automation lock
 
 ### Requirement: Durable sanitized production evidence ledger

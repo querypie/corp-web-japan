@@ -1,8 +1,8 @@
 [Unit]
-Description=Run QueryPie Global publication sync daily
+Description=Run QueryPie Global publication sync on weekdays
 
 [Timer]
-OnCalendar=*-*-* 10:00:00
+OnCalendar=Mon..Fri *-*-* 10:00:00 Asia/Seoul
 Persistent=true
 RandomizedDelaySec=10m
 Unit=global-documentation-sync.service
