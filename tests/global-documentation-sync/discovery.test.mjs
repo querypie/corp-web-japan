@@ -415,10 +415,23 @@ test("blocks News section or category mismatch before candidate selection", asyn
   });
 });
 
-test("blocks unsafe News source slug before candidate selection", async () => {
-  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-unsafe-slug-"));
-  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-unsafe-slug-"));
-  await source(globalRepo, "news", "cnt_18", "bad slug");
+test("skips unlisted unsafe ko-only News outlink and selects the next valid candidate", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-unlisted-unsafe-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-unlisted-unsafe-"));
+  await source(globalRepo, "news", "cnt_000191", "급여-아웃링크", {
+    contentType: "outlink",
+    externalUrl: "https://www.datanet.co.kr/news/articleView.html?idxno=201050",
+    title: { ja: "급여 AI 기사" },
+    summary: { ja: "한국어 요약" },
+    dateIso: "2026-07-24",
+  });
+  await source(globalRepo, "news", "cnt_000192", "valid-news-outlink", {
+    contentType: "outlink",
+    externalUrl: "https://www.itbusinesstoday.com/news/valid-news-outlink",
+    title: { en: "Valid English card" },
+    summary: { en: "Valid English summary" },
+    dateIso: "2026-07-23",
+  });
   await manifests(targetRepo);
 
   const result = await discoverNextCandidate({
@@ -426,7 +439,35 @@ test("blocks unsafe News source slug before candidate selection", async () => {
     targetRepo,
     sitemapXml: "",
     productionListHtmlByUrl: {
-      "https://www.querypie.com/en/news": "",
+      "https://www.querypie.com/en/news": '<a href="https://www.itbusinesstoday.com/news/valid-news-outlink">News</a>',
+      "https://www.querypie.com/en/documentation": "",
+    },
+    prRecords: [],
+    branchNames: [],
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.source.sourceId, "cnt_000192");
+  assert.equal(result.source.production.listed, true);
+});
+
+test("blocks listed unsafe News source slug before candidate selection", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-unsafe-slug-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-unsafe-slug-"));
+  await source(globalRepo, "news", "cnt_18", "bad slug", {
+    contentType: "outlink",
+    externalUrl: "https://media.example/bad-slug",
+    title: { ja: "ニュース1" },
+    summary: { ja: "要約1" },
+  });
+  await manifests(targetRepo);
+
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: "",
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": '<a href="https://media.example/bad-slug">News</a>',
       "https://www.querypie.com/en/documentation": "",
     },
     prRecords: [],
@@ -438,6 +479,51 @@ test("blocks unsafe News source slug before candidate selection", async () => {
     sourceId: "cnt_18",
     sourceSection: "news",
     reason: 'unsafe source slug: bad slug',
+  });
+});
+
+test("suppresses ignored invalid News source after URL drift validation", async () => {
+  const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-ignored-invalid-"));
+  const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-ignored-invalid-"));
+  await source(globalRepo, "news", "cnt_23", "ignored-news-no-body", { dateIso: "2026-01-02" });
+  await writeFile(path.join(globalRepo, "src/content/news/cnt_23/ja.html"), "");
+  await source(globalRepo, "news", "cnt_24", "listed-news-no-body", { dateIso: "2026-01-01" });
+  await writeFile(path.join(globalRepo, "src/content/news/cnt_24/ja.html"), "");
+  await manifests(targetRepo, {
+    ignore: [{
+      sourceSection: "news",
+      sourceId: "cnt_23",
+      sourceCanonicalUrl: "https://www.querypie.com/en/news/ignored-news-no-body",
+      reasonCode: "source-quality",
+      reason: "owner ignored invalid record",
+      addedBy: "owner",
+      addedAt: "2026-07-24T01:04:17Z",
+    }],
+  });
+
+  const result = await discoverNextCandidate({
+    globalRepo,
+    targetRepo,
+    sitemapXml: [
+      "https://www.querypie.com/en/news/ignored-news-no-body",
+      "https://www.querypie.com/en/news/listed-news-no-body",
+    ].map((url) => `<loc>${url}</loc>`).join(""),
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": [
+        '<a href="/en/news/ignored-news-no-body">Ignored</a>',
+        '<a href="/en/news/listed-news-no-body">Listed</a>',
+      ].join(""),
+      "https://www.querypie.com/en/documentation": "",
+    },
+    prRecords: [],
+    branchNames: [],
+  });
+
+  assert.deepEqual(result, {
+    status: "blocked_source_contract",
+    sourceId: "cnt_24",
+    sourceSection: "news",
+    reason: "content requires non-empty ja.html or en.html",
   });
 });
 
@@ -499,7 +585,7 @@ test("falls back to English News outlink title and summary when Japanese is abse
   assert.equal(result.source.sourceLocale, "en");
 });
 
-test("blocks non-HTTPS News external URL before candidate selection", async () => {
+test("skips non-HTTPS News external URL without exact production list evidence", async () => {
   const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-http-outlink-"));
   const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-http-outlink-"));
   await source(globalRepo, "news", "cnt_21", "news-http-outlink", {
@@ -523,10 +609,7 @@ test("blocks non-HTTPS News external URL before candidate selection", async () =
   });
 
   assert.deepEqual(result, {
-    status: "blocked_source_contract",
-    sourceId: "cnt_21",
-    sourceSection: "news",
-    reason: "non-HTTPS external URL: http://media.example/news-one",
+    status: "no_candidate",
   });
 });
 

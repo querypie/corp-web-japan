@@ -31,7 +31,7 @@ News SHALL be treated as a separate `/en/news` source section, not a Documentati
 
 ### Requirement: Production source eligibility
 
-The automation SHALL use the checked-out `corp-web-v2` repository as the content and asset source of truth. Content-family records SHALL be eligible only when their exact normalized canonical URL is present in both the production sitemap and the family production list. News outlink records SHALL use `/en/news` list evidence only and SHALL record `production.sitemap` as `false`. Source-owned assets SHALL resolve through real paths inside the Global repository's `public/**` tree. The automation SHALL NOT download publication assets from production HTTP endpoints.
+The automation SHALL use the checked-out `corp-web-v2` repository as the content and asset source of truth. Content-family records SHALL be eligible only when their exact normalized canonical URL is present in both the production sitemap and the family production list. News outlink records SHALL use `/en/news` list evidence only and SHALL record `production.sitemap` as `false`. Records missing the required exact production-list evidence SHALL be skipped as non-public candidates before source-contract blocking is considered. Once a record has the required exact production evidence for its family, source-contract defects such as unsafe slugs or missing selected content SHALL block discovery. Source-owned assets SHALL resolve through real paths inside the Global repository's `public/**` tree. The automation SHALL NOT download publication assets from production HTTP endpoints.
 
 #### Scenario: Canonical source is eligible
 
@@ -45,6 +45,14 @@ The automation SHALL use the checked-out `corp-web-v2` repository as the content
 - **GIVEN** a record missing from either required production surface
 - **WHEN** discovery runs
 - **THEN** the automation SHALL NOT publish it
+- **AND** it SHALL skip that record without `blocked_source_contract`
+
+#### Scenario: Listed-invalid record blocks after evidence passes
+
+- **GIVEN** a record whose exact canonical URL is present in every required production surface for its family
+- **AND** the source still violates the source contract
+- **WHEN** discovery runs
+- **THEN** the automation SHALL fail closed with `blocked_source_contract`
 
 #### Scenario: News outlink has list evidence only
 

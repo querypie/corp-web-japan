@@ -306,22 +306,20 @@ export async function discoverNextCandidate({ globalRepo, targetRepo, sitemapXml
 
   for (const source of sources) {
     if (shouldSkipDiscoveryContractFailure(source)) continue;
-    const contractFailure = sourceContractFailure(source);
-    if (contractFailure) return { status: "blocked_source_contract", sourceId: source.sourceId, sourceSection: source.sourceSection, reason: contractFailure };
-    const url = source.sourceCanonicalUrl;
-    if (!url) continue;
     const identity = identityForSource(source);
     if (activeIgnore.has(identity)) continue;
     if (handled.has(identity)) continue;
+    const url = source.sourceCanonicalUrl;
+    if (!url) continue;
     const descriptor = sourceFamily(source.category);
     const listUrl = normalizeUrl(descriptor.productionListUrl);
     const list = production.listByUrl.get(listUrl) || new Set();
     const listed = list.has(url);
+    if (!listed) continue;
     const sitemap = production.sitemap.has(url);
-    const eligible = source.meta.contentType === "outlink"
-      ? listed
-      : listed && sitemap && source.selected;
-    if (!eligible) continue;
+    if (source.meta.contentType !== "outlink" && !sitemap) continue;
+    const contractFailure = sourceContractFailure(source);
+    if (contractFailure) return { status: "blocked_source_contract", sourceId: source.sourceId, sourceSection: source.sourceSection, reason: contractFailure };
     return {
       status: "candidate",
       source: {
