@@ -35,7 +35,7 @@ without widening product scope.
 - No broader product or architecture expansion beyond the composite-identity
   follow-up fixes already implied by `3a11aac` and its re-review findings.
 - No generic source crawler or broader sync-family expansion.
-- No redefinition of steady-state timer cadence after rollout.
+- No broader scheduler redesign beyond the accepted weekday-only 10:00 KST steady-state cadence.
 - No change to the one-candidate, Draft-only, fail-closed publication model.
 
 ## Decisions
@@ -100,10 +100,10 @@ identity. Wrong-section close/delete is forbidden.
 
 ### Decision: Scheduler stays disabled during rollout
 
-The steady-state timer contract remains daily 10:00 KST with `flock`, but this
-maintenance rollout is not yet at steady state. Until independent review and at
-least one host dry-run confirm the composite identity migration, the scheduler
-remains disabled and only manual runs are allowed.
+The steady-state timer contract uses a weekday-only 10:00 KST schedule with
+`flock`, but this maintenance rollout is not yet at steady state. Until
+independent review and at least one host dry-run confirm the composite identity
+migration, the scheduler remains disabled and only manual runs are allowed.
 
 ## Risks / Trade-offs
 

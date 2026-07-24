@@ -71,8 +71,8 @@ PR/branch for a different section that happens to share the same `sourceId`.
 ### Requirement: Production schedule and concurrency
 
 The steady-state production host SHALL use timezone `Asia/Seoul`, and its timer
-SHALL run daily at 10:00 KST with a randomized delay of no more than ten
-minutes plus persistent catch-up behavior.
+SHALL run only on weekdays (Monday through Friday) at 10:00 KST with a
+randomized delay of no more than ten minutes plus persistent catch-up behavior.
 
 During the composite-identity rollout, however, the scheduler SHALL remain
 disabled until independent review and at least one host dry-run confirm the

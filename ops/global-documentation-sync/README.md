@@ -220,7 +220,7 @@ Production timer contract:
 Adding News support does not change the production timer, failure alerts, or seven-day report retention.
 
 - Host timezone: `Asia/Seoul`
-- Daily base time: 10:00 KST
+- Weekday base time: Monday-Friday 10:00 KST
 - Randomized delay: at most 10 minutes
 - Persistent catch-up: enabled
 - Service hard timeout: 1 hour

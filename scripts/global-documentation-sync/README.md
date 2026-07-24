@@ -12,7 +12,7 @@ Automates one eligible QueryPie Global publication or News record into one Japan
 - Never merges or deploys generated content.
 - A failed gate stops before commit, push, or PR creation.
 - The systemd service enforces a one-hour hard timeout.
-- The steady-state production timer runs daily at 10:00 KST with up to ten minutes of randomized delay.
+- The steady-state production timer runs on weekdays (Monday-Friday) at 10:00 KST with up to ten minutes of randomized delay.
 - Current rollout hold for composite identity maintenance is tracked in
   `openspec/changes/composite-global-publication-sync-identity/`; keep the
   scheduler disabled until that change's verification tasks complete.
