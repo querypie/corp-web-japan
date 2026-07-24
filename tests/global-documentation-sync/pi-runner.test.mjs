@@ -53,7 +53,7 @@ test("builds four isolated headless Pi calls with no tools", () => {
   }
 });
 
-test("writer correction prompt pins quoted id and promises only actionable corrections", () => {
+test("writer correction prompt pins quoted id and protects source meaning from editorial weakening", () => {
   const calls = buildPiInvocations({
     piBin: "pi",
     provider: "provider",
@@ -89,6 +89,8 @@ test("writer correction prompt pins quoted id and promises only actionable corre
   assert.match(writer.prompt, /Resolve all 1 supplied actionable findings one by one/);
   assert.match(writer.prompt, /including every minor-or-higher item/);
   assert.match(writer.prompt, /resolve every supplied actionable finding, including minor findings/);
+  assert.match(writer.prompt, /Prioritize fidelity to source meaning over any conflicting editorial suggestion/);
+  assert.match(writer.prompt, /Never apply an editorial suggestion that weakens, omits, or hedges a source claim, certainty, or emphasis/);
   assert.match(writer.prompt, /Preserve exact source-authoritative proper-name and brand spelling/);
   assert.match(writer.prompt, /do not transliterate, localize, legal-name-normalize, or change script/);
   assert.doesNotMatch(writer.prompt, /including minor and note findings/);
@@ -98,7 +100,7 @@ test("writer correction prompt pins quoted id and promises only actionable corre
 });
 
 
-test("japanese editorial prompt reserves note for non-actionable observations and preserves source-authoritative names", () => {
+test("fidelity and japanese editorial prompts require full drift review without semantic weakening", () => {
   const calls = buildPiInvocations({
     piBin: "pi",
     provider: "provider",
@@ -109,8 +111,16 @@ test("japanese editorial prompt reserves note for non-actionable observations an
     sourceHtml: "<p>source</p>",
     targetMdx: "---\nid: \"1\"\n---\n",
   });
+  const fidelity = calls.find((call) => call.role === "fidelity");
   const editorial = calls.find((call) => call.role === "japanese-editorial");
+  assert.ok(fidelity);
   assert.ok(editorial);
+  assert.match(fidelity.prompt, /Perform a complete review on every attempt/);
+  assert.match(fidelity.prompt, /report all current drift you can find in the current draft/);
+  assert.match(fidelity.prompt, /Do not defer obvious issues to later attempts/);
+  assert.match(editorial.prompt, /Preserve all source claims, certainty, and emphasis/);
+  assert.match(editorial.prompt, /must not propose semantic weakening or omission/);
+  assert.match(editorial.prompt, /Do not emit findings for merely preferable alternative wording when the current Japanese is acceptable/);
   assert.match(editorial.prompt, /translationese wording that has a concrete correction as actionable minor or higher/);
   assert.match(editorial.prompt, /reserve note only for non-actionable observations that require no text change/);
   assert.match(editorial.prompt, /isolated wording described as merely やや or 少し awkward is still minor when a concrete correction exists/);
