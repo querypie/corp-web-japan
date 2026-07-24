@@ -10,6 +10,15 @@
   },
   {
     "sourceSection": "news",
+    "sourceId": "cnt_000179",
+    "sourceCanonicalUrl": "https://www.mk.co.kr/en/business/11269240",
+    "reasonCode": "other",
+    "reason": "Ignored by owner from sync Draft PR.",
+    "addedBy": "owner",
+    "addedAt": "2026-07-24T09:20:03Z"
+  },
+  {
+    "sourceSection": "news",
     "sourceId": "cnt_000180",
     "sourceCanonicalUrl": "https://itbusinesstoday.com/tech/ai/payroll-partners-with-querypie-on-ai-security-solutions",
     "reasonCode": "other",
