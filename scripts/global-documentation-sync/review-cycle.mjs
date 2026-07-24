@@ -27,10 +27,19 @@ export async function readReviews(reportsDir) {
   return reviews;
 }
 
+function resolveReviewBudget(options) {
+  const maximumCorrectionRounds = Number(
+    options.maximumCorrectionRounds
+    ?? (options.maximumAttempts == null ? 5 : Math.max(Number(options.maximumAttempts) - 1, 0))
+  );
+  const totalAttempts = maximumCorrectionRounds + 1;
+  return { maximumCorrectionRounds, totalAttempts };
+}
+
 export async function runReviewCycle(options) {
   let correctionFindings = [];
-  const maximumAttempts = Number(options.maximumAttempts || 5);
-  for (let attempt = 1; attempt <= maximumAttempts; attempt += 1) {
+  const { maximumCorrectionRounds, totalAttempts } = resolveReviewBudget(options);
+  for (let attempt = 1; attempt <= totalAttempts; attempt += 1) {
     await runPiInvocations({ ...options, correctionFindings, attempt });
     const reviews = await readReviews(options.reportsDir);
     const unresolved = dedupeFindings(reviews.flatMap((review) => {
@@ -39,7 +48,7 @@ export async function runReviewCycle(options) {
       return actionable.map((finding) => ({ review: review.artifactType, ...finding }));
     }));
     if (unresolved.length === 0) return { attempts: attempt, reviews };
-    if (attempt === maximumAttempts) throw new Error(`review correction limit reached after ${maximumAttempts} attempts: ${JSON.stringify(unresolved)}`);
+    if (attempt === totalAttempts) throw new Error(`review correction limit reached after ${maximumCorrectionRounds} correction attempts: ${JSON.stringify(unresolved)}`);
     correctionFindings = dedupeFindings([...correctionFindings, ...unresolved]);
   }
   throw new Error("unreachable review cycle state");

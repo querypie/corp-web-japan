@@ -77,6 +77,55 @@ test("corrects every actionable review finding and ignores note-only findings in
   assert.equal(result.reviews.every((review) => review.findings.every((finding) => finding.severity === "note" || finding.severity === "minor")), true);
 });
 
+test("default review budget allows one initial attempt plus five correction rounds", async () => {
+  const { targetRepo, reportsDir, targetMdxPath, candidatePath } = await setupReviewCycleFixture("review-cycle-six-attempts-");
+  const writerCorrectionPayloads = [];
+  let fidelityCalls = 0;
+  const runProcess = async ({ role, prompt }) => {
+    if (role === "writer") {
+      writerCorrectionPayloads.push(JSON.parse(prompt.match(/DATA=(\{[\s\S]+\})$/)[1]).correctionFindings);
+      return JSON.stringify({ mdx: "---\nheroImageSrc: /blog/1/thumbnail.png\n---\n", generationReport: { schemaVersion, artifactType: "generation-report", runId: "r", sourceId: "cnt_1", targetFiles: [targetMdxPath], inventories: {}, intentionalTransformations: [] } });
+    }
+    if (role === "fidelity") {
+      fidelityCalls += 1;
+      const findings = fidelityCalls <= 4
+        ? [{ severity: "minor", location: `body-${fidelityCalls}`, message: `keep cycle alive ${fidelityCalls}`, suggestion: `fix ${fidelityCalls}` }]
+        : fidelityCalls === 5
+          ? [{ severity: "major", location: "body", message: "fifth review finding", suggestion: "apply on sixth write" }]
+          : [];
+      return JSON.stringify({ schemaVersion, artifactType: "fidelity-review", runId: "r", sourceId: "cnt_1", verdict: findings.length ? "revise" : "pass", findings });
+    }
+    return JSON.stringify({ schemaVersion, artifactType: `${role}-review`, runId: "r", sourceId: "cnt_1", verdict: "pass", findings: [] });
+  };
+
+  const result = await runReviewCycle({ piBin: "pi", provider: "p", model: "m", targetRepo, candidatePath, reportsDir, runProcess });
+  assert.equal(result.attempts, 6);
+  assert.equal(writerCorrectionPayloads.length, 6);
+  assert.deepEqual(writerCorrectionPayloads[5].at(-1), { review: "fidelity-review", severity: "major", location: "body", message: "fifth review finding", suggestion: "apply on sixth write" });
+});
+
+test("persistent actionable findings after the sixth review fail with five-correction wording", async () => {
+  const { targetRepo, reportsDir, targetMdxPath, candidatePath } = await setupReviewCycleFixture("review-cycle-sixth-review-fail-");
+  let writerCalls = 0;
+  const persistentFinding = { severity: "minor", location: "body", message: "still broken", suggestion: "fix it" };
+  const runProcess = async ({ role }) => {
+    if (role === "writer") {
+      writerCalls += 1;
+      return JSON.stringify({ mdx: "---\nheroImageSrc: /blog/1/thumbnail.png\n---\n", generationReport: { schemaVersion, artifactType: "generation-report", runId: "r", sourceId: "cnt_1", targetFiles: [targetMdxPath], inventories: {}, intentionalTransformations: [] } });
+    }
+    if (role === "fidelity") {
+      return JSON.stringify({ schemaVersion, artifactType: "fidelity-review", runId: "r", sourceId: "cnt_1", verdict: "pass", findings: [persistentFinding] });
+    }
+    return JSON.stringify({ schemaVersion, artifactType: `${role}-review`, runId: "r", sourceId: "cnt_1", verdict: "pass", findings: [] });
+  };
+
+  await assert.rejects(
+    () => runReviewCycle({ piBin: "pi", provider: "p", model: "m", targetRepo, candidatePath, reportsDir, runProcess }),
+    /review correction limit reached after 5 correction attempts/
+  );
+  assert.equal(writerCalls, 6);
+});
+
 test("correction mode accumulates unique actionable findings across attempts while success depends on current unresolved findings", async () => {
   const { targetRepo, reportsDir, targetMdxPath, candidatePath } = await setupReviewCycleFixture("review-cycle-accumulate-");
   const writerCorrectionPayloads = [];
@@ -96,7 +145,7 @@ test("correction mode accumulates unique actionable findings across attempts whi
     return JSON.stringify({ schemaVersion, artifactType: `${role}-review`, runId: "r", sourceId: "cnt_1", verdict: "pass", findings: [] });
   };
 
-  const result = await runReviewCycle({ piBin: "pi", provider: "p", model: "m", targetRepo, candidatePath, reportsDir, runProcess, maximumAttempts: 3 });
+  const result = await runReviewCycle({ piBin: "pi", provider: "p", model: "m", targetRepo, candidatePath, reportsDir, runProcess, maximumCorrectionRounds: 2 });
   assert.equal(result.attempts, 3);
   assert.deepEqual(writerCorrectionPayloads, [
     [],

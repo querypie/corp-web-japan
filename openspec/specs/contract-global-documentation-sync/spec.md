@@ -81,12 +81,12 @@ The automation SHALL use the composite identity `${sourceSection}:${sourceId}` a
 
 ### Requirement: Isolated AI generation and review
 
-Pi writer and reviewer processes SHALL run fresh with `--no-tools`. Pi SHALL return structured output only; deterministic Node processes SHALL own filesystem and Git mutation. Fidelity, Japanese editorial, and publication-contract reviews SHALL be independent. A correction loop SHALL stop after five attempts and fail closed when actionable findings remain.
+Pi writer and reviewer processes SHALL run fresh with `--no-tools`. Pi SHALL return structured output only; deterministic Node processes SHALL own filesystem and Git mutation. Fidelity, Japanese editorial, and publication-contract reviews SHALL be independent. The review budget SHALL consist of one initial generation/review pass plus at most five correction writer/review rounds. The correction loop SHALL fail closed when actionable findings remain after the sixth total review.
 
 #### Scenario: Review findings remain unresolved
 
-- **GIVEN** a candidate with a critical, major, or minor actionable finding after the fifth correction attempt
-- **WHEN** the review cycle ends
+- **GIVEN** a candidate with a critical, major, or minor actionable finding after the fifth correction round has been reviewed
+- **WHEN** the sixth total review ends with findings still unresolved
 - **THEN** no commit, push, or pull request SHALL be created
 - **AND** failure artifacts SHALL record the unresolved findings
 
