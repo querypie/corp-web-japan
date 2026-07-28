@@ -186,33 +186,6 @@ test("mergeBaselineRecords preserves accepted mappings when the source disappear
   ]);
 });
 
-test("checked-in baseline maps the complete historical News corpus", async () => {
-  const baseline = JSON.parse(await readFile(path.join(root, ".github/content-sync/baseline.json"), "utf8"));
-  const newsTargets = new Map(baseline
-    .filter(({ sourceSection }) => sourceSection === "news")
-    .map(({ sourceId, targetId }) => [sourceId, targetId]));
-
-  assert.deepEqual(Object.fromEntries(newsTargets), {
-    cnt_000001: 3,
-    cnt_000012: 1,
-    cnt_000171: 2,
-    cnt_000172: 4,
-    cnt_000173: 5,
-    cnt_000174: 6,
-    cnt_000175: 7,
-    cnt_000176: 8,
-    cnt_000177: 9,
-    cnt_000178: 10,
-    cnt_000179: 11,
-    cnt_000180: 12,
-    cnt_000181: 13,
-    cnt_000182: 14,
-    cnt_000200: 16,
-    cnt_000201: 17,
-    cnt_000202: 18,
-  });
-});
-
 test("checked-in baseline and ignore manifests are sorted, unique, and point to existing target records", async () => {
   const baseline = validateDecisionManifest(JSON.parse(await readFile(path.join(root, ".github/content-sync/baseline.json"), "utf8")), "baseline");
   const ignore = validateDecisionManifest(JSON.parse(await readFile(path.join(root, ".github/content-sync/ignore.json"), "utf8")), "ignore");

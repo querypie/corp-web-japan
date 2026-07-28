@@ -88,7 +88,7 @@ The report SHALL compute `Global-only = production-published Global identities -
 
 ### Requirement: Global-site Slack navigation
 
-Every reported item SHALL retain its normalized source HTTPS URL for source and Ignore evidence. Slack title links SHALL use the item's verified canonical `www.querypie.com` detail URL. A News `outlink` without a verified owned detail URL SHALL fail closed instead of linking to an external article or a generic index.
+Every reported item SHALL retain its normalized source HTTPS URL for source and Ignore evidence. Slack title links SHALL use the `www.querypie.com` detail URL derived from the source category and source slug. News `externalUrl` values SHALL NOT be used as Slack links.
 
 #### Scenario: Slack item stays on the Global site
 
@@ -96,7 +96,7 @@ Every reported item SHALL retain its normalized source HTTPS URL for source and 
 - **WHEN** Slack payloads are built
 - **THEN** the title link host SHALL be `www.querypie.com`
 - **AND** its external URL SHALL remain available only as internal source and Ignore evidence
-- **AND** a missing owned detail URL SHALL stop delivery
+- **AND** the detail path SHALL be derived from the source category and source slug
 
 ### Requirement: Deterministic grouping and pagination
 

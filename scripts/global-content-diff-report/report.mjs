@@ -10,7 +10,7 @@ import {
   validateDecisionManifest,
 } from "../global-documentation-sync/discovery.mjs";
 import { normalizeUrl } from "../global-documentation-sync/lib.mjs";
-import { sourceFamily, targetFamily, targetFamilyDescriptor } from "../global-documentation-sync/source-family-map.mjs";
+import { canonicalContentUrl, sourceFamily, targetFamily, targetFamilyDescriptor } from "../global-documentation-sync/source-family-map.mjs";
 import { parseSyncBranch, resolveLegacySourceSection, sourceIdentityKey } from "../global-documentation-sync/sync-identity.mjs";
 
 const safeKebabSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -163,7 +163,7 @@ export async function buildGlobalInventory({ globalRepo, sitemapXml, productionL
       title: localizedTitle(source.meta, source.sourceId),
       dateIso: source.meta.dateIso || "",
       sourceUrl: source.sourceCanonicalUrl,
-      globalUrl: source.meta.contentType === "outlink" ? null : source.sourceCanonicalUrl,
+      globalUrl: normalizeUrl(canonicalContentUrl(source.category, source.meta.id)),
     });
   }
 
