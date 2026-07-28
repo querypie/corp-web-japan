@@ -539,6 +539,7 @@ git commit -m "Schedule Global-only content Slack reports"
 **Files:**
 - Create: `scripts/global-content-diff-report/README.md`
 - Create: `openspec/specs/contract-global-content-diff-report/spec.md`
+- Modify: `openspec/specs/README.md`
 - Modify: `docs/superpowers/specs/2026-07-28-global-content-diff-slack-report-design.md` only if implementation evidence requires a factual correction.
 
 **Interfaces:**
@@ -575,7 +576,7 @@ Create `openspec/specs/contract-global-content-diff-report/spec.md` with MUST/SH
 - zero state and fail-closed behavior;
 - absence of interactive Ignore actions.
 
-Each requirement includes at least one `#### Scenario:` with `WHEN` and `THEN` clauses.
+Each requirement includes at least one `#### Scenario:` with `WHEN` and `THEN` clauses. Register `contract-global-content-diff-report` in `openspec/specs/README.md` with a one-line description and link so the new accepted spec is discoverable.
 
 - [ ] **Step 3: Run a real no-send snapshot**
 
@@ -637,6 +638,7 @@ Expected: no webhook URL, mention, n8n reference, or Ignore action in executable
 git add \
   scripts/global-content-diff-report/README.md \
   openspec/specs/contract-global-content-diff-report/spec.md \
+  openspec/specs/README.md \
   docs/superpowers/specs/2026-07-28-global-content-diff-slack-report-design.md
 git commit -m "Document Global content diff reporting contract"
 ```
