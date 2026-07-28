@@ -13,7 +13,7 @@
 - Canonical identity is `${sourceSection}:${sourceId}`.
 - Report only production-published Global content proven by the current section-specific live evidence.
 - Report every Global-only item; active ignore and unmerged Draft states annotate but never suppress an item.
-- Every reported title links to `www.querypie.com`; News outlinks use the Global News index while their external URL remains internal evidence.
+- Every reported title links to a verified `www.querypie.com` detail URL; unresolved News outlinks fail closed while their external URL remains internal evidence.
 - Existing publication sync and PR behavior must not change.
 - Schedule is `0 1 * * 1-5` and manual `workflow_dispatch` is supported.
 - Report workflow permissions are read-only; no content, branch, issue, or PR mutation is allowed in the Slack report workflow. Direct ignore uses a separate manual PR workflow.

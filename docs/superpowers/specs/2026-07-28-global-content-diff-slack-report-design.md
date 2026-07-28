@@ -87,7 +87,7 @@ The first payload contains:
 
 Slack regrouping is status-first. `Untracked · N items` containers come first and default expanded; `Ignored · N items` containers come second and default collapsed. Within each status, items use deterministic target-family order, then newest-date-first order within each family, then composite identity. Container titles use text only. Each item shows:
 
-- linked title using the owned Global detail URL, or the Global News index for `outlink` records;
+- linked title using the verified owned Global detail URL; unresolved `outlink` detail URLs fail closed;
 - target family, composite identity, and publication date when available;
 - status, using only `Untracked` or `Ignored`.
 

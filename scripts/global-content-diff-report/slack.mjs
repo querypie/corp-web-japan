@@ -32,11 +32,21 @@ function familyLabel(family) {
 }
 
 function itemText(item) {
+  let globalUrl;
+  try {
+    globalUrl = new URL(item.globalUrl);
+  } catch {
+    throw new Error(`missing QueryPie Global detail URL: ${item.identity}`);
+  }
+  if (globalUrl.protocol !== "https:" || globalUrl.hostname !== "www.querypie.com") {
+    throw new Error(`invalid QueryPie Global detail URL: ${item.identity}`);
+  }
+
   const title = escapeMrkdwn(truncate(item.title, MAX_TITLE_LENGTH));
   const family = escapeMrkdwn(familyLabel(item.targetFamily));
   const date = escapeMrkdwn(item.dateIso);
   const identity = escapeMrkdwn(item.identity);
-  return `*<${item.globalUrl || item.sourceUrl}|${title}>*\n_${family} · ${date}_ · \`${identity}\``;
+  return `*<${globalUrl.href}|${title}>*\n_${family} · ${date}_ · \`${identity}\``;
 }
 
 function statusContainer(status, allItems, items, part) {

@@ -220,6 +220,7 @@ function reportItem(index, overrides = {}) {
     title: `QueryPie selected & <${index}>`,
     dateIso: `2026-04-${String((index % 28) + 1).padStart(2, "0")}`,
     sourceUrl: `https://finance.yahoo.com/story-${index}`,
+    globalUrl: `https://www.querypie.com/en/news/${index}/story-${index}`,
     status: "Untracked",
     ...overrides,
   };
@@ -411,10 +412,11 @@ test("includes listed outlinks without sitemap detail evidence", async () => {
   assert.equal(report.counts.globalPublished, 1);
   assert.equal(report.items[0].identity, "news:cnt_000301");
   assert.equal(report.items[0].sourceUrl, "https://example.com/article.html?no=169&lang=en");
-  assert.equal(report.items[0].globalUrl, "https://www.querypie.com/en/news");
-  const [payload] = buildSlackPayloads(report, slackMetadata);
-  assert.match(JSON.stringify(payload), /https:\/\/www\.querypie\.com\/en\/news/);
-  assert.doesNotMatch(JSON.stringify(payload), /example\.com/);
+  assert.equal(report.items[0].globalUrl, null);
+  assert.throws(
+    () => buildSlackPayloads(report, slackMetadata),
+    /missing QueryPie Global detail URL: news:cnt_000301/,
+  );
 });
 
 test("excludes unlisted and unsitemapped stale sources from Global inventory", async () => {
@@ -645,7 +647,7 @@ test("renders status-first collapsible containers and original links", () => {
   const containers = payload.blocks.filter((block) => block.type === "container");
   assert.deepEqual(containers.map((block) => block.title.text), ["Untracked · 7 items"]);
   assert.equal(containers[0].default_collapsed, false);
-  assert.match(containers[0].child_blocks[0].text.text, /^\*<https:\/\/finance\.yahoo\.com\/story-4\|QueryPie selected/);
+  assert.match(containers[0].child_blocks[0].text.text, /^\*<https:\/\/www\.querypie\.com\/en\/news\/4\/story-4\|QueryPie selected/);
   assert.match(containers[0].child_blocks[0].text.text, />\*\n_Blog · 2026-04-04_ · `documentation:cnt_000004`$/);
   assert.doesNotMatch(containers[0].child_blocks[0].text.text, /Untracked/);
   assert.doesNotMatch(containers[0].title.text, /:newspaper:|📰/);

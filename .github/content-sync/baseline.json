@@ -9,6 +9,15 @@
     "targetSlug": "acp-community-install-guide"
   },
   {
+    "sourceSection": "news",
+    "sourceId": "cnt_000001",
+    "sourceCategory": "news",
+    "sourceSlug": "querypie-closes-usd-1775-million-in-oversubscribed-preferred-series-seed-round-co-led-by-atinum-investment-and-murex-partners",
+    "targetFamily": "news",
+    "targetId": 3,
+    "targetSlug": "querypie-series-seed-round-17-75-million"
+  },
+  {
     "sourceSection": "documentation",
     "sourceId": "cnt_000007",
     "sourceCategory": "blogs",
@@ -25,6 +34,15 @@
     "targetFamily": "whitepapers",
     "targetId": 23,
     "targetSlug": "rag-security-querypie-builds-the-bridge"
+  },
+  {
+    "sourceSection": "news",
+    "sourceId": "cnt_000012",
+    "sourceCategory": "news",
+    "sourceSlug": "querypie-becomes-okta-integration-network-partner-in-korea",
+    "targetFamily": "news",
+    "targetId": 1,
+    "targetSlug": "okta-integration-network-partner-korea"
   },
   {
     "sourceSection": "documentation",
@@ -757,6 +775,42 @@
   },
   {
     "sourceSection": "news",
+    "sourceId": "cnt_000171",
+    "sourceCategory": "news",
+    "sourceSlug": "yanolja-taps-querypie-to-firm-up-data-governance",
+    "targetFamily": "news",
+    "targetId": 2,
+    "targetSlug": "yanolja-taps-querypie-for-data-governance"
+  },
+  {
+    "sourceSection": "news",
+    "sourceId": "cnt_000172",
+    "sourceCategory": "news",
+    "sourceSlug": "data-governance-and-security-solutions-provider-querypie-partners-with-collaborative-documentation-tool-typed-to-enhance-productivity-and-streamline-collaboration",
+    "targetFamily": "news",
+    "targetId": 4,
+    "targetSlug": "querypie-partners-with-typed"
+  },
+  {
+    "sourceSection": "news",
+    "sourceId": "cnt_000173",
+    "sourceCategory": "news",
+    "sourceSlug": "querypie-signed-a-contract-to-supply-ai-and-data-security-solutions-to-vessl-ai",
+    "targetFamily": "news",
+    "targetId": 5,
+    "targetSlug": "querypie-supplies-ai-and-data-security-to-vessl-ai"
+  },
+  {
+    "sourceSection": "news",
+    "sourceId": "cnt_000174",
+    "sourceCategory": "news",
+    "sourceSlug": "data-governance-and-security-solutions-provider-querypie-partners-with-collaborative-documentation-tool-typed-to-enhance-productivity-and-streamline-collaboration-2",
+    "targetFamily": "news",
+    "targetId": 6,
+    "targetSlug": "kodit-backs-querypie-and-three-startups"
+  },
+  {
+    "sourceSection": "news",
     "sourceId": "cnt_000175",
     "sourceCategory": "news",
     "sourceSlug": "querypie-participates-in-isec-2023-with-orca-security",
@@ -772,6 +826,51 @@
     "targetFamily": "news",
     "targetId": 8,
     "targetSlug": "interview-with-brant-hwang-founder-of-querypie"
+  },
+  {
+    "sourceSection": "news",
+    "sourceId": "cnt_000177",
+    "sourceCategory": "news",
+    "sourceSlug": "querypie-selected-for-real-madrid-next-accelerator-program",
+    "targetFamily": "news",
+    "targetId": 9,
+    "targetSlug": "real-madrid-next-accelerator-program"
+  },
+  {
+    "sourceSection": "news",
+    "sourceId": "cnt_000178",
+    "sourceCategory": "news",
+    "sourceSlug": "the-top-50-software-ceos-of-2024",
+    "targetFamily": "news",
+    "targetId": 10,
+    "targetSlug": "top-50-software-ceos-of-2024"
+  },
+  {
+    "sourceSection": "news",
+    "sourceId": "cnt_000179",
+    "sourceCategory": "news",
+    "sourceSlug": "security-solution-playing-the-role-of-a-door-lock-in-the-cloud-expanding-to-japan-and-europe",
+    "targetFamily": "news",
+    "targetId": 11,
+    "targetSlug": "cloud-security-expanding-to-japan-and-europe"
+  },
+  {
+    "sourceSection": "news",
+    "sourceId": "cnt_000180",
+    "sourceCategory": "news",
+    "sourceSlug": "payroll-partners-with-querypie-on-ai-security-solutions",
+    "targetFamily": "news",
+    "targetId": 12,
+    "targetSlug": "payroll-querypie-ai-security-partnership"
+  },
+  {
+    "sourceSection": "news",
+    "sourceId": "cnt_000181",
+    "sourceCategory": "news",
+    "sourceSlug": "terrasky-and-querypie-ai-unveil-mitoco-buddy-for-work",
+    "targetFamily": "news",
+    "targetId": 13,
+    "targetSlug": "terrasky-mitoco-buddy-announcement"
   },
   {
     "sourceSection": "news",
