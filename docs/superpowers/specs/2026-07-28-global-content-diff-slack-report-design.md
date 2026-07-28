@@ -8,7 +8,7 @@ The existing Global publication sync, translation, review, Draft PR, ignore, hos
 
 ## Selected approach
 
-Use a stateless GitHub-hosted Actions job. Both repositories are public, so the job can check out `querypie/corp-web-v2` and `querypie/corp-web-japan` without a cross-repository secret. It re-computes the complete snapshot on every run and reuses `CONTENT_SYNC_SLACK_WEBHOOK_URL` only for delivery.
+Use a stateless GitHub-hosted Actions job. Both repositories are public, so the job can check out `querypie/corp-web-v2` and `querypie/corp-web-japan` without a cross-repository secret. It re-computes the complete snapshot on every run and uses the dedicated `GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL` secret only for delivery.
 
 Alternatives rejected:
 
