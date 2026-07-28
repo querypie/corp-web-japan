@@ -126,7 +126,8 @@ The report workflow SHALL run on weekdays at 10:00 KST and SHALL also support ma
 
 #### Scenario: Weekday schedule is configured
 
-- **WHEN** a maintainer inspects the accepted production workflow
+- **GIVEN** the accepted production workflow definition
+- **WHEN** a maintainer inspects it
 - **THEN** it SHALL define cron `0 1 * * 1-5`
 - **AND** it SHALL define `workflow_dispatch`
 

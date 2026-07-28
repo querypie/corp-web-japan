@@ -53,8 +53,8 @@ Missing mapped MDX files are reported as `Mapping drift`, not as Japan-present.
 ## Production source scope
 
 - Reads only the supported Global source families from `scripts/global-documentation-sync/source-family-map.mjs`.
-- Includes only production-published Global records proven by the current production sitemap and family list evidence.
-- Keeps the original Global HTTPS URL on every reported item.
+- Includes only production-published Global records proven by current production family-list evidence plus sitemap evidence when the family requires it.
+- Preserves outlink-family behavior while keeping the original Global HTTPS URL on every reported item.
 
 ## Dry run
 
@@ -78,7 +78,7 @@ The dry-run JSON includes:
 
 ## Slack output rules
 
-- Header: `Global-only content report`.
+- Header: `🌐 Global-only content report`.
 - First payload includes run counts and both repo SHAs.
 - Items link to the original Global URL.
 - Grouping is deterministic by target family.
