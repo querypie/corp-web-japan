@@ -101,7 +101,17 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /runs-on: ubuntu-latest/);
   assert.match(source, /timeout-minutes: (?:[3-9]|1\d)/);
   assert.match(source, /name: Checkout Japan repository[\s\S]*?with:[\s\S]*?ref: main[\s\S]*?path: japan/);
-  assert.match(source, /name: Checkout Global repository[\s\S]*?repository: querypie\/corp-web-v2[\s\S]*?ref: main[\s\S]*?path: global/);
+  assert.match(source, /name: Find existing ignore pull request/);
+  assert.match(source, /gh pr list --repo "\$GITHUB_REPOSITORY" --state open --limit 1000 --json title,body,headRefName,url,isCrossRepository/);
+  assert.match(source, /const trustedMarker = `<!-- global-documentation-sync-ignore:v1 /);
+  assert.match(source, /const branchPrefix = `content-sync-ignore\/\$\{sourceIdentity\.replace\(":", "-"\)\}`;/);
+  assert.match(source, /pr\?\.isCrossRepository === false/);
+  assert.match(source, /pr\.headRefName === branchPrefix \|\| pr\.headRefName\.startsWith\(`\$\{branchPrefix\}-`\)/);
+  assert.match(source, /pr\.title === title \|\| String\(pr\.body \|\| ""\)\.includes\(trustedMarker\)/);
+  assert.match(source, /Expected at most one open ignore PR/);
+  assert.match(source, /Existing ignore PR already open/);
+  assert.match(source, /name: Checkout Global repository[\s\S]*?repository: querypie\/corp-web-v2[\s\S]*?ref: main[\s\S]*?path: global[\s\S]*?persist-credentials: false/);
+  assert.match(source, /if: steps\.find_existing_ignore_pr\.outputs\.should_skip != 'true'/);
   assert.match(source, /\^\(documentation\|news\):cnt_\\d\+\$/);
   assert.match(source, /GH_TOKEN: \$\{\{ github\.token \}\}/);
   assert.match(source, /global-content-diff-report\/cli\.mjs[\s\S]*--dry-run/);
@@ -113,6 +123,7 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /addedBy: process\.env\.GITHUB_ACTOR/);
   assert.match(source, /new Date\(\)\.toISOString\(\)/);
   assert.match(source, /values\.sort\(\(left, right\) => String\(left\?\.sourceId \|\| ""\)\.localeCompare\(String\(right\?\.sourceId \|\| ""\)\) \|\| String\(left\?\.sourceSection \|\| ""\)\.localeCompare\(String\(right\?\.sourceSection \|\| ""\)\)\);/);
+  assert.match(source, /branch="content-sync-ignore\/\$\{source_identity\/:\/-\}-\$\{GITHUB_RUN_ID\}-\$\{GITHUB_RUN_ATTEMPT\}"/);
   assert.match(source, /gh pr create/);
   assert.match(source, /global-documentation-sync-ignore:v1/);
   assert.doesNotMatch(source, /gh pr merge|--auto|auto-merge|pull_request_target|n8n/);

@@ -691,12 +691,14 @@ function reportWithMixedStatuses() {
   };
 }
 
-test("renders a compact zero-difference success", () => {
+test("renders a compact zero-difference success without ignore instructions", () => {
   const [payload] = buildSlackPayloads(emptyReport(), slackMetadata);
+  const rendered = JSON.stringify(payload);
 
   assert.match(payload.text, /No Global-only content/);
-  assert.match(JSON.stringify(payload), /2026-04-30T00:00:00\.000Z/);
+  assert.match(rendered, /2026-04-30T00:00:00\.000Z/);
   assert.equal(payload.blocks.some(({ type }) => type === "container"), false);
+  assert.doesNotMatch(rendered, /Copy the displayed composite identity|Ignore Global-only content|Open Actions workflow/);
 });
 
 test("groups by status first, then target family order, then newest date", () => {

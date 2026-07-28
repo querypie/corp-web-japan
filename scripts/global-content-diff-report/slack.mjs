@@ -141,7 +141,6 @@ export function buildSlackPayloads(report, metadata) {
             text: `Part 1 of 1 · Run ${report.generatedAt} · Global ${metadata.globalSha} · Japan ${metadata.japanSha}`,
           }],
         },
-        ignoreInstructionsBlock(),
       ],
     }];
   }

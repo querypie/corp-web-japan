@@ -28,14 +28,60 @@ jobs:
           path: japan
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Find existing ignore pull request
+        id: find_existing_ignore_pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_IDENTITY: ${{ inputs.source_identity }}
+          RUNNER_TEMP: ${{ runner.temp }}
+        run: |
+          set -euo pipefail
+          gh pr list --repo "$GITHUB_REPOSITORY" --state open --limit 1000 --json title,body,headRefName,url,isCrossRepository > "$RUNNER_TEMP/open-ignore-prs.json"
+          node --input-type=module - <<'NODE'
+          import { readFileSync, appendFileSync } from "node:fs";
+
+          const fail = (message) => {
+            console.error(message);
+            process.exit(1);
+          };
+
+          const sourceIdentity = process.env.SOURCE_IDENTITY || "";
+          const pattern = /^(documentation|news):cnt_\d+$/;
+          if (!pattern.test(sourceIdentity)) fail("Invalid source_identity; expected exact composite identity like news:cnt_000177");
+
+          const [sourceSection, sourceId] = sourceIdentity.split(":");
+          const title = `Ignore Global-only content ${sourceIdentity}`;
+          const trustedMarker = `<!-- global-documentation-sync-ignore:v1 {"sourceSection":"${sourceSection}","sourceId":"${sourceId}","sourceIdentity":"${sourceIdentity}"} -->`;
+          const branchPrefix = `content-sync-ignore/${sourceIdentity.replace(":", "-")}`;
+          const prs = JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/open-ignore-prs.json`, "utf8"));
+          const matches = prs.filter((pr) => pr?.isCrossRepository === false
+            && (pr.headRefName === branchPrefix || pr.headRefName.startsWith(`${branchPrefix}-`))
+            && (pr.title === title || String(pr.body || "").includes(trustedMarker)));
+
+          if (matches.length > 1) fail(`Expected at most one open ignore PR for ${sourceIdentity}; found ${matches.length}`);
+
+          const outputPath = process.env.GITHUB_OUTPUT;
+          if (!outputPath) fail("GITHUB_OUTPUT is required");
+          if (matches.length === 1) {
+            appendFileSync(outputPath, `should_skip=true\nexisting_pr_url=${matches[0].url}\n`);
+            appendFileSync(process.env.GITHUB_STEP_SUMMARY, `Existing ignore PR already open for \`${sourceIdentity}\`: ${matches[0].url}\n`);
+            process.exit(0);
+          }
+
+          appendFileSync(outputPath, "should_skip=false\nexisting_pr_url=\n");
+          NODE
+
       - name: Checkout Global repository
+        if: steps.find_existing_ignore_pr.outputs.should_skip != 'true'
         uses: actions/checkout@v4
         with:
           repository: querypie/corp-web-v2
           ref: main
           path: global
+          persist-credentials: false
 
       - name: Build live dry-run report
+        if: steps.find_existing_ignore_pr.outputs.should_skip != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: >-
@@ -46,6 +92,7 @@ jobs:
           > "$RUNNER_TEMP/global-content-diff-report.json"
 
       - name: Append ignore decision
+        if: steps.find_existing_ignore_pr.outputs.should_skip != 'true'
         working-directory: japan
         env:
           SOURCE_IDENTITY: ${{ inputs.source_identity }}
@@ -95,6 +142,7 @@ jobs:
           NODE
 
       - name: Create ignore pull request
+        if: steps.find_existing_ignore_pr.outputs.should_skip != 'true'
         working-directory: japan
         env:
           GH_TOKEN: ${{ github.token }}
@@ -105,7 +153,7 @@ jobs:
           source_section=$(jq -r .sourceSection "$RUNNER_TEMP/ignore-item.json")
           source_id=$(jq -r .sourceId "$RUNNER_TEMP/ignore-item.json")
           source_canonical_url=$(jq -r .sourceCanonicalUrl "$RUNNER_TEMP/ignore-item.json")
-          branch="content-sync-ignore/${source_identity/:/-}"
+          branch="content-sync-ignore/${source_identity/:/-}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
 
           git config user.name "QueryPie Global content diff"
           git config user.email "noreply@querypie.com"
