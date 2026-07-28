@@ -10,6 +10,15 @@
   },
   {
     "sourceSection": "news",
+    "sourceId": "cnt_000178",
+    "sourceCanonicalUrl": "https://www.thesoftwarereport.com/the-top-50-software-ceos-of-2024",
+    "reasonCode": "other",
+    "reason": "Ignored by owner from sync Draft PR.",
+    "addedBy": "owner",
+    "addedAt": "2026-07-28T03:23:26Z"
+  },
+  {
+    "sourceSection": "news",
     "sourceId": "cnt_000179",
     "sourceCanonicalUrl": "https://www.mk.co.kr/en/business/11269240",
     "reasonCode": "other",
