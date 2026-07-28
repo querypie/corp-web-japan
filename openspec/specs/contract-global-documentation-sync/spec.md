@@ -81,14 +81,26 @@ The automation SHALL use the composite identity `${sourceSection}:${sourceId}` a
 
 ### Requirement: Isolated AI generation and review
 
-Pi writer and reviewer processes SHALL run fresh with `--no-tools`. Pi SHALL return structured output only; deterministic Node processes SHALL own filesystem and Git mutation. Fidelity, Japanese editorial, and publication-contract reviews SHALL be independent. The review budget SHALL consist of one initial generation/review pass plus at most five correction writer/review rounds. The correction loop SHALL fail closed when actionable findings remain after the sixth total review.
+Pi writer and reviewer processes SHALL run fresh with `--no-tools`. Pi SHALL return structured output only; deterministic Node processes SHALL own filesystem and Git mutation. Fidelity, Japanese editorial, and publication-contract reviews SHALL be independent. The review budget SHALL consist of one initial generation/review pass plus at most five correction writer/review rounds.
 
-#### Scenario: Review findings remain unresolved
+`critical` and `major` findings SHALL remain blocking throughout the review loop. The runner SHALL accumulate and deduplicate blocking finding history and pass that history to every later correction writer so semantic or contract regressions do not silently return. If the sixth total review still contains any current `critical` or `major` finding, the run SHALL fail closed and SHALL report only the current unresolved blocking findings in the terminal error.
 
-- **GIVEN** a candidate with a critical, major, or minor actionable finding after the fifth correction round has been reviewed
-- **WHEN** the sixth total review ends with findings still unresolved
+`minor` findings SHALL be nonblocking advisory. The runner MAY offer at most one best-effort minor correction opportunity per whole run by passing the current minor findings to exactly one subsequent writer attempt when no prior minor correction has been attempted yet. Minor findings SHALL NOT accumulate beyond that immediate next writer attempt. If minor findings remain or change after that best-effort correction, the run SHALL still be allowed to succeed and SHALL preserve those advisory findings in final review evidence. `note` findings SHALL never enter correction input.
+
+#### Scenario: Blocking findings remain unresolved
+
+- **GIVEN** a candidate whose sixth total review still contains a current `critical` or `major` finding
+- **WHEN** the review budget is exhausted
 - **THEN** no commit, push, or pull request SHALL be created
-- **AND** failure artifacts SHALL record the unresolved findings
+- **AND** failure artifacts SHALL record only the current unresolved blocking findings
+
+#### Scenario: Minor findings persist after one correction chance
+
+- **GIVEN** a candidate whose review loop has already used its one best-effort minor correction attempt
+- **AND** the latest review still contains only `minor` and/or `note` findings
+- **WHEN** later publication gates pass
+- **THEN** the run MAY continue to Draft PR creation or dry-run success
+- **AND** the final review evidence SHALL retain those advisory minor findings
 
 ### Requirement: News publication contract
 
@@ -116,10 +128,12 @@ Before a Draft pull request is created, the automation SHALL validate the genera
 
 #### Scenario: Every gate passes
 
-- **GIVEN** a generated candidate with no actionable review findings
+- **GIVEN** a generated candidate with no current `critical` or `major` review findings
+- **AND** any `minor` findings have either been corrected once or are retained as final advisory evidence
 - **WHEN** contract validation, full CI, build, and both browser viewports pass
 - **THEN** the automation SHALL create one commit on `content-sync/{sourceSection}-{sourceId}`
 - **AND** SHALL open one Draft pull request
+- **AND** SHALL surface retained minor advisory findings in the Draft PR evidence
 - **AND** SHALL NOT merge or deploy it
 
 #### Scenario: Any gate fails

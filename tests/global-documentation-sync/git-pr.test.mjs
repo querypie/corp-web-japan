@@ -52,6 +52,29 @@ test("uses deterministic branches and a machine-readable PR marker", () => {
   assert.match(body, /Draft/);
 });
 
+
+test("Draft PR body safely surfaces bounded minor advisories inside the review section", () => {
+  const body = buildPullRequestBody({
+    candidate,
+    validation: { results: [{ command: "npm run test:ci", code: 0 }] },
+    reviews: [{
+      artifactType: "japanese-editorial-review",
+      verdict: "pass",
+      findings: [{
+        severity: "minor",
+        location: "heading\n@team <b>bold</b> `code`",
+        message: `${"x".repeat(220)} <script>alert(1)</script> @here`,
+        suggestion: "fix",
+      }],
+    }],
+  });
+  assert.match(body, /japanese-editorial-review: pass; 1 finding\(s\)/);
+  assert.match(body, /advisory: minor \| japanese-editorial-review \| heading team bold code \|/);
+  assert.doesNotMatch(body, /@here|@team|<script>|<b>|`code`|\n@team/);
+  assert.match(body, /x+…/);
+  assert.match(body, /^## Reviews\s*$[\s\S]*^## Validation\s*$/m);
+});
+
 test("creates an isolated branch worktree from current origin main", async () => {
   const calls = [];
   await createRunWorktree({ baseRepo: "/base", worktreePath: "/runs/run-9", sourceId: "cnt_9", sourceSection: "documentation", execute: async (...args) => { calls.push(args); return ""; } });
@@ -162,8 +185,11 @@ test("resumes PR creation only when retained reports match the remote branch com
   assert.equal(revalidated, true);
   assert.equal(result.pullRequestUrl, "https://github.com/querypie/corp-web-japan/pull/9");
   assert.equal(remoteChecks, 2);
+  await writeFile(path.join(reportsDir, "fidelity-review.json"), JSON.stringify({ ...review("fidelity-review"), verdict: "pass", findings: [{ severity: "minor", location: "body", message: "advisory only", suggestion: "optional" }] }));
+  const minorResult = await resumeBranchOnly({ targetRepo: "/repo", sourceId, sourceSection: "documentation", reportsDir, execute, revalidate: async () => ({ schemaVersion: validCandidate.schemaVersion, artifactType: "validation-results", runId, sourceId, results: [{ command: "fresh-test", code: 0 }] }) });
+  assert.equal(minorResult.pullRequestUrl, "https://github.com/querypie/corp-web-japan/pull/9");
   await writeFile(path.join(reportsDir, "fidelity-review.json"), JSON.stringify({ ...review("fidelity-review"), verdict: "revise", findings: [{ severity: "major", message: "meaning drift" }] }));
-  await assert.rejects(() => resumeBranchOnly({ targetRepo: "/repo", sourceId, sourceSection: "documentation", reportsDir, execute, revalidate: async () => { throw new Error("must not run"); } }), /unresolved/);
+  await assert.rejects(() => resumeBranchOnly({ targetRepo: "/repo", sourceId, sourceSection: "documentation", reportsDir, execute, revalidate: async () => { throw new Error("must not run"); } }), /blocking findings/);
 });
 
 test("manual retry requires sourceSection when historical PRs share a sourceId", async () => {

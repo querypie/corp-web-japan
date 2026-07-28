@@ -23,6 +23,31 @@ function matchesIdentity(marker, { sourceId, sourceSection }) {
   return marker?.sourceId === sourceId && marker?.sourceSection === sourceSection;
 }
 
+function neutralizeSummaryText(value, maximum = 120) {
+  const text = String(value ?? "")
+    .replace(/[\u0000-\u001F\u007F]+/g, " ")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/[@`*_#[\]()>|~]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return text.length > maximum ? `${text.slice(0, Math.max(0, maximum - 1)).trimEnd()}…` : text;
+}
+
+function formatMinorAdvisories(reviews, { maximumItems = 6 } = {}) {
+  const minors = reviews.flatMap((review) => review.findings
+    .filter(({ severity }) => severity === "minor")
+    .map((finding) => ({ review: review.artifactType, ...finding })));
+  if (minors.length === 0) return [];
+  const lines = minors.slice(0, maximumItems).map((finding) => {
+    const review = neutralizeSummaryText(finding.review, 40) || "review";
+    const location = neutralizeSummaryText(finding.location, 60) || "unspecified";
+    const message = neutralizeSummaryText(finding.message, 160) || "minor advisory";
+    return `  - advisory: minor | ${review} | ${location} | ${message}`;
+  });
+  if (minors.length > maximumItems) lines.push(`  - advisory: minor | truncated | ${minors.length - maximumItems} additional finding(s) not shown`);
+  return lines;
+}
+
 function assertRetryBranchMatchesIdentity(branch, identity) {
   const parsed = parseSyncBranch(branch);
   if (!parsed || parsed.sourceId !== identity.sourceId) throw new Error(`invalid retry branch: ${branch}`);
@@ -95,7 +120,10 @@ export function buildPullRequestBody({ candidate, validation, reviews }) {
     runId: candidate.runId,
     branch: branchFor(candidate),
   };
-  const reviewLines = reviews.map((review) => `- ${review.artifactType}: ${review.verdict}; ${review.findings.length} finding(s)`).join("\n") || "- none";
+  const reviewLines = reviews.flatMap((review) => [
+    `- ${review.artifactType}: ${review.verdict}; ${review.findings.length} finding(s)`,
+    ...formatMinorAdvisories([review]),
+  ]).join("\n") || "- none";
   const validationLines = validation.results.map(({ command, code }) => `- \`${command}\`: ${code === 0 ? "passed" : `failed (${code})`}`).join("\n") || "- none";
   return [
     "## Draft publication sync", "", "This Draft PR was generated automatically and must be reviewed and merged manually.", "",
@@ -216,7 +244,7 @@ export async function resumeBranchOnly({ targetRepo, sourceId, sourceSection, re
       assertIdentity(validateArtifact(type, JSON.parse(await readFile(path.join(reportsDir, `${type}.json`), "utf8")))),
     ),
   );
-  if (reviews.some((review) => review.verdict !== "pass" || review.findings.some(({ severity }) => severity !== "note") || hasBlockingFindings(review))) throw new Error("retained reviews contain unresolved actionable findings");
+  if (reviews.some((review) => review.verdict !== "pass" || hasBlockingFindings(review))) throw new Error("retained reviews contain unresolved blocking findings");
   const state = JSON.parse(await readFile(path.join(reportsDir, "branch-state.json"), "utf8"));
   const branch = branchFor(candidate);
   if (state.branch !== branch || !/^[a-f0-9]{40,64}$/.test(state.commit || "")) throw new Error("invalid retained branch state");
