@@ -73,7 +73,7 @@
   - `tests/global-documentation-sync/global-content-diff-report.test.mjs`
   - `.superpowers/sdd/task-2-report.md`
 - Commit:
-  - `a73eee0` — `Fix Task 2 Slack review findings`
+  - `23f1d76` — `Fix Task 2 Slack review findings`
 - RED evidence:
   - Command: `node --test tests/global-documentation-sync/global-content-diff-report.test.mjs`
   - Result: FAIL, 2 tests failed.
