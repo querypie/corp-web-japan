@@ -85,12 +85,14 @@ The first payload contains:
 - per-family counts;
 - repository commit SHAs.
 
-Group items by target family. Each item shows:
+Group items by target family. Category container titles use text only, such as `News · 3 items`; Slack currently renders emoji in collapsible container titles as literal shortcodes. Each item shows:
 
 - linked title using the original Global URL;
 - composite identity;
 - publication date when available;
 - optional status such as `Ignored`, `Draft open`, or `Draft closed`.
+
+The report has no interactive Ignore buttons. Ignore decisions continue through the existing, separately authenticated workflow. A future interactive action may be designed independently if needed; this report does not introduce n8n, an action endpoint, or additional mutation authority.
 
 Use Slack-safe escaping and deterministic chunking. When all items cannot fit in one payload, send numbered continuation payloads so no result is truncated. A zero-difference run sends a compact success message.
 
