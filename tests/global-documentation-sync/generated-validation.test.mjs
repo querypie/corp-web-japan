@@ -9,7 +9,7 @@ import { validateGeneratedPublication } from "../../scripts/global-documentation
 
 const frontmatter = (hero = "/blog/1/thumbnail.png") => `---\nid: "1"\nslug: one\ntitle: テスト\ndescription: 説明\ndate: "2026-01-01"\nheroImageSrc: ${hero}\n---\n`;
 
-const newsFrontmatter = (extra = "") => `---\nid: "1"\nslug: one\ntitle: ニュース\ndescription: 説明\ndate: "2026-01-01"\nheroImageSrc: "/news/1/thumbnail.png"\n${extra}---\n`;
+const newsFrontmatter = ({ date = "2026-01-01", extra = "" } = {}) => `---\nid: "1"\nslug: one\ntitle: ニュース\ndescription: 説明\ndate: "${date}"\nheroImageSrc: "/news/1/thumbnail.png"\n${extra}---\n`;
 
 test("accepts only exact quoted string frontmatter id forms", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "generated-validation-id-"));
@@ -82,35 +82,35 @@ test("enforces resolved News frontmatter contract for content and outlinks", asy
   };
   const contentCandidate = {
     ...base,
-    meta: { id: "one", hideHeroImage: false, relatedIds: ["2"] },
+    meta: { id: "one", hideHeroImage: false, relatedIds: ["2"], dateIso: "2024-08-13" },
     resolvedSourceLabel: "公式発表",
     resolvedRedirectUrl: null,
   };
-  await writeFile(mdx, `${newsFrontmatter('sourceLabel: "公式発表"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
+  await writeFile(mdx, `${newsFrontmatter({ date: "2024-08-13", extra: 'sourceLabel: "公式発表"\nrelatedIds:\n  - "2"\n' })}\n本文\n`);
   assert.equal((await validateGeneratedPublication(contentCandidate, { intentionalTransformations: [] })).status, "passed");
 
   const outlinkCandidate = {
     ...base,
-    meta: { id: "one", hideHeroImage: false, relatedIds: ["2"] },
+    meta: { id: "one", hideHeroImage: false, relatedIds: ["2"], dateIso: "2024-08-13" },
     resolvedSourceLabel: "メディア掲載",
     resolvedRedirectUrl: "https://media.example/news-one",
   };
-  await writeFile(mdx, `${newsFrontmatter('sourceLabel: "メディア掲載"\nredirectUrl: "https://media.example/news-one"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
+  await writeFile(mdx, `${newsFrontmatter({ date: "2024-08-13", extra: 'sourceLabel: "メディア掲載"\nredirectUrl: "https://media.example/news-one"\nrelatedIds:\n  - "2"\n' })}\n本文\n`);
   assert.equal((await validateGeneratedPublication(outlinkCandidate, { intentionalTransformations: [] })).status, "passed");
 
-  await writeFile(mdx, `${newsFrontmatter('author: "querypie"\nsourceLabel: "公式発表"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
+  await writeFile(mdx, `${newsFrontmatter({ date: "2024-08-13", extra: 'author: "querypie"\nsourceLabel: "公式発表"\nrelatedIds:\n  - "2"\n' })}\n本文\n`);
   await assert.rejects(() => validateGeneratedPublication(contentCandidate, { intentionalTransformations: [] }), /author is unsupported/);
 
-  await writeFile(mdx, `${newsFrontmatter('sourceLabel: "メディア掲載"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
+  await writeFile(mdx, `${newsFrontmatter({ date: "2024-08-13", extra: 'sourceLabel: "メディア掲載"\nrelatedIds:\n  - "2"\n' })}\n本文\n`);
   await assert.rejects(() => validateGeneratedPublication(contentCandidate, { intentionalTransformations: [] }), /sourceLabel/);
 
-  await writeFile(mdx, `${newsFrontmatter('sourceLabel: "公式発表"\nredirectUrl: "https://media.example/news-one"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
+  await writeFile(mdx, `${newsFrontmatter({ date: "2024-08-13", extra: 'sourceLabel: "公式発表"\nredirectUrl: "https://media.example/news-one"\nrelatedIds:\n  - "2"\n' })}\n本文\n`);
   await assert.rejects(() => validateGeneratedPublication(contentCandidate, { intentionalTransformations: [] }), /redirectUrl/);
 
-  await writeFile(mdx, `${newsFrontmatter('sourceLabel: "メディア掲載"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
+  await writeFile(mdx, `${newsFrontmatter({ date: "2024-08-13", extra: 'sourceLabel: "メディア掲載"\nrelatedIds:\n  - "2"\n' })}\n本文\n`);
   await assert.rejects(() => validateGeneratedPublication(outlinkCandidate, { intentionalTransformations: [] }), /redirectUrl/);
 
-  await writeFile(mdx, `${newsFrontmatter('sourceLabel: "メディア掲載"\nredirectUrl: "http://media.example/news-one"\nrelatedIds:\n  - "2"\n')}\n本文\n`);
+  await writeFile(mdx, `${newsFrontmatter({ date: "2024-08-13", extra: 'sourceLabel: "メディア掲載"\nredirectUrl: "http://media.example/news-one"\nrelatedIds:\n  - "2"\n' })}\n本文\n`);
   await assert.rejects(() => validateGeneratedPublication(outlinkCandidate, { intentionalTransformations: [] }), /HTTPS|redirectUrl/);
 
   for (const mismatchedRedirectUrl of [
@@ -118,10 +118,13 @@ test("enforces resolved News frontmatter contract for content and outlinks", asy
     "https://media.example/news-one#section",
     "https://media.example/news-one/",
   ]) {
-    await writeFile(mdx, `${newsFrontmatter(`sourceLabel: "メディア掲載"\nredirectUrl: "${mismatchedRedirectUrl}"\nrelatedIds:\n  - "2"\n`)}\n本文\n`);
+    await writeFile(mdx, `${newsFrontmatter({ date: "2024-08-13", extra: `sourceLabel: "メディア掲載"\nredirectUrl: "${mismatchedRedirectUrl}"\nrelatedIds:\n  - "2"\n` })}\n本文\n`);
     await assert.rejects(() => validateGeneratedPublication(outlinkCandidate, { intentionalTransformations: [] }), /redirectUrl must equal resolved redirectUrl/);
   }
 
-  await writeFile(mdx, `${newsFrontmatter('sourceLabel: "公式発表"\nrelatedIds:\n  - "999"\n')}\n本文\n`);
+  await writeFile(mdx, `${newsFrontmatter({ date: "2024-08-13", extra: 'sourceLabel: "公式発表"\nrelatedIds:\n  - "999"\n' })}\n本文\n`);
   await assert.rejects(() => validateGeneratedPublication(contentCandidate, { intentionalTransformations: [] }), /relatedIds/);
+
+  await writeFile(mdx, `${newsFrontmatter({ date: "2024-08-12", extra: 'sourceLabel: "公式発表"\nrelatedIds:\n  - "2"\n' })}\n本文\n`);
+  await assert.rejects(() => validateGeneratedPublication(contentCandidate, { intentionalTransformations: [] }), /news frontmatter date must equal candidate\.meta\.dateIso 2024-08-13/);
 });

@@ -37,7 +37,9 @@ export async function validateGeneratedPublication(candidate, generationReport, 
   if (frontmatterId !== String(candidate.targetId)) throw new Error(`frontmatter id must be quoted YAML string equal to allocated targetId ${candidate.targetId}`);
   if (frontmatterSlug !== candidate.meta.id) throw new Error(`frontmatter slug must equal source slug ${candidate.meta.id}`);
   for (const required of ["title", "description", "heroImageSrc"]) if (!frontmatterScalar(frontmatter, required)) throw new Error(`frontmatter ${required} is required`);
-  if (["blog", "whitepapers", "news", "events", "use-cases"].includes(candidate.targetFamily) && !/^\d{4}-\d{2}-\d{2}$/.test(frontmatterScalar(frontmatter, "date") || "")) throw new Error("publication frontmatter date must be ISO YYYY-MM-DD");
+  const frontmatterDate = frontmatterScalar(frontmatter, "date") || "";
+  if (["blog", "whitepapers", "news", "events", "use-cases"].includes(candidate.targetFamily) && !/^\d{4}-\d{2}-\d{2}$/.test(frontmatterDate)) throw new Error("publication frontmatter date must be ISO YYYY-MM-DD");
+  if (candidate.targetFamily === "news" && candidate.meta?.dateIso && frontmatterDate !== candidate.meta.dateIso) throw new Error(`news frontmatter date must equal candidate.meta.dateIso ${candidate.meta.dateIso}`);
   const author = frontmatterScalar(frontmatter, "author");
   const authorList = frontmatterList(frontmatter, "author");
   if (Array.isArray(candidate.resolvedAuthor)) {
