@@ -243,13 +243,10 @@ export async function buildGlobalOnlyReport({
   productionListHtmlByUrl,
   prRecords = [],
   now = new Date().toISOString(),
-  trustedRepositoryFullName = "querypie/corp-web-japan",
 }) {
   const globalItems = await buildGlobalInventory({ globalRepo, sitemapXml, productionListHtmlByUrl });
   const ignoreRecords = await readManifest(targetRepo, "ignore");
   const { present, mappingDrift } = await buildJapanInventory({ targetRepo, prRecords });
-  void prRecords;
-  void trustedRepositoryFullName;
   const dispositions = buildDispositionMap({ ignoreRecords, globalItems, now });
   const items = [];
 

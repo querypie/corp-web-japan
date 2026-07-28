@@ -7,8 +7,9 @@ The durable contract is [`openspec/specs/contract-global-content-diff-report/spe
 ## Purpose
 
 - Complete Global-only report.
-- Read-only workflow.
-- No PR creation, ignore mutation, n8n, or interactive action handling.
+- Read-only Slack report workflow.
+- Separate manual owner-triggered Ignore PR workflow.
+- No Slack buttons, n8n, server endpoint, or automatic merge.
 
 ## Schedule
 
@@ -26,7 +27,8 @@ The durable contract is [`openspec/specs/contract-global-content-diff-report/spe
 | `cli.mjs` | Loads live production evidence, computes the Global-only diff, builds Slack payloads, and optionally sends them. |
 | `report.mjs` | Builds the production-published Global inventory, verified Japan-present inventory, and complete diff result. |
 | `slack.mjs` | Builds deterministic paginated Slack Block Kit payloads and sends them through the Incoming Webhook. |
-| `.github/workflows/global-content-diff-report.yml` | Independent GitHub-hosted production workflow. |
+| `.github/workflows/global-content-diff-report.yml` | Independent GitHub-hosted production report workflow. |
+| `.github/workflows/ignore-global-content-diff.yml` | Manual workflow that validates one live `Untracked` composite identity and opens an Ignore PR. |
 
 ## Identity
 
@@ -89,9 +91,20 @@ The dry-run JSON includes:
 - Status container titles use text only; `Untracked` defaults expanded and `Ignored` defaults collapsed.
 - Zero-diff runs send a compact success payload.
 
-## No actions
+## Manual Ignore PR workflow
+
+Operators can ignore one current Global-only item without Slack interactivity:
+
+1. Copy the displayed composite identity, for example `news:cnt_000177`.
+2. Run GitHub Actions `Ignore Global-only content`.
+3. Paste the exact identity. Bare `cnt_*` values are rejected; accepted input is exactly `^(documentation|news):cnt_\d+$`.
+4. Review and merge the generated PR.
+5. The next report shows the item as `Ignored`.
+
+The workflow derives the source URL from the current live dry-run report and requires exactly one matching item with status `Untracked`. It appends a sorted `.github/content-sync/ignore.json` row with reason code `other`, actor, and UTC timestamp, then opens a normal PR. It does not merge the PR.
+
+## No Slack actions
 
 - No Ignore button.
 - No n8n.
-- No mutation.
-- No PR creation.
+- No server endpoint.

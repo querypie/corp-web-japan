@@ -16,10 +16,10 @@
 - Every reported title links to the normalized original Global URL.
 - Existing publication sync and PR behavior must not change.
 - Schedule is `0 1 * * 1-5` and manual `workflow_dispatch` is supported.
-- Workflow permissions are read-only; no content, branch, issue, or PR mutation is allowed.
+- Report workflow permissions are read-only; no content, branch, issue, or PR mutation is allowed in the Slack report workflow. Direct ignore uses a separate manual PR workflow.
 - Use `GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL`; do not use reviewer mentions.
 - Collapsible category container titles are text-only because Slack renders title emoji as literal shortcodes.
-- No Ignore button, n8n integration, action endpoint, LLM, browser, Next build, or dependency installation.
+- No Ignore button, n8n integration, action endpoint, LLM, browser, Next build, or dependency installation. Manual ignore opens a normal PR from a separate workflow.
 
 ---
 
@@ -559,7 +559,7 @@ Dry run: node scripts/global-content-diff-report/cli.mjs --global-repo ... --tar
 Identity: sourceSection:sourceId
 Present rules: verified baseline or merged sync marker plus existing target MDX
 Not present rules: ignored, open Draft, and closed-unmerged Draft remain reportable
-No actions: no Ignore button, n8n, mutation, or PR creation
+No Slack actions: no Ignore button, n8n, or server endpoint; manual ignore opens a normal PR from a separate workflow
 ```
 
 - [ ] **Step 2: Write the OpenSpec contract**

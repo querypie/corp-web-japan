@@ -648,6 +648,13 @@ test("renders status-first collapsible containers and original links", () => {
   assert.match(JSON.stringify(payload), /Part 1 of 1/);
   assert.match(JSON.stringify(payload.blocks.slice(0, 3)), /2026-04-30T00:00:00\.000Z/);
   assert.doesNotMatch(JSON.stringify(payload), /button|ignore_content|<@|Draft open|Draft closed|Mapping drift/i);
+  assert.match(JSON.stringify(payload), /Copy the displayed composite identity/);
+  assert.match(JSON.stringify(payload), /`news:cnt_000177`/);
+  assert.match(JSON.stringify(payload), /Ignore Global-only content/);
+  assert.match(JSON.stringify(payload), /paste the identity/);
+  assert.match(JSON.stringify(payload), /review and merge the generated PR/);
+  assert.match(JSON.stringify(payload), /next report shows `Ignored`/);
+  assert.match(JSON.stringify(payload), /<https:\/\/github\.com\/querypie\/corp-web-japan\/actions\/workflows\/ignore-global-content-diff\.yml\|Open Actions workflow>/);
 
   const longTitleBlock = containers
     .flatMap((block) => block.child_blocks)

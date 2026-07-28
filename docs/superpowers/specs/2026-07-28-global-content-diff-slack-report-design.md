@@ -91,7 +91,7 @@ Slack regrouping is status-first. `Untracked · N items` containers come first a
 - target family, composite identity, and publication date when available;
 - status, using only `Untracked` or `Ignored`.
 
-The report has no interactive Ignore buttons. Ignore decisions continue through the existing, separately authenticated workflow. A future interactive action may be designed independently if needed; this report does not introduce n8n, an action endpoint, or additional mutation authority.
+The report has no interactive Ignore buttons. Direct report ignore decisions continue through the separate manual `Ignore Global-only content` workflow: copy the displayed composite identity, run the workflow, paste the exact identity, review and merge the generated Ignore PR, then the next report shows `Ignored`. A future interactive action may be designed independently if needed; this report does not introduce n8n, an action endpoint, or Slack-side mutation authority.
 
 Use Slack-safe escaping and deterministic chunking. When all items cannot fit in one payload, send numbered continuation payloads so no result is truncated. A zero-difference run sends a compact success message.
 
@@ -113,7 +113,7 @@ No partial report is presented as complete. Payloads include `part N of M` when 
 
 ## Implementation boundaries
 
-Add a new report module and workflow. Reuse existing pure source-family, canonical URL, sync-marker, and production-evidence contracts where possible. Exporting an existing pure helper is allowed, but the current candidate selection, translation, validation, PR creation, ignore reconciliation, server timer, and existing Slack workflow execution paths must not change.
+Add a new report module, report workflow, and independent manual Ignore PR workflow. Reuse existing pure source-family, canonical URL, sync-marker, ignore validation, and production-evidence contracts where possible. Exporting an existing pure helper is allowed, but the current candidate selection, translation, validation, Draft PR creation, ignore reconciliation, server timer, and existing Slack workflow execution paths must not change.
 
 No LLM, browser, Next build, content generation, or dependency installation is required.
 
@@ -128,6 +128,6 @@ Add focused Node tests covering:
 - ignored and unmerged Draft items remaining in the diff;
 - deterministic sorting;
 - Slack escaping, grouping, pagination, and zero state;
-- workflow schedule, read-only permissions, manual trigger, secret use, and independence from existing workflows.
+- workflow schedule, read-only report permissions, manual trigger, secret use, direct manual Ignore PR workflow validation, Slack footer instructions, and independence from existing workflows.
 
 Run the focused tests, `npm run test:ci`, and a no-send report generation against current repository snapshots. After merge, run the workflow manually once and verify the delivered Slack layout.

@@ -153,6 +153,45 @@ A zero-difference run SHALL send a compact success payload. The report SHALL fai
 - **AND** it SHALL attempt a compact failure notification
 - **AND** it SHALL NOT present a partial diff as complete output
 
+### Requirement: Manual Ignore PR instructions
+
+The Slack report SHALL include operator instructions that link to `.github/workflows/ignore-global-content-diff.yml` and explain this sequence: copy the displayed composite identity, run GitHub Actions `Ignore Global-only content`, paste the identity, review and merge the generated PR, then the next report shows `Ignored`.
+
+#### Scenario: Operator sees an untracked item
+
+- **GIVEN** a delivered Slack report payload with one or more Global-only items
+- **WHEN** an operator decides to ignore one item
+- **THEN** the payload SHALL show the composite identity to copy
+- **AND** the payload SHALL link to the manual Ignore workflow
+- **AND** the payload SHALL state that a human reviews and merges the generated PR
+
+### Requirement: Manual Ignore PR workflow
+
+The manual Ignore workflow SHALL be independent from the Draft-PR ignore workflow. It SHALL accept only a `source_identity` input that exactly matches `^(documentation|news):cnt_\d+$`, SHALL reject bare `cnt_*` input, SHALL run the live Global-only report CLI in `--dry-run` mode with `GH_TOKEN`, SHALL select exactly one matching report item, and SHALL require that item to have status `Untracked`. The workflow SHALL derive `sourceSection`, `sourceId`, and `sourceCanonicalUrl` from that live report item and SHALL NOT accept a URL input.
+
+When validation passes, the workflow SHALL append one sorted `.github/content-sync/ignore.json` record using `assertIgnoreAppendAllowed` with `reasonCode` `other`, reason `Ignored by owner from Global-only content report.`, `addedBy` equal to the GitHub actor, and a UTC timestamp. It SHALL create a branch, commit, and normal PR for human review and SHALL NOT merge the PR automatically.
+
+#### Scenario: Bare source ID is submitted
+
+- **GIVEN** manual workflow input `cnt_000177`
+- **WHEN** the workflow validates input
+- **THEN** it SHALL fail before selecting a report item
+
+#### Scenario: Live report item is already Ignored
+
+- **GIVEN** a composite identity that exists in the live dry-run report
+- **AND** the item status is `Ignored`
+- **WHEN** the workflow validates the selected item
+- **THEN** it SHALL fail without modifying the ignore manifest
+
+#### Scenario: Valid Untracked item is submitted
+
+- **GIVEN** a composite identity that exists exactly once in the live dry-run report
+- **AND** the item status is `Untracked`
+- **WHEN** the workflow appends the ignore decision
+- **THEN** the new ignore record SHALL use the source URL from the live report
+- **AND** the workflow SHALL open a normal Ignore PR for human merge
+
 ### Requirement: No interactive Ignore actions
 
 The report SHALL remain informational only. It SHALL NOT expose interactive Ignore buttons, n8n actions, mutation endpoints, or any other inline suppression control.

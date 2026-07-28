@@ -71,6 +71,16 @@ function compareSlackItems(left, right) {
     || String(left.identity).localeCompare(String(right.identity));
 }
 
+function ignoreInstructionsBlock() {
+  return {
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: "To ignore: Copy the displayed composite identity, e.g. `news:cnt_000177` → run GitHub Actions `Ignore Global-only content` → paste the identity → review and merge the generated PR → next report shows `Ignored`. <https://github.com/querypie/corp-web-japan/actions/workflows/ignore-global-content-diff.yml|Open Actions workflow>",
+    },
+  };
+}
+
 function summarizeCounts(report) {
   const families = FAMILY_ORDER
     .map((family) => [family, report.familyCounts?.[family] || 0])
@@ -106,6 +116,8 @@ function renderPayload({ report, metadata, partNumber, totalParts, containers, i
 
   blocks.push(...containers);
 
+  if (isFirst) blocks.push(ignoreInstructionsBlock());
+
   return {
     text: `Global-only content report — ${partLabel}${isFirst ? ` — ${summarizeCounts(report)}` : ""}`,
     blocks,
@@ -132,6 +144,7 @@ export function buildSlackPayloads(report, metadata) {
             text: `Part 1 of 1 · Run ${report.generatedAt} · Global ${metadata.globalSha} · Japan ${metadata.japanSha}`,
           }],
         },
+        ignoreInstructionsBlock(),
       ],
     }];
   }

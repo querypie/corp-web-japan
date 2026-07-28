@@ -8,6 +8,7 @@ import { runCli } from "../../scripts/global-content-diff-report/cli.mjs";
 import { SOURCE_FAMILIES } from "../../scripts/global-documentation-sync/source-family-map.mjs";
 
 const workflowPath = path.resolve(".github/workflows/global-content-diff-report.yml");
+const ignoreWorkflowPath = path.resolve(".github/workflows/ignore-global-content-diff.yml");
 const ciWorkflowPath = path.resolve(".github/workflows/ci.yml");
 const contractPath = path.resolve("openspec/specs/contract-global-content-diff-report/spec.md");
 
@@ -87,6 +88,42 @@ test("workflow is independent, read-only, scheduled for weekdays at 10 KST, and 
   assert.match(source, /Global content diff report failed/);
   assert.doesNotMatch(source, /CONTENT_SYNC_SLACK_WEBHOOK_URL|ALERT_WEBHOOK_URL/);
   assert.doesNotMatch(source, /pull_request_target|git push|gh pr create|n8n|<@/);
+});
+
+test("manual ignore workflow validates composite identity, derives URL from live Untracked dry-run report, and opens a human PR", async () => {
+  const source = await readFile(ignoreWorkflowPath, "utf8");
+
+  assert.match(source, /name: Ignore Global-only content/);
+  assert.match(source, /workflow_dispatch:[\s\S]*inputs:[\s\S]*source_identity:[\s\S]*required: true[\s\S]*type: string/);
+  const inputBlock = source.match(/workflow_dispatch:[\s\S]*?permissions:/)?.[0] || source;
+  assert.doesNotMatch(inputBlock, /source_url|SOURCE_URL_INPUT|canonical_url|url/i);
+  assert.match(source, /permissions:[\s\S]*contents: write[\s\S]*pull-requests: write/);
+  assert.match(source, /runs-on: ubuntu-latest/);
+  assert.match(source, /timeout-minutes: (?:[3-9]|1\d)/);
+  assert.match(source, /name: Checkout Japan repository[\s\S]*?with:[\s\S]*?ref: main[\s\S]*?path: japan/);
+  assert.match(source, /name: Checkout Global repository[\s\S]*?repository: querypie\/corp-web-v2[\s\S]*?ref: main[\s\S]*?path: global/);
+  assert.match(source, /\^\(documentation\|news\):cnt_\\d\+\$/);
+  assert.match(source, /GH_TOKEN: \$\{\{ github\.token \}\}/);
+  assert.match(source, /global-content-diff-report\/cli\.mjs[\s\S]*--dry-run/);
+  assert.match(source, /matchingItems\.length !== 1/);
+  assert.match(source, /item\.status !== "Untracked"/);
+  assert.match(source, /assertIgnoreAppendAllowed/);
+  assert.match(source, /reasonCode: "other"/);
+  assert.match(source, /Ignored by owner from Global-only content report\./);
+  assert.match(source, /addedBy: process\.env\.GITHUB_ACTOR/);
+  assert.match(source, /new Date\(\)\.toISOString\(\)/);
+  assert.match(source, /values\.sort/);
+  assert.match(source, /gh pr create/);
+  assert.match(source, /global-documentation-sync-ignore:v1/);
+  assert.doesNotMatch(source, /gh pr merge|--auto|auto-merge|pull_request_target|n8n/);
+});
+
+test("manual ignore workflow rejects bare cnt source IDs before report selection", async () => {
+  const source = await readFile(ignoreWorkflowPath, "utf8");
+
+  assert.match(source, /SOURCE_IDENTITY:/);
+  assert.match(source, /Invalid source_identity/);
+  assert.doesNotMatch(source, /\^cnt_\\d\+\$/);
 });
 
 test("CLI dry-run emits complete JSON without requiring or calling Slack", async () => {
@@ -198,5 +235,6 @@ test("delivery contract acknowledges visible partial multipart delivery", async 
 test("CI cross_cutting scope includes independent workflow and CLI paths", async () => {
   const source = await readFile(ciWorkflowPath, "utf8");
   assert.match(source, /cross_cutting:[\s\S]*- '\.github\/workflows\/global-content-diff-report\.yml'/);
+  assert.match(source, /cross_cutting:[\s\S]*- '\.github\/workflows\/ignore-global-content-diff\.yml'/);
   assert.match(source, /cross_cutting:[\s\S]*- 'scripts\/global-content-diff-report\/\*\*'/);
 });
