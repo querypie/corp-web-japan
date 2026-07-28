@@ -134,6 +134,34 @@ test("CLI dry-run emits complete JSON without requiring or calling Slack", async
   });
 });
 
+test("CLI rejects missing sitemap evidence independently per production source list", async () => {
+  await withTempRepos(async ({ globalRepo, targetRepo }) => {
+    await writeGlobalSource(globalRepo, { sourceId: "cnt_000001", category: "blogs", slug: "global-blog" });
+    await writeGlobalSource(globalRepo, { sourceId: "cnt_000002", category: "news", slug: "global-news" });
+    await writeManifest(targetRepo, "baseline", []);
+    await writeManifest(targetRepo, "ignore", []);
+
+    await assert.rejects(
+      () => runCli([
+        "--global-repo", globalRepo,
+        "--target-repo", targetRepo,
+        "--dry-run",
+      ], {
+        fetchText: async (url) => {
+          if (url === "https://www.querypie.com/sitemap.xml") {
+            return '<url><loc>https://www.querypie.com/en/blog/global-blog</loc></url>';
+          }
+          return buildProductionListHtmlByUrl()[url] || "";
+        },
+        loadPullRequests: async () => [],
+        execute: () => "sha\n",
+        stdout: { write() {} },
+      }),
+      /production sitemap evidence does not contain a recognized Global source URL: https:\/\/www\.querypie\.com\/en\/news/,
+    );
+  });
+});
+
 test("CLI rejects empty or unrelated HTTP 200 production evidence", async () => {
   for (const evidence of ["", "<html><title>Just a moment...</title><p>challenge</p></html>"]) {
     await withTempRepos(async ({ globalRepo, targetRepo }) => {

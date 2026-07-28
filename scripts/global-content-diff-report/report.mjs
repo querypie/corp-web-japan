@@ -19,8 +19,34 @@ const DRAFT_STATUS = new Map([
   ["CLOSED", "Draft closed"],
 ]);
 
+const safeKebabSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
 const baselinePath = ({ targetFamily, targetId, targetSlug }) =>
   path.join("src/content", targetFamily, `${targetId}-${targetSlug}.mdx`);
+
+function validateReportBaselineRecord(record, targetRepo) {
+  const descriptor = sourceFamily(record.sourceCategory);
+  if (record.sourceSection !== descriptor.sourceSection) {
+    throw new Error(`baseline record sourceSection must equal descriptor section: ${descriptor.sourceSection}`);
+  }
+  const targetDescriptor = targetFamilyDescriptor(record.targetFamily);
+  if (targetDescriptor.targetFamily !== descriptor.targetFamily || record.targetFamily !== descriptor.targetFamily) {
+    throw new Error(`baseline record targetFamily must equal descriptor target family: ${descriptor.targetFamily}`);
+  }
+  if (!Number.isInteger(record.targetId) || record.targetId <= 0) {
+    throw new Error("baseline record targetId must be a positive integer number");
+  }
+  if (!safeKebabSlugPattern.test(record.sourceSlug)) throw new Error("baseline record has unsafe sourceSlug");
+  if (!safeKebabSlugPattern.test(record.targetSlug)) throw new Error("baseline record has unsafe targetSlug");
+
+  const expectedPath = baselinePath(record);
+  const contentRoot = path.resolve(targetRepo, "src/content", descriptor.targetFamily);
+  const resolvedPath = path.resolve(targetRepo, expectedPath);
+  if (!resolvedPath.startsWith(`${contentRoot}${path.sep}`)) {
+    throw new Error("baseline record target path escapes supported content family root");
+  }
+  return expectedPath;
+}
 
 const mergedMarkerPath = async (targetRepo, marker, statFile) => {
   const directory = path.join(targetRepo, "src/content", marker.targetFamily);
@@ -163,7 +189,7 @@ export async function buildJapanInventory({ targetRepo, prRecords, statFile = st
 
   for (const record of baseline) {
     const identity = sourceIdentityKey({ sourceSection: record.sourceSection, sourceId: record.sourceId });
-    const expectedPath = baselinePath(record);
+    const expectedPath = validateReportBaselineRecord(record, targetRepo);
     registerMapping({
       present,
       mappingDrift,

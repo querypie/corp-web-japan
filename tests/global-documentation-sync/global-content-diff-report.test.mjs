@@ -281,11 +281,11 @@ const slackMetadata = {
 test("reports all listed Global-only identities and preserves cross-section IDs", async () => {
   const report = await fixtureWith({
     global: [
-      publishedDocumentation("cnt_000001", "doc-one"),
+      publishedBlog("cnt_000001", "doc-one"),
       publishedNews("cnt_000001", "news-one"),
       staleNews("cnt_000002", "not-listed"),
     ],
-    japan: [baselineMapping("documentation", "cnt_000001", "manuals", "blog", 1, "doc-one")],
+    japan: [baselineMapping("documentation", "cnt_000001", "blogs", "blog", 1, "doc-one")],
     targetFiles: ["src/content/blog/1-doc-one.mdx"],
   });
 
@@ -431,6 +431,50 @@ test("rejects duplicate merged mappings when target allocation differs", async (
       /duplicate merged mapping: news:cnt_000401/,
     );
   });
+});
+
+test("rejects malformed baseline mappings at the report trust boundary before stat", async () => {
+  const cases = [
+    {
+      record: baselineMapping("news", "cnt_000414", "blogs", "blog", 44, "valid-slug"),
+      pattern: /baseline record sourceSection must equal descriptor section: documentation/,
+    },
+    {
+      record: baselineMapping("documentation", "cnt_000415", "blogs", "news", 45, "valid-slug"),
+      pattern: /baseline record targetFamily must equal descriptor target family: blog/,
+    },
+    {
+      record: baselineMapping("news", "cnt_000416", "news", "news", 46, "..\/escape", "safe-source"),
+      pattern: /baseline record has unsafe targetSlug/,
+    },
+    {
+      record: baselineMapping("news", "cnt_000417", "news", "news", "47", "valid-slug"),
+      pattern: /baseline record targetId must be a positive integer number/,
+    },
+    {
+      record: baselineMapping("news", "cnt_000418", "news", "news", 0, "valid-slug"),
+      pattern: /baseline record targetId must be a positive integer number/,
+    },
+  ];
+
+  for (const { record, pattern } of cases) {
+    await withTempRepos(async ({ targetRepo }) => {
+      await writeManifest(targetRepo, "baseline", [record]);
+      let statCalled = false;
+      await assert.rejects(
+        () => buildJapanInventory({
+          targetRepo,
+          prRecords: [],
+          statFile: async () => {
+            statCalled = true;
+            return { isFile: () => true };
+          },
+        }),
+        pattern,
+      );
+      assert.equal(statCalled, false);
+    });
+  }
 });
 
 test("rejects target ownership conflicts across trusted mappings", async () => {
