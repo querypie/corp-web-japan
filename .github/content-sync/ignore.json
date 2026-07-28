@@ -10,6 +10,15 @@
   },
   {
     "sourceSection": "news",
+    "sourceId": "cnt_000177",
+    "sourceCanonicalUrl": "https://finance.yahoo.com/news/querypie-selected-real-madrid-next-000000956.html",
+    "reasonCode": "other",
+    "reason": "Ignored by owner from sync Draft PR.",
+    "addedBy": "owner",
+    "addedAt": "2026-07-28T03:24:35Z"
+  },
+  {
+    "sourceSection": "news",
     "sourceId": "cnt_000179",
     "sourceCanonicalUrl": "https://www.mk.co.kr/en/business/11269240",
     "reasonCode": "other",
