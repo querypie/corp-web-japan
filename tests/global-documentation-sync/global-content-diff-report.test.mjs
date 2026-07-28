@@ -641,26 +641,27 @@ test("renders status-first collapsible containers and original links", () => {
   const containers = payload.blocks.filter((block) => block.type === "container");
   assert.deepEqual(containers.map((block) => block.title.text), ["Untracked · 7 items"]);
   assert.equal(containers[0].default_collapsed, false);
-  assert.match(containers[0].child_blocks[0].text.text, /^\*Blog\* · `documentation:cnt_000004` · 2026-04-04 · Untracked/);
-  assert.match(containers[0].child_blocks[0].text.text, /<https:\/\/finance\.yahoo\.com\/story-4\|QueryPie selected/);
+  assert.match(containers[0].child_blocks[0].text.text, /^\*<https:\/\/finance\.yahoo\.com\/story-4\|QueryPie selected/);
+  assert.match(containers[0].child_blocks[0].text.text, />\*\n_Blog · 2026-04-04_ · `documentation:cnt_000004`$/);
+  assert.doesNotMatch(containers[0].child_blocks[0].text.text, /Untracked/);
   assert.doesNotMatch(containers[0].title.text, /:newspaper:|📰/);
   assert.match(containers[0].child_blocks[0].text.text, /&amp; &lt;4&gt;/);
   assert.match(JSON.stringify(payload), /Part 1 of 1/);
   assert.match(JSON.stringify(payload.blocks.slice(0, 3)), /2026-04-30T00:00:00\.000Z/);
   assert.doesNotMatch(JSON.stringify(payload), /button|ignore_content|<@|Draft open|Draft closed|Mapping drift/i);
-  assert.match(JSON.stringify(payload), /Copy the displayed composite identity/);
-  assert.match(JSON.stringify(payload), /`news:cnt_000177`/);
-  assert.match(JSON.stringify(payload), /Ignore Global-only content/);
-  assert.match(JSON.stringify(payload), /paste the identity/);
-  assert.match(JSON.stringify(payload), /review and merge the generated PR/);
-  assert.match(JSON.stringify(payload), /next report shows `Ignored`/);
-  assert.match(JSON.stringify(payload), /<https:\/\/github\.com\/querypie\/corp-web-japan\/actions\/workflows\/ignore-global-content-diff\.yml\|Open Actions workflow>/);
+  assert.match(JSON.stringify(payload), /\*Ignore an item\*\\n/);
+  assert.match(JSON.stringify(payload), /Copy an identity above/);
+  assert.match(JSON.stringify(payload), /<https:\/\/github\.com\/querypie\/corp-web-japan\/actions\/workflows\/ignore-global-content-diff\.yml\|Open workflow>/);
+  assert.match(JSON.stringify(payload), /paste it/);
+  assert.match(JSON.stringify(payload), /review and merge the PR/);
+  assert.match(JSON.stringify(payload), /After merge, the next report moves it to `Ignored`/);
 
   const longTitleBlock = containers
     .flatMap((block) => block.child_blocks)
     .find((block) => block.text.text.includes("A very long title"));
   const renderedTitle = longTitleBlock.text.text.split("|", 2)[1].split(">", 1)[0];
-  assert.equal(renderedTitle.length, 180);
+  assert.equal(renderedTitle.length, 96);
+  assert.match(renderedTitle, /…$/);
 });
 
 test("paginates without dropping or duplicating identities", () => {
@@ -711,12 +712,13 @@ test("groups by status first, then target family order, then newest date", () =>
   ]);
   assert.equal(containers[0].default_collapsed, false);
   assert.equal(containers[1].default_collapsed, true);
-  assert.match(containers[0].child_blocks[0].text.text, /^\*Blog\* · `documentation:cnt_000002` · 2026-04-05 · Untracked/);
-  assert.match(containers[0].child_blocks[1].text.text, /^\*News\* · `news:cnt_000004` · 2026-04-03 · Untracked/);
-  assert.match(containers[0].child_blocks[2].text.text, /^\*News\* · `news:cnt_000006` · 2026-04-01 · Untracked/);
-  assert.match(containers[1].child_blocks[0].text.text, /^\*Blog\* · `documentation:cnt_000005` · 2026-04-02 · Ignored/);
-  assert.match(containers[1].child_blocks[1].text.text, /^\*Whitepapers\* · `documentation:cnt_000003` · 2026-04-04 · Ignored/);
-  assert.match(containers[1].child_blocks[2].text.text, /^\*News\* · `news:cnt_000001` · 2026-04-06 · Ignored/);
+  assert.match(containers[0].child_blocks[0].text.text, /_Blog · 2026-04-05_ · `documentation:cnt_000002`$/);
+  assert.match(containers[0].child_blocks[1].text.text, /_News · 2026-04-03_ · `news:cnt_000004`$/);
+  assert.match(containers[0].child_blocks[2].text.text, /_News · 2026-04-01_ · `news:cnt_000006`$/);
+  assert.match(containers[1].child_blocks[0].text.text, /_Blog · 2026-04-02_ · `documentation:cnt_000005`$/);
+  assert.match(containers[1].child_blocks[1].text.text, /_Whitepapers · 2026-04-04_ · `documentation:cnt_000003`$/);
+  assert.match(containers[1].child_blocks[2].text.text, /_News · 2026-04-06_ · `news:cnt_000001`$/);
+  assert.doesNotMatch(containers.flatMap((block) => block.child_blocks).map((block) => block.text.text).join("\n"), /Untracked|Ignored/);
   assert.doesNotMatch(JSON.stringify(payload), /Draft open|Draft closed|Mapping drift/);
 });
 

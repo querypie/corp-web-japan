@@ -2,7 +2,7 @@ import { SOURCE_FAMILIES } from "../global-documentation-sync/source-family-map.
 
 const ITEMS_PER_CONTAINER = 10;
 const CONTAINERS_PER_PAYLOAD = 8;
-const MAX_TITLE_LENGTH = 180;
+const MAX_TITLE_LENGTH = 96;
 
 const FAMILY_LABELS = Object.freeze({
   news: "News",
@@ -23,7 +23,8 @@ function escapeMrkdwn(value) {
 }
 
 function truncate(value, maxLength) {
-  return String(value || "").slice(0, maxLength);
+  const text = String(value || "");
+  return text.length > maxLength ? `${text.slice(0, maxLength - 1)}…` : text;
 }
 
 function familyLabel(family) {
@@ -32,7 +33,10 @@ function familyLabel(family) {
 
 function itemText(item) {
   const title = escapeMrkdwn(truncate(item.title, MAX_TITLE_LENGTH));
-  return `*${escapeMrkdwn(familyLabel(item.targetFamily))}* · \`${escapeMrkdwn(item.identity)}\` · ${escapeMrkdwn(item.dateIso)} · ${escapeMrkdwn(item.status)}\n*<${item.sourceUrl}|${title}>*`;
+  const family = escapeMrkdwn(familyLabel(item.targetFamily));
+  const date = escapeMrkdwn(item.dateIso);
+  const identity = escapeMrkdwn(item.identity);
+  return `*<${item.sourceUrl}|${title}>*\n_${family} · ${date}_ · \`${identity}\``;
 }
 
 function statusContainer(status, allItems, items, part) {
@@ -73,7 +77,7 @@ function ignoreInstructionsBlock() {
     type: "section",
     text: {
       type: "mrkdwn",
-      text: "To ignore: Copy the displayed composite identity, e.g. `news:cnt_000177` → run GitHub Actions `Ignore Global-only content` → paste the identity → review and merge the generated PR → next report shows `Ignored`. <https://github.com/querypie/corp-web-japan/actions/workflows/ignore-global-content-diff.yml|Open Actions workflow>",
+      text: "*Ignore an item*\nCopy an identity above → <https://github.com/querypie/corp-web-japan/actions/workflows/ignore-global-content-diff.yml|Open workflow> → paste it → review and merge the PR.\nAfter merge, the next report moves it to `Ignored`.",
     },
   };
 }
