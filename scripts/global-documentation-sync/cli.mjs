@@ -220,7 +220,7 @@ export async function finalize({ reportsDir }) {
     const value = JSON.parse(await readFile(path.join(reportsDir, `${type}.json`), "utf8"));
     validateArtifact(type, value);
     if (value.runId !== candidate.runId || value.sourceId !== candidate.sourceId) throw new Error(`${type}: candidate identity mismatch`);
-    if (type.endsWith("review") && (value.verdict !== "pass" || value.findings.some(({ severity }) => severity !== "note") || hasBlockingFindings(value))) throw new Error(`${type} has unresolved actionable findings`);
+    if (type.endsWith("review") && (value.verdict !== "pass" || hasBlockingFindings(value))) throw new Error(`${type} has unresolved blocking findings`);
     artifacts[type] = value;
   }
   const finishedAt = new Date().toISOString();

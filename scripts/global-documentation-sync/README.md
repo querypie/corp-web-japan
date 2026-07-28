@@ -9,6 +9,7 @@ Automates one eligible QueryPie Global publication or News record into one Japan
 - Uses composite source identity `${sourceSection}:${sourceId}` for baseline, ignore, branch, and PR deduplication.
 - Pi writer and reviewers run fresh with `--no-tools`; only Node scripts write files or mutate Git.
 - Runs generated-contract validation, `npm run test:ci`, `next build`, and desktop/mobile browser QA before a Draft PR.
+- `critical` and `major` review findings block publication fail-closed; `minor` is nonblocking advisory with at most one best-effort correction attempt per run and may remain visible in Draft PR evidence.
 - Never merges or deploys generated content.
 - A failed gate stops before commit, push, or PR creation.
 - The systemd service enforces a one-hour hard timeout.
