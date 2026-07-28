@@ -6,7 +6,6 @@ import {
   parseSyncMarker,
   productionSets,
   readManifest,
-  shouldSkipDiscoveryContractFailure,
   sourceContractFailure,
   validateDecisionManifest,
 } from "../global-documentation-sync/discovery.mjs";
@@ -149,12 +148,44 @@ function draftStatusFor(records) {
   return null;
 }
 
+function trustedDraftMarker(pull, trustedRepositoryFullName) {
+  if (pull.headRepositoryFullName !== trustedRepositoryFullName) return null;
+  if (!pull.headRefName?.startsWith("content-sync/")) return null;
+  if (pull.isDraft !== true) return null;
+  if (!DRAFT_STATUS.has(pull.state)) return null;
+
+  let marker;
+  try {
+    marker = parseSyncMarker(pull.body);
+  } catch {
+    return null;
+  }
+  if (!marker || marker.branch !== pull.headRefName) return null;
+
+  const parsedBranch = parseSyncBranch(marker.branch);
+  if (!parsedBranch) return null;
+  if (parsedBranch.legacy) {
+    if (pull.number !== 687 || parsedBranch.sourceId !== marker.sourceId) return null;
+  } else if (parsedBranch.sourceSection !== marker.sourceSection || parsedBranch.sourceId !== marker.sourceId) {
+    return null;
+  }
+
+  try {
+    const descriptor = targetFamilyDescriptor(marker.targetFamily);
+    if (descriptor.sourceSection !== marker.sourceSection) return null;
+  } catch {
+    return null;
+  }
+  if (!Number.isInteger(marker.targetId) || marker.targetId <= 0) return null;
+  return marker;
+}
+
 export async function buildGlobalInventory({ globalRepo, sitemapXml, productionListHtmlByUrl }) {
   const production = productionSets(sitemapXml, productionListHtmlByUrl);
   const itemsByIdentity = new Map();
 
   for (const source of await enumerateSources(globalRepo)) {
-    if (shouldSkipDiscoveryContractFailure(source) || !source.sourceCanonicalUrl) continue;
+    if (!source.sourceCanonicalUrl) continue;
     const descriptor = sourceFamily(source.category);
     const listUrl = normalizeUrl(descriptor.productionListUrl);
     const listed = (production.listByUrl.get(listUrl) || new Set()).has(source.sourceCanonicalUrl);
@@ -232,7 +263,7 @@ export async function buildJapanInventory({ targetRepo, prRecords, statFile = st
   return { present, mappingDrift };
 }
 
-export function buildDispositionMap({ ignoreRecords, prRecords, globalItems, now }) {
+export function buildDispositionMap({ ignoreRecords, prRecords, globalItems, now, trustedRepositoryFullName = "querypie/corp-web-japan" }) {
   const dispositions = new Map();
   const sourceViews = globalSourceViews(globalItems);
   const activeIgnore = validateDecisionManifest(ignoreRecords, "ignore")
@@ -247,11 +278,8 @@ export function buildDispositionMap({ ignoreRecords, prRecords, globalItems, now
 
   const draftByIdentity = new Map();
   for (const pull of prRecords.filter((record) => !mergedPullRequest(record))) {
-    if (!pull.headRefName?.startsWith("content-sync/")) continue;
-    const marker = parseSyncMarker(pull.body);
+    const marker = trustedDraftMarker(pull, trustedRepositoryFullName);
     if (!marker) continue;
-    const status = DRAFT_STATUS.get(pull.state);
-    if (!status) continue;
     const list = draftByIdentity.get(marker.identity) || [];
     list.push(pull);
     draftByIdentity.set(marker.identity, list);
@@ -272,11 +300,12 @@ export async function buildGlobalOnlyReport({
   productionListHtmlByUrl,
   prRecords = [],
   now = new Date().toISOString(),
+  trustedRepositoryFullName = "querypie/corp-web-japan",
 }) {
   const globalItems = await buildGlobalInventory({ globalRepo, sitemapXml, productionListHtmlByUrl });
   const ignoreRecords = await readManifest(targetRepo, "ignore");
   const { present, mappingDrift } = await buildJapanInventory({ targetRepo, prRecords });
-  const dispositions = buildDispositionMap({ ignoreRecords, prRecords, globalItems, now });
+  const dispositions = buildDispositionMap({ ignoreRecords, prRecords, globalItems, now, trustedRepositoryFullName });
   const items = [];
 
   for (const item of globalItems) {

@@ -4,11 +4,13 @@ import test from "node:test";
 import { loadAllPullRequests } from "../../scripts/global-documentation-sync/github-state.mjs";
 
 test("loads and normalizes every paginated PR page", async () => {
-  const pages = [[{ number: 1, state: "closed", merged_at: null, body: "a", head: { ref: "one" }, labels: [], html_url: "u1" }], [{ number: 2, state: "closed", merged_at: "date", body: "b", head: { ref: "two" }, labels: [{ name: "x" }], html_url: "u2" }]];
+  const pages = [[{ number: 1, state: "closed", merged_at: null, body: "a", head: { ref: "one", repo: { full_name: "owner/repo" } }, labels: [], html_url: "u1" }], [{ number: 2, state: "closed", merged_at: "date", body: "b", head: { ref: "two", repo: { full_name: "fork/repo" } }, labels: [{ name: "x" }], html_url: "u2" }]];
   const calls = [];
   const records = await loadAllPullRequests({ githubRepo: "owner/repo", cwd: "/repo", execute: async (command, args) => { calls.push([command, args]); return JSON.stringify(pages); } });
   assert.equal(records.length, 2);
   assert.equal(records[1].state, "MERGED");
+  assert.equal(records[0].headRepositoryFullName, "owner/repo");
+  assert.equal(records[1].headRepositoryFullName, "fork/repo");
   assert.ok(calls[0][1].includes("--paginate"));
   assert.ok(calls[0][1].includes("--slurp"));
 });

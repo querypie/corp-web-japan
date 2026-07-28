@@ -121,6 +121,7 @@ export async function runCli(argv = process.argv.slice(2), {
     productionListHtmlByUrl,
     prRecords,
     now,
+    trustedRepositoryFullName: githubRepo,
   });
   const payloads = buildSlackPayloads(report, metadata);
 

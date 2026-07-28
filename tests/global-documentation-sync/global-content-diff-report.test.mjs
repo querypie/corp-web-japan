@@ -121,13 +121,16 @@ function legacyMergedMarker(sourceId, targetFamily, targetId) {
   };
 }
 
-function draftMarker(sourceSection, sourceId, targetFamily, targetId, state = "OPEN") {
+function draftMarker(sourceSection, sourceId, targetFamily, targetId, state = "OPEN", overrides = {}) {
   return {
     number: targetId,
     state,
     merged: false,
+    isDraft: true,
+    headRepositoryFullName: "querypie/corp-web-japan",
     headRefName: branchName(sourceSection, sourceId),
     body: markerBody({ sourceSection, sourceId, targetFamily, targetId, branch: branchName(sourceSection, sourceId) }),
+    ...overrides,
   };
 }
 
@@ -314,6 +317,38 @@ test("keeps ignored and closed Draft items in the diff with status", async () =>
   assert.equal(report.items[0].status, "Ignored");
 });
 
+test("annotates only trusted same-repository Draft sync PRs", async () => {
+  const openReport = await fixtureWith({
+    global: [publishedNews("cnt_000178", "trusted-open")],
+    pulls: [draftMarker("news", "cnt_000178", "news", 25)],
+  });
+  assert.equal(openReport.items[0].status, "Draft open");
+
+  const closedReport = await fixtureWith({
+    global: [publishedNews("cnt_000179", "trusted-closed")],
+    pulls: [draftMarker("news", "cnt_000179", "news", 26, "CLOSED")],
+  });
+  assert.equal(closedReport.items[0].status, "Draft closed");
+});
+
+test("ignores untrusted unmerged PR dispositions without failing the report", async () => {
+  const malformedMarker = "<!-- global-documentation-sync:v1 {not-json} -->";
+  const report = await fixtureWith({
+    global: [
+      publishedNews("cnt_000180", "fork-spoof"),
+      publishedNews("cnt_000181", "not-draft"),
+      publishedNews("cnt_000182", "malformed-marker"),
+    ],
+    pulls: [
+      draftMarker("news", "cnt_000180", "news", 27, "OPEN", { headRepositoryFullName: "attacker/corp-web-japan" }),
+      draftMarker("news", "cnt_000181", "news", 28, "OPEN", { isDraft: false }),
+      draftMarker("news", "cnt_000182", "news", 29, "OPEN", { body: malformedMarker }),
+    ],
+  });
+
+  assert.deepEqual(report.items.map(({ status }) => status), ["Untracked", "Untracked", "Untracked"]);
+});
+
 test("reports missing mapped targets as mapping drift instead of Japan-present", async () => {
   const report = await fixtureWith({
     global: [publishedBlog("cnt_000010", "missing-target")],
@@ -389,18 +424,35 @@ test("includes listed outlinks without sitemap detail evidence", async () => {
   assert.equal(report.items[0].sourceUrl, "https://example.com/story");
 });
 
-test("excludes stale sources from Global inventory", async () => {
+test("excludes unlisted and unsitemapped stale sources from Global inventory", async () => {
   const report = await fixtureWith({
     global: [{ ...publishedBlog("cnt_000302", "draft-story"), status: "draft" }],
     productionListHtmlByUrl: {
       "https://www.querypie.com/en/news": "",
-      "https://www.querypie.com/en/documentation": '<a href="/en/blog/draft-story">draft</a>',
+      "https://www.querypie.com/en/documentation": "",
     },
-    sitemapXml: "<loc>https://www.querypie.com/en/blog/draft-story</loc>",
+    sitemapXml: "",
   });
 
   assert.equal(report.counts.globalPublished, 0);
   assert.equal(report.items.length, 0);
+});
+
+test("throws for listed and sitemapped invalid Documentation sources", async () => {
+  await withTempRepos(async ({ globalRepo }) => {
+    await writeGlobalSource(globalRepo, { ...publishedBlog("cnt_000303", "listed-draft"), status: "draft" });
+
+    await assert.rejects(
+      () => buildGlobalInventory({
+        globalRepo,
+        productionListHtmlByUrl: {
+          "https://www.querypie.com/en/documentation": '<a href="/en/blog/listed-draft">draft</a>',
+        },
+        sitemapXml: "<loc>https://www.querypie.com/en/blog/listed-draft</loc>",
+      }),
+      /documentation:cnt_000303: status must equal published: draft/,
+    );
+  });
 });
 
 test("promotes stale baseline drift when a merged marker confirms the same existing allocation", async () => {
