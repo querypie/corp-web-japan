@@ -99,13 +99,15 @@ Every reported diff item SHALL retain the original normalized Global HTTPS URL a
 
 ### Requirement: Deterministic grouping and pagination
 
-Diff items SHALL be sorted deterministically by target family, newest date first within the family, then composite identity. Slack output SHALL group items by target family, use text-only category titles, and paginate deterministically with explicit `Part N of M` labels when one payload is insufficient.
+Raw diff items SHALL be sorted deterministically by newest date first, then composite identity. Slack output SHALL regroup those items by deterministic target-family order, preserve newest-date-first order within each family, use text-only category titles, and paginate deterministically with explicit `Part N of M` labels when one payload is insufficient.
 
 #### Scenario: Stable grouped multi-payload output
 
-- **GIVEN** enough diff items to exceed one Slack payload
+- **GIVEN** raw diff items spanning multiple target families and enough items to exceed one Slack payload
 - **WHEN** Slack payloads are built
 - **THEN** the payload sequence SHALL be deterministic
+- **AND** Slack SHALL regroup items by deterministic target-family order
+- **AND** newest-date-first order SHALL be preserved within each family
 - **AND** each payload SHALL show its `Part N of M` label
 - **AND** each family container title SHALL use text only
 

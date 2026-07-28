@@ -71,7 +71,7 @@ Global-only = production-published Global identities - verified Japan-present id
 
 Every Global-only item is included. Ignore and unmerged Draft state may be shown as informational status, but neither suppresses the item.
 
-Sort deterministically by source family, newest date first, then composite identity.
+Sort raw diff items deterministically by newest date first, then composite identity.
 
 ## Slack presentation
 
@@ -79,13 +79,13 @@ Send an informational English Block Kit report without a reviewer mention.
 
 The first payload contains:
 
-- header: `Global-only content report`;
+- header: `🌐 Global-only content report`;
 - run timestamp;
 - total Global-published, Japan-present, and Global-only counts;
 - per-family counts;
 - repository commit SHAs.
 
-Group items by target family. Category container titles use text only, such as `News · 3 items`; Slack currently renders emoji in collapsible container titles as literal shortcodes. Each item shows:
+Slack regrouping uses deterministic target-family order and preserves newest-date-first order within each family. Category container titles use text only, such as `News · 3 items`; Slack currently renders emoji in collapsible container titles as literal shortcodes. Each item shows:
 
 - linked title using the original Global URL;
 - composite identity;
