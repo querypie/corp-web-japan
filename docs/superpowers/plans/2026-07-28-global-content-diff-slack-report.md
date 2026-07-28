@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Send a complete, read-only weekday Slack report of production-published Global content that is not verified as present in the Japan site, with every item linked to its original Global URL.
+**Goal:** Send a complete, read-only weekday Slack report of production-published Global content that is not verified as present in the Japan site, with Slack navigation kept on `www.querypie.com`.
 
 **Architecture:** A new GitHub-hosted workflow checks out both public repositories, fetches the existing live publication evidence, and runs a deterministic Node CLI. Pure report functions build Global and Japan identity sets; a separate Slack renderer groups and paginates the resulting Global-only items. Existing translation, review, Draft PR, ignore, host timer, and publication-sync workflows remain behaviorally unchanged.
 
@@ -13,7 +13,7 @@
 - Canonical identity is `${sourceSection}:${sourceId}`.
 - Report only production-published Global content proven by the current section-specific live evidence.
 - Report every Global-only item; active ignore and unmerged Draft states annotate but never suppress an item.
-- Every reported title links to the normalized original Global URL.
+- Every reported title links to `www.querypie.com`; News outlinks use the Global News index while their external URL remains internal evidence.
 - Existing publication sync and PR behavior must not change.
 - Schedule is `0 1 * * 1-5` and manual `workflow_dispatch` is supported.
 - Report workflow permissions are read-only; no content, branch, issue, or PR mutation is allowed in the Slack report workflow. Direct ignore uses a separate manual PR workflow.

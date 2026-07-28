@@ -163,6 +163,7 @@ export async function buildGlobalInventory({ globalRepo, sitemapXml, productionL
       title: localizedTitle(source.meta, source.sourceId),
       dateIso: source.meta.dateIso || "",
       sourceUrl: source.sourceCanonicalUrl,
+      globalUrl: source.meta.contentType === "outlink" ? listUrl : source.sourceCanonicalUrl,
     });
   }
 

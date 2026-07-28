@@ -411,6 +411,10 @@ test("includes listed outlinks without sitemap detail evidence", async () => {
   assert.equal(report.counts.globalPublished, 1);
   assert.equal(report.items[0].identity, "news:cnt_000301");
   assert.equal(report.items[0].sourceUrl, "https://example.com/article.html?no=169&lang=en");
+  assert.equal(report.items[0].globalUrl, "https://www.querypie.com/en/news");
+  const [payload] = buildSlackPayloads(report, slackMetadata);
+  assert.match(JSON.stringify(payload), /https:\/\/www\.querypie\.com\/en\/news/);
+  assert.doesNotMatch(JSON.stringify(payload), /example\.com/);
 });
 
 test("excludes unlisted and unsitemapped stale sources from Global inventory", async () => {

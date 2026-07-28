@@ -86,16 +86,17 @@ The report SHALL compute `Global-only = production-published Global identities -
 - **THEN** the report SHALL include the item
 - **AND** it SHALL mark the status as `Untracked`
 
-### Requirement: Original Global URL links
+### Requirement: Global-site Slack navigation
 
-Every reported diff item SHALL retain the original normalized Global HTTPS URL and Slack output SHALL link the item title to that original URL.
+Every reported item SHALL retain its normalized source HTTPS URL for source and Ignore evidence. Slack title links SHALL remain on `www.querypie.com`: owned content SHALL use its canonical Global detail URL, while News `outlink` records SHALL use `https://www.querypie.com/en/news` because no owned detail route exists.
 
-#### Scenario: Slack item links to original Global URL
+#### Scenario: Slack item stays on the Global site
 
 - **GIVEN** a diff item in the final report
 - **WHEN** Slack payloads are built
-- **THEN** the item title SHALL link to the original Global HTTPS URL
-- **AND** the report SHALL fail rather than emitting a non-HTTPS source URL
+- **THEN** the title link host SHALL be `www.querypie.com`
+- **AND** a News `outlink` title SHALL link to the Global News index
+- **AND** its external URL SHALL remain available only as internal source and Ignore evidence
 
 ### Requirement: Deterministic grouping and pagination
 

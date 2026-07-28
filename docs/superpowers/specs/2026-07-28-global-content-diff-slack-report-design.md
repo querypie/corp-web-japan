@@ -2,7 +2,7 @@
 
 ## Goal
 
-Add an independent, read-only GitHub Actions report that compares production-published Global content with content actually present in `corp-web-japan`, then sends every Global-only item to Slack with its original Global URL.
+Add an independent, read-only GitHub Actions report that compares production-published Global content with content actually present in `corp-web-japan`, then sends every Global-only item to Slack with navigation kept on `www.querypie.com`.
 
 The existing Global publication sync, translation, review, Draft PR, ignore, host timer, and Slack workflows remain behaviorally unchanged.
 
@@ -87,7 +87,7 @@ The first payload contains:
 
 Slack regrouping is status-first. `Untracked · N items` containers come first and default expanded; `Ignored · N items` containers come second and default collapsed. Within each status, items use deterministic target-family order, then newest-date-first order within each family, then composite identity. Container titles use text only. Each item shows:
 
-- linked title using the original Global URL;
+- linked title using the owned Global detail URL, or the Global News index for `outlink` records;
 - target family, composite identity, and publication date when available;
 - status, using only `Untracked` or `Ignored`.
 

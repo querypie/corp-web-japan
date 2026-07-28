@@ -36,7 +36,7 @@ function itemText(item) {
   const family = escapeMrkdwn(familyLabel(item.targetFamily));
   const date = escapeMrkdwn(item.dateIso);
   const identity = escapeMrkdwn(item.identity);
-  return `*<${item.sourceUrl}|${title}>*\n_${family} · ${date}_ · \`${identity}\``;
+  return `*<${item.globalUrl || item.sourceUrl}|${title}>*\n_${family} · ${date}_ · \`${identity}\``;
 }
 
 function statusContainer(status, allItems, items, part) {

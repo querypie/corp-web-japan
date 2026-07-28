@@ -58,7 +58,7 @@ Missing mapped MDX files remain internal `mappingDrift` evidence, not Japan-pres
 
 - Reads only the supported Global source families from `scripts/global-documentation-sync/source-family-map.mjs`.
 - Includes only production-published Global records proven by current production family-list evidence plus sitemap evidence when the family requires it.
-- Preserves outlink-family behavior while keeping the original Global HTTPS URL on every reported item.
+- Preserves the original outlink URL as internal source/Ignore evidence while keeping Slack navigation on `www.querypie.com`.
 
 ## Dry run
 
@@ -84,7 +84,7 @@ The dry-run JSON includes:
 
 - Header: `🌐 Global-only content report`.
 - First payload includes run counts and both repo SHAs.
-- Items link to the original Global URL.
+- Items link to `www.querypie.com`: canonical detail pages for owned content and `/en/news` for News outlinks.
 - Grouping is deterministic by status first: `Untracked` then `Ignored`.
 - Within each status, item order is deterministic by target family, newest date first, then composite identity.
 - Pagination is deterministic and numbered as `Part N of M`.
