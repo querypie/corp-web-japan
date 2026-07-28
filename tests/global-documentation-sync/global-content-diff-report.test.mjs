@@ -5,6 +5,7 @@ import path from "node:path";
 import test from "node:test";
 
 import { buildGlobalInventory, buildGlobalOnlyReport, buildJapanInventory } from "../../scripts/global-content-diff-report/report.mjs";
+import { buildSlackPayloads, sendSlackPayloads } from "../../scripts/global-content-diff-report/slack.mjs";
 import { SOURCE_FAMILIES } from "../../scripts/global-documentation-sync/source-family-map.mjs";
 
 async function withTempRepos(run) {
@@ -207,6 +208,76 @@ function canonicalUrl(category, slug) {
   return `https://www.querypie.com/en/${descriptor.canonicalSegment}/${slug}`;
 }
 
+function reportItem(index, overrides = {}) {
+  return {
+    identity: `news:cnt_${String(index).padStart(6, "0")}`,
+    sourceSection: "news",
+    sourceId: `cnt_${String(index).padStart(6, "0")}`,
+    sourceCategory: "news",
+    targetFamily: "news",
+    title: `QueryPie selected & <${index}>`,
+    dateIso: `2026-04-${String((index % 28) + 1).padStart(2, "0")}`,
+    sourceUrl: `https://finance.yahoo.com/story-${index}`,
+    status: "Untracked",
+    ...overrides,
+  };
+}
+
+function reportWithItems(count, options = {}) {
+  const items = Array.from({ length: count }, (_, index) => reportItem(index + 1));
+  const familyCounts = items.reduce((accumulator, item) => {
+    accumulator[item.targetFamily] = (accumulator[item.targetFamily] || 0) + 1;
+    return accumulator;
+  }, {});
+  return {
+    generatedAt: "2026-04-30T00:00:00.000Z",
+    counts: {
+      globalPublished: count,
+      japanPresent: 0,
+      globalOnly: count,
+    },
+    familyCounts,
+    items,
+    mappingDrift: [],
+    ...options,
+  };
+}
+
+function reportWithSevenItems() {
+  return {
+    ...reportWithItems(7),
+    familyCounts: { news: 3, blog: 2, whitepapers: 2 },
+    items: [
+      reportItem(1, { targetFamily: "news", dateIso: "2026-04-07" }),
+      reportItem(2, { targetFamily: "news", dateIso: "2026-04-06" }),
+      reportItem(3, { targetFamily: "news", dateIso: "2026-04-05" }),
+      reportItem(4, { targetFamily: "blog", identity: "documentation:cnt_000004", sourceSection: "documentation", sourceCategory: "blogs", targetFamily: "blog", dateIso: "2026-04-04" }),
+      reportItem(5, { targetFamily: "blog", identity: "documentation:cnt_000005", sourceSection: "documentation", sourceCategory: "blogs", targetFamily: "blog", dateIso: "2026-04-03" }),
+      reportItem(6, { targetFamily: "whitepapers", identity: "documentation:cnt_000006", sourceSection: "documentation", sourceCategory: "white-papers", targetFamily: "whitepapers", dateIso: "2026-04-02" }),
+      reportItem(7, { targetFamily: "whitepapers", identity: "documentation:cnt_000007", sourceSection: "documentation", sourceCategory: "white-papers", targetFamily: "whitepapers", dateIso: "2026-04-01", title: `A very long title ${"x".repeat(220)}` }),
+    ],
+  };
+}
+
+function emptyReport() {
+  return {
+    generatedAt: "2026-04-30T00:00:00.000Z",
+    counts: {
+      globalPublished: 0,
+      japanPresent: 0,
+      globalOnly: 0,
+    },
+    familyCounts: {},
+    items: [],
+    mappingDrift: [],
+  };
+}
+
+const slackMetadata = {
+  globalSha: "abc1234",
+  japanSha: "def5678",
+};
+
 test("reports all listed Global-only identities and preserves cross-section IDs", async () => {
   const report = await fixtureWith({
     global: [
@@ -351,4 +422,69 @@ test("sorts deterministically by date descending then identity and falls back ti
     "news:cnt_000603",
   ]);
   assert.deepEqual(report.items.map(({ title }) => title), ["ko only", "ja only", "cnt_000603"]);
+});
+
+test("renders text-only collapsible family containers and original links", () => {
+  const [payload] = buildSlackPayloads(reportWithSevenItems(), slackMetadata);
+
+  assert.equal(payload.blocks[0].text.text, "🌐 Global-only content report");
+  const container = payload.blocks.find((block) => block.type === "container");
+  assert.equal(container.title.text, "News · 3 items");
+  assert.equal(container.default_collapsed, true);
+  assert.match(container.child_blocks[0].text.text, /<https:\/\/finance\.yahoo\.com\/story-1\|QueryPie selected/);
+  assert.doesNotMatch(container.title.text, /:newspaper:|📰/);
+  assert.match(container.child_blocks[0].text.text, /&amp; &lt;1&gt;/);
+  assert.match(JSON.stringify(payload), /Part 1 of 1/);
+  assert.doesNotMatch(JSON.stringify(payload), /button|ignore_content|<@/i);
+
+  const longTitleBlock = payload.blocks
+    .filter((block) => block.type === "container")
+    .flatMap((block) => block.child_blocks)
+    .find((block) => block.text.text.includes("A very long title"));
+  const renderedTitle = longTitleBlock.text.text.split("|", 2)[1].split(">", 1)[0];
+  assert.equal(renderedTitle.length, 180);
+});
+
+test("paginates without dropping or duplicating identities", () => {
+  const report = reportWithItems(83);
+  const payloads = buildSlackPayloads(report, slackMetadata);
+  const rendered = JSON.stringify(payloads);
+
+  for (const item of report.items) {
+    assert.equal(rendered.split(item.identity).length - 1, 1);
+  }
+
+  assert.match(payloads[0].text, /Part 1 of/);
+  assert.equal(payloads.length, 2);
+});
+
+test("renders a compact zero-difference success", () => {
+  const [payload] = buildSlackPayloads(emptyReport(), slackMetadata);
+
+  assert.match(payload.text, /No Global-only content/);
+  assert.equal(payload.blocks.some(({ type }) => type === "container"), false);
+});
+
+test("preserves family grouping and item date order", () => {
+  const [payload] = buildSlackPayloads(reportWithSevenItems(), slackMetadata);
+  const containers = payload.blocks.filter((block) => block.type === "container");
+
+  assert.deepEqual(containers.map((block) => block.title.text), [
+    "News · 3 items",
+    "Blog · 2 items",
+    "Whitepapers · 2 items",
+  ]);
+  assert.match(containers[0].child_blocks[0].text.text, /news:cnt_000001 · 2026-04-07/);
+  assert.match(containers[0].child_blocks[2].text.text, /news:cnt_000003 · 2026-04-05/);
+});
+
+test("propagates webhook failures", async () => {
+  await assert.rejects(
+    () => sendSlackPayloads({
+      webhookUrl: "https://hooks.slack.com/services/T000/B000/XXXX",
+      payloads: [{ text: "fixture", blocks: [] }],
+      fetchImpl: async () => ({ ok: false, status: 500, text: async () => "nope" }),
+    }),
+    /Slack rejected Global content diff payload: HTTP 500/,
+  );
 });
