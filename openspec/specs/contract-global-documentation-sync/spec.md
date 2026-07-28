@@ -104,7 +104,7 @@ Pi writer and reviewer processes SHALL run fresh with `--no-tools`. Pi SHALL ret
 
 ### Requirement: News publication contract
 
-Synced News output SHALL remain one-way from Global to Japan. News publications SHALL NOT contain author frontmatter. News `resolvedSourceLabel` SHALL resolve deterministically to `公式発表` for `content` records and `メディア掲載` for `outlink` records, and generated News frontmatter `sourceLabel` SHALL equal that value exactly. News `resolvedRedirectUrl` SHALL equal the normalized external HTTPS URL for outlink records, and generated News frontmatter `redirectUrl` SHALL equal that value exactly for outlink records and SHALL be omitted for content records.
+Synced News output SHALL remain one-way from Global to Japan. News publications SHALL NOT contain author frontmatter. When `candidate.meta.dateIso` is present for News, generated News frontmatter `date` SHALL equal that value exactly as the Japan listing/publication metadata. Source or outlink body datelines SHALL remain independent reader-facing content evidence and SHALL NOT override the News frontmatter listing/publication date. News `resolvedSourceLabel` SHALL resolve deterministically to `公式発表` for `content` records and `メディア掲載` for `outlink` records, and generated News frontmatter `sourceLabel` SHALL equal that value exactly. News `resolvedRedirectUrl` SHALL equal the normalized external HTTPS URL for outlink records, and generated News frontmatter `redirectUrl` SHALL equal that value exactly for outlink records and SHALL be omitted for content records.
 
 #### Scenario: News content record is generated
 
@@ -121,6 +121,15 @@ Synced News output SHALL remain one-way from Global to Japan. News publications 
 - **THEN** the output SHALL omit `author`
 - **AND** SHALL set `sourceLabel` to `メディア掲載`
 - **AND** SHALL set `redirectUrl` exactly to the normalized external HTTPS URL
+
+#### Scenario: News outlink dateline differs from listing date
+
+- **GIVEN** a News source record with `candidate.meta.dateIso = 2024-08-13`
+- **AND** the source or outlink body includes a dateline for `2024-08-12`
+- **WHEN** the writer and reviewers evaluate the Japan MDX
+- **THEN** the News frontmatter `date` SHALL remain `2024-08-13`
+- **AND** any required preservation of the `2024-08-12` dateline SHALL be reviewed only in the reader-facing body copy
+- **AND** a mismatched News frontmatter `date` SHALL fail the contract validation gate
 
 ### Requirement: Publication validation gate
 
