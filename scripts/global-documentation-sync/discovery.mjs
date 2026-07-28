@@ -1,7 +1,7 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 
-import { chooseLocale, normalizeUrl } from "./lib.mjs";
+import { chooseLocale, normalizeUrl, normalizeUrlPreservingQuery } from "./lib.mjs";
 import {
   branchFor,
   parseSyncBranch,
@@ -24,7 +24,7 @@ export function canonicalSourceUrl(category, meta) {
       throw new Error(`${meta.storageId}: invalid external URL`);
     }
     if (url.protocol !== "https:") throw new Error(`${meta.storageId}: outlink must use HTTPS`);
-    return normalizeUrl(url.href);
+    return normalizeUrlPreservingQuery(url.href);
   }
   return normalizeUrl(canonicalContentUrl(category, meta.id));
 }
@@ -56,7 +56,7 @@ export function validateDecisionManifest(records, name) {
       for (const key of ["sourceId", "sourceCanonicalUrl", "reasonCode", "reason", "addedBy", "addedAt"]) if (!record[key]) throw new Error(`ignore record missing ${key}`);
       if (!/^cnt_\d+$/.test(record.sourceId) || Number.isNaN(Date.parse(record.addedAt)) || (record.expiresAt && Number.isNaN(Date.parse(record.expiresAt)))) throw new Error("ignore record has invalid identity or date");
       if (!reasonCodes.has(record.reasonCode)) throw new Error(`ignore record has invalid reasonCode: ${record.reasonCode}`);
-      if (normalizeUrl(record.sourceCanonicalUrl) !== record.sourceCanonicalUrl || !record.sourceCanonicalUrl.startsWith("https://")) throw new Error("ignore record sourceCanonicalUrl must be normalized HTTPS");
+      if (normalizeUrlPreservingQuery(record.sourceCanonicalUrl) !== record.sourceCanonicalUrl || !record.sourceCanonicalUrl.startsWith("https://")) throw new Error("ignore record sourceCanonicalUrl must be normalized HTTPS");
       if (record.sourceSection) identities.push(`${record.sourceSection}:${record.sourceId}`);
     }
     if (new Set(identities).size !== identities.length) throw new Error(`${name} manifest has duplicate source identity`);
@@ -129,7 +129,7 @@ export function productionSets(sitemapXml, productionListHtmlByUrl = {}) {
   for (const [listUrl, html] of Object.entries(productionListHtmlByUrl)) {
     listByUrl.set(
       normalizeUrl(listUrl),
-      new Set([...String(html || "").matchAll(/href=["']([^"']+)["']/g)].map((match) => normalizeUrl(new URL(match[1], "https://www.querypie.com").href))),
+      new Set([...String(html || "").matchAll(/href=["']([^"']+)["']/g)].map((match) => normalizeUrlPreservingQuery(new URL(match[1].replaceAll("&amp;", "&"), "https://www.querypie.com").href))),
     );
   }
   return { sitemap, listByUrl };

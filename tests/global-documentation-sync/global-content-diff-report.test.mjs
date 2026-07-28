@@ -401,7 +401,7 @@ test("includes listed outlinks without sitemap detail evidence", async () => {
   const report = await fixtureWith({
     global: [publishedNews("cnt_000301", "external-story", {
       contentType: "outlink",
-      externalUrl: "https://example.com/story",
+      externalUrl: "https://example.com/article.html?no=169&lang=en",
       title: { ja: "外部記事" },
       summary: { ja: "要約" },
     })],
@@ -410,7 +410,7 @@ test("includes listed outlinks without sitemap detail evidence", async () => {
 
   assert.equal(report.counts.globalPublished, 1);
   assert.equal(report.items[0].identity, "news:cnt_000301");
-  assert.equal(report.items[0].sourceUrl, "https://example.com/story");
+  assert.equal(report.items[0].sourceUrl, "https://example.com/article.html?no=169&lang=en");
 });
 
 test("excludes unlisted and unsitemapped stale sources from Global inventory", async () => {

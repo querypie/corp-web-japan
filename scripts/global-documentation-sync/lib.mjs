@@ -17,13 +17,21 @@ export function chooseLocale({ jaHtml, enHtml }) {
   throw new Error("missing Japanese and English locale body");
 }
 
-export function normalizeUrl(value) {
-  const url = new URL(value);
-  url.search = "";
+function normalizeParsedUrl(url) {
   url.hash = "";
   url.hostname = url.hostname.toLowerCase();
   url.pathname = url.pathname.replace(/\/+$/, "") || "/";
   return url.toString().replace(/\/$/, url.pathname === "/" ? "/" : "");
+}
+
+export function normalizeUrl(value) {
+  const url = new URL(value);
+  url.search = "";
+  return normalizeParsedUrl(url);
+}
+
+export function normalizeUrlPreservingQuery(value) {
+  return normalizeParsedUrl(new URL(value));
 }
 
 export function hasExactProductionEvidence({ sitemapXml, productionListHtml, expectedUrl }) {
