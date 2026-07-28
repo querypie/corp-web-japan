@@ -646,8 +646,12 @@ test("renders status-first collapsible containers and original links", () => {
   assert.doesNotMatch(containers[0].child_blocks[0].text.text, /Untracked/);
   assert.doesNotMatch(containers[0].title.text, /:newspaper:|📰/);
   assert.match(containers[0].child_blocks[0].text.text, /&amp; &lt;4&gt;/);
-  assert.match(JSON.stringify(payload), /Part 1 of 1/);
-  assert.match(JSON.stringify(payload.blocks.slice(0, 3)), /2026-04-30T00:00:00\.000Z/);
+  const contextText = payload.blocks.find((block) => block.type === "context").elements[0].text;
+  assert.equal(
+    contextText,
+    "Run · 2026-04-30 09:00 KST\nGlobal · <https://github.com/querypie/corp-web-v2/commit/abc1234|abc1234>\nJapan · <https://github.com/querypie/corp-web-japan/commit/def5678|def5678>",
+  );
+  assert.doesNotMatch(JSON.stringify(payload), /Part 1 of 1|2026-04-30T00:00:00\.000Z/);
   assert.doesNotMatch(JSON.stringify(payload), /button|ignore_content|<@|Draft open|Draft closed|Mapping drift/i);
   assert.match(JSON.stringify(payload), /\*Ignore an item\*\\n/);
   assert.match(JSON.stringify(payload), /Copy an identity above/);
@@ -697,7 +701,8 @@ test("renders a compact zero-difference success without ignore instructions", ()
   const rendered = JSON.stringify(payload);
 
   assert.match(payload.text, /No Global-only content/);
-  assert.match(rendered, /2026-04-30T00:00:00\.000Z/);
+  assert.match(rendered, /Run · 2026-04-30 09:00 KST\\nGlobal ·/);
+  assert.doesNotMatch(rendered, /Part 1 of 1|2026-04-30T00:00:00\.000Z/);
   assert.equal(payload.blocks.some(({ type }) => type === "container"), false);
   assert.doesNotMatch(rendered, /Copy the displayed composite identity|Ignore Global-only content|Open Actions workflow/);
 });

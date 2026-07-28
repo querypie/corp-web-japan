@@ -82,6 +82,33 @@ function ignoreInstructionsBlock() {
   };
 }
 
+function formatKstTimestamp(timestamp) {
+  const parts = Object.fromEntries(new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date(timestamp)).map(({ type, value }) => [type, value]));
+  return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute} KST`;
+}
+
+function commitLine(label, repository, sha) {
+  const escapedSha = escapeMrkdwn(sha);
+  return `${label} · <https://github.com/${repository}/commit/${escapedSha}|${escapedSha.slice(0, 7)}>`;
+}
+
+function runContext(report, metadata, partNumber = 1, totalParts = 1) {
+  return [
+    totalParts > 1 ? `Part ${partNumber} of ${totalParts}` : null,
+    `Run · ${formatKstTimestamp(report.generatedAt)}`,
+    commitLine("Global", "querypie/corp-web-v2", metadata.globalSha),
+    commitLine("Japan", "querypie/corp-web-japan", metadata.japanSha),
+  ].filter(Boolean).join("\n");
+}
+
 function summarizeCounts(report) {
   const families = FAMILY_ORDER
     .map((family) => [family, report.familyCounts?.[family] || 0])
@@ -111,7 +138,7 @@ function renderPayload({ report, metadata, partNumber, totalParts, containers, i
     type: "context",
     elements: [{
       type: "mrkdwn",
-      text: `${partLabel}${isFirst ? ` · Run ${report.generatedAt}` : ""} · Global ${metadata.globalSha} · Japan ${metadata.japanSha}`,
+      text: runContext(report, metadata, partNumber, totalParts),
     }],
   });
 
@@ -120,7 +147,7 @@ function renderPayload({ report, metadata, partNumber, totalParts, containers, i
   if (isFirst) blocks.push(ignoreInstructionsBlock());
 
   return {
-    text: `Global-only content report — ${partLabel}${isFirst ? ` — ${summarizeCounts(report)}` : ""}`,
+    text: `Global-only content report${totalParts > 1 ? ` — ${partLabel}` : ""}${isFirst ? ` — ${summarizeCounts(report)}` : ""}`,
     blocks,
   };
 }
@@ -128,7 +155,7 @@ function renderPayload({ report, metadata, partNumber, totalParts, containers, i
 export function buildSlackPayloads(report, metadata) {
   if (!report?.items?.length) {
     return [{
-      text: `No Global-only content — Part 1 of 1`,
+      text: "No Global-only content",
       blocks: [
         {
           type: "header",
@@ -142,7 +169,7 @@ export function buildSlackPayloads(report, metadata) {
           type: "context",
           elements: [{
             type: "mrkdwn",
-            text: `Part 1 of 1 · Run ${report.generatedAt} · Global ${metadata.globalSha} · Japan ${metadata.japanSha}`,
+            text: runContext(report, metadata),
           }],
         },
       ],
