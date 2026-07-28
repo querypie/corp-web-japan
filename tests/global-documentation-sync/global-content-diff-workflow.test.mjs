@@ -112,7 +112,7 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /Ignored by owner from Global-only content report\./);
   assert.match(source, /addedBy: process\.env\.GITHUB_ACTOR/);
   assert.match(source, /new Date\(\)\.toISOString\(\)/);
-  assert.match(source, /values\.sort/);
+  assert.match(source, /values\.sort\(\(left, right\) => String\(left\?\.sourceId \|\| ""\)\.localeCompare\(String\(right\?\.sourceId \|\| ""\)\) \|\| String\(left\?\.sourceSection \|\| ""\)\.localeCompare\(String\(right\?\.sourceSection \|\| ""\)\)\);/);
   assert.match(source, /gh pr create/);
   assert.match(source, /global-documentation-sync-ignore:v1/);
   assert.doesNotMatch(source, /gh pr merge|--auto|auto-merge|pull_request_target|n8n/);

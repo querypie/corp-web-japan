@@ -89,7 +89,7 @@ jobs:
             addedBy: process.env.GITHUB_ACTOR,
             addedAt: new Date().toISOString(),
           });
-          values.sort((left, right) => String(left?.sourceSection || "").localeCompare(String(right?.sourceSection || "")) || String(left?.sourceId || "").localeCompare(String(right?.sourceId || "")));
+          values.sort((left, right) => String(left?.sourceId || "").localeCompare(String(right?.sourceId || "")) || String(left?.sourceSection || "").localeCompare(String(right?.sourceSection || "")));
           writeFileSync(file, `${JSON.stringify(values, null, 2)}\n`);
           writeFileSync(process.env.RUNNER_TEMP ? `${process.env.RUNNER_TEMP}/ignore-item.json` : "/tmp/ignore-item.json", `${JSON.stringify({ sourceIdentity, sourceSection, sourceId, sourceCanonicalUrl })}\n`);
           NODE

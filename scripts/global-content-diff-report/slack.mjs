@@ -32,9 +32,6 @@ function familyLabel(family) {
 
 function itemText(item) {
   const title = escapeMrkdwn(truncate(item.title, MAX_TITLE_LENGTH));
-  const details = [familyLabel(item.targetFamily), item.identity, item.dateIso, item.status]
-    .filter(Boolean)
-    .join(" · ");
   return `*${escapeMrkdwn(familyLabel(item.targetFamily))}* · \`${escapeMrkdwn(item.identity)}\` · ${escapeMrkdwn(item.dateIso)} · ${escapeMrkdwn(item.status)}\n*<${item.sourceUrl}|${title}>*`;
 }
 
