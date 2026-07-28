@@ -135,7 +135,7 @@ The report workflow SHALL run on weekdays at 10:00 KST and SHALL also support ma
 
 ### Requirement: Zero state and fail-closed behavior
 
-A zero-difference run SHALL send a compact success payload. The report SHALL fail closed when required checkouts, production evidence, mapping resolution, payload generation, or Slack delivery cannot be completed safely, and it SHALL send a compact failure notification instead of presenting a partial report as complete.
+A zero-difference run SHALL send a compact success payload. The report SHALL fail closed when required checkouts, production evidence, mapping resolution, payload generation, or Slack delivery cannot be completed safely. When multipart delivery fails, already delivered parts remain visible and explicitly incomplete through their `Part N of M` labels; the workflow SHALL attempt a compact failure notification and SHALL NOT represent those parts as a complete report. Slack does not provide rollback of previously delivered webhook payloads.
 
 #### Scenario: No differences remain
 
@@ -148,7 +148,8 @@ A zero-difference run SHALL send a compact success payload. The report SHALL fai
 - **GIVEN** the report cannot safely complete payload generation or Slack delivery
 - **WHEN** the workflow handles the failure
 - **THEN** it SHALL fail closed
-- **AND** it SHALL send only a compact failure notification
+- **AND** already delivered parts SHALL remain visibly incomplete through `Part N of M`
+- **AND** it SHALL attempt a compact failure notification
 - **AND** it SHALL NOT present a partial diff as complete output
 
 ### Requirement: No interactive Ignore actions
