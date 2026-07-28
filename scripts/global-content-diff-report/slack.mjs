@@ -91,7 +91,7 @@ function renderPayload({ report, metadata, partNumber, totalParts, containers, i
     type: "context",
     elements: [{
       type: "mrkdwn",
-      text: `${partLabel} · Global ${metadata.globalSha} · Japan ${metadata.japanSha}`,
+      text: `${partLabel}${isFirst ? ` · Run ${report.generatedAt}` : ""} · Global ${metadata.globalSha} · Japan ${metadata.japanSha}`,
     }],
   });
 
@@ -120,7 +120,7 @@ export function buildSlackPayloads(report, metadata) {
           type: "context",
           elements: [{
             type: "mrkdwn",
-            text: `Part 1 of 1 · Global ${metadata.globalSha} · Japan ${metadata.japanSha}`,
+            text: `Part 1 of 1 · Run ${report.generatedAt} · Global ${metadata.globalSha} · Japan ${metadata.japanSha}`,
           }],
         },
       ],

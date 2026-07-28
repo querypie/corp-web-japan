@@ -11,8 +11,8 @@ import {
   validateDecisionManifest,
 } from "../global-documentation-sync/discovery.mjs";
 import { normalizeUrl } from "../global-documentation-sync/lib.mjs";
-import { sourceFamily, targetFamily } from "../global-documentation-sync/source-family-map.mjs";
-import { resolveLegacySourceSection, sourceIdentityKey } from "../global-documentation-sync/sync-identity.mjs";
+import { sourceFamily, targetFamily, targetFamilyDescriptor } from "../global-documentation-sync/source-family-map.mjs";
+import { parseSyncBranch, resolveLegacySourceSection, sourceIdentityKey } from "../global-documentation-sync/sync-identity.mjs";
 
 const DRAFT_STATUS = new Map([
   ["OPEN", "Draft open"],
@@ -22,15 +22,19 @@ const DRAFT_STATUS = new Map([
 const baselinePath = ({ targetFamily, targetId, targetSlug }) =>
   path.join("src/content", targetFamily, `${targetId}-${targetSlug}.mdx`);
 
-const mergedMarkerPath = async (targetRepo, marker) => {
+const mergedMarkerPath = async (targetRepo, marker, statFile) => {
   const directory = path.join(targetRepo, "src/content", marker.targetFamily);
-  let matches;
+  let candidates;
   try {
-    matches = (await readdir(directory)).filter((name) =>
+    candidates = (await readdir(directory)).filter((name) =>
       name.startsWith(`${marker.targetId}-`) && name.endsWith(".mdx"));
   } catch (error) {
     if (error.code === "ENOENT") return null;
     throw error;
+  }
+  const matches = [];
+  for (const name of candidates) {
+    if (await fileExists(path.join(directory, name), statFile)) matches.push(name);
   }
   if (matches.length > 1) throw new Error(`ambiguous target mapping: ${marker.identity}`);
   return matches[0] ? path.join("src/content", marker.targetFamily, matches[0]) : null;
@@ -50,12 +54,12 @@ function compareGlobalItems(left, right) {
     || String(left.sourceUrl).localeCompare(String(right.sourceUrl));
 }
 
-async function fileExists(file) {
+async function fileExists(file, statFile = stat) {
   try {
-    await stat(file);
-    return true;
-  } catch {
-    return false;
+    return (await statFile(file)).isFile();
+  } catch (error) {
+    if (error.code === "ENOENT") return false;
+    throw error;
   }
 }
 
@@ -63,23 +67,46 @@ function mergedPullRequest(record) {
   return record?.merged === true || record?.state === "MERGED" || Boolean(record?.mergedAt);
 }
 
-function registerMapping({ present, mappingDrift, identity, mapping, expectedPath }) {
-  const existingPresent = present.get(identity);
-  const existingDrift = mappingDrift.get(identity);
-  if (existingPresent) {
-    if (existingPresent.targetFamily !== mapping.targetFamily || existingPresent.targetId !== mapping.targetId) {
-      throw new Error(`duplicate merged mapping: ${identity}`);
-    }
+function registerMapping({ present, mappingDrift, targetOwners, identity, mapping, expectedPath }) {
+  const targetIdentity = `${mapping.targetFamily}:${mapping.targetId}`;
+  const owner = targetOwners.get(targetIdentity);
+  if (owner && owner !== identity) {
+    throw new Error(`target mapping conflict: ${targetIdentity} is claimed by ${owner} and ${identity}`);
+  }
+  targetOwners.set(targetIdentity, identity);
+
+  const existing = present.get(identity) || mappingDrift.get(identity);
+  if (existing && (existing.targetFamily !== mapping.targetFamily || existing.targetId !== mapping.targetId)) {
+    throw new Error(`duplicate merged mapping: ${identity}`);
+  }
+  if (present.has(identity)) return;
+  if (expectedPath) {
+    if (!mappingDrift.has(identity)) mappingDrift.set(identity, { ...mapping, expectedPath });
     return;
   }
-  if (existingDrift) {
-    if (existingDrift.targetFamily !== mapping.targetFamily || existingDrift.targetId !== mapping.targetId) {
-      throw new Error(`duplicate merged mapping: ${identity}`);
+  mappingDrift.delete(identity);
+  present.set(identity, mapping);
+}
+
+function trustedMergedMarker(pull) {
+  let marker;
+  try {
+    marker = parseSyncMarker(pull.body);
+    if (!marker || pull.headRefName !== marker.branch) throw new Error("branch mismatch");
+    const parsedBranch = parseSyncBranch(marker.branch);
+    if (!parsedBranch) throw new Error("unsafe branch");
+    if (parsedBranch.legacy) {
+      if (pull.number !== 687 || parsedBranch.sourceId !== marker.sourceId) throw new Error("unsupported legacy branch");
+    } else if (parsedBranch.sourceSection !== marker.sourceSection || parsedBranch.sourceId !== marker.sourceId) {
+      throw new Error("branch identity mismatch");
     }
-    return;
+    const descriptor = targetFamilyDescriptor(marker.targetFamily);
+    if (descriptor.sourceSection !== marker.sourceSection) throw new Error("target family identity mismatch");
+    if (!Number.isInteger(marker.targetId) || marker.targetId <= 0) throw new Error("invalid target ID");
+  } catch (error) {
+    throw new Error(`invalid merged mapping PR #${pull.number}: ${error.message}`);
   }
-  if (expectedPath) mappingDrift.set(identity, { ...mapping, expectedPath });
-  else present.set(identity, mapping);
+  return marker;
 }
 
 function globalSourceViews(globalItems) {
@@ -98,7 +125,7 @@ function draftStatusFor(records) {
 
 export async function buildGlobalInventory({ globalRepo, sitemapXml, productionListHtmlByUrl }) {
   const production = productionSets(sitemapXml, productionListHtmlByUrl);
-  const items = [];
+  const itemsByIdentity = new Map();
 
   for (const source of await enumerateSources(globalRepo)) {
     if (shouldSkipDiscoveryContractFailure(source) || !source.sourceCanonicalUrl) continue;
@@ -111,8 +138,10 @@ export async function buildGlobalInventory({ globalRepo, sitemapXml, productionL
     const failure = sourceContractFailure(source);
     if (failure) throw new Error(`${source.sourceSection}:${source.sourceId}: ${failure}`);
 
-    items.push({
-      identity: sourceIdentityKey(source),
+    const identity = sourceIdentityKey(source);
+    if (itemsByIdentity.has(identity)) throw new Error(`duplicate Global identity: ${identity}`);
+    itemsByIdentity.set(identity, {
+      identity,
       sourceSection: source.sourceSection,
       sourceId: source.sourceId,
       sourceCategory: source.category,
@@ -123,13 +152,14 @@ export async function buildGlobalInventory({ globalRepo, sitemapXml, productionL
     });
   }
 
-  return items.sort(compareGlobalItems);
+  return [...itemsByIdentity.values()].sort(compareGlobalItems);
 }
 
-export async function buildJapanInventory({ targetRepo, prRecords }) {
+export async function buildJapanInventory({ targetRepo, prRecords, statFile = stat }) {
   const baseline = await readManifest(targetRepo, "baseline");
   const present = new Map();
   const mappingDrift = new Map();
+  const targetOwners = new Map();
 
   for (const record of baseline) {
     const identity = sourceIdentityKey({ sourceSection: record.sourceSection, sourceId: record.sourceId });
@@ -137,6 +167,7 @@ export async function buildJapanInventory({ targetRepo, prRecords }) {
     registerMapping({
       present,
       mappingDrift,
+      targetOwners,
       identity,
       mapping: {
         identity,
@@ -146,18 +177,19 @@ export async function buildJapanInventory({ targetRepo, prRecords }) {
         targetId: record.targetId,
         targetPath: expectedPath,
       },
-      expectedPath: await fileExists(path.join(targetRepo, expectedPath)) ? null : expectedPath,
+      expectedPath: await fileExists(path.join(targetRepo, expectedPath), statFile) ? null : expectedPath,
     });
   }
 
   for (const pull of prRecords.filter(mergedPullRequest)) {
-    if (!pull.headRefName?.startsWith("content-sync/")) continue;
-    const marker = parseSyncMarker(pull.body);
-    if (!marker) continue;
-    const resolvedPath = await mergedMarkerPath(targetRepo, marker);
+    const hasMarker = String(pull.body || "").includes("global-documentation-sync:v1");
+    if (!pull.headRefName?.startsWith("content-sync/") && !hasMarker) continue;
+    const marker = trustedMergedMarker(pull);
+    const resolvedPath = await mergedMarkerPath(targetRepo, marker, statFile);
     registerMapping({
       present,
       mappingDrift,
+      targetOwners,
       identity: marker.identity,
       mapping: {
         identity: marker.identity,

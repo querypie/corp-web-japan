@@ -113,7 +113,7 @@ function mergedMarker(sourceSection, sourceId, targetFamily, targetId) {
 
 function legacyMergedMarker(sourceId, targetFamily, targetId) {
   return {
-    number: targetId,
+    number: 687,
     state: "MERGED",
     merged: true,
     headRefName: `content-sync/${sourceId}`,
@@ -326,6 +326,30 @@ test("reports missing mapped targets as mapping drift instead of Japan-present",
   assert.deepEqual(report.mappingDrift, [{ identity: "documentation:cnt_000010", expectedPath: "src/content/blog/10-missing-target.mdx" }]);
 });
 
+test("rejects duplicate Global composite identities across documentation categories", async () => {
+  await withTempRepos(async ({ globalRepo }) => {
+    await writeGlobalSource(globalRepo, publishedBlog("cnt_000499", "duplicate-blog"));
+    await writeGlobalSource(globalRepo, publishedDocumentation("cnt_000499", "duplicate-manual"));
+
+    await assert.rejects(
+      () => buildGlobalInventory({
+        globalRepo,
+        sitemapXml: [
+          "https://www.querypie.com/en/blog/duplicate-blog",
+          "https://www.querypie.com/en/manual/duplicate-manual",
+        ].map((url) => `<loc>${url}</loc>`).join(""),
+        productionListHtmlByUrl: {
+          "https://www.querypie.com/en/documentation": [
+            '<a href="/en/blog/duplicate-blog">blog</a>',
+            '<a href="/en/manual/duplicate-manual">manual</a>',
+          ].join(""),
+        },
+      }),
+      /duplicate Global identity: documentation:cnt_000499/,
+    );
+  });
+});
+
 test("throws for listed invalid sources that are not skippable", async () => {
   await withTempRepos(async ({ globalRepo }) => {
     await writeGlobalSource(globalRepo, {
@@ -379,6 +403,19 @@ test("excludes stale sources from Global inventory", async () => {
   assert.equal(report.items.length, 0);
 });
 
+test("promotes stale baseline drift when a merged marker confirms the same existing allocation", async () => {
+  const report = await fixtureWith({
+    global: [publishedNews("cnt_000400", "repaired-target")],
+    japan: [baselineMapping("news", "cnt_000400", "news", "news", 40, "stale-slug")],
+    mergedPulls: [mergedMarker("news", "cnt_000400", "news", 40)],
+    targetFiles: ["src/content/news/40-repaired-target.mdx"],
+  });
+
+  assert.equal(report.counts.japanPresent, 1);
+  assert.equal(report.items.length, 0);
+  assert.deepEqual(report.mappingDrift, []);
+});
+
 test("rejects duplicate merged mappings when target allocation differs", async () => {
   await withTempRepos(async ({ targetRepo }) => {
     await writeManifest(targetRepo, "baseline", []);
@@ -393,6 +430,89 @@ test("rejects duplicate merged mappings when target allocation differs", async (
       }),
       /duplicate merged mapping: news:cnt_000401/,
     );
+  });
+});
+
+test("rejects target ownership conflicts across trusted mappings", async () => {
+  await withTempRepos(async ({ targetRepo }) => {
+    await writeManifest(targetRepo, "baseline", [
+      baselineMapping("news", "cnt_000410", "news", "news", 41, "first"),
+    ]);
+    await writeTargetFile(targetRepo, "src/content/news/41-first.mdx");
+
+    await assert.rejects(
+      () => buildJapanInventory({
+        targetRepo,
+        prRecords: [mergedMarker("news", "cnt_000411", "news", 41)],
+      }),
+      /target mapping conflict: news:41 is claimed by news:cnt_000410 and news:cnt_000411/,
+    );
+  });
+
+  await withTempRepos(async ({ targetRepo }) => {
+    await writeManifest(targetRepo, "baseline", [
+      baselineMapping("news", "cnt_000412", "news", "news", 42, "first"),
+      baselineMapping("news", "cnt_000413", "news", "news", 42, "second"),
+    ]);
+    await assert.rejects(
+      () => buildJapanInventory({ targetRepo, prRecords: [] }),
+      /duplicate target identity|target mapping conflict/,
+    );
+  });
+});
+
+test("propagates non-ENOENT target stat failures and requires a regular file", async () => {
+  await withTempRepos(async ({ targetRepo }) => {
+    await writeManifest(targetRepo, "baseline", [
+      baselineMapping("news", "cnt_000420", "news", "news", 42, "target"),
+    ]);
+    const denied = Object.assign(new Error("denied"), { code: "EACCES" });
+    await assert.rejects(
+      () => buildJapanInventory({ targetRepo, prRecords: [], statFile: async () => { throw denied; } }),
+      /denied/,
+    );
+  });
+
+  await withTempRepos(async ({ targetRepo }) => {
+    await writeManifest(targetRepo, "baseline", [
+      baselineMapping("news", "cnt_000421", "news", "news", 43, "directory"),
+    ]);
+    await mkdir(path.join(targetRepo, "src/content/news/43-directory.mdx"), { recursive: true });
+    const inventory = await buildJapanInventory({ targetRepo, prRecords: [] });
+    assert.equal(inventory.present.size, 0);
+    assert.equal(inventory.mappingDrift.has("news:cnt_000421"), true);
+  });
+});
+
+test("rejects untrusted merged marker branch and target shapes", async () => {
+  const invalidPulls = [
+    { ...mergedMarker("news", "cnt_000430", "news", 43), headRefName: "content-sync/news-cnt_999999" },
+    { ...mergedMarker("news", "cnt_000431", "news", 44), body: markerBody({ sourceSection: "news", sourceId: "cnt_000431", targetFamily: "unsupported", targetId: 44, branch: branchName("news", "cnt_000431") }) },
+    { ...mergedMarker("news", "cnt_000432", "news", 45), body: markerBody({ sourceSection: "news", sourceId: "cnt_000432", targetFamily: "news", targetId: 0, branch: branchName("news", "cnt_000432") }) },
+    { ...mergedMarker("news", "cnt_000433", "news", 46), body: markerBody({ sourceSection: "news", sourceId: "cnt_000433", targetFamily: "news", targetId: 46, branch: branchName("documentation", "cnt_000433") }), headRefName: branchName("documentation", "cnt_000433") },
+    { ...legacyMergedMarker("cnt_000434", "news", 47), number: 688 },
+  ];
+
+  for (const pull of invalidPulls) {
+    await withTempRepos(async ({ targetRepo }) => {
+      await writeManifest(targetRepo, "baseline", []);
+      await assert.rejects(
+        () => buildJapanInventory({ targetRepo, prRecords: [pull] }),
+        /invalid merged mapping PR/,
+      );
+    });
+  }
+});
+
+test("retains documented legacy merged marker #687", async () => {
+  await withTempRepos(async ({ targetRepo }) => {
+    await writeManifest(targetRepo, "baseline", []);
+    await writeTargetFile(targetRepo, "src/content/news/19-legacy.mdx");
+    const inventory = await buildJapanInventory({
+      targetRepo,
+      prRecords: [{ ...legacyMergedMarker("cnt_000212", "news", 19), number: 687 }],
+    });
+    assert.equal(inventory.present.has("news:cnt_000212"), true);
   });
 });
 
@@ -439,6 +559,7 @@ test("renders text-only collapsible family containers and original links", () =>
   assert.doesNotMatch(container.title.text, /:newspaper:|📰/);
   assert.match(container.child_blocks[0].text.text, /&amp; &lt;1&gt;/);
   assert.match(JSON.stringify(payload), /Part 1 of 1/);
+  assert.match(JSON.stringify(payload.blocks.slice(0, 3)), /2026-04-30T00:00:00\.000Z/);
   assert.doesNotMatch(JSON.stringify(payload), /button|ignore_content|<@/i);
 
   const longTitleBlock = payload.blocks
@@ -466,6 +587,7 @@ test("renders a compact zero-difference success", () => {
   const [payload] = buildSlackPayloads(emptyReport(), slackMetadata);
 
   assert.match(payload.text, /No Global-only content/);
+  assert.match(JSON.stringify(payload), /2026-04-30T00:00:00\.000Z/);
   assert.equal(payload.blocks.some(({ type }) => type === "container"), false);
 });
 

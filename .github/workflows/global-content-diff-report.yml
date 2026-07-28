@@ -21,12 +21,14 @@ jobs:
       - name: Checkout Japan repository
         uses: actions/checkout@v4
         with:
+          ref: main
           path: japan
 
       - name: Checkout Global repository
         uses: actions/checkout@v4
         with:
           repository: querypie/corp-web-v2
+          ref: main
           path: global
 
       - name: Build and send Global-only report

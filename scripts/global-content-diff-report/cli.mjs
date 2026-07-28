@@ -5,6 +5,8 @@ import { buildGlobalOnlyReport } from "./report.mjs";
 import { buildSlackPayloads, sendSlackPayloads } from "./slack.mjs";
 import { fetchTextWithRetry } from "../global-documentation-sync/fetch-retry.mjs";
 import { loadAllPullRequests } from "../global-documentation-sync/github-state.mjs";
+import { enumerateSources, productionSets } from "../global-documentation-sync/discovery.mjs";
+import { normalizeUrl } from "../global-documentation-sync/lib.mjs";
 import { SOURCE_FAMILIES } from "../global-documentation-sync/source-family-map.mjs";
 
 function usage() {
@@ -63,6 +65,31 @@ async function loadProductionInputs(fetchText) {
   };
 }
 
+async function validateProductionInputs(globalRepo, { sitemapXml, productionListHtmlByUrl }) {
+  const sources = await enumerateSources(globalRepo);
+  const recognizedUrls = new Set(sources.map(({ sourceCanonicalUrl }) => sourceCanonicalUrl).filter(Boolean));
+  const recognizedByListUrl = new Map();
+  for (const source of sources) {
+    if (!source.sourceCanonicalUrl) continue;
+    const listUrl = normalizeUrl(source.descriptor.productionListUrl);
+    const urls = recognizedByListUrl.get(listUrl) || new Set();
+    urls.add(source.sourceCanonicalUrl);
+    recognizedByListUrl.set(listUrl, urls);
+  }
+  const production = productionSets(sitemapXml, productionListHtmlByUrl);
+  const intersects = (urls, recognized) => [...urls].some((url) => recognized.has(url));
+
+  if (!intersects(production.sitemap, recognizedUrls)) {
+    throw new Error("production sitemap evidence does not contain a recognized Global source URL");
+  }
+  const listUrls = [...new Set(SOURCE_FAMILIES.map(({ productionListUrl }) => normalizeUrl(productionListUrl)))];
+  for (const listUrl of listUrls) {
+    if (!intersects(production.listByUrl.get(listUrl) || new Set(), recognizedByListUrl.get(listUrl) || new Set())) {
+      throw new Error(`production list evidence does not contain a recognized Global source URL: ${listUrl}`);
+    }
+  }
+}
+
 export async function runCli(argv = process.argv.slice(2), {
   fetchText = fetchTextWithRetry,
   loadPullRequests = loadAllPullRequests,
@@ -75,6 +102,7 @@ export async function runCli(argv = process.argv.slice(2), {
 } = {}) {
   const options = parseArgs(argv);
   const { sitemapXml, productionListHtmlByUrl } = await loadProductionInputs(fetchText);
+  await validateProductionInputs(options.globalRepo, { sitemapXml, productionListHtmlByUrl });
   const prRecords = await loadPullRequests({ githubRepo, cwd: options.targetRepo, execute });
   const metadata = {
     globalSha: gitHeadSha(options.globalRepo, execute),
