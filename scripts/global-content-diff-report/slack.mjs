@@ -1,3 +1,5 @@
+import { SOURCE_FAMILIES } from "../global-documentation-sync/source-family-map.mjs";
+
 const ITEMS_PER_CONTAINER = 10;
 const CONTAINERS_PER_PAYLOAD = 8;
 const MAX_TITLE_LENGTH = 180;
@@ -58,12 +60,15 @@ function chunk(list, size) {
   return chunks;
 }
 
+const FAMILY_ORDER = Object.freeze(SOURCE_FAMILIES.map(({ targetFamily }) => targetFamily));
+
 function summarizeCounts(report) {
-  const families = Object.entries(report.familyCounts || {})
+  const families = FAMILY_ORDER
+    .map((family) => [family, report.familyCounts?.[family] || 0])
     .filter(([, count]) => count > 0)
     .map(([family, count]) => `${familyLabel(family)} ${count}`)
     .join(" · ");
-  return `${report.counts.globalOnly} Global-only item${report.counts.globalOnly === 1 ? "" : "s"}${families ? ` · ${families}` : ""}`;
+  return `Global published ${report.counts.globalPublished} · Japan present ${report.counts.japanPresent} · Global-only ${report.counts.globalOnly}${families ? ` · ${families}` : ""}`;
 }
 
 function renderPayload({ report, metadata, partNumber, totalParts, containers, isFirst }) {
@@ -122,15 +127,9 @@ export function buildSlackPayloads(report, metadata) {
     }];
   }
 
-  const grouped = [];
-  for (const item of report.items) {
-    const last = grouped[grouped.length - 1];
-    if (last && last.family === item.targetFamily) {
-      last.items.push(item);
-      continue;
-    }
-    grouped.push({ family: item.targetFamily, items: [item] });
-  }
+  const grouped = FAMILY_ORDER
+    .map((family) => ({ family, items: report.items.filter((item) => item.targetFamily === family) }))
+    .filter(({ items }) => items.length > 0);
 
   const containers = [];
   for (const group of grouped) {

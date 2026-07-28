@@ -425,11 +425,15 @@ test("sorts deterministically by date descending then identity and falls back ti
 });
 
 test("renders text-only collapsible family containers and original links", () => {
-  const [payload] = buildSlackPayloads(reportWithSevenItems(), slackMetadata);
+  const report = reportWithSevenItems();
+  const [payload] = buildSlackPayloads(report, slackMetadata);
 
   assert.equal(payload.blocks[0].text.text, "🌐 Global-only content report");
-  const container = payload.blocks.find((block) => block.type === "container");
-  assert.equal(container.title.text, "News · 3 items");
+  assert.equal(
+    payload.blocks[1].text.text,
+    "Global published 7 · Japan present 0 · Global-only 7 · Blog 2 · Whitepapers 2 · News 3",
+  );
+  const container = payload.blocks.find((block) => block.type === "container" && block.title.text === "News · 3 items");
   assert.equal(container.default_collapsed, true);
   assert.match(container.child_blocks[0].text.text, /<https:\/\/finance\.yahoo\.com\/story-1\|QueryPie selected/);
   assert.doesNotMatch(container.title.text, /:newspaper:|📰/);
@@ -466,16 +470,43 @@ test("renders a compact zero-difference success", () => {
 });
 
 test("preserves family grouping and item date order", () => {
-  const [payload] = buildSlackPayloads(reportWithSevenItems(), slackMetadata);
+  const report = {
+    ...reportWithItems(6),
+    familyCounts: { news: 2, blog: 2, whitepapers: 2 },
+    items: [
+      reportItem(1, { targetFamily: "news", dateIso: "2026-04-06" }),
+      reportItem(2, { targetFamily: "blog", identity: "documentation:cnt_000002", sourceSection: "documentation", sourceCategory: "blogs", targetFamily: "blog", dateIso: "2026-04-05" }),
+      reportItem(3, { targetFamily: "whitepapers", identity: "documentation:cnt_000003", sourceSection: "documentation", sourceCategory: "white-papers", targetFamily: "whitepapers", dateIso: "2026-04-04" }),
+      reportItem(4, { targetFamily: "news", dateIso: "2026-04-03" }),
+      reportItem(5, { targetFamily: "blog", identity: "documentation:cnt_000005", sourceSection: "documentation", sourceCategory: "blogs", targetFamily: "blog", dateIso: "2026-04-02" }),
+      reportItem(6, { targetFamily: "whitepapers", identity: "documentation:cnt_000006", sourceSection: "documentation", sourceCategory: "white-papers", targetFamily: "whitepapers", dateIso: "2026-04-01" }),
+    ],
+  };
+  const [payload] = buildSlackPayloads(report, slackMetadata);
   const containers = payload.blocks.filter((block) => block.type === "container");
 
   assert.deepEqual(containers.map((block) => block.title.text), [
-    "News · 3 items",
     "Blog · 2 items",
     "Whitepapers · 2 items",
+    "News · 2 items",
   ]);
-  assert.match(containers[0].child_blocks[0].text.text, /news:cnt_000001 · 2026-04-07/);
-  assert.match(containers[0].child_blocks[2].text.text, /news:cnt_000003 · 2026-04-05/);
+  assert.match(containers[0].child_blocks[0].text.text, /documentation:cnt_000002 · 2026-04-05/);
+  assert.match(containers[0].child_blocks[1].text.text, /documentation:cnt_000005 · 2026-04-02/);
+  assert.match(containers[2].child_blocks[0].text.text, /news:cnt_000001 · 2026-04-06/);
+  assert.match(containers[2].child_blocks[1].text.text, /news:cnt_000004 · 2026-04-03/);
+});
+
+test("rejects non-Slack webhook URLs", async () => {
+  await assert.rejects(
+    () => sendSlackPayloads({
+      webhookUrl: "https://example.com/services/T000/B000/XXXX",
+      payloads: [{ text: "fixture", blocks: [] }],
+      fetchImpl: async () => {
+        throw new Error("should not fetch");
+      },
+    }),
+    /GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL must be a Slack Incoming Webhook URL/,
+  );
 });
 
 test("propagates webhook failures", async () => {
