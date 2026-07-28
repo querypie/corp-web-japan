@@ -9,8 +9,8 @@ test("loads and normalizes every paginated PR page", async () => {
   const records = await loadAllPullRequests({ githubRepo: "owner/repo", cwd: "/repo", execute: async (command, args) => { calls.push([command, args]); return JSON.stringify(pages); } });
   assert.equal(records.length, 2);
   assert.equal(records[1].state, "MERGED");
-  assert.equal(records[0].headRepositoryFullName, "owner/repo");
-  assert.equal(records[1].headRepositoryFullName, "fork/repo");
+  assert.equal(records[0].headRefName, "one");
+  assert.equal(records[1].headRefName, "two");
   assert.ok(calls[0][1].includes("--paginate"));
   assert.ok(calls[0][1].includes("--slurp"));
 });

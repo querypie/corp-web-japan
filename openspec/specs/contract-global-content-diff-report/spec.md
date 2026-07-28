@@ -68,7 +68,7 @@ A Global identity SHALL count as Japan-present only when a trusted mapping exist
 
 ### Requirement: Complete non-suppressed difference results
 
-The report SHALL compute `Global-only = production-published Global identities - verified Japan-present identities`. Ignore records, open Draft sync PRs, and closed-unmerged Draft sync PRs SHALL remain reportable informational states and SHALL NOT suppress a diff item.
+The report SHALL compute `Global-only = production-published Global identities - verified Japan-present identities`. User-visible status SHALL be `Ignored` only when an active ignore record exists for the composite identity; otherwise status SHALL be `Untracked`. Ignore records and any open, closed-unmerged, or Draft sync PR states SHALL NOT suppress a diff item, and unmerged PR state SHALL NOT affect status.
 
 #### Scenario: Ignored item still appears
 
@@ -78,13 +78,13 @@ The report SHALL compute `Global-only = production-published Global identities -
 - **THEN** the report SHALL include the item
 - **AND** it SHALL mark the status as `Ignored`
 
-#### Scenario: Draft-only item still appears
+#### Scenario: Draft-only item still appears as Untracked
 
 - **GIVEN** a production-published Global identity represented only by an open or closed-unmerged Draft sync PR
 - **AND** that identity is not verifiably Japan-present
 - **WHEN** the diff is computed
 - **THEN** the report SHALL include the item
-- **AND** it SHALL mark the status as `Draft open` or `Draft closed`
+- **AND** it SHALL mark the status as `Untracked`
 
 ### Requirement: Original Global URL links
 
@@ -99,17 +99,18 @@ Every reported diff item SHALL retain the original normalized Global HTTPS URL a
 
 ### Requirement: Deterministic grouping and pagination
 
-Raw diff items SHALL be sorted deterministically by newest date first, then composite identity. Slack output SHALL regroup those items by deterministic target-family order, preserve newest-date-first order within each family, use text-only category titles, and paginate deterministically with explicit `Part N of M` labels when one payload is insufficient.
+Raw diff items SHALL be sorted deterministically by newest date first, then composite identity. Slack output SHALL regroup those items by status first, with `Untracked` containers before `Ignored`, then order items within each status by deterministic target-family order, newest-date-first within each family, and composite identity. Slack SHALL use text-only status container titles and paginate deterministically with explicit `Part N of M` labels when one payload is insufficient.
 
 #### Scenario: Stable grouped multi-payload output
 
 - **GIVEN** raw diff items spanning multiple target families and enough items to exceed one Slack payload
 - **WHEN** Slack payloads are built
 - **THEN** the payload sequence SHALL be deterministic
-- **AND** Slack SHALL regroup items by deterministic target-family order
+- **AND** Slack SHALL regroup items into `Untracked` containers before `Ignored` containers
+- **AND** items within each status SHALL use deterministic target-family order
 - **AND** newest-date-first order SHALL be preserved within each family
 - **AND** each payload SHALL show its `Part N of M` label
-- **AND** each family container title SHALL use text only
+- **AND** each status container title SHALL use text only
 
 ### Requirement: Read-only permissions and independent workflow
 

@@ -91,7 +91,7 @@ test("counts baseline and merged marker mappings only when target MDX exists", a
   assert.equal(report.counts.japanPresent, 1);
 });
 
-test("keeps ignored and closed Draft items in the diff with status", async () => {
+test("keeps ignored items in the diff and ignores unmerged PR state", async () => {
   const report = await buildGlobalOnlyReport(fixtureWith({
     global: [publishedNews("cnt_000177", "real-madrid")],
     ignore: [ignored("news", "cnt_000177")],
@@ -100,13 +100,13 @@ test("keeps ignored and closed Draft items in the diff with status", async () =>
   assert.equal(report.items[0].status, "Ignored");
 });
 
-test("reports missing mapped targets as mapping drift instead of Japan-present", async () => {
+test("reports missing mapped targets as mapping drift evidence with Untracked status", async () => {
   const report = await buildGlobalOnlyReport(fixtureWith({
     global: [publishedBlog("cnt_000010", "missing-target")],
     japan: [baselineMapping("documentation", "cnt_000010", "blog", 10, "missing-target")],
     targetFiles: [],
   }));
-  assert.equal(report.items[0].status, "Mapping drift");
+  assert.equal(report.items[0].status, "Untracked");
   assert.equal(report.counts.japanPresent, 0);
 });
 ```
@@ -174,7 +174,7 @@ const mergedMarkerPath = async (targetRepo, marker) => {
 };
 ```
 
-Validate baseline and ignore manifests with the existing validator. Merge baseline and merged-PR mappings by composite identity, allowing duplicates only when they resolve to the same target family and ID. Resolve legacy ignore section only against Global items. Status precedence is `Mapping drift`, `Ignored`, `Draft open`, `Draft closed`, then `Untracked`.
+Validate baseline and ignore manifests with the existing validator. Merge baseline and merged-PR mappings by composite identity, allowing duplicates only when they resolve to the same target family and ID. Resolve legacy ignore section only against Global items. User-visible status is `Ignored` only for active ignore records; all other Global-only items, including mapping drift and unmerged PR-only cases, are `Untracked`.
 
 Return this stable report shape:
 
@@ -229,18 +229,19 @@ git commit -m "Add Global-only content inventory report"
 Add tests equivalent to:
 
 ```js
-test("renders text-only collapsible family containers and original links", () => {
+test("renders status-first collapsible containers and original links", () => {
   const [payload] = buildSlackPayloads(reportWithSevenItems(), {
     globalSha: "abc1234",
     japanSha: "def5678",
   });
   assert.equal(payload.blocks[0].text.text, "🌐 Global-only content report");
   const container = payload.blocks.find((block) => block.type === "container");
-  assert.equal(container.title.text, "News · 3 items");
-  assert.equal(container.default_collapsed, true);
+  assert.equal(container.title.text, "Untracked · 7 items");
+  assert.equal(container.default_collapsed, false);
+  assert.match(container.child_blocks[0].text.text, /^\*Blog\* · `documentation:cnt_000004`/);
   assert.match(container.child_blocks[0].text.text, /<https:\/\/finance\.yahoo\.com\/.+\|QueryPie selected/);
   assert.doesNotMatch(container.title.text, /:newspaper:|📰/);
-  assert.doesNotMatch(JSON.stringify(payload), /button|ignore_content|<@/i);
+  assert.doesNotMatch(JSON.stringify(payload), /button|ignore_content|<@|Draft open|Draft closed|Mapping drift/i);
 });
 
 test("paginates without dropping or duplicating identities", () => {

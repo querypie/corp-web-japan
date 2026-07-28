@@ -32,19 +32,21 @@ function familyLabel(family) {
 
 function itemText(item) {
   const title = escapeMrkdwn(truncate(item.title, MAX_TITLE_LENGTH));
-  const details = [item.identity, item.dateIso, item.status].filter(Boolean).join(" · ");
-  return `*<${item.sourceUrl}|${title}>*\n${escapeMrkdwn(details)}`;
+  const details = [familyLabel(item.targetFamily), item.identity, item.dateIso, item.status]
+    .filter(Boolean)
+    .join(" · ");
+  return `*${escapeMrkdwn(familyLabel(item.targetFamily))}* · \`${escapeMrkdwn(item.identity)}\` · ${escapeMrkdwn(item.dateIso)} · ${escapeMrkdwn(item.status)}\n*<${item.sourceUrl}|${title}>*`;
 }
 
-function familyContainer(family, items, part) {
+function statusContainer(status, allItems, items, part) {
   return {
     type: "container",
     title: {
       type: "plain_text",
-      text: `${familyLabel(family)} · ${items.length} item${items.length === 1 ? "" : "s"}${part ? ` · ${part}` : ""}`,
+      text: `${status} · ${allItems.length} item${allItems.length === 1 ? "" : "s"}${part ? ` · ${part}` : ""}`,
     },
     is_collapsible: true,
-    default_collapsed: true,
+    default_collapsed: status !== "Untracked",
     child_blocks: items.map((item) => ({
       type: "section",
       text: { type: "mrkdwn", text: itemText(item) },
@@ -61,6 +63,13 @@ function chunk(list, size) {
 }
 
 const FAMILY_ORDER = Object.freeze(SOURCE_FAMILIES.map(({ targetFamily }) => targetFamily));
+const STATUS_ORDER = Object.freeze(["Untracked", "Ignored"]);
+
+function compareSlackItems(left, right) {
+  return FAMILY_ORDER.indexOf(left.targetFamily) - FAMILY_ORDER.indexOf(right.targetFamily)
+    || String(right.dateIso || "").localeCompare(String(left.dateIso || ""))
+    || String(left.identity).localeCompare(String(right.identity));
+}
 
 function summarizeCounts(report) {
   const families = FAMILY_ORDER
@@ -127,16 +136,17 @@ export function buildSlackPayloads(report, metadata) {
     }];
   }
 
-  const grouped = FAMILY_ORDER
-    .map((family) => ({ family, items: report.items.filter((item) => item.targetFamily === family) }))
-    .filter(({ items }) => items.length > 0);
-
   const containers = [];
-  for (const group of grouped) {
-    const parts = chunk(group.items, ITEMS_PER_CONTAINER);
+  for (const status of STATUS_ORDER) {
+    const statusItems = report.items
+      .filter((item) => item.status === status)
+      .sort(compareSlackItems);
+    if (statusItems.length === 0) continue;
+
+    const parts = chunk(statusItems, ITEMS_PER_CONTAINER);
     const split = parts.length > 1;
     parts.forEach((items, index) => {
-      containers.push(familyContainer(group.family, items, split ? `Part ${index + 1} of ${parts.length}` : null));
+      containers.push(statusContainer(status, statusItems, items, split ? `Part ${index + 1} of ${parts.length}` : null));
     });
   }
 

@@ -48,7 +48,9 @@ Not present items remain reportable when they are:
 - represented only by an open Draft sync PR; or
 - represented only by a closed-unmerged Draft sync PR.
 
-Missing mapped MDX files are reported as `Mapping drift`, not as Japan-present.
+User-visible status is `Ignored` only for active ignore records. Every other Global-only item, including mapping drift and PR-only states, is `Untracked`.
+
+Missing mapped MDX files remain internal `mappingDrift` evidence, not Japan-present.
 
 ## Production source scope
 
@@ -81,10 +83,10 @@ The dry-run JSON includes:
 - Header: `🌐 Global-only content report`.
 - First payload includes run counts and both repo SHAs.
 - Items link to the original Global URL.
-- Grouping is deterministic by target family.
-- Item order is deterministic by newest date first, then composite identity.
+- Grouping is deterministic by status first: `Untracked` then `Ignored`.
+- Within each status, item order is deterministic by target family, newest date first, then composite identity.
 - Pagination is deterministic and numbered as `Part N of M`.
-- Category container titles use text only.
+- Status container titles use text only; `Untracked` defaults expanded and `Ignored` defaults collapsed.
 - Zero-diff runs send a compact success payload.
 
 ## No actions

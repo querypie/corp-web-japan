@@ -16,7 +16,6 @@ export async function loadAllPullRequests({ githubRepo, cwd, execute = defaultEx
     isDraft: pull.draft === true,
     body: pull.body || "",
     headRefName: pull.head?.ref || "",
-    headRepositoryFullName: pull.head?.repo?.full_name || "",
     labels: pull.labels || [],
     url: pull.html_url || "",
   }));

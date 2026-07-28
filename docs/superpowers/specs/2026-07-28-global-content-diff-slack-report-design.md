@@ -69,7 +69,7 @@ Compute:
 Global-only = production-published Global identities - verified Japan-present identities
 ```
 
-Every Global-only item is included. Ignore and unmerged Draft state may be shown as informational status, but neither suppresses the item.
+Every Global-only item is included. User-visible status is `Ignored` only when the active composite identity exists in `.github/content-sync/ignore.json`; every other Global-only item is `Untracked`. Unmerged PR state never affects status.
 
 Sort raw diff items deterministically by newest date first, then composite identity.
 
@@ -85,12 +85,11 @@ The first payload contains:
 - per-family counts;
 - repository commit SHAs.
 
-Slack regrouping uses deterministic target-family order and preserves newest-date-first order within each family. Category container titles use text only, such as `News · 3 items`; Slack currently renders emoji in collapsible container titles as literal shortcodes. Each item shows:
+Slack regrouping is status-first. `Untracked · N items` containers come first and default expanded; `Ignored · N items` containers come second and default collapsed. Within each status, items use deterministic target-family order, then newest-date-first order within each family, then composite identity. Container titles use text only. Each item shows:
 
 - linked title using the original Global URL;
-- composite identity;
-- publication date when available;
-- optional status such as `Ignored`, `Draft open`, or `Draft closed`.
+- target family, composite identity, and publication date when available;
+- status, using only `Untracked` or `Ignored`.
 
 The report has no interactive Ignore buttons. Ignore decisions continue through the existing, separately authenticated workflow. A future interactive action may be designed independently if needed; this report does not introduce n8n, an action endpoint, or additional mutation authority.
 

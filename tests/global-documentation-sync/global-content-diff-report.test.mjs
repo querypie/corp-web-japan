@@ -127,7 +127,6 @@ function draftMarker(sourceSection, sourceId, targetFamily, targetId, state = "O
     state,
     merged: false,
     isDraft: true,
-    headRepositoryFullName: "querypie/corp-web-japan",
     headRefName: branchName(sourceSection, sourceId),
     body: markerBody({ sourceSection, sourceId, targetFamily, targetId, branch: branchName(sourceSection, sourceId) }),
     ...overrides,
@@ -307,7 +306,7 @@ test("counts baseline and merged marker mappings only when target MDX exists", a
   assert.equal(report.counts.japanPresent, 1);
 });
 
-test("keeps ignored and closed Draft items in the diff with status", async () => {
+test("keeps ignored items in the diff and ignores unmerged PR state", async () => {
   const report = await fixtureWith({
     global: [publishedNews("cnt_000177", "real-madrid")],
     ignore: [ignored("cnt_000177", "https://www.querypie.com/en/news/real-madrid")],
@@ -317,46 +316,36 @@ test("keeps ignored and closed Draft items in the diff with status", async () =>
   assert.equal(report.items[0].status, "Ignored");
 });
 
-test("annotates only trusted same-repository Draft sync PRs", async () => {
-  const openReport = await fixtureWith({
-    global: [publishedNews("cnt_000178", "trusted-open")],
-    pulls: [draftMarker("news", "cnt_000178", "news", 25)],
-  });
-  assert.equal(openReport.items[0].status, "Draft open");
-
-  const closedReport = await fixtureWith({
-    global: [publishedNews("cnt_000179", "trusted-closed")],
-    pulls: [draftMarker("news", "cnt_000179", "news", 26, "CLOSED")],
-  });
-  assert.equal(closedReport.items[0].status, "Draft closed");
-});
-
-test("ignores untrusted unmerged PR dispositions without failing the report", async () => {
+test("treats all draft and closed-unmerged PR-only items as Untracked", async () => {
   const malformedMarker = "<!-- global-documentation-sync:v1 {not-json} -->";
   const report = await fixtureWith({
     global: [
+      publishedNews("cnt_000178", "trusted-open"),
+      publishedNews("cnt_000179", "trusted-closed"),
       publishedNews("cnt_000180", "fork-spoof"),
       publishedNews("cnt_000181", "not-draft"),
       publishedNews("cnt_000182", "malformed-marker"),
     ],
     pulls: [
-      draftMarker("news", "cnt_000180", "news", 27, "OPEN", { headRepositoryFullName: "attacker/corp-web-japan" }),
+      draftMarker("news", "cnt_000178", "news", 25),
+      draftMarker("news", "cnt_000179", "news", 26, "CLOSED"),
+      draftMarker("news", "cnt_000180", "news", 27, "OPEN"),
       draftMarker("news", "cnt_000181", "news", 28, "OPEN", { isDraft: false }),
       draftMarker("news", "cnt_000182", "news", 29, "OPEN", { body: malformedMarker }),
     ],
   });
 
-  assert.deepEqual(report.items.map(({ status }) => status), ["Untracked", "Untracked", "Untracked"]);
+  assert.deepEqual(report.items.map(({ status }) => status), ["Untracked", "Untracked", "Untracked", "Untracked", "Untracked"]);
 });
 
-test("reports missing mapped targets as mapping drift instead of Japan-present", async () => {
+test("reports missing mapped targets as mapping drift evidence with Untracked status", async () => {
   const report = await fixtureWith({
     global: [publishedBlog("cnt_000010", "missing-target")],
     japan: [baselineMapping("documentation", "cnt_000010", "blogs", "blog", 10, "missing-target")],
     targetFiles: [],
   });
 
-  assert.equal(report.items[0].status, "Mapping drift");
+  assert.equal(report.items[0].status, "Untracked");
   assert.equal(report.counts.japanPresent, 0);
   assert.deepEqual(report.mappingDrift, [{ identity: "documentation:cnt_000010", expectedPath: "src/content/blog/10-missing-target.mdx" }]);
 });
@@ -619,7 +608,7 @@ test("baseline mappings require the exact recorded target path", async () => {
     targetFiles: ["src/content/news/18-other-slug.mdx"],
   });
 
-  assert.equal(report.items[0].status, "Mapping drift");
+  assert.equal(report.items[0].status, "Untracked");
   assert.equal(report.counts.japanPresent, 0);
 });
 
@@ -640,7 +629,7 @@ test("sorts deterministically by date descending then identity and falls back ti
   assert.deepEqual(report.items.map(({ title }) => title), ["ko only", "ja only", "cnt_000603"]);
 });
 
-test("renders text-only collapsible family containers and original links", () => {
+test("renders status-first collapsible containers and original links", () => {
   const report = reportWithSevenItems();
   const [payload] = buildSlackPayloads(report, slackMetadata);
 
@@ -649,17 +638,18 @@ test("renders text-only collapsible family containers and original links", () =>
     payload.blocks[1].text.text,
     "Global published 7 · Japan present 0 · Global-only 7 · Blog 2 · Whitepapers 2 · News 3",
   );
-  const container = payload.blocks.find((block) => block.type === "container" && block.title.text === "News · 3 items");
-  assert.equal(container.default_collapsed, true);
-  assert.match(container.child_blocks[0].text.text, /<https:\/\/finance\.yahoo\.com\/story-1\|QueryPie selected/);
-  assert.doesNotMatch(container.title.text, /:newspaper:|📰/);
-  assert.match(container.child_blocks[0].text.text, /&amp; &lt;1&gt;/);
+  const containers = payload.blocks.filter((block) => block.type === "container");
+  assert.deepEqual(containers.map((block) => block.title.text), ["Untracked · 7 items"]);
+  assert.equal(containers[0].default_collapsed, false);
+  assert.match(containers[0].child_blocks[0].text.text, /^\*Blog\* · `documentation:cnt_000004` · 2026-04-04 · Untracked/);
+  assert.match(containers[0].child_blocks[0].text.text, /<https:\/\/finance\.yahoo\.com\/story-4\|QueryPie selected/);
+  assert.doesNotMatch(containers[0].title.text, /:newspaper:|📰/);
+  assert.match(containers[0].child_blocks[0].text.text, /&amp; &lt;4&gt;/);
   assert.match(JSON.stringify(payload), /Part 1 of 1/);
   assert.match(JSON.stringify(payload.blocks.slice(0, 3)), /2026-04-30T00:00:00\.000Z/);
-  assert.doesNotMatch(JSON.stringify(payload), /button|ignore_content|<@/i);
+  assert.doesNotMatch(JSON.stringify(payload), /button|ignore_content|<@|Draft open|Draft closed|Mapping drift/i);
 
-  const longTitleBlock = payload.blocks
-    .filter((block) => block.type === "container")
+  const longTitleBlock = containers
     .flatMap((block) => block.child_blocks)
     .find((block) => block.text.text.includes("A very long title"));
   const renderedTitle = longTitleBlock.text.text.split("|", 2)[1].split(">", 1)[0];
@@ -679,6 +669,21 @@ test("paginates without dropping or duplicating identities", () => {
   assert.equal(payloads.length, 2);
 });
 
+function reportWithMixedStatuses() {
+  return {
+    ...reportWithItems(6),
+    familyCounts: { news: 3, blog: 2, whitepapers: 1 },
+    items: [
+      reportItem(1, { targetFamily: "news", dateIso: "2026-04-06", status: "Ignored" }),
+      reportItem(2, { targetFamily: "blog", identity: "documentation:cnt_000002", sourceSection: "documentation", sourceCategory: "blogs", targetFamily: "blog", dateIso: "2026-04-05", status: "Untracked" }),
+      reportItem(3, { targetFamily: "whitepapers", identity: "documentation:cnt_000003", sourceSection: "documentation", sourceCategory: "white-papers", targetFamily: "whitepapers", dateIso: "2026-04-04", status: "Ignored" }),
+      reportItem(4, { targetFamily: "news", dateIso: "2026-04-03", status: "Untracked" }),
+      reportItem(5, { targetFamily: "blog", identity: "documentation:cnt_000005", sourceSection: "documentation", sourceCategory: "blogs", targetFamily: "blog", dateIso: "2026-04-02", status: "Ignored" }),
+      reportItem(6, { targetFamily: "news", dateIso: "2026-04-01", status: "Untracked" }),
+    ],
+  };
+}
+
 test("renders a compact zero-difference success", () => {
   const [payload] = buildSlackPayloads(emptyReport(), slackMetadata);
 
@@ -687,31 +692,23 @@ test("renders a compact zero-difference success", () => {
   assert.equal(payload.blocks.some(({ type }) => type === "container"), false);
 });
 
-test("preserves family grouping and item date order", () => {
-  const report = {
-    ...reportWithItems(6),
-    familyCounts: { news: 2, blog: 2, whitepapers: 2 },
-    items: [
-      reportItem(1, { targetFamily: "news", dateIso: "2026-04-06" }),
-      reportItem(2, { targetFamily: "blog", identity: "documentation:cnt_000002", sourceSection: "documentation", sourceCategory: "blogs", targetFamily: "blog", dateIso: "2026-04-05" }),
-      reportItem(3, { targetFamily: "whitepapers", identity: "documentation:cnt_000003", sourceSection: "documentation", sourceCategory: "white-papers", targetFamily: "whitepapers", dateIso: "2026-04-04" }),
-      reportItem(4, { targetFamily: "news", dateIso: "2026-04-03" }),
-      reportItem(5, { targetFamily: "blog", identity: "documentation:cnt_000005", sourceSection: "documentation", sourceCategory: "blogs", targetFamily: "blog", dateIso: "2026-04-02" }),
-      reportItem(6, { targetFamily: "whitepapers", identity: "documentation:cnt_000006", sourceSection: "documentation", sourceCategory: "white-papers", targetFamily: "whitepapers", dateIso: "2026-04-01" }),
-    ],
-  };
-  const [payload] = buildSlackPayloads(report, slackMetadata);
+test("groups by status first, then target family order, then newest date", () => {
+  const [payload] = buildSlackPayloads(reportWithMixedStatuses(), slackMetadata);
   const containers = payload.blocks.filter((block) => block.type === "container");
 
   assert.deepEqual(containers.map((block) => block.title.text), [
-    "Blog · 2 items",
-    "Whitepapers · 2 items",
-    "News · 2 items",
+    "Untracked · 3 items",
+    "Ignored · 3 items",
   ]);
-  assert.match(containers[0].child_blocks[0].text.text, /documentation:cnt_000002 · 2026-04-05/);
-  assert.match(containers[0].child_blocks[1].text.text, /documentation:cnt_000005 · 2026-04-02/);
-  assert.match(containers[2].child_blocks[0].text.text, /news:cnt_000001 · 2026-04-06/);
-  assert.match(containers[2].child_blocks[1].text.text, /news:cnt_000004 · 2026-04-03/);
+  assert.equal(containers[0].default_collapsed, false);
+  assert.equal(containers[1].default_collapsed, true);
+  assert.match(containers[0].child_blocks[0].text.text, /^\*Blog\* · `documentation:cnt_000002` · 2026-04-05 · Untracked/);
+  assert.match(containers[0].child_blocks[1].text.text, /^\*News\* · `news:cnt_000004` · 2026-04-03 · Untracked/);
+  assert.match(containers[0].child_blocks[2].text.text, /^\*News\* · `news:cnt_000006` · 2026-04-01 · Untracked/);
+  assert.match(containers[1].child_blocks[0].text.text, /^\*Blog\* · `documentation:cnt_000005` · 2026-04-02 · Ignored/);
+  assert.match(containers[1].child_blocks[1].text.text, /^\*Whitepapers\* · `documentation:cnt_000003` · 2026-04-04 · Ignored/);
+  assert.match(containers[1].child_blocks[2].text.text, /^\*News\* · `news:cnt_000001` · 2026-04-06 · Ignored/);
+  assert.doesNotMatch(JSON.stringify(payload), /Draft open|Draft closed|Mapping drift/);
 });
 
 test("rejects non-Slack webhook URLs", async () => {

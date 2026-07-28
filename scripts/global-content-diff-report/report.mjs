@@ -13,11 +13,6 @@ import { normalizeUrl } from "../global-documentation-sync/lib.mjs";
 import { sourceFamily, targetFamily, targetFamilyDescriptor } from "../global-documentation-sync/source-family-map.mjs";
 import { parseSyncBranch, resolveLegacySourceSection, sourceIdentityKey } from "../global-documentation-sync/sync-identity.mjs";
 
-const DRAFT_STATUS = new Map([
-  ["OPEN", "Draft open"],
-  ["CLOSED", "Draft closed"],
-]);
-
 const safeKebabSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const baselinePath = ({ targetFamily, targetId, targetSlug }) =>
@@ -142,44 +137,6 @@ function globalSourceViews(globalItems) {
   }));
 }
 
-function draftStatusFor(records) {
-  if (records.some(({ state }) => state === "OPEN")) return "Draft open";
-  if (records.some(({ state }) => state === "CLOSED")) return "Draft closed";
-  return null;
-}
-
-function trustedDraftMarker(pull, trustedRepositoryFullName) {
-  if (pull.headRepositoryFullName !== trustedRepositoryFullName) return null;
-  if (!pull.headRefName?.startsWith("content-sync/")) return null;
-  if (pull.isDraft !== true) return null;
-  if (!DRAFT_STATUS.has(pull.state)) return null;
-
-  let marker;
-  try {
-    marker = parseSyncMarker(pull.body);
-  } catch {
-    return null;
-  }
-  if (!marker || marker.branch !== pull.headRefName) return null;
-
-  const parsedBranch = parseSyncBranch(marker.branch);
-  if (!parsedBranch) return null;
-  if (parsedBranch.legacy) {
-    if (pull.number !== 687 || parsedBranch.sourceId !== marker.sourceId) return null;
-  } else if (parsedBranch.sourceSection !== marker.sourceSection || parsedBranch.sourceId !== marker.sourceId) {
-    return null;
-  }
-
-  try {
-    const descriptor = targetFamilyDescriptor(marker.targetFamily);
-    if (descriptor.sourceSection !== marker.sourceSection) return null;
-  } catch {
-    return null;
-  }
-  if (!Number.isInteger(marker.targetId) || marker.targetId <= 0) return null;
-  return marker;
-}
-
 export async function buildGlobalInventory({ globalRepo, sitemapXml, productionListHtmlByUrl }) {
   const production = productionSets(sitemapXml, productionListHtmlByUrl);
   const itemsByIdentity = new Map();
@@ -263,7 +220,7 @@ export async function buildJapanInventory({ targetRepo, prRecords, statFile = st
   return { present, mappingDrift };
 }
 
-export function buildDispositionMap({ ignoreRecords, prRecords, globalItems, now, trustedRepositoryFullName = "querypie/corp-web-japan" }) {
+export function buildDispositionMap({ ignoreRecords, globalItems, now }) {
   const dispositions = new Map();
   const sourceViews = globalSourceViews(globalItems);
   const activeIgnore = validateDecisionManifest(ignoreRecords, "ignore")
@@ -274,20 +231,6 @@ export function buildDispositionMap({ ignoreRecords, prRecords, globalItems, now
     if (resolved.status === "ambiguous") throw new Error(`ambiguous legacy ignore identity: ${record.sourceId}`);
     if (resolved.status !== "resolved") continue;
     dispositions.set(sourceIdentityKey({ sourceSection: resolved.sourceSection, sourceId: record.sourceId }), "Ignored");
-  }
-
-  const draftByIdentity = new Map();
-  for (const pull of prRecords.filter((record) => !mergedPullRequest(record))) {
-    const marker = trustedDraftMarker(pull, trustedRepositoryFullName);
-    if (!marker) continue;
-    const list = draftByIdentity.get(marker.identity) || [];
-    list.push(pull);
-    draftByIdentity.set(marker.identity, list);
-  }
-
-  for (const [identity, records] of draftByIdentity.entries()) {
-    if (dispositions.has(identity)) continue;
-    dispositions.set(identity, draftStatusFor(records));
   }
 
   return dispositions;
@@ -305,7 +248,9 @@ export async function buildGlobalOnlyReport({
   const globalItems = await buildGlobalInventory({ globalRepo, sitemapXml, productionListHtmlByUrl });
   const ignoreRecords = await readManifest(targetRepo, "ignore");
   const { present, mappingDrift } = await buildJapanInventory({ targetRepo, prRecords });
-  const dispositions = buildDispositionMap({ ignoreRecords, prRecords, globalItems, now, trustedRepositoryFullName });
+  void prRecords;
+  void trustedRepositoryFullName;
+  const dispositions = buildDispositionMap({ ignoreRecords, globalItems, now });
   const items = [];
 
   for (const item of globalItems) {
@@ -313,7 +258,7 @@ export async function buildGlobalOnlyReport({
     const drift = mappingDrift.get(item.identity);
     items.push({
       ...item,
-      status: drift ? "Mapping drift" : dispositions.get(item.identity) || "Untracked",
+      status: dispositions.get(item.identity) || "Untracked",
     });
   }
 
@@ -331,8 +276,6 @@ export async function buildGlobalOnlyReport({
     },
     familyCounts,
     items,
-    mappingDrift: items
-      .filter(({ status }) => status === "Mapping drift")
-      .map(({ identity }) => ({ identity, expectedPath: mappingDrift.get(identity).expectedPath })),
+    mappingDrift: [...mappingDrift.values()].map(({ identity, expectedPath }) => ({ identity, expectedPath })),
   };
 }
