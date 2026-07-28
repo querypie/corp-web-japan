@@ -64,7 +64,7 @@ export function validateDecisionManifest(records, name) {
   return records;
 }
 
-async function readManifest(targetRepo, name) {
+export async function readManifest(targetRepo, name) {
   const file = path.join(targetRepo, ".github/content-sync", `${name}.json`);
   return validateDecisionManifest(JSON.parse(await readFile(file, "utf8")), name);
 }
@@ -76,7 +76,7 @@ function optionalHtml(directory, locale) {
   });
 }
 
-async function enumerateSources(globalRepo) {
+export async function enumerateSources(globalRepo) {
   const records = [];
   for (const descriptor of sourceRoots(globalRepo)) {
     let entries = [];
@@ -123,7 +123,7 @@ async function enumerateSources(globalRepo) {
   return records;
 }
 
-function productionSets(sitemapXml, productionListHtmlByUrl = {}) {
+export function productionSets(sitemapXml, productionListHtmlByUrl = {}) {
   const sitemap = new Set([...sitemapXml.matchAll(/<loc>\s*([^<]+)\s*<\/loc>/g)].map((match) => normalizeUrl(match[1])));
   const listByUrl = new Map();
   for (const [listUrl, html] of Object.entries(productionListHtmlByUrl)) {
@@ -200,7 +200,7 @@ export function sourceContractFailure(source) {
   return null;
 }
 
-function shouldSkipDiscoveryContractFailure(source) {
+export function shouldSkipDiscoveryContractFailure(source) {
   return source.descriptor?.sourceSection !== "news"
     && (source.meta.status !== "published"
       || (source.meta.contentType && !["content", "outlink"].includes(source.meta.contentType)));

@@ -1,0 +1,251 @@
+import { readdir, stat } from "node:fs/promises";
+import path from "node:path";
+
+import {
+  enumerateSources,
+  parseSyncMarker,
+  productionSets,
+  readManifest,
+  shouldSkipDiscoveryContractFailure,
+  sourceContractFailure,
+  validateDecisionManifest,
+} from "../global-documentation-sync/discovery.mjs";
+import { normalizeUrl } from "../global-documentation-sync/lib.mjs";
+import { sourceFamily, targetFamily } from "../global-documentation-sync/source-family-map.mjs";
+import { resolveLegacySourceSection, sourceIdentityKey } from "../global-documentation-sync/sync-identity.mjs";
+
+const DRAFT_STATUS = new Map([
+  ["OPEN", "Draft open"],
+  ["CLOSED", "Draft closed"],
+]);
+
+const baselinePath = ({ targetFamily, targetId, targetSlug }) =>
+  path.join("src/content", targetFamily, `${targetId}-${targetSlug}.mdx`);
+
+const mergedMarkerPath = async (targetRepo, marker) => {
+  const directory = path.join(targetRepo, "src/content", marker.targetFamily);
+  let matches;
+  try {
+    matches = (await readdir(directory)).filter((name) =>
+      name.startsWith(`${marker.targetId}-`) && name.endsWith(".mdx"));
+  } catch (error) {
+    if (error.code === "ENOENT") return null;
+    throw error;
+  }
+  if (matches.length > 1) throw new Error(`ambiguous target mapping: ${marker.identity}`);
+  return matches[0] ? path.join("src/content", marker.targetFamily, matches[0]) : null;
+};
+
+function localizedTitle(meta, sourceId) {
+  for (const locale of ["en", "ja", "ko"]) {
+    const value = meta?.title?.[locale]?.trim();
+    if (value) return value;
+  }
+  return sourceId;
+}
+
+function compareGlobalItems(left, right) {
+  return String(right.dateIso || "").localeCompare(String(left.dateIso || ""))
+    || String(left.identity).localeCompare(String(right.identity))
+    || String(left.sourceUrl).localeCompare(String(right.sourceUrl));
+}
+
+async function fileExists(file) {
+  try {
+    await stat(file);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function mergedPullRequest(record) {
+  return record?.merged === true || record?.state === "MERGED" || Boolean(record?.mergedAt);
+}
+
+function registerMapping({ present, mappingDrift, identity, mapping, expectedPath }) {
+  const existingPresent = present.get(identity);
+  const existingDrift = mappingDrift.get(identity);
+  if (existingPresent) {
+    if (existingPresent.targetFamily !== mapping.targetFamily || existingPresent.targetId !== mapping.targetId) {
+      throw new Error(`duplicate merged mapping: ${identity}`);
+    }
+    return;
+  }
+  if (existingDrift) {
+    if (existingDrift.targetFamily !== mapping.targetFamily || existingDrift.targetId !== mapping.targetId) {
+      throw new Error(`duplicate merged mapping: ${identity}`);
+    }
+    return;
+  }
+  if (expectedPath) mappingDrift.set(identity, { ...mapping, expectedPath });
+  else present.set(identity, mapping);
+}
+
+function globalSourceViews(globalItems) {
+  return globalItems.map((item) => ({
+    sourceId: item.sourceId,
+    sourceSection: item.sourceSection,
+    sourceCanonicalUrl: item.sourceUrl,
+  }));
+}
+
+function draftStatusFor(records) {
+  if (records.some(({ state }) => state === "OPEN")) return "Draft open";
+  if (records.some(({ state }) => state === "CLOSED")) return "Draft closed";
+  return null;
+}
+
+export async function buildGlobalInventory({ globalRepo, sitemapXml, productionListHtmlByUrl }) {
+  const production = productionSets(sitemapXml, productionListHtmlByUrl);
+  const items = [];
+
+  for (const source of await enumerateSources(globalRepo)) {
+    if (shouldSkipDiscoveryContractFailure(source) || !source.sourceCanonicalUrl) continue;
+    const descriptor = sourceFamily(source.category);
+    const listUrl = normalizeUrl(descriptor.productionListUrl);
+    const listed = (production.listByUrl.get(listUrl) || new Set()).has(source.sourceCanonicalUrl);
+    if (!listed) continue;
+    const sitemapped = production.sitemap.has(source.sourceCanonicalUrl);
+    if (source.meta.contentType !== "outlink" && !sitemapped) continue;
+    const failure = sourceContractFailure(source);
+    if (failure) throw new Error(`${source.sourceSection}:${source.sourceId}: ${failure}`);
+
+    items.push({
+      identity: sourceIdentityKey(source),
+      sourceSection: source.sourceSection,
+      sourceId: source.sourceId,
+      sourceCategory: source.category,
+      targetFamily: targetFamily(source.category),
+      title: localizedTitle(source.meta, source.sourceId),
+      dateIso: source.meta.dateIso || "",
+      sourceUrl: source.sourceCanonicalUrl,
+    });
+  }
+
+  return items.sort(compareGlobalItems);
+}
+
+export async function buildJapanInventory({ targetRepo, prRecords }) {
+  const baseline = await readManifest(targetRepo, "baseline");
+  const present = new Map();
+  const mappingDrift = new Map();
+
+  for (const record of baseline) {
+    const identity = sourceIdentityKey({ sourceSection: record.sourceSection, sourceId: record.sourceId });
+    const expectedPath = baselinePath(record);
+    registerMapping({
+      present,
+      mappingDrift,
+      identity,
+      mapping: {
+        identity,
+        sourceSection: record.sourceSection,
+        sourceId: record.sourceId,
+        targetFamily: record.targetFamily,
+        targetId: record.targetId,
+        targetPath: expectedPath,
+      },
+      expectedPath: await fileExists(path.join(targetRepo, expectedPath)) ? null : expectedPath,
+    });
+  }
+
+  for (const pull of prRecords.filter(mergedPullRequest)) {
+    if (!pull.headRefName?.startsWith("content-sync/")) continue;
+    const marker = parseSyncMarker(pull.body);
+    if (!marker) continue;
+    const resolvedPath = await mergedMarkerPath(targetRepo, marker);
+    registerMapping({
+      present,
+      mappingDrift,
+      identity: marker.identity,
+      mapping: {
+        identity: marker.identity,
+        sourceSection: marker.sourceSection,
+        sourceId: marker.sourceId,
+        targetFamily: marker.targetFamily,
+        targetId: marker.targetId,
+        targetPath: resolvedPath || path.join("src/content", marker.targetFamily, `${marker.targetId}-*.mdx`),
+      },
+      expectedPath: resolvedPath ? null : path.join("src/content", marker.targetFamily, `${marker.targetId}-*.mdx`),
+    });
+  }
+
+  return { present, mappingDrift };
+}
+
+export function buildDispositionMap({ ignoreRecords, prRecords, globalItems, now }) {
+  const dispositions = new Map();
+  const sourceViews = globalSourceViews(globalItems);
+  const activeIgnore = validateDecisionManifest(ignoreRecords, "ignore")
+    .filter(({ expiresAt }) => !expiresAt || Date.parse(expiresAt) > Date.parse(now));
+
+  for (const record of activeIgnore) {
+    const resolved = resolveLegacySourceSection({ record, sources: sourceViews });
+    if (resolved.status === "ambiguous") throw new Error(`ambiguous legacy ignore identity: ${record.sourceId}`);
+    if (resolved.status !== "resolved") continue;
+    dispositions.set(sourceIdentityKey({ sourceSection: resolved.sourceSection, sourceId: record.sourceId }), "Ignored");
+  }
+
+  const draftByIdentity = new Map();
+  for (const pull of prRecords.filter((record) => !mergedPullRequest(record))) {
+    if (!pull.headRefName?.startsWith("content-sync/")) continue;
+    const marker = parseSyncMarker(pull.body);
+    if (!marker) continue;
+    const status = DRAFT_STATUS.get(pull.state);
+    if (!status) continue;
+    const list = draftByIdentity.get(marker.identity) || [];
+    list.push(pull);
+    draftByIdentity.set(marker.identity, list);
+  }
+
+  for (const [identity, records] of draftByIdentity.entries()) {
+    if (dispositions.has(identity)) continue;
+    dispositions.set(identity, draftStatusFor(records));
+  }
+
+  return dispositions;
+}
+
+export async function buildGlobalOnlyReport({
+  globalRepo,
+  targetRepo,
+  sitemapXml,
+  productionListHtmlByUrl,
+  prRecords = [],
+  now = new Date().toISOString(),
+}) {
+  const globalItems = await buildGlobalInventory({ globalRepo, sitemapXml, productionListHtmlByUrl });
+  const ignoreRecords = await readManifest(targetRepo, "ignore");
+  const { present, mappingDrift } = await buildJapanInventory({ targetRepo, prRecords });
+  const dispositions = buildDispositionMap({ ignoreRecords, prRecords, globalItems, now });
+  const items = [];
+
+  for (const item of globalItems) {
+    if (present.has(item.identity)) continue;
+    const drift = mappingDrift.get(item.identity);
+    items.push({
+      ...item,
+      status: drift ? "Mapping drift" : dispositions.get(item.identity) || "Untracked",
+    });
+  }
+
+  const familyCounts = {};
+  for (const item of items) {
+    familyCounts[item.targetFamily] = (familyCounts[item.targetFamily] || 0) + 1;
+  }
+
+  return {
+    generatedAt: new Date(now).toISOString(),
+    counts: {
+      globalPublished: globalItems.length,
+      japanPresent: present.size,
+      globalOnly: items.length,
+    },
+    familyCounts,
+    items,
+    mappingDrift: items
+      .filter(({ status }) => status === "Mapping drift")
+      .map(({ identity }) => ({ identity, expectedPath: mappingDrift.get(identity).expectedPath })),
+  };
+}
