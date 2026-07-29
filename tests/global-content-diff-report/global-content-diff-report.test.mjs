@@ -86,7 +86,7 @@ function baselineMapping(sourceSection, sourceId, sourceCategory, targetFamily, 
 function ignored(sourceId, sourceCanonicalUrl, sourceSection) {
   return {
     sourceId,
-    sourceSection,
+    ...(sourceSection === undefined ? {} : { sourceSection }),
     sourceCanonicalUrl,
     reasonCode: "manual-publication",
     reason: "Handled manually",
@@ -380,6 +380,40 @@ test("rejects a production-listed non-HTTPS outlink instead of silently skipping
   );
 });
 
+test("rejects a production-listed relative outlink without treating its resolved evidence URL as canonical", async () => {
+  await assert.rejects(
+    () => fixtureWith({
+      global: [publishedNews("cnt_000304", "relative-story", {
+        contentType: "outlink",
+        externalUrl: "/published-relative-target",
+        title: { ja: "外部記事" },
+        summary: { ja: "要約" },
+      })],
+      sitemapXml: "",
+    }),
+    /news:cnt_000304: invalid external URL/,
+  );
+});
+
+test("skips an unlisted stale relative outlink", async () => {
+  const report = await fixtureWith({
+    global: [publishedNews("cnt_000305", "stale-relative-story", {
+      contentType: "outlink",
+      externalUrl: "/stale-relative-target",
+      title: { ja: "外部記事" },
+      summary: { ja: "要約" },
+    })],
+    productionListHtmlByUrl: {
+      "https://www.querypie.com/en/news": "",
+      "https://www.querypie.com/en/documentation": "",
+    },
+    sitemapXml: "",
+  });
+
+  assert.equal(report.counts.globalPublished, 0);
+  assert.deepEqual(report.items, []);
+});
+
 test("includes listed outlinks without sitemap detail evidence", async () => {
   const report = await fixtureWith({
     global: [publishedNews("cnt_000301", "external-story", {
@@ -402,14 +436,21 @@ test("includes listed outlinks without sitemap detail evidence", async () => {
 });
 
 test("rejects unsupported and duplicate resolved ignore identities", () => {
-  assert.throws(
-    () => buildDispositionMap({
-      ignoreRecords: [ignored("cnt_000301", "https://example.com/article", "bogus")],
-      globalItems: [],
-      now: "2026-03-01T00:00:00.000Z",
-    }),
-    /unsupported ignore sourceSection: bogus/,
-  );
+  for (const sourceSection of ["", null, false, [], "bogus"]) {
+    assert.throws(
+      () => buildDispositionMap({
+        ignoreRecords: [ignored("cnt_000301", "https://example.com/article", sourceSection)],
+        globalItems: [{
+          sourceId: "cnt_000301",
+          sourceSection: "news",
+          sourceUrl: "https://example.com/article",
+        }],
+        now: "2026-03-01T00:00:00.000Z",
+      }),
+      /unsupported ignore sourceSection/,
+      `explicit sourceSection ${JSON.stringify(sourceSection)} must not use legacy inference`,
+    );
+  }
 
   const legacy = ignored("cnt_000301", "https://example.com/article", undefined);
   assert.throws(

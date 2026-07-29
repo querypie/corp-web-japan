@@ -125,10 +125,12 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /const prs = pages\.flat\(\)\.map/);
   assert.doesNotMatch(source, /gh pr list[^\n]*--limit/);
   assert.match(source, /const trustedMarker = `<!-- global-content-diff-ignore:v1 /);
-  assert.match(source, /const branchPrefix = `global-content-diff-ignore\/\$\{sourceIdentity\.replace\(":", "-"\)\}`;/);
-  assert.match(source, /pr\?\.isCrossRepository === false/);
-  assert.match(source, /pr\.headRefName === branchPrefix \|\| pr\.headRefName\.startsWith\(`\$\{branchPrefix\}-`\)/);
-  assert.match(source, /pr\.title === title/);
+  assert.match(source, /const expectedBranch = `global-content-diff-ignore\/\$\{sourceIdentity\.replace\(":", "-"\)\}`;/);
+  assert.match(source, /const normalizeRepository = \(value\) => String\(value \|\| ""\)\.trim\(\)\.toLowerCase\(\);/);
+  assert.match(source, /headRepository: normalizeRepository\(pr\?\.head\?\.repo\?\.full_name\)/);
+  assert.match(source, /pr\.headRepository === expectedRepository/);
+  assert.match(source, /pr\.headRefName === expectedBranch/);
+  assert.doesNotMatch(source, /pr\.title === title|startsWith\(`\$\{expectedBranch\}-`\)|isCrossRepository/);
   assert.match(source, /String\(pr\.body \|\| ""\)\.includes\(trustedMarker\)/);
   assert.match(source, /match_count=\$\{matches\.length\}/);
   assert.match(source, /Expected at most one open ignore PR/);
@@ -188,7 +190,8 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /addedBy: process\.env\.GITHUB_ACTOR/);
   assert.match(source, /new Date\(\)\.toISOString\(\)/);
   assert.match(source, /values\.sort\(\(left, right\) => String\(left\?\.sourceId \|\| ""\)\.localeCompare\(String\(right\?\.sourceId \|\| ""\)\) \|\| String\(left\?\.sourceSection \|\| ""\)\.localeCompare\(String\(right\?\.sourceSection \|\| ""\)\)\);/);
-  assert.match(source, /branch="global-content-diff-ignore\/\$\{source_identity\/:\/-\}-\$\{GITHUB_RUN_ID\}-\$\{GITHUB_RUN_ATTEMPT\}"/);
+  assert.match(source, /branch="global-content-diff-ignore\/\$\{source_identity\/:\/-\}"/);
+  assert.doesNotMatch(source, /branch=.*GITHUB_RUN_ID|branch=.*GITHUB_RUN_ATTEMPT/);
   assert.doesNotMatch(source, /content-sync-ignore\//);
   assert.match(source, /gh pr create/);
   assert.match(source, /global-content-diff-ignore:v1/);

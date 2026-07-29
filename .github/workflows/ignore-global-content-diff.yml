@@ -50,21 +50,21 @@ jobs:
           if (!pattern.test(sourceIdentity)) fail("Invalid source_identity; expected exact composite identity like news:cnt_000177");
 
           const [sourceSection, sourceId] = sourceIdentity.split(":");
-          const title = `Ignore Global-only content ${sourceIdentity}`;
           const trustedMarker = `<!-- global-content-diff-ignore:v1 {"sourceSection":"${sourceSection}","sourceId":"${sourceId}","sourceIdentity":"${sourceIdentity}"} -->`;
-          const branchPrefix = `global-content-diff-ignore/${sourceIdentity.replace(":", "-")}`;
+          const expectedBranch = `global-content-diff-ignore/${sourceIdentity.replace(":", "-")}`;
+          const normalizeRepository = (value) => String(value || "").trim().toLowerCase();
+          const expectedRepository = normalizeRepository(process.env.GITHUB_REPOSITORY);
+          if (!expectedRepository) fail("GITHUB_REPOSITORY is required");
           const pages = JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/open-ignore-prs.json`, "utf8"));
           if (!Array.isArray(pages) || pages.some((page) => !Array.isArray(page))) fail("Expected paginated GitHub pull request arrays");
           const prs = pages.flat().map((pr) => ({
-            title: pr?.title,
             body: pr?.body,
             headRefName: pr?.head?.ref,
+            headRepository: normalizeRepository(pr?.head?.repo?.full_name),
             url: pr?.html_url,
-            isCrossRepository: pr?.head?.repo?.full_name !== process.env.GITHUB_REPOSITORY,
           }));
-          const matches = prs.filter((pr) => pr?.isCrossRepository === false
-            && (pr.headRefName === branchPrefix || pr.headRefName.startsWith(`${branchPrefix}-`))
-            && pr.title === title
+          const matches = prs.filter((pr) => pr.headRepository === expectedRepository
+            && pr.headRefName === expectedBranch
             && String(pr.body || "").includes(trustedMarker));
 
           const outputPath = process.env.GITHUB_OUTPUT;
@@ -191,7 +191,7 @@ jobs:
           source_section=$(jq -r .sourceSection "$RUNNER_TEMP/ignore-item.json")
           source_id=$(jq -r .sourceId "$RUNNER_TEMP/ignore-item.json")
           source_evidence_url=$(jq -r .sourceEvidenceUrl "$RUNNER_TEMP/ignore-item.json")
-          branch="global-content-diff-ignore/${source_identity/:/-}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          branch="global-content-diff-ignore/${source_identity/:/-}"
 
           git config user.name "QueryPie Global content diff"
           git config user.email "noreply@querypie.com"

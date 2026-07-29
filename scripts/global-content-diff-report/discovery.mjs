@@ -6,6 +6,13 @@ import { resolveLegacySourceSection, sortSourceRecords, sourceIdentityKey } from
 import { SUPPORTED_SOURCE_SECTIONS, canonicalContentUrl, sourceRoots } from "./source-family-map.mjs";
 
 const supportedSourceSections = new Set(SUPPORTED_SOURCE_SECTIONS);
+const productionListUrlBase = "https://www.querypie.com";
+const hasOwn = (value, key) => Object.prototype.hasOwnProperty.call(value, key);
+
+function resolveProductionListUrl(value, { preserveQuery = false } = {}) {
+  const resolved = new URL(String(value).replaceAll("&amp;", "&"), productionListUrlBase).href;
+  return (preserveQuery ? normalizeUrlPreservingQuery : normalizeUrl)(resolved);
+}
 
 export function canonicalSourceUrl(category, meta, { preserveQuery = false } = {}) {
   if (meta.contentType === "outlink") {
@@ -62,7 +69,7 @@ export function validateDecisionManifest(records, name) {
       if (normalizeUrl(record.sourceCanonicalUrl) !== record.sourceCanonicalUrl || !record.sourceCanonicalUrl.startsWith("https://")) {
         throw new Error("ignore record sourceCanonicalUrl must be normalized HTTPS");
       }
-      if (record.sourceSection) identities.push(manifestIdentity(record, name));
+      if (hasOwn(record, "sourceSection")) identities.push(manifestIdentity(record, name));
     }
     if (new Set(identities).size !== identities.length) throw new Error(`${name} manifest has duplicate source identity`);
   }
@@ -116,7 +123,7 @@ export async function enumerateSources(globalRepo, { preserveQuery = false } = {
         sourceCanonicalError = error;
         if (meta.contentType === "outlink") {
           try {
-            sourceEvidenceUrl = (preserveQuery ? normalizeUrlPreservingQuery : normalizeUrl)(meta.externalUrl);
+            sourceEvidenceUrl = resolveProductionListUrl(meta.externalUrl, { preserveQuery });
           } catch {
             sourceEvidenceUrl = null;
           }
@@ -146,7 +153,7 @@ export function productionSets(sitemapXml, productionListHtmlByUrl = {}, { prese
     listByUrl.set(
       normalizeUrl(listUrl),
       new Set([...String(html || "").matchAll(/href=["']([^"']+)["']/g)].map((match) =>
-        (preserveQuery ? normalizeUrlPreservingQuery : normalizeUrl)(new URL(match[1].replaceAll("&amp;", "&"), "https://www.querypie.com").href))),
+        resolveProductionListUrl(match[1], { preserveQuery }))),
     );
   }
   return { sitemap, listByUrl };

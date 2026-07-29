@@ -1,6 +1,7 @@
 import { sourceFamily } from "./source-family-map.mjs";
 
 const SOURCE_ID_PATTERN = /^cnt_\d+$/;
+const hasOwn = (value, key) => Object.prototype.hasOwnProperty.call(value, key);
 
 function assertSourceIdentity({ sourceSection, sourceId }) {
   if (!sourceSection) throw new Error("sourceSection required");
@@ -19,7 +20,7 @@ export function inferSourceSectionFromCategory(sourceCategory) {
 }
 
 export function resolveLegacySourceSection({ record, sources, allowSourceIdFallback = true }) {
-  if (record?.sourceSection) return { status: "resolved", sourceSection: record.sourceSection };
+  if (hasOwn(record, "sourceSection")) return { status: "resolved", sourceSection: record.sourceSection };
   if (record?.sourceCategory) return { status: "resolved", sourceSection: inferSourceSectionFromCategory(record.sourceCategory) };
   const byId = sources.filter((source) => source.sourceId === record?.sourceId);
   const exact = record?.sourceCanonicalUrl
