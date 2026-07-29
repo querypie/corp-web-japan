@@ -3,9 +3,11 @@ import path from "node:path";
 
 import { chooseLocale, normalizeUrl, normalizeUrlPreservingQuery } from "./lib.mjs";
 import { resolveLegacySourceSection, sortSourceRecords, sourceIdentityKey } from "./sync-identity.mjs";
-import { SUPPORTED_SOURCE_SECTIONS, canonicalContentUrl, sourceRoots } from "./source-family-map.mjs";
+import { SUPPORTED_SOURCE_SECTIONS, canonicalContentUrl, sourceFamily, sourceRoots } from "./source-family-map.mjs";
 
 const supportedSourceSections = new Set(SUPPORTED_SOURCE_SECTIONS);
+const safeKebabSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const utcTimestampPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
 const productionListUrlBase = "https://www.querypie.com";
 const hasOwn = (value, key) => Object.prototype.hasOwnProperty.call(value, key);
 
@@ -37,19 +39,60 @@ function manifestIdentity(record, name) {
   return sourceIdentityKey({ sourceSection: resolved.sourceSection, sourceId: record.sourceId });
 }
 
+function assertPlainManifestRecord(record, name) {
+  if (record === null || typeof record !== "object" || Array.isArray(record)) {
+    throw new Error(`${name} record must be a plain object`);
+  }
+  const prototype = Object.getPrototypeOf(record);
+  if (prototype !== Object.prototype && prototype !== null) {
+    throw new Error(`${name} record must be a plain object`);
+  }
+}
+
+function assertStringField(record, key, name, { nonEmpty = false } = {}) {
+  if (typeof record[key] !== "string" || (nonEmpty && record[key].length === 0)) {
+    throw new Error(`${name} record has invalid ${key}`);
+  }
+}
+
+function assertUtcTimestamp(value, key) {
+  if (typeof value !== "string" || !utcTimestampPattern.test(value)) {
+    throw new Error(`ignore record has invalid ${key}`);
+  }
+  const normalized = value.endsWith(".000Z") || /\.\d{3}Z$/.test(value)
+    ? value
+    : value.replace(/Z$/, ".000Z");
+  if (Number.isNaN(Date.parse(value)) || new Date(value).toISOString() !== normalized) {
+    throw new Error(`ignore record has invalid ${key}`);
+  }
+}
+
 export function validateDecisionManifest(records, name) {
   if (!Array.isArray(records)) throw new Error(`${name} manifest must be an array`);
+  for (const record of records) assertPlainManifestRecord(record, name);
+
   const identities = [];
-  if (records.some((record, index) => index > 0 && sortSourceRecords(records[index - 1], record) > 0)) {
-    throw new Error(`${name} manifest must be sourceId-sorted`);
-  }
   if (name === "baseline") {
     for (const record of records) {
-      for (const key of ["sourceId", "sourceCategory", "sourceSlug", "targetFamily", "targetId", "targetSlug"]) {
-        if (record[key] === undefined || record[key] === "") throw new Error(`baseline record missing ${key}`);
+      for (const key of ["sourceSection", "sourceId", "sourceCategory", "sourceSlug", "targetFamily", "targetSlug"]) {
+        assertStringField(record, key, name, { nonEmpty: true });
       }
-      if (!/^cnt_\d+$/.test(record.sourceId) || !Number.isInteger(Number(record.targetId))) {
-        throw new Error("baseline record has invalid identity");
+      if (!supportedSourceSections.has(record.sourceSection)) {
+        throw new Error(`unsupported baseline sourceSection: ${record.sourceSection}`);
+      }
+      if (!/^cnt_\d+$/.test(record.sourceId)) throw new Error("baseline record has invalid sourceId");
+      if (!safeKebabSlugPattern.test(record.sourceSlug)) throw new Error("baseline record has unsafe sourceSlug");
+      if (!Number.isInteger(record.targetId) || record.targetId <= 0) {
+        throw new Error("baseline record targetId must be a positive integer number");
+      }
+      if (!safeKebabSlugPattern.test(record.targetSlug)) throw new Error("baseline record has unsafe targetSlug");
+
+      const descriptor = sourceFamily(record.sourceCategory);
+      if (record.sourceSection !== descriptor.sourceSection) {
+        throw new Error(`baseline record sourceSection must equal descriptor section: ${descriptor.sourceSection}`);
+      }
+      if (record.targetFamily !== descriptor.targetFamily) {
+        throw new Error(`baseline record targetFamily must equal descriptor target family: ${descriptor.targetFamily}`);
       }
       identities.push(manifestIdentity(record, name));
     }
@@ -60,18 +103,33 @@ export function validateDecisionManifest(records, name) {
     const reasonCodes = new Set(["not-for-japan", "duplicate", "superseded", "legal-hold", "launch-gated", "manual-publication", "source-quality", "other"]);
     for (const record of records) {
       for (const key of ["sourceId", "sourceCanonicalUrl", "reasonCode", "reason", "addedBy", "addedAt"]) {
-        if (!record[key]) throw new Error(`ignore record missing ${key}`);
+        assertStringField(record, key, name, { nonEmpty: true });
       }
-      if (!/^cnt_\d+$/.test(record.sourceId) || Number.isNaN(Date.parse(record.addedAt)) || (record.expiresAt && Number.isNaN(Date.parse(record.expiresAt)))) {
-        throw new Error("ignore record has invalid identity or date");
+      if (hasOwn(record, "sourceSection")) {
+        if (typeof record.sourceSection !== "string") {
+          throw new Error("unsupported ignore sourceSection: value must be a string");
+        }
+        if (!supportedSourceSections.has(record.sourceSection)) {
+          throw new Error(`unsupported ignore sourceSection: ${record.sourceSection}`);
+        }
+        identities.push(manifestIdentity(record, name));
+      } else if (hasOwn(record, "sourceCategory")) {
+        assertStringField(record, "sourceCategory", name, { nonEmpty: true });
+        sourceFamily(record.sourceCategory);
       }
+      if (!/^cnt_\d+$/.test(record.sourceId)) throw new Error("ignore record has invalid sourceId");
       if (!reasonCodes.has(record.reasonCode)) throw new Error(`ignore record has invalid reasonCode: ${record.reasonCode}`);
+      assertUtcTimestamp(record.addedAt, "addedAt");
+      if (hasOwn(record, "expiresAt")) assertUtcTimestamp(record.expiresAt, "expiresAt");
       if (normalizeUrl(record.sourceCanonicalUrl) !== record.sourceCanonicalUrl || !record.sourceCanonicalUrl.startsWith("https://")) {
         throw new Error("ignore record sourceCanonicalUrl must be normalized HTTPS");
       }
-      if (hasOwn(record, "sourceSection")) identities.push(manifestIdentity(record, name));
     }
     if (new Set(identities).size !== identities.length) throw new Error(`${name} manifest has duplicate source identity`);
+  }
+
+  if (records.some((record, index) => index > 0 && sortSourceRecords(records[index - 1], record) > 0)) {
+    throw new Error(`${name} manifest must be sourceId-sorted`);
   }
   return records;
 }
