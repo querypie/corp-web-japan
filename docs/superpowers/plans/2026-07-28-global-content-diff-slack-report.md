@@ -24,8 +24,9 @@
   - exact composite-identity input
   - current dry-run validation
   - deterministic ignore-manifest append
-  - `global-content-diff-ignore/` branch and normal human-reviewed PR
-  - no automatic merge
+  - identity-specific `global-content-diff-ignore/${sourceSection}-${sourceId}` branch prefix with a unique run/attempt suffix
+  - exact marker and same-repository matching across all paginated open PRs; title excluded from identity
+  - normal human-reviewed PR with no automatic merge
 - `.github/content-sync/{baseline,ignore}.json`
   - retained durable mapping and disposition manifests
 

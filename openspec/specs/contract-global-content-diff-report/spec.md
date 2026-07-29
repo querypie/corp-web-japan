@@ -128,15 +128,18 @@ A zero-difference run SHALL send a compact success payload. Unsafe inventory, ma
 
 Slack SHALL label each key `Composite identity` and link to `.github/workflows/ignore-global-content-diff.yml`. The manual workflow SHALL accept exactly `^(documentation|news):cnt_\d+$`, reject bare IDs, run the standalone CLI in `--dry-run` mode, select exactly one live `Untracked` item, and derive its canonical and evidence URLs rather than accepting a URL input.
 
-The workflow SHALL append one sorted `.github/content-sync/ignore.json` record with reason code `other`, actor, and UTC timestamp. It SHALL use a `global-content-diff-ignore/` branch and an exact trusted `global-content-diff-ignore:v1` marker containing the composite identity. It SHALL inspect every open pull request in the current repository before matching that marker and identity. Zero matching open PRs SHALL create one normal PR for human review. Exactly one matching open PR SHALL be reused only after live `Untracked` validation succeeds. Two or more matching open PRs SHALL fail closed. The workflow SHALL NOT merge automatically.
+The workflow SHALL append one sorted `.github/content-sync/ignore.json` record with reason code `other`, actor, and UTC timestamp. It SHALL create branches under the identity-specific prefix `global-content-diff-ignore/${sourceSection}-${sourceId}` with a unique `${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}` suffix. It SHALL place an exact trusted `global-content-diff-ignore:v1` marker containing the composite identity in the PR body.
+
+The workflow SHALL completely enumerate every open pull request with the paginated GitHub REST API. A reusable PR SHALL have a head repository equal to `GITHUB_REPOSITORY` after case normalization, the identity-specific branch prefix in either the legacy exact-prefix format or the unique run-suffixed format, and the exact trusted marker. Title SHALL NOT participate in identity matching. Fork PRs, unsupported branch formats, missing or incorrect markers, and malformed PR records SHALL NOT be reused; malformed pagination envelopes SHALL fail closed. Zero reusable open PRs SHALL create one normal PR for human review on the unique current-run branch. Exactly one reusable open PR SHALL be reused only after live `Untracked` validation succeeds. Two or more reusable open PRs SHALL fail closed. The workflow SHALL NOT merge automatically.
 
 #### Scenario: Valid Untracked identity has no matching open PR
 
 - **GIVEN** one exact live `Untracked` report item
-- **AND** zero open PRs contain its exact trusted marker and composite identity
+- **AND** zero reusable open PRs match its same-repository branch prefix and exact trusted marker
 - **WHEN** the workflow runs
 - **THEN** it SHALL append the decision
 - **AND** open one normal human-reviewed PR containing the exact trusted marker and production evidence URL
+- **AND** the PR branch SHALL end with the current GitHub run ID and run attempt
 
 #### Scenario: Valid Untracked identity has one matching open PR
 
@@ -164,6 +167,19 @@ The workflow SHALL append one sorted `.github/content-sync/ignore.json` record w
 - **GIVEN** an open PR has a similar title or branch but lacks the exact `global-content-diff-ignore:v1` marker containing the composite identity
 - **WHEN** matching runs
 - **THEN** that PR SHALL NOT be reused
+
+#### Scenario: Candidate PR is not reusable
+
+- **GIVEN** an open PR comes from a fork, uses another identity or an unsupported branch format, or has malformed PR data
+- **WHEN** matching runs
+- **THEN** that PR SHALL NOT count as reusable
+
+#### Scenario: Reusable PR title was edited
+
+- **GIVEN** an open same-repository PR uses the identity-specific legacy or run-suffixed branch format and contains the exact trusted marker
+- **AND** its title was edited
+- **WHEN** matching runs
+- **THEN** the PR SHALL remain reusable
 
 ### Requirement: No interactive Ignore actions
 

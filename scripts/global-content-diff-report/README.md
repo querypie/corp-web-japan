@@ -93,7 +93,9 @@ Operators can ignore one current Global-only item without Slack interactivity:
 4. Review and merge the generated PR.
 5. The next report shows the item as `Ignored`.
 
-The workflow derives the source URL from the current live dry-run report and requires exactly one matching item with status `Untracked`. It appends a sorted `.github/content-sync/ignore.json` row with reason code `other`, actor, and UTC timestamp, then opens or reuses a normal PR on a `global-content-diff-ignore/` branch. It does not merge the PR.
+The workflow derives the source URL from the current live dry-run report and requires exactly one matching item with status `Untracked`. It appends a sorted `.github/content-sync/ignore.json` row with reason code `other`, actor, and UTC timestamp, then opens or reuses a normal PR. New branches use `global-content-diff-ignore/${sourceSection}-${sourceId}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}` so closed branches or failed prior pushes cannot block creation.
+
+Reuse requires complete paginated open-PR enumeration plus a case-normalized same-repository head, an identity-specific legacy or run-suffixed branch, and the exact trusted marker in the PR body. PR titles are not identity. The workflow fails closed for multiple reusable PRs or malformed pagination and never merges the PR.
 
 ## No Slack actions
 

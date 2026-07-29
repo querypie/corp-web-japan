@@ -30,6 +30,7 @@ jobs:
 
       - name: Find existing ignore pull request
         id: find_existing_ignore_pr
+        working-directory: japan
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_IDENTITY: ${{ inputs.source_identity }}
@@ -39,38 +40,19 @@ jobs:
           gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/pulls?state=open&per_page=100" > "$RUNNER_TEMP/open-ignore-prs.json"
           node --input-type=module - <<'NODE'
           import { readFileSync, appendFileSync } from "node:fs";
+          import { classifyReusableDirectIgnorePullRequests, findReusableDirectIgnorePullRequests } from "./scripts/global-content-diff-report/direct-ignore-pr.mjs";
 
-          const fail = (message) => {
-            console.error(message);
-            process.exit(1);
-          };
-
-          const sourceIdentity = process.env.SOURCE_IDENTITY || "";
-          const pattern = /^(documentation|news):cnt_\d+$/;
-          if (!pattern.test(sourceIdentity)) fail("Invalid source_identity; expected exact composite identity like news:cnt_000177");
-
-          const [sourceSection, sourceId] = sourceIdentity.split(":");
-          const trustedMarker = `<!-- global-content-diff-ignore:v1 {"sourceSection":"${sourceSection}","sourceId":"${sourceId}","sourceIdentity":"${sourceIdentity}"} -->`;
-          const expectedBranch = `global-content-diff-ignore/${sourceIdentity.replace(":", "-")}`;
-          const normalizeRepository = (value) => String(value || "").trim().toLowerCase();
-          const expectedRepository = normalizeRepository(process.env.GITHUB_REPOSITORY);
-          if (!expectedRepository) fail("GITHUB_REPOSITORY is required");
           const pages = JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/open-ignore-prs.json`, "utf8"));
-          if (!Array.isArray(pages) || pages.some((page) => !Array.isArray(page))) fail("Expected paginated GitHub pull request arrays");
-          const prs = pages.flat().map((pr) => ({
-            body: pr?.body,
-            headRefName: pr?.head?.ref,
-            headRepository: normalizeRepository(pr?.head?.repo?.full_name),
-            url: pr?.html_url,
-          }));
-          const matches = prs.filter((pr) => pr.headRepository === expectedRepository
-            && pr.headRefName === expectedBranch
-            && String(pr.body || "").includes(trustedMarker));
-
+          const matches = findReusableDirectIgnorePullRequests({
+            pages,
+            repository: process.env.GITHUB_REPOSITORY,
+            sourceIdentity: process.env.SOURCE_IDENTITY,
+          });
+          const classification = classifyReusableDirectIgnorePullRequests(matches);
           const outputPath = process.env.GITHUB_OUTPUT;
-          if (!outputPath) fail("GITHUB_OUTPUT is required");
-          appendFileSync(outputPath, `match_count=${matches.length}\n`);
-          appendFileSync(outputPath, `existing_pr_url=${matches.length === 1 ? matches[0].url : ""}\n`);
+          if (!outputPath) throw new Error("GITHUB_OUTPUT is required");
+          appendFileSync(outputPath, `match_count=${classification.count}\n`);
+          appendFileSync(outputPath, `existing_pr_url=${classification.kind === "reuse" ? classification.match.url : ""}\n`);
           NODE
 
       - name: Checkout Global repository
@@ -185,13 +167,24 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           RUNNER_TEMP: ${{ runner.temp }}
+          SOURCE_IDENTITY: ${{ inputs.source_identity }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_RUN_ATTEMPT: ${{ github.run_attempt }}
         run: |
           set -euo pipefail
           source_identity=$(jq -r .sourceIdentity "$RUNNER_TEMP/ignore-item.json")
           source_section=$(jq -r .sourceSection "$RUNNER_TEMP/ignore-item.json")
           source_id=$(jq -r .sourceId "$RUNNER_TEMP/ignore-item.json")
           source_evidence_url=$(jq -r .sourceEvidenceUrl "$RUNNER_TEMP/ignore-item.json")
-          branch="global-content-diff-ignore/${source_identity/:/-}"
+          branch=$(node --input-type=module - <<'NODE'
+          import { buildDirectIgnoreBranch } from "./scripts/global-content-diff-report/direct-ignore-pr.mjs";
+          console.log(buildDirectIgnoreBranch({
+            sourceIdentity: process.env.SOURCE_IDENTITY,
+            runId: process.env.GITHUB_RUN_ID,
+            runAttempt: process.env.GITHUB_RUN_ATTEMPT,
+          }));
+          NODE
+          )
 
           git config user.name "QueryPie Global content diff"
           git config user.email "noreply@querypie.com"

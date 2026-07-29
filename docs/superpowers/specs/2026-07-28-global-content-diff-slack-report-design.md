@@ -66,7 +66,9 @@ No inline Ignore action exists.
 
 ## Direct Ignore flow
 
-`.github/workflows/ignore-global-content-diff.yml` accepts one exact composite identity. It builds a fresh dry-run report, requires exactly one matching `Untracked` item, derives URLs from that evidence, appends a deterministic ignore row, and opens or reuses one normal PR on a `global-content-diff-ignore/` branch. A human reviews and merges the PR. The workflow never auto-merges.
+`.github/workflows/ignore-global-content-diff.yml` accepts one exact composite identity. It builds a fresh dry-run report, requires exactly one matching `Untracked` item, derives URLs from that evidence, and appends a deterministic ignore row. New PR branches use the identity-specific `global-content-diff-ignore/${sourceSection}-${sourceId}` prefix plus the GitHub run ID and attempt.
+
+Reuse is based on complete paginated enumeration and requires a case-normalized same-repository head, a supported identity-specific branch, and the exact trusted composite-identity marker. The title is not identity. A human reviews and merges the normal PR; the workflow never auto-merges.
 
 ## Failure behavior
 
