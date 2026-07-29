@@ -11,6 +11,7 @@ const workflowPath = path.resolve(".github/workflows/global-content-diff-report.
 const ignoreWorkflowPath = path.resolve(".github/workflows/ignore-global-content-diff.yml");
 const ciWorkflowPath = path.resolve(".github/workflows/ci.yml");
 const contractPath = path.resolve("openspec/specs/contract-global-content-diff-report/spec.md");
+const operatorGuidePath = path.resolve(".github/content-sync/README.md");
 
 async function withTempRepos(run) {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "global-content-diff-cli-"));
@@ -241,6 +242,15 @@ test("delivery contract acknowledges visible partial multipart delivery", async 
   assert.match(source, /compact failure notification/);
   assert.doesNotMatch(source, /send only a compact failure notification/);
   assert.doesNotMatch(source, /roll(?:ed)? back/);
+});
+
+test("operator guide documents the manual Ignore PR workflow", async () => {
+  const source = await readFile(operatorGuidePath, "utf8");
+  assert.match(source, /Composite identity/);
+  assert.match(source, /source_identity/);
+  assert.match(source, /actions\/workflows\/ignore-global-content-diff\.yml/);
+  assert.match(source, /does not auto-merge/);
+  assert.match(source, /next report moves the item from `Untracked` to `Ignored`/);
 });
 
 test("CI cross_cutting scope includes independent workflow and CLI paths", async () => {

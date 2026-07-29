@@ -58,7 +58,7 @@ Missing mapped MDX files remain internal `mappingDrift` evidence, not Japan-pres
 
 - Reads only the supported Global source families from `scripts/global-documentation-sync/source-family-map.mjs`.
 - Includes only production-published Global records proven by current production family-list evidence plus sitemap evidence when the family requires it.
-- Preserves the original outlink URL as internal source/Ignore evidence while keeping Slack navigation on `www.querypie.com`.
+- Preserves each production-evidenced HTTPS source URL and exposes it as an explicitly labeled original-domain link alongside the Global-SHA-pinned GitHub source folder.
 
 ## Dry run
 
