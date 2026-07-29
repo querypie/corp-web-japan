@@ -630,7 +630,7 @@ test("renders status-first collapsible containers and original links", () => {
   const contextText = payload.blocks.find((block) => block.type === "context").elements[0].text;
   assert.equal(
     contextText,
-    `Run · 2026-04-30 09:00 KST\nGlobal · <https://github.com/querypie/corp-web-v2/commit/${"a".repeat(40)}|aaaaaaa>\nJapan · <https://github.com/querypie/corp-web-japan/commit/${"b".repeat(40)}|bbbbbbb>`,
+    `Run · 2026-04-30 09:00 JST\nGlobal · <https://github.com/querypie/corp-web-v2/commit/${"a".repeat(40)}|aaaaaaa>\nJapan · <https://github.com/querypie/corp-web-japan/commit/${"b".repeat(40)}|bbbbbbb>`,
   );
   assert.doesNotMatch(JSON.stringify(payload), /Part 1 of 1|2026-04-30T00:00:00\.000Z/);
   assert.doesNotMatch(JSON.stringify(payload), /button|ignore_content|<@|Draft open|Draft closed|Mapping drift/i);
@@ -682,7 +682,7 @@ test("renders a compact zero-difference success without ignore instructions", ()
   const rendered = JSON.stringify(payload);
 
   assert.match(payload.text, /No Global-only content/);
-  assert.match(rendered, /Run · 2026-04-30 09:00 KST\\nGlobal ·/);
+  assert.match(rendered, /Run · 2026-04-30 09:00 JST\\nGlobal ·/);
   assert.doesNotMatch(rendered, /Part 1 of 1|2026-04-30T00:00:00\.000Z/);
   assert.equal(payload.blocks.some(({ type }) => type === "container"), false);
   assert.doesNotMatch(rendered, /Copy the displayed composite identity|Ignore Global-only content|Open Actions workflow/);

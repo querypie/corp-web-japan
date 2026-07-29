@@ -13,7 +13,7 @@ The durable contract is [`openspec/specs/contract-global-content-diff-report/spe
 
 ## Schedule
 
-- Weekdays at 10:00 KST via GitHub Actions cron `0 1 * * 1-5`.
+- Weekdays at 10:00 JST via GitHub Actions cron `0 1 * * 1-5`.
 - Manual execution via `workflow_dispatch`.
 
 ## Secret

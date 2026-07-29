@@ -14,7 +14,7 @@ The report uses no database or prior report snapshot. Every run recomputes the f
 
 ## Triggers and permissions
 
-- Schedule: `0 1 * * 1-5` → 10:00 KST weekdays.
+- Schedule: `0 1 * * 1-5` → 10:00 JST weekdays.
 - Manual trigger: `workflow_dispatch`.
 - Runner: GitHub-hosted Ubuntu.
 - Report permission: `contents: read` only.

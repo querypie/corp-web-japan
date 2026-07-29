@@ -88,7 +88,7 @@ function workflowStepBlock(source, stepName) {
   return source.slice(index, nextIndex === -1 ? source.length : nextIndex);
 }
 
-test("workflow is independent, read-only, scheduled for weekdays at 10 KST, and manually runnable", async () => {
+test("workflow is independent, read-only, scheduled for weekdays at 10 JST, and manually runnable", async () => {
   const source = await readFile(workflowPath, "utf8");
   assert.match(source, /cron: ["']0 1 \* \* 1-5["']/);
   assert.match(source, /workflow_dispatch:/);
