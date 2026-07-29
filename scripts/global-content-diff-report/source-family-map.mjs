@@ -74,6 +74,10 @@ export const SOURCE_FAMILIES = Object.freeze([
   }),
 ]);
 
+export const SUPPORTED_SOURCE_SECTIONS = Object.freeze(
+  [...new Set(SOURCE_FAMILIES.map(({ sourceSection }) => sourceSection))],
+);
+
 const SOURCE_FAMILY_BY_CATEGORY = new Map(SOURCE_FAMILIES.map((descriptor) => [descriptor.sourceCategory, descriptor]));
 const SOURCE_FAMILY_BY_TARGET = new Map(SOURCE_FAMILIES.map((descriptor) => [descriptor.targetFamily, descriptor]));
 const TARGET_FAMILY_BY_CATEGORY = new Map(SOURCE_FAMILIES.map((descriptor) => [descriptor.sourceCategory, descriptor.targetFamily]));

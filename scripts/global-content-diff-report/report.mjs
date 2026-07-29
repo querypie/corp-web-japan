@@ -116,10 +116,20 @@ export async function buildGlobalInventory({ globalRepo, sitemapXml, productionL
   const itemsByIdentity = new Map();
 
   for (const source of await enumerateSources(globalRepo, { preserveQuery: true })) {
-    if (!source.sourceCanonicalUrl) continue;
     const descriptor = sourceFamily(source.category);
     const listUrl = normalizeUrl(descriptor.productionListUrl);
-    const listed = (production.listByUrl.get(listUrl) || new Set()).has(source.sourceCanonicalUrl);
+    const productionList = production.listByUrl.get(listUrl) || new Set();
+    if (!source.sourceCanonicalUrl) {
+      const evidenced = source.sourceEvidenceUrl && productionList.has(source.sourceEvidenceUrl)
+        && (source.meta.contentType === "outlink" || production.sitemap.has(source.sourceEvidenceUrl));
+      if (evidenced) {
+        const failure = String(source.sourceCanonicalError?.message || "canonical source URL failure")
+          .replace(`${source.sourceId}: `, "");
+        throw new Error(`${source.sourceSection}:${source.sourceId}: ${failure}`);
+      }
+      continue;
+    }
+    const listed = productionList.has(source.sourceCanonicalUrl);
     if (!listed) continue;
     const sitemapped = production.sitemap.has(source.sourceCanonicalUrl);
     if (source.meta.contentType !== "outlink" && !sitemapped) continue;
@@ -180,14 +190,25 @@ export async function buildJapanInventory({ targetRepo, statFile = stat }) {
 export function buildDispositionMap({ ignoreRecords, globalItems, now }) {
   const dispositions = new Map();
   const sourceViews = globalSourceViews(globalItems);
-  const activeIgnore = validateDecisionManifest(ignoreRecords, "ignore")
-    .filter(({ expiresAt }) => !expiresAt || Date.parse(expiresAt) > Date.parse(now));
-
-  for (const record of activeIgnore) {
+  const resolvedRecords = validateDecisionManifest(ignoreRecords, "ignore").map((record) => {
     const resolved = resolveLegacySourceSection({ record, sources: sourceViews });
     if (resolved.status === "ambiguous") throw new Error(`ambiguous legacy ignore identity: ${record.sourceId}`);
-    if (resolved.status !== "resolved") continue;
-    dispositions.set(sourceIdentityKey({ sourceSection: resolved.sourceSection, sourceId: record.sourceId }), "Ignored");
+    if (resolved.status !== "resolved") throw new Error(`unresolved legacy ignore identity: ${record.sourceId}`);
+    return {
+      record,
+      identity: sourceIdentityKey({ sourceSection: resolved.sourceSection, sourceId: record.sourceId }),
+    };
+  });
+  const seen = new Set();
+  for (const { identity } of resolvedRecords) {
+    if (seen.has(identity)) throw new Error(`ignore manifest has duplicate source identity: ${identity}`);
+    seen.add(identity);
+  }
+
+  for (const { record, identity } of resolvedRecords) {
+    if (!record.expiresAt || Date.parse(record.expiresAt) > Date.parse(now)) {
+      dispositions.set(identity, "Ignored");
+    }
   }
 
   return dispositions;

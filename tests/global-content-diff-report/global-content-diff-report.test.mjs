@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 
-import { buildGlobalInventory, buildGlobalOnlyReport, buildJapanInventory } from "../../scripts/global-content-diff-report/report.mjs";
+import { buildDispositionMap, buildGlobalInventory, buildGlobalOnlyReport, buildJapanInventory } from "../../scripts/global-content-diff-report/report.mjs";
 import { buildSlackPayloads, sendSlackPayloads } from "../../scripts/global-content-diff-report/slack.mjs";
 import { SOURCE_FAMILIES } from "../../scripts/global-content-diff-report/source-family-map.mjs";
 
@@ -365,6 +365,21 @@ test("throws for listed invalid sources that are not skippable", async () => {
   });
 });
 
+test("rejects a production-listed non-HTTPS outlink instead of silently skipping it", async () => {
+  await assert.rejects(
+    () => fixtureWith({
+      global: [publishedNews("cnt_000300", "insecure-story", {
+        contentType: "outlink",
+        externalUrl: "http://example.com/article",
+        title: { ja: "外部記事" },
+        summary: { ja: "要約" },
+      })],
+      sitemapXml: "",
+    }),
+    /news:cnt_000300: outlink must use HTTPS/,
+  );
+});
+
 test("includes listed outlinks without sitemap detail evidence", async () => {
   const report = await fixtureWith({
     global: [publishedNews("cnt_000301", "external-story", {
@@ -384,6 +399,48 @@ test("includes listed outlinks without sitemap detail evidence", async () => {
   const rendered = JSON.stringify(payload);
   assert.match(rendered, /<https:\/\/example\.com\/article\.html\?no=169&amp;lang=en\|Original · example\.com>/);
   assert.match(rendered, new RegExp(`<https://github\\.com/querypie/corp-web-v2/tree/${"a".repeat(40)}/src/content/news/cnt_000301\\|GitHub source>`));
+});
+
+test("rejects unsupported and duplicate resolved ignore identities", () => {
+  assert.throws(
+    () => buildDispositionMap({
+      ignoreRecords: [ignored("cnt_000301", "https://example.com/article", "bogus")],
+      globalItems: [],
+      now: "2026-03-01T00:00:00.000Z",
+    }),
+    /unsupported ignore sourceSection: bogus/,
+  );
+
+  const legacy = ignored("cnt_000301", "https://example.com/article", undefined);
+  assert.throws(
+    () => buildDispositionMap({
+      ignoreRecords: [legacy, { ...legacy, reason: "Duplicate legacy row" }],
+      globalItems: [{
+        sourceId: "cnt_000301",
+        sourceSection: "news",
+        sourceUrl: "https://example.com/article",
+      }],
+      now: "2026-03-01T00:00:00.000Z",
+    }),
+    /ignore manifest has duplicate source identity: news:cnt_000301/,
+  );
+});
+
+test("preserves uniquely resolved legacy ignore compatibility and rejects unresolved identities", () => {
+  const legacy = ignored("cnt_000301", "https://example.com/article", undefined);
+  const globalItems = [{
+    sourceId: "cnt_000301",
+    sourceSection: "news",
+    sourceUrl: "https://example.com/article",
+  }];
+  assert.equal(
+    buildDispositionMap({ ignoreRecords: [legacy], globalItems, now: "2026-03-01T00:00:00.000Z" }).get("news:cnt_000301"),
+    "Ignored",
+  );
+  assert.throws(
+    () => buildDispositionMap({ ignoreRecords: [{ ...legacy, sourceId: "cnt_999999" }], globalItems, now: "2026-03-01T00:00:00.000Z" }),
+    /unresolved legacy ignore identity: cnt_999999/,
+  );
 });
 
 test("excludes unlisted and unsitemapped stale sources from Global inventory", async () => {

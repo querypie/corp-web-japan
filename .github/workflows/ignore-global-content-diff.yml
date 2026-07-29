@@ -36,7 +36,7 @@ jobs:
           RUNNER_TEMP: ${{ runner.temp }}
         run: |
           set -euo pipefail
-          gh pr list --repo "$GITHUB_REPOSITORY" --state open --limit 1000 --json title,body,headRefName,url,isCrossRepository > "$RUNNER_TEMP/open-ignore-prs.json"
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/pulls?state=open&per_page=100" > "$RUNNER_TEMP/open-ignore-prs.json"
           node --input-type=module - <<'NODE'
           import { readFileSync, appendFileSync } from "node:fs";
 
@@ -53,10 +53,19 @@ jobs:
           const title = `Ignore Global-only content ${sourceIdentity}`;
           const trustedMarker = `<!-- global-content-diff-ignore:v1 {"sourceSection":"${sourceSection}","sourceId":"${sourceId}","sourceIdentity":"${sourceIdentity}"} -->`;
           const branchPrefix = `global-content-diff-ignore/${sourceIdentity.replace(":", "-")}`;
-          const prs = JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/open-ignore-prs.json`, "utf8"));
+          const pages = JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/open-ignore-prs.json`, "utf8"));
+          if (!Array.isArray(pages) || pages.some((page) => !Array.isArray(page))) fail("Expected paginated GitHub pull request arrays");
+          const prs = pages.flat().map((pr) => ({
+            title: pr?.title,
+            body: pr?.body,
+            headRefName: pr?.head?.ref,
+            url: pr?.html_url,
+            isCrossRepository: pr?.head?.repo?.full_name !== process.env.GITHUB_REPOSITORY,
+          }));
           const matches = prs.filter((pr) => pr?.isCrossRepository === false
             && (pr.headRefName === branchPrefix || pr.headRefName.startsWith(`${branchPrefix}-`))
-            && (pr.title === title || String(pr.body || "").includes(trustedMarker)));
+            && pr.title === title
+            && String(pr.body || "").includes(trustedMarker));
 
           const outputPath = process.env.GITHUB_OUTPUT;
           if (!outputPath) fail("GITHUB_OUTPUT is required");

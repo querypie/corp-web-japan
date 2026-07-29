@@ -120,12 +120,16 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /timeout-minutes: (?:[3-9]|1\d)/);
   assert.match(source, /name: Checkout Japan repository[\s\S]*?with:[\s\S]*?ref: main[\s\S]*?path: japan/);
   assert.match(source, /name: Find existing ignore pull request/);
-  assert.match(source, /gh pr list --repo "\$GITHUB_REPOSITORY" --state open --limit 1000 --json title,body,headRefName,url,isCrossRepository/);
+  assert.match(source, /gh api --paginate --slurp/);
+  assert.match(source, /repos\/\$GITHUB_REPOSITORY\/pulls\?state=open&per_page=100/);
+  assert.match(source, /const prs = pages\.flat\(\)\.map/);
+  assert.doesNotMatch(source, /gh pr list[^\n]*--limit/);
   assert.match(source, /const trustedMarker = `<!-- global-content-diff-ignore:v1 /);
   assert.match(source, /const branchPrefix = `global-content-diff-ignore\/\$\{sourceIdentity\.replace\(":", "-"\)\}`;/);
   assert.match(source, /pr\?\.isCrossRepository === false/);
   assert.match(source, /pr\.headRefName === branchPrefix \|\| pr\.headRefName\.startsWith\(`\$\{branchPrefix\}-`\)/);
-  assert.match(source, /pr\.title === title \|\| String\(pr\.body \|\| ""\)\.includes\(trustedMarker\)/);
+  assert.match(source, /pr\.title === title/);
+  assert.match(source, /String\(pr\.body \|\| ""\)\.includes\(trustedMarker\)/);
   assert.match(source, /match_count=\$\{matches\.length\}/);
   assert.match(source, /Expected at most one open ignore PR/);
   assert.match(source, /Existing ignore PR already open/);

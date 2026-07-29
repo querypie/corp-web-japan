@@ -3,7 +3,9 @@ import path from "node:path";
 
 import { chooseLocale, normalizeUrl, normalizeUrlPreservingQuery } from "./lib.mjs";
 import { resolveLegacySourceSection, sortSourceRecords, sourceIdentityKey } from "./sync-identity.mjs";
-import { canonicalContentUrl, sourceRoots } from "./source-family-map.mjs";
+import { SUPPORTED_SOURCE_SECTIONS, canonicalContentUrl, sourceRoots } from "./source-family-map.mjs";
+
+const supportedSourceSections = new Set(SUPPORTED_SOURCE_SECTIONS);
 
 export function canonicalSourceUrl(category, meta, { preserveQuery = false } = {}) {
   if (meta.contentType === "outlink") {
@@ -22,6 +24,9 @@ export function canonicalSourceUrl(category, meta, { preserveQuery = false } = {
 function manifestIdentity(record, name) {
   const resolved = resolveLegacySourceSection({ record, sources: [] });
   if (resolved.status !== "resolved") throw new Error(`${name} record missing sourceSection`);
+  if (!supportedSourceSections.has(resolved.sourceSection)) {
+    throw new Error(`unsupported ${name} sourceSection: ${resolved.sourceSection}`);
+  }
   return sourceIdentityKey({ sourceSection: resolved.sourceSection, sourceId: record.sourceId });
 }
 
@@ -57,7 +62,7 @@ export function validateDecisionManifest(records, name) {
       if (normalizeUrl(record.sourceCanonicalUrl) !== record.sourceCanonicalUrl || !record.sourceCanonicalUrl.startsWith("https://")) {
         throw new Error("ignore record sourceCanonicalUrl must be normalized HTTPS");
       }
-      if (record.sourceSection) identities.push(`${record.sourceSection}:${record.sourceId}`);
+      if (record.sourceSection) identities.push(manifestIdentity(record, name));
     }
     if (new Set(identities).size !== identities.length) throw new Error(`${name} manifest has duplicate source identity`);
   }
@@ -103,10 +108,19 @@ export async function enumerateSources(globalRepo, { preserveQuery = false } = {
         }
       }
       let sourceCanonicalUrl = null;
+      let sourceCanonicalError = null;
+      let sourceEvidenceUrl = null;
       try {
         sourceCanonicalUrl = canonicalSourceUrl(descriptor.sourceCategory, meta, { preserveQuery });
-      } catch {
-        sourceCanonicalUrl = null;
+      } catch (error) {
+        sourceCanonicalError = error;
+        if (meta.contentType === "outlink") {
+          try {
+            sourceEvidenceUrl = (preserveQuery ? normalizeUrlPreservingQuery : normalizeUrl)(meta.externalUrl);
+          } catch {
+            sourceEvidenceUrl = null;
+          }
+        }
       }
       records.push({
         sourceId,
@@ -117,6 +131,8 @@ export async function enumerateSources(globalRepo, { preserveQuery = false } = {
         selected,
         descriptor,
         sourceCanonicalUrl,
+        sourceCanonicalError,
+        sourceEvidenceUrl,
       });
     }
   }

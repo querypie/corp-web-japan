@@ -128,20 +128,42 @@ A zero-difference run SHALL send a compact success payload. Unsafe inventory, ma
 
 Slack SHALL label each key `Composite identity` and link to `.github/workflows/ignore-global-content-diff.yml`. The manual workflow SHALL accept exactly `^(documentation|news):cnt_\d+$`, reject bare IDs, run the standalone CLI in `--dry-run` mode, select exactly one live `Untracked` item, and derive its canonical and evidence URLs rather than accepting a URL input.
 
-The workflow SHALL append one sorted `.github/content-sync/ignore.json` record with reason code `other`, actor, and UTC timestamp. It SHALL use a `global-content-diff-ignore/` branch, open a normal PR for human review, and SHALL NOT merge automatically.
+The workflow SHALL append one sorted `.github/content-sync/ignore.json` record with reason code `other`, actor, and UTC timestamp. It SHALL use a `global-content-diff-ignore/` branch and an exact trusted `global-content-diff-ignore:v1` marker containing the composite identity. It SHALL inspect every open pull request in the current repository before matching that marker and identity. Zero matching open PRs SHALL create one normal PR for human review. Exactly one matching open PR SHALL be reused only after live `Untracked` validation succeeds. Two or more matching open PRs SHALL fail closed. The workflow SHALL NOT merge automatically.
 
-#### Scenario: Valid Untracked identity is submitted
+#### Scenario: Valid Untracked identity has no matching open PR
 
 - **GIVEN** one exact live `Untracked` report item
+- **AND** zero open PRs contain its exact trusted marker and composite identity
 - **WHEN** the workflow runs
 - **THEN** it SHALL append the decision
-- **AND** open or reuse one matching human-reviewed PR
+- **AND** open one normal human-reviewed PR containing the exact trusted marker and production evidence URL
+
+#### Scenario: Valid Untracked identity has one matching open PR
+
+- **GIVEN** exactly one same-repository open PR contains the exact trusted marker and composite identity
+- **AND** the identity still resolves to exactly one live `Untracked` report item
+- **WHEN** the workflow runs
+- **THEN** it SHALL reuse that PR
+- **AND** SHALL NOT append another decision, create another PR, or merge the existing PR
+
+#### Scenario: Identity has multiple matching open PRs
+
+- **GIVEN** two or more same-repository open PRs contain the exact trusted marker and composite identity
+- **WHEN** the workflow runs
+- **THEN** it SHALL fail closed after live validation
+- **AND** SHALL NOT change the manifest, create a PR, or merge any PR
 
 #### Scenario: Invalid or stale identity is submitted
 
 - **GIVEN** a bare ID, missing item, duplicate item, or item not marked `Untracked`
 - **WHEN** validation runs
 - **THEN** the workflow SHALL fail without changing the manifest
+
+#### Scenario: Matching PR lacks the trusted marker
+
+- **GIVEN** an open PR has a similar title or branch but lacks the exact `global-content-diff-ignore:v1` marker containing the composite identity
+- **WHEN** matching runs
+- **THEN** that PR SHALL NOT be reused
 
 ### Requirement: No interactive Ignore actions
 
