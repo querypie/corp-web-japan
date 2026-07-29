@@ -15,8 +15,6 @@ export const SOURCE_FAMILIES = Object.freeze([
     productionListUrl: DOCUMENTATION_LIST_URL,
     canonicalSegment: "blog",
     targetFamily: "blog",
-    targetRouteRoot: "/blog",
-    storageLayout: "category",
   }),
   defineSourceFamily({
     sourceSection: "documentation",
@@ -25,8 +23,6 @@ export const SOURCE_FAMILIES = Object.freeze([
     productionListUrl: DOCUMENTATION_LIST_URL,
     canonicalSegment: "white-paper",
     targetFamily: "whitepapers",
-    targetRouteRoot: "/whitepapers",
-    storageLayout: "category",
   }),
   defineSourceFamily({
     sourceSection: "documentation",
@@ -35,8 +31,6 @@ export const SOURCE_FAMILIES = Object.freeze([
     productionListUrl: DOCUMENTATION_LIST_URL,
     canonicalSegment: "customer-story",
     targetFamily: "use-cases",
-    targetRouteRoot: "/use-cases",
-    storageLayout: "category",
   }),
   defineSourceFamily({
     sourceSection: "documentation",
@@ -45,8 +39,6 @@ export const SOURCE_FAMILIES = Object.freeze([
     productionListUrl: DOCUMENTATION_LIST_URL,
     canonicalSegment: "manual",
     targetFamily: "manuals",
-    targetRouteRoot: "/manuals",
-    storageLayout: "category",
   }),
   defineSourceFamily({
     sourceSection: "documentation",
@@ -55,8 +47,6 @@ export const SOURCE_FAMILIES = Object.freeze([
     productionListUrl: DOCUMENTATION_LIST_URL,
     canonicalSegment: "events",
     targetFamily: "events",
-    targetRouteRoot: "/events",
-    storageLayout: "category",
   }),
   defineSourceFamily({
     sourceSection: "documentation",
@@ -65,8 +55,6 @@ export const SOURCE_FAMILIES = Object.freeze([
     productionListUrl: DOCUMENTATION_LIST_URL,
     canonicalSegment: "glossary",
     targetFamily: "glossary",
-    targetRouteRoot: "/glossary",
-    storageLayout: "category",
   }),
   defineSourceFamily({
     sourceSection: "documentation",
@@ -75,8 +63,6 @@ export const SOURCE_FAMILIES = Object.freeze([
     productionListUrl: DOCUMENTATION_LIST_URL,
     canonicalSegment: "introduction",
     targetFamily: "introduction-deck",
-    targetRouteRoot: "/introduction-deck",
-    storageLayout: "category",
   }),
   defineSourceFamily({
     sourceSection: "news",
@@ -85,8 +71,6 @@ export const SOURCE_FAMILIES = Object.freeze([
     productionListUrl: NEWS_LIST_URL,
     canonicalSegment: "news",
     targetFamily: "news",
-    targetRouteRoot: "/news",
-    storageLayout: "flat",
   }),
 ]);
 
@@ -117,10 +101,6 @@ export function targetFamilyDescriptor(target) {
   const descriptor = SOURCE_FAMILY_BY_TARGET.get(target);
   if (!descriptor) throw new Error(`unsupported target family: ${target}`);
   return descriptor;
-}
-
-export function targetRouteRoot(target) {
-  return targetFamilyDescriptor(target).targetRouteRoot;
 }
 
 export function canonicalContentUrl(category, slug) {

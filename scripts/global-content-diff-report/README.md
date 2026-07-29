@@ -1,6 +1,6 @@
 # Global-only content diff report
 
-Generates a read-only Slack report for every production-published QueryPie Global item that is not yet verifiably present in `corp-web-japan`.
+Standalone package that generates a read-only Slack report for every production-published QueryPie Global item that is not yet verifiably present in `corp-web-japan`.
 
 The durable contract is [`openspec/specs/contract-global-content-diff-report/spec.md`](../../openspec/specs/contract-global-content-diff-report/spec.md).
 
@@ -93,7 +93,7 @@ Operators can ignore one current Global-only item without Slack interactivity:
 4. Review and merge the generated PR.
 5. The next report shows the item as `Ignored`.
 
-The workflow derives the source URL from the current live dry-run report and requires exactly one matching item with status `Untracked`. It appends a sorted `.github/content-sync/ignore.json` row with reason code `other`, actor, and UTC timestamp, then opens a normal PR. It does not merge the PR.
+The workflow derives the source URL from the current live dry-run report and requires exactly one matching item with status `Untracked`. It appends a sorted `.github/content-sync/ignore.json` row with reason code `other`, actor, and UTC timestamp, then opens or reuses a normal PR on a `global-content-diff-ignore/` branch. It does not merge the PR.
 
 ## No Slack actions
 

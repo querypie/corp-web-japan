@@ -52,7 +52,7 @@ jobs:
           const [sourceSection, sourceId] = sourceIdentity.split(":");
           const title = `Ignore Global-only content ${sourceIdentity}`;
           const trustedMarker = `<!-- global-content-diff-ignore:v1 {"sourceSection":"${sourceSection}","sourceId":"${sourceId}","sourceIdentity":"${sourceIdentity}"} -->`;
-          const branchPrefix = `content-sync-ignore/${sourceIdentity.replace(":", "-")}`;
+          const branchPrefix = `global-content-diff-ignore/${sourceIdentity.replace(":", "-")}`;
           const prs = JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/open-ignore-prs.json`, "utf8"));
           const matches = prs.filter((pr) => pr?.isCrossRepository === false
             && (pr.headRefName === branchPrefix || pr.headRefName.startsWith(`${branchPrefix}-`))
@@ -182,7 +182,7 @@ jobs:
           source_section=$(jq -r .sourceSection "$RUNNER_TEMP/ignore-item.json")
           source_id=$(jq -r .sourceId "$RUNNER_TEMP/ignore-item.json")
           source_evidence_url=$(jq -r .sourceEvidenceUrl "$RUNNER_TEMP/ignore-item.json")
-          branch="content-sync-ignore/${source_identity/:/-}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          branch="global-content-diff-ignore/${source_identity/:/-}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
 
           git config user.name "QueryPie Global content diff"
           git config user.email "noreply@querypie.com"

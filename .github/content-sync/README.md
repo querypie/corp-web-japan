@@ -1,6 +1,6 @@
-# Global content sync operations
+# Global content diff report state
 
-This directory stores the durable decision manifests used by the Global-to-Japan content automation.
+This directory stores the durable mapping and disposition manifests used by the standalone Global content diff report and Direct Ignore flow.
 
 ## Files
 
@@ -44,7 +44,7 @@ The format is `${sourceSection}:${sourceId}`. Do not enter a bare value such as 
 7. Merge the PR only when the exclusion is intentional and its recorded source URL is correct.
 8. Confirm that the next report moves the item from `Untracked` to `Ignored`.
 
-The workflow does not accept a URL input and does not auto-merge. It derives the URL from a fresh production dry run, requires exactly one matching live `Untracked` item, updates `ignore.json` in deterministic order, and opens a human-reviewed PR.
+The workflow does not accept a URL input and does not auto-merge. It derives the URL from a fresh production dry run, requires exactly one matching live `Untracked` item, updates `ignore.json` in deterministic order, and opens a human-reviewed PR from a `global-content-diff-ignore/` branch.
 
 If one matching open Ignore PR already exists, the workflow reuses it. Multiple matching PRs, malformed identities, stale items, non-HTTPS URLs, or items no longer marked `Untracked` fail closed.
 

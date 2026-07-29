@@ -122,7 +122,7 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /name: Find existing ignore pull request/);
   assert.match(source, /gh pr list --repo "\$GITHUB_REPOSITORY" --state open --limit 1000 --json title,body,headRefName,url,isCrossRepository/);
   assert.match(source, /const trustedMarker = `<!-- global-content-diff-ignore:v1 /);
-  assert.match(source, /const branchPrefix = `content-sync-ignore\/\$\{sourceIdentity\.replace\(":", "-"\)\}`;/);
+  assert.match(source, /const branchPrefix = `global-content-diff-ignore\/\$\{sourceIdentity\.replace\(":", "-"\)\}`;/);
   assert.match(source, /pr\?\.isCrossRepository === false/);
   assert.match(source, /pr\.headRefName === branchPrefix \|\| pr\.headRefName\.startsWith\(`\$\{branchPrefix\}-`\)/);
   assert.match(source, /pr\.title === title \|\| String\(pr\.body \|\| ""\)\.includes\(trustedMarker\)/);
@@ -184,11 +184,11 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /addedBy: process\.env\.GITHUB_ACTOR/);
   assert.match(source, /new Date\(\)\.toISOString\(\)/);
   assert.match(source, /values\.sort\(\(left, right\) => String\(left\?\.sourceId \|\| ""\)\.localeCompare\(String\(right\?\.sourceId \|\| ""\)\) \|\| String\(left\?\.sourceSection \|\| ""\)\.localeCompare\(String\(right\?\.sourceSection \|\| ""\)\)\);/);
-  assert.match(source, /branch="content-sync-ignore\/\$\{source_identity\/:\/-\}-\$\{GITHUB_RUN_ID\}-\$\{GITHUB_RUN_ATTEMPT\}"/);
+  assert.match(source, /branch="global-content-diff-ignore\/\$\{source_identity\/:\/-\}-\$\{GITHUB_RUN_ID\}-\$\{GITHUB_RUN_ATTEMPT\}"/);
+  assert.doesNotMatch(source, /content-sync-ignore\//);
   assert.match(source, /gh pr create/);
   assert.match(source, /global-content-diff-ignore:v1/);
   assert.match(source, /scripts\/global-content-diff-report\/ignore-workflow\.mjs/);
-  assert.doesNotMatch(source, /global-documentation-sync-ignore:v1|scripts\/global-documentation-sync\/ignore-workflow\.mjs/);
   assert.doesNotMatch(source, /gh pr merge|--auto|auto-merge|pull_request_target|n8n/);
 });
 
@@ -318,4 +318,5 @@ test("CI cross_cutting scope includes independent workflow and CLI paths", async
   assert.match(source, /cross_cutting:[\s\S]*- '\.github\/workflows\/global-content-diff-report\.yml'/);
   assert.match(source, /cross_cutting:[\s\S]*- '\.github\/workflows\/ignore-global-content-diff\.yml'/);
   assert.match(source, /cross_cutting:[\s\S]*- 'scripts\/global-content-diff-report\/\*\*'/);
+  assert.match(source, /cross_cutting:[\s\S]*- 'tests\/global-content-diff-report\/\*\*'/);
 });
