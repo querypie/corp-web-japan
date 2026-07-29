@@ -1,5 +1,8 @@
 # Global-only content Slack report design
 
+> **Historical / non-canonical note:** This document preserves implementation background only. The canonical current contract is [`openspec/specs/contract-global-content-diff-report/spec.md`](../../../openspec/specs/contract-global-content-diff-report/spec.md); operator instructions live in [`.github/content-sync/README.md`](../../../.github/content-sync/README.md) and [`scripts/global-content-diff-report/README.md`](../../../scripts/global-content-diff-report/README.md). The current system is report-only for publication: no automatic translation, MDX/assets generation, Draft/content PR generation, Slack button, n8n, or auto-merge. Direct Ignore is only for owner-approved intentional exclusion, not a generic smoke test or publish path.
+
+
 ## Goal
 
 Run a standalone, read-only comparison of production-published QueryPie Global content against content verifiably present in `corp-web-japan`, then send every Global-only item to Slack. Keep intentional exclusions in a separate Direct Ignore PR flow.

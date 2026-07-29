@@ -11,6 +11,19 @@ The durable contract is [`openspec/specs/contract-global-content-diff-report/spe
 - Separate manual owner-triggered Ignore PR workflow.
 - No Slack buttons, n8n, server endpoint, or automatic merge.
 
+
+## Operator actions
+
+### Publish an `Untracked` item
+
+The report is an inventory signal only. To publish, an operator uses AI/Codex directly in `corp-web-japan`, loads `.agents/skills/mdx-publication-operations/SKILL.md` plus the narrowest publication family skill, translates/authors/reviews the MDX and assets, opens a normal human-reviewed content PR, and adds the exact `.github/content-sync/baseline.json` mapping in that same PR. After merge, the next report treats the mapped item as Japan-present.
+
+### Exclude an `Untracked` item
+
+Use Direct Ignore only when the content owner approves intentional exclusion. Run `.github/workflows/ignore-global-content-diff.yml` with the full `Composite identity`, review the generated PR, and merge it only when the source URL and exclusion are correct. Do not use `ignore.json` for publishable items.
+
+The package does not translate, author MDX, generate assets, stage content changes, open Draft/content PRs, expose Slack action buttons, or auto-merge.
+
 ## Schedule
 
 - Weekdays at 10:00 JST via GitHub Actions cron `0 1 * * 1-5`.
