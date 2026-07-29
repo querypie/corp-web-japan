@@ -30,38 +30,29 @@ jobs:
 
       - name: Find existing ignore pull request
         id: find_existing_ignore_pr
+        working-directory: japan
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_IDENTITY: ${{ inputs.source_identity }}
           RUNNER_TEMP: ${{ runner.temp }}
         run: |
           set -euo pipefail
-          gh pr list --repo "$GITHUB_REPOSITORY" --state open --limit 1000 --json title,body,headRefName,url,isCrossRepository > "$RUNNER_TEMP/open-ignore-prs.json"
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/pulls?state=open&per_page=100" > "$RUNNER_TEMP/open-ignore-prs.json"
           node --input-type=module - <<'NODE'
           import { readFileSync, appendFileSync } from "node:fs";
+          import { classifyReusableDirectIgnorePullRequests, findReusableDirectIgnorePullRequests } from "./scripts/global-content-diff-report/direct-ignore-pr.mjs";
 
-          const fail = (message) => {
-            console.error(message);
-            process.exit(1);
-          };
-
-          const sourceIdentity = process.env.SOURCE_IDENTITY || "";
-          const pattern = /^(documentation|news):cnt_\d+$/;
-          if (!pattern.test(sourceIdentity)) fail("Invalid source_identity; expected exact composite identity like news:cnt_000177");
-
-          const [sourceSection, sourceId] = sourceIdentity.split(":");
-          const title = `Ignore Global-only content ${sourceIdentity}`;
-          const trustedMarker = `<!-- global-documentation-sync-ignore:v1 {"sourceSection":"${sourceSection}","sourceId":"${sourceId}","sourceIdentity":"${sourceIdentity}"} -->`;
-          const branchPrefix = `content-sync-ignore/${sourceIdentity.replace(":", "-")}`;
-          const prs = JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/open-ignore-prs.json`, "utf8"));
-          const matches = prs.filter((pr) => pr?.isCrossRepository === false
-            && (pr.headRefName === branchPrefix || pr.headRefName.startsWith(`${branchPrefix}-`))
-            && (pr.title === title || String(pr.body || "").includes(trustedMarker)));
-
+          const pages = JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/open-ignore-prs.json`, "utf8"));
+          const matches = findReusableDirectIgnorePullRequests({
+            pages,
+            repository: process.env.GITHUB_REPOSITORY,
+            sourceIdentity: process.env.SOURCE_IDENTITY,
+          });
+          const classification = classifyReusableDirectIgnorePullRequests(matches);
           const outputPath = process.env.GITHUB_OUTPUT;
-          if (!outputPath) fail("GITHUB_OUTPUT is required");
-          appendFileSync(outputPath, `match_count=${matches.length}\n`);
-          appendFileSync(outputPath, `existing_pr_url=${matches.length === 1 ? matches[0].url : ""}\n`);
+          if (!outputPath) throw new Error("GITHUB_OUTPUT is required");
+          appendFileSync(outputPath, `match_count=${classification.count}\n`);
+          appendFileSync(outputPath, `existing_pr_url=${classification.kind === "reuse" ? classification.match.url : ""}\n`);
           NODE
 
       - name: Checkout Global repository
@@ -73,8 +64,6 @@ jobs:
           persist-credentials: false
 
       - name: Build live dry-run report
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: >-
           node japan/scripts/global-content-diff-report/cli.mjs
           --global-repo "$GITHUB_WORKSPACE/global"
@@ -153,7 +142,7 @@ jobs:
           set -euo pipefail
           node --input-type=module - <<'NODE'
           import { readFileSync, writeFileSync } from "node:fs";
-          import { assertIgnoreAppendAllowed } from "./scripts/global-documentation-sync/ignore-workflow.mjs";
+          import { assertIgnoreAppendAllowed } from "./scripts/global-content-diff-report/ignore-workflow.mjs";
 
           const item = JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/ignore-item.json`, "utf8"));
           const file = ".github/content-sync/ignore.json";
@@ -178,13 +167,24 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           RUNNER_TEMP: ${{ runner.temp }}
+          SOURCE_IDENTITY: ${{ inputs.source_identity }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_RUN_ATTEMPT: ${{ github.run_attempt }}
         run: |
           set -euo pipefail
           source_identity=$(jq -r .sourceIdentity "$RUNNER_TEMP/ignore-item.json")
           source_section=$(jq -r .sourceSection "$RUNNER_TEMP/ignore-item.json")
           source_id=$(jq -r .sourceId "$RUNNER_TEMP/ignore-item.json")
           source_evidence_url=$(jq -r .sourceEvidenceUrl "$RUNNER_TEMP/ignore-item.json")
-          branch="content-sync-ignore/${source_identity/:/-}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          branch=$(node --input-type=module - <<'NODE'
+          import { buildDirectIgnoreBranch } from "./scripts/global-content-diff-report/direct-ignore-pr.mjs";
+          console.log(buildDirectIgnoreBranch({
+            sourceIdentity: process.env.SOURCE_IDENTITY,
+            runId: process.env.GITHUB_RUN_ID,
+            runAttempt: process.env.GITHUB_RUN_ATTEMPT,
+          }));
+          NODE
+          )
 
           git config user.name "QueryPie Global content diff"
           git config user.email "noreply@querypie.com"
@@ -194,6 +194,6 @@ jobs:
           git commit -m "chore: ignore Global-only content $source_identity"
           git push --set-upstream origin "$branch"
 
-          ignore_body=$(printf 'Ignore Global-only content source.\n\n- Identity: `%s`\n- Source: %s\n\n<!-- global-documentation-sync-ignore:v1 {"sourceSection":"%s","sourceId":"%s","sourceIdentity":"%s"} -->' "$source_identity" "$source_evidence_url" "$source_section" "$source_id" "$source_identity")
+          ignore_body=$(printf 'Ignore Global-only content source.\n\n- Identity: `%s`\n- Source: %s\n\n<!-- global-content-diff-ignore:v1 {"sourceSection":"%s","sourceId":"%s","sourceIdentity":"%s"} -->' "$source_identity" "$source_evidence_url" "$source_section" "$source_id" "$source_identity")
           ignore_pr=$(gh pr create --repo "$GITHUB_REPOSITORY" --base main --head "$branch" --title "Ignore Global-only content $source_identity" --body "$ignore_body")
           echo "ignore_pr=$ignore_pr" >> "$GITHUB_STEP_SUMMARY"

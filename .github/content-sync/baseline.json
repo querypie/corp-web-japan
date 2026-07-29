@@ -927,6 +927,15 @@
     "targetSlug": "ai-work-os-enterprise-intelligence"
   },
   {
+    "sourceSection": "news",
+    "sourceId": "cnt_000212",
+    "sourceCategory": "news",
+    "sourceSlug": "querypie-expands-access-control-platform-ai-capabilities",
+    "targetFamily": "news",
+    "targetId": 19,
+    "targetSlug": "querypie-expands-access-control-platform-ai-capabilities"
+  },
+  {
     "sourceSection": "documentation",
     "sourceId": "cnt_000213",
     "sourceCategory": "blogs",

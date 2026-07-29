@@ -1,17 +1,16 @@
-import { readdir, stat } from "node:fs/promises";
+import { stat } from "node:fs/promises";
 import path from "node:path";
 
 import {
   enumerateSources,
-  parseSyncMarker,
   productionSets,
   readManifest,
   sourceContractFailure,
   validateDecisionManifest,
-} from "../global-documentation-sync/discovery.mjs";
-import { normalizeUrl } from "../global-documentation-sync/lib.mjs";
-import { sourceFamily, sourceRoots, targetFamily, targetFamilyDescriptor } from "../global-documentation-sync/source-family-map.mjs";
-import { parseSyncBranch, resolveLegacySourceSection, sourceIdentityKey } from "../global-documentation-sync/sync-identity.mjs";
+} from "./discovery.mjs";
+import { normalizeUrl } from "./lib.mjs";
+import { sourceFamily, sourceRoots, targetFamily, targetFamilyDescriptor } from "./source-family-map.mjs";
+import { resolveLegacySourceSection, sourceIdentityKey } from "./sync-identity.mjs";
 
 const safeKebabSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -42,24 +41,6 @@ function validateReportBaselineRecord(record, targetRepo) {
   return expectedPath;
 }
 
-const mergedMarkerPath = async (targetRepo, marker, statFile) => {
-  const directory = path.join(targetRepo, "src/content", marker.targetFamily);
-  let candidates;
-  try {
-    candidates = (await readdir(directory)).filter((name) =>
-      name.startsWith(`${marker.targetId}-`) && name.endsWith(".mdx"));
-  } catch (error) {
-    if (error.code === "ENOENT") return null;
-    throw error;
-  }
-  const matches = [];
-  for (const name of candidates) {
-    if (await fileExists(path.join(directory, name), statFile)) matches.push(name);
-  }
-  if (matches.length > 1) throw new Error(`ambiguous target mapping: ${marker.identity}`);
-  return matches[0] ? path.join("src/content", marker.targetFamily, matches[0]) : null;
-};
-
 function localizedTitle(meta, sourceId) {
   for (const locale of ["en", "ja", "ko"]) {
     const value = meta?.title?.[locale]?.trim();
@@ -83,10 +64,6 @@ async function fileExists(file, statFile = stat) {
   }
 }
 
-function mergedPullRequest(record) {
-  return record?.merged === true || record?.state === "MERGED" || Boolean(record?.mergedAt);
-}
-
 function registerMapping({ present, mappingDrift, targetOwners, identity, mapping, expectedPath }) {
   const targetIdentity = `${mapping.targetFamily}:${mapping.targetId}`;
   const owner = targetOwners.get(targetIdentity);
@@ -97,7 +74,7 @@ function registerMapping({ present, mappingDrift, targetOwners, identity, mappin
 
   const existing = present.get(identity) || mappingDrift.get(identity);
   if (existing && (existing.targetFamily !== mapping.targetFamily || existing.targetId !== mapping.targetId)) {
-    throw new Error(`duplicate merged mapping: ${identity}`);
+    throw new Error(`duplicate baseline mapping: ${identity}`);
   }
   if (present.has(identity)) return;
   if (expectedPath) {
@@ -106,27 +83,6 @@ function registerMapping({ present, mappingDrift, targetOwners, identity, mappin
   }
   mappingDrift.delete(identity);
   present.set(identity, mapping);
-}
-
-function trustedMergedMarker(pull) {
-  let marker;
-  try {
-    marker = parseSyncMarker(pull.body);
-    if (!marker || pull.headRefName !== marker.branch) throw new Error("branch mismatch");
-    const parsedBranch = parseSyncBranch(marker.branch);
-    if (!parsedBranch) throw new Error("unsafe branch");
-    if (parsedBranch.legacy) {
-      if (pull.number !== 687 || parsedBranch.sourceId !== marker.sourceId) throw new Error("unsupported legacy branch");
-    } else if (parsedBranch.sourceSection !== marker.sourceSection || parsedBranch.sourceId !== marker.sourceId) {
-      throw new Error("branch identity mismatch");
-    }
-    const descriptor = targetFamilyDescriptor(marker.targetFamily);
-    if (descriptor.sourceSection !== marker.sourceSection) throw new Error("target family identity mismatch");
-    if (!Number.isInteger(marker.targetId) || marker.targetId <= 0) throw new Error("invalid target ID");
-  } catch (error) {
-    throw new Error(`invalid merged mapping PR #${pull.number}: ${error.message}`);
-  }
-  return marker;
 }
 
 function globalSourceViews(globalItems) {
@@ -160,10 +116,20 @@ export async function buildGlobalInventory({ globalRepo, sitemapXml, productionL
   const itemsByIdentity = new Map();
 
   for (const source of await enumerateSources(globalRepo, { preserveQuery: true })) {
-    if (!source.sourceCanonicalUrl) continue;
     const descriptor = sourceFamily(source.category);
     const listUrl = normalizeUrl(descriptor.productionListUrl);
-    const listed = (production.listByUrl.get(listUrl) || new Set()).has(source.sourceCanonicalUrl);
+    const productionList = production.listByUrl.get(listUrl) || new Set();
+    if (!source.sourceCanonicalUrl) {
+      const evidenced = source.sourceEvidenceUrl && productionList.has(source.sourceEvidenceUrl)
+        && (source.meta.contentType === "outlink" || production.sitemap.has(source.sourceEvidenceUrl));
+      if (evidenced) {
+        const failure = String(source.sourceCanonicalError?.message || "canonical source URL failure")
+          .replace(`${source.sourceId}: `, "");
+        throw new Error(`${source.sourceSection}:${source.sourceId}: ${failure}`);
+      }
+      continue;
+    }
+    const listed = productionList.has(source.sourceCanonicalUrl);
     if (!listed) continue;
     const sitemapped = production.sitemap.has(source.sourceCanonicalUrl);
     if (source.meta.contentType !== "outlink" && !sitemapped) continue;
@@ -192,7 +158,7 @@ export async function buildGlobalInventory({ globalRepo, sitemapXml, productionL
   return [...itemsByIdentity.values()].sort(compareGlobalItems);
 }
 
-export async function buildJapanInventory({ targetRepo, prRecords, statFile = stat }) {
+export async function buildJapanInventory({ targetRepo, statFile = stat }) {
   const baseline = await readManifest(targetRepo, "baseline");
   const present = new Map();
   const mappingDrift = new Map();
@@ -218,42 +184,31 @@ export async function buildJapanInventory({ targetRepo, prRecords, statFile = st
     });
   }
 
-  for (const pull of prRecords.filter(mergedPullRequest)) {
-    const hasMarker = String(pull.body || "").includes("global-documentation-sync:v1");
-    if (!pull.headRefName?.startsWith("content-sync/") && !hasMarker) continue;
-    const marker = trustedMergedMarker(pull);
-    const resolvedPath = await mergedMarkerPath(targetRepo, marker, statFile);
-    registerMapping({
-      present,
-      mappingDrift,
-      targetOwners,
-      identity: marker.identity,
-      mapping: {
-        identity: marker.identity,
-        sourceSection: marker.sourceSection,
-        sourceId: marker.sourceId,
-        targetFamily: marker.targetFamily,
-        targetId: marker.targetId,
-        targetPath: resolvedPath || path.join("src/content", marker.targetFamily, `${marker.targetId}-*.mdx`),
-      },
-      expectedPath: resolvedPath ? null : path.join("src/content", marker.targetFamily, `${marker.targetId}-*.mdx`),
-    });
-  }
-
   return { present, mappingDrift };
 }
 
 export function buildDispositionMap({ ignoreRecords, globalItems, now }) {
   const dispositions = new Map();
   const sourceViews = globalSourceViews(globalItems);
-  const activeIgnore = validateDecisionManifest(ignoreRecords, "ignore")
-    .filter(({ expiresAt }) => !expiresAt || Date.parse(expiresAt) > Date.parse(now));
-
-  for (const record of activeIgnore) {
+  const resolvedRecords = validateDecisionManifest(ignoreRecords, "ignore").map((record) => {
     const resolved = resolveLegacySourceSection({ record, sources: sourceViews });
     if (resolved.status === "ambiguous") throw new Error(`ambiguous legacy ignore identity: ${record.sourceId}`);
-    if (resolved.status !== "resolved") continue;
-    dispositions.set(sourceIdentityKey({ sourceSection: resolved.sourceSection, sourceId: record.sourceId }), "Ignored");
+    if (resolved.status !== "resolved") throw new Error(`unresolved legacy ignore identity: ${record.sourceId}`);
+    return {
+      record,
+      identity: sourceIdentityKey({ sourceSection: resolved.sourceSection, sourceId: record.sourceId }),
+    };
+  });
+  const seen = new Set();
+  for (const { identity } of resolvedRecords) {
+    if (seen.has(identity)) throw new Error(`ignore manifest has duplicate source identity: ${identity}`);
+    seen.add(identity);
+  }
+
+  for (const { record, identity } of resolvedRecords) {
+    if (!record.expiresAt || Date.parse(record.expiresAt) > Date.parse(now)) {
+      dispositions.set(identity, "Ignored");
+    }
   }
 
   return dispositions;
@@ -264,12 +219,11 @@ export async function buildGlobalOnlyReport({
   targetRepo,
   sitemapXml,
   productionListHtmlByUrl,
-  prRecords = [],
   now = new Date().toISOString(),
 }) {
   const globalItems = await buildGlobalInventory({ globalRepo, sitemapXml, productionListHtmlByUrl });
   const ignoreRecords = await readManifest(targetRepo, "ignore");
-  const { present, mappingDrift } = await buildJapanInventory({ targetRepo, prRecords });
+  const { present, mappingDrift } = await buildJapanInventory({ targetRepo });
   const dispositions = buildDispositionMap({ ignoreRecords, globalItems, now });
   const items = [];
 

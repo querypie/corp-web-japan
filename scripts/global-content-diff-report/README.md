@@ -1,6 +1,6 @@
 # Global-only content diff report
 
-Generates a read-only Slack report for every production-published QueryPie Global item that is not yet verifiably present in `corp-web-japan`.
+Standalone package that generates a read-only Slack report for every production-published QueryPie Global item that is not yet verifiably present in `corp-web-japan`.
 
 The durable contract is [`openspec/specs/contract-global-content-diff-report/spec.md`](../../openspec/specs/contract-global-content-diff-report/spec.md).
 
@@ -39,24 +39,16 @@ The durable contract is [`openspec/specs/contract-global-content-diff-report/spe
 
 Japan counts as present only when both are true:
 
-1. a trusted mapping exists from either:
-   - `.github/content-sync/baseline.json`; or
-   - a merged Global publication sync PR marker, including the legacy read-compatible marker path; and
-2. the mapped target MDX file currently exists in `src/content/**`.
+1. a validated mapping exists in `.github/content-sync/baseline.json`; and
+2. the exact mapped target MDX file currently exists in `src/content/**`.
 
-Not present items remain reportable when they are:
-
-- ignored;
-- represented only by an open Draft sync PR; or
-- represented only by a closed-unmerged Draft sync PR.
-
-User-visible status is `Ignored` only for active ignore records. Every other Global-only item, including mapping drift and PR-only states, is `Untracked`.
+User-visible status is `Ignored` only for active ignore records. Every other Global-only item, including mapping drift, is `Untracked`.
 
 Missing mapped MDX files remain internal `mappingDrift` evidence, not Japan-present.
 
 ## Production source scope
 
-- Reads only the supported Global source families from `scripts/global-documentation-sync/source-family-map.mjs`.
+- Reads only the supported Global source families from `scripts/global-content-diff-report/source-family-map.mjs`.
 - Includes only production-published Global records proven by current production family-list evidence plus sitemap evidence when the family requires it.
 - Preserves each production-evidenced HTTPS source URL and exposes it as an explicitly labeled original-domain link alongside the Global-SHA-pinned GitHub source folder.
 
@@ -65,7 +57,7 @@ Missing mapped MDX files remain internal `mappingDrift` evidence, not Japan-pres
 No-send snapshot:
 
 ```bash
-GH_TOKEN="$(gh auth token)" node scripts/global-content-diff-report/cli.mjs \
+node scripts/global-content-diff-report/cli.mjs \
   --global-repo /path/to/corp-web-v2 \
   --target-repo /path/to/corp-web-japan \
   --dry-run
@@ -101,7 +93,9 @@ Operators can ignore one current Global-only item without Slack interactivity:
 4. Review and merge the generated PR.
 5. The next report shows the item as `Ignored`.
 
-The workflow derives the source URL from the current live dry-run report and requires exactly one matching item with status `Untracked`. It appends a sorted `.github/content-sync/ignore.json` row with reason code `other`, actor, and UTC timestamp, then opens a normal PR. It does not merge the PR.
+The workflow derives the source URL from the current live dry-run report and requires exactly one matching item with status `Untracked`. It appends a sorted `.github/content-sync/ignore.json` row with reason code `other`, actor, and UTC timestamp, then opens or reuses a normal PR. New branches use `global-content-diff-ignore/${sourceSection}-${sourceId}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}` so closed branches or failed prior pushes cannot block creation.
+
+Reuse requires complete paginated open-PR enumeration plus a case-normalized same-repository head, an identity-specific legacy or run-suffixed branch, and the exact trusted marker in the PR body. PR titles are not identity. The workflow fails closed for multiple reusable PRs or malformed pagination and never merges the PR.
 
 ## No Slack actions
 

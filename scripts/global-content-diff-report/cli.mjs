@@ -3,11 +3,10 @@ import { pathToFileURL } from "node:url";
 
 import { assertSupportedSourceRoots, buildGlobalOnlyReport } from "./report.mjs";
 import { buildSlackPayloads, sendSlackPayloads } from "./slack.mjs";
-import { fetchTextWithRetry } from "../global-documentation-sync/fetch-retry.mjs";
-import { loadAllPullRequests } from "../global-documentation-sync/github-state.mjs";
-import { enumerateSources, productionSets } from "../global-documentation-sync/discovery.mjs";
-import { normalizeUrl } from "../global-documentation-sync/lib.mjs";
-import { SOURCE_FAMILIES } from "../global-documentation-sync/source-family-map.mjs";
+import { fetchTextWithRetry } from "./fetch-retry.mjs";
+import { enumerateSources, productionSets } from "./discovery.mjs";
+import { normalizeUrl } from "./lib.mjs";
+import { SOURCE_FAMILIES } from "./source-family-map.mjs";
 
 function usage() {
   return [
@@ -98,19 +97,16 @@ async function validateProductionInputs(globalRepo, { sitemapXml, productionList
 
 export async function runCli(argv = process.argv.slice(2), {
   fetchText = fetchTextWithRetry,
-  loadPullRequests = loadAllPullRequests,
   execute = defaultExecute,
   sendSlack = sendSlackPayloads,
   stdout = process.stdout,
   env = process.env,
-  githubRepo = "querypie/corp-web-japan",
   now = new Date().toISOString(),
 } = {}) {
   const options = parseArgs(argv);
   await assertSupportedSourceRoots(options.globalRepo);
   const { sitemapXml, productionListHtmlByUrl } = await loadProductionInputs(fetchText);
   await validateProductionInputs(options.globalRepo, { sitemapXml, productionListHtmlByUrl });
-  const prRecords = await loadPullRequests({ githubRepo, cwd: options.targetRepo, execute });
   const metadata = {
     globalSha: gitHeadSha(options.globalRepo, execute),
     japanSha: gitHeadSha(options.targetRepo, execute),
@@ -120,7 +116,6 @@ export async function runCli(argv = process.argv.slice(2), {
     targetRepo: options.targetRepo,
     sitemapXml,
     productionListHtmlByUrl,
-    prRecords,
     now,
   });
   const payloads = buildSlackPayloads(report, metadata);
@@ -136,7 +131,6 @@ export async function runCli(argv = process.argv.slice(2), {
     return output;
   }
 
-  if (!env.GH_TOKEN) throw new Error("GH_TOKEN is required unless --dry-run is set");
   if (!env.GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL) {
     throw new Error("GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL is required unless --dry-run is set");
   }

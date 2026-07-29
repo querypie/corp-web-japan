@@ -1,4 +1,4 @@
-import { SOURCE_FAMILIES } from "../global-documentation-sync/source-family-map.mjs";
+import { SOURCE_FAMILIES } from "./source-family-map.mjs";
 
 const ITEMS_PER_CONTAINER = 10;
 const CONTAINERS_PER_PAYLOAD = 8;
