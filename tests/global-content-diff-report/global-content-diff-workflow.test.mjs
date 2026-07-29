@@ -5,10 +5,11 @@ import path from "node:path";
 import test from "node:test";
 
 import { runCli } from "../../scripts/global-content-diff-report/cli.mjs";
-import { SOURCE_FAMILIES } from "../../scripts/global-documentation-sync/source-family-map.mjs";
+import { SOURCE_FAMILIES } from "../../scripts/global-content-diff-report/source-family-map.mjs";
 
 const workflowPath = path.resolve(".github/workflows/global-content-diff-report.yml");
 const ignoreWorkflowPath = path.resolve(".github/workflows/ignore-global-content-diff.yml");
+const cliPath = path.resolve("scripts/global-content-diff-report/cli.mjs");
 const ciWorkflowPath = path.resolve(".github/workflows/ci.yml");
 const contractPath = path.resolve("openspec/specs/contract-global-content-diff-report/spec.md");
 const operatorGuidePath = path.resolve(".github/content-sync/README.md");
@@ -93,14 +94,18 @@ test("workflow is independent, read-only, scheduled for weekdays at 10 KST, and 
   assert.match(source, /workflow_dispatch:/);
   assert.match(source, /runs-on: ubuntu-latest/);
   assert.match(source, /contents: read/);
-  assert.match(source, /pull-requests: read/);
+  assert.doesNotMatch(source, /pull-requests: read/);
   assert.match(source, /name: Checkout Japan repository[\s\S]*?with:[\s\S]*?ref: main/);
   assert.match(source, /name: Checkout Global repository[\s\S]*?repository: querypie\/corp-web-v2[\s\S]*?ref: main[\s\S]*?persist-credentials: false/);
   assert.match(source, /GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL/);
   assert.match(source, /if: failure\(\)/);
   assert.match(source, /Global content diff report failed/);
   assert.doesNotMatch(source, /CONTENT_SYNC_SLACK_WEBHOOK_URL|ALERT_WEBHOOK_URL/);
+  assert.doesNotMatch(source, /GH_TOKEN/);
   assert.doesNotMatch(source, /pull_request_target|git push|gh pr create|n8n|<@/);
+
+  const cliSource = await readFile(cliPath, "utf8");
+  assert.doesNotMatch(cliSource, /loadAllPullRequests|loadPullRequests|github-state\.mjs|githubRepo|prRecords/);
 });
 
 test("manual ignore workflow validates composite identity, derives URL from live Untracked dry-run report, and opens a human PR", async () => {
@@ -116,7 +121,7 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /name: Checkout Japan repository[\s\S]*?with:[\s\S]*?ref: main[\s\S]*?path: japan/);
   assert.match(source, /name: Find existing ignore pull request/);
   assert.match(source, /gh pr list --repo "\$GITHUB_REPOSITORY" --state open --limit 1000 --json title,body,headRefName,url,isCrossRepository/);
-  assert.match(source, /const trustedMarker = `<!-- global-documentation-sync-ignore:v1 /);
+  assert.match(source, /const trustedMarker = `<!-- global-content-diff-ignore:v1 /);
   assert.match(source, /const branchPrefix = `content-sync-ignore\/\$\{sourceIdentity\.replace\(":", "-"\)\}`;/);
   assert.match(source, /pr\?\.isCrossRepository === false/);
   assert.match(source, /pr\.headRefName === branchPrefix \|\| pr\.headRefName\.startsWith\(`\$\{branchPrefix\}-`\)/);
@@ -181,7 +186,9 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /values\.sort\(\(left, right\) => String\(left\?\.sourceId \|\| ""\)\.localeCompare\(String\(right\?\.sourceId \|\| ""\)\) \|\| String\(left\?\.sourceSection \|\| ""\)\.localeCompare\(String\(right\?\.sourceSection \|\| ""\)\)\);/);
   assert.match(source, /branch="content-sync-ignore\/\$\{source_identity\/:\/-\}-\$\{GITHUB_RUN_ID\}-\$\{GITHUB_RUN_ATTEMPT\}"/);
   assert.match(source, /gh pr create/);
-  assert.match(source, /global-documentation-sync-ignore:v1/);
+  assert.match(source, /global-content-diff-ignore:v1/);
+  assert.match(source, /scripts\/global-content-diff-report\/ignore-workflow\.mjs/);
+  assert.doesNotMatch(source, /global-documentation-sync-ignore:v1|scripts\/global-documentation-sync\/ignore-workflow\.mjs/);
   assert.doesNotMatch(source, /gh pr merge|--auto|auto-merge|pull_request_target|n8n/);
 });
 
@@ -210,7 +217,6 @@ test("CLI dry-run emits complete JSON without requiring or calling Slack", async
         if (url === "https://www.querypie.com/sitemap.xml") return buildSitemapXml();
         return buildProductionListHtmlByUrl()[url] || "";
       },
-      loadPullRequests: async () => [],
       execute: (command, args, cwd) => {
         assert.equal(command, "git");
         assert.deepEqual(args, ["rev-parse", "HEAD"]);
@@ -257,7 +263,6 @@ test("CLI rejects missing sitemap evidence independently per production source l
           }
           return buildProductionListHtmlByUrl()[url] || "";
         },
-        loadPullRequests: async () => [],
         execute: () => "sha\n",
         stdout: { write() {} },
       }),

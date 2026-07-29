@@ -39,24 +39,16 @@ The durable contract is [`openspec/specs/contract-global-content-diff-report/spe
 
 Japan counts as present only when both are true:
 
-1. a trusted mapping exists from either:
-   - `.github/content-sync/baseline.json`; or
-   - a merged Global publication sync PR marker, including the legacy read-compatible marker path; and
-2. the mapped target MDX file currently exists in `src/content/**`.
+1. a validated mapping exists in `.github/content-sync/baseline.json`; and
+2. the exact mapped target MDX file currently exists in `src/content/**`.
 
-Not present items remain reportable when they are:
-
-- ignored;
-- represented only by an open Draft sync PR; or
-- represented only by a closed-unmerged Draft sync PR.
-
-User-visible status is `Ignored` only for active ignore records. Every other Global-only item, including mapping drift and PR-only states, is `Untracked`.
+User-visible status is `Ignored` only for active ignore records. Every other Global-only item, including mapping drift, is `Untracked`.
 
 Missing mapped MDX files remain internal `mappingDrift` evidence, not Japan-present.
 
 ## Production source scope
 
-- Reads only the supported Global source families from `scripts/global-documentation-sync/source-family-map.mjs`.
+- Reads only the supported Global source families from `scripts/global-content-diff-report/source-family-map.mjs`.
 - Includes only production-published Global records proven by current production family-list evidence plus sitemap evidence when the family requires it.
 - Preserves each production-evidenced HTTPS source URL and exposes it as an explicitly labeled original-domain link alongside the Global-SHA-pinned GitHub source folder.
 
@@ -65,7 +57,7 @@ Missing mapped MDX files remain internal `mappingDrift` evidence, not Japan-pres
 No-send snapshot:
 
 ```bash
-GH_TOKEN="$(gh auth token)" node scripts/global-content-diff-report/cli.mjs \
+node scripts/global-content-diff-report/cli.mjs \
   --global-repo /path/to/corp-web-v2 \
   --target-repo /path/to/corp-web-japan \
   --dry-run

@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: read
 
 concurrency:
   group: global-content-diff-report
@@ -34,7 +33,6 @@ jobs:
 
       - name: Build and send Global-only report
         env:
-          GH_TOKEN: ${{ github.token }}
           GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL: ${{ secrets.GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL }}
         run: >-
           node japan/scripts/global-content-diff-report/cli.mjs

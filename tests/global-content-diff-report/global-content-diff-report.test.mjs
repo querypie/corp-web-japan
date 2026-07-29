@@ -6,7 +6,7 @@ import test from "node:test";
 
 import { buildGlobalInventory, buildGlobalOnlyReport, buildJapanInventory } from "../../scripts/global-content-diff-report/report.mjs";
 import { buildSlackPayloads, sendSlackPayloads } from "../../scripts/global-content-diff-report/slack.mjs";
-import { SOURCE_FAMILIES } from "../../scripts/global-documentation-sync/source-family-map.mjs";
+import { SOURCE_FAMILIES } from "../../scripts/global-content-diff-report/source-family-map.mjs";
 
 async function withTempRepos(run) {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "global-content-diff-report-"));
@@ -95,48 +95,6 @@ function ignored(sourceId, sourceCanonicalUrl, sourceSection) {
   };
 }
 
-function markerBody({ sourceSection, sourceId, targetFamily, targetId, branch }) {
-  const payload = { sourceId, targetFamily, targetId, runId: `run-${targetId}`, branch };
-  if (sourceSection) payload.sourceSection = sourceSection;
-  return `<!-- global-documentation-sync:v1 ${JSON.stringify(payload)} -->`;
-}
-
-function mergedMarker(sourceSection, sourceId, targetFamily, targetId) {
-  return {
-    number: targetId,
-    state: "MERGED",
-    merged: true,
-    headRefName: branchName(sourceSection, sourceId),
-    body: markerBody({ sourceSection, sourceId, targetFamily, targetId, branch: branchName(sourceSection, sourceId) }),
-  };
-}
-
-function legacyMergedMarker(sourceId, targetFamily, targetId) {
-  return {
-    number: 687,
-    state: "MERGED",
-    merged: true,
-    headRefName: `content-sync/${sourceId}`,
-    body: markerBody({ sourceId, targetFamily, targetId, branch: `content-sync/${sourceId}` }),
-  };
-}
-
-function draftMarker(sourceSection, sourceId, targetFamily, targetId, state = "OPEN", overrides = {}) {
-  return {
-    number: targetId,
-    state,
-    merged: false,
-    isDraft: true,
-    headRefName: branchName(sourceSection, sourceId),
-    body: markerBody({ sourceSection, sourceId, targetFamily, targetId, branch: branchName(sourceSection, sourceId) }),
-    ...overrides,
-  };
-}
-
-function branchName(sourceSection, sourceId) {
-  return `content-sync/${sourceSection}-${sourceId}`;
-}
-
 function publishedBlog(sourceId, slug, overrides = {}) {
   return { sourceId, category: "blogs", slug, title: { en: `${slug} en`, ja: `${slug} ja`, ko: `${slug} ko` }, ...overrides };
 }
@@ -158,8 +116,6 @@ async function fixtureWith({
   japan = [],
   targetFiles = [],
   ignore = [],
-  pulls = [],
-  mergedPulls = [],
   sitemapXml,
   productionListHtmlByUrl,
   now = "2026-03-01T00:00:00.000Z",
@@ -182,7 +138,6 @@ async function fixtureWith({
       targetRepo,
       sitemapXml: sitemap,
       productionListHtmlByUrl: listHtmlByUrl,
-      prRecords: [...pulls, ...mergedPulls],
       now,
     });
   });
@@ -296,47 +251,35 @@ test("reports all listed Global-only identities and preserves cross-section IDs"
   assert.equal(report.items[0].sourceUrl, "https://www.querypie.com/en/news/news-one");
 });
 
-test("counts baseline and merged marker mappings only when target MDX exists", async () => {
-  const report = await fixtureWith({
-    global: [publishedNews("cnt_000212", "ai-pack")],
-    mergedPulls: [legacyMergedMarker("cnt_000212", "news", 19)],
-    targetFiles: ["src/content/news/19-ai-pack.mdx"],
+test("counts baseline mapping only when the exact target MDX exists", async () => {
+  const mapping = {
+    sourceSection: "news",
+    sourceId: "cnt_000212",
+    sourceCategory: "news",
+    sourceSlug: "querypie-expands-access-control-platform-ai-capabilities",
+    targetFamily: "news",
+    targetId: 19,
+    targetSlug: "querypie-expands-access-control-platform-ai-capabilities",
+  };
+
+  await withTempRepos(async ({ targetRepo }) => {
+    await writeManifest(targetRepo, "baseline", [mapping]);
+    await writeTargetFile(targetRepo, "src/content/news/19-querypie-expands-access-control-platform-ai-capabilities.mdx");
+    const inventory = await buildJapanInventory({ targetRepo });
+    assert.equal(inventory.present.has("news:cnt_000212"), true);
+    assert.equal(inventory.mappingDrift.size, 0);
   });
 
-  assert.equal(report.items.length, 0);
-  assert.equal(report.counts.japanPresent, 1);
-});
-
-test("keeps ignored items in the diff and ignores unmerged PR state", async () => {
-  const report = await fixtureWith({
-    global: [publishedNews("cnt_000177", "real-madrid")],
-    ignore: [ignored("cnt_000177", "https://www.querypie.com/en/news/real-madrid")],
-    pulls: [draftMarker("news", "cnt_000177", "news", 24, "CLOSED")],
+  await withTempRepos(async ({ targetRepo }) => {
+    await writeManifest(targetRepo, "baseline", [mapping]);
+    await writeTargetFile(targetRepo, "src/content/news/19-other-slug.mdx");
+    const inventory = await buildJapanInventory({ targetRepo });
+    assert.equal(inventory.present.size, 0);
+    assert.deepEqual([...inventory.mappingDrift.values()].map(({ identity, expectedPath }) => ({ identity, expectedPath })), [{
+      identity: "news:cnt_000212",
+      expectedPath: "src/content/news/19-querypie-expands-access-control-platform-ai-capabilities.mdx",
+    }]);
   });
-
-  assert.equal(report.items[0].status, "Ignored");
-});
-
-test("treats all draft and closed-unmerged PR-only items as Untracked", async () => {
-  const malformedMarker = "<!-- global-documentation-sync:v1 {not-json} -->";
-  const report = await fixtureWith({
-    global: [
-      publishedNews("cnt_000178", "trusted-open"),
-      publishedNews("cnt_000179", "trusted-closed"),
-      publishedNews("cnt_000180", "fork-spoof"),
-      publishedNews("cnt_000181", "not-draft"),
-      publishedNews("cnt_000182", "malformed-marker"),
-    ],
-    pulls: [
-      draftMarker("news", "cnt_000178", "news", 25),
-      draftMarker("news", "cnt_000179", "news", 26, "CLOSED"),
-      draftMarker("news", "cnt_000180", "news", 27, "OPEN"),
-      draftMarker("news", "cnt_000181", "news", 28, "OPEN", { isDraft: false }),
-      draftMarker("news", "cnt_000182", "news", 29, "OPEN", { body: malformedMarker }),
-    ],
-  });
-
-  assert.deepEqual(report.items.map(({ status }) => status), ["Untracked", "Untracked", "Untracked", "Untracked", "Untracked"]);
 });
 
 test("reports missing mapped targets as mapping drift evidence with Untracked status", async () => {
@@ -474,36 +417,6 @@ test("throws for listed and sitemapped invalid Documentation sources", async () 
   });
 });
 
-test("promotes stale baseline drift when a merged marker confirms the same existing allocation", async () => {
-  const report = await fixtureWith({
-    global: [publishedNews("cnt_000400", "repaired-target")],
-    japan: [baselineMapping("news", "cnt_000400", "news", "news", 40, "stale-slug")],
-    mergedPulls: [mergedMarker("news", "cnt_000400", "news", 40)],
-    targetFiles: ["src/content/news/40-repaired-target.mdx"],
-  });
-
-  assert.equal(report.counts.japanPresent, 1);
-  assert.equal(report.items.length, 0);
-  assert.deepEqual(report.mappingDrift, []);
-});
-
-test("rejects duplicate merged mappings when target allocation differs", async () => {
-  await withTempRepos(async ({ targetRepo }) => {
-    await writeManifest(targetRepo, "baseline", []);
-    await writeManifest(targetRepo, "ignore", []);
-    await assert.rejects(
-      () => buildJapanInventory({
-        targetRepo,
-        prRecords: [
-          mergedMarker("news", "cnt_000401", "news", 41),
-          mergedMarker("news", "cnt_000401", "news", 42),
-        ],
-      }),
-      /duplicate merged mapping: news:cnt_000401/,
-    );
-  });
-});
-
 test("rejects malformed baseline mappings at the report trust boundary before stat", async () => {
   const cases = [
     {
@@ -535,7 +448,6 @@ test("rejects malformed baseline mappings at the report trust boundary before st
       await assert.rejects(
         () => buildJapanInventory({
           targetRepo,
-          prRecords: [],
           statFile: async () => {
             statCalled = true;
             return { isFile: () => true };
@@ -548,34 +460,6 @@ test("rejects malformed baseline mappings at the report trust boundary before st
   }
 });
 
-test("rejects target ownership conflicts across trusted mappings", async () => {
-  await withTempRepos(async ({ targetRepo }) => {
-    await writeManifest(targetRepo, "baseline", [
-      baselineMapping("news", "cnt_000410", "news", "news", 41, "first"),
-    ]);
-    await writeTargetFile(targetRepo, "src/content/news/41-first.mdx");
-
-    await assert.rejects(
-      () => buildJapanInventory({
-        targetRepo,
-        prRecords: [mergedMarker("news", "cnt_000411", "news", 41)],
-      }),
-      /target mapping conflict: news:41 is claimed by news:cnt_000410 and news:cnt_000411/,
-    );
-  });
-
-  await withTempRepos(async ({ targetRepo }) => {
-    await writeManifest(targetRepo, "baseline", [
-      baselineMapping("news", "cnt_000412", "news", "news", 42, "first"),
-      baselineMapping("news", "cnt_000413", "news", "news", 42, "second"),
-    ]);
-    await assert.rejects(
-      () => buildJapanInventory({ targetRepo, prRecords: [] }),
-      /duplicate target identity|target mapping conflict/,
-    );
-  });
-});
-
 test("propagates non-ENOENT target stat failures and requires a regular file", async () => {
   await withTempRepos(async ({ targetRepo }) => {
     await writeManifest(targetRepo, "baseline", [
@@ -583,7 +467,7 @@ test("propagates non-ENOENT target stat failures and requires a regular file", a
     ]);
     const denied = Object.assign(new Error("denied"), { code: "EACCES" });
     await assert.rejects(
-      () => buildJapanInventory({ targetRepo, prRecords: [], statFile: async () => { throw denied; } }),
+      () => buildJapanInventory({ targetRepo, statFile: async () => { throw denied; } }),
       /denied/,
     );
   });
@@ -593,41 +477,9 @@ test("propagates non-ENOENT target stat failures and requires a regular file", a
       baselineMapping("news", "cnt_000421", "news", "news", 43, "directory"),
     ]);
     await mkdir(path.join(targetRepo, "src/content/news/43-directory.mdx"), { recursive: true });
-    const inventory = await buildJapanInventory({ targetRepo, prRecords: [] });
+    const inventory = await buildJapanInventory({ targetRepo });
     assert.equal(inventory.present.size, 0);
     assert.equal(inventory.mappingDrift.has("news:cnt_000421"), true);
-  });
-});
-
-test("rejects untrusted merged marker branch and target shapes", async () => {
-  const invalidPulls = [
-    { ...mergedMarker("news", "cnt_000430", "news", 43), headRefName: "content-sync/news-cnt_999999" },
-    { ...mergedMarker("news", "cnt_000431", "news", 44), body: markerBody({ sourceSection: "news", sourceId: "cnt_000431", targetFamily: "unsupported", targetId: 44, branch: branchName("news", "cnt_000431") }) },
-    { ...mergedMarker("news", "cnt_000432", "news", 45), body: markerBody({ sourceSection: "news", sourceId: "cnt_000432", targetFamily: "news", targetId: 0, branch: branchName("news", "cnt_000432") }) },
-    { ...mergedMarker("news", "cnt_000433", "news", 46), body: markerBody({ sourceSection: "news", sourceId: "cnt_000433", targetFamily: "news", targetId: 46, branch: branchName("documentation", "cnt_000433") }), headRefName: branchName("documentation", "cnt_000433") },
-    { ...legacyMergedMarker("cnt_000434", "news", 47), number: 688 },
-  ];
-
-  for (const pull of invalidPulls) {
-    await withTempRepos(async ({ targetRepo }) => {
-      await writeManifest(targetRepo, "baseline", []);
-      await assert.rejects(
-        () => buildJapanInventory({ targetRepo, prRecords: [pull] }),
-        /invalid merged mapping PR/,
-      );
-    });
-  }
-});
-
-test("retains documented legacy merged marker #687", async () => {
-  await withTempRepos(async ({ targetRepo }) => {
-    await writeManifest(targetRepo, "baseline", []);
-    await writeTargetFile(targetRepo, "src/content/news/19-legacy.mdx");
-    const inventory = await buildJapanInventory({
-      targetRepo,
-      prRecords: [{ ...legacyMergedMarker("cnt_000212", "news", 19), number: 687 }],
-    });
-    assert.equal(inventory.present.has("news:cnt_000212"), true);
   });
 });
 

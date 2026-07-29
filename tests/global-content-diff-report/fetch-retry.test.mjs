@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { fetchTextWithRetry } from "../../scripts/global-documentation-sync/fetch-retry.mjs";
+import { fetchTextWithRetry } from "../../scripts/global-content-diff-report/fetch-retry.mjs";
 
 test("retries only timeout, network, 429, and 5xx failures", async () => {
   let calls = 0;
