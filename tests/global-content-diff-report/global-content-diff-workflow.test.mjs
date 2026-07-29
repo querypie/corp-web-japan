@@ -12,7 +12,11 @@ const ignoreWorkflowPath = path.resolve(".github/workflows/ignore-global-content
 const cliPath = path.resolve("scripts/global-content-diff-report/cli.mjs");
 const ciWorkflowPath = path.resolve(".github/workflows/ci.yml");
 const contractPath = path.resolve("openspec/specs/contract-global-content-diff-report/spec.md");
+const rootReadmePath = path.resolve("README.md");
 const operatorGuidePath = path.resolve(".github/content-sync/README.md");
+const packageReadmePath = path.resolve("scripts/global-content-diff-report/README.md");
+const historicalPlanPath = path.resolve("docs/superpowers/plans/2026-07-28-global-content-diff-slack-report.md");
+const historicalDesignPath = path.resolve("docs/superpowers/specs/2026-07-28-global-content-diff-slack-report-design.md");
 
 async function withTempRepos(run) {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "global-content-diff-cli-"));
@@ -309,13 +313,60 @@ test("delivery contract acknowledges visible partial multipart delivery", async 
   assert.doesNotMatch(source, /roll(?:ed)? back/);
 });
 
-test("operator guide documents the manual Ignore PR workflow", async () => {
-  const source = await readFile(operatorGuidePath, "utf8");
-  assert.match(source, /Composite identity/);
-  assert.match(source, /source_identity/);
-  assert.match(source, /actions\/workflows\/ignore-global-content-diff\.yml/);
-  assert.match(source, /does not auto-merge/);
-  assert.match(source, /next report moves the item from `Untracked` to `Ignored`/);
+test("operator docs distinguish publish authoring from Direct Ignore exclusion", async () => {
+  const rootReadme = await readFile(rootReadmePath, "utf8");
+  const operatorGuide = await readFile(operatorGuidePath, "utf8");
+  const packageReadme = await readFile(packageReadmePath, "utf8");
+
+  assert.match(rootReadme, /\.github\/workflows\/global-content-diff-report\.yml/);
+  assert.match(rootReadme, /\.github\/workflows\/ignore-global-content-diff\.yml/);
+  assert.match(rootReadme, /\.github\/content-sync\/README\.md/);
+  assert.match(rootReadme, /scripts\/global-content-diff-report\/README\.md/);
+  assert.match(rootReadme, /openspec\/specs\/contract-global-content-diff-report\/spec\.md/);
+
+  for (const source of [rootReadme, operatorGuide, packageReadme]) {
+    assert.match(source, /report-only|inventory signal only|does not translate/);
+    assert.match(source, /mdx-publication-operations\/SKILL\.md/);
+    assert.match(source, /baseline\.json/);
+    assert.match(source, /normal human-reviewed content PR|normal content PR|same content PR/);
+    assert.match(source, /Direct Ignore only|intentional exclusions?|owner-approved/);
+    assert.match(source, /do not use `ignore\.json` for publishable items|Do not use `ignore\.json` for publishable items|Do not add publishable items to `ignore\.json`/);
+  }
+
+  assert.match(operatorGuide, /Composite identity/);
+  assert.match(operatorGuide, /source_identity/);
+  assert.match(operatorGuide, /actions\/workflows\/ignore-global-content-diff\.yml/);
+  assert.match(operatorGuide, /does not auto-merge/);
+  assert.match(operatorGuide, /next report moves the item from `Untracked` to `Ignored`/);
+  assert.match(operatorGuide, /sync Draft PR is historical context|historical context from earlier planning/);
+});
+
+test("OpenSpec forbids report tooling and Direct Ignore from handling publication content", async () => {
+  const source = await readFile(contractPath, "utf8");
+  assert.match(source, /SHALL NOT translate Global content/);
+  assert.match(source, /author Japan MDX/);
+  assert.match(source, /generate or stage assets/);
+  assert.match(source, /open Draft PRs/);
+  assert.match(source, /separate human\/AI-assisted authoring process/);
+  assert.match(source, /normal human-reviewed content PR/);
+  assert.match(source, /baseline\.json/);
+  assert.match(source, /Direct Ignore SHALL be used only for an owner-approved intentional exclusion/);
+  assert.match(source, /selected or potentially intended for publication SHALL NOT be added to `\.github\/content-sync\/ignore\.json`/);
+  assert.match(source, /Scenario: Publishable Untracked identity is not ignored/);
+  assert.match(source, /SHALL NOT be dispatched through Direct Ignore/);
+  assert.match(source, /AI\/Codex normal content PR plus baseline mapping path/);
+});
+
+test("historical superpowers docs point to canonical operator guidance and avoid smoke-test Direct Ignore guidance", async () => {
+  for (const filePath of [historicalPlanPath, historicalDesignPath]) {
+    const source = await readFile(filePath, "utf8");
+    assert.match(source, /Historical \/ non-canonical note/);
+    assert.match(source, /openspec\/specs\/contract-global-content-diff-report\/spec\.md/);
+    assert.match(source, /\.github\/content-sync\/README\.md/);
+    assert.match(source, /scripts\/global-content-diff-report\/README\.md/);
+    assert.match(source, /Direct Ignore is only for owner-approved intentional exclusion/);
+    assert.doesNotMatch(source, /Direct Ignore(?: workflow)? as a smoke test|run both workflows with a known current identity/);
+  }
 });
 
 test("CI cross_cutting scope includes independent workflow and CLI paths", async () => {

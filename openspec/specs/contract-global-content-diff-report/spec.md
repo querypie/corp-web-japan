@@ -128,6 +128,8 @@ A zero-difference run SHALL send a compact success payload. Unsafe inventory, ma
 
 Slack SHALL label each key `Composite identity` and link to `.github/workflows/ignore-global-content-diff.yml`. The manual workflow SHALL accept exactly `^(documentation|news):cnt_\d+$`, reject bare IDs, run the standalone CLI in `--dry-run` mode, select exactly one live `Untracked` item, and derive its canonical and evidence URLs rather than accepting a URL input.
 
+Direct Ignore SHALL be used only for an owner-approved intentional exclusion from Japan publication. An `Untracked` item selected or potentially intended for publication SHALL NOT be added to `.github/content-sync/ignore.json`; it follows the separate AI/Codex normal content PR plus baseline mapping path.
+
 The workflow SHALL append one sorted `.github/content-sync/ignore.json` record with reason code `other`, actor, and UTC timestamp. It SHALL create branches under the identity-specific prefix `global-content-diff-ignore/${sourceSection}-${sourceId}` with a unique `${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}` suffix. It SHALL place an exact trusted `global-content-diff-ignore:v1` marker containing the composite identity in the PR body.
 
 The workflow SHALL completely enumerate every open pull request with the paginated GitHub REST API. A reusable PR SHALL have a head repository equal to `GITHUB_REPOSITORY` after case normalization, the identity-specific branch prefix in either the legacy exact-prefix format or the unique run-suffixed format, and the exact trusted marker. Title SHALL NOT participate in identity matching. Fork PRs, unsupported branch formats, missing or incorrect markers, and malformed PR records SHALL NOT be reused; malformed pagination envelopes SHALL fail closed. Zero reusable open PRs SHALL create one normal PR for human review on the unique current-run branch. Exactly one reusable open PR SHALL be reused only after live `Untracked` validation succeeds. Two or more reusable open PRs SHALL fail closed. The workflow SHALL NOT merge automatically.
@@ -140,6 +142,15 @@ The workflow SHALL completely enumerate every open pull request with the paginat
 - **THEN** it SHALL append the decision
 - **AND** open one normal human-reviewed PR containing the exact trusted marker and production evidence URL
 - **AND** the PR branch SHALL end with the current GitHub run ID and run attempt
+
+#### Scenario: Publishable Untracked identity is not ignored
+
+- **GIVEN** one exact live `Untracked` report item
+- **AND** an operator selects it for Japan publication or it may be intended for Japan publication
+- **WHEN** the operator chooses the handling path
+- **THEN** the item SHALL NOT be dispatched through Direct Ignore
+- **AND** the item SHALL NOT be added to `.github/content-sync/ignore.json`
+- **AND** it SHALL follow the separate AI/Codex normal content PR plus baseline mapping path
 
 #### Scenario: Valid Untracked identity has one matching open PR
 
@@ -180,6 +191,19 @@ The workflow SHALL completely enumerate every open pull request with the paginat
 - **AND** its title was edited
 - **WHEN** matching runs
 - **THEN** the PR SHALL remain reusable
+
+
+### Requirement: Report tooling does not produce content
+
+The report tooling SHALL NOT translate Global content, author Japan MDX, generate or stage assets, stage or commit content changes, open Draft PRs, or open normal content PRs. Selecting an `Untracked` item for publication SHALL be a separate human/AI-assisted authoring process in `corp-web-japan` that uses the repository publication skills, creates a normal human-reviewed content PR, and includes the exact `.github/content-sync/baseline.json` mapping in that same PR.
+
+#### Scenario: Operator selects an Untracked item for publication
+
+- **GIVEN** an `Untracked` Global-only item in the report
+- **WHEN** an operator decides to publish it in Japan
+- **THEN** the report tooling SHALL NOT translate, author, stage, commit, or open a Draft/content PR
+- **AND** the operator SHALL use a separate human/AI-assisted publication workflow to create reviewed MDX and assets
+- **AND** the normal content PR SHALL include the exact baseline mapping that makes the item Japan-present after merge
 
 ### Requirement: No interactive Ignore actions
 

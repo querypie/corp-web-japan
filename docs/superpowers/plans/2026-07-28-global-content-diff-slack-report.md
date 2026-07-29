@@ -1,5 +1,8 @@
 # Global Content Diff Slack Report Implementation Plan
 
+> **Historical / non-canonical note:** This document preserves implementation background only. The canonical current contract is [`openspec/specs/contract-global-content-diff-report/spec.md`](../../../openspec/specs/contract-global-content-diff-report/spec.md); operator instructions live in [`.github/content-sync/README.md`](../../../.github/content-sync/README.md) and [`scripts/global-content-diff-report/README.md`](../../../scripts/global-content-diff-report/README.md). The current system is report-only for publication: no automatic translation, MDX/assets generation, Draft/content PR generation, Slack button, n8n, or auto-merge. Direct Ignore is only for owner-approved intentional exclusion, not a generic smoke test or publish path.
+
+
 **Goal:** Deliver a complete weekday Slack report of production-published Global content not verifiably present in Japan, plus a separate human-reviewed Direct Ignore PR flow.
 
 **Architecture:** The standalone package under `scripts/global-content-diff-report/` owns source discovery, production evidence validation, composite identity, baseline verification, diff construction, Slack rendering, and delivery. GitHub Actions checks out both public repositories. The report workflow is read-only; the manual Ignore workflow is the only mutation path.
@@ -61,4 +64,4 @@ node scripts/ci/assert-test-groups.mjs
 git diff --check
 ```
 
-Post-merge operational check: manually run both workflows with a known current identity, verify Slack layout, and merge an Ignore PR only when the exclusion is intentional.
+Post-merge operational check: manually run the report workflow and verify Slack layout. Run Direct Ignore only with a current identity that the content owner has approved for intentional exclusion, then merge the Ignore PR only when the exclusion and source URL are correct.

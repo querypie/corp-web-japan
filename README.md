@@ -61,6 +61,21 @@ Additional notes:
 - Some other top-level paths such as legal endpoints remain redirect routes to upstream QueryPie destinations.
 - The catch-all missing-route flow only redirects paths that match the maintained QueryPie allowlist; other unmatched paths are logged and resolve to the local not-found flow.
 
+
+## Global content diff operations
+
+The standalone Global content diff system sends a full-snapshot, Global-only Slack report from GitHub Actions on weekdays at 10:00 JST. It is report-only: no server, automatic translation, MDX/assets generation, Draft/content PR generation, Slack button, n8n, or auto-merge. `Untracked` items are expanded; `Ignored` items are collapsed.
+
+Operator references:
+
+- [Report workflow](.github/workflows/global-content-diff-report.yml)
+- [Direct Ignore workflow](.github/workflows/ignore-global-content-diff.yml)
+- [Content sync operator guide](.github/content-sync/README.md)
+- [Report package README](scripts/global-content-diff-report/README.md)
+- [Durable OpenSpec contract](openspec/specs/contract-global-content-diff-report/spec.md)
+
+To publish an `Untracked` item, use AI/Codex directly in this repo, load `.agents/skills/mdx-publication-operations/SKILL.md` plus the narrowest publication family skill, translate/write/review the MDX and assets, then open a normal human-reviewed content PR. Add the exact `.github/content-sync/baseline.json` mapping in that same PR so the item becomes Japan-present after merge. Use Direct Ignore only for owner-approved intentional exclusions; do not use `ignore.json` for publishable items.
+
 ## Shared principles
 
 These principles apply to both humans and AI agents.
