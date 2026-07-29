@@ -1,0 +1,69 @@
+name: Report Global-only content to Slack
+
+on:
+  schedule:
+    - cron: "0 1 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: global-content-diff-report
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Japan repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: japan
+
+      - name: Checkout Global repository
+        uses: actions/checkout@v4
+        with:
+          repository: querypie/corp-web-v2
+          ref: main
+          path: global
+          persist-credentials: false
+
+      - name: Build and send Global-only report
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL: ${{ secrets.GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL }}
+        run: >-
+          node japan/scripts/global-content-diff-report/cli.mjs
+          --global-repo "$GITHUB_WORKSPACE/global"
+          --target-repo "$GITHUB_WORKSPACE/japan"
+
+      - name: Notify report failure
+        if: failure()
+        continue-on-error: true
+        env:
+          WEBHOOK_URL: ${{ secrets.GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          payload="$(RUN_URL="$RUN_URL" node --input-type=module -e '
+            process.stdout.write(JSON.stringify({
+              text: "Global content diff report failed",
+              blocks: [
+                {
+                  type: "header",
+                  text: { type: "plain_text", text: "Global content diff report failed" },
+                },
+                {
+                  type: "section",
+                  text: { type: "mrkdwn", text: `The complete report was not delivered. <${process.env.RUN_URL}|Open workflow run>` },
+                },
+              ],
+            }));
+          ')"
+          curl --fail --silent --show-error --max-time 15 \
+            -H 'Content-Type: application/json' \
+            --data-binary "$payload" \
+            "$WEBHOOK_URL"

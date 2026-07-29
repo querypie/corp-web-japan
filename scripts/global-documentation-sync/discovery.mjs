@@ -1,7 +1,7 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 
-import { chooseLocale, normalizeUrl } from "./lib.mjs";
+import { chooseLocale, normalizeUrl, normalizeUrlPreservingQuery } from "./lib.mjs";
 import {
   branchFor,
   parseSyncBranch,
@@ -15,7 +15,7 @@ import { canonicalContentUrl, sourceFamily, sourceRoots, targetFamily } from "./
 
 export { branchFor, parseSyncMarker, serializeSyncMarker } from "./sync-identity.mjs";
 
-export function canonicalSourceUrl(category, meta) {
+export function canonicalSourceUrl(category, meta, { preserveQuery = false } = {}) {
   if (meta.contentType === "outlink") {
     let url;
     try {
@@ -24,7 +24,7 @@ export function canonicalSourceUrl(category, meta) {
       throw new Error(`${meta.storageId}: invalid external URL`);
     }
     if (url.protocol !== "https:") throw new Error(`${meta.storageId}: outlink must use HTTPS`);
-    return normalizeUrl(url.href);
+    return (preserveQuery ? normalizeUrlPreservingQuery : normalizeUrl)(url.href);
   }
   return normalizeUrl(canonicalContentUrl(category, meta.id));
 }
@@ -64,7 +64,7 @@ export function validateDecisionManifest(records, name) {
   return records;
 }
 
-async function readManifest(targetRepo, name) {
+export async function readManifest(targetRepo, name) {
   const file = path.join(targetRepo, ".github/content-sync", `${name}.json`);
   return validateDecisionManifest(JSON.parse(await readFile(file, "utf8")), name);
 }
@@ -76,7 +76,7 @@ function optionalHtml(directory, locale) {
   });
 }
 
-async function enumerateSources(globalRepo) {
+export async function enumerateSources(globalRepo, { preserveQuery = false } = {}) {
   const records = [];
   for (const descriptor of sourceRoots(globalRepo)) {
     let entries = [];
@@ -104,7 +104,7 @@ async function enumerateSources(globalRepo) {
       }
       let sourceCanonicalUrl = null;
       try {
-        sourceCanonicalUrl = canonicalSourceUrl(descriptor.sourceCategory, meta);
+        sourceCanonicalUrl = canonicalSourceUrl(descriptor.sourceCategory, meta, { preserveQuery });
       } catch {
         sourceCanonicalUrl = null;
       }
@@ -123,13 +123,13 @@ async function enumerateSources(globalRepo) {
   return records;
 }
 
-function productionSets(sitemapXml, productionListHtmlByUrl = {}) {
+export function productionSets(sitemapXml, productionListHtmlByUrl = {}, { preserveQuery = false } = {}) {
   const sitemap = new Set([...sitemapXml.matchAll(/<loc>\s*([^<]+)\s*<\/loc>/g)].map((match) => normalizeUrl(match[1])));
   const listByUrl = new Map();
   for (const [listUrl, html] of Object.entries(productionListHtmlByUrl)) {
     listByUrl.set(
       normalizeUrl(listUrl),
-      new Set([...String(html || "").matchAll(/href=["']([^"']+)["']/g)].map((match) => normalizeUrl(new URL(match[1], "https://www.querypie.com").href))),
+      new Set([...String(html || "").matchAll(/href=["']([^"']+)["']/g)].map((match) => (preserveQuery ? normalizeUrlPreservingQuery : normalizeUrl)(new URL(match[1].replaceAll("&amp;", "&"), "https://www.querypie.com").href))),
     );
   }
   return { sitemap, listByUrl };
@@ -200,7 +200,7 @@ export function sourceContractFailure(source) {
   return null;
 }
 
-function shouldSkipDiscoveryContractFailure(source) {
+export function shouldSkipDiscoveryContractFailure(source) {
   return source.descriptor?.sourceSection !== "news"
     && (source.meta.status !== "published"
       || (source.meta.contentType && !["content", "outlink"].includes(source.meta.contentType)));

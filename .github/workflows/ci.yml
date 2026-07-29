@@ -215,7 +215,10 @@ jobs:
               - 'tests/whitepaper-route-aligned-assets.test.mjs'
             cross_cutting:
               - '.github/workflows/content-sync-slack.yml'
+              - '.github/workflows/global-content-diff-report.yml'
+              - '.github/workflows/ignore-global-content-diff.yml'
               - 'scripts/global-documentation-sync/**'
+              - 'scripts/global-content-diff-report/**'
               - 'tests/global-documentation-sync/**'
               - 'src/app/page.tsx'
               - 'src/app/solutions/**'
