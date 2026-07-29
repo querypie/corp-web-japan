@@ -75,6 +75,18 @@ function buildProductionListHtmlByUrl() {
   };
 }
 
+function workflowStepIndex(source, stepName) {
+  const index = source.indexOf(`- name: ${stepName}`);
+  assert.notEqual(index, -1, `missing workflow step: ${stepName}`);
+  return index;
+}
+
+function workflowStepBlock(source, stepName) {
+  const index = workflowStepIndex(source, stepName);
+  const nextIndex = source.indexOf("\n      - name:", index + 1);
+  return source.slice(index, nextIndex === -1 ? source.length : nextIndex);
+}
+
 test("workflow is independent, read-only, scheduled for weekdays at 10 KST, and manually runnable", async () => {
   const source = await readFile(workflowPath, "utf8");
   assert.match(source, /cron: ["']0 1 \* \* 1-5["']/);
@@ -113,25 +125,45 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /Expected at most one open ignore PR/);
   assert.match(source, /Existing ignore PR already open/);
   assert.match(source, /name: Checkout Global repository[\s\S]*?repository: querypie\/corp-web-v2[\s\S]*?ref: main[\s\S]*?path: global[\s\S]*?persist-credentials: false/);
-  const globalCheckout = source.indexOf("- name: Checkout Global repository");
-  const dryRun = source.indexOf("- name: Build live dry-run report");
-  const validateLive = source.indexOf("- name: Validate live Untracked item");
-  const validateMultiplicity = source.indexOf("- name: Validate existing pull request count");
-  const appendDecision = source.indexOf("- name: Append ignore decision");
-  const createPull = source.indexOf("- name: Create ignore pull request");
-  assert.ok(globalCheckout > source.indexOf("- name: Find existing ignore pull request"));
-  assert.ok(dryRun > globalCheckout);
-  assert.ok(validateLive > dryRun);
-  assert.ok(validateMultiplicity > validateLive);
-  assert.ok(appendDecision > validateMultiplicity);
-  assert.ok(createPull > appendDecision);
-  for (const stepName of ["Checkout Global repository", "Build live dry-run report", "Validate live Untracked item"]) {
-    const block = source.slice(source.indexOf(`- name: ${stepName}`), source.indexOf("\n      - name:", source.indexOf(`- name: ${stepName}`) + 1));
-    assert.doesNotMatch(block, /\n\s+if:/);
+  const findExisting = workflowStepIndex(source, "Find existing ignore pull request");
+  const globalCheckout = workflowStepIndex(source, "Checkout Global repository");
+  const dryRun = workflowStepIndex(source, "Build live dry-run report");
+  const validateLive = workflowStepIndex(source, "Validate live Untracked item");
+  const validateMultiplicity = workflowStepIndex(source, "Validate existing pull request count");
+  const reuseExisting = workflowStepIndex(source, "Reuse existing ignore pull request");
+  const appendDecision = workflowStepIndex(source, "Append ignore decision");
+  const createPull = workflowStepIndex(source, "Create ignore pull request");
+  assert.deepEqual([
+    findExisting,
+    globalCheckout,
+    dryRun,
+    validateLive,
+    validateMultiplicity,
+    reuseExisting,
+    appendDecision,
+    createPull,
+  ], [
+    findExisting,
+    globalCheckout,
+    dryRun,
+    validateLive,
+    validateMultiplicity,
+    reuseExisting,
+    appendDecision,
+    createPull,
+  ].toSorted((left, right) => left - right));
+  for (const stepName of ["Checkout Global repository", "Build live dry-run report", "Validate live Untracked item", "Validate existing pull request count"]) {
+    assert.doesNotMatch(workflowStepBlock(source, stepName), /\n\s+if:/);
   }
-  assert.match(source.slice(validateMultiplicity, appendDecision), /\[ "\$matches" -gt 1 \]/);
-  assert.match(source.slice(appendDecision, createPull), /if: steps\.find_existing_ignore_pr\.outputs\.match_count == '0'/);
-  assert.match(source.slice(createPull), /if: steps\.find_existing_ignore_pr\.outputs\.match_count == '0'/);
+  const duplicateCheckBlock = workflowStepBlock(source, "Validate existing pull request count");
+  const reuseBlock = workflowStepBlock(source, "Reuse existing ignore pull request");
+  const appendBlock = workflowStepBlock(source, "Append ignore decision");
+  const createBlock = workflowStepBlock(source, "Create ignore pull request");
+  assert.match(duplicateCheckBlock, /\[ "\$matches" -gt 1 \]/);
+  assert.doesNotMatch(reuseBlock, /\[ "\$matches" -gt 1 \]|Expected at most one open ignore PR/);
+  assert.match(reuseBlock, /if: steps\.find_existing_ignore_pr\.outputs\.match_count == '1'/);
+  assert.match(appendBlock, /if: steps\.find_existing_ignore_pr\.outputs\.match_count == '0'/);
+  assert.match(createBlock, /if: steps\.find_existing_ignore_pr\.outputs\.match_count == '0'/);
   assert.match(source, /\^\(documentation\|news\):cnt_\\d\+\$/);
   assert.match(source, /GH_TOKEN: \$\{\{ github\.token \}\}/);
   assert.match(source, /global-content-diff-report\/cli\.mjs[\s\S]*--dry-run/);
@@ -139,6 +171,8 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /item\.status !== "Untracked"/);
   assert.match(source, /normalizeUrl\(item\.sourceUrl\)/);
   assert.match(source, /sourceEvidenceUrl: item\.sourceUrl/);
+  assert.match(createBlock, /source_evidence_url=\$\(jq -r \.sourceEvidenceUrl "\$RUNNER_TEMP\/ignore-item\.json"\)/);
+  assert.match(createBlock, /ignore_body=\$\(printf 'Ignore Global-only content source\.[\s\S]*?- Source: %s[\s\S]*?"\$source_evidence_url"/);
   assert.match(source, /assertIgnoreAppendAllowed/);
   assert.match(source, /reasonCode: "other"/);
   assert.match(source, /Ignored by owner from Global-only content report\./);

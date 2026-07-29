@@ -169,9 +169,9 @@ The Slack report SHALL label every canonical key as `Composite identity` and inc
 
 ### Requirement: Manual Ignore PR workflow
 
-The manual Ignore workflow SHALL be independent from the Draft-PR ignore workflow. It SHALL accept only a `source_identity` input that exactly matches `^(documentation|news):cnt_\d+$`, SHALL reject bare `cnt_*` input, SHALL run the live Global-only report CLI in `--dry-run` mode with `GH_TOKEN`, SHALL select exactly one matching report item, and SHALL require that item to have status `Untracked`. The workflow SHALL derive `sourceSection`, `sourceId`, and `sourceCanonicalUrl` from that live report item and SHALL NOT accept a URL input.
+The manual Ignore workflow SHALL be independent from the Draft-PR ignore workflow. It SHALL accept only a `source_identity` input that exactly matches `^(documentation|news):cnt_\d+$`, SHALL reject bare `cnt_*` input, SHALL run the live Global-only report CLI in `--dry-run` mode with `GH_TOKEN`, SHALL select exactly one matching report item, and SHALL require that item to have status `Untracked`. The workflow SHALL derive `sourceSection`, `sourceId`, a legacy-normalized `sourceCanonicalUrl`, and a query-preserving `sourceEvidenceUrl` from that live report item and SHALL NOT accept a URL input.
 
-When validation passes, the workflow SHALL append one sorted `.github/content-sync/ignore.json` record using `assertIgnoreAppendAllowed` with `reasonCode` `other`, reason `Ignored by owner from Global-only content report.`, `addedBy` equal to the GitHub actor, and a UTC timestamp. It SHALL create a branch, commit, and normal PR for human review and SHALL NOT merge the PR automatically.
+When validation passes, the workflow SHALL append one sorted `.github/content-sync/ignore.json` record using `assertIgnoreAppendAllowed` with `reasonCode` `other`, reason `Ignored by owner from Global-only content report.`, `addedBy` equal to the GitHub actor, and a UTC timestamp. The shared ignore manifest record SHALL store the legacy-normalized canonical URL required by existing publication-sync semantics. The normal PR body SHALL preserve the exact query-preserving production-evidenced source URL from the live report as review evidence. The workflow SHALL create a branch, commit, and normal PR for human review and SHALL NOT merge the PR automatically.
 
 #### Scenario: Bare source ID is submitted
 
@@ -191,7 +191,8 @@ When validation passes, the workflow SHALL append one sorted `.github/content-sy
 - **GIVEN** a composite identity that exists exactly once in the live dry-run report
 - **AND** the item status is `Untracked`
 - **WHEN** the workflow appends the ignore decision
-- **THEN** the new ignore record SHALL use the source URL from the live report
+- **THEN** the new ignore record SHALL store the legacy-normalized canonical URL required by existing publication-sync semantics
+- **AND** the PR evidence SHALL preserve the exact query-preserving production-evidenced source URL from the live report
 - **AND** the workflow SHALL open a normal Ignore PR for human merge
 
 ### Requirement: No interactive Ignore actions
