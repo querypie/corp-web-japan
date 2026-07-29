@@ -315,6 +315,7 @@ test("operator guide documents the manual Ignore PR workflow", async () => {
 
 test("CI cross_cutting scope includes independent workflow and CLI paths", async () => {
   const source = await readFile(ciWorkflowPath, "utf8");
+  assert.match(source, /cross_cutting:[\s\S]*- '\.github\/content-sync\/\*\*'/);
   assert.match(source, /cross_cutting:[\s\S]*- '\.github\/workflows\/global-content-diff-report\.yml'/);
   assert.match(source, /cross_cutting:[\s\S]*- '\.github\/workflows\/ignore-global-content-diff\.yml'/);
   assert.match(source, /cross_cutting:[\s\S]*- 'scripts\/global-content-diff-report\/\*\*'/);

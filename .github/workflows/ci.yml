@@ -214,6 +214,7 @@ jobs:
               - 'tests/whitepaper-asset-filename-prefix-cleanup.test.mjs'
               - 'tests/whitepaper-route-aligned-assets.test.mjs'
             cross_cutting:
+              - '.github/content-sync/**'
               - '.github/workflows/global-content-diff-report.yml'
               - '.github/workflows/ignore-global-content-diff.yml'
               - 'scripts/global-content-diff-report/**'
