@@ -97,9 +97,9 @@ function ignoreInstructionsBlock() {
   };
 }
 
-function formatKstTimestamp(timestamp) {
+function formatJstTimestamp(timestamp) {
   const parts = Object.fromEntries(new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Seoul",
+    timeZone: "Asia/Tokyo",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
@@ -107,7 +107,7 @@ function formatKstTimestamp(timestamp) {
     minute: "2-digit",
     hourCycle: "h23",
   }).formatToParts(new Date(timestamp)).map(({ type, value }) => [type, value]));
-  return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute} KST`;
+  return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute} JST`;
 }
 
 function commitLine(label, repository, sha) {
@@ -118,7 +118,7 @@ function commitLine(label, repository, sha) {
 function runContext(report, metadata, partNumber = 1, totalParts = 1) {
   return [
     totalParts > 1 ? `Part ${partNumber} of ${totalParts}` : null,
-    `Run · ${formatKstTimestamp(report.generatedAt)}`,
+    `Run · ${formatJstTimestamp(report.generatedAt)}`,
     commitLine("Global", "querypie/corp-web-v2", metadata.globalSha),
     commitLine("Japan", "querypie/corp-web-japan", metadata.japanSha),
   ].filter(Boolean).join("\n");

@@ -17,7 +17,7 @@
 - `tests/global-content-diff-report/**`
   - inventory, identity, baseline, diff, Slack, retry, CLI, workflow, and Ignore coverage
 - `.github/workflows/global-content-diff-report.yml`
-  - weekdays at 10:00 KST (`0 1 * * 1-5`)
+  - weekdays at 10:00 JST (`0 1 * * 1-5`)
   - manual dispatch
   - GitHub-hosted, `contents: read`, no repository mutation
 - `.github/workflows/ignore-global-content-diff.yml`
