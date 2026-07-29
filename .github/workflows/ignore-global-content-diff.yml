@@ -58,21 +58,13 @@ jobs:
             && (pr.headRefName === branchPrefix || pr.headRefName.startsWith(`${branchPrefix}-`))
             && (pr.title === title || String(pr.body || "").includes(trustedMarker)));
 
-          if (matches.length > 1) fail(`Expected at most one open ignore PR for ${sourceIdentity}; found ${matches.length}`);
-
           const outputPath = process.env.GITHUB_OUTPUT;
           if (!outputPath) fail("GITHUB_OUTPUT is required");
-          if (matches.length === 1) {
-            appendFileSync(outputPath, `should_skip=true\nexisting_pr_url=${matches[0].url}\n`);
-            appendFileSync(process.env.GITHUB_STEP_SUMMARY, `Existing ignore PR already open for \`${sourceIdentity}\`: ${matches[0].url}\n`);
-            process.exit(0);
-          }
-
-          appendFileSync(outputPath, "should_skip=false\nexisting_pr_url=\n");
+          appendFileSync(outputPath, `match_count=${matches.length}\n`);
+          appendFileSync(outputPath, `existing_pr_url=${matches.length === 1 ? matches[0].url : ""}\n`);
           NODE
 
       - name: Checkout Global repository
-        if: steps.find_existing_ignore_pr.outputs.should_skip != 'true'
         uses: actions/checkout@v4
         with:
           repository: querypie/corp-web-v2
@@ -81,7 +73,6 @@ jobs:
           persist-credentials: false
 
       - name: Build live dry-run report
-        if: steps.find_existing_ignore_pr.outputs.should_skip != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: >-
@@ -91,12 +82,71 @@ jobs:
           --dry-run
           > "$RUNNER_TEMP/global-content-diff-report.json"
 
-      - name: Append ignore decision
-        if: steps.find_existing_ignore_pr.outputs.should_skip != 'true'
+      - name: Validate live Untracked item
         working-directory: japan
         env:
           SOURCE_IDENTITY: ${{ inputs.source_identity }}
           REPORT_PATH: ${{ runner.temp }}/global-content-diff-report.json
+          RUNNER_TEMP: ${{ runner.temp }}
+        run: |
+          set -euo pipefail
+          node --input-type=module - <<'NODE'
+          import { readFileSync, writeFileSync } from "node:fs";
+
+          const fail = (message) => {
+            console.error(message);
+            process.exit(1);
+          };
+          const normalizeUrl = (value) => {
+            const url = new URL(value);
+            url.search = "";
+            url.hash = "";
+            url.hostname = url.hostname.toLowerCase();
+            url.pathname = url.pathname.replace(/\/+$/, "") || "/";
+            return url.toString().replace(/\/$/, url.pathname === "/" ? "/" : "");
+          };
+
+          const sourceIdentity = process.env.SOURCE_IDENTITY || "";
+          const pattern = /^(documentation|news):cnt_\d+$/;
+          if (!pattern.test(sourceIdentity)) fail("Invalid source_identity; expected exact composite identity like news:cnt_000177");
+          const reportEnvelope = JSON.parse(readFileSync(process.env.REPORT_PATH, "utf8"));
+          const matchingItems = (reportEnvelope.report?.items || []).filter((item) => item.identity === sourceIdentity);
+          if (matchingItems.length !== 1) fail(`Expected exactly one live report item for ${sourceIdentity}; found ${matchingItems.length}`);
+
+          const item = matchingItems[0];
+          if (item.status !== "Untracked") fail(`Expected ${sourceIdentity} to be Untracked in the live report; found ${item.status}`);
+          writeFileSync(`${process.env.RUNNER_TEMP}/ignore-item.json`, `${JSON.stringify({
+            sourceIdentity,
+            sourceSection: item.sourceSection,
+            sourceId: item.sourceId,
+            sourceCanonicalUrl: normalizeUrl(item.sourceUrl),
+            sourceEvidenceUrl: item.sourceUrl,
+          })}\n`);
+          NODE
+
+      - name: Validate existing pull request count
+        env:
+          MATCH_COUNT: ${{ steps.find_existing_ignore_pr.outputs.match_count }}
+          SOURCE_IDENTITY: ${{ inputs.source_identity }}
+        run: |
+          set -euo pipefail
+          matches="$MATCH_COUNT"
+          if [ "$matches" -gt 1 ]; then
+            echo "Expected at most one open ignore PR for $SOURCE_IDENTITY; found $matches" >&2
+            exit 1
+          fi
+
+      - name: Reuse existing ignore pull request
+        if: steps.find_existing_ignore_pr.outputs.match_count == '1'
+        env:
+          SOURCE_IDENTITY: ${{ inputs.source_identity }}
+          EXISTING_PR_URL: ${{ steps.find_existing_ignore_pr.outputs.existing_pr_url }}
+        run: echo "Existing ignore PR already open for \`$SOURCE_IDENTITY\`:$EXISTING_PR_URL" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Append ignore decision
+        if: steps.find_existing_ignore_pr.outputs.match_count == '0'
+        working-directory: japan
+        env:
           GITHUB_ACTOR: ${{ github.actor }}
           RUNNER_TEMP: ${{ runner.temp }}
         run: |
@@ -105,32 +155,14 @@ jobs:
           import { readFileSync, writeFileSync } from "node:fs";
           import { assertIgnoreAppendAllowed } from "./scripts/global-documentation-sync/ignore-workflow.mjs";
 
-          const fail = (message) => {
-            console.error(message);
-            process.exit(1);
-          };
-
-          const sourceIdentity = process.env.SOURCE_IDENTITY || "";
-          const pattern = /^(documentation|news):cnt_\d+$/;
-          if (!pattern.test(sourceIdentity)) fail("Invalid source_identity; expected exact composite identity like news:cnt_000177");
-
-          const reportEnvelope = JSON.parse(readFileSync(process.env.REPORT_PATH, "utf8"));
-          const matchingItems = (reportEnvelope.report?.items || []).filter((item) => item.identity === sourceIdentity);
-          if (matchingItems.length !== 1) fail(`Expected exactly one live report item for ${sourceIdentity}; found ${matchingItems.length}`);
-
-          const item = matchingItems[0];
-          if (item.status !== "Untracked") fail(`Expected ${sourceIdentity} to be Untracked in the live report; found ${item.status}`);
-
-          const sourceSection = item.sourceSection;
-          const sourceId = item.sourceId;
-          const sourceCanonicalUrl = item.sourceUrl;
+          const item = JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/ignore-item.json`, "utf8"));
           const file = ".github/content-sync/ignore.json";
           const values = JSON.parse(readFileSync(file, "utf8"));
-          assertIgnoreAppendAllowed({ values, sourceId, sourceSection, sourceCanonicalUrl });
+          assertIgnoreAppendAllowed({ values, sourceId: item.sourceId, sourceSection: item.sourceSection, sourceCanonicalUrl: item.sourceCanonicalUrl });
           values.push({
-            sourceSection,
-            sourceId,
-            sourceCanonicalUrl,
+            sourceSection: item.sourceSection,
+            sourceId: item.sourceId,
+            sourceCanonicalUrl: item.sourceCanonicalUrl,
             reasonCode: "other",
             reason: "Ignored by owner from Global-only content report.",
             addedBy: process.env.GITHUB_ACTOR,
@@ -138,11 +170,10 @@ jobs:
           });
           values.sort((left, right) => String(left?.sourceId || "").localeCompare(String(right?.sourceId || "")) || String(left?.sourceSection || "").localeCompare(String(right?.sourceSection || "")));
           writeFileSync(file, `${JSON.stringify(values, null, 2)}\n`);
-          writeFileSync(process.env.RUNNER_TEMP ? `${process.env.RUNNER_TEMP}/ignore-item.json` : "/tmp/ignore-item.json", `${JSON.stringify({ sourceIdentity, sourceSection, sourceId, sourceCanonicalUrl })}\n`);
           NODE
 
       - name: Create ignore pull request
-        if: steps.find_existing_ignore_pr.outputs.should_skip != 'true'
+        if: steps.find_existing_ignore_pr.outputs.match_count == '0'
         working-directory: japan
         env:
           GH_TOKEN: ${{ github.token }}
@@ -152,7 +183,7 @@ jobs:
           source_identity=$(jq -r .sourceIdentity "$RUNNER_TEMP/ignore-item.json")
           source_section=$(jq -r .sourceSection "$RUNNER_TEMP/ignore-item.json")
           source_id=$(jq -r .sourceId "$RUNNER_TEMP/ignore-item.json")
-          source_canonical_url=$(jq -r .sourceCanonicalUrl "$RUNNER_TEMP/ignore-item.json")
+          source_evidence_url=$(jq -r .sourceEvidenceUrl "$RUNNER_TEMP/ignore-item.json")
           branch="content-sync-ignore/${source_identity/:/-}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
 
           git config user.name "QueryPie Global content diff"
@@ -163,6 +194,6 @@ jobs:
           git commit -m "chore: ignore Global-only content $source_identity"
           git push --set-upstream origin "$branch"
 
-          ignore_body=$(printf 'Ignore Global-only content source.\n\n- Identity: `%s`\n- Source: %s\n\n<!-- global-documentation-sync-ignore:v1 {"sourceSection":"%s","sourceId":"%s","sourceIdentity":"%s"} -->' "$source_identity" "$source_canonical_url" "$source_section" "$source_id" "$source_identity")
+          ignore_body=$(printf 'Ignore Global-only content source.\n\n- Identity: `%s`\n- Source: %s\n\n<!-- global-documentation-sync-ignore:v1 {"sourceSection":"%s","sourceId":"%s","sourceIdentity":"%s"} -->' "$source_identity" "$source_evidence_url" "$source_section" "$source_id" "$source_identity")
           ignore_pr=$(gh pr create --repo "$GITHUB_REPOSITORY" --base main --head "$branch" --title "Ignore Global-only content $source_identity" --body "$ignore_body")
           echo "ignore_pr=$ignore_pr" >> "$GITHUB_STEP_SUMMARY"

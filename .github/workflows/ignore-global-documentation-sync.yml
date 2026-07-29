@@ -69,6 +69,7 @@ jobs:
           } catch {
             fail("missing canonical source URL");
           }
+          url.search = "";
           url.hash = "";
           url.hostname = url.hostname.toLowerCase();
           url.pathname = url.pathname.replace(/\/+$/, "") || "/";

@@ -10,7 +10,7 @@ import {
   validateDecisionManifest,
 } from "../global-documentation-sync/discovery.mjs";
 import { normalizeUrl } from "../global-documentation-sync/lib.mjs";
-import { sourceFamily, targetFamily, targetFamilyDescriptor } from "../global-documentation-sync/source-family-map.mjs";
+import { sourceFamily, sourceRoots, targetFamily, targetFamilyDescriptor } from "../global-documentation-sync/source-family-map.mjs";
 import { parseSyncBranch, resolveLegacySourceSection, sourceIdentityKey } from "../global-documentation-sync/sync-identity.mjs";
 
 const safeKebabSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -137,11 +137,29 @@ function globalSourceViews(globalItems) {
   }));
 }
 
+export async function assertSupportedSourceRoots(globalRepo) {
+  for (const descriptor of sourceRoots(globalRepo)) {
+    let rootStat;
+    try {
+      rootStat = await stat(descriptor.root);
+    } catch (error) {
+      if (error.code === "ENOENT") {
+        throw new Error(`supported Global source root must be a directory: ${descriptor.relativeRoot}`);
+      }
+      throw error;
+    }
+    if (!rootStat.isDirectory()) {
+      throw new Error(`supported Global source root must be a directory: ${descriptor.relativeRoot}`);
+    }
+  }
+}
+
 export async function buildGlobalInventory({ globalRepo, sitemapXml, productionListHtmlByUrl }) {
-  const production = productionSets(sitemapXml, productionListHtmlByUrl);
+  await assertSupportedSourceRoots(globalRepo);
+  const production = productionSets(sitemapXml, productionListHtmlByUrl, { preserveQuery: true });
   const itemsByIdentity = new Map();
 
-  for (const source of await enumerateSources(globalRepo)) {
+  for (const source of await enumerateSources(globalRepo, { preserveQuery: true })) {
     if (!source.sourceCanonicalUrl) continue;
     const descriptor = sourceFamily(source.category);
     const listUrl = normalizeUrl(descriptor.productionListUrl);
@@ -257,7 +275,6 @@ export async function buildGlobalOnlyReport({
 
   for (const item of globalItems) {
     if (present.has(item.identity)) continue;
-    const drift = mappingDrift.get(item.identity);
     items.push({
       ...item,
       status: dispositions.get(item.identity) || "Untracked",

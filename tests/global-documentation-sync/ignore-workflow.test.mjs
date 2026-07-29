@@ -16,6 +16,7 @@ function inferLegacySourceSection(targetFamily) {
 
 function validateNormalizedHttpsSourceUrl(sourceUrl) {
   const url = new URL(sourceUrl);
+  url.search = "";
   url.hash = "";
   url.hostname = url.hostname.toLowerCase();
   url.pathname = url.pathname.replace(/\/+$/, "") || "/";
@@ -48,10 +49,11 @@ test("ignore dispatch accepts any normalized HTTPS source URL and rejects non-HT
   assert.doesNotMatch(source, /https:\/\/www\.querypie\.com\//);
   assert.equal(validateNormalizedHttpsSourceUrl("https://media.example/news-one"), "https://media.example/news-one");
   assert.equal(validateNormalizedHttpsSourceUrl("https://www.querypie.com/en/news/outlink"), "https://www.querypie.com/en/news/outlink");
-  assert.equal(validateNormalizedHttpsSourceUrl("https://media.example/article.html?no=169&lang=en"), "https://media.example/article.html?no=169&lang=en");
+  assert.throws(() => validateNormalizedHttpsSourceUrl("https://media.example/article.html?no=169&lang=en"), /normalized HTTPS/);
   assert.throws(() => validateNormalizedHttpsSourceUrl("http://media.example/news-one"), /normalized HTTPS/);
   assert.throws(() => validateNormalizedHttpsSourceUrl("https://media.example/news-one/"), /normalized HTTPS/);
   assert.throws(() => validateNormalizedHttpsSourceUrl("https://media.example/news-one#section"), /normalized HTTPS/);
+  assert.match(source, /url\.search = ""/);
 });
 
 test("ignore dispatch keeps safe JSON manifest handling", async () => {

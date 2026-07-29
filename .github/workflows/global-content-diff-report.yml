@@ -30,6 +30,7 @@ jobs:
           repository: querypie/corp-web-v2
           ref: main
           path: global
+          persist-credentials: false
 
       - name: Build and send Global-only report
         env:

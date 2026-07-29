@@ -15,7 +15,7 @@ import { canonicalContentUrl, sourceFamily, sourceRoots, targetFamily } from "./
 
 export { branchFor, parseSyncMarker, serializeSyncMarker } from "./sync-identity.mjs";
 
-export function canonicalSourceUrl(category, meta) {
+export function canonicalSourceUrl(category, meta, { preserveQuery = false } = {}) {
   if (meta.contentType === "outlink") {
     let url;
     try {
@@ -24,7 +24,7 @@ export function canonicalSourceUrl(category, meta) {
       throw new Error(`${meta.storageId}: invalid external URL`);
     }
     if (url.protocol !== "https:") throw new Error(`${meta.storageId}: outlink must use HTTPS`);
-    return normalizeUrlPreservingQuery(url.href);
+    return (preserveQuery ? normalizeUrlPreservingQuery : normalizeUrl)(url.href);
   }
   return normalizeUrl(canonicalContentUrl(category, meta.id));
 }
@@ -56,7 +56,7 @@ export function validateDecisionManifest(records, name) {
       for (const key of ["sourceId", "sourceCanonicalUrl", "reasonCode", "reason", "addedBy", "addedAt"]) if (!record[key]) throw new Error(`ignore record missing ${key}`);
       if (!/^cnt_\d+$/.test(record.sourceId) || Number.isNaN(Date.parse(record.addedAt)) || (record.expiresAt && Number.isNaN(Date.parse(record.expiresAt)))) throw new Error("ignore record has invalid identity or date");
       if (!reasonCodes.has(record.reasonCode)) throw new Error(`ignore record has invalid reasonCode: ${record.reasonCode}`);
-      if (normalizeUrlPreservingQuery(record.sourceCanonicalUrl) !== record.sourceCanonicalUrl || !record.sourceCanonicalUrl.startsWith("https://")) throw new Error("ignore record sourceCanonicalUrl must be normalized HTTPS");
+      if (normalizeUrl(record.sourceCanonicalUrl) !== record.sourceCanonicalUrl || !record.sourceCanonicalUrl.startsWith("https://")) throw new Error("ignore record sourceCanonicalUrl must be normalized HTTPS");
       if (record.sourceSection) identities.push(`${record.sourceSection}:${record.sourceId}`);
     }
     if (new Set(identities).size !== identities.length) throw new Error(`${name} manifest has duplicate source identity`);
@@ -76,7 +76,7 @@ function optionalHtml(directory, locale) {
   });
 }
 
-export async function enumerateSources(globalRepo) {
+export async function enumerateSources(globalRepo, { preserveQuery = false } = {}) {
   const records = [];
   for (const descriptor of sourceRoots(globalRepo)) {
     let entries = [];
@@ -104,7 +104,7 @@ export async function enumerateSources(globalRepo) {
       }
       let sourceCanonicalUrl = null;
       try {
-        sourceCanonicalUrl = canonicalSourceUrl(descriptor.sourceCategory, meta);
+        sourceCanonicalUrl = canonicalSourceUrl(descriptor.sourceCategory, meta, { preserveQuery });
       } catch {
         sourceCanonicalUrl = null;
       }
@@ -123,13 +123,13 @@ export async function enumerateSources(globalRepo) {
   return records;
 }
 
-export function productionSets(sitemapXml, productionListHtmlByUrl = {}) {
+export function productionSets(sitemapXml, productionListHtmlByUrl = {}, { preserveQuery = false } = {}) {
   const sitemap = new Set([...sitemapXml.matchAll(/<loc>\s*([^<]+)\s*<\/loc>/g)].map((match) => normalizeUrl(match[1])));
   const listByUrl = new Map();
   for (const [listUrl, html] of Object.entries(productionListHtmlByUrl)) {
     listByUrl.set(
       normalizeUrl(listUrl),
-      new Set([...String(html || "").matchAll(/href=["']([^"']+)["']/g)].map((match) => normalizeUrlPreservingQuery(new URL(match[1].replaceAll("&amp;", "&"), "https://www.querypie.com").href))),
+      new Set([...String(html || "").matchAll(/href=["']([^"']+)["']/g)].map((match) => (preserveQuery ? normalizeUrlPreservingQuery : normalizeUrl)(new URL(match[1].replaceAll("&amp;", "&"), "https://www.querypie.com").href))),
     );
   }
   return { sitemap, listByUrl };

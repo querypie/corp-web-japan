@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import { pathToFileURL } from "node:url";
 
-import { buildGlobalOnlyReport } from "./report.mjs";
+import { assertSupportedSourceRoots, buildGlobalOnlyReport } from "./report.mjs";
 import { buildSlackPayloads, sendSlackPayloads } from "./slack.mjs";
 import { fetchTextWithRetry } from "../global-documentation-sync/fetch-retry.mjs";
 import { loadAllPullRequests } from "../global-documentation-sync/github-state.mjs";
@@ -66,7 +66,7 @@ async function loadProductionInputs(fetchText) {
 }
 
 async function validateProductionInputs(globalRepo, { sitemapXml, productionListHtmlByUrl }) {
-  const sources = await enumerateSources(globalRepo);
+  const sources = await enumerateSources(globalRepo, { preserveQuery: true });
   const recognizedByListUrl = new Map();
   const sitemapRequiredByListUrl = new Map();
   for (const source of sources) {
@@ -81,7 +81,7 @@ async function validateProductionInputs(globalRepo, { sitemapXml, productionList
       sitemapRequiredByListUrl.set(listUrl, sitemapRequiredUrls);
     }
   }
-  const production = productionSets(sitemapXml, productionListHtmlByUrl);
+  const production = productionSets(sitemapXml, productionListHtmlByUrl, { preserveQuery: true });
   const intersects = (urls, recognized) => [...urls].some((url) => recognized.has(url));
 
   const listUrls = [...new Set(SOURCE_FAMILIES.map(({ productionListUrl }) => normalizeUrl(productionListUrl)))];
@@ -107,6 +107,7 @@ export async function runCli(argv = process.argv.slice(2), {
   now = new Date().toISOString(),
 } = {}) {
   const options = parseArgs(argv);
+  await assertSupportedSourceRoots(options.globalRepo);
   const { sitemapXml, productionListHtmlByUrl } = await loadProductionInputs(fetchText);
   await validateProductionInputs(options.globalRepo, { sitemapXml, productionListHtmlByUrl });
   const prRecords = await loadPullRequests({ githubRepo, cwd: options.targetRepo, execute });

@@ -12,7 +12,7 @@ async function withTempRepos(run) {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "global-content-diff-report-"));
   const globalRepo = path.join(tempRoot, "global");
   const targetRepo = path.join(tempRoot, "target");
-  await mkdir(globalRepo, { recursive: true });
+  await Promise.all(SOURCE_FAMILIES.map(({ relativeRoot }) => mkdir(path.join(globalRepo, relativeRoot), { recursive: true })));
   await mkdir(targetRepo, { recursive: true });
   try {
     return await run({ globalRepo, targetRepo });
@@ -371,6 +371,30 @@ test("rejects duplicate Global composite identities across documentation categor
         },
       }),
       /duplicate Global identity: documentation:cnt_000499/,
+    );
+  });
+});
+
+test("fails closed when any supported family root is missing instead of emitting a partial inventory", async () => {
+  await withTempRepos(async ({ globalRepo, targetRepo }) => {
+    await writeGlobalSource(globalRepo, publishedNews("cnt_000498", "still-valid"));
+    await writeManifest(targetRepo, "baseline", []);
+    await writeManifest(targetRepo, "ignore", []);
+    const missing = descriptorFor("white-papers");
+    await rm(path.join(globalRepo, missing.relativeRoot), { recursive: true, force: true });
+
+    await assert.rejects(
+      () => buildGlobalOnlyReport({
+        globalRepo,
+        targetRepo,
+        sitemapXml: "<loc>https://www.querypie.com/en/news/still-valid</loc>",
+        productionListHtmlByUrl: {
+          "https://www.querypie.com/en/news": '<a href="/en/news/still-valid">valid</a>',
+          "https://www.querypie.com/en/documentation": "",
+        },
+        now: "2026-03-01T00:00:00.000Z",
+      }),
+      /supported Global source root must be a directory: src\/content\/documentation\/white-papers/,
     );
   });
 });

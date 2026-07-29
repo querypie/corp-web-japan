@@ -204,7 +204,7 @@ test("selects listed and sitemapped News content from the flat News root", async
   });
 });
 
-test("selects a listed HTTPS News external destination without sitemap detail evidence", async () => {
+test("publication discovery restores query-stripping normalization for News outlinks", async () => {
   const globalRepo = await mkdtemp(path.join(os.tmpdir(), "global-news-outlink-"));
   const targetRepo = await mkdtemp(path.join(os.tmpdir(), "target-news-outlink-"));
   await source(globalRepo, "news", "cnt_11", "news-outlink", {
@@ -233,7 +233,19 @@ test("selects a listed HTTPS News external destination without sitemap detail ev
   assert.equal(result.source.production.sitemap, false);
   assert.equal(result.source.production.listed, true);
   assert.equal(result.source.production.listUrl, "https://www.querypie.com/en/news");
-  assert.equal(result.source.production.canonicalUrl, "https://media.example/article.html?no=169&lang=en");
+  assert.equal(result.source.production.canonicalUrl, "https://media.example/article.html");
+});
+
+test("publication ignore manifest keeps the pre-PR query-stripping boundary", () => {
+  assert.throws(() => validateDecisionManifest([{
+    sourceSection: "news",
+    sourceId: "cnt_000011",
+    sourceCanonicalUrl: "https://media.example/article.html?no=169",
+    reasonCode: "other",
+    reason: "fixture",
+    addedBy: "owner",
+    addedAt: "2026-01-01T00:00:00.000Z",
+  }], "ignore"), /sourceCanonicalUrl must be normalized HTTPS/);
 });
 
 test("documentation discovery still uses documentation list and sitemap evidence", async () => {

@@ -17,7 +17,7 @@ async function withTempRepos(run) {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "global-content-diff-cli-"));
   const globalRepo = path.join(tempRoot, "global");
   const targetRepo = path.join(tempRoot, "target");
-  await mkdir(globalRepo, { recursive: true });
+  await Promise.all(SOURCE_FAMILIES.map(({ relativeRoot }) => mkdir(path.join(globalRepo, relativeRoot), { recursive: true })));
   await mkdir(targetRepo, { recursive: true });
   try {
     return await run({ globalRepo, targetRepo });
@@ -83,7 +83,7 @@ test("workflow is independent, read-only, scheduled for weekdays at 10 KST, and 
   assert.match(source, /contents: read/);
   assert.match(source, /pull-requests: read/);
   assert.match(source, /name: Checkout Japan repository[\s\S]*?with:[\s\S]*?ref: main/);
-  assert.match(source, /name: Checkout Global repository[\s\S]*?repository: querypie\/corp-web-v2[\s\S]*?ref: main/);
+  assert.match(source, /name: Checkout Global repository[\s\S]*?repository: querypie\/corp-web-v2[\s\S]*?ref: main[\s\S]*?persist-credentials: false/);
   assert.match(source, /GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL/);
   assert.match(source, /if: failure\(\)/);
   assert.match(source, /Global content diff report failed/);
@@ -109,15 +109,36 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /pr\?\.isCrossRepository === false/);
   assert.match(source, /pr\.headRefName === branchPrefix \|\| pr\.headRefName\.startsWith\(`\$\{branchPrefix\}-`\)/);
   assert.match(source, /pr\.title === title \|\| String\(pr\.body \|\| ""\)\.includes\(trustedMarker\)/);
+  assert.match(source, /match_count=\$\{matches\.length\}/);
   assert.match(source, /Expected at most one open ignore PR/);
   assert.match(source, /Existing ignore PR already open/);
   assert.match(source, /name: Checkout Global repository[\s\S]*?repository: querypie\/corp-web-v2[\s\S]*?ref: main[\s\S]*?path: global[\s\S]*?persist-credentials: false/);
-  assert.match(source, /if: steps\.find_existing_ignore_pr\.outputs\.should_skip != 'true'/);
+  const globalCheckout = source.indexOf("- name: Checkout Global repository");
+  const dryRun = source.indexOf("- name: Build live dry-run report");
+  const validateLive = source.indexOf("- name: Validate live Untracked item");
+  const validateMultiplicity = source.indexOf("- name: Validate existing pull request count");
+  const appendDecision = source.indexOf("- name: Append ignore decision");
+  const createPull = source.indexOf("- name: Create ignore pull request");
+  assert.ok(globalCheckout > source.indexOf("- name: Find existing ignore pull request"));
+  assert.ok(dryRun > globalCheckout);
+  assert.ok(validateLive > dryRun);
+  assert.ok(validateMultiplicity > validateLive);
+  assert.ok(appendDecision > validateMultiplicity);
+  assert.ok(createPull > appendDecision);
+  for (const stepName of ["Checkout Global repository", "Build live dry-run report", "Validate live Untracked item"]) {
+    const block = source.slice(source.indexOf(`- name: ${stepName}`), source.indexOf("\n      - name:", source.indexOf(`- name: ${stepName}`) + 1));
+    assert.doesNotMatch(block, /\n\s+if:/);
+  }
+  assert.match(source.slice(validateMultiplicity, appendDecision), /\[ "\$matches" -gt 1 \]/);
+  assert.match(source.slice(appendDecision, createPull), /if: steps\.find_existing_ignore_pr\.outputs\.match_count == '0'/);
+  assert.match(source.slice(createPull), /if: steps\.find_existing_ignore_pr\.outputs\.match_count == '0'/);
   assert.match(source, /\^\(documentation\|news\):cnt_\\d\+\$/);
   assert.match(source, /GH_TOKEN: \$\{\{ github\.token \}\}/);
   assert.match(source, /global-content-diff-report\/cli\.mjs[\s\S]*--dry-run/);
   assert.match(source, /matchingItems\.length !== 1/);
   assert.match(source, /item\.status !== "Untracked"/);
+  assert.match(source, /normalizeUrl\(item\.sourceUrl\)/);
+  assert.match(source, /sourceEvidenceUrl: item\.sourceUrl/);
   assert.match(source, /assertIgnoreAppendAllowed/);
   assert.match(source, /reasonCode: "other"/);
   assert.match(source, /Ignored by owner from Global-only content report\./);
