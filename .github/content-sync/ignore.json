@@ -10,6 +10,15 @@
   },
   {
     "sourceSection": "news",
+    "sourceId": "cnt_000173",
+    "sourceCanonicalUrl": "https://www.techseoul.news/mobile/article.html",
+    "reasonCode": "other",
+    "reason": "Ignored by owner from Global-only content report.",
+    "addedBy": "keIIy-kim",
+    "addedAt": "2026-07-29T05:55:14.715Z"
+  },
+  {
+    "sourceSection": "news",
     "sourceId": "cnt_000177",
     "sourceCanonicalUrl": "https://finance.yahoo.com/news/querypie-selected-real-madrid-next-000000956.html",
     "reasonCode": "other",
