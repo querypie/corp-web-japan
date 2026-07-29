@@ -51,7 +51,7 @@ function itemText(item, metadata) {
   const originalHref = escapeMrkdwn(originalUrl.href);
   const sourcePath = item.sourcePath.split("/").map(encodeURIComponent).join("/");
   const githubHref = `https://github.com/querypie/corp-web-v2/tree/${metadata.globalSha}/${sourcePath}`;
-  return `*${title}*\n_${family} · ${date}_ · \`${identity}\`\n<${originalHref}|Original · ${domain}> · <${githubHref}|GitHub source>`;
+  return `*${title}*\n_${family} · ${date}_ · Composite identity · \`${identity}\`\n<${originalHref}|Original · ${domain}> · <${githubHref}|GitHub source>`;
 }
 
 function statusContainer(status, allItems, items, part, metadata) {
@@ -92,7 +92,7 @@ function ignoreInstructionsBlock() {
     type: "section",
     text: {
       type: "mrkdwn",
-      text: "*Ignore an item*\nCopy an identity above → <https://github.com/querypie/corp-web-japan/actions/workflows/ignore-global-content-diff.yml|Open workflow> → paste it → review and merge the PR.\nAfter merge, the next report moves it to `Ignored`.",
+      text: "*Ignore an item*\nCopy a `Composite identity` above → <https://github.com/querypie/corp-web-japan/actions/workflows/ignore-global-content-diff.yml|Open workflow> → paste it into `source_identity` → run the workflow → review and merge the PR.\nAfter merge, the next report moves it to `Ignored`.",
     },
   };
 }

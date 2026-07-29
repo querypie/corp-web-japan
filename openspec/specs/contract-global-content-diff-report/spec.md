@@ -157,13 +157,13 @@ A zero-difference run SHALL send a compact success payload. The report SHALL fai
 
 ### Requirement: Manual Ignore PR instructions
 
-The Slack report SHALL include operator instructions that link to `.github/workflows/ignore-global-content-diff.yml` and explain this sequence: copy the displayed composite identity, run GitHub Actions `Ignore Global-only content`, paste the identity, review and merge the generated PR, then the next report shows `Ignored`.
+The Slack report SHALL label every canonical key as `Composite identity` and include operator instructions that link to `.github/workflows/ignore-global-content-diff.yml`: copy that value, run GitHub Actions `Ignore Global-only content`, paste it into `source_identity`, review and merge the generated PR, then the next report shows `Ignored`.
 
 #### Scenario: Operator sees an untracked item
 
 - **GIVEN** a delivered Slack report payload with one or more Global-only items
 - **WHEN** an operator decides to ignore one item
-- **THEN** the payload SHALL show the composite identity to copy
+- **THEN** the payload SHALL label the value `Composite identity`
 - **AND** the payload SHALL link to the manual Ignore workflow
 - **AND** the payload SHALL state that a human reviews and merges the generated PR
 

@@ -95,9 +95,9 @@ The dry-run JSON includes:
 
 Operators can ignore one current Global-only item without Slack interactivity:
 
-1. Copy the displayed composite identity, for example `news:cnt_000177`.
-2. Run GitHub Actions `Ignore Global-only content`.
-3. Paste the exact identity. Bare `cnt_*` values are rejected; accepted input is exactly `^(documentation|news):cnt_\d+$`.
+1. Copy the value labeled `Composite identity`, for example `news:cnt_000177`.
+2. Open GitHub Actions `Ignore Global-only content` and select `Run workflow`.
+3. Paste the full composite identity into `source_identity`. Bare `cnt_*` values are rejected; accepted input is exactly `^(documentation|news):cnt_\d+$`.
 4. Review and merge the generated PR.
 5. The next report shows the item as `Ignored`.
 
