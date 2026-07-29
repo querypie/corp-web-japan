@@ -159,7 +159,7 @@ test("CLI dry-run emits complete JSON without requiring or calling Slack", async
         assert.equal(command, "git");
         assert.deepEqual(args, ["rev-parse", "HEAD"]);
         assert.ok([globalRepo, targetRepo].includes(cwd));
-        return cwd === globalRepo ? "globalsha\n" : "targetsha\n";
+        return cwd === globalRepo ? `${"a".repeat(40)}\n` : `${"b".repeat(40)}\n`;
       },
       sendSlack: async () => {
         throw new Error("dry-run must not call Slack");
@@ -177,8 +177,8 @@ test("CLI dry-run emits complete JSON without requiring or calling Slack", async
     assert.equal(result.report.counts.globalOnly, result.report.items.length);
     assert.ok(result.payloads.length >= 1);
     assert.equal(result.mode, "dry-run");
-    assert.equal(result.metadata.globalSha, "globalsha");
-    assert.equal(result.metadata.japanSha, "targetsha");
+    assert.equal(result.metadata.globalSha, "a".repeat(40));
+    assert.equal(result.metadata.japanSha, "b".repeat(40));
   });
 });
 

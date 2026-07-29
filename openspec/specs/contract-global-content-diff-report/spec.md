@@ -86,17 +86,18 @@ The report SHALL compute `Global-only = production-published Global identities -
 - **THEN** the report SHALL include the item
 - **AND** it SHALL mark the status as `Untracked`
 
-### Requirement: Global-site Slack navigation
+### Requirement: Auditable original and source links
 
-Every reported item SHALL retain its normalized source HTTPS URL for source and Ignore evidence. Slack title links SHALL use the `www.querypie.com` detail URL derived from the source category and source slug. News `externalUrl` values SHALL NOT be used as Slack links.
+Every reported item SHALL show its title as plain text, an explicitly labeled production-evidenced original-domain link, and a GitHub source-folder link pinned to the exact reported Global commit SHA. The source path SHALL remain confined to `corp-web-v2/src/content/**`.
 
-#### Scenario: Slack item stays on the Global site
+#### Scenario: Operator inspects an item safely
 
 - **GIVEN** a diff item in the final report
 - **WHEN** Slack payloads are built
-- **THEN** the title link host SHALL be `www.querypie.com`
-- **AND** its external URL SHALL remain available only as internal source and Ignore evidence
-- **AND** the detail path SHALL be derived from the source category and source slug
+- **THEN** the title SHALL NOT conceal a navigation target
+- **AND** `Original · {domain}` SHALL link to the normalized HTTPS source URL
+- **AND** `GitHub source` SHALL link to the item's source directory at the reported 40-character Global SHA
+- **AND** invalid SHAs, non-HTTPS original URLs, or out-of-root source paths SHALL stop delivery
 
 ### Requirement: Deterministic grouping and pagination
 

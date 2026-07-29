@@ -10,7 +10,7 @@ import {
   validateDecisionManifest,
 } from "../global-documentation-sync/discovery.mjs";
 import { normalizeUrl } from "../global-documentation-sync/lib.mjs";
-import { canonicalContentUrl, sourceFamily, targetFamily, targetFamilyDescriptor } from "../global-documentation-sync/source-family-map.mjs";
+import { sourceFamily, targetFamily, targetFamilyDescriptor } from "../global-documentation-sync/source-family-map.mjs";
 import { parseSyncBranch, resolveLegacySourceSection, sourceIdentityKey } from "../global-documentation-sync/sync-identity.mjs";
 
 const safeKebabSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -154,6 +154,10 @@ export async function buildGlobalInventory({ globalRepo, sitemapXml, productionL
 
     const identity = sourceIdentityKey(source);
     if (itemsByIdentity.has(identity)) throw new Error(`duplicate Global identity: ${identity}`);
+    const sourcePath = path.relative(globalRepo, source.directory).split(path.sep).join("/");
+    if (!sourcePath.startsWith("src/content/") || sourcePath.split("/").includes("..")) {
+      throw new Error(`invalid Global source path: ${identity}`);
+    }
     itemsByIdentity.set(identity, {
       identity,
       sourceSection: source.sourceSection,
@@ -163,7 +167,7 @@ export async function buildGlobalInventory({ globalRepo, sitemapXml, productionL
       title: localizedTitle(source.meta, source.sourceId),
       dateIso: source.meta.dateIso || "",
       sourceUrl: source.sourceCanonicalUrl,
-      globalUrl: normalizeUrl(canonicalContentUrl(source.category, source.meta.id)),
+      sourcePath,
     });
   }
 

@@ -84,7 +84,7 @@ The dry-run JSON includes:
 
 - Header: `🌐 Global-only content report`.
 - First payload includes run counts and both repo SHAs.
-- Items link to their category-and-source-slug `www.querypie.com` detail pages. News `externalUrl` values remain internal source/Ignore evidence and are never used as Slack links.
+- Item titles are plain text. Each item exposes an explicitly labeled production-evidenced `Original · {domain}` link and a `GitHub source` folder link pinned to the reported Global commit SHA.
 - Grouping is deterministic by status first: `Untracked` then `Ignored`.
 - Within each status, item order is deterministic by target family, newest date first, then composite identity.
 - Pagination is deterministic and numbered as `Part N of M`.

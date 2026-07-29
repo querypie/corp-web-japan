@@ -31,25 +31,30 @@ function familyLabel(family) {
   return FAMILY_LABELS[family] || family;
 }
 
-function itemText(item) {
-  let globalUrl;
+function itemText(item, metadata) {
+  let originalUrl;
   try {
-    globalUrl = new URL(item.globalUrl);
+    originalUrl = new URL(item.sourceUrl);
   } catch {
-    throw new Error(`missing QueryPie Global detail URL: ${item.identity}`);
+    throw new Error(`invalid original URL: ${item.identity}`);
   }
-  if (globalUrl.protocol !== "https:" || globalUrl.hostname !== "www.querypie.com") {
-    throw new Error(`invalid QueryPie Global detail URL: ${item.identity}`);
+  if (originalUrl.protocol !== "https:") throw new Error(`non-HTTPS original URL: ${item.identity}`);
+  if (!/^src\/content\/(?:news|documentation\/[a-z0-9-]+)\/cnt_\d+$/.test(item.sourcePath || "")) {
+    throw new Error(`invalid Global source path: ${item.identity}`);
   }
 
   const title = escapeMrkdwn(truncate(item.title, MAX_TITLE_LENGTH));
   const family = escapeMrkdwn(familyLabel(item.targetFamily));
   const date = escapeMrkdwn(item.dateIso);
   const identity = escapeMrkdwn(item.identity);
-  return `*<${globalUrl.href}|${title}>*\n_${family} · ${date}_ · \`${identity}\``;
+  const domain = escapeMrkdwn(originalUrl.hostname.replace(/^www\./, ""));
+  const originalHref = escapeMrkdwn(originalUrl.href);
+  const sourcePath = item.sourcePath.split("/").map(encodeURIComponent).join("/");
+  const githubHref = `https://github.com/querypie/corp-web-v2/tree/${metadata.globalSha}/${sourcePath}`;
+  return `*${title}*\n_${family} · ${date}_ · \`${identity}\`\n<${originalHref}|Original · ${domain}> · <${githubHref}|GitHub source>`;
 }
 
-function statusContainer(status, allItems, items, part) {
+function statusContainer(status, allItems, items, part, metadata) {
   return {
     type: "container",
     title: {
@@ -60,7 +65,7 @@ function statusContainer(status, allItems, items, part) {
     default_collapsed: status !== "Untracked",
     child_blocks: items.map((item) => ({
       type: "section",
-      text: { type: "mrkdwn", text: itemText(item) },
+      text: { type: "mrkdwn", text: itemText(item, metadata) },
     })),
   };
 }
@@ -163,6 +168,10 @@ function renderPayload({ report, metadata, partNumber, totalParts, containers, i
 }
 
 export function buildSlackPayloads(report, metadata) {
+  if (!/^[0-9a-f]{40}$/.test(metadata?.globalSha || "") || !/^[0-9a-f]{40}$/.test(metadata?.japanSha || "")) {
+    throw new Error("Slack metadata requires full commit SHAs");
+  }
+
   if (!report?.items?.length) {
     return [{
       text: "No Global-only content",
@@ -196,7 +205,7 @@ export function buildSlackPayloads(report, metadata) {
     const parts = chunk(statusItems, ITEMS_PER_CONTAINER);
     const split = parts.length > 1;
     parts.forEach((items, index) => {
-      containers.push(statusContainer(status, statusItems, items, split ? `Part ${index + 1} of ${parts.length}` : null));
+      containers.push(statusContainer(status, statusItems, items, split ? `Part ${index + 1} of ${parts.length}` : null, metadata));
     });
   }
 

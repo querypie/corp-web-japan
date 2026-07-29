@@ -220,7 +220,7 @@ function reportItem(index, overrides = {}) {
     title: `QueryPie selected & <${index}>`,
     dateIso: `2026-04-${String((index % 28) + 1).padStart(2, "0")}`,
     sourceUrl: `https://finance.yahoo.com/story-${index}`,
-    globalUrl: `https://www.querypie.com/en/news/${index}/story-${index}`,
+    sourcePath: `src/content/news/cnt_${String(index).padStart(6, "0")}`,
     status: "Untracked",
     ...overrides,
   };
@@ -277,8 +277,8 @@ function emptyReport() {
 }
 
 const slackMetadata = {
-  globalSha: "abc1234",
-  japanSha: "def5678",
+  globalSha: "a".repeat(40),
+  japanSha: "b".repeat(40),
 };
 
 test("reports all listed Global-only identities and preserves cross-section IDs", async () => {
@@ -412,10 +412,11 @@ test("includes listed outlinks without sitemap detail evidence", async () => {
   assert.equal(report.counts.globalPublished, 1);
   assert.equal(report.items[0].identity, "news:cnt_000301");
   assert.equal(report.items[0].sourceUrl, "https://example.com/article.html?no=169&lang=en");
-  assert.equal(report.items[0].globalUrl, "https://www.querypie.com/en/news/external-story");
+  assert.equal(report.items[0].sourcePath, "src/content/news/cnt_000301");
   const [payload] = buildSlackPayloads(report, slackMetadata);
-  assert.match(JSON.stringify(payload), /https:\/\/www\.querypie\.com\/en\/news\/external-story/);
-  assert.doesNotMatch(JSON.stringify(payload), /example\.com/);
+  const rendered = JSON.stringify(payload);
+  assert.match(rendered, /<https:\/\/example\.com\/article\.html\?no=169&amp;lang=en\|Original · example\.com>/);
+  assert.match(rendered, new RegExp(`<https://github\\.com/querypie/corp-web-v2/tree/${"a".repeat(40)}/src/content/news/cnt_000301\\|GitHub source>`));
 });
 
 test("excludes unlisted and unsitemapped stale sources from Global inventory", async () => {
@@ -646,15 +647,16 @@ test("renders status-first collapsible containers and original links", () => {
   const containers = payload.blocks.filter((block) => block.type === "container");
   assert.deepEqual(containers.map((block) => block.title.text), ["Untracked · 7 items"]);
   assert.equal(containers[0].default_collapsed, false);
-  assert.match(containers[0].child_blocks[0].text.text, /^\*<https:\/\/www\.querypie\.com\/en\/news\/4\/story-4\|QueryPie selected/);
-  assert.match(containers[0].child_blocks[0].text.text, />\*\n_Blog · 2026-04-04_ · `documentation:cnt_000004`$/);
+  assert.match(containers[0].child_blocks[0].text.text, /^\*QueryPie selected &amp; &lt;4&gt;\*\n_Blog · 2026-04-04_ · `documentation:cnt_000004`\n/);
+  assert.match(containers[0].child_blocks[0].text.text, /<https:\/\/finance\.yahoo\.com\/story-4\|Original · finance\.yahoo\.com>/);
+  assert.match(containers[0].child_blocks[0].text.text, new RegExp(`<https://github\\.com/querypie/corp-web-v2/tree/${"a".repeat(40)}/src/content/news/cnt_000004\\|GitHub source>$`));
   assert.doesNotMatch(containers[0].child_blocks[0].text.text, /Untracked/);
   assert.doesNotMatch(containers[0].title.text, /:newspaper:|📰/);
   assert.match(containers[0].child_blocks[0].text.text, /&amp; &lt;4&gt;/);
   const contextText = payload.blocks.find((block) => block.type === "context").elements[0].text;
   assert.equal(
     contextText,
-    "Run · 2026-04-30 09:00 KST\nGlobal · <https://github.com/querypie/corp-web-v2/commit/abc1234|abc1234>\nJapan · <https://github.com/querypie/corp-web-japan/commit/def5678|def5678>",
+    `Run · 2026-04-30 09:00 KST\nGlobal · <https://github.com/querypie/corp-web-v2/commit/${"a".repeat(40)}|aaaaaaa>\nJapan · <https://github.com/querypie/corp-web-japan/commit/${"b".repeat(40)}|bbbbbbb>`,
   );
   assert.doesNotMatch(JSON.stringify(payload), /Part 1 of 1|2026-04-30T00:00:00\.000Z/);
   assert.doesNotMatch(JSON.stringify(payload), /button|ignore_content|<@|Draft open|Draft closed|Mapping drift/i);
@@ -668,7 +670,7 @@ test("renders status-first collapsible containers and original links", () => {
   const longTitleBlock = containers
     .flatMap((block) => block.child_blocks)
     .find((block) => block.text.text.includes("A very long title"));
-  const renderedTitle = longTitleBlock.text.text.split("|", 2)[1].split(">", 1)[0];
+  const renderedTitle = longTitleBlock.text.text.split("\n", 1)[0].slice(1, -1);
   assert.equal(renderedTitle.length, 96);
   assert.match(renderedTitle, /…$/);
 });
@@ -722,12 +724,12 @@ test("groups by status first, then target family order, then newest date", () =>
   ]);
   assert.equal(containers[0].default_collapsed, false);
   assert.equal(containers[1].default_collapsed, true);
-  assert.match(containers[0].child_blocks[0].text.text, /_Blog · 2026-04-05_ · `documentation:cnt_000002`$/);
-  assert.match(containers[0].child_blocks[1].text.text, /_News · 2026-04-03_ · `news:cnt_000004`$/);
-  assert.match(containers[0].child_blocks[2].text.text, /_News · 2026-04-01_ · `news:cnt_000006`$/);
-  assert.match(containers[1].child_blocks[0].text.text, /_Blog · 2026-04-02_ · `documentation:cnt_000005`$/);
-  assert.match(containers[1].child_blocks[1].text.text, /_Whitepapers · 2026-04-04_ · `documentation:cnt_000003`$/);
-  assert.match(containers[1].child_blocks[2].text.text, /_News · 2026-04-06_ · `news:cnt_000001`$/);
+  assert.match(containers[0].child_blocks[0].text.text, /_Blog · 2026-04-05_ · `documentation:cnt_000002`\n/);
+  assert.match(containers[0].child_blocks[1].text.text, /_News · 2026-04-03_ · `news:cnt_000004`\n/);
+  assert.match(containers[0].child_blocks[2].text.text, /_News · 2026-04-01_ · `news:cnt_000006`\n/);
+  assert.match(containers[1].child_blocks[0].text.text, /_Blog · 2026-04-02_ · `documentation:cnt_000005`\n/);
+  assert.match(containers[1].child_blocks[1].text.text, /_Whitepapers · 2026-04-04_ · `documentation:cnt_000003`\n/);
+  assert.match(containers[1].child_blocks[2].text.text, /_News · 2026-04-06_ · `news:cnt_000001`\n/);
   assert.doesNotMatch(containers.flatMap((block) => block.child_blocks).map((block) => block.text.text).join("\n"), /Untracked|Ignored/);
   assert.doesNotMatch(JSON.stringify(payload), /Draft open|Draft closed|Mapping drift/);
 });
