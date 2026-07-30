@@ -76,7 +76,7 @@ export function PlatformRequirementsVideo({ src }: { src: string }) {
   return (
     <RevealOnScroll {...componentNameDebugProps("PlatformRequirementsVideo")} className="mx-auto mt-10 max-w-[960px] overflow-hidden rounded-[1.8rem] border border-slate-200/80 bg-slate-950 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.28)]" variant="up" delayMs={320}>
       <div className="relative aspect-video w-full">
-        <iframe className="h-full w-full" src={src} title="QueryPie AI overview video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+        <iframe className="h-full w-full" src={src} title="QueryPie AI overview video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
       </div>
     </RevealOnScroll>
   );
