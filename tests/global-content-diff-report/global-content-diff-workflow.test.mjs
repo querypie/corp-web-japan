@@ -383,7 +383,16 @@ test("OpenSpec forbids report tooling and Direct Ignore from handling publicatio
   assert.match(source, /status SHALL remain either `Untracked` or `Ignored`/);
   assert.match(source, /counts SHALL remain identical/);
   assert.match(source, /zero-candidate result SHALL mean only that no deterministic candidate was found/);
+  assert.match(source, /Global `meta\.id` field SHALL equal the Japan frontmatter `slug` field exactly/);
+  assert.match(source, /normalized original Global English title SHALL occur in the normalized raw Japan MDX source/);
+  assert.match(source, /Unicode NFC normalization, trim leading and trailing whitespace, and collapse whitespace runs/);
+  assert.match(source, /remove fragments, lowercase the hostname, normalize a trailing slash away except at the root, sort query entries by key then value/);
   assert.match(source, /identity-bearing query parameters/);
+  assert.match(source, /target path, numeric target ID, target slug, and a sorted non-empty list/);
+  assert.match(source, /Every matching candidate SHALL be preserved/);
+  assert.match(source, /scanner I\/O error, malformed frontmatter or target record, unsafe target path, duplicate `targetFamily:targetId`, or duplicate target path SHALL fail closed/);
+  assert.match(source, /at most three candidates per item/);
+  assert.match(source, /exact omitted count/);
   assert.match(source, /Possible Japan match/);
   assert.match(source, /Direct Ignore SHALL be used only for an owner-approved intentional exclusion/);
   assert.match(source, /selected or potentially intended for publication SHALL NOT be added to `\.github\/content-sync\/ignore\.json`/);
@@ -395,6 +404,10 @@ test("OpenSpec forbids report tooling and Direct Ignore from handling publicatio
   assert.match(source, /Scenario: Hand-edited Ignore PR cannot bypass eligibility/);
   assert.match(source, /Scenario: Bot-created Ignore PR receives CI/);
   assert.match(source, /dispatch `ci\.yml`/);
+  assert.match(source, /`workflow_dispatch` run SHALL execute the Ignore-manifest validator rather than skip it/);
+  assert.match(source, /Ignore manifest from `origin\/main`/);
+  assert.match(source, /actual result SHALL contribute to exact `CI result`/);
+  assert.doesNotMatch(source, /workflow docs contract CI/);
   assert.match(source, /Scenario: Publishable Untracked identity is not ignored/);
   assert.match(source, /SHALL NOT be dispatched through Direct Ignore/);
   assert.match(source, /AI\/Codex normal content PR plus baseline mapping path/);
@@ -419,17 +432,25 @@ test("historical superpowers docs point to canonical operator guidance and avoid
   assert.match(candidateGuardDesign, /Do not treat it as the current implementation contract/);
 });
 
-test("CI validates newly added Ignore rows and contributes to exact CI result", async () => {
+test("CI validates pull-request Ignore changes and dispatched generated Ignore branches", async () => {
   const source = await readFile(ciWorkflowPath, "utf8");
-  assert.match(source, /ignore_manifest:/);
+  assert.match(source, /ignore_manifest: \$\{\{ steps\.filter\.outputs\.ignore_manifest \|\| steps\.alltrue\.outputs\.ignore_manifest \}\}/);
+  assert.match(source, /echo 'ignore_manifest=true'/);
   assert.match(source, /\.github\/content-sync\/ignore\.json/);
   assert.match(source, /name: Validate Ignore manifest additions/);
   assert.match(source, /repository: querypie\/corp-web-v2/);
-  assert.match(source, /git show [^\n]*\.github\/content-sync\/ignore\.json/);
+  assert.match(source, /if: \$\{\{ \(github\.event_name == 'pull_request' && needs\.changes\.outputs\.ignore_manifest == 'true'\) \|\| github\.event_name == 'workflow_dispatch' \}\}/);
+  assert.doesNotMatch(source, /if: [^\n]*github\.event_name == 'push'[^\n]*/);
+  assert.match(source, /BASE_REF: \$\{\{ github\.event_name == 'pull_request' && github\.event\.pull_request\.base\.sha \|\| 'origin\/main' \}\}/);
+  assert.match(source, /git show "\$BASE_REF:\.github\/content-sync\/ignore\.json"/);
   assert.match(source, /validate-ignore-pr\.mjs/);
-  assert.match(source, /needs:[\s\S]*validate-ignore-pr[\s\S]*if: \$\{\{ always\(\) \}\}/);
-  assert.match(source, /VALIDATE_IGNORE_PR_RESULT: \$\{\{ needs\.validate-ignore-pr\.result \}\}/);
-  assert.match(source, /check_result 'Validate Ignore manifest additions'/);
+
+  const ciResultIndex = source.indexOf("  ci-result:");
+  assert.notEqual(ciResultIndex, -1);
+  const ciResult = source.slice(ciResultIndex);
+  assert.match(ciResult, /needs:[\s\S]*validate-ignore-pr[\s\S]*if: \$\{\{ always\(\) \}\}/);
+  assert.match(ciResult, /VALIDATE_IGNORE_PR_RESULT: \$\{\{ needs\.validate-ignore-pr\.result \}\}/);
+  assert.match(ciResult, /check_result 'Validate Ignore manifest additions' "\$VALIDATE_IGNORE_PR_RESULT"/);
   assert.match(source, /permissions:\n  contents: read\n  pull-requests: read/);
 });
 
