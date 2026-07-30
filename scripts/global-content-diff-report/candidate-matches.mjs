@@ -81,11 +81,76 @@ function assertValidRecord({ family, id, slug, relativePath }) {
   }
 }
 
+function decodeHtmlUrlEntities(value) {
+  return String(value).replace(/&amp;/gi, "&");
+}
+
+function trimUnmatchedClosingDelimiter(value, openDelimiter, closeDelimiter) {
+  let balance = 0;
+  for (const character of value) {
+    if (character === openDelimiter) balance += 1;
+    if (character === closeDelimiter) balance -= 1;
+  }
+  return balance < 0 && value.endsWith(closeDelimiter) ? value.slice(0, -1) : value;
+}
+
+function trimUnquotedUrlToken(value) {
+  let token = String(value).trim();
+  while (token) {
+    const before = token;
+    token = token.replace(/[.,!?;:]+$/u, "");
+    token = trimUnmatchedClosingDelimiter(token, "(", ")");
+    token = trimUnmatchedClosingDelimiter(token, "[", "]");
+    token = trimUnmatchedClosingDelimiter(token, "{", "}");
+    if (token === before) return token;
+  }
+  return token;
+}
+
+function extractMarkdownDestination(source, openIndex) {
+  const start = openIndex + 2;
+  if (!source.startsWith("https://", start)) return null;
+  let depth = 0;
+  for (let index = start; index < source.length; index += 1) {
+    const character = source[index];
+    if (character === "(") {
+      depth += 1;
+      continue;
+    }
+    if (character === ")") {
+      if (depth === 0) return source.slice(start, index);
+      depth -= 1;
+      continue;
+    }
+    if (/\s/.test(character) && depth === 0) return source.slice(start, index);
+  }
+  return source.slice(start);
+}
+
 function extractAbsoluteHttpsUrls(source) {
   const urls = new Set();
-  for (const match of source.matchAll(/https:\/\/[^\s"'<>),]+/g)) {
-    const normalized = normalizeCandidateUrl(match[0]);
+  const addUrl = (value, { quoted = false } = {}) => {
+    const candidate = quoted ? String(value).trim() : trimUnquotedUrlToken(value);
+    if (!candidate.startsWith("https://")) return;
+    const normalized = normalizeCandidateUrl(decodeHtmlUrlEntities(candidate));
     if (normalized) urls.add(normalized);
+  };
+
+  for (const match of source.matchAll(/\b(?:href|src)\s*=\s*(?:(['"])([\s\S]*?)\1|\{\s*(['"])([\s\S]*?)\3\s*\})/gi)) {
+    addUrl(match[2] ?? match[4], { quoted: true });
+  }
+
+  for (const match of source.matchAll(/\]\(/g)) {
+    const destination = extractMarkdownDestination(source, match.index);
+    if (destination) addUrl(destination);
+  }
+
+  for (const match of source.matchAll(/<https:\/\/[^>\s]+>/g)) {
+    addUrl(match[0].slice(1, -1));
+  }
+
+  for (const match of source.matchAll(/https:\/\/[^\s"'<>]+/g)) {
+    addUrl(match[0]);
   }
   return urls;
 }

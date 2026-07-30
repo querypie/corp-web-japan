@@ -117,10 +117,98 @@ test("finds exact source URL after tracking allowlist removal and query sorting"
   });
 });
 
+test("extracts exact source URLs across quoted, markdown, autolink, and bare boundaries", async () => {
+  await withTargetRepo(async (targetRepo) => {
+    await writeMdx(targetRepo, "news", "6-quoted-html-jsx.mdx", {
+      id: "6",
+      slug: "quoted-html-jsx",
+      title: "News",
+      date: "2026-02-04",
+    }, `<a href="https://media.example.com/reports,2026/(alpha,beta)?no=169&amp;lang=en&utm_source=x">source</a>
+<Image src={"https://assets.example.com/images/(hero,wide).png?no=169"} />`);
+    await writeMdx(targetRepo, "news", "7-markdown-destination.mdx", {
+      id: "7",
+      slug: "markdown-destination",
+      title: "News",
+      date: "2026-02-04",
+    }, "[source](https://media.example.com/docs/(alpha,beta)?no=170)");
+    await writeMdx(targetRepo, "news", "8-bare-prose-boundary.mdx", {
+      id: "8",
+      slug: "bare-prose-boundary",
+      title: "News",
+      date: "2026-02-04",
+    }, "See https://media.example.com/releases/(alpha,beta)?no=171.), then continue.");
+    await writeMdx(targetRepo, "news", "9-autolink-destination.mdx", {
+      id: "9",
+      slug: "autolink-destination",
+      title: "News",
+      date: "2026-02-04",
+    }, "<https://media.example.com/autolinks/(alpha,beta)?no=172>");
+
+    const japanIndex = await indexJapanCandidateRecords({ targetRepo, targetFamilies: ["news"] });
+
+    assert.deepEqual(findPossibleJapanMatches({
+      globalItem: {
+        targetFamily: "news",
+        sourceSlug: "different",
+        sourceUrls: ["https://media.example.com/reports,2026/(alpha,beta)?lang=en&no=169"],
+        originalTitle: "News",
+        dateIso: "2026-02-05",
+      },
+      japanIndex,
+    }).map(({ targetPath, signals }) => ({ targetPath, signals })), [{
+      targetPath: "src/content/news/6-quoted-html-jsx.mdx",
+      signals: ["exact-source-url"],
+    }]);
+
+    assert.deepEqual(findPossibleJapanMatches({
+      globalItem: {
+        targetFamily: "news",
+        sourceSlug: "different",
+        sourceUrls: ["https://media.example.com/docs/(alpha,beta)?no=170"],
+        originalTitle: "News",
+        dateIso: "2026-02-05",
+      },
+      japanIndex,
+    }).map(({ targetPath, signals }) => ({ targetPath, signals })), [{
+      targetPath: "src/content/news/7-markdown-destination.mdx",
+      signals: ["exact-source-url"],
+    }]);
+
+    assert.deepEqual(findPossibleJapanMatches({
+      globalItem: {
+        targetFamily: "news",
+        sourceSlug: "different",
+        sourceUrls: ["https://media.example.com/releases/(alpha,beta)?no=171"],
+        originalTitle: "News",
+        dateIso: "2026-02-05",
+      },
+      japanIndex,
+    }).map(({ targetPath, signals }) => ({ targetPath, signals })), [{
+      targetPath: "src/content/news/8-bare-prose-boundary.mdx",
+      signals: ["exact-source-url"],
+    }]);
+
+    assert.deepEqual(findPossibleJapanMatches({
+      globalItem: {
+        targetFamily: "news",
+        sourceSlug: "different",
+        sourceUrls: ["https://media.example.com/autolinks/(alpha,beta)?no=172"],
+        originalTitle: "News",
+        dateIso: "2026-02-05",
+      },
+      japanIndex,
+    }).map(({ targetPath, signals }) => ({ targetPath, signals })), [{
+      targetPath: "src/content/news/9-autolink-destination.mdx",
+      signals: ["exact-source-url"],
+    }]);
+  });
+});
+
 test("preserves identity-bearing query parameters and rejects partial URL matches", async () => {
   await withTargetRepo(async (targetRepo) => {
-    await writeMdx(targetRepo, "news", "6-query-identity.mdx", {
-      id: "6",
+    await writeMdx(targetRepo, "news", "10-query-identity.mdx", {
+      id: "10",
       slug: "query-identity",
       title: "News",
       date: "2026-02-04",
