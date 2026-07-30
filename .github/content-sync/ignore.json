@@ -52,5 +52,14 @@
     "reason": "Ignored by owner from sync Draft PR.",
     "addedBy": "owner",
     "addedAt": "2026-07-22T02:13:22Z"
+  },
+  {
+    "sourceSection": "documentation",
+    "sourceId": "cnt_000215",
+    "sourceCanonicalUrl": "https://www.querypie.com/en/blog/what-is-forward-deployed-engineer-fde",
+    "reasonCode": "other",
+    "reason": "Ignored by owner from Global-only content report.",
+    "addedBy": "chikako-yaegaki",
+    "addedAt": "2026-07-30T04:33:34.692Z"
   }
 ]
