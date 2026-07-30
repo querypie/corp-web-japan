@@ -1,6 +1,8 @@
 # Existing Japan Content Candidate Guard Design
 
-Status: Reviewed design awaiting final implementation approval
+Status: Historical / non-canonical after implementation. The canonical durable contract is [`openspec/specs/contract-global-content-diff-report/spec.md`](../../../openspec/specs/contract-global-content-diff-report/spec.md). Operator guidance lives in [`.github/content-sync/README.md`](../../../.github/content-sync/README.md) and [`scripts/global-content-diff-report/README.md`](../../../scripts/global-content-diff-report/README.md).
+
+This document preserves design rationale and incident context only. Do not treat it as the current implementation contract.
 
 ## Problem
 

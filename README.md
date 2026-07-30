@@ -64,7 +64,7 @@ Additional notes:
 
 ## Global content diff operations
 
-The standalone Global content diff system sends a full-snapshot, Global-only Slack report from GitHub Actions on weekdays at 10:00 JST. It is report-only: no server, automatic translation, MDX/assets generation, Draft/content PR generation, Slack button, n8n, or auto-merge. `Untracked` items are expanded; `Ignored` items are collapsed.
+The standalone Global content diff system sends a full-snapshot, Global-only Slack report from GitHub Actions on weekdays at 10:00 JST. It is report-only: no server, automatic translation, MDX/assets generation, Draft/content PR generation, Slack button, n8n, or auto-merge. `Untracked` items are expanded; `Ignored` items are collapsed. `Possible Japan match` evidence is diagnostic only: baseline authority, status, and counts remain unchanged, and zero candidates are not proof that Japan content is absent. Direct Ignore and hand-edited Ignore PRs deny candidate and mapping-drift identities through shared eligibility; remediation is a normal reviewed baseline/content PR.
 
 Operator references:
 

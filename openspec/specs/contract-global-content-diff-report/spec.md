@@ -61,6 +61,47 @@ A Global identity SHALL count as Japan-present only when `.github/content-sync/b
 - **THEN** the identity SHALL NOT count as present
 - **AND** the expected path SHALL appear in mapping-drift evidence
 
+
+### Requirement: Diagnostic-only Possible Japan matches
+
+The report SHALL attach `possibleJapanMatches` only as diagnostic evidence for Global-only items. Candidate evidence SHALL NOT change baseline authority, Japan-present membership, `globalPublished`, `japanPresent`, `globalOnly`, family counts, or the two allowed item statuses `Untracked` and `Ignored`. A zero-candidate result SHALL mean only that no deterministic candidate was found; it SHALL NOT be represented as proof that Japan content is absent.
+
+#### Scenario: Candidate evidence does not change authority
+
+- **GIVEN** a production-published Global item with no valid baseline target
+- **AND** the candidate scanner finds one or more possible Japan MDX matches
+- **WHEN** the report computes the diff
+- **THEN** the item SHALL remain Global-only
+- **AND** its status SHALL remain either `Untracked` or `Ignored` according to Ignore records only
+- **AND** report counts SHALL remain identical to the baseline-only diff result
+
+#### Scenario: Zero candidates are not absence proof
+
+- **GIVEN** a live `Untracked` item has an empty `possibleJapanMatches` array
+- **WHEN** an operator reviews the item
+- **THEN** the report SHALL NOT claim that no Japan content exists
+- **AND** intentional exclusion SHALL still require owner review before Direct Ignore
+
+### Requirement: Exact candidate signals preserve source identity
+
+Possible Japan matches SHALL be produced only from exact, auditable signals in the mapped target family: `exact-slug`, `exact-source-url`, or `exact-original-title-and-date`. URL evidence SHALL require absolute HTTPS URLs, SHALL remove only the explicit tracking allowlist (`utm_*`, `guccounter`, `guce_referrer`, `guce_referrer_sig`), and SHALL preserve identity-bearing query parameters such as `no=169`. The report SHALL render bounded Slack evidence using the label `Possible Japan match` with candidate path and signal names.
+
+#### Scenario: Identity-bearing query is preserved
+
+- **GIVEN** a Global source URL includes a query parameter that identifies the article
+- **AND** a Japan MDX source contains a similar URL with a different identity-bearing query value
+- **WHEN** candidate matching evaluates `exact-source-url`
+- **THEN** those URLs SHALL NOT match
+- **AND** only allowlisted tracking parameters MAY be removed
+
+#### Scenario: Slack shows candidate evidence
+
+- **GIVEN** a Global-only item has possible Japan matches
+- **WHEN** Slack payloads are built
+- **THEN** the item SHALL include `Possible Japan match` evidence
+- **AND** the evidence SHALL include target paths and exact signal names
+- **AND** omitted candidates SHALL be summarized without selecting a winner
+
 ### Requirement: Complete difference results
 
 The report SHALL compute `Global-only = production-published Global identities - verified Japan-present identities`. A current ignore record SHALL set status `Ignored`; every other Global-only item SHALL use `Untracked`. Ignore records SHALL annotate rather than suppress items.
@@ -130,9 +171,42 @@ Slack SHALL label each key `Composite identity` and link to `.github/workflows/i
 
 Direct Ignore SHALL be used only for an owner-approved intentional exclusion from Japan publication. An `Untracked` item selected or potentially intended for publication SHALL NOT be added to `.github/content-sync/ignore.json`; it follows the separate AI/Codex normal content PR plus baseline mapping path.
 
+Direct Ignore SHALL use the shared `assessIgnoreEligibility` decision function before mutation. It SHALL deny identities with mapping drift or any `possibleJapanMatches`; it SHALL fail closed on malformed candidate evidence, missing or duplicate live items, non-`Untracked` status, or an active base Ignore row. No force, candidate-skip, batch, or manual bypass input SHALL exist.
+
 The workflow SHALL append one sorted `.github/content-sync/ignore.json` record with reason code `other`, actor, and UTC timestamp. It SHALL create branches under the identity-specific prefix `global-content-diff-ignore/${sourceSection}-${sourceId}` with a unique `${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}` suffix. It SHALL place an exact trusted `global-content-diff-ignore:v1` marker containing the composite identity in the PR body.
 
-The workflow SHALL completely enumerate every open pull request with the paginated GitHub REST API. A reusable PR SHALL have a head repository equal to `GITHUB_REPOSITORY` after case normalization, the identity-specific branch prefix in either the legacy exact-prefix format or the unique run-suffixed format, and the exact trusted marker. Title SHALL NOT participate in identity matching. Fork PRs, unsupported branch formats, missing or incorrect markers, and malformed PR records SHALL NOT be reused; malformed pagination envelopes SHALL fail closed. Zero reusable open PRs SHALL create one normal PR for human review on the unique current-run branch. Exactly one reusable open PR SHALL be reused only after live `Untracked` validation succeeds. Two or more reusable open PRs SHALL fail closed. The workflow SHALL NOT merge automatically.
+The workflow SHALL completely enumerate every open pull request with the paginated GitHub REST API. A reusable PR SHALL have a head repository equal to `GITHUB_REPOSITORY` after case normalization, the identity-specific branch prefix in either the legacy exact-prefix format or the unique run-suffixed format, and the exact trusted marker. Title SHALL NOT participate in identity matching. Fork PRs, unsupported branch formats, missing or incorrect markers, and malformed PR records SHALL NOT be reused; malformed pagination envelopes SHALL fail closed. Zero reusable open PRs SHALL create one normal PR for human review on the unique current-run branch. Exactly one reusable open PR SHALL be reused only after live `Untracked` validation succeeds. Two or more reusable open PRs SHALL fail closed. The workflow SHALL NOT merge automatically. When the workflow creates a PR with `GITHUB_TOKEN`, it SHALL dispatch `ci.yml` on the generated branch so the normal required CI surface can validate the Ignore change.
+
+
+#### Scenario: Candidate identity is denied before mutation
+
+- **GIVEN** one exact live `Untracked` report item has one or more `possibleJapanMatches`
+- **WHEN** Direct Ignore validation runs
+- **THEN** `assessIgnoreEligibility` SHALL deny the identity
+- **AND** the workflow SHALL NOT change `.github/content-sync/ignore.json`, create a branch, commit, or open a PR
+- **AND** remediation SHALL point to a normal baseline/content PR
+
+#### Scenario: Mapping drift identity is denied before mutation
+
+- **GIVEN** one exact live `Untracked` report item also appears in mapping-drift evidence
+- **WHEN** Direct Ignore validation runs
+- **THEN** `assessIgnoreEligibility` SHALL deny the identity
+- **AND** the workflow SHALL NOT append an Ignore row
+- **AND** remediation SHALL be to restore or correct the baseline/content mapping in a normal PR
+
+#### Scenario: Hand-edited Ignore PR cannot bypass eligibility
+
+- **GIVEN** a human-edited PR adds or reactivates an active Ignore row
+- **WHEN** workflow docs contract CI validates the PR
+- **THEN** the validator SHALL assess the row through `assessIgnoreEligibility` with base Ignore decisions
+- **AND** candidate or mapping-drift evidence SHALL deny the PR validation
+
+#### Scenario: Bot-created Ignore PR receives CI
+
+- **GIVEN** Direct Ignore creates a PR branch using `GITHUB_TOKEN`
+- **WHEN** the PR is created
+- **THEN** the workflow SHALL dispatch `ci.yml` for that branch
+- **AND** the generated PR SHALL NOT bypass the normal Ignore-manifest validator
 
 #### Scenario: Valid Untracked identity has no matching open PR
 

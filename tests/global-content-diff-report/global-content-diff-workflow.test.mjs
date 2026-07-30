@@ -17,6 +17,7 @@ const operatorGuidePath = path.resolve(".github/content-sync/README.md");
 const packageReadmePath = path.resolve("scripts/global-content-diff-report/README.md");
 const historicalPlanPath = path.resolve("docs/superpowers/plans/2026-07-28-global-content-diff-slack-report.md");
 const historicalDesignPath = path.resolve("docs/superpowers/specs/2026-07-28-global-content-diff-slack-report-design.md");
+const candidateGuardDesignPath = path.resolve("docs/superpowers/specs/2026-07-30-existing-japan-content-candidate-guard-design.md");
 const supportedTargetFamilies = [...new Set(SOURCE_FAMILIES.map(({ targetFamily }) => targetFamily))];
 
 async function withTempRepos(run) {
@@ -336,11 +337,28 @@ test("operator docs distinguish publish authoring from Direct Ignore exclusion",
 
   for (const source of [rootReadme, operatorGuide, packageReadme]) {
     assert.match(source, /report-only|inventory signal only|does not translate/);
+    assert.match(source, /Possible Japan match/);
+    assert.match(source, /diagnostic (?:evidence )?only|diagnostic only|diagnostic evidence/);
+    assert.match(source, /baseline authority|baseline remains authoritative/);
+    assert.match(source, /status(?:,| and) (?:or )?(?:counts|and counts)|counts or status/);
+    assert.match(source, /zero-candidate|zero candidates|zero-candidate result/);
+    assert.match(source, /not proof|not .*proof.*absent/);
     assert.match(source, /mdx-publication-operations\/SKILL\.md/);
     assert.match(source, /baseline\.json/);
-    assert.match(source, /normal human-reviewed content PR|normal content PR|same content PR/);
+    assert.match(source, /normal human-reviewed content PR|normal content PR|content\/baseline PR|baseline\/content PR|same content PR/);
     assert.match(source, /Direct Ignore only|intentional exclusions?|owner-approved/);
     assert.match(source, /do not use `ignore\.json` for publishable items|Do not use `ignore\.json` for publishable items|Do not add publishable items to `ignore\.json`/);
+  }
+
+  for (const source of [operatorGuide, packageReadme]) {
+    assert.match(source, /mappingDrift|mapping drift/);
+    assert.match(source, /assessIgnoreEligibility|shared eligibility/);
+    assert.match(source, /no force|no .*bypass|There is no force/);
+    assert.match(source, /Hand-edited|hand-edited/);
+    assert.match(source, /ci\.yml/);
+    assert.match(source, /GITHUB_TOKEN/);
+    assert.match(source, /stale-branch|stale branch|up to date/);
+    assert.match(source, /ruleset|Repository rules/);
   }
 
   assert.match(operatorGuide, /Composite identity/);
@@ -360,8 +378,23 @@ test("OpenSpec forbids report tooling and Direct Ignore from handling publicatio
   assert.match(source, /separate human\/AI-assisted authoring process/);
   assert.match(source, /normal human-reviewed content PR/);
   assert.match(source, /baseline\.json/);
+  assert.match(source, /Requirement: Diagnostic-only Possible Japan matches/);
+  assert.match(source, /SHALL NOT change baseline authority/);
+  assert.match(source, /status SHALL remain either `Untracked` or `Ignored`/);
+  assert.match(source, /counts SHALL remain identical/);
+  assert.match(source, /zero-candidate result SHALL mean only that no deterministic candidate was found/);
+  assert.match(source, /identity-bearing query parameters/);
+  assert.match(source, /Possible Japan match/);
   assert.match(source, /Direct Ignore SHALL be used only for an owner-approved intentional exclusion/);
   assert.match(source, /selected or potentially intended for publication SHALL NOT be added to `\.github\/content-sync\/ignore\.json`/);
+  assert.match(source, /assessIgnoreEligibility/);
+  assert.match(source, /mapping drift or any `possibleJapanMatches`/);
+  assert.match(source, /No force, candidate-skip, batch, or manual bypass input SHALL exist/);
+  assert.match(source, /Scenario: Candidate identity is denied before mutation/);
+  assert.match(source, /Scenario: Mapping drift identity is denied before mutation/);
+  assert.match(source, /Scenario: Hand-edited Ignore PR cannot bypass eligibility/);
+  assert.match(source, /Scenario: Bot-created Ignore PR receives CI/);
+  assert.match(source, /dispatch `ci\.yml`/);
   assert.match(source, /Scenario: Publishable Untracked identity is not ignored/);
   assert.match(source, /SHALL NOT be dispatched through Direct Ignore/);
   assert.match(source, /AI\/Codex normal content PR plus baseline mapping path/);
@@ -370,13 +403,20 @@ test("OpenSpec forbids report tooling and Direct Ignore from handling publicatio
 test("historical superpowers docs point to canonical operator guidance and avoid smoke-test Direct Ignore guidance", async () => {
   for (const filePath of [historicalPlanPath, historicalDesignPath]) {
     const source = await readFile(filePath, "utf8");
-    assert.match(source, /Historical \/ non-canonical note/);
+    assert.match(source, /Historical \/ non-canonical note|Historical \/ non-canonical after implementation/);
     assert.match(source, /openspec\/specs\/contract-global-content-diff-report\/spec\.md/);
     assert.match(source, /\.github\/content-sync\/README\.md/);
     assert.match(source, /scripts\/global-content-diff-report\/README\.md/);
-    assert.match(source, /Direct Ignore is only for owner-approved intentional exclusion/);
+    assert.match(source, /Direct Ignore is only for owner-approved intentional exclusion|current implementation contract|canonical durable contract/);
     assert.doesNotMatch(source, /Direct Ignore(?: workflow)? as a smoke test|run both workflows with a known current identity/);
   }
+
+  const candidateGuardDesign = await readFile(candidateGuardDesignPath, "utf8");
+  assert.match(candidateGuardDesign, /Historical \/ non-canonical after implementation/);
+  assert.match(candidateGuardDesign, /openspec\/specs\/contract-global-content-diff-report\/spec\.md/);
+  assert.match(candidateGuardDesign, /\.github\/content-sync\/README\.md/);
+  assert.match(candidateGuardDesign, /scripts\/global-content-diff-report\/README\.md/);
+  assert.match(candidateGuardDesign, /Do not treat it as the current implementation contract/);
 });
 
 test("CI validates newly added Ignore rows and contributes to exact CI result", async () => {
