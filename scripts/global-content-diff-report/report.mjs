@@ -223,10 +223,11 @@ export async function buildGlobalOnlyReport({
   targetRepo,
   sitemapXml,
   productionListHtmlByUrl,
+  ignoreRecords: suppliedIgnoreRecords,
   now = new Date().toISOString(),
 }) {
   const globalItems = await buildGlobalInventory({ globalRepo, sitemapXml, productionListHtmlByUrl });
-  const ignoreRecords = await readManifest(targetRepo, "ignore");
+  const ignoreRecords = suppliedIgnoreRecords ?? await readManifest(targetRepo, "ignore");
   const { present, mappingDrift } = await buildJapanInventory({ targetRepo });
   const japanIndex = await indexJapanCandidateRecords({ targetRepo });
   const dispositions = buildDispositionMap({ ignoreRecords, globalItems, now });

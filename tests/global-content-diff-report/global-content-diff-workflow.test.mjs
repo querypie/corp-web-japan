@@ -120,7 +120,8 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /workflow_dispatch:[\s\S]*inputs:[\s\S]*source_identity:[\s\S]*required: true[\s\S]*type: string/);
   const inputBlock = source.match(/workflow_dispatch:[\s\S]*?permissions:/)?.[0] || source;
   assert.doesNotMatch(inputBlock, /source_url|SOURCE_URL_INPUT|canonical_url|url/i);
-  assert.match(source, /permissions:[\s\S]*contents: write[\s\S]*pull-requests: write/);
+  assert.match(source, /permissions:[\s\S]*contents: write[\s\S]*pull-requests: write[\s\S]*actions: write/);
+  assert.deepEqual([...inputBlock.matchAll(/^      ([a-z_]+):$/gm)].map((match) => match[1]), ["source_identity"]);
   assert.match(source, /runs-on: ubuntu-latest/);
   assert.match(source, /timeout-minutes: (?:[3-9]|1\d)/);
   assert.match(source, /name: Checkout Japan repository[\s\S]*?with:[\s\S]*?ref: main[\s\S]*?path: japan/);
@@ -139,7 +140,7 @@ test("manual ignore workflow validates composite identity, derives URL from live
   const findExisting = workflowStepIndex(source, "Find existing ignore pull request");
   const globalCheckout = workflowStepIndex(source, "Checkout Global repository");
   const dryRun = workflowStepIndex(source, "Build live dry-run report");
-  const validateLive = workflowStepIndex(source, "Validate live Untracked item");
+  const validateLive = workflowStepIndex(source, "Validate live Ignore eligibility");
   const validateMultiplicity = workflowStepIndex(source, "Validate existing pull request count");
   const reuseExisting = workflowStepIndex(source, "Reuse existing ignore pull request");
   const appendDecision = workflowStepIndex(source, "Append ignore decision");
@@ -163,7 +164,7 @@ test("manual ignore workflow validates composite identity, derives URL from live
     appendDecision,
     createPull,
   ].toSorted((left, right) => left - right));
-  for (const stepName of ["Checkout Global repository", "Build live dry-run report", "Validate live Untracked item", "Validate existing pull request count"]) {
+  for (const stepName of ["Checkout Global repository", "Build live dry-run report", "Validate live Ignore eligibility", "Validate existing pull request count"]) {
     assert.doesNotMatch(workflowStepBlock(source, stepName), /\n\s+if:/);
   }
   const duplicateCheckBlock = workflowStepBlock(source, "Validate existing pull request count");
@@ -175,11 +176,11 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(reuseBlock, /if: steps\.find_existing_ignore_pr\.outputs\.match_count == '1'/);
   assert.match(appendBlock, /if: steps\.find_existing_ignore_pr\.outputs\.match_count == '0'/);
   assert.match(createBlock, /if: steps\.find_existing_ignore_pr\.outputs\.match_count == '0'/);
-  assert.match(source, /\^\(documentation\|news\):cnt_\\d\+\$/);
   assert.match(source, /GH_TOKEN: \$\{\{ github\.token \}\}/);
   assert.match(source, /global-content-diff-report\/cli\.mjs[\s\S]*--dry-run/);
-  assert.match(source, /matchingItems\.length !== 1/);
-  assert.match(source, /item\.status !== "Untracked"/);
+  assert.match(source, /assessIgnoreEligibility/);
+  assert.match(source, /formatIgnoreEligibilityResult/);
+  assert.doesNotMatch(source, /matchingItems\.length !== 1|item\.status !== "Untracked"/);
   assert.match(source, /normalizeUrl\(item\.sourceUrl\)/);
   assert.match(source, /sourceEvidenceUrl: item\.sourceUrl/);
   assert.match(createBlock, /source_evidence_url=\$\(jq -r \.sourceEvidenceUrl "\$RUNNER_TEMP\/ignore-item\.json"\)/);
@@ -196,6 +197,14 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(createBlock, /buildDirectIgnoreBranch\(\{[\s\S]*?sourceIdentity:[\s\S]*?runId: process\.env\.GITHUB_RUN_ID,[\s\S]*?runAttempt: process\.env\.GITHUB_RUN_ATTEMPT/);
   assert.doesNotMatch(createBlock, /branch="global-content-diff-ignore\/\$\{source_identity\/:\/-\}"/);
   assert.doesNotMatch(source, /content-sync-ignore\//);
+  assert.match(source, /validate-ignore-pr\.mjs/);
+  const eligibilityIndex = source.indexOf("assessIgnoreEligibility");
+  const appendIndex = source.indexOf("values.push");
+  const validationIndex = source.lastIndexOf("validate-ignore-pr.mjs");
+  const pushIndex = source.indexOf("git push");
+  assert.ok(eligibilityIndex !== -1 && eligibilityIndex < appendIndex, "eligibility must run before mutation");
+  assert.ok(validationIndex > appendIndex && validationIndex < pushIndex, "changed manifest must be validated before push");
+  assert.match(createBlock, /gh workflow run ci\.yml --ref "\$branch"/);
   assert.match(source, /gh pr create/);
   assert.match(source, /global-content-diff-ignore:v1/);
   assert.match(source, /scripts\/global-content-diff-report\/ignore-workflow\.mjs/);
@@ -206,7 +215,7 @@ test("manual ignore workflow rejects bare cnt source IDs before report selection
   const source = await readFile(ignoreWorkflowPath, "utf8");
 
   assert.match(source, /SOURCE_IDENTITY:/);
-  assert.match(source, /Invalid source_identity/);
+  assert.match(source, /assessIgnoreEligibility/);
   assert.doesNotMatch(source, /\^cnt_\\d\+\$/);
 });
 
@@ -368,6 +377,20 @@ test("historical superpowers docs point to canonical operator guidance and avoid
     assert.match(source, /Direct Ignore is only for owner-approved intentional exclusion/);
     assert.doesNotMatch(source, /Direct Ignore(?: workflow)? as a smoke test|run both workflows with a known current identity/);
   }
+});
+
+test("CI validates newly added Ignore rows and contributes to exact CI result", async () => {
+  const source = await readFile(ciWorkflowPath, "utf8");
+  assert.match(source, /ignore_manifest:/);
+  assert.match(source, /\.github\/content-sync\/ignore\.json/);
+  assert.match(source, /name: Validate Ignore manifest additions/);
+  assert.match(source, /repository: querypie\/corp-web-v2/);
+  assert.match(source, /git show [^\n]*\.github\/content-sync\/ignore\.json/);
+  assert.match(source, /validate-ignore-pr\.mjs/);
+  assert.match(source, /needs:[\s\S]*validate-ignore-pr[\s\S]*if: \$\{\{ always\(\) \}\}/);
+  assert.match(source, /VALIDATE_IGNORE_PR_RESULT: \$\{\{ needs\.validate-ignore-pr\.result \}\}/);
+  assert.match(source, /check_result 'Validate Ignore manifest additions'/);
+  assert.match(source, /permissions:\n  contents: read\n  pull-requests: read/);
 });
 
 test("CI cross_cutting scope includes independent workflow and CLI paths", async () => {
