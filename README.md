@@ -64,17 +64,17 @@ Additional notes:
 
 ## Global content diff operations
 
-The standalone Global content diff system sends a full-snapshot, Global-only Slack report from GitHub Actions on weekdays at 10:00 JST. It is report-only: no server, automatic translation, MDX/assets generation, Draft/content PR generation, Slack button, n8n, or auto-merge. `Untracked` items are expanded; `Ignored` items are collapsed. `Possible Japan match` evidence is diagnostic only: baseline authority, status, and counts remain unchanged, and zero candidates are not proof that Japan content is absent. Direct Ignore and hand-edited Ignore PRs deny candidate and mapping-drift identities through shared eligibility; remediation is a normal reviewed baseline/content PR.
+The standalone Global content diff system sends a full-snapshot, Global-only Slack report from GitHub Actions on weekdays at 10:00 JST. It is read-only: no server, automatic translation, MDX/assets generation, mutation workflow, Slack button, n8n, or auto-merge. `Untracked` items are expanded; `Ignored` items are collapsed. `Possible Japan match` evidence is diagnostic only: baseline authority, status, and counts remain unchanged, and zero candidates are not proof that Japan content is absent.
 
-Operator references:
+Use repo-local skills for normal human-reviewed PR creation:
 
-- [Report workflow](.github/workflows/global-content-diff-report.yml)
-- [Direct Ignore workflow](.github/workflows/ignore-global-content-diff.yml)
+- [Global-to-Japan publication](.agents/skills/global-to-japan-publication/SKILL.md) — one Composite identity → content/baseline PR.
+- [Global content Ignore](.agents/skills/global-content-ignore/SKILL.md) — exact or JST date-based exclusions → `ignore.json` PR.
 - [Content sync operator guide](.github/content-sync/README.md)
 - [Report package README](scripts/global-content-diff-report/README.md)
 - [Durable OpenSpec contract](openspec/specs/contract-global-content-diff-report/spec.md)
 
-To publish an `Untracked` item, use AI/Codex directly in this repo, load `.agents/skills/mdx-publication-operations/SKILL.md` plus the narrowest publication family skill, translate/write/review the MDX and assets, then open a normal human-reviewed content PR. Add the exact `.github/content-sync/baseline.json` mapping in that same PR so the item becomes Japan-present after merge. Use Direct Ignore only for owner-approved intentional exclusions; do not use `ignore.json` for publishable items.
+Both skills use a fresh report and never auto-merge. Ignore creation is for owner-approved intentional exclusions only; candidate evidence or mapping drift requires a normal reviewed baseline/content PR.
 
 ## Shared principles
 

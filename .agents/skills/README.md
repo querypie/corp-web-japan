@@ -13,6 +13,12 @@ Current skills:
 - `github-wiki-editing`
   - Path: `.agents/skills/github-wiki-editing/SKILL.md`
   - Purpose: edit `querypie/corp-web-japan.wiki` through the separate wiki git repository and keep `_Sidebar.md` navigation aligned with created/updated report pages
+- `global-to-japan-publication`
+  - Path: `.agents/skills/global-to-japan-publication/SKILL.md`
+  - Purpose: create one normal human-reviewed Japan content and baseline-mapping PR from a selected Global Composite identity
+- `global-content-ignore`
+  - Path: `.agents/skills/global-content-ignore/SKILL.md`
+  - Purpose: create one normal human-reviewed Ignore-manifest PR from exact or date-based current Global-only selections with explicit exceptions
 - `mdx-publication-operations`
   - Path: `.agents/skills/mdx-publication-operations/SKILL.md`
   - Purpose: the shared reference for all public MDX publication families in this repo
