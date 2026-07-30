@@ -45,14 +45,14 @@ function isActive(record, now) {
 export function addedActiveIgnoreRecords({ baseIgnoreRecords, currentIgnoreRecords, now }) {
   const base = validateDecisionManifest(baseIgnoreRecords, "ignore");
   const current = validateDecisionManifest(currentIgnoreRecords, "ignore");
-  const baseIdentities = new Set(base.map(recordIdentity));
+  const activeBaseIdentities = new Set(base.filter((record) => isActive(record, now)).map(recordIdentity));
   const seen = new Set();
   const added = [];
   for (const record of current) {
     const identity = recordIdentity(record);
     if (seen.has(identity)) throw new Error(`ignore manifest has duplicate source identity: ${identity}`);
     seen.add(identity);
-    if (!baseIdentities.has(identity) && isActive(record, now)) added.push(record);
+    if (!activeBaseIdentities.has(identity) && isActive(record, now)) added.push(record);
   }
   return added;
 }

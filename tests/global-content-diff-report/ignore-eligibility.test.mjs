@@ -133,9 +133,71 @@ test("validator invokes shared eligibility for each newly added row", async () =
   }
 });
 
-test("validator detects only newly added active rows", () => {
+test("validator detects active rows that are newly added or reactivated", () => {
   const old = { sourceSection: "news", sourceId: "cnt_000180", sourceCanonicalUrl: "https://www.querypie.com/en/news/old", reasonCode: "other", reason: "old", addedBy: "x", addedAt: now };
   const added = { sourceSection: "news", sourceId: "cnt_000181", sourceCanonicalUrl: "https://www.querypie.com/en/news/new", reasonCode: "other", reason: "new", addedBy: "x", addedAt: now };
-  assert.deepEqual(addedActiveIgnoreRecords({ baseIgnoreRecords: [old], currentIgnoreRecords: [old, added], now }), [added]);
+  const expired = { sourceSection: "news", sourceId: "cnt_000182", sourceCanonicalUrl: "https://www.querypie.com/en/news/expired", reasonCode: "other", reason: "expired", addedBy: "x", addedAt: now, expiresAt: "2026-07-29T00:00:00.000Z" };
+  const permanent = { ...expired };
+  delete permanent.expiresAt;
+  const future = { ...expired, expiresAt: "2026-07-31T00:00:00.000Z" };
+  const edited = { ...old, reason: "edited active row" };
+  const inactive = { ...old, expiresAt: "2026-07-29T00:00:00.000Z" };
+
+  assert.deepEqual(addedActiveIgnoreRecords({ baseIgnoreRecords: [old], currentIgnoreRecords: [edited, added], now }), [added]);
+  assert.deepEqual(addedActiveIgnoreRecords({ baseIgnoreRecords: [expired], currentIgnoreRecords: [permanent], now }), [permanent]);
+  assert.deepEqual(addedActiveIgnoreRecords({ baseIgnoreRecords: [expired], currentIgnoreRecords: [future], now }), [future]);
+  assert.deepEqual(addedActiveIgnoreRecords({ baseIgnoreRecords: [old], currentIgnoreRecords: [inactive], now }), []);
   assert.throws(() => addedActiveIgnoreRecords({ baseIgnoreRecords: [], currentIgnoreRecords: [added, { ...added }], now }), /duplicate/);
+});
+
+test("validator reassesses expired row reactivated as permanent and rejects candidate drift", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "ignore-pr-validator-reactivate-permanent-"));
+  const targetRepo = path.join(root, "japan");
+  await mkdir(path.join(targetRepo, ".github/content-sync"), { recursive: true });
+  const expired = { sourceSection: "news", sourceId: "cnt_000180", sourceCanonicalUrl: "https://www.querypie.com/en/news/reactivated", reasonCode: "other", reason: "old", addedBy: "x", addedAt: now, expiresAt: "2026-07-29T00:00:00.000Z" };
+  const permanent = { ...expired };
+  delete permanent.expiresAt;
+  await writeFile(path.join(root, "base.json"), `${JSON.stringify([expired], null, 2)}\n`);
+  await writeFile(path.join(targetRepo, ".github/content-sync/ignore.json"), `${JSON.stringify([permanent], null, 2)}\n`);
+  await writeFile(path.join(root, "report.json"), JSON.stringify({
+    metadata: { globalSha: "a".repeat(40), japanSha: "b".repeat(40) },
+    report: report([item("news:cnt_000180", {
+      possibleJapanMatches: [{ targetPath: "src/content/news/1-one.mdx", targetId: 1, targetSlug: "one", signals: ["exact-slug"] }],
+    })]),
+  }));
+  try {
+    await assert.rejects(() => runValidateIgnorePrCli([
+      "--target-repo", targetRepo,
+      "--base-ignore", path.join(root, "base.json"),
+      "--report-envelope", path.join(root, "report.json"),
+    ], { stdout: { write() {} }, now }), /validation denied news:cnt_000180/);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("validator reassesses expired row reactivated with future expiry and rejects mapping drift", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "ignore-pr-validator-reactivate-future-"));
+  const targetRepo = path.join(root, "japan");
+  await mkdir(path.join(targetRepo, ".github/content-sync"), { recursive: true });
+  const expired = { sourceSection: "news", sourceId: "cnt_000180", sourceCanonicalUrl: "https://www.querypie.com/en/news/reactivated", reasonCode: "other", reason: "old", addedBy: "x", addedAt: now, expiresAt: "2026-07-29T00:00:00.000Z" };
+  const future = { ...expired, expiresAt: "2026-07-31T00:00:00.000Z" };
+  await writeFile(path.join(root, "base.json"), `${JSON.stringify([expired], null, 2)}\n`);
+  await writeFile(path.join(targetRepo, ".github/content-sync/ignore.json"), `${JSON.stringify([future], null, 2)}\n`);
+  await writeFile(path.join(root, "report.json"), JSON.stringify({
+    metadata: { globalSha: "a".repeat(40), japanSha: "b".repeat(40) },
+    report: report(
+      [item("news:cnt_000180")],
+      [{ identity: "news:cnt_000180", expectedPath: "src/content/news/8-existing.mdx" }],
+    ),
+  }));
+  try {
+    await assert.rejects(() => runValidateIgnorePrCli([
+      "--target-repo", targetRepo,
+      "--base-ignore", path.join(root, "base.json"),
+      "--report-envelope", path.join(root, "report.json"),
+    ], { stdout: { write() {} }, now }), /validation denied news:cnt_000180/);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
 });
