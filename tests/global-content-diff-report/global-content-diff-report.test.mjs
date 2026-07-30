@@ -712,14 +712,14 @@ test("sorts deterministically by date descending then identity and falls back ti
   assert.deepEqual(report.items.map(({ title }) => title), ["ko only", "ja only", "cnt_000603"]);
 });
 
-test("renders status-first collapsible containers and original links", () => {
+test("renders a compact status-first report with collapsible containers and source links", () => {
   const report = reportWithSevenItems();
   const [payload] = buildSlackPayloads(report, slackMetadata);
 
-  assert.equal(payload.blocks[0].text.text, "🌐 Global-only content report");
+  assert.equal(payload.blocks[0].text.text, "🌐 Global-only report");
   assert.equal(
     payload.blocks[1].text.text,
-    "Global published 7 · Japan present 0 · Global-only 7 · Blog 2 · Whitepapers 2 · News 3",
+    "Global 7 · Japan 0 · Global-only 7 · Blog 2 · Whitepapers 2 · News 3",
   );
   const containers = payload.blocks.filter((block) => block.type === "container");
   assert.deepEqual(containers.map((block) => block.title.text), ["Untracked · 7 items"]);
@@ -733,16 +733,12 @@ test("renders status-first collapsible containers and original links", () => {
   const contextText = payload.blocks.find((block) => block.type === "context").elements[0].text;
   assert.equal(
     contextText,
-    `Run · 2026-04-30 09:00 JST\nGlobal · <https://github.com/querypie/corp-web-v2/commit/${"a".repeat(40)}|aaaaaaa>\nJapan · <https://github.com/querypie/corp-web-japan/commit/${"b".repeat(40)}|bbbbbbb>`,
+    `2026-04-30 09:00 JST · Global <https://github.com/querypie/corp-web-v2/commit/${"a".repeat(40)}|aaaaaaa> · Japan <https://github.com/querypie/corp-web-japan/commit/${"b".repeat(40)}|bbbbbbb>`,
   );
-  assert.doesNotMatch(JSON.stringify(payload), /Part 1 of 1|2026-04-30T00:00:00\.000Z/);
-  assert.doesNotMatch(JSON.stringify(payload), /button|ignore_content|<@|Draft open|Draft closed|Mapping drift/i);
-  assert.match(JSON.stringify(payload), /\*Ignore an item\*\\n/);
-  assert.match(JSON.stringify(payload), /Copy a `Composite identity` above/);
-  assert.match(JSON.stringify(payload), /<https:\/\/github\.com\/querypie\/corp-web-japan\/actions\/workflows\/ignore-global-content-diff\.yml\|Open workflow>/);
-  assert.match(JSON.stringify(payload), /paste it into `source_identity`/);
-  assert.match(JSON.stringify(payload), /review and merge the PR/);
-  assert.match(JSON.stringify(payload), /After merge, the next report moves it to `Ignored`/);
+  const renderedPayload = JSON.stringify(payload);
+  assert.doesNotMatch(renderedPayload, /Part 1 of 1|2026-04-30T00:00:00\.000Z/);
+  assert.doesNotMatch(renderedPayload, /button|ignore_content|<@|Draft open|Draft closed|Mapping drift/i);
+  assert.doesNotMatch(renderedPayload, /Ignore an item|Open workflow|source_identity|review and merge the PR/);
 
   const longTitleBlock = containers
     .flatMap((block) => block.child_blocks)
@@ -808,7 +804,7 @@ test("renders a compact zero-difference success without ignore instructions", ()
   const rendered = JSON.stringify(payload);
 
   assert.match(payload.text, /No Global-only content/);
-  assert.match(rendered, /Run · 2026-04-30 09:00 JST\\nGlobal ·/);
+  assert.match(rendered, /2026-04-30 09:00 JST · Global/);
   assert.doesNotMatch(rendered, /Part 1 of 1|2026-04-30T00:00:00\.000Z/);
   assert.equal(payload.blocks.some(({ type }) => type === "container"), false);
   assert.doesNotMatch(rendered, /Copy the displayed composite identity|Ignore Global-only content|Open Actions workflow/);
