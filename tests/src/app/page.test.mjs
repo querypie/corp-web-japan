@@ -22,6 +22,7 @@ test("top page remains readable whether static marketing content is externalized
   assert.match(topPage, /<WhitepaperAction href="\/whitepapers\/30\/saas-end-or-evolution\/pdf">無料ダウンロード<\/WhitepaperAction>/);
   assert.doesNotMatch(topPage, /https:\/\/www\.querypie\.com\/ja\/features\/documentation/);
   assert.match(topPageStructureSource, /RevealOnScroll/);
+  assert.match(topPageStructureSource, /<iframe[^>]+loading="lazy"/);
   assert.doesNotMatch(topPageStructureSource, /node\.type === RoadmapTab|node\.type === RoadmapStep/);
 
   if (!isTopPageSectionExternalized()) {
