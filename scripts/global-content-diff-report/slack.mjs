@@ -99,16 +99,6 @@ function compareSlackItems(left, right) {
     || String(left.identity).localeCompare(String(right.identity));
 }
 
-function ignoreInstructionsBlock() {
-  return {
-    type: "section",
-    text: {
-      type: "mrkdwn",
-      text: "*Ignore an item*\nCopy a `Composite identity` above → <https://github.com/querypie/corp-web-japan/actions/workflows/ignore-global-content-diff.yml|Open workflow> → paste it into `source_identity` → run the workflow → review and merge the PR.\nAfter merge, the next report moves it to `Ignored`.",
-    },
-  };
-}
-
 function formatJstTimestamp(timestamp) {
   const parts = Object.fromEntries(new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Tokyo",
@@ -124,16 +114,16 @@ function formatJstTimestamp(timestamp) {
 
 function commitLine(label, repository, sha) {
   const escapedSha = escapeMrkdwn(sha);
-  return `${label} · <https://github.com/${repository}/commit/${escapedSha}|${escapedSha.slice(0, 7)}>`;
+  return `${label} <https://github.com/${repository}/commit/${escapedSha}|${escapedSha.slice(0, 7)}>`;
 }
 
 function runContext(report, metadata, partNumber = 1, totalParts = 1) {
   return [
-    totalParts > 1 ? `Part ${partNumber} of ${totalParts}` : null,
-    `Run · ${formatJstTimestamp(report.generatedAt)}`,
+    totalParts > 1 ? `Part ${partNumber}/${totalParts}` : null,
+    formatJstTimestamp(report.generatedAt),
     commitLine("Global", "querypie/corp-web-v2", metadata.globalSha),
     commitLine("Japan", "querypie/corp-web-japan", metadata.japanSha),
-  ].filter(Boolean).join("\n");
+  ].filter(Boolean).join(" · ");
 }
 
 function summarizeCounts(report) {
@@ -142,7 +132,7 @@ function summarizeCounts(report) {
     .filter(([, count]) => count > 0)
     .map(([family, count]) => `${familyLabel(family)} ${count}`)
     .join(" · ");
-  return `Global published ${report.counts.globalPublished} · Japan present ${report.counts.japanPresent} · Global-only ${report.counts.globalOnly}${families ? ` · ${families}` : ""}`;
+  return `Global ${report.counts.globalPublished} · Japan ${report.counts.japanPresent} · Global-only ${report.counts.globalOnly}${families ? ` · ${families}` : ""}`;
 }
 
 function renderPayload({ report, metadata, partNumber, totalParts, containers, isFirst }) {
@@ -150,7 +140,7 @@ function renderPayload({ report, metadata, partNumber, totalParts, containers, i
   const blocks = [
     {
       type: "header",
-      text: { type: "plain_text", text: "🌐 Global-only content report" },
+      text: { type: "plain_text", text: "🌐 Global-only report" },
     },
   ];
 
@@ -171,10 +161,8 @@ function renderPayload({ report, metadata, partNumber, totalParts, containers, i
 
   blocks.push(...containers);
 
-  if (isFirst) blocks.push(ignoreInstructionsBlock());
-
   return {
-    text: `Global-only content report${totalParts > 1 ? ` — ${partLabel}` : ""}${isFirst ? ` — ${summarizeCounts(report)}` : ""}`,
+    text: `Global-only report${totalParts > 1 ? ` — ${partLabel}` : ""}${isFirst ? ` — ${summarizeCounts(report)}` : ""}`,
     blocks,
   };
 }
@@ -190,7 +178,7 @@ export function buildSlackPayloads(report, metadata) {
       blocks: [
         {
           type: "header",
-          text: { type: "plain_text", text: "🌐 Global-only content report" },
+          text: { type: "plain_text", text: "🌐 Global-only report" },
         },
         {
           type: "section",
