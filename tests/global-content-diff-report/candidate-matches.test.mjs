@@ -214,6 +214,7 @@ test("returns same-slug duplicates as multiple deterministic candidates", async 
 
 test("fails closed on malformed MDX, duplicate target identity, and duplicate target path", async () => {
   await withTargetRepo(async (targetRepo) => {
+    await mkdir(path.join(targetRepo, "src/content/news"), { recursive: true });
     await writeFile(path.join(targetRepo, "src/content/news/broken.mdx"), "---\nid: [\n---\n");
     await assert.rejects(
       () => indexJapanCandidateRecords({ targetRepo, targetFamilies: ["news"] }),
@@ -233,7 +234,7 @@ test("fails closed on malformed MDX, duplicate target identity, and duplicate ta
   await withTargetRepo(async (targetRepo) => {
     await writeMdx(targetRepo, "news", "13-a.mdx", { id: "13", slug: "a", title: "A", date: "2026-01-01" });
     const index = await indexJapanCandidateRecords({ targetRepo, targetFamilies: ["news"] });
-    index.records.push({ ...index.records[0] });
+    index.records.push({ ...index.records[0], targetId: 14 });
     assert.throws(
       () => findPossibleJapanMatches({
         globalItem: { targetFamily: "news", sourceSlug: "a", sourceUrls: [], originalTitle: "A", dateIso: "2026-01-01" },
