@@ -71,6 +71,13 @@ async function writeTargetFile(targetRepo, relativePath) {
   await writeFile(file, "---\nid: \"1\"\nslug: \"fixture\"\ntitle: \"Fixture\"\n---\n");
 }
 
+async function writeJapanMdx(targetRepo, family, name, frontmatter, body = "") {
+  const file = path.join(targetRepo, "src/content", family, name);
+  await mkdir(path.dirname(file), { recursive: true });
+  const yaml = Object.entries(frontmatter).map(([key, value]) => `${key}: ${JSON.stringify(value)}`).join("\n");
+  await writeFile(file, `---\n${yaml}\n---\n${body}\n`);
+}
+
 function baselineMapping(sourceSection, sourceId, sourceCategory, targetFamily, targetId, targetSlug, sourceSlug = targetSlug) {
   return {
     sourceSection,
@@ -115,6 +122,7 @@ async function fixtureWith({
   global = [],
   japan = [],
   targetFiles = [],
+  candidateFiles = [],
   ignore = [],
   sitemapXml,
   productionListHtmlByUrl,
@@ -128,6 +136,9 @@ async function fixtureWith({
     await writeManifest(targetRepo, "ignore", ignore);
     for (const relativePath of targetFiles) {
       await writeTargetFile(targetRepo, relativePath);
+    }
+    for (const candidateFile of candidateFiles) {
+      await writeJapanMdx(targetRepo, candidateFile.family, candidateFile.name, candidateFile.frontmatter, candidateFile.body);
     }
 
     const listHtmlByUrl = productionListHtmlByUrl || buildProductionListHtml(global);
@@ -292,6 +303,73 @@ test("reports missing mapped targets as mapping drift evidence with Untracked st
   assert.equal(report.items[0].status, "Untracked");
   assert.equal(report.counts.japanPresent, 0);
   assert.deepEqual(report.mappingDrift, [{ identity: "documentation:cnt_000010", expectedPath: "src/content/blog/10-missing-target.mdx" }]);
+});
+
+test("attaches possible Japan matches without changing status or counts", async () => {
+  const report = await fixtureWith({
+    global: [publishedBlog("cnt_000215", "what-is-forward-deployed-engineer-fde", {
+      dateIso: "2026-02-03",
+      title: { en: "What is Forward Deployed Engineer (FDE)?", ja: "FDEとは？" },
+    })],
+    candidateFiles: [{
+      family: "blog",
+      name: "33-what-is-forward-deployed-engineer-fde.mdx",
+      frontmatter: {
+        id: "33",
+        slug: "what-is-forward-deployed-engineer-fde",
+        title: "FDEとは？",
+        date: "2026-02-03",
+      },
+      body: "What is Forward Deployed Engineer (FDE)?",
+    }],
+  });
+
+  const [item] = report.items;
+  assert.equal(item.status, "Untracked");
+  assert.equal(report.counts.globalPublished, 1);
+  assert.equal(report.counts.japanPresent, 0);
+  assert.equal(report.counts.globalOnly, 1);
+  assert.equal(item.sourceSlug, "what-is-forward-deployed-engineer-fde");
+  assert.equal(item.originalTitle, "What is Forward Deployed Engineer (FDE)?");
+  assert.deepEqual(item.sourceUrls, ["https://www.querypie.com/en/blog/what-is-forward-deployed-engineer-fde"]);
+  assert.deepEqual(item.possibleJapanMatches, [{
+    targetPath: "src/content/blog/33-what-is-forward-deployed-engineer-fde.mdx",
+    targetId: 33,
+    targetSlug: "what-is-forward-deployed-engineer-fde",
+    signals: ["exact-original-title-and-date", "exact-slug"],
+  }]);
+});
+
+test("keeps active Ignore as Ignored when candidate evidence exists", async () => {
+  const canonical = "https://www.querypie.com/en/blog/already-ignored-candidate";
+  const report = await fixtureWith({
+    global: [publishedBlog("cnt_000216", "already-ignored-candidate")],
+    ignore: [ignored("cnt_000216", canonical, "documentation")],
+    candidateFiles: [{
+      family: "blog",
+      name: "34-already-ignored-candidate.mdx",
+      frontmatter: { id: "34", slug: "already-ignored-candidate", title: "Already", date: "2026-01-01" },
+    }],
+  });
+
+  const [item] = report.items;
+  assert.equal(item.status, "Ignored");
+  assert.equal(report.counts.globalOnly, 1);
+  assert.equal(item.possibleJapanMatches[0].targetId, 34);
+});
+
+test("fails closed when candidate scanning fails", async () => {
+  await assert.rejects(
+    () => fixtureWith({
+      global: [publishedNews("cnt_000217", "scanner-failure")],
+      candidateFiles: [{
+        family: "news",
+        name: "broken.mdx",
+        frontmatter: { id: "not-positive", slug: "scanner-failure", title: "Broken", date: "2026-01-01" },
+      }],
+    }),
+    /invalid Japan target id: src\/content\/news\/broken\.mdx/,
+  );
 });
 
 test("rejects duplicate Global composite identities across documentation categories", async () => {
@@ -660,6 +738,29 @@ test("paginates without dropping or duplicating identities", () => {
 
   assert.match(payloads[0].text, /Part 1 of/);
   assert.equal(payloads.length, 2);
+});
+
+test("renders bounded escaped possible Japan match evidence in Slack", () => {
+  const report = reportWithItems(1, {
+    items: [reportItem(1, {
+      possibleJapanMatches: [
+        { targetPath: "src/content/news/1-alpha.mdx", targetId: 1, targetSlug: "alpha", signals: ["exact-slug"] },
+        { targetPath: "src/content/news/2-beta.mdx", targetId: 2, targetSlug: "beta", signals: ["exact-source-url", "exact-slug"] },
+        { targetPath: "src/content/news/3-gamma<unsafe>.mdx", targetId: 3, targetSlug: "gamma", signals: ["exact-original-title-and-date"] },
+        { targetPath: "src/content/news/4-delta.mdx", targetId: 4, targetSlug: "delta", signals: ["exact-slug"] },
+      ],
+    })],
+  });
+
+  const [payload] = buildSlackPayloads(report, slackMetadata);
+  const text = payload.blocks.find((block) => block.type === "container").child_blocks[0].text.text;
+
+  assert.match(text, /Possible Japan match/);
+  assert.match(text, /`src\/content\/news\/1-alpha\.mdx` \(exact-slug\)/);
+  assert.match(text, /`src\/content\/news\/2-beta\.mdx` \(exact-source-url, exact-slug\)/);
+  assert.match(text, /`src\/content\/news\/3-gamma&lt;unsafe&gt;\.mdx` \(exact-original-title-and-date\)/);
+  assert.match(text, /\+1 omitted/);
+  assert.doesNotMatch(text, /src\/content\/news\/4-delta\.mdx/);
 });
 
 function reportWithMixedStatuses() {

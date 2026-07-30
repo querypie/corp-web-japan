@@ -8,6 +8,7 @@ import {
   sourceContractFailure,
   validateDecisionManifest,
 } from "./discovery.mjs";
+import { findPossibleJapanMatches, indexJapanCandidateRecords, normalizeCandidateUrl } from "./candidate-matches.mjs";
 import { normalizeUrl } from "./lib.mjs";
 import { sourceFamily, sourceRoots, targetFamily, targetFamilyDescriptor } from "./source-family-map.mjs";
 import { resolveLegacySourceSection, sourceIdentityKey } from "./sync-identity.mjs";
@@ -149,8 +150,11 @@ export async function buildGlobalInventory({ globalRepo, sitemapXml, productionL
       sourceCategory: source.category,
       targetFamily: targetFamily(source.category),
       title: localizedTitle(source.meta, source.sourceId),
+      originalTitle: source.meta?.title?.en?.trim() || "",
       dateIso: source.meta.dateIso || "",
       sourceUrl: source.sourceCanonicalUrl,
+      sourceUrls: [source.sourceCanonicalUrl].map(normalizeCandidateUrl).filter(Boolean),
+      sourceSlug: source.meta.id,
       sourcePath,
     });
   }
@@ -224,6 +228,7 @@ export async function buildGlobalOnlyReport({
   const globalItems = await buildGlobalInventory({ globalRepo, sitemapXml, productionListHtmlByUrl });
   const ignoreRecords = await readManifest(targetRepo, "ignore");
   const { present, mappingDrift } = await buildJapanInventory({ targetRepo });
+  const japanIndex = await indexJapanCandidateRecords({ targetRepo });
   const dispositions = buildDispositionMap({ ignoreRecords, globalItems, now });
   const items = [];
 
@@ -232,6 +237,7 @@ export async function buildGlobalOnlyReport({
     items.push({
       ...item,
       status: dispositions.get(item.identity) || "Untracked",
+      possibleJapanMatches: findPossibleJapanMatches({ globalItem: item, japanIndex }),
     });
   }
 
