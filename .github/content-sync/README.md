@@ -22,6 +22,8 @@ The Slack report always covers the complete current Global-only set:
 
 `Untracked` is expanded by default. `Ignored` remains available in a collapsed section.
 
+`Possible Japan match` is diagnostic evidence only. It does not create a mapping, does not make the item Japan-present, and does not change baseline authority, report status, or counts. Candidate signals are exact only (`exact-slug`, `exact-source-url`, `exact-original-title-and-date`). URL evidence preserves identity-bearing query parameters and removes only known tracking parameters. A zero-candidate item means only that no deterministic candidate was found; it is not proof that Japan content is absent.
+
 ## Composite identity
 
 Use the full value labeled `Composite identity` in Slack:
@@ -46,7 +48,7 @@ Publishing is separate human/AI-assisted content authoring. The report tooling d
 6. Request normal human review and merge only after the content and mapping are correct.
 7. Confirm that the next report no longer lists the item as Global-only.
 
-Do not add publishable items to `ignore.json`. Ignoring is only for owner-approved content that should intentionally stay excluded from Japan publication.
+Do not add publishable items to `ignore.json`. Ignoring is only for owner-approved content that should intentionally stay excluded from Japan publication. If Slack shows `Possible Japan match`, or if a baseline row points to a missing target (`mappingDrift`), the remediation is a normal human-reviewed content/baseline PR that either restores/corrects the mapped MDX path or adds the reviewed mapping in `baseline.json`.
 
 ## Ignore an Untracked item
 
@@ -59,11 +61,13 @@ Do not add publishable items to `ignore.json`. Ignoring is only for owner-approv
 7. Merge the PR only when the exclusion is intentional and its recorded source URL is correct.
 8. Confirm that the next report moves the item from `Untracked` to `Ignored`.
 
-The workflow does not accept a URL input and does not auto-merge. It derives the URL from a fresh production dry run, requires exactly one matching live `Untracked` item, updates `ignore.json` in deterministic order, and opens a human-reviewed PR. New branches use the identity-specific prefix `global-content-diff-ignore/${sourceSection}-${sourceId}` plus the unique GitHub run ID and run attempt.
+The workflow does not accept a URL input and does not auto-merge. It derives the URL from a fresh production dry run, requires exactly one matching live `Untracked` item, rejects mapping drift and any `Possible Japan match` through shared `assessIgnoreEligibility`, updates `ignore.json` in deterministic order, and opens a human-reviewed PR. There is no force, candidate-skip, batch, or bypass input. New branches use the identity-specific prefix `global-content-diff-ignore/${sourceSection}-${sourceId}` plus the unique GitHub run ID and run attempt.
 
 Existing `ignore.json` reason text that mentions a sync Draft PR is historical context from earlier planning. It is not an instruction to create automated Draft/content PRs. Current publishable items must use the human/AI-assisted content PR path above, with the baseline mapping in the same PR.
 
-After complete paginated enumeration, the workflow reuses one open PR only when its head is in this repository, its branch uses the identity-specific legacy or run-suffixed format, and its body contains the exact trusted composite-identity marker. The title is not identity. Multiple reusable PRs, malformed pagination, malformed identities, stale items, non-HTTPS URLs, or items no longer marked `Untracked` fail closed.
+After complete paginated enumeration, the workflow reuses one open PR only when its head is in this repository, its branch uses the identity-specific legacy or run-suffixed format, and its body contains the exact trusted composite-identity marker. The title is not identity. Multiple reusable PRs, malformed pagination, malformed identities, stale items, non-HTTPS URLs, items with candidates or mapping drift, or items no longer marked `Untracked` fail closed. Hand-edited PRs that add or reactivate Ignore rows are denied by the same shared eligibility check in CI. Bot-created Direct Ignore PRs explicitly dispatch `ci.yml` because `GITHUB_TOKEN` PR creation does not trigger normal pull_request CI.
+
+Repository rules currently leave a stale-branch residual risk: they do not require an up-to-date branch or approving review. Operators must update the branch and review the generated PR immediately before merge until the ruleset changes.
 
 ## Remove an Ignore decision
 

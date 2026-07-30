@@ -61,6 +61,78 @@ A Global identity SHALL count as Japan-present only when `.github/content-sync/b
 - **THEN** the identity SHALL NOT count as present
 - **AND** the expected path SHALL appear in mapping-drift evidence
 
+
+### Requirement: Diagnostic-only Possible Japan matches
+
+The report SHALL attach `possibleJapanMatches` only as diagnostic evidence for Global-only items. Candidate evidence SHALL NOT change baseline authority, Japan-present membership, `globalPublished`, `japanPresent`, `globalOnly`, family counts, or the two allowed item statuses `Untracked` and `Ignored`. A zero-candidate result SHALL mean only that no deterministic candidate was found; it SHALL NOT be represented as proof that Japan content is absent.
+
+#### Scenario: Candidate evidence does not change authority
+
+- **GIVEN** a production-published Global item with no valid baseline target
+- **AND** the candidate scanner finds one or more possible Japan MDX matches
+- **WHEN** the report computes the diff
+- **THEN** the item SHALL remain Global-only
+- **AND** its status SHALL remain either `Untracked` or `Ignored` according to Ignore records only
+- **AND** report counts SHALL remain identical to the baseline-only diff result
+
+#### Scenario: Zero candidates are not absence proof
+
+- **GIVEN** a live `Untracked` item has an empty `possibleJapanMatches` array
+- **WHEN** an operator reviews the item
+- **THEN** the report SHALL NOT claim that no Japan content exists
+- **AND** intentional exclusion SHALL still require owner review before Direct Ignore
+
+### Requirement: Exact candidate signals preserve source identity
+
+Possible Japan matches SHALL scan only raw Japan MDX files in the mapped target family and SHALL be produced only from these exact, auditable signals:
+
+- `exact-slug`: the Global `meta.id` field SHALL equal the Japan frontmatter `slug` field exactly, and both SHALL satisfy the safe kebab-slug contract.
+- `exact-source-url`: a normalized Global canonical or external source URL SHALL equal an absolute HTTPS URL found in the raw Japan MDX source.
+- `exact-original-title-and-date`: the normalized original Global English title SHALL occur in the normalized raw Japan MDX source, and the Global ISO date SHALL equal the Japan frontmatter ISO date after conversion to `YYYY-MM-DD`.
+
+Candidate text normalization SHALL perform Unicode NFC normalization, trim leading and trailing whitespace, and collapse whitespace runs to one ASCII space, with no punctuation removal, case folding, partial matching, transliteration, token similarity, or semantic scoring. Candidate URL extraction SHALL preserve quoted `href`/`src` HTTPS values, Markdown and autolink HTTPS destinations, and bare HTTPS tokens with legal internal comma and balanced parentheses intact; only syntax delimiters, unmatched closing delimiters, and trailing prose punctuation around unquoted tokens MAY be trimmed, and HTML `&amp;` in extracted URLs SHALL be decoded before URL normalization. Candidate URL normalization SHALL accept HTTPS only, remove fragments, lowercase the hostname, normalize a trailing slash away except at the root, sort query entries by key then value, remove only the explicit tracking allowlist (`utm_*`, `guccounter`, `guce_referrer`, `guce_referrer_sig`), and preserve all other query parameters, including identity-bearing query parameters such as `no=169`.
+
+Each candidate evidence object SHALL contain the Japan target path, numeric target ID, target slug, and a sorted non-empty list of matched signal names. Every matching candidate SHALL be preserved and sorted by target path; multiple candidates, including repeated slugs across distinct valid target records, SHALL remain diagnostic and the scanner SHALL NOT select a winner. A scanner I/O error, malformed frontmatter or target record, unsafe target path, duplicate `targetFamily:targetId`, or duplicate target path SHALL fail closed before delivery.
+
+The report SHALL render Slack evidence using the label `Possible Japan match` with escaped candidate paths and signal names. It SHALL show at most three candidates per item and, when more exist, SHALL show the exact omitted count without selecting a winner.
+
+#### Scenario: Identity-bearing query is preserved
+
+- **GIVEN** a Global source URL includes a query parameter that identifies the article
+- **AND** a Japan MDX source contains a similar URL with a different identity-bearing query value
+- **WHEN** candidate matching evaluates `exact-source-url`
+- **THEN** those URLs SHALL NOT match
+- **AND** only allowlisted tracking parameters MAY be removed
+
+#### Scenario: Exact title and date match raw MDX
+
+- **GIVEN** a Global item's normalized original English title occurs in normalized raw Japan MDX
+- **AND** its ISO date equals that file's frontmatter date at `YYYY-MM-DD` precision
+- **WHEN** candidate matching evaluates `exact-original-title-and-date`
+- **THEN** that Japan target SHALL be retained as candidate evidence
+
+#### Scenario: Multiple candidates remain visible
+
+- **GIVEN** multiple valid Japan targets match one or more exact signals
+- **WHEN** candidate evidence is built
+- **THEN** every candidate SHALL be preserved in target-path order
+- **AND** each candidate SHALL contain target path, target ID, target slug, and sorted signal names
+- **AND** no candidate SHALL be selected automatically
+
+#### Scenario: Candidate scan fails closed
+
+- **GIVEN** Japan candidate input has an I/O failure, malformed record, unsafe path, duplicate family-and-ID identity, or duplicate path
+- **WHEN** the candidate index is built or validated
+- **THEN** report generation SHALL fail before Slack delivery
+
+#### Scenario: Slack shows bounded candidate evidence
+
+- **GIVEN** a Global-only item has more than three possible Japan matches
+- **WHEN** Slack payloads are built
+- **THEN** the item SHALL include `Possible Japan match` evidence
+- **AND** the evidence SHALL include no more than three escaped target paths and exact signal names
+- **AND** the exact omitted count SHALL be shown without selecting a winner
+
 ### Requirement: Complete difference results
 
 The report SHALL compute `Global-only = production-published Global identities - verified Japan-present identities`. A current ignore record SHALL set status `Ignored`; every other Global-only item SHALL use `Untracked`. Ignore records SHALL annotate rather than suppress items.
@@ -130,9 +202,52 @@ Slack SHALL label each key `Composite identity` and link to `.github/workflows/i
 
 Direct Ignore SHALL be used only for an owner-approved intentional exclusion from Japan publication. An `Untracked` item selected or potentially intended for publication SHALL NOT be added to `.github/content-sync/ignore.json`; it follows the separate AI/Codex normal content PR plus baseline mapping path.
 
+Direct Ignore SHALL use the shared `assessIgnoreEligibility` decision function before mutation. It SHALL deny identities with mapping drift or any `possibleJapanMatches`; it SHALL fail closed on malformed candidate evidence, missing or duplicate live items, non-`Untracked` status, or an active base Ignore row. No force, candidate-skip, batch, or manual bypass input SHALL exist.
+
 The workflow SHALL append one sorted `.github/content-sync/ignore.json` record with reason code `other`, actor, and UTC timestamp. It SHALL create branches under the identity-specific prefix `global-content-diff-ignore/${sourceSection}-${sourceId}` with a unique `${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}` suffix. It SHALL place an exact trusted `global-content-diff-ignore:v1` marker containing the composite identity in the PR body.
 
-The workflow SHALL completely enumerate every open pull request with the paginated GitHub REST API. A reusable PR SHALL have a head repository equal to `GITHUB_REPOSITORY` after case normalization, the identity-specific branch prefix in either the legacy exact-prefix format or the unique run-suffixed format, and the exact trusted marker. Title SHALL NOT participate in identity matching. Fork PRs, unsupported branch formats, missing or incorrect markers, and malformed PR records SHALL NOT be reused; malformed pagination envelopes SHALL fail closed. Zero reusable open PRs SHALL create one normal PR for human review on the unique current-run branch. Exactly one reusable open PR SHALL be reused only after live `Untracked` validation succeeds. Two or more reusable open PRs SHALL fail closed. The workflow SHALL NOT merge automatically.
+CI SHALL run the Ignore-manifest validator for a pull request that changes `.github/content-sync/ignore.json` and for every `workflow_dispatch` run, but SHALL NOT run it for a `push` event on `main`. Pull-request validation SHALL read the base Ignore manifest from the pull request base SHA. Dispatched validation on the generated Ignore branch SHALL read it from `origin/main`. The validator job's actual result SHALL be a dependency of the exact `CI result` job. CI permissions SHALL remain `contents: read` and `pull-requests: read`.
+
+The workflow SHALL completely enumerate every open pull request with the paginated GitHub REST API. A reusable PR SHALL have a head repository equal to `GITHUB_REPOSITORY` after case normalization, the identity-specific branch prefix in either the legacy exact-prefix format or the unique run-suffixed format, and the exact trusted marker. Title SHALL NOT participate in identity matching. Fork PRs, unsupported branch formats, missing or incorrect markers, and malformed PR records SHALL NOT be reused; malformed pagination envelopes SHALL fail closed. Zero reusable open PRs SHALL create one normal PR for human review on the unique current-run branch. Exactly one reusable open PR SHALL be reused only after live `Untracked` validation succeeds. Two or more reusable open PRs SHALL fail closed. The workflow SHALL NOT merge automatically. When the workflow creates a PR with `GITHUB_TOKEN`, it SHALL dispatch `ci.yml` on the generated branch so the normal required CI surface can validate the Ignore change.
+
+
+#### Scenario: Candidate identity is denied before mutation
+
+- **GIVEN** one exact live `Untracked` report item has one or more `possibleJapanMatches`
+- **WHEN** Direct Ignore validation runs
+- **THEN** `assessIgnoreEligibility` SHALL deny the identity
+- **AND** the workflow SHALL NOT change `.github/content-sync/ignore.json`, create a branch, commit, or open a PR
+- **AND** remediation SHALL point to a normal baseline/content PR
+
+#### Scenario: Mapping drift identity is denied before mutation
+
+- **GIVEN** one exact live `Untracked` report item also appears in mapping-drift evidence
+- **WHEN** Direct Ignore validation runs
+- **THEN** `assessIgnoreEligibility` SHALL deny the identity
+- **AND** the workflow SHALL NOT append an Ignore row
+- **AND** remediation SHALL be to restore or correct the baseline/content mapping in a normal PR
+
+#### Scenario: Hand-edited Ignore PR cannot bypass eligibility
+
+- **GIVEN** a human-edited PR adds or reactivates an active Ignore row
+- **WHEN** pull-request CI validates the changed Ignore manifest
+- **THEN** the validator SHALL assess the row through `assessIgnoreEligibility` with base Ignore decisions
+- **AND** candidate or mapping-drift evidence SHALL deny the PR validation
+
+#### Scenario: Bot-created Ignore PR receives CI
+
+- **GIVEN** Direct Ignore creates a PR branch using `GITHUB_TOKEN`
+- **WHEN** the PR is created
+- **THEN** the workflow SHALL dispatch `ci.yml` for that generated branch
+- **AND** the `workflow_dispatch` run SHALL execute the Ignore-manifest validator rather than skip it
+- **AND** the validator SHALL compare against the Ignore manifest from `origin/main`
+- **AND** its actual result SHALL contribute to exact `CI result`
+
+#### Scenario: Main push does not validate Ignore additions
+
+- **GIVEN** `ci.yml` runs for a `push` event on `main`
+- **WHEN** job conditions are evaluated
+- **THEN** the Ignore-manifest validator SHALL be skipped
 
 #### Scenario: Valid Untracked identity has no matching open PR
 

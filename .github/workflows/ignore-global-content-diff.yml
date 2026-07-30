@@ -11,6 +11,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  actions: write
 
 concurrency:
   group: ignore-global-content-diff-${{ inputs.source_identity }}
@@ -71,7 +72,7 @@ jobs:
           --dry-run
           > "$RUNNER_TEMP/global-content-diff-report.json"
 
-      - name: Validate live Untracked item
+      - name: Validate live Ignore eligibility
         working-directory: japan
         env:
           SOURCE_IDENTITY: ${{ inputs.source_identity }}
@@ -80,30 +81,23 @@ jobs:
         run: |
           set -euo pipefail
           node --input-type=module - <<'NODE'
-          import { readFileSync, writeFileSync } from "node:fs";
-
-          const fail = (message) => {
-            console.error(message);
-            process.exit(1);
-          };
-          const normalizeUrl = (value) => {
-            const url = new URL(value);
-            url.search = "";
-            url.hash = "";
-            url.hostname = url.hostname.toLowerCase();
-            url.pathname = url.pathname.replace(/\/+$/, "") || "/";
-            return url.toString().replace(/\/$/, url.pathname === "/" ? "/" : "");
-          };
+          import { copyFileSync, readFileSync, writeFileSync } from "node:fs";
+          import { assessIgnoreEligibility, formatIgnoreEligibilityResult } from "./scripts/global-content-diff-report/ignore-eligibility.mjs";
+          import { normalizeUrl } from "./scripts/global-content-diff-report/lib.mjs";
 
           const sourceIdentity = process.env.SOURCE_IDENTITY || "";
-          const pattern = /^(documentation|news):cnt_\d+$/;
-          if (!pattern.test(sourceIdentity)) fail("Invalid source_identity; expected exact composite identity like news:cnt_000177");
           const reportEnvelope = JSON.parse(readFileSync(process.env.REPORT_PATH, "utf8"));
-          const matchingItems = (reportEnvelope.report?.items || []).filter((item) => item.identity === sourceIdentity);
-          if (matchingItems.length !== 1) fail(`Expected exactly one live report item for ${sourceIdentity}; found ${matchingItems.length}`);
+          const baseIgnoreRecords = JSON.parse(readFileSync(".github/content-sync/ignore.json", "utf8"));
+          const result = assessIgnoreEligibility({
+            sourceIdentity,
+            report: reportEnvelope.report,
+            baseIgnoreRecords,
+            now: reportEnvelope.report.generatedAt,
+          });
+          console.log(formatIgnoreEligibilityResult(result, reportEnvelope.metadata));
+          if (!result.allowed) process.exit(1);
 
-          const item = matchingItems[0];
-          if (item.status !== "Untracked") fail(`Expected ${sourceIdentity} to be Untracked in the live report; found ${item.status}`);
+          const item = result.item;
           writeFileSync(`${process.env.RUNNER_TEMP}/ignore-item.json`, `${JSON.stringify({
             sourceIdentity,
             sourceSection: item.sourceSection,
@@ -111,6 +105,7 @@ jobs:
             sourceCanonicalUrl: normalizeUrl(item.sourceUrl),
             sourceEvidenceUrl: item.sourceUrl,
           })}\n`);
+          copyFileSync(".github/content-sync/ignore.json", `${process.env.RUNNER_TEMP}/base-ignore.json`);
           NODE
 
       - name: Validate existing pull request count
@@ -161,6 +156,15 @@ jobs:
           writeFileSync(file, `${JSON.stringify(values, null, 2)}\n`);
           NODE
 
+      - name: Validate changed Ignore manifest
+        if: steps.find_existing_ignore_pr.outputs.match_count == '0'
+        working-directory: japan
+        run: >-
+          node scripts/global-content-diff-report/validate-ignore-pr.mjs
+          --target-repo .
+          --base-ignore "$RUNNER_TEMP/base-ignore.json"
+          --report-envelope "$RUNNER_TEMP/global-content-diff-report.json"
+
       - name: Create ignore pull request
         if: steps.find_existing_ignore_pr.outputs.match_count == '0'
         working-directory: japan
@@ -176,6 +180,8 @@ jobs:
           source_section=$(jq -r .sourceSection "$RUNNER_TEMP/ignore-item.json")
           source_id=$(jq -r .sourceId "$RUNNER_TEMP/ignore-item.json")
           source_evidence_url=$(jq -r .sourceEvidenceUrl "$RUNNER_TEMP/ignore-item.json")
+          global_sha=$(jq -r .metadata.globalSha "$RUNNER_TEMP/global-content-diff-report.json")
+          japan_sha=$(jq -r .metadata.japanSha "$RUNNER_TEMP/global-content-diff-report.json")
           branch=$(node --input-type=module - <<'NODE'
           import { buildDirectIgnoreBranch } from "./scripts/global-content-diff-report/direct-ignore-pr.mjs";
           console.log(buildDirectIgnoreBranch({
@@ -194,6 +200,8 @@ jobs:
           git commit -m "chore: ignore Global-only content $source_identity"
           git push --set-upstream origin "$branch"
 
-          ignore_body=$(printf 'Ignore Global-only content source.\n\n- Identity: `%s`\n- Source: %s\n\n<!-- global-content-diff-ignore:v1 {"sourceSection":"%s","sourceId":"%s","sourceIdentity":"%s"} -->' "$source_identity" "$source_evidence_url" "$source_section" "$source_id" "$source_identity")
+          # shellcheck disable=SC2016 # printf placeholders are intentionally single-quoted.
+          ignore_body=$(printf 'Ignore Global-only content source.\n\n- Identity: `%s`\n- Source: %s\n- Global SHA: `%s`\n- Japan SHA: `%s`\n\n<!-- global-content-diff-ignore:v1 {"sourceSection":"%s","sourceId":"%s","sourceIdentity":"%s"} -->' "$source_identity" "$source_evidence_url" "$global_sha" "$japan_sha" "$source_section" "$source_id" "$source_identity")
           ignore_pr=$(gh pr create --repo "$GITHUB_REPOSITORY" --base main --head "$branch" --title "Ignore Global-only content $source_identity" --body "$ignore_body")
+          gh workflow run ci.yml --ref "$branch"
           echo "ignore_pr=$ignore_pr" >> "$GITHUB_STEP_SUMMARY"

@@ -17,13 +17,15 @@ const operatorGuidePath = path.resolve(".github/content-sync/README.md");
 const packageReadmePath = path.resolve("scripts/global-content-diff-report/README.md");
 const historicalPlanPath = path.resolve("docs/superpowers/plans/2026-07-28-global-content-diff-slack-report.md");
 const historicalDesignPath = path.resolve("docs/superpowers/specs/2026-07-28-global-content-diff-slack-report-design.md");
+const candidateGuardDesignPath = path.resolve("docs/superpowers/specs/2026-07-30-existing-japan-content-candidate-guard-design.md");
+const supportedTargetFamilies = [...new Set(SOURCE_FAMILIES.map(({ targetFamily }) => targetFamily))];
 
 async function withTempRepos(run) {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "global-content-diff-cli-"));
   const globalRepo = path.join(tempRoot, "global");
   const targetRepo = path.join(tempRoot, "target");
   await Promise.all(SOURCE_FAMILIES.map(({ relativeRoot }) => mkdir(path.join(globalRepo, relativeRoot), { recursive: true })));
-  await mkdir(targetRepo, { recursive: true });
+  await Promise.all(supportedTargetFamilies.map((family) => mkdir(path.join(targetRepo, "src/content", family), { recursive: true })));
   try {
     return await run({ globalRepo, targetRepo });
   } finally {
@@ -119,7 +121,8 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(source, /workflow_dispatch:[\s\S]*inputs:[\s\S]*source_identity:[\s\S]*required: true[\s\S]*type: string/);
   const inputBlock = source.match(/workflow_dispatch:[\s\S]*?permissions:/)?.[0] || source;
   assert.doesNotMatch(inputBlock, /source_url|SOURCE_URL_INPUT|canonical_url|url/i);
-  assert.match(source, /permissions:[\s\S]*contents: write[\s\S]*pull-requests: write/);
+  assert.match(source, /permissions:[\s\S]*contents: write[\s\S]*pull-requests: write[\s\S]*actions: write/);
+  assert.deepEqual([...inputBlock.matchAll(/^      ([a-z_]+):$/gm)].map((match) => match[1]), ["source_identity"]);
   assert.match(source, /runs-on: ubuntu-latest/);
   assert.match(source, /timeout-minutes: (?:[3-9]|1\d)/);
   assert.match(source, /name: Checkout Japan repository[\s\S]*?with:[\s\S]*?ref: main[\s\S]*?path: japan/);
@@ -138,7 +141,7 @@ test("manual ignore workflow validates composite identity, derives URL from live
   const findExisting = workflowStepIndex(source, "Find existing ignore pull request");
   const globalCheckout = workflowStepIndex(source, "Checkout Global repository");
   const dryRun = workflowStepIndex(source, "Build live dry-run report");
-  const validateLive = workflowStepIndex(source, "Validate live Untracked item");
+  const validateLive = workflowStepIndex(source, "Validate live Ignore eligibility");
   const validateMultiplicity = workflowStepIndex(source, "Validate existing pull request count");
   const reuseExisting = workflowStepIndex(source, "Reuse existing ignore pull request");
   const appendDecision = workflowStepIndex(source, "Append ignore decision");
@@ -162,7 +165,7 @@ test("manual ignore workflow validates composite identity, derives URL from live
     appendDecision,
     createPull,
   ].toSorted((left, right) => left - right));
-  for (const stepName of ["Checkout Global repository", "Build live dry-run report", "Validate live Untracked item", "Validate existing pull request count"]) {
+  for (const stepName of ["Checkout Global repository", "Build live dry-run report", "Validate live Ignore eligibility", "Validate existing pull request count"]) {
     assert.doesNotMatch(workflowStepBlock(source, stepName), /\n\s+if:/);
   }
   const duplicateCheckBlock = workflowStepBlock(source, "Validate existing pull request count");
@@ -174,11 +177,11 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(reuseBlock, /if: steps\.find_existing_ignore_pr\.outputs\.match_count == '1'/);
   assert.match(appendBlock, /if: steps\.find_existing_ignore_pr\.outputs\.match_count == '0'/);
   assert.match(createBlock, /if: steps\.find_existing_ignore_pr\.outputs\.match_count == '0'/);
-  assert.match(source, /\^\(documentation\|news\):cnt_\\d\+\$/);
   assert.match(source, /GH_TOKEN: \$\{\{ github\.token \}\}/);
   assert.match(source, /global-content-diff-report\/cli\.mjs[\s\S]*--dry-run/);
-  assert.match(source, /matchingItems\.length !== 1/);
-  assert.match(source, /item\.status !== "Untracked"/);
+  assert.match(source, /assessIgnoreEligibility/);
+  assert.match(source, /formatIgnoreEligibilityResult/);
+  assert.doesNotMatch(source, /matchingItems\.length !== 1|item\.status !== "Untracked"/);
   assert.match(source, /normalizeUrl\(item\.sourceUrl\)/);
   assert.match(source, /sourceEvidenceUrl: item\.sourceUrl/);
   assert.match(createBlock, /source_evidence_url=\$\(jq -r \.sourceEvidenceUrl "\$RUNNER_TEMP\/ignore-item\.json"\)/);
@@ -195,6 +198,14 @@ test("manual ignore workflow validates composite identity, derives URL from live
   assert.match(createBlock, /buildDirectIgnoreBranch\(\{[\s\S]*?sourceIdentity:[\s\S]*?runId: process\.env\.GITHUB_RUN_ID,[\s\S]*?runAttempt: process\.env\.GITHUB_RUN_ATTEMPT/);
   assert.doesNotMatch(createBlock, /branch="global-content-diff-ignore\/\$\{source_identity\/:\/-\}"/);
   assert.doesNotMatch(source, /content-sync-ignore\//);
+  assert.match(source, /validate-ignore-pr\.mjs/);
+  const eligibilityIndex = source.indexOf("assessIgnoreEligibility");
+  const appendIndex = source.indexOf("values.push");
+  const validationIndex = source.lastIndexOf("validate-ignore-pr.mjs");
+  const pushIndex = source.indexOf("git push");
+  assert.ok(eligibilityIndex !== -1 && eligibilityIndex < appendIndex, "eligibility must run before mutation");
+  assert.ok(validationIndex > appendIndex && validationIndex < pushIndex, "changed manifest must be validated before push");
+  assert.match(createBlock, /gh workflow run ci\.yml --ref "\$branch"/);
   assert.match(source, /gh pr create/);
   assert.match(source, /global-content-diff-ignore:v1/);
   assert.match(source, /scripts\/global-content-diff-report\/ignore-workflow\.mjs/);
@@ -205,7 +216,7 @@ test("manual ignore workflow rejects bare cnt source IDs before report selection
   const source = await readFile(ignoreWorkflowPath, "utf8");
 
   assert.match(source, /SOURCE_IDENTITY:/);
-  assert.match(source, /Invalid source_identity/);
+  assert.match(source, /assessIgnoreEligibility/);
   assert.doesNotMatch(source, /\^cnt_\\d\+\$/);
 });
 
@@ -326,11 +337,28 @@ test("operator docs distinguish publish authoring from Direct Ignore exclusion",
 
   for (const source of [rootReadme, operatorGuide, packageReadme]) {
     assert.match(source, /report-only|inventory signal only|does not translate/);
+    assert.match(source, /Possible Japan match/);
+    assert.match(source, /diagnostic (?:evidence )?only|diagnostic only|diagnostic evidence/);
+    assert.match(source, /baseline authority|baseline remains authoritative/);
+    assert.match(source, /status(?:,| and) (?:or )?(?:counts|and counts)|counts or status/);
+    assert.match(source, /zero-candidate|zero candidates|zero-candidate result/);
+    assert.match(source, /not proof|not .*proof.*absent/);
     assert.match(source, /mdx-publication-operations\/SKILL\.md/);
     assert.match(source, /baseline\.json/);
-    assert.match(source, /normal human-reviewed content PR|normal content PR|same content PR/);
+    assert.match(source, /normal human-reviewed content PR|normal content PR|content\/baseline PR|baseline\/content PR|same content PR/);
     assert.match(source, /Direct Ignore only|intentional exclusions?|owner-approved/);
     assert.match(source, /do not use `ignore\.json` for publishable items|Do not use `ignore\.json` for publishable items|Do not add publishable items to `ignore\.json`/);
+  }
+
+  for (const source of [operatorGuide, packageReadme]) {
+    assert.match(source, /mappingDrift|mapping drift/);
+    assert.match(source, /assessIgnoreEligibility|shared eligibility/);
+    assert.match(source, /no force|no .*bypass|There is no force/);
+    assert.match(source, /Hand-edited|hand-edited/);
+    assert.match(source, /ci\.yml/);
+    assert.match(source, /GITHUB_TOKEN/);
+    assert.match(source, /stale-branch|stale branch|up to date/);
+    assert.match(source, /ruleset|Repository rules/);
   }
 
   assert.match(operatorGuide, /Composite identity/);
@@ -350,8 +378,36 @@ test("OpenSpec forbids report tooling and Direct Ignore from handling publicatio
   assert.match(source, /separate human\/AI-assisted authoring process/);
   assert.match(source, /normal human-reviewed content PR/);
   assert.match(source, /baseline\.json/);
+  assert.match(source, /Requirement: Diagnostic-only Possible Japan matches/);
+  assert.match(source, /SHALL NOT change baseline authority/);
+  assert.match(source, /status SHALL remain either `Untracked` or `Ignored`/);
+  assert.match(source, /counts SHALL remain identical/);
+  assert.match(source, /zero-candidate result SHALL mean only that no deterministic candidate was found/);
+  assert.match(source, /Global `meta\.id` field SHALL equal the Japan frontmatter `slug` field exactly/);
+  assert.match(source, /normalized original Global English title SHALL occur in the normalized raw Japan MDX source/);
+  assert.match(source, /Unicode NFC normalization, trim leading and trailing whitespace, and collapse whitespace runs/);
+  assert.match(source, /remove fragments, lowercase the hostname, normalize a trailing slash away except at the root, sort query entries by key then value/);
+  assert.match(source, /identity-bearing query parameters/);
+  assert.match(source, /target path, numeric target ID, target slug, and a sorted non-empty list/);
+  assert.match(source, /Every matching candidate SHALL be preserved/);
+  assert.match(source, /scanner I\/O error, malformed frontmatter or target record, unsafe target path, duplicate `targetFamily:targetId`, or duplicate target path SHALL fail closed/);
+  assert.match(source, /at most three candidates per item/);
+  assert.match(source, /exact omitted count/);
+  assert.match(source, /Possible Japan match/);
   assert.match(source, /Direct Ignore SHALL be used only for an owner-approved intentional exclusion/);
   assert.match(source, /selected or potentially intended for publication SHALL NOT be added to `\.github\/content-sync\/ignore\.json`/);
+  assert.match(source, /assessIgnoreEligibility/);
+  assert.match(source, /mapping drift or any `possibleJapanMatches`/);
+  assert.match(source, /No force, candidate-skip, batch, or manual bypass input SHALL exist/);
+  assert.match(source, /Scenario: Candidate identity is denied before mutation/);
+  assert.match(source, /Scenario: Mapping drift identity is denied before mutation/);
+  assert.match(source, /Scenario: Hand-edited Ignore PR cannot bypass eligibility/);
+  assert.match(source, /Scenario: Bot-created Ignore PR receives CI/);
+  assert.match(source, /dispatch `ci\.yml`/);
+  assert.match(source, /`workflow_dispatch` run SHALL execute the Ignore-manifest validator rather than skip it/);
+  assert.match(source, /Ignore manifest from `origin\/main`/);
+  assert.match(source, /actual result SHALL contribute to exact `CI result`/);
+  assert.doesNotMatch(source, /workflow docs contract CI/);
   assert.match(source, /Scenario: Publishable Untracked identity is not ignored/);
   assert.match(source, /SHALL NOT be dispatched through Direct Ignore/);
   assert.match(source, /AI\/Codex normal content PR plus baseline mapping path/);
@@ -360,13 +416,42 @@ test("OpenSpec forbids report tooling and Direct Ignore from handling publicatio
 test("historical superpowers docs point to canonical operator guidance and avoid smoke-test Direct Ignore guidance", async () => {
   for (const filePath of [historicalPlanPath, historicalDesignPath]) {
     const source = await readFile(filePath, "utf8");
-    assert.match(source, /Historical \/ non-canonical note/);
+    assert.match(source, /Historical \/ non-canonical note|Historical \/ non-canonical after implementation/);
     assert.match(source, /openspec\/specs\/contract-global-content-diff-report\/spec\.md/);
     assert.match(source, /\.github\/content-sync\/README\.md/);
     assert.match(source, /scripts\/global-content-diff-report\/README\.md/);
-    assert.match(source, /Direct Ignore is only for owner-approved intentional exclusion/);
+    assert.match(source, /Direct Ignore is only for owner-approved intentional exclusion|current implementation contract|canonical durable contract/);
     assert.doesNotMatch(source, /Direct Ignore(?: workflow)? as a smoke test|run both workflows with a known current identity/);
   }
+
+  const candidateGuardDesign = await readFile(candidateGuardDesignPath, "utf8");
+  assert.match(candidateGuardDesign, /Historical \/ non-canonical after implementation/);
+  assert.match(candidateGuardDesign, /openspec\/specs\/contract-global-content-diff-report\/spec\.md/);
+  assert.match(candidateGuardDesign, /\.github\/content-sync\/README\.md/);
+  assert.match(candidateGuardDesign, /scripts\/global-content-diff-report\/README\.md/);
+  assert.match(candidateGuardDesign, /Do not treat it as the current implementation contract/);
+});
+
+test("CI validates pull-request Ignore changes and dispatched generated Ignore branches", async () => {
+  const source = await readFile(ciWorkflowPath, "utf8");
+  assert.match(source, /ignore_manifest: \$\{\{ steps\.filter\.outputs\.ignore_manifest \|\| steps\.alltrue\.outputs\.ignore_manifest \}\}/);
+  assert.match(source, /echo 'ignore_manifest=true'/);
+  assert.match(source, /\.github\/content-sync\/ignore\.json/);
+  assert.match(source, /name: Validate Ignore manifest additions/);
+  assert.match(source, /repository: querypie\/corp-web-v2/);
+  assert.match(source, /if: \$\{\{ \(github\.event_name == 'pull_request' && needs\.changes\.outputs\.ignore_manifest == 'true'\) \|\| github\.event_name == 'workflow_dispatch' \}\}/);
+  assert.doesNotMatch(source, /if: [^\n]*github\.event_name == 'push'[^\n]*/);
+  assert.match(source, /BASE_REF: \$\{\{ github\.event_name == 'pull_request' && github\.event\.pull_request\.base\.sha \|\| 'origin\/main' \}\}/);
+  assert.match(source, /git show "\$BASE_REF:\.github\/content-sync\/ignore\.json"/);
+  assert.match(source, /validate-ignore-pr\.mjs/);
+
+  const ciResultIndex = source.indexOf("  ci-result:");
+  assert.notEqual(ciResultIndex, -1);
+  const ciResult = source.slice(ciResultIndex);
+  assert.match(ciResult, /needs:[\s\S]*validate-ignore-pr[\s\S]*if: \$\{\{ always\(\) \}\}/);
+  assert.match(ciResult, /VALIDATE_IGNORE_PR_RESULT: \$\{\{ needs\.validate-ignore-pr\.result \}\}/);
+  assert.match(ciResult, /check_result 'Validate Ignore manifest additions' "\$VALIDATE_IGNORE_PR_RESULT"/);
+  assert.match(source, /permissions:\n  contents: read\n  pull-requests: read/);
 });
 
 test("CI cross_cutting scope includes independent workflow and CLI paths", async () => {

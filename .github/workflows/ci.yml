@@ -36,6 +36,7 @@ jobs:
       assets_shell: ${{ steps.filter.outputs.assets_shell || steps.alltrue.outputs.assets_shell }}
       cross_cutting: ${{ steps.filter.outputs.cross_cutting || steps.alltrue.outputs.cross_cutting }}
       build: ${{ steps.filter.outputs.build || steps.alltrue.outputs.build }}
+      ignore_manifest: ${{ steps.filter.outputs.ignore_manifest || steps.alltrue.outputs.ignore_manifest }}
     steps:
       - name: Mark all scopes dirty outside pull requests
         if: github.event_name != 'pull_request'
@@ -50,6 +51,7 @@ jobs:
             echo 'assets_shell=true'
             echo 'cross_cutting=true'
             echo 'build=true'
+            echo 'ignore_manifest=true'
           } >> "$GITHUB_OUTPUT"
 
       - uses: actions/checkout@v4
@@ -66,6 +68,8 @@ jobs:
               - 'scripts/ci/**'
               - 'package.json'
               - 'package-lock.json'
+            ignore_manifest:
+              - '.github/content-sync/ignore.json'
             publications:
               - 'src/content/**'
               - 'src/lib/publications/**'
@@ -398,6 +402,49 @@ jobs:
       - name: Run cross-cutting tests
         run: npm run test:cross-cutting
 
+  validate-ignore-pr:
+    name: Validate Ignore manifest additions
+    runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ (github.event_name == 'pull_request' && needs.changes.outputs.ignore_manifest == 'true') || github.event_name == 'workflow_dispatch' }}
+    steps:
+      - name: Checkout Japan repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: japan
+
+      - name: Checkout Global repository
+        uses: actions/checkout@v4
+        with:
+          repository: querypie/corp-web-v2
+          ref: main
+          path: global
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: japan/package-lock.json
+
+      - name: Install dependencies
+        working-directory: japan
+        run: npm ci
+
+      - name: Validate Ignore manifest additions
+        working-directory: japan
+        env:
+          BASE_REF: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || 'origin/main' }}
+          RUNNER_TEMP: ${{ runner.temp }}
+        run: |
+          git show "$BASE_REF:.github/content-sync/ignore.json" > "$RUNNER_TEMP/base-ignore.json"
+          node scripts/global-content-diff-report/validate-ignore-pr.mjs \
+            --global-repo "$GITHUB_WORKSPACE/global" \
+            --target-repo "$GITHUB_WORKSPACE/japan" \
+            --base-ignore "$RUNNER_TEMP/base-ignore.json"
+
   build:
     name: Build
     runs-on: [self-hosted, Linux]
@@ -449,6 +496,7 @@ jobs:
       - test-assets-shell
       - test-cross-cutting
       - build
+      - validate-ignore-pr
     if: ${{ always() }}
     steps:
       - name: Verify CI dependency results
@@ -462,6 +510,7 @@ jobs:
           TEST_ASSETS_SHELL_RESULT: ${{ needs.test-assets-shell.result }}
           TEST_CROSS_CUTTING_RESULT: ${{ needs.test-cross-cutting.result }}
           BUILD_RESULT: ${{ needs.build.result }}
+          VALIDATE_IGNORE_PR_RESULT: ${{ needs.validate-ignore-pr.result }}
         run: |
           failed=0
 
@@ -489,5 +538,6 @@ jobs:
           check_result 'Test assets and shell' "$TEST_ASSETS_SHELL_RESULT"
           check_result 'Test cross-cutting contracts' "$TEST_CROSS_CUTTING_RESULT"
           check_result 'Build' "$BUILD_RESULT"
+          check_result 'Validate Ignore manifest additions' "$VALIDATE_IGNORE_PR_RESULT"
 
           exit "$failed"

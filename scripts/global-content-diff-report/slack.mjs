@@ -31,6 +31,18 @@ function familyLabel(family) {
   return FAMILY_LABELS[family] || family;
 }
 
+function candidateEvidenceText(item) {
+  const candidates = item.possibleJapanMatches || [];
+  if (!candidates.length) return "";
+  const rendered = candidates.slice(0, 3).map((candidate) => {
+    const targetPath = escapeMrkdwn(candidate.targetPath);
+    const signals = escapeMrkdwn((candidate.signals || []).join(", "));
+    return `\`${targetPath}\` (${signals})`;
+  });
+  const omitted = candidates.length > 3 ? ` · +${candidates.length - 3} omitted` : "";
+  return `\nPossible Japan match · ${rendered.join(" · ")}${omitted}`;
+}
+
 function itemText(item, metadata) {
   let originalUrl;
   try {
@@ -51,7 +63,7 @@ function itemText(item, metadata) {
   const originalHref = escapeMrkdwn(originalUrl.href);
   const sourcePath = item.sourcePath.split("/").map(encodeURIComponent).join("/");
   const githubHref = `https://github.com/querypie/corp-web-v2/tree/${metadata.globalSha}/${sourcePath}`;
-  return `*${title}*\n_${family} · ${date}_ · Composite identity · \`${identity}\`\n<${originalHref}|Original · ${domain}> · <${githubHref}|GitHub source>`;
+  return `*${title}*\n_${family} · ${date}_ · Composite identity · \`${identity}\`\n<${originalHref}|Original · ${domain}> · <${githubHref}|GitHub source>${candidateEvidenceText(item)}`;
 }
 
 function statusContainer(status, allItems, items, part, metadata) {
