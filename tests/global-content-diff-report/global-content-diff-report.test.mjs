@@ -8,12 +8,14 @@ import { buildDispositionMap, buildGlobalInventory, buildGlobalOnlyReport, build
 import { buildSlackPayloads, sendSlackPayloads } from "../../scripts/global-content-diff-report/slack.mjs";
 import { SOURCE_FAMILIES } from "../../scripts/global-content-diff-report/source-family-map.mjs";
 
+const supportedTargetFamilies = [...new Set(SOURCE_FAMILIES.map(({ targetFamily }) => targetFamily))];
+
 async function withTempRepos(run) {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "global-content-diff-report-"));
   const globalRepo = path.join(tempRoot, "global");
   const targetRepo = path.join(tempRoot, "target");
   await Promise.all(SOURCE_FAMILIES.map(({ relativeRoot }) => mkdir(path.join(globalRepo, relativeRoot), { recursive: true })));
-  await mkdir(targetRepo, { recursive: true });
+  await Promise.all(supportedTargetFamilies.map((family) => mkdir(path.join(targetRepo, "src/content", family), { recursive: true })));
   try {
     return await run({ globalRepo, targetRepo });
   } finally {
@@ -370,6 +372,29 @@ test("fails closed when candidate scanning fails", async () => {
     }),
     /invalid Japan target id: src\/content\/news\/broken\.mdx/,
   );
+});
+
+test("fails closed when a required Japan candidate root is missing", async () => {
+  await withTempRepos(async ({ globalRepo, targetRepo }) => {
+    await writeGlobalSource(globalRepo, publishedBlog("cnt_000218", "missing-japan-root"));
+    await writeManifest(targetRepo, "baseline", []);
+    await writeManifest(targetRepo, "ignore", []);
+    await rm(path.join(targetRepo, "src/content/blog"), { recursive: true, force: true });
+
+    await assert.rejects(
+      () => buildGlobalOnlyReport({
+        globalRepo,
+        targetRepo,
+        sitemapXml: "<loc>https://www.querypie.com/en/blog/missing-japan-root</loc>",
+        productionListHtmlByUrl: {
+          "https://www.querypie.com/en/documentation": '<a href="/en/blog/missing-japan-root">blog</a>',
+          "https://www.querypie.com/en/news": "",
+        },
+        now: "2026-03-01T00:00:00.000Z",
+      }),
+      /src\/content\/blog/,
+    );
+  });
 });
 
 test("rejects duplicate Global composite identities across documentation categories", async () => {

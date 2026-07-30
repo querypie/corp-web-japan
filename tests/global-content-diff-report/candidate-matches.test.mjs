@@ -57,6 +57,15 @@ test("normalizes HTTPS URLs by removing only tracking params while preserving id
   assert.equal(normalizeCandidateUrl("not a url"), null);
 });
 
+test("fails closed when a required Japan target-family root is missing", async () => {
+  await withTargetRepo(async (targetRepo) => {
+    await assert.rejects(
+      () => indexJapanCandidateRecords({ targetRepo, targetFamilies: ["blog"] }),
+      /src\/content\/blog/,
+    );
+  });
+});
+
 test("finds an exact slug candidate without changing ambiguous shape", async () => {
   await withTargetRepo(async (targetRepo) => {
     await writeMdx(targetRepo, "blog", "33-what-is-forward-deployed-engineer-fde.mdx", {
@@ -168,7 +177,7 @@ test("isolates candidates to the requested target family", async () => {
     await writeMdx(targetRepo, "news", "8-same-slug.mdx", { id: "8", slug: "same-slug", title: "News", date: "2026-01-01" });
     await writeMdx(targetRepo, "blog", "8-same-slug.mdx", { id: "8", slug: "same-slug", title: "Blog", date: "2026-01-01" });
 
-    const japanIndex = await indexJapanCandidateRecords({ targetRepo });
+    const japanIndex = await indexJapanCandidateRecords({ targetRepo, targetFamilies: ["news", "blog"] });
     const matches = findPossibleJapanMatches({
       globalItem: { targetFamily: "blog", sourceSlug: "same-slug", sourceUrls: [], originalTitle: "Same", dateIso: "2026-01-01" },
       japanIndex,

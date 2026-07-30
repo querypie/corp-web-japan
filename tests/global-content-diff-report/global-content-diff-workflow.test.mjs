@@ -17,13 +17,14 @@ const operatorGuidePath = path.resolve(".github/content-sync/README.md");
 const packageReadmePath = path.resolve("scripts/global-content-diff-report/README.md");
 const historicalPlanPath = path.resolve("docs/superpowers/plans/2026-07-28-global-content-diff-slack-report.md");
 const historicalDesignPath = path.resolve("docs/superpowers/specs/2026-07-28-global-content-diff-slack-report-design.md");
+const supportedTargetFamilies = [...new Set(SOURCE_FAMILIES.map(({ targetFamily }) => targetFamily))];
 
 async function withTempRepos(run) {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "global-content-diff-cli-"));
   const globalRepo = path.join(tempRoot, "global");
   const targetRepo = path.join(tempRoot, "target");
   await Promise.all(SOURCE_FAMILIES.map(({ relativeRoot }) => mkdir(path.join(globalRepo, relativeRoot), { recursive: true })));
-  await mkdir(targetRepo, { recursive: true });
+  await Promise.all(supportedTargetFamilies.map((family) => mkdir(path.join(targetRepo, "src/content", family), { recursive: true })));
   try {
     return await run({ globalRepo, targetRepo });
   } finally {

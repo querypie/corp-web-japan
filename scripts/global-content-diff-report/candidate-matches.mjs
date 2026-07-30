@@ -1,6 +1,8 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
+import YAML from "yaml";
+
 import { SOURCE_FAMILIES } from "./source-family-map.mjs";
 
 const safeKebabSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -45,21 +47,8 @@ export function normalizeCandidateUrl(value) {
   return url.pathname === "/" ? href : href.replace(/\/$/, "");
 }
 
-async function parseYaml(source) {
-  try {
-    const { default: YAML } = await import("yaml");
-    return YAML.parse(source);
-  } catch (error) {
-    if (error.code !== "ERR_MODULE_NOT_FOUND") throw error;
-    const parsed = {};
-    for (const line of source.split(/\r?\n/)) {
-      if (!line.trim()) continue;
-      const match = /^([A-Za-z0-9_-]+):\s*(.*)$/.exec(line);
-      if (!match) throw new Error("unsupported YAML syntax");
-      parsed[match[1]] = JSON.parse(match[2]);
-    }
-    return parsed;
-  }
+function parseYaml(source) {
+  return YAML.parse(source);
 }
 
 async function extractFrontmatter(source, relativePath) {
@@ -109,13 +98,7 @@ function normalizeDateIso(value) {
 
 async function readFamilyRecords({ targetRepo, family }) {
   const root = path.join(targetRepo, "src/content", family);
-  let entries;
-  try {
-    entries = await readdir(root, { withFileTypes: true });
-  } catch (error) {
-    if (error.code === "ENOENT") return [];
-    throw error;
-  }
+  const entries = await readdir(root, { withFileTypes: true });
   const records = [];
   for (const entry of entries) {
     if (!entry.isFile() || !entry.name.endsWith(".mdx")) continue;
