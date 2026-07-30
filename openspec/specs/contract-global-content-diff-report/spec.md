@@ -7,7 +7,6 @@ Define the standalone production contract for reporting every production-publish
 ## Current implementation references
 
 - `.github/workflows/global-content-diff-report.yml`
-- `.github/workflows/ignore-global-content-diff.yml`
 - `scripts/global-content-diff-report/**`
 - `tests/global-content-diff-report/**`
 - `.github/content-sync/baseline.json`
@@ -80,7 +79,7 @@ The report SHALL attach `possibleJapanMatches` only as diagnostic evidence for G
 - **GIVEN** a live `Untracked` item has an empty `possibleJapanMatches` array
 - **WHEN** an operator reviews the item
 - **THEN** the report SHALL NOT claim that no Japan content exists
-- **AND** intentional exclusion SHALL still require owner review before Direct Ignore
+- **AND** intentional exclusion SHALL still require owner review before an Ignore PR
 
 ### Requirement: Exact candidate signals preserve source identity
 
@@ -196,117 +195,26 @@ A zero-difference run SHALL send a compact success payload. Unsafe inventory, ma
 - **THEN** a partial report SHALL NOT be represented as complete
 - **AND** a compact failure notification SHALL be attempted
 
-### Requirement: Direct manual Ignore PR workflow
+### Requirement: Skill-driven Ignore PR preparation
 
-Slack SHALL label each key `Composite identity` but SHALL NOT embed Direct Ignore workflow instructions; `.github/content-sync/README.md` owns the operator procedure. The manual workflow SHALL accept exactly `^(documentation|news):cnt_\d+$`, reject bare IDs, run the standalone CLI in `--dry-run` mode, select exactly one live `Untracked` item, and derive its canonical and evidence URLs rather than accepting a URL input.
+Ignore handling SHALL be initiated only through the repo-local `.agents/skills/global-content-ignore/SKILL.md`, not GitHub Actions automation or Ignore-specific CI. The skill SHALL use a fresh read-only report, require full Composite identities, select only current `Untracked` items, and create at most one normal human-reviewed PR. It SHALL NOT auto-merge.
 
-Direct Ignore SHALL be used only for an owner-approved intentional exclusion from Japan publication. An `Untracked` item selected or potentially intended for publication SHALL NOT be added to `.github/content-sync/ignore.json`; it follows the separate AI/Codex normal content PR plus baseline mapping path.
+The skill SHALL fail closed when a selected item has mapping drift or any `possibleJapanMatches`; those identities require a reviewed baseline/content reconciliation PR. Date-based bulk requests SHALL resolve in Asia/Tokyo, list explicit exclusions, and use no saved Slack snapshot as authority.
 
-Direct Ignore SHALL use the shared `assessIgnoreEligibility` decision function before mutation. It SHALL deny identities with mapping drift or any `possibleJapanMatches`; it SHALL fail closed on malformed candidate evidence, missing or duplicate live items, non-`Untracked` status, or an active base Ignore row. No force, candidate-skip, batch, or manual bypass input SHALL exist.
+#### Scenario: Agent prepares intentional exclusions
 
-The workflow SHALL append one sorted `.github/content-sync/ignore.json` record with reason code `other`, actor, and UTC timestamp. It SHALL create branches under the identity-specific prefix `global-content-diff-ignore/${sourceSection}-${sourceId}` with a unique `${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}` suffix. It SHALL place an exact trusted `global-content-diff-ignore:v1` marker containing the composite identity in the PR body.
+- **GIVEN** an owner supplies exact or date-based Global-only exclusions
+- **WHEN** the skill resolves a fresh report
+- **THEN** it SHALL list the selected and excluded Composite identities before mutation
+- **AND** it SHALL add only validated selected `Untracked` identities to `.github/content-sync/ignore.json`
+- **AND** it SHALL open a normal human-reviewed PR without auto-merge
 
-CI SHALL run the Ignore-manifest validator for a pull request that changes `.github/content-sync/ignore.json` and for every `workflow_dispatch` run, but SHALL NOT run it for a `push` event on `main`. Pull-request validation SHALL read the base Ignore manifest from the pull request base SHA. Dispatched validation on the generated Ignore branch SHALL read it from `origin/main`. The validator job's actual result SHALL be a dependency of the exact `CI result` job. CI permissions SHALL remain `contents: read` and `pull-requests: read`.
+#### Scenario: Candidate or mapping-drift item is selected
 
-The workflow SHALL completely enumerate every open pull request with the paginated GitHub REST API. A reusable PR SHALL have a head repository equal to `GITHUB_REPOSITORY` after case normalization, the identity-specific branch prefix in either the legacy exact-prefix format or the unique run-suffixed format, and the exact trusted marker. Title SHALL NOT participate in identity matching. Fork PRs, unsupported branch formats, missing or incorrect markers, and malformed PR records SHALL NOT be reused; malformed pagination envelopes SHALL fail closed. Zero reusable open PRs SHALL create one normal PR for human review on the unique current-run branch. Exactly one reusable open PR SHALL be reused only after live `Untracked` validation succeeds. Two or more reusable open PRs SHALL fail closed. The workflow SHALL NOT merge automatically. When the workflow creates a PR with `GITHUB_TOKEN`, it SHALL dispatch `ci.yml` on the generated branch so the normal required CI surface can validate the Ignore change.
-
-
-#### Scenario: Candidate identity is denied before mutation
-
-- **GIVEN** one exact live `Untracked` report item has one or more `possibleJapanMatches`
-- **WHEN** Direct Ignore validation runs
-- **THEN** `assessIgnoreEligibility` SHALL deny the identity
-- **AND** the workflow SHALL NOT change `.github/content-sync/ignore.json`, create a branch, commit, or open a PR
-- **AND** remediation SHALL point to a normal baseline/content PR
-
-#### Scenario: Mapping drift identity is denied before mutation
-
-- **GIVEN** one exact live `Untracked` report item also appears in mapping-drift evidence
-- **WHEN** Direct Ignore validation runs
-- **THEN** `assessIgnoreEligibility` SHALL deny the identity
-- **AND** the workflow SHALL NOT append an Ignore row
-- **AND** remediation SHALL be to restore or correct the baseline/content mapping in a normal PR
-
-#### Scenario: Hand-edited Ignore PR cannot bypass eligibility
-
-- **GIVEN** a human-edited PR adds or reactivates an active Ignore row
-- **WHEN** pull-request CI validates the changed Ignore manifest
-- **THEN** the validator SHALL assess the row through `assessIgnoreEligibility` with base Ignore decisions
-- **AND** candidate or mapping-drift evidence SHALL deny the PR validation
-
-#### Scenario: Bot-created Ignore PR receives CI
-
-- **GIVEN** Direct Ignore creates a PR branch using `GITHUB_TOKEN`
-- **WHEN** the PR is created
-- **THEN** the workflow SHALL dispatch `ci.yml` for that generated branch
-- **AND** the `workflow_dispatch` run SHALL execute the Ignore-manifest validator rather than skip it
-- **AND** the validator SHALL compare against the Ignore manifest from `origin/main`
-- **AND** its actual result SHALL contribute to exact `CI result`
-
-#### Scenario: Main push does not validate Ignore additions
-
-- **GIVEN** `ci.yml` runs for a `push` event on `main`
-- **WHEN** job conditions are evaluated
-- **THEN** the Ignore-manifest validator SHALL be skipped
-
-#### Scenario: Valid Untracked identity has no matching open PR
-
-- **GIVEN** one exact live `Untracked` report item
-- **AND** zero reusable open PRs match its same-repository branch prefix and exact trusted marker
-- **WHEN** the workflow runs
-- **THEN** it SHALL append the decision
-- **AND** open one normal human-reviewed PR containing the exact trusted marker and production evidence URL
-- **AND** the PR branch SHALL end with the current GitHub run ID and run attempt
-
-#### Scenario: Publishable Untracked identity is not ignored
-
-- **GIVEN** one exact live `Untracked` report item
-- **AND** an operator selects it for Japan publication or it may be intended for Japan publication
-- **WHEN** the operator chooses the handling path
-- **THEN** the item SHALL NOT be dispatched through Direct Ignore
-- **AND** the item SHALL NOT be added to `.github/content-sync/ignore.json`
-- **AND** it SHALL follow the separate AI/Codex normal content PR plus baseline mapping path
-
-#### Scenario: Valid Untracked identity has one matching open PR
-
-- **GIVEN** exactly one same-repository open PR contains the exact trusted marker and composite identity
-- **AND** the identity still resolves to exactly one live `Untracked` report item
-- **WHEN** the workflow runs
-- **THEN** it SHALL reuse that PR
-- **AND** SHALL NOT append another decision, create another PR, or merge the existing PR
-
-#### Scenario: Identity has multiple matching open PRs
-
-- **GIVEN** two or more same-repository open PRs contain the exact trusted marker and composite identity
-- **WHEN** the workflow runs
-- **THEN** it SHALL fail closed after live validation
-- **AND** SHALL NOT change the manifest, create a PR, or merge any PR
-
-#### Scenario: Invalid or stale identity is submitted
-
-- **GIVEN** a bare ID, missing item, duplicate item, or item not marked `Untracked`
-- **WHEN** validation runs
-- **THEN** the workflow SHALL fail without changing the manifest
-
-#### Scenario: Matching PR lacks the trusted marker
-
-- **GIVEN** an open PR has a similar title or branch but lacks the exact `global-content-diff-ignore:v1` marker containing the composite identity
-- **WHEN** matching runs
-- **THEN** that PR SHALL NOT be reused
-
-#### Scenario: Candidate PR is not reusable
-
-- **GIVEN** an open PR comes from a fork, uses another identity or an unsupported branch format, or has malformed PR data
-- **WHEN** matching runs
-- **THEN** that PR SHALL NOT count as reusable
-
-#### Scenario: Reusable PR title was edited
-
-- **GIVEN** an open same-repository PR uses the identity-specific legacy or run-suffixed branch format and contains the exact trusted marker
-- **AND** its title was edited
-- **WHEN** matching runs
-- **THEN** the PR SHALL remain reusable
-
+- **GIVEN** a selected Global-only item has candidate evidence or mapping drift
+- **WHEN** the skill evaluates Ignore eligibility
+- **THEN** it SHALL not modify `ignore.json` for that item
+- **AND** it SHALL direct the operator to baseline/content reconciliation
 
 ### Requirement: Report tooling does not produce content
 
@@ -327,4 +235,4 @@ The Slack report SHALL expose no Ignore button, n8n action, mutation endpoint, o
 #### Scenario: Operator receives the report
 
 - **WHEN** the message is inspected
-- **THEN** ignore handling SHALL remain in the separate manual GitHub Actions workflow
+- **THEN** Ignore handling SHALL remain a repo-local skill and normal PR workflow
