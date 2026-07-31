@@ -135,7 +135,18 @@ function summarizeCounts(report) {
   return `Global ${report.counts.globalPublished} · Japan ${report.counts.japanPresent} · Global-only ${report.counts.globalOnly}${families ? ` · ${families}` : ""}`;
 }
 
-function operationsSummaryBlock(summary) {
+function validateHttpsUrl(value, label) {
+  let url;
+  try {
+    url = new URL(value);
+  } catch {
+    throw new Error(`operations summary item has invalid ${label}`);
+  }
+  if (url.protocol !== "https:") throw new Error(`operations summary item has non-HTTPS ${label}`);
+  return url.href;
+}
+
+function validateOperationsSummary(summary) {
   if (!summary || typeof summary !== "object" || Array.isArray(summary)) {
     throw new Error("operations summary must be an object");
   }
@@ -149,27 +160,96 @@ function operationsSummaryBlock(summary) {
   if (!Array.isArray(summary.items) || summary.items.length > 20) {
     throw new Error("operations summary items must be an array with at most 20 entries");
   }
-  const items = summary.items.map((item) => {
+  for (const item of summary.items) {
     if (!/^(documentation|news):cnt_\d+$/.test(item?.identity || "")) {
       throw new Error("operations summary item has invalid identity");
     }
-    for (const key of ["target", "verdict", "action"]) {
+    for (const key of ["title", "targetFamily", "dateIso", "target", "verdict", "action"]) {
       if (typeof item[key] !== "string" || !item[key].trim()) throw new Error(`operations summary item requires ${key}`);
     }
-    return `• \`${escapeMrkdwn(item.identity)}\` → ${escapeMrkdwn(item.target)}\n  AI: ${escapeMrkdwn(item.verdict)} · ${escapeMrkdwn(item.action)}`;
-  });
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(item.dateIso)) throw new Error("operations summary item has invalid dateIso");
+    validateHttpsUrl(item.globalUrl, "globalUrl");
+    if (item.verdict === "Equivalent") validateHttpsUrl(item.japanUrl, "japanUrl");
+  }
+}
+
+function reviewItemText({ title, targetFamily, dateIso, identity, result, globalUrl, japanUrl }) {
+  const globalHref = escapeMrkdwn(validateHttpsUrl(globalUrl, "globalUrl"));
+  const japanLink = japanUrl
+    ? `<${escapeMrkdwn(validateHttpsUrl(japanUrl, "japanUrl"))}|Japan>`
+    : "Japan match unavailable";
+  return [
+    `*${escapeMrkdwn(truncate(title, MAX_TITLE_LENGTH))}*`,
+    `_${escapeMrkdwn(familyLabel(targetFamily))} · ${escapeMrkdwn(dateIso)}_ · \`${escapeMrkdwn(identity)}\``,
+    escapeMrkdwn(result),
+    `View: <${globalHref}|Global> · ${japanLink}`,
+  ].join("\n");
+}
+
+function reviewContainer(title, items) {
+  return {
+    type: "container",
+    title: { type: "plain_text", text: `${title} · ${items.length} item${items.length === 1 ? "" : "s"}` },
+    is_collapsible: true,
+    default_collapsed: true,
+    child_blocks: items.map((item) => ({
+      type: "section",
+      text: { type: "mrkdwn", text: reviewItemText(item) },
+    })),
+  };
+}
+
+function operationsSummaryBlock(report) {
+  const summary = report.operationsSummary;
+  validateOperationsSummary(summary);
+  const synced = summary.items.filter(({ verdict }) => verdict === "Equivalent").length;
+  const reviewNeeded = report.items.filter(({ status }) => status === "Untracked").length;
+  const ignored = report.items.filter(({ status }) => status === "Ignored").length;
   return {
     type: "section",
-    text: {
-      type: "mrkdwn",
-      text: [
-        `*Today’s changes · ${summary.dateJst}*`,
-        `Global additions ${summary.globalAdded} · Existing Japan matches ${summary.existingJapanMatches}`,
-        ...items,
-        `New MDX ${summary.newMdx} · Baseline +${summary.baselineAdded} / -${summary.baselineRemoved} · Ignore +${summary.ignoreAdded} / -${summary.ignoreRemoved}`,
-      ].join("\n"),
-    },
+    text: { type: "mrkdwn", text: `Today · Synced ${synced}\nCurrent · Review needed ${reviewNeeded} · Ignored ${ignored}` },
   };
+}
+
+function operationsContainers(report) {
+  const syncedItems = report.operationsSummary.items
+    .filter(({ verdict }) => verdict === "Equivalent")
+    .map((item) => ({
+      ...item,
+      result: `Existing Japan content matched · ${item.action}`,
+    }));
+  const reviewItems = report.items
+    .filter(({ status }) => status === "Untracked")
+    .sort(compareSlackItems)
+    .map((item) => ({
+      ...item,
+      globalUrl: item.sourceUrl,
+      japanUrl: null,
+      result: item.possibleJapanMatches?.length
+        ? "Possible Japan match found · Review required"
+        : "No matching Japan content confirmed",
+    }));
+  const ignoredItems = report.items
+    .filter(({ status }) => status === "Ignored")
+    .sort(compareSlackItems)
+    .map((item) => ({
+      ...item,
+      globalUrl: item.sourceUrl,
+      japanUrl: null,
+      result: "Intentionally excluded from Japan sync",
+    }));
+  return [
+    syncedItems.length ? reviewContainer("Synced today", syncedItems) : null,
+    reviewItems.length ? reviewContainer("Review needed", reviewItems) : null,
+    ignoredItems.length ? reviewContainer("Ignored", ignoredItems) : null,
+  ].filter(Boolean);
+}
+
+function operationsContext(report, metadata, partNumber, totalParts) {
+  return [
+    `Global ${report.counts.globalPublished} · Japan ${report.counts.japanPresent}`,
+    runContext(report, metadata, partNumber, totalParts),
+  ].join("\n");
 }
 
 function renderPayload({ report, metadata, partNumber, totalParts, containers, isFirst }) {
@@ -177,30 +257,35 @@ function renderPayload({ report, metadata, partNumber, totalParts, containers, i
   const blocks = [
     {
       type: "header",
-      text: { type: "plain_text", text: report.operationsSummary ? "🌐 Global content operations" : "🌐 Global-only report" },
+      text: { type: "plain_text", text: report.operationsSummary ? "🌐 Global Content Review" : "🌐 Global-only report" },
     },
   ];
 
   if (isFirst) {
-    blocks.push({
-      type: "section",
-      text: { type: "mrkdwn", text: summarizeCounts(report) },
-    });
-    if (report.operationsSummary) blocks.push(operationsSummaryBlock(report.operationsSummary));
+    if (report.operationsSummary) {
+      blocks.push(operationsSummaryBlock(report));
+    } else {
+      blocks.push({
+        type: "section",
+        text: { type: "mrkdwn", text: summarizeCounts(report) },
+      });
+    }
   }
 
   blocks.push({
     type: "context",
     elements: [{
       type: "mrkdwn",
-      text: runContext(report, metadata, partNumber, totalParts),
+      text: report.operationsSummary
+        ? operationsContext(report, metadata, partNumber, totalParts)
+        : runContext(report, metadata, partNumber, totalParts),
     }],
   });
 
   blocks.push(...containers);
 
   return {
-    text: `Global-only report${totalParts > 1 ? ` — ${partLabel}` : ""}${isFirst ? ` — ${summarizeCounts(report)}` : ""}`,
+    text: `${report.operationsSummary ? "Global Content Review" : "Global-only report"}${totalParts > 1 ? ` — ${partLabel}` : ""}${isFirst ? ` — ${summarizeCounts(report)}` : ""}`,
     blocks,
   };
 }
@@ -210,25 +295,31 @@ export function buildSlackPayloads(report, metadata) {
     throw new Error("Slack metadata requires full commit SHAs");
   }
 
+  if (report?.operationsSummary) {
+    const containers = operationsContainers(report);
+    const payloadContainerGroups = containers.length ? chunk(containers, CONTAINERS_PER_PAYLOAD) : [[]];
+    return payloadContainerGroups.map((containerGroup, index) => renderPayload({
+      report,
+      metadata,
+      partNumber: index + 1,
+      totalParts: payloadContainerGroups.length,
+      containers: containerGroup,
+      isFirst: index === 0,
+    }));
+  }
+
   if (!report?.items?.length) {
     return [{
       text: "No Global-only content",
       blocks: [
         {
           type: "header",
-          text: { type: "plain_text", text: report.operationsSummary ? "🌐 Global content operations" : "🌐 Global-only report" },
+          text: { type: "plain_text", text: "🌐 Global-only report" },
         },
-        {
-          type: "section",
-          text: { type: "mrkdwn", text: "No Global-only content." },
-        },
-        ...(report.operationsSummary ? [operationsSummaryBlock(report.operationsSummary)] : []),
+        { type: "section", text: { type: "mrkdwn", text: "No Global-only content." } },
         {
           type: "context",
-          elements: [{
-            type: "mrkdwn",
-            text: runContext(report, metadata),
-          }],
+          elements: [{ type: "mrkdwn", text: runContext(report, metadata) }],
         },
       ],
     }];
@@ -248,7 +339,7 @@ export function buildSlackPayloads(report, metadata) {
     });
   }
 
-  const payloadContainerGroups = chunk(containers, CONTAINERS_PER_PAYLOAD);
+  const payloadContainerGroups = containers.length ? chunk(containers, CONTAINERS_PER_PAYLOAD) : [[]];
   return payloadContainerGroups.map((containerGroup, index) => renderPayload({
     report,
     metadata,
@@ -259,21 +350,60 @@ export function buildSlackPayloads(report, metadata) {
   }));
 }
 
-export async function sendSlackPayloads({ webhookUrl, payloads, fetchImpl = fetch }) {
-  if (!webhookUrl?.startsWith("https://hooks.slack.com/services/")) {
-    throw new Error("GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL must be a Slack Incoming Webhook URL");
+function validateSlackApiCredentials(botToken, channelId) {
+  if (!botToken?.startsWith("xoxb-")) {
+    throw new Error("Slack bot token must be a Bot User OAuth Token");
   }
+  if (!/^[A-Z][A-Z0-9]{8,}$/.test(channelId || "")) {
+    throw new Error("Slack channel ID is invalid");
+  }
+}
 
+async function callSlackApi(method, { botToken, body, fetchImpl }) {
+  const response = await fetchImpl(`https://slack.com/api/${method}`, {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${botToken}`,
+      "content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(body),
+    signal: AbortSignal.timeout(15_000),
+  });
+  const result = await response.json();
+  if (!response.ok || !result.ok) {
+    throw new Error(`Slack rejected Global content message: ${result.error || `HTTP ${response.status}`}`);
+  }
+  return result;
+}
+
+export async function sendSlackPayloads({ botToken, channelId, payloads, fetchImpl = fetch }) {
+  validateSlackApiCredentials(botToken, channelId);
+  const messages = [];
   for (const payload of payloads) {
-    const response = await fetchImpl(webhookUrl, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(15_000),
+    const result = await callSlackApi("chat.postMessage", {
+      botToken,
+      body: {
+        channel: channelId,
+        ...payload,
+        unfurl_links: false,
+        unfurl_media: false,
+      },
+      fetchImpl,
     });
-    const body = await response.text();
-    if (!response.ok || body !== "ok") {
-      throw new Error(`Slack rejected Global content diff payload: HTTP ${response.status}`);
-    }
+    messages.push({ channel: result.channel, ts: result.ts });
+  }
+  return messages;
+}
+
+export async function deleteSlackMessages({ botToken, messages, fetchImpl = fetch }) {
+  if (!Array.isArray(messages) || messages.length === 0) throw new Error("Slack messages are required");
+  for (const message of [...messages].reverse()) {
+    validateSlackApiCredentials(botToken, message.channel);
+    if (!/^\d+\.\d+$/.test(message.ts || "")) throw new Error("Slack message timestamp is invalid");
+    await callSlackApi("chat.delete", {
+      botToken,
+      body: { channel: message.channel, ts: message.ts },
+      fetchImpl,
+    });
   }
 }

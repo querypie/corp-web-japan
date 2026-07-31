@@ -7,9 +7,9 @@ Canonical contract: [`openspec/specs/contract-global-content-diff-report/spec.md
 ## Scope
 
 - Full current Global-only Slack report.
-- Read-only GitHub Actions report on weekdays at 10:00 JST.
-- Deterministic `Possible Japan match` diagnostics.
-- No translation, MDX/assets generation, mutation workflow, server, Slack button, or auto-merge.
+- Local-only execution through `.agents/skills/global-content-operations/SKILL.md`.
+- Deterministic `Possible Japan match` diagnostics plus AI-reviewed operations summaries.
+- No scheduled workflow, server, Slack button, or auto-merge.
 
 ## Status semantics
 
@@ -21,20 +21,26 @@ Candidate evidence never changes authority, status, or counts. A zero-candidate 
 
 ## Operator actions
 
-Use repo-local skills, not GitHub Actions mutation workflows:
+Use repo-local skills, not GitHub Actions workflows:
 
+- `.agents/skills/global-content-operations/SKILL.md` — latest-main reconciliation → tracking updates → final preview → explicit local delivery.
 - `.agents/skills/global-to-japan-publication/SKILL.md` — selected Composite identity → Japan MDX/assets + exact baseline mapping → normal reviewed PR.
 - `.agents/skills/global-content-ignore/SKILL.md` — selected exact or JST date-based Global-only items with exceptions → normal reviewed `ignore.json` PR.
 
 Both skills use a fresh dry-run and never auto-merge. Ignore creation stops for candidate evidence or mapping drift.
 
-## Schedule and secret
+## Local delivery
 
-- Cron: `0 1 * * 1-5` (weekdays 10:00 JST).
-- Manual report execution: `workflow_dispatch`.
-- Production report secret: `GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL`.
-- Failure notification secret: `GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL`.
-- The CLI still receives its selected destination through the internal `GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL` environment variable.
+Run `npm run global-content:init` once. It reads the bot token and test/production channel IDs from the `corp-web-japan-global-content-slack` 1Password item and writes them to the main checkout’s gitignored `.env.local`, shared by all worktrees. Later sends source that file without another 1Password request.
+
+Messages use `chat.postMessage`. Returned `channel`/`ts` references are stored in `.tmp/global-content-slack-history.json`. Delete the latest recorded message with:
+
+```bash
+npm run global-content:delete-last -- test
+npm run global-content:delete-last -- prod
+```
+
+Credentials are never printed or committed.
 
 ## Entry points
 
@@ -43,7 +49,9 @@ Both skills use a fresh dry-run and never auto-merge. Ignore creation stops for 
 | `cli.mjs` | Loads production evidence, computes the report, and optionally sends Slack payloads. |
 | `report.mjs` | Builds Global inventory, verified Japan-present inventory, and the diff. |
 | `candidate-matches.mjs` | Builds exact deterministic Japan MDX diagnostic evidence. |
-| `slack.mjs` | Builds deterministic Slack Block Kit payloads and delivers them. |
+| `slack.mjs` | Builds Block Kit payloads and calls `chat.postMessage` / `chat.delete`. |
+| `slack-history.mjs` | Records deletable Slack message references locally. |
+| `delete-last.mjs` | Deletes the latest recorded test or production send. |
 
 ## Dry run
 
@@ -58,8 +66,9 @@ The JSON output includes Global/Japan SHAs, counts, items, candidate evidence, a
 
 ## Slack output
 
-- Compact aggregate and SHA context.
-- `Untracked` before `Ignored`.
+- Operations mode uses `Global Content Review`, a compact count summary, and one default-collapsed card shape for synced and unresolved content.
+- Every synced card links to both the Global and Japan pages. Unresolved cards link to Global and state that a Japan match is unavailable. Slack link/media unfurls are disabled so cards do not generate duplicate previews.
+- `Ignored` content uses the same default-collapsed card and links to its Global page; plain report mode still groups `Untracked` before `Ignored`.
 - Deterministic family/date/identity order.
 - Plain title, Composite identity, production-evidenced original link, and SHA-pinned Global source link.
 - Up to three escaped candidate paths per item.

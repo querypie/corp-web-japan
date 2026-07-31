@@ -64,7 +64,9 @@ Additional notes:
 
 ## Global content diff operations
 
-The standalone Global content diff system sends a full-snapshot, Global-only Slack report from GitHub Actions on weekdays at 10:00 JST. It is read-only: no server, automatic translation, MDX/assets generation, mutation workflow, Slack button, n8n, or auto-merge. `Untracked` items are expanded; `Ignored` items are collapsed. `Possible Japan match` evidence is diagnostic only: baseline authority, status, and counts remain unchanged, and zero candidates are not proof that Japan content is absent.
+Global content reconciliation runs locally on demand through the repo-local `global-content-operations` skill. There is no scheduled Global report GitHub Action. The skill compares the latest Global/Japan `main` snapshots, performs AI baseline review, applies only user-approved Ignore decisions, validates tracking manifests, previews the final Slack Block Kit, and sends only after explicit test/production approval.
+
+Run `npm run global-content:init` once to load the Slack bot token and test/production channel IDs from 1Password into the main checkout’s gitignored `.env.local`. All worktrees reuse that file; later sends do not request 1Password again. Messages use Slack Web API and can be deleted with `npm run global-content:delete-last -- test|prod`.
 
 Use repo-local skills for normal human-reviewed PR creation:
 

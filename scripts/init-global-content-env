@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT="$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+command -v op >/dev/null 2>&1 || {
+  echo "1Password CLI (op) is required." >&2
+  exit 1
+}
+
+umask 077
+COMMON_GIT_DIR="$(git rev-parse --path-format=absolute --git-common-dir)"
+ENV_FILE="$(dirname "$COMMON_GIT_DIR")/.env.local"
+TMP_FILE="$(mktemp)"
+trap 'rm -f "$TMP_FILE"' EXIT
+
+if [[ -f "$ENV_FILE" ]]; then
+  grep -Ev '^GLOBAL_CONTENT_DIFF_(SLACK_BOT_TOKEN|(TEST|PROD)_SLACK_(CHANNEL_ID|WEBHOOK_URL))=' "$ENV_FILE" > "$TMP_FILE" || true
+fi
+
+bot_token="$(op read 'op://Shared/corp-web-japan-global-content-slack/bot-token')"
+test_channel_id="$(op read 'op://Shared/corp-web-japan-global-content-slack/test-channel-id')"
+prod_channel_id="$(op read 'op://Shared/corp-web-japan-global-content-slack/prod-channel-id')"
+
+[[ "$bot_token" == xoxb-* ]] || {
+  echo "1Password contains an invalid Slack Bot User OAuth Token." >&2
+  exit 1
+}
+for channel_id in "$test_channel_id" "$prod_channel_id"; do
+  [[ "$channel_id" =~ ^[A-Z][A-Z0-9]{8,}$ ]] || {
+    echo "1Password contains an invalid Slack channel ID." >&2
+    exit 1
+  }
+done
+
+cat >> "$TMP_FILE" <<EOF
+GLOBAL_CONTENT_DIFF_SLACK_BOT_TOKEN=$bot_token
+GLOBAL_CONTENT_DIFF_TEST_SLACK_CHANNEL_ID=$test_channel_id
+GLOBAL_CONTENT_DIFF_PROD_SLACK_CHANNEL_ID=$prod_channel_id
+EOF
+
+mv "$TMP_FILE" "$ENV_FILE"
+chmod 600 "$ENV_FILE"
+trap - EXIT
+
+echo ".env.local updated with Global content Slack API credentials."

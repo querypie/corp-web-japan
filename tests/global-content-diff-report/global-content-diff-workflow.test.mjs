@@ -7,7 +7,6 @@ import test from "node:test";
 import { runCli } from "../../scripts/global-content-diff-report/cli.mjs";
 import { SOURCE_FAMILIES } from "../../scripts/global-content-diff-report/source-family-map.mjs";
 
-const workflowPath = path.resolve(".github/workflows/global-content-diff-report.yml");
 const cliPath = path.resolve("scripts/global-content-diff-report/cli.mjs");
 const ciWorkflowPath = path.resolve(".github/workflows/ci.yml");
 const contractPath = path.resolve("openspec/specs/contract-global-content-diff-report/spec.md");
@@ -86,32 +85,6 @@ function workflowStepBlock(source, stepName) {
   const nextIndex = source.indexOf("\n      - name:", index + 1);
   return source.slice(index, nextIndex === -1 ? source.length : nextIndex);
 }
-
-test("workflow is independent, read-only, scheduled for weekdays at 10 JST, and manually runnable", async () => {
-  const source = await readFile(workflowPath, "utf8");
-  assert.match(source, /cron: ["']0 1 \* \* 1-5["']/);
-  assert.match(source, /workflow_dispatch:/);
-  assert.match(source, /runs-on: ubuntu-latest/);
-  assert.match(source, /contents: read/);
-  assert.doesNotMatch(source, /pull-requests: read/);
-  assert.match(source, /name: Checkout Japan repository[\s\S]*?with:[\s\S]*?ref: main/);
-  assert.match(source, /name: Checkout Global repository[\s\S]*?repository: querypie\/corp-web-v2[\s\S]*?ref: main[\s\S]*?persist-credentials: false/);
-  assert.match(source, /name: Set up Node\.js[\s\S]*node-version: "22"/);
-  assert.match(source, /name: Install Japan dependencies[\s\S]*working-directory: japan[\s\S]*run: npm ci/);
-  const installIndex = source.indexOf("name: Install Japan dependencies");
-  const reportIndex = source.indexOf("name: Build and send Global-only report");
-  assert.ok(installIndex !== -1 && installIndex < reportIndex, "dependencies must be installed before report execution");
-  assert.match(source, /GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL: \$\{\{ secrets\.GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL \}\}/);
-  assert.match(source, /if: failure\(\)/);
-  assert.match(source, /WEBHOOK_URL: \$\{\{ secrets\.GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL \}\}/);
-  assert.match(source, /Global content diff report failed/);
-  assert.doesNotMatch(source, /secrets\.GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL|CONTENT_SYNC_SLACK_WEBHOOK_URL|ALERT_WEBHOOK_URL/);
-  assert.doesNotMatch(source, /GH_TOKEN/);
-  assert.doesNotMatch(source, /pull_request_target|git push|gh pr create|n8n|<@/);
-
-  const cliSource = await readFile(cliPath, "utf8");
-  assert.doesNotMatch(cliSource, /loadAllPullRequests|loadPullRequests|github-state\.mjs|githubRepo|prRecords/);
-});
 
 test("CLI dry-run emits complete JSON without requiring or calling Slack", async () => {
   await withTempRepos(async ({ globalRepo, targetRepo }) => {
@@ -209,21 +182,19 @@ test("CLI rejects empty or unrelated HTTP 200 production evidence", async () => 
   }
 });
 
-test("delivery contract acknowledges visible partial multipart delivery", async () => {
+test("delivery contract requires local-only execution and explicit destination approval", async () => {
   const source = await readFile(contractPath, "utf8");
-  assert.match(source, /already delivered parts remain visible/);
-  assert.match(source, /`GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL`/);
-  assert.match(source, /`GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL`/);
-  assert.match(source, /unsuccessful[\s\S]*test webhook/i);
-  assert.match(source, /compact failure notification/);
-  assert.doesNotMatch(source, /send only a compact failure notification/);
-  assert.doesNotMatch(source, /roll(?:ed)? back/);
+  assert.match(source, /Local-only execution and explicit delivery/);
+  assert.match(source, /No scheduled or manually dispatched Global report GitHub Actions workflow SHALL exist/);
+  assert.match(source, /documented 1Password item/);
+  assert.match(source, /explicitly chooses test or production delivery/);
+  assert.match(source, /already delivered multipart sections remain visible/);
+  assert.doesNotMatch(source, /cron|workflow_dispatch|GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL/);
 });
 
-test("CI cross_cutting scope includes independent workflow and CLI paths", async () => {
+test("CI cross_cutting scope includes local Global diff CLI paths", async () => {
   const source = await readFile(ciWorkflowPath, "utf8");
   assert.match(source, /cross_cutting:[\s\S]*- '\.github\/content-sync\/\*\*'/);
-  assert.match(source, /cross_cutting:[\s\S]*- '\.github\/workflows\/global-content-diff-report\.yml'/);
   assert.match(source, /cross_cutting:[\s\S]*- 'scripts\/global-content-diff-report\/\*\*'/);
   assert.match(source, /cross_cutting:[\s\S]*- 'tests\/global-content-diff-report\/\*\*'/);
 });
