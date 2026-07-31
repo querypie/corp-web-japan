@@ -777,10 +777,10 @@ test("renders an AI-reviewed operations summary before final report items", () =
   const rendered = JSON.stringify(payload);
 
   assert.equal(payload.blocks[0].text.text, "🌐 Global Content Review");
-  assert.equal(payload.blocks[1].text.text, "Synced 1 · Review needed 0 · Ignored 1");
+  assert.equal(payload.blocks[1].text.text, "Today · Synced 1\nCurrent · Review needed 0 · Ignored 1");
   const containers = payload.blocks.filter((block) => block.type === "container");
   assert.equal(containers.length, 2);
-  assert.deepEqual(containers.map(({ title }) => title.text), ["Synced · 1 item", "Ignored · 1 item"]);
+  assert.deepEqual(containers.map(({ title }) => title.text), ["Synced today · 1 item", "Ignored · 1 item"]);
   assert.equal(containers.every(({ default_collapsed }) => default_collapsed), true);
   assert.match(rendered, /\*ISO\/IEC 42001 — Building an AI Inventory\*/);
   assert.match(rendered, /_Blog · 2026-07-31_ · `documentation:cnt_000216`/);
@@ -812,7 +812,7 @@ test("renders unresolved content with the same collapsed review card shape", () 
   const rendered = JSON.stringify(payload);
   const containers = payload.blocks.filter((block) => block.type === "container");
 
-  assert.equal(payload.blocks[1].text.text, "Synced 0 · Review needed 1 · Ignored 0");
+  assert.equal(payload.blocks[1].text.text, "Today · Synced 0\nCurrent · Review needed 1 · Ignored 0");
   assert.equal(containers.length, 1);
   assert.equal(containers[0].title.text, "Review needed · 1 item");
   assert.equal(containers[0].default_collapsed, true);

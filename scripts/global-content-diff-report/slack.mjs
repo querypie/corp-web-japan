@@ -207,7 +207,7 @@ function operationsSummaryBlock(report) {
   const ignored = report.items.filter(({ status }) => status === "Ignored").length;
   return {
     type: "section",
-    text: { type: "mrkdwn", text: `Synced ${synced} · Review needed ${reviewNeeded} · Ignored ${ignored}` },
+    text: { type: "mrkdwn", text: `Today · Synced ${synced}\nCurrent · Review needed ${reviewNeeded} · Ignored ${ignored}` },
   };
 }
 
@@ -239,7 +239,7 @@ function operationsContainers(report) {
       result: "Intentionally excluded from Japan sync",
     }));
   return [
-    syncedItems.length ? reviewContainer("Synced", syncedItems) : null,
+    syncedItems.length ? reviewContainer("Synced today", syncedItems) : null,
     reviewItems.length ? reviewContainer("Review needed", reviewItems) : null,
     ignoredItems.length ? reviewContainer("Ignored", ignoredItems) : null,
   ].filter(Boolean);
