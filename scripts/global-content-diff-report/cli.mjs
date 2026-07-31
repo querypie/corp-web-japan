@@ -1,7 +1,9 @@
 import { spawnSync } from "node:child_process";
+import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { assertSupportedSourceRoots, buildGlobalOnlyReport } from "./report.mjs";
+import { recordSlackSend } from "./slack-history.mjs";
 import { buildSlackPayloads, sendSlackPayloads } from "./slack.mjs";
 import { fetchTextWithRetry } from "./fetch-retry.mjs";
 import { loadProductionInputs, validateProductionInputs } from "./production-inputs.mjs";
@@ -85,20 +87,29 @@ export async function runCli(argv = process.argv.slice(2), {
     return output;
   }
 
-  if (!env.GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL) {
-    throw new Error("GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL is required unless --dry-run is set");
+  const destination = env.GLOBAL_CONTENT_DIFF_SLACK_DESTINATION;
+  if (!new Set(["test", "prod"]).has(destination)) {
+    throw new Error("GLOBAL_CONTENT_DIFF_SLACK_DESTINATION must be test or prod");
   }
-
-  await sendSlack({
-    webhookUrl: env.GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL,
+  const channelId = destination === "test"
+    ? env.GLOBAL_CONTENT_DIFF_TEST_SLACK_CHANNEL_ID
+    : env.GLOBAL_CONTENT_DIFF_PROD_SLACK_CHANNEL_ID;
+  const messages = await sendSlack({
+    botToken: env.GLOBAL_CONTENT_DIFF_SLACK_BOT_TOKEN,
+    channelId,
     payloads,
   });
+  const commonGitDir = execute("git", ["rev-parse", "--path-format=absolute", "--git-common-dir"], options.targetRepo).trim();
+  const historyFile = path.join(path.dirname(commonGitDir), ".tmp/global-content-slack-history.json");
+  await recordSlackSend(historyFile, { destination, messages, sentAt: now });
 
   const output = {
     mode: "send",
+    destination,
     metadata,
     report,
     payloadsSent: payloads.length,
+    messages,
   };
   stdout.write(`${JSON.stringify(output)}\n`);
   return output;

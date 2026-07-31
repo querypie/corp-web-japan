@@ -31,12 +31,16 @@ Both skills use a fresh dry-run and never auto-merge. Ignore creation stops for 
 
 ## Local delivery
 
-Run `npm run global-content:init` once. It reads the test and production webhooks from 1Password and writes them to the main checkout’s gitignored `.env.local`, shared by all worktrees. Later sends source that file without another 1Password request.
+Run `npm run global-content:init` once. It reads the bot token and test/production channel IDs from the `corp-web-japan-global-content-slack` 1Password item and writes them to the main checkout’s gitignored `.env.local`, shared by all worktrees. Later sends source that file without another 1Password request.
 
-- test env: `GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL`
-- production env: `GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL`
+Messages use `chat.postMessage`. Returned `channel`/`ts` references are stored in `.tmp/global-content-slack-history.json`. Delete the latest recorded message with:
 
-The selected value is passed to the CLI through `GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL`. Values are never printed or committed.
+```bash
+npm run global-content:delete-last -- test
+npm run global-content:delete-last -- prod
+```
+
+Credentials are never printed or committed.
 
 ## Entry points
 
@@ -45,7 +49,9 @@ The selected value is passed to the CLI through `GLOBAL_CONTENT_DIFF_SLACK_WEBHO
 | `cli.mjs` | Loads production evidence, computes the report, and optionally sends Slack payloads. |
 | `report.mjs` | Builds Global inventory, verified Japan-present inventory, and the diff. |
 | `candidate-matches.mjs` | Builds exact deterministic Japan MDX diagnostic evidence. |
-| `slack.mjs` | Builds deterministic Slack Block Kit payloads and delivers them. |
+| `slack.mjs` | Builds Block Kit payloads and calls `chat.postMessage` / `chat.delete`. |
+| `slack-history.mjs` | Records deletable Slack message references locally. |
+| `delete-last.mjs` | Deletes the latest recorded test or production send. |
 
 ## Dry run
 

@@ -27,10 +27,12 @@ Run as a local-only operation on demand. No scheduled or manually dispatched Git
 9. Validate and update all tracking manifests before generating the final report. Run focused tests, `npm run test:ci`, `git diff --check`, and a new dry-run against the changed worktree.
 10. Attach `report.operationsSummary` before building the local Slack preview. Each changed item must include `identity`, `title`, `targetFamily`, `dateIso`, `globalUrl`, `japanUrl` when matched, `target`, `verdict`, and `action`. Use the title `Global Content Review`. Label reconciliation changes as `Today · Synced N` / `Synced today`; label `Review needed` and `Ignored` as current-state counts so time scopes never mix. Render synced, unresolved, and Ignored items through the same default-collapsed content-card structure with explicit site links where available. Show the user this Block Kit preview, the full review table, unresolved items, and final counts.
 11. Commit, push, and open normal human-reviewed PRs. **MUST NOT auto-merge.** After merge, fetch latest `main` and rerun the report.
-12. Do not send any webhook before explicit send approval. Reuse the main checkout’s gitignored `.env.local` from every worktree. If either webhook variable is missing, run `npm run global-content:init` once; this reads 1Password and stores both values locally, following the same setup pattern as `~/w/deck`. Never print or commit the values. At send time, source `.env.local` and select:
-    - test: `GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL`
-    - production: `GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL`
-    `테스트로 보내` uses test; `프로덕션으로 보내` uses production. An unqualified `보내` requires destination confirmation. Stop if the selected value is not a Slack Incoming Webhook URL.
+12. Do not send before explicit approval. Reuse the main checkout’s gitignored `.env.local` from every worktree. If Slack API credentials are missing, run `npm run global-content:init` once; this reads `corp-web-japan-global-content-slack` from 1Password and stores the bot token plus test/production channel IDs locally, following the same setup pattern as `~/w/deck`. Never print or commit the values. Send with `chat.postMessage`, not Incoming Webhooks, and record returned `channel`/`ts` in `.tmp/global-content-slack-history.json`.
+    - `테스트로 보내` sets destination `test` and uses `GLOBAL_CONTENT_DIFF_TEST_SLACK_CHANNEL_ID`.
+    - `프로덕션으로 보내` sets destination `prod` and uses `GLOBAL_CONTENT_DIFF_PROD_SLACK_CHANNEL_ID`.
+    - An unqualified `보내` requires destination confirmation.
+    - `방금 테스트 메시지 삭제` runs `npm run global-content:delete-last -- test`; production uses `prod`. Deletion uses `chat.delete` and only targets messages recorded by this operation.
+    Stop if the bot token, channel ID, or Slack API response is invalid.
 
 ## Review table
 

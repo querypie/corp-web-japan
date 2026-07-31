@@ -350,21 +350,55 @@ export function buildSlackPayloads(report, metadata) {
   }));
 }
 
-export async function sendSlackPayloads({ webhookUrl, payloads, fetchImpl = fetch }) {
-  if (!webhookUrl?.startsWith("https://hooks.slack.com/services/")) {
-    throw new Error("GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL must be a Slack Incoming Webhook URL");
+function validateSlackApiCredentials(botToken, channelId) {
+  if (!botToken?.startsWith("xoxb-")) {
+    throw new Error("Slack bot token must be a Bot User OAuth Token");
   }
+  if (!/^[A-Z][A-Z0-9]{8,}$/.test(channelId || "")) {
+    throw new Error("Slack channel ID is invalid");
+  }
+}
 
+async function callSlackApi(method, { botToken, body, fetchImpl }) {
+  const response = await fetchImpl(`https://slack.com/api/${method}`, {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${botToken}`,
+      "content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(body),
+    signal: AbortSignal.timeout(15_000),
+  });
+  const result = await response.json();
+  if (!response.ok || !result.ok) {
+    throw new Error(`Slack rejected Global content message: ${result.error || `HTTP ${response.status}`}`);
+  }
+  return result;
+}
+
+export async function sendSlackPayloads({ botToken, channelId, payloads, fetchImpl = fetch }) {
+  validateSlackApiCredentials(botToken, channelId);
+  const messages = [];
   for (const payload of payloads) {
-    const response = await fetchImpl(webhookUrl, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(15_000),
+    const result = await callSlackApi("chat.postMessage", {
+      botToken,
+      body: { channel: channelId, ...payload },
+      fetchImpl,
     });
-    const body = await response.text();
-    if (!response.ok || body !== "ok") {
-      throw new Error(`Slack rejected Global content diff payload: HTTP ${response.status}`);
-    }
+    messages.push({ channel: result.channel, ts: result.ts });
+  }
+  return messages;
+}
+
+export async function deleteSlackMessages({ botToken, messages, fetchImpl = fetch }) {
+  if (!Array.isArray(messages) || messages.length === 0) throw new Error("Slack messages are required");
+  for (const message of [...messages].reverse()) {
+    validateSlackApiCredentials(botToken, message.channel);
+    if (!/^\d+\.\d+$/.test(message.ts || "")) throw new Error("Slack message timestamp is invalid");
+    await callSlackApi("chat.delete", {
+      botToken,
+      body: { channel: message.channel, ts: message.ts },
+      fetchImpl,
+    });
   }
 }

@@ -16,26 +16,32 @@ TMP_FILE="$(mktemp)"
 trap 'rm -f "$TMP_FILE"' EXIT
 
 if [[ -f "$ENV_FILE" ]]; then
-  grep -Ev '^GLOBAL_CONTENT_DIFF_(TEST|PROD)_SLACK_WEBHOOK_URL=' "$ENV_FILE" > "$TMP_FILE" || true
+  grep -Ev '^GLOBAL_CONTENT_DIFF_(SLACK_BOT_TOKEN|(TEST|PROD)_SLACK_(CHANNEL_ID|WEBHOOK_URL))=' "$ENV_FILE" > "$TMP_FILE" || true
 fi
 
-test_webhook="$(op read 'op://Shared/corp-web-japan-global-content-webhooks/test')"
-prod_webhook="$(op read 'op://Shared/corp-web-japan-global-content-webhooks/prod')"
+bot_token="$(op read 'op://Shared/corp-web-japan-global-content-slack/bot-token')"
+test_channel_id="$(op read 'op://Shared/corp-web-japan-global-content-slack/test-channel-id')"
+prod_channel_id="$(op read 'op://Shared/corp-web-japan-global-content-slack/prod-channel-id')"
 
-for webhook in "$test_webhook" "$prod_webhook"; do
-  [[ "$webhook" == https://hooks.slack.com/services/* ]] || {
-    echo "1Password contains an invalid Slack Incoming Webhook URL." >&2
+[[ "$bot_token" == xoxb-* ]] || {
+  echo "1Password contains an invalid Slack Bot User OAuth Token." >&2
+  exit 1
+}
+for channel_id in "$test_channel_id" "$prod_channel_id"; do
+  [[ "$channel_id" =~ ^[A-Z][A-Z0-9]{8,}$ ]] || {
+    echo "1Password contains an invalid Slack channel ID." >&2
     exit 1
   }
 done
 
 cat >> "$TMP_FILE" <<EOF
-GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL=$test_webhook
-GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL=$prod_webhook
+GLOBAL_CONTENT_DIFF_SLACK_BOT_TOKEN=$bot_token
+GLOBAL_CONTENT_DIFF_TEST_SLACK_CHANNEL_ID=$test_channel_id
+GLOBAL_CONTENT_DIFF_PROD_SLACK_CHANNEL_ID=$prod_channel_id
 EOF
 
 mv "$TMP_FILE" "$ENV_FILE"
 chmod 600 "$ENV_FILE"
 trap - EXIT
 
-echo ".env.local updated with Global content webhooks."
+echo ".env.local updated with Global content Slack API credentials."

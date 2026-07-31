@@ -66,7 +66,7 @@ Additional notes:
 
 Global content reconciliation runs locally on demand through the repo-local `global-content-operations` skill. There is no scheduled Global report GitHub Action. The skill compares the latest Global/Japan `main` snapshots, performs AI baseline review, applies only user-approved Ignore decisions, validates tracking manifests, previews the final Slack Block Kit, and sends only after explicit test/production approval.
 
-Run `npm run global-content:init` once to load both Slack webhooks from 1Password into the main checkout’s gitignored `.env.local`. All worktrees reuse that file; later sends do not request 1Password again.
+Run `npm run global-content:init` once to load the Slack bot token and test/production channel IDs from 1Password into the main checkout’s gitignored `.env.local`. All worktrees reuse that file; later sends do not request 1Password again. Messages use Slack Web API and can be deleted with `npm run global-content:delete-last -- test|prod`.
 
 Use repo-local skills for normal human-reviewed PR creation:
 

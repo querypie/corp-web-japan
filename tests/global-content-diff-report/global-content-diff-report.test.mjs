@@ -5,7 +5,7 @@ import path from "node:path";
 import test from "node:test";
 
 import { buildDispositionMap, buildGlobalInventory, buildGlobalOnlyReport, buildJapanInventory } from "../../scripts/global-content-diff-report/report.mjs";
-import { buildSlackPayloads, sendSlackPayloads } from "../../scripts/global-content-diff-report/slack.mjs";
+import { buildSlackPayloads, deleteSlackMessages, sendSlackPayloads } from "../../scripts/global-content-diff-report/slack.mjs";
 import { SOURCE_FAMILIES } from "../../scripts/global-content-diff-report/source-family-map.mjs";
 
 const supportedTargetFamilies = [...new Set(SOURCE_FAMILIES.map(({ targetFamily }) => targetFamily))];
@@ -903,26 +903,50 @@ test("groups by status first, then target family order, then newest date", () =>
   assert.doesNotMatch(JSON.stringify(payload), /Draft open|Draft closed|Mapping drift/);
 });
 
-test("rejects non-Slack webhook URLs", async () => {
-  await assert.rejects(
-    () => sendSlackPayloads({
-      webhookUrl: "https://example.com/services/T000/B000/XXXX",
-      payloads: [{ text: "fixture", blocks: [] }],
-      fetchImpl: async () => {
-        throw new Error("should not fetch");
-      },
-    }),
-    /GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL must be a Slack Incoming Webhook URL/,
-  );
+test("posts through Slack Web API and returns deletable message references", async () => {
+  const requests = [];
+  const messages = await sendSlackPayloads({
+    botToken: "xoxb-test-token",
+    channelId: "C0123456789",
+    payloads: [{ text: "fixture", blocks: [] }],
+    fetchImpl: async (url, request) => {
+      requests.push({ url, request });
+      return { ok: true, status: 200, json: async () => ({ ok: true, channel: "C0123456789", ts: "1720000000.000100" }) };
+    },
+  });
+
+  assert.deepEqual(messages, [{ channel: "C0123456789", ts: "1720000000.000100" }]);
+  assert.equal(requests[0].url, "https://slack.com/api/chat.postMessage");
+  assert.equal(requests[0].request.headers.authorization, "Bearer xoxb-test-token");
+  assert.deepEqual(JSON.parse(requests[0].request.body), { channel: "C0123456789", text: "fixture", blocks: [] });
 });
 
-test("propagates webhook failures", async () => {
+test("deletes messages through Slack Web API", async () => {
+  const bodies = [];
+  await deleteSlackMessages({
+    botToken: "xoxb-test-token",
+    messages: [{ channel: "C0123456789", ts: "1720000000.000100" }],
+    fetchImpl: async (url, request) => {
+      assert.equal(url, "https://slack.com/api/chat.delete");
+      bodies.push(JSON.parse(request.body));
+      return { ok: true, status: 200, json: async () => ({ ok: true }) };
+    },
+  });
+  assert.deepEqual(bodies, [{ channel: "C0123456789", ts: "1720000000.000100" }]);
+});
+
+test("rejects invalid Slack Web API credentials and failures", async () => {
+  await assert.rejects(
+    () => sendSlackPayloads({ botToken: "not-a-token", channelId: "invalid", payloads: [] }),
+    /Slack bot token must be a Bot User OAuth Token/,
+  );
   await assert.rejects(
     () => sendSlackPayloads({
-      webhookUrl: "https://hooks.slack.com/services/T000/B000/XXXX",
+      botToken: "xoxb-test-token",
+      channelId: "C0123456789",
       payloads: [{ text: "fixture", blocks: [] }],
-      fetchImpl: async () => ({ ok: false, status: 500, text: async () => "nope" }),
+      fetchImpl: async () => ({ ok: true, status: 200, json: async () => ({ ok: false, error: "not_in_channel" }) }),
     }),
-    /Slack rejected Global content diff payload: HTTP 500/,
+    /Slack rejected Global content message: not_in_channel/,
   );
 });

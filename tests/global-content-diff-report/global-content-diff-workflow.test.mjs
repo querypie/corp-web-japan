@@ -186,7 +186,7 @@ test("delivery contract requires local-only execution and explicit destination a
   const source = await readFile(contractPath, "utf8");
   assert.match(source, /Local-only execution and explicit delivery/);
   assert.match(source, /No scheduled or manually dispatched Global report GitHub Actions workflow SHALL exist/);
-  assert.match(source, /1Password references/);
+  assert.match(source, /documented 1Password item/);
   assert.match(source, /explicitly chooses test or production delivery/);
   assert.match(source, /already delivered multipart sections remain visible/);
   assert.doesNotMatch(source, /cron|workflow_dispatch|GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL/);
