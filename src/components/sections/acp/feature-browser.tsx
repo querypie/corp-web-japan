@@ -1,5 +1,4 @@
 import { Children, isValidElement, type ReactElement, type ReactNode } from "react";
-import { AcpFeatureBrowserClient, type AcpFeatureBrowserCategory } from "./feature-browser-client";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type AcpFeatureCategoryProps = {
@@ -73,6 +72,16 @@ function toBodyLines(node: ReactNode): string[] {
     .filter(Boolean);
 }
 
+type AcpFeatureBrowserCategory = {
+  label: string;
+  item: {
+    mediaSrc: string;
+    mediaAlt: string;
+    title: string;
+    bodyLines: string[];
+  };
+};
+
 function parseCategories(children: ReactNode): AcpFeatureBrowserCategory[] {
   return Children.toArray(children)
     .filter(isAcpFeatureCategoryElement)
@@ -80,28 +89,65 @@ function parseCategories(children: ReactNode): AcpFeatureBrowserCategory[] {
       const categoryChildren = Children.toArray(category.props.children);
       const labelNode = categoryChildren.find(isAcpFeatureCategoryLabelElement)?.props.children ?? null;
       const label = toPlainText(labelNode).replace(/\s+/g, " ").trim();
-      const items = categoryChildren.filter(isAcpFeatureItemElement).map((item) => {
-        const itemChildren = Children.toArray(item.props.children);
-        const titleNode = itemChildren.find(isAcpFeatureItemTitleElement)?.props.children ?? null;
-        const bodyNode = itemChildren.find(isAcpFeatureItemBodyElement)?.props.children ?? null;
+      const item = categoryChildren.find(isAcpFeatureItemElement);
+      const itemChildren = item ? Children.toArray(item.props.children) : [];
+      const titleNode = itemChildren.find(isAcpFeatureItemTitleElement)?.props.children ?? null;
+      const bodyNode = itemChildren.find(isAcpFeatureItemBodyElement)?.props.children ?? null;
 
-        return {
-          mediaSrc: item.props.mediaSrc,
-          mediaAlt: item.props.mediaAlt,
-          title: toPlainText(titleNode).replace(/\s+/g, " ").trim(),
-          bodyLines: toBodyLines(bodyNode),
-        };
-      });
-
-      return { label, items };
+      return item
+        ? {
+            label,
+            item: {
+              mediaSrc: item.props.mediaSrc,
+              mediaAlt: item.props.mediaAlt,
+              title: toPlainText(titleNode).replace(/\s+/g, " ").trim(),
+              bodyLines: toBodyLines(bodyNode),
+            },
+          }
+        : null;
     })
-    .filter((category) => category.label && category.items.length > 0);
+    .filter((category): category is AcpFeatureBrowserCategory => Boolean(category?.label && category.item.title));
 }
 
 export function AcpFeatureBrowser({ children }: { children: ReactNode }) {
   const categories = parseCategories(children);
 
-  return <AcpFeatureBrowserClient {...componentNameDebugProps("AcpFeatureBrowser")} categories={categories} />;
+  return (
+    <div {...componentNameDebugProps("AcpFeatureBrowser")} className="flex w-full flex-col gap-[96px] md:gap-[140px]">
+      {categories.map((category, index) => {
+        const mediaFirstOnDesktop = index % 2 === 1;
+
+        return (
+          <article key={category.label} className="grid w-full items-center gap-8 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:gap-[60px]">
+            <div className={mediaFirstOnDesktop ? "md:order-2" : undefined}>
+              <p className="text-[15px] font-semibold leading-6 text-[#0969DA]">{category.label}</p>
+              <h3 className="mt-3 text-[32px] font-medium leading-[1.3] tracking-[-0.04em] text-[#24292F] sm:text-[40px]">{category.item.title}</h3>
+              <p className="mt-5 text-[16px] font-light leading-[26px] tracking-[0.2px] text-[#57606A]">
+                {category.item.bodyLines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </p>
+            </div>
+
+            <div className={`overflow-hidden rounded-[20px] bg-[#F6F8FA] ${mediaFirstOnDesktop ? "md:order-1" : undefined}`}>
+              <video
+                aria-label={category.item.mediaAlt}
+                className="block h-auto w-full"
+                loop
+                muted
+                playsInline
+                autoPlay
+                preload="metadata"
+                src={category.item.mediaSrc}
+              />
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  );
 }
 
 export function AcpFeatureCategory(props: AcpFeatureCategoryProps) {

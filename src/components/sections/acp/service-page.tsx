@@ -172,7 +172,7 @@ export function AcpFeatureSection({ children }: { children: ReactNode }) {
 }
 
 export function AcpFeatureInner({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpFeatureInner")} className="flex w-full max-w-[1200px] flex-col gap-[24px]">{children}</div>;
+  return <div {...componentNameDebugProps("AcpFeatureInner")} className="flex w-full max-w-[1200px] flex-col gap-[80px]">{children}</div>;
 }
 
 export function AcpFeatureIntro({ children }: { children: ReactNode }) {
@@ -180,7 +180,7 @@ export function AcpFeatureIntro({ children }: { children: ReactNode }) {
 }
 
 export function AcpSectionTitle({ children }: { children: ReactNode }) {
-  return <h2 {...componentNameDebugProps("AcpSectionTitle")} className="text-[52px] font-normal leading-[62px] tracking-normal text-[#24292F]">{children}</h2>;
+  return <h2 {...componentNameDebugProps("AcpSectionTitle")} className="text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h2>;
 }
 
 export function AcpSectionBody({ children }: { children: ReactNode }) {
@@ -236,11 +236,11 @@ export function AcpAiPackBody({ children }: { children: ReactNode }) {
 }
 
 export function AcpAiPackContent({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpAiPackContent")} className="grid items-start gap-8 lg:grid-cols-[1fr_minmax(0,0.95fr)] lg:gap-[60px]">{children}</div>;
+  return <div {...componentNameDebugProps("AcpAiPackContent")} className="flex flex-col-reverse gap-8 lg:flex-row-reverse lg:items-start lg:gap-[60px]">{children}</div>;
 }
 
 export function AcpAiPackCardGrid({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpAiPackCardGrid")} className="grid gap-3">{children}</div>;
+  return <div {...componentNameDebugProps("AcpAiPackCardGrid")} className="grid w-full min-w-0 flex-1 gap-3">{children}</div>;
 }
 
 export function AcpAiPackCard({ children }: { children: ReactNode }) {
@@ -257,7 +257,7 @@ export function AcpAiPackCardBody({ children }: { children: ReactNode }) {
 
 export function AcpAiPackVideo() {
   return (
-    <div {...componentNameDebugProps("AcpAiPackVideo")} className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-black">
+    <div {...componentNameDebugProps("AcpAiPackVideo")} className="w-full shrink-0 overflow-hidden rounded-[1.5rem] border border-white/10 bg-black lg:w-[790px] lg:max-w-[65%]">
       <video
         aria-label="ACP AI Packの画面デモ"
         className="block h-auto w-full"
