@@ -174,10 +174,10 @@ A one-time local initializer SHALL read the Slack bot token and test/production 
 - **GIVEN** the operator invokes `global-content-operations`
 - **WHEN** reconciliation completes
 - **THEN** the skill SHALL show the AI review, tracking changes, final counts, and exact Block Kit preview
-- **AND** the preview SHALL use `Global Content Review` and one default-collapsed card builder for Pending, Reconciled, Review needed, and Ignored items
-- **AND** every card SHALL contain the same title, family/date/identity, verdict, state, and site-link fields
-- **AND** Pending SHALL mean AI-equivalent but not merged, while Reconciled SHALL require latest-main baseline validation
-- **AND** final payload construction SHALL reject Pending items so Slack receives no unmerged reconciliation
+- **AND** the preview SHALL use `Global Content Review` and one default-collapsed card builder for Match pending, Matched today, Needs review, and Ignored items
+- **AND** every card SHALL contain the same title, family/date/identity, result, status, and site-link fields
+- **AND** Match pending SHALL mean AI-equivalent but not merged, while Matched SHALL require latest-main baseline validation
+- **AND** final payload construction SHALL reject pending items so Slack receives no unmerged match
 - **AND** it SHALL wait for explicit destination approval before delivery
 
 ### Requirement: Zero state and fail-closed behavior
