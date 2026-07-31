@@ -1,13 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState, type ComponentPropsWithoutRef } from "react";
 
 export type AcpFeatureBrowserItem = {
   mediaSrc: string;
   mediaAlt: string;
-  learnMoreHref: string;
   title: string;
   bodyLines: string[];
 };
@@ -19,25 +17,21 @@ export type AcpFeatureBrowserCategory = {
 
 export function AcpFeatureBrowserClient({ categories, ...props }: { categories: AcpFeatureBrowserCategory[] } & Omit<ComponentPropsWithoutRef<"div">, "children">) {
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
-  const [activeItemIndex, setActiveItemIndex] = useState(0);
 
   const activeCategory = categories[activeCategoryIndex] ?? categories[0];
-  const activeItem = activeCategory?.items[activeItemIndex] ?? activeCategory?.items[0];
+  const activeItem = activeCategory?.items[0];
   const activeMediaIsVideo = activeItem?.mediaSrc.includes(".mp4") ?? false;
 
   function selectCategory(index: number) {
     setActiveCategoryIndex(index);
-    setActiveItemIndex(0);
   }
 
   function goPrev() {
-    const count = activeCategory?.items.length ?? 1;
-    setActiveItemIndex((index) => (index - 1 + count) % count);
+    setActiveCategoryIndex((index) => (index - 1 + categories.length) % categories.length);
   }
 
   function goNext() {
-    const count = activeCategory?.items.length ?? 1;
-    setActiveItemIndex((index) => (index + 1) % count);
+    setActiveCategoryIndex((index) => (index + 1) % categories.length);
   }
 
   if (!activeCategory || !activeItem) {
@@ -103,30 +97,22 @@ export function AcpFeatureBrowserClient({ categories, ...props }: { categories: 
                 </span>
               ))}
             </p>
-            <Link
-              href={activeItem.learnMoreHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex text-[15px] font-normal leading-[16px] text-[#24292F] underline-offset-4 hover:underline"
-            >
-              詳細を見る
-            </Link>
           </div>
         </article>
 
         <div className="absolute bottom-[40px] flex h-[28px] justify-center gap-[4px] max-lg:bottom-[30px]">
-          {activeCategory.items.map((item, index) => (
+          {categories.map((category, index) => (
             <button
-              key={item.title}
+              key={category.label}
               type="button"
-              aria-label={`Show feature ${index + 1}`}
-              onClick={() => setActiveItemIndex(index)}
+              aria-label={`${category.label}を表示`}
+              onClick={() => selectCategory(index)}
               className="flex h-[28px] w-[28px] cursor-pointer items-center justify-center p-[8px]"
             >
               <span
                 className={[
                   "h-[12px] w-[12px] rounded-full bg-[#24292F] transition-opacity",
-                  index === activeItemIndex ? "opacity-100" : "opacity-30",
+                  index === activeCategoryIndex ? "opacity-100" : "opacity-30",
                 ].join(" ")}
               />
             </button>
@@ -137,7 +123,7 @@ export function AcpFeatureBrowserClient({ categories, ...props }: { categories: 
           <button
             type="button"
             onClick={goPrev}
-            aria-label="Previous feature"
+            aria-label="前のアクセス制御を表示"
             className="pointer-events-auto inline-flex h-[60px] w-[60px] cursor-pointer items-center justify-center rounded-full bg-white text-[20px] text-[#24292F] shadow-[0_20px_30px_rgba(0,0,0,0.04)] transition hover:text-[#0969DA]"
           >
             <span aria-hidden="true">←</span>
@@ -145,7 +131,7 @@ export function AcpFeatureBrowserClient({ categories, ...props }: { categories: 
           <button
             type="button"
             onClick={goNext}
-            aria-label="Next feature"
+            aria-label="次のアクセス制御を表示"
             className="pointer-events-auto inline-flex h-[60px] w-[60px] cursor-pointer items-center justify-center rounded-full bg-white text-[20px] text-[#24292F] shadow-[0_20px_30px_rgba(0,0,0,0.04)] transition hover:text-[#0969DA]"
           >
             <span aria-hidden="true">→</span>

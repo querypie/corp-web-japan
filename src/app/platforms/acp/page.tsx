@@ -20,7 +20,6 @@ import {
   AcpAiPackIntro,
   AcpAiPackSection,
   AcpAiPackTitle,
-  AcpAiPackVideo,
   AcpFeatureInner,
   AcpFeatureIntro,
   AcpFeatureSection,
@@ -152,7 +151,6 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-dac.mp4#t=0.001"
                   mediaAlt="データベースアクセス制御のデモ"
-                  learnMoreHref="/platforms/acp/database-access-controller"
                 >
                   <AcpFeatureItemTitle>データを可視化し、必要な範囲だけを許可</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
@@ -168,7 +166,6 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-sac.mp4#t=0.001"
                   mediaAlt="システムアクセス制御のデモ"
-                  learnMoreHref="/platforms/acp/system-access-controller"
                 >
                   <AcpFeatureItemTitle>サーバー操作を、統制と監査のもとに</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
@@ -184,7 +181,6 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-kac.mp4#t=0.001"
                   mediaAlt="Kubernetesアクセス制御のデモ"
-                  learnMoreHref="/platforms/acp/kubernetes-access-controller"
                 >
                   <AcpFeatureItemTitle>マルチクラスタ環境を、一つのポリシーで管理</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
@@ -200,7 +196,6 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-wac.mp4#t=0.001"
                   mediaAlt="Web/SaaSアクセス制御のデモ"
-                  learnMoreHref="/platforms/acp/web-access-controller"
                 >
                   <AcpFeatureItemTitle>WebアプリとSaaSの利用状況を、一元的に把握</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
@@ -216,7 +211,6 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-mac.mp4#t=0.001"
                   mediaAlt="MCPアクセス制御のデモ"
-                  learnMoreHref="/platforms/aip/mcp-gateway"
                 >
                   <AcpFeatureItemTitle>AIエージェントのツール利用を、安全に統制</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
@@ -258,7 +252,6 @@ export default function AcpPage() {
                   <AcpAiPackCardBody>監査レポートの作成や権限変更履歴の整理など、定型的なセキュリティ業務を自動化します。</AcpAiPackCardBody>
                 </AcpAiPackCard>
               </AcpAiPackCardGrid>
-              <AcpAiPackVideo />
             </AcpAiPackContent>
           </RevealOnScroll>
         </AcpAiPackInner>

@@ -32,20 +32,24 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(routeSource, /<AcpAiPackCardTitle>ACP MCP<\/AcpAiPackCardTitle>/);
   assert.match(routeSource, /<AcpAiPackCardTitle>AI Skills<\/AcpAiPackCardTitle>/);
   assert.match(routeSource, /href="\/contact-us\?inquiry=ai-consulting&product=acp"/);
+  assert.doesNotMatch(routeSource, /learnMoreHref=/);
   assert.doesNotMatch(routeSource, /AipFreeTrialCtaSection/);
   assert.doesNotMatch(routeSource, /簡単インストール、簡単使用/);
 
   assert.match(sectionSource, /Home-ACP\.mp4#t=0\.001/);
+  assert.match(sectionSource, /export function AcpHeroVideo/);
   assert.doesNotMatch(sectionSource, /youtube\.com\/embed\/AWnknC76Jpo/);
   assert.match(sectionSource, /export function AcpGovernanceSection/);
   assert.match(sectionSource, /export function AcpAiPackSection/);
-  assert.match(sectionSource, /export function AcpAiPackVideo/);
+  assert.doesNotMatch(sectionSource, /export function AcpAiPackVideo/);
 
   assert.match(browserSource, /mediaSrc: string/);
   assert.match(browserSource, /mediaAlt: string/);
   assert.match(browserClientSource, /activeMediaIsVideo/);
   assert.match(browserClientSource, /<video/);
-  assert.match(browserClientSource, /詳細を見る/);
-  assert.match(browserClientSource, /Previous feature/);
-  assert.match(browserClientSource, /Next feature/);
+  assert.doesNotMatch(browserClientSource, /詳細を見る/);
+  assert.doesNotMatch(browserClientSource, /next\/link/);
+  assert.match(browserClientSource, /categories\.map\(\(category, index\)/);
+  assert.match(browserClientSource, /前のアクセス制御を表示/);
+  assert.match(browserClientSource, /次のアクセス制御を表示/);
 });

@@ -154,20 +154,3 @@ export function AcpAiPackCardTitle({ children }: { children: ReactNode }) {
 export function AcpAiPackCardBody({ children }: { children: ReactNode }) {
   return <p {...componentNameDebugProps("AcpAiPackCardBody")} className="mt-2 text-[14px] leading-6 text-slate-300">{children}</p>;
 }
-
-export function AcpAiPackVideo() {
-  return (
-    <div {...componentNameDebugProps("AcpAiPackVideo")} className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-black">
-      <video
-        aria-label="ACP AI Packの画面デモ"
-        className="block h-auto w-full"
-        loop
-        muted
-        playsInline
-        autoPlay
-        preload="metadata"
-        src="https://www.querypie.com/assets/pages/home/features/Home-ACP.mp4#t=0.001"
-      />
-    </div>
-  );
-}
