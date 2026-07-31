@@ -1060,5 +1060,14 @@
     "targetFamily": "blog",
     "targetId": 33,
     "targetSlug": "what-is-forward-deployed-engineer-fde"
+  },
+  {
+    "sourceSection": "documentation",
+    "sourceId": "cnt_000216",
+    "sourceCategory": "blogs",
+    "sourceSlug": "iso-iec-42001-ai-inventory-control-tower",
+    "targetFamily": "blog",
+    "targetId": 34,
+    "targetSlug": "iso-iec-42001-ai-inventory-control-tower"
   }
 ]

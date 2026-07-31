@@ -16,12 +16,13 @@ Require a full Composite identity. Reject bare `cnt_*` values. If the user only 
 1. Create a clean dated worktree from latest `main`.
 2. Fetch `corp-web-v2` `main`; run the read-only report dry-run against both repositories.
 3. Select exactly one current `Untracked` item by identity. Record Global/Japan SHAs and inspect its original URL plus SHA-pinned Global source.
-4. If `possibleJapanMatches` exists, do **not** create duplicate MDX. Inspect each candidate, choose no winner automatically, and create a baseline-only reconciliation PR only after confirming the exact Japan target with the user or source evidence.
-5. Load `.agents/skills/mdx-publication-operations/SKILL.md`, then the exact family wrapper named by `targetFamily` in `.agents/skills/README.md`.
-6. For a new Japan publication: allocate the next valid numeric ID, create `src/content/<family>/<id>-<slug>.mdx`, create only required route-aligned `public/<family>/<id>/...` assets, and follow the family frontmatter contract.
-7. Add one `baseline.json` record with exact source fields from the selected report item and exact Japan target ID/slug. Keep source-ID then source-section ordering; never add a baseline merely to hide an item.
-8. Run the relevant family tests, `npm run test:ci`, `git diff --check`, and a fresh dry-run. The selected item must become Japan-present.
-9. Commit, push, and open a normal human-reviewed PR. Include identity, source URLs, both SHAs, target path, and validation. **MUST NOT auto-merge.**
+4. If `possibleJapanMatches` exists, do **not** create duplicate MDX. Perform an **AI semantic review** of Global and Japan title, summary, and full body, plus date, slug, source, media, outline, claims, examples, products, and conclusion. Record conflicts and assign `Equivalent`, `Different`, or `Ambiguous`.
+5. When exactly one candidate is a single unambiguous equivalent and has no target-ownership conflict, create the baseline-only reconciliation without asking the user to repeat confirmation. Ask only for `Ambiguous`, multiple plausible targets, or conflicting evidence.
+6. Load `.agents/skills/mdx-publication-operations/SKILL.md`, then the exact family wrapper named by `targetFamily` in `.agents/skills/README.md`.
+7. For a new Japan publication: allocate the next valid numeric ID, create `src/content/<family>/<id>-<slug>.mdx`, create only required route-aligned `public/<family>/<id>/...` assets, and follow the family frontmatter contract.
+8. Add one `baseline.json` record with exact source fields from the selected report item and exact Japan target ID/slug. Remove a conflicting active Ignore row for the same identity. Keep source-ID then source-section ordering; never add a baseline merely to hide an item.
+9. Run the relevant family tests, `npm run test:ci`, `git diff --check`, and a fresh dry-run. The selected item must become Japan-present.
+10. Commit, push, and open a normal human-reviewed PR. Include the semantic review table, identity, source URLs, both SHAs, target path, and validation. **MUST NOT auto-merge.**
 
 ## Stop conditions
 

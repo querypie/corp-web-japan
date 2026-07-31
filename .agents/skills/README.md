@@ -13,6 +13,9 @@ Current skills:
 - `github-wiki-editing`
   - Path: `.agents/skills/github-wiki-editing/SKILL.md`
   - Purpose: edit `querypie/corp-web-japan.wiki` through the separate wiki git repository and keep `_Sidebar.md` navigation aligned with created/updated report pages
+- `global-content-operations`
+  - Path: `.agents/skills/global-content-operations/SKILL.md`
+  - Purpose: locally reconcile latest Global/Japan main content with AI baseline review, update tracking manifests, preview the final report, and send only after explicit approval
 - `global-to-japan-publication`
   - Path: `.agents/skills/global-to-japan-publication/SKILL.md`
   - Purpose: create one normal human-reviewed Japan content and baseline-mapping PR from a selected Global Composite identity
