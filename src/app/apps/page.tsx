@@ -49,10 +49,7 @@ export default function AppsPage() {
 
       <ResourceListContentSection>
         <section className="mx-auto w-full max-w-[1200px]">
-          <h2 className="border-b border-slate-200 pb-4 text-[28px] font-medium leading-[1.25] text-slate-950 lg:text-[32px]">
-            アプリ一覧
-          </h2>
-          <ul className="mt-8 grid gap-5 md:grid-cols-2">
+          <ul className="grid gap-5 md:grid-cols-2">
             {apps.map((app) => (
               <li key={app.name}>
                 <a
