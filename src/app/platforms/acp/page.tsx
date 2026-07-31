@@ -98,7 +98,9 @@ export default function AcpPage() {
         <AcpGovernanceInner>
           <RevealOnScroll>
             <AcpGovernanceIntro>
-              <AcpSectionTitle>アクセス統制を、AI時代の共通基盤へ</AcpSectionTitle>
+              <AcpSectionTitle>
+                <span className="text-[38px] leading-[48px] sm:text-[44px] sm:leading-[54px] lg:whitespace-nowrap lg:text-[48px] lg:leading-[58px]">アクセス統制を、AI時代の共通基盤へ</span>
+              </AcpSectionTitle>
               <AcpSectionBody>
                 アクセスを許可・禁止するだけでは、複雑化するインフラとAI活用を守り切れません。QueryPie ACPは、統制の仕組みと対象環境を一つの基盤に集約します。
               </AcpSectionBody>

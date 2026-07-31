@@ -134,7 +134,7 @@ export function AcpGovernanceInner({ children }: { children: ReactNode }) {
 }
 
 export function AcpGovernanceIntro({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpGovernanceIntro")} className="mx-auto flex max-w-[820px] flex-col gap-5 text-center">{children}</div>;
+  return <div {...componentNameDebugProps("AcpGovernanceIntro")} className="mx-auto flex max-w-[1000px] flex-col gap-5 text-center">{children}</div>;
 }
 
 export function AcpGovernanceGrid({ children }: { children: ReactNode }) {
