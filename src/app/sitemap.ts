@@ -62,6 +62,11 @@ function buildStaticRoutes(deployedSiteUrl: URL): Array<MetadataRoute.Sitemap[nu
     priority: 0.8,
   },
   {
+    url: absoluteUrl("/apps", deployedSiteUrl),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  },
+  {
     url: absoluteUrl("/events", deployedSiteUrl),
     changeFrequency: "weekly",
     priority: 0.8,
