@@ -18,19 +18,109 @@ export function AcpHeroInner({ children }: { children: ReactNode }) {
 }
 
 
-export function AcpHeroVideo() {
+const heroRoles = [
+  ["AIエージェント", "role-ai-agents.png"],
+  ["開発者", "role-developers.png"],
+  ["管理者", "role-admin.png"],
+  ["一般利用者", "role-general-user.png"],
+] as const;
+
+const heroControls = [
+  ["アクセス制御", "access-control.svg"],
+  ["申請・承認", "approval.svg"],
+  ["監査ログ", "audit-logging.svg"],
+  ["DLP", "dlp.svg"],
+  ["ポリシー", "policy.svg"],
+  ["セッション記録", "session-recording.svg"],
+] as const;
+
+const heroTargets = [
+  ["データ", "target-data.svg"],
+  ["システム", "target-system.svg"],
+  ["Kubernetes", "target-kubernetes.svg"],
+  ["Web/SaaS", "target-web.svg"],
+  ["MCPツール", "target-mcp.svg"],
+] as const;
+
+const heroDiagramAssetBase = "https://www.querypie.com/assets/products/acp/diagram";
+
+function HeroDiagramItem({ label, asset }: { label: string; asset: string }) {
   return (
-    <div {...componentNameDebugProps("AcpHeroVideo")} className="mx-auto w-full max-w-[1024px] overflow-hidden rounded-[20px] border border-slate-200 bg-[#15181d] shadow-[0_24px_80px_-55px_rgba(15,23,42,0.48)]">
-      <video
-        aria-label="QueryPie ACPの画面デモ"
-        className="block h-auto w-full"
-        loop
-        muted
-        playsInline
-        autoPlay
-        preload="metadata"
-        src="https://www.querypie.com/assets/pages/home/features/Home-ACP.mp4#t=0.001"
-      />
+    <div className="flex items-center gap-2.5 rounded-[14px] border border-slate-200 bg-white px-4 py-3 shadow-[0_18px_36px_-28px_rgba(15,23,42,0.42)]">
+      <img alt="" aria-hidden="true" className="h-7 w-7 shrink-0 object-contain" src={`${heroDiagramAssetBase}/${asset}`} />
+      <span className="min-w-0 text-sm font-medium leading-5 text-[#24292F]">{label}</span>
+    </div>
+  );
+}
+
+export function AcpHeroDiagram() {
+  return (
+    <div {...componentNameDebugProps("AcpHeroDiagram")} aria-label="QueryPie ACPのアクセス統制フロー" className="mx-auto w-full max-w-[1080px] overflow-hidden rounded-[24px] border border-slate-200 bg-[#F6F8FA] p-5 shadow-[0_24px_80px_-55px_rgba(15,23,42,0.48)] sm:p-8">
+      <div className="relative hidden min-h-[430px] grid-cols-[190px_minmax(0,1fr)_190px] items-center gap-8 lg:grid">
+        <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 1000 430" fill="none" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="acp-flow" x1="0" x2="1">
+              <stop stopColor="#0969DA" stopOpacity="0.18" />
+              <stop offset="0.5" stopColor="#0969DA" stopOpacity="0.8" />
+              <stop offset="1" stopColor="#0969DA" stopOpacity="0.18" />
+            </linearGradient>
+          </defs>
+          {[72, 164, 256, 348].map((y) => (
+            <path key={`role-${y}`} d={`M 165 ${y} C 320 ${y}, 315 215, 445 215`} stroke="url(#acp-flow)" strokeDasharray="7 13" strokeWidth="2">
+              <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="2.4s" repeatCount="indefinite" />
+            </path>
+          ))}
+          {[54, 135, 215, 295, 376].map((y) => (
+            <path key={`target-${y}`} d={`M 555 215 C 685 215, 680 ${y}, 835 ${y}`} stroke="url(#acp-flow)" strokeDasharray="7 13" strokeWidth="2">
+              <animate attributeName="stroke-dashoffset" from="0" to="80" dur="2.4s" repeatCount="indefinite" />
+            </path>
+          ))}
+        </svg>
+
+        <div className="relative z-10 flex flex-col gap-3">
+          <p className="mb-1 text-left text-xs font-semibold tracking-[0.12em] text-[#57606A]">利用する人・AI</p>
+          {heroRoles.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} />)}
+        </div>
+
+        <div className="relative z-10 rounded-[20px] border border-[#B6D4FE] bg-[#EAF2FF] p-6 text-left shadow-[0_20px_44px_-34px_rgba(9,105,218,0.8)]">
+          <p className="text-[24px] font-semibold tracking-[-0.04em] text-[#174EA6]">QueryPie ACP</p>
+          <p className="mt-1 text-xs font-medium text-[#57606A]">Access Control Platform</p>
+          <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-3">
+            {heroControls.map(([label, asset]) => (
+              <div key={label} className="flex items-center gap-2 text-[13px] font-medium leading-5 text-[#24292F]">
+                <img alt="" aria-hidden="true" className="h-[18px] w-[18px] shrink-0" src={`${heroDiagramAssetBase}/${asset}`} />
+                {label}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="relative z-10 flex flex-col gap-3">
+          <p className="mb-1 text-left text-xs font-semibold tracking-[0.12em] text-[#57606A]">統制する対象</p>
+          {heroTargets.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} />)}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-5 lg:hidden">
+        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+          {heroRoles.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} />)}
+        </div>
+        <div className="rounded-[20px] border border-[#B6D4FE] bg-[#EAF2FF] p-5 text-left">
+          <p className="text-[22px] font-semibold tracking-[-0.04em] text-[#174EA6]">QueryPie ACP</p>
+          <p className="mt-1 text-xs font-medium text-[#57606A]">Access Control Platform</p>
+          <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3">
+            {heroControls.map(([label, asset]) => (
+              <div key={label} className="flex items-center gap-2 text-[13px] font-medium leading-5 text-[#24292F]">
+                <img alt="" aria-hidden="true" className="h-[18px] w-[18px] shrink-0" src={`${heroDiagramAssetBase}/${asset}`} />
+                {label}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+          {heroTargets.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} />)}
+        </div>
+      </div>
     </div>
   );
 }
@@ -153,4 +243,21 @@ export function AcpAiPackCardTitle({ children }: { children: ReactNode }) {
 
 export function AcpAiPackCardBody({ children }: { children: ReactNode }) {
   return <p {...componentNameDebugProps("AcpAiPackCardBody")} className="mt-2 text-[14px] leading-6 text-slate-300">{children}</p>;
+}
+
+export function AcpAiPackVideo() {
+  return (
+    <div {...componentNameDebugProps("AcpAiPackVideo")} className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-black">
+      <video
+        aria-label="ACP AI Packの画面デモ"
+        className="block h-auto w-full"
+        loop
+        muted
+        playsInline
+        autoPlay
+        preload="metadata"
+        src="https://www.querypie.com/assets/pages/home/features/Home-ACP.mp4#t=0.001"
+      />
+    </div>
+  );
 }

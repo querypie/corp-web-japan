@@ -20,6 +20,7 @@ import {
   AcpAiPackIntro,
   AcpAiPackSection,
   AcpAiPackTitle,
+  AcpAiPackVideo,
   AcpFeatureInner,
   AcpFeatureIntro,
   AcpFeatureSection,
@@ -36,7 +37,7 @@ import {
   AcpHeroLead,
   AcpHeroSection,
   AcpHeroTitle,
-  AcpHeroVideo,
+  AcpHeroDiagram,
   AcpIntegrationsBody,
   AcpIntegrationsImage,
   AcpIntegrationsInner,
@@ -88,7 +89,7 @@ export default function AcpPage() {
           </RevealOnScroll>
 
           <RevealOnScroll delayMs={120} className="w-full">
-            <AcpHeroVideo />
+            <AcpHeroDiagram />
           </RevealOnScroll>
         </AcpHeroInner>
       </AcpHeroSection>
@@ -252,6 +253,7 @@ export default function AcpPage() {
                   <AcpAiPackCardBody>監査レポートの作成や権限変更履歴の整理など、定型的なセキュリティ業務を自動化します。</AcpAiPackCardBody>
                 </AcpAiPackCard>
               </AcpAiPackCardGrid>
+              <AcpAiPackVideo />
             </AcpAiPackContent>
           </RevealOnScroll>
         </AcpAiPackInner>

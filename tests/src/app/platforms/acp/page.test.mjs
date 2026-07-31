@@ -36,12 +36,15 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.doesNotMatch(routeSource, /AipFreeTrialCtaSection/);
   assert.doesNotMatch(routeSource, /簡単インストール、簡単使用/);
 
+  assert.match(sectionSource, /export function AcpHeroDiagram/);
+  assert.match(sectionSource, /role-ai-agents\.png/);
+  assert.match(sectionSource, /target-mcp\.svg/);
+  assert.match(sectionSource, /stroke-dashoffset/);
   assert.match(sectionSource, /Home-ACP\.mp4#t=0\.001/);
-  assert.match(sectionSource, /export function AcpHeroVideo/);
   assert.doesNotMatch(sectionSource, /youtube\.com\/embed\/AWnknC76Jpo/);
   assert.match(sectionSource, /export function AcpGovernanceSection/);
   assert.match(sectionSource, /export function AcpAiPackSection/);
-  assert.doesNotMatch(sectionSource, /export function AcpAiPackVideo/);
+  assert.match(sectionSource, /export function AcpAiPackVideo/);
 
   assert.match(browserSource, /mediaSrc: string/);
   assert.match(browserSource, /mediaAlt: string/);
