@@ -918,7 +918,13 @@ test("posts through Slack Web API and returns deletable message references", asy
   assert.deepEqual(messages, [{ channel: "C0123456789", ts: "1720000000.000100" }]);
   assert.equal(requests[0].url, "https://slack.com/api/chat.postMessage");
   assert.equal(requests[0].request.headers.authorization, "Bearer xoxb-test-token");
-  assert.deepEqual(JSON.parse(requests[0].request.body), { channel: "C0123456789", text: "fixture", blocks: [] });
+  assert.deepEqual(JSON.parse(requests[0].request.body), {
+    channel: "C0123456789",
+    text: "fixture",
+    blocks: [],
+    unfurl_links: false,
+    unfurl_media: false,
+  });
 });
 
 test("deletes messages through Slack Web API", async () => {

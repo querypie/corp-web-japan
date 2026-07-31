@@ -382,7 +382,12 @@ export async function sendSlackPayloads({ botToken, channelId, payloads, fetchIm
   for (const payload of payloads) {
     const result = await callSlackApi("chat.postMessage", {
       botToken,
-      body: { channel: channelId, ...payload },
+      body: {
+        channel: channelId,
+        ...payload,
+        unfurl_links: false,
+        unfurl_media: false,
+      },
       fetchImpl,
     });
     messages.push({ channel: result.channel, ts: result.ts });
