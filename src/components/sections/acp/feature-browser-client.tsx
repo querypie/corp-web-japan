@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useState, type ComponentPropsWithoutRef } from "react";
 
 export type AcpFeatureBrowserItem = {
-  imageSrc: string;
+  mediaSrc: string;
+  mediaAlt: string;
   learnMoreHref: string;
   title: string;
   bodyLines: string[];
@@ -22,6 +23,7 @@ export function AcpFeatureBrowserClient({ categories, ...props }: { categories: 
 
   const activeCategory = categories[activeCategoryIndex] ?? categories[0];
   const activeItem = activeCategory?.items[activeItemIndex] ?? activeCategory?.items[0];
+  const activeMediaIsVideo = activeItem?.mediaSrc.includes(".mp4") ?? false;
 
   function selectCategory(index: number) {
     setActiveCategoryIndex(index);
@@ -68,14 +70,27 @@ export function AcpFeatureBrowserClient({ categories, ...props }: { categories: 
       <div className="relative flex flex-col items-center rounded-[20px] bg-[#F6F8FA] px-[60px] pb-[88px] pt-[20px] max-lg:px-[20px] max-lg:pb-[78px]">
         <article className="flex w-full flex-col gap-[20px]">
           <div className="flex w-full justify-center">
-            <Image
-              src={activeItem.imageSrc}
-              alt={activeItem.title}
-              width={720}
-              height={405}
-              unoptimized
-              className="h-auto max-h-[460px] w-auto max-w-full object-contain"
-            />
+            {activeMediaIsVideo ? (
+              <video
+                aria-label={activeItem.mediaAlt}
+                className="h-auto max-h-[460px] w-auto max-w-full object-contain"
+                loop
+                muted
+                playsInline
+                autoPlay
+                preload="metadata"
+                src={activeItem.mediaSrc}
+              />
+            ) : (
+              <Image
+                src={activeItem.mediaSrc}
+                alt={activeItem.mediaAlt}
+                width={720}
+                height={405}
+                unoptimized
+                className="h-auto max-h-[460px] w-auto max-w-full object-contain"
+              />
+            )}
           </div>
 
           <div className="flex flex-col items-center gap-[10px] text-center">
@@ -94,7 +109,7 @@ export function AcpFeatureBrowserClient({ categories, ...props }: { categories: 
               rel="noopener noreferrer"
               className="inline-flex text-[15px] font-normal leading-[16px] text-[#24292F] underline-offset-4 hover:underline"
             >
-              Learn More
+              詳細を見る
             </Link>
           </div>
         </article>

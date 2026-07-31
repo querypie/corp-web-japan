@@ -11,7 +11,8 @@ type AcpFeatureCategoryLabelProps = {
 };
 
 type AcpFeatureItemProps = {
-  imageSrc: string;
+  mediaSrc: string;
+  mediaAlt: string;
   learnMoreHref: string;
   children: ReactNode;
 };
@@ -86,7 +87,8 @@ function parseCategories(children: ReactNode): AcpFeatureBrowserCategory[] {
         const bodyNode = itemChildren.find(isAcpFeatureItemBodyElement)?.props.children ?? null;
 
         return {
-          imageSrc: item.props.imageSrc,
+          mediaSrc: item.props.mediaSrc,
+          mediaAlt: item.props.mediaAlt,
           learnMoreHref: item.props.learnMoreHref,
           title: toPlainText(titleNode).replace(/\s+/g, " ").trim(),
           bodyLines: toBodyLines(bodyNode),
