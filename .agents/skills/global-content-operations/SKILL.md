@@ -25,7 +25,7 @@ Run locally on demand. GitHub Actions remains a deterministic report sender; AI 
 7. Apply the **Remaining Untracked review gate** only after every `Equivalent` baseline mapping is staged. Show the remaining identities and evidence. The user must explicitly approve every Ignore identity. AI MUST NOT infer or auto-approve Ignore from “no candidate,” age, family, or missing Japan content. Apply approved exclusions through `.agents/skills/global-content-ignore/SKILL.md`; never Ignore a publishable or equivalent item.
 8. Apply new-publication requests through `.agents/skills/global-to-japan-publication/SKILL.md`. Do not create duplicate MDX for an equivalent candidate.
 9. Validate and update all tracking manifests before generating the final report. Run focused tests, `npm run test:ci`, `git diff --check`, and a new dry-run against the changed worktree.
-10. Show the user the review table, baseline additions/removals, Ignore additions/removals, unresolved items, final counts, and exact Slack payload preview.
+10. Attach `report.operationsSummary` before building the local Slack preview. Include the JST date, Global additions, existing Japan matches, per-identity AI verdict/action, new MDX count, baseline additions/removals, and Ignore additions/removals. Show the user this Block Kit preview, the full review table, unresolved items, and final counts.
 11. Commit, push, and open normal human-reviewed PRs. **MUST NOT auto-merge.** After merge, fetch latest `main` and rerun the report.
 12. Do not send any webhook before explicit send approval. Read secrets only at send time with `op read`, never print or persist them:
     - test: `op://Shared/corp-web-japan-global-content-webhooks/test`
@@ -38,4 +38,4 @@ Run locally on demand. GitHub Actions remains a deterministic report sender; AI 
 Identity | Candidate | Signals | Title | Summary | Body | Date/source/media | Conflicts | Verdict
 ```
 
-Every `Equivalent` baseline row must be traceable to this table.
+Every `Equivalent` baseline row must be traceable to this table. The operations summary must state whether a Global addition matched existing Japan content and whether the action was baseline, Ignore, new MDX, or unresolved.

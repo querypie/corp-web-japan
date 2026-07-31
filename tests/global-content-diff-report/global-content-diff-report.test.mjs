@@ -748,6 +748,41 @@ test("renders a compact status-first report with collapsible containers and sour
   assert.match(renderedTitle, /…$/);
 });
 
+test("renders an AI-reviewed operations summary before final report items", () => {
+  const report = {
+    ...reportWithItems(1, { items: [reportItem(51, { status: "Ignored" })] }),
+    operationsSummary: {
+      dateJst: "2026-07-31",
+      globalAdded: 1,
+      existingJapanMatches: 1,
+      newMdx: 0,
+      baselineAdded: 1,
+      baselineRemoved: 0,
+      ignoreAdded: 0,
+      ignoreRemoved: 0,
+      items: [{
+        identity: "documentation:cnt_000216",
+        target: "Blog 34",
+        verdict: "Equivalent",
+        action: "Baseline added",
+      }],
+    },
+  };
+  const [payload] = buildSlackPayloads(report, slackMetadata);
+  const rendered = JSON.stringify(payload);
+
+  assert.equal(payload.blocks[0].text.text, "🌐 Global content operations");
+  assert.match(rendered, /\*Today’s changes · 2026-07-31\*/);
+  assert.match(rendered, /Global additions 1 · Existing Japan matches 1/);
+  assert.match(rendered, /`documentation:cnt_000216` → Blog 34/);
+  assert.match(rendered, /AI: Equivalent · Baseline added/);
+  assert.match(rendered, /New MDX 0 · Baseline \+1 \/ -0 · Ignore \+0 \/ -0/);
+  assert.ok(
+    payload.blocks.findIndex((block) => block.type === "section" && block.text.text.includes("Today’s changes"))
+      < payload.blocks.findIndex((block) => block.type === "container"),
+  );
+});
+
 test("paginates without dropping or duplicating identities", () => {
   const report = reportWithItems(83);
   const payloads = buildSlackPayloads(report, slackMetadata);
