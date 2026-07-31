@@ -777,18 +777,19 @@ test("renders an AI-reviewed operations summary before final report items", () =
   const rendered = JSON.stringify(payload);
 
   assert.equal(payload.blocks[0].text.text, "🌐 Global Content Review");
-  assert.equal(payload.blocks[1].text.text, "Synced 1 · Review needed 0 · New MDX 0");
+  assert.equal(payload.blocks[1].text.text, "Synced 1 · Review needed 0 · Ignored 1");
   const containers = payload.blocks.filter((block) => block.type === "container");
-  assert.equal(containers.length, 1);
-  assert.equal(containers[0].title.text, "Synced · 1 item");
-  assert.equal(containers[0].default_collapsed, true);
+  assert.equal(containers.length, 2);
+  assert.deepEqual(containers.map(({ title }) => title.text), ["Synced · 1 item", "Ignored · 1 item"]);
+  assert.equal(containers.every(({ default_collapsed }) => default_collapsed), true);
   assert.match(rendered, /\*ISO\/IEC 42001 — Building an AI Inventory\*/);
   assert.match(rendered, /_Blog · 2026-07-31_ · `documentation:cnt_000216`/);
   assert.match(rendered, /Existing Japan content matched · Baseline added/);
   assert.match(rendered, /<https:\/\/www\.querypie\.com\/en\/blog\/iso-iec-42001-ai-inventory-control-tower\|Global>/);
   assert.match(rendered, /<https:\/\/querypie\.ai\/blog\/34\/iso-iec-42001-ai-inventory-control-tower\|Japan>/);
-  assert.match(rendered, /Untracked 0 · Ignored 1 · Global 1 · Japan 0/);
-  assert.doesNotMatch(rendered, /Same content|Baseline \+1|Ignore unchanged/);
+  assert.match(rendered, /Intentionally excluded from Japan sync/);
+  assert.match(rendered, /Global 1 · Japan 0/);
+  assert.doesNotMatch(rendered, /Untracked 0 · Ignored 1 · Global|Same content|Baseline \+1|Ignore unchanged/);
 });
 
 test("renders unresolved content with the same collapsed review card shape", () => {
@@ -811,7 +812,7 @@ test("renders unresolved content with the same collapsed review card shape", () 
   const rendered = JSON.stringify(payload);
   const containers = payload.blocks.filter((block) => block.type === "container");
 
-  assert.equal(payload.blocks[1].text.text, "Synced 0 · Review needed 1 · New MDX 0");
+  assert.equal(payload.blocks[1].text.text, "Synced 0 · Review needed 1 · Ignored 0");
   assert.equal(containers.length, 1);
   assert.equal(containers[0].title.text, "Review needed · 1 item");
   assert.equal(containers[0].default_collapsed, true);

@@ -177,7 +177,7 @@ Webhook values SHALL be read only at explicit send time from the documented 1Pas
 - **AND** the preview SHALL use `Global Content Review` and one default-collapsed content-card shape for synced and unresolved items
 - **AND** synced cards SHALL link to both Global and Japan public pages
 - **AND** unresolved cards SHALL link to Global and explicitly state that a Japan match is unavailable
-- **AND** historical Ignored item details SHALL be omitted
+- **AND** Ignored items SHALL use the same default-collapsed card and link to the Global page
 - **AND** it SHALL wait for explicit destination approval before delivery
 
 ### Requirement: Zero state and fail-closed behavior

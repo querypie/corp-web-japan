@@ -204,9 +204,10 @@ function operationsSummaryBlock(report) {
   validateOperationsSummary(summary);
   const synced = summary.items.filter(({ verdict }) => verdict === "Equivalent").length;
   const reviewNeeded = report.items.filter(({ status }) => status === "Untracked").length;
+  const ignored = report.items.filter(({ status }) => status === "Ignored").length;
   return {
     type: "section",
-    text: { type: "mrkdwn", text: `Synced ${synced} · Review needed ${reviewNeeded} · New MDX ${summary.newMdx}` },
+    text: { type: "mrkdwn", text: `Synced ${synced} · Review needed ${reviewNeeded} · Ignored ${ignored}` },
   };
 }
 
@@ -228,17 +229,25 @@ function operationsContainers(report) {
         ? "Possible Japan match found · Review required"
         : "No matching Japan content confirmed",
     }));
+  const ignoredItems = report.items
+    .filter(({ status }) => status === "Ignored")
+    .sort(compareSlackItems)
+    .map((item) => ({
+      ...item,
+      globalUrl: item.sourceUrl,
+      japanUrl: null,
+      result: "Intentionally excluded from Japan sync",
+    }));
   return [
     syncedItems.length ? reviewContainer("Synced", syncedItems) : null,
     reviewItems.length ? reviewContainer("Review needed", reviewItems) : null,
+    ignoredItems.length ? reviewContainer("Ignored", ignoredItems) : null,
   ].filter(Boolean);
 }
 
 function operationsContext(report, metadata, partNumber, totalParts) {
-  const untracked = report.items.filter(({ status }) => status === "Untracked").length;
-  const ignored = report.items.filter(({ status }) => status === "Ignored").length;
   return [
-    `Untracked ${untracked} · Ignored ${ignored} · Global ${report.counts.globalPublished} · Japan ${report.counts.japanPresent}`,
+    `Global ${report.counts.globalPublished} · Japan ${report.counts.japanPresent}`,
     runContext(report, metadata, partNumber, totalParts),
   ].join("\n");
 }
