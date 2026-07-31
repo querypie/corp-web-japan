@@ -78,6 +78,7 @@ export function CtaButton({
 }) {
   return (
     <Link
+      {...componentNameDebugProps("CtaButton")}
       href={href}
       className={
         (
