@@ -762,6 +762,11 @@ test("renders an AI-reviewed operations summary before final report items", () =
       ignoreRemoved: 0,
       items: [{
         identity: "documentation:cnt_000216",
+        title: "ISO/IEC 42001 — Building an AI Inventory",
+        targetFamily: "blog",
+        dateIso: "2026-07-31",
+        globalUrl: "https://www.querypie.com/en/blog/iso-iec-42001-ai-inventory-control-tower",
+        japanUrl: "https://querypie.ai/blog/34/iso-iec-42001-ai-inventory-control-tower",
         target: "Blog 34",
         verdict: "Equivalent",
         action: "Baseline added",
@@ -771,13 +776,48 @@ test("renders an AI-reviewed operations summary before final report items", () =
   const [payload] = buildSlackPayloads(report, slackMetadata);
   const rendered = JSON.stringify(payload);
 
-  assert.equal(payload.blocks[0].text.text, "🌐 Global sync");
-  assert.match(rendered, /\*1 new Global item · already in Japan\*/);
-  assert.match(rendered, /✅ `documentation:cnt_000216` → \*Blog 34\*/);
-  assert.match(rendered, /Same content · baseline added/);
-  assert.match(rendered, /Baseline \+1 · Ignore unchanged · New MDX 0/);
+  assert.equal(payload.blocks[0].text.text, "🌐 Global Content Review");
+  assert.equal(payload.blocks[1].text.text, "Synced 1 · Review needed 0 · New MDX 0");
+  const containers = payload.blocks.filter((block) => block.type === "container");
+  assert.equal(containers.length, 1);
+  assert.equal(containers[0].title.text, "✅ Synced · 1 item");
+  assert.equal(containers[0].default_collapsed, true);
+  assert.match(rendered, /\*ISO\/IEC 42001 — Building an AI Inventory\*/);
+  assert.match(rendered, /_Blog · 2026-07-31_ · `documentation:cnt_000216`/);
+  assert.match(rendered, /Existing Japan content matched · Baseline added/);
+  assert.match(rendered, /<https:\/\/www\.querypie\.com\/en\/blog\/iso-iec-42001-ai-inventory-control-tower\|Global>/);
+  assert.match(rendered, /<https:\/\/querypie\.ai\/blog\/34\/iso-iec-42001-ai-inventory-control-tower\|Japan>/);
   assert.match(rendered, /Untracked 0 · Ignored 1 · Global 1 · Japan 0/);
-  assert.equal(payload.blocks.some((block) => block.type === "container"), false);
+  assert.doesNotMatch(rendered, /Same content|Baseline \+1|Ignore unchanged/);
+});
+
+test("renders unresolved content with the same collapsed review card shape", () => {
+  const item = reportItem(217, { status: "Untracked" });
+  const report = {
+    ...reportWithItems(1, { items: [item] }),
+    operationsSummary: {
+      dateJst: "2026-07-31",
+      globalAdded: 1,
+      existingJapanMatches: 0,
+      newMdx: 0,
+      baselineAdded: 0,
+      baselineRemoved: 0,
+      ignoreAdded: 0,
+      ignoreRemoved: 0,
+      items: [],
+    },
+  };
+  const [payload] = buildSlackPayloads(report, slackMetadata);
+  const rendered = JSON.stringify(payload);
+  const containers = payload.blocks.filter((block) => block.type === "container");
+
+  assert.equal(payload.blocks[1].text.text, "Synced 0 · Review needed 1 · New MDX 0");
+  assert.equal(containers.length, 1);
+  assert.equal(containers[0].title.text, "⚠️ Review needed · 1 item");
+  assert.equal(containers[0].default_collapsed, true);
+  assert.match(rendered, new RegExp(`<${item.sourceUrl.replaceAll("/", "\\/")}\\|Global>`));
+  assert.match(rendered, /Japan match unavailable/);
+  assert.doesNotMatch(rendered, /GitHub source/);
 });
 
 test("paginates without dropping or duplicating identities", () => {

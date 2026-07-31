@@ -60,8 +60,9 @@ The JSON output includes Global/Japan SHAs, counts, items, candidate evidence, a
 
 ## Slack output
 
-- Operations mode shows one concise change summary and only unresolved `Untracked` item details; historical `Ignored` details are omitted.
-- Plain report mode groups `Untracked` before `Ignored`.
+- Operations mode uses `Global Content Review`, a compact count summary, and one default-collapsed card shape for synced and unresolved content.
+- Every synced card links to both the Global and Japan pages. Unresolved cards link to Global and state that a Japan match is unavailable.
+- Historical `Ignored` details are omitted; plain report mode still groups `Untracked` before `Ignored`.
 - Deterministic family/date/identity order.
 - Plain title, Composite identity, production-evidenced original link, and SHA-pinned Global source link.
 - Up to three escaped candidate paths per item.
