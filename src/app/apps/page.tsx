@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
-import { SiteNoticeSurface } from "@/components/sections/site-notice/site-notice-surface";
 import {
   ResourceListContentSection,
   ResourceListHeroDescription,
@@ -36,7 +35,6 @@ export default function AppsPage() {
   return (
     <main {...componentNameDebugProps("AppsPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
-      <SiteNoticeSurface />
 
       <ResourceListHeroSection>
         <ResourceListHeroTitle>アプリ</ResourceListHeroTitle>

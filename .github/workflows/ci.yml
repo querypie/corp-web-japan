@@ -162,11 +162,13 @@ jobs:
               - 'tests/typecheck-tsconfig-contract.test.mjs'
             static_pages:
               - 'src/app/page.tsx'
+              - 'src/app/apps/**'
               - 'src/app/solutions/**'
               - 'src/app/t/**'
               - 'src/app/internal/**'
               - 'src/components/sections/**'
               - 'tests/about-us-page-structure.test.mjs'
+              - 'tests/apps-page.test.mjs'
               - 'tests/ai-crew-page-structure.test.mjs'
               - 'tests/ai-dashi-page-structure.test.mjs'
               - 'tests/certifications-image-rendering.test.mjs'
