@@ -10,5 +10,8 @@ test("apps page curates available QueryPie AI applications", () => {
   assert.match(page, /canonical: "\/apps"/);
   assert.match(page, /name: "Lingo"/);
   assert.match(page, /href: "https:\/\/lingo\.querypie\.ai\/ja"/);
+  assert.match(page, /iconSrc: "https:\/\/www\.querypie\.com\/assets\/pages\/home\/features\/icon-lingo\.png"/);
+  assert.match(page, /bg-\[linear-gradient/);
+  assert.match(page, /<Image/);
   assert.match(sitemap, /absoluteUrl\("\/apps", deployedSiteUrl\)/);
 });
