@@ -308,15 +308,22 @@ export default function AIDashiPage() {
 
           <AIDashiValuesDiagram />
         </AIDashiValuesShell>
-      </AIDashiValuesSection>
 
-      <AppSpotlightCard
-        eyebrow="AIアプリの体験を、事業価値へ"
-        title="実務に溶け込むAIアプリの一例、Lingo。"
-        description="会議の文字起こし、リアルタイム翻訳、要約を一つにしたLingoは、AIを日常の業務体験に自然に組み込むアプリの一例です。自社サービスのAI化を検討する際の、体験設計の参考としてご覧いただけます。"
-        ctaLabel="Lingoの体験を見る"
-        href="https://lingo.querypie.ai/ja?utm_source=querypie_ai&utm_medium=web&utm_campaign=solution_ai_dashi_lingo"
-      />
+        <div className="mx-auto mt-16 max-w-[1120px] text-center">
+          <p className="text-sm font-medium text-slate-600">AIアプリの体験を、事業価値へ</p>
+          <h2 className="mt-2 text-[28px] font-semibold leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-[34px]">実務に溶け込むAIアプリの一例</h2>
+
+          <AppSpotlightCard
+            flushX
+            className="pb-0 pt-6 text-left lg:pb-0 lg:pt-8"
+            eyebrow="会議記録・リアルタイム翻訳AI"
+            title="Lingo"
+            description="会議の文字起こし、リアルタイム翻訳、要約を一つにしたLingoは、AIを日常の業務体験に自然に組み込むアプリの一例です。自社サービスのAI化を検討する際の、体験設計の参考としてご覧いただけます。"
+            ctaLabel="Lingoの体験を見る"
+            href="https://lingo.querypie.ai/ja?utm_source=querypie_ai&utm_medium=web&utm_campaign=solution_ai_dashi_lingo"
+          />
+        </div>
+      </AIDashiValuesSection>
 
       <AIDashiWallCardsSection>
         <AIDashiWallCardsIntro>

@@ -25,7 +25,9 @@ test("Lingo discovery links preserve each marketing page's context", () => {
   assert.match(aiCrewPage, /max-w-\[1120px\]/);
   assert.match(aiCrewPage, /flushX/);
 
-  assert.match(aiDashiPage, /実務に溶け込むAIアプリの一例、Lingo。/);
+  assert.match(aiDashiPage, /AIアプリの体験を、事業価値へ/);
+  assert.match(aiDashiPage, /実務に溶け込むAIアプリの一例/);
+  assert.match(aiDashiPage, /title="Lingo"/);
   assert.match(aiDashiPage, /utm_campaign=solution_ai_dashi_lingo/);
 
   assert.match(aipPage, /会議を、次の業務につなげるLingo。/);
