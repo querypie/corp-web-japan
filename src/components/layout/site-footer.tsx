@@ -38,7 +38,6 @@ export async function SiteFooter() {
       title: "アプリ",
       mobileLayout: "single",
       links: [
-        { label: "全てのアプリ", href: "/apps" },
         { label: "会議記録・リアルタイム翻訳AI｜Lingo", href: "https://lingo.querypie.ai/ja" },
       ],
     },
