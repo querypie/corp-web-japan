@@ -167,7 +167,7 @@ Items SHALL be deterministic. Slack SHALL group `Untracked` before `Ignored`, th
 
 Global reconciliation and report delivery SHALL run only through the repo-local `.agents/skills/global-content-operations/SKILL.md`. No scheduled or manually dispatched Global report GitHub Actions workflow SHALL exist. The skill SHALL fetch both latest `main` snapshots, update and validate tracking manifests, then build a final local preview.
 
-A one-time local initializer SHALL read the Slack bot token and test/production channel IDs from the documented 1Password item and store them in the main checkout’s gitignored `.env.local` for reuse across worktrees. Later sends SHALL use `chat.postMessage` without repeated 1Password requests, store returned message references in a gitignored local history, and support deletion of the latest destination-specific send through `chat.delete`. Credentials SHALL never be printed or committed. No payload SHALL be sent before the user explicitly chooses test or production delivery.
+A one-time local initializer SHALL read the Slack bot token and test/production channel IDs from the documented 1Password item and store them in the main checkout’s gitignored `.env.local` for reuse across worktrees. Later sends SHALL use `chat.postMessage` without repeated 1Password requests, store returned message references in a gitignored local history, and support deletion of the latest destination-specific send through `chat.delete`. Credentials SHALL never be printed or committed. Every delivery SHALL send the exact final payload to test first. Production SHALL require separate explicit user approval of that test draft, latest-main revalidation, and byte-identical payload; any change SHALL require a new test draft.
 
 #### Scenario: Operator runs local reconciliation
 
@@ -178,7 +178,7 @@ A one-time local initializer SHALL read the Slack bot token and test/production 
 - **AND** every card SHALL contain the same title, family/date/identity, result, status, and site-link fields
 - **AND** Match pending SHALL mean AI-equivalent but not merged, while Matched SHALL require latest-main baseline validation
 - **AND** final payload construction SHALL reject pending items so Slack receives no unmerged match
-- **AND** it SHALL wait for explicit destination approval before delivery
+- **AND** it SHALL deliver a test draft first and wait for separate explicit approval before production delivery
 
 ### Requirement: Zero state and fail-closed behavior
 

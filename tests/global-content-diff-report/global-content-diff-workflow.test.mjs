@@ -182,12 +182,14 @@ test("CLI rejects empty or unrelated HTTP 200 production evidence", async () => 
   }
 });
 
-test("delivery contract requires local-only execution and explicit destination approval", async () => {
+test("delivery contract requires local-only test-first execution and explicit production approval", async () => {
   const source = await readFile(contractPath, "utf8");
   assert.match(source, /Local-only execution and explicit delivery/);
   assert.match(source, /No scheduled or manually dispatched Global report GitHub Actions workflow SHALL exist/);
   assert.match(source, /documented 1Password item/);
-  assert.match(source, /explicitly chooses test or production delivery/);
+  assert.match(source, /Every delivery SHALL send the exact final payload to test first/);
+  assert.match(source, /Production SHALL require separate explicit user approval/);
+  assert.match(source, /byte-identical payload/);
   assert.match(source, /already delivered multipart sections remain visible/);
   assert.doesNotMatch(source, /cron|workflow_dispatch|GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL/);
 });

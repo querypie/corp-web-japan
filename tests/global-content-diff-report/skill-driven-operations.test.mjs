@@ -68,6 +68,9 @@ test("replaces Direct Ignore automation with repo-local Global content operation
   assert.match(initEnv, /op:\/\/Shared\/corp-web-japan-global-content-slack\/prod-channel-id/);
   assert.match(initEnv, /\.env\.local/);
   assert.match(operations, /Do not send before explicit approval/);
+  assert.match(operations, /MUST send the exact final payload to the test channel first/);
+  assert.match(operations, /MUST NOT send to production until the user explicitly approves that test draft/);
+  assert.match(operations, /rebuild and resend the test draft before asking for production approval/);
   assert.match(operations, /MUST NOT auto-merge/);
   assert.match(publication, /^---\nname: global-to-japan-publication\ndescription: Use when/m);
   assert.match(publication, /Composite identity/);
