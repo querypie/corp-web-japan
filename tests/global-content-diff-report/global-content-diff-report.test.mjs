@@ -769,7 +769,7 @@ test("renders an AI-reviewed operations summary before final report items", () =
         japanUrl: "https://querypie.ai/blog/34/iso-iec-42001-ai-inventory-control-tower",
         target: "Blog 34",
         verdict: "Equivalent",
-        state: "reconciled",
+        state: "matched",
         action: "Baseline added",
       }],
     },
@@ -778,21 +778,21 @@ test("renders an AI-reviewed operations summary before final report items", () =
   const rendered = JSON.stringify(payload);
 
   assert.equal(payload.blocks[0].text.text, "🌐 Global Content Review");
-  assert.equal(payload.blocks[1].text.text, "Today · Reconciled 1\nCurrent · Review needed 0 · Ignored 1");
+  assert.equal(payload.blocks[1].text.text, "Today · Matched 1\nCurrent · Needs review 0 · Ignored 1");
   const containers = payload.blocks.filter((block) => block.type === "container");
   assert.equal(containers.length, 2);
-  assert.deepEqual(containers.map(({ title }) => title.text), ["Reconciled today · 1 item", "Ignored · 1 item"]);
+  assert.deepEqual(containers.map(({ title }) => title.text), ["Matched today · 1 item", "Ignored · 1 item"]);
   assert.equal(containers.every(({ default_collapsed }) => default_collapsed), true);
   assert.match(rendered, /\*ISO\/IEC 42001 — Building an AI Inventory\*/);
   assert.match(rendered, /_Blog · 2026-07-31_ · `documentation:cnt_000216`/);
-  assert.match(rendered, /Verdict · Equivalent/);
-  assert.match(rendered, /State · Reconciled · Baseline added/);
+  assert.match(rendered, /Result · Same content/);
+  assert.match(rendered, /Status · Tracking complete/);
   assert.match(rendered, /<https:\/\/www\.querypie\.com\/en\/blog\/iso-iec-42001-ai-inventory-control-tower\|Global>/);
   assert.match(rendered, /<https:\/\/querypie\.ai\/blog\/34\/iso-iec-42001-ai-inventory-control-tower\|Japan>/);
-  assert.match(rendered, /Verdict · Not applicable/);
-  assert.match(rendered, /State · Intentionally excluded from Japan sync/);
+  assert.match(rendered, /Result · Not applicable/);
+  assert.match(rendered, /Status · Ignored/);
   assert.match(rendered, /Global 1 · Japan 0/);
-  assert.doesNotMatch(rendered, /Untracked 0 · Ignored 1 · Global|Same content|Baseline \+1|Ignore unchanged/);
+  assert.doesNotMatch(rendered, /Untracked 0 · Ignored 1 · Global|Baseline \+1|Ignore unchanged/);
 });
 
 test("renders unresolved content with the same collapsed review card shape", () => {
@@ -815,13 +815,13 @@ test("renders unresolved content with the same collapsed review card shape", () 
   const rendered = JSON.stringify(payload);
   const containers = payload.blocks.filter((block) => block.type === "container");
 
-  assert.equal(payload.blocks[1].text.text, "Today · Reconciled 0\nCurrent · Review needed 1 · Ignored 0");
+  assert.equal(payload.blocks[1].text.text, "Today · Matched 0\nCurrent · Needs review 1 · Ignored 0");
   assert.equal(containers.length, 1);
-  assert.equal(containers[0].title.text, "Review needed · 1 item");
+  assert.equal(containers[0].title.text, "Needs review · 1 item");
   assert.equal(containers[0].default_collapsed, true);
   assert.match(rendered, new RegExp(`<${item.sourceUrl.replaceAll("/", "\\/")}\\|Global>`));
-  assert.match(rendered, /Verdict · Not established/);
-  assert.match(rendered, /State · No matching Japan content confirmed/);
+  assert.match(rendered, /Result · No match confirmed/);
+  assert.match(rendered, /Status · Needs review/);
   assert.match(rendered, /Japan match unavailable/);
   assert.doesNotMatch(rendered, /GitHub source/);
 });
@@ -855,11 +855,11 @@ test("renders pending reconciliation with the same card builder and blocks final
   const [preview] = buildSlackPayloads(report, slackMetadata);
   const container = preview.blocks.find(({ type }) => type === "container");
 
-  assert.equal(preview.blocks[1].text.text, "This run · Pending reconciliation 1\nToday · Reconciled 0\nCurrent · Review needed 0 · Ignored 0");
-  assert.equal(container.title.text, "Pending reconciliation · 1 item");
+  assert.equal(preview.blocks[1].text.text, "This run · Match pending 1\nToday · Matched 0\nCurrent · Needs review 0 · Ignored 0");
+  assert.equal(container.title.text, "Match pending · 1 item");
   assert.equal(container.default_collapsed, true);
-  assert.match(container.child_blocks[0].text.text, /Verdict · Equivalent/);
-  assert.match(container.child_blocks[0].text.text, /State · Waiting for baseline PR merge/);
+  assert.match(container.child_blocks[0].text.text, /Result · Same content/);
+  assert.match(container.child_blocks[0].text.text, /Status · Waiting for merge/);
   assert.throws(
     () => buildSlackPayloads(report, slackMetadata, { final: true }),
     /pending reconciliation cannot be delivered as a final report/,
