@@ -33,7 +33,7 @@ Both skills use a fresh dry-run and never auto-merge. Ignore creation stops for 
 
 Run `npm run global-content:init` once. It reads the bot token and test/production channel IDs from the `corp-web-japan-global-content-slack` 1Password item and writes them to the main checkout’s gitignored `.env.local`, shared by all worktrees. Later sends source that file without another 1Password request.
 
-Messages use `chat.postMessage`. Returned `channel`/`ts` references are stored in `.tmp/global-content-slack-history.json`. Delete the latest recorded message with:
+Messages use `chat.postMessage`. Delivery is test-first: send the exact final payload to the test channel, show the result, and wait for separate explicit user approval before sending the unchanged payload to production. Revalidate both latest-main SHAs immediately before production; any report or payload change requires a new test draft. Returned `channel`/`ts` references are stored in `.tmp/global-content-slack-history.json`. Delete the latest recorded message with:
 
 ```bash
 npm run global-content:delete-last -- test
