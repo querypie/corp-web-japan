@@ -38,6 +38,13 @@ function getNavItems(): readonly NavItem[] {
       ],
     },
     {
+      label: "アプリ",
+      description: "QueryPie AIが提供するアプリ",
+      children: [
+        { label: "会議記録・リアルタイム翻訳AI｜Lingo", href: "https://lingo.querypie.ai/ja" },
+      ],
+    },
+    {
       label: "ソリューション",
       description: "課題に合わせたAIソリューション",
       children: [
