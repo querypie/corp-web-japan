@@ -44,10 +44,12 @@ const heroTargets = [
 
 const heroDiagramAssetBase = "https://www.querypie.com/assets/products/acp/diagram";
 
-function HeroDiagramItem({ label, asset, compact = false }: { label: string; asset: string; compact?: boolean }) {
+function HeroDiagramItem({ label, asset, compact = false, emphasizeIcon = false }: { label: string; asset: string; compact?: boolean; emphasizeIcon?: boolean }) {
   return (
     <div className={`flex w-full items-center gap-2.5 rounded-[14px] bg-[#F6F8FA] px-5 text-[#24292F] ${compact ? "py-3" : "py-5"}`}>
-      <img alt="" aria-hidden="true" className={`${compact ? "h-7 w-7" : "h-8 w-8"} shrink-0 object-contain`} src={`${heroDiagramAssetBase}/${asset}`} />
+      <span className={`${emphasizeIcon ? "rounded-[8px] bg-[#174EA6] p-1.5" : ""} flex shrink-0 items-center justify-center`}>
+        <img alt="" aria-hidden="true" className={`${compact ? "h-7 w-7" : "h-8 w-8"} object-contain`} src={`${heroDiagramAssetBase}/${asset}`} />
+      </span>
       <span className="min-w-0 text-sm font-medium leading-5 text-[#24292F]">{label}</span>
     </div>
   );
@@ -69,8 +71,8 @@ function FlowPulse({ path, direction }: { path: string; direction: "inbound" | "
 function ShieldBadge({ controller = false }: { controller?: boolean }) {
   return (
     <svg aria-hidden="true" className="pointer-events-none h-[46px] w-10 overflow-visible" fill="none" viewBox="0 0 40 46">
-      <path d="M6.10351e-05 21.0833L2.8193e-05 7.66668C2.8193e-05 7.66668 7.87428 6.5489 10.9091 5.3077C14.1084 3.99922 20 0 20 0C20 0 25.8916 3.99922 29.0909 5.3077C32.1257 6.5489 40 7.66668 40 7.66668V21.0833C40 32.7876 31.4666 43.3428 20 46C8.53332 43.3428 6.10351e-05 32.7876 6.10351e-05 21.0833Z" fill={controller ? "#0C77E5" : "#DDEEFF"}>
-        <animate attributeName="fill" dur="4.8s" repeatCount="indefinite" values={controller ? "#0C77E5;#0C77E5;#52A5FF;#0C77E5;#0C77E5" : "#DDEEFF;#DDEEFF;#8EC5FF;#DDEEFF;#DDEEFF"} />
+      <path d="M6.10351e-05 21.0833L2.8193e-05 7.66668C2.8193e-05 7.66668 7.87428 6.5489 10.9091 5.3077C14.1084 3.99922 20 0 20 0C20 0 25.8916 3.99922 29.0909 5.3077C32.1257 6.5489 40 7.66668 40 7.66668V21.0833C40 32.7876 31.4666 43.3428 20 46C8.53332 43.3428 6.10351e-05 32.7876 6.10351e-05 21.0833Z" fill={controller ? "#174EA6" : "#DDEEFF"}>
+        <animate attributeName="fill" dur="4.8s" repeatCount="indefinite" values={controller ? "#174EA6;#174EA6;#0969DA;#174EA6;#174EA6" : "#DDEEFF;#DDEEFF;#8EC5FF;#DDEEFF;#DDEEFF"} />
       </path>
       {controller ? (
         <path clipRule="evenodd" d="M24.1421 14.7157C21.8545 12.4281 18.1455 12.4281 15.8579 14.7157L11.7157 18.8579C9.42809 21.1455 9.42809 24.8545 11.7157 27.1421L15.8579 31.2843C18.1455 33.5719 21.8545 33.5719 24.1421 31.2843L25.0463 30.3801L22.9837 28.3175L22.4853 28.816C21.1127 30.1886 18.8873 30.1886 17.5147 28.816L14.201 25.5023C12.8284 24.1297 12.8284 21.9043 14.201 20.5317L17.5147 17.218C18.8873 15.8454 21.1127 15.8454 22.4853 17.218L25.799 20.5317C27.1716 21.9043 27.1716 24.1297 25.799 25.5023L25.5519 25.7494L27.6144 27.812L28.2843 27.1421C30.5719 24.8545 30.5719 21.1455 28.2843 18.8579L24.1421 14.7157ZM21.218 20.0759C20.5317 19.3896 19.419 19.3896 18.7327 20.0759L17.0759 21.7327C16.3896 22.419 16.3896 23.5317 17.0759 24.218L18.7327 25.8749C19.419 26.5611 20.5317 26.5611 21.218 25.8749L22.8749 24.218C23.5611 23.5317 23.5611 22.419 22.8749 21.7327L21.218 20.0759Z" fill="white" fillRule="evenodd" />
@@ -88,7 +90,7 @@ export function AcpHeroDiagram() {
         <div className="relative h-[480px] w-[1080px] origin-top-left">
           <div className="absolute left-0 top-0 flex h-[480px] w-[240px] flex-col items-center gap-5 overflow-hidden rounded-[16px] px-5 py-5">
             <div aria-hidden="true" className="absolute inset-0 z-0 bg-gradient-to-b from-white to-transparent" />
-            <p className="relative z-20 text-center text-sm font-medium leading-5 text-[#24292F]">利用する人・AI</p>
+            <p className="relative z-20 text-center text-sm font-medium leading-5 text-[#24292F]">ユーザー</p>
             <div className="relative z-20 flex w-full flex-col gap-2.5">{heroRoles.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} />)}</div>
           </div>
           <img alt="" aria-hidden="true" className="absolute left-[220px] top-[88px] z-10 h-[264px] w-[640px]" src={`${heroDiagramAssetBase}/connections.svg`} />
@@ -127,7 +129,7 @@ export function AcpHeroDiagram() {
           <div className="absolute right-0 top-0 flex h-[480px] w-[240px] flex-col items-center gap-5 overflow-hidden rounded-[16px] px-5 py-5">
             <div aria-hidden="true" className="absolute inset-0 z-0 bg-gradient-to-b from-white to-transparent" />
             <p className="relative z-20 text-center text-sm font-medium leading-5 text-[#24292F]">統制する対象</p>
-            <div className="relative z-20 flex w-full flex-col gap-2.5">{heroTargets.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} compact />)}</div>
+            <div className="relative z-20 flex w-full flex-col gap-2.5">{heroTargets.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} compact emphasizeIcon />)}</div>
           </div>
         </div>
       </div>
@@ -149,16 +151,17 @@ export function AcpHeroDiagram() {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
-          {heroTargets.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} />)}
+          {heroTargets.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} emphasizeIcon />)}
         </div>
       </div>
       <figcaption className="mx-auto mt-10 max-w-[1080px]">
-        <h2 className="text-center text-[32px] font-normal leading-[42px] tracking-[-0.03em] text-[#24292F] sm:text-[38px] sm:leading-[48px]">アクセス統制を、AI時代の共通基盤へ。</h2>
-        <p className="mx-auto mt-5 max-w-[1000px] text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">
+        <div className="mx-auto max-w-[1000px] rounded-[16px] border border-[#B6D4FE] bg-[#EAF2FF] px-6 py-6 text-left sm:px-8">
+          <p className="text-[19px] font-medium leading-[30px] tracking-[-0.02em] text-[#174EA6] sm:text-[21px] sm:leading-[32px]">
           アクセスを許可・禁止するだけでは、複雑化するインフラとAI活用を守り切れません。
           <br />
           QueryPie ACPは、統制の仕組みと対象環境を一つの基盤に集約します。
-        </p>
+          </p>
+        </div>
       </figcaption>
     </figure>
   );
