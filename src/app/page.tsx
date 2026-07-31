@@ -116,6 +116,7 @@ import {
   SolutionChoiceSubtitle,
   SolutionChoiceTitle,
 } from "@/components/sections/home/solution-choice-card";
+import { AppSpotlightCard } from "@/components/sections/app-spotlight-card";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 export const metadata: Metadata = {
   title: "信頼できるAIが、現場を動かす｜QueryPie AI",
@@ -352,6 +353,21 @@ export default function HomePage() {
               <RoadmapLinkAction>自社サービスAI化の進め方を見る</RoadmapLinkAction>
             </RoadmapLinkCard>
           </RoadmapLinkGrid>
+
+          <RoadmapCallout>
+            <RoadmapCalloutBadge>Apps</RoadmapCalloutBadge>
+            <RoadmapCalloutBody>日々の業務で使えるAIアプリを、目的に合わせて選べます。</RoadmapCalloutBody>
+          </RoadmapCallout>
+
+          <AppSpotlightCard
+            flushX
+            className="pb-0 pt-6 lg:pb-0 lg:pt-8"
+            eyebrow="業務で使えるAIアプリ"
+            title="会議から、AI活用を始める。"
+            description="会議の文字起こし、リアルタイム翻訳、要約を一つに。Lingoなら、日々の会議で生まれる情報を次の業務へスムーズにつなげられます。"
+            ctaLabel="Lingoを見る"
+            href="https://lingo.querypie.ai/ja?utm_source=querypie_ai&utm_medium=web&utm_campaign=home_lingo"
+          />
         </RoadmapSection>
 
         <PlatformRequirementsSection>
