@@ -51,6 +51,7 @@ The current public structure is:
 - `/manuals` — local manuals index and detail routes
 - `/platforms/acp` — local ACP platform page
 - `/platforms/acp/integrations` — local ACP integrations page
+- `/lingo/**` — permanent redirect to the external Japanese Lingo website
 
 Additional notes:
 

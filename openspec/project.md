@@ -40,8 +40,9 @@ explicit exclusion of news publication management live in
 Reviewer/developer tooling specs may describe internal controls that help implementation review without changing the public marketing experience. Component Name Debug is such a platform capability: it may annotate existing rendered component boundaries for reviewers, but it must not change customer-facing copy, add wrapper-only layout layers, or override the repository code-location conventions.
 
 
-## Lingo migration boundary
+## Lingo routing boundary
 
-The `/lingo/**` subtree is a namespaced Japanese-only migration of the sibling
-`../lingo-web` website. Its durable migration and same-site link contracts live in
-`openspec/specs/contract-lingo-website-migration/spec.md`.
+The local `/lingo` page family is retired. Requests for `/lingo` and its
+descendant paths permanently redirect to the external Japanese Lingo website.
+The durable redirect and local-implementation removal contract lives in
+`openspec/specs/contract-lingo-route-redirect/spec.md`.
