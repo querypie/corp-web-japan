@@ -70,7 +70,6 @@ import {
   PlatformRequirementsIntro,
   PlatformRequirementsSection,
   PlatformRequirementsTitle,
-  PlatformRequirementsVideo,
 } from "@/components/sections/home/platform-requirements-section";
 import {
   SecurityAction,
@@ -119,20 +118,20 @@ import {
 import { AppSpotlightCard } from "@/components/sections/app-spotlight-card";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 export const metadata: Metadata = {
-  title: "信頼できるAIが、現場を動かす｜QueryPie AI",
+  title: "Secure Enterprise AI｜企業のAI活用を支えるQueryPie AI",
   description:
     "QueryPie AIは、社内業務効率化と自社サービスAI化を支援するエンタープライズAI基盤です。安全性と運用性を前提に、AI活用をスモールスタートから実運用・定着まで前に進めます。",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "信頼できるAIが、現場を動かす｜QueryPie AI",
+    title: "Secure Enterprise AI｜企業のAI活用を支えるQueryPie AI",
     description:
       "QueryPie AIは、社内業務効率化と自社サービスAI化を支援するエンタープライズAI基盤です。安全性と運用性を前提に、AI活用をスモールスタートから実運用・定着まで前に進めます。",
     type: "website",
   },
   twitter: {
-    title: "信頼できるAIが、現場を動かす｜QueryPie AI",
+    title: "Secure Enterprise AI｜企業のAI活用を支えるQueryPie AI",
     description:
       "QueryPie AIは、社内業務効率化と自社サービスAI化を支援するエンタープライズAI基盤です。安全性と運用性を前提に、AI活用をスモールスタートから実運用・定着まで前に進めます。",
     card: "summary_large_image",
@@ -155,6 +154,9 @@ export default function HomePage() {
       <HeroSection
         imageSrc="/top-hero.png"
         imageAlt="QueryPie AIの導入イメージを想起させる、オフィスでAIダッシュボードを活用するチーム"
+        motionPosterSrc="/optimized/top-aip-hero-poster.jpg"
+        motionVideoSrc="https://www.querypie.com/assets/pages/home/features/Home-AIP.mp4#t=0.001"
+        motionDelayMs={3000}
       >
         <HeroProofPillGroup>
           <HeroProofPill>国際基準のセキュリティ</HeroProofPill>
@@ -417,7 +419,6 @@ export default function HomePage() {
             </PlatformRequirementsBlock>
           </PlatformRequirementsBlockList>
 
-          <PlatformRequirementsVideo src="https://www.youtube.com/embed/B-BAQRoMUnU?start=5&rel=0" />
         </PlatformRequirementsSection>
 
         <SecuritySection>
