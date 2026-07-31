@@ -70,7 +70,6 @@ import {
   PlatformRequirementsIntro,
   PlatformRequirementsSection,
   PlatformRequirementsTitle,
-  PlatformRequirementsVideo,
 } from "@/components/sections/home/platform-requirements-section";
 import {
   SecurityAction,
@@ -155,6 +154,9 @@ export default function HomePage() {
       <HeroSection
         imageSrc="/top-hero.png"
         imageAlt="QueryPie AIの導入イメージを想起させる、オフィスでAIダッシュボードを活用するチーム"
+        motionPosterSrc="/optimized/top-aip-hero-poster.jpg"
+        motionVideoSrc="https://www.querypie.com/assets/pages/home/features/Home-AIP.mp4#t=0.001"
+        motionDelayMs={3000}
       >
         <HeroProofPillGroup>
           <HeroProofPill>国際基準のセキュリティ</HeroProofPill>
@@ -417,7 +419,6 @@ export default function HomePage() {
             </PlatformRequirementsBlock>
           </PlatformRequirementsBlockList>
 
-          <PlatformRequirementsVideo src="https://www.youtube.com/embed/B-BAQRoMUnU?start=5&rel=0" />
         </PlatformRequirementsSection>
 
         <SecuritySection>

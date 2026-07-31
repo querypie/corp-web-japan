@@ -110,6 +110,7 @@ const matchers = {
     /^tests\/static-page-mobile-container-contract\.test\.mjs$/,
     /^tests\/t-plans-preview-page\.test\.mjs$/,
     /^tests\/top-page-structure\.test\.mjs$/,
+    /^tests\/top-aip-hero-motion\.test\.mjs$/,
     /^tests\/t\/solutions\//,
     /^tests\/src\/app\/page\.test\.mjs$/,
     /^tests\/src\/app\/solutions\/ai-(crew|dashi)\/page\.test\.mjs$/,
