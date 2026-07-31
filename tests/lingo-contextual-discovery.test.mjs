@@ -14,9 +14,12 @@ test("Lingo discovery links preserve each marketing page's context", () => {
 
   assert.match(homePage, /会議から、AI活用を始める。/);
   assert.match(homePage, /utm_campaign=home_lingo/);
+  assert.match(homePage, /bg-\[#f7f9fc\]/);
+  assert.match(homePage, /className="pt-0 lg:pt-0"/);
 
   assert.match(aiCrewPage, /会議で生まれる情報も、AIで整える。/);
   assert.match(aiCrewPage, /utm_campaign=solution_ai_crew_lingo/);
+  assert.match(aiCrewPage, /className="pt-0 lg:pt-0"/);
 
   assert.match(aiDashiPage, /実務に溶け込むAIアプリの一例、Lingo。/);
   assert.match(aiDashiPage, /utm_campaign=solution_ai_dashi_lingo/);

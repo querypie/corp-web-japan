@@ -381,6 +381,7 @@ export default function AICrewPage() {
         </AICrewWhyComparisonShell>
       </AICrewWhySection>
       <AppSpotlightCard
+        className="pt-0 lg:pt-0"
         eyebrow="会議の情報を、次の仕事へ"
         title="会議で生まれる情報も、AIで整える。"
         description="Lingoなら、会議の文字起こし、リアルタイム翻訳、要約を一つに。確認や共有にかかる手間を減らし、チームが次の判断と行動へ進める状態をつくります。"

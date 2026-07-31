@@ -9,6 +9,7 @@ type AppSpotlightCardProps = {
   description: ReactNode;
   ctaLabel: ReactNode;
   href: string;
+  className?: string;
 };
 
 export function AppSpotlightCard({
@@ -17,11 +18,12 @@ export function AppSpotlightCard({
   description,
   ctaLabel,
   href,
+  className,
 }: AppSpotlightCardProps) {
   return (
     <section
       {...componentNameDebugProps("AppSpotlightCard")}
-      className="mx-auto w-full max-w-[1200px] px-6 py-16 lg:px-0 lg:py-24"
+      className={`mx-auto w-full max-w-[1200px] px-6 py-16 lg:px-0 lg:py-24 ${className ?? ""}`}
     >
       <div className="flex flex-col gap-8 rounded-[28px] border border-[#d9d9d9] bg-[linear-gradient(135deg,#e9e2ff_0%,#dff2ff_54%,#f4e8f2_100%)] p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:p-12">
         <div className="flex min-w-0 flex-col gap-5 sm:flex-row sm:items-start">
