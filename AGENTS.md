@@ -204,64 +204,63 @@ Use this contract when wiring any CTA, button, banner, or in-page action through
 - Do not translate, rename, or drop supported prefill params during the redirect.
 - Unknown params may pass through unchanged, but only the documented prefill params below are part of the supported contract.
 
-### Supported query params
+### Supported query parameters
 
-- `inquiry=<stable-key>`
-  - single-value param for the visible inquiry / objective select
-- `product=<stable-key>`
-  - repeatable param for the visible product multi-select
-  - example: `?product=ai-dashi&product=aip`
+The public contact-us prefill API supports exactly these two query parameters:
 
-Do not use Salesforce field names such as `Objective__c` or localized Japanese labels as the public query API.
+| Parameter | Cardinality | Form target | Accepted values |
+| --- | --- | --- | --- |
+| `inquiry` | Optional, single value | Visible inquiry / objective select | One supported `inquiry` key listed below |
+| `product` | Optional, repeatable | Visible product multi-select | One supported `product` key per parameter occurrence, as listed below |
+
+Query parameter behavior:
+
+- Use `inquiry=<stable-key>` for a single inquiry prefill. If `inquiry` is repeated, only the first value is used.
+- Use `product=<stable-key>` for each product prefill. Repeat the parameter to select multiple products, for example `?product=ai-dashi&product=aip`.
+- `inquiry` and `product` can be used independently or together.
+- Parameter names and stable-key values are case-sensitive.
+- Unsupported inquiry and product values are ignored.
+- Repeated valid product values are deduplicated.
+- Do not use Salesforce field names such as `Objective__c`, localized Japanese labels, or any other parameter names as the public query API.
+
+The implementation source of truth is `inquiryOptions`, `productOptions`, and `getPrefilledContactUsFormState` in `src/lib/contact-us.ts`.
 
 ### Supported `inquiry` keys
 
-Use only these stable keys:
+This is the complete supported `inquiry` value set:
 
-- `ai-consulting`
-- `download`
-- `demo-request`
-- `quote-request`
-- `technical-question`
-- `partnership`
-- `other`
-
-Expected mapping on the Japan contact form:
-
-- `ai-consulting` -> `AI導入・活用について相談`
-- `download` -> `資料ダウンロード`
-- `demo-request` -> `デモを依頼`
-- `quote-request` -> `お見積もり依頼`
-- `technical-question` -> `技術的な質問`
-- `partnership` -> `パートナーシップ`
-- `other` -> `その他`
+| Stable key | Japan contact form label |
+| --- | --- |
+| `ai-consulting` | `AI導入・活用について相談` |
+| `download` | `資料ダウンロード` |
+| `demo-request` | `デモを依頼` |
+| `quote-request` | `お見積もり依頼` |
+| `technical-question` | `技術的な質問` |
+| `partnership` | `パートナーシップ` |
+| `other` | `その他` |
 
 ### Supported `product` keys
 
-Use only these stable keys:
+This is the complete supported `product` value set:
 
-- `ai-crew`
-- `ai-dashi`
-- `aip`
-- `acp`
-- `fde`
-- `partnership`
-
-Expected mapping on the Japan contact form:
-
-- `ai-crew` -> `社内業務効率化｜AI Crew`
-- `ai-dashi` -> `自社サービスAI化｜AI Dashi`
-- `aip` -> `AIプラットフォーム QueryPie AIP`
-- `acp` -> `アクセス制御プラットフォーム QueryPie ACP`
-- `fde` -> `AI専門家伴走 (FDE) サービス`
-- `partnership` -> `パートナーシップ`
+| Stable key | Japan contact form label |
+| --- | --- |
+| `lingo` | `会議記録・リアルタイム翻訳AI｜Lingo` |
+| `notepie` | `ナレッジベース コンテンツ生成AI｜NotePie` |
+| `ai-crew` | `社内業務効率化｜AI Crew` |
+| `ai-dashi` | `自社サービスAI化｜AI Dashi` |
+| `aip` | `AIプラットフォーム QueryPie AIP` |
+| `acp` | `アクセス制御プラットフォーム QueryPie ACP` |
+| `fde` | `AI専門家伴走 (FDE) サービス` |
+| `partnership` | `パートナーシップ` |
 
 ### Public URL examples
 
 - `https://querypie.ai/contact-us?inquiry=demo-request`
+- `https://querypie.ai/contact-us?product=lingo`
 - `https://querypie.ai/contact-us?inquiry=ai-consulting&product=ai-dashi`
 - `https://querypie.ai/contact-us?inquiry=download&product=aip`
-- `https://querypie.ai/contact-us?inquiry=demo-request&product=ai-crew&product=aip`
+- `https://querypie.ai/contact-us?inquiry=demo-request&product=notepie&product=ai-crew&product=aip`
 
 ### CTA authoring rules
 
