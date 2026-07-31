@@ -33,6 +33,11 @@ test("replaces Direct Ignore automation with repo-local Global content operation
   assert.match(operations, /title, summary, full body, date, slug, source, and media/);
   assert.match(operations, /Equivalent|Different|Ambiguous/);
   assert.match(operations, /tracking manifests[\s\S]*before generating the final report/);
+  assert.match(operations, /Remaining Untracked review gate/);
+  assert.match(operations, /user must explicitly approve every Ignore identity/);
+  assert.match(operations, /AI MUST NOT infer or auto-approve Ignore/);
+  assert.match(operations, /op:\/\/Shared\/corp-web-japan-global-content-webhooks\/test/);
+  assert.match(operations, /op:\/\/Shared\/corp-web-japan-global-content-webhooks\/prod/);
   assert.match(operations, /explicit send approval/);
   assert.match(operations, /MUST NOT auto-merge/);
   assert.match(publication, /^---\nname: global-to-japan-publication\ndescription: Use when/m);

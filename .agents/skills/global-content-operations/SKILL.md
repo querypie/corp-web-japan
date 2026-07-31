@@ -22,12 +22,15 @@ Run locally on demand. GitHub Actions remains a deterministic report sender; AI 
    - `Different`: related but distinct publication;
    - `Ambiguous`: evidence cannot establish one identity.
 6. For a single unambiguous `Equivalent`, remove any active Ignore row for that identity and add the exact `baseline.json` mapping without asking the user to repeat confirmation. For `Different`, leave it `Untracked`. For `Ambiguous` or multiple plausible targets, stop and show evidence.
-7. Apply owner-provided intentional exclusions through `.agents/skills/global-content-ignore/SKILL.md`. Never infer Ignore from “no candidate.” Never Ignore a publishable or equivalent item.
+7. Apply the **Remaining Untracked review gate** only after every `Equivalent` baseline mapping is staged. Show the remaining identities and evidence. The user must explicitly approve every Ignore identity. AI MUST NOT infer or auto-approve Ignore from “no candidate,” age, family, or missing Japan content. Apply approved exclusions through `.agents/skills/global-content-ignore/SKILL.md`; never Ignore a publishable or equivalent item.
 8. Apply new-publication requests through `.agents/skills/global-to-japan-publication/SKILL.md`. Do not create duplicate MDX for an equivalent candidate.
 9. Validate and update all tracking manifests before generating the final report. Run focused tests, `npm run test:ci`, `git diff --check`, and a new dry-run against the changed worktree.
 10. Show the user the review table, baseline additions/removals, Ignore additions/removals, unresolved items, final counts, and exact Slack payload preview.
 11. Commit, push, and open normal human-reviewed PRs. **MUST NOT auto-merge.** After merge, fetch latest `main` and rerun the report.
-12. Do not send any webhook before explicit send approval. `테스트로 보내` uses the test webhook; `프로덕션으로 보내` uses production. An unqualified `보내` requires destination confirmation.
+12. Do not send any webhook before explicit send approval. Read secrets only at send time with `op read`, never print or persist them:
+    - test: `op://Shared/corp-web-japan-global-content-webhooks/test`
+    - production: `op://Shared/corp-web-japan-global-content-webhooks/prod`
+    `테스트로 보내` uses test; `프로덕션으로 보내` uses production. An unqualified `보내` requires destination confirmation. Stop if `op` fails or the value is not a Slack Incoming Webhook URL.
 
 ## Review table
 
