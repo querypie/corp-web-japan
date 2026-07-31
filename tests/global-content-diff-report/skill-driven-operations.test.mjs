@@ -7,7 +7,7 @@ const root = process.cwd();
 const ignoreWorkflowPath = path.join(root, ".github/workflows/ignore-global-content-diff.yml");
 const reportWorkflowPath = path.join(root, ".github/workflows/global-content-diff-report.yml");
 const ciWorkflowPath = path.join(root, ".github/workflows/ci.yml");
-const envSamplePath = path.join(root, ".env.sample");
+const envExamplePath = path.join(root, ".env.example");
 const initEnvPath = path.join(root, "scripts/init-global-content-env");
 const skillIndexPath = path.join(root, ".agents/skills/README.md");
 const operationsSkillPath = path.join(root, ".agents/skills/global-content-operations/SKILL.md");
@@ -21,12 +21,12 @@ test("replaces Direct Ignore automation with repo-local Global content operation
   const ci = await readFile(ciWorkflowPath, "utf8");
   assert.doesNotMatch(ci, /validate-ignore-pr|Validate Ignore manifest additions|ignore_manifest/);
 
-  const [index, operations, publication, ignore, envSample, initEnv] = await Promise.all([
+  const [index, operations, publication, ignore, envExample, initEnv] = await Promise.all([
     readFile(skillIndexPath, "utf8"),
     readFile(operationsSkillPath, "utf8"),
     readFile(publicationSkillPath, "utf8"),
     readFile(ignoreSkillPath, "utf8"),
-    readFile(envSamplePath, "utf8"),
+    readFile(envExamplePath, "utf8"),
     readFile(initEnvPath, "utf8"),
   ]);
 
@@ -48,7 +48,7 @@ test("replaces Direct Ignore automation with repo-local Global content operation
   assert.match(operations, /\.env\.local/);
   assert.match(operations, /npm run global-content:init/);
   assert.doesNotMatch(operations, /Read secrets only at send time with `op read`/);
-  assert.equal(envSample, [
+  assert.equal(envExample, [
     "GLOBAL_CONTENT_DIFF_SLACK_BOT_TOKEN=",
     "GLOBAL_CONTENT_DIFF_TEST_SLACK_CHANNEL_ID=",
     "GLOBAL_CONTENT_DIFF_PROD_SLACK_CHANNEL_ID=",
