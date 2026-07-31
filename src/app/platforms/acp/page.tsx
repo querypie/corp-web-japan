@@ -81,7 +81,7 @@ export default function AcpPage() {
                 AI活用まで統制する。
               </AcpHeroTitle>
               <AcpHeroLead>
-                QueryPie ACPは、データベース、システム、Kubernetes、Web/SaaS、MCPへのアクセスを一元制御するアクセス制御プラットフォームです。
+                QueryPie ACPは、データベース、システム、Kubernetes、Web/SaaS、MCPへのアクセスを一元制御するプラットフォームです。
                 <br />
                 最小権限、申請・承認、監査ログ、セッション記録、DLPを統合し、複雑なインフラ全体で監査に耐えるガバナンスを実現します。
               </AcpHeroLead>

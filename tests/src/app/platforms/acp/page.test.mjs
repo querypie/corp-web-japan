@@ -18,6 +18,7 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(routeSource, /<SiteFooter \/>/);
   assert.match(routeSource, /アクセスを一元化し、/);
   assert.match(routeSource, /AI活用まで統制する。/);
+  assert.match(routeSource, /Web\/SaaS、MCPへのアクセスを一元制御するプラットフォームです。/);
   assert.match(routeSource, /最小権限、申請・承認、監査ログ、セッション記録、DLP/);
 
   assert.match(routeSource, /DAC｜データアクセス制御/);
@@ -55,4 +56,7 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(browserClientSource, /categories\.map\(\(category, index\)/);
   assert.match(browserClientSource, /前のアクセス制御を表示/);
   assert.match(browserClientSource, /次のアクセス制御を表示/);
+
+  const heroPrimitiveSource = readSource("src/components/sections/acp/hero-primitives.tsx");
+  assert.match(heroPrimitiveSource, /max-w-\[860px\].*text-left.*text-\[16px\]/);
 });
