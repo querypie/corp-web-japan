@@ -10,5 +10,5 @@ export function AcpHeroTitle({ children }: { children: ReactNode }) {
 }
 
 export function AcpHeroLead({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("AcpHeroLead")} className="w-full max-w-[860px] self-center text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+  return <p {...componentNameDebugProps("AcpHeroLead")} className="w-full max-w-[1080px] self-center text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
 }

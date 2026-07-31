@@ -55,8 +55,9 @@ function HeroDiagramItem({ label, asset }: { label: string; asset: string }) {
 
 export function AcpHeroDiagram() {
   return (
-    <div {...componentNameDebugProps("AcpHeroDiagram")} aria-label="QueryPie ACPのアクセス統制フロー" className="mx-auto w-full max-w-[1080px] overflow-hidden rounded-[24px] border border-slate-200 bg-[#F6F8FA] p-5 shadow-[0_24px_80px_-55px_rgba(15,23,42,0.48)] sm:p-8">
-      <div className="relative hidden min-h-[430px] grid-cols-[190px_minmax(0,1fr)_190px] items-center gap-8 lg:grid">
+    <figure {...componentNameDebugProps("AcpHeroDiagram")} aria-label="QueryPie ACPのアクセス統制フロー" className="mx-auto w-full max-w-[1080px]">
+      <div className="relative hidden min-h-[480px] grid-cols-[190px_minmax(0,1fr)_190px] items-center gap-8 overflow-hidden lg:grid">
+        <img alt="" aria-hidden="true" className="pointer-events-none absolute left-[18%] top-[21%] z-0 h-[58%] w-[64%] object-fill opacity-70" src={`${heroDiagramAssetBase}/connections.svg`} />
         <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 1000 430" fill="none" preserveAspectRatio="none">
           <defs>
             <linearGradient id="acp-flow" x1="0" x2="1">
@@ -121,40 +122,16 @@ export function AcpHeroDiagram() {
           {heroTargets.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} />)}
         </div>
       </div>
-    </div>
+      <figcaption className="mx-auto mt-10 max-w-[1080px]">
+        <h2 className="text-center text-[32px] font-normal leading-[42px] tracking-[-0.03em] text-[#24292F] sm:text-[38px] sm:leading-[48px]">アクセス統制を、AI時代の共通基盤へ。</h2>
+        <p className="mx-auto mt-5 max-w-[1000px] text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">
+          アクセスを許可・禁止するだけでは、複雑化するインフラとAI活用を守り切れません。
+          <br />
+          QueryPie ACPは、統制の仕組みと対象環境を一つの基盤に集約します。
+        </p>
+      </figcaption>
+    </figure>
   );
-}
-
-export function AcpGovernanceSection({ children }: { children: ReactNode }) {
-  return <PlatformContentSection {...componentNameDebugProps("AcpGovernanceSection")} className="bg-[#F6F8FA] py-[100px]">{children}</PlatformContentSection>;
-}
-
-export function AcpGovernanceInner({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpGovernanceInner")} className="flex w-full max-w-[1200px] flex-col gap-10">{children}</div>;
-}
-
-export function AcpGovernanceIntro({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpGovernanceIntro")} className="mx-auto flex max-w-[1000px] flex-col gap-5 text-center">{children}</div>;
-}
-
-export function AcpGovernanceGrid({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpGovernanceGrid")} className="grid gap-5 lg:grid-cols-2">{children}</div>;
-}
-
-export function AcpGovernanceCard({ children }: { children: ReactNode }) {
-  return <article {...componentNameDebugProps("AcpGovernanceCard")} className="rounded-[1.5rem] border border-slate-200 bg-white p-7 shadow-[0_22px_56px_-46px_rgba(15,23,42,0.24)] sm:p-8">{children}</article>;
-}
-
-export function AcpGovernanceCardTitle({ children }: { children: ReactNode }) {
-  return <h3 {...componentNameDebugProps("AcpGovernanceCardTitle")} className="text-[24px] font-semibold tracking-[-0.03em] text-slate-950">{children}</h3>;
-}
-
-export function AcpGovernanceList({ children }: { children: ReactNode }) {
-  return <ul {...componentNameDebugProps("AcpGovernanceList")} className="mt-5 grid gap-2.5 text-[15px] leading-7 text-slate-600 sm:grid-cols-2">{children}</ul>;
-}
-
-export function AcpGovernanceListItem({ children }: { children: ReactNode }) {
-  return <li {...componentNameDebugProps("AcpGovernanceListItem")} className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#174EA6]" />{children}</li>;
 }
 
 export function AcpFeatureSection({ children }: { children: ReactNode }) {
