@@ -164,16 +164,17 @@ function validateOperationsSummary(summary) {
     if (!/^(documentation|news):cnt_\d+$/.test(item?.identity || "")) {
       throw new Error("operations summary item has invalid identity");
     }
-    for (const key of ["title", "targetFamily", "dateIso", "target", "verdict", "action"]) {
+    for (const key of ["title", "targetFamily", "dateIso", "target", "verdict", "state", "action"]) {
       if (typeof item[key] !== "string" || !item[key].trim()) throw new Error(`operations summary item requires ${key}`);
     }
+    if (!new Set(["pending", "reconciled"]).has(item.state)) throw new Error("operations summary item has invalid state");
     if (!/^\d{4}-\d{2}-\d{2}$/.test(item.dateIso)) throw new Error("operations summary item has invalid dateIso");
     validateHttpsUrl(item.globalUrl, "globalUrl");
     if (item.verdict === "Equivalent") validateHttpsUrl(item.japanUrl, "japanUrl");
   }
 }
 
-function reviewItemText({ title, targetFamily, dateIso, identity, result, globalUrl, japanUrl }) {
+function reviewItemText({ title, targetFamily, dateIso, identity, verdictLabel, stateLabel, globalUrl, japanUrl }) {
   const globalHref = escapeMrkdwn(validateHttpsUrl(globalUrl, "globalUrl"));
   const japanLink = japanUrl
     ? `<${escapeMrkdwn(validateHttpsUrl(japanUrl, "japanUrl"))}|Japan>`
@@ -181,7 +182,8 @@ function reviewItemText({ title, targetFamily, dateIso, identity, result, global
   return [
     `*${escapeMrkdwn(truncate(title, MAX_TITLE_LENGTH))}*`,
     `_${escapeMrkdwn(familyLabel(targetFamily))} · ${escapeMrkdwn(dateIso)}_ · \`${escapeMrkdwn(identity)}\``,
-    escapeMrkdwn(result),
+    `Verdict · ${escapeMrkdwn(verdictLabel)}`,
+    `State · ${escapeMrkdwn(stateLabel)}`,
     `View: <${globalHref}|Global> · ${japanLink}`,
   ].join("\n");
 }
@@ -202,21 +204,37 @@ function reviewContainer(title, items) {
 function operationsSummaryBlock(report) {
   const summary = report.operationsSummary;
   validateOperationsSummary(summary);
-  const synced = summary.items.filter(({ verdict }) => verdict === "Equivalent").length;
+  const pending = summary.items.filter(({ state }) => state === "pending").length;
+  const reconciled = summary.items.filter(({ state }) => state === "reconciled").length;
   const reviewNeeded = report.items.filter(({ status }) => status === "Untracked").length;
   const ignored = report.items.filter(({ status }) => status === "Ignored").length;
   return {
     type: "section",
-    text: { type: "mrkdwn", text: `Today · Synced ${synced}\nCurrent · Review needed ${reviewNeeded} · Ignored ${ignored}` },
+    text: {
+      type: "mrkdwn",
+      text: [
+        pending ? `This run · Pending reconciliation ${pending}` : null,
+        `Today · Reconciled ${reconciled}`,
+        `Current · Review needed ${reviewNeeded} · Ignored ${ignored}`,
+      ].filter(Boolean).join("\n"),
+    },
   };
 }
 
 function operationsContainers(report) {
-  const syncedItems = report.operationsSummary.items
-    .filter(({ verdict }) => verdict === "Equivalent")
+  const pendingItems = report.operationsSummary.items
+    .filter(({ state }) => state === "pending")
     .map((item) => ({
       ...item,
-      result: `Existing Japan content matched · ${item.action}`,
+      verdictLabel: item.verdict,
+      stateLabel: "Waiting for baseline PR merge",
+    }));
+  const reconciledItems = report.operationsSummary.items
+    .filter(({ state }) => state === "reconciled")
+    .map((item) => ({
+      ...item,
+      verdictLabel: item.verdict,
+      stateLabel: `Reconciled · ${item.action}`,
     }));
   const reviewItems = report.items
     .filter(({ status }) => status === "Untracked")
@@ -225,7 +243,8 @@ function operationsContainers(report) {
       ...item,
       globalUrl: item.sourceUrl,
       japanUrl: null,
-      result: item.possibleJapanMatches?.length
+      verdictLabel: "Not established",
+      stateLabel: item.possibleJapanMatches?.length
         ? "Possible Japan match found · Review required"
         : "No matching Japan content confirmed",
     }));
@@ -236,10 +255,12 @@ function operationsContainers(report) {
       ...item,
       globalUrl: item.sourceUrl,
       japanUrl: null,
-      result: "Intentionally excluded from Japan sync",
+      verdictLabel: "Not applicable",
+      stateLabel: "Intentionally excluded from Japan sync",
     }));
   return [
-    syncedItems.length ? reviewContainer("Synced today", syncedItems) : null,
+    pendingItems.length ? reviewContainer("Pending reconciliation", pendingItems) : null,
+    reconciledItems.length ? reviewContainer("Reconciled today", reconciledItems) : null,
     reviewItems.length ? reviewContainer("Review needed", reviewItems) : null,
     ignoredItems.length ? reviewContainer("Ignored", ignoredItems) : null,
   ].filter(Boolean);
@@ -290,9 +311,13 @@ function renderPayload({ report, metadata, partNumber, totalParts, containers, i
   };
 }
 
-export function buildSlackPayloads(report, metadata) {
+export function buildSlackPayloads(report, metadata, { final = false } = {}) {
   if (!/^[0-9a-f]{40}$/.test(metadata?.globalSha || "") || !/^[0-9a-f]{40}$/.test(metadata?.japanSha || "")) {
     throw new Error("Slack metadata requires full commit SHAs");
+  }
+
+  if (final && report?.operationsSummary?.items.some(({ state }) => state === "pending")) {
+    throw new Error("pending reconciliation cannot be delivered as a final report");
   }
 
   if (report?.operationsSummary) {

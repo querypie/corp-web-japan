@@ -41,7 +41,9 @@ test("replaces Direct Ignore automation with repo-local Global content operation
   assert.match(operations, /Equivalent|Different|Ambiguous/);
   assert.match(operations, /tracking manifests[\s\S]*before generating the final report/);
   assert.match(operations, /report\.operationsSummary/);
-  assert.match(operations, /Global Content Review[\s\S]*default-collapsed content-card[\s\S]*explicit site links/);
+  assert.match(operations, /Global Content Review[\s\S]*same default-collapsed `reviewContainer`[\s\S]*verdict, state, and site links/);
+  assert.match(operations, /`state` is `pending`[\s\S]*`reconciled` only after latest-main validation/);
+  assert.match(operations, /\{ final: true \}[\s\S]*reject any `pending` item/);
   assert.match(operations, /Remaining Untracked review gate/);
   assert.match(operations, /user must explicitly approve every Ignore identity/);
   assert.match(operations, /AI MUST NOT infer or auto-approve Ignore/);
