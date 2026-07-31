@@ -55,6 +55,9 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(browserClientSource, /<video/);
   assert.doesNotMatch(browserClientSource, /詳細を見る/);
   assert.doesNotMatch(browserClientSource, /next\/link/);
+  assert.match(browserClientSource, /ACCESS CONTROL/);
+  assert.match(browserClientSource, /製品を選択/);
+  assert.match(browserClientSource, /aria-live="polite"/);
   assert.match(browserClientSource, /categories\.map\(\(category, index\)/);
   assert.match(browserClientSource, /前のアクセス制御を表示/);
   assert.match(browserClientSource, /次のアクセス制御を表示/);

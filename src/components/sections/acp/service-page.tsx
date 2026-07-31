@@ -158,7 +158,7 @@ export function AcpGovernanceListItem({ children }: { children: ReactNode }) {
 }
 
 export function AcpFeatureSection({ children }: { children: ReactNode }) {
-  return <PlatformContentSection {...componentNameDebugProps("AcpFeatureSection")} className="pb-[80px]">{children}</PlatformContentSection>;
+  return <PlatformContentSection {...componentNameDebugProps("AcpFeatureSection")} className="py-[100px]">{children}</PlatformContentSection>;
 }
 
 export function AcpFeatureInner({ children }: { children: ReactNode }) {
