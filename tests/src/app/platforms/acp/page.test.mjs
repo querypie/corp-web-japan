@@ -42,9 +42,11 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(sectionSource, /function FlowPulse/);
   assert.match(sectionSource, /<animateMotion/);
   assert.match(sectionSource, /shield-mask\.png/);
-  assert.match(sectionSource, /emphasizeIcon/);
-  assert.match(sectionSource, /bg-\[#174EA6\]/);
-  assert.match(sectionSource, /AI活用を守り切れません。\s*<br \/>/);
+  assert.match(sectionSource, /DLP \(Data Loss Prevention\)/);
+  assert.match(sectionSource, /iconTone/);
+  assert.match(sectionSource, /brightness-0/);
+  assert.match(sectionSource, /max-w-\[520px\]/);
+  assert.match(sectionSource, /AI活用を守り切れません。QueryPie ACPは/);
   assert.match(sectionSource, /ユーザー/);
   assert.match(sectionSource, /bg-\[#EAF2FF\]/);
   assert.match(sectionSource, /Home-ACP\.mp4#t=0\.001/);
