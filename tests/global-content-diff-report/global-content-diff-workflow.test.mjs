@@ -96,10 +96,16 @@ test("workflow is independent, read-only, scheduled for weekdays at 10 JST, and 
   assert.doesNotMatch(source, /pull-requests: read/);
   assert.match(source, /name: Checkout Japan repository[\s\S]*?with:[\s\S]*?ref: main/);
   assert.match(source, /name: Checkout Global repository[\s\S]*?repository: querypie\/corp-web-v2[\s\S]*?ref: main[\s\S]*?persist-credentials: false/);
-  assert.match(source, /GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL/);
+  assert.match(source, /name: Set up Node\.js[\s\S]*node-version: "22"/);
+  assert.match(source, /name: Install Japan dependencies[\s\S]*working-directory: japan[\s\S]*run: npm ci/);
+  const installIndex = source.indexOf("name: Install Japan dependencies");
+  const reportIndex = source.indexOf("name: Build and send Global-only report");
+  assert.ok(installIndex !== -1 && installIndex < reportIndex, "dependencies must be installed before report execution");
+  assert.match(source, /GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL: \$\{\{ secrets\.GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL \}\}/);
   assert.match(source, /if: failure\(\)/);
+  assert.match(source, /WEBHOOK_URL: \$\{\{ secrets\.GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL \}\}/);
   assert.match(source, /Global content diff report failed/);
-  assert.doesNotMatch(source, /CONTENT_SYNC_SLACK_WEBHOOK_URL|ALERT_WEBHOOK_URL/);
+  assert.doesNotMatch(source, /secrets\.GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL|CONTENT_SYNC_SLACK_WEBHOOK_URL|ALERT_WEBHOOK_URL/);
   assert.doesNotMatch(source, /GH_TOKEN/);
   assert.doesNotMatch(source, /pull_request_target|git push|gh pr create|n8n|<@/);
 
@@ -206,6 +212,9 @@ test("CLI rejects empty or unrelated HTTP 200 production evidence", async () => 
 test("delivery contract acknowledges visible partial multipart delivery", async () => {
   const source = await readFile(contractPath, "utf8");
   assert.match(source, /already delivered parts remain visible/);
+  assert.match(source, /`GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL`/);
+  assert.match(source, /`GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL`/);
+  assert.match(source, /unsuccessful[\s\S]*test webhook/i);
   assert.match(source, /compact failure notification/);
   assert.doesNotMatch(source, /send only a compact failure notification/);
   assert.doesNotMatch(source, /roll(?:ed)? back/);

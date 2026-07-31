@@ -31,9 +31,20 @@ jobs:
           path: global
           persist-credentials: false
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: japan/package-lock.json
+
+      - name: Install Japan dependencies
+        working-directory: japan
+        run: npm ci
+
       - name: Build and send Global-only report
         env:
-          GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL: ${{ secrets.GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL }}
+          GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL: ${{ secrets.GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL }}
         run: >-
           node japan/scripts/global-content-diff-report/cli.mjs
           --global-repo "$GITHUB_WORKSPACE/global"
@@ -43,7 +54,7 @@ jobs:
         if: failure()
         continue-on-error: true
         env:
-          WEBHOOK_URL: ${{ secrets.GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL }}
+          WEBHOOK_URL: ${{ secrets.GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           payload="$(RUN_URL="$RUN_URL" node --input-type=module -e '
