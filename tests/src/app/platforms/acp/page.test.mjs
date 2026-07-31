@@ -16,8 +16,7 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
-  assert.match(routeSource, /アクセスを一元化し、/);
-  assert.match(routeSource, /AI活用まで統制する。/);
+  assert.match(routeSource, /アクセス統制を、AI時代の共通基盤へ。/);
   assert.match(routeSource, /Web\/SaaS、MCPへのアクセスを一元制御するプラットフォームです。/);
   assert.match(routeSource, /最小権限、申請・承認、監査ログ、セッション記録、DLP/);
 
@@ -46,8 +45,9 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(sectionSource, /shield-mask\.png/);
   assert.match(sectionSource, /emphasizeIcon/);
   assert.match(sectionSource, /bg-\[#174EA6\]/);
-  assert.match(sectionSource, /アクセス統制を、AI時代の共通基盤へ。/);
   assert.match(sectionSource, /AI活用を守り切れません。\s*<br \/>/);
+  assert.match(sectionSource, /ユーザー/);
+  assert.match(sectionSource, /bg-\[#EAF2FF\]/);
   assert.match(sectionSource, /Home-ACP\.mp4#t=0\.001/);
   assert.doesNotMatch(sectionSource, /youtube\.com\/embed\/AWnknC76Jpo/);
   assert.doesNotMatch(routeSource, /AcpGovernanceSection/);

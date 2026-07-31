@@ -90,7 +90,7 @@ export function AcpHeroDiagram() {
         <div className="relative h-[480px] w-[1080px] origin-top-left">
           <div className="absolute left-0 top-0 flex h-[480px] w-[240px] flex-col items-center gap-5 overflow-hidden rounded-[16px] px-5 py-5">
             <div aria-hidden="true" className="absolute inset-0 z-0 bg-gradient-to-b from-white to-transparent" />
-            <p className="relative z-20 text-center text-sm font-medium leading-5 text-[#24292F]">利用する人・AI</p>
+            <p className="relative z-20 text-center text-sm font-medium leading-5 text-[#24292F]">ユーザー</p>
             <div className="relative z-20 flex w-full flex-col gap-2.5">{heroRoles.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} />)}</div>
           </div>
           <img alt="" aria-hidden="true" className="absolute left-[220px] top-[88px] z-10 h-[264px] w-[640px]" src={`${heroDiagramAssetBase}/connections.svg`} />
@@ -155,12 +155,13 @@ export function AcpHeroDiagram() {
         </div>
       </div>
       <figcaption className="mx-auto mt-10 max-w-[1080px]">
-        <h2 className="text-center text-[32px] font-normal leading-[42px] tracking-[-0.03em] text-[#24292F] sm:text-[38px] sm:leading-[48px]">アクセス統制を、AI時代の共通基盤へ。</h2>
-        <p className="mx-auto mt-5 max-w-[1000px] text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">
+        <div className="mx-auto max-w-[1000px] rounded-[16px] border border-[#B6D4FE] bg-[#EAF2FF] px-6 py-6 text-left sm:px-8">
+          <p className="text-[19px] font-medium leading-[30px] tracking-[-0.02em] text-[#174EA6] sm:text-[21px] sm:leading-[32px]">
           アクセスを許可・禁止するだけでは、複雑化するインフラとAI活用を守り切れません。
           <br />
           QueryPie ACPは、統制の仕組みと対象環境を一つの基盤に集約します。
-        </p>
+          </p>
+        </div>
       </figcaption>
     </figure>
   );
