@@ -771,16 +771,13 @@ test("renders an AI-reviewed operations summary before final report items", () =
   const [payload] = buildSlackPayloads(report, slackMetadata);
   const rendered = JSON.stringify(payload);
 
-  assert.equal(payload.blocks[0].text.text, "🌐 Global content operations");
-  assert.match(rendered, /\*Today’s changes · 2026-07-31\*/);
-  assert.match(rendered, /Global additions 1 · Existing Japan matches 1/);
-  assert.match(rendered, /`documentation:cnt_000216` → Blog 34/);
-  assert.match(rendered, /AI: Equivalent · Baseline added/);
-  assert.match(rendered, /New MDX 0 · Baseline \+1 \/ -0 · Ignore \+0 \/ -0/);
-  assert.ok(
-    payload.blocks.findIndex((block) => block.type === "section" && block.text.text.includes("Today’s changes"))
-      < payload.blocks.findIndex((block) => block.type === "container"),
-  );
+  assert.equal(payload.blocks[0].text.text, "🌐 Global sync");
+  assert.match(rendered, /\*1 new Global item · already in Japan\*/);
+  assert.match(rendered, /✅ `documentation:cnt_000216` → \*Blog 34\*/);
+  assert.match(rendered, /Same content · baseline added/);
+  assert.match(rendered, /Baseline \+1 · Ignore unchanged · New MDX 0/);
+  assert.match(rendered, /Untracked 0 · Ignored 1 · Global 1 · Japan 0/);
+  assert.equal(payload.blocks.some((block) => block.type === "container"), false);
 });
 
 test("paginates without dropping or duplicating identities", () => {

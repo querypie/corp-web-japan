@@ -5,6 +5,7 @@ import test from "node:test";
 
 const root = process.cwd();
 const ignoreWorkflowPath = path.join(root, ".github/workflows/ignore-global-content-diff.yml");
+const reportWorkflowPath = path.join(root, ".github/workflows/global-content-diff-report.yml");
 const ciWorkflowPath = path.join(root, ".github/workflows/ci.yml");
 const skillIndexPath = path.join(root, ".agents/skills/README.md");
 const operationsSkillPath = path.join(root, ".agents/skills/global-content-operations/SKILL.md");
@@ -13,6 +14,7 @@ const ignoreSkillPath = path.join(root, ".agents/skills/global-content-ignore/SK
 
 test("replaces Direct Ignore automation with repo-local Global content operation skills", async () => {
   await assert.rejects(access(ignoreWorkflowPath));
+  await assert.rejects(access(reportWorkflowPath));
 
   const ci = await readFile(ciWorkflowPath, "utf8");
   assert.doesNotMatch(ci, /validate-ignore-pr|Validate Ignore manifest additions|ignore_manifest/);
@@ -28,13 +30,14 @@ test("replaces Direct Ignore automation with repo-local Global content operation
   assert.match(index, /global-to-japan-publication/);
   assert.match(index, /global-content-ignore/);
   assert.match(operations, /^---\nname: global-content-operations\ndescription: Use when/m);
+  assert.match(operations, /local-only/);
   assert.match(operations, /latest `main` snapshots/);
   assert.match(operations, /Baseline review gate/);
   assert.match(operations, /title, summary, full body, date, slug, source, and media/);
   assert.match(operations, /Equivalent|Different|Ambiguous/);
   assert.match(operations, /tracking manifests[\s\S]*before generating the final report/);
   assert.match(operations, /report\.operationsSummary/);
-  assert.match(operations, /Global additions[\s\S]*existing Japan matches[\s\S]*AI verdict\/action/);
+  assert.match(operations, /new Global count[\s\S]*existing Japan match[\s\S]*natural-language verdict\/action/);
   assert.match(operations, /Remaining Untracked review gate/);
   assert.match(operations, /user must explicitly approve every Ignore identity/);
   assert.match(operations, /AI MUST NOT infer or auto-approve Ignore/);

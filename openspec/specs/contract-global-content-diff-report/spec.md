@@ -6,7 +6,6 @@ Define the standalone production contract for reporting every production-publish
 
 ## Current implementation references
 
-- `.github/workflows/global-content-diff-report.yml`
 - `scripts/global-content-diff-report/**`
 - `tests/global-content-diff-report/**`
 - `.github/content-sync/baseline.json`
@@ -164,36 +163,29 @@ Items SHALL be deterministic. Slack SHALL group `Untracked` before `Ignored`, th
 - **THEN** no identity SHALL be omitted or duplicated
 - **AND** each payload SHALL show its part number
 
-### Requirement: Read-only standalone report workflow
+### Requirement: Local-only execution and explicit delivery
 
-The report workflow SHALL use GitHub-hosted execution and repository read permission only. It SHALL NOT create or mutate branches, commits, issues, pull requests, or ignore decisions.
+Global reconciliation and report delivery SHALL run only through the repo-local `.agents/skills/global-content-operations/SKILL.md`. No scheduled or manually dispatched Global report GitHub Actions workflow SHALL exist. The skill SHALL fetch both latest `main` snapshots, update and validate tracking manifests, then build a final local preview.
 
-#### Scenario: Report workflow runs
+Webhook values SHALL be read only at explicit send time from the documented 1Password references. No payload SHALL be sent before the user explicitly chooses test or production delivery.
 
-- **GIVEN** a scheduled or manual report run
-- **WHEN** the job starts
-- **THEN** it SHALL request `contents: read`
-- **AND** it SHALL perform no repository mutation
+#### Scenario: Operator runs local reconciliation
 
-### Requirement: Weekday schedule and manual execution
-
-The report workflow SHALL define cron `0 1 * * 1-5` and `workflow_dispatch`.
-
-#### Scenario: Maintainer inspects triggers
-
-- **WHEN** the workflow is inspected
-- **THEN** both triggers SHALL be present
+- **GIVEN** the operator invokes `global-content-operations`
+- **WHEN** reconciliation completes
+- **THEN** the skill SHALL show the AI review, tracking changes, final counts, and exact Block Kit preview
+- **AND** it SHALL wait for explicit destination approval before delivery
 
 ### Requirement: Zero state and fail-closed behavior
 
-A zero-difference run SHALL send a compact success payload. Successful reports SHALL use `GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL`. Unsafe inventory, dependency setup, mapping, payload, or delivery failures SHALL fail closed; already delivered parts remain visible and SHALL remain visibly incomplete through `Part N of M`. Every unsuccessful workflow run SHALL attempt a compact failure notification through the test webhook `GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL`, never through the production webhook.
+A zero-difference run SHALL build a compact success payload. Unsafe inventory, mapping, payload, or delivery failures SHALL fail closed; already delivered multipart sections remain visible and SHALL remain visibly incomplete through `Part N of M`.
 
 #### Scenario: Delivery fails
 
-- **GIVEN** report delivery cannot complete
-- **WHEN** failure handling runs
+- **GIVEN** an explicitly approved local delivery cannot complete
+- **WHEN** delivery fails
 - **THEN** a partial report SHALL NOT be represented as complete
-- **AND** a compact failure notification SHALL be attempted
+- **AND** the local operation SHALL report the failure without retrying another destination
 
 ### Requirement: Skill-driven Ignore PR preparation
 

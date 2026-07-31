@@ -64,7 +64,7 @@ Additional notes:
 
 ## Global content diff operations
 
-The standalone Global content diff system sends a full-snapshot, Global-only Slack report from GitHub Actions on weekdays at 10:00 JST. It is read-only: no server, automatic translation, MDX/assets generation, mutation workflow, Slack button, n8n, or auto-merge. `Untracked` items are expanded; `Ignored` items are collapsed. `Possible Japan match` evidence is diagnostic only: baseline authority, status, and counts remain unchanged, and zero candidates are not proof that Japan content is absent.
+Global content reconciliation runs locally on demand through the repo-local `global-content-operations` skill. There is no scheduled Global report GitHub Action. The skill compares the latest Global/Japan `main` snapshots, performs AI baseline review, applies only user-approved Ignore decisions, validates tracking manifests, previews the final Slack Block Kit, and sends only after explicit test/production approval.
 
 Use repo-local skills for normal human-reviewed PR creation:
 

@@ -215,7 +215,6 @@ jobs:
               - 'tests/whitepaper-route-aligned-assets.test.mjs'
             cross_cutting:
               - '.github/content-sync/**'
-              - '.github/workflows/global-content-diff-report.yml'
               - 'scripts/global-content-diff-report/**'
               - 'tests/global-content-diff-report/**'
               - 'src/app/page.tsx'

@@ -149,6 +149,7 @@ function operationsSummaryBlock(summary) {
   if (!Array.isArray(summary.items) || summary.items.length > 20) {
     throw new Error("operations summary items must be an array with at most 20 entries");
   }
+  const verdictLabels = { Equivalent: "Same content", Different: "Different content", Ambiguous: "Needs review" };
   const items = summary.items.map((item) => {
     if (!/^(documentation|news):cnt_\d+$/.test(item?.identity || "")) {
       throw new Error("operations summary item has invalid identity");
@@ -156,20 +157,41 @@ function operationsSummaryBlock(summary) {
     for (const key of ["target", "verdict", "action"]) {
       if (typeof item[key] !== "string" || !item[key].trim()) throw new Error(`operations summary item requires ${key}`);
     }
-    return `• \`${escapeMrkdwn(item.identity)}\` → ${escapeMrkdwn(item.target)}\n  AI: ${escapeMrkdwn(item.verdict)} · ${escapeMrkdwn(item.action)}`;
+    const verdict = verdictLabels[item.verdict] || item.verdict;
+    const action = `${item.action[0].toLowerCase()}${item.action.slice(1)}`;
+    return `✅ \`${escapeMrkdwn(item.identity)}\` → *${escapeMrkdwn(item.target)}*\n${escapeMrkdwn(verdict)} · ${escapeMrkdwn(action)}`;
   });
+  const itemLabel = summary.globalAdded === 1 ? "item" : "items";
+  const matchLabel = summary.globalAdded === summary.existingJapanMatches
+    ? "already in Japan"
+    : `${summary.existingJapanMatches} already in Japan`;
   return {
     type: "section",
     text: {
       type: "mrkdwn",
       text: [
-        `*Today’s changes · ${summary.dateJst}*`,
-        `Global additions ${summary.globalAdded} · Existing Japan matches ${summary.existingJapanMatches}`,
+        `*${summary.globalAdded} new Global ${itemLabel} · ${matchLabel}*`,
         ...items,
-        `New MDX ${summary.newMdx} · Baseline +${summary.baselineAdded} / -${summary.baselineRemoved} · Ignore +${summary.ignoreAdded} / -${summary.ignoreRemoved}`,
       ].join("\n"),
     },
   };
+}
+
+function operationsContext(report, metadata, partNumber, totalParts) {
+  const summary = report.operationsSummary;
+  const untracked = report.items.filter(({ status }) => status === "Untracked").length;
+  const ignored = report.items.filter(({ status }) => status === "Ignored").length;
+  const baseline = summary.baselineRemoved === 0
+    ? `Baseline +${summary.baselineAdded}`
+    : `Baseline +${summary.baselineAdded} / -${summary.baselineRemoved}`;
+  const ignore = summary.ignoreAdded === 0 && summary.ignoreRemoved === 0
+    ? "Ignore unchanged"
+    : `Ignore +${summary.ignoreAdded} / -${summary.ignoreRemoved}`;
+  return [
+    `${baseline} · ${ignore} · New MDX ${summary.newMdx}`,
+    `Untracked ${untracked} · Ignored ${ignored} · Global ${report.counts.globalPublished} · Japan ${report.counts.japanPresent}`,
+    runContext(report, metadata, partNumber, totalParts),
+  ].join("\n");
 }
 
 function renderPayload({ report, metadata, partNumber, totalParts, containers, isFirst }) {
@@ -177,30 +199,35 @@ function renderPayload({ report, metadata, partNumber, totalParts, containers, i
   const blocks = [
     {
       type: "header",
-      text: { type: "plain_text", text: report.operationsSummary ? "🌐 Global content operations" : "🌐 Global-only report" },
+      text: { type: "plain_text", text: report.operationsSummary ? "🌐 Global sync" : "🌐 Global-only report" },
     },
   ];
 
   if (isFirst) {
-    blocks.push({
-      type: "section",
-      text: { type: "mrkdwn", text: summarizeCounts(report) },
-    });
-    if (report.operationsSummary) blocks.push(operationsSummaryBlock(report.operationsSummary));
+    if (report.operationsSummary) {
+      blocks.push(operationsSummaryBlock(report.operationsSummary));
+    } else {
+      blocks.push({
+        type: "section",
+        text: { type: "mrkdwn", text: summarizeCounts(report) },
+      });
+    }
   }
 
   blocks.push({
     type: "context",
     elements: [{
       type: "mrkdwn",
-      text: runContext(report, metadata, partNumber, totalParts),
+      text: report.operationsSummary
+        ? operationsContext(report, metadata, partNumber, totalParts)
+        : runContext(report, metadata, partNumber, totalParts),
     }],
   });
 
   blocks.push(...containers);
 
   return {
-    text: `Global-only report${totalParts > 1 ? ` — ${partLabel}` : ""}${isFirst ? ` — ${summarizeCounts(report)}` : ""}`,
+    text: `${report.operationsSummary ? "Global sync" : "Global-only report"}${totalParts > 1 ? ` — ${partLabel}` : ""}${isFirst ? ` — ${summarizeCounts(report)}` : ""}`,
     blocks,
   };
 }
@@ -216,18 +243,18 @@ export function buildSlackPayloads(report, metadata) {
       blocks: [
         {
           type: "header",
-          text: { type: "plain_text", text: report.operationsSummary ? "🌐 Global content operations" : "🌐 Global-only report" },
+          text: { type: "plain_text", text: report.operationsSummary ? "🌐 Global sync" : "🌐 Global-only report" },
         },
-        {
-          type: "section",
-          text: { type: "mrkdwn", text: "No Global-only content." },
-        },
-        ...(report.operationsSummary ? [operationsSummaryBlock(report.operationsSummary)] : []),
+        ...(report.operationsSummary
+          ? [operationsSummaryBlock(report.operationsSummary)]
+          : [{ type: "section", text: { type: "mrkdwn", text: "No Global-only content." } }]),
         {
           type: "context",
           elements: [{
             type: "mrkdwn",
-            text: runContext(report, metadata),
+            text: report.operationsSummary
+              ? operationsContext(report, metadata, 1, 1)
+              : runContext(report, metadata),
           }],
         },
       ],
@@ -236,6 +263,7 @@ export function buildSlackPayloads(report, metadata) {
 
   const containers = [];
   for (const status of STATUS_ORDER) {
+    if (report.operationsSummary && status === "Ignored") continue;
     const statusItems = report.items
       .filter((item) => item.status === status)
       .sort(compareSlackItems);
@@ -248,7 +276,7 @@ export function buildSlackPayloads(report, metadata) {
     });
   }
 
-  const payloadContainerGroups = chunk(containers, CONTAINERS_PER_PAYLOAD);
+  const payloadContainerGroups = containers.length ? chunk(containers, CONTAINERS_PER_PAYLOAD) : [[]];
   return payloadContainerGroups.map((containerGroup, index) => renderPayload({
     report,
     metadata,
