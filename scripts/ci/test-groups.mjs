@@ -95,6 +95,7 @@ const matchers = {
     /^tests\/typecheck-tsconfig-contract\.test\.mjs$/,
   ],
   staticPages: [
+    /^tests\/apps-page\.test\.mjs$/,
     /^tests\/about-us-page-structure\.test\.mjs$/,
     /^tests\/ai-crew-page-structure\.test\.mjs$/,
     /^tests\/ai-dashi-page-structure\.test\.mjs$/,
