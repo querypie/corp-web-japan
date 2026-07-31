@@ -32,7 +32,9 @@ Both skills use a fresh dry-run and never auto-merge. Ignore creation stops for 
 
 - Cron: `0 1 * * 1-5` (weekdays 10:00 JST).
 - Manual report execution: `workflow_dispatch`.
-- Secret: `GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL`.
+- Production report secret: `GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL`.
+- Failure notification secret: `GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL`.
+- The CLI still receives its selected destination through the internal `GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL` environment variable.
 
 ## Entry points
 

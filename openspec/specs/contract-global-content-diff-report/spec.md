@@ -186,7 +186,7 @@ The report workflow SHALL define cron `0 1 * * 1-5` and `workflow_dispatch`.
 
 ### Requirement: Zero state and fail-closed behavior
 
-A zero-difference run SHALL send a compact success payload. Unsafe inventory, mapping, payload, or delivery failures SHALL fail closed; already delivered parts remain visible and SHALL remain visibly incomplete through `Part N of M`. The workflow SHALL attempt a compact failure notification.
+A zero-difference run SHALL send a compact success payload. Successful reports SHALL use `GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL`. Unsafe inventory, dependency setup, mapping, payload, or delivery failures SHALL fail closed; already delivered parts remain visible and SHALL remain visibly incomplete through `Part N of M`. Every unsuccessful workflow run SHALL attempt a compact failure notification through the test webhook `GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL`, never through the production webhook.
 
 #### Scenario: Delivery fails
 
