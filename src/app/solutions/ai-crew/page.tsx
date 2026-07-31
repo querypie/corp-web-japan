@@ -379,15 +379,26 @@ export default function AICrewPage() {
             </AICrewWhyAfterDesktopLayout>
           </AICrewWhyAfterCard>
         </AICrewWhyComparisonShell>
+
+        <div className="mx-auto mt-8 max-w-[1120px]">
+          <div className="flex justify-center">
+            <div className="inline-flex flex-col items-center gap-2 rounded-full border border-slate-200 bg-white/85 px-5 py-3 text-center shadow-[0_18px_42px_-34px_rgba(15,23,42,0.18)] backdrop-blur-sm sm:flex-row sm:gap-3">
+              <span className="rounded-full bg-[#2f3a49] px-3 py-1 text-[11px] font-semibold tracking-[0.12em] text-white">Apps</span>
+              <span className="text-[14px] font-semibold tracking-[-0.01em] text-slate-800">日々の業務で使えるAIアプリを、目的に合わせて選べます。</span>
+            </div>
+          </div>
+
+          <AppSpotlightCard
+            flushX
+            className="pb-0 pt-6 lg:pb-0 lg:pt-8"
+            eyebrow="会議の情報を、次の仕事へ"
+            title="会議で生まれる情報も、AIで整える。"
+            description="Lingoなら、会議の文字起こし、リアルタイム翻訳、要約を一つに。確認や共有にかかる手間を減らし、チームが次の判断と行動へ進める状態をつくります。"
+            ctaLabel="会議の記録・翻訳をAIで始める"
+            href="https://lingo.querypie.ai/ja?utm_source=querypie_ai&utm_medium=web&utm_campaign=solution_ai_crew_lingo"
+          />
+        </div>
       </AICrewWhySection>
-      <AppSpotlightCard
-        className="pt-0 lg:pt-0"
-        eyebrow="会議の情報を、次の仕事へ"
-        title="会議で生まれる情報も、AIで整える。"
-        description="Lingoなら、会議の文字起こし、リアルタイム翻訳、要約を一つに。確認や共有にかかる手間を減らし、チームが次の判断と行動へ進める状態をつくります。"
-        ctaLabel="会議の記録・翻訳をAIで始める"
-        href="https://lingo.querypie.ai/ja?utm_source=querypie_ai&utm_medium=web&utm_campaign=solution_ai_crew_lingo"
-      />
       <AICrewDesignElementsSection>
         <AICrewDesignElementsTitle>
           あなたの

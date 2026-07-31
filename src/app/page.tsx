@@ -360,6 +360,7 @@ export default function HomePage() {
           </RoadmapCallout>
 
           <AppSpotlightCard
+            flushX
             className="pb-0 pt-6 lg:pb-0 lg:pt-8"
             eyebrow="業務で使えるAIアプリ"
             title="会議から、AI活用を始める。"
