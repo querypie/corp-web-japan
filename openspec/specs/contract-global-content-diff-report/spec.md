@@ -167,7 +167,7 @@ Items SHALL be deterministic. Slack SHALL group `Untracked` before `Ignored`, th
 
 Global reconciliation and report delivery SHALL run only through the repo-local `.agents/skills/global-content-operations/SKILL.md`. No scheduled or manually dispatched Global report GitHub Actions workflow SHALL exist. The skill SHALL fetch both latest `main` snapshots, update and validate tracking manifests, then build a final local preview.
 
-Webhook values SHALL be read only at explicit send time from the documented 1Password references. No payload SHALL be sent before the user explicitly chooses test or production delivery.
+A one-time local initializer SHALL read both webhook values from the documented 1Password references and store them in the main checkout’s gitignored `.env.local` for reuse across worktrees. Later sends SHALL use that local environment without repeated 1Password requests. Values SHALL never be printed or committed. No payload SHALL be sent before the user explicitly chooses test or production delivery.
 
 #### Scenario: Operator runs local reconciliation
 

@@ -31,12 +31,12 @@ Both skills use a fresh dry-run and never auto-merge. Ignore creation stops for 
 
 ## Local delivery
 
-The skill reads webhooks only at explicit send time:
+Run `npm run global-content:init` once. It reads the test and production webhooks from 1Password and writes them to the main checkout’s gitignored `.env.local`, shared by all worktrees. Later sends source that file without another 1Password request.
 
-- test: `op://Shared/corp-web-japan-global-content-webhooks/test`
-- production: `op://Shared/corp-web-japan-global-content-webhooks/prod`
+- test env: `GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL`
+- production env: `GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL`
 
-Values are passed to the CLI through `GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL` and are never printed or persisted.
+The selected value is passed to the CLI through `GLOBAL_CONTENT_DIFF_SLACK_WEBHOOK_URL`. Values are never printed or committed.
 
 ## Entry points
 

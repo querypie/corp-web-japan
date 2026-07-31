@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT="$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+command -v op >/dev/null 2>&1 || {
+  echo "1Password CLI (op) is required." >&2
+  exit 1
+}
+
+umask 077
+COMMON_GIT_DIR="$(git rev-parse --path-format=absolute --git-common-dir)"
+ENV_FILE="$(dirname "$COMMON_GIT_DIR")/.env.local"
+TMP_FILE="$(mktemp)"
+trap 'rm -f "$TMP_FILE"' EXIT
+
+if [[ -f "$ENV_FILE" ]]; then
+  grep -Ev '^GLOBAL_CONTENT_DIFF_(TEST|PROD)_SLACK_WEBHOOK_URL=' "$ENV_FILE" > "$TMP_FILE" || true
+fi
+
+test_webhook="$(op read 'op://Shared/corp-web-japan-global-content-webhooks/test')"
+prod_webhook="$(op read 'op://Shared/corp-web-japan-global-content-webhooks/prod')"
+
+for webhook in "$test_webhook" "$prod_webhook"; do
+  [[ "$webhook" == https://hooks.slack.com/services/* ]] || {
+    echo "1Password contains an invalid Slack Incoming Webhook URL." >&2
+    exit 1
+  }
+done
+
+cat >> "$TMP_FILE" <<EOF
+GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL=$test_webhook
+GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL=$prod_webhook
+EOF
+
+mv "$TMP_FILE" "$ENV_FILE"
+chmod 600 "$ENV_FILE"
+trap - EXIT
+
+echo ".env.local updated with Global content webhooks."

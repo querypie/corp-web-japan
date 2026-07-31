@@ -7,6 +7,8 @@ const root = process.cwd();
 const ignoreWorkflowPath = path.join(root, ".github/workflows/ignore-global-content-diff.yml");
 const reportWorkflowPath = path.join(root, ".github/workflows/global-content-diff-report.yml");
 const ciWorkflowPath = path.join(root, ".github/workflows/ci.yml");
+const envExamplePath = path.join(root, ".env.example");
+const initEnvPath = path.join(root, "scripts/init-global-content-env");
 const skillIndexPath = path.join(root, ".agents/skills/README.md");
 const operationsSkillPath = path.join(root, ".agents/skills/global-content-operations/SKILL.md");
 const publicationSkillPath = path.join(root, ".agents/skills/global-to-japan-publication/SKILL.md");
@@ -19,11 +21,13 @@ test("replaces Direct Ignore automation with repo-local Global content operation
   const ci = await readFile(ciWorkflowPath, "utf8");
   assert.doesNotMatch(ci, /validate-ignore-pr|Validate Ignore manifest additions|ignore_manifest/);
 
-  const [index, operations, publication, ignore] = await Promise.all([
+  const [index, operations, publication, ignore, envExample, initEnv] = await Promise.all([
     readFile(skillIndexPath, "utf8"),
     readFile(operationsSkillPath, "utf8"),
     readFile(publicationSkillPath, "utf8"),
     readFile(ignoreSkillPath, "utf8"),
+    readFile(envExamplePath, "utf8"),
+    readFile(initEnvPath, "utf8"),
   ]);
 
   assert.match(index, /global-content-operations/);
@@ -41,8 +45,14 @@ test("replaces Direct Ignore automation with repo-local Global content operation
   assert.match(operations, /Remaining Untracked review gate/);
   assert.match(operations, /user must explicitly approve every Ignore identity/);
   assert.match(operations, /AI MUST NOT infer or auto-approve Ignore/);
-  assert.match(operations, /op:\/\/Shared\/corp-web-japan-global-content-webhooks\/test/);
-  assert.match(operations, /op:\/\/Shared\/corp-web-japan-global-content-webhooks\/prod/);
+  assert.match(operations, /\.env\.local/);
+  assert.match(operations, /npm run global-content:init/);
+  assert.doesNotMatch(operations, /Read secrets only at send time with `op read`/);
+  assert.match(envExample, /GLOBAL_CONTENT_DIFF_TEST_SLACK_WEBHOOK_URL=/);
+  assert.match(envExample, /GLOBAL_CONTENT_DIFF_PROD_SLACK_WEBHOOK_URL=/);
+  assert.match(initEnv, /op:\/\/Shared\/corp-web-japan-global-content-webhooks\/test/);
+  assert.match(initEnv, /op:\/\/Shared\/corp-web-japan-global-content-webhooks\/prod/);
+  assert.match(initEnv, /\.env\.local/);
   assert.match(operations, /explicit send approval/);
   assert.match(operations, /MUST NOT auto-merge/);
   assert.match(publication, /^---\nname: global-to-japan-publication\ndescription: Use when/m);
