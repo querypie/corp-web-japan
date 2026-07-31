@@ -153,7 +153,10 @@ export async function SiteFooter() {
           className={previewModeEnabled ? `${styles.footerLinks} ${styles.footerLinksPreview}` : styles.footerLinks}
         >
           {footerColumns.map((column) => (
-            <div key={column.title} className={styles.linkColumn}>
+            <div
+              key={column.title}
+              className={column.title === "アプリ" ? `${styles.linkColumn} ${styles.appLinkColumn}` : styles.linkColumn}
+            >
               <h4>{column.title}</h4>
               <ul
                 className={
