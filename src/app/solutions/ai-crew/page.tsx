@@ -191,6 +191,7 @@ import {
   AICrewUseCaseTab,
   AICrewUseCaseTabbedCard,
 } from "@/components/sections/ai-crew/use-cases-section";
+import { AppSpotlightCard } from "@/components/sections/app-spotlight-card";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 const aiCrewPageDescription =
@@ -379,6 +380,13 @@ export default function AICrewPage() {
           </AICrewWhyAfterCard>
         </AICrewWhyComparisonShell>
       </AICrewWhySection>
+      <AppSpotlightCard
+        eyebrow="会議の情報を、次の仕事へ"
+        title="会議で生まれる情報も、AIで整える。"
+        description="Lingoなら、会議の文字起こし、リアルタイム翻訳、要約を一つに。確認や共有にかかる手間を減らし、チームが次の判断と行動へ進める状態をつくります。"
+        ctaLabel="会議の記録・翻訳をAIで始める"
+        href="https://lingo.querypie.ai/ja?utm_source=querypie_ai&utm_medium=web&utm_campaign=solution_ai_crew_lingo"
+      />
       <AICrewDesignElementsSection>
         <AICrewDesignElementsTitle>
           あなたの

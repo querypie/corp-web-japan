@@ -32,6 +32,7 @@ import {
   AipValueSection,
   AipValueTitle,
 } from "@/components/sections/aip/page";
+import { AppSpotlightCard } from "@/components/sections/app-spotlight-card";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
 import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
@@ -145,6 +146,14 @@ export default function AipPage() {
           </AipValueGrid>
         </AipValueInner>
       </AipValueSection>
+
+      <AppSpotlightCard
+        eyebrow="QueryPie AIPで提供する、実務のためのAIアプリ"
+        title="会議を、次の業務につなげるLingo。"
+        description="Lingoは、会議の文字起こし、リアルタイム翻訳、要約を一つにしたAIアプリです。QueryPie AIPが提供する安全性と運用性を土台に、会議で生まれる情報を次の行動へつなげます。"
+        ctaLabel="Lingoを見る"
+        href="https://lingo.querypie.ai/ja?utm_source=querypie_ai&utm_medium=web&utm_campaign=platform_aip_lingo"
+      />
 
       <AipFeatureSection muted>
         <AipFeatureInner>

@@ -106,6 +106,7 @@ const matchers = {
     /^tests\/legal-privacy-policy-preview\.test\.mjs$/,
     /^tests\/legal-terms-of-service\.test\.mjs$/,
     /^tests\/legal-mdx-(cache|formatting)\.test\.mjs$/,
+    /^tests\/lingo-contextual-discovery\.test\.mjs$/,
     /^tests\/static-page-mobile-container-contract\.test\.mjs$/,
     /^tests\/t-plans-preview-page\.test\.mjs$/,
     /^tests\/top-page-structure\.test\.mjs$/,
