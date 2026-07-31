@@ -44,6 +44,8 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(sectionSource, /function FlowPulse/);
   assert.match(sectionSource, /<animateMotion/);
   assert.match(sectionSource, /shield-mask\.png/);
+  assert.match(sectionSource, /emphasizeIcon/);
+  assert.match(sectionSource, /bg-\[#174EA6\]/);
   assert.match(sectionSource, /アクセス統制を、AI時代の共通基盤へ。/);
   assert.match(sectionSource, /AI活用を守り切れません。\s*<br \/>/);
   assert.match(sectionSource, /Home-ACP\.mp4#t=0\.001/);
