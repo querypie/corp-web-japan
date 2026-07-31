@@ -46,3 +46,13 @@ test("footer links can wrap on narrow mobile widths", () => {
   assert.match(footerStyles, /\.linkColumn a\s*\{[^}]*white-space:\s*normal;/s);
   assert.match(footerStyles, /\.linkColumn a\s*\{[^}]*overflow-wrap:\s*anywhere;/s);
 });
+
+test("footer keeps the app link on one line without reducing responsive column widths", () => {
+  const footer = readSource("src/components/layout/site-footer.tsx");
+  const footerStyles = readSource("src/components/layout/site-footer.module.css");
+
+  assert.match(footer, /styles\.appLinkColumn/);
+  assert.match(footerStyles, /\.appLinkColumn a\s*\{[^}]*white-space:\s*nowrap;/s);
+  assert.match(footerStyles, /@media \(min-width: 768px\)[\s\S]*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\);/);
+  assert.match(footerStyles, /@media \(min-width: 1280px\)[\s\S]*minmax\(250px, 1\.1fr\)/);
+});

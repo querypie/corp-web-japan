@@ -38,7 +38,6 @@ export async function SiteFooter() {
       title: "アプリ",
       mobileLayout: "single",
       links: [
-        { label: "全てのアプリ", href: "/apps" },
         { label: "会議記録・リアルタイム翻訳AI｜Lingo", href: "https://lingo.querypie.ai/ja" },
       ],
     },
@@ -154,7 +153,10 @@ export async function SiteFooter() {
           className={previewModeEnabled ? `${styles.footerLinks} ${styles.footerLinksPreview}` : styles.footerLinks}
         >
           {footerColumns.map((column) => (
-            <div key={column.title} className={styles.linkColumn}>
+            <div
+              key={column.title}
+              className={column.title === "アプリ" ? `${styles.linkColumn} ${styles.appLinkColumn}` : styles.linkColumn}
+            >
               <h4>{column.title}</h4>
               <ul
                 className={

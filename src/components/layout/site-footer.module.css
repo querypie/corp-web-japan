@@ -115,6 +115,11 @@
   color: #fff;
 }
 
+.appLinkColumn a {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
 .footerBottom {
   display: flex;
   flex-direction: column;
@@ -151,7 +156,7 @@
 
 @media (min-width: 768px) {
   .footerLinks {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .linkListCompact {
@@ -161,12 +166,12 @@
   }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1280px) {
   .footerLinks {
-    grid-template-columns: minmax(220px, 1.35fr) minmax(180px, 1.1fr) minmax(210px, 1.25fr) minmax(90px, 0.7fr) minmax(130px, 0.9fr) minmax(120px, 0.8fr);
+    grid-template-columns: minmax(220px, 1.35fr) minmax(250px, 1.1fr) minmax(210px, 1.25fr) minmax(90px, 0.7fr) minmax(130px, 0.9fr) minmax(120px, 0.8fr);
   }
 
   .footerLinksPreview {
-    grid-template-columns: minmax(220px, 1.25fr) minmax(180px, 1fr) minmax(200px, 1.1fr) minmax(90px, 0.7fr) minmax(120px, 0.85fr) minmax(120px, 0.8fr) minmax(180px, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
