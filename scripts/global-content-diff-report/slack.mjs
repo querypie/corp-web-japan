@@ -229,8 +229,8 @@ function operationsContainers(report) {
         : "No matching Japan content confirmed",
     }));
   return [
-    syncedItems.length ? reviewContainer("✅ Synced", syncedItems) : null,
-    reviewItems.length ? reviewContainer("⚠️ Review needed", reviewItems) : null,
+    syncedItems.length ? reviewContainer("Synced", syncedItems) : null,
+    reviewItems.length ? reviewContainer("Review needed", reviewItems) : null,
   ].filter(Boolean);
 }
 

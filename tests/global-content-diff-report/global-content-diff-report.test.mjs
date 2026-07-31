@@ -780,7 +780,7 @@ test("renders an AI-reviewed operations summary before final report items", () =
   assert.equal(payload.blocks[1].text.text, "Synced 1 · Review needed 0 · New MDX 0");
   const containers = payload.blocks.filter((block) => block.type === "container");
   assert.equal(containers.length, 1);
-  assert.equal(containers[0].title.text, "✅ Synced · 1 item");
+  assert.equal(containers[0].title.text, "Synced · 1 item");
   assert.equal(containers[0].default_collapsed, true);
   assert.match(rendered, /\*ISO\/IEC 42001 — Building an AI Inventory\*/);
   assert.match(rendered, /_Blog · 2026-07-31_ · `documentation:cnt_000216`/);
@@ -813,7 +813,7 @@ test("renders unresolved content with the same collapsed review card shape", () 
 
   assert.equal(payload.blocks[1].text.text, "Synced 0 · Review needed 1 · New MDX 0");
   assert.equal(containers.length, 1);
-  assert.equal(containers[0].title.text, "⚠️ Review needed · 1 item");
+  assert.equal(containers[0].title.text, "Review needed · 1 item");
   assert.equal(containers[0].default_collapsed, true);
   assert.match(rendered, new RegExp(`<${item.sourceUrl.replaceAll("/", "\\/")}\\|Global>`));
   assert.match(rendered, /Japan match unavailable/);
