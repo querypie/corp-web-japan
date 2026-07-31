@@ -174,7 +174,7 @@ describe("ACP static public route rollout", () => {
     assert.match(heroPrimitives, /flex w-full max-w-\[1200px\] flex-col items-center gap-\[20px\] text-center/);
     assert.match(heroPrimitives, /text-\[48px\] font-normal leading-\[56px\] tracking-normal text-\[#24292F\] lg:text-\[60px\] lg:leading-\[72px\]/);
     assert.match(heroPrimitives, /export function AcpHeroLead/);
-    assert.match(heroPrimitives, /w-full max-w-\[1200px\] text-\[18px\] font-light leading-\[28px\] tracking-\[0\.36px\] text-\[#57606A\]/);
+    assert.match(heroPrimitives, /w-full max-w-\[1080px\] self-center text-left text-\[16px\] font-light leading-\[26px\] tracking-\[0\.36px\] text-\[#57606A\]/);
     assert.doesNotMatch(heroPrimitives, /max-w-\[760px\]/);
     assert.match(staticPageSection, /<section[^>]*className="px-6 pb-0 pt-\[134px\] lg:pt-\[144px\]"/);
     assert.doesNotMatch(staticPageSection, /pt-\[70px\] md:pt-20/);

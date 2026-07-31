@@ -24,20 +24,12 @@ import {
   AcpFeatureInner,
   AcpFeatureIntro,
   AcpFeatureSection,
-  AcpGovernanceCard,
-  AcpGovernanceCardTitle,
-  AcpGovernanceGrid,
-  AcpGovernanceInner,
-  AcpGovernanceIntro,
-  AcpGovernanceList,
-  AcpGovernanceListItem,
-  AcpGovernanceSection,
   AcpHeroCopy,
   AcpHeroInner,
   AcpHeroLead,
   AcpHeroSection,
   AcpHeroTitle,
-  AcpHeroVideo,
+  AcpHeroDiagram,
   AcpIntegrationsBody,
   AcpIntegrationsImage,
   AcpIntegrationsInner,
@@ -81,7 +73,7 @@ export default function AcpPage() {
                 AI活用まで統制する。
               </AcpHeroTitle>
               <AcpHeroLead>
-                QueryPie ACPは、データベース、システム、Kubernetes、Web/SaaS、MCPへのアクセスを一元制御するアクセス制御プラットフォームです。
+                QueryPie ACPは、データベース、システム、Kubernetes、Web/SaaS、MCPへのアクセスを一元制御するプラットフォームです。
                 <br />
                 最小権限、申請・承認、監査ログ、セッション記録、DLPを統合し、複雑なインフラ全体で監査に耐えるガバナンスを実現します。
               </AcpHeroLead>
@@ -89,50 +81,10 @@ export default function AcpPage() {
           </RevealOnScroll>
 
           <RevealOnScroll delayMs={120} className="w-full">
-            <AcpHeroVideo />
+            <AcpHeroDiagram />
           </RevealOnScroll>
         </AcpHeroInner>
       </AcpHeroSection>
-
-      <AcpGovernanceSection>
-        <AcpGovernanceInner>
-          <RevealOnScroll>
-            <AcpGovernanceIntro>
-              <AcpSectionTitle>アクセス統制を、AI時代の共通基盤へ</AcpSectionTitle>
-              <AcpSectionBody>
-                アクセスを許可・禁止するだけでは、複雑化するインフラとAI活用を守り切れません。QueryPie ACPは、統制の仕組みと対象環境を一つの基盤に集約します。
-              </AcpSectionBody>
-            </AcpGovernanceIntro>
-          </RevealOnScroll>
-
-          <RevealOnScroll delayMs={100}>
-            <AcpGovernanceGrid>
-              <AcpGovernanceCard>
-                <AcpGovernanceCardTitle>統制の仕組み</AcpGovernanceCardTitle>
-                <AcpGovernanceList>
-                  <AcpGovernanceListItem>最小権限アクセス</AcpGovernanceListItem>
-                  <AcpGovernanceListItem>申請・承認ワークフロー</AcpGovernanceListItem>
-                  <AcpGovernanceListItem>監査ログ・セッション記録</AcpGovernanceListItem>
-                  <AcpGovernanceListItem>DLP・機密データマスキング</AcpGovernanceListItem>
-                  <AcpGovernanceListItem>ポリシー管理</AcpGovernanceListItem>
-                  <AcpGovernanceListItem>異常操作の可視化</AcpGovernanceListItem>
-                </AcpGovernanceList>
-              </AcpGovernanceCard>
-
-              <AcpGovernanceCard>
-                <AcpGovernanceCardTitle>統制の対象</AcpGovernanceCardTitle>
-                <AcpGovernanceList>
-                  <AcpGovernanceListItem>データベース</AcpGovernanceListItem>
-                  <AcpGovernanceListItem>サーバー・システム</AcpGovernanceListItem>
-                  <AcpGovernanceListItem>Kubernetes</AcpGovernanceListItem>
-                  <AcpGovernanceListItem>Webアプリケーション・SaaS</AcpGovernanceListItem>
-                  <AcpGovernanceListItem>MCPツール・MCPサーバー</AcpGovernanceListItem>
-                </AcpGovernanceList>
-              </AcpGovernanceCard>
-            </AcpGovernanceGrid>
-          </RevealOnScroll>
-        </AcpGovernanceInner>
-      </AcpGovernanceSection>
 
       <AcpFeatureSection>
         <AcpFeatureInner>
@@ -152,7 +104,6 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-dac.mp4#t=0.001"
                   mediaAlt="データベースアクセス制御のデモ"
-                  learnMoreHref="/platforms/acp/database-access-controller"
                 >
                   <AcpFeatureItemTitle>データを可視化し、必要な範囲だけを許可</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
@@ -168,7 +119,6 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-sac.mp4#t=0.001"
                   mediaAlt="システムアクセス制御のデモ"
-                  learnMoreHref="/platforms/acp/system-access-controller"
                 >
                   <AcpFeatureItemTitle>サーバー操作を、統制と監査のもとに</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
@@ -184,7 +134,6 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-kac.mp4#t=0.001"
                   mediaAlt="Kubernetesアクセス制御のデモ"
-                  learnMoreHref="/platforms/acp/kubernetes-access-controller"
                 >
                   <AcpFeatureItemTitle>マルチクラスタ環境を、一つのポリシーで管理</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
@@ -200,7 +149,6 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-wac.mp4#t=0.001"
                   mediaAlt="Web/SaaSアクセス制御のデモ"
-                  learnMoreHref="/platforms/acp/web-access-controller"
                 >
                   <AcpFeatureItemTitle>WebアプリとSaaSの利用状況を、一元的に把握</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
@@ -216,7 +164,6 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-mac.mp4#t=0.001"
                   mediaAlt="MCPアクセス制御のデモ"
-                  learnMoreHref="/platforms/aip/mcp-gateway"
                 >
                   <AcpFeatureItemTitle>AIエージェントのツール利用を、安全に統制</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
