@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ClipboardCheck, MessageSquareText, Network } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
@@ -188,15 +189,15 @@ export default function AcpPage() {
           <RevealOnScroll delayMs={120}>
             <AcpAiPackContent>
               <AcpAiPackCardGrid>
-                <AcpAiPackCard>
+                <AcpAiPackCard icon={MessageSquareText}>
                   <AcpAiPackCardTitle>AI Chat</AcpAiPackCardTitle>
                   <AcpAiPackCardBody>自然言語で、分析・権限確認・監査作業を進められます。</AcpAiPackCardBody>
                 </AcpAiPackCard>
-                <AcpAiPackCard>
+                <AcpAiPackCard icon={Network}>
                   <AcpAiPackCardTitle>ACP MCP</AcpAiPackCardTitle>
                   <AcpAiPackCardBody>社内外のAIエージェントからQueryPieのMCPツールを安全に利用できます。</AcpAiPackCardBody>
                 </AcpAiPackCard>
-                <AcpAiPackCard>
+                <AcpAiPackCard icon={ClipboardCheck}>
                   <AcpAiPackCardTitle>AI Skills</AcpAiPackCardTitle>
                   <AcpAiPackCardBody>監査レポートの作成や権限変更履歴の整理など、定型的なセキュリティ業務を自動化します。</AcpAiPackCardBody>
                 </AcpAiPackCard>
@@ -214,12 +215,12 @@ export default function AcpPage() {
               <AcpIntegrationsTitle>
                 ひとつの統制基盤で、
                 <br />
-                すべてのインフラとAIの接点を管理する
+                すべてのインフラとAIのアクセスを一元管理
               </AcpIntegrationsTitle>
               <AcpIntegrationsBody>
-                データベース、サーバー、Kubernetes、Webアプリケーション、アイデンティティプロバイダ、セキュリティツールなど50以上のシステムと連携。インフラ全体とAI活用をまたぐ、統一された権限制御を実現します。
+                データベース、サーバー、Kubernetes、Webアプリケーション、アイデンティティプロバイダ、セキュリティツールなど50種類以上のシステムと連携。連携対象に加え、権限・ポリシー・監査を一つの基盤で統制する価値を明確化します。
               </AcpIntegrationsBody>
-              <AcpIntegrationsLink href="/platforms/acp/integrations">対応するACP統合機能を見る</AcpIntegrationsLink>
+              <AcpIntegrationsLink href="/platforms/acp/integrations">ACPの統合機能を見る→</AcpIntegrationsLink>
             </div>
           </RevealOnScroll>
 

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import type { LucideIcon } from "lucide-react";
 import { PlatformContentSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 export { AcpHeroCopy, AcpHeroLead, AcpHeroTitle } from "@/components/sections/acp/hero-primitives";
@@ -241,15 +242,24 @@ export function AcpAiPackBody({ children }: { children: ReactNode }) {
 }
 
 export function AcpAiPackContent({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpAiPackContent")} className="flex flex-col-reverse gap-8 lg:flex-row-reverse lg:items-center lg:gap-[60px]">{children}</div>;
+  return <div {...componentNameDebugProps("AcpAiPackContent")} className="flex flex-col-reverse gap-8 lg:flex-row-reverse lg:items-center lg:gap-10">{children}</div>;
 }
 
 export function AcpAiPackCardGrid({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpAiPackCardGrid")} className="grid w-full min-w-0 flex-1 gap-3">{children}</div>;
+  return <div {...componentNameDebugProps("AcpAiPackCardGrid")} className="grid w-full min-w-0 flex-1 gap-3 lg:w-[400px] lg:max-w-[36%] lg:flex-none">{children}</div>;
 }
 
-export function AcpAiPackCard({ children }: { children: ReactNode }) {
-  return <article {...componentNameDebugProps("AcpAiPackCard")} className="rounded-[1.2rem] border border-white/10 bg-white/[0.06] p-5 backdrop-blur-sm">{children}</article>;
+export function AcpAiPackCard({ children, icon: Icon }: { children: ReactNode; icon: LucideIcon }) {
+  return (
+    <article {...componentNameDebugProps("AcpAiPackCard")} className="min-h-[128px] rounded-[1.2rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm">
+      <div className="flex items-start gap-3">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#8EC5FF]/15 text-[#8EC5FF]">
+          <Icon aria-hidden="true" className="h-5 w-5" strokeWidth={1.8} />
+        </span>
+        <div className="min-w-0">{children}</div>
+      </div>
+    </article>
+  );
 }
 
 export function AcpAiPackCardTitle({ children }: { children: ReactNode }) {
@@ -262,7 +272,7 @@ export function AcpAiPackCardBody({ children }: { children: ReactNode }) {
 
 export function AcpAiPackVideo() {
   return (
-    <div {...componentNameDebugProps("AcpAiPackVideo")} className="w-full shrink-0 overflow-hidden rounded-[1.5rem] border border-white/10 bg-black lg:w-[680px] lg:max-w-[57%]">
+    <div {...componentNameDebugProps("AcpAiPackVideo")} className="w-full shrink-0 overflow-hidden rounded-[1.5rem] border border-white/10 bg-black lg:w-[720px] lg:max-w-[60%]">
       <video
         aria-label="ACP AI Packの画面デモ"
         className="block h-auto w-full"
