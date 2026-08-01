@@ -45,8 +45,11 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(sectionSource, /DLP \(Data Loss Prevention\)/);
   assert.match(sectionSource, /iconTone/);
   assert.match(sectionSource, /brightness-0/);
-  assert.match(sectionSource, /max-w-\[520px\]/);
-  assert.match(sectionSource, /AI活用を守り切れません。QueryPie ACPは/);
+  assert.match(sectionSource, /flex w-full justify-center/);
+  assert.match(sectionSource, /w-fit max-w-full/);
+  assert.match(sectionSource, /text-left text-\[13px\].*sm:text-\[15px\]/);
+  assert.match(sectionSource, /AI活用を守り切れません。<\/span>/);
+  assert.match(sectionSource, /QueryPie ACPは、統制の仕組みと対象環境を一つの基盤に集約します。<\/span>/);
   assert.match(sectionSource, /ユーザー/);
   assert.match(sectionSource, /bg-\[#EAF2FF\]/);
   assert.match(sectionSource, /Home-ACP\.mp4#t=0\.001/);

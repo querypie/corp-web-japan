@@ -160,10 +160,11 @@ export function AcpHeroDiagram() {
           {heroTargets.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} iconTone="blue" />)}
         </div>
       </div>
-      <figcaption className="mx-auto mt-6 w-full max-w-[520px]">
-        <div className="rounded-[14px] bg-[#F6F8FA] px-6 py-5 text-center">
-          <p className="text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">
-            アクセスを許可・禁止するだけでは、複雑化するインフラとAI活用を守り切れません。QueryPie ACPは、統制の仕組みと対象環境を一つの基盤に集約します。
+      <figcaption className="mx-auto mt-6 flex w-full justify-center">
+        <div className="w-fit max-w-full rounded-[14px] bg-[#F6F8FA] px-5 py-4 sm:px-6">
+          <p className="text-left text-[13px] font-light leading-[22px] tracking-[0.2px] text-[#57606A] sm:text-[15px] sm:leading-6 sm:tracking-[0.36px]">
+            <span className="block sm:whitespace-nowrap">アクセスを許可・禁止するだけでは、複雑化するインフラとAI活用を守り切れません。</span>
+            <span className="block sm:whitespace-nowrap">QueryPie ACPは、統制の仕組みと対象環境を一つの基盤に集約します。</span>
           </p>
         </div>
       </figcaption>
