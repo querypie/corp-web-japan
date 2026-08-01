@@ -18,10 +18,10 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(routeSource, /アクセス統制を、AI時代の共通基盤へ。/);
   assert.match(routeSource, /Web\/SaaS、MCPへのアクセスを一元制御するプラットフォームです。/);
   assert.match(routeSource, /最小権限、申請・承認、監査ログ、セッション記録、DLP/);
-  assert.match(routeSource, /インフラとAIのアクセスを一元管理/);
+  assert.match(routeSource, /すべてのインフラとAIのアクセスを一元管理/);
   assert.match(routeSource, /50種類以上のシステムと連携/);
-  assert.match(routeSource, /アクセス権限・ポリシー・監査を一つの基盤で統制します。/);
-  assert.match(routeSource, />ACPの統合機能を見る<\//);
+  assert.match(routeSource, /連携対象に加え、権限・ポリシー・監査を一つの基盤で統制する価値を明確化します。/);
+  assert.match(routeSource, />ACPの統合機能を見る→<\//);
 
   assert.match(routeSource, /Database Access Control/);
   assert.match(routeSource, /System Access Control/);

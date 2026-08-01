@@ -214,12 +214,12 @@ export default function AcpPage() {
               <AcpIntegrationsTitle>
                 ひとつの統制基盤で、
                 <br />
-                インフラとAIのアクセスを一元管理
+                すべてのインフラとAIのアクセスを一元管理
               </AcpIntegrationsTitle>
               <AcpIntegrationsBody>
-                データベース、サーバー、Kubernetes、Web/SaaS、IDプロバイダー、セキュリティツールなど、50種類以上のシステムと連携。インフラからAIまで、アクセス権限・ポリシー・監査を一つの基盤で統制します。
+                データベース、サーバー、Kubernetes、Webアプリケーション、アイデンティティプロバイダ、セキュリティツールなど50種類以上のシステムと連携。連携対象に加え、権限・ポリシー・監査を一つの基盤で統制する価値を明確化します。
               </AcpIntegrationsBody>
-              <AcpIntegrationsLink href="/platforms/acp/integrations">ACPの統合機能を見る</AcpIntegrationsLink>
+              <AcpIntegrationsLink href="/platforms/acp/integrations">ACPの統合機能を見る→</AcpIntegrationsLink>
             </div>
           </RevealOnScroll>
 
