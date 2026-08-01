@@ -36,7 +36,7 @@ export function AipUsageBasedLlmHeroImage() {
   return (
     <section {...componentNameDebugProps("AipUsageBasedLlmHeroImage")} className="mx-auto mt-[80px] flex max-w-[1200px] justify-center">
       <Image
-        src="/solutions/aip/usage-based-llm/hero.svg"
+        src="https://www.querypie.com/assets/products/aip/usage-based-llm/usage-based-llm.svg"
         alt="Usage-based LLM Deployment"
         width={1200}
         height={682}
@@ -97,29 +97,36 @@ export function AipUsageBasedLlmFeatureImage({ src, alt, width, height, classNam
 
 export function AipUsageBasedLlmComparisonSection({ children }: { children: ReactNode }) {
   return (
-    <PlatformContentSection {...componentNameDebugProps("AipUsageBasedLlmComparisonSection")} className="py-[160px]" contentWidthClassName="max-w-[1200px]">
+    <PlatformContentSection {...componentNameDebugProps("AipUsageBasedLlmComparisonSection")} className="bg-[#F6F8FA] py-[100px] lg:py-[120px]" contentWidthClassName="max-w-[1200px]">
       {children}
     </PlatformContentSection>
   );
 }
 
 export function AipUsageBasedLlmComparisonTitle({ children }: { children: ReactNode }) {
-  return <h2 {...componentNameDebugProps("AipUsageBasedLlmComparisonTitle")} className="text-center text-[52px] font-normal leading-[62px] text-slate-950">{children}</h2>;
+  return <h2 {...componentNameDebugProps("AipUsageBasedLlmComparisonTitle")} className="text-center text-[32px] font-normal leading-[40px] tracking-[-0.04em] text-slate-950 lg:text-[48px] lg:leading-[1.2]">{children}</h2>;
 }
 
-export function AipUsageBasedLlmComparisonImage() {
+export function AipUsageBasedLlmComparisonGrid({ children }: { children: ReactNode }) {
   return (
-    <div {...componentNameDebugProps("AipUsageBasedLlmComparisonImage")} className="mt-[80px] flex justify-center">
-      <Image
-        src="/solutions/aip/usage-based-llm/platform-comparison.svg"
-        alt="Platform Comparison"
-        width={1200}
-        height={840}
-        unoptimized
-        className="h-auto w-full"
-      />
-    </div>
+    <div {...componentNameDebugProps("AipUsageBasedLlmComparisonGrid")} className="mt-12 grid gap-4 lg:grid-cols-3 lg:gap-5">{children}</div>
   );
+}
+
+export function AipUsageBasedLlmComparisonCard({ children, featured = false }: { children: ReactNode; featured?: boolean }) {
+  return <article {...componentNameDebugProps("AipUsageBasedLlmComparisonCard")} className={cn("flex min-h-[250px] flex-col rounded-[20px] bg-white p-6 lg:p-8", featured && "bg-[#0969DA] text-white")}>{children}</article>;
+}
+
+export function AipUsageBasedLlmComparisonLabel({ children, inverted = false }: { children: ReactNode; inverted?: boolean }) {
+  return <p {...componentNameDebugProps("AipUsageBasedLlmComparisonLabel")} className={cn("text-[14px] font-medium leading-5", inverted ? "text-[#DDEEFF]" : "text-[#57606A]")}>{children}</p>;
+}
+
+export function AipUsageBasedLlmComparisonValue({ children, inverted = false }: { children: ReactNode; inverted?: boolean }) {
+  return <p {...componentNameDebugProps("AipUsageBasedLlmComparisonValue")} className={cn("mt-5 text-[28px] font-medium leading-[1.25] tracking-[-0.04em] lg:text-[32px]", inverted ? "text-white" : "text-[#24292F]")}>{children}</p>;
+}
+
+export function AipUsageBasedLlmComparisonBody({ children, inverted = false }: { children: ReactNode; inverted?: boolean }) {
+  return <p {...componentNameDebugProps("AipUsageBasedLlmComparisonBody")} className={cn("mt-auto pt-6 text-[15px] font-light leading-6", inverted ? "text-[#DDEEFF]" : "text-[#57606A]")}>{children}</p>;
 }
 
 export function AipUsageBasedLlmCtaDescription({ children }: { children: ReactNode }) {
