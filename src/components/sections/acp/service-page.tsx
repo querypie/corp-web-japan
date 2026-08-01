@@ -202,7 +202,7 @@ export function AcpIntegrationsInner({ children }: { children: ReactNode }) {
 }
 
 export function AcpIntegrationsTitle({ children }: { children: ReactNode }) {
-  return <h4 {...componentNameDebugProps("AcpIntegrationsTitle")} className="text-[30px] font-medium leading-[39.375px] tracking-normal text-[#24292F]">{children}</h4>;
+  return <h4 {...componentNameDebugProps("AcpIntegrationsTitle")} className="text-[22px] font-medium leading-[30px] tracking-normal text-[#24292F] sm:text-[24px] sm:leading-[32px] lg:whitespace-nowrap">{children}</h4>;
 }
 
 export function AcpIntegrationsBody({ children }: { children: ReactNode }) {
