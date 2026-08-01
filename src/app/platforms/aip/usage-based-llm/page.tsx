@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  AipUsageBasedLlmComparisonImage,
+  AipUsageBasedLlmComparisonBody,
+  AipUsageBasedLlmComparisonCard,
+  AipUsageBasedLlmComparisonGrid,
+  AipUsageBasedLlmComparisonLabel,
+  AipUsageBasedLlmComparisonValue,
   AipUsageBasedLlmComparisonSection,
   AipUsageBasedLlmComparisonTitle,
   AipUsageBasedLlmFeatureBand,
@@ -24,9 +28,9 @@ import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
-  title: "QueryPie AIP：実際使用量ベースエンタープライズAI | QueryPie AI",
+  title: "従量課金型エンタープライズAI｜QueryPie AIP | QueryPie AI",
   description:
-    "固定費なしで使った分だけ支払える QueryPie AIP の従量課金型エンタープライズAIページ。プレミアムLLM、SSO、コスト最適化を一体で提供します。",
+    "固定費を抑え、使った分だけ支払う。QueryPie AIPは、複数のプレミアムLLM、SSO、一元管理を備え、AIを全社へ広げる従量課金型エンタープライズAIです。",
   alternates: {
     canonical: "/platforms/aip/usage-based-llm",
   },
@@ -44,20 +48,20 @@ export default function AipUsageBasedLlmPage() {
       <AipUsageBasedLlmHeroSection>
         <RevealOnScroll>
           <AipUsageBasedLlmHeroTitle>
-            QueryPie AIP
+            使った分だけで、
             <br />
-            従量課金型エンタープライズAI
+            AIを全社へ。
           </AipUsageBasedLlmHeroTitle>
         </RevealOnScroll>
 
         <RevealOnScroll delayMs={60}>
           <AipUsageBasedLlmHeroDescription>
-            QueryPie AIPは、ブラウザで使えるプラットフォーム。ダウンロード不要、セットアップ不要で即座にアクセスできます。
+            ブラウザからすぐに使え、導入のためのダウンロードや大がかりなセットアップは不要です。
             <AipUsageBasedLlmLineBreak />
-            固定費用なしで使った分だけ支払う従量課金型だから、ChatGPTと比較して最大90%*のコスト削減を実現。
+            固定費を持たない従量課金で、AI活用を小さく始め、利用状況と成果に合わせて段階的に広げられます。
             <AipUsageBasedLlmLineBreak />
-            小さく始めて効果を見ながら段階的に拡大できます。
-            <AipUsageBasedLlmHeroFootnote>*ユーザーの利用量により異なります</AipUsageBasedLlmHeroFootnote>
+            月額課金型AIサービスと比べ、最大90%のコスト削減も可能です。
+            <AipUsageBasedLlmHeroFootnote>*削減率は利用条件により異なります</AipUsageBasedLlmHeroFootnote>
           </AipUsageBasedLlmHeroDescription>
         </RevealOnScroll>
 
@@ -70,21 +74,17 @@ export default function AipUsageBasedLlmPage() {
         <AipUsageBasedLlmFeatureRow>
           <RevealOnScroll>
             <AipUsageBasedLlmFeatureCopy className="lg:w-[445px] lg:max-w-[445px]">
-              <AipUsageBasedLlmFeatureTitle>利用量に応じた課金モデル</AipUsageBasedLlmFeatureTitle>
+              <AipUsageBasedLlmFeatureTitle>使った分だけ、無駄なく支払う</AipUsageBasedLlmFeatureTitle>
               <AipUsageBasedLlmFeatureBody>
-                使った分だけ支払う従量課金型。
-                <AipUsageBasedLlmLineBreak />
-                高額な月額固定費がないので無駄がありません。
-                <AipUsageBasedLlmLineBreak />
-                あらゆる規模の組織にとって、AI導入が手軽で拡張も簡単です。
+                月額固定のライセンス費用ではなく、実際の利用量に応じて支払う従量課金型です。利用が広がっても、コストを把握しながら柔軟にAI活用を拡大できます。
               </AipUsageBasedLlmFeatureBody>
             </AipUsageBasedLlmFeatureCopy>
           </RevealOnScroll>
 
           <RevealOnScroll delayMs={80}>
             <AipUsageBasedLlmFeatureImage
-              src="/solutions/aip/usage-based-llm/pay.gif"
-              alt="利用量に応じた課金モデル"
+              src="https://www.querypie.com/assets/products/aip/usage-based-llm/aip_function_pay.gif"
+              alt="従量課金型の利用状況"
               width={540}
               height={304}
             />
@@ -97,22 +97,18 @@ export default function AipUsageBasedLlmPage() {
           <RevealOnScroll>
             <AipUsageBasedLlmFeatureCopy className="ml-auto lg:w-[534px] lg:max-w-[534px]">
               <AipUsageBasedLlmFeatureTitle>
-                選択可能なプレミアムLLM
-                <br />
-                (大規模言語モデル)
+                用途に合わせて、LLMを選ぶ
               </AipUsageBasedLlmFeatureTitle>
               <AipUsageBasedLlmFeatureBody>
-                ChatGPT、Claude、Geminiなど、業界をリードするAIモデルにアクセス。
-                <AipUsageBasedLlmLineBreak />
-                ニーズに適したAIを選択し、チームの生産性を瞬時に向上します。
+                Claude、GPT、Geminiなど、業界をリードするLLMに対応。自社で保有・運用するLLMも含め、業務や要件に適したモデルを選択できます。
               </AipUsageBasedLlmFeatureBody>
             </AipUsageBasedLlmFeatureCopy>
           </RevealOnScroll>
 
           <RevealOnScroll delayMs={80}>
             <AipUsageBasedLlmFeatureImage
-              src="/solutions/aip/usage-based-llm/premium-llm.gif"
-              alt="選択可能なプレミアムLLM (大規模言語モデル)"
+              src="https://www.querypie.com/assets/products/aip/usage-based-llm/aip_function_llmmodel.gif"
+              alt="利用するLLMモデルの選択"
               width={580}
               height={326}
             />
@@ -124,21 +120,17 @@ export default function AipUsageBasedLlmPage() {
         <AipUsageBasedLlmFeatureRow>
           <RevealOnScroll>
             <AipUsageBasedLlmFeatureCopy className="lg:w-[518px] lg:max-w-[518px]">
-              <AipUsageBasedLlmFeatureTitle>シングルサインオン(SSO) で一元管理</AipUsageBasedLlmFeatureTitle>
+              <AipUsageBasedLlmFeatureTitle>SSOと一元管理で、組織利用に対応</AipUsageBasedLlmFeatureTitle>
               <AipUsageBasedLlmFeatureBody>
-                既存のアイデンティティプロバイダーとSSO連携し、
-                <AipUsageBasedLlmLineBreak />
-                シームレスにログイン。すべてのアカウントを一元管理し、
-                <AipUsageBasedLlmLineBreak />
-                セキュリティと管理体制を強化します。
+                既存のアイデンティティプロバイダーとSSO連携し、ログインとアカウント管理を一元化。利用者が増えても、セキュリティと運用の統制を保てます。
               </AipUsageBasedLlmFeatureBody>
             </AipUsageBasedLlmFeatureCopy>
           </RevealOnScroll>
 
           <RevealOnScroll delayMs={80}>
             <AipUsageBasedLlmFeatureImage
-              src="/solutions/aip/usage-based-llm/sso.gif"
-              alt="シングルサインオン(SSO) で一元管理"
+              src="https://www.querypie.com/assets/products/aip/usage-based-llm/aip_function_sso.gif"
+              alt="SSOによるアカウントの一元管理"
               width={520}
               height={293}
             />
@@ -148,11 +140,27 @@ export default function AipUsageBasedLlmPage() {
 
       <AipUsageBasedLlmComparisonSection>
         <RevealOnScroll>
-          <AipUsageBasedLlmComparisonTitle>最高のパフォーマンスを、最適なコストで！</AipUsageBasedLlmComparisonTitle>
+          <AipUsageBasedLlmComparisonTitle>全社導入のコストを、利用実態に合わせる。</AipUsageBasedLlmComparisonTitle>
         </RevealOnScroll>
 
         <RevealOnScroll delayMs={80}>
-          <AipUsageBasedLlmComparisonImage />
+          <AipUsageBasedLlmComparisonGrid>
+            <AipUsageBasedLlmComparisonCard featured>
+              <AipUsageBasedLlmComparisonLabel inverted>月額固定費</AipUsageBasedLlmComparisonLabel>
+              <AipUsageBasedLlmComparisonValue inverted>$0（従量課金）</AipUsageBasedLlmComparisonValue>
+              <AipUsageBasedLlmComparisonBody inverted>月額固定のライセンス費用ではなく、実際の利用量に応じて支払います。</AipUsageBasedLlmComparisonBody>
+            </AipUsageBasedLlmComparisonCard>
+            <AipUsageBasedLlmComparisonCard>
+              <AipUsageBasedLlmComparisonLabel>対応するLLM</AipUsageBasedLlmComparisonLabel>
+              <AipUsageBasedLlmComparisonValue>Claude / GPT / Gemini</AipUsageBasedLlmComparisonValue>
+              <AipUsageBasedLlmComparisonBody>自社で保有するLLMを含め、用途に合わせて選択できます。</AipUsageBasedLlmComparisonBody>
+            </AipUsageBasedLlmComparisonCard>
+            <AipUsageBasedLlmComparisonCard>
+              <AipUsageBasedLlmComparisonLabel>200ユーザー規模の年間目安</AipUsageBasedLlmComparisonLabel>
+              <AipUsageBasedLlmComparisonValue>US$7,200〜*</AipUsageBasedLlmComparisonValue>
+              <AipUsageBasedLlmComparisonBody>主要な月額課金型AIサービスと比べ、最大90%のコスト削減が見込めます。</AipUsageBasedLlmComparisonBody>
+            </AipUsageBasedLlmComparisonCard>
+          </AipUsageBasedLlmComparisonGrid>
         </RevealOnScroll>
       </AipUsageBasedLlmComparisonSection>
 

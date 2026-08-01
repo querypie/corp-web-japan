@@ -17,11 +17,18 @@ test("published mcp gateway page keeps authored copy in the route and rendering 
   assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(routeSource, /<McpGatewayPageShell(?:\s[^>]*)?>/);
   assert.match(routeSource, /<McpGatewayHeroHeading>/);
-  assert.match(routeSource, /統合型AIゲートウェイ/);
+  assert.match(routeSource, /MCPを、全社で/);
+  assert.match(routeSource, /つなぎ、統制する。/);
   assert.match(routeSource, /<McpGatewayFeatureCopy className="w-full lg:w-\[450px\]">/);
-  assert.match(routeSource, /<McpGatewayFeatureTitle>外部ツールとの連携<\/McpGatewayFeatureTitle>/);
-  assert.match(routeSource, /src="\/solutions\/aip\/mcp-gateway\/tunneling\.gif"/);
-  assert.match(routeSource, /src="\/solutions\/aip\/mcp-gateway\/dlp\.gif"/);
+  assert.match(routeSource, /MCPプロキシで、外部ツールから使う/);
+  assert.match(routeSource, /組織単位で、MCP利用を統制する/);
+  assert.match(routeSource, /すべての実行を、/);
+  assert.match(routeSource, /AI対話への機密情報入力を防ぐ/);
+  assert.match(routeSource, /assets\/products\/aip\/mcp-gateway\/aip_function_tunneling\.gif/);
+  assert.match(routeSource, /assets\/products\/aip\/mcp-gateway\/aip_function_mcpproxy\.gif/);
+  assert.match(routeSource, /assets\/products\/aip\/mcp-gateway\/aip_function_mcpmanagement\.gif/);
+  assert.match(routeSource, /assets\/products\/aip\/mcp-gateway\/aip_function_audit\.gif/);
+  assert.match(routeSource, /assets\/products\/aip\/mcp-gateway\/aip_function_dlp\.gif/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(routeSource, /<AipFreeTrialCtaSection background="white" \/>/);
 
@@ -39,6 +46,7 @@ test("published mcp gateway page keeps authored copy in the route and rendering 
   assert.match(sectionSource, /max-w-\[800px\][\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
   assert.match(sectionSource, /mt-\[20px\][\s\S]*max-w-\[1000px\]/);
   assert.match(sectionSource, /mx-auto mt-\[80px\] flex max-w-\[1200px\] justify-center/);
+  assert.match(sectionSource, /assets\/products\/aip\/mcp-gateway\/mcp-gateway\.png/);
   assert.match(sectionSource, /flex flex-col items-center[\s\S]*gap-\[60px\][\s\S]*lg:gap-\[80px\][\s\S]*lg:flex-row/);
   assert.match(sectionSource, /w-full max-w-full shrink-0/);
   assert.match(sectionSource, /<PlatformContentSection[\s\S]*className=\{cx\("w-full py-\[80px\]"/);

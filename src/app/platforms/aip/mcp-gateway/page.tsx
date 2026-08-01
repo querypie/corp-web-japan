@@ -22,9 +22,9 @@ import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
-  title: "QueryPie AIP：すべてを接続するMCPハブ",
+  title: "MCP Gateway｜MCPを全社で安全に統制 | QueryPie AI",
   description:
-    "既存システムとAIツールを安全につなぎ、社内接続・権限制御・監査・DLPまで一元化する QueryPie AIP の統合型AIゲートウェイページ。",
+    "QueryPie AIPのMCP Gatewayは、MCPサーバーとAIツールへの接続、権限、利用状況を一元管理。ポリシー適用と監査ログで、AIエージェントの安全な業務利用を支えます。",
   alternates: {
     canonical: "/platforms/aip/mcp-gateway",
   },
@@ -43,20 +43,18 @@ export default function McpGatewayPage() {
         <RevealOnScroll>
           <McpGatewayHeroCopy>
             <McpGatewayHeroHeading>
-              QueryPie AIP
+              MCPを、全社で
               <br />
-              統合型AIゲートウェイ
+              つなぎ、統制する。
             </McpGatewayHeroHeading>
           </McpGatewayHeroCopy>
         </RevealOnScroll>
 
         <RevealOnScroll delayMs={60}>
           <McpGatewayHeroBody>
-            AIによる業務最適化には、既存システムとの連携が必須。でも、大規模なシステム再構築は不要です。
+            MCPサーバーやAIツールが分散しても、接続・権限・利用状況を一つの基盤で管理。
             <br />
-            QueryPie AIPなら、45種類以上の構築済みツールとカスタムツールを統合して一元管理できます。
-            <br />
-            複雑な接続処理はプラットフォームが担当し、既存システム全体のAIワークフローを効率化します。
+            複雑な連携を裏側で吸収し、既存の技術環境をまたぐAIワークフローを、安全に展開できます。
           </McpGatewayHeroBody>
         </RevealOnScroll>
 
@@ -69,24 +67,20 @@ export default function McpGatewayPage() {
         <McpGatewayFeatureLayout>
           <McpGatewayFeatureCopy className="w-full lg:w-[450px]">
             <McpGatewayFeatureTitle>
-              セキュアな社内システム接続
+              社内システムへ、
               <br />
-              （スマートエッジトンネリング）
+              安全に接続する
             </McpGatewayFeatureTitle>
             <McpGatewayFeatureDescription>
-              トンネリングを通じて、社内システムへ安全にアクセス。
-              <br />
-              既存のセキュリティ環境を変更せずに、
-              <br />
-              ファイアウォールで保護されたリソースに接続できます。
+              セキュアなトンネリングにより、既存のセキュリティ環境を変えずに、ファイアウォールで保護された社内リソースへ接続できます。
             </McpGatewayFeatureDescription>
             <McpGatewayFeatureChecklist />
           </McpGatewayFeatureCopy>
 
           <McpGatewayFeatureVisual className="w-full lg:w-[540px]">
             <McpGatewayFeatureImage
-              src="/solutions/aip/mcp-gateway/tunneling.gif"
-              alt="セキュアな社内システム接続（スマートエッジトンネリング）"
+              src="https://www.querypie.com/assets/products/aip/mcp-gateway/aip_function_tunneling.gif"
+              alt="社内システムへ安全に接続するSmart Edge Tunneling"
               width={540}
               height={304}
             />
@@ -97,23 +91,17 @@ export default function McpGatewayPage() {
       <McpGatewayFeatureBand>
         <McpGatewayFeatureLayout reverse>
           <McpGatewayFeatureCopy className="w-full lg:w-[413px]">
-            <McpGatewayFeatureTitle>外部ツールとの連携</McpGatewayFeatureTitle>
+            <McpGatewayFeatureTitle>MCPプロキシで、外部ツールから使う</McpGatewayFeatureTitle>
             <McpGatewayFeatureDescription>
-              安全なローカルプロキシサーバーを介して、
-              <br />
-              外部開発ツールからQueryPie AIPのMCP設定を利用可能。
-              <br />
-              Cursor IDE、Claude Desktop、Windsurfなどから、
-              <br />
-              シームレスにアクセスできます。
+              セキュアなローカルMCPプロキシを通じて、外部ツールからMCPプリセットを利用できます。Cursor、Claude Desktop、Windsurfなどにもシームレスに接続できます。
             </McpGatewayFeatureDescription>
             <McpGatewayFeatureChecklist />
           </McpGatewayFeatureCopy>
 
           <McpGatewayFeatureVisual className="w-full lg:w-[580px]">
             <McpGatewayFeatureImage
-              src="/solutions/aip/mcp-gateway/external-tools.gif"
-              alt="外部ツールとの連携"
+              src="https://www.querypie.com/assets/products/aip/mcp-gateway/aip_function_mcpproxy.gif"
+              alt="MCPプロキシによる外部ツールからのアクセス"
               width={580}
               height={326}
             />
@@ -124,19 +112,17 @@ export default function McpGatewayPage() {
       <McpGatewayFeatureBand muted>
         <McpGatewayFeatureLayout>
           <McpGatewayFeatureCopy className="w-full lg:w-[445px]">
-            <McpGatewayFeatureTitle>組織全体を一元管理</McpGatewayFeatureTitle>
+            <McpGatewayFeatureTitle>組織単位で、MCP利用を統制する</McpGatewayFeatureTitle>
             <McpGatewayFeatureDescription>
-              詳細な権限設定で、誰がどのツールにアクセスできるかを制御。
-              <br />
-              組織全体のすべてのAIツール利用を、一元的に管理できます。
+              誰がどのMCPツールを使えるかを、きめ細かな権限で制御。MCPの有効化・無効化から、組織全体のAIツール利用まで一元管理できます。
             </McpGatewayFeatureDescription>
             <McpGatewayFeatureChecklist />
           </McpGatewayFeatureCopy>
 
           <McpGatewayFeatureVisual className="w-full lg:w-[520px]">
             <McpGatewayFeatureImage
-              src="/solutions/aip/mcp-gateway/management.gif"
-              alt="組織全体を一元管理"
+              src="https://www.querypie.com/assets/products/aip/mcp-gateway/aip_function_mcpmanagement.gif"
+              alt="組織単位でMCPを一元管理"
               width={520}
               height={293}
             />
@@ -148,22 +134,20 @@ export default function McpGatewayPage() {
         <McpGatewayFeatureLayout reverse>
           <McpGatewayFeatureCopy className="w-full lg:w-[390px]">
             <McpGatewayFeatureTitle>
-              組織全体のすべての操作を、
+              すべての実行を、
               <br />
-              完全に可視化して追跡。
+              監査可能にする
             </McpGatewayFeatureTitle>
             <McpGatewayFeatureDescription>
-              ユーザーの活動とシステム変更を監視し、
-              <br />
-              セキュリティとコンプライアンスを強化します。
+              組織内で発生するイベントを可視化し、ユーザーの操作やシステム変更を追跡。セキュリティとコンプライアンスのための監査証跡を残せます。
             </McpGatewayFeatureDescription>
             <McpGatewayFeatureChecklist />
           </McpGatewayFeatureCopy>
 
           <McpGatewayFeatureVisual className="w-full lg:w-[580px]">
             <McpGatewayFeatureImage
-              src="/solutions/aip/mcp-gateway/audit.gif"
-              alt="組織全体のすべての操作を、完全に可視化して追跡。"
+              src="https://www.querypie.com/assets/products/aip/mcp-gateway/aip_function_audit.gif"
+              alt="MCP利用の監査ログ"
               width={580}
               height={326}
             />
@@ -174,19 +158,17 @@ export default function McpGatewayPage() {
       <McpGatewayFeatureBand muted>
         <McpGatewayFeatureLayout>
           <McpGatewayFeatureCopy className="w-full lg:w-[533px]">
-            <McpGatewayFeatureTitle>データ漏洩防止（DLP）</McpGatewayFeatureTitle>
+            <McpGatewayFeatureTitle>AI対話への機密情報入力を防ぐ</McpGatewayFeatureTitle>
             <McpGatewayFeatureDescription>
-              機密データがAIチャットに入り込むことを自動的にブロック。
-              <br />
-              クレジットカード番号、APIキー、個人情報などの露出を瞬時に防止します。
+              機密データがAIとの対話に入力されることを自動でブロック。クレジットカード番号、APIキー、個人情報、機密情報の露出を防ぎます。
             </McpGatewayFeatureDescription>
             <McpGatewayFeatureChecklist />
           </McpGatewayFeatureCopy>
 
           <McpGatewayFeatureVisual className="w-full lg:w-[520px]">
             <McpGatewayFeatureImage
-              src="/solutions/aip/mcp-gateway/dlp.gif"
-              alt="データ漏洩防止（DLP）"
+              src="https://www.querypie.com/assets/products/aip/mcp-gateway/aip_function_dlp.gif"
+              alt="AI対話への機密情報入力を防ぐDLP"
               width={520}
               height={293}
             />

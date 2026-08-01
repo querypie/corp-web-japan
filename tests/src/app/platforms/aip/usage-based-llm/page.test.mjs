@@ -14,11 +14,18 @@ test("published usage-based-llm page keeps route-local copy/composition", () => 
   assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
-  assert.match(routeSource, /QueryPie AIP：実際使用量ベースエンタープライズAI/);
-  assert.match(routeSource, /利用量に応じた課金モデル/);
-  assert.match(routeSource, /選択可能なプレミアムLLM/);
-  assert.match(routeSource, /シングルサインオン\(SSO\) で一元管理/);
-  assert.match(routeSource, /最高のパフォーマンスを、最適なコストで！/);
+  assert.match(routeSource, /従量課金型エンタープライズAI｜QueryPie AIP/);
+  assert.match(routeSource, /使った分だけで、/);
+  assert.match(routeSource, /使った分だけ、無駄なく支払う/);
+  assert.match(routeSource, /用途に合わせて、LLMを選ぶ/);
+  assert.match(routeSource, /SSOと一元管理で、組織利用に対応/);
+  assert.match(routeSource, /全社導入のコストを、利用実態に合わせる。/);
+  assert.match(routeSource, /\$0（従量課金）/);
+  assert.match(routeSource, /Claude \/ GPT \/ Gemini/);
+  assert.match(routeSource, /US\$7,200〜\*/);
+  assert.match(routeSource, /assets\/products\/aip\/usage-based-llm\/aip_function_pay\.gif/);
+  assert.match(routeSource, /assets\/products\/aip\/usage-based-llm\/aip_function_llmmodel\.gif/);
+  assert.match(routeSource, /assets\/products\/aip\/usage-based-llm\/aip_function_sso\.gif/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(routeSource, /<AipFreeTrialCtaSection \/>/);
   assert.doesNotMatch(routeSource, /AipUsageBasedLlmPreviewPage/);
@@ -31,7 +38,8 @@ test("published usage-based-llm page keeps route-local copy/composition", () => 
   assert.match(sectionSource, /max-w-\[1000px\]/);
   assert.match(sectionSource, /mt-\[20px\]/);
   assert.match(sectionSource, /export function AipUsageBasedLlmHeroFootnote[\s\S]*<small[^>]*className="text-\[10px\] font-light leading-\[28px\] tracking-\[0\.36px\] text-\[#57606A\]">/);
-  assert.match(routeSource, /<AipUsageBasedLlmHeroFootnote>\*ユーザーの利用量により異なります<\/AipUsageBasedLlmHeroFootnote>/);
+  assert.match(routeSource, /<AipUsageBasedLlmHeroFootnote>\*削減率は利用条件により異なります<\/AipUsageBasedLlmHeroFootnote>/);
+  assert.match(sectionSource, /assets\/products\/aip\/usage-based-llm\/usage-based-llm\.svg/);
   assert.match(sectionSource, /className="py-\[80px\]"/);
   assert.match(sectionSource, /<PlatformContentSection[\s\S]*as="div"[\s\S]*contentClassName=\{cn\(/);
   assert.match(sectionSource, /flex flex-col items-center justify-center gap-\[60px\] lg:gap-\[80px\]/);
@@ -49,8 +57,11 @@ test("published usage-based-llm page keeps route-local copy/composition", () => 
   assert.match(routeSource, /className="lg:w-\[445px\] lg:max-w-\[445px\]"/);
   assert.match(routeSource, /className="ml-auto lg:w-\[534px\] lg:max-w-\[534px\]"/);
   assert.match(routeSource, /className="lg:w-\[518px\] lg:max-w-\[518px\]"/);
-  assert.match(sectionSource, /export function AipUsageBasedLlmComparisonSection[\s\S]*className="py-\[160px\]"/);
-  assert.match(sectionSource, /mt-\[80px\]/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmComparisonSection[\s\S]*bg-\[#F6F8FA\] py-\[100px\] lg:py-\[120px\]/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmComparisonGrid[\s\S]*mt-12 grid gap-4 lg:grid-cols-3 lg:gap-5/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmComparisonCard[\s\S]*min-h-\[250px\][\s\S]*featured && "bg-\[#0969DA\] text-white"/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmComparisonLabel[\s\S]*inverted/);
+  assert.doesNotMatch(sectionSource, /AipUsageBasedLlmComparisonImage/);
   assert.match(sectionSource, /export function AipUsageBasedLlmCtaButtonWrap/);
 
   assert.match(platformSource, /contentClassName\?: string/);
