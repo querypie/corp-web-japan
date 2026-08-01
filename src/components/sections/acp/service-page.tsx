@@ -202,11 +202,11 @@ export function AcpIntegrationsInner({ children }: { children: ReactNode }) {
 }
 
 export function AcpIntegrationsTitle({ children }: { children: ReactNode }) {
-  return <h4 {...componentNameDebugProps("AcpIntegrationsTitle")} className="text-[22px] font-medium leading-[30px] tracking-normal text-[#24292F] sm:text-[24px] sm:leading-[32px] lg:text-[30px] lg:leading-[39px] lg:whitespace-nowrap">{children}</h4>;
+  return <h4 {...componentNameDebugProps("AcpIntegrationsTitle")} className="text-[22px] font-medium leading-[30px] tracking-normal text-[#24292F] sm:text-[24px] sm:leading-[32px] lg:text-[28px] lg:leading-[37px] lg:whitespace-nowrap">{children}</h4>;
 }
 
 export function AcpIntegrationsBody({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("AcpIntegrationsBody")} className="mt-[20px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A] lg:max-w-[calc(100%-48px)]">{children}</p>;
+  return <p {...componentNameDebugProps("AcpIntegrationsBody")} className="mt-[20px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A] lg:max-w-[calc(100%-24px)]">{children}</p>;
 }
 
 export function AcpIntegrationsLink({ href, children }: { href: string; children: ReactNode }) {
