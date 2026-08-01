@@ -63,6 +63,7 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.doesNotMatch(sectionSource, /export function AcpGovernanceSection/);
   assert.match(sectionSource, /export function AcpAiPackSection/);
   assert.match(sectionSource, /export function AcpAiPackVideo/);
+  assert.match(sectionSource, /max-w-\[760px\] self-center text-left text-\[16px\]/);
 
   assert.match(browserSource, /mediaSrc: string/);
   assert.match(browserSource, /mediaAlt: string/);

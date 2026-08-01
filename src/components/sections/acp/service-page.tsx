@@ -237,7 +237,7 @@ export function AcpAiPackTitle({ children }: { children: ReactNode }) {
 }
 
 export function AcpAiPackBody({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("AcpAiPackBody")} className="text-[16px] leading-7 text-slate-300">{children}</p>;
+  return <p {...componentNameDebugProps("AcpAiPackBody")} className="w-full max-w-[760px] self-center text-left text-[16px] leading-7 text-slate-300">{children}</p>;
 }
 
 export function AcpAiPackContent({ children }: { children: ReactNode }) {
