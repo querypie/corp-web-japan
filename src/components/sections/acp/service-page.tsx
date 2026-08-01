@@ -251,7 +251,7 @@ export function AcpAiPackCardGrid({ children }: { children: ReactNode }) {
 
 export function AcpAiPackCard({ children, icon: Icon }: { children: ReactNode; icon: LucideIcon }) {
   return (
-    <article {...componentNameDebugProps("AcpAiPackCard")} className="min-h-[128px] rounded-[1.2rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm">
+    <article {...componentNameDebugProps("AcpAiPackCard")} className="min-h-[136px] rounded-[1.2rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm">
       <div className="flex items-start gap-3">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#8EC5FF]/15 text-[#8EC5FF]">
           <Icon aria-hidden="true" className="h-5 w-5" strokeWidth={1.8} />

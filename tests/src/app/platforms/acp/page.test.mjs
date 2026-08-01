@@ -89,7 +89,7 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.doesNotMatch(browserSource, /製品を選択/);
   assert.match(sectionSource, /lg:items-center/);
   assert.match(sectionSource, /icon: LucideIcon/);
-  assert.match(sectionSource, /min-h-\[128px\]/);
+  assert.match(sectionSource, /min-h-\[136px\]/);
   assert.match(sectionSource, /lg:w-\[400px\] lg:max-w-\[36%\] lg:flex-none/);
   assert.match(sectionSource, /lg:w-\[720px\] lg:max-w-\[60%\]/);
 
