@@ -82,16 +82,12 @@ export function ServiceFdeOverviewHeader({ children }: { children: ReactNode }) 
   return <div {...componentNameDebugProps("ServiceFdeOverviewHeader")} className="mx-auto max-w-[800px] text-center">{children}</div>;
 }
 
-export function ServiceFdeOverviewSummary({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("ServiceFdeOverviewSummary")} className="mx-auto mt-6 max-w-[720px] text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
-}
-
 export function ServiceFdeSectionTitle({ children }: { children: ReactNode }) {
   return <h2 {...componentNameDebugProps("ServiceFdeSectionTitle")} className="text-[32px] font-normal leading-[40px] tracking-[-0.04em] text-[#24292F] lg:text-[48px] lg:leading-[1.2]">{children}</h2>;
 }
 
 export function ServiceFdeSectionLead({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("ServiceFdeSectionLead")} className="mx-auto mt-5 max-w-[760px] text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+  return <p {...componentNameDebugProps("ServiceFdeSectionLead")} className="mx-auto mt-5 max-w-[880px] text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
 }
 
 export function ServiceFdeChallengeSection({ children }: { children: ReactNode }) {
