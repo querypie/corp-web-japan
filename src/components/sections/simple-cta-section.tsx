@@ -98,11 +98,11 @@ export function AipFreeTrialCtaSection({ background = "muted" }: Pick<SectionWit
     <SimpleCtaSection {...componentNameDebugProps("AipFreeTrialCtaSection")} background={background}>
       <CtaContent>
         <CtaCopy>
-          <CtaTitle>まずは小さく、失敗しないAXを始めよう</CtaTitle>
-          <CtaDescription>簡単サインアップで、14日間の無料トライアルをお試しください</CtaDescription>
+          <CtaTitle>まずは、14日間無料で体験する。</CtaTitle>
+          <CtaDescription>簡単なサインアップだけで、QueryPie AIをすぐにお試しいただけます。</CtaDescription>
         </CtaCopy>
         <CtaActions>
-          <BrandGradientCtaButton href="https://app.querypie.com/">無料で試してみる</BrandGradientCtaButton>
+          <BrandGradientCtaButton href="https://app.querypie.com/">14日間無料で始める</BrandGradientCtaButton>
         </CtaActions>
       </CtaContent>
     </SimpleCtaSection>

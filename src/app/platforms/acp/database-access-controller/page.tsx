@@ -192,11 +192,11 @@ export default function DatabaseAccessControllerPage() {
         </AcpFaqItem>
       </AcpFaqSection>
       <AcpPageCta>
-        <AcpPageCtaTitle>まずは小さく、失敗しないAXを始めよう</AcpPageCtaTitle>
+        <AcpPageCtaTitle>まずは、14日間無料で体験する。</AcpPageCtaTitle>
         <AcpPageCtaDescription>
-          簡単サインアップで、14日間の無料トライアルをお試しください
+          簡単なサインアップだけで、QueryPie AIをすぐにお試しいただけます。
         </AcpPageCtaDescription>
-        <AcpPageCtaLink>無料で試してみる</AcpPageCtaLink>
+        <AcpPageCtaLink>14日間無料で始める</AcpPageCtaLink>
       </AcpPageCta>
       <SiteFooter />
     </AcpStaticPageShell>
