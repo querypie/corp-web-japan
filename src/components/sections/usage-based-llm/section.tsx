@@ -21,11 +21,11 @@ export function AipUsageBasedLlmHeroSection({ children }: { children: ReactNode 
 }
 
 export function AipUsageBasedLlmHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 {...componentNameDebugProps("AipUsageBasedLlmHeroTitle")} className="mx-auto max-w-[800px] text-center text-[48px] font-normal leading-[56px] text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h1>;
+  return <h1 {...componentNameDebugProps("AipUsageBasedLlmHeroTitle")} className="w-full text-left text-[36px] font-normal leading-[46px] tracking-[-0.04em] text-[#24292F] sm:text-[40px] sm:leading-[50px] lg:text-[44px] lg:leading-[56px]">{children}</h1>;
 }
 
 export function AipUsageBasedLlmHeroDescription({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("AipUsageBasedLlmHeroDescription")} className="mx-auto mt-[20px] max-w-[1000px] text-center text-[18px] font-light leading-[28px] text-[#57606A]">{children}</p>;
+  return <p {...componentNameDebugProps("AipUsageBasedLlmHeroDescription")} className="mt-5 max-w-[600px] text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
 }
 
 export function AipUsageBasedLlmHeroFootnote({ children }: { children: ReactNode }) {
@@ -107,26 +107,26 @@ export function AipUsageBasedLlmComparisonTitle({ children }: { children: ReactN
   return <h2 {...componentNameDebugProps("AipUsageBasedLlmComparisonTitle")} className="text-center text-[32px] font-normal leading-[40px] tracking-[-0.04em] text-slate-950 lg:text-[48px] lg:leading-[1.2]">{children}</h2>;
 }
 
-export function AipUsageBasedLlmComparisonGrid({ children }: { children: ReactNode }) {
+type ComparisonColumn = { label: string; featured?: boolean };
+type ComparisonRow = { label: string; values: readonly ReactNode[] };
+
+export function AipUsageBasedLlmComparisonTable({ columns, rows }: { columns: readonly ComparisonColumn[]; rows: readonly ComparisonRow[] }) {
   return (
-    <div {...componentNameDebugProps("AipUsageBasedLlmComparisonGrid")} className="mt-12 grid gap-4 lg:grid-cols-3 lg:gap-5">{children}</div>
+    <div {...componentNameDebugProps("AipUsageBasedLlmComparisonTable")} className="mt-12 w-full overflow-x-auto">
+      <div className="min-w-[1040px] overflow-hidden rounded-[20px] border border-[#D8DEE4] bg-white">
+        <div className="grid grid-cols-[180px_repeat(5,minmax(0,1fr))] border-b border-[#D8DEE4] bg-[#F6F8FA] text-center text-[14px] font-medium leading-5 text-[#24292F]">
+          <div className="px-5 py-5 text-left">比較項目</div>
+          {columns.map((column) => <div key={column.label} className={cn("border-l border-[#D8DEE4] px-4 py-5", column.featured && "bg-[#0969DA] text-white")}>{column.label}</div>)}
+        </div>
+        {rows.map((row) => (
+          <div key={row.label} className="grid grid-cols-[180px_repeat(5,minmax(0,1fr))] border-b border-[#D8DEE4] last:border-b-0">
+            <div className="flex items-start bg-[#F6F8FA] px-5 py-5 text-[14px] font-medium leading-5 text-[#24292F]">{row.label}</div>
+            {row.values.map((value, index) => <div key={`${row.label}-${columns[index]?.label ?? index}`} className={cn("border-l border-[#D8DEE4] px-4 py-5 text-[13px] font-light leading-5 text-[#57606A]", columns[index]?.featured && "bg-[#F4F8FF] text-[#24292F]")}>{value}</div>)}
+          </div>
+        ))}
+      </div>
+    </div>
   );
-}
-
-export function AipUsageBasedLlmComparisonCard({ children, featured = false }: { children: ReactNode; featured?: boolean }) {
-  return <article {...componentNameDebugProps("AipUsageBasedLlmComparisonCard")} className={cn("flex min-h-[250px] flex-col rounded-[20px] bg-white p-6 lg:p-8", featured && "bg-[#0969DA] text-white")}>{children}</article>;
-}
-
-export function AipUsageBasedLlmComparisonLabel({ children, inverted = false }: { children: ReactNode; inverted?: boolean }) {
-  return <p {...componentNameDebugProps("AipUsageBasedLlmComparisonLabel")} className={cn("text-[14px] font-medium leading-5", inverted ? "text-[#DDEEFF]" : "text-[#57606A]")}>{children}</p>;
-}
-
-export function AipUsageBasedLlmComparisonValue({ children, inverted = false }: { children: ReactNode; inverted?: boolean }) {
-  return <p {...componentNameDebugProps("AipUsageBasedLlmComparisonValue")} className={cn("mt-5 text-[28px] font-medium leading-[1.25] tracking-[-0.04em] lg:text-[32px]", inverted ? "text-white" : "text-[#24292F]")}>{children}</p>;
-}
-
-export function AipUsageBasedLlmComparisonBody({ children, inverted = false }: { children: ReactNode; inverted?: boolean }) {
-  return <p {...componentNameDebugProps("AipUsageBasedLlmComparisonBody")} className={cn("mt-auto pt-6 text-[15px] font-light leading-6", inverted ? "text-[#DDEEFF]" : "text-[#57606A]")}>{children}</p>;
 }
 
 export function AipUsageBasedLlmCtaDescription({ children }: { children: ReactNode }) {
@@ -135,10 +135,6 @@ export function AipUsageBasedLlmCtaDescription({ children }: { children: ReactNo
 
 export function AipUsageBasedLlmCtaButtonWrap({ children }: { children: ReactNode }) {
   return <div className="mt-[38px] flex justify-center">{children}</div>;
-}
-
-export function AipUsageBasedLlmLineBreak() {
-  return <br {...componentNameDebugProps("AipUsageBasedLlmLineBreak")} className="hidden sm:block" />;
 }
 
 export type AipUsageBasedLlmImageProps = ComponentPropsWithoutRef<typeof Image>;

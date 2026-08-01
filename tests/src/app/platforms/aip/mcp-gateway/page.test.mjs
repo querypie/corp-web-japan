@@ -17,12 +17,11 @@ test("published mcp gateway page keeps authored copy in the route and rendering 
   assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(routeSource, /<McpGatewayPageShell(?:\s[^>]*)?>/);
   assert.match(routeSource, /<McpGatewayHeroHeading>/);
-  assert.match(routeSource, /MCPを、全社で/);
-  assert.match(routeSource, /つなぎ、統制する。/);
+  assert.match(routeSource, /<McpGatewayHeroHeading>MCPを、全社でつなぎ、統制する。<\/McpGatewayHeroHeading>/);
   assert.match(routeSource, /<McpGatewayFeatureCopy className="w-full lg:w-\[450px\]">/);
   assert.match(routeSource, /MCPプロキシで、外部ツールから使う/);
   assert.match(routeSource, /組織単位で、MCP利用を統制する/);
-  assert.match(routeSource, /すべての実行を、/);
+  assert.match(routeSource, /<McpGatewayFeatureTitle>すべての実行を、監査可能にする<\/McpGatewayFeatureTitle>/);
   assert.match(routeSource, /AI対話への機密情報入力を防ぐ/);
   assert.match(routeSource, /assets\/products\/aip\/mcp-gateway\/aip_function_tunneling\.gif/);
   assert.match(routeSource, /assets\/products\/aip\/mcp-gateway\/aip_function_mcpproxy\.gif/);
@@ -43,8 +42,8 @@ test("published mcp gateway page keeps authored copy in the route and rendering 
   assert.match(sectionSource, /contentWidthClassName="max-w-\[1200px\]"/);
   assert.doesNotMatch(sectionSource, /pt-\[55px\]/);
   assert.doesNotMatch(sectionSource, /lg:pt-\[167px\]/);
-  assert.match(sectionSource, /max-w-\[800px\][\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
-  assert.match(sectionSource, /mt-\[20px\][\s\S]*max-w-\[1000px\]/);
+  assert.match(sectionSource, /w-full text-left text-\[36px\][\s\S]*lg:text-\[44px\]/);
+  assert.match(sectionSource, /mt-5 max-w-\[600px\] text-left text-\[16px\][\s\S]*leading-\[26px\]/);
   assert.match(sectionSource, /mx-auto mt-\[80px\] flex max-w-\[1200px\] justify-center/);
   assert.match(sectionSource, /assets\/products\/aip\/mcp-gateway\/mcp-gateway\.png/);
   assert.match(sectionSource, /flex flex-col items-center[\s\S]*gap-\[60px\][\s\S]*lg:gap-\[80px\][\s\S]*lg:flex-row/);

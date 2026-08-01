@@ -34,6 +34,12 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(routeSource, /KAC｜Kubernetesアクセス制御/);
   assert.match(routeSource, /WAC｜Web\/SaaSアクセス制御/);
   assert.match(routeSource, /MAC｜MCPアクセス制御/);
+  assert.match(routeSource, /QueryPie DACは、クラウドとオンプレミスのデータベースを横断して可視化・統制します。/);
+  assert.match(routeSource, /QueryPie SACは、AWS、GCP、Azure、オンプレミスのサーバーアクセスを一元管理します。/);
+  assert.match(routeSource, /QueryPie KACは、クラウドとオンプレミスのKubernetes環境をまとめて可視化・統制します。/);
+  assert.match(routeSource, /QueryPie WACは、管理画面やSaaSへのアクセスを統制し、操作ログと画面記録を取得します。/);
+  assert.match(routeSource, /QueryPie MACは、MCPツールやMCPサーバーの呼び出しを、ポリシーに基づき一元制御します。/);
+  assert.match(routeSource, /AIエージェントによるツール利用を、安全に統制/);
   assert.match(routeSource, /acp-dac\.mp4/);
   assert.match(routeSource, /acp-mac\.mp4/);
   assert.match(routeSource, /ACP AI Pack/);
