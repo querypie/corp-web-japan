@@ -71,6 +71,7 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.doesNotMatch(sectionSource, /export function AcpGovernanceSection/);
   assert.match(sectionSource, /export function AcpAiPackSection/);
   assert.match(sectionSource, /export function AcpAiPackVideo/);
+  assert.match(sectionSource, /AcpFeatureSection.*pb-\[100px\] pt-\[80px\]/s);
   assert.match(sectionSource, /max-w-\[760px\] self-center text-left text-\[16px\]/);
   assert.match(sectionSource, /AcpIntegrationsSection.*py-\[48px\].*lg:py-\[56px\]/s);
   assert.match(sectionSource, /lg:grid-cols-\[minmax\(0,1fr\)_430px\]/);
@@ -85,8 +86,12 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(browserSource, /mediaFirstOnDesktop/);
   assert.match(browserSource, /md:grid-cols-2 md:gap-\[60px\]/);
   assert.match(browserSource, /englishLabel: string/);
+  assert.match(browserSource, /abbreviation: string/);
+  assert.match(browserSource, /split\("｜", 2\)/);
+  assert.match(browserSource, /text-\[26px\] font-semibold.*category\.abbreviation/s);
+  assert.match(browserSource, /text-\[18px\] font-semibold.*category\.label/s);
   assert.match(browserSource, /text-\[13px\] font-light/);
-  assert.match(browserSource, /text-\[28px\].*sm:text-\[34px\]/);
+  assert.match(browserSource, /text-\[26px\].*sm:text-\[30px\]/);
   assert.doesNotMatch(browserSource, /詳細を見る/);
   assert.doesNotMatch(browserSource, /next\/link/);
   assert.doesNotMatch(browserSource, /製品を選択/);

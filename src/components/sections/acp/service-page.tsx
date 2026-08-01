@@ -174,7 +174,7 @@ export function AcpHeroDiagram() {
 }
 
 export function AcpFeatureSection({ children }: { children: ReactNode }) {
-  return <PlatformContentSection {...componentNameDebugProps("AcpFeatureSection")} className="py-[100px]">{children}</PlatformContentSection>;
+  return <PlatformContentSection {...componentNameDebugProps("AcpFeatureSection")} className="pb-[100px] pt-[80px]">{children}</PlatformContentSection>;
 }
 
 export function AcpFeatureInner({ children }: { children: ReactNode }) {
