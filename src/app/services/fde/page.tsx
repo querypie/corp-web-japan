@@ -58,11 +58,7 @@ export default function ServiceFdePage() {
           <RevealOnScroll>
             <ServiceFdeHeroCopy>
               <ServiceFdeHeroEyebrow>QueryPie FDE</ServiceFdeHeroEyebrow>
-              <ServiceFdeHeroTitle>
-                AI活用を、
-                <br />
-                現場の成果につなげる。
-              </ServiceFdeHeroTitle>
+              <ServiceFdeHeroTitle>AI活用を、現場の成果につなげる。</ServiceFdeHeroTitle>
               <ServiceFdeHeroLead>
                 FDE（Forward Deployed Engineer）は、顧客の現場に入り込み、課題の発見から設計、実装、本番展開、運用改善までを一気通貫で担う専門チームです。
                 <br />
