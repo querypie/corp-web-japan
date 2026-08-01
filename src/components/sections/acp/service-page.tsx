@@ -29,7 +29,7 @@ const heroControls = [
   ["アクセス制御", "access-control.svg"],
   ["申請・承認", "approval.svg"],
   ["監査ログ", "audit-logging.svg"],
-  ["DLP", "dlp.svg"],
+  ["DLP (Data Loss Prevention)", "dlp.svg"],
   ["ポリシー", "policy.svg"],
   ["セッション記録", "session-recording.svg"],
 ] as const;
@@ -44,11 +44,17 @@ const heroTargets = [
 
 const heroDiagramAssetBase = "https://www.querypie.com/assets/products/acp/diagram";
 
-function HeroDiagramItem({ label, asset, compact = false, emphasizeIcon = false }: { label: string; asset: string; compact?: boolean; emphasizeIcon?: boolean }) {
+function HeroDiagramItem({ label, asset, compact = false, iconTone = "default" }: { label: string; asset: string; compact?: boolean; iconTone?: "default" | "blue" }) {
   return (
     <div className={`flex w-full items-center gap-2.5 rounded-[14px] bg-[#F6F8FA] px-5 text-[#24292F] ${compact ? "py-3" : "py-5"}`}>
-      <span className={`${emphasizeIcon ? "rounded-[8px] bg-[#174EA6] p-1.5" : ""} flex shrink-0 items-center justify-center`}>
-        <img alt="" aria-hidden="true" className={`${compact ? "h-7 w-7" : "h-8 w-8"} object-contain`} src={`${heroDiagramAssetBase}/${asset}`} />
+      <span className="flex shrink-0 items-center justify-center">
+        <img
+          alt=""
+          aria-hidden="true"
+          className={`${compact ? "h-7 w-7" : "h-8 w-8"} object-contain`}
+          src={`${heroDiagramAssetBase}/${asset}`}
+          style={iconTone === "blue" ? { filter: "invert(28%) sepia(39%) saturate(1822%) hue-rotate(191deg) brightness(89%) contrast(92%)" } : undefined}
+        />
       </span>
       <span className="min-w-0 text-sm font-medium leading-5 text-[#24292F]">{label}</span>
     </div>
@@ -119,7 +125,7 @@ export function AcpHeroDiagram() {
               <div className="flex w-full flex-col gap-3.5">
                 {heroControls.map(([label, asset]) => (
                   <div key={label} className="flex w-full items-center gap-2.5">
-                    <img alt="" aria-hidden="true" className="h-[18px] w-[18px] shrink-0" src={`${heroDiagramAssetBase}/${asset}`} />
+                    <img alt="" aria-hidden="true" className="h-[18px] w-[18px] shrink-0 brightness-0" src={`${heroDiagramAssetBase}/${asset}`} />
                     <span className="text-sm leading-5 text-[#24292F]">{label}</span>
                   </div>
                 ))}
@@ -129,7 +135,7 @@ export function AcpHeroDiagram() {
           <div className="absolute right-0 top-0 flex h-[480px] w-[240px] flex-col items-center gap-5 overflow-hidden rounded-[16px] px-5 py-5">
             <div aria-hidden="true" className="absolute inset-0 z-0 bg-gradient-to-b from-white to-transparent" />
             <p className="relative z-20 text-center text-sm font-medium leading-5 text-[#24292F]">統制する対象</p>
-            <div className="relative z-20 flex w-full flex-col gap-2.5">{heroTargets.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} compact emphasizeIcon />)}</div>
+            <div className="relative z-20 flex w-full flex-col gap-2.5">{heroTargets.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} compact iconTone="blue" />)}</div>
           </div>
         </div>
       </div>
@@ -144,22 +150,20 @@ export function AcpHeroDiagram() {
           <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3">
             {heroControls.map(([label, asset]) => (
               <div key={label} className="flex items-center gap-2 text-[13px] font-medium leading-5 text-[#24292F]">
-                <img alt="" aria-hidden="true" className="h-[18px] w-[18px] shrink-0" src={`${heroDiagramAssetBase}/${asset}`} />
+                <img alt="" aria-hidden="true" className="h-[18px] w-[18px] shrink-0 brightness-0" src={`${heroDiagramAssetBase}/${asset}`} />
                 {label}
               </div>
             ))}
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
-          {heroTargets.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} emphasizeIcon />)}
+          {heroTargets.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} iconTone="blue" />)}
         </div>
       </div>
-      <figcaption className="mx-auto mt-10 max-w-[1080px]">
-        <div className="mx-auto max-w-[1000px] rounded-[16px] border border-[#B6D4FE] bg-[#EAF2FF] px-6 py-6 text-left sm:px-8">
-          <p className="text-[19px] font-medium leading-[30px] tracking-[-0.02em] text-[#174EA6] sm:text-[21px] sm:leading-[32px]">
-          アクセスを許可・禁止するだけでは、複雑化するインフラとAI活用を守り切れません。
-          <br />
-          QueryPie ACPは、統制の仕組みと対象環境を一つの基盤に集約します。
+      <figcaption className="mx-auto mt-6 w-full max-w-[520px]">
+        <div className="rounded-[14px] bg-[#F6F8FA] px-6 py-5 text-center">
+          <p className="text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">
+            アクセスを許可・禁止するだけでは、複雑化するインフラとAI活用を守り切れません。QueryPie ACPは、統制の仕組みと対象環境を一つの基盤に集約します。
           </p>
         </div>
       </figcaption>
@@ -172,7 +176,7 @@ export function AcpFeatureSection({ children }: { children: ReactNode }) {
 }
 
 export function AcpFeatureInner({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpFeatureInner")} className="flex w-full max-w-[1200px] flex-col gap-[24px]">{children}</div>;
+  return <div {...componentNameDebugProps("AcpFeatureInner")} className="flex w-full max-w-[1200px] flex-col gap-[80px]">{children}</div>;
 }
 
 export function AcpFeatureIntro({ children }: { children: ReactNode }) {
@@ -180,7 +184,7 @@ export function AcpFeatureIntro({ children }: { children: ReactNode }) {
 }
 
 export function AcpSectionTitle({ children }: { children: ReactNode }) {
-  return <h2 {...componentNameDebugProps("AcpSectionTitle")} className="text-[52px] font-normal leading-[62px] tracking-normal text-[#24292F]">{children}</h2>;
+  return <h2 {...componentNameDebugProps("AcpSectionTitle")} className="text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h2>;
 }
 
 export function AcpSectionBody({ children }: { children: ReactNode }) {
@@ -236,11 +240,11 @@ export function AcpAiPackBody({ children }: { children: ReactNode }) {
 }
 
 export function AcpAiPackContent({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpAiPackContent")} className="grid items-start gap-8 lg:grid-cols-[1fr_minmax(0,0.95fr)] lg:gap-[60px]">{children}</div>;
+  return <div {...componentNameDebugProps("AcpAiPackContent")} className="flex flex-col-reverse gap-8 lg:flex-row-reverse lg:items-start lg:gap-[60px]">{children}</div>;
 }
 
 export function AcpAiPackCardGrid({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpAiPackCardGrid")} className="grid gap-3">{children}</div>;
+  return <div {...componentNameDebugProps("AcpAiPackCardGrid")} className="grid w-full min-w-0 flex-1 gap-3">{children}</div>;
 }
 
 export function AcpAiPackCard({ children }: { children: ReactNode }) {
@@ -257,7 +261,7 @@ export function AcpAiPackCardBody({ children }: { children: ReactNode }) {
 
 export function AcpAiPackVideo() {
   return (
-    <div {...componentNameDebugProps("AcpAiPackVideo")} className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-black">
+    <div {...componentNameDebugProps("AcpAiPackVideo")} className="w-full shrink-0 overflow-hidden rounded-[1.5rem] border border-white/10 bg-black lg:w-[790px] lg:max-w-[65%]">
       <video
         aria-label="ACP AI Packの画面デモ"
         className="block h-auto w-full"
