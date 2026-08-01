@@ -53,7 +53,7 @@ export function ServiceFdeHeroTitle({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeHeroLead({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("ServiceFdeHeroLead")} className="w-full max-w-[1080px] self-center text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+  return <p {...componentNameDebugProps("ServiceFdeHeroLead")} className="w-full max-w-[880px] self-center text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
 }
 
 export function ServiceFdeHeroVisual() {
