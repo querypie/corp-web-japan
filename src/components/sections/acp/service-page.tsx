@@ -242,7 +242,7 @@ export function AcpAiPackBody({ children }: { children: ReactNode }) {
 }
 
 export function AcpAiPackContent({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpAiPackContent")} className="flex flex-col-reverse gap-8 lg:flex-row-reverse lg:items-center lg:gap-10">{children}</div>;
+  return <div {...componentNameDebugProps("AcpAiPackContent")} className="flex flex-col-reverse gap-8 lg:flex-row-reverse lg:items-center lg:justify-center lg:gap-10">{children}</div>;
 }
 
 export function AcpAiPackCardGrid({ children }: { children: ReactNode }) {
@@ -256,7 +256,7 @@ export function AcpAiPackCard({ children, icon: Icon }: { children: ReactNode; i
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#8EC5FF]/15 text-[#8EC5FF]">
           <Icon aria-hidden="true" className="h-5 w-5" strokeWidth={1.8} />
         </span>
-        <div className="min-w-0">{children}</div>
+        <div className="min-w-0 translate-y-2">{children}</div>
       </div>
     </article>
   );
