@@ -137,7 +137,7 @@ export default function AipPage() {
       </AipValueSection>
 
       <AppSpotlightCard
-        eyebrow="QueryPie AIPで提供する、実務のためのAIアプリ"
+        eyebrow="QueryPie AIPで動く、業務を前に進めるAIアプリ"
         title="会議を、次の業務につなげるLingo。"
         description="Lingoは、会議の文字起こし、リアルタイム翻訳、要約を一つにしたAIアプリです。QueryPie AIPが提供する安全性と運用性を土台に、会議で生まれる情報を次の行動へつなげます。"
         ctaLabel="Lingoを見る"
