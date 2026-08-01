@@ -15,9 +15,9 @@ import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
-  title: "QueryPie AI: インテグレーション",
+  title: "AIPインテグレーション | QueryPie AI",
   description:
-    "MCPサーバーを介して業務ツールへ接続し、ワークフローを自動化する QueryPie AIP インテグレーションページ。",
+    "主要な業務ツールやデータベースをMCPサーバーでQueryPie AIPに接続し、AIエージェントによるワークフロー実行を支援します。",
   alternates: {
     canonical: "/platforms/aip/integrations",
   },
@@ -44,15 +44,15 @@ type IntegrationProduct = {
 
 const categories: readonly IntegrationCategory[] = [
   { key: "workflow-automation", label: "ワークフロー自動化" },
-  { key: "collaboration", label: "コミュニケーション & コラボレーション" },
-  { key: "crm", label: "顧客関係管理" },
+  { key: "collaboration", label: "コミュニケーション・コラボレーション" },
+  { key: "crm", label: "CRM" },
   { key: "google-workspace", label: "Googleサービス" },
   { key: "microsoft-365", label: "Microsoftサービス" },
   { key: "project-management", label: "プロジェクト管理" },
-  { key: "devops", label: "開発 & DevOps" },
-  { key: "databases", label: "データベース接続" },
-  { key: "search-navigation", label: "検索 & ナビゲーション" },
-  { key: "local-tools", label: "ローカル統合" },
+  { key: "devops", label: "開発・DevOps" },
+  { key: "databases", label: "データベース" },
+  { key: "search-navigation", label: "検索・ナビゲーション" },
+  { key: "local-tools", label: "ローカルツール" },
 ] as const;
 
 const products: readonly IntegrationProduct[] = [
@@ -126,11 +126,9 @@ export default async function AipIntegrationsPage({ searchParams }: Integrations
 
       <AipIntegrationsHeroSection>
         <AipIntegrationsHeroCopy>
-          <AipIntegrationsHeroHeading>AIPインテグレーション</AipIntegrationsHeroHeading>
+          <AipIntegrationsHeroHeading>AIを、業務ツールとつなぐ。</AipIntegrationsHeroHeading>
           <AipIntegrationsHeroLead>
-            MCPサーバーを介してお使いのビジネスツールに接続。システム、アプリ、サービス間のワークフローを自動化します。
-            <br />
-            Slack、GitHub、AWS、データベース、ワークフロープラットフォームなど、AI統合であらゆるニーズに対応します。
+            主要な業務ツールやデータベースを、MCPサーバーでQueryPie AIPに接続。AIエージェントが、システム・アプリ・サービスをまたぐワークフローを実行できる環境を整えます。
           </AipIntegrationsHeroLead>
         </AipIntegrationsHeroCopy>
 
@@ -149,7 +147,7 @@ export default async function AipIntegrationsPage({ searchParams }: Integrations
           ))}
         </AipIntegrationsCategoryList>
 
-        <AipIntegrationsProductList>
+        <AipIntegrationsProductList columns={8} compact>
           {filteredProducts.map((product) => (
             <AipIntegrationsProductCard
               key={`${product.label}-${product.svgFilename}`}
