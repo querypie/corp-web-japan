@@ -76,7 +76,8 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.doesNotMatch(browserSource, /詳細を見る/);
   assert.doesNotMatch(browserSource, /next\/link/);
   assert.doesNotMatch(browserSource, /製品を選択/);
-  assert.match(sectionSource, /lg:w-\[790px\] lg:max-w-\[65%\]/);
+  assert.match(sectionSource, /lg:items-center/);
+  assert.match(sectionSource, /lg:w-\[680px\] lg:max-w-\[57%\]/);
 
   const heroPrimitiveSource = readSource("src/components/sections/acp/hero-primitives.tsx");
   assert.match(heroPrimitiveSource, /max-w-\[1080px\].*text-left.*text-\[16px\]/);

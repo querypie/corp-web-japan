@@ -241,7 +241,7 @@ export function AcpAiPackBody({ children }: { children: ReactNode }) {
 }
 
 export function AcpAiPackContent({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpAiPackContent")} className="flex flex-col-reverse gap-8 lg:flex-row-reverse lg:items-start lg:gap-[60px]">{children}</div>;
+  return <div {...componentNameDebugProps("AcpAiPackContent")} className="flex flex-col-reverse gap-8 lg:flex-row-reverse lg:items-center lg:gap-[60px]">{children}</div>;
 }
 
 export function AcpAiPackCardGrid({ children }: { children: ReactNode }) {
@@ -262,7 +262,7 @@ export function AcpAiPackCardBody({ children }: { children: ReactNode }) {
 
 export function AcpAiPackVideo() {
   return (
-    <div {...componentNameDebugProps("AcpAiPackVideo")} className="w-full shrink-0 overflow-hidden rounded-[1.5rem] border border-white/10 bg-black lg:w-[790px] lg:max-w-[65%]">
+    <div {...componentNameDebugProps("AcpAiPackVideo")} className="w-full shrink-0 overflow-hidden rounded-[1.5rem] border border-white/10 bg-black lg:w-[680px] lg:max-w-[57%]">
       <video
         aria-label="ACP AI Packの画面デモ"
         className="block h-auto w-full"
