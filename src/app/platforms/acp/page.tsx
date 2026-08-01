@@ -104,9 +104,9 @@ export default function AcpPage() {
                 >
                   <AcpFeatureItemTitle>データを可視化し、必要な範囲だけを許可</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
-                    クラウドとオンプレミスのデータ資産を一元管理し、機密情報を識別・マスキング。
+                    QueryPie DACは、クラウドとオンプレミスのデータベースを横断して可視化・統制します。機密情報や個人情報を自動で検出・マスキングし、
                     <br />
-                    クエリ単位で最小権限を適用し、安全なデータ活用を支えます。
+                    クエリ単位の最小権限と監査で、安全なデータ活用を支えます。
                   </AcpFeatureItemBody>
                 </AcpFeatureItem>
               </AcpFeatureCategory>
@@ -119,9 +119,9 @@ export default function AcpPage() {
                 >
                   <AcpFeatureItemTitle>サーバー操作を、統制と監査のもとに</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
-                    AWS、GCP、Azure、オンプレミスを横断してアクセスを管理。
+                    QueryPie SACは、AWS、GCP、Azure、オンプレミスのサーバーアクセスを一元管理します。
                     <br />
-                    申請・承認から操作記録、セッション再生までを一つの流れで運用できます。
+                    申請・承認からコマンド記録、セッション再生までを一つの流れで運用できます。
                   </AcpFeatureItemBody>
                 </AcpFeatureItem>
               </AcpFeatureCategory>
@@ -134,9 +134,9 @@ export default function AcpPage() {
                 >
                   <AcpFeatureItemTitle>マルチクラスタ環境を、一つのポリシーで管理</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
-                    クラウドとオンプレミスのKubernetes環境をまとめて可視化・統制。
+                    QueryPie KACは、クラウドとオンプレミスのKubernetes環境をまとめて可視化・統制します。
                     <br />
-                    APIリクエストの監査とコンテナ操作の記録により、運用の透明性を高めます。
+                    APIリクエストの監査とコンテナ操作の記録により、マルチクラスタ運用の透明性を高めます。
                   </AcpFeatureItemBody>
                 </AcpFeatureItem>
               </AcpFeatureCategory>
@@ -149,9 +149,9 @@ export default function AcpPage() {
                 >
                   <AcpFeatureItemTitle>WebアプリとSaaSの利用状況を、一元的に把握</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
-                    管理画面やSaaSへのアクセスを統制し、操作ログと画面記録を取得。
+                    QueryPie WACは、管理画面やSaaSへのアクセスを統制し、操作ログと画面記録を取得します。
                     <br />
-                    機密情報のマスキングやファイル転送の制御で、情報漏洩リスクを抑えます。
+                    機密情報のマスキングやファイル転送の制御で、Web利用時の情報漏洩リスクを抑えます。
                   </AcpFeatureItemBody>
                 </AcpFeatureItem>
               </AcpFeatureCategory>
@@ -162,9 +162,9 @@ export default function AcpPage() {
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-mac.mp4#t=0.001"
                   mediaAlt="MCPアクセス制御のデモ"
                 >
-                  <AcpFeatureItemTitle>AIエージェントのツール利用を、安全に統制</AcpFeatureItemTitle>
+                  <AcpFeatureItemTitle>AIエージェントによるツール利用を、安全に統制</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
-                    MCPツールやMCPサーバーの呼び出しを、ポリシーに基づき一元制御。
+                    QueryPie MACは、MCPツールやMCPサーバーの呼び出しを、ポリシーに基づき一元制御します。
                     <br />
                     リアルタイムのリスク検知と機密データのマスキングで、AI活用に必要なガードレールを提供します。
                   </AcpFeatureItemBody>

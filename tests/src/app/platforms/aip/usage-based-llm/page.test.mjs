@@ -21,8 +21,8 @@ test("published usage-based-llm page keeps route-local copy/composition", () => 
   assert.match(routeSource, /SSOと一元管理で、組織利用に対応/);
   assert.match(routeSource, /全社導入のコストを、利用実態に合わせる。/);
   assert.match(routeSource, /\$0（従量課金）/);
-  assert.match(routeSource, /Claude \/ GPT \/ Gemini/);
-  assert.match(routeSource, /US\$7,200〜\*/);
+  assert.match(routeSource, /Claude、GPT、Gemini、自社保有LLM/);
+  assert.match(routeSource, /US\$7,200〜／年/);
   assert.match(routeSource, /assets\/products\/aip\/usage-based-llm\/aip_function_pay\.gif/);
   assert.match(routeSource, /assets\/products\/aip\/usage-based-llm\/aip_function_llmmodel\.gif/);
   assert.match(routeSource, /assets\/products\/aip\/usage-based-llm\/aip_function_sso\.gif/);
@@ -34,9 +34,8 @@ test("published usage-based-llm page keeps route-local copy/composition", () => 
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
   assert.match(sectionSource, /export function AipUsageBasedLlmPageShell[\s\S]*<PlatformPageShell(?:\s[^>]*)?>/);
   assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection[\s\S]*<PlatformContentSection[\s\S]*className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]" contentWidthClassName="max-w-\[1200px\]">/);
-  assert.match(sectionSource, /max-w-\[800px\][\s\S]*text-\[48px\][\s\S]*text-\[#24292F\][\s\S]*lg:text-\[60px\]/);
-  assert.match(sectionSource, /max-w-\[1000px\]/);
-  assert.match(sectionSource, /mt-\[20px\]/);
+  assert.match(sectionSource, /w-full text-left text-\[36px\][\s\S]*lg:text-\[44px\]/);
+  assert.match(sectionSource, /mt-5 max-w-\[600px\] text-left text-\[16px\][\s\S]*leading-\[26px\]/);
   assert.match(sectionSource, /export function AipUsageBasedLlmHeroFootnote[\s\S]*<small[^>]*className="text-\[10px\] font-light leading-\[28px\] tracking-\[0\.36px\] text-\[#57606A\]">/);
   assert.match(routeSource, /<AipUsageBasedLlmHeroFootnote>\*削減率は利用条件により異なります<\/AipUsageBasedLlmHeroFootnote>/);
   assert.match(sectionSource, /assets\/products\/aip\/usage-based-llm\/usage-based-llm\.svg/);
@@ -58,9 +57,8 @@ test("published usage-based-llm page keeps route-local copy/composition", () => 
   assert.match(routeSource, /className="ml-auto lg:w-\[534px\] lg:max-w-\[534px\]"/);
   assert.match(routeSource, /className="lg:w-\[518px\] lg:max-w-\[518px\]"/);
   assert.match(sectionSource, /export function AipUsageBasedLlmComparisonSection[\s\S]*bg-\[#F6F8FA\] py-\[100px\] lg:py-\[120px\]/);
-  assert.match(sectionSource, /export function AipUsageBasedLlmComparisonGrid[\s\S]*mt-12 grid gap-4 lg:grid-cols-3 lg:gap-5/);
-  assert.match(sectionSource, /export function AipUsageBasedLlmComparisonCard[\s\S]*min-h-\[250px\][\s\S]*featured && "bg-\[#0969DA\] text-white"/);
-  assert.match(sectionSource, /export function AipUsageBasedLlmComparisonLabel[\s\S]*inverted/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmComparisonTable[\s\S]*min-w-\[1040px\]/);
+  assert.match(sectionSource, /grid-cols-\[180px_repeat\(5,minmax\(0,1fr\)\)\]/);
   assert.doesNotMatch(sectionSource, /AipUsageBasedLlmComparisonImage/);
   assert.match(sectionSource, /export function AipUsageBasedLlmCtaButtonWrap/);
 

@@ -54,7 +54,8 @@ test("/services/fde is a public page with indexable metadata and canonical path"
   assert.match(sectionSource, /export function ServiceFdeHeroTitle[\s\S]*mx-auto w-full max-w-\[1200px\][\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
   assert.match(routeSource, /<ServiceFdeHeroLead>\s*FDE（Forward Deployed Engineer）は、[\s\S]*業務で使われる状態へ導きます。\s*<\/ServiceFdeHeroLead>/);
   assert.doesNotMatch(routeSource, /<ServiceFdeHeroLead>[\s\S]*<br \/>/);
-  assert.match(sectionSource, /export function ServiceFdeHeroLead[\s\S]*w-full max-w-\[880px\] self-center text-left[\s\S]*text-\[16px\][\s\S]*leading-\[26px\]/);
+  assert.match(sectionSource, /export function ServiceFdeHeroLead[\s\S]*w-full max-w-\[864px\] self-center text-left[\s\S]*text-\[16px\][\s\S]*leading-\[26px\]/);
+  assert.match(sectionSource, /export function ServiceFdeChallengeContent[\s\S]*mx-auto flex max-w-\[920px\] flex-col items-center/);
   assert.match(sectionSource, /export function ServiceFdeHeroVisual/);
   assert.match(sectionSource, /export function ServiceFdeHeroEyebrow/);
   assert.match(sectionSource, /export function ServiceFdeOverviewSection[\s\S]*bg-\[#F6F8FA\] py-\[80px\] lg:py-\[96px\]" contentClassName="flex max-w-\[1200px\] flex-col"/);

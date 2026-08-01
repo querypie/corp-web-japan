@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { PlatformContentSection, PlatformFeatureSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
+import { AipHeroVideoPlayer } from "./aip-hero-video";
 
 type FeatureSectionProps = {
   children: ReactNode;
@@ -16,8 +17,9 @@ type FeatureImageProps = {
   height: number;
 };
 
-type HeroMockupProps = {
+type HeroVideoProps = {
   posterSrc: string;
+  videoSrc: string;
 };
 
 export function AipPageShell({ children }: { children: ReactNode }) {
@@ -37,21 +39,21 @@ export function AipHeroInner({ children }: { children: ReactNode }) {
 }
 
 export function AipHeroCopy({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AipHeroCopy")} className="flex w-full flex-col items-start gap-5 text-left">{children}</div>;
+  return <div {...componentNameDebugProps("AipHeroCopy")} className="flex w-full flex-col items-center gap-5 text-center">{children}</div>;
 }
 
 export function AipHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 {...componentNameDebugProps("AipHeroTitle")} className="m-0 text-[36px] font-normal leading-[46px] tracking-[-0.04em] text-[#24292F] sm:text-[40px] sm:leading-[50px] lg:text-[44px] lg:leading-[56px]">{children}</h1>;
+  return <h1 {...componentNameDebugProps("AipHeroTitle")} className="w-full text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h1>;
 }
 
 export function AipHeroLead({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("AipHeroLead")} className="m-0 max-w-[420px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+  return <p {...componentNameDebugProps("AipHeroLead")} className="w-full max-w-[864px] self-center text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
 }
 
-export function AipHeroMockup({ posterSrc }: HeroMockupProps) {
+export function AipHeroVideo({ posterSrc, videoSrc }: HeroVideoProps) {
   return (
-    <div {...componentNameDebugProps("AipHeroMockup")} className="aspect-video w-full max-w-[1080px] overflow-hidden rounded-[20px] bg-[#F6F8FA]">
-      <Image src={posterSrc} alt="QueryPie AIPの画面イメージ" width={1080} height={608} priority unoptimized className="block h-full w-full object-cover" />
+    <div {...componentNameDebugProps("AipHeroVideo")} className="aspect-video w-full max-w-[1080px] overflow-hidden rounded-[20px] bg-[#F6F8FA]">
+      <AipHeroVideoPlayer posterSrc={posterSrc} videoSrc={videoSrc} />
     </div>
   );
 }

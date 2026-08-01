@@ -2,12 +2,8 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
-  AipUsageBasedLlmComparisonBody,
-  AipUsageBasedLlmComparisonCard,
-  AipUsageBasedLlmComparisonGrid,
-  AipUsageBasedLlmComparisonLabel,
-  AipUsageBasedLlmComparisonValue,
   AipUsageBasedLlmComparisonSection,
+  AipUsageBasedLlmComparisonTable,
   AipUsageBasedLlmComparisonTitle,
   AipUsageBasedLlmFeatureBand,
   AipUsageBasedLlmFeatureBody,
@@ -20,7 +16,6 @@ import {
   AipUsageBasedLlmHeroImage,
   AipUsageBasedLlmHeroSection,
   AipUsageBasedLlmHeroTitle,
-  AipUsageBasedLlmLineBreak,
   AipUsageBasedLlmPageShell,
 } from "@/components/sections/usage-based-llm/section";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
@@ -48,18 +43,14 @@ export default function AipUsageBasedLlmPage() {
       <AipUsageBasedLlmHeroSection>
         <RevealOnScroll>
           <AipUsageBasedLlmHeroTitle>
-            使った分だけで、
-            <br />
-            AIを全社へ。
+            使った分だけで、AIを全社へ。
           </AipUsageBasedLlmHeroTitle>
         </RevealOnScroll>
 
         <RevealOnScroll delayMs={60}>
           <AipUsageBasedLlmHeroDescription>
             ブラウザからすぐに使え、導入のためのダウンロードや大がかりなセットアップは不要です。
-            <AipUsageBasedLlmLineBreak />
             固定費を持たない従量課金で、AI活用を小さく始め、利用状況と成果に合わせて段階的に広げられます。
-            <AipUsageBasedLlmLineBreak />
             月額課金型AIサービスと比べ、最大90%のコスト削減も可能です。
             <AipUsageBasedLlmHeroFootnote>*削減率は利用条件により異なります</AipUsageBasedLlmHeroFootnote>
           </AipUsageBasedLlmHeroDescription>
@@ -144,23 +135,21 @@ export default function AipUsageBasedLlmPage() {
         </RevealOnScroll>
 
         <RevealOnScroll delayMs={80}>
-          <AipUsageBasedLlmComparisonGrid>
-            <AipUsageBasedLlmComparisonCard featured>
-              <AipUsageBasedLlmComparisonLabel inverted>月額固定費</AipUsageBasedLlmComparisonLabel>
-              <AipUsageBasedLlmComparisonValue inverted>$0（従量課金）</AipUsageBasedLlmComparisonValue>
-              <AipUsageBasedLlmComparisonBody inverted>月額固定のライセンス費用ではなく、実際の利用量に応じて支払います。</AipUsageBasedLlmComparisonBody>
-            </AipUsageBasedLlmComparisonCard>
-            <AipUsageBasedLlmComparisonCard>
-              <AipUsageBasedLlmComparisonLabel>対応するLLM</AipUsageBasedLlmComparisonLabel>
-              <AipUsageBasedLlmComparisonValue>Claude / GPT / Gemini</AipUsageBasedLlmComparisonValue>
-              <AipUsageBasedLlmComparisonBody>自社で保有するLLMを含め、用途に合わせて選択できます。</AipUsageBasedLlmComparisonBody>
-            </AipUsageBasedLlmComparisonCard>
-            <AipUsageBasedLlmComparisonCard>
-              <AipUsageBasedLlmComparisonLabel>200ユーザー規模の年間目安</AipUsageBasedLlmComparisonLabel>
-              <AipUsageBasedLlmComparisonValue>US$7,200〜*</AipUsageBasedLlmComparisonValue>
-              <AipUsageBasedLlmComparisonBody>主要な月額課金型AIサービスと比べ、最大90%のコスト削減が見込めます。</AipUsageBasedLlmComparisonBody>
-            </AipUsageBasedLlmComparisonCard>
-          </AipUsageBasedLlmComparisonGrid>
+          <AipUsageBasedLlmComparisonTable
+            columns={[
+              { label: "Company O" },
+              { label: "Company M" },
+              { label: "Company A" },
+              { label: "Company P" },
+              { label: "QueryPie AI", featured: true },
+            ]}
+            rows={[
+              { label: "月額費用", values: ["US$30／月", "US$20／月", "US$25／月", "US$40／月", "US$0（従量課金）"] },
+              { label: "対応するLLM", values: ["GPT-4.1、4o、o3ほか", "GPT-4o、o3-mini、o1", "Claude 4 Opus、Sonnetほか", "Llama 3、DeepSeek-R1", "Claude、GPT、Gemini、自社保有LLM"] },
+              { label: "主な機能", values: ["AI Chat、RAG、Web検索、画像生成、データ分析", "文書要約、文書作成・編集", "AI Chat、データ分析", "AI Chat、Web検索", "AI Chat、RAG、Web検索、画像生成、データ分析、AIエージェント、セキュリティ・監視、一元管理"] },
+              { label: "200ユーザー規模の年間目安", values: ["US$72,000／年", "US$48,000／年", "US$60,000／年", "US$96,000／年", "US$7,200〜／年（Company O比 最大90%削減）"] },
+            ]}
+          />
         </RevealOnScroll>
       </AipUsageBasedLlmComparisonSection>
 

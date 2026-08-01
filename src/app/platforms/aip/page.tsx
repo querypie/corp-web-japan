@@ -16,7 +16,7 @@ import {
   AipHeroLead,
   AipHeroSection,
   AipHeroTitle,
-  AipHeroMockup,
+  AipHeroVideo,
   AipInlineLink,
   AipLineBreak,
   AipPageShell,
@@ -67,7 +67,10 @@ export default function AipPage() {
           </RevealOnScroll>
 
           <RevealOnScroll delayMs={120} className="w-full">
-            <AipHeroMockup posterSrc="https://www.querypie.com/assets/products/aip/aip-cover.png" />
+            <AipHeroVideo
+              posterSrc="https://www.querypie.com/assets/products/aip/aip-cover.png"
+              videoSrc="https://www.querypie.com/assets/products/aip/QueryPie%20AIP%20-%20Secure%20Enterprise%20Agentic%20AI%20Platform.mp4"
+            />
           </RevealOnScroll>
         </AipHeroInner>
       </AipHeroSection>

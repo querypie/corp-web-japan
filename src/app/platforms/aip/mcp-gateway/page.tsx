@@ -42,18 +42,13 @@ export default function McpGatewayPage() {
       <McpGatewayHeroSection>
         <RevealOnScroll>
           <McpGatewayHeroCopy>
-            <McpGatewayHeroHeading>
-              MCPを、全社で
-              <br />
-              つなぎ、統制する。
-            </McpGatewayHeroHeading>
+            <McpGatewayHeroHeading>MCPを、全社でつなぎ、統制する。</McpGatewayHeroHeading>
           </McpGatewayHeroCopy>
         </RevealOnScroll>
 
         <RevealOnScroll delayMs={60}>
           <McpGatewayHeroBody>
             MCPサーバーやAIツールが分散しても、接続・権限・利用状況を一つの基盤で管理。
-            <br />
             複雑な連携を裏側で吸収し、既存の技術環境をまたぐAIワークフローを、安全に展開できます。
           </McpGatewayHeroBody>
         </RevealOnScroll>
@@ -66,11 +61,7 @@ export default function McpGatewayPage() {
       <McpGatewayFeatureBand muted>
         <McpGatewayFeatureLayout>
           <McpGatewayFeatureCopy className="w-full lg:w-[450px]">
-            <McpGatewayFeatureTitle>
-              社内システムへ、
-              <br />
-              安全に接続する
-            </McpGatewayFeatureTitle>
+            <McpGatewayFeatureTitle>社内システムへ、安全に接続する</McpGatewayFeatureTitle>
             <McpGatewayFeatureDescription>
               セキュアなトンネリングにより、既存のセキュリティ環境を変えずに、ファイアウォールで保護された社内リソースへ接続できます。
             </McpGatewayFeatureDescription>
@@ -133,11 +124,7 @@ export default function McpGatewayPage() {
       <McpGatewayFeatureBand>
         <McpGatewayFeatureLayout reverse>
           <McpGatewayFeatureCopy className="w-full lg:w-[390px]">
-            <McpGatewayFeatureTitle>
-              すべての実行を、
-              <br />
-              監査可能にする
-            </McpGatewayFeatureTitle>
+            <McpGatewayFeatureTitle>すべての実行を、監査可能にする</McpGatewayFeatureTitle>
             <McpGatewayFeatureDescription>
               組織内で発生するイベントを可視化し、ユーザーの操作やシステム変更を追跡。セキュリティとコンプライアンスのための監査証跡を残せます。
             </McpGatewayFeatureDescription>

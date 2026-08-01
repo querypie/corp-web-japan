@@ -53,7 +53,7 @@ export function ServiceFdeHeroTitle({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeHeroLead({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("ServiceFdeHeroLead")} className="w-full max-w-[880px] self-center text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+  return <p {...componentNameDebugProps("ServiceFdeHeroLead")} className="w-full max-w-[864px] self-center text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
 }
 
 export function ServiceFdeHeroVisual() {
@@ -95,7 +95,7 @@ export function ServiceFdeChallengeSection({ children }: { children: ReactNode }
 }
 
 export function ServiceFdeChallengeContent({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("ServiceFdeChallengeContent")} className="mx-auto max-w-[920px]">{children}</div>;
+  return <div {...componentNameDebugProps("ServiceFdeChallengeContent")} className="mx-auto flex max-w-[920px] flex-col items-center">{children}</div>;
 }
 
 export function ServiceFdeChallengeList({ children }: { children: ReactNode }) {
