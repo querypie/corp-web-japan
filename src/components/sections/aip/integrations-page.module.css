@@ -64,13 +64,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 32px;
+  padding: 10px 20px;
   border-radius: 26px;
   background: #f6f8fa;
   color: #24292f;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 22px;
+  line-height: 20px;
   letter-spacing: 0;
   transition:
     background 100ms ease,
@@ -224,8 +224,7 @@
   }
 
   .categoryItem {
-    padding-left: 24px;
-    padding-right: 24px;
+    padding: 9px 16px;
   }
 
   .productList {

@@ -46,12 +46,11 @@ test("AIP integrations platform section primitives define the integration filter
   assert.match(cssSource, /\.content \{/);
   assert.match(cssSource, /max-width: 1200px/);
   assert.match(cssSource, /grid-template-columns: repeat\(8, minmax\(0, 1fr\)\)/);
-  assert.match(cssSource, /padding: 12px 32px/);
+  assert.match(cssSource, /padding: 10px 20px/);
   assert.match(cssSource, /\.compactProductList \.productItem \{[\s\S]*min-height: 128px[\s\S]*gap: 16px[\s\S]*padding: 20px 12px/);
   assert.match(cssSource, /background: #f6f8fa/);
   assert.doesNotMatch(cssSource, /min-height:\s*180px/);
-  assert.match(cssSource, /padding-left: 24px/);
-  assert.match(cssSource, /padding-right: 24px/);
+  assert.match(cssSource, /@media \(max-width: 500px\)[\s\S]*\.categoryItem \{[\s\S]*padding: 9px 16px/);
   assert.match(cssSource, /@media \(max-width: 500px\)[\s\S]*padding-top: 120px/);
   assert.doesNotMatch(cssSource, /acpHeroSection/);
   assert.match(sectionSource, /<Image src=\{iconSrc\} alt=\{label\} width=\{52\} height=\{52\}/);
