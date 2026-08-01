@@ -82,6 +82,10 @@ export function ServiceFdeOverviewHeader({ children }: { children: ReactNode }) 
   return <div {...componentNameDebugProps("ServiceFdeOverviewHeader")} className="mx-auto max-w-[800px] text-center">{children}</div>;
 }
 
+export function ServiceFdeOverviewSummary({ children }: { children: ReactNode }) {
+  return <p {...componentNameDebugProps("ServiceFdeOverviewSummary")} className="mx-auto mt-6 max-w-[720px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+}
+
 export function ServiceFdeSectionTitle({ children }: { children: ReactNode }) {
   return <h2 {...componentNameDebugProps("ServiceFdeSectionTitle")} className="text-[32px] font-normal leading-[40px] tracking-[-0.04em] text-[#24292F] lg:text-[48px] lg:leading-[1.2]">{children}</h2>;
 }
@@ -96,14 +100,6 @@ export function ServiceFdeChallengeSection({ children }: { children: ReactNode }
 
 export function ServiceFdeChallengeContent({ children }: { children: ReactNode }) {
   return <div {...componentNameDebugProps("ServiceFdeChallengeContent")} className="mx-auto max-w-[920px]">{children}</div>;
-}
-
-export function ServiceFdeChallengeList({ children }: { children: ReactNode }) {
-  return <ul {...componentNameDebugProps("ServiceFdeChallengeList")} className="mt-10 grid gap-x-10 gap-y-5 border-y border-[#D8DEE4] py-8 text-[18px] font-normal leading-[28px] text-[#24292F] lg:grid-cols-2">{children}</ul>;
-}
-
-export function ServiceFdeChallengeItem({ children }: { children: ReactNode }) {
-  return <li {...componentNameDebugProps("ServiceFdeChallengeItem")} className="flex gap-3 before:mt-[11px] before:h-1.5 before:w-1.5 before:shrink-0 before:rounded-full before:bg-[#0969DA]">{children}</li>;
 }
 
 export function ServiceFdeFeatureSection({ children, muted = false }: FeatureSectionProps) {
@@ -128,6 +124,10 @@ export function ServiceFdeFeatureCopy({ children }: { children: ReactNode }) {
 
 export function ServiceFdeFeatureTitle({ children }: { children: ReactNode }) {
   return <h4 {...componentNameDebugProps("ServiceFdeFeatureTitle")} className="text-[32px] font-medium leading-[42px] tracking-normal text-[#24292F] max-[480px]:text-[20px] max-[480px]:leading-[28px]">{children}</h4>;
+}
+
+export function ServiceFdeFeatureStep({ children }: { children: ReactNode }) {
+  return <p {...componentNameDebugProps("ServiceFdeFeatureStep")} className="text-[14px] font-medium tracking-[0.08em] text-[#0969DA]">{children}</p>;
 }
 
 export function ServiceFdeFeatureBody({ children }: { children: ReactNode }) {
