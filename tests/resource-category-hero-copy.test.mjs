@@ -1,0 +1,29 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readSource } from "./helpers/source-readers.mjs";
+
+const categoryPages = [
+  ["src/app/resources/page.tsx", "リソース", "製品・サービスを理解し、導入・活用を進めるための情報"],
+  ["src/app/introduction-deck/page.tsx", "紹介資料", "製品・サービスの概要、主な機能、導入イメージ"],
+  ["src/app/glossary/page.tsx", "用語集", "AI、AIエージェント、MCP、アクセス制御"],
+  ["src/app/manuals/page.tsx", "マニュアル", "導入、設定、日常的な利用、運用"],
+  ["src/app/whitepapers/page.tsx", "ホワイトペーパー", "AI導入・活用、ガバナンス、業務変革"],
+  ["src/app/blog/page.tsx", "ブログ", "AI、セキュリティ、エンタープライズ導入"],
+];
+
+test("resource category pages use category-specific hero copy", () => {
+  for (const [path, title, lead] of categoryPages) {
+    const source = readSource(path);
+    assert.match(source, new RegExp(`ResourceListHeroTitle>${title}<\\/ResourceListHeroTitle>`));
+    assert.match(source, new RegExp(lead));
+    assert.doesNotMatch(source, /包括的なガイド、技術マニュアル、業界ホワイトペーパー/);
+  }
+});
+
+test("resource category heroes keep titles and lead copy in a balanced reading width", () => {
+  const source = readSource("src/components/sections/resource-list-section.tsx");
+
+  assert.match(source, /mx-auto max-w-\[900px\] text-\[40px\][\s\S]*sm:text-\[52px\][\s\S]*lg:text-\[56px\]/);
+  assert.match(source, /mx-auto mt-5 max-w-\[760px\] text-\[16px\] font-light leading-\[1\.75\][\s\S]*lg:text-\[18px\]/);
+  assert.match(source, /pb-14 pt-\[120px\][\s\S]*lg:pb-16 lg:pt-\[152px\]/);
+});

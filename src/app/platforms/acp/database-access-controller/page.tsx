@@ -15,6 +15,7 @@ import {
   AcpHeroSection,
   AcpHeroTitle,
   AcpPageCta,
+  AcpPageCtaActions,
   AcpPageCtaDescription,
   AcpPageCtaLink,
   AcpPageCtaTitle,
@@ -192,11 +193,14 @@ export default function DatabaseAccessControllerPage() {
         </AcpFaqItem>
       </AcpFaqSection>
       <AcpPageCta>
-        <AcpPageCtaTitle>まずは小さく、失敗しないAXを始めよう</AcpPageCtaTitle>
+        <AcpPageCtaTitle>まずは日常業務から、AI活用を始めよう。</AcpPageCtaTitle>
         <AcpPageCtaDescription>
-          簡単サインアップで、14日間の無料トライアルをお試しください
+          情報収集や文書作成など、日々の業務から。14日間無料でQueryPie AIをお試しいただけます。
         </AcpPageCtaDescription>
-        <AcpPageCtaLink>無料で試してみる</AcpPageCtaLink>
+        <AcpPageCtaActions>
+          <AcpPageCtaLink>14日間無料で始める</AcpPageCtaLink>
+          <AcpPageCtaLink href="/introduction-deck/2/querypie-acp" variant="secondary">資料をダウンロード</AcpPageCtaLink>
+        </AcpPageCtaActions>
       </AcpPageCta>
       <SiteFooter />
     </AcpStaticPageShell>

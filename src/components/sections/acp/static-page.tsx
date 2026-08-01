@@ -243,12 +243,26 @@ export function AcpPageCtaDescription({ children }: { children: ReactNode }) {
   return <p {...componentNameDebugProps("AcpPageCtaDescription")} className="text-lg font-light leading-7 text-[#57606a] max-[480px]:text-base max-[480px]:leading-7">{children}</p>;
 }
 
-export function AcpPageCtaLink({ children }: { children: ReactNode }) {
+export function AcpPageCtaActions({ children }: { children: ReactNode }) {
+  return <div {...componentNameDebugProps("AcpPageCtaActions")} className="flex flex-col items-center justify-center gap-3 sm:flex-row">{children}</div>;
+}
+
+export function AcpPageCtaLink({
+  children,
+  href = "https://app.querypie.com",
+  variant = "primary",
+}: {
+  children: ReactNode;
+  href?: string;
+  variant?: "primary" | "secondary";
+}) {
   return (
     <Link {...componentNameDebugProps("AcpPageCtaLink")}
-      href="https://app.querypie.com"
-      className="inline-flex h-[50px] items-center justify-center rounded-[6px] bg-[#0762d4] px-7 text-base font-medium leading-4 text-[#f6f6f6] transition hover:opacity-90 max-[480px]:h-[44px] max-[480px]:text-sm"
-      style={{ backgroundImage: "linear-gradient(100deg, #0762d4 34.93%, #875ac5 76.81%, #c55a8c 99.98%)" }}
+      href={href}
+      className={variant === "primary"
+        ? "inline-flex h-[50px] items-center justify-center rounded-[6px] bg-[#0762d4] px-7 text-base font-medium leading-4 text-[#f6f6f6] transition hover:opacity-90 max-[480px]:h-[44px] max-[480px]:text-sm"
+        : "inline-flex h-[50px] items-center justify-center rounded-[6px] border border-slate-300 bg-white px-7 text-base font-medium leading-4 text-slate-900 transition hover:bg-slate-50 max-[480px]:h-[44px] max-[480px]:text-sm"}
+      style={variant === "primary" ? { backgroundImage: "linear-gradient(100deg, #0762d4 34.93%, #875ac5 76.81%, #c55a8c 99.98%)" } : undefined}
     >
       {children}
     </Link>

@@ -107,7 +107,7 @@ test("public route metadata titles use the final QueryPie AI branding", () => {
   assert.match(aiCrewPage, /title: "作業を減らし、成果を増やす。\| AI Crew \| QueryPie AI"/);
   assert.match(aiDashiPage, /title: "自社サービスをAI搭載SaaSへ最短で進化させる \| AI Dashi \| QueryPie AI"/);
   assert.match(eventsPage, /title: "イベント \| QueryPie AI"/);
-  assert.match(resourcesPage, /title: "ドキュメント \| QueryPie AI"/);
+  assert.match(resourcesPage, /title: "リソース \| QueryPie AI"/);
   assert.match(introductionDeckPage, /title: "紹介資料 \| QueryPie AI"/);
   assert.match(glossaryPage, /title: "用語集 \| QueryPie AI"/);
   assert.match(manualsPage, /title: "マニュアル \| QueryPie AI"/);

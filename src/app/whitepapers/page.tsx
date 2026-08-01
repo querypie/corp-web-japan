@@ -15,7 +15,7 @@ import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
 export const metadata: Metadata = {
   title: "ホワイトペーパー | QueryPie AI",
-  description: "AI Staff に関する資料や導入検討向けホワイトペーパーをまとめたページです。",
+  description: "AI導入・活用、ガバナンス、業務変革に関する実践的な知見をまとめたホワイトペーパー一覧です。",
   alternates: {
     canonical: "/whitepapers",
   },
@@ -42,9 +42,8 @@ export default async function WhitepaperPage({ searchParams }: WhitepaperPagePro
       <ResourceListHeroSection>
         <ResourceListHeroTitle>ホワイトペーパー</ResourceListHeroTitle>
         <ResourceListHeroDescription>
-          包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。
-          <br />
-          基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。
+          AI導入・活用、ガバナンス、業務変革に関する実践的な知見を、ダウンロード資料として公開しています。
+          検討の論点整理から社内提案まで、AI活用を前に進めるためにご活用ください。
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 
@@ -62,4 +61,3 @@ export default async function WhitepaperPage({ searchParams }: WhitepaperPagePro
     </main>
   );
 }
-

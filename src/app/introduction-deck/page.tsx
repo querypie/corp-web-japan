@@ -37,9 +37,8 @@ export default function IntroductionDeckPage() {
       <ResourceListHeroSection>
         <ResourceListHeroTitle>紹介資料</ResourceListHeroTitle>
         <ResourceListHeroDescription>
-          包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。
-          <br />
-          基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。
+          QueryPie AIの製品・サービスの概要、主な機能、導入イメージをまとめた資料です。
+          導入検討や、社内の関係者との情報共有にご活用ください。
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 

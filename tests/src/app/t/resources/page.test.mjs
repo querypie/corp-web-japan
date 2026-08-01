@@ -11,7 +11,7 @@ test("resources now uses only the canonical public route and does not keep a /t/
 
   const canonicalSource = readSource(canonicalFile);
   assert.match(canonicalSource, /canonical: "\/resources"/);
-  assert.match(canonicalSource, /title: "ドキュメント \| QueryPie AI"/);
+  assert.match(canonicalSource, /title: "リソース \| QueryPie AI"/);
   assert.match(canonicalSource, /resourceCategorySidebarLinks/);
   assert.match(canonicalSource, /<ResourceCategorySidebar links=\{resourceCategorySidebarLinks\} activeLabel="全て" \/>/);
   assert.match(canonicalSource, /listResourcePreviewItems/);
