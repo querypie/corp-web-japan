@@ -423,7 +423,7 @@ export default async function AcpIntegrationsPage({
       <AipIntegrationsHeroSection>
         <AipIntegrationsHeroCopy className="items-start">
           <AipIntegrationsHeroHeading className="!m-0 !max-w-none !text-left !text-[36px] !leading-[46px] sm:!text-[40px] sm:!leading-[50px] lg:!text-[44px] lg:!leading-[56px]">
-            50種類を超える、組み込み統合機能
+            50種類以上のシステムを、ひとつの統制基盤へ。
           </AipIntegrationsHeroHeading>
           <AipIntegrationsHeroLead className="!m-0 !max-w-[420px] !text-left !text-[16px] !leading-[26px]">
             データベース、サーバー、Kubernetes、Web/SaaSまで。主要なシステムと直接連携し、アクセスを一元管理します。
