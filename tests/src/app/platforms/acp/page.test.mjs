@@ -19,7 +19,12 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(routeSource, /Web\/SaaS、MCPへのアクセスを一元制御するプラットフォームです。/);
   assert.match(routeSource, /最小権限、申請・承認、監査ログ、セッション記録、DLP/);
 
-  assert.match(routeSource, /DAC｜データアクセス制御/);
+  assert.match(routeSource, /Database Access Control/);
+  assert.match(routeSource, /System Access Control/);
+  assert.match(routeSource, /Kubernetes Access Control/);
+  assert.match(routeSource, /Web Access Control/);
+  assert.match(routeSource, /MCP Access Control/);
+  assert.match(routeSource, /DAC｜データベースアクセス制御/);
   assert.match(routeSource, /SAC｜システムアクセス制御/);
   assert.match(routeSource, /KAC｜Kubernetesアクセス制御/);
   assert.match(routeSource, /WAC｜Web\/SaaSアクセス制御/);
@@ -64,6 +69,10 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(browserSource, /<article key=\{category\.label\}/);
   assert.match(browserSource, /<video/);
   assert.match(browserSource, /mediaFirstOnDesktop/);
+  assert.match(browserSource, /md:grid-cols-2 md:gap-\[60px\]/);
+  assert.match(browserSource, /englishLabel: string/);
+  assert.match(browserSource, /text-\[13px\] font-light/);
+  assert.match(browserSource, /text-\[28px\].*sm:text-\[34px\]/);
   assert.doesNotMatch(browserSource, /詳細を見る/);
   assert.doesNotMatch(browserSource, /next\/link/);
   assert.doesNotMatch(browserSource, /製品を選択/);

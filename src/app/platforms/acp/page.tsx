@@ -95,8 +95,8 @@ export default function AcpPage() {
 
           <RevealOnScroll delayMs={80}>
             <AcpFeatureBrowser>
-              <AcpFeatureCategory>
-                <AcpFeatureCategoryLabel>DAC｜データアクセス制御</AcpFeatureCategoryLabel>
+              <AcpFeatureCategory englishLabel="Database Access Control">
+                <AcpFeatureCategoryLabel>DAC｜データベースアクセス制御</AcpFeatureCategoryLabel>
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-dac.mp4#t=0.001"
                   mediaAlt="データベースアクセス制御のデモ"
@@ -110,7 +110,7 @@ export default function AcpPage() {
                 </AcpFeatureItem>
               </AcpFeatureCategory>
 
-              <AcpFeatureCategory>
+              <AcpFeatureCategory englishLabel="System Access Control">
                 <AcpFeatureCategoryLabel>SAC｜システムアクセス制御</AcpFeatureCategoryLabel>
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-sac.mp4#t=0.001"
@@ -125,7 +125,7 @@ export default function AcpPage() {
                 </AcpFeatureItem>
               </AcpFeatureCategory>
 
-              <AcpFeatureCategory>
+              <AcpFeatureCategory englishLabel="Kubernetes Access Control">
                 <AcpFeatureCategoryLabel>KAC｜Kubernetesアクセス制御</AcpFeatureCategoryLabel>
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-kac.mp4#t=0.001"
@@ -140,7 +140,7 @@ export default function AcpPage() {
                 </AcpFeatureItem>
               </AcpFeatureCategory>
 
-              <AcpFeatureCategory>
+              <AcpFeatureCategory englishLabel="Web Access Control">
                 <AcpFeatureCategoryLabel>WAC｜Web/SaaSアクセス制御</AcpFeatureCategoryLabel>
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-wac.mp4#t=0.001"
@@ -155,7 +155,7 @@ export default function AcpPage() {
                 </AcpFeatureItem>
               </AcpFeatureCategory>
 
-              <AcpFeatureCategory>
+              <AcpFeatureCategory englishLabel="MCP Access Control">
                 <AcpFeatureCategoryLabel>MAC｜MCPアクセス制御</AcpFeatureCategoryLabel>
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-mac.mp4#t=0.001"

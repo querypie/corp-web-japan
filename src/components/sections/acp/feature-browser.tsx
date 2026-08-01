@@ -2,6 +2,7 @@ import { Children, isValidElement, type ReactElement, type ReactNode } from "rea
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type AcpFeatureCategoryProps = {
+  englishLabel: string;
   children: ReactNode;
 };
 
@@ -73,6 +74,7 @@ function toBodyLines(node: ReactNode): string[] {
 }
 
 type AcpFeatureBrowserCategory = {
+  englishLabel: string;
   label: string;
   item: {
     mediaSrc: string;
@@ -96,6 +98,7 @@ function parseCategories(children: ReactNode): AcpFeatureBrowserCategory[] {
 
       return item
         ? {
+            englishLabel: category.props.englishLabel,
             label,
             item: {
               mediaSrc: item.props.mediaSrc,
@@ -118,10 +121,11 @@ export function AcpFeatureBrowser({ children }: { children: ReactNode }) {
         const mediaFirstOnDesktop = index % 2 === 1;
 
         return (
-          <article key={category.label} className="grid w-full items-center gap-8 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:gap-[60px]">
+          <article key={category.label} className="grid w-full items-center gap-8 md:grid-cols-2 md:gap-[60px]">
             <div className={mediaFirstOnDesktop ? "md:order-2" : undefined}>
-              <p className="text-[15px] font-semibold leading-6 text-[#0969DA]">{category.label}</p>
-              <h3 className="mt-3 text-[32px] font-medium leading-[1.3] tracking-[-0.04em] text-[#24292F] sm:text-[40px]">{category.item.title}</h3>
+              <p className="text-[13px] font-light leading-5 tracking-[0.04em] text-[#6E7781]">{category.englishLabel}</p>
+              <p className="mt-1.5 text-[15px] font-semibold leading-6 text-[#0969DA]">{category.label}</p>
+              <h3 className="mt-3 text-[28px] font-medium leading-[1.35] tracking-[-0.04em] text-[#24292F] sm:text-[34px]">{category.item.title}</h3>
               <p className="mt-5 text-[16px] font-light leading-[26px] tracking-[0.2px] text-[#57606A]">
                 {category.item.bodyLines.map((line) => (
                   <span key={line} className="block">

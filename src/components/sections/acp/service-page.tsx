@@ -185,7 +185,7 @@ export function AcpFeatureIntro({ children }: { children: ReactNode }) {
 }
 
 export function AcpSectionTitle({ children }: { children: ReactNode }) {
-  return <h2 {...componentNameDebugProps("AcpSectionTitle")} className="text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h2>;
+  return <h2 {...componentNameDebugProps("AcpSectionTitle")} className="text-[36px] font-normal leading-[46px] tracking-normal text-[#24292F] lg:text-[44px] lg:leading-[56px]">{children}</h2>;
 }
 
 export function AcpSectionBody({ children }: { children: ReactNode }) {
