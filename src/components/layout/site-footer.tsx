@@ -8,6 +8,10 @@ import {
 import styles from "./site-footer.module.css";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
+function shouldOpenInNewTab(link: { label: string; href: string; external?: boolean }) {
+  return link.external === true;
+}
+
 export async function SiteFooter() {
   const cookieStore = await cookies();
   const previewCookieValue = cookieStore.get(PREVIEW_NAVIGATION_COOKIE)?.value;
@@ -38,7 +42,7 @@ export async function SiteFooter() {
       title: "アプリ",
       mobileLayout: "single",
       links: [
-        { label: "会議記録・リアルタイム翻訳AI｜Lingo", href: "https://lingo.querypie.ai/ja" },
+        { label: "会議記録・リアルタイム翻訳AI｜Lingo", href: "https://lingo.querypie.ai/ja", external: true },
       ],
     },
     {
@@ -163,11 +167,21 @@ export async function SiteFooter() {
                   column.mobileLayout === "compact" ? `${styles.linkList} ${styles.linkListCompact}` : styles.linkList
                 }
               >
-                {column.links.map((link) => (
-                  <li key={link.label}>
-                    <Link href={link.href}>{link.label}</Link>
-                  </li>
-                ))}
+                {column.links.map((link) => {
+                  const openInNewTab = shouldOpenInNewTab(link);
+
+                  return (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        target={openInNewTab ? "_blank" : undefined}
+                        rel={openInNewTab ? "noopener noreferrer" : undefined}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}

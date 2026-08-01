@@ -193,11 +193,11 @@ export function AcpSectionBody({ children }: { children: ReactNode }) {
 }
 
 export function AcpIntegrationsSection({ children }: { children: ReactNode }) {
-  return <PlatformContentSection {...componentNameDebugProps("AcpIntegrationsSection")} className="bg-[#F6F8FA] py-[80px]">{children}</PlatformContentSection>;
+  return <PlatformContentSection {...componentNameDebugProps("AcpIntegrationsSection")} className="bg-[#F6F8FA] py-[56px] lg:py-[64px]">{children}</PlatformContentSection>;
 }
 
 export function AcpIntegrationsInner({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpIntegrationsInner")} className="grid w-full max-w-[1200px] items-center gap-[80px] lg:grid-cols-[1fr_640px]">{children}</div>;
+  return <div {...componentNameDebugProps("AcpIntegrationsInner")} className="grid w-full max-w-[1200px] items-center gap-10 lg:grid-cols-[minmax(0,1fr)_430px] lg:gap-[60px]">{children}</div>;
 }
 
 export function AcpIntegrationsTitle({ children }: { children: ReactNode }) {
@@ -217,7 +217,7 @@ export function AcpIntegrationsLink({ href, children }: { href: string; children
 }
 
 export function AcpIntegrationsImage() {
-  return <Image {...componentNameDebugProps("AcpIntegrationsImage")} src="/services/acp/integrations.png" alt="ACP Integrations" width={640} height={670} className="h-auto w-full" />;
+  return <Image {...componentNameDebugProps("AcpIntegrationsImage")} src="/services/acp/integrations.png" alt="ACP Integrations" width={430} height={450} className="mx-auto h-auto w-full max-w-[360px] lg:max-w-[430px]" />;
 }
 
 export function AcpAiPackSection({ children }: { children: ReactNode }) {
