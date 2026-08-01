@@ -194,7 +194,7 @@ export function AcpSectionBody({ children }: { children: ReactNode }) {
 }
 
 export function AcpIntegrationsSection({ children }: { children: ReactNode }) {
-  return <PlatformContentSection {...componentNameDebugProps("AcpIntegrationsSection")} className="bg-[#F6F8FA] py-[56px] lg:py-[64px]">{children}</PlatformContentSection>;
+  return <PlatformContentSection {...componentNameDebugProps("AcpIntegrationsSection")} className="bg-[#F6F8FA] py-[48px] lg:py-[56px]">{children}</PlatformContentSection>;
 }
 
 export function AcpIntegrationsInner({ children }: { children: ReactNode }) {
@@ -202,7 +202,7 @@ export function AcpIntegrationsInner({ children }: { children: ReactNode }) {
 }
 
 export function AcpIntegrationsTitle({ children }: { children: ReactNode }) {
-  return <h4 {...componentNameDebugProps("AcpIntegrationsTitle")} className="text-[22px] font-medium leading-[30px] tracking-normal text-[#24292F] sm:text-[24px] sm:leading-[32px] lg:whitespace-nowrap">{children}</h4>;
+  return <h4 {...componentNameDebugProps("AcpIntegrationsTitle")} className="text-[22px] font-medium leading-[30px] tracking-normal text-[#24292F] sm:text-[24px] sm:leading-[32px] lg:text-[27px] lg:leading-[35px] lg:whitespace-nowrap">{children}</h4>;
 }
 
 export function AcpIntegrationsBody({ children }: { children: ReactNode }) {
