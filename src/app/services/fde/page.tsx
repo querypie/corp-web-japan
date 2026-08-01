@@ -58,9 +58,7 @@ export default function ServiceFdePage() {
               <ServiceFdeHeroEyebrow>QueryPie FDE</ServiceFdeHeroEyebrow>
               <ServiceFdeHeroTitle>AI活用を、現場の成果につなげる。</ServiceFdeHeroTitle>
               <ServiceFdeHeroLead>
-                FDE（Forward Deployed Engineer）は、顧客の現場に入り込み、課題の発見から設計、実装、本番展開、運用改善までを一気通貫で担う専門チームです。
-                <br />
-                QueryPie AIPを基盤に、AIを「試す」段階から、実際に業務で使われる状態へ導きます。
+                FDE（Forward Deployed Engineer）は、顧客の現場に入り込み、課題の発見から設計、実装、本番展開、運用改善までを一気通貫で担う専門チームです。QueryPie AIPを基盤に、AIを「試す」段階から、実際に業務で使われる状態へ導きます。
               </ServiceFdeHeroLead>
             </ServiceFdeHeroCopy>
           </RevealOnScroll>
