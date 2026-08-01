@@ -55,6 +55,9 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.doesNotMatch(sectionSource, /export function AcpGovernanceSection/);
   assert.match(sectionSource, /export function AcpAiPackSection/);
   assert.match(sectionSource, /export function AcpAiPackVideo/);
+  assert.match(sectionSource, /AcpIntegrationsSection.*py-\[56px\].*lg:py-\[64px\]/s);
+  assert.match(sectionSource, /lg:grid-cols-\[minmax\(0,1fr\)_430px\]/);
+  assert.match(sectionSource, /width=\{430\} height=\{450\}/);
 
   assert.match(browserSource, /mediaSrc: string/);
   assert.match(browserSource, /mediaAlt: string/);
