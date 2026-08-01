@@ -194,7 +194,7 @@ export function AcpSectionBody({ children }: { children: ReactNode }) {
 }
 
 export function AcpIntegrationsSection({ children }: { children: ReactNode }) {
-  return <PlatformContentSection {...componentNameDebugProps("AcpIntegrationsSection")} className="bg-[#F6F8FA] py-[56px] lg:py-[64px]">{children}</PlatformContentSection>;
+  return <PlatformContentSection {...componentNameDebugProps("AcpIntegrationsSection")} className="bg-[#F6F8FA] py-[48px] lg:py-[56px]">{children}</PlatformContentSection>;
 }
 
 export function AcpIntegrationsInner({ children }: { children: ReactNode }) {
