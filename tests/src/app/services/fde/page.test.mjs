@@ -44,8 +44,8 @@ test("/services/fde is a public page with indexable metadata and canonical path"
   assert.match(routeSource, /href="\/contact-us\?inquiry=ai-consulting&product=fde"/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(routeSource, /<SimpleCtaSection background="white">/);
-  assert.doesNotMatch(routeSource, /ServiceFdeChallengeList/);
-  assert.doesNotMatch(routeSource, /PoCはできても、本番導入まで進まない/);
+  assert.match(routeSource, /<ServiceFdeChallengeList>/);
+  assert.match(routeSource, /PoCはできても、本番導入まで進まない/);
 
   assert.match(sectionSource, /export function ServiceFdeHeroSection/);
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
@@ -61,7 +61,7 @@ test("/services/fde is a public page with indexable metadata and canonical path"
   assert.match(sectionSource, /export function ServiceFdeOverviewSummary[\s\S]*max-w-\[720px\][\s\S]*text-\[16px\][\s\S]*leading-\[26px\]/);
   assert.doesNotMatch(routeSource, /ServiceFdeOverview(Card|Grid)/);
   assert.doesNotMatch(sectionSource, /export function ServiceFdeOverview(Card|Grid)/);
-  assert.doesNotMatch(sectionSource, /export function ServiceFdeChallengeList/);
+  assert.match(sectionSource, /export function ServiceFdeChallengeList[\s\S]*lg:grid-cols-2/);
   assert.match(sectionSource, /export function ServiceFdeFeatureSection/);
   assert.match(sectionSource, /export function ServiceFdeFeatureSection[\s\S]*<PlatformFeatureSection[\s\S]*muted=\{muted\}>[\s\S]*<div className="w-full max-w-\[1200px\]">/);
   assert.match(sectionSource, /export function ServiceFdeFeatureRow/);

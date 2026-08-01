@@ -24,6 +24,8 @@ import {
   ServiceFdeOverviewSection,
   ServiceFdePageShell,
   ServiceFdeChallengeContent,
+  ServiceFdeChallengeItem,
+  ServiceFdeChallengeList,
   ServiceFdeChallengeSection,
   ServiceFdeFeatureStep,
   ServiceFdeSectionLead,
@@ -74,6 +76,12 @@ export default function ServiceFdePage() {
           <ServiceFdeChallengeContent>
             <ServiceFdeSectionTitle>AI導入のラストワンマイルを、前に進める。</ServiceFdeSectionTitle>
             <ServiceFdeSectionLead>生成AIの価値は、モデルを選ぶだけでは生まれません。業務、データ、既存システム、権限管理、運用に組み込まれて初めて、事業の成果につながります。</ServiceFdeSectionLead>
+            <ServiceFdeChallengeList>
+              <ServiceFdeChallengeItem>PoCはできても、本番導入まで進まない</ServiceFdeChallengeItem>
+              <ServiceFdeChallengeItem>社内データや既存システムと、安全につながらない</ServiceFdeChallengeItem>
+              <ServiceFdeChallengeItem>セキュリティ・権限・監査の要件を満たせない</ServiceFdeChallengeItem>
+              <ServiceFdeChallengeItem>利用部門に定着せず、効果を測れない</ServiceFdeChallengeItem>
+            </ServiceFdeChallengeList>
           </ServiceFdeChallengeContent>
         </RevealOnScroll>
       </ServiceFdeChallengeSection>
