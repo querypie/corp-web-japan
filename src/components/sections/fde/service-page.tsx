@@ -49,11 +49,11 @@ export function ServiceFdeHeroEyebrow({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 {...componentNameDebugProps("ServiceFdeHeroTitle")} className="mx-auto max-w-[800px] text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h1>;
+  return <h1 {...componentNameDebugProps("ServiceFdeHeroTitle")} className="mx-auto w-full max-w-[1200px] text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h1>;
 }
 
 export function ServiceFdeHeroLead({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("ServiceFdeHeroLead")} className="max-w-[1000px] text-[18px] font-light leading-[28px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+  return <p {...componentNameDebugProps("ServiceFdeHeroLead")} className="mx-auto w-full max-w-[1000px] text-left text-[18px] font-light leading-[28px] tracking-[0.36px] text-[#57606A]">{children}</p>;
 }
 
 export function ServiceFdeHeroVisual() {
