@@ -98,7 +98,7 @@ export function AipIntegrationsProductCard({
   return (
     <li {...componentNameDebugProps("AipIntegrationsProductCard")} className={styles.productItem}>
       <div className={styles.icon}>
-        <Image src={iconSrc} alt={label} width={68} height={68} className={styles.iconImage} unoptimized />
+        <Image src={iconSrc} alt={label} width={52} height={52} className={styles.iconImage} unoptimized />
       </div>
       <p className={styles.productLabel}>{label}</p>
     </li>

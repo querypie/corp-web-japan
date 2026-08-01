@@ -11,14 +11,15 @@ test("AIP integrations page exports indexable metadata for the canonical /platfo
   assert.match(pageSource, /canonical:\s*"\/platforms\/aip\/integrations"/);
   assert.match(pageSource, /index:\s*true/);
   assert.match(pageSource, /follow:\s*true/);
-  assert.match(pageSource, /title:\s*"QueryPie AI: インテグレーション"/);
+  assert.match(pageSource, /title:\s*"AIPインテグレーション \| QueryPie AI"/);
   assert.doesNotMatch(pageSource, /AipIntegrationsPreviewPage/);
   assert.doesNotMatch(pageSource, /preview ページ/);
 });
 
 test("AIP integrations platform public page keeps authored hero copy and CTA in page.tsx", () => {
-  assert.match(pageSource, /AIPインテグレーション/);
-  assert.match(pageSource, /MCPサーバーを介してお使いのビジネスツールに接続/);
+  assert.match(pageSource, /AIを、業務ツールとつなぐ。/);
+  assert.match(pageSource, /主要な業務ツールやデータベースを、MCPサーバーでQueryPie AIPに接続/);
+  assert.match(pageSource, /<AipIntegrationsProductList columns=\{8\} compact>/);
   assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(pageSource, /<AipFreeTrialCtaSection \/>/);
 });
@@ -44,17 +45,17 @@ test("AIP integrations platform section primitives define the integration filter
   assert.doesNotMatch(sectionSource, /components\/sections\/platform\/page-primitives/);
   assert.match(cssSource, /\.content \{/);
   assert.match(cssSource, /max-width: 1200px/);
-  assert.match(cssSource, /grid-template-columns: repeat\(7, minmax\(0, 1fr\)\)/);
+  assert.match(cssSource, /grid-template-columns: repeat\(8, minmax\(0, 1fr\)\)/);
   assert.match(cssSource, /padding: 12px 32px/);
-  assert.match(cssSource, /padding: 30px/);
+  assert.match(cssSource, /\.compactProductList \.productItem \{[\s\S]*min-height: 128px[\s\S]*gap: 16px[\s\S]*padding: 20px 12px/);
   assert.match(cssSource, /background: #f6f8fa/);
   assert.doesNotMatch(cssSource, /min-height:\s*180px/);
   assert.match(cssSource, /padding-left: 24px/);
   assert.match(cssSource, /padding-right: 24px/);
   assert.match(cssSource, /@media \(max-width: 500px\)[\s\S]*padding-top: 120px/);
   assert.doesNotMatch(cssSource, /acpHeroSection/);
-  assert.match(cssSource, /@media \(max-width: 500px\)[\s\S]*\.icon[\s\S]*width: 60px/);
-  assert.match(cssSource, /@media \(max-width: 500px\)[\s\S]*\.iconImage[\s\S]*width: 60px/);
+  assert.match(sectionSource, /<Image src=\{iconSrc\} alt=\{label\} width=\{52\} height=\{52\}/);
+  assert.match(cssSource, /@media \(max-width: 500px\)[\s\S]*\.compactProductList \.icon,[\s\S]*\.compactProductList \.iconImage \{[\s\S]*width: 52px/);
 });
 
 test("AIP integrations platform page avoids nested content wrappers inside the hero content", () => {

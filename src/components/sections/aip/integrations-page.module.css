@@ -236,14 +236,10 @@
     padding: 24px 18px;
   }
 
-  .icon {
-    width: 60px;
-    height: 60px;
-  }
-
-  .iconImage {
-    width: 60px;
-    height: 60px;
+  .compactProductList .icon,
+  .compactProductList .iconImage {
+    width: 52px;
+    height: 52px;
   }
 
 }
