@@ -20,12 +20,12 @@ import {
   ServiceFdeHeroTitle,
   ServiceFdeHeroVisual,
   ServiceFdeOverviewHeader,
+  ServiceFdeOverviewSummary,
   ServiceFdeOverviewSection,
   ServiceFdePageShell,
   ServiceFdeChallengeContent,
-  ServiceFdeChallengeItem,
-  ServiceFdeChallengeList,
   ServiceFdeChallengeSection,
+  ServiceFdeFeatureStep,
   ServiceFdeSectionLead,
   ServiceFdeSectionTitle,
 } from "@/components/sections/fde/service-page";
@@ -69,38 +69,34 @@ export default function ServiceFdePage() {
         </ServiceFdeHeroInner>
       </ServiceFdeHeroSection>
 
-      <ServiceFdeOverviewSection>
-        <RevealOnScroll>
-          <ServiceFdeOverviewHeader>
-            <ServiceFdeSectionTitle>FDEは、現場とプロダクトをつなぐ実装チームです。</ServiceFdeSectionTitle>
-            <ServiceFdeSectionLead>提案や技術検証で終わらせず、顧客固有の業務・データ・セキュリティ要件を理解したうえで、実際に使われるAIを形にします。</ServiceFdeSectionLead>
-          </ServiceFdeOverviewHeader>
-        </RevealOnScroll>
-      </ServiceFdeOverviewSection>
-
       <ServiceFdeChallengeSection>
         <RevealOnScroll>
           <ServiceFdeChallengeContent>
             <ServiceFdeSectionTitle>AI導入のラストワンマイルを、前に進める。</ServiceFdeSectionTitle>
             <ServiceFdeSectionLead>生成AIの価値は、モデルを選ぶだけでは生まれません。業務、データ、既存システム、権限管理、運用に組み込まれて初めて、事業の成果につながります。</ServiceFdeSectionLead>
-            <ServiceFdeChallengeList>
-              <ServiceFdeChallengeItem>PoCはできても、本番導入まで進まない</ServiceFdeChallengeItem>
-              <ServiceFdeChallengeItem>社内データや既存システムと、安全につながらない</ServiceFdeChallengeItem>
-              <ServiceFdeChallengeItem>セキュリティ・権限・監査の要件を満たせない</ServiceFdeChallengeItem>
-              <ServiceFdeChallengeItem>利用部門に定着せず、効果を測れない</ServiceFdeChallengeItem>
-            </ServiceFdeChallengeList>
           </ServiceFdeChallengeContent>
         </RevealOnScroll>
       </ServiceFdeChallengeSection>
+
+      <ServiceFdeOverviewSection>
+        <RevealOnScroll>
+          <ServiceFdeOverviewHeader>
+            <ServiceFdeSectionTitle>FDEは、現場とプロダクトをつなぐ実装チームです。</ServiceFdeSectionTitle>
+            <ServiceFdeSectionLead>提案や技術検証で終わらせず、顧客固有の業務・データ・セキュリティ要件を理解したうえで、実際に使われるAIを形にします。</ServiceFdeSectionLead>
+            <ServiceFdeOverviewSummary>FDEは、業務理解、AIの設計・実装、セキュリティと運用設計を分断せずに担います。現場で得た知見をプロダクトに還元しながら、以下の4つのステップを短いサイクルで進めます。</ServiceFdeOverviewSummary>
+          </ServiceFdeOverviewHeader>
+        </RevealOnScroll>
+      </ServiceFdeOverviewSection>
 
       <ServiceFdeFeatureInner>
         <ServiceFdeFeatureSection muted>
           <RevealOnScroll>
             <ServiceFdeFeatureRow>
               <ServiceFdeFeatureCopy>
-                <ServiceFdeFeatureTitle>現場から、成果につながる課題を見つける</ServiceFdeFeatureTitle>
+                <ServiceFdeFeatureStep>01</ServiceFdeFeatureStep>
+                <ServiceFdeFeatureTitle>現場から、解くべき課題を見つける</ServiceFdeFeatureTitle>
                 <ServiceFdeFeatureBody>
-                  現場ヒアリング、業務フローの観察、既存システムやデータ構造の確認を通じて、AI活用を妨げる本質的な課題を整理します。時間とコストの無駄を防ぎ、解くべきテーマを明確にします。
+                  現場ヒアリング、業務フローの観察、既存システムやデータ構造の確認を通じて、AI活用を妨げる本質的な課題を整理します。時間とコストの無駄を防ぎ、成果につながる課題を明確にします。
                 </ServiceFdeFeatureBody>
                 <ServiceFdeFeatureChecklist />
               </ServiceFdeFeatureCopy>
@@ -118,6 +114,7 @@ export default function ServiceFdePage() {
           <RevealOnScroll>
             <ServiceFdeFeatureRow reverse>
               <ServiceFdeFeatureCopy>
+                <ServiceFdeFeatureStep>02</ServiceFdeFeatureStep>
                 <ServiceFdeFeatureTitle>事業成果から、導入の道筋を描く</ServiceFdeFeatureTitle>
                 <ServiceFdeFeatureBody>
                   ビジネス目標、利用部門、データソース、セキュリティ要件を踏まえ、実現可能なユースケースとロードマップを設計。小さく検証しながら、確実に広げる計画へ落とし込みます。
@@ -138,6 +135,7 @@ export default function ServiceFdePage() {
           <RevealOnScroll>
             <ServiceFdeFeatureRow>
               <ServiceFdeFeatureCopy>
+                <ServiceFdeFeatureStep>03</ServiceFdeFeatureStep>
                 <ServiceFdeFeatureTitle>動くAIを、短いサイクルで検証する</ServiceFdeFeatureTitle>
                 <ServiceFdeFeatureBody>
                   AIエージェント、RAG、API連携などを組み合わせ、業務に合うプロトタイプを構築。現場のフィードバックを取り込みながら、精度・使いやすさ・運用性を磨きます。
@@ -158,6 +156,7 @@ export default function ServiceFdePage() {
           <RevealOnScroll>
             <ServiceFdeFeatureRow reverse>
               <ServiceFdeFeatureCopy>
+                <ServiceFdeFeatureStep>04</ServiceFdeFeatureStep>
                 <ServiceFdeFeatureTitle>本番展開から、現場への定着まで伴走する</ServiceFdeFeatureTitle>
                 <ServiceFdeFeatureBody>
                   認証・認可、監査ログ、運用フロー、利用部門への展開までを支援。本番稼働後も利用状況と効果を確認し、継続的な改善でAI活用を現場に定着させます。
