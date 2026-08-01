@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ClipboardCheck, MessageSquareText, Network } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import {
@@ -188,15 +189,15 @@ export default function AcpPage() {
           <RevealOnScroll delayMs={120}>
             <AcpAiPackContent>
               <AcpAiPackCardGrid>
-                <AcpAiPackCard>
+                <AcpAiPackCard icon={MessageSquareText}>
                   <AcpAiPackCardTitle>AI Chat</AcpAiPackCardTitle>
                   <AcpAiPackCardBody>自然言語で、分析・権限確認・監査作業を進められます。</AcpAiPackCardBody>
                 </AcpAiPackCard>
-                <AcpAiPackCard>
+                <AcpAiPackCard icon={Network}>
                   <AcpAiPackCardTitle>ACP MCP</AcpAiPackCardTitle>
                   <AcpAiPackCardBody>社内外のAIエージェントからQueryPieのMCPツールを安全に利用できます。</AcpAiPackCardBody>
                 </AcpAiPackCard>
-                <AcpAiPackCard>
+                <AcpAiPackCard icon={ClipboardCheck}>
                   <AcpAiPackCardTitle>AI Skills</AcpAiPackCardTitle>
                   <AcpAiPackCardBody>監査レポートの作成や権限変更履歴の整理など、定型的なセキュリティ業務を自動化します。</AcpAiPackCardBody>
                 </AcpAiPackCard>

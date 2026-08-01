@@ -36,6 +36,9 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(routeSource, /acp-dac\.mp4/);
   assert.match(routeSource, /acp-mac\.mp4/);
   assert.match(routeSource, /ACP AI Pack/);
+  assert.match(routeSource, /<AcpAiPackCard icon=\{MessageSquareText\}>/);
+  assert.match(routeSource, /<AcpAiPackCard icon=\{Network\}>/);
+  assert.match(routeSource, /<AcpAiPackCard icon=\{ClipboardCheck\}>/);
   assert.match(routeSource, /<AcpAiPackCardTitle>AI Chat<\/AcpAiPackCardTitle>/);
   assert.match(routeSource, /<AcpAiPackCardTitle>ACP MCP<\/AcpAiPackCardTitle>/);
   assert.match(routeSource, /<AcpAiPackCardTitle>AI Skills<\/AcpAiPackCardTitle>/);
@@ -85,7 +88,10 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.doesNotMatch(browserSource, /next\/link/);
   assert.doesNotMatch(browserSource, /製品を選択/);
   assert.match(sectionSource, /lg:items-center/);
-  assert.match(sectionSource, /lg:w-\[680px\] lg:max-w-\[57%\]/);
+  assert.match(sectionSource, /icon: LucideIcon/);
+  assert.match(sectionSource, /min-h-\[128px\]/);
+  assert.match(sectionSource, /lg:w-\[400px\] lg:max-w-\[36%\] lg:flex-none/);
+  assert.match(sectionSource, /lg:w-\[720px\] lg:max-w-\[60%\]/);
 
   const heroPrimitiveSource = readSource("src/components/sections/acp/hero-primitives.tsx");
   assert.match(heroPrimitiveSource, /max-w-\[1080px\].*text-left.*text-\[16px\]/);
