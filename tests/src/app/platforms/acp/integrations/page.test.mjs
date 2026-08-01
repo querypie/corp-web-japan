@@ -76,7 +76,10 @@ test("ACP integrations platform section primitives define the integration filter
     cssSource,
     /\.productListEightColumns \{\s*grid-template-columns: repeat\(8, minmax\(0, 1fr\)\)/,
   );
-  assert.match(cssSource, /padding: 12px 32px/);
+  assert.match(
+    cssSource,
+    /\.categoryItem \{[\s\S]*padding: 10px 20px;[\s\S]*border: 1px solid #d0d7de;[\s\S]*background: transparent;[\s\S]*color: #57606a;[\s\S]*font-size: 14px;[\s\S]*font-weight: 300/,
+  );
   assert.match(cssSource, /\.compactProductList \{/);
   assert.match(cssSource, /\.compactProductList \.productItem \{\s*min-height: 128px/);
   assert.match(cssSource, /\.compactProductList \.icon,/);
