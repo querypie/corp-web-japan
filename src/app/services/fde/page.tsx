@@ -13,21 +13,32 @@ import {
   ServiceFdeFeatureSection,
   ServiceFdeFeatureTitle,
   ServiceFdeHeroCopy,
+  ServiceFdeHeroEyebrow,
   ServiceFdeHeroInner,
   ServiceFdeHeroLead,
   ServiceFdeHeroSection,
   ServiceFdeHeroTitle,
   ServiceFdeHeroVisual,
+  ServiceFdeOverviewCard,
+  ServiceFdeOverviewGrid,
+  ServiceFdeOverviewHeader,
+  ServiceFdeOverviewSection,
   ServiceFdePageShell,
+  ServiceFdeChallengeContent,
+  ServiceFdeChallengeItem,
+  ServiceFdeChallengeList,
+  ServiceFdeChallengeSection,
+  ServiceFdeSectionLead,
+  ServiceFdeSectionTitle,
 } from "@/components/sections/fde/service-page";
 import { RevealOnScroll } from "@/components/sections/reveal-on-scroll";
-import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section";
+import { CtaActions, CtaButton, CtaContent, CtaCopy, CtaDescription, CtaTitle, SimpleCtaSection } from "@/components/sections/simple-cta-section";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
-  title: "QueryPie AIP：あなたのためのAI変革エキスパート | QueryPie AI",
+  title: "FDEによるAI導入・定着支援 | QueryPie AI",
   description:
-    "組織に組み込まれたフォワードデプロイドエンジニア（FDE）が、戦略と開発から本番運用まで包括的なAI変革を提供し、AIイニシアチブの成功を保証。",
+    "QueryPie AIのFDEは、顧客の現場に入り込み、AI活用の構想、課題発見、設計、実装、本番展開、運用改善までを一気通貫で支援します。",
   alternates: {
     canonical: "/services/fde",
   },
@@ -46,17 +57,16 @@ export default function ServiceFdePage() {
         <ServiceFdeHeroInner>
           <RevealOnScroll>
             <ServiceFdeHeroCopy>
+              <ServiceFdeHeroEyebrow>QueryPie FDE</ServiceFdeHeroEyebrow>
               <ServiceFdeHeroTitle>
-                QueryPie FDE
+                AI活用を、
                 <br />
-                AXを成功に導く専門家チーム
+                現場の成果につなげる。
               </ServiceFdeHeroTitle>
               <ServiceFdeHeroLead>
-                フォワードデプロイドエンジニア（FDE）は、ビジネスとテクノロジーの両方を理解する専門家です。
+                FDE（Forward Deployed Engineer）は、顧客の現場に入り込み、課題の発見から設計、実装、本番展開、運用改善までを一気通貫で担う専門チームです。
                 <br />
-                業務変革のコンセプト設計から、AI開発、本番運用まで一貫してサポート。
-                <br />
-                あなたのチームに入り込み、確実な成果を出すAXを実現します。
+                QueryPie AIPを基盤に、AIを「試す」段階から、実際に業務で使われる状態へ導きます。
               </ServiceFdeHeroLead>
             </ServiceFdeHeroCopy>
           </RevealOnScroll>
@@ -67,16 +77,45 @@ export default function ServiceFdePage() {
         </ServiceFdeHeroInner>
       </ServiceFdeHeroSection>
 
+      <ServiceFdeOverviewSection>
+        <RevealOnScroll>
+          <ServiceFdeOverviewHeader>
+            <ServiceFdeSectionTitle>FDEは、現場とプロダクトをつなぐ実装チームです。</ServiceFdeSectionTitle>
+            <ServiceFdeSectionLead>提案や技術検証で終わらせず、顧客固有の業務・データ・セキュリティ要件を理解したうえで、実際に使われるAIを形にします。</ServiceFdeSectionLead>
+          </ServiceFdeOverviewHeader>
+        </RevealOnScroll>
+        <RevealOnScroll delayMs={80}>
+          <ServiceFdeOverviewGrid>
+            <ServiceFdeOverviewCard number="01" title="現場から、解くべき課題を見つける">業務フローやデータ、組織の制約を理解し、表面的な要望ではなく、成果につながる課題を定義します。</ServiceFdeOverviewCard>
+            <ServiceFdeOverviewCard number="02" title="設計から本番展開まで、手を動かす">プロトタイプの構築、システム連携、認証・認可、運用設計まで。動くものをつくり、本番で使える状態まで責任を持ちます。</ServiceFdeOverviewCard>
+            <ServiceFdeOverviewCard number="03" title="現場の学びを、プロダクトへ還元する">個社対応で終わらせず、複数の顧客に共通する知見をプロダクトの機能やテンプレートに還元し、価値を広げます。</ServiceFdeOverviewCard>
+          </ServiceFdeOverviewGrid>
+        </RevealOnScroll>
+      </ServiceFdeOverviewSection>
+
+      <ServiceFdeChallengeSection>
+        <RevealOnScroll>
+          <ServiceFdeChallengeContent>
+            <ServiceFdeSectionTitle>AI導入のラストワンマイルを、前に進める。</ServiceFdeSectionTitle>
+            <ServiceFdeSectionLead>生成AIの価値は、モデルを選ぶだけでは生まれません。業務、データ、既存システム、権限管理、運用に組み込まれて初めて、事業の成果につながります。</ServiceFdeSectionLead>
+            <ServiceFdeChallengeList>
+              <ServiceFdeChallengeItem>PoCはできても、本番導入まで進まない</ServiceFdeChallengeItem>
+              <ServiceFdeChallengeItem>社内データや既存システムと、安全につながらない</ServiceFdeChallengeItem>
+              <ServiceFdeChallengeItem>セキュリティ・権限・監査の要件を満たせない</ServiceFdeChallengeItem>
+              <ServiceFdeChallengeItem>利用部門に定着せず、効果を測れない</ServiceFdeChallengeItem>
+            </ServiceFdeChallengeList>
+          </ServiceFdeChallengeContent>
+        </RevealOnScroll>
+      </ServiceFdeChallengeSection>
+
       <ServiceFdeFeatureInner>
         <ServiceFdeFeatureSection muted>
           <RevealOnScroll>
             <ServiceFdeFeatureRow>
               <ServiceFdeFeatureCopy>
-                <ServiceFdeFeatureTitle>課題の発見と分析</ServiceFdeFeatureTitle>
+                <ServiceFdeFeatureTitle>現場から、成果につながる課題を見つける</ServiceFdeFeatureTitle>
                 <ServiceFdeFeatureBody>
-                  現場ヒアリングを通じて、AXを妨げている真の課題を特定。
-                  <br />
-                  時間とコストの無駄を防ぎ、最適な解決策を導きます。
+                  現場ヒアリング、業務フローの観察、既存システムやデータ構造の確認を通じて、AI活用を妨げる本質的な課題を整理します。時間とコストの無駄を防ぎ、解くべきテーマを明確にします。
                 </ServiceFdeFeatureBody>
                 <ServiceFdeFeatureChecklist />
               </ServiceFdeFeatureCopy>
@@ -94,13 +133,9 @@ export default function ServiceFdePage() {
           <RevealOnScroll>
             <ServiceFdeFeatureRow reverse>
               <ServiceFdeFeatureCopy>
-                <ServiceFdeFeatureTitle>戦略とロードマップの策定</ServiceFdeFeatureTitle>
+                <ServiceFdeFeatureTitle>事業成果から、導入の道筋を描く</ServiceFdeFeatureTitle>
                 <ServiceFdeFeatureBody>
-                  貴社のビジネス目標に合わせた、最適なAX戦略を設計。
-                  <br />
-                  課題を具体的なアクションステップに落とし込み、
-                  <br />
-                  実現可能な導入計画を立案します。
+                  ビジネス目標、利用部門、データソース、セキュリティ要件を踏まえ、実現可能なユースケースとロードマップを設計。小さく検証しながら、確実に広げる計画へ落とし込みます。
                 </ServiceFdeFeatureBody>
                 <ServiceFdeFeatureChecklist />
               </ServiceFdeFeatureCopy>
@@ -118,13 +153,9 @@ export default function ServiceFdePage() {
           <RevealOnScroll>
             <ServiceFdeFeatureRow>
               <ServiceFdeFeatureCopy>
-                <ServiceFdeFeatureTitle>カスタムAIエージェントの構築</ServiceFdeFeatureTitle>
+                <ServiceFdeFeatureTitle>動くAIを、短いサイクルで検証する</ServiceFdeFeatureTitle>
                 <ServiceFdeFeatureBody>
-                  貴社の業務に特化したAIエージェントを、ゼロから構築。
-                  <br />
-                  要件定義、設計、開発、テストの全工程でFDEがガイドし、
-                  <br />
-                  実用的なAIを実装します。
+                  AIエージェント、RAG、API連携などを組み合わせ、業務に合うプロトタイプを構築。現場のフィードバックを取り込みながら、精度・使いやすさ・運用性を磨きます。
                 </ServiceFdeFeatureBody>
                 <ServiceFdeFeatureChecklist />
               </ServiceFdeFeatureCopy>
@@ -142,11 +173,9 @@ export default function ServiceFdePage() {
           <RevealOnScroll>
             <ServiceFdeFeatureRow reverse>
               <ServiceFdeFeatureCopy>
-                <ServiceFdeFeatureTitle>AI実用化を支援</ServiceFdeFeatureTitle>
+                <ServiceFdeFeatureTitle>本番展開から、現場への定着まで伴走する</ServiceFdeFeatureTitle>
                 <ServiceFdeFeatureBody>
-                  本番稼働後も、運用支援と効果測定を継続的に実施。
-                  <br />
-                  データに基づいた改善提案で、AXの成果を最大化します。
+                  認証・認可、監査ログ、運用フロー、利用部門への展開までを支援。本番稼働後も利用状況と効果を確認し、継続的な改善でAI活用を現場に定着させます。
                 </ServiceFdeFeatureBody>
                 <ServiceFdeFeatureChecklist />
               </ServiceFdeFeatureCopy>
@@ -161,7 +190,18 @@ export default function ServiceFdePage() {
         </ServiceFdeFeatureSection>
       </ServiceFdeFeatureInner>
 
-      <AipFreeTrialCtaSection />
+      <SimpleCtaSection background="white">
+        <CtaContent>
+          <CtaCopy>
+            <CtaTitle>AI活用を、PoCで終わらせない。</CtaTitle>
+            <CtaDescription>現在の課題や導入フェーズに合わせて、FDEによる支援の進め方をご案内します。</CtaDescription>
+          </CtaCopy>
+          <CtaActions className="flex-wrap gap-3">
+            <CtaButton href="/contact-us?inquiry=ai-consulting&product=fde">FDEについて相談する</CtaButton>
+            <CtaButton href="/blog/33/what-is-forward-deployed-engineer-fde" variant="secondary">FDEを詳しく知る</CtaButton>
+          </CtaActions>
+        </CtaContent>
+      </SimpleCtaSection>
 
       <SiteFooter />
     </ServiceFdePageShell>
