@@ -38,11 +38,12 @@ export function McpGatewayHeroVisual({ className = "", imageClassName = "" }: { 
     <div {...componentNameDebugProps("McpGatewayHeroVisual")} className={cx("mx-auto mt-[80px] flex max-w-[1200px] justify-center", className)}>
       <div className="w-full max-w-[1200px]">
         <Image
-          src="/solutions/aip/mcp-gateway/hero.svg"
-          alt="MCP Gateway"
-          width={1200}
-          height={638}
+          src="https://www.querypie.com/assets/products/aip/mcp-gateway/mcp-gateway.png"
+          alt="MCP Gatewayのプロダクト画面"
+          width={1054}
+          height={607}
           priority
+          unoptimized
           className={cx("h-auto w-full max-w-full", imageClassName)}
         />
       </div>
