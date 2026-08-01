@@ -75,8 +75,8 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(sectionSource, /max-w-\[760px\] self-center text-left text-\[16px\]/);
   assert.match(sectionSource, /AcpIntegrationsSection.*py-\[48px\].*lg:py-\[56px\]/s);
   assert.match(sectionSource, /lg:grid-cols-\[minmax\(0,1fr\)_430px\]/);
-  assert.match(sectionSource, /lg:text-\[30px\] lg:leading-\[39px\] lg:whitespace-nowrap/);
-  assert.match(sectionSource, /lg:max-w-\[calc\(100%-48px\)\]/);
+  assert.match(sectionSource, /lg:text-\[28px\] lg:leading-\[37px\] lg:whitespace-nowrap/);
+  assert.match(sectionSource, /lg:max-w-\[calc\(100%-24px\)\]/);
   assert.match(sectionSource, /width=\{430\} height=\{450\}/);
 
   assert.match(browserSource, /mediaSrc: string/);
@@ -89,7 +89,7 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(browserSource, /abbreviation: string/);
   assert.match(browserSource, /split\("｜", 2\)/);
   assert.match(browserSource, /text-\[26px\] font-semibold.*category\.abbreviation/s);
-  assert.match(browserSource, /text-\[18px\] font-semibold.*category\.label/s);
+  assert.match(browserSource, /inline-flex rounded-full bg-\[#EAF2FF\].*category\.label/s);
   assert.match(browserSource, /text-\[13px\] font-light/);
   assert.match(browserSource, /text-\[26px\].*sm:text-\[30px\]/);
   assert.doesNotMatch(browserSource, /詳細を見る/);
@@ -99,7 +99,7 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(sectionSource, /icon: LucideIcon/);
   assert.match(sectionSource, /min-h-\[136px\]/);
   assert.match(sectionSource, /lg:w-\[400px\] lg:max-w-\[36%\] lg:flex-none/);
-  assert.match(sectionSource, /lg:w-\[720px\] lg:max-w-\[60%\]/);
+  assert.match(sectionSource, /lg:w-\[600px\] lg:max-w-\[50%\]/);
 
   const heroPrimitiveSource = readSource("src/components/sections/acp/hero-primitives.tsx");
   assert.match(heroPrimitiveSource, /max-w-\[1080px\].*text-left.*text-\[16px\]/);
