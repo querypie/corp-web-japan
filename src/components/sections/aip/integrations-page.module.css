@@ -129,6 +129,44 @@
   letter-spacing: 0.0175rem;
 }
 
+.compactProductList {
+  gap: 12px;
+}
+
+.compactProductList .productItem {
+  min-height: 128px;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px 12px;
+}
+
+.compactProductList .icon,
+.compactProductList .iconImage {
+  width: 52px;
+  height: 52px;
+}
+
+.compactProductList .productLabel {
+  width: 100%;
+  overflow: hidden;
+  line-height: 20px;
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .compactProductList {
+    gap: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .compactProductList .productItem {
+    min-height: 140px;
+  }
+}
+
 @media (max-width: 1260px) {
   .content {
     padding-left: 24px;
@@ -207,6 +245,7 @@
     width: 60px;
     height: 60px;
   }
+
 }
 
 @media (max-width: 320px) {

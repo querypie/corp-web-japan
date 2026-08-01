@@ -67,8 +67,8 @@ function FlowPulse({ path, direction }: { path: string; direction: "inbound" | "
 
   return (
     <g opacity="0">
-      <line filter="url(#acp-hero-flow-glow)" x1="-9" x2="7" y1="0" y2="0" stroke="#0969DA" strokeLinecap="round" strokeWidth="6" opacity="0.72" />
-      <line x1="-5" x2="5" y1="0" y2="0" stroke="#24292F" strokeLinecap="round" strokeWidth="2" />
+      <line filter="url(#acp-hero-flow-glow)" x1="-18" x2="18" y1="0" y2="0" stroke="#0969DA" strokeLinecap="round" strokeWidth="10" opacity="0.92" />
+      <line x1="-11" x2="11" y1="0" y2="0" stroke="#EAF2FF" strokeLinecap="round" strokeWidth="3" />
       <animateMotion calcMode="linear" dur="4.8s" keyPoints={inbound ? "0;1;1" : "0;0;1;1"} keyTimes={inbound ? "0;0.46;1" : "0;0.56;0.96;1"} path={path} repeatCount="indefinite" rotate="auto" />
       <animate attributeName="opacity" dur="4.8s" keyTimes={inbound ? "0;0.04;0.43;0.48;1" : "0;0.56;0.6;0.94;1"} repeatCount="indefinite" values={inbound ? "0;1;1;0;0" : "0;0;1;1;0"} />
     </g>

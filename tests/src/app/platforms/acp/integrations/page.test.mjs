@@ -23,7 +23,8 @@ test("ACP integrations page exports indexable metadata for the canonical /platfo
 
 test("ACP integrations public page keeps concise ACP-specific hero copy and CTA in page.tsx", () => {
   assert.match(pageSource, /50種類以上のシステムを、ひとつの統制基盤へ。/);
-  assert.match(pageSource, /データベース、サーバー、Kubernetes、Web\/SaaSまで。主要なシステムと直接連携し、アクセスを一元管理します。/);
+  assert.match(pageSource, /<span className="block">データベース、サーバー、Kubernetes、Web\/SaaSまで。<\/span>/);
+  assert.match(pageSource, /<span className="block">主要なシステムと直接連携し、アクセスを一元管理します。<\/span>/);
   assert.match(pageSource, /items-start/);
   assert.match(pageSource, /!max-w-\[420px\] !text-left !text-\[16px\]/);
   assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
@@ -68,7 +69,7 @@ test("ACP integrations public page keeps category and product catalog route-loca
 test("ACP integrations platform section primitives define the integration filter and grid UI", () => {
   assert.match(sectionSource, /AipIntegrationsCategoryLink/);
   assert.match(sectionSource, /AipIntegrationsProductCard/);
-  assert.match(pageSource, /<AipIntegrationsProductList columns=\{8\}>/);
+  assert.match(pageSource, /<AipIntegrationsProductList columns=\{8\} compact>/);
   assert.match(cssSource, /\.content \{/);
   assert.match(cssSource, /max-width: 1200px/);
   assert.match(
@@ -76,7 +77,11 @@ test("ACP integrations platform section primitives define the integration filter
     /\.productListEightColumns \{\s*grid-template-columns: repeat\(8, minmax\(0, 1fr\)\)/,
   );
   assert.match(cssSource, /padding: 12px 32px/);
-  assert.match(cssSource, /padding: 30px/);
+  assert.match(cssSource, /\.compactProductList \{/);
+  assert.match(cssSource, /\.compactProductList \.productItem \{\s*min-height: 128px/);
+  assert.match(cssSource, /\.compactProductList \.icon,/);
+  assert.match(cssSource, /width: 52px/);
+  assert.match(cssSource, /\.compactProductList \.productItem \{\s*min-height: 140px/);
   assert.match(cssSource, /background: #f6f8fa/);
 });
 

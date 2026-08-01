@@ -72,14 +72,16 @@ export function AipIntegrationsCategoryLink({
 export function AipIntegrationsProductList({
   children,
   columns = 7,
+  compact = false,
 }: {
   children: ReactNode;
   columns?: 7 | 8;
+  compact?: boolean;
 }) {
   return (
     <ul
       {...componentNameDebugProps("AipIntegrationsProductList")}
-      className={cx(styles.productList, columns === 8 && styles.productListEightColumns)}
+      className={cx(styles.productList, columns === 8 && styles.productListEightColumns, compact && styles.compactProductList)}
     >
       {children}
     </ul>
