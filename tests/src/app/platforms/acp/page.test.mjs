@@ -19,7 +19,12 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(routeSource, /Web\/SaaS、MCPへのアクセスを一元制御するプラットフォームです。/);
   assert.match(routeSource, /最小権限、申請・承認、監査ログ、セッション記録、DLP/);
 
-  assert.match(routeSource, /DAC｜データアクセス制御/);
+  assert.match(routeSource, /Database Access Control/);
+  assert.match(routeSource, /System Access Control/);
+  assert.match(routeSource, /Kubernetes Access Control/);
+  assert.match(routeSource, /Web Access Control/);
+  assert.match(routeSource, /MCP Access Control/);
+  assert.match(routeSource, /DAC｜データベースアクセス制御/);
   assert.match(routeSource, /SAC｜システムアクセス制御/);
   assert.match(routeSource, /KAC｜Kubernetesアクセス制御/);
   assert.match(routeSource, /WAC｜Web\/SaaSアクセス制御/);
@@ -45,8 +50,11 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(sectionSource, /DLP \(Data Loss Prevention\)/);
   assert.match(sectionSource, /iconTone/);
   assert.match(sectionSource, /brightness-0/);
-  assert.match(sectionSource, /max-w-\[520px\]/);
-  assert.match(sectionSource, /AI活用を守り切れません。QueryPie ACPは/);
+  assert.match(sectionSource, /flex w-full justify-center/);
+  assert.match(sectionSource, /w-fit max-w-full/);
+  assert.match(sectionSource, /text-left text-\[13px\].*sm:text-\[15px\]/);
+  assert.match(sectionSource, /AI活用を守り切れません。<\/span>/);
+  assert.match(sectionSource, /QueryPie ACPは、統制の仕組みと対象環境を一つの基盤に集約します。<\/span>/);
   assert.match(sectionSource, /ユーザー/);
   assert.match(sectionSource, /bg-\[#EAF2FF\]/);
   assert.match(sectionSource, /Home-ACP\.mp4#t=0\.001/);
@@ -55,6 +63,7 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.doesNotMatch(sectionSource, /export function AcpGovernanceSection/);
   assert.match(sectionSource, /export function AcpAiPackSection/);
   assert.match(sectionSource, /export function AcpAiPackVideo/);
+  assert.match(sectionSource, /max-w-\[760px\] self-center text-left text-\[16px\]/);
   assert.match(sectionSource, /AcpIntegrationsSection.*py-\[56px\].*lg:py-\[64px\]/s);
   assert.match(sectionSource, /lg:grid-cols-\[minmax\(0,1fr\)_430px\]/);
   assert.match(sectionSource, /width=\{430\} height=\{450\}/);
@@ -64,10 +73,15 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(browserSource, /<article key=\{category\.label\}/);
   assert.match(browserSource, /<video/);
   assert.match(browserSource, /mediaFirstOnDesktop/);
+  assert.match(browserSource, /md:grid-cols-2 md:gap-\[60px\]/);
+  assert.match(browserSource, /englishLabel: string/);
+  assert.match(browserSource, /text-\[13px\] font-light/);
+  assert.match(browserSource, /text-\[28px\].*sm:text-\[34px\]/);
   assert.doesNotMatch(browserSource, /詳細を見る/);
   assert.doesNotMatch(browserSource, /next\/link/);
   assert.doesNotMatch(browserSource, /製品を選択/);
-  assert.match(sectionSource, /lg:w-\[790px\] lg:max-w-\[65%\]/);
+  assert.match(sectionSource, /lg:items-center/);
+  assert.match(sectionSource, /lg:w-\[680px\] lg:max-w-\[57%\]/);
 
   const heroPrimitiveSource = readSource("src/components/sections/acp/hero-primitives.tsx");
   assert.match(heroPrimitiveSource, /max-w-\[1080px\].*text-left.*text-\[16px\]/);

@@ -91,7 +91,7 @@ export async function SiteFooter() {
   const socialLinks = [
     {
       label: "LinkedIn",
-      href: "https://kr.linkedin.com/company/querypie-01",
+      href: "https://linkedin.com/company/querypie-ai",
       icon: "/footer-assets/social-linkedin.svg",
     },
     {

@@ -12,11 +12,14 @@ import {
   AipIntegrationsProductList,
 } from "@/components/sections/aip/integrations-page";
 import {
-  AcpPageCta,
-  AcpPageCtaDescription,
-  AcpPageCtaLink,
-  AcpPageCtaTitle,
-} from "@/components/sections/acp/static-page";
+  CtaActions,
+  CtaButton,
+  CtaContent,
+  CtaCopy,
+  CtaDescription,
+  CtaTitle,
+  SimpleCtaSection,
+} from "@/components/sections/simple-cta-section";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
@@ -418,14 +421,12 @@ export default async function AcpIntegrationsPage({
     <main {...componentNameDebugProps("AcpIntegrationsPage")} className="bg-white text-slate-950">
       <SiteHeader />
       <AipIntegrationsHeroSection>
-        <AipIntegrationsHeroCopy>
-          <AipIntegrationsHeroHeading>ACP統合機能</AipIntegrationsHeroHeading>
-          <AipIntegrationsHeroLead>
-            50種類以上の組み込み統合機能を装備し、アクセス制御を一元管理。
-            <br />
-            お使いのデータソースに直接接続し、すべてのシステム、アプリ、サービスを完全に可視化します。
-            <br />
-            データベース、サーバー、Kubernetes、Webアプリケーションなど、幅広く対応しています。
+        <AipIntegrationsHeroCopy className="items-start">
+          <AipIntegrationsHeroHeading className="!m-0 !max-w-none !text-left !text-[36px] !leading-[46px] sm:!text-[40px] sm:!leading-[50px] lg:!text-[44px] lg:!leading-[56px]">
+            50種類以上のシステムを、ひとつの統制基盤へ。
+          </AipIntegrationsHeroHeading>
+          <AipIntegrationsHeroLead className="!m-0 !max-w-[420px] !text-left !text-[16px] !leading-[26px]">
+            データベース、サーバー、Kubernetes、Web/SaaSまで。主要なシステムと直接連携し、アクセスを一元管理します。
           </AipIntegrationsHeroLead>
         </AipIntegrationsHeroCopy>
         <AipIntegrationsCategoryList>
@@ -445,7 +446,7 @@ export default async function AcpIntegrationsPage({
             </AipIntegrationsCategoryLink>
           ))}
         </AipIntegrationsCategoryList>
-        <AipIntegrationsProductList>
+        <AipIntegrationsProductList columns={8}>
           {filteredProducts.map((product) => (
             <AipIntegrationsProductCard
               key={`${product.label}-${product.svgFilename}`}
@@ -455,13 +456,17 @@ export default async function AcpIntegrationsPage({
           ))}
         </AipIntegrationsProductList>
       </AipIntegrationsHeroSection>
-      <AcpPageCta>
-        <AcpPageCtaTitle>まずは小さく、失敗しないAXを始めよう</AcpPageCtaTitle>
-        <AcpPageCtaDescription>
-          簡単サインアップで、14日間の無料トライアルをお試しください
-        </AcpPageCtaDescription>
-        <AcpPageCtaLink>無料で試してみる</AcpPageCtaLink>
-      </AcpPageCta>
+      <SimpleCtaSection background="white">
+        <CtaContent>
+          <CtaCopy>
+            <CtaTitle>アクセス統制を、次のAI活用へ。</CtaTitle>
+            <CtaDescription>現在の環境と運用要件に合わせて、QueryPie ACPの導入・活用方法をご案内します。</CtaDescription>
+          </CtaCopy>
+          <CtaActions>
+            <CtaButton href="/contact-us?inquiry=ai-consulting&product=acp">ACPについて相談する</CtaButton>
+          </CtaActions>
+        </CtaContent>
+      </SimpleCtaSection>
       <SiteFooter />
     </main>
   );

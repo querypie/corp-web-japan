@@ -67,7 +67,7 @@ describe("ACP static public route rollout", () => {
     assert.match(dacPage, /\/platforms\/acp\/database-access-controller\/works\.png/);
 
     const integrationsPage = read("src/app/platforms/acp/integrations/page.tsx");
-    assert.match(integrationsPage, /ACP統合機能/);
+    assert.match(integrationsPage, /50種類以上のシステムを、ひとつの統制基盤へ。/);
     assert.match(integrationsPage, /データソース/);
     assert.match(integrationsPage, /key: "data-sources"/);
     assert.match(integrationsPage, /key: "identity-providers"/);

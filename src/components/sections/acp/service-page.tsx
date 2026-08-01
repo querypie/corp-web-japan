@@ -160,10 +160,11 @@ export function AcpHeroDiagram() {
           {heroTargets.map(([label, asset]) => <HeroDiagramItem key={label} label={label} asset={asset} iconTone="blue" />)}
         </div>
       </div>
-      <figcaption className="mx-auto mt-6 w-full max-w-[520px]">
-        <div className="rounded-[14px] bg-[#F6F8FA] px-6 py-5 text-center">
-          <p className="text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">
-            アクセスを許可・禁止するだけでは、複雑化するインフラとAI活用を守り切れません。QueryPie ACPは、統制の仕組みと対象環境を一つの基盤に集約します。
+      <figcaption className="mx-auto mt-6 flex w-full justify-center">
+        <div className="w-fit max-w-full rounded-[14px] bg-[#F6F8FA] px-5 py-4 sm:px-6">
+          <p className="text-left text-[13px] font-light leading-[22px] tracking-[0.2px] text-[#57606A] sm:text-[15px] sm:leading-6 sm:tracking-[0.36px]">
+            <span className="block sm:whitespace-nowrap">アクセスを許可・禁止するだけでは、複雑化するインフラとAI活用を守り切れません。</span>
+            <span className="block sm:whitespace-nowrap">QueryPie ACPは、統制の仕組みと対象環境を一つの基盤に集約します。</span>
           </p>
         </div>
       </figcaption>
@@ -184,7 +185,7 @@ export function AcpFeatureIntro({ children }: { children: ReactNode }) {
 }
 
 export function AcpSectionTitle({ children }: { children: ReactNode }) {
-  return <h2 {...componentNameDebugProps("AcpSectionTitle")} className="text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h2>;
+  return <h2 {...componentNameDebugProps("AcpSectionTitle")} className="text-[36px] font-normal leading-[46px] tracking-normal text-[#24292F] lg:text-[44px] lg:leading-[56px]">{children}</h2>;
 }
 
 export function AcpSectionBody({ children }: { children: ReactNode }) {
@@ -236,11 +237,11 @@ export function AcpAiPackTitle({ children }: { children: ReactNode }) {
 }
 
 export function AcpAiPackBody({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("AcpAiPackBody")} className="text-[16px] leading-7 text-slate-300">{children}</p>;
+  return <p {...componentNameDebugProps("AcpAiPackBody")} className="w-full max-w-[760px] self-center text-left text-[16px] leading-7 text-slate-300">{children}</p>;
 }
 
 export function AcpAiPackContent({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpAiPackContent")} className="flex flex-col-reverse gap-8 lg:flex-row-reverse lg:items-start lg:gap-[60px]">{children}</div>;
+  return <div {...componentNameDebugProps("AcpAiPackContent")} className="flex flex-col-reverse gap-8 lg:flex-row-reverse lg:items-center lg:gap-[60px]">{children}</div>;
 }
 
 export function AcpAiPackCardGrid({ children }: { children: ReactNode }) {
@@ -261,7 +262,7 @@ export function AcpAiPackCardBody({ children }: { children: ReactNode }) {
 
 export function AcpAiPackVideo() {
   return (
-    <div {...componentNameDebugProps("AcpAiPackVideo")} className="w-full shrink-0 overflow-hidden rounded-[1.5rem] border border-white/10 bg-black lg:w-[790px] lg:max-w-[65%]">
+    <div {...componentNameDebugProps("AcpAiPackVideo")} className="w-full shrink-0 overflow-hidden rounded-[1.5rem] border border-white/10 bg-black lg:w-[680px] lg:max-w-[57%]">
       <video
         aria-label="ACP AI Packの画面デモ"
         className="block h-auto w-full"

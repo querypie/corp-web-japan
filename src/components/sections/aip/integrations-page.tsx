@@ -35,16 +35,16 @@ export function AipIntegrationsHeroSection({
   );
 }
 
-export function AipIntegrationsHeroCopy({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AipIntegrationsHeroCopy")} className={styles.heroCopy}>{children}</div>;
+export function AipIntegrationsHeroCopy({ children, className }: { children: ReactNode } & ClassNameProps) {
+  return <div {...componentNameDebugProps("AipIntegrationsHeroCopy")} className={cx(styles.heroCopy, className)}>{children}</div>;
 }
 
-export function AipIntegrationsHeroHeading({ children }: { children: ReactNode }) {
-  return <h1 {...componentNameDebugProps("AipIntegrationsHeroHeading")} className={styles.heroHeading}>{children}</h1>;
+export function AipIntegrationsHeroHeading({ children, className }: { children: ReactNode } & ClassNameProps) {
+  return <h1 {...componentNameDebugProps("AipIntegrationsHeroHeading")} className={cx(styles.heroHeading, className)}>{children}</h1>;
 }
 
-export function AipIntegrationsHeroLead({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("AipIntegrationsHeroLead")} className={styles.heroLead}>{children}</p>;
+export function AipIntegrationsHeroLead({ children, className }: { children: ReactNode } & ClassNameProps) {
+  return <p {...componentNameDebugProps("AipIntegrationsHeroLead")} className={cx(styles.heroLead, className)}>{children}</p>;
 }
 
 export function AipIntegrationsCategoryList({ children }: { children: ReactNode }) {
@@ -69,8 +69,21 @@ export function AipIntegrationsCategoryLink({
   );
 }
 
-export function AipIntegrationsProductList({ children }: { children: ReactNode }) {
-  return <ul {...componentNameDebugProps("AipIntegrationsProductList")} className={styles.productList}>{children}</ul>;
+export function AipIntegrationsProductList({
+  children,
+  columns = 7,
+}: {
+  children: ReactNode;
+  columns?: 7 | 8;
+}) {
+  return (
+    <ul
+      {...componentNameDebugProps("AipIntegrationsProductList")}
+      className={cx(styles.productList, columns === 8 && styles.productListEightColumns)}
+    >
+      {children}
+    </ul>
+  );
 }
 
 export function AipIntegrationsProductCard({
