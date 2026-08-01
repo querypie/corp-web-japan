@@ -30,14 +30,14 @@ test("/services/fde is a public page with indexable metadata and canonical path"
   assert.match(routeSource, /QueryPie FDE/);
   assert.match(routeSource, /<ServiceFdeHeroTitle>AI活用を、現場の成果につなげる。<\/ServiceFdeHeroTitle>/);
   const challengeIndex = routeSource.indexOf("AI導入のラストワンマイルを、前に進める。");
-  const processIndex = routeSource.indexOf("FDEは、現場とプロダクトをつなぐ実装チームです。");
+  const processIndex = routeSource.indexOf("FDEは、現場の課題をAIで解決する実装チームです。");
   assert.ok(challengeIndex > -1);
   assert.ok(processIndex > challengeIndex, "the FDE process should follow the last-mile context");
-  assert.match(routeSource, /FDEは、業務理解、AIの設計・実装、セキュリティと運用設計を分断せずに担います。/);
+  assert.match(routeSource, /現場の知見をプロダクト改善へ還元しながら、4つのステップを短いサイクルで進めます。/);
   assert.match(routeSource, /現場から、解くべき課題を見つける/);
   assert.match(routeSource, /時間とコストの無駄を防ぎ、成果につながる課題を明確にします。/);
   assert.match(routeSource, /事業成果から、導入の道筋を描く/);
-  assert.match(routeSource, /動くAIを、短いサイクルで検証する/);
+  assert.match(routeSource, /業務で動くAIを、短いサイクルで検証する/);
   assert.match(routeSource, /本番展開から、現場への定着まで伴走する/);
   assert.match(routeSource, /href="\/blog\/33\/what-is-forward-deployed-engineer-fde"/);
   assert.match(routeSource, /FDEを詳しく知る/);
@@ -58,8 +58,8 @@ test("/services/fde is a public page with indexable metadata and canonical path"
   assert.match(sectionSource, /export function ServiceFdeHeroVisual/);
   assert.match(sectionSource, /export function ServiceFdeHeroEyebrow/);
   assert.match(sectionSource, /export function ServiceFdeOverviewSection[\s\S]*bg-\[#F6F8FA\] py-\[80px\] lg:py-\[96px\]" contentClassName="flex max-w-\[1200px\] flex-col"/);
-  assert.match(sectionSource, /export function ServiceFdeOverviewSummary[\s\S]*max-w-\[720px\][\s\S]*text-left[\s\S]*text-\[16px\][\s\S]*leading-\[26px\]/);
-  assert.match(sectionSource, /export function ServiceFdeSectionLead[\s\S]*mx-auto mt-5 max-w-\[760px\] text-left[\s\S]*text-\[16px\][\s\S]*leading-\[26px\][\s\S]*tracking-\[0\.36px\]/);
+  assert.doesNotMatch(sectionSource, /export function ServiceFdeOverviewSummary/);
+  assert.match(sectionSource, /export function ServiceFdeSectionLead[\s\S]*mx-auto mt-5 max-w-\[880px\] text-left[\s\S]*text-\[16px\][\s\S]*leading-\[26px\][\s\S]*tracking-\[0\.36px\]/);
   assert.doesNotMatch(routeSource, /ServiceFdeOverview(Card|Grid)/);
   assert.doesNotMatch(sectionSource, /export function ServiceFdeOverview(Card|Grid)/);
   assert.match(sectionSource, /export function ServiceFdeChallengeList[\s\S]*lg:grid-cols-2/);
