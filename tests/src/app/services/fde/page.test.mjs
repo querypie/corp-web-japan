@@ -49,8 +49,9 @@ test("/services/fde is a public page with indexable metadata and canonical path"
   assert.match(sectionSource, /export function ServiceFdeHeroLead[\s\S]*mx-auto w-full max-w-\[1000px\] text-left[\s\S]*text-\[18px\][\s\S]*leading-\[28px\]/);
   assert.match(sectionSource, /export function ServiceFdeHeroVisual/);
   assert.match(sectionSource, /export function ServiceFdeHeroEyebrow/);
-  assert.match(sectionSource, /export function ServiceFdeOverviewSection[\s\S]*bg-\[#F6F8FA\] py-\[100px\] lg:py-\[120px\]" contentClassName="flex max-w-\[1200px\] flex-col"/);
-  assert.match(sectionSource, /export function ServiceFdeOverviewGrid[\s\S]*mt-12 grid gap-4 lg:grid-cols-3 lg:gap-5/);
+  assert.match(sectionSource, /export function ServiceFdeOverviewSection[\s\S]*bg-\[#F6F8FA\] py-\[80px\] lg:py-\[96px\]" contentClassName="flex max-w-\[1200px\] flex-col"/);
+  assert.doesNotMatch(routeSource, /ServiceFdeOverview(Card|Grid)/);
+  assert.doesNotMatch(sectionSource, /export function ServiceFdeOverview(Card|Grid)/);
   assert.match(sectionSource, /export function ServiceFdeChallengeList[\s\S]*lg:grid-cols-2/);
   assert.match(sectionSource, /export function ServiceFdeFeatureSection/);
   assert.match(sectionSource, /export function ServiceFdeFeatureSection[\s\S]*<PlatformFeatureSection[\s\S]*muted=\{muted\}>[\s\S]*<div className="w-full max-w-\[1200px\]">/);

@@ -19,8 +19,6 @@ import {
   ServiceFdeHeroSection,
   ServiceFdeHeroTitle,
   ServiceFdeHeroVisual,
-  ServiceFdeOverviewCard,
-  ServiceFdeOverviewGrid,
   ServiceFdeOverviewHeader,
   ServiceFdeOverviewSection,
   ServiceFdePageShell,
@@ -79,13 +77,6 @@ export default function ServiceFdePage() {
             <ServiceFdeSectionTitle>FDEは、現場とプロダクトをつなぐ実装チームです。</ServiceFdeSectionTitle>
             <ServiceFdeSectionLead>提案や技術検証で終わらせず、顧客固有の業務・データ・セキュリティ要件を理解したうえで、実際に使われるAIを形にします。</ServiceFdeSectionLead>
           </ServiceFdeOverviewHeader>
-        </RevealOnScroll>
-        <RevealOnScroll delayMs={80}>
-          <ServiceFdeOverviewGrid>
-            <ServiceFdeOverviewCard number="01" title="現場から、解くべき課題を見つける">業務フローやデータ、組織の制約を理解し、表面的な要望ではなく、成果につながる課題を定義します。</ServiceFdeOverviewCard>
-            <ServiceFdeOverviewCard number="02" title="設計から本番展開まで、手を動かす">プロトタイプの構築、システム連携、認証・認可、運用設計まで。動くものをつくり、本番で使える状態まで責任を持ちます。</ServiceFdeOverviewCard>
-            <ServiceFdeOverviewCard number="03" title="現場の学びを、プロダクトへ還元する">個社対応で終わらせず、複数の顧客に共通する知見をプロダクトの機能やテンプレートに還元し、価値を広げます。</ServiceFdeOverviewCard>
-          </ServiceFdeOverviewGrid>
         </RevealOnScroll>
       </ServiceFdeOverviewSection>
 

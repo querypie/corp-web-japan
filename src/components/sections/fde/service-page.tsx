@@ -75,7 +75,7 @@ export function ServiceFdeHeroVisual() {
 }
 
 export function ServiceFdeOverviewSection({ children }: { children: ReactNode }) {
-  return <PlatformContentSection {...componentNameDebugProps("ServiceFdeOverviewSection")} className="bg-[#F6F8FA] py-[100px] lg:py-[120px]" contentClassName="flex max-w-[1200px] flex-col">{children}</PlatformContentSection>;
+  return <PlatformContentSection {...componentNameDebugProps("ServiceFdeOverviewSection")} className="bg-[#F6F8FA] py-[80px] lg:py-[96px]" contentClassName="flex max-w-[1200px] flex-col">{children}</PlatformContentSection>;
 }
 
 export function ServiceFdeOverviewHeader({ children }: { children: ReactNode }) {
@@ -88,20 +88,6 @@ export function ServiceFdeSectionTitle({ children }: { children: ReactNode }) {
 
 export function ServiceFdeSectionLead({ children }: { children: ReactNode }) {
   return <p {...componentNameDebugProps("ServiceFdeSectionLead")} className="mt-5 text-[16px] font-light leading-[26px] text-[#57606A] lg:text-[18px] lg:leading-[28px]">{children}</p>;
-}
-
-export function ServiceFdeOverviewGrid({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("ServiceFdeOverviewGrid")} className="mt-12 grid gap-4 lg:grid-cols-3 lg:gap-5">{children}</div>;
-}
-
-export function ServiceFdeOverviewCard({ number, title, children }: { number: string; title: string; children: ReactNode }) {
-  return (
-    <article {...componentNameDebugProps("ServiceFdeOverviewCard")} className="flex min-h-[240px] flex-col rounded-[20px] bg-white p-6 lg:p-8">
-      <p className="text-[14px] font-medium tracking-[0.08em] text-[#0969DA]">{number}</p>
-      <h3 className="mt-5 text-[24px] font-medium leading-[1.35] tracking-[-0.03em] text-[#24292F]">{title}</h3>
-      <p className="mt-auto pt-6 text-[15px] font-light leading-6 text-[#57606A]">{children}</p>
-    </article>
-  );
 }
 
 export function ServiceFdeChallengeSection({ children }: { children: ReactNode }) {
