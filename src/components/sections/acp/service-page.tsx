@@ -67,7 +67,7 @@ function FlowPulse({ path, direction }: { path: string; direction: "inbound" | "
 
   return (
     <g opacity="0">
-      <line x1="-9" x2="7" y1="0" y2="0" stroke="#0969DA" strokeLinecap="round" strokeWidth="6" opacity="0.38" />
+      <line filter="url(#acp-hero-flow-glow)" x1="-9" x2="7" y1="0" y2="0" stroke="#0969DA" strokeLinecap="round" strokeWidth="6" opacity="0.72" />
       <line x1="-5" x2="5" y1="0" y2="0" stroke="#24292F" strokeLinecap="round" strokeWidth="2" />
       <animateMotion calcMode="linear" dur="4.8s" keyPoints={inbound ? "0;1;1" : "0;0;1;1"} keyTimes={inbound ? "0;0.46;1" : "0;0.56;0.96;1"} path={path} repeatCount="indefinite" rotate="auto" />
       <animate attributeName="opacity" dur="4.8s" keyTimes={inbound ? "0;0.04;0.43;0.48;1" : "0;0.56;0.6;0.94;1"} repeatCount="indefinite" values={inbound ? "0;1;1;0;0" : "0;0;1;1;0"} />
@@ -75,11 +75,19 @@ function FlowPulse({ path, direction }: { path: string; direction: "inbound" | "
   );
 }
 
-function ShieldBadge({ controller = false }: { controller?: boolean }) {
+const shieldPulseTimings = {
+  left: { keyTimes: "0;0.05;0.18;0.26;1", values: "#DDEEFF;#DDEEFF;#8EC5FF;#DDEEFF;#DDEEFF" },
+  center: { keyTimes: "0;0.4;0.5;0.6;1", values: "#174EA6;#174EA6;#0969DA;#174EA6;#174EA6" },
+  right: { keyTimes: "0;0.74;0.87;0.96;1", values: "#DDEEFF;#DDEEFF;#8EC5FF;#DDEEFF;#DDEEFF" },
+} as const;
+
+function ShieldBadge({ controller = false, phase }: { controller?: boolean; phase: keyof typeof shieldPulseTimings }) {
+  const pulse = shieldPulseTimings[phase];
+
   return (
-    <svg aria-hidden="true" className="pointer-events-none h-[46px] w-10 overflow-visible" fill="none" viewBox="0 0 40 46">
+    <svg aria-hidden="true" className={`pointer-events-none h-[46px] w-10 overflow-visible ${phase === "center" ? "" : `acp-hero-${phase}-pulse`}`} fill="none" viewBox="0 0 40 46">
       <path d="M6.10351e-05 21.0833L2.8193e-05 7.66668C2.8193e-05 7.66668 7.87428 6.5489 10.9091 5.3077C14.1084 3.99922 20 0 20 0C20 0 25.8916 3.99922 29.0909 5.3077C32.1257 6.5489 40 7.66668 40 7.66668V21.0833C40 32.7876 31.4666 43.3428 20 46C8.53332 43.3428 6.10351e-05 32.7876 6.10351e-05 21.0833Z" fill={controller ? "#174EA6" : "#DDEEFF"}>
-        <animate attributeName="fill" dur="4.8s" repeatCount="indefinite" values={controller ? "#174EA6;#174EA6;#0969DA;#174EA6;#174EA6" : "#DDEEFF;#DDEEFF;#8EC5FF;#DDEEFF;#DDEEFF"} />
+        <animate attributeName="fill" dur="4.8s" keyTimes={pulse.keyTimes} repeatCount="indefinite" values={pulse.values} />
       </path>
       {controller ? (
         <path clipRule="evenodd" d="M24.1421 14.7157C21.8545 12.4281 18.1455 12.4281 15.8579 14.7157L11.7157 18.8579C9.42809 21.1455 9.42809 24.8545 11.7157 27.1421L15.8579 31.2843C18.1455 33.5719 21.8545 33.5719 24.1421 31.2843L25.0463 30.3801L22.9837 28.3175L22.4853 28.816C21.1127 30.1886 18.8873 30.1886 17.5147 28.816L14.201 25.5023C12.8284 24.1297 12.8284 21.9043 14.201 20.5317L17.5147 17.218C18.8873 15.8454 21.1127 15.8454 22.4853 17.218L25.799 20.5317C27.1716 21.9043 27.1716 24.1297 25.799 25.5023L25.5519 25.7494L27.6144 27.812L28.2843 27.1421C30.5719 24.8545 30.5719 21.1455 28.2843 18.8579L24.1421 14.7157ZM21.218 20.0759C20.5317 19.3896 19.419 19.3896 18.7327 20.0759L17.0759 21.7327C16.3896 22.419 16.3896 23.5317 17.0759 24.218L18.7327 25.8749C19.419 26.5611 20.5317 26.5611 21.218 25.8749L22.8749 24.218C23.5611 23.5317 23.5611 22.419 22.8749 21.7327L21.218 20.0759Z" fill="white" fillRule="evenodd" />
@@ -90,9 +98,30 @@ function ShieldBadge({ controller = false }: { controller?: boolean }) {
   );
 }
 
+const heroGlowStyles = `
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes acp-hero-left-pulse {
+      0%, 5%, 26%, 100% { filter: drop-shadow(0 0 0 rgba(9, 105, 218, 0)); transform: scale(1); }
+      14%, 20% { filter: drop-shadow(0 0 8px rgba(9, 105, 218, 0.85)) drop-shadow(0 0 18px rgba(142, 197, 255, 0.9)); transform: scale(1.08); }
+    }
+    @keyframes acp-hero-controller-pulse {
+      0%, 40%, 60%, 100% { filter: drop-shadow(0 0 0 rgba(9, 105, 218, 0)); transform: scale(1); }
+      47%, 53% { filter: drop-shadow(0 0 10px rgba(9, 105, 218, 0.82)) drop-shadow(0 0 24px rgba(142, 197, 255, 0.88)); transform: scale(1.025); }
+    }
+    @keyframes acp-hero-right-pulse {
+      0%, 74%, 96%, 100% { filter: drop-shadow(0 0 0 rgba(9, 105, 218, 0)); transform: scale(1); }
+      82%, 89% { filter: drop-shadow(0 0 8px rgba(9, 105, 218, 0.85)) drop-shadow(0 0 18px rgba(142, 197, 255, 0.9)); transform: scale(1.08); }
+    }
+    .acp-hero-left-pulse { animation: acp-hero-left-pulse 4.8s ease-in-out infinite; transform-origin: center; }
+    .acp-hero-controller-pulse { animation: acp-hero-controller-pulse 4.8s ease-in-out infinite; transform-origin: center top; }
+    .acp-hero-right-pulse { animation: acp-hero-right-pulse 4.8s ease-in-out infinite; transform-origin: center; }
+  }
+`;
+
 export function AcpHeroDiagram() {
   return (
     <figure {...componentNameDebugProps("AcpHeroDiagram")} aria-label="QueryPie ACPのアクセス統制フロー" className="mx-auto w-full max-w-[1080px]">
+      <style>{heroGlowStyles}</style>
       <div className="relative hidden h-[480px] w-full overflow-hidden xl:block">
         <div className="relative h-[480px] w-[1080px] origin-top-left">
           <div className="absolute left-0 top-0 flex h-[480px] w-[240px] flex-col items-center gap-5 overflow-hidden rounded-[16px] px-5 py-5">
@@ -102,6 +131,15 @@ export function AcpHeroDiagram() {
           </div>
           <img alt="" aria-hidden="true" className="absolute left-[220px] top-[88px] z-10 h-[264px] w-[640px]" src={`${heroDiagramAssetBase}/connections.svg`} />
           <svg aria-hidden="true" className="pointer-events-none absolute left-[220px] top-[88px] z-20 h-[264px] w-[640px] overflow-visible" fill="none" viewBox="0 0 640 266">
+            <defs>
+              <filter id="acp-hero-flow-glow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur result="blur" stdDeviation="2.5" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
             <FlowPulse direction="inbound" path="M5.76576e-06 9L0.505293 9C22.5967 9 40.5053 26.9086 40.5053 49L40.5053 93.5053C40.5053 115.318 58.1877 133 80 133L180 133" />
             <FlowPulse direction="inbound" path="M-1.86364e-06 91L9.79973 91C24.4136 91 37.8643 98.9696 44.8836 111.787L45.2126 112.388C52.1725 125.098 65.5096 133 80 133L180 133" />
             <FlowPulse direction="inbound" path="M-1.86364e-06 175L9.79973 175C24.4136 175 37.8643 167.03 44.8836 154.213L45.2126 153.612C52.1725 140.902 65.5096 133 80 133L180 133" />
@@ -112,12 +150,12 @@ export function AcpHeroDiagram() {
             <FlowPulse direction="outbound" path="M460 133L560 133L560.694 133C580.048 133 596.418 147.318 598.995 166.5C601.571 185.682 617.941 200 637.296 200L640 200" />
             <FlowPulse direction="outbound" path="M460 133L560 133C581.812 133 599.495 150.682 599.495 172.495L599.495 225C599.495 247.091 617.403 265 639.495 265L640 265" />
           </svg>
-          <div className="absolute left-[320px] top-[197px] z-30"><ShieldBadge /></div>
-          <div className="absolute left-[720px] top-[197px] z-30"><ShieldBadge /></div>
+          <div className="absolute left-[320px] top-[197px] z-30"><ShieldBadge phase="left" /></div>
+          <div className="absolute left-[720px] top-[197px] z-30"><ShieldBadge phase="right" /></div>
           <div className="absolute left-[400px] top-0 flex h-[480px] w-[280px] flex-col items-center overflow-hidden rounded-[16px] px-9 pb-8 pt-10" style={{ background: `url(${heroDiagramAssetBase}/shield-mask.png) center/100% 100% no-repeat` }}>
             <div className="relative flex w-full flex-col items-center gap-10">
-              <div className="flex w-full flex-col items-center gap-5">
-                <ShieldBadge controller />
+              <div className="acp-hero-controller-pulse flex w-full flex-col items-center gap-5">
+                <ShieldBadge controller phase="center" />
                 <div className="flex w-full flex-col items-center gap-2.5">
                   <p className="whitespace-nowrap text-center text-lg font-medium leading-6 text-[#24292F]">QueryPie ACP</p>
                   <p className="rounded-full bg-[#F6F8FA] px-3 py-0.5 text-center text-xs font-light leading-[18px] text-[#24292F]">Access Control Platform</p>
@@ -242,7 +280,7 @@ export function AcpAiPackBody({ children }: { children: ReactNode }) {
 }
 
 export function AcpAiPackContent({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AcpAiPackContent")} className="flex flex-col-reverse gap-8 lg:flex-row-reverse lg:items-center lg:gap-10">{children}</div>;
+  return <div {...componentNameDebugProps("AcpAiPackContent")} className="flex flex-col-reverse gap-8 lg:flex-row-reverse lg:items-center lg:justify-center lg:gap-10">{children}</div>;
 }
 
 export function AcpAiPackCardGrid({ children }: { children: ReactNode }) {
@@ -256,7 +294,7 @@ export function AcpAiPackCard({ children, icon: Icon }: { children: ReactNode; i
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#8EC5FF]/15 text-[#8EC5FF]">
           <Icon aria-hidden="true" className="h-5 w-5" strokeWidth={1.8} />
         </span>
-        <div className="min-w-0">{children}</div>
+        <div className="min-w-0 translate-y-2">{children}</div>
       </div>
     </article>
   );

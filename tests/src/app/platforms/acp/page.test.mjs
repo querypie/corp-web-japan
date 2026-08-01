@@ -54,6 +54,12 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(sectionSource, /target-mcp\.svg/);
   assert.match(sectionSource, /function FlowPulse/);
   assert.match(sectionSource, /<animateMotion/);
+  assert.match(sectionSource, /acp-hero-flow-glow/);
+  assert.match(sectionSource, /shieldPulseTimings/);
+  assert.match(sectionSource, /left: \{ keyTimes: "0;0\.05;0\.18;0\.26;1"/);
+  assert.match(sectionSource, /center: \{ keyTimes: "0;0\.4;0\.5;0\.6;1"/);
+  assert.match(sectionSource, /right: \{ keyTimes: "0;0\.74;0\.87;0\.96;1"/);
+  assert.match(sectionSource, /acp-hero-controller-pulse/);
   assert.match(sectionSource, /shield-mask\.png/);
   assert.match(sectionSource, /DLP \(Data Loss Prevention\)/);
   assert.match(sectionSource, /iconTone/);
@@ -95,9 +101,10 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.doesNotMatch(browserSource, /詳細を見る/);
   assert.doesNotMatch(browserSource, /next\/link/);
   assert.doesNotMatch(browserSource, /製品を選択/);
-  assert.match(sectionSource, /lg:items-center/);
+  assert.match(sectionSource, /lg:items-center lg:justify-center/);
   assert.match(sectionSource, /icon: LucideIcon/);
   assert.match(sectionSource, /min-h-\[136px\]/);
+  assert.match(sectionSource, /min-w-0 translate-y-2/);
   assert.match(sectionSource, /lg:w-\[400px\] lg:max-w-\[36%\] lg:flex-none/);
   assert.match(sectionSource, /lg:w-\[600px\] lg:max-w-\[50%\]/);
 

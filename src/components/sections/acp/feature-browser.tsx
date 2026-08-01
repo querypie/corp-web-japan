@@ -125,11 +125,11 @@ export function AcpFeatureBrowser({ children }: { children: ReactNode }) {
         return (
           <article key={category.label} className="grid w-full items-center gap-8 md:grid-cols-2 md:gap-[60px]">
             <div className={`max-w-[440px] ${mediaFirstOnDesktop ? "md:order-2 md:justify-self-end" : undefined}`}>
-              <div className="flex items-baseline gap-3">
+              <p className="inline-flex rounded-full bg-[#EAF2FF] px-3 py-1 text-[13px] font-medium leading-5 text-[#174EA6]">{category.label}</p>
+              <div className="mt-3 flex items-baseline gap-3">
                 <p className="text-[26px] font-semibold leading-8 tracking-[-0.04em] text-[#0969DA]">{category.abbreviation}</p>
                 <p className="text-[13px] font-light leading-5 tracking-[0.04em] text-[#6E7781]">{category.englishLabel}</p>
               </div>
-              <p className="mt-2 inline-flex rounded-full bg-[#EAF2FF] px-3 py-1 text-[13px] font-medium leading-5 text-[#174EA6]">{category.label}</p>
               <h3 className="mt-4 text-[26px] font-medium leading-[1.35] tracking-[-0.04em] text-[#24292F] sm:text-[30px]">{category.item.title}</h3>
               <p className="mt-5 text-[16px] font-light leading-[26px] tracking-[0.2px] text-[#57606A]">
                 {category.item.bodyLines.map((line) => (
