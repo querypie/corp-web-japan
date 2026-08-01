@@ -58,7 +58,8 @@ test("/services/fde is a public page with indexable metadata and canonical path"
   assert.match(sectionSource, /export function ServiceFdeHeroVisual/);
   assert.match(sectionSource, /export function ServiceFdeHeroEyebrow/);
   assert.match(sectionSource, /export function ServiceFdeOverviewSection[\s\S]*bg-\[#F6F8FA\] py-\[80px\] lg:py-\[96px\]" contentClassName="flex max-w-\[1200px\] flex-col"/);
-  assert.match(sectionSource, /export function ServiceFdeOverviewSummary[\s\S]*max-w-\[720px\][\s\S]*text-\[16px\][\s\S]*leading-\[26px\]/);
+  assert.match(sectionSource, /export function ServiceFdeOverviewSummary[\s\S]*max-w-\[720px\][\s\S]*text-left[\s\S]*text-\[16px\][\s\S]*leading-\[26px\]/);
+  assert.match(sectionSource, /export function ServiceFdeSectionLead[\s\S]*mx-auto mt-5 max-w-\[760px\] text-left[\s\S]*text-\[16px\][\s\S]*leading-\[26px\][\s\S]*tracking-\[0\.36px\]/);
   assert.doesNotMatch(routeSource, /ServiceFdeOverview(Card|Grid)/);
   assert.doesNotMatch(sectionSource, /export function ServiceFdeOverview(Card|Grid)/);
   assert.match(sectionSource, /export function ServiceFdeChallengeList[\s\S]*lg:grid-cols-2/);
