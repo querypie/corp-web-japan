@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { PlatformContentSection, PlatformFeatureSection, PlatformPageShell } from "@/components/sections/platform/page-primitives";
-import { AipThumbnailYoutube } from "@/components/sections/aip/thumbnail-youtube";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type FeatureSectionProps = {
@@ -18,8 +17,8 @@ type FeatureImageProps = {
 };
 
 type HeroVideoProps = {
-  videoId: string;
-  thumbnailSrc: string;
+  videoSrc: string;
+  posterSrc: string;
 };
 
 export function AipPageShell({ children }: { children: ReactNode }) {
@@ -35,28 +34,32 @@ export function AipHeroSection({ children }: { children: ReactNode }) {
 }
 
 export function AipHeroInner({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AipHeroInner")} className="flex w-full max-w-[1200px] flex-col items-center gap-[80px] text-center">{children}</div>;
+  return <div {...componentNameDebugProps("AipHeroInner")} className="flex w-full max-w-[1200px] flex-col items-center gap-[64px] text-center lg:gap-[80px]">{children}</div>;
 }
 
 export function AipHeroCopy({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AipHeroCopy")} className="flex flex-col items-center gap-[20px]">{children}</div>;
+  return <div {...componentNameDebugProps("AipHeroCopy")} className="grid w-full items-start gap-5 text-left md:grid-cols-2 md:gap-[30px]">{children}</div>;
 }
 
 export function AipHeroTitle({ children }: { children: ReactNode }) {
-  return <h1 {...componentNameDebugProps("AipHeroTitle")} className="text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h1>;
+  return <h1 {...componentNameDebugProps("AipHeroTitle")} className="text-[42px] font-normal leading-[1.2] tracking-[-0.04em] text-[#24292F] sm:text-[48px] lg:text-[56px]">{children}</h1>;
 }
 
 export function AipHeroLead({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("AipHeroLead")} className="max-w-[746px] text-[16px] font-light leading-[25px] tracking-[0.36px] text-[#57606A] lg:text-[18px] lg:leading-[28px]">{children}</p>;
+  return <p {...componentNameDebugProps("AipHeroLead")} className="max-w-[720px] text-[16px] font-light leading-[26px] tracking-[0.2px] text-[#57606A] lg:text-[18px] lg:leading-[28px]">{children}</p>;
 }
 
-export function AipHeroVideo({ videoId, thumbnailSrc }: HeroVideoProps) {
-  return <AipThumbnailYoutube {...componentNameDebugProps("AipHeroVideo")} videoId={videoId} thumbnailSrc={thumbnailSrc} />;
+export function AipHeroVideo({ videoSrc, posterSrc }: HeroVideoProps) {
+  return (
+    <div {...componentNameDebugProps("AipHeroVideo")} className="aspect-video w-full max-w-[1080px] overflow-hidden rounded-[20px] bg-[#F6F8FA]">
+      <video aria-label="QueryPie AIプラットフォームの紹介動画" autoPlay className="block h-full w-full object-cover" loop muted playsInline poster={posterSrc} preload="metadata" src={videoSrc} />
+    </div>
+  );
 }
 
 export function AipValueSection({ children }: { children: ReactNode }) {
   return (
-    <PlatformContentSection {...componentNameDebugProps("AipValueSection")} className="bg-[linear-gradient(291deg,#C5D6E6_0%,#FFF_100%)] py-[120px]">
+    <PlatformContentSection {...componentNameDebugProps("AipValueSection")} className="bg-[#F6F8FA] py-[100px] lg:py-[120px]">
       {children}
     </PlatformContentSection>
   );

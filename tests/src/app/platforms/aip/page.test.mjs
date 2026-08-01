@@ -9,37 +9,38 @@ test("/platforms/aip keeps route-local copy/composition while the layout primiti
   assert.equal(sourceExists("src/app/platforms/aip/route.ts"), false);
   assert.equal(sourceExists("src/app/t/platforms/aip/page.tsx"), false);
   assert.equal(sourceExists("src/components/sections/aip/page.tsx"), true);
-  assert.equal(sourceExists("src/components/sections/aip/thumbnail-youtube.tsx"), true);
   assert.equal(sourceExists("src/components/sections/platform/page-primitives.tsx"), true);
 
   const routeSource = readSource("src/app/platforms/aip/page.tsx");
   const sectionSource = readSource("src/components/sections/aip/page.tsx");
-  const thumbnailYoutubeSource = readSource("src/components/sections/aip/thumbnail-youtube.tsx");
   const platformSource = readSource("src/components/sections/platform/page-primitives.tsx");
 
   assert.match(routeSource, /canonical: "\/platforms\/aip"/);
   assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
-  assert.match(routeSource, /<AipHeroVideo\s+videoId="nJGSCd6itUE"\s+thumbnailSrc="\/services\/aip\/aip-video-thumb-jp\.png"\s+\/>/);
+  assert.match(routeSource, /AIを、現場で動かすための基盤。/);
+  assert.match(routeSource, /AIと既存の業務システムをつなぎ、コスト・セキュリティ・運用を一つの基盤で整える/);
+  assert.match(routeSource, /QueryPie%20AIP%20-%20Secure%20Enterprise%20Agentic%20AI%20Platform\.mp4/);
+  assert.match(routeSource, /https:\/\/www\.querypie\.com\/assets\/products\/aip\/aip-cover\.png/);
   assert.match(routeSource, /AipValueCardLink/);
-  assert.match(routeSource, /成果にこだわるエンタープライズAI/);
-  assert.match(routeSource, /AI導入を、ワンストップで実現する３つの価値/);
-  assert.match(routeSource, /従量課金型の\s*<AipLineBreak \/>\s*AIモデル/);
-  assert.match(routeSource, /統合型\s*<AipLineBreak \/>\s*AIゲートウェイ/);
-  assert.match(routeSource, /AI専門家伴走\s*<AipLineBreak \/>\s*サービス/);
+  assert.match(routeSource, /AI導入を、成果につなげる3つの基盤/);
+  assert.match(routeSource, /コストを最適化し、安全につなぎ、現場に定着させる。/);
+  assert.match(routeSource, /従量課金型の\s*<AipLineBreak \/>\s*エンタープライズAI/);
+  assert.match(routeSource, /統合型\s*<AipLineBreak \/>\s*MCPゲートウェイ/);
+  assert.match(routeSource, /FDEによる\s*<AipLineBreak \/>\s*導入・定着支援/);
   assert.match(routeSource, /href="\/services\/fde"/);
   assert.doesNotMatch(routeSource, /href="\/t\/solutions\/aip\/fde-services"/);
-  assert.match(routeSource, /QueryPie AIPができること/);
-  assert.match(routeSource, /プロンプト自動生成/);
-  assert.match(routeSource, /シンプルな統合/);
-  assert.match(routeSource, /社内文書の学習機能/);
-  assert.match(routeSource, /カスタムエージェント作成/);
-  assert.match(routeSource, /ビジュアルレポート作成/);
-  assert.match(routeSource, /エージェントスケジューリング/);
+  assert.match(routeSource, /実務に根づく、AIの実行機能/);
+  assert.match(routeSource, /指示から、実行できるプロンプトへ/);
+  assert.match(routeSource, /既存のツールを、AIの実行基盤へ/);
+  assert.match(routeSource, /社内の知識を、回答に活かす/);
+  assert.match(routeSource, /業務に合わせて、AIエージェントを設計/);
+  assert.match(routeSource, /回答を、意思決定できるレポートへ/);
+  assert.match(routeSource, /定型業務を、スケジュールで自動化/);
   assert.match(routeSource, /href="\/platforms\/aip\/integrations"/);
   assert.doesNotMatch(routeSource, /href="https:\/\/www\.querypie\.com\/ja\/solutions\/aip\/integrations"/);
-  assert.match(routeSource, /QueryPie AIPと接続可能な連携ツールの一覧はこちら/);
+  assert.match(routeSource, /接続可能な連携ツールを見る/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(routeSource, /<AipFreeTrialCtaSection \/>/);
   assert.doesNotMatch(routeSource, /AipPreviewPage/);
@@ -51,10 +52,13 @@ test("/platforms/aip keeps route-local copy/composition while the layout primiti
   assert.match(sectionSource, /export function AipPageShell[\s\S]*<PlatformPageShell(?:\s[^>]*)?>/);
   assert.match(sectionSource, /export function AipHeroSection[\s\S]*<PlatformContentSection[\s\S]*className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]">/);
   assert.match(sectionSource, /export function AipHeroVideo/);
-  assert.match(sectionSource, /AipThumbnailYoutube/);
+  assert.match(sectionSource, /<video/);
+  assert.match(sectionSource, /autoPlay/);
+  assert.match(sectionSource, /playsInline/);
+  assert.match(sectionSource, /poster=\{posterSrc\}/);
   assert.doesNotMatch(sectionSource, /rounded-\[12px\]/);
   assert.doesNotMatch(sectionSource, /shadow-\[0_24px_80px_-55px_rgba\(15,23,42,0\.45\)\]/);
-  assert.match(sectionSource, /bg-\[linear-gradient\(291deg,#C5D6E6_0%,#FFF_100%\)\]/);
+  assert.match(sectionSource, /bg-\[#F6F8FA\] py-\[100px\] lg:py-\[120px\]/);
   assert.match(sectionSource, /export function AipValueGrid/);
   assert.match(sectionSource, /export function AipValueCardLink/);
   assert.match(sectionSource, /function AipTextButtonArrowIcon/);
@@ -88,12 +92,6 @@ test("/platforms/aip keeps route-local copy/composition while the layout primiti
   assert.match(platformSource, /paddingClassName = "px-6 lg:px-0"/);
   assert.match(platformSource, /joinClassNames\("flex justify-center", paddingClassName, className\)/);
 
-  assert.match(thumbnailYoutubeSource, /"use client"/);
-  assert.match(thumbnailYoutubeSource, /useState/);
-  assert.match(thumbnailYoutubeSource, /alt="YouTube video player"/);
-  assert.match(thumbnailYoutubeSource, /aria-label="Play YouTube video"/);
-  assert.match(thumbnailYoutubeSource, /const autoplay = isPlaying \? "1" : "0"/);
-  assert.match(thumbnailYoutubeSource, /autoplay=\$\{autoplay\}/);
 });
 
 test("/platforms/aip guards the route-aligned assets required for visual parity", () => {
@@ -103,17 +101,21 @@ test("/platforms/aip guards the route-aligned assets required for visual parity"
     "value-usage-based-llm.png",
     "value-mcp-gateway.png",
     "value-fde-services.png",
-    "aip-video-thumb-jp.png",
-    "prompt.gif",
-    "integration.gif",
-    "knowledge.gif",
-    "custom-agent.gif",
-    "visual-report.gif",
-    "scheduling.gif",
   ]) {
     const publicPath = `/services/aip/${asset}`;
 
     assert.match(routeSource, new RegExp(escapeRegExp(publicPath)));
     assert.equal(sourceExists(`public${publicPath}`), true, `public${publicPath} should exist`);
+  }
+
+  for (const asset of [
+    "aip_function_prompt.gif",
+    "aip_function_integration.gif",
+    "aip_function_knowledge.gif",
+    "aip_function_createagent.gif",
+    "aip_function_visualization.gif",
+    "aip_function_schedule.gif",
+  ]) {
+    assert.match(routeSource, new RegExp(escapeRegExp(`https://www.querypie.com/assets/products/aip/${asset}`)));
   }
 });

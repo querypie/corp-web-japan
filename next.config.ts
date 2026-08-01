@@ -4,6 +4,15 @@ const nextConfig: NextConfig = {
   typescript: {
     tsconfigPath: "tsconfig.next.json",
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "www.querypie.com",
+        pathname: "/assets/products/aip/**",
+      },
+    ],
+  },
   async redirects() {
     return [
       {
