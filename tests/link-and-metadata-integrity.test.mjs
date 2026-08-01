@@ -62,6 +62,8 @@ test("header and footer navigation links match the current implemented destinati
   assert.doesNotMatch(siteFooter, /href:\s*"\/services\/as400-cobol"/);
   assert.doesNotMatch(siteHeader, /href:\s*"\/solutions\/as400-cobol"/);
   assert.doesNotMatch(siteFooter, /href:\s*"\/solutions\/as400-cobol"/);
+  assert.match(siteFooter, /href:\s*"https:\/\/linkedin\.com\/company\/querypie-ai"/);
+  assert.doesNotMatch(siteFooter, /kr\.linkedin\.com\/company\/querypie-01/);
 });
 
 test("public interaction surfaces do not ship bare hash broken links", () => {
