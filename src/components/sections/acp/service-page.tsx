@@ -174,7 +174,7 @@ export function AcpHeroDiagram() {
 }
 
 export function AcpFeatureSection({ children }: { children: ReactNode }) {
-  return <PlatformContentSection {...componentNameDebugProps("AcpFeatureSection")} className="py-[100px]">{children}</PlatformContentSection>;
+  return <PlatformContentSection {...componentNameDebugProps("AcpFeatureSection")} className="pb-[100px] pt-[80px]">{children}</PlatformContentSection>;
 }
 
 export function AcpFeatureInner({ children }: { children: ReactNode }) {
@@ -206,7 +206,7 @@ export function AcpIntegrationsTitle({ children }: { children: ReactNode }) {
 }
 
 export function AcpIntegrationsBody({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("AcpIntegrationsBody")} className="mt-[20px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A] lg:max-w-[calc(100%-32px)]">{children}</p>;
+  return <p {...componentNameDebugProps("AcpIntegrationsBody")} className="mt-[20px] text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A] lg:max-w-[calc(100%-48px)]">{children}</p>;
 }
 
 export function AcpIntegrationsLink({ href, children }: { href: string; children: ReactNode }) {
