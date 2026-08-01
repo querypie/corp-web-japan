@@ -426,7 +426,8 @@ export default async function AcpIntegrationsPage({
             50種類以上のシステムを、ひとつの統制基盤へ。
           </AipIntegrationsHeroHeading>
           <AipIntegrationsHeroLead className="!m-0 !max-w-[420px] !text-left !text-[16px] !leading-[26px]">
-            データベース、サーバー、Kubernetes、Web/SaaSまで。主要なシステムと直接連携し、アクセスを一元管理します。
+            <span className="block">データベース、サーバー、Kubernetes、Web/SaaSまで。</span>
+            <span className="block">主要なシステムと直接連携し、アクセスを一元管理します。</span>
           </AipIntegrationsHeroLead>
         </AipIntegrationsHeroCopy>
         <AipIntegrationsCategoryList>
@@ -446,7 +447,7 @@ export default async function AcpIntegrationsPage({
             </AipIntegrationsCategoryLink>
           ))}
         </AipIntegrationsCategoryList>
-        <AipIntegrationsProductList columns={8}>
+        <AipIntegrationsProductList columns={8} compact>
           {filteredProducts.map((product) => (
             <AipIntegrationsProductCard
               key={`${product.label}-${product.svgFilename}`}
