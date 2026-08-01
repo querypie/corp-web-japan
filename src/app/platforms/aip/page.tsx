@@ -148,28 +148,24 @@ export default function AipPage() {
         <AipFeatureInner>
           <RevealOnScroll>
             <AipFeatureHeader>
-              <AipFeatureHeaderTitle>QueryPie AIPができること</AipFeatureHeaderTitle>
+              <AipFeatureHeaderTitle>実務に根づく、AIの実行機能</AipFeatureHeaderTitle>
             </AipFeatureHeader>
           </RevealOnScroll>
 
           <AipFeatureRow>
             <RevealOnScroll className="w-full lg:w-auto">
               <AipFeatureCopy className="max-w-[476px]">
-                <AipFeatureTitle>プロンプト自動生成</AipFeatureTitle>
+                <AipFeatureTitle>指示から、実行できるプロンプトへ</AipFeatureTitle>
                 <AipFeatureBody>
-                  プリセットされた簡単な指示文（プロンプト）から始めれば
-                  <AipLineBreak />
-                  包括的かつ最適化されたプロンプトを自動生成します。
-                  <AipLineBreak />
-                  専門知識がなくてもAIエージェントの効果を最大限に引き出せます。
+                  目的を入力すると、必要な文脈や指示を整理したプロンプトを生成。専門的な書き方を覚えなくても、業務に沿ったAIエージェントを立ち上げられます。
                 </AipFeatureBody>
               </AipFeatureCopy>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={80} className="w-full lg:w-auto">
               <AipFeatureImage
-                src="/services/aip/prompt.gif"
-                alt="プロンプト自動生成"
+                src="https://www.querypie.com/assets/products/aip/aip_function_prompt.gif"
+                alt="プロンプトの作成と実行"
                 width={540}
                 height={304}
               />
@@ -183,24 +179,20 @@ export default function AipPage() {
           <AipFeatureRow reverse>
             <RevealOnScroll className="w-full lg:w-auto">
               <AipFeatureCopy className="max-w-[538px]">
-                <AipFeatureTitle>シンプルな統合</AipFeatureTitle>
+                <AipFeatureTitle>既存のツールを、AIの実行基盤へ</AipFeatureTitle>
                 <AipFeatureBody>
-                  OAuth認証でお使いのツール（Slack、Googleなど）を簡単に接続。
-                  <AipLineBreak />
-                  提供されている統合機能に加えて、カスタムツールや内部ツールも追加でき、
-                  <AipLineBreak />
-                  ニーズに合わせたビジネスワークフロー自動化を実現します。
+                  SlackやGoogleなどのSaaS、社内ツール、カスタムMCPサーバーを接続。AIエージェントが必要なツールを安全に呼び出し、業務フローを実行できます。
                 </AipFeatureBody>
                 <AipInlineLink href="/platforms/aip/integrations">
-                  QueryPie AIPと接続可能な連携ツールの一覧はこちら
+                  接続可能な連携ツールを見る
                 </AipInlineLink>
               </AipFeatureCopy>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={80} className="w-full lg:w-auto">
               <AipFeatureImage
-                src="/services/aip/integration.gif"
-                alt="シンプルな統合"
+                src="https://www.querypie.com/assets/products/aip/aip_function_integration.gif"
+                alt="AIと既存ツールの統合"
                 width={580}
                 height={326}
               />
@@ -214,19 +206,17 @@ export default function AipPage() {
           <AipFeatureRow>
             <RevealOnScroll className="w-full lg:w-auto">
               <AipFeatureCopy className="max-w-[553px]">
-                <AipFeatureTitle>社内文書の学習機能</AipFeatureTitle>
+                <AipFeatureTitle>社内の知識を、回答に活かす</AipFeatureTitle>
                 <AipFeatureBody>
-                  社内文書をアップロードして知識ベース化。
-                  <AipLineBreak />
-                  AIが組織の情報を瞬時に取得し、貴社のビジネスに合った正確な回答をします。
+                  社内文書を知識ベースとして取り込み、必要な情報をAIが参照。組織固有の文脈に沿った、根拠のある回答を支援します。
                 </AipFeatureBody>
               </AipFeatureCopy>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={80} className="w-full lg:w-auto">
               <AipFeatureImage
-                src="/services/aip/knowledge.gif"
-                alt="社内文書の学習機能"
+                src="https://www.querypie.com/assets/products/aip/aip_function_knowledge.gif"
+                alt="社内知識を活用したAI回答"
                 width={520}
                 height={293}
               />
@@ -240,21 +230,17 @@ export default function AipPage() {
           <AipFeatureRow reverse>
             <RevealOnScroll className="w-full lg:w-auto">
               <AipFeatureCopy className="max-w-[420px]">
-                <AipFeatureTitle>カスタムエージェント作成</AipFeatureTitle>
+                <AipFeatureTitle>業務に合わせて、AIエージェントを設計</AipFeatureTitle>
                 <AipFeatureBody>
-                  包括的なライブラリから構築済みのエージェントをインストール、
-                  <AipLineBreak />
-                  または特定の運用要件に合わせて各エージェントの機能を
-                  <AipLineBreak />
-                  カスタマイズした独自のソリューションを作成できます。
+                  用意されたテンプレートを起点に、役割・利用ツール・実行手順を業務に合わせて設定。組織固有の運用にフィットするAIエージェントを構築できます。
                 </AipFeatureBody>
               </AipFeatureCopy>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={80} className="w-full lg:w-auto">
               <AipFeatureImage
-                src="/services/aip/custom-agent.gif"
-                alt="カスタムエージェント作成"
+                src="https://www.querypie.com/assets/products/aip/aip_function_createagent.gif"
+                alt="カスタムAIエージェントの作成"
                 width={600}
                 height={338}
               />
@@ -268,21 +254,17 @@ export default function AipPage() {
           <AipFeatureRow>
             <RevealOnScroll className="w-full lg:w-auto">
               <AipFeatureCopy className="max-w-[418px]">
-                <AipFeatureTitle>ビジュアルレポート作成</AipFeatureTitle>
+                <AipFeatureTitle>回答を、意思決定できるレポートへ</AipFeatureTitle>
                 <AipFeatureBody>
-                  AIの回答をグラフや表、インタラクティブな図で表示。
-                  <AipLineBreak />
-                  複雑な分析結果を視覚的にわかりやすく整理し、
-                  <AipLineBreak />
-                  そのままエクスポートして会議に活用できます。
+                  AIの回答をグラフ、表、インタラクティブな図へ展開。複雑な分析結果を共有しやすい形に整理し、会議や次のアクションにつなげられます。
                 </AipFeatureBody>
               </AipFeatureCopy>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={80} className="w-full lg:w-auto">
               <AipFeatureImage
-                src="/services/aip/visual-report.gif"
-                alt="ビジュアルレポート作成"
+                src="https://www.querypie.com/assets/products/aip/aip_function_visualization.gif"
+                alt="AI回答の可視化レポート"
                 width={520}
                 height={293}
               />
@@ -296,23 +278,17 @@ export default function AipPage() {
           <AipFeatureRow reverse>
             <RevealOnScroll className="w-full lg:w-auto">
               <AipFeatureCopy className="max-w-[420px]">
-                <AipFeatureTitle>エージェントスケジューリング</AipFeatureTitle>
+                <AipFeatureTitle>定型業務を、スケジュールで自動化</AipFeatureTitle>
                 <AipFeatureBody>
-                  指定した間隔でAIエージェントをスケジュール設定し、
-                  <AipLineBreak />
-                  定型タスクを自動化。
-                  <AipLineBreak />
-                  簡単なエージェント会話を通じて定期的な操作を設定でき、
-                  <AipLineBreak />
-                  手動作業を削減しながら一貫した実行を保証します。
+                  実行間隔や手順を指定して、AIエージェントの処理を自動化。定期的な確認・集計・通知などを、手作業に頼らず一貫して実行できます。
                 </AipFeatureBody>
               </AipFeatureCopy>
             </RevealOnScroll>
 
             <RevealOnScroll delayMs={80} className="w-full lg:w-auto">
               <AipFeatureImage
-                src="/services/aip/scheduling.gif"
-                alt="エージェントスケジューリング"
+                src="https://www.querypie.com/assets/products/aip/aip_function_schedule.gif"
+                alt="AIエージェントのスケジュール実行"
                 width={600}
                 height={338}
               />

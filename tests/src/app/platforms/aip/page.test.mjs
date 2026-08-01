@@ -31,16 +31,16 @@ test("/platforms/aip keeps route-local copy/composition while the layout primiti
   assert.match(routeSource, /FDEによる\s*<AipLineBreak \/>\s*導入・定着支援/);
   assert.match(routeSource, /href="\/services\/fde"/);
   assert.doesNotMatch(routeSource, /href="\/t\/solutions\/aip\/fde-services"/);
-  assert.match(routeSource, /QueryPie AIPができること/);
-  assert.match(routeSource, /プロンプト自動生成/);
-  assert.match(routeSource, /シンプルな統合/);
-  assert.match(routeSource, /社内文書の学習機能/);
-  assert.match(routeSource, /カスタムエージェント作成/);
-  assert.match(routeSource, /ビジュアルレポート作成/);
-  assert.match(routeSource, /エージェントスケジューリング/);
+  assert.match(routeSource, /実務に根づく、AIの実行機能/);
+  assert.match(routeSource, /指示から、実行できるプロンプトへ/);
+  assert.match(routeSource, /既存のツールを、AIの実行基盤へ/);
+  assert.match(routeSource, /社内の知識を、回答に活かす/);
+  assert.match(routeSource, /業務に合わせて、AIエージェントを設計/);
+  assert.match(routeSource, /回答を、意思決定できるレポートへ/);
+  assert.match(routeSource, /定型業務を、スケジュールで自動化/);
   assert.match(routeSource, /href="\/platforms\/aip\/integrations"/);
   assert.doesNotMatch(routeSource, /href="https:\/\/www\.querypie\.com\/ja\/solutions\/aip\/integrations"/);
-  assert.match(routeSource, /QueryPie AIPと接続可能な連携ツールの一覧はこちら/);
+  assert.match(routeSource, /接続可能な連携ツールを見る/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(routeSource, /<AipFreeTrialCtaSection \/>/);
   assert.doesNotMatch(routeSource, /AipPreviewPage/);
@@ -101,16 +101,21 @@ test("/platforms/aip guards the route-aligned assets required for visual parity"
     "value-usage-based-llm.png",
     "value-mcp-gateway.png",
     "value-fde-services.png",
-    "prompt.gif",
-    "integration.gif",
-    "knowledge.gif",
-    "custom-agent.gif",
-    "visual-report.gif",
-    "scheduling.gif",
   ]) {
     const publicPath = `/services/aip/${asset}`;
 
     assert.match(routeSource, new RegExp(escapeRegExp(publicPath)));
     assert.equal(sourceExists(`public${publicPath}`), true, `public${publicPath} should exist`);
+  }
+
+  for (const asset of [
+    "aip_function_prompt.gif",
+    "aip_function_integration.gif",
+    "aip_function_knowledge.gif",
+    "aip_function_createagent.gif",
+    "aip_function_visualization.gif",
+    "aip_function_schedule.gif",
+  ]) {
+    assert.match(routeSource, new RegExp(escapeRegExp(`https://www.querypie.com/assets/products/aip/${asset}`)));
   }
 });
