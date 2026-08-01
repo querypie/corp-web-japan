@@ -91,6 +91,10 @@
   gap: 25px;
 }
 
+.productListEightColumns {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
 .productItem {
   display: flex;
   flex-direction: column;
@@ -134,6 +138,10 @@
 
 @media (max-width: 1200px) {
   .productList {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .productListEightColumns {
     grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 }

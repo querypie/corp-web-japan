@@ -446,7 +446,7 @@ export default async function AcpIntegrationsPage({
             </AipIntegrationsCategoryLink>
           ))}
         </AipIntegrationsCategoryList>
-        <AipIntegrationsProductList>
+        <AipIntegrationsProductList columns={8}>
           {filteredProducts.map((product) => (
             <AipIntegrationsProductCard
               key={`${product.label}-${product.svgFilename}`}

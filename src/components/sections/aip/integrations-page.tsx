@@ -69,8 +69,21 @@ export function AipIntegrationsCategoryLink({
   );
 }
 
-export function AipIntegrationsProductList({ children }: { children: ReactNode }) {
-  return <ul {...componentNameDebugProps("AipIntegrationsProductList")} className={styles.productList}>{children}</ul>;
+export function AipIntegrationsProductList({
+  children,
+  columns = 7,
+}: {
+  children: ReactNode;
+  columns?: 7 | 8;
+}) {
+  return (
+    <ul
+      {...componentNameDebugProps("AipIntegrationsProductList")}
+      className={cx(styles.productList, columns === 8 && styles.productListEightColumns)}
+    >
+      {children}
+    </ul>
+  );
 }
 
 export function AipIntegrationsProductCard({

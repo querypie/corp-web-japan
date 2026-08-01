@@ -68,11 +68,12 @@ test("ACP integrations public page keeps category and product catalog route-loca
 test("ACP integrations platform section primitives define the integration filter and grid UI", () => {
   assert.match(sectionSource, /AipIntegrationsCategoryLink/);
   assert.match(sectionSource, /AipIntegrationsProductCard/);
+  assert.match(pageSource, /<AipIntegrationsProductList columns=\{8\}>/);
   assert.match(cssSource, /\.content \{/);
   assert.match(cssSource, /max-width: 1200px/);
   assert.match(
     cssSource,
-    /grid-template-columns: repeat\(7, minmax\(0, 1fr\)\)/,
+    /\.productListEightColumns \{\s*grid-template-columns: repeat\(8, minmax\(0, 1fr\)\)/,
   );
   assert.match(cssSource, /padding: 12px 32px/);
   assert.match(cssSource, /padding: 30px/);
