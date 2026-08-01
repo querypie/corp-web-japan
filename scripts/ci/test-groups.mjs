@@ -129,6 +129,7 @@ const matchers = {
     /^tests\/src\/app\/t\/solutions\//,
     /^tests\/src\/lib\/legal-mdx-source\.test\.mjs$/,
     /^tests\/src\/components\/sections\/internal-events-demo-(empty-state|hero-toggle)\.test\.mjs$/,
+    /^tests\/src\/components\/sections\/simple-cta-section\.test\.mjs$/,
   ],
   assetsShell: [
     /^tests\/author-profile-image-paths\.test\.mjs$/,

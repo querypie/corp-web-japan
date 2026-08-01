@@ -99,7 +99,7 @@ export function AipFreeTrialCtaSection({ background = "muted" }: Pick<SectionWit
       <CtaContent>
         <CtaCopy>
           <CtaTitle>まずは日常業務から、AI活用を始めよう。</CtaTitle>
-          <CtaDescription>情報収集や文書作成など、日々の業務から。14日間無料でQueryPie AIをお試しいただけます。</CtaDescription>
+          <CtaDescription>情報収集や文書作成など、日々の業務から。14日間無料でQueryPie AIPをお試しいただけます。</CtaDescription>
         </CtaCopy>
         <CtaActions className="flex-col sm:flex-row">
           <BrandGradientCtaButton href="https://app.querypie.com/">14日間無料で始める</BrandGradientCtaButton>

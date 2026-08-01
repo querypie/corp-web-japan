@@ -20,6 +20,7 @@ test("/platforms/aip keeps route-local copy/composition while the layout primiti
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
   assert.match(routeSource, /AIを、現場で動かすための基盤。/);
+  assert.match(routeSource, /QueryPie AIPで動く、業務を前に進めるAIアプリ/);
   assert.match(routeSource, /AIと既存の業務システムをつなぎ、コスト・セキュリティ・運用を一つの基盤で整える/);
   assert.match(routeSource, /https:\/\/www\.querypie\.com\/assets\/products\/aip\/aip-cover\.png/);
   assert.match(routeSource, /<AipHeroVideo/);
