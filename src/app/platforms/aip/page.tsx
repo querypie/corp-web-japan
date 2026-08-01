@@ -38,9 +38,9 @@ import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 export const metadata: Metadata = {
-  title: "QueryPie AIプラットフォーム (AIP) | QueryPie AI",
+  title: "エンタープライズAIプラットフォーム（AIP）｜QueryPie AI",
   description:
-    "経済的でエンタープライズ対応のソリューションを通じてエンタープライズAI変革を実現するプラットフォーム—使用量ベースのLLM導入と包括的なMCPゲートウェイを特徴とする。カスタマイズされたAIエージェントを提供するフォワードデプロイドエンジニア（FDE）による完全な変革。",
+    "QueryPie AIPは、従量課金型のLLM、MCPゲートウェイ、FDEによる伴走支援で、AIを安全に現場へ定着させるエンタープライズAIプラットフォームです。",
   alternates: {
     canonical: "/platforms/aip",
   },
@@ -59,19 +59,18 @@ export default function AipPage() {
         <AipHeroInner>
           <RevealOnScroll>
             <AipHeroCopy>
-              <AipHeroTitle>QueryPie AIプラットフォーム (AIP)</AipHeroTitle>
+              <AipHeroTitle>AIを、現場で動かすための基盤。</AipHeroTitle>
               <AipHeroLead>
-                QueryPie AIPは、既存の業務システムとつながり、実務で使えるAIを実現します。
-                <AipLineBreak />
-                従量課金でコストを最適化。大規模なシステム改修も不要。
-                <AipLineBreak />
-                専門家が伴走するので、確実に成果が出るAIプラットフォームです。
+                QueryPie AIPは、AIと既存の業務システムをつなぎ、コスト・セキュリティ・運用を一つの基盤で整えるエンタープライズAIプラットフォームです。
               </AipHeroLead>
             </AipHeroCopy>
           </RevealOnScroll>
 
           <RevealOnScroll delayMs={120} className="w-full">
-            <AipHeroVideo videoId="nJGSCd6itUE" thumbnailSrc="/services/aip/aip-video-thumb-jp.png" />
+            <AipHeroVideo
+              videoSrc="https://www.querypie.com/assets/products/aip/QueryPie%20AIP%20-%20Secure%20Enterprise%20Agentic%20AI%20Platform.mp4"
+              posterSrc="https://www.querypie.com/assets/products/aip/aip-cover.png"
+            />
           </RevealOnScroll>
         </AipHeroInner>
       </AipHeroSection>
@@ -80,8 +79,8 @@ export default function AipPage() {
         <AipValueInner>
           <RevealOnScroll>
             <AipValueIntro>
-              <AipValueTitle>成果にこだわるエンタープライズAI</AipValueTitle>
-              <AipValueDescription>AI導入を、ワンストップで実現する３つの価値</AipValueDescription>
+              <AipValueTitle>AI導入を、成果につなげる3つの基盤</AipValueTitle>
+              <AipValueDescription>コストを最適化し、安全につなぎ、現場に定着させる。</AipValueDescription>
             </AipValueIntro>
           </RevealOnScroll>
 
@@ -92,15 +91,11 @@ export default function AipPage() {
                   <AipValueCardTitle>
                     従量課金型の
                     <AipLineBreak />
-                    AIモデル
+                    エンタープライズAI
                   </AipValueCardTitle>
                 </AipValueImage>
                 <AipValueCardBody>
-                  全社員分のライセンス購入を経営層にどう説明する？使われなかったら？
-                  <AipLineBreak />
-                  QueryPie AIPは使った分だけ支払う従量課金型。小さく始めて効果を見ながら段階的に拡大できます。
-                  <AipLineBreak />
-                  プレミアムLLMを必要な時だけ利用でき、月額固定費の無駄から解放されます。
+                  全社ライセンスの固定費ではなく、使った分だけ支払う従量課金型。小さく始め、利用状況と効果を見ながら段階的に広げられます。
                 </AipValueCardBody>
                 <AipValueCardLink href="/platforms/aip/usage-based-llm">詳細を見る</AipValueCardLink>
               </AipValueCard>
@@ -112,15 +107,11 @@ export default function AipPage() {
                   <AipValueCardTitle>
                     統合型
                     <AipLineBreak />
-                    AIゲートウェイ
+                    MCPゲートウェイ
                   </AipValueCardTitle>
                 </AipValueImage>
                 <AipValueCardBody>
-                  既存システムに「つなぐだけ」で、大規模なシステム改修は不要です。
-                  <AipLineBreak />
-                  複雑な接続処理はQueryPie AIPが担当。
-                  <AipLineBreak />
-                  バラバラだったシステムが、1つのプラットフォームで統合されたAIワークフローに変わります。
+                  既存の業務システム、社内ツール、MCPサーバーを安全につなぎ、AIエージェントのツール利用を一元管理。大規模なシステム改修なしでAI活用を広げられます。
                 </AipValueCardBody>
                 <AipValueCardLink href="/platforms/aip/mcp-gateway">詳細を見る</AipValueCardLink>
               </AipValueCard>
@@ -130,15 +121,13 @@ export default function AipPage() {
               <AipValueCard>
                 <AipValueImage src="/services/aip/value-fde-services.png" alt="AI専門家伴走 サービス">
                   <AipValueCardTitle>
-                    AI専門家伴走
+                    FDEによる
                     <AipLineBreak />
-                    サービス
+                    導入・定着支援
                   </AipValueCardTitle>
                 </AipValueImage>
                 <AipValueCardBody>
-                  ビジネスとテクノロジーの両方を理解する専門家、フォワードデプロイドエンジニア(FDE)が、あなたのチームに入り込みます。
-                  <AipLineBreak />
-                  課題発見から構築、本番稼働まで伴走し、確実に成果を出すAI導入を実現します。
+                  課題の発見からユースケース設計、実装、本番定着まで。業務と技術の両方を理解するFDEが伴走し、AIを成果につなげます。
                 </AipValueCardBody>
                 <AipValueCardLink href="/services/fde">詳細を見る</AipValueCardLink>
               </AipValueCard>
