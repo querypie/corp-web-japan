@@ -35,16 +35,16 @@ export function AipIntegrationsHeroSection({
   );
 }
 
-export function AipIntegrationsHeroCopy({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AipIntegrationsHeroCopy")} className={styles.heroCopy}>{children}</div>;
+export function AipIntegrationsHeroCopy({ children, className }: { children: ReactNode } & ClassNameProps) {
+  return <div {...componentNameDebugProps("AipIntegrationsHeroCopy")} className={cx(styles.heroCopy, className)}>{children}</div>;
 }
 
-export function AipIntegrationsHeroHeading({ children }: { children: ReactNode }) {
-  return <h1 {...componentNameDebugProps("AipIntegrationsHeroHeading")} className={styles.heroHeading}>{children}</h1>;
+export function AipIntegrationsHeroHeading({ children, className }: { children: ReactNode } & ClassNameProps) {
+  return <h1 {...componentNameDebugProps("AipIntegrationsHeroHeading")} className={cx(styles.heroHeading, className)}>{children}</h1>;
 }
 
-export function AipIntegrationsHeroLead({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("AipIntegrationsHeroLead")} className={styles.heroLead}>{children}</p>;
+export function AipIntegrationsHeroLead({ children, className }: { children: ReactNode } & ClassNameProps) {
+  return <p {...componentNameDebugProps("AipIntegrationsHeroLead")} className={cx(styles.heroLead, className)}>{children}</p>;
 }
 
 export function AipIntegrationsCategoryList({ children }: { children: ReactNode }) {

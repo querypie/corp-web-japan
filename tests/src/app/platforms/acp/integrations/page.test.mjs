@@ -21,18 +21,16 @@ test("ACP integrations page exports indexable metadata for the canonical /platfo
   );
 });
 
-test("ACP integrations public page keeps authored hero copy and CTA in page.tsx", () => {
-  assert.match(pageSource, /ACP統合機能/);
-  assert.match(
-    pageSource,
-    /データソースに直接接続し、すべてのシステム、アプリケーション、およびサービスを完全に把握することが可能です。/,
-  );
-  assert.match(pageSource, /from "@\/components\/sections\/acp\/static-page"/);
-  assert.match(pageSource, /<AcpPageCta>/);
-  assert.match(
-    pageSource,
-    /<AcpPageCtaTitle>まずは小さく、失敗しないAXを始めよう<\/AcpPageCtaTitle>/,
-  );
+test("ACP integrations public page keeps concise ACP-specific hero copy and CTA in page.tsx", () => {
+  assert.match(pageSource, /50種類を超える、組み込み統合機能/);
+  assert.match(pageSource, /データベース、サーバー、Kubernetes、Web\/SaaSまで。主要なシステムと直接連携し、アクセスを一元管理します。/);
+  assert.match(pageSource, /items-start/);
+  assert.match(pageSource, /!max-w-\[420px\] !text-left !text-\[16px\]/);
+  assert.match(pageSource, /from "@\/components\/sections\/simple-cta-section"/);
+  assert.match(pageSource, /<SimpleCtaSection background="white">/);
+  assert.match(pageSource, /<CtaTitle>アクセス統制を、次のAI活用へ。<\/CtaTitle>/);
+  assert.match(pageSource, /href="\/contact-us\?inquiry=ai-consulting&product=acp"/);
+  assert.doesNotMatch(pageSource, /AcpPageCta/);
 });
 
 test("ACP integrations public page keeps category and product catalog route-local with keyword-based filters", () => {
