@@ -28,13 +28,19 @@ test("/services/fde is a public page with indexable metadata and canonical path"
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
   assert.match(routeSource, /QueryPie FDE/);
-  assert.match(routeSource, /AXを成功に導く専門家チーム/);
-  assert.match(routeSource, /課題の発見と分析/);
-  assert.match(routeSource, /戦略とロードマップの策定/);
-  assert.match(routeSource, /カスタムAIエージェントの構築/);
-  assert.match(routeSource, /AI実用化を支援/);
+  assert.match(routeSource, /AI活用を、/);
+  assert.match(routeSource, /現場の成果につなげる。/);
+  assert.match(routeSource, /FDEは、現場とプロダクトをつなぐ実装チームです。/);
+  assert.match(routeSource, /AI導入のラストワンマイルを、前に進める。/);
+  assert.match(routeSource, /現場から、成果につながる課題を見つける/);
+  assert.match(routeSource, /事業成果から、導入の道筋を描く/);
+  assert.match(routeSource, /動くAIを、短いサイクルで検証する/);
+  assert.match(routeSource, /本番展開から、現場への定着まで伴走する/);
+  assert.match(routeSource, /href="\/blog\/33\/what-is-forward-deployed-engineer-fde"/);
+  assert.match(routeSource, /FDEを詳しく知る/);
+  assert.match(routeSource, /href="\/contact-us\?inquiry=ai-consulting&product=fde"/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
-  assert.match(routeSource, /<AipFreeTrialCtaSection \/>/);
+  assert.match(routeSource, /<SimpleCtaSection background="white">/);
 
   assert.match(sectionSource, /export function ServiceFdeHeroSection/);
   assert.match(sectionSource, /from "@\/components\/sections\/platform\/page-primitives"/);
@@ -43,6 +49,10 @@ test("/services/fde is a public page with indexable metadata and canonical path"
   assert.match(sectionSource, /export function ServiceFdeHeroTitle[\s\S]*mx-auto max-w-\[800px\][\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
   assert.match(sectionSource, /export function ServiceFdeHeroLead[\s\S]*max-w-\[1000px\][\s\S]*text-\[18px\][\s\S]*leading-\[28px\]/);
   assert.match(sectionSource, /export function ServiceFdeHeroVisual/);
+  assert.match(sectionSource, /export function ServiceFdeHeroEyebrow/);
+  assert.match(sectionSource, /export function ServiceFdeOverviewSection[\s\S]*bg-\[#F6F8FA\] py-\[100px\] lg:py-\[120px\]/);
+  assert.match(sectionSource, /export function ServiceFdeOverviewGrid[\s\S]*mt-12 grid gap-4 lg:grid-cols-3 lg:gap-5/);
+  assert.match(sectionSource, /export function ServiceFdeChallengeList[\s\S]*lg:grid-cols-2/);
   assert.match(sectionSource, /export function ServiceFdeFeatureSection/);
   assert.match(sectionSource, /export function ServiceFdeFeatureSection[\s\S]*<PlatformFeatureSection[\s\S]*muted=\{muted\}>/);
   assert.match(sectionSource, /export function ServiceFdeFeatureRow/);
