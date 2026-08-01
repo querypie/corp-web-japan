@@ -89,7 +89,7 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(browserSource, /abbreviation: string/);
   assert.match(browserSource, /split\("｜", 2\)/);
   assert.match(browserSource, /text-\[26px\] font-semibold.*category\.abbreviation/s);
-  assert.match(browserSource, /text-\[18px\] font-semibold.*category\.label/s);
+  assert.match(browserSource, /inline-flex rounded-full bg-\[#EAF2FF\].*category\.label/s);
   assert.match(browserSource, /text-\[13px\] font-light/);
   assert.match(browserSource, /text-\[26px\].*sm:text-\[30px\]/);
   assert.doesNotMatch(browserSource, /詳細を見る/);
