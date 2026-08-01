@@ -18,7 +18,8 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(routeSource, /アクセス統制を、AI時代の共通基盤へ。/);
   assert.match(routeSource, /Web\/SaaS、MCPへのアクセスを一元制御するプラットフォームです。/);
   assert.match(routeSource, /最小権限、申請・承認、監査ログ、セッション記録、DLP/);
-  assert.match(routeSource, /すべてのインフラとAIのアクセスを一元管理/);
+  assert.match(routeSource, /すべてのインフラとAIのアクセスを、ひとつの基盤で統制/);
+  assert.doesNotMatch(routeSource, /<AcpIntegrationsTitle>[\s\S]*?<br \/>[\s\S]*?<\/AcpIntegrationsTitle>/);
   assert.match(routeSource, /50種類以上のシステムと連携/);
   assert.match(routeSource, /連携対象に加え、権限・ポリシー・監査を一つの基盤で統制する価値を明確化します。/);
   assert.match(routeSource, />ACPの統合機能を見る→<\//);
@@ -73,6 +74,7 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(sectionSource, /max-w-\[760px\] self-center text-left text-\[16px\]/);
   assert.match(sectionSource, /AcpIntegrationsSection.*py-\[56px\].*lg:py-\[64px\]/s);
   assert.match(sectionSource, /lg:grid-cols-\[minmax\(0,1fr\)_430px\]/);
+  assert.match(sectionSource, /lg:whitespace-nowrap/);
   assert.match(sectionSource, /width=\{430\} height=\{450\}/);
 
   assert.match(browserSource, /mediaSrc: string/);
@@ -89,7 +91,7 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.doesNotMatch(browserSource, /製品を選択/);
   assert.match(sectionSource, /lg:items-center/);
   assert.match(sectionSource, /icon: LucideIcon/);
-  assert.match(sectionSource, /min-h-\[128px\]/);
+  assert.match(sectionSource, /min-h-\[136px\]/);
   assert.match(sectionSource, /lg:w-\[400px\] lg:max-w-\[36%\] lg:flex-none/);
   assert.match(sectionSource, /lg:w-\[720px\] lg:max-w-\[60%\]/);
 

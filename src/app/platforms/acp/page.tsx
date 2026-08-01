@@ -212,11 +212,7 @@ export default function AcpPage() {
         <AcpIntegrationsInner>
           <RevealOnScroll>
             <div className="flex flex-col gap-[20px]">
-              <AcpIntegrationsTitle>
-                ひとつの統制基盤で、
-                <br />
-                すべてのインフラとAIのアクセスを一元管理
-              </AcpIntegrationsTitle>
+              <AcpIntegrationsTitle>すべてのインフラとAIのアクセスを、ひとつの基盤で統制</AcpIntegrationsTitle>
               <AcpIntegrationsBody>
                 データベース、サーバー、Kubernetes、Webアプリケーション、アイデンティティプロバイダ、セキュリティツールなど50種類以上のシステムと連携。連携対象に加え、権限・ポリシー・監査を一つの基盤で統制する価値を明確化します。
               </AcpIntegrationsBody>

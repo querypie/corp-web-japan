@@ -202,7 +202,7 @@ export function AcpIntegrationsInner({ children }: { children: ReactNode }) {
 }
 
 export function AcpIntegrationsTitle({ children }: { children: ReactNode }) {
-  return <h4 {...componentNameDebugProps("AcpIntegrationsTitle")} className="text-[30px] font-medium leading-[39.375px] tracking-normal text-[#24292F]">{children}</h4>;
+  return <h4 {...componentNameDebugProps("AcpIntegrationsTitle")} className="text-[22px] font-medium leading-[30px] tracking-normal text-[#24292F] sm:text-[24px] sm:leading-[32px] lg:whitespace-nowrap">{children}</h4>;
 }
 
 export function AcpIntegrationsBody({ children }: { children: ReactNode }) {
@@ -251,7 +251,7 @@ export function AcpAiPackCardGrid({ children }: { children: ReactNode }) {
 
 export function AcpAiPackCard({ children, icon: Icon }: { children: ReactNode; icon: LucideIcon }) {
   return (
-    <article {...componentNameDebugProps("AcpAiPackCard")} className="min-h-[128px] rounded-[1.2rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm">
+    <article {...componentNameDebugProps("AcpAiPackCard")} className="min-h-[136px] rounded-[1.2rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm">
       <div className="flex items-start gap-3">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#8EC5FF]/15 text-[#8EC5FF]">
           <Icon aria-hidden="true" className="h-5 w-5" strokeWidth={1.8} />
