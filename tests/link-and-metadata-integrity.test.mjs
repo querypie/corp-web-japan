@@ -64,6 +64,19 @@ test("header and footer navigation links match the current implemented destinati
   assert.doesNotMatch(siteFooter, /href:\s*"\/solutions\/as400-cobol"/);
 });
 
+test("app website links preserve the QueryPie AI page by opening in a new tab", () => {
+  const siteHeader = readSource("src/components/layout/site-header-client.tsx");
+  const siteFooter = readSource("src/components/layout/site-footer.tsx");
+
+  assert.match(siteHeader, /lingo\.querypie\.ai\/ja", external: true/);
+  assert.match(siteHeader, /target=\{child\.external \? "_blank" : undefined\}/);
+  assert.match(siteHeader, /rel=\{child\.external \? "noopener noreferrer" : undefined\}/);
+  assert.match(siteFooter, /lingo\.querypie\.ai\/ja", external: true/);
+  assert.match(siteFooter, /function shouldOpenInNewTab/);
+  assert.match(siteFooter, /target=\{openInNewTab \? "_blank" : undefined\}/);
+  assert.match(siteFooter, /rel=\{openInNewTab \? "noopener noreferrer" : undefined\}/);
+});
+
 test("public interaction surfaces do not ship bare hash broken links", () => {
   const siteHeader = readSource("src/components/layout/site-header-client.tsx");
   const siteFooter = readSource("src/components/layout/site-footer.tsx");

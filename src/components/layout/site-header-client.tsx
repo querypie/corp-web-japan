@@ -11,6 +11,7 @@ import styles from "./site-header.module.css";
 type NavChild = {
   label: string;
   href: string;
+  external?: boolean;
 };
 
 type NavItem = {
@@ -42,7 +43,7 @@ function getNavItems(): readonly NavItem[] {
       description: "QueryPie AIが提供するアプリ",
       children: [
         { label: "全てのアプリ", href: "/apps" },
-        { label: "会議記録・リアルタイム翻訳AI｜Lingo", href: "https://lingo.querypie.ai/ja" },
+        { label: "会議記録・リアルタイム翻訳AI｜Lingo", href: "https://lingo.querypie.ai/ja", external: true },
       ],
     },
     {
@@ -227,6 +228,8 @@ export function SiteHeaderClient({
                       key={child.label}
                       href={child.href}
                       className={styles.dropdownLink}
+                      target={child.external ? "_blank" : undefined}
+                      rel={child.external ? "noopener noreferrer" : undefined}
                     >
                       {child.label}
                     </Link>
