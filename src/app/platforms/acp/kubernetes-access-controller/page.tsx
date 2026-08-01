@@ -15,6 +15,7 @@ import {
   AcpHeroSection,
   AcpHeroTitle,
   AcpPageCta,
+  AcpPageCtaActions,
   AcpPageCtaDescription,
   AcpPageCtaLink,
   AcpPageCtaTitle,
@@ -186,11 +187,14 @@ export default function KubernetesAccessControllerPage() {
         </AcpFaqItem>
       </AcpFaqSection>
       <AcpPageCta>
-        <AcpPageCtaTitle>まずは、14日間無料で体験する。</AcpPageCtaTitle>
+        <AcpPageCtaTitle>まずは日常業務から、AI活用を始めよう。</AcpPageCtaTitle>
         <AcpPageCtaDescription>
-          簡単なサインアップだけで、QueryPie AIをすぐにお試しいただけます。
+          情報収集や文書作成など、日々の業務から。14日間無料でQueryPie AIをお試しいただけます。
         </AcpPageCtaDescription>
-        <AcpPageCtaLink>14日間無料で始める</AcpPageCtaLink>
+        <AcpPageCtaActions>
+          <AcpPageCtaLink>14日間無料で始める</AcpPageCtaLink>
+          <AcpPageCtaLink href="/introduction-deck/2/querypie-acp" variant="secondary">資料をダウンロード</AcpPageCtaLink>
+        </AcpPageCtaActions>
       </AcpPageCta>
       <SiteFooter />
     </AcpStaticPageShell>

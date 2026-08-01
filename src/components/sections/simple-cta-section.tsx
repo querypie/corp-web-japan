@@ -62,7 +62,7 @@ export function CtaDescription({ children, className = "" }: { children: ReactNo
 }
 
 export function CtaActions({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
-  return <div {...componentNameDebugProps("CtaActions")} className={`flex justify-center ${className}`.trim()}>{children}</div>;
+  return <div {...componentNameDebugProps("CtaActions")} className={`flex justify-center gap-3 ${className}`.trim()}>{children}</div>;
 }
 
 export function CtaButton({
@@ -98,11 +98,12 @@ export function AipFreeTrialCtaSection({ background = "muted" }: Pick<SectionWit
     <SimpleCtaSection {...componentNameDebugProps("AipFreeTrialCtaSection")} background={background}>
       <CtaContent>
         <CtaCopy>
-          <CtaTitle>まずは、14日間無料で体験する。</CtaTitle>
-          <CtaDescription>簡単なサインアップだけで、QueryPie AIをすぐにお試しいただけます。</CtaDescription>
+          <CtaTitle>まずは日常業務から、AI活用を始めよう。</CtaTitle>
+          <CtaDescription>情報収集や文書作成など、日々の業務から。14日間無料でQueryPie AIをお試しいただけます。</CtaDescription>
         </CtaCopy>
-        <CtaActions>
+        <CtaActions className="flex-col sm:flex-row">
           <BrandGradientCtaButton href="https://app.querypie.com/">14日間無料で始める</BrandGradientCtaButton>
+          <CtaButton href="/introduction-deck/1/querypie-aip" variant="secondary">資料をダウンロード</CtaButton>
         </CtaActions>
       </CtaContent>
     </SimpleCtaSection>

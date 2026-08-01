@@ -99,7 +99,7 @@ describe("ACP static public route rollout", () => {
       assert.match(page, /QueryPie はユーザー認証をどのように処理しますか？/);
       assert.match(page, /QueryPie はどのようなセキュリティ標準を遵守していますか？/);
       assert.match(page, /QueryPie は既存のセキュリティソリューションと互換性がありますか？/);
-      assert.match(page, /<AcpPageCtaTitle>まずは、14日間無料で体験する。<\/AcpPageCtaTitle>/);
+      assert.match(page, /<AcpPageCtaTitle>まずは日常業務から、AI活用を始めよう。<\/AcpPageCtaTitle>/);
     }
   });
 
@@ -133,8 +133,9 @@ describe("ACP static public route rollout", () => {
 
       assert.match(page, /<AcpSplitFeatureSection/);
       assert.doesNotMatch(page, /<AcpCapabilityGallery>/);
-  assert.match(page, /<AcpPageCtaTitle>まずは、14日間無料で体験する。<\/AcpPageCtaTitle>/);
+  assert.match(page, /<AcpPageCtaTitle>まずは日常業務から、AI活用を始めよう。<\/AcpPageCtaTitle>/);
       assert.match(page, /<AcpPageCtaLink>14日間無料で始める<\/AcpPageCtaLink>/);
+      assert.match(page, /<AcpPageCtaLink href="\/introduction-deck\/2\/querypie-acp" variant="secondary">資料をダウンロード<\/AcpPageCtaLink>/);
 
       for (const sectionText of sectionTexts) {
         assert.match(page, new RegExp(sectionText));
