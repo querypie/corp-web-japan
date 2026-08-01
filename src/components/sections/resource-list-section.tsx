@@ -23,7 +23,7 @@ type SectionWithContentProps = ClassNameProps & {
 
 export function ResourceListHeroSection({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
   return (
-    <section {...componentNameDebugProps("ResourceListHeroSection")} className="mx-auto max-w-[1920px] bg-white px-[30px] pb-[34px] pt-[111px] lg:px-[30px] lg:pb-[34px] lg:pt-[143px]">
+    <section {...componentNameDebugProps("ResourceListHeroSection")} className="mx-auto max-w-[1920px] bg-white px-[30px] pb-14 pt-[120px] lg:px-[30px] lg:pb-16 lg:pt-[152px]">
       <div className={`mx-auto max-w-[1200px] text-center ${className}`.trim()}>{children}</div>
     </section>
   );
@@ -32,7 +32,7 @@ export function ResourceListHeroSection({ children, className = "" }: { children
 export function ResourceListHeroTitle({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
   return (
     <h1 {...componentNameDebugProps("ResourceListHeroTitle")}
-      className={`text-[56.25px] font-medium leading-[67.5px] tracking-[-0.04em] text-slate-950 sm:text-[56.25px] sm:leading-[67.5px] sm:tracking-[-0.04em] ${className}`.trim()}
+      className={`mx-auto max-w-[900px] text-[40px] font-medium leading-[1.15] tracking-[-0.04em] text-slate-950 sm:text-[52px] lg:text-[56px] ${className}`.trim()}
     >
       {children}
     </h1>
@@ -41,7 +41,7 @@ export function ResourceListHeroTitle({ children, className = "" }: { children: 
 
 export function ResourceListHeroDescription({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
   return (
-    <p {...componentNameDebugProps("ResourceListHeroDescription")} className={`mx-auto mt-5 max-w-none text-[16.875px] leading-[26.25px] text-slate-600 ${className}`.trim()}>{children}</p>
+    <p {...componentNameDebugProps("ResourceListHeroDescription")} className={`mx-auto mt-5 max-w-[760px] text-[16px] font-light leading-[1.75] text-slate-600 lg:text-[18px] ${className}`.trim()}>{children}</p>
   );
 }
 
@@ -158,4 +158,3 @@ export function ResourceListItems({ items }: { items: readonly ResourceItem[] })
     </div>
   );
 }
-

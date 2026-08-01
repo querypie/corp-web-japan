@@ -15,7 +15,7 @@ import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
 export const metadata: Metadata = {
   title: "ブログ | QueryPie AI",
-  description: "AI Staff に関する最新情報やインサイトをまとめたブログページです。",
+  description: "AI、セキュリティ、エンタープライズ導入に関する最新情報と実践的なインサイトをお届けするブログです。",
   alternates: {
     canonical: "/blog",
   },
@@ -42,9 +42,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       <ResourceListHeroSection>
         <ResourceListHeroTitle>ブログ</ResourceListHeroTitle>
         <ResourceListHeroDescription>
-          包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。
-          <br />
-          基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。
+          AI、セキュリティ、エンタープライズ導入に関する最新情報と実践的なインサイトをお届けします。
+          製品アップデートや技術解説、AI活用を進めるためのヒントをご覧ください。
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 
@@ -62,4 +61,3 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     </main>
   );
 }
-

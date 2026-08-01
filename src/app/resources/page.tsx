@@ -18,9 +18,9 @@ import { listResourcePreviewItems } from "@/lib/resources/resource-preview-items
 import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
 export const metadata: Metadata = {
-  title: "ドキュメント | QueryPie AI",
+  title: "リソース | QueryPie AI",
   description:
-    "包括的なガイド、技術マニュアル、業界ホワイトペーパー、専門家ブログを一か所で確認できるリソース一覧です。",
+    "QueryPie AIの紹介資料、用語集、マニュアル、ホワイトペーパー、ブログをまとめたリソース一覧です。導入・活用に必要な情報を目的別に確認できます。",
   alternates: {
     canonical: "/resources",
   },
@@ -48,11 +48,10 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
       <SiteNoticeSurface />
 
       <ResourceListHeroSection>
-        <ResourceListHeroTitle>ドキュメント</ResourceListHeroTitle>
+        <ResourceListHeroTitle>リソース</ResourceListHeroTitle>
         <ResourceListHeroDescription>
-          包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。
-          <br />
-          基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。
+          QueryPie AIの製品・サービスを理解し、導入・活用を進めるための情報をまとめています。
+          紹介資料、用語集、マニュアル、ホワイトペーパー、ブログから、目的に合うコンテンツをお探しください。
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 

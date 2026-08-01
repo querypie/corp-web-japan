@@ -37,9 +37,8 @@ export default function GlossaryPage() {
       <ResourceListHeroSection>
         <ResourceListHeroTitle>用語集</ResourceListHeroTitle>
         <ResourceListHeroDescription>
-          包括的なガイド、技術マニュアル、業界ホワイトペーパー 、専門家ブログを見ることができます。
-          <br />
-          基本概念から高度な実装まで、すべてのドキュメントを一か所で見ることができます。
+          AI、AIエージェント、MCP、アクセス制御など、QueryPie AIに関わる主要な用語をわかりやすく解説します。
+          基礎の確認から導入検討時の共通理解づくりまで、お役立てください。
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 
