@@ -272,7 +272,7 @@ export function AcpAiPackCardBody({ children }: { children: ReactNode }) {
 
 export function AcpAiPackVideo() {
   return (
-    <div {...componentNameDebugProps("AcpAiPackVideo")} className="w-full shrink-0 overflow-hidden rounded-[1.5rem] border border-white/10 bg-black lg:w-[720px] lg:max-w-[60%]">
+    <div {...componentNameDebugProps("AcpAiPackVideo")} className="w-full shrink-0 overflow-hidden rounded-[1.5rem] border border-white/10 bg-black lg:w-[600px] lg:max-w-[50%]">
       <video
         aria-label="ACP AI Packの画面デモ"
         className="block h-auto w-full"

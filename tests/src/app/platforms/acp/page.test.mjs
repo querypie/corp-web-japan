@@ -99,7 +99,7 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(sectionSource, /icon: LucideIcon/);
   assert.match(sectionSource, /min-h-\[136px\]/);
   assert.match(sectionSource, /lg:w-\[400px\] lg:max-w-\[36%\] lg:flex-none/);
-  assert.match(sectionSource, /lg:w-\[720px\] lg:max-w-\[60%\]/);
+  assert.match(sectionSource, /lg:w-\[600px\] lg:max-w-\[50%\]/);
 
   const heroPrimitiveSource = readSource("src/components/sections/acp/hero-primitives.tsx");
   assert.match(heroPrimitiveSource, /max-w-\[1080px\].*text-left.*text-\[16px\]/);
