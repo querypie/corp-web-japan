@@ -43,7 +43,8 @@ export default async function AcpDemoPage({ searchParams }: AcpDemoPageProps) {
       <ResourceListHeroSection className="text-left lg:pl-[300px]">
         <ResourceListHeroTitle className="!mx-0 max-w-[760px]">QueryPie ACPの機能</ResourceListHeroTitle>
         <ResourceListHeroDescription className="!mx-0 max-w-[760px] text-left text-[16px] leading-[26px] lg:text-[16px] lg:leading-[26px]">
-          データベース、システム、Kubernetes、Web/SaaS、MCPへのアクセスを一元統制。QueryPie ACPの主要機能を、デモでご紹介します。
+          <span className="block">データベース、システム、Kubernetes、Web/SaaS、MCPへのアクセスを一元統制。</span>
+          <span className="block">QueryPie ACPの主要機能を、デモでご紹介します。</span>
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 
