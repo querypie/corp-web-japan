@@ -61,6 +61,8 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(sectionSource, /connections\.svg/);
   assert.match(sectionSource, /target-mcp\.svg/);
   assert.match(sectionSource, /function FlowPulse/);
+  assert.match(sectionSource, /stroke="#075CC4"[\s\S]*opacity="1"/);
+  assert.match(sectionSource, /stroke="#C7E2FF"/);
   assert.match(sectionSource, /<animateMotion/);
   assert.match(sectionSource, /acp-hero-flow-glow/);
   assert.match(sectionSource, /shieldPulseTimings/);
