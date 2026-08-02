@@ -47,9 +47,9 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
       <SiteHeader />
       <SiteNoticeSurface />
 
-      <ResourceListHeroSection>
-        <ResourceListHeroTitle>リソース</ResourceListHeroTitle>
-        <ResourceListHeroDescription className="max-w-[760px] text-left text-[16px] leading-[26px] lg:text-[16px] lg:leading-[26px]">
+      <ResourceListHeroSection className="text-left lg:pl-[300px]">
+        <ResourceListHeroTitle className="!mx-0 max-w-[760px]">リソース</ResourceListHeroTitle>
+        <ResourceListHeroDescription className="!mx-0 max-w-[760px] text-left text-[16px] leading-[26px] lg:text-[16px] lg:leading-[26px]">
           QueryPie AIの製品・サービスを理解し、導入・活用を進めるための情報をまとめています。
           紹介資料、用語集、マニュアル、ホワイトペーパー、ブログから、目的に合うコンテンツをお探しください。
         </ResourceListHeroDescription>

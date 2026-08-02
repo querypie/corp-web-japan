@@ -40,8 +40,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       <SiteHeader />
 
       <ResourceListHeroSection className="text-left lg:pl-[300px]">
-        <ResourceListHeroTitle className="mx-0 max-w-[760px]">ブログ</ResourceListHeroTitle>
-        <ResourceListHeroDescription className="mx-0 max-w-[760px] text-left text-[16px] leading-[26px] lg:text-[16px] lg:leading-[26px]">
+        <ResourceListHeroTitle className="!mx-0 max-w-[760px]">ブログ</ResourceListHeroTitle>
+        <ResourceListHeroDescription className="!mx-0 max-w-[760px] text-left text-[16px] leading-[26px] lg:text-[16px] lg:leading-[26px]">
           AI、セキュリティ、エンタープライズ導入に関する最新情報と実践的なインサイトをお届けします。
           製品アップデートや技術解説、AI活用を進めるためのヒントをご覧ください。
         </ResourceListHeroDescription>
