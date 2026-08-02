@@ -274,6 +274,7 @@ export default function AboutUsPage() {
             <AboutUsLocationCard iconSrc="/about-us/location/indonesia-cu.svg" iconAlt="Indonesia">
               <AboutUsLocationName>Bekasi, Indonesia</AboutUsLocationName>
               <AboutUsLocationOffice>Indonesia Office</AboutUsLocationOffice>
+              <AboutUsLocationEntity>&nbsp;</AboutUsLocationEntity>
               <AboutUsLocationAddress>
                 <p>Office Park Harapan Indah OP 2 No 20,</p>
                 <p>Medan Satria, Bekasi, West Java 17132</p>
