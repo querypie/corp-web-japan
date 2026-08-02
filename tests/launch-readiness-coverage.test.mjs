@@ -51,6 +51,14 @@ ${topPage}`, /target="_blank"/);
   assert.match(`${topPageStructureSource}
 ${topPageSecuritySection}
 ${topPage}`, /rel="noopener noreferrer"/);
+  assert.match(topPage, /国際基準のセキュリティと、AIデータ保護/);
+  assert.match(topPage, /Zero Data Retention/);
+  assert.match(topPage, /入力データを、AIモデルの学習に利用しない/);
+  assert.match(topPage, /外部AIモデルの学習や長期保存に利用しません。/);
+  assert.match(topPage, /データリージョン/);
+  assert.match(topPage, /東京リージョンでデータを管理/);
+  assert.match(topPageSecuritySection, /export function SecurityDataProtectionGrid/);
+  assert.match(topPageSecuritySection, /export function SecurityDataProtectionCard/);
   assert.match(aiCrewPage, /<FloatingConversionCta href={aiCrewFloatingCtaUrl} \/>/);
   assert.match(aiDashiPage, /from "@\/content\/ai-dashi-links"/);
   assert.match(aiDashiPage, /<FloatingConversionCta href={aiDashiFloatingUrl} \/>/);
