@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
         hostname: "www.querypie.com",
         pathname: "/assets/products/aip/**",
       },
+      {
+        protocol: "https",
+        hostname: "www.querypie.com",
+        pathname: "/assets/pages/company/about-us/**",
+      },
     ],
   },
   async redirects() {

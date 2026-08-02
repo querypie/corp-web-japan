@@ -16,8 +16,10 @@ import {
   AboutUsLeaderRole,
   AboutUsLocationAddress,
   AboutUsLocationCard,
+  AboutUsLocationEntity,
   AboutUsLocationGrid,
   AboutUsLocationName,
+  AboutUsLocationOffice,
   AboutUsSection,
   AboutUsSectionHeading,
   AboutUsSectionIntro,
@@ -35,7 +37,7 @@ import { AipFreeTrialCtaSection } from "@/components/sections/simple-cta-section
 
 export const metadata: Metadata = {
   title: "会社概要 | QueryPie AI",
-  description: "QueryPie AIは、お客様のビジネスを前進させるエンタープライズAI企業です。",
+  description: "QueryPie AIは、セキュリティとガバナンスを基盤に、企業のAI活用を成果へつなげます。",
   alternates: {
     canonical: "/about-us",
   },
@@ -58,9 +60,7 @@ export default function AboutUsPage() {
         <CompanyPageIntro>
           <RevealOnScroll>
             <CompanyPageTitle>
-              エンタープライズAIを、すべての企業に
-              <br />
-              90%のコスト削減、妥協なしのパフォーマンス
+              AIを、安全に。事業の力に。
             </CompanyPageTitle>
           </RevealOnScroll>
 
@@ -68,17 +68,13 @@ export default function AboutUsPage() {
             <RevealOnScroll>
               <AboutUsHeroCopy>
                 <AboutUsBodyCopy>
-                  QueryPie AIは、他社が解決できない課題、すなわち、莫大なコスト、セキュリティリスク、イノベーションを妨げる複雑さを解決することで、企業のAI活用方法を変革します。
+                  QueryPie AIは、セキュリティとガバナンスを基盤に、企業のAI活用を構想から実装、定着まで前進させます。
                 </AboutUsBodyCopy>
                 <AboutUsBodyCopy>
-                  2016年12月にシリコンバレーで創業して以来、QueryPie AIはデータ保護のリーダーから、包括的なAIプラットフォームへと進化しました。
+                  2016年12月にシリコンバレーで創業して以来、データ保護で培った知見を、エンタープライズAIへと広げてきました。
                 </AboutUsBodyCopy>
                 <AboutUsBodyCopy>
-                  カスタムエージェント、一元管理、従量課金モデルを提供し、月額40〜80ドルのサブスクリプションを90%コスト削減して置き換えます。
-                </AboutUsBodyCopy>
-                <AboutUsBodyCopy>
-                  その結果、誰もが利用できるエンタープライズグレードのAIを実現しました。
-                  最先端のAIと合理的な予算、その両立が可能であることを証明しています。
+                  複雑なインフラやコストの壁を越え、現場で成果につながるAI環境をつくります。
                 </AboutUsBodyCopy>
               </AboutUsHeroCopy>
             </RevealOnScroll>
@@ -243,7 +239,9 @@ export default function AboutUsPage() {
         <AboutUsLocationGrid>
           <RevealOnScroll>
             <AboutUsLocationCard iconSrc="/about-us/location/usa-cu.svg" iconAlt="United States">
-              <AboutUsLocationName>アメリカ ロサンゼルス</AboutUsLocationName>
+              <AboutUsLocationName>Los Angeles, USA</AboutUsLocationName>
+              <AboutUsLocationOffice>Global Headquarters</AboutUsLocationOffice>
+              <AboutUsLocationEntity>CHEQUER Global, Inc.</AboutUsLocationEntity>
               <AboutUsLocationAddress>
                 <p>2525 West 8th Street, Suite 300,</p>
                 <p>Los Angeles, CA 90057</p>
@@ -252,29 +250,30 @@ export default function AboutUsPage() {
           </RevealOnScroll>
           <RevealOnScroll delayMs={55}>
             <AboutUsLocationCard iconSrc="/about-us/location/republic-of-korea-cu.svg" iconAlt="Republic of Korea">
-              <AboutUsLocationName>韓国 ソウル</AboutUsLocationName>
+              <AboutUsLocationName>Seoul, South Korea</AboutUsLocationName>
+              <AboutUsLocationOffice>R&amp;D Office</AboutUsLocationOffice>
+              <AboutUsLocationEntity>주식회사 쿼리파이</AboutUsLocationEntity>
               <AboutUsLocationAddress>
-                <p>ソウル麻谷（マゴク）オフィス</p>
-                <p>大韓民国 ソウル特別市 江西区 麻谷中央1路26 7階</p>
+                <p>7F, 26, Magokjungang 1-ro,</p>
+                <p>Gangseo-gu, Seoul 07807, Republic of Korea</p>
               </AboutUsLocationAddress>
             </AboutUsLocationCard>
           </RevealOnScroll>
           <RevealOnScroll delayMs={110}>
             <AboutUsLocationCard iconSrc="/about-us/location/japan-cu.svg" iconAlt="Japan">
-              <AboutUsLocationName>
-                日本 東京
-                <span className="block">QueryPie AI合同会社</span>
-              </AboutUsLocationName>
+              <AboutUsLocationName>Tokyo, Japan</AboutUsLocationName>
+              <AboutUsLocationOffice>Japan Office</AboutUsLocationOffice>
+              <AboutUsLocationEntity>QueryPie AI合同会社</AboutUsLocationEntity>
               <AboutUsLocationAddress>
-                <p>〒105-6490</p>
-                <p>東京都港区虎ノ門1丁目17番1号</p>
+                <p>〒105-6490 東京都港区虎ノ門1丁目17番1号</p>
                 <p>虎ノ門ヒルズビジネスタワー15階</p>
               </AboutUsLocationAddress>
             </AboutUsLocationCard>
           </RevealOnScroll>
           <RevealOnScroll delayMs={165}>
             <AboutUsLocationCard iconSrc="/about-us/location/indonesia-cu.svg" iconAlt="Indonesia">
-              <AboutUsLocationName>インドネシア</AboutUsLocationName>
+              <AboutUsLocationName>Bekasi, Indonesia</AboutUsLocationName>
+              <AboutUsLocationOffice>Indonesia Office</AboutUsLocationOffice>
               <AboutUsLocationAddress>
                 <p>Office Park Harapan Indah OP 2 No 20,</p>
                 <p>Medan Satria, Bekasi, West Java 17132</p>
