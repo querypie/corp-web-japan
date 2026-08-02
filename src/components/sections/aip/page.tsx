@@ -42,6 +42,10 @@ export function AipHeroCopy({ children }: { children: ReactNode }) {
   return <div {...componentNameDebugProps("AipHeroCopy")} className="flex w-full flex-col items-center gap-5 text-center">{children}</div>;
 }
 
+export function AipHeroEyebrow({ children }: { children: ReactNode }) {
+  return <p {...componentNameDebugProps("AipHeroEyebrow")} className="text-[14px] font-medium leading-5 tracking-[0.08em] text-[#57606A]">{children}</p>;
+}
+
 export function AipHeroTitle({ children }: { children: ReactNode }) {
   return <h1 {...componentNameDebugProps("AipHeroTitle")} className="w-full text-[48px] font-normal leading-[56px] tracking-normal text-[#24292F] lg:text-[60px] lg:leading-[72px]">{children}</h1>;
 }
@@ -52,7 +56,7 @@ export function AipHeroLead({ children }: { children: ReactNode }) {
 
 export function AipHeroVideo({ posterSrc, videoSrc }: HeroVideoProps) {
   return (
-    <div {...componentNameDebugProps("AipHeroVideo")} className="aspect-video w-full max-w-[1080px] overflow-hidden rounded-[20px] bg-[#F6F8FA]">
+    <div {...componentNameDebugProps("AipHeroVideo")} className="mx-auto aspect-video w-full max-w-[1080px] overflow-hidden rounded-[20px] bg-[#F6F8FA]">
       <AipHeroVideoPlayer posterSrc={posterSrc} videoSrc={videoSrc} />
     </div>
   );
@@ -108,12 +112,12 @@ export function AipValueCardTitle({ children }: { children: ReactNode }) {
 }
 
 export function AipValueCardBody({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("AipValueCardBody")} className="px-[30px] pb-[60px] pt-[40px] text-[14px] font-light leading-[23px] tracking-[0.36px] text-[#57606A] lg:text-[16px] lg:leading-[26px]">{children}</p>;
+  return <p {...componentNameDebugProps("AipValueCardBody")} className="px-[30px] pb-0 pt-[30px] text-[14px] font-light leading-[23px] tracking-[0.36px] text-[#57606A] lg:px-[40px] lg:text-[16px] lg:leading-[26px]">{children}</p>;
 }
 
 export function AipValueCardLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <div {...componentNameDebugProps("AipValueCardLink")} className="mt-auto flex items-center justify-start px-[40px] pb-[40px] pt-[20px]">
+    <div {...componentNameDebugProps("AipValueCardLink")} className="mt-auto flex items-center justify-start px-[30px] pb-[32px] pt-[28px] lg:px-[40px] lg:pb-[36px]">
       <Link href={href} className="inline-flex items-center gap-[10px] text-[15px] font-normal leading-[16px] text-[#24292F] underline-offset-4 hover:underline">
         {children}
         <AipTextButtonArrowIcon />
