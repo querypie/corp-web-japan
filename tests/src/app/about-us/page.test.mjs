@@ -13,6 +13,9 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(routeSource, /<CompanyPageIntro>/);
   assert.match(routeSource, /<AboutUsTimelineItem year="2024">/);
   assert.match(routeSource, /2016年12月にシリコンバレーで創業/);
+  assert.match(routeSource, /<AboutUsTimelineItem year="2026">/);
+  assert.match(routeSource, /QueryPie AIPアプリ「Lingo」「NotePie」を提供開始/);
+  assert.match(routeSource, /QueryPie ACP AI Packを提供開始/);
   assert.match(routeSource, /<AboutUsTimelineItem year="2016">/);
   assert.match(routeSource, /QueryPie SQL Client の開発を開始/);
   assert.match(routeSource, /データ保護プラットフォームへ転換/);
@@ -20,7 +23,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(routeSource, /<AboutUsLeaderCard imageSrc="\/about-us\/crew\/brant\.png"/);
   assert.match(routeSource, /<AboutUsLocationCard iconSrc="\/about-us\/location\/japan-cu\.svg"/);
   assert.match(routeSource, /AIを、安全に。事業の力に。/);
-  assert.match(routeSource, /企業のAI活用を構想から実装、定着まで前進させます。/);
+  assert.match(routeSource, /企業のAI活用を構想から実装、定着、拡張まで前進させます。/);
   assert.match(routeSource, /<AboutUsLocationName>Los Angeles, USA<\/AboutUsLocationName>/);
   assert.match(routeSource, /<AboutUsLocationOffice>Global Headquarters<\/AboutUsLocationOffice>/);
   assert.match(routeSource, /<AboutUsLocationEntity>CHEQUER Global, Inc\.<\/AboutUsLocationEntity>/);
