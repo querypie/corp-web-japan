@@ -68,13 +68,13 @@ export default function AboutUsPage() {
             <RevealOnScroll>
               <AboutUsHeroCopy>
                 <AboutUsBodyCopy>
-                  QueryPie AIは、セキュリティとガバナンスを基盤に、企業のAI活用を構想から実装、定着、拡張まで前進させます。
+                  QueryPie AIは、セキュリティとガバナンスを基盤に、企業のAI活用を構想から実装、定着、拡張まで一貫して支援します。
                 </AboutUsBodyCopy>
                 <AboutUsBodyCopy>
-                  2016年12月にシリコンバレーで創業して以来、データアクセスを守る技術と、複雑なインフラを統制する知見を磨いてきました。
+                  2016年12月にシリコンバレーで創業して以来、データ保護とアクセス統制で培った知見を、エンタープライズAIへと広げてきました。
                 </AboutUsBodyCopy>
                 <AboutUsBodyCopy>
-                  その知見をエンタープライズAIへ広げ、AIエージェント、データ、既存システムを安全につなぎます。複雑なインフラやコストの壁を越え、AIを現場の成果へ変えていきます。
+                  複雑なインフラ、既存システム、データ、権限を安全につなぎ、AIを実験で終わらせず、現場の成果と事業の成長につなげます。
                 </AboutUsBodyCopy>
               </AboutUsHeroCopy>
             </RevealOnScroll>

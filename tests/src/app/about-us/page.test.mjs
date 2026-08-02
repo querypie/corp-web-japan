@@ -23,7 +23,9 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(routeSource, /<AboutUsLeaderCard imageSrc="\/about-us\/crew\/brant\.png"/);
   assert.match(routeSource, /<AboutUsLocationCard iconSrc="\/about-us\/location\/japan-cu\.svg"/);
   assert.match(routeSource, /AIを、安全に。事業の力に。/);
-  assert.match(routeSource, /企業のAI活用を構想から実装、定着、拡張まで前進させます。/);
+  assert.match(routeSource, /企業のAI活用を構想から実装、定着、拡張まで一貫して支援します。/);
+  assert.match(routeSource, /データ保護とアクセス統制で培った知見を、エンタープライズAIへと広げてきました。/);
+  assert.match(routeSource, /AIを実験で終わらせず、現場の成果と事業の成長につなげます。/);
   assert.match(routeSource, /<AboutUsLocationName>Los Angeles, USA<\/AboutUsLocationName>/);
   assert.match(routeSource, /<AboutUsLocationOffice>Global Headquarters<\/AboutUsLocationOffice>/);
   assert.match(routeSource, /<AboutUsLocationEntity>CHEQUER Global, Inc\.<\/AboutUsLocationEntity>/);
