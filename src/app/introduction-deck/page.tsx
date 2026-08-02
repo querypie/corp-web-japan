@@ -34,9 +34,9 @@ export default function IntroductionDeckPage() {
     <main {...componentNameDebugProps("IntroductionDeckPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
 
-      <ResourceListHeroSection>
-        <ResourceListHeroTitle>紹介資料</ResourceListHeroTitle>
-        <ResourceListHeroDescription>
+      <ResourceListHeroSection className="text-left lg:pl-[300px]">
+        <ResourceListHeroTitle className="mx-0 max-w-[760px]">紹介資料</ResourceListHeroTitle>
+        <ResourceListHeroDescription className="mx-0 max-w-[760px] text-left text-[16px] leading-[26px] lg:text-[16px] lg:leading-[26px]">
           QueryPie AIの製品・サービスの概要、主な機能、導入イメージをまとめた資料です。
           導入検討や、社内の関係者との情報共有にご活用ください。
         </ResourceListHeroDescription>
