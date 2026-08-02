@@ -15,6 +15,8 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
+  assert.match(routeSource, /QueryPie ACP｜Access Control Platform<\/p>/);
+  assert.match(routeSource, /text-\[#0969DA\]">QueryPie ACP｜Access Control Platform/);
   assert.match(routeSource, /アクセス統制を、AI時代の共通基盤へ。/);
   assert.match(routeSource, /Web\/SaaS、MCPへのアクセスを一元制御するプラットフォームです。/);
   assert.match(routeSource, /最小権限、申請・承認、監査ログ、セッション記録、DLP/);

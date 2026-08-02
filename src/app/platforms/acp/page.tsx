@@ -67,7 +67,7 @@ export default function AcpPage() {
         <AcpHeroInner>
           <RevealOnScroll>
             <AcpHeroCopy>
-              <p className="text-sm font-semibold tracking-[0.14em] text-[#174EA6]">QueryPie ACP｜Access Control Platform</p>
+              <p className="text-sm font-semibold tracking-[0.14em] text-[#0969DA]">QueryPie ACP｜Access Control Platform</p>
               <AcpHeroTitle>アクセス統制を、AI時代の共通基盤へ。</AcpHeroTitle>
               <AcpHeroLead>
                 QueryPie ACPは、データベース、システム、Kubernetes、Web/SaaS、MCPへのアクセスを一元制御するプラットフォームです。

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { ComponentPropsWithoutRef, CSSProperties, ReactNode } from "react";
-import { BrandGradientCtaButton } from "@/components/ui/brand-gradient-cta-button";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type ClassNameProps = {
@@ -70,16 +69,22 @@ export function CtaButton({
   variant = "primary",
   children,
   className = "",
+  target,
+  rel,
 }: {
   href: string;
   variant?: "primary" | "secondary";
   children: ReactNode;
   className?: string;
+  target?: "_blank" | "_self";
+  rel?: string;
 }) {
   return (
     <Link
       {...componentNameDebugProps("CtaButton")}
       href={href}
+      target={target}
+      rel={rel}
       className={
         (
           variant === "primary"
@@ -102,7 +107,7 @@ export function AipFreeTrialCtaSection({ background = "muted" }: Pick<SectionWit
           <CtaDescription>情報収集や文書作成など、日々の業務から。14日間無料でQueryPie AIPをお試しいただけます。</CtaDescription>
         </CtaCopy>
         <CtaActions className="flex-col sm:flex-row">
-          <BrandGradientCtaButton href="https://app.querypie.com/">14日間無料で始める</BrandGradientCtaButton>
+          <CtaButton href="https://app.querypie.com/" target="_blank" rel="noopener noreferrer">14日間無料で始める</CtaButton>
           <CtaButton href="/introduction-deck/1/querypie-aip" variant="secondary">資料をダウンロード</CtaButton>
         </CtaActions>
       </CtaContent>

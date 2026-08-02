@@ -45,7 +45,7 @@ export function ServiceFdeHeroCopy({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeHeroEyebrow({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("ServiceFdeHeroEyebrow")} className="text-[14px] font-medium tracking-[0.08em] text-[#0969DA]">{children}</p>;
+  return <p {...componentNameDebugProps("ServiceFdeHeroEyebrow")} className="text-[14px] font-medium tracking-[0.08em] text-[#174EA6]">{children}</p>;
 }
 
 export function ServiceFdeHeroTitle({ children }: { children: ReactNode }) {
