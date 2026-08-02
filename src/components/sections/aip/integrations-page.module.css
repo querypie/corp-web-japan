@@ -27,6 +27,15 @@
   text-align: left;
 }
 
+.heroEyebrow {
+  margin: 0;
+  color: #57606a;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.14em;
+}
+
 .heroHeading {
   margin: 0;
   max-width: none;

@@ -5,6 +5,7 @@ import {
   AipIntegrationsCategoryLink,
   AipIntegrationsCategoryList,
   AipIntegrationsHeroCopy,
+  AipIntegrationsHeroEyebrow,
   AipIntegrationsHeroHeading,
   AipIntegrationsHeroLead,
   AipIntegrationsHeroSection,
@@ -126,6 +127,7 @@ export default async function AipIntegrationsPage({ searchParams }: Integrations
 
       <AipIntegrationsHeroSection>
         <AipIntegrationsHeroCopy>
+          <AipIntegrationsHeroEyebrow>AIPの統合機能</AipIntegrationsHeroEyebrow>
           <AipIntegrationsHeroHeading>AIを、業務ツールとつなぐ。</AipIntegrationsHeroHeading>
           <AipIntegrationsHeroLead>
             主要な業務ツールやデータベースを、MCPサーバーでQueryPie AIPに接続。AIエージェントが、システム・アプリ・サービスをまたぐワークフローを実行できる環境を整えます。

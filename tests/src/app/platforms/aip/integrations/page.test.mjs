@@ -17,6 +17,7 @@ test("AIP integrations page exports indexable metadata for the canonical /platfo
 });
 
 test("AIP integrations platform public page keeps authored hero copy and CTA in page.tsx", () => {
+  assert.match(pageSource, /<AipIntegrationsHeroEyebrow>AIPの統合機能<\/AipIntegrationsHeroEyebrow>/);
   assert.match(pageSource, /AIを、業務ツールとつなぐ。/);
   assert.match(pageSource, /主要な業務ツールやデータベースを、MCPサーバーでQueryPie AIPに接続/);
   assert.match(pageSource, /<AipIntegrationsProductList columns=\{8\} compact>/);
@@ -40,12 +41,14 @@ test("AIP integrations platform public page keeps category and product catalog r
 });
 
 test("AIP integrations platform section primitives define the integration filter and grid UI", () => {
+  assert.match(sectionSource, /AipIntegrationsHeroEyebrow/);
   assert.match(sectionSource, /AipIntegrationsCategoryLink/);
   assert.match(sectionSource, /AipIntegrationsProductCard/);
   assert.doesNotMatch(sectionSource, /components\/sections\/platform\/page-primitives/);
   assert.match(cssSource, /\.content \{/);
   assert.match(cssSource, /max-width: 1200px/);
   assert.match(cssSource, /\.heroLead \{[\s\S]*max-width: 680px/);
+  assert.match(cssSource, /\.heroEyebrow \{[\s\S]*color: #57606a;[\s\S]*font-size: 14px/);
   assert.match(cssSource, /grid-template-columns: repeat\(8, minmax\(0, 1fr\)\)/);
   assert.match(cssSource, /padding: 10px 20px/);
   assert.match(cssSource, /\.compactProductList \.productItem \{[\s\S]*min-height: 128px[\s\S]*gap: 16px[\s\S]*padding: 20px 12px/);
