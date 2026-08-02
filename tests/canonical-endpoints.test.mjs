@@ -40,12 +40,13 @@ const expectedFooterLinks = [
 ];
 
 const expectedSidebarLinks = [
-  'label: "全て", href: "/resources"',
+  'label: "全てのドキュメント", href: "/resources"',
   'label: "紹介資料", href: "/introduction-deck"',
   'label: "用語集", href: "/glossary"',
   'label: "マニュアル", href: "/manuals"',
   'label: "ホワイトペーパー", href: "/whitepapers"',
   'label: "ブログ", href: "/blog"',
+  'label: "イベント", href: "/events"',
 ];
 
 const expectedRedirectFiles = [];

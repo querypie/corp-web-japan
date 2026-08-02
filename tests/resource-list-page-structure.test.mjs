@@ -57,14 +57,15 @@ test("resource category sidebar owns both public and preview category link sets 
   const source = readSource("src/components/sections/resource-category-sidebar.tsx");
 
   assert.match(source, /export const resourceCategorySidebarLinks/);
-  assert.match(source, /\{ label: "全て", href: "\/resources" \}/);
+  assert.match(source, /\{ label: "全てのドキュメント", href: "\/resources" \}/);
   assert.match(source, /\{ label: "紹介資料", href: "\/introduction-deck" \}/);
   assert.match(source, /\{ label: "用語集", href: "\/glossary" \}/);
   assert.match(source, /\{ label: "マニュアル", href: "\/manuals" \}/);
   assert.match(source, /\{ label: "ホワイトペーパー", href: "\/whitepapers" \}/);
   assert.match(source, /\{ label: "ブログ", href: "\/blog" \}/);
+  assert.match(source, /\{ label: "イベント", href: "\/events" \}/);
   assert.match(source, /export const previewResourceCategorySidebarLinks/);
-  assert.match(source, /\{ label: "全て", href: "\/resources" \}/);
+  assert.match(source, /\{ label: "全てのドキュメント", href: "\/resources" \}/);
   assert.match(source, /\{ label: "紹介資料", href: "\/introduction-deck" \}/);
   assert.match(source, /\{ label: "用語集", href: "\/glossary" \}/);
   assert.match(source, /\{ label: "マニュアル", href: "\/manuals" \}/);
