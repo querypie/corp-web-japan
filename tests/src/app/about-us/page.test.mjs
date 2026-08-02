@@ -86,7 +86,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(sectionSource, /export function AboutUsLocationName[\s\S]*<p[^>]*className="text-\[18px\] font-normal leading-\[26px\] tracking-\[-0\.02em\] text-slate-950">\{children\}<\/p>/);
   assert.match(sectionSource, /export function AboutUsLocationOffice/);
   assert.match(sectionSource, /export function AboutUsLocationEntity/);
-  assert.match(sectionSource, /grid h-full grid-cols-\[23px_minmax\(0,1fr\)\] items-center gap-x-2/);
+  assert.match(sectionSource, /grid h-full grid-cols-\[23px_minmax\(0,1fr\)\] grid-rows-\[26px_28px_26px_40px\] items-center gap-x-2/);
   assert.match(sectionSource, /col-start-2 row-start-1/);
   assert.match(sectionSource, /col-start-2 row-start-2 mt-2 text-\[13px\] font-semibold leading-\[20px\] tracking-\[0\.01em\] text-slate-600/);
   assert.match(sectionSource, /col-start-2 row-start-3 mt-1 min-h-\[22px\]/);

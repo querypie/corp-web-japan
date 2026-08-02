@@ -154,7 +154,7 @@ export function AboutUsLocationCard({
   children: ReactNode;
 }) {
   return (
-    <div {...componentNameDebugProps("AboutUsLocationCard")} className="grid h-full grid-cols-[23px_minmax(0,1fr)] items-center gap-x-2">
+    <div {...componentNameDebugProps("AboutUsLocationCard")} className="grid h-full grid-cols-[23px_minmax(0,1fr)] grid-rows-[26px_28px_26px_40px] items-center gap-x-2">
       <div className="inline-flex w-fit items-center justify-center border border-slate-200/70 bg-white leading-none">
         <Image src={iconSrc} alt={iconAlt} width={23} height={17} className="block" />
       </div>
