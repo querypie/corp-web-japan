@@ -75,6 +75,8 @@ import {
   SecurityAction,
   SecurityCertificationCard,
   SecurityCertificationGrid,
+  SecurityDataProtectionCard,
+  SecurityDataProtectionGrid,
   SecurityIntro,
   SecuritySection,
 } from "@/components/sections/home/security-section";
@@ -422,9 +424,18 @@ export default function HomePage() {
         </PlatformRequirementsSection>
 
         <SecuritySection>
-          <SecurityIntro title="国際基準のセキュリティ認証">
+          <SecurityIntro title="国際基準のセキュリティと、AIデータ保護">
             企業がAIを導入する際の最大の壁である「情報セキュリティ」と「コンプライアンス」。QueryPie AIは、ISO/IEC 42001、SOC 2 Type II、ISO/IEC 27001 など、グローバル最高水準のセキュリティ認証を取得し、厳格な監査基準をクリアしています。
           </SecurityIntro>
+
+          <SecurityDataProtectionGrid>
+            <SecurityDataProtectionCard eyebrow="Zero Data Retention" title="入力データを、AIモデルの学習に利用しない">
+              AI処理のために送信するデータは、外部AIモデルの学習や長期保存に利用しません。
+            </SecurityDataProtectionCard>
+            <SecurityDataProtectionCard eyebrow="データリージョン" title="東京リージョンでデータを管理">
+              QueryPie AIPのサービスとデータは、東京リージョンで運用・管理します。安定したアクセスと、適切なデータ管理を両立します。
+            </SecurityDataProtectionCard>
+          </SecurityDataProtectionGrid>
 
           <SecurityCertificationGrid>
             <SecurityCertificationCard src="/certifications/iso-iec-42001.png" alt="ISO/IEC 42001 certification logo" title="ISO/IEC 42001" />

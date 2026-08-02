@@ -28,6 +28,20 @@ export function SecurityCertificationGrid({ children }: { children: ReactNode })
   return <RevealOnScroll {...componentNameDebugProps("SecurityCertificationGrid")} className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-5" variant="up" delayMs={220}>{children}</RevealOnScroll>;
 }
 
+export function SecurityDataProtectionGrid({ children }: { children: ReactNode }) {
+  return <RevealOnScroll {...componentNameDebugProps("SecurityDataProtectionGrid")} className="mt-10 grid gap-4 md:grid-cols-2" variant="up" delayMs={160}>{children}</RevealOnScroll>;
+}
+
+export function SecurityDataProtectionCard({ eyebrow, title, children }: { eyebrow: ReactNode; title: ReactNode; children: ReactNode }) {
+  return (
+    <MarketingSurface {...componentNameDebugProps("SecurityDataProtectionCard")} as="article" className="flex min-h-[196px] flex-col rounded-[1.5rem] bg-white p-6 shadow-[0_18px_44px_-42px_rgba(15,23,42,0.14)] md:p-8">
+      <p className="text-[13px] font-semibold tracking-[0.01em] text-[#2f3a49]">{eyebrow}</p>
+      <h3 className="mt-3 text-[22px] font-medium leading-[1.3] tracking-[-0.025em] text-slate-950">{title}</h3>
+      <p className="mt-3 max-w-[460px] text-[15px] leading-6 text-slate-600">{children}</p>
+    </MarketingSurface>
+  );
+}
+
 export function SecurityCertificationCard({ src, alt, title }: { src: string; alt: string; title: string }) {
   return (
     <MarketingSurface {...componentNameDebugProps("SecurityCertificationCard")} as="article" className="flex min-h-[150px] flex-col items-center justify-center rounded-[1.5rem] bg-white px-5 py-5 text-center shadow-[0_18px_44px_-42px_rgba(15,23,42,0.14)]">
