@@ -103,7 +103,7 @@ export function ServiceFdeChallengeList({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeChallengeItem({ children }: { children: ReactNode }) {
-  return <li {...componentNameDebugProps("ServiceFdeChallengeItem")} className="flex gap-3 before:mt-[11px] before:h-1.5 before:w-1.5 before:shrink-0 before:rounded-full before:bg-[#0969DA]">{children}</li>;
+  return <li {...componentNameDebugProps("ServiceFdeChallengeItem")} className="flex gap-3 before:mt-[11px] before:h-1.5 before:w-1.5 before:shrink-0 before:rounded-full before:bg-[#174EA6]">{children}</li>;
 }
 
 export function ServiceFdeFeatureSection({ children, muted = false }: FeatureSectionProps) {
@@ -131,7 +131,7 @@ export function ServiceFdeFeatureTitle({ children }: { children: ReactNode }) {
 }
 
 export function ServiceFdeFeatureStep({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("ServiceFdeFeatureStep")} className="text-[14px] font-medium tracking-[0.08em] text-[#0969DA]">{children}</p>;
+  return <p {...componentNameDebugProps("ServiceFdeFeatureStep")} className="text-[14px] font-medium tracking-[0.08em] text-[#174EA6]">{children}</p>;
 }
 
 export function ServiceFdeFeatureBody({ children }: { children: ReactNode }) {

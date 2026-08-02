@@ -74,7 +74,8 @@ test("/services/fde is a public page with indexable metadata and canonical path"
   assert.match(sectionSource, /shadow-\[0_4px_12px_rgba\(0,0,0,0\.1\)\]/);
   assert.match(sectionSource, /lg:shadow-\[0_8px_20px_rgba\(0,0,0,0\.15\)\]/);
   assert.match(sectionSource, /<h4[^>]*className="[^"]*text-\[32px\][^"]*leading-\[42px\][^"]*max-\[480px\]:text-\[20px\][^"]*max-\[480px\]:leading-\[28px\][^"]*"/);
-  assert.match(sectionSource, /export function ServiceFdeFeatureStep[\s\S]*text-\[14px\][\s\S]*text-\[#0969DA\]/);
+  assert.match(sectionSource, /export function ServiceFdeChallengeItem[\s\S]*before:bg-\[#174EA6\]/);
+  assert.match(sectionSource, /export function ServiceFdeFeatureStep[\s\S]*text-\[14px\][\s\S]*text-\[#174EA6\]/);
   assert.match(sectionSource, /export function ServiceFdeCtaSection/);
   assert.match(sectionSource, /export function ServiceFdeCtaSection[\s\S]*<PlatformCtaSection(?:\s[^>]*)?>/);
 
