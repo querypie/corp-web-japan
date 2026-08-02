@@ -15,8 +15,12 @@ const monaSansFont = localFont({
 export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: await getRequestDeployedSiteUrl(),
+    applicationName: "QueryPie AI",
     title: "QueryPie AI Japan Website",
     description: "QueryPie AIの日本向けエンタープライズAIソリューションサイトです。",
+    openGraph: {
+      siteName: "QueryPie AI",
+    },
   };
 }
 
