@@ -12,7 +12,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(routeSource, /<CompanyPageSection>/);
   assert.match(routeSource, /<CompanyPageIntro>/);
   assert.match(routeSource, /<AboutUsTimelineItem year="2024">/);
-  assert.match(routeSource, /2016年12月にシリコンバレーで創業/);
+  assert.match(routeSource, /2016年のシリコンバレー創業以来/);
   assert.match(routeSource, /<AboutUsTimelineItem year="2026">/);
   assert.match(routeSource, /QueryPie AIPアプリ「Lingo」「NotePie」を提供開始/);
   assert.match(routeSource, /QueryPie ACP AI Packを提供開始/);
@@ -22,8 +22,14 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(routeSource, /QueryPie Japan（東京）を開設/);
   assert.match(routeSource, /<AboutUsLeaderCard imageSrc="\/about-us\/crew\/brant\.png"/);
   assert.match(routeSource, /<AboutUsLocationCard iconSrc="\/about-us\/location\/japan-cu\.svg"/);
-  assert.match(routeSource, /AIを、安全に。事業の力に。/);
-  assert.match(routeSource, /企業のAI活用を構想から実装、定着、拡張まで前進させます。/);
+  assert.match(routeSource, /AIを、安全に。\s*<br \/>\s*事業の力に。/);
+  assert.match(routeSource, /<AboutUsHeroSubtitle>/);
+  assert.match(routeSource, /エンタープライズAIを、すべての企業へ/);
+  assert.match(routeSource, /最大90%のコスト削減と、妥協のないパフォーマンス/);
+  assert.match(routeSource, /企業におけるAI活用のあり方を変革します。/);
+  assert.match(routeSource, /企業が安心してAIを活用できる包括的なプラットフォームへと進化してきました。/);
+  assert.match(routeSource, /従来の高額なAIサブスクリプションに代わる選択肢として、最大90%のコスト削減を目指します。/);
+  assert.match(routeSource, /あらゆる企業がエンタープライズグレードのAIを活用できる環境をつくります。/);
   assert.match(routeSource, /<AboutUsLocationName>Los Angeles, USA<\/AboutUsLocationName>/);
   assert.match(routeSource, /<AboutUsLocationOffice>Global Headquarters<\/AboutUsLocationOffice>/);
   assert.match(routeSource, /<AboutUsLocationEntity>CHEQUER Global, Inc\.<\/AboutUsLocationEntity>/);
@@ -59,6 +65,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(sectionSource, /export function AboutUsTimelineItem/);
   assert.match(sectionSource, /export function AboutUsLeaderCard/);
   assert.match(sectionSource, /export function AboutUsLocationCard/);
+  assert.match(sectionSource, /mt-\[31px\] grid gap-x-6 gap-y-10 md:grid-cols-2 xl:gap-x-0 xl:grid-cols-4/);
 
   assert.match(sectionSource, /export function AboutUsSection\(\{ children, muted = false \}: \{ children: ReactNode; muted\?: boolean \}\)/);
   assert.match(sectionSource, /export function AboutUsSection[\s\S]*<section[^>]*className=\{backgroundClass\}>[\s\S]*mx-auto max-w-\[1200px\] px-6 py-\[100px\] lg:px-0/);
@@ -83,13 +90,15 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(sectionSource, /export function AboutUsLocationName[\s\S]*<p[^>]*className="text-\[18px\] font-normal leading-\[26px\] tracking-\[-0\.02em\] text-slate-950">\{children\}<\/p>/);
   assert.match(sectionSource, /export function AboutUsLocationOffice/);
   assert.match(sectionSource, /export function AboutUsLocationEntity/);
-  assert.match(sectionSource, /grid h-full grid-cols-\[23px_minmax\(0,1fr\)\] items-center gap-x-2/);
+  assert.match(sectionSource, /grid h-full grid-cols-\[23px_minmax\(0,1fr\)\] grid-rows-\[26px_28px_26px_40px\] items-center gap-x-2/);
   assert.match(sectionSource, /col-start-2 row-start-1/);
   assert.match(sectionSource, /col-start-2 row-start-2 mt-2 text-\[13px\] font-semibold leading-\[20px\] tracking-\[0\.01em\] text-slate-600/);
   assert.match(sectionSource, /col-start-2 row-start-3 mt-1 min-h-\[22px\]/);
   assert.match(sectionSource, /col-start-2 row-start-4 mt-0 space-y-0 text-\[13px\] leading-\[20px\]/);
   assert.match(sectionSource, /text-\[14px\] leading-\[22px\] tracking-\[0\.01em\] text-slate-600/);
   assert.match(sectionSource, /company-introduction\.jpg/);
+  assert.match(sectionSource, /relative h-\[360px\] w-full lg:h-full lg:min-h-\[360px\] lg:w-\[640px\]/);
+  assert.match(routeSource, /<RevealOnScroll delayMs=\{120\} className="lg:self-stretch">/);
   assert.match(sectionSource, /sizes="\(min-width: 1024px\) 640px, 100vw"/);
 
   assert.match(sectionSource, /inline-flex w-fit items-center justify-center border border-slate-200\/70 bg-white leading-none/);

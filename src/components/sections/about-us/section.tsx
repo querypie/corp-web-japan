@@ -17,9 +17,13 @@ export function AboutUsHeroCopy({ children }: { children: ReactNode }) {
   return <div {...componentNameDebugProps("AboutUsHeroCopy")} className="max-w-[504px] space-y-6">{children}</div>;
 }
 
+export function AboutUsHeroSubtitle({ children }: { children: ReactNode }) {
+  return <p {...componentNameDebugProps("AboutUsHeroSubtitle")} className="text-[20px] font-medium leading-[30px] tracking-[-0.02em] text-slate-950">{children}</p>;
+}
+
 export function AboutUsHeroImage() {
   return (
-    <div {...componentNameDebugProps("AboutUsHeroImage")} className="relative h-[360px] w-full lg:w-[640px]">
+    <div {...componentNameDebugProps("AboutUsHeroImage")} className="relative h-[360px] w-full lg:h-full lg:min-h-[360px] lg:w-[640px]">
       <Image
         src="https://www.querypie.com/assets/pages/company/about-us/company-introduction.jpg"
         alt="QueryPie AIのチーム"
@@ -141,7 +145,7 @@ export function AboutUsLeaderRole({ children }: { children: ReactNode }) {
 }
 
 export function AboutUsLocationGrid({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AboutUsLocationGrid")} className="mt-[31px] grid gap-x-[36px] gap-y-10 md:grid-cols-2 xl:grid-cols-4">{children}</div>;
+  return <div {...componentNameDebugProps("AboutUsLocationGrid")} className="mt-[31px] grid gap-x-6 gap-y-10 md:grid-cols-2 xl:gap-x-0 xl:grid-cols-4">{children}</div>;
 }
 
 export function AboutUsLocationCard({
@@ -154,7 +158,7 @@ export function AboutUsLocationCard({
   children: ReactNode;
 }) {
   return (
-    <div {...componentNameDebugProps("AboutUsLocationCard")} className="grid h-full grid-cols-[23px_minmax(0,1fr)] items-center gap-x-2">
+    <div {...componentNameDebugProps("AboutUsLocationCard")} className="grid h-full grid-cols-[23px_minmax(0,1fr)] grid-rows-[26px_28px_26px_40px] items-center gap-x-2">
       <div className="inline-flex w-fit items-center justify-center border border-slate-200/70 bg-white leading-none">
         <Image src={iconSrc} alt={iconAlt} width={23} height={17} className="block" />
       </div>
