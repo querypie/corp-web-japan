@@ -14,9 +14,9 @@ import { listAcpDemoPublicationItems } from "@/lib/publications/demo/acp/records
 import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 
 export const metadata: Metadata = {
-  title: "QueryPie Access Control Platform (ACP) の機能 | QueryPie AI",
+  title: "QueryPie ACPの機能 | QueryPie AI",
   description:
-    "QueryPie AIがお客様のためにできることを見つけることができます。ライブデモを視聴し、実際のユースケースをご覧になってください。AIPとACP機能の実際の動作を確認したり、インタラクティブなショーケースを通じて全体像を把握することができます。",
+    "データベース、システム、Kubernetes、Web/SaaS、MCPへのアクセスを一元統制。QueryPie ACPの主要機能を、デモでご紹介します。",
   alternates: {
     canonical: "/demo/acp",
   },
@@ -40,12 +40,10 @@ export default async function AcpDemoPage({ searchParams }: AcpDemoPageProps) {
     <main {...componentNameDebugProps("AcpDemoPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
 
-      <ResourceListHeroSection>
-        <ResourceListHeroTitle>QueryPie Access Control Platform (ACP) の機能</ResourceListHeroTitle>
-        <ResourceListHeroDescription>
-          QueryPie AIがお客様のためにできることを見つけることができます。
-          ライブデモを視聴し、実際のユースケースをご覧になってください。
-          AIPとACP機能の実際の動作を確認したり、インタラクティブなショーケースを通じて全体像を把握することができます。
+      <ResourceListHeroSection className="text-left lg:pl-[300px]">
+        <ResourceListHeroTitle className="!mx-0 max-w-[760px]">QueryPie ACPの機能</ResourceListHeroTitle>
+        <ResourceListHeroDescription className="!mx-0 max-w-[760px] text-left text-[16px] leading-[26px] lg:text-[16px] lg:leading-[26px]">
+          データベース、システム、Kubernetes、Web/SaaS、MCPへのアクセスを一元統制。QueryPie ACPの主要機能を、デモでご紹介します。
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 

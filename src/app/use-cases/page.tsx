@@ -16,7 +16,7 @@ import { resolveResourceListVisibleCount } from "@/lib/resource-list-load-more";
 export const metadata: Metadata = {
   title: "活用事例 | QueryPie AI",
   description:
-    "QueryPie AIがお客様のためにできることを見つけることができます。ライブデモを視聴し、実際のユースケースをご覧になってください。AIPとACP機能の実際の動作を確認したり、インタラクティブなショーケースを通じて全体像を把握することができます。",
+    "QueryPie AIが、企業のAI活用をどのように前進させているかをご紹介します。課題から導入・定着までの取り組みを、具体的な事例でご覧いただけます。",
   alternates: {
     canonical: "/use-cases",
   },
@@ -40,12 +40,10 @@ export default async function UseCasesPage({ searchParams }: UseCasesPageProps) 
     <main {...componentNameDebugProps("UseCasesPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
 
-      <ResourceListHeroSection>
-        <ResourceListHeroTitle>活用事例</ResourceListHeroTitle>
-        <ResourceListHeroDescription>
-          QueryPie AIがお客様のためにできることを見つけることができます。
-          ライブデモを視聴し、実際のユースケースをご覧になってください。
-          AIPとACP機能の実際の動作を確認したり、インタラクティブなショーケースを通じて全体像を把握することができます。
+      <ResourceListHeroSection className="text-left lg:pl-[300px]">
+        <ResourceListHeroTitle className="!mx-0 max-w-[760px]">活用事例</ResourceListHeroTitle>
+        <ResourceListHeroDescription className="!mx-0 max-w-[760px] text-left text-[16px] leading-[26px] lg:text-[16px] lg:leading-[26px]">
+          QueryPie AIが、企業のAI活用をどのように前進させているかをご紹介します。課題から導入・定着までの取り組みを、具体的な事例でご覧いただけます。
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 
