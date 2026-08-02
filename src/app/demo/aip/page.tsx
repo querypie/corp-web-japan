@@ -13,9 +13,9 @@ import {
 import { listAipDemoPublicationItems } from "@/lib/publications/demo/aip/records";
 
 export const metadata: Metadata = {
-  title: "QueryPie AI Platform (AIP) の機能 | QueryPie AI",
+  title: "QueryPie AIPの機能 | QueryPie AI",
   description:
-    "QueryPie AIがお客様のためにできることを見つけることができます。ライブデモを視聴し、実際のユースケースをご覧になってください。AIPとACP機能の実際の動作を確認したり、インタラクティブなショーケースを通じて全体像を把握することができます。",
+    "AIエージェントの構築・実行から、データ連携、管理・統制まで。QueryPie AIPが企業のAI活用を支える主要機能を、デモでご紹介します。",
   alternates: {
     canonical: "/demo/aip",
   },
@@ -32,12 +32,10 @@ export default async function AipDemoPage() {
     <main {...componentNameDebugProps("AipDemoPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
 
-      <ResourceListHeroSection>
-        <ResourceListHeroTitle>QueryPie AI Platform (AIP) の機能</ResourceListHeroTitle>
-        <ResourceListHeroDescription>
-          QueryPie AIがお客様のためにできることを見つけることができます。
-          ライブデモを視聴し、実際のユースケースをご覧になってください。
-          AIPとACP機能の実際の動作を確認したり、インタラクティブなショーケースを通じて全体像を把握することができます。
+      <ResourceListHeroSection className="text-left lg:pl-[300px]">
+        <ResourceListHeroTitle className="!mx-0 max-w-[760px]">QueryPie AIPの機能</ResourceListHeroTitle>
+        <ResourceListHeroDescription className="!mx-0 max-w-[760px] text-left text-[16px] leading-[26px] lg:text-[16px] lg:leading-[26px]">
+          AIエージェントの構築・実行から、データ連携、管理・統制まで。QueryPie AIPが企業のAI活用を支える主要機能を、デモでご紹介します。
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 

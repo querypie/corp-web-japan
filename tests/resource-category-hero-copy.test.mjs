@@ -64,3 +64,21 @@ test("resource category heroes align with the thumbnail column on desktop", () =
     );
   }
 });
+
+test("use-case and platform demo heroes align with the thumbnail column and use focused copy", () => {
+  const pages = [
+    ["src/app/use-cases/page.tsx", "活用事例", "課題から導入・定着までの取り組み"],
+    ["src/app/demo/aip/page.tsx", "QueryPie AIPの機能", "AIエージェントの構築・実行から、データ連携、管理・統制まで。"],
+    ["src/app/demo/acp/page.tsx", "QueryPie ACPの機能", "Kubernetes、Web\/SaaS、MCPへのアクセスを一元統制。"],
+  ];
+
+  for (const [path, title, lead] of pages) {
+    const source = readSource(path);
+
+    assert.match(source, /<ResourceListHeroSection className="text-left lg:pl-\[300px\]">/);
+    assert.match(source, new RegExp(`<ResourceListHeroTitle className="!mx-0 max-w-\\[760px\\]">${title}<\\/ResourceListHeroTitle>`));
+    assert.match(source, /<ResourceListHeroDescription className="!mx-0 max-w-\[760px\] text-left text-\[16px\] leading-\[26px\] lg:text-\[16px\] lg:leading-\[26px\]">/);
+    assert.match(source, new RegExp(lead));
+    assert.doesNotMatch(source, /ライブデモを視聴し、実際のユースケースをご覧になってください。/);
+  }
+});
