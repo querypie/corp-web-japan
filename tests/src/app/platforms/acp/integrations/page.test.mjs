@@ -22,6 +22,7 @@ test("ACP integrations page exports indexable metadata for the canonical /platfo
 });
 
 test("ACP integrations public page keeps concise ACP-specific hero copy and CTA in page.tsx", () => {
+  assert.match(pageSource, /<AipIntegrationsHeroEyebrow className="!text-\[#0969DA\]">ACPの統合機能<\/AipIntegrationsHeroEyebrow>/);
   assert.match(pageSource, /50種類以上のシステムを、ひとつの統制基盤へ。/);
   assert.match(pageSource, /<span className="block">データベース、サーバー、Kubernetes、Web\/SaaSまで。<\/span>/);
   assert.match(pageSource, /<span className="block">主要なシステムと直接連携し、アクセスを一元管理します。<\/span>/);

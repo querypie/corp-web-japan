@@ -39,6 +39,10 @@ export function AipIntegrationsHeroCopy({ children, className }: { children: Rea
   return <div {...componentNameDebugProps("AipIntegrationsHeroCopy")} className={cx(styles.heroCopy, className)}>{children}</div>;
 }
 
+export function AipIntegrationsHeroEyebrow({ children, className }: { children: ReactNode } & ClassNameProps) {
+  return <p {...componentNameDebugProps("AipIntegrationsHeroEyebrow")} className={cx(styles.heroEyebrow, className)}>{children}</p>;
+}
+
 export function AipIntegrationsHeroHeading({ children, className }: { children: ReactNode } & ClassNameProps) {
   return <h1 {...componentNameDebugProps("AipIntegrationsHeroHeading")} className={cx(styles.heroHeading, className)}>{children}</h1>;
 }

@@ -5,6 +5,7 @@ import {
   AipIntegrationsCategoryLink,
   AipIntegrationsCategoryList,
   AipIntegrationsHeroCopy,
+  AipIntegrationsHeroEyebrow,
   AipIntegrationsHeroHeading,
   AipIntegrationsHeroLead,
   AipIntegrationsHeroSection,
@@ -422,6 +423,7 @@ export default async function AcpIntegrationsPage({
       <SiteHeader />
       <AipIntegrationsHeroSection>
         <AipIntegrationsHeroCopy className="items-start">
+          <AipIntegrationsHeroEyebrow className="!text-[#0969DA]">ACPの統合機能</AipIntegrationsHeroEyebrow>
           <AipIntegrationsHeroHeading className="!m-0 !max-w-none !text-left !text-[36px] !leading-[46px] sm:!text-[40px] sm:!leading-[50px] lg:!text-[44px] lg:!leading-[56px]">
             50種類以上のシステムを、ひとつの統制基盤へ。
           </AipIntegrationsHeroHeading>
