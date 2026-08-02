@@ -12,7 +12,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(routeSource, /<CompanyPageSection>/);
   assert.match(routeSource, /<CompanyPageIntro>/);
   assert.match(routeSource, /<AboutUsTimelineItem year="2024">/);
-  assert.match(routeSource, /2016年12月にシリコンバレーで創業/);
+  assert.match(routeSource, /2016年のシリコンバレー創業以来/);
   assert.match(routeSource, /<AboutUsTimelineItem year="2026">/);
   assert.match(routeSource, /QueryPie AIPアプリ「Lingo」「NotePie」を提供開始/);
   assert.match(routeSource, /QueryPie ACP AI Packを提供開始/);
@@ -22,10 +22,14 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(routeSource, /QueryPie Japan（東京）を開設/);
   assert.match(routeSource, /<AboutUsLeaderCard imageSrc="\/about-us\/crew\/brant\.png"/);
   assert.match(routeSource, /<AboutUsLocationCard iconSrc="\/about-us\/location\/japan-cu\.svg"/);
-  assert.match(routeSource, /AIを、安全に。事業の力に。/);
-  assert.match(routeSource, /企業のAI活用を構想から実装、定着、拡張まで一貫して支援します。/);
-  assert.match(routeSource, /データ保護とアクセス統制で培った知見を、エンタープライズAIへと広げてきました。/);
-  assert.match(routeSource, /AIを実験で終わらせず、現場の成果と事業の成長につなげます。/);
+  assert.match(routeSource, /AIを、安全に。\s*<br \/>\s*事業の力に。/);
+  assert.match(routeSource, /<AboutUsHeroSubtitle>/);
+  assert.match(routeSource, /エンタープライズAIを、すべての企業へ/);
+  assert.match(routeSource, /最大90%のコスト削減と、妥協のないパフォーマンス/);
+  assert.match(routeSource, /企業におけるAI活用のあり方を変革します。/);
+  assert.match(routeSource, /企業が安心してAIを活用できる包括的なプラットフォームへと進化してきました。/);
+  assert.match(routeSource, /従来の高額なAIサブスクリプションに代わる選択肢として、最大90%のコスト削減を目指します。/);
+  assert.match(routeSource, /あらゆる企業がエンタープライズグレードのAIを活用できる環境をつくります。/);
   assert.match(routeSource, /<AboutUsLocationName>Los Angeles, USA<\/AboutUsLocationName>/);
   assert.match(routeSource, /<AboutUsLocationOffice>Global Headquarters<\/AboutUsLocationOffice>/);
   assert.match(routeSource, /<AboutUsLocationEntity>CHEQUER Global, Inc\.<\/AboutUsLocationEntity>/);
@@ -93,6 +97,8 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(sectionSource, /col-start-2 row-start-4 mt-0 space-y-0 text-\[13px\] leading-\[20px\]/);
   assert.match(sectionSource, /text-\[14px\] leading-\[22px\] tracking-\[0\.01em\] text-slate-600/);
   assert.match(sectionSource, /company-introduction\.jpg/);
+  assert.match(sectionSource, /relative h-\[360px\] w-full lg:h-full lg:min-h-\[360px\] lg:w-\[640px\]/);
+  assert.match(routeSource, /<RevealOnScroll delayMs=\{120\} className="lg:self-stretch">/);
   assert.match(sectionSource, /sizes="\(min-width: 1024px\) 640px, 100vw"/);
 
   assert.match(sectionSource, /inline-flex w-fit items-center justify-center border border-slate-200\/70 bg-white leading-none/);

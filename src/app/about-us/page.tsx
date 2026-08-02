@@ -8,6 +8,7 @@ import {
   AboutUsBodyCopy,
   AboutUsHeroCopy,
   AboutUsHeroImage,
+  AboutUsHeroSubtitle,
   AboutUsInvestorLogo,
   AboutUsInvestorLogoRow,
   AboutUsLeaderCard,
@@ -60,26 +61,36 @@ export default function AboutUsPage() {
         <CompanyPageIntro>
           <RevealOnScroll>
             <CompanyPageTitle>
-              AIを、安全に。事業の力に。
+              AIを、安全に。
+              <br />
+              事業の力に。
             </CompanyPageTitle>
           </RevealOnScroll>
 
           <CompanyPageLayout preset="aboutUsHero">
             <RevealOnScroll>
               <AboutUsHeroCopy>
+                <AboutUsHeroSubtitle>
+                  エンタープライズAIを、すべての企業へ
+                  <br />
+                  最大90%のコスト削減と、妥協のないパフォーマンス
+                </AboutUsHeroSubtitle>
                 <AboutUsBodyCopy>
-                  QueryPie AIは、セキュリティとガバナンスを基盤に、企業のAI活用を構想から実装、定着、拡張まで一貫して支援します。
+                  QueryPie AIは、高額な導入・運用コスト、セキュリティリスク、そしてイノベーションを妨げる複雑な運用課題を解消し、企業におけるAI活用のあり方を変革します。
                 </AboutUsBodyCopy>
                 <AboutUsBodyCopy>
-                  2016年12月にシリコンバレーで創業して以来、データ保護とアクセス統制で培った知見を、エンタープライズAIへと広げてきました。
+                  2016年のシリコンバレー創業以来、私たちはデータ保護の知見を基盤に、企業が安心してAIを活用できる包括的なプラットフォームへと進化してきました。
                 </AboutUsBodyCopy>
                 <AboutUsBodyCopy>
-                  複雑なインフラ、既存システム、データ、権限を安全につなぎ、AIを実験で終わらせず、現場の成果と事業の成長につなげます。
+                  カスタムAIエージェントの構築、一元的な管理・統制、そして利用量に応じた柔軟な料金体系を提供。従来の高額なAIサブスクリプションに代わる選択肢として、最大90%のコスト削減を目指します。
+                </AboutUsBodyCopy>
+                <AboutUsBodyCopy>
+                  最先端のAI、高度なセキュリティ、そして持続可能なコスト。QueryPie AIは、このすべてを両立させ、あらゆる企業がエンタープライズグレードのAIを活用できる環境をつくります。
                 </AboutUsBodyCopy>
               </AboutUsHeroCopy>
             </RevealOnScroll>
 
-            <RevealOnScroll delayMs={120}>
+            <RevealOnScroll delayMs={120} className="lg:self-stretch">
               <AboutUsHeroImage />
             </RevealOnScroll>
           </CompanyPageLayout>

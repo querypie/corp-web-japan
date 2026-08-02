@@ -17,9 +17,13 @@ export function AboutUsHeroCopy({ children }: { children: ReactNode }) {
   return <div {...componentNameDebugProps("AboutUsHeroCopy")} className="max-w-[504px] space-y-6">{children}</div>;
 }
 
+export function AboutUsHeroSubtitle({ children }: { children: ReactNode }) {
+  return <p {...componentNameDebugProps("AboutUsHeroSubtitle")} className="text-[20px] font-medium leading-[30px] tracking-[-0.02em] text-slate-950">{children}</p>;
+}
+
 export function AboutUsHeroImage() {
   return (
-    <div {...componentNameDebugProps("AboutUsHeroImage")} className="relative h-[360px] w-full lg:w-[640px]">
+    <div {...componentNameDebugProps("AboutUsHeroImage")} className="relative h-[360px] w-full lg:h-full lg:min-h-[360px] lg:w-[640px]">
       <Image
         src="https://www.querypie.com/assets/pages/company/about-us/company-introduction.jpg"
         alt="QueryPie AIのチーム"
