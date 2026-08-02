@@ -15,6 +15,7 @@ test("published usage-based-llm page keeps route-local copy/composition", () => 
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
   assert.match(routeSource, /従量課金型エンタープライズAI｜QueryPie AIP/);
+  assert.match(routeSource, /<AipUsageBasedLlmHeroEyebrow>従量課金型エンタープライズAI<\/AipUsageBasedLlmHeroEyebrow>/);
   assert.match(routeSource, /使った分だけで、/);
   assert.match(routeSource, /使った分だけ、無駄なく支払う/);
   assert.match(routeSource, /用途に合わせて、LLMを選ぶ/);
@@ -35,8 +36,9 @@ test("published usage-based-llm page keeps route-local copy/composition", () => 
   assert.match(sectionSource, /export function AipUsageBasedLlmPageShell[\s\S]*<PlatformPageShell(?:\s[^>]*)?>/);
   assert.match(sectionSource, /export function AipUsageBasedLlmHeroSection[\s\S]*<PlatformContentSection[\s\S]*className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]" contentWidthClassName="max-w-\[1200px\]">/);
   assert.match(sectionSource, /w-full text-left text-\[36px\][\s\S]*lg:text-\[44px\]/);
-  assert.match(sectionSource, /mt-5 max-w-\[600px\] text-left text-\[16px\][\s\S]*leading-\[26px\]/);
-  assert.match(sectionSource, /export function AipUsageBasedLlmHeroFootnote[\s\S]*<small[^>]*className="text-\[10px\] font-light leading-\[28px\] tracking-\[0\.36px\] text-\[#57606A\]">/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmHeroEyebrow[\s\S]*text-\[14px\] font-medium/);
+  assert.match(sectionSource, /mt-5 max-w-\[648px\] text-left text-\[16px\][\s\S]*leading-\[26px\]/);
+  assert.match(sectionSource, /export function AipUsageBasedLlmHeroFootnote[\s\S]*<small[^>]*className="mt-1 block text-\[10px\] font-light leading-\[18px\] tracking-\[0\.36px\] text-\[#57606A\]">/);
   assert.match(routeSource, /<AipUsageBasedLlmHeroFootnote>\*削減率は利用条件により異なります<\/AipUsageBasedLlmHeroFootnote>/);
   assert.match(sectionSource, /assets\/products\/aip\/usage-based-llm\/usage-based-llm\.svg/);
   assert.match(sectionSource, /className="py-\[80px\]"/);

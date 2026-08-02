@@ -45,6 +45,7 @@ test("AIP integrations platform section primitives define the integration filter
   assert.doesNotMatch(sectionSource, /components\/sections\/platform\/page-primitives/);
   assert.match(cssSource, /\.content \{/);
   assert.match(cssSource, /max-width: 1200px/);
+  assert.match(cssSource, /\.heroLead \{[\s\S]*max-width: 680px/);
   assert.match(cssSource, /grid-template-columns: repeat\(8, minmax\(0, 1fr\)\)/);
   assert.match(cssSource, /padding: 10px 20px/);
   assert.match(cssSource, /\.compactProductList \.productItem \{[\s\S]*min-height: 128px[\s\S]*gap: 16px[\s\S]*padding: 20px 12px/);

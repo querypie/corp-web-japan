@@ -12,6 +12,7 @@ import {
   AipUsageBasedLlmFeatureRow,
   AipUsageBasedLlmFeatureTitle,
   AipUsageBasedLlmHeroDescription,
+  AipUsageBasedLlmHeroEyebrow,
   AipUsageBasedLlmHeroFootnote,
   AipUsageBasedLlmHeroImage,
   AipUsageBasedLlmHeroSection,
@@ -42,6 +43,7 @@ export default function AipUsageBasedLlmPage() {
 
       <AipUsageBasedLlmHeroSection>
         <RevealOnScroll>
+          <AipUsageBasedLlmHeroEyebrow>従量課金型エンタープライズAI</AipUsageBasedLlmHeroEyebrow>
           <AipUsageBasedLlmHeroTitle>
             使った分だけで、AIを全社へ。
           </AipUsageBasedLlmHeroTitle>

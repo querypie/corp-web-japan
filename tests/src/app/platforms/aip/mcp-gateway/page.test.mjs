@@ -17,6 +17,7 @@ test("published mcp gateway page keeps authored copy in the route and rendering 
   assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(routeSource, /<McpGatewayPageShell(?:\s[^>]*)?>/);
   assert.match(routeSource, /<McpGatewayHeroHeading>/);
+  assert.match(routeSource, /<McpGatewayHeroEyebrow>統合型MCPゲートウェイ<\/McpGatewayHeroEyebrow>/);
   assert.match(routeSource, /<McpGatewayHeroHeading>MCPを、全社でつなぎ、統制する。<\/McpGatewayHeroHeading>/);
   assert.match(routeSource, /<McpGatewayFeatureCopy className="w-full lg:w-\[450px\]">/);
   assert.match(routeSource, /MCPプロキシで、外部ツールから使う/);
@@ -43,6 +44,7 @@ test("published mcp gateway page keeps authored copy in the route and rendering 
   assert.doesNotMatch(sectionSource, /pt-\[55px\]/);
   assert.doesNotMatch(sectionSource, /lg:pt-\[167px\]/);
   assert.match(sectionSource, /w-full text-left text-\[36px\][\s\S]*lg:text-\[44px\]/);
+  assert.match(sectionSource, /export function McpGatewayHeroEyebrow[\s\S]*text-\[14px\] font-medium/);
   assert.match(sectionSource, /mt-5 max-w-\[600px\] text-left text-\[16px\][\s\S]*leading-\[26px\]/);
   assert.match(sectionSource, /mx-auto mt-\[80px\] flex max-w-\[1200px\] justify-center/);
   assert.match(sectionSource, /assets\/products\/aip\/mcp-gateway\/mcp-gateway\.png/);

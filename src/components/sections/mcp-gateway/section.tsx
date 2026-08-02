@@ -25,6 +25,10 @@ export function McpGatewayHeroCopy({ children, className }: { children: ReactNod
   return <div {...componentNameDebugProps("McpGatewayHeroCopy")} className={cx("w-full", className)}>{children}</div>;
 }
 
+export function McpGatewayHeroEyebrow({ children, className }: { children: ReactNode } & ClassNameProps) {
+  return <p {...componentNameDebugProps("McpGatewayHeroEyebrow")} className={cx("mb-5 text-[14px] font-medium leading-5 tracking-[0.08em] text-[#57606A]", className)}>{children}</p>;
+}
+
 export function McpGatewayHeroHeading({ children, className }: { children: ReactNode } & ClassNameProps) {
   return <h1 {...componentNameDebugProps("McpGatewayHeroHeading")} className={cx("w-full text-left text-[36px] font-normal leading-[46px] tracking-[-0.04em] text-[#24292F] sm:text-[40px] sm:leading-[50px] lg:text-[44px] lg:leading-[56px]", className)}>{children}</h1>;
 }

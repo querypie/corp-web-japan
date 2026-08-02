@@ -24,12 +24,16 @@ export function AipUsageBasedLlmHeroTitle({ children }: { children: ReactNode })
   return <h1 {...componentNameDebugProps("AipUsageBasedLlmHeroTitle")} className="w-full text-left text-[36px] font-normal leading-[46px] tracking-[-0.04em] text-[#24292F] sm:text-[40px] sm:leading-[50px] lg:text-[44px] lg:leading-[56px]">{children}</h1>;
 }
 
+export function AipUsageBasedLlmHeroEyebrow({ children }: { children: ReactNode }) {
+  return <p {...componentNameDebugProps("AipUsageBasedLlmHeroEyebrow")} className="mb-5 text-[14px] font-medium leading-5 tracking-[0.08em] text-[#57606A]">{children}</p>;
+}
+
 export function AipUsageBasedLlmHeroDescription({ children }: { children: ReactNode }) {
-  return <p {...componentNameDebugProps("AipUsageBasedLlmHeroDescription")} className="mt-5 max-w-[600px] text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
+  return <p {...componentNameDebugProps("AipUsageBasedLlmHeroDescription")} className="mt-5 max-w-[648px] text-left text-[16px] font-light leading-[26px] tracking-[0.36px] text-[#57606A]">{children}</p>;
 }
 
 export function AipUsageBasedLlmHeroFootnote({ children }: { children: ReactNode }) {
-  return <small {...componentNameDebugProps("AipUsageBasedLlmHeroFootnote")} className="text-[10px] font-light leading-[28px] tracking-[0.36px] text-[#57606A]">{children}</small>;
+  return <small {...componentNameDebugProps("AipUsageBasedLlmHeroFootnote")} className="mt-1 block text-[10px] font-light leading-[18px] tracking-[0.36px] text-[#57606A]">{children}</small>;
 }
 
 export function AipUsageBasedLlmHeroImage() {

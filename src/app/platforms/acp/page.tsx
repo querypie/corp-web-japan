@@ -104,9 +104,7 @@ export default function AcpPage() {
                 >
                   <AcpFeatureItemTitle>データを可視化し、必要な範囲だけを許可</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
-                    QueryPie DACは、クラウドとオンプレミスのデータベースを横断して可視化・統制します。機密情報や個人情報を自動で検出・マスキングし、
-                    <br />
-                    クエリ単位の最小権限と監査で、安全なデータ活用を支えます。
+                    QueryPie DACは、クラウドとオンプレミスのデータベースを横断して可視化・統制します。機密情報や個人情報を自動で検出・マスキングし、クエリ単位の最小権限と監査で、安全なデータ活用を支えます。
                   </AcpFeatureItemBody>
                 </AcpFeatureItem>
               </AcpFeatureCategory>

@@ -19,6 +19,7 @@ test("/platforms/aip keeps route-local copy/composition while the layout primiti
   assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
   assert.match(routeSource, /<SiteHeader \/>/);
   assert.match(routeSource, /<SiteFooter \/>/);
+  assert.match(routeSource, /QueryPie AIP｜Agentic AI Platform/);
   assert.match(routeSource, /AIを、現場で動かすための基盤。/);
   assert.match(routeSource, /QueryPie AIPで動く、業務を前に進めるAIアプリ/);
   assert.match(routeSource, /AIと既存の業務システムをつなぎ、コスト・セキュリティ・運用を一つの基盤で整える/);
@@ -31,6 +32,7 @@ test("/platforms/aip keeps route-local copy/composition while the layout primiti
   assert.match(routeSource, /従量課金型の\s*<AipLineBreak \/>\s*エンタープライズAI/);
   assert.match(routeSource, /統合型\s*<AipLineBreak \/>\s*MCPゲートウェイ/);
   assert.match(routeSource, /FDEによる\s*<AipLineBreak \/>\s*導入・定着支援/);
+  assert.match(routeSource, /FDE（Forward Deployed Engineer）が伴走/);
   assert.match(routeSource, /href="\/services\/fde"/);
   assert.doesNotMatch(routeSource, /href="\/t\/solutions\/aip\/fde-services"/);
   assert.match(routeSource, /実務に根づく、AIの実行機能/);
@@ -54,9 +56,11 @@ test("/platforms/aip keeps route-local copy/composition while the layout primiti
   assert.match(sectionSource, /export function AipPageShell[\s\S]*<PlatformPageShell(?:\s[^>]*)?>/);
   assert.match(sectionSource, /export function AipHeroSection[\s\S]*<PlatformContentSection[\s\S]*className="pb-\[120px\] pt-\[134px\] lg:pt-\[144px\]">/);
   assert.match(sectionSource, /export function AipHeroCopy[\s\S]*flex w-full flex-col items-center gap-5 text-center/);
+  assert.match(sectionSource, /export function AipHeroEyebrow[\s\S]*text-\[14px\] font-medium/);
   assert.match(sectionSource, /export function AipHeroTitle[\s\S]*text-\[48px\][\s\S]*lg:text-\[60px\]/);
   assert.match(sectionSource, /export function AipHeroLead[\s\S]*max-w-\[864px\][\s\S]*text-left[\s\S]*text-\[16px\][\s\S]*leading-\[26px\]/);
   assert.match(sectionSource, /export function AipHeroVideo/);
+  assert.match(sectionSource, /AipHeroVideo[\s\S]*mx-auto aspect-video/);
   assert.match(sectionSource, /AipHeroVideoPlayer/);
   assert.equal(sourceExists("src\/components\/sections\/aip\/aip-hero-video.tsx"), true);
   assert.doesNotMatch(sectionSource, /rounded-\[12px\]/);
@@ -69,7 +73,8 @@ test("/platforms/aip keeps route-local copy/composition while the layout primiti
   assert.match(sectionSource, /M7 6L0\.865033 12L0 11\.154L5\.26381 6L0 0\.846L0\.865033 0L7 6Z/);
   assert.match(sectionSource, /export function AipValueCardLink[\s\S]*gap-\[10px\][\s\S]*<AipTextButtonArrowIcon \/>/);
   assert.match(sectionSource, /export function AipInlineLink[\s\S]*gap-\[10px\][\s\S]*<AipTextButtonArrowIcon \/>/);
-  assert.match(sectionSource, /export function AipValueCardBody[\s\S]*pb-\[60px\]/);
+  assert.match(sectionSource, /export function AipValueCardBody[\s\S]*pb-0 pt-\[30px\]/);
+  assert.match(sectionSource, /export function AipValueCardLink[\s\S]*mt-auto[\s\S]*pb-\[36px\]/);
   assert.match(sectionSource, /absolute inset-0 flex items-center/);
   assert.match(sectionSource, /export function AipValueSection[\s\S]*<PlatformContentSection/);
   assert.match(sectionSource, /export function AipFeatureSection/);

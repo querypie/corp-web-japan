@@ -12,6 +12,7 @@ import {
   McpGatewayFeatureVisual,
   McpGatewayHeroBody,
   McpGatewayHeroCopy,
+  McpGatewayHeroEyebrow,
   McpGatewayHeroHeading,
   McpGatewayHeroSection,
   McpGatewayHeroVisual,
@@ -42,6 +43,7 @@ export default function McpGatewayPage() {
       <McpGatewayHeroSection>
         <RevealOnScroll>
           <McpGatewayHeroCopy>
+            <McpGatewayHeroEyebrow>統合型MCPゲートウェイ</McpGatewayHeroEyebrow>
             <McpGatewayHeroHeading>MCPを、全社でつなぎ、統制する。</McpGatewayHeroHeading>
           </McpGatewayHeroCopy>
         </RevealOnScroll>
