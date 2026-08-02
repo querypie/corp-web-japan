@@ -58,6 +58,7 @@ test("/services/fde is a public page with indexable metadata and canonical path"
   assert.match(sectionSource, /export function ServiceFdeChallengeContent[\s\S]*mx-auto flex max-w-\[920px\] flex-col items-center/);
   assert.match(sectionSource, /export function ServiceFdeHeroVisual/);
   assert.match(sectionSource, /export function ServiceFdeHeroEyebrow/);
+  assert.match(sectionSource, /export function ServiceFdeHeroEyebrow[\s\S]*text-\[#174EA6\]/);
   assert.match(sectionSource, /export function ServiceFdeOverviewSection[\s\S]*bg-\[#F6F8FA\] py-\[80px\] lg:py-\[96px\]" contentClassName="flex max-w-\[1200px\] flex-col"/);
   assert.doesNotMatch(sectionSource, /export function ServiceFdeOverviewSummary/);
   assert.match(sectionSource, /export function ServiceFdeSectionLead[\s\S]*mx-auto mt-5 max-w-\[880px\] text-left[\s\S]*text-\[16px\][\s\S]*leading-\[26px\][\s\S]*tracking-\[0\.36px\]/);
