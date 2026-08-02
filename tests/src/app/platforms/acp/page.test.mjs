@@ -26,11 +26,11 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(routeSource, /連携対象に加え、権限・ポリシー・監査を一つの基盤で統制する価値を明確化します。/);
   assert.match(routeSource, />ACPの統合機能を見る→<\//);
 
-  assert.match(routeSource, /Database Access Control/);
-  assert.match(routeSource, /System Access Control/);
-  assert.match(routeSource, /Kubernetes Access Control/);
-  assert.match(routeSource, /Web Access Control/);
-  assert.match(routeSource, /MCP Access Control/);
+  assert.match(routeSource, /Database Access Controller/);
+  assert.match(routeSource, /System Access Controller/);
+  assert.match(routeSource, /Kubernetes Access Controller/);
+  assert.match(routeSource, /Web Access Controller/);
+  assert.match(routeSource, /MCP Access Controller/);
   assert.match(routeSource, /DAC｜データベースアクセス制御/);
   assert.match(routeSource, /SAC｜システムアクセス制御/);
   assert.match(routeSource, /KAC｜Kubernetesアクセス制御/);

@@ -71,7 +71,7 @@ export default function AboutUsPage() {
                   QueryPie AIは、他社が解決できない課題、すなわち、莫大なコスト、セキュリティリスク、イノベーションを妨げる複雑さを解決することで、企業のAI活用方法を変革します。
                 </AboutUsBodyCopy>
                 <AboutUsBodyCopy>
-                  2017年にシリコンバレーで創業して以来、QueryPie AIはデータ保護のリーダーから、包括的なAIプラットフォームへと進化しました。
+                  2016年12月にシリコンバレーで創業して以来、QueryPie AIはデータ保護のリーダーから、包括的なAIプラットフォームへと進化しました。
                 </AboutUsBodyCopy>
                 <AboutUsBodyCopy>
                   カスタムエージェント、一元管理、従量課金モデルを提供し、月額40〜80ドルのサブスクリプションを90%コスト削減して置き換えます。
@@ -131,24 +131,28 @@ export default function AboutUsPage() {
 
         <AboutUsTimeline>
           <RevealOnScroll>
-            <AboutUsTimelineItem year="2017">
+            <AboutUsTimelineItem year="2016">
               <li>設立</li>
             </AboutUsTimelineItem>
           </RevealOnScroll>
           <RevealOnScroll delayMs={50}>
             <AboutUsTimelineItem year="2018">
               <li>カカオインベストメントからの資金調達</li>
+              <li>QueryPie SQL Client の開発を開始</li>
             </AboutUsTimelineItem>
           </RevealOnScroll>
           <RevealOnScroll delayMs={100}>
             <AboutUsTimelineItem year="2019">
+              <li>QueryPie SQL Client を提供開始</li>
               <li>TechCrunch SF 2019 に参加</li>
               <li>LG スタートアップコンペティション 2019 で優勝</li>
             </AboutUsTimelineItem>
           </RevealOnScroll>
           <RevealOnScroll delayMs={150}>
             <AboutUsTimelineItem year="2020">
-              <li>Y-Combinator からの資金調達</li>
+              <li>Y Combinator からの資金調達</li>
+              <li>データ保護プラットフォームへ転換</li>
+              <li>Yanolja、KakaoPay、DunamuへQueryPieを提供</li>
             </AboutUsTimelineItem>
           </RevealOnScroll>
           <RevealOnScroll delayMs={200}>
@@ -165,6 +169,7 @@ export default function AboutUsPage() {
           </RevealOnScroll>
           <RevealOnScroll delayMs={300}>
             <AboutUsTimelineItem year="2024">
+              <li>QueryPie Japan（東京）を開設</li>
               <li>QueryPie KAC（Kubernetesアクセスコントローラー）/ WAC（Webアクセスコントローラー）提供開始</li>
               <li>Salesforce Ventures、Z Venture Capital、Murex Partners、Shinhan Venture Investment からの戦略的投資</li>
             </AboutUsTimelineItem>

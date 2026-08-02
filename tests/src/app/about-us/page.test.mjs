@@ -12,6 +12,11 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(routeSource, /<CompanyPageSection>/);
   assert.match(routeSource, /<CompanyPageIntro>/);
   assert.match(routeSource, /<AboutUsTimelineItem year="2024">/);
+  assert.match(routeSource, /2016年12月にシリコンバレーで創業/);
+  assert.match(routeSource, /<AboutUsTimelineItem year="2016">/);
+  assert.match(routeSource, /QueryPie SQL Client の開発を開始/);
+  assert.match(routeSource, /データ保護プラットフォームへ転換/);
+  assert.match(routeSource, /QueryPie Japan（東京）を開設/);
   assert.match(routeSource, /<AboutUsLeaderCard imageSrc="\/about-us\/crew\/brant\.png"/);
   assert.match(routeSource, /<AboutUsLocationCard iconSrc="\/about-us\/location\/japan-cu\.svg"/);
 
