@@ -27,7 +27,8 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(routeSource, /<AboutUsLocationName>Seoul, South Korea<\/AboutUsLocationName>/);
   assert.match(routeSource, /<AboutUsLocationOffice>R&amp;D Office<\/AboutUsLocationOffice>/);
   assert.match(routeSource, /<AboutUsLocationEntity>주식회사 쿼리파이<\/AboutUsLocationEntity>/);
-  assert.match(routeSource, /Gangseo-gu, Seoul 07807, Republic of Korea/);
+  assert.match(routeSource, /7F, 26, Magokjungang 1-ro, Gangseo-gu,/);
+  assert.match(routeSource, /<p>Seoul 07807<\/p>/);
   assert.match(routeSource, /<AboutUsLocationName>Tokyo, Japan<\/AboutUsLocationName>/);
   assert.match(routeSource, /<AboutUsLocationOffice>Japan Office<\/AboutUsLocationOffice>/);
   assert.match(routeSource, /〒105-6490 東京都港区虎ノ門1丁目17番1号/);
