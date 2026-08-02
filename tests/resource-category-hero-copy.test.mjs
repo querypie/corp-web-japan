@@ -60,7 +60,7 @@ test("resource category heroes align with the thumbnail column on desktop", () =
     assert.match(source, /<ResourceListHeroTitle className="!mx-0 max-w-\[760px\]">/);
     assert.match(
       source,
-      /<ResourceListHeroDescription className="!mx-0 max-w-\[760px\] text-left text-\[16px\] leading-\[26px\] lg:text-\[16px\] lg:leading-\[26px\]">/,
+      /<ResourceListHeroDescription className="!mx-0 max-w-\[728px\] text-left text-\[16px\] leading-\[26px\] lg:text-\[16px\] lg:leading-\[26px\]">/,
     );
   }
 });
