@@ -131,6 +131,7 @@ export const metadata: Metadata = {
     description:
       "QueryPie AIは、社内業務効率化と自社サービスAI化を支援するエンタープライズAI基盤です。安全性と運用性を前提に、AI活用をスモールスタートから実運用・定着まで前に進めます。",
     type: "website",
+    siteName: "QueryPie AI",
   },
   twitter: {
     title: "Secure Enterprise AI｜企業のAI活用を支えるQueryPie AI",
@@ -142,6 +143,14 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600;
 
+const websiteStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "QueryPie AI",
+  url: "https://querypie.ai/",
+  inLanguage: "ja-JP",
+};
+
 export default function HomePage() {
   const topPageHeroContactUrl = "/contact-us?inquiry=ai-consulting";
   const topPageDownloadUrl =
@@ -151,6 +160,10 @@ export default function HomePage() {
 
   return (
     <main {...componentNameDebugProps("HomePage")} className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteStructuredData) }}
+      />
       <SiteHeader />
       <SiteNoticeSurface className="-mt-[72px] flow-root lg:mt-0" />
       <HeroSection

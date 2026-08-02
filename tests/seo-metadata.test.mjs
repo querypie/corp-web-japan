@@ -28,6 +28,8 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   const eulaPage = read("src/app/eula/page.tsx");
 
   assert.match(layout, /metadataBase:\s*await getRequestDeployedSiteUrl\(\)/);
+  assert.match(layout, /applicationName:\s*"QueryPie AI"/);
+  assert.match(layout, /siteName:\s*"QueryPie AI"/);
 
   assert.match(robots, /const deployedSiteUrl = await getRequestDeployedSiteUrl\(\)/);
   assert.match(robots, /sitemap:\s*new URL\("\/sitemap\.xml", deployedSiteUrl\)\.toString\(\)/);
@@ -35,6 +37,10 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.match(robots, /disallow:\s*\["\/privacy-policy", "\/terms-of-service"\]/);
 
   assert.match(homePage, /canonical:\s*"\/"/);
+  assert.match(homePage, /"@type": "WebSite"/);
+  assert.match(homePage, /name:\s*"QueryPie AI"/);
+  assert.match(homePage, /url:\s*"https:\/\/querypie\.ai\/"/);
+  assert.match(homePage, /inLanguage:\s*"ja-JP"/);
   assert.match(blogPage, /canonical:\s*"\/blog"/);
   assert.match(whitepapersPage, /canonical:\s*"\/whitepapers"/);
   assert.match(useCasesPage, /canonical:\s*"\/use-cases"/);
