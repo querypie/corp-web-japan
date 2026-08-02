@@ -35,9 +35,9 @@ export default function ManualsPage() {
     <main {...componentNameDebugProps("ManualsPage")} className="relative bg-white text-slate-950">
       <SiteHeader />
 
-      <ResourceListHeroSection>
-        <ResourceListHeroTitle>マニュアル</ResourceListHeroTitle>
-        <ResourceListHeroDescription>
+      <ResourceListHeroSection className="text-left lg:pl-[300px]">
+        <ResourceListHeroTitle className="mx-0 max-w-[760px]">マニュアル</ResourceListHeroTitle>
+        <ResourceListHeroDescription className="mx-0 max-w-[760px] text-left text-[16px] leading-[26px] lg:text-[16px] lg:leading-[26px]">
           QueryPie AIの導入、設定、日常的な利用、運用に必要な手順を確認できます。
           リリースノートやAPIリファレンスを含め、製品を使いこなすための最新情報をご用意しています。
         </ResourceListHeroDescription>

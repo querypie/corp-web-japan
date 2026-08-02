@@ -14,7 +14,7 @@ const categoryPages = [
 test("resource category pages use category-specific hero copy", () => {
   for (const [path, title, lead] of categoryPages) {
     const source = readSource(path);
-    assert.match(source, new RegExp(`ResourceListHeroTitle>${title}<\\/ResourceListHeroTitle>`));
+    assert.match(source, new RegExp(`ResourceListHeroTitle(?: className="[^"]+")?>${title}<\\/ResourceListHeroTitle>`));
     assert.match(source, new RegExp(lead));
     assert.doesNotMatch(source, /包括的なガイド、技術マニュアル、業界ホワイトペーパー/);
   }
@@ -35,4 +35,23 @@ test("the resources hub centers a left-aligned, platform-consistent lead block",
     source,
     /<ResourceListHeroDescription className="max-w-\[760px\] text-left text-\[16px\] leading-\[26px\] lg:text-\[16px\] lg:leading-\[26px\]">/,
   );
+});
+
+test("resource category heroes align with the thumbnail column on desktop", () => {
+  for (const path of [
+    "src/app/introduction-deck/page.tsx",
+    "src/app/glossary/page.tsx",
+    "src/app/manuals/page.tsx",
+    "src/app/whitepapers/page.tsx",
+    "src/app/blog/page.tsx",
+  ]) {
+    const source = readSource(path);
+
+    assert.match(source, /<ResourceListHeroSection className="text-left lg:pl-\[300px\]">/);
+    assert.match(source, /<ResourceListHeroTitle className="mx-0 max-w-\[760px\]">/);
+    assert.match(
+      source,
+      /<ResourceListHeroDescription className="mx-0 max-w-\[760px\] text-left text-\[16px\] leading-\[26px\] lg:text-\[16px\] lg:leading-\[26px\]">/,
+    );
+  }
 });
