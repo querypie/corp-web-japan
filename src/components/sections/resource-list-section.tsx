@@ -41,7 +41,7 @@ export function ResourceListHeroTitle({ children, className = "" }: { children: 
 
 export function ResourceListHeroDescription({ children, className = "" }: { children: ReactNode } & ClassNameProps) {
   return (
-    <p {...componentNameDebugProps("ResourceListHeroDescription")} className={`mx-auto mt-5 max-w-[760px] text-[16px] font-light leading-[1.75] text-slate-600 lg:text-[18px] ${className}`.trim()}>{children}</p>
+    <p {...componentNameDebugProps("ResourceListHeroDescription")} className={`mx-auto mt-5 max-w-[760px] text-[16px] font-light leading-[26px] text-slate-600 lg:text-[16px] lg:leading-[26px] ${className}`.trim()}>{children}</p>
   );
 }
 

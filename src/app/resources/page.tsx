@@ -56,7 +56,7 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
       </ResourceListHeroSection>
 
       <ResourceListContentSection>
-        <ResourceCategorySidebar links={resourceCategorySidebarLinks} activeLabel="全て" />
+        <ResourceCategorySidebar links={resourceCategorySidebarLinks} activeLabel="全てのドキュメント" />
 
         <ResourceListLoadMore
           key={`resources:${initialVisibleCount}`}
