@@ -20,7 +20,14 @@ export function AboutUsHeroCopy({ children }: { children: ReactNode }) {
 export function AboutUsHeroImage() {
   return (
     <div {...componentNameDebugProps("AboutUsHeroImage")} className="relative h-[360px] w-full lg:w-[640px]">
-      <Image src="/about-us/hero-game-changer.png" alt="Game Changer" fill priority className="object-cover" />
+      <Image
+        src="https://www.querypie.com/assets/pages/company/about-us/company-introduction.jpg"
+        alt="QueryPie AIのチーム"
+        fill
+        priority
+        sizes="(min-width: 1024px) 640px, 100vw"
+        className="object-cover"
+      />
     </div>
   );
 }
@@ -159,11 +166,19 @@ export function AboutUsLocationCard({
 export function AboutUsLocationName({ children }: { children: ReactNode }) {
   return (
     <div {...componentNameDebugProps("AboutUsLocationName")} className="mt-4">
-      <p className="text-[18.75px] font-medium leading-[26.25px] tracking-[-0.02em] text-slate-950">{children}</p>
+      <p className="text-[18px] font-medium leading-[26px] tracking-[-0.02em] text-slate-950">{children}</p>
     </div>
   );
 }
 
+export function AboutUsLocationOffice({ children }: { children: ReactNode }) {
+  return <p {...componentNameDebugProps("AboutUsLocationOffice")} className="mt-2 text-[15px] font-medium leading-[22px] tracking-[-0.01em] text-slate-950">{children}</p>;
+}
+
+export function AboutUsLocationEntity({ children }: { children: ReactNode }) {
+  return <p {...componentNameDebugProps("AboutUsLocationEntity")} className="mt-1 text-[14px] leading-[22px] tracking-[0.01em] text-slate-600">{children}</p>;
+}
+
 export function AboutUsLocationAddress({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AboutUsLocationAddress")} className={`mt-4 space-y-0 ${secondaryCopyClass}`}>{children}</div>;
+  return <div {...componentNameDebugProps("AboutUsLocationAddress")} className="mt-4 space-y-0 text-[14px] leading-[22px] tracking-[0.01em] text-slate-600">{children}</div>;
 }

@@ -19,6 +19,20 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(routeSource, /QueryPie Japan（東京）を開設/);
   assert.match(routeSource, /<AboutUsLeaderCard imageSrc="\/about-us\/crew\/brant\.png"/);
   assert.match(routeSource, /<AboutUsLocationCard iconSrc="\/about-us\/location\/japan-cu\.svg"/);
+  assert.match(routeSource, /AIを、安全に。事業の力に。/);
+  assert.match(routeSource, /企業のAI活用を構想から実装、定着まで前進させます。/);
+  assert.match(routeSource, /<AboutUsLocationName>Los Angeles, USA<\/AboutUsLocationName>/);
+  assert.match(routeSource, /<AboutUsLocationOffice>Global Headquarters<\/AboutUsLocationOffice>/);
+  assert.match(routeSource, /<AboutUsLocationEntity>CHEQUER Global, Inc\.<\/AboutUsLocationEntity>/);
+  assert.match(routeSource, /<AboutUsLocationName>Seoul, South Korea<\/AboutUsLocationName>/);
+  assert.match(routeSource, /<AboutUsLocationOffice>R&amp;D Office<\/AboutUsLocationOffice>/);
+  assert.match(routeSource, /<AboutUsLocationEntity>주식회사 쿼리파이<\/AboutUsLocationEntity>/);
+  assert.match(routeSource, /Gangseo-gu, Seoul 07807, Republic of Korea/);
+  assert.match(routeSource, /<AboutUsLocationName>Tokyo, Japan<\/AboutUsLocationName>/);
+  assert.match(routeSource, /<AboutUsLocationOffice>Japan Office<\/AboutUsLocationOffice>/);
+  assert.match(routeSource, /〒105-6490 東京都港区虎ノ門1丁目17番1号/);
+  assert.match(routeSource, /<AboutUsLocationName>Bekasi, Indonesia<\/AboutUsLocationName>/);
+  assert.match(routeSource, /<AboutUsLocationOffice>Indonesia Office<\/AboutUsLocationOffice>/);
 
   assert.doesNotMatch(routeSource, /AboutUsPreviewPage/);
   assert.doesNotMatch(routeSource, /canonical: "\/t\/about-us"/);
@@ -61,7 +75,12 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.doesNotMatch(sectionSource, /rounded-\[24px\]/);
   assert.match(sectionSource, /<h3 className="w-\[93\.75px\] shrink-0 text-\[30px\] font-medium leading-\[39\.375px\] tracking-\[-0\.03em\] text-slate-950">\{year\}<\/h3>/);
   assert.match(sectionSource, /export function AboutUsLeaderName[\s\S]*return <p[^>]*className="text-\[18\.75px\] font-medium leading-\[26\.25px\] tracking-\[-0\.02em\] text-slate-950">\{children\}<\/p>;/);
-  assert.match(sectionSource, /export function AboutUsLocationName[\s\S]*<p[^>]*className="text-\[18\.75px\] font-medium leading-\[26\.25px\] tracking-\[-0\.02em\] text-slate-950">\{children\}<\/p>/);
+  assert.match(sectionSource, /export function AboutUsLocationName[\s\S]*<p[^>]*className="text-\[18px\] font-medium leading-\[26px\] tracking-\[-0\.02em\] text-slate-950">\{children\}<\/p>/);
+  assert.match(sectionSource, /export function AboutUsLocationOffice/);
+  assert.match(sectionSource, /export function AboutUsLocationEntity/);
+  assert.match(sectionSource, /text-\[14px\] leading-\[22px\] tracking-\[0\.01em\] text-slate-600/);
+  assert.match(sectionSource, /company-introduction\.jpg/);
+  assert.match(sectionSource, /sizes="\(min-width: 1024px\) 640px, 100vw"/);
 
   assert.match(sectionSource, /inline-flex w-fit self-start items-center justify-center border border-slate-200\/70 bg-white leading-none/);
   assert.match(sectionSource, /className="block h-\[17px\] w-\[23px\]"/);
