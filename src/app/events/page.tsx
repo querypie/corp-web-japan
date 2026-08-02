@@ -52,9 +52,9 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
       <SiteHeader />
       <SiteNoticeSurface />
 
-      <ResourceListHeroSection>
-        <ResourceListHeroTitle>イベント</ResourceListHeroTitle>
-        <ResourceListHeroDescription>
+      <ResourceListHeroSection className="text-left lg:pl-[300px]">
+        <ResourceListHeroTitle className="!mx-0 max-w-[760px]">イベント</ResourceListHeroTitle>
+        <ResourceListHeroDescription className="!mx-0 max-w-[760px] text-left text-[16px] leading-[26px] lg:text-[16px] lg:leading-[26px]">
           QueryPie AI に関するセミナーやウェビナー、イベント情報をご覧いただけます。
           <br />
           開催予定のイベントから過去のインサイトまで、最新の情報を一か所で確認できます。

@@ -15,8 +15,8 @@ test("blog index page directly composes the resource-list hero and uses the conc
   const source = readSource("src/app/blog/page.tsx");
 
   assert.match(source, /ResourceListHeroSection/);
-  assert.match(source, /ResourceListHeroTitle className="mx-0 max-w-\[760px\]">ブログ<\/ResourceListHeroTitle>/);
-  assert.match(source, /ResourceListHeroDescription className="mx-0 max-w-\[760px\] text-left text-\[16px\] leading-\[26px\] lg:text-\[16px\] lg:leading-\[26px\]">/);
+  assert.match(source, /ResourceListHeroTitle className="!mx-0 max-w-\[760px\]">ブログ<\/ResourceListHeroTitle>/);
+  assert.match(source, /ResourceListHeroDescription className="!mx-0 max-w-\[760px\] text-left text-\[16px\] leading-\[26px\] lg:text-\[16px\] lg:leading-\[26px\]">/);
   assert.match(source, /ResourceCategorySidebar/);
   assert.match(source, /<ResourceCategorySidebar activeLabel="ブログ" \/>/);
   assert.match(source, /ResourceListLoadMore/);

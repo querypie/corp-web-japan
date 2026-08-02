@@ -28,12 +28,21 @@ test("resource category heroes keep titles and lead copy in a balanced reading w
   assert.match(source, /pb-14 pt-\[120px\][\s\S]*lg:pb-16 lg:pt-\[152px\]/);
 });
 
-test("the resources hub centers a left-aligned, platform-consistent lead block", () => {
+test("the resource and event hubs align their Hero copy with the thumbnail column", () => {
   const source = readSource("src/app/resources/page.tsx");
+  const eventsSource = readSource("src/app/events/page.tsx");
 
+  assert.match(source, /<ResourceListHeroSection className="text-left lg:pl-\[300px\]">/);
+  assert.match(source, /<ResourceListHeroTitle className="!mx-0 max-w-\[760px\]">リソース<\/ResourceListHeroTitle>/);
   assert.match(
     source,
-    /<ResourceListHeroDescription className="max-w-\[760px\] text-left text-\[16px\] leading-\[26px\] lg:text-\[16px\] lg:leading-\[26px\]">/,
+    /<ResourceListHeroDescription className="!mx-0 max-w-\[760px\] text-left text-\[16px\] leading-\[26px\] lg:text-\[16px\] lg:leading-\[26px\]">/,
+  );
+  assert.match(eventsSource, /<ResourceListHeroSection className="text-left lg:pl-\[300px\]">/);
+  assert.match(eventsSource, /<ResourceListHeroTitle className="!mx-0 max-w-\[760px\]">イベント<\/ResourceListHeroTitle>/);
+  assert.match(
+    eventsSource,
+    /<ResourceListHeroDescription className="!mx-0 max-w-\[760px\] text-left text-\[16px\] leading-\[26px\] lg:text-\[16px\] lg:leading-\[26px\]">/,
   );
 });
 
@@ -48,10 +57,10 @@ test("resource category heroes align with the thumbnail column on desktop", () =
     const source = readSource(path);
 
     assert.match(source, /<ResourceListHeroSection className="text-left lg:pl-\[300px\]">/);
-    assert.match(source, /<ResourceListHeroTitle className="mx-0 max-w-\[760px\]">/);
+    assert.match(source, /<ResourceListHeroTitle className="!mx-0 max-w-\[760px\]">/);
     assert.match(
       source,
-      /<ResourceListHeroDescription className="mx-0 max-w-\[760px\] text-left text-\[16px\] leading-\[26px\] lg:text-\[16px\] lg:leading-\[26px\]">/,
+      /<ResourceListHeroDescription className="!mx-0 max-w-\[760px\] text-left text-\[16px\] leading-\[26px\] lg:text-\[16px\] lg:leading-\[26px\]">/,
     );
   }
 });

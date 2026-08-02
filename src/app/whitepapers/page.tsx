@@ -40,8 +40,8 @@ export default async function WhitepaperPage({ searchParams }: WhitepaperPagePro
       <SiteHeader />
 
       <ResourceListHeroSection className="text-left lg:pl-[300px]">
-        <ResourceListHeroTitle className="mx-0 max-w-[760px]">ホワイトペーパー</ResourceListHeroTitle>
-        <ResourceListHeroDescription className="mx-0 max-w-[760px] text-left text-[16px] leading-[26px] lg:text-[16px] lg:leading-[26px]">
+        <ResourceListHeroTitle className="!mx-0 max-w-[760px]">ホワイトペーパー</ResourceListHeroTitle>
+        <ResourceListHeroDescription className="!mx-0 max-w-[760px] text-left text-[16px] leading-[26px] lg:text-[16px] lg:leading-[26px]">
           AI導入・活用、ガバナンス、業務変革に関する実践的な知見を、ダウンロード資料として公開しています。
           検討の論点整理から社内提案まで、AI活用を前に進めるためにご活用ください。
         </ResourceListHeroDescription>
