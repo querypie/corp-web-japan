@@ -254,8 +254,8 @@ export default function AboutUsPage() {
               <AboutUsLocationOffice>R&amp;D Office</AboutUsLocationOffice>
               <AboutUsLocationEntity>주식회사 쿼리파이</AboutUsLocationEntity>
               <AboutUsLocationAddress>
-                <p>7F, 26, Magokjungang 1-ro,</p>
-                <p>Gangseo-gu, Seoul 07807, Republic of Korea</p>
+                <p>7F, 26, Magokjungang 1-ro, Gangseo-gu,</p>
+                <p>Seoul 07807</p>
               </AboutUsLocationAddress>
             </AboutUsLocationCard>
           </RevealOnScroll>
