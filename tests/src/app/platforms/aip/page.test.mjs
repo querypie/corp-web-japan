@@ -22,6 +22,7 @@ test("/platforms/aip keeps route-local copy/composition while the layout primiti
   assert.match(routeSource, /QueryPie AIP｜Agentic AI Platform/);
   assert.match(routeSource, /AIを、現場で動かすための基盤。/);
   assert.match(routeSource, /QueryPie AIPで動く、業務を前に進めるAIアプリ/);
+  assert.doesNotMatch(routeSource, /eyebrow="QueryPie AIPのアプリ"/);
   assert.match(routeSource, /AIと既存の業務システムをつなぎ、コスト・セキュリティ・運用を一つの基盤で整える/);
   assert.match(routeSource, /https:\/\/www\.querypie\.com\/assets\/products\/aip\/aip-cover\.png/);
   assert.match(routeSource, /<AipHeroVideo/);
@@ -47,6 +48,14 @@ test("/platforms/aip keeps route-local copy/composition while the layout primiti
   assert.match(routeSource, /接続可能な連携ツールを見る/);
   assert.match(routeSource, /from "@\/components\/sections\/simple-cta-section"/);
   assert.match(routeSource, /<AipFreeTrialCtaSection \/>/);
+  assert.ok(
+    routeSource.indexOf("実務に根づく、AIの実行機能") < routeSource.indexOf("QueryPie AIPで動く、業務を前に進めるAIアプリ"),
+    "the AIP apps section should follow the execution capabilities",
+  );
+  assert.ok(
+    routeSource.indexOf("QueryPie AIPで動く、業務を前に進めるAIアプリ") < routeSource.indexOf("<AipFreeTrialCtaSection />"),
+    "the AIP apps section should precede the trial CTA",
+  );
   assert.doesNotMatch(routeSource, /AipPreviewPage/);
   assert.doesNotMatch(routeSource, /Preview Service/i);
   assert.doesNotMatch(routeSource, /preview でローカル確認できるように移しています/);
@@ -99,6 +108,11 @@ test("/platforms/aip keeps route-local copy/composition while the layout primiti
   assert.match(platformSource, /relative overflow-x-hidden bg-white text-slate-950/);
   assert.match(platformSource, /paddingClassName = "px-6 lg:px-0"/);
   assert.match(platformSource, /joinClassNames\("flex justify-center", paddingClassName, className\)/);
+
+  const appSpotlightSource = readSource("src/components/sections/app-spotlight-card.tsx");
+  assert.match(appSpotlightSource, /eyebrow\?: ReactNode/);
+  assert.match(appSpotlightSource, /sectionTitle \? <h2[\s\S]*text-\[28px\][\s\S]*lg:text-\[44px\]/);
+  assert.match(appSpotlightSource, /\{eyebrow \? <p className="text-sm font-medium text-slate-600">\{eyebrow\}<\/p> : null\}/);
 
 });
 
