@@ -43,7 +43,8 @@ export default async function UseCasesPage({ searchParams }: UseCasesPageProps) 
       <ResourceListHeroSection className="text-left lg:pl-[300px]">
         <ResourceListHeroTitle className="!mx-0 max-w-[760px]">活用事例</ResourceListHeroTitle>
         <ResourceListHeroDescription className="!mx-0 max-w-[760px] text-left text-[16px] leading-[26px] lg:text-[16px] lg:leading-[26px]">
-          QueryPie AIが、企業のAI活用をどのように前進させているかをご紹介します。課題から導入・定着までの取り組みを、具体的な事例でご覧いただけます。
+          <span className="block">QueryPie AIが、企業のAI活用をどのように前進させているかをご紹介します。</span>
+          <span className="block">課題から導入・定着までの取り組みを、具体的な事例でご覧いただけます。</span>
         </ResourceListHeroDescription>
       </ResourceListHeroSection>
 

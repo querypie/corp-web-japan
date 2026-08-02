@@ -79,6 +79,7 @@ test("use-case and platform demo heroes align with the thumbnail column and use 
     assert.match(source, new RegExp(`<ResourceListHeroTitle className="!mx-0 max-w-\\[760px\\]">${title}<\\/ResourceListHeroTitle>`));
     assert.match(source, /<ResourceListHeroDescription className="!mx-0 max-w-\[760px\] text-left text-\[16px\] leading-\[26px\] lg:text-\[16px\] lg:leading-\[26px\]">/);
     assert.match(source, new RegExp(lead));
+    assert.match(source, /<span className="block">/);
     assert.doesNotMatch(source, /ライブデモを視聴し、実際のユースケースをご覧になってください。/);
   }
 });
