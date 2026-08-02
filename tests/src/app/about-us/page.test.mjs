@@ -59,6 +59,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(sectionSource, /export function AboutUsTimelineItem/);
   assert.match(sectionSource, /export function AboutUsLeaderCard/);
   assert.match(sectionSource, /export function AboutUsLocationCard/);
+  assert.match(sectionSource, /mt-\[31px\] grid gap-x-6 gap-y-10 md:grid-cols-2 xl:gap-x-0 xl:grid-cols-4/);
 
   assert.match(sectionSource, /export function AboutUsSection\(\{ children, muted = false \}: \{ children: ReactNode; muted\?: boolean \}\)/);
   assert.match(sectionSource, /export function AboutUsSection[\s\S]*<section[^>]*className=\{backgroundClass\}>[\s\S]*mx-auto max-w-\[1200px\] px-6 py-\[100px\] lg:px-0/);

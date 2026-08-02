@@ -141,7 +141,7 @@ export function AboutUsLeaderRole({ children }: { children: ReactNode }) {
 }
 
 export function AboutUsLocationGrid({ children }: { children: ReactNode }) {
-  return <div {...componentNameDebugProps("AboutUsLocationGrid")} className="mt-[31px] grid gap-x-[36px] gap-y-10 md:grid-cols-2 xl:grid-cols-4">{children}</div>;
+  return <div {...componentNameDebugProps("AboutUsLocationGrid")} className="mt-[31px] grid gap-x-6 gap-y-10 md:grid-cols-2 xl:gap-x-0 xl:grid-cols-4">{children}</div>;
 }
 
 export function AboutUsLocationCard({
