@@ -138,15 +138,6 @@ export default function AipPage() {
         </AipValueInner>
       </AipValueSection>
 
-      <AppSpotlightCard
-        sectionTitle="QueryPie AIPで動く、業務を前に進めるAIアプリ"
-        eyebrow="QueryPie AIPのアプリ"
-        title="会議を、次の業務につなげるLingo。"
-        description="Lingoは、会議の文字起こし、リアルタイム翻訳、要約を一つにしたAIアプリです。QueryPie AIPが提供する安全性と運用性を土台に、会議で生まれる情報を次の行動へつなげます。"
-        ctaLabel="Lingoを見る"
-        href="https://lingo.querypie.ai/ja?utm_source=querypie_ai&utm_medium=web&utm_campaign=platform_aip_lingo"
-      />
-
       <AipFeatureSection muted>
         <AipFeatureInner>
           <RevealOnScroll>
@@ -299,6 +290,14 @@ export default function AipPage() {
           </AipFeatureRow>
         </AipFeatureInner>
       </AipFeatureSection>
+
+      <AppSpotlightCard
+        sectionTitle="QueryPie AIPで動く、業務を前に進めるAIアプリ"
+        title="会議を、次の業務につなげるLingo。"
+        description="Lingoは、会議の文字起こし、リアルタイム翻訳、要約を一つにしたAIアプリです。QueryPie AIPが提供する安全性と運用性を土台に、会議で生まれる情報を次の行動へつなげます。"
+        ctaLabel="Lingoを見る"
+        href="https://lingo.querypie.ai/ja?utm_source=querypie_ai&utm_medium=web&utm_campaign=platform_aip_lingo"
+      />
 
       <AipFreeTrialCtaSection />
 

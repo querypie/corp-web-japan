@@ -5,7 +5,7 @@ import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type AppSpotlightCardProps = {
   sectionTitle?: ReactNode;
-  eyebrow: ReactNode;
+  eyebrow?: ReactNode;
   title: ReactNode;
   description: ReactNode;
   ctaLabel: ReactNode;
@@ -31,7 +31,7 @@ export function AppSpotlightCard({
       {...componentNameDebugProps("AppSpotlightCard")}
       className={`mx-auto w-full max-w-[1200px] ${flushX ? "px-0" : "px-6 lg:px-0"} py-16 lg:py-24 ${className ?? ""}`}
     >
-      {sectionTitle ? <h2 className="mb-8 text-center text-[32px] font-normal leading-[40px] tracking-[-0.04em] text-slate-950 lg:text-[52px] lg:leading-[62px]">{sectionTitle}</h2> : null}
+      {sectionTitle ? <h2 className="mb-8 text-center text-[28px] font-normal leading-[36px] tracking-[-0.04em] text-slate-950 lg:text-[44px] lg:leading-[54px]">{sectionTitle}</h2> : null}
       <div className="flex flex-col gap-8 rounded-[28px] border border-[#d9d9d9] bg-[linear-gradient(135deg,#e9e2ff_0%,#dff2ff_54%,#f4e8f2_100%)] p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:p-12">
         <div className="flex min-w-0 flex-col gap-5 sm:flex-row sm:items-start">
           <Image
@@ -43,8 +43,8 @@ export function AppSpotlightCard({
             className="h-16 w-16 shrink-0 rounded-[14px]"
           />
           <div>
-            <p className="text-sm font-medium text-slate-600">{eyebrow}</p>
-            <Title className="mt-2 text-[28px] font-medium leading-[1.25] tracking-[-0.02em] text-slate-950 lg:text-[36px]">
+            {eyebrow ? <p className="text-sm font-medium text-slate-600">{eyebrow}</p> : null}
+            <Title className={`${eyebrow ? "mt-2" : ""} text-[28px] font-medium leading-[1.25] tracking-[-0.02em] text-slate-950 lg:text-[36px]`}>
               {title}
             </Title>
             <p className="mt-4 max-w-[680px] text-base leading-7 text-slate-700">
