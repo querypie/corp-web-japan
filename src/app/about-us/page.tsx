@@ -68,13 +68,13 @@ export default function AboutUsPage() {
             <RevealOnScroll>
               <AboutUsHeroCopy>
                 <AboutUsBodyCopy>
-                  QueryPie AIは、セキュリティとガバナンスを基盤に、企業のAI活用を構想から実装、定着まで前進させます。
+                  QueryPie AIは、セキュリティとガバナンスを基盤に、企業のAI活用を構想から実装、定着、拡張まで前進させます。
                 </AboutUsBodyCopy>
                 <AboutUsBodyCopy>
-                  2016年12月にシリコンバレーで創業して以来、データ保護で培った知見を、エンタープライズAIへと広げてきました。
+                  2016年12月にシリコンバレーで創業して以来、データアクセスを守る技術と、複雑なインフラを統制する知見を磨いてきました。
                 </AboutUsBodyCopy>
                 <AboutUsBodyCopy>
-                  複雑なインフラやコストの壁を越え、現場で成果につながるAI環境をつくります。
+                  その知見をエンタープライズAIへ広げ、AIエージェント、データ、既存システムを安全につなぎます。複雑なインフラやコストの壁を越え、AIを現場の成果へ変えていきます。
                 </AboutUsBodyCopy>
               </AboutUsHeroCopy>
             </RevealOnScroll>
@@ -174,6 +174,12 @@ export default function AboutUsPage() {
             <AboutUsTimelineItem year="2025">
               <li>QueryPie AIP（AIプラットフォーム）提供開始</li>
               <li>FDE（フォワードデプロイエンジニア）サービス提供開始</li>
+            </AboutUsTimelineItem>
+          </RevealOnScroll>
+          <RevealOnScroll delayMs={400}>
+            <AboutUsTimelineItem year="2026">
+              <li>QueryPie AIPアプリ「Lingo」「NotePie」を提供開始</li>
+              <li>QueryPie ACP AI Packを提供開始</li>
             </AboutUsTimelineItem>
           </RevealOnScroll>
         </AboutUsTimeline>
