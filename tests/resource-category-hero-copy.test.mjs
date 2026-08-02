@@ -27,3 +27,12 @@ test("resource category heroes keep titles and lead copy in a balanced reading w
   assert.match(source, /mx-auto mt-5 max-w-\[760px\] text-\[16px\] font-light leading-\[1\.75\][\s\S]*lg:text-\[18px\]/);
   assert.match(source, /pb-14 pt-\[120px\][\s\S]*lg:pb-16 lg:pt-\[152px\]/);
 });
+
+test("the resources hub centers a left-aligned, platform-consistent lead block", () => {
+  const source = readSource("src/app/resources/page.tsx");
+
+  assert.match(
+    source,
+    /<ResourceListHeroDescription className="max-w-\[760px\] text-left text-\[16px\] leading-\[26px\] lg:text-\[16px\] lg:leading-\[26px\]">/,
+  );
+});
