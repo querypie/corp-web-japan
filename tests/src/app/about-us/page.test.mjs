@@ -34,6 +34,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(routeSource, /〒105-6490 東京都港区虎ノ門1丁目17番1号/);
   assert.match(routeSource, /<AboutUsLocationName>Bekasi, Indonesia<\/AboutUsLocationName>/);
   assert.match(routeSource, /<AboutUsLocationOffice>Indonesia Office<\/AboutUsLocationOffice>/);
+  assert.match(routeSource, /<AboutUsLocationEntity>&nbsp;<\/AboutUsLocationEntity>/);
 
   assert.doesNotMatch(routeSource, /AboutUsPreviewPage/);
   assert.doesNotMatch(routeSource, /canonical: "\/t\/about-us"/);
@@ -76,18 +77,20 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.doesNotMatch(sectionSource, /rounded-\[24px\]/);
   assert.match(sectionSource, /<h3 className="w-\[93\.75px\] shrink-0 text-\[30px\] font-medium leading-\[39\.375px\] tracking-\[-0\.03em\] text-slate-950">\{year\}<\/h3>/);
   assert.match(sectionSource, /export function AboutUsLeaderName[\s\S]*return <p[^>]*className="text-\[18\.75px\] font-medium leading-\[26\.25px\] tracking-\[-0\.02em\] text-slate-950">\{children\}<\/p>;/);
-  assert.match(sectionSource, /export function AboutUsLocationName[\s\S]*<p[^>]*className="text-\[18px\] font-medium leading-\[26px\] tracking-\[-0\.02em\] text-slate-950">\{children\}<\/p>/);
+  assert.match(sectionSource, /export function AboutUsLocationName[\s\S]*<p[^>]*className="text-\[18px\] font-normal leading-\[26px\] tracking-\[-0\.02em\] text-slate-950">\{children\}<\/p>/);
   assert.match(sectionSource, /export function AboutUsLocationOffice/);
   assert.match(sectionSource, /export function AboutUsLocationEntity/);
   assert.match(sectionSource, /grid h-full grid-cols-\[23px_minmax\(0,1fr\)\] items-center gap-x-2/);
-  assert.match(sectionSource, /col-start-2 mt-2 text-\[14px\] font-medium leading-\[20px\]/);
-  assert.match(sectionSource, /col-start-2 mt-0 space-y-0 text-\[13px\] leading-\[20px\]/);
+  assert.match(sectionSource, /col-start-2 row-start-1/);
+  assert.match(sectionSource, /col-start-2 row-start-2 mt-2 text-\[13px\] font-semibold leading-\[20px\] tracking-\[0\.01em\] text-slate-600/);
+  assert.match(sectionSource, /col-start-2 row-start-3 mt-1 min-h-\[22px\]/);
+  assert.match(sectionSource, /col-start-2 row-start-4 mt-0 space-y-0 text-\[13px\] leading-\[20px\]/);
   assert.match(sectionSource, /text-\[14px\] leading-\[22px\] tracking-\[0\.01em\] text-slate-600/);
   assert.match(sectionSource, /company-introduction\.jpg/);
   assert.match(sectionSource, /sizes="\(min-width: 1024px\) 640px, 100vw"/);
 
-  assert.match(sectionSource, /inline-flex w-fit self-start items-center justify-center border border-slate-200\/70 bg-white leading-none/);
-  assert.match(sectionSource, /className="block h-\[17px\] w-\[23px\]"/);
+  assert.match(sectionSource, /inline-flex w-fit items-center justify-center border border-slate-200\/70 bg-white leading-none/);
+  assert.match(sectionSource, /<Image src=\{iconSrc\} alt=\{iconAlt\} width=\{23\} height=\{17\} className="block"/);
   assert.doesNotMatch(sectionSource, /h-\[35px\] w-\[35px\]/);
   assert.doesNotMatch(sectionSource, /rounded-\[4px\]/);
 });
