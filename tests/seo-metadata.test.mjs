@@ -35,6 +35,7 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.match(robots, /const deployedSiteUrl = await getRequestDeployedSiteUrl\(\)/);
   assert.match(robots, /sitemap:\s*new URL\("\/sitemap\.xml", deployedSiteUrl\)\.toString\(\)/);
   assert.match(robots, /host:\s*deployedSiteUrl\.toString\(\)/);
+  assert.doesNotMatch(robots, /disallow\s*:/);
   assert.doesNotMatch(robots, /\/privacy-policy/);
   assert.doesNotMatch(robots, /\/terms-of-service/);
 
