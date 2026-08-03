@@ -267,7 +267,7 @@ export default function AboutUsPage() {
             <AboutUsLocationCard iconSrc="/about-us/location/republic-of-korea-cu.svg" iconAlt="Republic of Korea">
               <AboutUsLocationName>Seoul, South Korea</AboutUsLocationName>
               <AboutUsLocationOffice>R&amp;D Office</AboutUsLocationOffice>
-              <AboutUsLocationEntity>주식회사 쿼리파이</AboutUsLocationEntity>
+              <AboutUsLocationEntity>QueryPie, Inc.</AboutUsLocationEntity>
               <AboutUsLocationAddress>
                 <p>7F, 26, Magokjungang 1-ro, Gangseo-gu,</p>
                 <p>Seoul 07807</p>
