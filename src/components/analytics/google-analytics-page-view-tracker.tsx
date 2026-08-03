@@ -45,6 +45,8 @@ export function GoogleAnalyticsPageViewTracker({
         page_referrer: previousPageLocation.current,
         send_to: measurementId,
       });
+    } catch {
+      // Analytics must never block App Router navigation.
     } finally {
       previousPageLocation.current = currentPageLocation;
     }

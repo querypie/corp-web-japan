@@ -53,10 +53,21 @@ test("Google Analytics page-view tracker sends only App Router navigation page_v
   assert.match(trackerSource, /page_path: pagePath/);
   assert.match(trackerSource, /page_referrer: previousPageLocation\.current/);
   assert.match(trackerSource, /send_to: measurementId/);
-  assert.match(
+
+  const tryIndex = findSourceIndex(trackerSource, /try\s*\{/);
+  const pageViewIndex = findSourceIndex(trackerSource, /gtag\("event", "page_view", \{/);
+  const catchIndex = findSourceIndex(
     trackerSource,
-    /previousPageLocation\.current = currentPageLocation/,
+    /\} catch \{\s*\/\/ Analytics must never block App Router navigation\.\s*\}/s,
   );
+  const finallyIndex = findSourceIndex(
+    trackerSource,
+    /\} finally \{\s*previousPageLocation\.current = currentPageLocation;\s*\}/s,
+  );
+
+  assert.ok(tryIndex < pageViewIndex, "page_view should be sent inside the try block");
+  assert.ok(pageViewIndex < catchIndex, "analytics exceptions should be suppressed after the send attempt");
+  assert.ok(catchIndex < finallyIndex, "previousPageLocation should update in finally after catch");
 });
 
 test("generate_lead helper sends a success-only lead surface event", () => {
