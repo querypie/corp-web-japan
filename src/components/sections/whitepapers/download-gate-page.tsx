@@ -170,6 +170,7 @@ export function WhitepaperDownloadGatePage({
 
       if (!response.ok || !result?.success) {
         setErrorMessage(result?.message ?? "送信に失敗しました。時間をおいて再度お試しください。");
+        setSubmitting(false);
         return;
       }
 
@@ -180,7 +181,6 @@ export function WhitepaperDownloadGatePage({
       });
     } catch {
       setErrorMessage("送信に失敗しました。時間をおいて再度お試しください。");
-    } finally {
       setSubmitting(false);
     }
   }

@@ -229,6 +229,29 @@ test("lead generation events are imported and sent only after confirmed submissi
   );
 });
 
+test("whitepaper download form stays locked while analytics completion is pending", () => {
+  const whitepaperSource = readSource(whitepaperDownloadGatePagePath);
+  const normalSubmitStart = whitepaperSource.indexOf("async function handleSubmit");
+  const normalSubmitEnd = whitepaperSource.indexOf("\n  return (", normalSubmitStart);
+  const normalSubmitSource = whitepaperSource.slice(normalSubmitStart, normalSubmitEnd);
+
+  assert.doesNotMatch(
+    normalSubmitSource,
+    /finally \{\s*setSubmitting\(false\);\s*\}/s,
+    "confirmed submissions must stay locked until analytics completion starts navigation",
+  );
+  assert.match(
+    normalSubmitSource,
+    /if \(!response\.ok \|\| !result\?\.success\) \{\s*setErrorMessage\([\s\S]*?\);\s*setSubmitting\(false\);\s*return;\s*\}/,
+    "unsuccessful responses should unlock the form",
+  );
+  assert.match(
+    normalSubmitSource,
+    /\} catch \{\s*setErrorMessage\([\s\S]*?\);\s*setSubmitting\(false\);\s*\}/,
+    "request failures should unlock the form",
+  );
+});
+
 function assertSuccessOrder(source, unsuccessfulGuardPattern, eventPattern, successPattern) {
   const unsuccessfulGuardIndex = findSourceIndex(source, unsuccessfulGuardPattern);
   const eventIndex = findSourceIndex(source, eventPattern);
