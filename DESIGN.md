@@ -50,8 +50,8 @@
 ## Components
 
 - Existing components to reuse: `TopPageSections`, `FloatingConversionCta`, `RevealOnScroll`, and existing Link/button visual patterns.
-- New/changed components: No new design-system component; evolve hero proof-pill presentation, the existing CTA destination, the existing solution-choice copy, and the shared simple CTA button in place.
-- Variants and states: Primary CTA is high contrast; secondary CTA supports research. Shared simple CTA buttons end with a right-arrow icon to make navigation explicit, especially when actions are grouped. Mobile proof pills may scroll horizontally without wrapping.
+- New/changed components: No new design-system component; evolve hero proof-pill presentation, the existing CTA destination, the existing solution-choice copy, and shared CTA actions in place.
+- Variants and states: Primary CTA is high contrast; secondary CTA supports research. Shared simple CTA buttons and the Lingo spotlight action end with a right-arrow icon to make navigation explicit, especially when actions are grouped. Mobile proof pills may scroll horizontally without wrapping.
 - Token/component ownership: Hero layout behavior stays in `HeroProofPillGroup`; page-level message and destination changes stay in `src/app/page.tsx`.
 
 ## Accessibility

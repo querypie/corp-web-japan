@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { ArrowRight } from "lucide-react";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type AppSpotlightCardProps = {
@@ -54,9 +55,10 @@ export function AppSpotlightCard({
         </div>
         <Link
           href={href}
-          className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+          className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-lg bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
         >
-          {ctaLabel} <span aria-hidden="true">→</span>
+          {ctaLabel}
+          <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0" />
         </Link>
       </div>
     </section>
