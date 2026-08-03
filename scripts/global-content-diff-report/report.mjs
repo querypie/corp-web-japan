@@ -1,4 +1,4 @@
-import { stat } from "node:fs/promises";
+import { readdir, stat } from "node:fs/promises";
 import path from "node:path";
 
 import {
@@ -10,7 +10,7 @@ import {
 } from "./discovery.mjs";
 import { findPossibleJapanMatches, indexJapanCandidateRecords, normalizeCandidateUrl } from "./candidate-matches.mjs";
 import { normalizeUrl } from "./lib.mjs";
-import { sourceFamily, sourceRoots, targetFamily, targetFamilyDescriptor } from "./source-family-map.mjs";
+import { sourceFamily, sourceRoots, targetFamily } from "./source-family-map.mjs";
 import { resolveLegacySourceSection, sourceIdentityKey } from "./sync-identity.mjs";
 
 const safeKebabSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -23,8 +23,7 @@ function validateReportBaselineRecord(record, targetRepo) {
   if (record.sourceSection !== descriptor.sourceSection) {
     throw new Error(`baseline record sourceSection must equal descriptor section: ${descriptor.sourceSection}`);
   }
-  const targetDescriptor = targetFamilyDescriptor(record.targetFamily);
-  if (targetDescriptor.targetFamily !== descriptor.targetFamily || record.targetFamily !== descriptor.targetFamily) {
+  if (record.targetFamily !== descriptor.targetFamily) {
     throw new Error(`baseline record targetFamily must equal descriptor target family: ${descriptor.targetFamily}`);
   }
   if (!Number.isInteger(record.targetId) || record.targetId <= 0) {
@@ -95,11 +94,26 @@ function globalSourceViews(globalItems) {
 }
 
 export async function assertSupportedSourceRoots(globalRepo) {
-  for (const descriptor of sourceRoots(globalRepo)) {
+  const descriptors = sourceRoots(globalRepo);
+  const descriptorsByParent = Map.groupBy(descriptors, ({ relativeRoot }) => path.dirname(relativeRoot));
+  for (const [relativeParent, siblings] of descriptorsByParent) {
+    if (siblings.length < 2) continue;
+    const expectedRoots = new Set(siblings.map(({ relativeRoot }) => relativeRoot));
+    const entries = await readdir(path.join(globalRepo, relativeParent), { withFileTypes: true });
+    for (const entry of entries) {
+      const relativeRoot = path.join(relativeParent, entry.name).split(path.sep).join("/");
+      if (entry.isDirectory() && !expectedRoots.has(relativeRoot)) {
+        throw new Error(`unmapped Global source root: ${relativeRoot}`);
+      }
+    }
+  }
+
+  for (const descriptor of descriptors) {
     let rootStat;
     try {
       rootStat = await stat(descriptor.root);
     } catch (error) {
+      if (error.code === "ENOENT" && descriptor.optionalRoot) continue;
       if (error.code === "ENOENT") {
         throw new Error(`supported Global source root must be a directory: ${descriptor.relativeRoot}`);
       }

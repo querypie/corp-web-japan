@@ -36,6 +36,9 @@ test("replaces Direct Ignore automation with repo-local Global content operation
   assert.match(operations, /^---\nname: global-content-operations\ndescription: Use when/m);
   assert.match(operations, /local-only/);
   assert.match(operations, /latest `main` snapshots/);
+  assert.match(operations, /Latest code and data parity preflight/);
+  assert.match(operations, /Global public menu categories[\s\S]*Global `src\/content` roots[\s\S]*Japan public menu paths[\s\S]*Japan `src\/content` target roots[\s\S]*`SOURCE_FAMILIES`/);
+  assert.match(operations, /stop before report generation or Slack delivery/);
   assert.match(operations, /git@github\.com:querypie\/corp-web-v2\.git/);
   assert.match(operations, /git@github\.com:querypie\/corp-web-japan\.git/);
   assert.match(operations, /validate the current checkout origin/);

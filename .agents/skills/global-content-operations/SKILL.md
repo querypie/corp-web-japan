@@ -14,9 +14,15 @@ Run as a local-only operation on demand. No scheduled or manually dispatched Git
 
 Never assume a user name, home directory, sibling checkout, or fixed local path. Resolve the current Japan repository with Git and validate the current checkout origin against the canonical Japan repository. Reuse a valid Global checkout when one is explicitly available; otherwise clone the canonical Global repository into a temporary or user-cache directory. Fetch `origin/main` for both repositories, create clean detached worktrees from those exact refs, record both full SHAs, and cleanup temporary worktrees/clones when the operation ends. Fail closed on an origin mismatch, fetch failure, dirty authority checkout, or missing supported content roots.
 
+## Latest code and data parity preflight
+
+Before every report, compare the latest Global public menu categories, Global `src/content` roots, Japan public menu paths, Japan `src/content` target roots, and `SOURCE_FAMILIES`. Inspect at least Global `src/features/content/publicPathConfig.ts`, Global `src/content/{demo,documentation,news}`, Japan `src/components/layout/site-header-client.tsx`, and Japan `src/content`. Every public content menu family and every actual Global source root must have an explicit descriptor, production list URL, canonical segment, and Japan target family. Optional descriptors are allowed only for a menu family whose Global source root does not exist yet. The report tooling also fails closed when a new directory appears under a managed Global content root without a descriptor.
+
+If the menu, code, source roots, target roots, manifest schema, or report contract drift, stop before report generation or Slack delivery. Update the mapping, tooling, skill, tests, and OpenSpec through a normal reviewed PR first. Never treat the current `SOURCE_FAMILIES` list as proof that no new data family exists.
+
 ## Required order
 
-1. Complete the portable repository bootstrap above. Never use a saved Slack report as authority.
+1. Complete the portable repository bootstrap and latest code/data parity preflight above. Never use a saved Slack report as authority.
 2. Build a fresh dry-run from both latest `main` snapshots. Identify current `Untracked` items and content added or changed in the current JST-day Git history.
 3. For every `Untracked` item, inspect candidates only within its target family. Deterministic signals nominate candidates; they never establish a baseline mapping.
 4. Apply the **Baseline review gate**. AI must compare Global and Japan title, summary, full body, date, slug, source, and media. Record:

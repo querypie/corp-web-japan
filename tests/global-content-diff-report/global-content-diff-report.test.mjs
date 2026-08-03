@@ -445,6 +445,82 @@ test("fails closed when any supported family root is missing instead of emitting
   });
 });
 
+test("fails closed when latest Global data adds an unmapped source family", async () => {
+  await withTempRepos(async ({ globalRepo, targetRepo }) => {
+    await mkdir(path.join(globalRepo, "src/content/demo/new-family"), { recursive: true });
+    await writeManifest(targetRepo, "baseline", []);
+    await writeManifest(targetRepo, "ignore", []);
+
+    await assert.rejects(
+      () => buildGlobalOnlyReport({
+        globalRepo,
+        targetRepo,
+        sitemapXml: "",
+        productionListHtmlByUrl: {},
+        now: "2026-03-01T00:00:00.000Z",
+      }),
+      /unmapped Global source root: src\/content\/demo\/new-family/,
+    );
+  });
+});
+
+test("accepts an absent optional menu family source root", async () => {
+  await withTempRepos(async ({ globalRepo, targetRepo }) => {
+    await writeGlobalSource(globalRepo, publishedNews("cnt_000498", "still-valid"));
+    await writeManifest(targetRepo, "baseline", []);
+    await writeManifest(targetRepo, "ignore", []);
+    const optional = descriptorFor("aip-features");
+    assert.equal(optional.optionalRoot, true);
+    await rm(path.join(globalRepo, optional.relativeRoot), { recursive: true, force: true });
+
+    const report = await buildGlobalOnlyReport({
+      globalRepo,
+      targetRepo,
+      sitemapXml: "<loc>https://www.querypie.com/en/news/still-valid</loc>",
+      productionListHtmlByUrl: {
+        "https://www.querypie.com/en/news": '<a href="/en/news/still-valid">valid</a>',
+        "https://www.querypie.com/en/documentation": "",
+        "https://www.querypie.com/en/demo": "",
+      },
+      now: "2026-03-01T00:00:00.000Z",
+    });
+
+    assert.equal(report.counts.globalPublished, 1);
+  });
+});
+
+test("validates nested Japan demo target paths from their source descriptor", async () => {
+  await withTempRepos(async ({ globalRepo, targetRepo }) => {
+    await writeGlobalSource(globalRepo, {
+      sourceId: "cnt_000025",
+      category: "acp-features",
+      slug: "integrating-querypie-with-redash",
+      title: { en: "Integrating QueryPie with Redash" },
+    });
+    await writeTargetFile(targetRepo, "src/content/demo/acp/1-integrating-querypie-with-redash.mdx");
+    await writeManifest(targetRepo, "baseline", [
+      baselineMapping("demo", "cnt_000025", "acp-features", "demo/acp", 1, "integrating-querypie-with-redash"),
+    ]);
+    await writeManifest(targetRepo, "ignore", []);
+
+    const report = await buildGlobalOnlyReport({
+      globalRepo,
+      targetRepo,
+      sitemapXml: "<loc>https://www.querypie.com/en/demo/acp/integrating-querypie-with-redash</loc>",
+      productionListHtmlByUrl: {
+        "https://www.querypie.com/en/news": "",
+        "https://www.querypie.com/en/documentation": "",
+        "https://www.querypie.com/en/demo": '<a href="/en/demo/acp/integrating-querypie-with-redash">valid</a>',
+      },
+      now: "2026-03-01T00:00:00.000Z",
+    });
+
+    assert.equal(report.counts.globalPublished, 1);
+    assert.equal(report.counts.japanPresent, 1);
+    assert.equal(report.counts.globalOnly, 0);
+  });
+});
+
 test("throws for listed invalid sources that are not skippable", async () => {
   await withTempRepos(async ({ globalRepo }) => {
     await writeGlobalSource(globalRepo, {
@@ -748,6 +824,36 @@ test("renders a compact status-first report with collapsible containers and sour
   assert.match(renderedTitle, /…$/);
 });
 
+test("renders shared target-family counts once when multiple sources map to use cases", () => {
+  const item = reportItem(68, {
+    identity: "demo:cnt_000068",
+    sourceSection: "demo",
+    sourceCategory: "use-cases",
+    targetFamily: "use-cases",
+    sourcePath: "src/content/demo/use-cases/cnt_000068",
+    sourceUrl: "https://www.querypie.com/en/demo/use-cases/example",
+  });
+  const report = reportWithItems(1, { items: [item], familyCounts: { "use-cases": 1 } });
+
+  const [payload] = buildSlackPayloads(report, slackMetadata);
+  assert.equal((payload.text.match(/Use cases 1/g) || []).length, 1);
+});
+
+test("renders auditable Slack links for Global demo source paths", () => {
+  const item = reportItem(68, {
+    identity: "demo:cnt_000068",
+    sourceSection: "demo",
+    sourceCategory: "use-cases",
+    targetFamily: "use-cases",
+    sourcePath: "src/content/demo/use-cases/cnt_000068",
+    sourceUrl: "https://www.querypie.com/en/demo/use-cases/example",
+  });
+  const report = reportWithItems(1, { items: [item], familyCounts: { "use-cases": 1 } });
+
+  const [payload] = buildSlackPayloads(report, slackMetadata);
+  assert.match(JSON.stringify(payload), /src\/content\/demo\/use-cases\/cnt_000068/);
+});
+
 test("renders an AI-reviewed operations summary before final report items", () => {
   const report = {
     ...reportWithItems(1, { items: [reportItem(51, { status: "Ignored" })] }),
@@ -793,6 +899,40 @@ test("renders an AI-reviewed operations summary before final report items", () =
   assert.match(rendered, /Status · Ignored/);
   assert.match(rendered, /Global 1 · Japan 0/);
   assert.doesNotMatch(rendered, /Untracked 0 · Ignored 1 · Global|Baseline \+1|Ignore unchanged/);
+});
+
+test("renders all 24 reconciled demo items in one operations report", () => {
+  const report = {
+    ...emptyReport(),
+    counts: { globalPublished: 96, japanPresent: 143, globalOnly: 0 },
+    operationsSummary: {
+      dateJst: "2026-08-03",
+      globalAdded: 24,
+      existingJapanMatches: 24,
+      newMdx: 0,
+      baselineAdded: 24,
+      baselineRemoved: 0,
+      ignoreAdded: 0,
+      ignoreRemoved: 0,
+      items: Array.from({ length: 24 }, (_, index) => ({
+        identity: `demo:cnt_${String(index + 68).padStart(6, "0")}`,
+        title: `Demo ${index + 1}`,
+        targetFamily: "use-cases",
+        dateIso: "2026-08-03",
+        globalUrl: `https://www.querypie.com/en/demo/use-cases/demo-${index + 1}`,
+        japanUrl: `https://querypie.ai/use-cases/${index + 6}/demo-${index + 1}`,
+        target: `Use case ${index + 6}`,
+        verdict: "Equivalent",
+        state: "matched",
+        action: "Baseline added",
+      })),
+    },
+  };
+
+  const payloads = buildSlackPayloads(report, slackMetadata, { final: true });
+  const rendered = JSON.stringify(payloads);
+  assert.equal((rendered.match(/Result · Same content/g) || []).length, 24);
+  assert.match(rendered, /Today · Matched 24/);
 });
 
 test("renders unresolved content with the same collapsed review card shape", () => {

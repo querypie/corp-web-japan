@@ -13,6 +13,8 @@ const FAMILY_LABELS = Object.freeze({
   events: "Events",
   glossary: "Glossary",
   "introduction-deck": "Introduction deck",
+  "demo/aip": "AIP demo",
+  "demo/acp": "ACP demo",
 });
 
 function escapeMrkdwn(value) {
@@ -51,7 +53,7 @@ function itemText(item, metadata) {
     throw new Error(`invalid original URL: ${item.identity}`);
   }
   if (originalUrl.protocol !== "https:") throw new Error(`non-HTTPS original URL: ${item.identity}`);
-  if (!/^src\/content\/(?:news|documentation\/[a-z0-9-]+)\/cnt_\d+$/.test(item.sourcePath || "")) {
+  if (!/^src\/content\/(?:news|documentation\/[a-z0-9-]+|demo\/[a-z0-9-]+)\/cnt_\d+$/.test(item.sourcePath || "")) {
     throw new Error(`invalid Global source path: ${item.identity}`);
   }
 
@@ -90,7 +92,7 @@ function chunk(list, size) {
   return chunks;
 }
 
-const FAMILY_ORDER = Object.freeze(SOURCE_FAMILIES.map(({ targetFamily }) => targetFamily));
+const FAMILY_ORDER = Object.freeze([...new Set(SOURCE_FAMILIES.map(({ targetFamily }) => targetFamily))]);
 const STATUS_ORDER = Object.freeze(["Untracked", "Ignored"]);
 
 function compareSlackItems(left, right) {
@@ -157,11 +159,11 @@ function validateOperationsSummary(summary) {
   for (const key of countKeys) {
     if (!Number.isInteger(summary[key]) || summary[key] < 0) throw new Error(`operations summary has invalid ${key}`);
   }
-  if (!Array.isArray(summary.items) || summary.items.length > 20) {
-    throw new Error("operations summary items must be an array with at most 20 entries");
+  if (!Array.isArray(summary.items) || summary.items.length > 40) {
+    throw new Error("operations summary items must be an array with at most 40 entries");
   }
   for (const item of summary.items) {
-    if (!/^(documentation|news):cnt_\d+$/.test(item?.identity || "")) {
+    if (!/^(demo|documentation|news):cnt_\d+$/.test(item?.identity || "")) {
       throw new Error("operations summary item has invalid identity");
     }
     for (const key of ["title", "targetFamily", "dateIso", "target", "verdict", "state", "action"]) {

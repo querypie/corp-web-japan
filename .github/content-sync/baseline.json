@@ -216,6 +216,222 @@
     "targetSlug": "ztna-security-prisma-access"
   },
   {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000068",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "seo-analyst",
+    "targetFamily": "use-cases",
+    "targetId": 29,
+    "targetSlug": "seo-analyst"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000069",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "quotation-analyze-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 28,
+    "targetSlug": "quotation-analyze-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000070",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "quotation-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 27,
+    "targetSlug": "quotation-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000071",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "portfolio-insight-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 25,
+    "targetSlug": "portfolio-insight-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000072",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "investment-analyst-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 26,
+    "targetSlug": "investment-analyst-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000073",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "aws-solutions-architect-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 24,
+    "targetSlug": "aws-solutions-architect-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000074",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "aws-log-analytics-agent",
+    "targetFamily": "use-cases",
+    "targetId": 22,
+    "targetSlug": "aws-log-analytics-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000075",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "aws-inspector-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 23,
+    "targetSlug": "aws-inspector-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000076",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "military-hr-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 20,
+    "targetSlug": "military-hr-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000077",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "incident-mgmt-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 21,
+    "targetSlug": "incident-mgmt-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000078",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "baggage-operations-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 18,
+    "targetSlug": "baggage-operations-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000079",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "aircrew-scheduler-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 19,
+    "targetSlug": "aircrew-scheduler-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000080",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "aircraft-maintenance-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 17,
+    "targetSlug": "aircraft-maintenance-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000081",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "dev-insight-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 16,
+    "targetSlug": "dev-insight-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000082",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "factory-iot-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 15,
+    "targetSlug": "factory-iot-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000083",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "credit-check-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 14,
+    "targetSlug": "credit-check-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000084",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "m365-ai-agent",
+    "targetFamily": "use-cases",
+    "targetId": 13,
+    "targetSlug": "m365-ai-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000085",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "work-collaboration-agent",
+    "targetFamily": "use-cases",
+    "targetId": 12,
+    "targetSlug": "work-collaboration-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000086",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "server-access-agent",
+    "targetFamily": "use-cases",
+    "targetId": 9,
+    "targetSlug": "server-access-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000087",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "security-audit-agent",
+    "targetFamily": "use-cases",
+    "targetId": 11,
+    "targetSlug": "security-audit-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000088",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "kubernetes-manager-agent",
+    "targetFamily": "use-cases",
+    "targetId": 10,
+    "targetSlug": "kubernetes-manager-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000089",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "data-analytics-agent-2",
+    "targetFamily": "use-cases",
+    "targetId": 8,
+    "targetSlug": "data-analytics-agent-2"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000090",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "data-analytics-agent",
+    "targetFamily": "use-cases",
+    "targetId": 7,
+    "targetSlug": "data-analytics-agent"
+  },
+  {
+    "sourceSection": "demo",
+    "sourceId": "cnt_000091",
+    "sourceCategory": "use-cases",
+    "sourceSlug": "querypie-ai-agent-demo",
+    "targetFamily": "use-cases",
+    "targetId": 6,
+    "targetSlug": "querypie-ai-agent-demo"
+  },
+  {
     "sourceSection": "documentation",
     "sourceId": "cnt_000092",
     "sourceCategory": "voc",

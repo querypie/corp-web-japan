@@ -26,9 +26,36 @@ The report SHALL build its Global inventory only from source families exported b
 
 #### Scenario: Unsupported or unpublished record is excluded
 
-- **GIVEN** an unsupported source or a record without the required production evidence
+- **GIVEN** a supported source record without the required production evidence
 - **WHEN** the report builds its inventory
 - **THEN** the record SHALL NOT be included
+
+### Requirement: Latest menu and data families fail closed
+
+Every operation SHALL compare latest Global public content menu categories, managed Global `src/content` roots, Japan public menu paths, Japan target content roots, and `SOURCE_FAMILIES` before report generation. Every actual category directory under managed Global `src/content/demo` and `src/content/documentation` roots SHALL have an explicit descriptor. Demo descriptors SHALL map `use-cases` to `src/content/use-cases`, `acp-features` to `src/content/demo/acp`, and `aip-features` to `src/content/demo/aip`. A descriptor MAY mark a menu family source root optional only while that Global source directory does not exist.
+
+#### Scenario: Latest Global code adds a content root
+
+- **GIVEN** latest Global `main` contains a category directory under a managed content root
+- **AND** no `SOURCE_FAMILIES` descriptor owns that directory
+- **WHEN** preflight runs
+- **THEN** it SHALL fail with the unmapped source root
+- **AND** report generation and Slack delivery SHALL stop
+
+#### Scenario: Optional empty menu family remains explicit
+
+- **GIVEN** the Global menu defines AIP Features
+- **AND** `src/content/demo/aip-features` does not yet exist
+- **WHEN** source-root preflight runs
+- **THEN** the explicit optional descriptor SHALL preserve menu parity without inventing inventory
+- **AND** creation of that directory SHALL automatically make its production-evidenced records eligible
+
+#### Scenario: Nested Japan demo target is valid
+
+- **GIVEN** a demo descriptor maps to `demo/acp` or `demo/aip`
+- **AND** an exact mapped MDX exists below `src/content/<targetFamily>`
+- **WHEN** baseline authority is validated
+- **THEN** the nested target path SHALL be accepted without weakening path confinement
 
 ### Requirement: Composite identity
 

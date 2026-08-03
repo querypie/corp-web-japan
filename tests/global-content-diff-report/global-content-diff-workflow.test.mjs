@@ -18,6 +18,16 @@ async function withTempRepos(run) {
   const targetRepo = path.join(tempRoot, "target");
   await Promise.all(SOURCE_FAMILIES.map(({ relativeRoot }) => mkdir(path.join(globalRepo, relativeRoot), { recursive: true })));
   await Promise.all(supportedTargetFamilies.map((family) => mkdir(path.join(targetRepo, "src/content", family), { recursive: true })));
+  await mkdir(path.join(globalRepo, "src/features/content"), { recursive: true });
+  await mkdir(path.join(targetRepo, "src/components/layout"), { recursive: true });
+  await writeFile(
+    path.join(globalRepo, "src/features/content/publicPathConfig.ts"),
+    SOURCE_FAMILIES.map(({ sourceCategory, globalMenuPath }) => `${JSON.stringify(sourceCategory)}: ${JSON.stringify(globalMenuPath)},`).join("\n"),
+  );
+  await writeFile(
+    path.join(targetRepo, "src/components/layout/site-header-client.tsx"),
+    SOURCE_FAMILIES.map(({ japanMenuPath }) => `{ href: ${JSON.stringify(japanMenuPath)} },`).join("\n"),
+  );
   try {
     return await run({ globalRepo, targetRepo });
   } finally {
@@ -62,6 +72,7 @@ async function writeManifest(targetRepo, name, records) {
 
 function buildSitemapXml() {
   return [
+    "https://www.querypie.com/en/demo/use-cases/global-use-case",
     "https://www.querypie.com/en/blog/global-blog",
     "https://www.querypie.com/en/news/global-news",
   ].map((url) => `<url><loc>${url}</loc></url>`).join("");
@@ -69,6 +80,7 @@ function buildSitemapXml() {
 
 function buildProductionListHtmlByUrl() {
   return {
+    "https://www.querypie.com/en/demo": '<a href="https://www.querypie.com/en/demo/use-cases/global-use-case">global-use-case</a>',
     "https://www.querypie.com/en/documentation": '<a href="https://www.querypie.com/en/blog/global-blog">global-blog</a>',
     "https://www.querypie.com/en/news": '<a href="https://www.querypie.com/en/news/global-news">global-news</a>',
   };
@@ -86,10 +98,28 @@ function workflowStepBlock(source, stepName) {
   return source.slice(index, nextIndex === -1 ? source.length : nextIndex);
 }
 
+test("CLI fails before report generation when latest menu-family parity drifts", async () => {
+  await withTempRepos(async ({ globalRepo, targetRepo }) => {
+    await writeFile(
+      path.join(globalRepo, "src/features/content/publicPathConfig.ts"),
+      '"new-family": "/demo/new-family",\n',
+    );
+
+    await assert.rejects(
+      () => runCli(["--global-repo", globalRepo, "--target-repo", targetRepo, "--dry-run"], {
+        fetchText: async () => { throw new Error("production fetch must not start"); },
+        stdout: { write() {} },
+      }),
+      /unmapped Global public content menu path: \/demo\/new-family/,
+    );
+  });
+});
+
 test("CLI dry-run emits complete JSON without requiring or calling Slack", async () => {
   await withTempRepos(async ({ globalRepo, targetRepo }) => {
     await writeGlobalSource(globalRepo, { sourceId: "cnt_000001", category: "blogs", slug: "global-blog" });
     await writeGlobalSource(globalRepo, { sourceId: "cnt_000002", category: "news", slug: "global-news" });
+    await writeGlobalSource(globalRepo, { sourceId: "cnt_000003", category: "use-cases", slug: "global-use-case" });
     await writeManifest(targetRepo, "baseline", []);
     await writeManifest(targetRepo, "ignore", []);
 
@@ -134,6 +164,7 @@ test("CLI rejects missing sitemap evidence independently per production source l
   await withTempRepos(async ({ globalRepo, targetRepo }) => {
     await writeGlobalSource(globalRepo, { sourceId: "cnt_000001", category: "blogs", slug: "global-blog" });
     await writeGlobalSource(globalRepo, { sourceId: "cnt_000002", category: "news", slug: "global-news" });
+    await writeGlobalSource(globalRepo, { sourceId: "cnt_000003", category: "use-cases", slug: "global-use-case" });
     await writeManifest(targetRepo, "baseline", []);
     await writeManifest(targetRepo, "ignore", []);
 
@@ -145,7 +176,10 @@ test("CLI rejects missing sitemap evidence independently per production source l
       ], {
         fetchText: async (url) => {
           if (url === "https://www.querypie.com/sitemap.xml") {
-            return '<url><loc>https://www.querypie.com/en/blog/global-blog</loc></url>';
+            return [
+              '<url><loc>https://www.querypie.com/en/demo/use-cases/global-use-case</loc></url>',
+              '<url><loc>https://www.querypie.com/en/blog/global-blog</loc></url>',
+            ].join("");
           }
           return buildProductionListHtmlByUrl()[url] || "";
         },

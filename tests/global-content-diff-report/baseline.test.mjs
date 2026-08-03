@@ -35,7 +35,7 @@ test("checked-in baseline and ignore manifests are sorted, unique, and exact tar
   const baseline = validateDecisionManifest(JSON.parse(await readFile(path.join(root, ".github/content-sync/baseline.json"), "utf8")), "baseline");
   const ignore = validateDecisionManifest(JSON.parse(await readFile(path.join(root, ".github/content-sync/ignore.json"), "utf8")), "ignore");
   assert.ok(baseline.length > 0);
-  assert.ok(baseline.every(({ sourceSection }) => ["documentation", "news"].includes(sourceSection)));
+  assert.ok(baseline.every(({ sourceSection }) => ["demo", "documentation", "news"].includes(sourceSection)));
   assert.ok(ignore.every(({ sourceSection }) => ["documentation", "news"].includes(sourceSection)));
   for (const item of baseline) {
     const exactPath = path.join(root, "src/content", item.targetFamily, `${item.targetId}-${item.targetSlug}.mdx`);
