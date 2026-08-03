@@ -29,12 +29,12 @@
 
 - Primary navigation: Services, apps, solutions, demos, resources, and company information.
 - Core routes/screens: `/`, `/solutions/ai-crew`, `/solutions/ai-dashi`, and `/contact-us`.
-- Content hierarchy: Trust and value proposition first, solution choice second, delivery roadmap and platform requirements next, then conversion.
+- Content hierarchy: Hero conversion first; immediately after it, the AX message explains the business purpose, followed by the two solution choices; delivery roadmap and platform requirements follow.
 
 ## Design principles
 
 - Make the first action explicit: use one primary conversion action and one secondary research action.
-- Preserve decision context: present the two solution paths in parallel before asking visitors to commit.
+- Preserve decision context: keep the AX message intact, then present the two solution paths in parallel immediately after the hero.
 - Earn trust with concrete mechanisms, not absolute promises.
 - Tradeoffs: Mobile trust indicators must remain concise and never obscure the core hero message.
 
@@ -50,7 +50,7 @@
 ## Components
 
 - Existing components to reuse: `TopPageSections`, `FloatingConversionCta`, `RevealOnScroll`, and existing Link/button visual patterns.
-- New/changed components: No new design-system component; evolve hero proof-pill presentation and existing CTA variants in place.
+- New/changed components: No new design-system component; evolve hero proof-pill presentation, the existing CTA destination, and the existing solution-choice copy in place.
 - Variants and states: Primary CTA is high contrast; secondary CTA supports research. Mobile proof pills may scroll horizontally without wrapping.
 - Token/component ownership: Hero layout behavior stays in `HeroProofPillGroup`; page-level message and destination changes stay in `src/app/page.tsx`.
 
@@ -93,5 +93,5 @@
 
 ## Open questions
 
-- [ ] Confirm whether the primary CTA should preselect only `demo-request` or include a product parameter once a visitor has selected AI Crew or AI Dashi. Owner: Product marketing. Impact: contact-form relevance.
+- [x] Primary consultation and demo CTAs prefill `inquiry=ai-consulting&product=aip` in the contact flow. Owner: Product marketing. Impact: contact-form relevance.
 - [ ] Define analytics events for hero and final CTA clicks before measuring conversion impact. Owner: Growth. Impact: success measurement.
