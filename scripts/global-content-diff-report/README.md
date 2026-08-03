@@ -77,7 +77,7 @@ The JSON output includes Global/Japan SHAs, counts, items, candidate evidence, a
 ## Slack output
 
 - Operations mode uses `Global Content Review` and one default-collapsed card builder for `Match pending`, `Matched today`, `Needs review`, and `Ignored`.
-- Every card has the same fields: title, family/date/identity, result, status, and site links. Slack link/media unfurls are disabled.
+- Every card has the same fields: title, family/date/identity, result, status, and site links. Review containers are split at 10 child blocks to satisfy Slack Block Kit limits. Slack link/media unfurls are disabled.
 - `pending` is local-preview only. Final payload construction rejects it; Slack receives only latest-main-validated matches.
 - Plain report mode still groups `Untracked` before `Ignored`.
 - Deterministic family/date/identity order.
