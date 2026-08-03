@@ -103,8 +103,6 @@ export default function AboutUsPage() {
           <AboutUsSectionIntro>
             <AboutUsBodyCopy>
               総資金調達額：3,300万ドル（2026年時点）
-              <br />
-              最新ラウンド：2024年 日本における戦略的投資
             </AboutUsBodyCopy>
           </AboutUsSectionIntro>
         </RevealOnScroll>
