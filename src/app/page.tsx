@@ -154,7 +154,8 @@ const websiteStructuredData = {
 export default function HomePage() {
   const topPageDownloadUrl =
     "/introduction-deck/1/querypie-aip";
-  const topPageFinalDemoUrl = "/contact-us?inquiry=demo-request";
+  const topPageFinalDemoUrl =
+    "https://querypie.ai/contact-us?inquiry=ai-consulting&product=aip";
 
   return (
     <main {...componentNameDebugProps("HomePage")} className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
@@ -220,7 +221,7 @@ export default function HomePage() {
               </SolutionChoiceHeader>
               <SolutionChoiceContent>
                 <SolutionChoiceHeading>
-                  <SolutionChoiceTitle>AIで社内業務を大幅に効率化したい</SolutionChoiceTitle>
+                  <SolutionChoiceTitle>社内業務を効率化したい</SolutionChoiceTitle>
                   <SolutionChoiceSubtitle>専用AIエージェントの設計・実運用支援</SolutionChoiceSubtitle>
                 </SolutionChoiceHeading>
                 <SolutionChoiceDescription>
@@ -236,7 +237,7 @@ export default function HomePage() {
               </SolutionChoiceHeader>
               <SolutionChoiceContent>
                 <SolutionChoiceHeading>
-                  <SolutionChoiceTitle>SaaSやWebサービスのAI化を進めたい</SolutionChoiceTitle>
+                  <SolutionChoiceTitle>自社サービスをAI化したい</SolutionChoiceTitle>
                   <SolutionChoiceSubtitle>組み込み型AI基盤・ホワイトラベル対応</SolutionChoiceSubtitle>
                 </SolutionChoiceHeading>
                 <SolutionChoiceDescription>
