@@ -6,6 +6,7 @@ import { getAiCrewDataSource, getTopPageDataSource, getTopPageStructureSource } 
 test("launch-risk CTA targets resolve to explicit anchors or real destinations", () => {
   const aiCrewPage = readSource("src/app/solutions/ai-crew/page.tsx");
   const topPage = readSource("src/app/page.tsx");
+  const heroSection = readSource("src/components/sections/home/hero-section.tsx");
   const aiCrewDataSource = getAiCrewDataSource();
   const topPageDataSource = getTopPageDataSource();
   const topPageStructureSource = getTopPageStructureSource();
@@ -31,15 +32,21 @@ test("launch-risk CTA targets resolve to explicit anchors or real destinations",
 
   assert.doesNotMatch(topPage, /FloatingConversionCta/);
   assert.match(`${topPageDataSource}
-${topPage}`, /primaryCta: \{ label: "お問い合わせ", href: topPageHeroContactUrl \}|<HeroPrimaryAction href=\{topPageHeroContactUrl\}>お問い合わせ<\/HeroPrimaryAction>/);
+${topPage}`, /<HeroPrimaryAction href=\{topPageFinalDemoUrl\}>導入相談・デモを依頼<\/HeroPrimaryAction>/);
   assert.match(`${topPageDataSource}
 ${topPage}`, /secondaryCta: \{[\s\S]*label: "資料をダウンロード",[\s\S]*href: topPageDownloadUrl,?[\s\S]*\}|<HeroSecondaryAction href=\{topPageDownloadUrl\}>資料をダウンロード<\/HeroSecondaryAction>/);
   assert.match(topPageStructureSource, /id="contact"/);
   assert.match(topPageStructureSource, /bg-\[#0f172a\] text-white/);
   assert.match(topPageStructureSource, /id="download"/);
-  assert.match(topPageDataSource, /\{ label: "デモを依頼", href: topPageFinalDemoUrl \}|<FinalCtaAction href=\{topPageFinalDemoUrl\} primary>/);
+  assert.match(topPage, /<PlatformRequirementsBlockTitle>ハルシネーションリスクを抑え、既存システムと繋がるセキュアな統合<\/PlatformRequirementsBlockTitle>/);
+  assert.match(topPage, /企業データのみに基づく事実回答を目指すガードレールを実装し、業務利用で許されないAIの嘘（ハルシネーション）のリスク低減を図ります。/);
+  assert.match(topPage, /<FinalCtaAction href=\{topPageFinalDemoUrl\} primary>導入相談・デモを依頼<\/FinalCtaAction>/);
   assert.match(topPageDataSource, /\{ label: "資料をダウンロード", href: topPageDownloadUrl \}|<FinalCtaAction href=\{topPageDownloadUrl\}>資料をダウンロード<\/FinalCtaAction>/);
-  assert.match(topPageDataSource, /\{ label: "導入について相談する", href: topPageFinalConsultUrl \}|<FinalCtaAction href=\{topPageFinalConsultUrl\}>導入について相談する<\/FinalCtaAction>/);
+  assert.doesNotMatch(topPage, /topPageFinalConsultUrl|導入について相談する/);
+  assert.match(heroSection, /aria-label="導入実績と提供価値"/);
+  assert.match(heroSection, /role="list"/);
+  assert.match(heroSection, /role="listitem"/);
+  assert.match(heroSection, /flex w-max min-w-full flex-nowrap items-center gap-1\.5 overflow-x-auto/);
   assert.match(`${topPageDataSource}
 ${topPage}`, /href: "https:\/\/trust\.querypie\.com\/"|<SecurityAction href="https:\/\/trust\.querypie\.com\/">/);
   assert.match(`${topPageStructureSource}
