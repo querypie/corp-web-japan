@@ -173,8 +173,11 @@ export function WhitepaperDownloadGatePage({
         return;
       }
 
-      sendGenerateLeadEvent("whitepaper_download");
-      window.location.assign(downloadHref);
+      sendGenerateLeadEvent("whitepaper_download", {
+        onComplete: () => {
+          window.location.assign(downloadHref);
+        },
+      });
     } catch {
       setErrorMessage("送信に失敗しました。時間をおいて再度お試しください。");
     } finally {

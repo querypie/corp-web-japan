@@ -91,6 +91,72 @@ test("generate_lead helper sends a success-only lead surface event", () => {
   }
 });
 
+test("generate_lead helper waits for the analytics callback before completing", () => {
+  const originalWindow = globalThis.window;
+  const calls = [];
+  let completionCount = 0;
+
+  try {
+    globalThis.window = {
+      gtag: (...args) => {
+        calls.push(args);
+      },
+      setTimeout,
+      clearTimeout,
+    };
+
+    sendGenerateLeadEvent("whitepaper_download", {
+      onComplete: () => {
+        completionCount += 1;
+      },
+      timeoutMs: 50,
+    });
+
+    assert.equal(completionCount, 0);
+    assert.equal(calls.length, 1);
+    assert.equal(calls[0][0], "event");
+    assert.equal(calls[0][1], "generate_lead");
+    assert.equal(calls[0][2].lead_surface, "whitepaper_download");
+    assert.equal(calls[0][2].event_timeout, 50);
+    assert.equal(typeof calls[0][2].event_callback, "function");
+
+    calls[0][2].event_callback();
+    calls[0][2].event_callback();
+
+    assert.equal(completionCount, 1);
+  } finally {
+    globalThis.window = originalWindow;
+  }
+});
+
+test("generate_lead helper completes after a short fallback timeout", async () => {
+  const originalWindow = globalThis.window;
+
+  try {
+    globalThis.window = {
+      gtag: () => {},
+      setTimeout,
+      clearTimeout,
+    };
+
+    await new Promise((resolve, reject) => {
+      const failureTimeout = setTimeout(() => {
+        reject(new Error("generate_lead completion fallback did not run"));
+      }, 100);
+
+      sendGenerateLeadEvent("whitepaper_download", {
+        onComplete: () => {
+          clearTimeout(failureTimeout);
+          resolve();
+        },
+        timeoutMs: 10,
+      });
+    });
+  } finally {
+    globalThis.window = originalWindow;
+  }
+});
+
 test("generate_lead helper is a no-op when gtag is missing", () => {
   const originalWindow = globalThis.window;
 
@@ -150,8 +216,12 @@ test("lead generation events are imported and sent only after confirmed submissi
   assertSuccessOrder(
     whitepaperSource.slice(normalSubmitStart),
     /if \(!response\.ok \|\| !result\?\.success\) \{/,
-    /sendGenerateLeadEvent\("whitepaper_download"\);/,
+    /sendGenerateLeadEvent\("whitepaper_download", \{/,
     /window\.location\.assign\(downloadHref\);/,
+  );
+  assert.match(
+    whitepaperSource.slice(normalSubmitStart),
+    /sendGenerateLeadEvent\("whitepaper_download", \{\s*onComplete: \(\) => \{\s*window\.location\.assign\(downloadHref\);\s*\},\s*\}\);/s,
   );
   assert.doesNotMatch(
     whitepaperSource.slice(previewEffectStart, normalSubmitStart),
