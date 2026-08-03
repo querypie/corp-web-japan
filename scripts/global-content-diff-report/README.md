@@ -11,6 +11,16 @@ Canonical contract: [`openspec/specs/contract-global-content-diff-report/spec.md
 - Deterministic `Possible Japan match` diagnostics plus AI-reviewed operations summaries.
 - No scheduled workflow, server, Slack button, or auto-merge.
 
+## Family coverage preflight
+
+Every operation compares latest Global public menu categories and actual `src/content` roots with Japan menu/target roots and `SOURCE_FAMILIES` before building a report. A new directory under managed Global `demo` or `documentation` roots fails closed until its mapping is added. Current demo mappings are:
+
+- `demo/use-cases` → `src/content/use-cases`
+- optional `demo/aip-features` → `src/content/demo/aip` (source root not present yet)
+- `demo/acp-features` → `src/content/demo/acp`
+
+A supported source record still enters inventory only with current production list evidence and required sitemap evidence. Therefore unpublished ACP/AIP source records do not inflate report counts.
+
 ## Status semantics
 
 - `Untracked`: Global-only without an active Ignore record.

@@ -2,6 +2,7 @@ import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
+import { assertMenuFamilyParity } from "./menu-family-parity.mjs";
 import { assertSupportedSourceRoots, buildGlobalOnlyReport } from "./report.mjs";
 import { recordSlackSend } from "./slack-history.mjs";
 import { buildSlackPayloads, sendSlackPayloads } from "./slack.mjs";
@@ -60,6 +61,7 @@ export async function runCli(argv = process.argv.slice(2), {
   now = new Date().toISOString(),
 } = {}) {
   const options = parseArgs(argv);
+  await assertMenuFamilyParity(options.globalRepo, options.targetRepo);
   await assertSupportedSourceRoots(options.globalRepo);
   const { sitemapXml, productionListHtmlByUrl } = await loadProductionInputs(fetchText);
   await validateProductionInputs(options.globalRepo, { sitemapXml, productionListHtmlByUrl });

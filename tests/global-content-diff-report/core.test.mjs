@@ -2,23 +2,27 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { chooseLocale, hasExactProductionEvidence, normalizeUrl, normalizeUrlPreservingQuery } from "../../scripts/global-content-diff-report/lib.mjs";
-import { SOURCE_FAMILIES, canonicalContentUrl, sourceFamily, targetFamily, targetFamilyDescriptor } from "../../scripts/global-content-diff-report/source-family-map.mjs";
+import { SOURCE_FAMILIES, canonicalContentUrl, sourceFamily, targetFamily } from "../../scripts/global-content-diff-report/source-family-map.mjs";
 
-test("source-family manifest maps all retained Global source roots", () => {
-  assert.deepEqual(SOURCE_FAMILIES.map(({ sourceCategory, sourceSection, targetFamily: family }) => ({ sourceCategory, sourceSection, targetFamily: family })), [
-    { sourceCategory: "blogs", sourceSection: "documentation", targetFamily: "blog" },
-    { sourceCategory: "white-papers", sourceSection: "documentation", targetFamily: "whitepapers" },
-    { sourceCategory: "voc", sourceSection: "documentation", targetFamily: "use-cases" },
-    { sourceCategory: "manuals", sourceSection: "documentation", targetFamily: "manuals" },
-    { sourceCategory: "events", sourceSection: "documentation", targetFamily: "events" },
-    { sourceCategory: "glossary", sourceSection: "documentation", targetFamily: "glossary" },
-    { sourceCategory: "introduction", sourceSection: "documentation", targetFamily: "introduction-deck" },
-    { sourceCategory: "news", sourceSection: "news", targetFamily: "news" },
+test("source-family manifest maps every Global public content menu family", () => {
+  assert.deepEqual(SOURCE_FAMILIES.map(({ sourceCategory, sourceSection, targetFamily: family, optionalRoot = false }) => ({ sourceCategory, sourceSection, targetFamily: family, optionalRoot })), [
+    { sourceCategory: "use-cases", sourceSection: "demo", targetFamily: "use-cases", optionalRoot: false },
+    { sourceCategory: "aip-features", sourceSection: "demo", targetFamily: "demo/aip", optionalRoot: true },
+    { sourceCategory: "acp-features", sourceSection: "demo", targetFamily: "demo/acp", optionalRoot: false },
+    { sourceCategory: "blogs", sourceSection: "documentation", targetFamily: "blog", optionalRoot: false },
+    { sourceCategory: "white-papers", sourceSection: "documentation", targetFamily: "whitepapers", optionalRoot: false },
+    { sourceCategory: "voc", sourceSection: "documentation", targetFamily: "use-cases", optionalRoot: false },
+    { sourceCategory: "manuals", sourceSection: "documentation", targetFamily: "manuals", optionalRoot: false },
+    { sourceCategory: "events", sourceSection: "documentation", targetFamily: "events", optionalRoot: false },
+    { sourceCategory: "glossary", sourceSection: "documentation", targetFamily: "glossary", optionalRoot: false },
+    { sourceCategory: "introduction", sourceSection: "documentation", targetFamily: "introduction-deck", optionalRoot: false },
+    { sourceCategory: "news", sourceSection: "news", targetFamily: "news", optionalRoot: false },
   ]);
   assert.equal(sourceFamily("news").relativeRoot, "src/content/news");
   assert.equal(targetFamily("news"), "news");
-  assert.equal(targetFamilyDescriptor("news").sourceCategory, "news");
   assert.equal(canonicalContentUrl("news", "example"), "https://www.querypie.com/en/news/example");
+  assert.equal(canonicalContentUrl("use-cases", "example"), "https://www.querypie.com/en/demo/use-cases/example");
+  assert.equal(canonicalContentUrl("acp-features", "example"), "https://www.querypie.com/en/demo/acp/example");
 });
 
 test("chooses locale and normalizes production URLs", () => {
