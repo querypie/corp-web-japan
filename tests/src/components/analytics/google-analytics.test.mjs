@@ -41,12 +41,22 @@ test("Google Analytics page-view tracker sends only App Router navigation page_v
   assert.match(trackerSource, /usePathname/);
   assert.match(trackerSource, /useSearchParams/);
   assert.match(trackerSource, /useRef\(false\)/);
-  assert.match(trackerSource, /hasTrackedInitialPageView\.current = true;\s*return;/s);
+  assert.match(trackerSource, /const previousPageLocation = useRef<string \| null>\(null\)/);
+  assert.match(
+    trackerSource,
+    /hasTrackedInitialPageView\.current = true;\s*previousPageLocation\.current = window\.location\.href;\s*return;/s,
+  );
+  assert.match(trackerSource, /const currentPageLocation = window\.location\.href/);
   assert.match(trackerSource, /gtag\("event", "page_view", \{/);
   assert.match(trackerSource, /page_title: document\.title/);
-  assert.match(trackerSource, /page_location: window\.location\.href/);
+  assert.match(trackerSource, /page_location: currentPageLocation/);
   assert.match(trackerSource, /page_path: pagePath/);
+  assert.match(trackerSource, /page_referrer: previousPageLocation\.current/);
   assert.match(trackerSource, /send_to: measurementId/);
+  assert.match(
+    trackerSource,
+    /previousPageLocation\.current = currentPageLocation/,
+  );
 });
 
 test("generate_lead helper sends a success-only lead surface event", () => {
