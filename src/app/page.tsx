@@ -152,11 +152,9 @@ const websiteStructuredData = {
 };
 
 export default function HomePage() {
-  const topPageHeroContactUrl = "/contact-us?inquiry=ai-consulting";
   const topPageDownloadUrl =
     "/introduction-deck/1/querypie-aip";
   const topPageFinalDemoUrl = "/contact-us?inquiry=demo-request";
-  const topPageFinalConsultUrl = "/contact-us?inquiry=ai-consulting";
 
   return (
     <main {...componentNameDebugProps("HomePage")} className="relative overflow-x-hidden bg-white pt-[72px] text-slate-950">
@@ -190,7 +188,7 @@ export default function HomePage() {
             QueryPie AIは、強固なセキュリティとガバナンスを前提としたエンタープライズAI基盤を提供します。経営層が求める「信頼」と、現場が求める「使いやすさ」を両立し、AI活用をスモールスタートから実運用・定着まで前に進めます。
           </HeroBody>
           <HeroActionGroup>
-            <HeroPrimaryAction href={topPageHeroContactUrl}>お問い合わせ</HeroPrimaryAction>
+            <HeroPrimaryAction href={topPageFinalDemoUrl}>導入相談・デモを依頼</HeroPrimaryAction>
             <HeroSecondaryAction href={topPageDownloadUrl}>資料をダウンロード</HeroSecondaryAction>
           </HeroActionGroup>
         </HeroPanel>
@@ -414,9 +412,9 @@ export default function HomePage() {
             <PlatformRequirementsBlock reverse>
               <PlatformRequirementsBlockContent>
                 <PlatformRequirementsBlockLabel>技術的負債と運用泥沼の壁に対応</PlatformRequirementsBlockLabel>
-                <PlatformRequirementsBlockTitle>ハルシネーションを防ぎ、既存システムと繋がるセキュアな統合</PlatformRequirementsBlockTitle>
+                <PlatformRequirementsBlockTitle>ハルシネーションリスクを抑え、既存システムと繋がるセキュアな統合</PlatformRequirementsBlockTitle>
                 <PlatformRequirementsBlockBody>
-                  現在お使いのデータベースや業務システムを変更せず、API経由で安全にAIと接続できます。企業データのみに基づく事実回答（ガードレール）を実装し、業務利用で許されないAIの嘘（ハルシネーション）を防止。日進月歩のAIアーキテクチャへの追従もプラットフォーム側で吸収するので、技術的負債を防ぎます。
+                  現在お使いのデータベースや業務システムを変更せず、API経由で安全にAIと接続できます。企業データのみに基づく事実回答を目指すガードレールを実装し、業務利用で許されないAIの嘘（ハルシネーション）のリスク低減を図ります。日進月歩のAIアーキテクチャへの追従もプラットフォーム側で吸収するので、技術的負債を防ぎます。
                 </PlatformRequirementsBlockBody>
               </PlatformRequirementsBlockContent>
               <PlatformRequirementsBlockImage src="/top-assets/platform-requirements/integration.jpg" alt="既存システムと繋がるセキュアな統合のイメージ" />
@@ -532,9 +530,8 @@ export default function HomePage() {
               </FinalCtaBody>
             </FinalCtaIntro>
             <FinalCtaActionGroup>
-              <FinalCtaAction href={topPageFinalDemoUrl} primary>デモを依頼</FinalCtaAction>
+              <FinalCtaAction href={topPageFinalDemoUrl} primary>導入相談・デモを依頼</FinalCtaAction>
               <FinalCtaAction href={topPageDownloadUrl}>資料をダウンロード</FinalCtaAction>
-              <FinalCtaAction href={topPageFinalConsultUrl}>導入について相談する</FinalCtaAction>
             </FinalCtaActionGroup>
           </FinalCtaShell>
         </FinalCtaSection>

@@ -48,14 +48,29 @@ export function HeroSection({
 export function HeroProofPillGroup({ children }: { children: ReactNode }) {
   return (
     <div {...componentNameDebugProps("HeroProofPillGroup")} className="flex justify-start">
-      <div className="hidden flex-wrap items-center gap-1.5 lg:flex">{children}</div>
+      <div className="lg:hidden">
+        <div
+          aria-label="導入実績と提供価値"
+          role="list"
+          className="-mx-2 flex w-max min-w-full flex-nowrap items-center gap-1.5 overflow-x-auto px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {children}
+        </div>
+      </div>
+      <div aria-label="導入実績と提供価値" role="list" className="hidden flex-wrap items-center gap-1.5 lg:flex">
+        {children}
+      </div>
     </div>
   );
 }
 
 export function HeroProofPill({ children }: { children: ReactNode }) {
   return (
-    <MarketingPill {...componentNameDebugProps("HeroProofPill")} className="border border-white/20 bg-white/10 px-2.5 py-1.5 text-xs font-medium text-white/88 backdrop-blur">
+    <MarketingPill
+      {...componentNameDebugProps("HeroProofPill")}
+      role="listitem"
+      className="shrink-0 whitespace-nowrap border border-white/20 bg-white/10 px-2.5 py-1.5 text-xs font-medium text-white/88 backdrop-blur"
+    >
       {children}
     </MarketingPill>
   );
