@@ -10,6 +10,7 @@ import {
   type GatingFormState,
 } from "@/lib/gating-form";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
+import { sendGenerateLeadEvent } from "@/lib/google-analytics-events";
 
 type WhitepaperDownloadGatePageProps = {
   categoryLabel: string;
@@ -172,6 +173,7 @@ export function WhitepaperDownloadGatePage({
         return;
       }
 
+      sendGenerateLeadEvent("whitepaper_download");
       window.location.assign(downloadHref);
     } catch {
       setErrorMessage("送信に失敗しました。時間をおいて再度お試しください。");
