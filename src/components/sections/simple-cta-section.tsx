@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ComponentPropsWithoutRef, CSSProperties, ReactNode } from "react";
+import { ArrowRight } from "lucide-react";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type ClassNameProps = {
@@ -88,12 +89,13 @@ export function CtaButton({
       className={
         (
           variant === "primary"
-            ? "inline-flex min-h-[46px] items-center justify-center rounded-[10px] bg-[#15181d] px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-            : "inline-flex min-h-[46px] items-center justify-center rounded-[10px] border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
+            ? "inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] bg-[#15181d] px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+            : "inline-flex min-h-[46px] items-center justify-center gap-2 rounded-[10px] border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
         ) + ` ${className}`
       }
     >
       {children}
+      <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0" />
     </Link>
   );
 }
