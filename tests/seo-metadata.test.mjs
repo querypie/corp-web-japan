@@ -25,6 +25,7 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   const cookiePreferencePage = read("src/app/cookie-preference/page.tsx");
   const termsOfServicePage = read("src/app/terms-of-service/page.tsx");
   const privacyPolicyPage = read("src/app/privacy-policy/page.tsx");
+  const privacyPolicySlugPage = read("src/app/privacy-policy/[slug]/page.tsx");
   const eulaPage = read("src/app/eula/page.tsx");
 
   assert.match(layout, /metadataBase:\s*await getRequestDeployedSiteUrl\(\)/);
@@ -34,7 +35,8 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.match(robots, /const deployedSiteUrl = await getRequestDeployedSiteUrl\(\)/);
   assert.match(robots, /sitemap:\s*new URL\("\/sitemap\.xml", deployedSiteUrl\)\.toString\(\)/);
   assert.match(robots, /host:\s*deployedSiteUrl\.toString\(\)/);
-  assert.match(robots, /disallow:\s*\["\/privacy-policy", "\/terms-of-service"\]/);
+  assert.doesNotMatch(robots, /\/privacy-policy/);
+  assert.doesNotMatch(robots, /\/terms-of-service/);
 
   assert.match(homePage, /canonical:\s*"\/"/);
   assert.match(homePage, /"@type": "WebSite"/);
@@ -58,6 +60,8 @@ test("SEO baseline files define production metadata and canonical paths", () => 
   assert.match(cookiePreferencePage, /canonical:\s*"\/cookie-preference"/);
   assert.match(termsOfServicePage, /canonical:\s*"\/terms-of-service"/);
   assert.match(privacyPolicyPage, /canonicalPath: "\/privacy-policy"/);
+  assert.match(termsOfServicePage, /robots:\s*\{\s*index:\s*false,\s*follow:\s*false,\s*\}/);
+  assert.match(privacyPolicySlugPage, /robots:\s*\{\s*index:\s*false,\s*follow:\s*false,\s*\}/);
   assert.match(eulaPage, /canonical:\s*"\/eula"/);
 
   assert.match(sitemap, /absoluteUrl\("\/whitepapers", deployedSiteUrl\)/);
