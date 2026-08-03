@@ -30,6 +30,7 @@ test("about-us page keeps copy/composition in the route and UI primitives in the
   assert.match(routeSource, /企業が安心してAIを活用できる包括的なプラットフォームへと進化してきました。/);
   assert.match(routeSource, /従来の高額なAIサブスクリプションに代わる選択肢として、最大90%のコスト削減を目指します。/);
   assert.match(routeSource, /あらゆる企業がエンタープライズグレードのAIを活用できる環境をつくります。/);
+  assert.match(routeSource, /総資金調達額：3,300万ドル（2026年時点）/);
   assert.match(routeSource, /<AboutUsLocationName>Los Angeles, USA<\/AboutUsLocationName>/);
   assert.match(routeSource, /<AboutUsLocationOffice>Global Headquarters<\/AboutUsLocationOffice>/);
   assert.match(routeSource, /<AboutUsLocationEntity>CHEQUER Global, Inc\.<\/AboutUsLocationEntity>/);
