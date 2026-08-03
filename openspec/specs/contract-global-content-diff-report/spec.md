@@ -181,7 +181,7 @@ Every item SHALL show a plain-text title, an explicitly labeled production-evide
 
 ### Requirement: Deterministic grouping and pagination
 
-Items SHALL be deterministic. Slack SHALL group `Untracked` before `Ignored`, then use target-family order, newest date first, and composite identity. Multipart payloads SHALL show `Part N of M`; status titles SHALL use text only.
+Items SHALL be deterministic. Slack SHALL group `Untracked` before `Ignored`, then use target-family order, newest date first, and composite identity. Multipart payloads SHALL show `Part N of M`; status titles SHALL use text only. Every collapsible review container SHALL contain at most 10 child blocks, and larger Pending, Matched, Review, or Ignored groups SHALL split into numbered containers without dropping items.
 
 #### Scenario: Multipart output is stable
 

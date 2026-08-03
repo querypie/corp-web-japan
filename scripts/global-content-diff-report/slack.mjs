@@ -203,6 +203,14 @@ function reviewContainer(title, items) {
   };
 }
 
+function reviewContainers(title, items) {
+  const itemChunks = chunk(items, ITEMS_PER_CONTAINER);
+  return itemChunks.map((values, index) => reviewContainer(
+    itemChunks.length > 1 ? `${title} · Part ${index + 1} of ${itemChunks.length}` : title,
+    values,
+  ));
+}
+
 function operationsSummaryBlock(report) {
   const summary = report.operationsSummary;
   validateOperationsSummary(summary);
@@ -259,11 +267,11 @@ function operationsContainers(report) {
       statusLabel: "Ignored",
     }));
   return [
-    pendingItems.length ? reviewContainer("Match pending", pendingItems) : null,
-    matchedItems.length ? reviewContainer("Matched today", matchedItems) : null,
-    reviewItems.length ? reviewContainer("Needs review", reviewItems) : null,
-    ignoredItems.length ? reviewContainer("Ignored", ignoredItems) : null,
-  ].filter(Boolean);
+    ...reviewContainers("Match pending", pendingItems),
+    ...reviewContainers("Matched today", matchedItems),
+    ...reviewContainers("Needs review", reviewItems),
+    ...reviewContainers("Ignored", ignoredItems),
+  ];
 }
 
 function operationsContext(report, metadata, partNumber, totalParts) {

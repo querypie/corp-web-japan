@@ -930,9 +930,13 @@ test("renders all 24 reconciled demo items in one operations report", () => {
   };
 
   const payloads = buildSlackPayloads(report, slackMetadata, { final: true });
+  const containers = payloads.flatMap(({ blocks }) => blocks.filter(({ type }) => type === "container"));
   const rendered = JSON.stringify(payloads);
   assert.equal((rendered.match(/Result · Same content/g) || []).length, 24);
   assert.match(rendered, /Today · Matched 24/);
+  assert.equal(containers.length, 3);
+  assert.ok(containers.every(({ child_blocks }) => child_blocks.length <= 10));
+  assert.deepEqual(containers.map(({ child_blocks }) => child_blocks.length), [10, 10, 4]);
 });
 
 test("renders unresolved content with the same collapsed review card shape", () => {
