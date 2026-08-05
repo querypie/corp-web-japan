@@ -157,29 +157,51 @@ test("generate_lead helper completes after a short fallback timeout", async () =
   }
 });
 
-test("generate_lead helper is a no-op when gtag is missing", () => {
+test("generate_lead helper continues completion when gtag is missing", () => {
   const originalWindow = globalThis.window;
+  let completionCount = 0;
 
   try {
     globalThis.window = {};
 
-    assert.doesNotThrow(() => sendGenerateLeadEvent("contact_us"));
+    assert.doesNotThrow(() =>
+      sendGenerateLeadEvent("whitepaper_download", {
+        onComplete: () => {
+          completionCount += 1;
+        },
+      }),
+    );
+    assert.equal(completionCount, 1);
   } finally {
     globalThis.window = originalWindow;
   }
 });
 
-test("generate_lead helper suppresses gtag exceptions", () => {
+test("generate_lead helper suppresses gtag exceptions and completes once", async () => {
   const originalWindow = globalThis.window;
+  let completionCount = 0;
 
   try {
     globalThis.window = {
       gtag: () => {
         throw new Error("gtag unavailable");
       },
+      setTimeout,
+      clearTimeout,
     };
 
-    assert.doesNotThrow(() => sendGenerateLeadEvent("contact_us"));
+    assert.doesNotThrow(() =>
+      sendGenerateLeadEvent("whitepaper_download", {
+        onComplete: () => {
+          completionCount += 1;
+        },
+        timeoutMs: 10,
+      }),
+    );
+    assert.equal(completionCount, 1);
+
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    assert.equal(completionCount, 1);
   } finally {
     globalThis.window = originalWindow;
   }
