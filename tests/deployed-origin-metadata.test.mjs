@@ -45,6 +45,15 @@ test("layout, sitemap, and robots use the request deployed origin resolver", () 
   assert.match(robots, /host: deployedSiteUrl\.toString\(\)/);
 });
 
+test("staging responses carry a noindex header at the host boundary", () => {
+  const nextConfig = readSource("next.config.ts");
+
+  assert.match(nextConfig, /type: "host"/);
+  assert.match(nextConfig, /stage\\\\\.querypie\\\\\.ai/);
+  assert.match(nextConfig, /key: "X-Robots-Tag"/);
+  assert.match(nextConfig, /value: "noindex, nofollow"/);
+});
+
 test("publication detail metadata resolves canonical URLs against the current request origin", () => {
   for (const routePath of mdxDetailRoutes) {
     const source = readSource(routePath);
