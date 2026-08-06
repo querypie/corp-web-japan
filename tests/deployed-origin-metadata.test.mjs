@@ -39,6 +39,8 @@ test("layout, sitemap, and robots use the request deployed origin resolver", () 
 
   assert.match(robots, /const deployedSiteUrl = await getRequestDeployedSiteUrl\(\)/);
   assert.match(robots, /export const dynamic = "force-dynamic"/);
+  assert.match(robots, /isStagingSiteUrl\(deployedSiteUrl\)/);
+  assert.match(robots, /disallow: "\/"/);
   assert.match(robots, /new URL\("\/sitemap\.xml", deployedSiteUrl\)\.toString\(\)/);
   assert.match(robots, /host: deployedSiteUrl\.toString\(\)/);
 });

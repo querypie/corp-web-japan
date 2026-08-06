@@ -1,4 +1,5 @@
 const PRODUCTION_SITE_ORIGIN = "https://querypie.ai";
+export const STAGING_SITE_HOST = "stage.querypie.ai";
 
 type SiteUrlEnvironment = {
   [key: string]: string | undefined;
@@ -95,6 +96,10 @@ export function resolveDeployedSiteOrigin({
 
 export function getDeployedSiteUrl(input?: ResolveDeployedSiteOriginInput) {
   return new URL(resolveDeployedSiteOrigin(input));
+}
+
+export function isStagingSiteUrl(siteUrl: URL | string) {
+  return (typeof siteUrl === "string" ? new URL(siteUrl) : siteUrl).hostname === STAGING_SITE_HOST;
 }
 
 export const siteUrl = getDeployedSiteUrl();
