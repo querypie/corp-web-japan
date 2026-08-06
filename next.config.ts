@@ -27,6 +27,25 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "stage\\.querypie\\.ai",
+          },
+        ],
+        headers: [
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, nofollow",
+          },
+        ],
+      },
+    ];
+  },
   ...(process.env.TURBOPACK_ROOT
     ? { turbopack: { root: process.env.TURBOPACK_ROOT } }
     : {}),

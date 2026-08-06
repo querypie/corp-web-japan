@@ -7,6 +7,7 @@ const { importModule } = createTsModuleLoader();
 const {
   absoluteUrl,
   getDeployedSiteUrl,
+  isStagingSiteUrl,
   resolveDeployedSiteOrigin,
 } = importModule("src/lib/site-url.ts");
 
@@ -67,4 +68,9 @@ test("absolute URL helper resolves paths against the provided deployed origin", 
     })),
     "https://stage.querypie.ai/news/15/thumbnail.png",
   );
+});
+
+test("staging site URLs are excluded from search indexing", () => {
+  assert.equal(isStagingSiteUrl("https://stage.querypie.ai/news/21/post"), true);
+  assert.equal(isStagingSiteUrl("https://querypie.ai/news/21/post"), false);
 });
