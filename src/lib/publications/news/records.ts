@@ -101,6 +101,8 @@ const newsPublicationRepository = createStandardPublicationRecordsRepository<
     sourceLabel: getNewsPublicationSourceLabel(record),
     opensExternal: false,
   }),
+  sortRecords: (left, right) =>
+    right.date.localeCompare(left.date) || Number(right.id) - Number(left.id),
 });
 
 export const newsPublicationRecords = newsPublicationRepository.records;
