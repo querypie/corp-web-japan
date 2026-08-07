@@ -13,6 +13,7 @@ import {
   type ContactUsFormState,
 } from "@/lib/contact-us";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
+import { sendGenerateLeadEvent } from "@/lib/google-analytics-events";
 
 const UTM_ATTRIBUTION_COOKIE_KEY = "utm-attribution";
 
@@ -183,6 +184,7 @@ export function ContactUsForm({ initialPrefills = {} }: ContactUsFormProps) {
         return;
       }
 
+      sendGenerateLeadEvent("contact_us");
       setSubmitState({ status: "success" });
     } catch {
       setSubmitState({

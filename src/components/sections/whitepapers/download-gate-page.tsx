@@ -10,6 +10,7 @@ import {
   type GatingFormState,
 } from "@/lib/gating-form";
 import { componentNameDebugProps } from "@/lib/component-name-debug";
+import { sendGenerateLeadEvent } from "@/lib/google-analytics-events";
 
 type WhitepaperDownloadGatePageProps = {
   categoryLabel: string;
@@ -169,13 +170,17 @@ export function WhitepaperDownloadGatePage({
 
       if (!response.ok || !result?.success) {
         setErrorMessage(result?.message ?? "送信に失敗しました。時間をおいて再度お試しください。");
+        setSubmitting(false);
         return;
       }
 
-      window.location.assign(downloadHref);
+      sendGenerateLeadEvent("whitepaper_download", {
+        onComplete: () => {
+          window.location.assign(downloadHref);
+        },
+      });
     } catch {
       setErrorMessage("送信に失敗しました。時間をおいて再度お試しください。");
-    } finally {
       setSubmitting(false);
     }
   }

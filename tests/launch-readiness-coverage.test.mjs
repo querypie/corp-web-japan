@@ -99,7 +99,7 @@ test("robots and sitemap metadata files exist and cover the core public routes",
 
   assert.match(robots, /sitemap: new URL\("\/sitemap\.xml", deployedSiteUrl\)\.toString\(\)/);
   assert.match(robots, /host: deployedSiteUrl\.toString\(\)/);
-  assert.match(robots, /disallow: \["\/privacy-policy", "\/terms-of-service"\]/);
+  assert.doesNotMatch(robots, /disallow\s*:/);
 
   assert.match(sitemap, /absoluteUrl\("\/", deployedSiteUrl\)/);
   assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-crew", deployedSiteUrl\)/);

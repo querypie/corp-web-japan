@@ -12,6 +12,7 @@ import {
   defaultGatingFormState,
   isGatingFormValid,
 } from "@/lib/gating-form";
+import { sendGenerateLeadEvent } from "@/lib/google-analytics-events";
 
 const UTM_ATTRIBUTION_COOKIE_KEY = "utm-attribution";
 
@@ -152,6 +153,7 @@ export function ResourcePostGated({
         return;
       }
 
+      sendGenerateLeadEvent("gated_content");
       setUnlocked(true);
     } catch {
       setErrorMessage("送信に失敗しました。時間をおいて再度お試しください。");
