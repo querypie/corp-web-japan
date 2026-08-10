@@ -37,6 +37,7 @@ type CreateStandardPublicationRecordsRepositoryConfig<
   getListItemBadge?: (record: TRecord) => string;
   createListItem?: (record: TRecord, href: string) => TListItem;
   getListItemDescription?: (record: TRecord) => string;
+  sortRecords?: (left: TRecord, right: TRecord) => number;
 };
 
 type StandardPublicationRecordsRepository<
@@ -85,7 +86,7 @@ export function createStandardPublicationRecordsRepository<
           sourcePath,
         } as TRecord);
       })
-      .sort((left, right) => Number(right.id) - Number(left.id)),
+      .sort(config.sortRecords ?? ((left, right) => Number(right.id) - Number(left.id))),
   );
 
   const recordsById = new Map<string, TRecord>(records.map((record) => [record.id, record]));

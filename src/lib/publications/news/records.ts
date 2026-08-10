@@ -35,6 +35,21 @@ export type NewsPublicationListItem = {
 };
 
 const NEWS_POSTS_ROOT = path.join(process.cwd(), "src/content/news");
+const NEWS_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+function parseIsoCalendarDate(value: string) {
+  if (!NEWS_DATE_PATTERN.test(value)) {
+    return null;
+  }
+
+  const parsedDate = new Date(`${value}T00:00:00Z`);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return null;
+  }
+
+  return parsedDate.toISOString().slice(0, 10) === value ? value : null;
+}
 
 export function getNewsPublicationSourceLabel(
   record: Pick<NewsPublicationRecord, "sourceLabel" | "redirectUrl">,
@@ -56,13 +71,18 @@ function normalizeNewsPublicationFrontmatter(value: unknown, sourcePath: string)
   const redirectUrlValue = frontmatter.redirectUrl;
   const sourceLabelValue = frontmatter.sourceLabel;
   const openGraphImageSrcValue = frontmatter.openGraphImageSrc;
+  const date = String(frontmatter.date ?? "");
+
+  if (!parseIsoCalendarDate(date)) {
+    throw new Error(`Invalid date in ${sourcePath}: ${date}`);
+  }
 
   return {
     id: String(frontmatter.id ?? ""),
     slug: String(frontmatter.slug ?? ""),
     title: String(frontmatter.title ?? ""),
     description: String(frontmatter.description ?? ""),
-    date: String(frontmatter.date ?? ""),
+    date,
     heroImageSrc: String(frontmatter.heroImageSrc ?? ""),
     openGraphImageSrc:
       typeof openGraphImageSrcValue === "string"
@@ -101,6 +121,8 @@ const newsPublicationRepository = createStandardPublicationRecordsRepository<
     sourceLabel: getNewsPublicationSourceLabel(record),
     opensExternal: false,
   }),
+  sortRecords: (left, right) =>
+    right.date.localeCompare(left.date) || Number(right.id) - Number(left.id),
 });
 
 export const newsPublicationRecords = newsPublicationRepository.records;
