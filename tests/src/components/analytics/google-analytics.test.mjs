@@ -17,7 +17,7 @@ test("root layout loads the production-only Google Analytics component once", ()
   const layoutSource = readSource(layoutPath);
 
   assert.match(layoutSource, /import \{ GoogleAnalytics \} from "@\/components\/analytics\/google-analytics";/);
-  assert.match(layoutSource, /<body className="font-sans antialiased">\s*<GoogleAnalytics \/>\s*\{children\}/s);
+  assert.match(layoutSource, /<body className="font-sans antialiased">[\s\S]*?<GoogleAnalytics \/>\s*\{children\}/s);
 });
 
 test("Google Analytics uses the hardcoded GA4 measurement ID and loads only in production", () => {

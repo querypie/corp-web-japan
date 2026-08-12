@@ -39,8 +39,8 @@ export default function RootLayout({
   return (
     <html lang="ja" className={monaSansFont.variable}>
       <body className="font-sans antialiased">
-        <GoogleAnalytics />
         <FragmentNavigationSync />
+        <GoogleAnalytics />
         {children}
       </body>
     </html>
