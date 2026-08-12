@@ -97,9 +97,11 @@ test("robots and sitemap metadata files exist and cover the core public routes",
   const robots = readSource("src/app/robots.ts");
   const sitemap = readSource("src/app/sitemap.ts");
 
+  assert.match(robots, /if \(isStagingSiteUrl\(deployedSiteUrl\)\)/);
+  assert.match(robots, /disallow: "\/"/);
+  assert.match(robots, /allow: "\/"/);
   assert.match(robots, /sitemap: new URL\("\/sitemap\.xml", deployedSiteUrl\)\.toString\(\)/);
   assert.match(robots, /host: deployedSiteUrl\.toString\(\)/);
-  assert.doesNotMatch(robots, /disallow\s*:/);
 
   assert.match(sitemap, /absoluteUrl\("\/", deployedSiteUrl\)/);
   assert.match(sitemap, /absoluteUrl\("\/solutions\/ai-crew", deployedSiteUrl\)/);

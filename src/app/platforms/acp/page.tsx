@@ -96,7 +96,7 @@ export default function AcpPage() {
 
           <RevealOnScroll delayMs={80}>
             <AcpFeatureBrowser>
-              <AcpFeatureCategory englishLabel="Database Access Controller">
+              <AcpFeatureCategory id="dac" englishLabel="Database Access Controller">
                 <AcpFeatureCategoryLabel>DAC｜データベースアクセス制御</AcpFeatureCategoryLabel>
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-dac.mp4#t=0.001"
@@ -109,7 +109,7 @@ export default function AcpPage() {
                 </AcpFeatureItem>
               </AcpFeatureCategory>
 
-              <AcpFeatureCategory englishLabel="System Access Controller">
+              <AcpFeatureCategory id="sac" englishLabel="System Access Controller">
                 <AcpFeatureCategoryLabel>SAC｜システムアクセス制御</AcpFeatureCategoryLabel>
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-sac.mp4#t=0.001"
@@ -124,7 +124,7 @@ export default function AcpPage() {
                 </AcpFeatureItem>
               </AcpFeatureCategory>
 
-              <AcpFeatureCategory englishLabel="Kubernetes Access Controller">
+              <AcpFeatureCategory id="kac" englishLabel="Kubernetes Access Controller">
                 <AcpFeatureCategoryLabel>KAC｜Kubernetesアクセス制御</AcpFeatureCategoryLabel>
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-kac.mp4#t=0.001"
@@ -139,7 +139,7 @@ export default function AcpPage() {
                 </AcpFeatureItem>
               </AcpFeatureCategory>
 
-              <AcpFeatureCategory englishLabel="Web Access Controller">
+              <AcpFeatureCategory id="wac" englishLabel="Web Access Controller">
                 <AcpFeatureCategoryLabel>WAC｜Web/SaaSアクセス制御</AcpFeatureCategoryLabel>
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-wac.mp4#t=0.001"
@@ -154,7 +154,7 @@ export default function AcpPage() {
                 </AcpFeatureItem>
               </AcpFeatureCategory>
 
-              <AcpFeatureCategory englishLabel="MCP Access Controller">
+              <AcpFeatureCategory id="mac" englishLabel="MCP Access Controller">
                 <AcpFeatureCategoryLabel>MAC｜MCPアクセス制御</AcpFeatureCategoryLabel>
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-mac.mp4#t=0.001"
