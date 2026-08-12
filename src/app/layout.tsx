@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { preload } from "react-dom";
 import "./globals.css";
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { FragmentNavigationSync } from "@/components/layout/fragment-navigation-sync";
 import { getRequestDeployedSiteUrl } from "@/lib/site-url.server";
 
 const monaSansFont = localFont({
@@ -38,6 +39,7 @@ export default function RootLayout({
   return (
     <html lang="ja" className={monaSansFont.variable}>
       <body className="font-sans antialiased">
+        <FragmentNavigationSync />
         <GoogleAnalytics />
         {children}
       </body>

@@ -2,6 +2,7 @@ import { Children, isValidElement, type ReactElement, type ReactNode } from "rea
 import { componentNameDebugProps } from "@/lib/component-name-debug";
 
 type AcpFeatureCategoryProps = {
+  id: string;
   englishLabel: string;
   children: ReactNode;
 };
@@ -13,6 +14,8 @@ type AcpFeatureCategoryLabelProps = {
 type AcpFeatureItemProps = {
   mediaSrc: string;
   mediaAlt: string;
+  mediaWidth: number;
+  mediaHeight: number;
   children: ReactNode;
 };
 
@@ -74,12 +77,15 @@ function toBodyLines(node: ReactNode): string[] {
 }
 
 type AcpFeatureBrowserCategory = {
+  id: string;
   englishLabel: string;
   abbreviation: string;
   label: string;
   item: {
     mediaSrc: string;
     mediaAlt: string;
+    mediaWidth: number;
+    mediaHeight: number;
     title: string;
     bodyLines: string[];
   };
@@ -99,12 +105,15 @@ function parseCategories(children: ReactNode): AcpFeatureBrowserCategory[] {
 
       return item
         ? {
+            id: category.props.id,
             englishLabel: category.props.englishLabel,
             abbreviation,
             label,
             item: {
               mediaSrc: item.props.mediaSrc,
               mediaAlt: item.props.mediaAlt,
+              mediaWidth: item.props.mediaWidth,
+              mediaHeight: item.props.mediaHeight,
               title: toPlainText(titleNode).replace(/\s+/g, " ").trim(),
               bodyLines: toBodyLines(bodyNode),
             },
@@ -123,7 +132,7 @@ export function AcpFeatureBrowser({ children }: { children: ReactNode }) {
         const mediaFirstOnDesktop = index % 2 === 1;
 
         return (
-          <article key={category.label} className="grid w-full items-center gap-8 md:grid-cols-2 md:gap-[60px]">
+          <article key={category.id} id={category.id} className="grid w-full items-center gap-8 md:grid-cols-2 md:gap-[60px]">
             <div className={`max-w-[440px] ${mediaFirstOnDesktop ? "md:order-2 md:justify-self-end" : undefined}`}>
               <p className="inline-flex rounded-full bg-[#EAF2FF] px-3 py-1 text-[13px] font-medium leading-5 text-[#174EA6]">{category.label}</p>
               <div className="mt-3 flex items-baseline gap-3">
@@ -149,6 +158,8 @@ export function AcpFeatureBrowser({ children }: { children: ReactNode }) {
                 playsInline
                 autoPlay
                 preload="metadata"
+                width={category.item.mediaWidth}
+                height={category.item.mediaHeight}
                 src={category.item.mediaSrc}
               />
             </div>

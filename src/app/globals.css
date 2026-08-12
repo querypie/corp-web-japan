@@ -82,6 +82,7 @@
 
 :root {
   --radius: 0.625rem;
+  --gnb-height: calc(var(--spacing) * 16);
   --font-pretendard-jp: "Pretendard JP Subset";
   --font-app-sans:
     var(--font-mona-sans),
@@ -169,6 +170,7 @@
   }
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--gnb-height) + var(--spacing) * 5);
   }
   body,
   button,

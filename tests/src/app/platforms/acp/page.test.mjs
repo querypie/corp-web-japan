@@ -10,6 +10,10 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   const routeSource = readSource("src/app/platforms/acp/page.tsx");
   const sectionSource = readSource("src/components/sections/acp/service-page.tsx");
   const browserSource = readSource("src/components/sections/acp/feature-browser.tsx");
+  const globalStyles = readSource("src/app/globals.css");
+  const rootLayoutSource = readSource("src/app/layout.tsx");
+  const fragmentNavigationSyncSource = readSource("src/components/layout/fragment-navigation-sync.tsx");
+  const siteHeaderStyles = readSource("src/components/layout/site-header.module.css");
 
   assert.match(routeSource, /canonical: "\/platforms\/acp"/);
   assert.match(routeSource, /robots:\s*\{\s*index: true,\s*follow: true,\s*\}/s);
@@ -36,6 +40,9 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(routeSource, /KAC｜Kubernetesアクセス制御/);
   assert.match(routeSource, /WAC｜Web\/SaaSアクセス制御/);
   assert.match(routeSource, /MAC｜MCPアクセス制御/);
+  for (const id of ["dac", "sac", "kac", "wac", "mac"]) {
+    assert.match(routeSource, new RegExp(`<AcpFeatureCategory id="${id}"`));
+  }
   assert.match(routeSource, /QueryPie DACは、クラウドとオンプレミスのデータベースを横断して可視化・統制します。/);
   assert.match(routeSource, /QueryPie SACは、AWS、GCP、Azure、オンプレミスのサーバーアクセスを一元管理します。/);
   assert.match(routeSource, /QueryPie KACは、クラウドとオンプレミスのKubernetes環境をまとめて可視化・統制します。/);
@@ -43,7 +50,9 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
   assert.match(routeSource, /QueryPie MACは、MCPツールやMCPサーバーの呼び出しを、ポリシーに基づき一元制御します。/);
   assert.match(routeSource, /AIエージェントによるツール利用を、安全に統制/);
   assert.match(routeSource, /acp-dac\.mp4/);
+  assert.match(routeSource, /mediaWidth=\{1130\}[\s\S]*?mediaHeight=\{720\}/);
   assert.match(routeSource, /acp-mac\.mp4/);
+  assert.match(routeSource, /mediaWidth=\{1230\}[\s\S]*?mediaHeight=\{720\}/);
   assert.match(routeSource, /ACP AI Pack/);
   assert.match(routeSource, /<AcpAiPackCard icon=\{MessageSquareText\}>/);
   assert.match(routeSource, /<AcpAiPackCard icon=\{Network\}>/);
@@ -97,12 +106,24 @@ test("/platforms/acp reflects the current access-control scope while keeping cop
 
   assert.match(browserSource, /mediaSrc: string/);
   assert.match(browserSource, /mediaAlt: string/);
-  assert.match(browserSource, /<article key=\{category\.label\}/);
+  assert.match(browserSource, /mediaWidth: number/);
+  assert.match(browserSource, /mediaHeight: number/);
+  assert.match(browserSource, /width=\{category\.item\.mediaWidth\}/);
+  assert.match(browserSource, /height=\{category\.item\.mediaHeight\}/);
+  assert.match(browserSource, /<article key=\{category\.id\} id=\{category\.id\}/);
   assert.match(browserSource, /<video/);
   assert.match(browserSource, /mediaFirstOnDesktop/);
   assert.match(browserSource, /md:grid-cols-2 md:gap-\[60px\]/);
   assert.match(browserSource, /englishLabel: string/);
+  assert.match(browserSource, /id: string/);
   assert.match(browserSource, /abbreviation: string/);
+  assert.match(globalStyles, /--gnb-height: calc\(var\(--spacing\) \* 16\)/);
+  assert.match(globalStyles, /scroll-padding-top: calc\(var\(--gnb-height\) \+ var\(--spacing\) \* 5\)/);
+  assert.match(rootLayoutSource, /<FragmentNavigationSync \/>/);
+  assert.match(fragmentNavigationSyncSource, /document\.fonts\.ready\.then\(sync\)/);
+  assert.match(fragmentNavigationSyncSource, /window\.addEventListener\("hashchange", sync\)/);
+  assert.match(fragmentNavigationSyncSource, /target\.scrollIntoView\(\{ block: "start" \}\)/);
+  assert.doesNotMatch(siteHeaderStyles, /--gnb-height:/);
   assert.match(browserSource, /split\("｜", 2\)/);
   assert.match(browserSource, /text-\[26px\] font-semibold.*category\.abbreviation/s);
   assert.match(browserSource, /inline-flex rounded-full bg-\[#EAF2FF\].*category\.label/s);
