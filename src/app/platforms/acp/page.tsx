@@ -101,6 +101,8 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-dac.mp4#t=0.001"
                   mediaAlt="データベースアクセス制御のデモ"
+                  mediaWidth={1130}
+                  mediaHeight={720}
                 >
                   <AcpFeatureItemTitle>データを可視化し、必要な範囲だけを許可</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
@@ -114,6 +116,8 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-sac.mp4#t=0.001"
                   mediaAlt="システムアクセス制御のデモ"
+                  mediaWidth={1130}
+                  mediaHeight={720}
                 >
                   <AcpFeatureItemTitle>サーバー操作を、統制と監査のもとに</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
@@ -129,6 +133,8 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-kac.mp4#t=0.001"
                   mediaAlt="Kubernetesアクセス制御のデモ"
+                  mediaWidth={1130}
+                  mediaHeight={720}
                 >
                   <AcpFeatureItemTitle>マルチクラスタ環境を、一つのポリシーで管理</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
@@ -144,6 +150,8 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-wac.mp4#t=0.001"
                   mediaAlt="Web/SaaSアクセス制御のデモ"
+                  mediaWidth={1230}
+                  mediaHeight={720}
                 >
                   <AcpFeatureItemTitle>WebアプリとSaaSの利用状況を、一元的に把握</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>
@@ -159,6 +167,8 @@ export default function AcpPage() {
                 <AcpFeatureItem
                   mediaSrc="https://www.querypie.com/assets/products/acp/acp-mac.mp4#t=0.001"
                   mediaAlt="MCPアクセス制御のデモ"
+                  mediaWidth={1230}
+                  mediaHeight={720}
                 >
                   <AcpFeatureItemTitle>AIエージェントによるツール利用を、安全に統制</AcpFeatureItemTitle>
                   <AcpFeatureItemBody>

@@ -14,6 +14,8 @@ type AcpFeatureCategoryLabelProps = {
 type AcpFeatureItemProps = {
   mediaSrc: string;
   mediaAlt: string;
+  mediaWidth: number;
+  mediaHeight: number;
   children: ReactNode;
 };
 
@@ -82,6 +84,8 @@ type AcpFeatureBrowserCategory = {
   item: {
     mediaSrc: string;
     mediaAlt: string;
+    mediaWidth: number;
+    mediaHeight: number;
     title: string;
     bodyLines: string[];
   };
@@ -108,6 +112,8 @@ function parseCategories(children: ReactNode): AcpFeatureBrowserCategory[] {
             item: {
               mediaSrc: item.props.mediaSrc,
               mediaAlt: item.props.mediaAlt,
+              mediaWidth: item.props.mediaWidth,
+              mediaHeight: item.props.mediaHeight,
               title: toPlainText(titleNode).replace(/\s+/g, " ").trim(),
               bodyLines: toBodyLines(bodyNode),
             },
@@ -152,6 +158,8 @@ export function AcpFeatureBrowser({ children }: { children: ReactNode }) {
                 playsInline
                 autoPlay
                 preload="metadata"
+                width={category.item.mediaWidth}
+                height={category.item.mediaHeight}
                 src={category.item.mediaSrc}
               />
             </div>
