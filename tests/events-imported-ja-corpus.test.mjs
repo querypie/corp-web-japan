@@ -35,6 +35,7 @@ const expectedIds = [
   "29",
   "30",
   "31",
+  "32",
 ];
 const expectedEventDates = {
   "15": "2024-12-18",
@@ -54,6 +55,7 @@ const expectedEventDates = {
   "29": "2026-06-18",
   "30": "2026-07-23",
   "31": "2026-08-20",
+  "32": "2026-09-17",
 };
 const eventFilesById = new Map(
   readdirSync(eventsDir)
